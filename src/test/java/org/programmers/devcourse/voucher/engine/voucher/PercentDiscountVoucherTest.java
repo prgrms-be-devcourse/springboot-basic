@@ -14,6 +14,8 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class PercentDiscountVoucherTest {
 
+  private static final LocalDateTime NOW = LocalDateTime.now();
+
   @DisplayName("등록되어 있는 비율 만큼 가격을 할인해야 한다.")
   @ParameterizedTest
   @CsvSource(value = {
@@ -22,7 +24,7 @@ class PercentDiscountVoucherTest {
   })
   void discount_price_by_percent_in_normal_situation(long beforeDiscount, long discountDegree,
       long afterDiscount) throws VoucherDiscountDegreeOutOfRangeException {
-    Voucher voucher0 = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now());
+    Voucher voucher0 = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, NOW);
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
 
@@ -37,7 +39,7 @@ class PercentDiscountVoucherTest {
   void throw_exception_when_discount_degree_is_not_in_1_to_100(long discountDegree) {
     var tempUUID = UUID.randomUUID();
     assertThatThrownBy(() -> {
-      PercentDiscountVoucher.factory.create(tempUUID, discountDegree, LocalDateTime.now());
+      PercentDiscountVoucher.factory.create(tempUUID, discountDegree, NOW);
     }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
@@ -48,8 +50,7 @@ class PercentDiscountVoucherTest {
       "99999,100"
   })
   void return_zero_when_discount_degree_is_100(long beforeDiscount, long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
-    long discountedPrice = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now())
-        .discount(beforeDiscount);
+    long discountedPrice = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, NOW).discount(beforeDiscount);
 
     assertThat(discountedPrice).isZero();
   }

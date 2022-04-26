@@ -77,7 +77,7 @@ public class CliVoucherApplication {
     String voucherTypeId = input.getVoucherTypeId();
     long voucherDiscountData = input.getDiscountDegree(voucherTypeId);
 
-    UUID voucherId = voucherService.create(voucherTypeId, voucherDiscountData);
+    UUID voucherId = voucherService.create(voucherTypeId, voucherDiscountData).getVoucherId();
 
     output.print(MessageFormat.format("CREATE SUCCESS! VoucherID : {0}", voucherId));
   }

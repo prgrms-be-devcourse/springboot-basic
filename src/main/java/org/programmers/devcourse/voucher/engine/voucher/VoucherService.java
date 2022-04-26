@@ -1,5 +1,6 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,14 +18,12 @@ public class VoucherService {
     this.voucherRepository = voucherRepository;
   }
 
-  public UUID create(String voucherTypeId, long voucherDiscountData) throws VoucherException {
-
+  public Voucher create(String voucherTypeId, long voucherDiscountData) throws VoucherException {
     // validation
     var voucherType = VoucherType.from(voucherTypeId).orElseThrow(() -> new VoucherException("Invalid Voucher Type Id"));
-
-    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData, null);
+    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData, LocalDateTime.now());
     voucherRepository.save(voucher);
-    return voucher.getVoucherId();
+    return voucher;
   }
 
   public Collection<Voucher> getAllVouchers() {
