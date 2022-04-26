@@ -6,13 +6,21 @@ public enum ErrorMessage {
 
     COMMAND_ERROR("Please check your command."),
 
-    DISCOUNT_INFO_ERR( "Check the discount information you entered."),
+    DISCOUNT_INFO_ERR("Check the discount information you entered."),
 
     NOT_EXIST_ENUM_TYPE("Can't find any enum type"),
 
     NOT_INSERTED("Nothing was inserted."),
 
-    NOT_UPDATED("Nothing was updated.");
+    NOT_UPDATED("Nothing was updated."),
+
+    DUPLICATED_CUSTOMER("Duplicated customer."),
+
+    DUPLICATED_VOUCHER("Duplicated voucher."),
+
+    NOT_FOUND_CUSTOMER("Can't find any customer."),
+
+    NOT_FOUND_VOUCHER("Can't find any voucher.");
 
     private final String message;
 
