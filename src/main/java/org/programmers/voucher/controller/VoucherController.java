@@ -4,7 +4,9 @@ import org.programmers.voucher.io.Input;
 import org.programmers.voucher.io.Output;
 import org.programmers.voucher.service.VoucherService;
 import org.programmers.voucher.util.Command;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherController implements Runnable {
 
     private final VoucherService voucherService;

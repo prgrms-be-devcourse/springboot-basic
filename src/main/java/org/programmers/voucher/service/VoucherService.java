@@ -3,9 +3,11 @@ package org.programmers.voucher.service;
 import org.programmers.voucher.domain.Voucher;
 import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.repository.VoucherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 

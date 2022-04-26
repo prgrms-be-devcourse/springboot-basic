@@ -2,10 +2,12 @@ package org.programmers.voucher.io;
 
 import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.util.Command;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
+@Component
 public class ConsoleInput implements Input{
     private final Scanner sc = new Scanner(System.in);
 
