@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import org.prgrms.kdt.error.VoucherFileException;
 import org.prgrms.kdt.voucher.model.Voucher;
@@ -40,7 +39,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
+    public List<Voucher> findAll() {
         return read();
     }
 

@@ -1,6 +1,5 @@
 package org.prgrms.kdt.controller;
 
-import java.util.Collection;
 import java.util.List;
 import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.service.CustomerService;
@@ -52,12 +51,12 @@ public class VoucherController {
                     Long.parseLong(strings[VOUCHER_DISCOUNT_INDEX]));
                 break;
             case LIST:
-                Collection<Voucher> vouchers = voucherService.getVouchers();
-                OutPutView.show(vouchers);
+                List<Voucher> vouchers = voucherService.getVouchers();
+                OutPutView.showVouchers(vouchers);
                 break;
             case CUSTOMER:
                 List<Customer> customers = customerService.getAll();
-                OutPutView.show(customers);
+                OutPutView.showCustomers(customers);
                 break;
         }
     }
