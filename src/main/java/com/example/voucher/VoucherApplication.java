@@ -9,6 +9,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
+import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
 @SpringBootApplication
 public class VoucherApplication implements ApplicationRunner {
@@ -32,7 +33,9 @@ public class VoucherApplication implements ApplicationRunner {
 			switch (command) {
 				case CREATE : {
 					VoucherType voucherType = getVoucherType();
+
 					if(voucherType == EMPTY) {
+						output.printMessage(INVALID_INPUT.name());
 						continue;
 					}
 
@@ -40,17 +43,25 @@ public class VoucherApplication implements ApplicationRunner {
 					try {
 						discountAmount = getDiscountAmount();
 					} catch (IllegalArgumentException e) {
+						output.printMessage(e.getMessage());
 						continue;
 					}
 
-					processCreateCommand(voucherType, discountAmount);
+					try {
+						processCreateCommand(voucherType, discountAmount);
+					} catch (IllegalArgumentException e) {
+						output.printMessage(e.getMessage());
+					}
 				}
 			}
 		}
 	}
 
 	private void printCommandPrompt() {
-		output.printCommandPrompt();
+		output.printMessage("=== Voucher Program === \n" +
+							"Type exit to exit the program.\n" +
+							"Type create to create a new voucher.\n" +
+							"Type list to list all vouchers.");
 	}
 
 	private CommandType getCommand() {

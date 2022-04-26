@@ -3,6 +3,7 @@ package com.example.voucher.controller;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
+import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
 @Controller
 public class VoucherController {
@@ -13,10 +14,10 @@ public class VoucherController {
 	}
 
 	public void save(VoucherType voucherType, int discountAmount) {
-		if (voucherType != null) {
-			voucherService.save(voucherType, discountAmount);
-			return;
+		if (voucherType == null) {
+			// TODO: 로그 남기기
+			throw new IllegalArgumentException(INVALID_INPUT.name());
 		}
-		// TODO: 로그 남기기
+		voucherService.save(voucherType, discountAmount);
 	}
 }
