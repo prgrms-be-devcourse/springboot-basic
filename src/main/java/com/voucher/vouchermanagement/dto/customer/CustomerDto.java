@@ -20,7 +20,7 @@ public class CustomerDto {
         this.createdAt = createdAt;
     }
 
-    public static CustomerDto of (Customer customer) {
+    public static CustomerDto of(Customer customer) {
         return new CustomerDto(
                 customer.getId(),
                 customer.getName(),

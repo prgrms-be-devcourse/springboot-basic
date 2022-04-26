@@ -30,7 +30,7 @@ public class VoucherDto {
 
     @Override
     public String toString() {
-        return "voucherType=" + voucherType +
+        return "voucherType=" + voucherType.getTypeName() +
                 ", id=" + id +
                 ", value=" + value +
                 ", createdAt=" + createdAt;
