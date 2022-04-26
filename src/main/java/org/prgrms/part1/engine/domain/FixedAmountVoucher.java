@@ -20,7 +20,7 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = createdAt;
-        this.voucherType = VoucherType.FixedAmount;
+        this.voucherType = VoucherType.FIXED_AMOUNT;
     }
 
     public FixedAmountVoucher(UUID voucherId, UUID customerId, Integer amount, LocalDateTime createdAt) {
@@ -29,7 +29,7 @@ public class FixedAmountVoucher implements Voucher {
         this.customerId = customerId;
         this.amount = amount;
         this.createdAt = createdAt;
-        this.voucherType = VoucherType.FixedAmount;
+        this.voucherType = VoucherType.FIXED_AMOUNT;
     }
 
     @Override

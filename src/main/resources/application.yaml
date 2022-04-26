@@ -1,2 +1,6 @@
 kdt:
   environment: "Default"
+spring:
+  thymeleaf:
+    view-names: "views/*"
+    prefix: "/WEB-INF/"

@@ -2,7 +2,6 @@ package org.prgrms.part1.engine.service;
 
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.domain.Voucher;
-import org.prgrms.part1.engine.repository.CustomerRepository;
 import org.prgrms.part1.engine.repository.VoucherRepository;
 import org.prgrms.part1.exception.VoucherException;
 import org.springframework.stereotype.Service;

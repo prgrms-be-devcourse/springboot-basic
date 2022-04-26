@@ -132,9 +132,9 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("타입 별 바우처를 조회할 수 있다.")
     public void testFindByType() {
-        List<Voucher> fixedAmountVouchers = voucherRepository.findByType(VoucherType.FixedAmount);
+        List<Voucher> fixedAmountVouchers = voucherRepository.findByType(VoucherType.FIXED_AMOUNT);
         assertThat(fixedAmountVouchers.size(), is(1));
-        List<Voucher> percentDiscountVouchers = voucherRepository.findByType(VoucherType.PercentDiscount);
+        List<Voucher> percentDiscountVouchers = voucherRepository.findByType(VoucherType.PERCENT_DISCOUNT);
         assertThat(percentDiscountVouchers.size(), is(1));
     }
 

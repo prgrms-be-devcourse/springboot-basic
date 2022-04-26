@@ -3,18 +3,6 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
     <property name = "FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
 
-    <appender name="ALL_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/all/all.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>logs/all/all-%d{yyyy-MM-dd}.log</FileNamePattern>
-        </rollingPolicy>
-        <!-- encoders are assigned the type
-             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-
     <appender name="ACCESS_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/access/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -51,7 +39,7 @@
         <appender-ref ref="CONSOLE" />
     </logger>
 
-    <root level="debug">
-        <appender-ref ref="ALL_LOG" />
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

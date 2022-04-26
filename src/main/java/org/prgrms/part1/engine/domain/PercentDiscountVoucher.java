@@ -20,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.voucherId = voucherId;
         this.percent = percent;
         this.createdAt = createdAt;
-        this.voucherType = VoucherType.PercentDiscount;
+        this.voucherType = VoucherType.PERCENT_DISCOUNT;
     }
 
     public PercentDiscountVoucher(UUID voucherId, UUID customerId, Integer percent, LocalDateTime createdAt) {
@@ -29,7 +29,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.customerId = customerId;
         this.percent = percent;
         this.createdAt = createdAt;
-        this.voucherType = VoucherType.PercentDiscount;
+        this.voucherType = VoucherType.PERCENT_DISCOUNT;
     }
 
     @Override

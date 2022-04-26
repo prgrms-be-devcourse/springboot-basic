@@ -125,8 +125,8 @@ class VoucherServiceTest {
     @Test
     @DisplayName("생성한 Voucher를 DB에 삽입할 수 있다.")
     public void testVoucherService() {
-        Voucher fVoucher = VoucherType.FixedAmount.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
-        Voucher pVoucher = VoucherType.PercentDiscount.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
+        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
+        Voucher pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
 
         voucherService.insertVoucher(fVoucher);
         voucherService.insertVoucher(pVoucher);
@@ -144,7 +144,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("Customer에 Voucher를 allocate / deallocate 할 수 있다.")
     public void testAllocateAndDeallocate() {
-        Voucher fVoucher = VoucherType.FixedAmount.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
+        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
 
         voucherService.insertVoucher(fVoucher);
 
@@ -166,8 +166,8 @@ class VoucherServiceTest {
     @Test
     @DisplayName("Customer에 여러 개의 Voucher를 allocate 할 수 있다.")
     public void testAllocateVouchers() {
-        Voucher fVoucher = VoucherType.FixedAmount.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
-        Voucher pVoucher = VoucherType.PercentDiscount.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
+        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
+        Voucher pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
 
         voucherService.insertVoucher(fVoucher);
         voucherService.insertVoucher(pVoucher);

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FixedAmount("1", "amount") {
+    FIXED_AMOUNT("1", "amount") {
         @Override
         public Voucher createVoucher(UUID voucherId, Integer value, LocalDateTime createdAt) {
             return new FixedAmountVoucher(voucherId, value, createdAt);
@@ -21,7 +21,7 @@ public enum VoucherType {
         public Voucher createVoucher(UUID voucherId, UUID customerID, Integer value, LocalDateTime createdAt) {
             return new FixedAmountVoucher(voucherId, customerID, value, createdAt);
         }
-    }, PercentDiscount("2", "percent") {
+    }, PERCENT_DISCOUNT("2", "percent") {
         @Override
         public Voucher createVoucher(UUID voucherId, Integer value, LocalDateTime createdAt) {
             return new PercentDiscountVoucher(voucherId, value, createdAt);
