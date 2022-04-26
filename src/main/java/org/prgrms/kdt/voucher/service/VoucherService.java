@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.service;
 
-import java.util.Collection;
+import java.util.List;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -24,7 +24,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public Collection<Voucher> getVouchers() {
+    public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
     }
 

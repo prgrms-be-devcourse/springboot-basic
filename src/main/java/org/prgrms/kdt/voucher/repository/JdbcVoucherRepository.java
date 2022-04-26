@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.repository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
@@ -16,7 +16,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
+    public List<Voucher> findAll() {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,8 +21,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
-        return storage.values();
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
