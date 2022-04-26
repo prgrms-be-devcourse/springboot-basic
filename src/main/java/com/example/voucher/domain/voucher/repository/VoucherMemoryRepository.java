@@ -46,4 +46,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
 				.stream()
 				.collect(Collectors.toList());
 	}
+
+	@Override
+	public void deleteAll() {
+		store.clear();
+	}
 }
