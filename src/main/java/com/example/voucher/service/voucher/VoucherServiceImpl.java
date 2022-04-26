@@ -23,7 +23,7 @@ public class VoucherServiceImpl implements VoucherService {
 
 	@Override
 	public List<Voucher> findAll() {
-		return null;
+		return voucherRepository.findAll();
 	}
 
 	private Voucher createVoucher(VoucherType voucherType, int discountAmount) {
