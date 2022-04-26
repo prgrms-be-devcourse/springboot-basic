@@ -4,6 +4,7 @@ import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
@@ -18,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -76,10 +80,17 @@ class VoucherControllerTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("Voucher Service의 create 함수를 호출한다.")
-            void it_Call_of_VoucherService_create_method(VoucherType voucherType) {
+            void it_Call_of_VoucherService_create_method(VoucherType voucherType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
                 // given
                 int voucherAmount = 50;
                 VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, VoucherAmount.of(voucherType, voucherAmount));
+
+                Long id = 999_999_999L;
+                Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
+                getDomainMethod.setAccessible(true);
+                Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequestDto.getVoucherType(), voucherRequestDto.getVoucherAmount());
+
+                when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
 
                 // when
                 voucherController.create(voucherRequestDto);
@@ -91,23 +102,31 @@ class VoucherControllerTest {
 
             @ParameterizedTest
             @EnumSource(VoucherType.class)
-            @DisplayName("생성된 Voucher를 return한다.")
-            void it_throws_Exception(VoucherType voucherType) {
+            @DisplayName("ResponseDto를 가진 Response를 return한다.")
+            void it_throws_Exception(VoucherType voucherType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
                 // given
                 int voucherAmount = 50;
                 VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, VoucherAmount.of(voucherType, voucherAmount));
-                long id = 9999L;
-                VoucherResponseDto voucherResponseDto = new VoucherResponseDto(id, voucherRequestDto.getVoucherType(), voucherRequestDto.getVoucherAmount());
-                Response<VoucherResponseDto> expectedResponse = new Response<>(Response.State.SUCCESS, voucherResponseDto);
-                when(voucherService.create(any(Voucher.class))).thenReturn(expectedResponse);
+
+                Long id = 999_999_999L;
+                Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
+                getDomainMethod.setAccessible(true);
+                Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequestDto.getVoucherType(), voucherRequestDto.getVoucherAmount());
+
+                when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
+                VoucherResponseDto expectedResponseDto = new VoucherResponseDto(id, voucherRequestDto.getVoucherType(), voucherRequestDto.getVoucherAmount());
 
                 // when
-                System.out.println(voucherRequestDto == null);
                 Response<VoucherResponseDto> response = voucherController.create(voucherRequestDto);
+                VoucherResponseDto responseDto = response.getData();
 
                 // then
                 assertThat(response).isNotNull();
-                assertThat(response).isEqualTo(expectedResponse);
+                assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
+                assertThat(responseDto).isNotNull();
+                assertThat(responseDto.getVoucherId()).isEqualTo(expectedResponseDto.getVoucherId());
+                assertThat(responseDto.getVoucherType()).isEqualTo(expectedResponseDto.getVoucherType());
+                assertThat(responseDto.getVoucherAmount()).isEqualTo(expectedResponseDto.getVoucherAmount());
             }
         }
     }
