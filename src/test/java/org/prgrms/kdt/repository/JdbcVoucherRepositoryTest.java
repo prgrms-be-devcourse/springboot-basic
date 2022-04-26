@@ -74,9 +74,9 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("전체 바우처 리스트를 가져올 수 있다.")
     void getVoucherList() {
         jdbcVoucherRepository.insertVoucher(fixedAmountVoucher);
-        var voucherList = jdbcVoucherRepository.getVoucherList();
-        assertThat(voucherList.isEmpty(), is(false));
-        assertThat(voucherList.size(), equalTo(1));
+        var voucherMap = jdbcVoucherRepository.getVoucherList();
+        assertThat(voucherMap.isEmptyMap(), is(false));
+        assertThat(voucherMap.size(), equalTo(1));
     }
 
     @Test
@@ -84,8 +84,8 @@ class JdbcVoucherRepositoryTest {
     void delete() {
         jdbcVoucherRepository.insertVoucher(fixedAmountVoucher);
         jdbcVoucherRepository.deleteVoucherById(fixedAmountVoucher.getVoucherId());
-        var voucherList = jdbcVoucherRepository.getVoucherList();
-        assertThat(voucherList.isEmpty(), is(true));
+        var voucherMap = jdbcVoucherRepository.getVoucherList();
+        assertThat(voucherMap.isEmptyMap(), is(true));
     }
 
     @Test
@@ -107,6 +107,17 @@ class JdbcVoucherRepositoryTest {
         assertThrows(DataIntegrityViolationException.class,
                 () -> jdbcVoucherRepository
                         .updateVoucherOwner(fixedAmountVoucher.getVoucherId(), customer.getCustomerId()));
+
+    }
+
+    @Test
+    void test() {
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
+        jdbcVoucherRepository.insertVoucher(voucher);
+        System.out.println(voucher.getCreateAt());
+
+        Voucher returnVoucher = jdbcVoucherRepository.getByVoucherId(voucher.getVoucherId()).get();
+        System.out.println(returnVoucher);
 
     }
 }

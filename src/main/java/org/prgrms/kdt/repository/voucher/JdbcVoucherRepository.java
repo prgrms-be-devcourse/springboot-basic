@@ -1,9 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.io.OutputConsole;
-import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
-import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.*;
 import org.prgrms.kdt.repository.JdbcWalletRepository;
 import org.prgrms.kdt.util.IntUtils;
 import org.springframework.context.annotation.Primary;
@@ -57,13 +55,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
+    public VoucherMap getVoucherList() {
         var receivedVoucherList = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
-        Map<UUID, Voucher> voucherList = new HashMap<>();
+        Map<UUID, Voucher> vouchers = new HashMap<>();
         for (Voucher voucher : receivedVoucherList) {
-            voucherList.put(voucher.getVoucherId(), voucher);
+            vouchers.put(voucher.getVoucherId(), voucher);
         }
-        return voucherList;
+        return new VoucherMap(vouchers);
     }
 
     @Override
@@ -88,8 +86,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherListOwnerIdIsEmpty() {
-        return jdbcTemplate.query("SELECT * FROM vouchers WHERE owner_id IS NULL", voucherRowMapper);
+    public VoucherList getVoucherListOwnerIdIsEmpty() {
+        List<Voucher> vouchers= jdbcTemplate.query("SELECT * FROM vouchers WHERE owner_id IS NULL", voucherRowMapper);
+        VoucherList voucherList = new VoucherList(vouchers);
+        return voucherList;
     }
 
     @Override

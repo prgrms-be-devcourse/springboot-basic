@@ -2,16 +2,16 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
 import org.prgrms.kdt.repository.JdbcWalletRepository;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,7 +36,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
+    public VoucherMap getVoucherList() {
         return voucherRepository.getVoucherList();
     }
 
@@ -48,7 +48,7 @@ public class VoucherService {
                 });
     }
 
-    public List<Voucher> getOwnableVoucherList() {
+    public VoucherList getOwnableVoucherList() {
         return voucherRepository.getVoucherListOwnerIdIsEmpty();
     }
 

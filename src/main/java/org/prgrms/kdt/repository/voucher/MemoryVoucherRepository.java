@@ -1,6 +1,8 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -16,8 +18,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
-        return storage;
+    public VoucherMap getVoucherList() {
+        return new VoucherMap(storage);
     }
 
     @Override
@@ -30,7 +32,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getVoucherListOwnerIdIsEmpty() {
+    public VoucherList getVoucherListOwnerIdIsEmpty() {
         return null;
     }
 

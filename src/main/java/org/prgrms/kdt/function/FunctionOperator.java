@@ -3,7 +3,10 @@ package org.prgrms.kdt.function;
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.CustomerList;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
@@ -43,8 +46,7 @@ public class FunctionOperator {
             case add -> createNewCustomer();
             case provide -> provideVoucherToCustomer();
             case manage -> {
-                String email = printCustomerVoucherList();
-                deleteVoucher(email);
+                printCustomerVoucherList();
             }
         }
     }
@@ -62,15 +64,13 @@ public class FunctionOperator {
     }
 
     private void printVoucherList() {
-        Map<UUID, Voucher> voucherList = voucherService.getVoucherList();
-        if (voucherList.isEmpty()) {
+        VoucherMap voucherMap = voucherService.getVoucherList();
+        if (voucherMap.isEmptyMap()) {
             OutputConsole.printMessage("voucher list is empty !!\n");
             return;
         }
-        for (Map.Entry<UUID, Voucher> entry : voucherList.entrySet()) {
-            Voucher voucher = entry.getValue();
-            System.out.println(voucher.toString());
-        }
+        OutputConsole.printMessage(voucherMap.toString());
+        voucherMap.printKeys();
     }
 
     private void createNewCustomer() {
@@ -81,33 +81,28 @@ public class FunctionOperator {
     }
 
     private void provideVoucherToCustomer() {
-        List<Voucher> voucherList = voucherService.getOwnableVoucherList();
-        List<Customer> customerList = customerService.getAllCustomers();
-        if (isEmptyList(voucherList) || isEmptyList(customerList)) {
+        VoucherList voucherList = voucherService.getOwnableVoucherList();
+        CustomerList customerList = customerService.getAllCustomers();
+        if (voucherList.isEmptyList() || customerList.isEmptyList()) {
             return;
         }
-        String voucherId = outputListInputString(voucherList);
-        String customerId = outputListInputString(customerList);
+        voucherList.printList();
+        String voucherId = inputConsole.inputString();
+        customerList.printList();
+        String customerId = inputConsole.inputString();
 
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
         voucher.ifPresent(value ->
                 OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
     }
 
-    private boolean isEmptyList(List<?> list) {
-        if (list.isEmpty()) {
-            OutputConsole.printMessage("empty !!\n");
-            return true;
-        }
-        return false;
-    }
-
-
-    private String printCustomerVoucherList() {
+    private void printCustomerVoucherList() {
         String customerEmail = OutputMessageInputString("input customer Email");
-        Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customerEmail);
-        voucherList.ifPresent(uuidVoucherMap -> new ArrayList<>(uuidVoucherMap.values()));
-        return customerEmail;
+        VoucherMap voucherMap = voucherWalletService.getVoucherListByCustomerEmail(customerEmail);
+        if (!voucherMap.isEmptyMap()) {
+            voucherMap.printKeys();
+            deleteVoucher(customerEmail);
+        }
     }
 
     private void deleteVoucher(String email) {
@@ -116,11 +111,6 @@ public class FunctionOperator {
             String voucherId = OutputMessageInputString("Type voucherId");
             voucherService.deleteVoucher(UUID.fromString(voucherId), email);
         }
-    }
-
-    private String outputListInputString(List<?> list) {
-        OutputConsole.printList(list);
-        return inputConsole.inputString();
     }
 
     private String OutputMessageInputString(String message) {

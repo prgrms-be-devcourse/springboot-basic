@@ -1,6 +1,7 @@
 package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.CustomerList;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class CustomerService {
         customerRepository.insertCustomer(customer);
     }
 
-    public List<Customer> getAllCustomers() {
+    public CustomerList getAllCustomers() {
         return customerRepository.findAllCustomer();
     }
 }

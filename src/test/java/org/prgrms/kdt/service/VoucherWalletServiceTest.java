@@ -6,18 +6,16 @@ import org.prgrms.kdt.TestConfiguration;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
 import org.prgrms.kdt.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest
@@ -55,10 +53,9 @@ class VoucherWalletServiceTest {
         jdbcVoucherRepository.insertVoucher(voucher);
         jdbcVoucherRepository.updateVoucherOwner(voucher.getVoucherId(), customer.getCustomerId());
 
-        Optional<Map<UUID, Voucher>> voucherList = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());
+        VoucherMap voucherMap = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());
 
-        assertThat(voucherList.isPresent(), is(true));
-        assertThat(voucherList.get().get(voucher.getVoucherId()).getVoucherId(), equalTo(voucher.getVoucherId()));
+        assertThat(voucherMap.isEmptyMap(), is(false));
     }
 
     @Test
@@ -69,10 +66,10 @@ class VoucherWalletServiceTest {
         customerRepository.insertCustomer(customer);
         jdbcVoucherRepository.insertVoucher(voucher);
 
-        Optional<Map<UUID, Voucher>> unknownCustomerVoucherList = voucherWalletService.getVoucherListByCustomerEmail("unknown@gmail.com");
-        Optional<Map<UUID, Voucher>> newCustomerVoucherList = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());
-        assertThat(unknownCustomerVoucherList.isEmpty(), is(true));
-        assertThat(newCustomerVoucherList.isEmpty(), is(true));
+        VoucherMap unknownCustomerVoucherMap = voucherWalletService.getVoucherListByCustomerEmail("unknown@gmail.com");
+        VoucherMap newCustomerVoucherList = voucherWalletService.getVoucherListByCustomerEmail(customer.getEmail());
+        assertThat(unknownCustomerVoucherMap.isEmptyMap(), is(true));
+        assertThat(newCustomerVoucherList.isEmptyMap(), is(true));
     }
 
 

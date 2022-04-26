@@ -63,7 +63,7 @@ class CustomerJdbcRepositoryTest {
         customerJdbcRepository.insertCustomer(newCustomer);
         customerJdbcRepository.insertCustomer(newCustomer2);
         var customers = customerJdbcRepository.findAllCustomer();
-        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers.isEmptyList(), is(false));
     }
 
     @Test
