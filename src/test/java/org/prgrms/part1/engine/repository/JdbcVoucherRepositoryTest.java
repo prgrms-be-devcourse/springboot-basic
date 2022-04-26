@@ -31,8 +31,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -171,5 +170,15 @@ class JdbcVoucherRepositoryTest {
         changedFixedAmountVoucher = voucherRepository.findById(newFixedAmountVoucher.getVoucherId());
         assertThat(changedFixedAmountVoucher.isEmpty(), is(false));
         assertThat(changedFixedAmountVoucher.get(), samePropertyValuesAs(newFixedAmountVoucher));
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("Voucher를 삭제할 수 있다.")
+    public void testDelete() {
+        voucherRepository.deleteById(newFixedAmountVoucher.getVoucherId());
+        voucherRepository.deleteById(newPercentDiscountVoucher.getVoucherId());
+        List<Voucher> allVouchers = voucherRepository.findAll();
+        assertThat(allVouchers, hasSize(0));
     }
 }

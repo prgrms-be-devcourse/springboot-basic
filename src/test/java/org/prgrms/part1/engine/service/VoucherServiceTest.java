@@ -80,8 +80,8 @@ class VoucherServiceTest {
         }
 
         @Bean
-        public CustomerService customerService(CustomerRepository customerRepository) {
-            return new CustomerService(customerRepository);
+        public CustomerService customerService(CustomerRepository customerRepository, VoucherService voucherService) {
+            return new CustomerService(customerRepository, voucherService);
         }
     }
     @Autowired
@@ -98,6 +98,10 @@ class VoucherServiceTest {
 
     EmbeddedMysql embeddedMysql;
 
+    Voucher fVoucher;
+    Voucher pVoucher;
+    Customer customer;
+
     @BeforeAll
     void setup() {
         MysqldConfig config = aMysqldConfig(v5_7_latest)
@@ -109,6 +113,14 @@ class VoucherServiceTest {
         embeddedMysql = anEmbeddedMysql(config)
                 .addSchema("test-order_mgmt", classPathScript("schema.sql"))
                 .start();
+
+    }
+
+    @BeforeEach
+    void setupEach() {
+        fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
+        pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
+        customer = customerService.createCustomer("test0", "test0@gmail.com");
     }
 
     @AfterAll
@@ -125,9 +137,6 @@ class VoucherServiceTest {
     @Test
     @DisplayName("생성한 Voucher를 DB에 삽입할 수 있다.")
     public void testVoucherService() {
-        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
-        Voucher pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
-
         voucherService.insertVoucher(fVoucher);
         voucherService.insertVoucher(pVoucher);
 
@@ -144,11 +153,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("Customer에 Voucher를 allocate / deallocate 할 수 있다.")
     public void testAllocateAndDeallocate() {
-        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
-
         voucherService.insertVoucher(fVoucher);
-
-        Customer customer = customerService.createCustomer("test0", "test0@gmail.com");
 
         voucherService.allocateToCustomer(fVoucher, customer);
 
@@ -166,19 +171,27 @@ class VoucherServiceTest {
     @Test
     @DisplayName("Customer에 여러 개의 Voucher를 allocate 할 수 있다.")
     public void testAllocateVouchers() {
-        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
-        Voucher pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
-
         voucherService.insertVoucher(fVoucher);
         voucherService.insertVoucher(pVoucher);
-
-        Customer customer = customerService.createCustomer("test0", "test0@gmail.com");
 
         voucherService.allocateToCustomer(fVoucher, customer);
         voucherService.allocateToCustomer(pVoucher, customer);
 
-        List<Voucher> vouchers = voucherService.getVouchersByCustomerId(customer);
+        List<Voucher> vouchers = voucherService.getVouchersByCustomer(customer);
 
         assertThat(vouchers.size(), is(2));
+    }
+
+    @Test
+    @DisplayName("Voucher를 삭제할 수 있다.")
+    public void testRemove() {
+        voucherService.insertVoucher(fVoucher);
+        voucherService.insertVoucher(pVoucher);
+
+        voucherService.removeVoucher(fVoucher);
+        voucherService.removeVoucher(pVoucher);
+
+        List<Voucher> allVouchers = voucherService.getAllVouchers();
+        assertThat(allVouchers, hasSize(0));
     }
 }

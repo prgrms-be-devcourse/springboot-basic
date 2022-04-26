@@ -182,4 +182,13 @@ class JdbcCustomerRepositoryTest {
         assertThat(blackList, hasSize(0));
         assertThat(whiteList, hasSize(1));
     }
+
+    @Test
+    @Order(8)
+    @DisplayName("고객을 삭제할 수 있다.")
+    public void testDelete() {
+        customerRepository.deleteById(newCustomer.getCustomerId());
+        List<Customer> allCustomers = customerRepository.findAll();
+        assertThat(allCustomers, hasSize(0));
+    }
 }

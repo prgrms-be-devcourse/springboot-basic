@@ -142,7 +142,7 @@ public class VoucherFunction {
         UUID customerId = validateUUIDInput("Type customer Id");
         Customer customer = customerService.getCustomerById(customerId);
         output.print(customer.toString());
-        List<Voucher> vouchers = voucherService.getVouchersByCustomerId(customer);
+        List<Voucher> vouchers = voucherService.getVouchersByCustomer(customer);
         output.print("owned vouchers :");
         if (!vouchers.isEmpty()) {
             vouchers.forEach(v -> output.print(v.toString()));

@@ -5,8 +5,12 @@ import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.part1.engine.domain.Customer;
+import org.prgrms.part1.engine.domain.Voucher;
+import org.prgrms.part1.engine.enumtype.VoucherType;
 import org.prgrms.part1.engine.repository.CustomerRepository;
 import org.prgrms.part1.engine.repository.JdbcCustomerRepository;
+import org.prgrms.part1.engine.repository.JdbcVoucherRepository;
+import org.prgrms.part1.engine.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +32,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -62,13 +65,23 @@ class CustomerServiceTest {
         }
 
         @Bean
+        public VoucherRepository voucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+            return new JdbcVoucherRepository(namedParameterJdbcTemplate);
+        }
+
+        @Bean
+        public VoucherService voucherService(VoucherRepository voucherRepository) {
+            return new VoucherService(voucherRepository);
+        }
+
+        @Bean
         public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
             return new JdbcCustomerRepository(namedParameterJdbcTemplate);
         }
 
         @Bean
-        public CustomerService customerService(CustomerRepository customerRepository) {
-            return new CustomerService(customerRepository);
+        public CustomerService customerService(CustomerRepository customerRepository, VoucherService voucherService) {
+            return new CustomerService(customerRepository, voucherService);
         }
     }
     @Autowired
@@ -76,6 +89,9 @@ class CustomerServiceTest {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    VoucherService voucherService;
 
     EmbeddedMysql embeddedMysql;
 
@@ -130,5 +146,24 @@ class CustomerServiceTest {
 
         List<Customer> customers = customerService.getAllCustomers();
         assertThat(customers.size(), is(2));
+    }
+
+    @Test
+    @DisplayName("고객 및 해당 고객이 소유하고 있는 Voucher들을 삭제할 수 있다.")
+    public void testDeleteCustomerAndOwnedVouchers() {
+        Customer customer = customerService.createCustomer("test0", "test0@gmail.com");
+        Voucher fVoucher = VoucherType.FIXED_AMOUNT.createVoucher(UUID.randomUUID(), 5000, LocalDateTime.now().withNano(0));
+        Voucher pVoucher = VoucherType.PERCENT_DISCOUNT.createVoucher(UUID.randomUUID(), 50, LocalDateTime.now().withNano(0));
+        voucherService.insertVoucher(fVoucher);
+        voucherService.insertVoucher(pVoucher);
+        voucherService.allocateToCustomer(fVoucher, customer);
+        voucherService.allocateToCustomer(pVoucher, customer);
+
+        customerService.removeCustomer(customer);
+
+        List<Customer> allCustomers = customerService.getAllCustomers();
+        List<Voucher> allVouchers = voucherService.getAllVouchers();
+        assertThat(allCustomers, hasSize(0));
+        assertThat(allVouchers, hasSize(0));
     }
 }

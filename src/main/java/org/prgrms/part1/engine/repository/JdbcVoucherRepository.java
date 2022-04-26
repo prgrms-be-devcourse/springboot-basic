@@ -102,4 +102,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public void deleteAll() {
         jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        int deleteCount = jdbcTemplate.update("delete from vouchers where voucher_id=UNHEX(REPLACE(:voucherId, '-', ''))", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (deleteCount != 1) {
+            throw new VoucherException("Voucher cant be deleted!");
+        }
+    }
 }

@@ -34,7 +34,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public List<Voucher> getVouchersByCustomerId(Customer customer) {
+    public List<Voucher> getVouchersByCustomer(Customer customer) {
         return voucherRepository.findByCustomer(customer);
     }
 
@@ -56,5 +56,15 @@ public class VoucherService {
     public void deallocateFromCustomer(Voucher voucher) {
         voucher.revokeOwner();
         voucherRepository.update(voucher);
+    }
+
+    @Transactional
+    public void removeVoucher(Voucher voucher) {
+        voucherRepository.deleteById(voucher.getVoucherId());
+    }
+
+    private Voucher validateVoucher(Voucher voucher) {
+        Optional<Voucher> findVoucher = voucherRepository.findById(voucher.getVoucherId());
+        return findVoucher.orElseThrow(() -> new VoucherException("Invalid voucher id"));
     }
 }

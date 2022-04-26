@@ -39,4 +39,8 @@ public interface VoucherRepository {
     default void deleteAll() {
         throw new VoucherException("미완성 기능입니다.");
     }
+
+    default void deleteById(UUID voucherId)  {
+        throw new VoucherException("미완성 기능입니다.");
+    }
 }

@@ -106,4 +106,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         jdbcTemplate.update("delete from customers;", Collections.emptyMap());
     }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        int deleteCount = jdbcTemplate.update("delete from customers where customer_id=UNHEX(REPLACE(:customerId, '-', ''))", Collections.singletonMap("customerId", customerId.toString().getBytes()));
+        if (deleteCount != 1) {
+            throw new VoucherException("Customer cant be deleted!");
+        }
+    }
 }

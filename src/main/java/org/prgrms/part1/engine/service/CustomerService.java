@@ -16,8 +16,11 @@ import java.util.UUID;
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    private final VoucherService voucherService;
+
+    public CustomerService(CustomerRepository customerRepository, VoucherService voucherService) {
         this.customerRepository = customerRepository;
+        this.voucherService = voucherService;
     }
 
     @Transactional
@@ -39,5 +42,12 @@ public class CustomerService {
     @Transactional
     public Customer insertCustomer(Customer customer) {
         return customerRepository.insert(customer);
+    }
+
+    @Transactional
+    public void removeCustomer(Customer customer) {
+        List<Voucher> ownedVouchers = voucherService.getVouchersByCustomer(customer);
+        ownedVouchers.forEach(voucherService::removeVoucher);
+        customerRepository.deleteById(customer.getCustomerId());
     }
 }
