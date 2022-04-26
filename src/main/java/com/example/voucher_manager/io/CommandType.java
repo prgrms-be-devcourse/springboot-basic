@@ -10,6 +10,8 @@ public enum CommandType {
     LIST("list"),
     EXIT("exit"),
     BLACKLIST("blacklist"),
+    CUSTOMER("customer"),
+    SIGNUP("signup"),
     ERROR("error");
 
     private final String command;

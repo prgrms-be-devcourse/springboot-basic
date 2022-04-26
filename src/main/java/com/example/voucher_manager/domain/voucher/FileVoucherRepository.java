@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,21 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return readAllDataFromFile();
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByCustomer(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 
     @Override
@@ -73,6 +89,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void clear() {
+
+    }
+
+    @Override
+    public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
 
     }
 }

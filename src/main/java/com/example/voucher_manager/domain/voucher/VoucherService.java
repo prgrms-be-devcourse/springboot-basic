@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +20,25 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, Long discountInformation) {
         Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), discountInformation);
-            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), discountInformation);
+            case FIXED -> FixedAmountVoucher.of(UUID.randomUUID(), discountInformation, voucherType);
+            case PERCENT -> PercentDiscountVoucher.of(UUID.randomUUID(), discountInformation, voucherType);
             default -> throw new IllegalStateException("Unexpected value: " + voucherType);
         };
 
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public Voucher provideVoucherToCustomer(Voucher voucher, Customer customer){
+        voucher.provideToCustomer(customer.getCustomerId());
+        return voucherRepository.update(voucher);
+    }
+
+    public List<Voucher> voucherListByCustomer(Customer customer) {
+        return voucherRepository.findVoucherListByCustomer(customer);
+    }
+
+    public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
+        voucherRepository.findVoucherListByCustomer(customer);
     }
 }

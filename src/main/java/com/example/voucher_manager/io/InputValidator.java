@@ -25,6 +25,11 @@ public class InputValidator {
     // about discount information
     private static final String INTEGER_PATTERN = "-?\\d+";
 
+    // about customer service
+    private static final String OVER_NAME_LENGTH = "I/O ERROR : Name is less than 20 characters.";
+    private static final String INVALID_EMAIL_FORMAT = "I/O ERROR : Invalid Email Format.";
+    private static final String EMAIL_PATTERN = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
     public VoucherType validateVoucherType(String type) {
         if (VoucherType.isValidated(type)) {
             return VoucherType.of(type);
@@ -62,6 +67,22 @@ public class InputValidator {
             return true;
         }
         log.error(IS_NOT_POSITIVE_NUMBER);
+        return false;
+    }
+
+    public boolean isCorrectLengthOfName(String name) {
+        if (name.length() <= 20){
+            return true;
+        }
+        log.error(OVER_NAME_LENGTH);
+        return false;
+    }
+
+    public boolean isValidEmailFormat(String email){
+        if (email.matches(EMAIL_PATTERN)) {
+            return true;
+        }
+        log.error(INVALID_EMAIL_FORMAT);
         return false;
     }
 }

@@ -28,6 +28,14 @@ public class CommandOperator {
     }
 
     public List<Customer> getBlacklist() {
+        return customerService.findAllBlackList();
+    }
+
+    public List<Customer> getCustomerList(){
         return customerService.findAll();
+    }
+
+    public Customer signUp(String name, String email) {
+        return customerService.signUp(name, email);
     }
 }

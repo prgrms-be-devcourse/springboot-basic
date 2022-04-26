@@ -1,5 +1,6 @@
 package com.example.voucher_manager.io;
 
+import com.example.voucher_manager.domain.customer.Customer;
 import com.example.voucher_manager.domain.voucher.Voucher;
 import com.example.voucher_manager.domain.voucher.VoucherType;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class Console {
             case CREATE -> inputVoucherType();
             case LIST -> printVoucherList();
             case EXIT -> shutdownConsole();
-            case BLACKLIST -> printBlackList();
+            case CUSTOMER -> customerService();
             case ERROR -> output.printError();
         }
 
@@ -83,13 +84,45 @@ public class Console {
         return Optional.of(discountNumber);
     }
 
+    private void customerService() {
+        printCustomerMenu();
+        String userInput = input.input(" >> ");
+        CommandType command = inputValidator.validateCommandType(userInput);
+
+        switch (command) {
+            case SIGNUP -> signUp();
+            case LIST -> printCustomerList();
+            case BLACKLIST -> printBlackList();
+            default -> output.printError();
+        }
+    }
+
+    private void signUp() {
+        output.print("=== input name ===");
+        String name = input.input(" >> ");
+        if (!inputValidator.isCorrectLengthOfName(name)){
+            output.print("name is less than 20 characters.");
+            return;
+        }
+
+        output.print("=== input email ===");
+        String email = input.input(" >> ");
+        if (!inputValidator.isValidEmailFormat(email)){
+            output.print("invalid email format.");
+            return;
+        }
+
+        Customer customer = commandOperator.signUp(name, email);
+        output.print(customer.toString());
+    }
+
     private void printMenu() {
         output.print("""
                === Voucher Program ===
                Type **exit** to exit the program.
                Type **create** to create a new voucher.
                Type **list** to list all vouchers.
-               Type **blacklist** to list all blacklist Customers.
+               Type **customer** to proceed with customer service.
                 """);
     }
 
@@ -115,12 +148,25 @@ public class Console {
                 """);
     }
 
+    private void printCustomerMenu() {
+        output.print("""
+                === Select Menu ===
+                Type **signup** to proceed signup process.
+                Type **list** to list all customers.
+                Type **blacklist** to list all blacklist Customers.
+                """);
+    }
+
     private void printBlackList() {
         output.printItems(commandOperator.getBlacklist());
     }
 
     private void printVoucherList() {
         output.printItems(commandOperator.getVoucherList());
+    }
+
+    private void printCustomerList() {
+        output.printItems(commandOperator.getCustomerList());
     }
 
     private void shutdownConsole() {

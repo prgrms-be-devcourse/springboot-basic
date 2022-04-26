@@ -1,7 +1,5 @@
 package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.io.CommandType;
-
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
