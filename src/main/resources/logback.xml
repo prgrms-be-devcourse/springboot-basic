@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/access.log</file>  <!--   최신기록 -->
+    <encoder
+      class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+    </encoder>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern> <!-- 날이지나면 -->
+    </rollingPolicy>
+
+  </appender>
+
+
+  <root level="info">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <logger name="org.springframework.web" level="error">
+    <appender-ref ref="ROLLING_FILE"/>
+  </logger>
+
+</configuration>
