@@ -4,8 +4,9 @@ import org.prgrms.kdtspringdemo.domain.console.Input;
 import org.prgrms.kdtspringdemo.domain.console.Menu;
 import org.prgrms.kdtspringdemo.domain.console.Output;
 import org.prgrms.kdtspringdemo.domain.customer.CustomerController;
-import org.prgrms.kdtspringdemo.domain.mapping.MappingController;
-import org.prgrms.kdtspringdemo.domain.voucher.VoucherController;
+import org.prgrms.kdtspringdemo.domain.mapping.controller.MappingController;
+import org.prgrms.kdtspringdemo.domain.voucher.controller.VoucherDMLTypeController;
+import org.prgrms.kdtspringdemo.domain.voucher.controller.VoucherChooseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -17,14 +18,16 @@ public class MainController {
     private final Input input;
 
     private final CustomerController customerController;
-    private final VoucherController voucherController;
+    private final VoucherChooseController voucherChooseController;
+    private final VoucherDMLTypeController voucherDMLTypeController;
     private final MappingController mappingController;
 
-    public MainController(Output output, Input input, CustomerController customerController, VoucherController voucherController, MappingController mappingController) {
+    public MainController(Output output, Input input, CustomerController customerController, VoucherChooseController voucherChooseController, VoucherDMLTypeController voucherDMLTypeController, MappingController mappingController) {
         this.output = output;
         this.input = input;
         this.customerController = customerController;
-        this.voucherController = voucherController;
+        this.voucherChooseController = voucherChooseController;
+        this.voucherDMLTypeController = voucherDMLTypeController;
         this.mappingController = mappingController;
     }
 
@@ -56,11 +59,11 @@ public class MainController {
             }
             case CREATE -> {
                 Menu.CREATE.writeStateInfo();
-                voucherController.chooseVoucher();
+                voucherChooseController.chooseVoucher();
             }
             case LIST -> {
                 Menu.LIST.writeStateInfo();
-                voucherController.showVoucherList();
+                voucherChooseController.showVoucherList();
             }
             case CUSTOMER -> {
                 Menu.CUSTOMER.writeStateInfo();
@@ -68,7 +71,7 @@ public class MainController {
             }
             case VOUCHER -> {
                 Menu.VOUCHER.writeStateInfo();
-                voucherController.chooseVoucherManagement();
+                voucherDMLTypeController.chooseVoucherManagement();
             }
             case MAPPING -> {
                 Menu.VOUCHER.writeStateInfo();

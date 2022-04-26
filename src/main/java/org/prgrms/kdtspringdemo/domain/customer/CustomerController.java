@@ -31,12 +31,11 @@ public class CustomerController {
 
         switch (customerDMLType) {
             case INSERT -> customerFileService.registerCustomer();
-            case UPDATE -> System.out.println("sorry we do not support this service");
             case COUNT -> System.out.println("All customers number : " + customerService.count());
             case FINDALL -> customerService.findAll();
-            case FINDBYID -> System.out.println("sorry we do not support this service");
-            case FINDBYNAME -> System.out.println("sorry we do not support this service");
-            case FINDBYEMAIL -> System.out.println("sorry we do not support this service");
+            case UPDATE, FINDBYID, FINDBYNAME, FINDBYEMAIL -> {
+                System.out.println("sorry we do not support this service");
+            }
             case DELETEALL -> {
                 customerService.deleteAll();
                 System.out.println("Delete all customer data");
