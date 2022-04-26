@@ -15,9 +15,10 @@ public class FixedAmountVoucher extends Voucher {
 
 	@Override
 	public int discount(int beforeDiscount) {
-		if (beforeDiscount >= discountAmount) {
-			return beforeDiscount - discountAmount;
+		if (beforeDiscount < discountAmount) {
+			return 0;
 		}
-		return 0;
+		return beforeDiscount - discountAmount;
+
 	}
 }
