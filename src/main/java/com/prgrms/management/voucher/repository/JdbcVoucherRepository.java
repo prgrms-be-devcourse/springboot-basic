@@ -24,28 +24,25 @@ import java.util.stream.Collectors;
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final JdbcTemplate jdbcTemplate;
+    private final String SAVE_SQL = "insert into vouchers(voucher_id, created_at, amount, voucher_type) values (UUID_TO_BIN(?), ?, ?, ?)";
+    private final String FIND_ALL_SQL = "select * from vouchers";
+    private final String FIND_CUSTOMER_BY_TYPE_SQL = "select * from vouchers where voucher_type = ?";
+    private final String FIND_BY_ID_SQL = "select * from vouchers where voucher_id = UUID_TO_BIN(?)";
+    private final String UPDATE_SQL = "update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)";
+    private final String DELETE_BY_ID_SQL = "delete from vouchers where voucher_id = UUID_TO_BIN(?)";
+    private final String DELETE_ALL_SQL = "delete from vouchers";
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = ToUUID.toUUId(resultSet.getBytes("voucher_id"));
-        var amount = resultSet.getLong("amount");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var voucherType = VoucherType.of(resultSet.getString("voucher_type"));
-        var customerId = resultSet.getBytes("customer_id") != null
-                ? ToUUID.toUUId(resultSet.getBytes("customer_id")) : null;
-        return new Voucher(voucherId, amount, createdAt, voucherType, customerId);
-    };
-
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update("insert into vouchers(voucher_id, amount, created_at, voucher_type) values (UUID_TO_BIN(?), ?, ?, ?)",
+        int update = jdbcTemplate.update(SAVE_SQL,
                 voucher.getVoucherId().toString().getBytes(),
-                voucher.getAmount(),
                 Timestamp.valueOf(voucher.getCreatedAt()),
-                voucher.getVoucherType().equals(VoucherType.FIXED) ? "fixed" : "percent");
+                voucher.getAmount(),
+                voucher.getVoucherType().toString());
         if (update != 1) {
             throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
@@ -54,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_SQL, voucherRowMapper);
     }
 
     @Override
@@ -64,28 +61,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private List<Voucher> dynamicQueryByVoucherTypeAndCreatedAt(VoucherType voucherType, LocalDate date) {
         if (voucherType != null && date != null) {
-            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) AND (DATE(created_at) = ?)", voucherRowMapper,
-                    voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent",
-                    date
-            );
+            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) AND (DATE(created_at) = ?)", voucherRowMapper, voucherType.toString(), date);
         } else if (voucherType != null && date == null) {
-            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) ", voucherRowMapper,
-                    voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent"
-            );
+            return jdbcTemplate.query("select * from vouchers where (voucher_type = ?) ", voucherRowMapper, voucherType.toString());
         } else if (voucherType == null && date != null) {
-            return jdbcTemplate.query("select * from vouchers where DATE(created_at) = ?", voucherRowMapper,
-                    date
-            );
+            return jdbcTemplate.query("select * from vouchers where DATE(created_at) = ?", voucherRowMapper, date);
         } else {
             return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
         }
     }
 
     @Override
-    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
-        List<Voucher> query = jdbcTemplate.query("select * from vouchers where voucher_type = ?",
+    public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
+        List<Voucher> query = jdbcTemplate.query(FIND_CUSTOMER_BY_TYPE_SQL,
                 voucherRowMapper,
-                voucherType.equals(VoucherType.FIXED) ? "fixed" : "percent");
+                voucherType.toString());
         return query.stream().map(Voucher::getVoucherId).collect(Collectors.toList());
     }
 
@@ -93,9 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from vouchers where voucher_id = UUID_TO_BIN(?)",
-                    voucherRowMapper,
-                    voucherId.toString().getBytes()));
+                    FIND_BY_ID_SQL, voucherRowMapper, voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.info("NotFoundException:{}", ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage());
             return Optional.empty();
@@ -103,11 +91,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        int update = jdbcTemplate.update("update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)",
-                customerId.toString().getBytes(),
-                voucherId.toString().getBytes()
-        );
+    public void updateByCustomerId(UUID voucherId, UUID customerId) {
+        int update = jdbcTemplate.update(UPDATE_SQL, customerId.toString().getBytes(), voucherId.toString().getBytes());
         if (update != 1) {
             throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
@@ -115,12 +100,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(?)",
-                voucherId.toString().getBytes());
+        jdbcTemplate.update(DELETE_BY_ID_SQL, voucherId.toString().getBytes());
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from vouchers");
+        jdbcTemplate.update(DELETE_ALL_SQL);
     }
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        var voucherId = ToUUID.toUUId(resultSet.getBytes("voucher_id"));
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var amount = resultSet.getLong("amount");
+        var voucherType = VoucherType.of(resultSet.getString("voucher_type"));
+        var customerId = resultSet.getBytes("customer_id") != null
+                ? ToUUID.toUUId(resultSet.getBytes("customer_id")) : null;
+        return voucherType.create(voucherId, createdAt, voucherType, amount, customerId);
+    };
 }

@@ -18,30 +18,16 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> findBlackList() {
-        return customerRepository.findBlackList();
-    }
-
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
-    }
-
-    public void deleteCustomer(UUID customerId) {
-        customerRepository.deleteById(customerId);
     }
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
 
-    public void deleteAllCustomer() {
-        customerRepository.deleteAll();
-    }
-
-    public void updateCustomer(UUID customerId, String customerName) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
-        customer.setName(customerName);
-        customerRepository.updateName(customer);
+    public List<Customer> findBlackList() {
+        return customerRepository.findBlackList();
     }
 
     public Customer findById(UUID customerId) {
@@ -51,4 +37,19 @@ public class CustomerService {
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
     }
+
+    public void updateCustomer(UUID customerId, String customerName) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
+        customer.setName(customerName);
+        customerRepository.updateName(customer);
+    }
+
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
+    public void deleteAllCustomer() {
+        customerRepository.deleteAll();
+    }
+
 }

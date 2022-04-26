@@ -23,8 +23,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Voucher voucher = voucherRequest.of();
-        return voucherRepository.save(voucher);
+        return voucherRepository.save(voucherRequest.create());
     }
 
     public List<Voucher> findAll() {
@@ -36,7 +35,7 @@ public class VoucherService {
     }
 
     public List<UUID> findCustomersByVoucherType(VoucherType voucherType) {
-        return voucherRepository.findCustomerIdByVoucherType(voucherType);
+        return voucherRepository.findCustomerByVoucherType(voucherType);
     }
 
     public Voucher findById(UUID voucherId) {
@@ -44,7 +43,7 @@ public class VoucherService {
     }
 
     public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        voucherRepository.updateVoucherByCustomerId(voucherId, customerId);
+        voucherRepository.updateByCustomerId(voucherId, customerId);
     }
 
     public void deleteVoucherByCustomerId(UUID customerId) {

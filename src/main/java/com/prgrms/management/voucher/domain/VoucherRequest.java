@@ -18,8 +18,8 @@ public class VoucherRequest {
         this.amount = toLong(amount);
     }
 
-    public Voucher of() {
-        return new Voucher(this.getAmount(), this.getVoucherType());
+    public Voucher create() {
+        return this.voucherType.create(this.voucherType, this.amount, this.customerId);
     }
 
     private long toLong(String inputAmount) {

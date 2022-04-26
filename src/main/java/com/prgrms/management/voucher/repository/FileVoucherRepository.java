@@ -26,7 +26,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_NAME, true))) {
-            bufferedWriter.write(voucher.getVoucherId() + "," + voucher.getAmount() + "," + voucher.getVoucherType());
+            bufferedWriter.write(voucher.serialized());
             bufferedWriter.newLine();
         } catch (IOException e) {
             logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
@@ -41,7 +41,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
+    public void updateByCustomerId(UUID voucherId, UUID customerId) {
         //미구현
     }
 
@@ -84,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+    public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
         //미구현
         return null;
     }

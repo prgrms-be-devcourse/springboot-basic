@@ -31,7 +31,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
+    public void updateByCustomerId(UUID voucherId, UUID customerId) {
         //미구현
     }
 
@@ -58,7 +58,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<UUID> findCustomerIdByVoucherType(VoucherType voucherType) {
+    public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
         //미구현
         return null;
     }

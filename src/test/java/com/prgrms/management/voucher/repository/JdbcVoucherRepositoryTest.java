@@ -29,8 +29,8 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setup() {
-        voucher = new VoucherRequest("fixed", "1000").of();
-        voucherTwo = new VoucherRequest("percent", "90").of();
+        voucher = new VoucherRequest("fixed", "1000").create();
+        voucherTwo = new VoucherRequest("percent", "90").create();
         randomId = UUID.randomUUID();
         saveVoucher = voucherRepository.save(voucher);
         voucherRepository.save(voucherTwo);

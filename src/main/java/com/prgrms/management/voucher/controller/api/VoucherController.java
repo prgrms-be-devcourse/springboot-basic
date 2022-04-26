@@ -25,12 +25,14 @@ public class VoucherController {
     private final ResponseService responseService;
     private final VoucherService voucherService;
 
-    @GetMapping
-    public ResponseEntity<ListResult<Voucher>> findVouchers() {
-        return new ResponseEntity<>(responseService.getListResult(voucherService.findAll()), OK);
+    @PostMapping
+    public ResponseEntity<SingleResult<Voucher>> createVoucher(
+            @RequestBody VoucherRequest voucherRequest
+    ) {
+        return new ResponseEntity<>(responseService.getSingleResult(voucherService.createVoucher(voucherRequest)), OK);
     }
 
-    @GetMapping("/filtering")
+    @GetMapping
     public ResponseEntity<ListResult<Voucher>> findVouchersByVoucherTypeOrCreatedAt(
             @RequestParam(value = "voucherType", required = false) VoucherType voucherType,
             @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -47,13 +49,6 @@ public class VoucherController {
             @PathVariable(value = "voucherId") String voucherId
     ) {
         return new ResponseEntity<>(responseService.getSingleResult(voucherService.findById(UUID.fromString(voucherId))), OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<SingleResult<Voucher>> createVoucher(
-            @RequestBody VoucherRequest voucherRequest
-    ) {
-        return new ResponseEntity<>(responseService.getSingleResult(voucherService.createVoucher(voucherRequest)), OK);
     }
 
     @DeleteMapping("/{voucherId}")

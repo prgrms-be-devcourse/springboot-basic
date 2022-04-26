@@ -3,16 +3,28 @@ package com.prgrms.management.voucher.domain;
 import com.prgrms.management.config.ErrorMessageType;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Getter
-public class FixedVoucher extends Discount {
+public class FixedVoucher extends Voucher {
     private static final Long MAX_FIXED_DISCOUNT = 10000L;
     private static final Long MIN_FIXED_DISCOUNT = 0L;
     private final long amount;
+    private final VoucherType voucherType;
 
     public FixedVoucher(long amount) {
         super();
         validateFixedAmount(amount);
         this.amount = amount;
+        this.voucherType = VoucherType.FIXED;
+    }
+
+    public FixedVoucher(UUID voucherId, LocalDateTime createdAt,UUID customerId, long amount, VoucherType voucherType) {
+        super(voucherId,createdAt,customerId);
+        validateFixedAmount(amount);
+        this.amount = amount;
+        this.voucherType = voucherType;
     }
 
     private void validateFixedAmount(long amount) {

@@ -1,8 +1,5 @@
 package com.prgrms.management.voucher.service;
 
-import com.prgrms.management.customer.domain.Customer;
-import com.prgrms.management.customer.domain.CustomerRequest;
-import com.prgrms.management.customer.repository.CustomerRepository;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;

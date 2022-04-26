@@ -15,11 +15,11 @@ public interface VoucherRepository {
 
     List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date);
 
-    List<UUID> findCustomerIdByVoucherType(VoucherType voucherType);
+    List<UUID> findCustomerByVoucherType(VoucherType voucherType);
 
     Optional<Voucher> findById(UUID voucherId);
 
-    void updateVoucherByCustomerId(UUID voucherId, UUID customerId);
+    void updateByCustomerId(UUID voucherId, UUID customerId);
 
     void deleteById(UUID customerId);
 
