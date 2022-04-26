@@ -28,7 +28,7 @@ public class Customer {
     }
 
     public void changeName(String newName) {
-        name.changeName(newName);
+        name = new Name(newName);
     }
 
     @Override
