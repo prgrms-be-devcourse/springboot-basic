@@ -4,12 +4,13 @@ import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
 public class PercentDiscountVoucher extends Voucher {
 
-	public PercentDiscountVoucher(int discountAmount) {
+	public PercentDiscountVoucher(Long voucherId, int discountAmount) {
+		super(voucherId, discountAmount);
+
 		if (discountAmount < 0 || discountAmount > 100) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(INVALID_INPUT.name());
 		}
-		this.discountAmount = discountAmount;
 	}
 
 	@Override
