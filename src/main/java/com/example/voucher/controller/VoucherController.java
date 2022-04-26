@@ -4,6 +4,8 @@ import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 
+import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
+
 @Controller
 public class VoucherController {
 	private final VoucherService voucherService;
@@ -13,6 +15,10 @@ public class VoucherController {
 	}
 
 	public void save(VoucherType voucherType, int discountAmount) {
+		if (voucherType == null) {
+			// TODO: 로그 남기기
+			return;
+		}
 		voucherService.save(voucherType, discountAmount);
 	}
 }
