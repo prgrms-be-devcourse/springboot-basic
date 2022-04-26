@@ -30,6 +30,6 @@ public class ConsoleOutput implements Output{
 
     @Override
     public void listVoucherType() {
-        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.toString()));
+        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.getAlias()));
     }
 }
