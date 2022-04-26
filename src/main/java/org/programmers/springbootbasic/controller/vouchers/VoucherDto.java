@@ -3,11 +3,15 @@ package org.programmers.springbootbasic.controller.vouchers;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
+import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record VoucherDto(
+        @NotNull
         UUID voucherId,
-        int amount,
+        @NotNull
+        Integer amount,
+        @NotNull
         VoucherType type,
         Long memberId) {
 

@@ -31,11 +31,6 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public void registerVouchersOwner(UUID voucherId, Long memberId) {
-        voucherRepository.updateVoucherOwner(voucherId, memberId);
-    }
-
-    @Override
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow(
                 () -> new IllegalArgumentException("No voucher found")
@@ -43,21 +38,28 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public long applyVoucher(long beforeDiscount, Voucher voucher) {
-        return voucher.discount(beforeDiscount);
-    }
-
-    @Transactional
-    @Override
-    public void useVoucher(UUID voucherId) {
-        voucherRepository.remove(voucherId);
-    }
-
-    @Override
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 
+    @Transactional
+    @Override
+    public void registerVouchersOwner(UUID voucherId, Long memberId) {
+        voucherRepository.updateVoucherOwner(voucherId, memberId);
+    }
+
+    @Transactional
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.remove(voucherId);
+    }
+
+    @Override
+    public long applyVoucher(long beforeDiscount, Voucher voucher) {
+        return voucher.discount(beforeDiscount);
+    }
+
+    @Override
     public boolean isValidAmount(int amount, VoucherType voucherType) {
         int minimum;
         int maximum;

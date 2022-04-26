@@ -109,7 +109,7 @@ class VoucherServiceImplTest {
             voucher = Voucher.create(1000, FIXED);
         } while (TEST_VOUCHER.getId().equals(voucher.getId()));
 
-        VOUCHER_SERVICE.useVoucher(voucher.getId());
+        VOUCHER_SERVICE.deleteVoucher(voucher.getId());
 
         verify(VOUCHER_REPOSITORY_MOCK, times(1)).remove(voucher.getId());
     }

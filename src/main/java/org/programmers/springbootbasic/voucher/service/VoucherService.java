@@ -16,7 +16,9 @@ public interface VoucherService {
 
     long applyVoucher(long beforeDiscount, Voucher voucher);
 
-    void useVoucher(UUID voucherId);
+    void deleteVoucher(UUID voucherId);
 
     List<Voucher> getAllVouchers();
+
+    boolean isValidAmount(int amount, VoucherType voucherType);
 }

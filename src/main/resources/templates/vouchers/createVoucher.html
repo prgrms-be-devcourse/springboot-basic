@@ -3,15 +3,19 @@
 <body>
 <form action="item.html" th:action th:object="${voucher}" method="post">
     <div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="error : ${#fields.globalErrors()}" th:text="${error}">에러 메시지</p>
+        </div>
         <div th:text="#{label.voucher.type}">바우처 종류</div>
         <div th:each="voucherType : ${voucherTypes}">
             <label th:for="type" th:text="${voucherType.getName}"/>
             <input type="radio" th:field="*{type}" th:value="${voucherType}">
             <span th:text="${voucherType.getDescription}"/>
         </div>
-        <div th:text="#{label.voucher.amount}">할인 양</div>
         <div>
+            <label th:for="amount" th:text="#{label.voucher.amount}">할인 양</label>
             <input type="text" th:field="*{amount}" placeholder="할인 양을 입력하세요">
+            <span th:errors="*{amount}">할인액 오류</span>
         </div>
     </div>
     <div>
