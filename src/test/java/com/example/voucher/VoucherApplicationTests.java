@@ -13,10 +13,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
+import static com.example.voucher.domain.voucher.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -111,13 +115,14 @@ class VoucherApplicationTests {
 			}
 
 			@Test
-			@DisplayName("예외를 던진다")
-			void 예외를_던진다() {
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> getDiscountAmount.invoke(voucherApplication))
 						.isInstanceOf(InvocationTargetException.class)
 						.getCause().hasMessage(INVALID_INPUT.name());
 			}
 		}
+
 		@Nested
 		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 		class 지원하는_바우처_타입과_정수_타입의_할인_값이_입력_된다면 {
@@ -127,6 +132,63 @@ class VoucherApplicationTests {
 			void 바우처를_생성한다() throws Exception {
 				processCreateCommand.invoke(voucherApplication, any(), anyInt());
 				verify(voucherController).save(any(), anyInt());
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class FIXED_AMOUNT_VOUCHER_바우처_타입과_음수인_할인_값이_입력_된다면 {
+
+			@BeforeEach
+			void 음수인_할인_값_설정() {
+				willThrow(new IllegalArgumentException(INVALID_INPUT.name()))
+						.given(voucherController).save(any(VoucherType.class), anyInt());
+			}
+
+			@Test
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
+				assertThatThrownBy(() -> voucherController.save(FIXED_AMOUNT_VOUCHER, -1000))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(INVALID_INPUT.name());
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class PERCENT_DISCOUNT_VOUCHER_바우처_타입과_음수인_할인_값이_입력_된다면 {
+
+			@BeforeEach
+			void 음수인_할인_값_설정() {
+				willThrow(new IllegalArgumentException(INVALID_INPUT.name()))
+						.given(voucherController).save(any(VoucherType.class), anyInt());
+			}
+
+			@Test
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
+				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, -1000))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(INVALID_INPUT.name());
+			}
+		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class PERCENT_DISCOUNT_VOUCHER_바우처_타입과_백이_넘는_할인_값이_입력_된다면 {
+
+			@BeforeEach
+			void 백이_넘는_할인_값_설정() {
+				willThrow(new IllegalArgumentException(INVALID_INPUT.name()))
+						.given(voucherController).save(any(VoucherType.class), anyInt());
+			}
+
+			@Test
+			@DisplayName("IllegalArgumentException 예외를 던진다")
+			void IllegalArgumentException_예외를_던진다() throws Exception {
+				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, 101))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(INVALID_INPUT.name());
 			}
 		}
 	}

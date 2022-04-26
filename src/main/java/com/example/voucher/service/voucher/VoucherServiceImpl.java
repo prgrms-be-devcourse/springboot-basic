@@ -1,10 +1,13 @@
 package com.example.voucher.service.voucher;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
+import com.example.voucher.domain.voucher.PercentDiscountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+
+import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -21,9 +24,9 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	private Voucher createVoucher(VoucherType voucherType, int discountAmount) {
-		/*
-		null 반환시 테스트 실패, 임시로 FixedAmountVoucher 생성해서 반환
-		 */
-		return new FixedAmountVoucher();
+		if (voucherType == FIXED_AMOUNT_VOUCHER) {
+			return new FixedAmountVoucher(discountAmount);
+		}
+		return new PercentDiscountVoucher(discountAmount);
 	}
 }
