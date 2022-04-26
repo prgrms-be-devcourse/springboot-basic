@@ -3,6 +3,7 @@ package org.prgrms.kdt.repository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.repository.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.service.VoucherService;
 
 import java.util.UUID;
@@ -16,10 +17,12 @@ class MemoryVoucherRepositoryTest {
     void insertTest() {
 
         MemoryVoucherRepository memoryVoucherRepositoryMock = mock(MemoryVoucherRepository.class);
-        VoucherService voucherService = new VoucherService(memoryVoucherRepositoryMock);
+        CustomerJdbcRepository customerRepository = mock(CustomerJdbcRepository.class);
+        JdbcWalletRepository jdbcWalletRepository = mock(JdbcWalletRepository.class);
+        VoucherService voucherService = new VoucherService(memoryVoucherRepositoryMock, customerRepository, jdbcWalletRepository);
 
         Voucher insertedVoucher = voucherService.createVoucher(UUID.randomUUID(), 1, 100);
 
-        verify(memoryVoucherRepositoryMock).insert(insertedVoucher);
+        verify(memoryVoucherRepositoryMock).insertVoucher(insertedVoucher);
     }
 }

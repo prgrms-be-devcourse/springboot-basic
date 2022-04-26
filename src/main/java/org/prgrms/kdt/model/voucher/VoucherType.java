@@ -1,5 +1,6 @@
 package org.prgrms.kdt.model.voucher;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -7,14 +8,14 @@ import java.util.UUID;
 public enum VoucherType {
     FIXED_AMOUNT(1) {
         @Override
-        public Voucher newVoucher(UUID voucherId, int discountAmount) {
-            return new FixedAmountVoucher(voucherId, discountAmount);
+        public Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, discountAmount, createdAt);
         }
     },
     PERCENT_DISCOUNT(2) {
         @Override
-        public Voucher newVoucher(UUID voucherId, int discountAmount) {
-            return new PercentDiscountVoucher(voucherId, discountAmount);
+        public Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, discountAmount, createdAt);
         }
     };
 
@@ -28,7 +29,7 @@ public enum VoucherType {
         return typeNumber;
     }
 
-    public abstract Voucher newVoucher(UUID voucherId, int discountAmount);
+    public abstract Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt);
 
     public static Optional<VoucherType> getVoucherTypeByNumber(int voucherTypeNumber) {
         return Arrays.stream(VoucherType.values())

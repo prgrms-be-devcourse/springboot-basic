@@ -1,42 +1,28 @@
 package org.prgrms.kdt.model.voucher;
 
+import org.prgrms.kdt.model.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
 
-    private UUID voucherId;
-    private long discountPercent;
     private static final int MAX_DISCOUNT_PERCENT = 100;
+
     private final static Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        validateDiscountPercent(discountPercent);
-        this.voucherId = voucherId;
-        this.discountPercent = discountPercent;
+    public PercentDiscountVoucher(UUID voucherId, long discountPercent, LocalDateTime createAt) {
+        super(voucherId, discountPercent, createAt, VoucherType.PERCENT_DISCOUNT.getTypeNumber());
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long discountPercent, LocalDateTime createAt, Customer customer, LocalDateTime ownedAt) {
+        super(voucherId, discountPercent, createAt, customer, ownedAt, VoucherType.FIXED_AMOUNT.getTypeNumber());
     }
 
     @Override
-    public UUID getVoucherId() {
-        return null;
-    }
-
-    @Override
-    public long getDiscountAmount() {
-        return discountPercent;
-    }
-
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", discountPercent=" + discountPercent +
-                '}';
-    }
-
-    private void validateDiscountPercent(long discountPercent) {
+    void validateDiscountAmount(long discountPercent) {
         if (discountPercent <= 0) {
             logger.info("input [discountPercent] -> {}", discountPercent);
             throw new IllegalArgumentException("discountPercent should be over 0");

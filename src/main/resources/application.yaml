@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/voucher_program
+    username: root
+    password: 0124fkdgo
+    driver-class-name: com.mysql.jdbc.Driver

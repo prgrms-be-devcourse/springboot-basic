@@ -3,10 +3,13 @@ package org.prgrms.kdt.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Utility {
-    private final static Logger logger = LoggerFactory.getLogger(Utility.class);
+import java.nio.ByteBuffer;
+import java.util.UUID;
 
-    private Utility() {
+public class IntUtils {
+    private final static Logger logger = LoggerFactory.getLogger(IntUtils.class);
+
+    private IntUtils() {
     }
 
     public static boolean isNumber(String inputString) {
@@ -21,5 +24,10 @@ public class Utility {
             throw new IllegalArgumentException("WRONG : Please input right Number");
         }
         return Integer.parseInt(inputString);
+    }
+
+    public static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

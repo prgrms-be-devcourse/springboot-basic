@@ -1,26 +1,19 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.model.function.Function;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
 import org.prgrms.kdt.model.voucher.VoucherType;
 
 import java.text.MessageFormat;
 import java.util.List;
 
-public class OutputConsole implements Output {
-    @Override
+public class OutputConsole {
     public void printFunctions() {
         System.out.println("=== Voucher Program ===");
-        for (Function function : Function.values()) {
+        for (VoucherProgramFunctions function : VoucherProgramFunctions.values()) {
             System.out.println(MessageFormat.format("Type {0}{1}.", function.name(), function.getExplain()));
         }
     }
 
-    @Override
-    public void printInputFunctionError() {
-        System.out.println("WRONG : Type right command\n");
-    }
-
-    @Override
     public void printVoucherType() {
         System.out.println("=== Type number of voucher you make ===");
         for (VoucherType voucherType : VoucherType.values()) {
@@ -28,24 +21,12 @@ public class OutputConsole implements Output {
         }
     }
 
-    @Override
-    public void printVoucherListEmptyError() {
-        System.out.println("voucher list is empty !!\n");
+    public static void printList(List<?> printList) {
+        printList.forEach(System.out::println);
     }
 
-    @Override
-    public void printExitMessage() {
-        System.out.println("exit program ! bye :)");
+    public static void printMessage(String message) {
+        System.out.println(message);
     }
 
-    @Override
-    public void printExceptionMessage(String exceptionMessage) {
-        System.out.println(MessageFormat.format("{0}\n", exceptionMessage));
-    }
-
-    public void printList(List<String> printList) {
-        for(String argument : printList) {
-            System.out.println(argument);
-        }
-    }
 }

@@ -1,9 +1,8 @@
 package org.prgrms.kdt.model;
 
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.model.function.Function;
-import org.prgrms.kdt.service.BlackListService;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
+import org.prgrms.kdt.function.FunctionOperator;
 
 import static org.mockito.Mockito.*;
 import static org.hamcrest.MatcherAssert.*;
@@ -13,10 +12,9 @@ class FunctionTest {
 
     @Test
     void doFunction() {
-        VoucherService voucherService = mock(VoucherService.class);
-        BlackListService blackListService = mock(BlackListService.class);
+        FunctionOperator functionOperator = mock(FunctionOperator.class);
 
-        Boolean exit = Function.exit.execute(voucherService, blackListService);
+        Boolean exit = VoucherProgramFunctions.exit.execute(functionOperator);
 
         assertThat(exit, is(true));
     }
