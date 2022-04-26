@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.voucher.dto;
+package org.prgrms.kdt.domain.voucher.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

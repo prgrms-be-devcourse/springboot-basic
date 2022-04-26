@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.voucher.dto;
+package org.prgrms.kdt.domain.voucher.request;
 
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.domain.voucher.dto;
+package org.prgrms.kdt.domain.voucher.request;
 
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
@@ -35,11 +35,4 @@ public class VoucherUpdateRequest {
         return discountValue;
     }
 
-    public Voucher toEntity() {
-        return new Voucher(voucherId,
-                voucherType,
-                discountValue,
-                LocalDateTime.now(),
-                LocalDateTime.now());
-    }
 }
