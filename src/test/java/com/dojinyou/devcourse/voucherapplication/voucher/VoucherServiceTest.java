@@ -27,6 +27,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = VoucherApplication.class)
 class VoucherServiceTest {
     private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     @Autowired
     VoucherService voucherService;
 
@@ -62,7 +63,7 @@ class VoucherServiceTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("Voucher Service의 create 함수를 호출한다.")
-            void it_Call_of_VoucherService_create_method(VoucherType voucherType) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+            void it_Call_of_VoucherService_create_method(VoucherType voucherType) {
                 // given
                 int voucherAmount = 50;
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
@@ -105,7 +106,7 @@ class VoucherServiceTest {
                     getDomainMethod.setAccessible(true);
                     voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
                 } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION +e.getMessage());
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
                 }
 
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
