@@ -2,24 +2,20 @@ package com.example.voucher_manager.domain.voucher;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
-    private final UUID voucherId;
+public class PercentDiscountVoucher extends Voucher {
     private final Long discountPercent;
     private final VoucherType voucherType;
-    private UUID ownerId;
 
     public PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType) {
-        this.voucherId = voucherId;
+        super(voucherId, null);
         this.discountPercent = discountPercent;
         this.voucherType = voucherType;
-        this.ownerId = null; // 주인 미배정 상태
     }
 
     public PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType, UUID ownerId) {
-        this.voucherId = voucherId;
+        super(voucherId, ownerId);
         this.discountPercent = discountPercent;
         this.voucherType = voucherType;
-        this.ownerId = ownerId;
     }
 
     @Override
@@ -38,11 +34,6 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public void provideToCustomer(UUID ownerId) {
-        this.ownerId = this.ownerId;
-    }
-
-    @Override
     public VoucherType getVoucherType() {
         return voucherType;
     }
@@ -50,10 +41,5 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public Long getDiscountInformation() {
         return discountPercent;
-    }
-
-    @Override
-    public UUID getOwnerId() {
-        return ownerId;
     }
 }

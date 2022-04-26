@@ -3,8 +3,6 @@ package com.example.voucher_manager.domain.voucher;
 import com.example.voucher_manager.domain.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -30,7 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         if (VoucherType.of(voucherType).equals(VoucherType.FIXED)){
             return new FixedAmountVoucher(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
         }
-        return new PercentDiscountVoucher(voucherId, discountInformation, VoucherType.of(voucherType));
+        return new PercentDiscountVoucher(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -93,7 +91,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 return Optional.empty();
             }
         } catch (DuplicateKeyException e) {
-            // logger.error("Duplicate entry can't inserted");
             throw new DuplicateKeyException("Duplicate entry can't inserted");
         }
         return Optional.of(voucher);
