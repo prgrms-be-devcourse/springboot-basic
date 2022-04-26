@@ -1,10 +1,12 @@
 package org.prgrms.kdtspringdemo.domain.customer.data;
 
+import lombok.Getter;
 import org.prgrms.kdtspringdemo.domain.customer.type.CustomerType;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
 public class Customer {
     private final UUID customerId;
     private CustomerType customerType;
@@ -46,39 +48,16 @@ public class Customer {
         this.customerType = CustomerType.NORMAL;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public CustomerType getCustomerType() {
-        return customerType;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     @Override
     public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", customerType=" + customerType +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", lastLoginAt=" + lastLoginAt +
-                ", createdAt=" + createdAt +
-                '}';
+        final StringBuilder sb = new StringBuilder("Customer{");
+        sb.append("customerId=").append(customerId);
+        sb.append(", customerType=").append(customerType);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", lastLoginAt=").append(lastLoginAt);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append('}');
+        return sb.toString();
     }
 }
