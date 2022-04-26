@@ -13,34 +13,36 @@ import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.repository.VoucherRepository;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.service.VoucherService;
+import com.programmers.order.type.ProgramType;
 import com.programmers.order.type.MenuType;
 import com.programmers.order.type.VoucherType;
 
-@Component
-public class VoucherController {
+@Component("Voucher")
+public class VoucherController implements Controller {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
 	private final Input input;
 	private final Output output;
 	private final VoucherManagerFactory voucherManagerFactory;
-	private final VoucherRepository voucherRepository;
+	private final VoucherService voucherService;
 
 	public VoucherController(Input input, Output output, VoucherManagerFactory voucherManagerFactory,
-			VoucherRepository voucherRepository) {
+			VoucherService voucherRepository) {
 		this.input = input;
 		this.output = output;
 		this.voucherManagerFactory = voucherManagerFactory;
-		this.voucherRepository = voucherRepository;
+		this.voucherService = voucherRepository;
 	}
 
+	@Override
 	public void run() {
 		MenuType menuType = MenuType.NONE;
 
 		while (menuType.isReEnter()) {
-			String menu = input.read(BasicMessage.INIT);
+			String menu = input.read(BasicMessage.VOUCHER_INIT);
 			menuType = MenuType.of(menu);
 
 			switch (menuType) {
@@ -63,6 +65,11 @@ public class VoucherController {
 		output.write(BasicMessage.EXIT);
 	}
 
+	@Override
+	public ProgramType getType() {
+		return ProgramType.VOUCHER;
+	}
+
 	// todo : 스코프 범위 줄이기(불필요한 부분 삭제)
 	private void createVoucher() {
 		VoucherType voucherType = VoucherType.NONE;
@@ -74,7 +81,7 @@ public class VoucherController {
 
 		try {
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
-			voucherRepository.saveVoucher(voucherManager.create());
+			voucherService.save(voucherManager.create());
 		} catch (ServiceException.NotSupportedException exception) {
 			output.write(ErrorMessage.CLIENT_ERROR);
 			logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
@@ -85,7 +92,7 @@ public class VoucherController {
 	private void showVouchers() {
 		output.write(BasicMessage.NEW_LINE);
 
-		List<Voucher> vouchers = voucherRepository.getVouchers();
+		List<Voucher> vouchers = voucherService.lookUp();
 
 		if (vouchers.isEmpty()) {
 			output.write(BasicMessage.NOT_EXIST_DATE);
