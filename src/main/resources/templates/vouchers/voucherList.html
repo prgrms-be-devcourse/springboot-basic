@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
 <body>
+<h2 th:text="#{page.voucher.list}">바우처 목록</h2>
 <div>
     <table class="table">
         <thead>

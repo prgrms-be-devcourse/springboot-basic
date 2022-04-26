@@ -43,18 +43,18 @@ public class VoucherController {
     @PostMapping("voucher")
     public String createVoucher(@Valid @ModelAttribute("voucher") VoucherCreateForm form,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (isVoucherValueValid(form.getAmount(), form.getType())) {
+        if (isFormInputValid(bindingResult.hasErrors(), form.getAmount(), form.getType())) {
             var createdVoucher = voucherService.createVoucher(form.getAmount(), form.getType());
 
             redirectAttributes.addAttribute("voucherId", createdVoucher.getId());
             return "redirect:/vouchers/{voucherId}";
         }
 
-        return validateVoucherValue(form, bindingResult);
+        return redirectToForm(form, bindingResult);
     }
 
-    private boolean isVoucherValueValid(Integer amount, VoucherType type) {
-        return (amount != null && type != null) && voucherService.isValidAmount(amount, type);
+    private boolean isFormInputValid(boolean hasError, Integer amount, VoucherType type) {
+        return !hasError && (amount != null && type != null) && voucherService.isValidAmount(amount, type);
     }
 
     @GetMapping("vouchers/{voucherId}")
@@ -70,7 +70,7 @@ public class VoucherController {
     public String modifyVoucher(@PathVariable("voucherId") UUID voucherId, @Valid @ModelAttribute("voucher") VoucherUpdateForm form,
                                 BindingResult bindingResult) {
         log.info("postRequest for VoucherId = {}", voucherId);
-        if (isVoucherValueValid(form.getAmount(), form.getType())) {
+        if (isFormInputValid(bindingResult.hasErrors(), form.getAmount(), form.getType())) {
 //            voucherService.updateVoucher();
             return "redirect:vouchers/{voucherId}";
         }
@@ -84,19 +84,21 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-    private String validateVoucherValue(VoucherCreateForm form, BindingResult bindingResult) {
-        int minimumAmount = 0;
-        int maximumAmount = 0;
-        if (form.getType()== FIXED) {
-            minimumAmount=voucherProperty.getFixed().minimumAmount();
-            maximumAmount=voucherProperty.getFixed().maximumAmount();
-        }
-        if (form.getType()== RATE) {
-            minimumAmount=voucherProperty.getRate().minimumAmount();
-            maximumAmount=voucherProperty.getRate().maximumAmount();
-        }
+    private String redirectToForm(VoucherCreateForm form, BindingResult bindingResult) {
+        if (form.getType() != null || form.getAmount() != null) {
+            int minimumAmount = 0;
+            int maximumAmount = 0;
+            if (form.getType() == FIXED) {
+                minimumAmount = voucherProperty.getFixed().minimumAmount();
+                maximumAmount = voucherProperty.getFixed().maximumAmount();
+            }
+            if (form.getType() == RATE) {
+                minimumAmount = voucherProperty.getRate().minimumAmount();
+                maximumAmount = voucherProperty.getRate().maximumAmount();
+            }
 
-        bindingResult.reject("form.voucher.value", new Object[]{form.getType().getName(), minimumAmount, maximumAmount}, "부적합한 값입니다.");
+            bindingResult.reject("form.voucher.value", new Object[]{form.getType().getName(), minimumAmount, maximumAmount}, "부적합한 값입니다.");
+        }
         return "vouchers/createVoucher";
     }
 
