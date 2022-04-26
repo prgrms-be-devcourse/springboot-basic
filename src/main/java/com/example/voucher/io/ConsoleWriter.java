@@ -2,10 +2,10 @@ package com.example.voucher.io;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleWriter implements Output {
+public class ConsoleWriter<T> implements Output<T> {
 
 	@Override
-	public void printMessage(Object message) {
-		
+	public void printMessage(T message) {
+
 	}
 }
