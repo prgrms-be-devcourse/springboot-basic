@@ -1,9 +1,8 @@
 package org.prgms.wallet;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.prgms.customer.Customer;
 import org.prgms.customer.repository.CustomerRepository;
 import org.prgms.voucher.domain.FixedAmountVoucher;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class WalletRepositoryTest {
 
@@ -42,7 +40,7 @@ class WalletRepositoryTest {
     private final Wallet wallet2 = new Wallet(UUID.randomUUID(), newCustomer2.customerId(), voucher.getVoucherId());
     private final Wallet wallet3 = new Wallet(UUID.randomUUID(), newCustomer.customerId(), voucher2.getVoucherId());
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
         // Foreign Key 조건의 만족을 위해 미리 insert 해줌
         customerRepository.save(newCustomer);

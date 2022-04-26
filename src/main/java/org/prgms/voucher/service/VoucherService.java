@@ -29,6 +29,7 @@ public class VoucherService {
 
     public long useVoucher(long beforeDiscount, UUID voucherId) {
         var voucher = voucherRepository.findById(voucherId);
+
         if (voucher.isEmpty())
             return beforeDiscount;
 

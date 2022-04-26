@@ -1,12 +1,12 @@
 package org.prgms.voucher;
 
-import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
 import org.prgms.voucher.domain.FixedAmountVoucher;
 import org.prgms.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucher.domain.Voucher;
 
 import java.util.UUID;
 
@@ -27,7 +27,7 @@ class VoucherTest {
     @Test
     @DisplayName("FixedVoucher 할인 적용 테스트")
     void fixedVoucherApplyTest() {
-        val fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
 
         assertThat(fixedVoucher.apply(100)).isEqualTo(100 - fixedVoucher.getDiscountAmount());
     }
@@ -35,7 +35,7 @@ class VoucherTest {
     @Test
     @DisplayName("PercentVoucher 할인 적용 테스트")
     void percentVoucherApplyTest() {
-        val percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
+        Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
 
         assertThat(percentVoucher.apply(1000)).isEqualTo((long) (1000 * (1 - percentVoucher.getDiscountAmount() / 100.0)));
     }

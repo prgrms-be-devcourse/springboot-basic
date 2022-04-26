@@ -77,7 +77,7 @@ public class CustomerRepository {
 
 
     public int save(Customer customer) {
-        var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
+        int update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
 
         checkState(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
 
@@ -96,7 +96,7 @@ public class CustomerRepository {
 
 
     public void update(Customer targetCustomer) {
-        var update = jdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 UPDATE_NAME_BY_ID_QUERY,
                 targetCustomer.name(),
                 UuidUtils.uuidToBytes(targetCustomer.customerId())
@@ -107,9 +107,10 @@ public class CustomerRepository {
 
     private Customer mapToCustomer(ResultSet resultSet, int rowNum) {
         try {
-            var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
-            var name = resultSet.getString("name");
-            var email = resultSet.getString("email");
+            UUID customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
+            String name = resultSet.getString("name");
+            String email = resultSet.getString("email");
+
             return new Customer(customerId, name, email);
         } catch (SQLException e) {
             throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));
