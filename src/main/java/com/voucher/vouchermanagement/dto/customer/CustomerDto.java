@@ -28,4 +28,15 @@ public class CustomerDto {
                 customer.getLastLoginAt(),
                 customer.getCreatedAt());
     }
+
+    @Override
+    public String toString() {
+        return "CustomerDto{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", lastLoginAt=" + lastLoginAt +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

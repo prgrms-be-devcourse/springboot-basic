@@ -1,11 +1,10 @@
 package com.voucher.vouchermanagement.manager;
 
+import com.voucher.vouchermanagement.dto.customer.CustomerDto;
 import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
 import com.voucher.vouchermanagement.manager.command.CommandType;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerInput;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerOutput;
-import com.voucher.vouchermanagement.model.customer.Customer;
-import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.service.blacklist.BlacklistService;
 import com.voucher.vouchermanagement.service.voucher.VoucherService;
@@ -85,15 +84,15 @@ public class VoucherManager {
 
     private void printBlacklist() {
         this.output.println("===  [Blacklist]  ===");
-        List<Customer> blacklist = this.blackListService.findAll();
+        List<CustomerDto> blacklist = this.blackListService.findAll();
 
-        for (Customer user : blacklist) {
+        for (CustomerDto user : blacklist) {
             this.output.println(user.toString());
         }
     }
 
     private void logAndPrintException(Exception exception) {
-        this.logger.error(exception.getMessage());
+        logger.error(exception.getMessage());
         this.output.println(exception.getMessage());
     }
 }
