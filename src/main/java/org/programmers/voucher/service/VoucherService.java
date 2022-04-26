@@ -1,13 +1,10 @@
 package org.programmers.voucher.service;
 
-import org.programmers.voucher.domain.FixedAmountVoucher;
-import org.programmers.voucher.domain.PercentDiscountVoucher;
 import org.programmers.voucher.domain.Voucher;
 import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.repository.VoucherRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -23,9 +20,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    //todo
-    public Voucher makeVoucher(VoucherType voucherType){
-
-        return null;
+    public void makeVoucher(VoucherType voucherType, Long value){
+        Voucher voucher = VoucherType.makeVoucher(voucherType, value);
+        voucherRepository.save(voucher);
     }
 }

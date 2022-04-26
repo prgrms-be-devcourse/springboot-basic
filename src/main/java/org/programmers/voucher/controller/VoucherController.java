@@ -20,9 +20,9 @@ public class VoucherController implements Runnable {
     @Override
     public void run() {
         output.startProgram();
-        output.listCommand();
         Command cmd = null;
         do {
+            output.listCommand();
             try {
                 cmd = parseCommand();
             } catch (IllegalArgumentException e) {
@@ -38,7 +38,7 @@ public class VoucherController implements Runnable {
                 break;
             case CREATE:
                 output.listVoucherType();
-                voucherService.makeVoucher(input.inputVoucherType());
+                voucherService.makeVoucher(input.inputVoucherType(), input.inputValue());
                 break;
             case LIST:
                 output.listVoucher(voucherService.listVoucher());
