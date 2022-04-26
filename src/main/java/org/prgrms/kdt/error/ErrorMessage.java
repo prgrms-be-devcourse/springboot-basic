@@ -5,7 +5,8 @@ public enum ErrorMessage {
     NOTFOUND_MENU("입력하신 메뉴가 존재하지 않습니다."),
     NOTFOUND_VOUCHER("입력하신 바우처가 존재하지 않습니다."),
     INPUT_COUNT_ERROR("입력 개수가 올바르지 않습니다."),
-    FILE_ERROR("파일에 문제가 생겼습니다.");
+    FILE_ERROR("파일에 문제가 생겼습니다."),
+    INPUT_NUMBER_ERROR("숫자를 입려하셔야 합니다.");
 
     private final String message;
 
