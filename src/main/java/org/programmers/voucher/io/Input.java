@@ -6,6 +6,5 @@ import org.programmers.voucher.util.Command;
 public interface Input {
      Command inputCommand() throws IllegalArgumentException;
      VoucherType inputVoucherType() throws IllegalArgumentException;
-     long inputAmount();
-     double inputPercent();
+     Long inputValue();
 }
