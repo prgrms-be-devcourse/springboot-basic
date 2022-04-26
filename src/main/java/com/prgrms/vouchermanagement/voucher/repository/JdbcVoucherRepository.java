@@ -52,8 +52,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(Voucher voucher) throws DataAccessException {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id=:voucherId", Collections.singletonMap("voucherId", voucher.getVoucherId()));
+    public void remove(UUID voucherId) throws DataAccessException {
+        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id=:voucherId", Collections.singletonMap("voucherId", voucherId.toString()));
     }
 
     /**

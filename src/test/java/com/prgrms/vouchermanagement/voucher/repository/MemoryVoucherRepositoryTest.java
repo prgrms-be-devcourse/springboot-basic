@@ -98,7 +98,7 @@ class MemoryVoucherRepositoryTest {
         repository.save(voucher);
 
         // when
-        repository.remove(voucher);
+        repository.remove(voucher.getVoucherId());
 
         // then
         Optional<Voucher> findVoucher = repository.findById(voucher.getVoucherId());

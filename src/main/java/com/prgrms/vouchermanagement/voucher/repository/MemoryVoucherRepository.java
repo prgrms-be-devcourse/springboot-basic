@@ -42,10 +42,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(Voucher voucher) {
-        if (voucher == null) {
+    public void remove(UUID voucherId) {
+        if (voucherId == null) {
             return;
         }
-        store.remove(voucher.getVoucherId());
+        store.remove(voucherId);
     }
 }
