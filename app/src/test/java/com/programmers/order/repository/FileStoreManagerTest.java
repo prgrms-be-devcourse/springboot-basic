@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Profile;
 import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.PercentDiscountVoucher;
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.repository.voucher.FileVoucherRepository;
 import com.programmers.order.utils.FileUtils;
 
 @Profile("file")
@@ -77,10 +78,10 @@ class FileStoreManagerTest {
 				.boxed()
 				.map(val -> {
 					if (val < 5) {
-						return new FixedAmountVoucher(UUID.randomUUID(), val);
+						return FixedAmountVoucher.create(val);
 					}
 
-					return new PercentDiscountVoucher(UUID.randomUUID(), val);
+					return PercentDiscountVoucher.create( val);
 				}).toList();
 	}
 }
