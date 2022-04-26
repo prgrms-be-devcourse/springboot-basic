@@ -17,15 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
@@ -76,7 +72,7 @@ class MemoryVoucherRepositoryTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId+1);
+                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId + 1);
                 assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
                 assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
             }
