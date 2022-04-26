@@ -13,6 +13,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,7 +22,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 import javax.sql.DataSource;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,10 +37,8 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 
-@ActiveProfiles("test")
 @SpringJUnitConfig()
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepositoryTest.class);
@@ -68,17 +69,15 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     DataSource dataSource;
 
-    Customer newCustomer, nameCopyNewCustomer, emailCopyNewCustomer, otherCustomer;
+    Customer newCustomer, newCustomer2;
 
     EmbeddedMysql embeddedMysql;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
 
         newCustomer = new SimpleCustomer(UUID.randomUUID(), "test-customer", "test-customer@gmail.com", LocalDateTime.now());
-        nameCopyNewCustomer = new SimpleCustomer(UUID.randomUUID(), "test-customer", "test-customer1@gmail.com", LocalDateTime.now());
-        emailCopyNewCustomer = new SimpleCustomer(UUID.randomUUID(), "test-customer1", "test-customer@gmail.com", LocalDateTime.now());
-        otherCustomer = new SimpleCustomer(UUID.randomUUID(), "other-customer", "other-customer@gmail.com", LocalDateTime.now());
+        newCustomer2 = new SimpleCustomer(UUID.randomUUID(), "other-customer", "other-customer@gmail.com", LocalDateTime.now());
 
 
         var mysqlConfig = aMysqldConfig(v8_0_11)
@@ -91,129 +90,116 @@ class JdbcCustomerRepositoryTest {
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
                 .addSchema("test-jdbc-customer-mgmt", classPathScript("customerSchemaTest.sql"))
                 .start();
-
     }
 
-    @AfterAll
+    @AfterEach
     void cleanup() {
         embeddedMysql.stop();
     }
 
-
     @Test
-    @Order(1)
-    public void testHikariConnectionPool() {
-        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("customer insert 테스트")
     void testInsert() {
-        try {
-            customerRepository.insert(newCustomer);
-            customerRepository.insert(otherCustomer);
-        } catch (BadSqlGrammarException e) {
-            logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
-        }
 
-        System.out.println("new Customer : => " + newCustomer.getCustomerId());
+        customerRepository.insert(newCustomer);
+        customerRepository.insert(newCustomer2);
 
-        Optional<Customer> retrieveCustomer = customerRepository.findById(newCustomer.getCustomerId());
-        assertThat(retrieveCustomer.isEmpty(), is(false));
-        assertThat(retrieveCustomer.get(), samePropertyValuesAs(newCustomer));
-
+        Optional<Customer> retrieveNewCustomer = customerRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> retrieveOtherCustomer = customerRepository.findById(newCustomer2.getCustomerId());
+        assertThat(retrieveNewCustomer.isEmpty(), is(false));
+        assertThat(retrieveNewCustomer.get(), samePropertyValuesAs(newCustomer));
+        assertThat(retrieveOtherCustomer.get(), samePropertyValuesAs(newCustomer2));
     }
 
     @Test
-    @Order(3)
-    @Disabled
     @DisplayName("email이 같은 customer insert 테스트")
     void testInsertDuplicateByEmail() {
-        try {
-            customerRepository.insert(emailCopyNewCustomer);
-        } catch (BadSqlGrammarException e) {
-            logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
-        }
 
-        Optional<Customer> retrieveCustomer = customerRepository.findById(emailCopyNewCustomer.getCustomerId());
-        assertThat(retrieveCustomer.isEmpty(), is(false));
-        assertThat(retrieveCustomer.get(), samePropertyValuesAs(emailCopyNewCustomer));
+        customerRepository.insert(newCustomer);
 
+        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), "beomsic", newCustomer.getEmail(), LocalDateTime.now());
+
+        try{
+            customerRepository.insert(testCustomer);
+        } catch (DataAccessException e) {};
+
+        Optional<Customer> retrieveCustomer = customerRepository.findById(testCustomer.getCustomerId());
+        assertThat(retrieveCustomer.isEmpty(), is(true));
     }
+
     @Test
-    @Order(4)
     @DisplayName("이름이 같은 customer insert 테스트")
     void testInsertDuplicateByName() {
-        try {
-            customerRepository.insert(nameCopyNewCustomer);
-        } catch (BadSqlGrammarException e) {
-            logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
-        } catch (DuplicateKeyException duplicateKeyException) {
-            logger.error("testInsertByName - DuplicateKeyException -> {}", duplicateKeyException);
-        }
 
-        System.out.println("new Customer : => " + nameCopyNewCustomer.getCustomerId());
+        customerRepository.insert(newCustomer);
 
-        Optional<Customer> retrieveCustomer = customerRepository.findById(nameCopyNewCustomer.getCustomerId());
+        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), newCustomer.getName(), "beomsic@gmail.com", LocalDateTime.now());
+        customerRepository.insert(testCustomer);
+
+        Optional<Customer> retrieveCustomer = customerRepository.findById(testCustomer.getCustomerId());
         assertThat(retrieveCustomer.isEmpty(), is(false));
-        assertThat(retrieveCustomer.get(), samePropertyValuesAs(nameCopyNewCustomer));
-
+        assertThat(retrieveCustomer.get(), samePropertyValuesAs(testCustomer));
     }
 
     @Test
-    @Order(5)
-    @DisplayName("JdbcCustomerRepository 에 들어있는 customer 수 조회 테스트")
+    @DisplayName("customer 수 조회 테스트")
     void testCountJdbcCustomerRepository() {
-
-        assertThat(customerRepository.count() == 3, is(true));
-        System.out.println(customerRepository.count());
+        assertThat(customerRepository.count() == 0, is(true));
+        customerRepository.insert(newCustomer);
+        customerRepository.insert(newCustomer2);
+        assertThat(customerRepository.count() == 2, is(true));
     }
 
-
     @Test
-    @Order(5)
     @DisplayName("customer 전체 조회 테스트")
     void testFindAll() {
         List<Customer> customers = customerRepository.findAll();
-        customers.forEach(e -> System.out.println(MessageFormat.format("Email : {0}, name : {1}", e.getEmail(), e.getName())));
+        assertThat(customers.isEmpty(), is(true));
+        customerRepository.insert(newCustomer);
+        customerRepository.insert(newCustomer2);
         assertThat(customers.isEmpty(), is(false));
-
+        assertThat(customers, hasSize(2));
     }
 
     @Test
-    @Order(5)
     @DisplayName("customer Id 를 이용해 조회 테스트")
     void testFindById() {
+        customerRepository.insert(newCustomer);
         UUID customerId = newCustomer.getCustomerId();
         Optional<Customer> customer = customerRepository.findById(customerId);
+        assertThat(customer.isPresent(), is(true));
         assertThat(customer.get(), samePropertyValuesAs(newCustomer));
     }
 
 
     @Test
-    @Order(6)
     @DisplayName("저장되어 있는 customer 정보 수정 테스트")
     void testUpdateCustomer() {
+
+        customerRepository.insert(newCustomer);
+        customerRepository.insert(newCustomer2);
+
         newCustomer.changeName("updated-customer");
         customerRepository.update(newCustomer);
-
-        List<Customer> customers = customerRepository.findAll();
-        assertThat(customers, hasSize(3));
 
         Optional<Customer> retrievedCustomer = customerRepository.findById(newCustomer.getCustomerId());
         assertThat(retrievedCustomer.isEmpty(),is(false));
         assertThat(retrievedCustomer.get(),samePropertyValuesAs(newCustomer));
+
+        List<Customer> customers = customerRepository.findAll();
+        assertThat(customers, hasSize(2));
     }
 
     @Test
-    @Order(7)
     @DisplayName("customer 삭제 테스트")
     void testDeleteCustomer() {
-        customerRepository.delete(newCustomer);
+        customerRepository.insert(newCustomer);
         List<Customer> customers = customerRepository.findAll();
-        assertThat(customers, hasSize(2));
+        assertThat(customers, hasSize(1));
 
+        customerRepository.delete(newCustomer);
+        customers = customerRepository.findAll();
+        assertThat(customers.isEmpty(), is(true));
     }
 
 
