@@ -34,6 +34,7 @@ public class VoucherApplication implements ApplicationRunner {
 
 			switch (command) {
 				case CREATE : {
+					printVoucherTypePrompt();
 					VoucherType voucherType = getVoucherType();
 
 					if(voucherType == EMPTY) {
@@ -41,6 +42,7 @@ public class VoucherApplication implements ApplicationRunner {
 						continue;
 					}
 
+					printDiscountAmountPrompt();
 					int discountAmount = 0;
 					try {
 						discountAmount = getDiscountAmount();
@@ -75,8 +77,16 @@ public class VoucherApplication implements ApplicationRunner {
 		return CommandType.of(input.getString());
 	}
 
+	private void printVoucherTypePrompt() {
+		output.printMessage("바우처 타입(고정 금액 할인 -> FixedAmountVoucher, 퍼센트 금액 할인 -> PercentDiscountVoucher) 입력: ");
+	}
+
 	private VoucherType getVoucherType() {
 		return VoucherType.of(input.getString());
+	}
+
+	private void printDiscountAmountPrompt() {
+		output.printMessage("할인 값 입력:");
 	}
 
 	private int getDiscountAmount() {
