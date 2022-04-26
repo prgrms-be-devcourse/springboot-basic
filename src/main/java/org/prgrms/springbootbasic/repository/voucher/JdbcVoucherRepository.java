@@ -134,7 +134,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         var update = jdbcTemplate.update(
             UPDATE_CUSTOMER_ID_SQL,
-            voucher.getCustomerId().get().toString().getBytes(UTF_8),
+            voucher.getCustomerId().toString().getBytes(UTF_8),
             voucher.getVoucherId().toString().getBytes(UTF_8));
         if (update != 1) {
             throw new RuntimeException(NOTING_WAS_UPDATED_EXP_MSG);

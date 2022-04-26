@@ -78,7 +78,7 @@ public class VoucherService {
     }
 
     private void validateAssignedVoucher(Voucher voucher) {
-        if (voucher.getCustomerId().isPresent()) {
+        if (voucher.getCustomerId() != null) {
             throw new AlreadyAssignedVoucherException(ALREADY_ASSIGNED_VOUCHER_EXP_MSG);
         }
     }

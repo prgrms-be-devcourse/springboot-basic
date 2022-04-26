@@ -2,7 +2,6 @@ package org.prgrms.springbootbasic.entity.voucher;
 
 import java.io.Serializable;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.springbootbasic.entity.customer.Customer;
 
@@ -24,8 +23,8 @@ public abstract class Voucher implements Serializable {
         return voucherId;
     }
 
-    public Optional<UUID> getCustomerId() {
-        return Optional.ofNullable(customerId);
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public void assignCustomer(Customer customer) {
