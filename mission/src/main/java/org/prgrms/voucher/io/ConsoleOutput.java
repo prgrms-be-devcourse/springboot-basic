@@ -1,9 +1,11 @@
 package org.prgrms.voucher.io;
 
 import org.prgrms.voucher.CommandType;
+import org.prgrms.voucher.dto.VoucherDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class ConsoleOutput implements Output {
@@ -41,8 +43,8 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void printMessage(String response) {
+    public void printVoucherList(List<VoucherDto.VoucherResponse> data) {
 
-        System.out.println(response);
+        data.forEach(v -> System.out.println(v.toString()));
     }
 }

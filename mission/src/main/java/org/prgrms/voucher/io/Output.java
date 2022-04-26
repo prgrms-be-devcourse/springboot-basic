@@ -1,5 +1,9 @@
 package org.prgrms.voucher.io;
 
+import org.prgrms.voucher.dto.VoucherDto;
+
+import java.util.List;
+
 public interface Output {
 
     void printPrompt();
@@ -10,5 +14,5 @@ public interface Output {
 
     void printVoucherDiscountType();
 
-    void printMessage(String response);
+    void printVoucherList(List<VoucherDto.VoucherResponse> data);
 }

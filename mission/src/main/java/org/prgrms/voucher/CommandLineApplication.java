@@ -46,19 +46,15 @@ public class CommandLineApplication implements ApplicationRunner {
 
             switch (commandType) {
                 case CREATE -> {
-                    output.printVoucherType();
-                    String typeSelect = input.getString();
-                    output.printVoucherDiscountType();
-                    String discountValueInput = input.getString();
-
                     try {
-                        VoucherType voucherType = VoucherType.findByUserInput(typeSelect);
-                        long discountValue = Long.parseLong(discountValueInput);
+                        output.printVoucherType();
+                        VoucherType voucherType = input.getVoucherType();
+                        output.printVoucherDiscountType();
+                        long discountValue = input.getDiscountValue();
                         voucherController.create(new VoucherDto.VoucherRequest(discountValue, voucherType));
                     } catch (IllegalArgumentException illegalArgumentException) {
                         output.printInvalidInputError();
                     }
-
                 }
                 case LIST -> output.printVoucherList(voucherController.list().data());
 
