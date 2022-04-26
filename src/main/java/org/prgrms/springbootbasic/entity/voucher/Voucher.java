@@ -32,13 +32,9 @@ public abstract class Voucher implements Serializable {
         this.customerId = customer.getCustomerId();
     }
 
-    public boolean isFixed() {
-        return false;
-    }
+    public abstract boolean isFixed();
 
-    public boolean isPercent() {
-        return false;
-    }
+    public abstract boolean isPercent();
 
     @Override
     public boolean equals(Object o) {

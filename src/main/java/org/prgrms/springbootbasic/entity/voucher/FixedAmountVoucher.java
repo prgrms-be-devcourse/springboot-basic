@@ -42,6 +42,11 @@ public class FixedAmountVoucher extends Voucher {
         return true;
     }
 
+    @Override
+    public boolean isPercent() {
+        return false;
+    }
+
     public int getAmount() {
         return amount;
     }

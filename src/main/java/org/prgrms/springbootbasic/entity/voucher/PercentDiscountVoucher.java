@@ -38,6 +38,11 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
+    public boolean isFixed() {
+        return false;
+    }
+
+    @Override
     public boolean isPercent() {
         return true;
     }

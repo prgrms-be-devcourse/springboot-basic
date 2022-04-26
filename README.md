@@ -163,6 +163,6 @@
 
 ### 2차 피드백
 - [X] Entity -> DTO 전용 Converter 도입하기
-- [ ] Voucher 클래서 isFixed, isPercent 추상 메서드가 맞다는 생각이 든다.
+- [X] Voucher 클래서 isFixed, isPercent 추상 메서드가 맞다는 생각이 든다.
 - [ ] Voucher getCustomerId Optional이 필요한지 생각하기.
 - [ ] VO는 불편이 중요하다 (**기본**)
