@@ -3,12 +3,8 @@ package com.kdt.commandLineApp.voucher;
 import com.kdt.commandLineApp.exception.CanNotDiscountException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
 
 public enum VoucherType {
     FiXED("fixed") {
@@ -22,6 +18,7 @@ public enum VoucherType {
             return (currentPrice - amount);
         }
     },
+
     PERCENT("percent") {
         @Override
         public boolean isValidAmount(int percent) {
@@ -35,14 +32,13 @@ public enum VoucherType {
     };
 
     private final String type;
-    private static final Map<String, VoucherType> vouchertypeMap = Stream.of(values()).collect(toMap(Objects::toString, e -> e));
 
     VoucherType(String type) {
         this.type = type;
     }
 
     public float discount(int currentPrice, int amount) throws CanNotDiscountException {
-        return Float.valueOf(0);
+        return 0;
     }
 
     public boolean isValidAmount(int amount) {return true;}
@@ -52,7 +48,11 @@ public enum VoucherType {
         return type;
     }
 
-    public static VoucherType fromString(String type) throws WrongVoucherParamsException {
-        return Optional.ofNullable(vouchertypeMap.get(type)).orElseThrow(() -> new WrongVoucherParamsException());
+    public static VoucherType fromString(String value) throws WrongVoucherParamsException {
+        return Optional.ofNullable(find(value)).orElseThrow(() -> new WrongVoucherParamsException());
+    }
+
+    private static VoucherType find(String value) {
+        return Arrays.stream(values()).filter(type -> type.toString().equals(value)).findFirst().orElse(null);
     }
 }

@@ -23,7 +23,7 @@ class VoucherServiceTest {
         try {
             voucherRepository.deleteAll();
             voucherService.addVoucher("percent",100);
-            var result = voucherService.getVouchers().size();
+            int result = voucherService.getVouchers().size();
             assertThat(result, is(1));
 
             voucherService.addVoucher("fixed",100);

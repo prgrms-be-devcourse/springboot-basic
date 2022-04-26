@@ -1,5 +1,6 @@
 package com.kdt.commandLineApp.customer;
 
+import com.kdt.commandLineApp.AppProperties;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -12,15 +13,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toCollection;
 
 @Repository
-@Profile("dev")
 public class FileCustomerRepository implements CustomerRepository {
-    private final int COLUMN_COUNT = 3;
     private Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
     private List<Customer> customerBlackList = new ArrayList<>();
 
-    public FileCustomerRepository(@Value("${customer_blacklist_info}") String fileName) {
+    public FileCustomerRepository(AppProperties appProperties) {
         try {
-            loadFile(fileName);
+            loadFile(appProperties.getCustomer_blacklist_info());
         }
         catch (Exception e) {
             //no need to throw exception (it can use empty array list)
@@ -60,8 +59,8 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> get(UUID customerId) {
-        return Optional.ofNullable(customerMap.get(customerId));
+    public Optional<Customer> get(String id) {
+        return Optional.ofNullable(customerMap.get(UUID.fromString(id)));
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.kdt.commandLineApp.customer;
 
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,10 +14,9 @@ import java.util.*;
 import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 
 @Repository
-@Profile("db")
+@Primary
 public class JdbcCustomerRepository implements CustomerRepository{
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i)->{
         try {
@@ -31,6 +31,11 @@ public class JdbcCustomerRepository implements CustomerRepository{
             return null;
         }
     };
+
+    @Autowired
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
 
     @Override
     public List<Customer> getAllBlacklist() throws IOException {
@@ -47,24 +52,23 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public Optional<Customer> get(UUID customerId) {
+    public Optional<Customer> get(String id) {
         return Optional.ofNullable(
                 namedParameterJdbcTemplate.queryForObject(
                 "select * from mysql.customer where cid = UUID_TO_BIN(:customerId)",
-                Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                Collections.singletonMap("customerId", id.getBytes()),
                 customerRowMapper
         ));
     }
 
     @Override
     public void add(Customer customer) {
-        Map<String,Object> paramMap = new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("age", customer.getAge());
-            put("sex", customer.getSex());
-        }};
+        Map<String,Object> paramMap = new HashMap<>();
 
+        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("name", customer.getName());
+        paramMap.put("age", customer.getAge());
+        paramMap.put("sex", customer.getSex());
         namedParameterJdbcTemplate.update(
                 "insert into mysql.customer(cid, name, age, sex) values(UUID_TO_BIN(:customerId),:name,:age,:sex)",
                 paramMap

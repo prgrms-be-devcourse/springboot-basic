@@ -25,7 +25,6 @@ import javax.sql.DataSource;
 @EnableWebMvc
 @Configuration
 @ComponentScan(basePackages ="com.kdt.commandLineApp")
-@PropertySource("application.yaml")
 public class WebAppContext implements WebMvcConfigurer, ApplicationContextAware {
     ApplicationContext applicationContext;
 
@@ -54,12 +53,12 @@ public class WebAppContext implements WebMvcConfigurer, ApplicationContextAware 
     }
 
     @Bean
-    public DataSource dataSource(@Value("${db_driver_class}") String driver, @Value("${db_url}") String url, @Value("${db_user}") String user, @Value("${db_pwd}") String pwd) {
+    public DataSource dataSource(AppProperties appProperties) {
         return DataSourceBuilder.create()
-                .driverClassName(driver)
-                .url(url)
-                .username(user)
-                .password(pwd)
+                .driverClassName(appProperties.getDb_driver_class())
+                .url(appProperties.getDb_url())
+                .username(appProperties.getDb_user())
+                .password(appProperties.getDb_pwd())
                 .type(MysqlDataSource.class)
                 .build();
     }

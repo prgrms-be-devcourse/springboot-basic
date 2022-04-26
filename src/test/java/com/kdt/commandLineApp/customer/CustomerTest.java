@@ -16,7 +16,7 @@ class CustomerTest {
     @Test
     public void testCreateCustomer1() {
         try {
-            var customer = new Customer("moon","25","man");
+            Customer customer = new Customer("moon","25","man");
 
             assertThat(customer.getName(), is("moon"));
             assertThat(customer.getAge(), is(25));

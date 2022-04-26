@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.console;
 
 import com.kdt.commandLineApp.exception.WrongCommandException;
 
