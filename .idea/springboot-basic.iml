@@ -68,7 +68,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.18" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.28" level="project" />
-    <orderEntry type="library" name="Maven: com.h2database:h2:1.4.200" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: com.wix:wix-embedded-mysql:4.6.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: de.flapdoodle.embed:de.flapdoodle.embed.process:2.0.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-lang3:3.12.0" level="project" />
@@ -77,5 +76,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: commons-io:commons-io:2.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache.commons:commons-compress:1.19" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.tukaani:xz:1.8" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.16" level="project" />
   </component>
 </module>

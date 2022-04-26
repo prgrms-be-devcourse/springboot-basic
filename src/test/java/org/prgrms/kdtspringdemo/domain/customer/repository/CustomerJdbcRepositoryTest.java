@@ -1,34 +1,15 @@
 package org.prgrms.kdtspringdemo.domain.customer.repository;
 
 import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdtspringdemo.TestConfiguration;
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
-import static com.wix.mysql.config.Charset.UTF8;
-
-import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,76 +17,36 @@ import static org.hamcrest.Matchers.*;
 
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(classes = CustomerJdbcRepositoryTest.class)
 class CustomerJdbcRepositoryTest {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepositoryTest.class);
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdtspringdemo.domain.customer"}
-    )
-    static class Config {
-
-        @Bean
-        public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test-order_mgmt")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        @Bean
-        public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
-            return new TransactionTemplate(platformTransactionManager);
-        }
-    }
-
-    @Autowired
-    CustomerRepository customerRepository;
-
-    @Autowired
-    DataSource dataSource;
-
-    Customer newCustomer;
 
     EmbeddedMysql embeddedMysql;
 
+    @Autowired
+    CustomerJdbcRepository customerRepository;
+
+    Customer newCustomer;
+
     @BeforeAll
     void setup() {
-        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
-        var mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-order_mgmt", classPathScript("schema.sql"))
-                .start();
-//    customerJdbcRepository.deleteAll();
+        newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
+        TestConfiguration.clean(embeddedMysql);
     }
+    @AfterEach
+    void clean() {
+        customerRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("고객을 추가 할 수 있다.")
+    void testInsert() {
+        customerRepository.insert(newCustomer);
+
+        Optional<Customer> receiveCustomer = customerRepository.findById(newCustomer.getCustomerId());
+        assertThat(receiveCustomer.isEmpty(), is(false));
+        assertThat(receiveCustomer.get(), samePropertyValuesAs(newCustomer));
+    }
+
 
     @AfterAll
     void cleanup() {
@@ -137,20 +78,20 @@ class CustomerJdbcRepositoryTest {
         // then
         assertThat(updatedCustomer, samePropertyValuesAs(update));
     }
-    
+
     @Test
     @Order(2)
     @DisplayName("repository count 를 한다.")
     public void countTest () throws Exception{
         // given
         int count = customerRepository.count();
-        
+
         // when
 
         // then
         assertThat(count, is(1));
     }
-    
+
     @Test
     @Order(3)
     @DisplayName("모든 customer 를 찾아온다.")
@@ -161,7 +102,7 @@ class CustomerJdbcRepositoryTest {
 
         // when
         List<Customer> all = customerRepository.findAll();
-        
+
         // then
         assertThat(all.size(), is(customerRepository.count()));
         assertThat(all.get(1), samePropertyValuesAs(secondCustomer));
