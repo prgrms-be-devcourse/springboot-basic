@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.voucher.controller;
 
-import com.blessing333.springbasic.voucher.converter.VoucherConverter;
+import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
@@ -8,6 +8,7 @@ import com.blessing333.springbasic.voucher.repository.VoucherRepository;
 import com.blessing333.springbasic.voucher.service.VoucherService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,8 +29,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@RequiredArgsConstructor
 class RestVoucherControllerTest {
-    private final VoucherConverter converter = new VoucherConverter();
+    private final VoucherPayloadConverter converter = new VoucherPayloadConverter();
     @Autowired
     ObjectMapper mapper;
     @Autowired
@@ -45,7 +47,7 @@ class RestVoucherControllerTest {
         repository.deleteAll();
     }
 
-    @DisplayName("when 바우처 정보 전체 조회 _ given 입력값 정상 _ should return 상태코드 200, VoucherInformation.")
+    @DisplayName("when 바우처 정보 전체 조회 _ given 입력값 정상, json 포맷 요청 _ should return 상태코드 200, json VoucherInformation.")
     @Test
     void inquiryAllTest() throws Exception {
         saveVoucherToDB(Voucher.VoucherType.FIXED, 2000);
@@ -59,6 +61,20 @@ class RestVoucherControllerTest {
 
         List<VoucherInformation> lists = mapper.readValue(result.getResponse().getContentAsString(), mapper.getTypeFactory().constructCollectionType(List.class, VoucherInformation.class));
         assertThat(lists).hasSize(3);
+    }
+
+    @DisplayName("when 바우처 정보 전체 조회 _ given 입력값 정상, xml 포맷 요청 _ should return 상태코드 200, xml VoucherInformation.")
+    @Test
+    void inquiryAllTestWithXml() throws Exception {
+        saveVoucherToDB(Voucher.VoucherType.FIXED, 2000);
+        saveVoucherToDB(Voucher.VoucherType.FIXED, 4000);
+        saveVoucherToDB(Voucher.VoucherType.FIXED, 6000);
+
+        mockMvc.perform(get("/api/v1/vouchers")
+                        .accept(MediaType.APPLICATION_XML))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful())
+                .andReturn();
     }
 
     @DisplayName("바우처 ID로 조회 _ 정상 처리 _ 상태코드 200, 바우처 정보")
@@ -91,7 +107,7 @@ class RestVoucherControllerTest {
                 .andReturn();
 
         VoucherInformation voucherInformation = mapper.readValue(result.getResponse().getContentAsString(), VoucherInformation.class);
-        VoucherCreateForm form = converter.convert(payload);
+        VoucherCreateForm form = converter.toCreateForm(payload);
         assertThat(voucherInformation.getDiscountAmount()).isEqualTo(form.getDiscountAmount());
         assertThat(voucherInformation.getVoucherType()).isEqualTo(form.getVoucherType());
     }
@@ -110,7 +126,7 @@ class RestVoucherControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andReturn();
 
-        assertThrows(IllegalArgumentException.class, () -> service.loadVoucherInformationById(voucher.getVoucherId()));
+        assertThrows(IllegalArgumentException.class, () -> service.loadVoucherById(voucher.getVoucherId()));
     }
 
     @DisplayName("바우처 타입으로 조회 _ 고정 바우처 타입 정상입력 _ 상태코드 200,입력된 바우처 타입에 해당하는 모든 바우처 정보.")

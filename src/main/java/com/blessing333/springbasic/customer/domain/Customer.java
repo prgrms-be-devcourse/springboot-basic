@@ -37,10 +37,6 @@ public class Customer {
         this.name = name;
     }
 
-    public void changeLastLoginDate(LocalDateTime time) {
-        this.lastLoginAt = time;
-    }
-
     public void changeEmail(String email){
         this.email = email;
     }

@@ -4,11 +4,9 @@ import com.blessing333.springbasic.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("test")
@@ -28,7 +26,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return voucherStore.values().stream().toList();
+        return new ArrayList<>(voucherStore.values());
     }
 
     @Override
@@ -48,6 +46,6 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findByVoucherType(Voucher.VoucherType type) {
-        return voucherStore.values().stream().filter(voucher -> voucher.getVoucherType() == type).toList();
+        return voucherStore.values().stream().filter(voucher -> voucher.getVoucherType() == type).collect(Collectors.toList());
     }
 }

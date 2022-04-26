@@ -1,6 +1,6 @@
 package com.blessing333.springbasic.voucher.controller;
 
-import com.blessing333.springbasic.voucher.converter.VoucherConverter;
+import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
@@ -17,7 +17,7 @@ import java.util.UUID;
 public class RestVoucherController {
     private static final String API_URL = "/api/v1/vouchers";
     private final VoucherService voucherService;
-    private final VoucherConverter converter = new VoucherConverter();
+    private final VoucherPayloadConverter converter = new VoucherPayloadConverter();
 
     @GetMapping(API_URL)
     public List<VoucherInformation> loadAllVoucher(@RequestParam(required = false) String voucherTypeCode) {
@@ -33,13 +33,13 @@ public class RestVoucherController {
 
     @GetMapping(API_URL + "/{voucherId}")
     public VoucherInformation loadVoucherById(@PathVariable UUID voucherId) {
-        Voucher voucher = voucherService.loadVoucherInformationById(voucherId);
+        Voucher voucher = voucherService.loadVoucherById(voucherId);
         return VoucherInformation.fromEntity(voucher);
     }
 
     @PostMapping(API_URL)
     public VoucherInformation registerNewVoucher(@RequestBody VoucherCreateFormPayload payload) {
-        VoucherCreateForm form = converter.convert(payload);
+        VoucherCreateForm form = converter.toCreateForm(payload);
         Voucher result = voucherService.registerVoucher(form);
         return VoucherInformation.fromEntity(result);
     }

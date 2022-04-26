@@ -1,15 +1,17 @@
 package com.blessing333.springbasic.voucher.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 
-@Getter
+
+@NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter(AccessLevel.PRIVATE)
 public class VoucherCreateFormPayload {
     @NotBlank
-    String voucherType;
+    private String voucherType;
     @NotBlank
-    String discountAmount;
+    private String discountAmount;
 }

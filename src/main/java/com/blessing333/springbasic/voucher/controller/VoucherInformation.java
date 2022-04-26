@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Getter
@@ -23,6 +24,6 @@ public class VoucherInformation implements Serializable {
     }
 
     public static List<VoucherInformation> fromEntity(List<Voucher> vouchers){
-        return vouchers.stream().map(VoucherInformation::fromEntity).toList();
+        return vouchers.stream().map(VoucherInformation::fromEntity).collect(Collectors.toList());
     }
 }

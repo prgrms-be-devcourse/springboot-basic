@@ -1,11 +1,10 @@
 package com.blessing333.springbasic.console_app.voucher;
 
-import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.console_app.RunnableController;
 import com.blessing333.springbasic.console_app.ui.CommandNotSupportedException;
 import com.blessing333.springbasic.console_app.voucher.ui.VoucherCommandOptionType;
 import com.blessing333.springbasic.console_app.voucher.ui.VoucherManagerUserInterface;
-import com.blessing333.springbasic.voucher.converter.VoucherConverter;
+import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
@@ -25,7 +24,7 @@ import java.util.List;
 public class ConsoleVoucherController implements RunnableController {
     private final VoucherService voucherService;
     private final VoucherManagerUserInterface userInterface;
-    private final VoucherConverter voucherConverter;
+    private final VoucherPayloadConverter voucherPayloadConverter;
 
     @Override
     public void startService() {
@@ -42,7 +41,7 @@ public class ConsoleVoucherController implements RunnableController {
                     default -> userInterface.showHelpText();
                 }
             } catch (CommandNotSupportedException e) {
-                log.error(ExceptionStackTraceConverter.convertToString(e));
+                log.error(e.getMessage(),e);
                 userInterface.showHelpText();
             }
         }
@@ -51,11 +50,11 @@ public class ConsoleVoucherController implements RunnableController {
     private void startCreateNewVoucher(){
         try {
             VoucherCreateFormPayload form = userInterface.requestVoucherInformation();
-            VoucherCreateForm convertedForm = voucherConverter.convert(form);
+            VoucherCreateForm convertedForm = voucherPayloadConverter.toCreateForm(form);
             Voucher newVoucher = voucherService.registerVoucher(convertedForm);
             userInterface.printVoucherCreateSuccessMessage(newVoucher);
         } catch (VoucherCreateFailException e){
-            log.error(ExceptionStackTraceConverter.convertToString(e));
+            log.error(e.getMessage(),e);
             userInterface.printMessage(e.getMessage());
         }
     }

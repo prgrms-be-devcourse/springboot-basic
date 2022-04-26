@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class VoucherConverterTest {
-    private final VoucherConverter voucherConverter = new VoucherConverter();
+class VoucherPayloadConverterTest {
+    private final VoucherPayloadConverter voucherPayloadConverter = new VoucherPayloadConverter();
 
     @DisplayName("VoucherCreateForm 정상 변환")
     @Test
@@ -19,7 +19,7 @@ class VoucherConverterTest {
         String discountAmount = "5000";
         VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(voucherTypeNumber, discountAmount);
 
-        VoucherCreateForm voucherCreateForm = voucherConverter.convert(voucherCreateFormPayload);
+        VoucherCreateForm voucherCreateForm = voucherPayloadConverter.toCreateForm(voucherCreateFormPayload);
 
         assertThat(voucherCreateForm.getVoucherType()).isEqualTo(Voucher.VoucherType.FIXED);
         assertThat(voucherCreateForm.getDiscountAmount()).isEqualTo(Integer.parseInt(discountAmount));
@@ -32,7 +32,7 @@ class VoucherConverterTest {
         String discountAmount = "5000";
         VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(invalidVoucherTypeNumber, discountAmount);
 
-        assertThrows(ConvertFailException.class, () -> voucherConverter.convert(voucherCreateFormPayload));
+        assertThrows(ConvertFailException.class, () -> voucherPayloadConverter.toCreateForm(voucherCreateFormPayload));
     }
 
     @DisplayName("VoucherCreateForm 변환 실패 - 비정상적인 discountAmount")
@@ -42,7 +42,7 @@ class VoucherConverterTest {
         String discountAmount = "-1000";
         VoucherCreateFormPayload voucherCreateFormPayload = new VoucherCreateFormPayload(voucherTypeNumber, discountAmount);
 
-        assertThrows(ConvertFailException.class, () -> voucherConverter.convert(voucherCreateFormPayload));
+        assertThrows(ConvertFailException.class, () -> voucherPayloadConverter.toCreateForm(voucherCreateFormPayload));
     }
 
 }

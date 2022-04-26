@@ -18,8 +18,11 @@ import java.util.*;
 @Slf4j
 public class JdbcTemplateVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_ID = "voucherId";
+    private static final String VOUCHER_ID_COLUMN = "voucher_id";
     private static final String VOUCHER_TYPE = "voucherType";
+    private static final String VOUCHER_TYPE_COLUMN = "voucher_type";
     private static final String DISCOUNT_AMOUNT = "discountAmount";
+    private static final String DISCOUNT_AMOUNT_COLUMN = "discount_amount";
     private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount_amount) VALUES (:voucherId, :voucherType, :discountAmount)";
     private static final String UPDATE_SQL = "UPDATE vouchers SET discount_amount = :discountAmount WHERE voucher_id = :voucherId";
     private static final String FIND_ALL_SQL = "SELECT * FROM vouchers";
@@ -85,9 +88,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     private static class VoucherRowMapper implements RowMapper<Voucher> {
         @Override
         public Voucher mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-            var voucherId = UUIDUtil.toUUID(resultSet.getBytes(VOUCHER_ID));
-            var voucherType = resultSet.getString(VOUCHER_TYPE);
-            int discountAmount = resultSet.getInt(DISCOUNT_AMOUNT);
+            var voucherId = UUIDUtil.toUUID(resultSet.getBytes(VOUCHER_ID_COLUMN));
+            var voucherType = resultSet.getString(VOUCHER_TYPE_COLUMN);
+            int discountAmount = resultSet.getInt(DISCOUNT_AMOUNT_COLUMN);
             return new Voucher(voucherId, voucherType, discountAmount);
         }
     }

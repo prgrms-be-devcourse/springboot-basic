@@ -2,6 +2,7 @@ package com.blessing333.springbasic.voucher.service;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
+import com.blessing333.springbasic.voucher.dto.VoucherUpdateForm;
 import com.blessing333.springbasic.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ public class DefaultVoucherService implements VoucherService {
     }
 
     @Override
-    public Voucher loadVoucherInformationById(UUID voucherId) {
+    public Voucher loadVoucherById(UUID voucherId) {
         return repository.findById(voucherId).orElseThrow(IllegalArgumentException::new);
     }
 
@@ -42,8 +43,18 @@ public class DefaultVoucherService implements VoucherService {
         return repository.findByVoucherType(type);
     }
 
+    @Transactional
     @Override
     public void deleteVoucher(UUID voucherId) {
         repository.deleteById(voucherId);
+    }
+
+    @Transactional
+    @Override
+    public void updateVoucher(VoucherUpdateForm form){
+        Voucher target = repository.findById(form.getVoucherId()).orElseThrow(IllegalArgumentException::new);
+        target.changeVoucherType(form.getVoucherType());
+        target.changeDiscountAmount(form.getDiscountAmount());
+        repository.update(target);
     }
 }
