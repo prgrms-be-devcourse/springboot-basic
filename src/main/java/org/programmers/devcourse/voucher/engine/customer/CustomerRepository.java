@@ -21,6 +21,5 @@ public interface CustomerRepository {
   int delete(Customer customer);
 
   Customer update(Customer customer);
-
-
+  
 }

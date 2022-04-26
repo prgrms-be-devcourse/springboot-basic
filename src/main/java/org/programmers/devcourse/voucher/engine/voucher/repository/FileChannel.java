@@ -27,7 +27,6 @@ public class FileChannel implements AutoCloseable {
   public FileChannel(FileDBProperties properties) throws FileNotFoundException {
     String rootPath = System.getProperty("user.dir");
     dbFile = Path.of(rootPath, properties.getFilename()).toFile();
-
     initialize();
   }
 
@@ -59,7 +58,6 @@ public class FileChannel implements AutoCloseable {
       throw new VoucherException("DBFile cleanup Failed");
     }
     initialize();
-
   }
 
 

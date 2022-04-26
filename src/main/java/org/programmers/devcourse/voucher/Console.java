@@ -44,7 +44,6 @@ public class Console implements Input, Output {
     for (VoucherType voucherType : VoucherType.values()) {
       System.out.printf("%s --> type %d%n", voucherType.name(), voucherType.ordinal() + 1);
     }
-
     return consoleReader.readLine();
   }
 
@@ -67,9 +66,7 @@ public class Console implements Input, Output {
 
   @Override
   public void printInputError(String message) {
-
     System.out.println(MessageFormat.format("[ERROR] : {0}", message));
-
   }
 
   @Override
@@ -86,7 +83,6 @@ public class Console implements Input, Output {
     var voucherString = new StringBuilder();
     voucherString.append("=== VoucherList ===\n");
     vouchers.forEach(voucher -> voucherString.append(voucher).append("\n"));
-
     System.out.println(voucherString);
   }
 
@@ -99,7 +95,6 @@ public class Console implements Input, Output {
       buffer.append("EMPTY\n");
     } else {
       list.forEach(blackList -> buffer.append(blackList.toString()).append("\n"));
-
     }
     buffer.append("============================\n");
     System.out.println(buffer);

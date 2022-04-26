@@ -5,6 +5,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -24,10 +25,10 @@ class FileVoucherRepositoryTest {
 
   static Stream<Arguments> voucherSource() throws VoucherDiscountDegreeOutOfRangeException {
     return Stream.of(arguments(List.of(
-        FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L),
-        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50),
-        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75),
-        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11)
+        FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()),
+        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50, LocalDateTime.now()),
+        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 7, LocalDateTime.now()),
+        PercentDiscountVoucher.factory.create(UUID.randomUUID(), 1, LocalDateTime.now())
     )));
   }
 
@@ -119,8 +120,7 @@ class FileVoucherRepositoryTest {
 
     //given
     var fileChannelMock = mock(FileChannel.class);
-    var serializedVouchers = incomingVouchers.stream().map(FileVoucherRepository.serializer)
-        .toArray(String[]::new);
+    var serializedVouchers = incomingVouchers.stream().map(FileVoucherRepository.serializer).toArray(String[]::new);
     when(fileChannelMock.readAllLines()).thenReturn(serializedVouchers);
     var repository = new FileVoucherRepository(fileChannelMock);
     var initialSize = repository.getAllVouchers().size();

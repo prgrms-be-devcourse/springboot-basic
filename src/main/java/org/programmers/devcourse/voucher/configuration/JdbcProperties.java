@@ -7,6 +7,5 @@ public interface JdbcProperties {
   String getPassword();
 
   String getUrl();
-
-
+  
 }

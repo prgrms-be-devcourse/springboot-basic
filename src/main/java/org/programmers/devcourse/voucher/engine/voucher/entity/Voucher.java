@@ -1,5 +1,6 @@
 package org.programmers.devcourse.voucher.engine.voucher.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -8,7 +9,8 @@ public interface Voucher {
 
   UUID getVoucherId();
 
+  LocalDateTime getCreatedAt();
+
   long discount(long beforeDiscount);
-
-
+  
 }

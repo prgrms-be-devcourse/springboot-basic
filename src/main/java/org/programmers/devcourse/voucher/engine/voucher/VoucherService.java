@@ -22,7 +22,7 @@ public class VoucherService {
     // validation
     var voucherType = VoucherType.from(voucherTypeId).orElseThrow(() -> new VoucherException("Invalid Voucher Type Id"));
 
-    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData);
+    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData, null);
     voucherRepository.save(voucher);
     return voucher.getVoucherId();
   }

@@ -1,6 +1,7 @@
 package org.programmers.devcourse.voucher.engine.voucher.entity;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeOutOfRangeException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
@@ -13,8 +14,8 @@ public class PercentDiscountVoucher extends
   private final UUID voucherId;
   private final long discountPercent;
 
-  private PercentDiscountVoucher(UUID voucherId, long discountPercent)
-      throws VoucherDiscountDegreeOutOfRangeException {
+  private PercentDiscountVoucher(UUID voucherId, long discountPercent, LocalDateTime createdAt) throws VoucherDiscountDegreeOutOfRangeException {
+    super(createdAt);
     if (discountPercent > 100 || discountPercent <= 0) {
       throw new VoucherDiscountDegreeOutOfRangeException("Discount percent out of range(1-100)");
     }
@@ -39,9 +40,7 @@ public class PercentDiscountVoucher extends
 
   @Override
   public String toString() {
-    return MessageFormat.format("PercentDiscountVoucher : Id = {0}, DiscountPercent = {1}%",
-        voucherId,
-        discountPercent);
+    return MessageFormat.format("PercentDiscountVoucher : Id = {0}, DiscountPercent = {1}%", voucherId, discountPercent);
   }
 
   @Override

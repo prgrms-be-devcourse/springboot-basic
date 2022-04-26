@@ -3,6 +3,7 @@ package org.programmers.devcourse.voucher.engine.voucher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +22,7 @@ class PercentDiscountVoucherTest {
   })
   void discount_price_by_percent_in_normal_situation(long beforeDiscount, long discountDegree,
       long afterDiscount) throws VoucherDiscountDegreeOutOfRangeException {
-    Voucher voucher0 = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree);
+    Voucher voucher0 = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now());
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
 
@@ -36,7 +37,7 @@ class PercentDiscountVoucherTest {
   void throw_exception_when_discount_degree_is_not_in_1_to_100(long discountDegree) {
     var tempUUID = UUID.randomUUID();
     assertThatThrownBy(() -> {
-      PercentDiscountVoucher.factory.create(tempUUID, discountDegree);
+      PercentDiscountVoucher.factory.create(tempUUID, discountDegree, LocalDateTime.now());
     }).isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
@@ -46,9 +47,8 @@ class PercentDiscountVoucherTest {
       "100000,100",
       "99999,100"
   })
-  void return_zero_when_discount_degree_is_100(long beforeDiscount,
-      long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
-    long discountedPrice = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree)
+  void return_zero_when_discount_degree_is_100(long beforeDiscount, long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
+    long discountedPrice = PercentDiscountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now())
         .discount(beforeDiscount);
 
     assertThat(discountedPrice).isZero();

@@ -16,9 +16,7 @@ public class UUIDMapper {
 
   public static UUID fromBytes(byte[] bytes) {
     var buffer = ByteBuffer.wrap(bytes);
-
     return new UUID(buffer.getLong(), buffer.getLong());
-
   }
 
 }

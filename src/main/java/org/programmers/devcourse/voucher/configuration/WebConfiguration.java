@@ -17,11 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "org.programmers.devcourse.voucher.engine")
 public class WebConfiguration implements WebMvcConfigurer {
 
-
   @Override
   public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/api/**")
-        .allowedOrigins("*");
+    registry.addMapping("/api/**").allowedOrigins("*");
   }
 
   @Override

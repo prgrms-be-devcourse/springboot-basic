@@ -10,7 +10,6 @@ public interface Output extends AutoCloseable {
   void print(String data);
 
   void printAllVouchers(Collection<Voucher> vouchers);
-
-
+  
   void printBlackList(List<BlackList> list);
 }

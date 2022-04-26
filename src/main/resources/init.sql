@@ -12,6 +12,6 @@ CREATE TABLE vouchers
 (
     voucher_id      BINARY(16) PRIMARY KEY,
     type            varchar(1) CHECK ( type IN ('1', '2') ) NOT NULL,
-    discount_degree INT UNSIGNED                            NOT NULL
-
+    discount_degree INT UNSIGNED                            NOT NULL,
+    created_at      datetime(6)                             NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
 );

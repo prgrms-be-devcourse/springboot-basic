@@ -11,20 +11,15 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVo
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 public enum VoucherType {
-  FIXED_AMOUNT("1",
-      "$", FixedAmountVoucher.factory),
-  PERCENT_DISCOUNT("2",
-      "%", PercentDiscountVoucher.factory);
+  FIXED_AMOUNT("1", "$", FixedAmountVoucher.factory),
+  PERCENT_DISCOUNT("2", "%", PercentDiscountVoucher.factory);
 
   private static final Map<String, VoucherType> idToMapperStorage = Collections.unmodifiableMap(
-      Stream.of(VoucherType.values())
-          .collect(Collectors.toMap(value -> value.typeId, value -> value)));
-
+      Stream.of(VoucherType.values()).collect(Collectors.toMap(value -> value.typeId, value -> value)));
 
   private final String typeId;
   private final String unit;
   private final VoucherFactory factory;
-
 
   VoucherType(String typeId, String unit,
       VoucherFactory factory) {
@@ -47,7 +42,6 @@ public enum VoucherType {
     throw new VoucherException("No corresponding voucher type");
   }
 
-  // 바우처의 타입을 확인하고 그것에 맞는 unit을 return한다.
   public static String mapToUnit(Voucher voucher) {
     // 바우처의 타입을 확인한다.
     if (FixedAmountVoucher.class.equals(voucher.getClass())) {

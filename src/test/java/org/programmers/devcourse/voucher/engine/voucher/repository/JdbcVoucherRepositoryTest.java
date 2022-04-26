@@ -3,6 +3,7 @@ package org.programmers.devcourse.voucher.engine.voucher.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,10 +21,10 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
 
   private static JdbcVoucherRepository repository;
   private final static List<Voucher> vouchersToTest = List.of(
-      FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11)
+      FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50, LocalDateTime.now()),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75, LocalDateTime.now()),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11, LocalDateTime.now())
   );
 
   @BeforeAll
@@ -83,7 +84,7 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
   void transaction_test() {
     assertThatThrownBy(() ->
         repository.runTransaction(() -> {
-          repository.save(FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L));
+          repository.save(FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()));
           repository.save(vouchersToTest.get(0));
           repository.save(vouchersToTest.get(0));
           repository.save(vouchersToTest.get(0));

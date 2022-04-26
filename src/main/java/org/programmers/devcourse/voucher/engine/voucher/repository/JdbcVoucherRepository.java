@@ -52,9 +52,9 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
     var type = resultSet.getString("type");
     var discountDegree = resultSet.getInt("discount_degree");
+    var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-    return VoucherType.from(type).orElseThrow(SQLException::new).getFactory()
-        .create(voucherId, discountDegree);
+    return VoucherType.from(type).orElseThrow(SQLException::new).getFactory().create(voucherId, discountDegree, createdAt);
   };
 
   private Map<String, Object> mapToParam(Voucher voucher) {
@@ -77,7 +77,7 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
   public Optional<Voucher> getVoucherById(UUID voucherId) {
     try {
       var voucher = namedParameterJdbcTemplate.queryForObject(
-          "SELECT voucher_id , type, discount_degree FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+          "SELECT voucher_id , type, discount_degree,created_at FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
           Map.of(SqlMapperKeys.VOUCHER_ID, UUIDMapper.toBytes(voucherId)),
           voucherRowMapper);
       return Optional.ofNullable(voucher);
@@ -89,7 +89,7 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
   @Override
   public List<Voucher> getAllVouchers() {
     return namedParameterJdbcTemplate.query(
-        "SELECT voucher_id, type, discount_degree FROM vouchers", voucherRowMapper);
+        "SELECT voucher_id, type, discount_degree,created_at FROM vouchers", voucherRowMapper);
   }
 
   @Override
