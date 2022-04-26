@@ -19,10 +19,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 
+    @Transactional
     public Voucher getVoucher(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
         if (voucher.isEmpty()) {
@@ -31,10 +33,12 @@ public class VoucherService {
         return voucher.get();
     }
 
+    @Transactional
     public List<Voucher> getVouchersByCustomerId(Customer customer) {
         return voucherRepository.findByCustomer(customer);
     }
 
+    @Transactional
     public Voucher insertVoucher(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }

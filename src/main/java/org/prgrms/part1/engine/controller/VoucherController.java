@@ -34,7 +34,7 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/new")
-    public String viewNewVocherPage(Model model) {
+    public String viewNewVoucherPage(Model model) {
         return "views/new-voucher";
     }
 
