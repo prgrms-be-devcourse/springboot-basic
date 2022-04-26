@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import static com.example.voucher.exception.ErrorMessage.UNSUPPORTED_MESSAGE_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -44,12 +45,13 @@ public class OutputTest {
         class 지원하지_않는_타입의_메시지가_넘어온다면 {
 
             @Test
-            @DisplayName("처리하지 않고 리턴한다")
-            void 처리하지_않고_리턴한다() {
-                output.printMessage("지원하지 않는 타입의 메시지입니다.");
+            @DisplayName("예외를 출력한다")
+            void 예외를_출력한다() {
+                int unsupportedType = 1;
+                output.printMessage(unsupportedType);
 
                 String result = out.toString();
-                assertThat(result).isEmpty();
+                assertThat(result).isEqualTo(UNSUPPORTED_MESSAGE_TYPE.name()+"\n");
 
             }
         }
