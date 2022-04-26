@@ -11,6 +11,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+
 /**
  * Wallet은 인메모리 리포지토리로 작성하였습니다.
  */
@@ -21,8 +24,8 @@ public class MemoryWalletRepository implements WalletRepository {
 
     @Override
     public void insert(Wallet wallet) {
-        if (storage.get(wallet.getWalletId()) != null) throw new IllegalArgumentException("이미 존재하는 Wallet 입니다.");
-        storage.put(wallet.getWalletId(), wallet);
+        checkState(storage.get(wallet.getId()) == null, "이미 존재하는 Wallet 입니다.");
+        storage.put(wallet.getId(), wallet);
     }
 
     @Override
@@ -37,14 +40,13 @@ public class MemoryWalletRepository implements WalletRepository {
 
     @Override
     public void delete(Wallet wallet) {
-        Wallet remove = storage.remove(wallet.getWalletId());
-        if (remove == null) throw new IllegalArgumentException("삭제할 wallet이 존재하지 않습니다.");
+        Wallet removed = storage.remove(wallet.getId());
+        checkNotNull(removed, "삭제할 wallet이 존재하지 않습니다.");
     }
 
     @Override
     public void deleteByVoucherId(UUID voucherId) {
-        Wallet wallet = findByVoucherId(voucherId).orElseThrow(() -> new IllegalArgumentException("삭제할 wallet이 존재하지 않습니다."));
-        delete(wallet);
+        delete(findByVoucherId(voucherId).orElseThrow(() -> new IllegalArgumentException("삭제할 wallet이 존재하지 않습니다.")));
     }
 
 }

@@ -1,31 +1,22 @@
 package org.prgrms.vouchermanager.domain.wallet.domain;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+@Getter
 public class Wallet {
-    private final UUID walletId;
+    private final UUID id = UUID.randomUUID();
     private final UUID voucherId;
     private final UUID customerId;
 
-    public Wallet(UUID walletId, UUID customerId, UUID voucherId) {
-        if (walletId == null) throw new IllegalArgumentException("walletId는 null이 될 수 없습니다.");
-        if (customerId == null) throw new IllegalArgumentException("customerId는 null이 될 수 없습니다.");
-        if (voucherId == null) throw new IllegalArgumentException("voucherId는 null이 될 수 없습니다.");
+    public Wallet(UUID customerId, UUID voucherId) {
+        checkNotNull(customerId);
+        checkNotNull(voucherId);
 
-        this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
-    }
-
-    public UUID getWalletId() {
-        return walletId;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
     }
 }
