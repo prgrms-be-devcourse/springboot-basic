@@ -28,7 +28,7 @@ class PatternUtilsTest {
 	}
 
 	@Test
-	@DisplayName("한자리 숫자 일 경우 테슽")
+	@DisplayName("한자리 숫자 유효성 테스트")
 	void OnePointNumberTest() {
 		//given
 		List<String> onePointNumbers = Stream.generate(() -> faker.number().digit())
