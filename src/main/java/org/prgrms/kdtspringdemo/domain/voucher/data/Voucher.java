@@ -1,20 +1,38 @@
 package org.prgrms.kdtspringdemo.domain.voucher.data;
 
+import lombok.Getter;
 import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherType;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+@Getter
+public abstract class Voucher {
+    private final UUID voucherId;
+    private long amount;
+    private UUID customerId;
 
-    UUID getCustomerId();
+    public Voucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.customerId = UUID.nameUUIDFromBytes("null".getBytes());
+    }
 
-    String getType();
+    public Voucher(UUID voucherId, long amount, UUID customerId) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        this.customerId = customerId;
+    }
 
-    public long discount(long beforeDiscount);
+    public Voucher changeTypeAndAmount(VoucherType voucherType, int amount){
+        if(voucherType==VoucherType.FIXED){
+            return new FixedAmountVoucher(this.getVoucherId(), amount, this.getCustomerId());
+        }
+        return new PercentDiscountVoucher(this.getVoucherId(), amount,this.getCustomerId());
+    }
 
-    long getAmount();
+    abstract void validateDiscountAmount(long amount);
 
-    Voucher changeTypeAndAmount(VoucherType voucherType, int amount);
+    abstract long discount(long beforeDiscount);
 
+    public abstract VoucherType getType();
 }
