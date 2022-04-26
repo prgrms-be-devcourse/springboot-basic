@@ -23,7 +23,14 @@ public class VoucherController {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
         Voucher voucher = VoucherMapper.requestDtoToDomain(voucherRequestDto);
-        return this.voucherService.create(voucher);
+
+        Voucher savedVoucher = voucherService.create(voucher);
+        VoucherResponseDto voucherResponseDto = VoucherMapper.domainToResponseDto(savedVoucher);
+
+        return new Response<>(Response.State.SUCCESS, voucherResponseDto);
+
+
+
     }
 
     public Response<VoucherList> findAll() {
