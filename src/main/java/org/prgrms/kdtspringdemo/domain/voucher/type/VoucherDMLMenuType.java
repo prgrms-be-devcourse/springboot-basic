@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.domain.voucher.type;
 
 import java.util.Arrays;
 
-public enum VoucherDMLType {
+public enum VoucherDMLMenuType {
     UPDATE("Update voucher"),
     COUNT("Count all vouchers"),
     FINDALL("Show all vouchers"),
@@ -13,19 +13,14 @@ public enum VoucherDMLType {
 
     private final String stateInfo;
 
-    VoucherDMLType(String stateInfo) {
+    VoucherDMLMenuType(String stateInfo) {
         this.stateInfo = stateInfo;
     }
 
-    public static VoucherDMLType of(String inputDML) {
-        return Arrays.stream(VoucherDMLType.values())
+    public static VoucherDMLMenuType of(String inputDML) {
+        return Arrays.stream(VoucherDMLMenuType.values())
                 .filter(type -> String.valueOf(type).equalsIgnoreCase(inputDML))
                 .findFirst()
                 .orElse(NONE);
     }
-
-    public void writeStateInfo() {
-        System.out.println(stateInfo);
-    }
-
 }
