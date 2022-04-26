@@ -32,7 +32,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String inputValue()  {
+    public String inputValue() {
         System.out.print(Messages.INPUT_VALUE);
         return sc.nextLine();
     }
@@ -48,9 +48,7 @@ public class Console implements Input, Output {
     public void printVoucherTypes() {
         System.out.println();
         Stream.of(VoucherType.values())
-                .forEach((v) -> {
-                    System.out.println(v.getNum() + " : " + v);
-                });
+                .forEach((v) -> System.out.println(v.getNum() + " : " + v));
     }
 
     @Override
