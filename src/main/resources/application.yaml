@@ -1,11 +1,12 @@
-db:
-  connection:
-    url : jdbc:mysql://localhost/voucher_mgmt
-    name: root
+spring:
+  datasource:
+    username: root
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
     password: root1234!
+db:
   file:
     path: "db/"
     blacklist:
       name: customer_blacklist.csv
     voucher:
-      name : voucher_db.csv
+      name: voucher_db.csv
