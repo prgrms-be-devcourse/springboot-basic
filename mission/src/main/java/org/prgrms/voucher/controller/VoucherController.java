@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+
 @Controller
 public class VoucherController {
 
@@ -20,7 +22,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response create(VoucherDto.VoucherRequest requestDto) {
+    public Response<VoucherDto.VoucherResponse> create(VoucherDto.VoucherRequest requestDto) {
 
         try {
             if (requestDto == null){
@@ -28,7 +30,7 @@ public class VoucherController {
             }
             Voucher voucher = voucherService.create(requestDto);
 
-            return new Response(ResponseState.SUCCESS, VoucherDto.VoucherResponse.from(voucher));
+            return new Response<>(ResponseState.SUCCESS, VoucherDto.VoucherResponse.from(voucher));
         } catch (IllegalArgumentException argumentException) {
             logger.error("RequestDto : {}", requestDto, argumentException);
 
@@ -36,8 +38,13 @@ public class VoucherController {
         }
     }
 
-    public Response list() {
+    public Response<List<VoucherDto.VoucherResponse>> list() {
 
-        return new Response(ResponseState.SUCCESS, voucherService.list());
+        List<Voucher> vouchers = voucherService.list();
+        List<VoucherDto.VoucherResponse> voucherResponses = vouchers.stream()
+                .map(VoucherDto.VoucherResponse::from)
+                .toList();
+
+        return new Response<>(ResponseState.SUCCESS, voucherResponses);
     }
 }
