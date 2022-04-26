@@ -1,7 +1,7 @@
 package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.FixedAmountVoucherEntity;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.PercentAmountVoucherEntity;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
@@ -29,11 +29,11 @@ public class VoucherMapper {
         throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
     }
 
-    private static VoucherResponseDto getResponseDto(Long id, VoucherType type, VoucherAmount amount) {
-        return new VoucherResponseDto(id, type, amount);
+    private static VoucherResponse getResponseDto(Long id, VoucherType type, VoucherAmount amount) {
+        return new VoucherResponse(id, type, amount);
     }
 
-    public static Voucher requestDtoToDomain(VoucherRequestDto dto) {
+    public static Voucher requestDtoToDomain(VoucherRequest dto) {
         nullCheck(dto);
         VoucherType type = dto.getVoucherType();
         VoucherAmount amount = dto.getVoucherAmount();
@@ -42,7 +42,7 @@ public class VoucherMapper {
         return getDomain(null, type, amount);
     }
 
-    public static VoucherResponseDto domainToResponseDto(Voucher voucher) {
+    public static VoucherResponse domainToResponseDto(Voucher voucher) {
         nullCheck(voucher);
         Long id = voucher.getVoucherId();
         VoucherType type = voucher.getVoucherType();
