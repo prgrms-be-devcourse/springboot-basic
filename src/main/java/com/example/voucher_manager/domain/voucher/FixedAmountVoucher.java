@@ -6,16 +6,24 @@ public class FixedAmountVoucher extends Voucher {
     private final Long discountPrice;
     private final VoucherType voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType) {
+    private FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType) {
         super(voucherId, null);
         this.discountPrice = discountPrice;
         this.voucherType = voucherType;
     }
 
-    public FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId) {
+    private FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId) {
         super(voucherId, ownerId);
         this.discountPrice = discountPrice;
         this.voucherType = voucherType;
+    }
+
+    public static FixedAmountVoucher of(UUID voucherId, Long discountPrice, VoucherType voucherType) {
+        return new FixedAmountVoucher(voucherId, discountPrice, voucherType);
+    }
+
+    public static FixedAmountVoucher of(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId) {
+        return new FixedAmountVoucher(voucherId, discountPrice, voucherType, ownerId);
     }
 
     @Override

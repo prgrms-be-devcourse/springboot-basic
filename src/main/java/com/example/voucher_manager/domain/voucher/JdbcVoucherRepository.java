@@ -26,9 +26,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 toUUID(resultSet.getBytes("owner_id")) : null;
 
         if (VoucherType.of(voucherType).equals(VoucherType.FIXED)){
-            return new FixedAmountVoucher(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
+            return FixedAmountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
         }
-        return new PercentDiscountVoucher(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
+        return PercentDiscountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {

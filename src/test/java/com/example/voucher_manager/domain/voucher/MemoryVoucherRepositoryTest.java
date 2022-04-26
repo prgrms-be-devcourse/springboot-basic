@@ -26,7 +26,7 @@ public class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("고정 할인 값을 갖는 바우처를 저장한다")
     public void createFixedVoucherTest() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000L, VoucherType.FIXED);
+        Voucher fixedAmountVoucher = FixedAmountVoucher.of(UUID.randomUUID(), 3000L, VoucherType.FIXED);
         Optional<Voucher> result = memoryVoucherRepository.insert(fixedAmountVoucher);
         assertThat(fixedAmountVoucher).isEqualTo(result.get());
     }
@@ -34,7 +34,7 @@ public class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("일정 할인율을 갖는 바우처를 저장한다")
     public void createPercentVoucherTest() {
-        Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20L, VoucherType.PERCENT);
+        Voucher percentAmountVoucher = PercentDiscountVoucher.of(UUID.randomUUID(), 20L, VoucherType.PERCENT);
         Optional<Voucher> result = memoryVoucherRepository.insert(percentAmountVoucher);
         assertThat(percentAmountVoucher).isEqualTo(result.get());
     }
@@ -42,8 +42,8 @@ public class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("Repository에 저장된 모든 데이터를 불러온다")
     public void findAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedAmountVoucherId, 1000L, VoucherType.FIXED);
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentDiscountVoucherId, 20L, VoucherType.PERCENT);
+        Voucher fixedAmountVoucher = FixedAmountVoucher.of(fixedAmountVoucherId, 1000L, VoucherType.FIXED);
+        Voucher percentDiscountVoucher = PercentDiscountVoucher.of(percentDiscountVoucherId, 20L, VoucherType.PERCENT);
         memoryVoucherRepository.insert(fixedAmountVoucher);
         memoryVoucherRepository.insert(percentDiscountVoucher);
 

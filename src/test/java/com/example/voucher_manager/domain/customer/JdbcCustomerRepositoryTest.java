@@ -162,7 +162,7 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
         customerRepository.insert(customer);
 
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 5000L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 5000L, VoucherType.FIXED);
         voucher.provideToCustomer(customer.getCustomerId());
         voucherRepository.insert(voucher);
 

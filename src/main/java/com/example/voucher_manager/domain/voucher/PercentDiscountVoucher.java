@@ -6,16 +6,24 @@ public class PercentDiscountVoucher extends Voucher {
     private final Long discountPercent;
     private final VoucherType voucherType;
 
-    public PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType) {
+    private PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType) {
         super(voucherId, null);
         this.discountPercent = discountPercent;
         this.voucherType = voucherType;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType, UUID ownerId) {
+    private PercentDiscountVoucher(UUID voucherId, Long discountPercent, VoucherType voucherType, UUID ownerId) {
         super(voucherId, ownerId);
         this.discountPercent = discountPercent;
         this.voucherType = voucherType;
+    }
+
+    public static PercentDiscountVoucher of(UUID voucherId, Long discountPercent, VoucherType voucherType) {
+        return new PercentDiscountVoucher(voucherId, discountPercent, voucherType);
+    }
+
+    public static PercentDiscountVoucher of(UUID voucherId, Long discountPercent, VoucherType voucherType, UUID ownerId) {
+        return new PercentDiscountVoucher(voucherId, discountPercent, voucherType, ownerId);
     }
 
     @Override

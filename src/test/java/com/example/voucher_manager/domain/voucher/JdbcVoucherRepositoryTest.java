@@ -75,24 +75,24 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("voucher가 database에 저장된다.")
     void insertTest() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
         assertThat(voucherRepository.insert(voucher), not(Optional.empty()));
     }
 
     @Test
     @DisplayName("동일한 ID를 가지는 voucher는 저장될 수 없다.")
     void duplicatedInsertTest() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
         voucherRepository.insert(voucher);
 
-        Voucher voucher2 = new FixedAmountVoucher(voucher.getVoucherId(), 200L, VoucherType.FIXED);
+        Voucher voucher2 = FixedAmountVoucher.of(voucher.getVoucherId(), 200L, VoucherType.FIXED);
         assertThrows(DuplicateKeyException.class, () -> voucherRepository.insert(voucher2));
     }
 
     @Test
     @DisplayName("Voucher Id를 통해 Voucher를 찾는다.")
     void findById() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
         voucherRepository.insert(voucher);
 
         assertThat(voucherRepository.findById(voucher.getVoucherId()).get(), samePropertyValuesAs(voucher));
@@ -101,10 +101,10 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("Database에 저장된 모든 Voucher를 반환한다.")
     void findAll() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
         voucherRepository.insert(voucher);
 
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 30L, VoucherType.PERCENT);
+        Voucher voucher2 = PercentDiscountVoucher.of(UUID.randomUUID(), 30L, VoucherType.PERCENT);
         voucherRepository.insert(voucher2);
 
         assertThat(voucherRepository.findAll(), containsInAnyOrder(
@@ -116,7 +116,7 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("특정 고객에게 바우처를 할당할 수 있다.")
     void update() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
         voucherRepository.insert(voucher);
 
         voucher.provideToCustomer(UUID.randomUUID()); // 임의의 주인 할당
@@ -132,9 +132,9 @@ class JdbcVoucherRepositoryTest {
     void findVoucherListByCustomer() {
         Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
 
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 200L, VoucherType.FIXED);
-        Voucher voucher3 = new FixedAmountVoucher(UUID.randomUUID(), 300L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher2 = FixedAmountVoucher.of(UUID.randomUUID(), 200L, VoucherType.FIXED);
+        Voucher voucher3 = FixedAmountVoucher.of(UUID.randomUUID(), 300L, VoucherType.FIXED);
 
         // 2개만 유저에게 할당
         voucher.provideToCustomer(customer.getCustomerId());
@@ -156,8 +156,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("고객이 보유한 특정 바우처를 제거할 수 있다.")
     void deleteVoucherCustomerHas() {
         Customer customer = new Customer(UUID.randomUUID(), "yoonoh", "yoonoh@naver.com");
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
-        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
+        Voucher voucher2 = FixedAmountVoucher.of(UUID.randomUUID(), 100L, VoucherType.FIXED);
 
         voucher.provideToCustomer(customer.getCustomerId());
         voucher2.provideToCustomer(customer.getCustomerId());
