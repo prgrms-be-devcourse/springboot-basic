@@ -1,16 +1,15 @@
-package org.prgrms.spring_week1.Order;
+package org.prgrms.spring_week1.order;
 
 import org.prgrms.spring_week1.Voucher.VoucherService;
-import org.prgrms.spring_week1.Order.model.Order;
-import org.prgrms.spring_week1.Order.model.OrderItem;
+import org.prgrms.spring_week1.order.model.Order;
+import org.prgrms.spring_week1.order.model.OrderItem;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
-import org.prgrms.spring_week1.Order.repository.OrderRepository;
+import org.prgrms.spring_week1.order.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

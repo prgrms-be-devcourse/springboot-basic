@@ -1,4 +1,4 @@
-package org.prgrms.spring_week1.Order.model;
+package org.prgrms.spring_week1.order.model;
 
 public enum OrderStatus {
     ACCEPTED,

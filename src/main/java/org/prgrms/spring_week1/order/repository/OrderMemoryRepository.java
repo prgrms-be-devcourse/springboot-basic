@@ -1,8 +1,8 @@
-package org.prgrms.spring_week1.Order.repository;
+package org.prgrms.spring_week1.order.repository;
 
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.prgrms.spring_week1.Order.model.Order;
+import org.prgrms.spring_week1.order.model.Order;
 import org.springframework.stereotype.Repository;
 
 @Repository
