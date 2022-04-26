@@ -251,10 +251,30 @@ class VoucherApplicationTests {
 	@Nested
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class LIST_입력이_주어지면 {
+		private Method processListCommand;
+
+		@BeforeEach
+		void private_메서드_테스트를_위한_설정() {
+			try {
+				processListCommand = voucherApplication.getClass().getDeclaredMethod("processListCommand");
+				processListCommand.setAccessible(true);
+			} catch (NoSuchMethodException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+		}
 
 		@Test
 		@DisplayName("바우처를 전체 조회하고 출력한다")
 		void 바우처를_전체_조회하고_출력한다 () {
+			try {
+				processListCommand.invoke(voucherApplication);
+			} catch (InvocationTargetException e) {
+				throw new RuntimeException(e.getMessage());
+			} catch (IllegalAccessException e) {
+				throw new RuntimeException(e.getMessage());
+			}
+
+			verify(voucherController).findAll();
 		}
 	}
 
