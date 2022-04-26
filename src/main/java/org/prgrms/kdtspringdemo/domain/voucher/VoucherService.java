@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.domain.voucher;
 
-import org.prgrms.kdtspringdemo.domain.voucher.data.Voucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.FixedAmountVoucher;
+import org.prgrms.kdtspringdemo.domain.voucher.data.Voucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherRepository;
 import org.prgrms.kdtspringdemo.domain.voucher.storage.VoucherStorage;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class VoucherService {
@@ -28,8 +27,8 @@ public class VoucherService {
 
 
     public List<Voucher> showVoucherList() {
-        List<Voucher> all = voucherRepository.findAll();
-        return all;
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers;
     }
 
     public void saveVoucherInDB(int amount, VoucherType type) {
@@ -76,7 +75,7 @@ public class VoucherService {
 
     public void updateCustomerId(Voucher willUpdateVoucher, UUID customeId) {
         Voucher voucher;
-        if (willUpdateVoucher.getType().equals("FIXED")) {
+        if (willUpdateVoucher.getType()==VoucherType.FIXED) {
             voucher = new FixedAmountVoucher(willUpdateVoucher.getVoucherId(), willUpdateVoucher.getAmount(), customeId);
         }else{
             voucher = new PercentDiscountVoucher(willUpdateVoucher.getVoucherId(), willUpdateVoucher.getAmount(), customeId);
