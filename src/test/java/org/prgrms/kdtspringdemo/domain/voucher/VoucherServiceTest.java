@@ -1,14 +1,15 @@
 package org.prgrms.kdtspringdemo.domain.voucher;
 
-import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.TestConfiguration;
+
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
+import org.prgrms.kdtspringdemo.domain.customer.repository.CustomerRepository;
 import org.prgrms.kdtspringdemo.domain.voucher.data.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.Voucher;
 import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherRepository;
 import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherType;
+import org.prgrms.kdtspringdemo.testcontainers.AbstractContainerDatabaseTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -23,35 +24,34 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class VoucherServiceTest {
-
-
-    EmbeddedMysql embeddedMysql;
+class VoucherServiceTest extends AbstractContainerDatabaseTest {
+    @Autowired
+    private CustomerRepository customerRepository;
 
     Customer newCustomer;
 
-    Voucher newPercentVoucher;
-    Voucher newFixedVoucher;
-
     @BeforeAll
-    void setup() {
+    void beforeAll() {
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
+
         newFixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 500, UUID.nameUUIDFromBytes("null".getBytes()));
         newPercentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50, UUID.nameUUIDFromBytes("null".getBytes()));
 
         voucherRepository.insert(newFixedVoucher);
         voucherRepository.insert(newPercentVoucher);
         newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        TestConfiguration.clean(embeddedMysql);
-    }
-    @AfterEach
-    void clean() {
-        voucherRepository.deleteAll();
+
     }
 
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
+    @AfterEach
+    public void cleanUp() {
+        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
     }
+
+    Voucher newPercentVoucher;
+    Voucher newFixedVoucher;
+
 
     @Autowired
     VoucherRepository voucherRepository;
@@ -73,7 +73,6 @@ class VoucherServiceTest {
         // then
         assertThat(vouchers.get(0), samePropertyValuesAs(newFixedVoucher));
         assertThat(vouchers.get(1), samePropertyValuesAs(newPercentVoucher));
-
     }
 
     @Test
@@ -132,5 +131,4 @@ class VoucherServiceTest {
         // then
         assertThat(voucherService.count(), is(0));
     }
-
 }

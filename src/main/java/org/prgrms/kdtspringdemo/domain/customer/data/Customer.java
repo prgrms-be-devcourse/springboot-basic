@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.prgrms.kdtspringdemo.domain.customer.type.CustomerType;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Getter
@@ -18,7 +19,7 @@ public class Customer {
     // customer 등록 시 사용 생성자
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
-        customerType = CustomerType.NORMAL;
+        customerType = null;
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -59,5 +60,18 @@ public class Customer {
         sb.append(", createdAt=").append(createdAt);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId) && customerType == customer.customerType && Objects.equals(name, customer.name) && Objects.equals(email, customer.email) && Objects.equals(lastLoginAt, customer.lastLoginAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, customerType, name, email, lastLoginAt);
     }
 }

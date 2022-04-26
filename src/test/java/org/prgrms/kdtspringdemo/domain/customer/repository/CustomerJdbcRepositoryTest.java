@@ -1,69 +1,49 @@
 package org.prgrms.kdtspringdemo.domain.customer.repository;
 
-import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.TestConfiguration;
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
+import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherRepository;
+import org.prgrms.kdtspringdemo.testcontainers.AbstractContainerDatabaseTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
-
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CustomerJdbcRepositoryTest {
-
-    EmbeddedMysql embeddedMysql;
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class CustomerJdbcRepositoryTest extends AbstractContainerDatabaseTest {
 
     @Autowired
-    CustomerJdbcRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     Customer newCustomer;
 
     @BeforeAll
-    void setup() {
-        newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        TestConfiguration.clean(embeddedMysql);
-    }
-    @AfterEach
-    void clean() {
-        customerRepository.deleteAll();
+    void beforeAll() {
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now());
     }
 
     @Test
     @DisplayName("고객을 추가 할 수 있다.")
+    @Order(1)
     void testInsert() {
         customerRepository.insert(newCustomer);
+        System.out.println(newCustomer);
 
         Optional<Customer> receiveCustomer = customerRepository.findById(newCustomer.getCustomerId());
+        System.out.println(receiveCustomer);
         assertThat(receiveCustomer.isEmpty(), is(false));
         assertThat(receiveCustomer.get(), samePropertyValuesAs(newCustomer));
     }
 
-
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
-
-
-    @Test
-    @Order(1)
-    @DisplayName("고객을 저장하면 반환되는 객체는 저장한 고객과 같아야 하고 레포지토리의 사이즈는 1이 되어야 한다.")
-    public void testSave() {
-        Customer insertedCustomer = customerRepository.insert(newCustomer);
-
-        assertThat(insertedCustomer, notNullValue());
-        assertThat(insertedCustomer, samePropertyValuesAs(newCustomer));
-        assertThat(customerRepository.count(), is(1));
-    }
 
     @Test
     @Order(2)
@@ -80,7 +60,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(2)
+    @Order(3)
     @DisplayName("repository count 를 한다.")
     public void countTest () throws Exception{
         // given
@@ -93,7 +73,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     @DisplayName("모든 customer 를 찾아온다.")
     public void findAllTest () throws Exception{
         // given
@@ -101,15 +81,15 @@ class CustomerJdbcRepositoryTest {
         customerRepository.insert(secondCustomer);
 
         // when
-        List<Customer> all = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
         // then
-        assertThat(all.size(), is(customerRepository.count()));
-        assertThat(all.get(1), samePropertyValuesAs(secondCustomer));
+        assertThat(customers.size(), is(customerRepository.count()));
+        assertThat(customers.get(1), samePropertyValuesAs(secondCustomer));
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @DisplayName("id 를 통해 customer 를 찾아온다.")
     public void findByIdTest () throws Exception{
         // given
@@ -124,7 +104,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     @DisplayName("name 를 통해 customer 를 찾아온다.")
     public void findByName () throws Exception{
         // given
@@ -135,11 +115,11 @@ class CustomerJdbcRepositoryTest {
         customerRepository.insert(nameCustomer);
 
         // then
-        assertThat(nameCustomer, samePropertyValuesAs(customerRepository.findByName(name)));
+        assertThat(nameCustomer, samePropertyValuesAs(customerRepository.findByName("name-user")));
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("email 를 통해 customer 를 찾아온다.")
     public void findByEmail () throws Exception{
         // given
@@ -150,12 +130,12 @@ class CustomerJdbcRepositoryTest {
         customerRepository.insert(emailCustomer);
 
         // then
-        assertThat(emailCustomer, samePropertyValuesAs(customerRepository.findByEmail(email)));
+        assertThat(emailCustomer, samePropertyValuesAs(customerRepository.findByEmail("email-user@gamail.com")));
     }
 
     @Test
-    @Order(7)
-    @DisplayName("id 를 통해 customer 를 찾아온다.")
+    @Order(8)
+    @DisplayName("repository 를 제거한다.")
     public void DeleteAll () throws Exception{
         // given
 
@@ -165,5 +145,4 @@ class CustomerJdbcRepositoryTest {
         // then
         assertThat(customerRepository.count(), is(0));
     }
-
 }

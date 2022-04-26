@@ -1,10 +1,9 @@
 package org.prgrms.kdtspringdemo.domain.customer.service;
 
-import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.TestConfiguration;
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
 import org.prgrms.kdtspringdemo.domain.customer.repository.CustomerRepository;
+import org.prgrms.kdtspringdemo.testcontainers.AbstractContainerDatabaseTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -19,17 +18,19 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class CustomerServiceTest {
+class CustomerServiceTest extends AbstractContainerDatabaseTest {
 
-    EmbeddedMysql embeddedMysql;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     Customer newCustomer;
 
     @BeforeAll
     void setup() {
         newCustomer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        TestConfiguration.clean(embeddedMysql);
     }
+
     @AfterEach
     void clean() {
         customerRepository.deleteAll();
@@ -45,21 +46,12 @@ class CustomerServiceTest {
         assertThat(receiveCustomer.get(), samePropertyValuesAs(newCustomer));
     }
 
-
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
-
     @Autowired
     CustomerService customerService;
 
-    @Autowired
-    CustomerRepository customerRepository;
-
     @Test
     @DisplayName("repository 사이즈가 0 일때 count 테스트")
-    public void  zeroCountTest() throws Exception{
+    public void zeroCountTest() throws Exception {
         // given
 
         // when
@@ -72,7 +64,7 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("맞는 아이디로 Customer 를 찾는 경우 테스트")
-    public void findByIdTest () throws Exception{
+    public void findByIdTest() throws Exception {
         // given
         UUID id = UUID.randomUUID();
         Customer customer = new Customer(id, "test-user", "test-user@gmail.com", LocalDateTime.now());
@@ -88,7 +80,7 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("잘못된 아이디로 Customer 를 찾는 경우 테스트")
-    public void findByIdTestError () throws Exception{
+    public void findByIdTestError() throws Exception {
         // given
         UUID id = UUID.randomUUID();
         Customer customer = new Customer(id, "test-user", "test-user@gmail.com", LocalDateTime.now());
@@ -101,5 +93,4 @@ class CustomerServiceTest {
         // then
         assertThat(customer, samePropertyValuesAs(Optional.of(null)));
     }
-
 }
