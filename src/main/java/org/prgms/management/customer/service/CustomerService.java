@@ -16,7 +16,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Optional<Customer> insert(Customer customer) {
+    public Customer insert(Customer customer) {
         return customerRepository.insert(customer);
     }
 
@@ -32,11 +32,11 @@ public class CustomerService {
         return customerRepository.findByName(name);
     }
 
-    public Optional<Customer> update(Customer customer) {
+    public Customer update(Customer customer) {
         return customerRepository.update(customer);
     }
 
-    public Optional<Customer> delete(Customer customer) {
+    public Customer delete(Customer customer) {
         return customerRepository.delete(customer);
     }
 

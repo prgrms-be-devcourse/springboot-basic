@@ -11,13 +11,14 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.prgms.management.util.JdbcUtils.*;
+
 @Repository
-@Profile({"local-db", "dev"})
+@Profile({"local-db", "dev", "test"})
 public class VoucherJdbcRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -37,22 +38,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
     };
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
-        try {
-            var executeUpdate = jdbcTemplate.update("INSERT INTO vouchers(" +
-                            "voucher_id, name, type, discount_num, created_at) " +
-                            "VALUES (UUID_TO_BIN(:voucherId), :name, :type, :discountNum, :createdAt)",
-                    toParamMap(voucher));
+    public Voucher insert(Voucher voucher) {
+        var executeUpdate = jdbcTemplate.update("INSERT INTO vouchers(" +
+                        "voucher_id, name, type, discount_num, created_at) " +
+                        "VALUES (UUID_TO_BIN(:voucherId), :name, :type, :discountNum, :createdAt)",
+                toParamMap(voucher));
 
-            if (executeUpdate != 1) {
-                return Optional.empty();
-            }
-
-            return Optional.of(voucher);
-        } catch (DuplicateKeyException e) {
-            logger.error("Failed insert", e);
-            return Optional.empty();
+        if (executeUpdate != 1) {
+            return null;
         }
+
+        return voucher;
     }
 
     @Override
@@ -118,36 +114,31 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> update(Voucher voucher) {
-        try {
-            var executeUpdate = jdbcTemplate.update(
-                    "UPDATE vouchers SET name = :name, " +
-                            "type = :type, discount_num = :discountNum " +
-                            "WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                    toParamMap(voucher));
+    public Voucher update(Voucher voucher) {
+        var executeUpdate = jdbcTemplate.update(
+                "UPDATE vouchers SET name = :name, " +
+                        "type = :type, discount_num = :discountNum " +
+                        "WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                toParamMap(voucher));
 
-            if (executeUpdate != 1) {
-                return Optional.empty();
-            }
-
-            return Optional.of(voucher);
-        } catch (DuplicateKeyException e) {
-            logger.error("Failed update", e);
-            return Optional.empty();
+        if (executeUpdate != 1) {
+            return null;
         }
+
+        return voucher;
     }
 
     @Override
-    public Optional<Voucher> delete(Voucher voucher) {
+    public Voucher delete(Voucher voucher) {
         var executeUpdate = jdbcTemplate.update(
                 "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 toParamMap(voucher));
 
         if (executeUpdate != 1) {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(voucher);
+        return voucher;
     }
 
     @Override
@@ -163,10 +154,5 @@ public class VoucherJdbcRepository implements VoucherRepository {
         map.put("discountNum", voucher.getDiscountNum());
         map.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
         return map;
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

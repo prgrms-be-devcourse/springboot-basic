@@ -10,9 +10,7 @@ import java.util.UUID;
 
 @Component
 public interface VoucherRepository {
-    Optional<Voucher> insert(Voucher voucher);
-
-    Optional<Voucher> update(Voucher voucher);
+    Voucher insert(Voucher voucher);
 
     List<Voucher> findAll();
 
@@ -24,7 +22,9 @@ public interface VoucherRepository {
 
     Optional<Voucher> findByName(String name);
 
-    Optional<Voucher> delete(Voucher voucher);
+    Voucher update(Voucher voucher);
+
+    Voucher delete(Voucher voucher);
 
     void deleteAll();
 }

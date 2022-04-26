@@ -15,8 +15,8 @@ import javax.sql.DataSource;
 @PropertySource("/application.yaml")
 @EnableConfigurationProperties
 public class AppConfiguration {
-    @Bean
-    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-        return new NamedParameterJdbcTemplate(dataSource);
-    }
+//    @Bean
+//    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+//        return new NamedParameterJdbcTemplate(dataSource);
+//    }
 }

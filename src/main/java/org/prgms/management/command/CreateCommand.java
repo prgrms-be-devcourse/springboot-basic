@@ -37,7 +37,7 @@ public class CreateCommand implements Command {
 
         var createdVoucher = voucherService.insert(voucher.get());
 
-        if (createdVoucher.isEmpty()) {
+        if (createdVoucher == null) {
             output.voucherCreateFail();
             return true;
         }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.prgms.management.customer.entity.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -24,36 +25,13 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest
+@ActiveProfiles(value = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("local-db")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerJdbcRepositoryTest {
-    @Configuration
-    @ComponentScan(basePackages = {"org.prgms.management.customer"})
-    @EnableTransactionManagement
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_mgmt")
-                    .username("root")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-            return new NamedParameterJdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;
-
-    @Autowired
-    DataSource dataSource;
 
     List<Customer> newCustomers = new ArrayList<>();
 
@@ -68,33 +46,27 @@ class CustomerJdbcRepositoryTest {
 
     @Test
     @Order(1)
-    void testConnectionPool() {
-        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("고객을 추가 할 수 있다.")
     void insert() {
         newCustomers.forEach(v -> {
             var customer = customerJdbcRepository.insert(v);
-            assertThat(customer.isEmpty(), is(false));
-            assertThat(customer.get().getCustomerId(), is(v.getCustomerId()));
+            assertThat(customer == null, is(false));
+            assertThat(customer.getCustomerId(), is(v.getCustomerId()));
+        });
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("중복된 고객을 추가 할 수 없다.")
+    void insertDuplicateCustomer() {
+        newCustomers.forEach(v -> {
+            var customer = customerJdbcRepository.insert(v);
+            assertThat(customer == null, is(true));
         });
     }
 
     @Test
     @Order(3)
-    @DisplayName("중복된 고객을 추가 할 수 없다.")
-    void insertDuplicateCustomer() {
-        newCustomers.forEach(v -> {
-            var customer = customerJdbcRepository.insert(v);
-            assertThat(customer.isEmpty(), is(true));
-        });
-    }
-
-    @Test
-    @Order(4)
     @DisplayName("전체 고객을 조회 할 수 있다.")
     void findAll() {
         var customers = customerJdbcRepository.findAll();
@@ -102,7 +74,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     @DisplayName("아이디로 고객을 조회 할 수 있다.")
     void findById() {
         newCustomers.forEach(v -> {
@@ -113,7 +85,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     @DisplayName("이름으로 고객을 조회 할 수 있다.")
     void findByName() {
         newCustomers.forEach(v -> {
@@ -124,7 +96,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     @DisplayName("고객을 수정 할 수 있다.")
     void update() {
         var name = "updated-user";
@@ -132,21 +104,21 @@ class CustomerJdbcRepositoryTest {
         var customer = customerJdbcRepository.update(
                 newCustomers.get(0));
 
-        assertThat(customer.isEmpty(), is(false));
-        assertThat(customer.get().getName(), is(name));
+        assertThat(customer == null, is(false));
+        assertThat(customer.getName(), is(name));
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     @DisplayName("고객을 삭제 할 수 있다.")
     void delete() {
         var customer = customerJdbcRepository.delete(
                 newCustomers.get(0));
-        assertThat(customer.isEmpty(), is(false));
+        assertThat(customer == null, is(false));
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     @DisplayName("모든 고객을 삭제 할 수 있다.")
     void deleteAll() {
         customerJdbcRepository.deleteAll();
@@ -155,7 +127,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     @DisplayName("삭제한 고객은 검색 할 수 없다.")
     void findDeleted() {
         newCustomers.forEach(v -> {

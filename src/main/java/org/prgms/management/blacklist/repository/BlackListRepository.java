@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Component
 public interface BlackListRepository {
-    Optional<Blacklist> insert(Blacklist blacklist);
+    Blacklist insert(Blacklist blacklist);
 
     List<Blacklist> findAll();
 
@@ -17,7 +17,7 @@ public interface BlackListRepository {
 
     Optional<Blacklist> findByCustomerId(UUID customerId);
 
-    Optional<Blacklist> delete(Blacklist blacklist);
+    Blacklist delete(Blacklist blacklist);
 
     void deleteAll();
 }

@@ -1,7 +1,7 @@
 package org.prgms.management.blacklist.service;
 
 import org.prgms.management.blacklist.vo.Blacklist;
-import org.prgms.management.blacklist.repository.BlackListRepository;
+import org.prgms.management.blacklist.repository.BlackListJdbcRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,33 +10,33 @@ import java.util.UUID;
 
 @Service
 public class BlacklistService {
-    private final BlackListRepository blackListRepository;
+    private final BlackListJdbcRepository blackListJdbcRepository;
 
-    public BlacklistService(BlackListRepository blackListRepository) {
-        this.blackListRepository = blackListRepository;
+    public BlacklistService(BlackListJdbcRepository blackListJdbcRepository) {
+        this.blackListJdbcRepository = blackListJdbcRepository;
     }
 
-    public Optional<Blacklist> insert(Blacklist blacklist) {
-        return blackListRepository.insert(blacklist);
+    public Blacklist insert(Blacklist blacklist) {
+        return blackListJdbcRepository.insert(blacklist);
     }
 
     public List<Blacklist> getAll() {
-        return blackListRepository.findAll();
+        return blackListJdbcRepository.findAll();
     }
 
     public Optional<Blacklist> getById(UUID blacklistId) {
-        return blackListRepository.findById(blacklistId);
+        return blackListJdbcRepository.findById(blacklistId);
     }
 
     public Optional<Blacklist> getByCustomerId(UUID customerId) {
-        return blackListRepository.findByCustomerId(customerId);
+        return blackListJdbcRepository.findByCustomerId(customerId);
     }
 
-    public Optional<Blacklist> delete(Blacklist blacklist) {
-        return blackListRepository.delete(blacklist);
+    public Blacklist delete(Blacklist blacklist) {
+        return blackListJdbcRepository.delete(blacklist);
     }
 
     public void deleteAll() {
-        blackListRepository.deleteAll();
+        blackListJdbcRepository.deleteAll();
     }
 }

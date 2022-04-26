@@ -10,6 +10,7 @@ import org.prgms.management.voucher.repository.VoucherJdbcRepository;
 import org.prgms.management.wallet.vo.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,33 +30,11 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest
+@ActiveProfiles(value = "test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("local-db")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WalletJdbcRepositoryTest {
-    @Configuration
-    @ComponentScan(basePackages = {"org.prgms.management.wallet",
-            "org.prgms.management.customer",
-            "org.prgms.management.voucher"})
-    @EnableTransactionManagement
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_mgmt")
-                    .username("root")
-                    .password("1234")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-            return new NamedParameterJdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
     WalletJdbcRepository walletJdbcRepository;
 
@@ -64,9 +43,6 @@ class WalletJdbcRepositoryTest {
 
     @Autowired
     VoucherJdbcRepository voucherJdbcRepository;
-
-    @Autowired
-    DataSource dataSource;
 
     List<Wallet> newWallets = new ArrayList<>();
     List<Customer> newCustomers = new ArrayList<>();
@@ -102,33 +78,27 @@ class WalletJdbcRepositoryTest {
 
     @Test
     @Order(1)
-    void testConnectionPool() {
-        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("지갑을 추가 할 수 있다.")
     void insert() {
         newWallets.forEach(v -> {
             var wallet = walletJdbcRepository.insert(v);
-            assertThat(wallet.isEmpty(), is(false));
-            assertThat(wallet.get().getWalletId(), is(v.getWalletId()));
+            assertThat(wallet == null, is(false));
+            assertThat(wallet.getWalletId(), is(v.getWalletId()));
+        });
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("중복된 지갑은 추가 할 수 없다.")
+    void insertDuplicateWallet() {
+        newWallets.forEach(v -> {
+            var wallet = walletJdbcRepository.insert(v);
+            assertThat(wallet == null, is(true));
         });
     }
 
     @Test
     @Order(3)
-    @DisplayName("중복된 지갑은 추가 할 수 없다.")
-    void insertDuplicateWallet() {
-        newWallets.forEach(v -> {
-            var wallet = walletJdbcRepository.insert(v);
-            assertThat(wallet.isEmpty(), is(true));
-        });
-    }
-
-    @Test
-    @Order(4)
     @DisplayName("전체 지갑을 조회 할 수 있다.")
     void findAll() {
         var wallets = walletJdbcRepository.findAll();
@@ -136,54 +106,54 @@ class WalletJdbcRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     @DisplayName("아이디로 지갑을 조회 할 수 있다.")
     void findById() {
         newWallets.forEach(v -> {
             var wallet = walletJdbcRepository.findById(v.getWalletId());
-            assertThat(wallet.isEmpty(), is(false));
+            assertThat(wallet == null, is(false));
         });
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     @DisplayName("고객 아이디로 지갑을 조회 할 수 있다.")
     void findByCustomerId() {
         newWallets.forEach(v -> {
             var wallet = walletJdbcRepository.findByCustomerId(
                     v.getCustomerId());
-            assertThat(wallet.isEmpty(), is(false));
+            assertThat(wallet == null, is(false));
         });
     }
 
     @Test
-    @Order(7)
+    @Order(6)
     @DisplayName("지갑을 삭제 할 수 있다.")
     void delete() {
         var wallet = walletJdbcRepository.delete(newWallets.get(0));
-        assertThat(wallet.isEmpty(), is(false));
+        assertThat(wallet == null, is(false));
     }
 
     @Test
-    @Order(8)
+    @Order(7)
     @DisplayName("모든 지갑을 삭제 할 수 있다.")
     void deleteAll() {
         walletJdbcRepository.deleteAll();
         customerJdbcRepository.deleteAll();
         voucherJdbcRepository.deleteAll();
         var wallets = walletJdbcRepository.findAll();
-        assertThat(wallets.isEmpty(), is(true));
+        assertThat(wallets == null, is(true));
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     @DisplayName("삭제한 지갑은 검색 할 수 없다.")
     void findDeleted() {
         newWallets.forEach(w -> {
             var wallets = walletJdbcRepository.findById(w.getWalletId());
-            assertThat(wallets.isEmpty(), is(true));
+            assertThat(wallets == null, is(true));
             walletJdbcRepository.findByCustomerId(w.getCustomerId());
-            assertThat(wallets.isEmpty(), is(true));
+            assertThat(wallets == null, is(true));
         });
     }
 }

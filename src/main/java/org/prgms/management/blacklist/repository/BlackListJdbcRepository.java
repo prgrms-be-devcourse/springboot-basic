@@ -4,18 +4,18 @@ import org.prgms.management.blacklist.vo.Blacklist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
 
+import static org.prgms.management.util.JdbcUtils.*;
+
 @Repository
-@Profile({"local-db", "dev"})
+@Profile({"local-db", "dev", "test"})
 public class BlackListJdbcRepository implements BlackListRepository {
     private static final Logger logger = LoggerFactory.getLogger(BlackListJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -24,42 +24,23 @@ public class BlackListJdbcRepository implements BlackListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    RowMapper<Blacklist> rowMapper = (resultSet, i) -> {
-        var blacklistId = toUUID(resultSet.getBytes("blacklist_id"));
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Blacklist(blacklistId, customerId, createdAt);
-    };
-
     @Override
-    public Optional<Blacklist> insert(Blacklist blacklist) {
-        try {
-            var executeUpdate = jdbcTemplate.update(
-                    "INSERT INTO blacklists(blacklist_id, customer_id, created_at) " +
-                            "VALUES (UUID_TO_BIN(:blacklistId), UUID_TO_BIN(:customerId), :createdAt)",
-                    toParamMap(blacklist));
+    public Blacklist insert(Blacklist blacklist) {
+        var executeUpdate = jdbcTemplate.update(
+                "INSERT INTO blacklists(blacklist_id, customer_id, created_at) " +
+                        "VALUES (UUID_TO_BIN(:blacklistId), UUID_TO_BIN(:customerId), :createdAt)",
+                toParamMap(blacklist));
 
-            if (executeUpdate != 1) {
-                return Optional.empty();
-            }
-
-            return Optional.of(blacklist);
-        } catch (
-                DuplicateKeyException e) {
-            logger.error("Failed insert", e);
-            return Optional.empty();
+        if (executeUpdate != 1) {
+            return null;
         }
+
+        return blacklist;
     }
 
     @Override
     public List<Blacklist> findAll() {
-        try {
-            return jdbcTemplate.query("SELECT * FROM blacklists", rowMapper);
-        } catch (
-                EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
-            return List.of();
-        }
+        return jdbcTemplate.query("SELECT * FROM blacklists", rowMapper);
     }
 
     @Override
@@ -89,16 +70,16 @@ public class BlackListJdbcRepository implements BlackListRepository {
     }
 
     @Override
-    public Optional<Blacklist> delete(Blacklist blacklist) {
+    public Blacklist delete(Blacklist blacklist) {
         var executeUpdate = jdbcTemplate.update(
                 "DELETE FROM blacklists WHERE blacklist_id = UUID_TO_BIN(:blacklistId)",
                 toParamMap(blacklist));
 
         if (executeUpdate != 1) {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(blacklist);
+        return blacklist;
     }
 
     @Override
@@ -114,8 +95,10 @@ public class BlackListJdbcRepository implements BlackListRepository {
         return map;
     }
 
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
+    private static final RowMapper<Blacklist> rowMapper = (resultSet, i) -> {
+        var blacklistId = toUUID(resultSet.getBytes("blacklist_id"));
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Blacklist(blacklistId, customerId, createdAt);
+    };
 }

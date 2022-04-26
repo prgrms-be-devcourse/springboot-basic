@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Component
 public interface CustomerRepository {
-    Optional<Customer> insert(Customer customer);
+    Customer insert(Customer customer);
 
     List<Customer> findAll();
 
@@ -17,9 +17,9 @@ public interface CustomerRepository {
 
     Optional<Customer> findByName(String name);
 
-    Optional<Customer> update(Customer customer);
+    Customer update(Customer customer);
 
-    Optional<Customer> delete(Customer customer);
+    Customer delete(Customer customer);
 
     void deleteAll();
 }

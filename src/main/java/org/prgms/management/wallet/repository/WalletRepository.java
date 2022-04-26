@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Component
 public interface WalletRepository {
-    Optional<Wallet> insert(Wallet wallet);
+    Wallet insert(Wallet wallet);
 
     List<Wallet> findAll();
 
@@ -17,7 +17,7 @@ public interface WalletRepository {
 
     List<Wallet> findByCustomerId(UUID customerId);
 
-    Optional<Wallet> delete(Wallet wallet);
+    Wallet delete(Wallet wallet);
 
     void deleteAll();
 }

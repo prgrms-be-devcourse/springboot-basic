@@ -17,7 +17,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }
 
@@ -41,11 +41,11 @@ public class VoucherService {
         return voucherRepository.findByName(name);
     }
 
-    public Optional<Voucher> update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         return voucherRepository.update(voucher);
     }
 
-    public Optional<Voucher> delete(Voucher voucher) {
+    public Voucher delete(Voucher voucher) {
         return voucherRepository.delete(voucher);
     }
 

@@ -16,7 +16,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    public Optional<Wallet> insertWallet(Wallet wallet) {
+    public Wallet insertWallet(Wallet wallet) {
         return walletRepository.insert(wallet);
     }
 
@@ -32,7 +32,7 @@ public class WalletService {
         return walletRepository.findByCustomerId(customerId);
     }
 
-    public Optional<Wallet> delete(Wallet wallet) {
+    public Wallet delete(Wallet wallet) {
         return walletRepository.delete(wallet);
     }
 
