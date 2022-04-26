@@ -2,6 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.console.Command;
 import com.waterfogsw.voucher.global.FrontController;
+import com.waterfogsw.voucher.global.GetRequest;
 import com.waterfogsw.voucher.global.MessageConverter;
 import com.waterfogsw.voucher.global.PostRequest;
 import com.waterfogsw.voucher.voucher.controller.VoucherController;
@@ -77,13 +78,13 @@ public class FrontControllerTests {
         @Nested
         @DisplayName("list 명령의 데이터가 전달 되면")
         class Context_with_findall {
-            PostRequest requestMessage = new PostRequest(Command.LIST, null, null);
+            GetRequest requestMessage = new GetRequest(Command.LIST);
 
             @Test
             @DisplayName("모든 바우처에 대한 정보를 반환한다")
             void it_return_enum() {
-                final ResponseVoucherDto voucherDto1 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
-                final ResponseVoucherDto voucherDto2 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 2000);
+                final var voucherDto1 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
+                final var voucherDto2 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 2000);
 
                 final List<ResponseVoucherDto> voucherDtoList = new ArrayList<>(
                         Arrays.asList(voucherDto1, voucherDto2)
