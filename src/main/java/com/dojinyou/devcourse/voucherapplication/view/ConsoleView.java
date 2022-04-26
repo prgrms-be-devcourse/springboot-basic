@@ -40,6 +40,9 @@ public class ConsoleView implements InputView<String>, OutputView<String> {
 
     @Override
     public void display(String output) {
+        if (output == null) {
+            throw new IllegalArgumentException(EMPTY_OUTPUT_ERROR_MESSAGE);
+        }
         output = output.trim();
         validateEmptyOutput(output);
         System.out.print(output + "\n");
