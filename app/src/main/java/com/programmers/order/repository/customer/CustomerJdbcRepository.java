@@ -9,10 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,7 +32,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	final Logger log = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
-	private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final DataSource dataSource;
+	private final JdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	private static final RowMapper<Customer> CUSTOMER_ROW_MAPPER = (rs, rowNum) -> {
 		UUID id = TranslatorUtils.toUUID(rs.getBytes("customer_id"));
@@ -43,8 +48,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		return new Customer(id, name, email, lastLoginAt, createdAt);
 	};
 
-	public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+	public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate1) {
+		this.dataSource = dataSource;
 		this.jdbcTemplate = jdbcTemplate;
+		this.namedParameterJdbcTemplate = namedParameterJdbcTemplate1;
 	}
 
 	private Map<String, Object> toParameters(Customer customer) {
@@ -59,14 +67,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public int count() {
-		return jdbcTemplate.queryForObject("select count(*) from customers",
+		return namedParameterJdbcTemplate.queryForObject("select count(*) from customers",
 				Collections.EMPTY_MAP,
 				Integer.class);
 	}
 
 	@Override
 	public Customer insert(Customer customer) {
-		int update = jdbcTemplate.update(
+		int update = namedParameterJdbcTemplate.update(
 				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name , :email, :createdAt)",
 				toParameters(customer));
 
@@ -80,7 +88,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public Customer update(Customer customer) {
-		int result = jdbcTemplate.update(
+		int result = namedParameterJdbcTemplate.update(
 				"UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
 				toParameters(customer)
 		);
@@ -95,7 +103,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
-		return jdbcTemplate.query("select * from customers", CUSTOMER_ROW_MAPPER);
+		return namedParameterJdbcTemplate.query("select * from customers", CUSTOMER_ROW_MAPPER);
 	}
 
 	@Override
@@ -104,7 +112,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		try {
 
 			return Optional.ofNullable(
-					jdbcTemplate.queryForObject(
+					namedParameterJdbcTemplate.queryForObject(
 							"select * from customers where customer_id = UUID_TO_BIN( :customerId )",
 							Collections.singletonMap("customerId", customerId.toString().getBytes()),
 							CUSTOMER_ROW_MAPPER)
@@ -122,7 +130,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 		try {
 			return Optional.ofNullable(
-					jdbcTemplate.queryForObject("SELECT * FROM customers WHERE name =:name",
+					namedParameterJdbcTemplate.queryForObject("SELECT * FROM customers WHERE name =:name",
 							Collections.singletonMap("name", name),
 							CUSTOMER_ROW_MAPPER)
 			);
@@ -136,7 +144,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> findByEmail(String email) {
 		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE email = :email",
+			return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE email = :email",
 					Collections.singletonMap("email", email),
 					CUSTOMER_ROW_MAPPER));
 		} catch (EmptyResultDataAccessException e) {
@@ -148,7 +156,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public void deleteAll() {
-		jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+		namedParameterJdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
 	}
 
 }
