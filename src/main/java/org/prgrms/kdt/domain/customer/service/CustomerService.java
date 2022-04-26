@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,8 +36,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public UUID save(CustomerCreateRequest createRequest) {
-        Customer customer = createRequest.toEntity();
+    public UUID save(Customer customer) {
         UUID customerId = customerRepository.save(customer);
         logger.info("create Customer Id: {}", customer.getCustomerId());
         return customerId;
@@ -76,10 +76,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public void update(CustomerUpdateRequest updateRequest, UUID customerId) {
-        customerRepository.findById(customerId)
+    public void update(Customer customer) {
+        customerRepository.findById(customer.getCustomerId())
                 .orElseThrow(() -> new CustomerDataException(NOT_SAVED));
-        Customer customer = updateRequest.toEntity();
         customerRepository.update(customer);
     }
 

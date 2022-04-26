@@ -70,14 +70,16 @@ public class CustomerController {
             model.addAttribute("customerType", CustomerType.values());
             return "/customers/create";
         }
-        customerService.save(createRequest);
+        Customer customer = createRequest.toEntity();
+        customerService.save(customer);
         return "redirect:/customers";
     }
 
     @PutMapping("/{customerId}")
     public String customerModify(@Valid CustomerUpdateRequest updateRequest,
                                  @PathVariable("customerId") UUID customerId) {
-        customerService.update(updateRequest, customerId);
+        Customer customer = updateRequest.toEntity();
+        customerService.update(customer);
         return "redirect:/customers";
     }
 
