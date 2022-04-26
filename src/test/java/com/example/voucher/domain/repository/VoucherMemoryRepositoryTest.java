@@ -46,6 +46,10 @@ public class VoucherMemoryRepositoryTest {
 				}
 			}
 
+			@AfterEach
+			void store_초기화_설정() {
+				voucherRepository.deleteAll();
+			}
 			@Test
 			@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
 			void 바우처를_저장하고_저장된_바우처를_반환한다() {
