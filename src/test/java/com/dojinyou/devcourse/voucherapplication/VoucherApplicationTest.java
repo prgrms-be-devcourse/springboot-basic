@@ -1,13 +1,11 @@
 package com.dojinyou.devcourse.voucherapplication;
 
 import com.dojinyou.devcourse.voucherapplication.view.ConsoleView;
-import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,14 +18,16 @@ import java.lang.reflect.Field;
 import java.util.Scanner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @DisplayName("Voucher Application 시나리오 테스트")
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherApplicationTest {
+    private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     private static MockedStatic<VoucherApplication> voucherApplication;
 
     @Autowired
@@ -103,12 +103,15 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"dojin", "listz", "cret"})
             @DisplayName("에러 메세지를 출력한다")
-            void thenDisplayErrorMessage(String userWrongInput) throws NoSuchFieldException, IllegalAccessException {
+            void thenDisplayErrorMessage(String userWrongInput) {
                 InputStream inputCommandStream = generateUserInput(userWrongInput);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-                setScanner(consoleView, testScanner);
-
+                try {
+                    setScanner(consoleView, testScanner);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
                 StringBuilder sb = new StringBuilder();
                 sb.append(userWrongInput);
                 sb.append(": command not found\n");
@@ -128,13 +131,16 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"create", "CREATE", "Create"})
             @DisplayName("바우처 생성을 위한 정보를 입력 받아야한다.")
-            void thenInputModeForVoucherCreate(String inputCommand) throws NoSuchFieldException, IllegalAccessException {
+            void thenInputModeForVoucherCreate(String inputCommand) {
                 VoucherApplication.main(new String[]{});
                 InputStream inputCommandStream = generateUserInput(inputCommand);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-                setScanner(consoleView, testScanner);
-
+                try {
+                    setScanner(consoleView, testScanner);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
                 StringBuilder sb = new StringBuilder();
                 sb.append("=== Voucher Type ===\n");
                 sb.append("1. FixedAmountType\n");
@@ -158,12 +164,16 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"list", "LIST", "List"})
             @DisplayName("생성된 바우처 리스트를 출력한다")
-            void thenDisplayVoucherList(String inputCommand) throws NoSuchFieldException, IllegalAccessException {
+            void thenDisplayVoucherList(String inputCommand) {
                 // Command가 입력되는 환경 설정
                 InputStream inputCommandStream = generateUserInput(inputCommand);
                 System.setIn(inputCommandStream);
                 Scanner testScanner = new Scanner(System.in);
-                setScanner(consoleView, testScanner);
+                try {
+                    setScanner(consoleView, testScanner);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
 
                 // 바우처 전체를 조회하는 함수가 호출 되었는 지 확인
 //                verify(voucherController).findAll();
@@ -178,13 +188,16 @@ class VoucherApplicationTest {
             @ParameterizedTest
             @ValueSource(strings = {"exit", "EXIT", "exiT", "Exit"})
             @DisplayName("어플리케이션을 종료한다")
-            void thenTerminateApplication(String userInput) throws NoSuchFieldException, IllegalAccessException {
+            void thenTerminateApplication(String userInput) {
                 VoucherApplication.main(new String[]{});
                 InputStream inputStream = generateUserInput(userInput);
                 System.setIn(inputStream);
                 Scanner testScanner = new Scanner(System.in);
-                setScanner(consoleView, testScanner);
-
+                try {
+                    setScanner(consoleView, testScanner);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
                 // 어플리케이션 종료된 것을 어떻게 확인할 수 있는지??
                 // 함수 호출을 확인한다.
             }

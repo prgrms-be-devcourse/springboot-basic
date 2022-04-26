@@ -30,6 +30,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(classes = VoucherApplication.class)
 class VoucherControllerTest {
     private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     @Autowired
     VoucherController voucherController;
 
@@ -80,17 +81,21 @@ class VoucherControllerTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("Voucher Service의 create 함수를 호출한다.")
-            void it_Call_of_VoucherService_create_method(VoucherType voucherType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            void it_Call_of_VoucherService_create_method(VoucherType voucherType) {
                 // given
                 int voucherAmount = 50;
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
 
                 Long id = 999_999_999L;
-                Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                getDomainMethod.setAccessible(true);
-                Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
+                try {
+                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
+                    getDomainMethod.setAccessible(true);
+                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
 
-                when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
+                    when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
+                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
 
                 // when
                 voucherController.create(voucherRequest);
