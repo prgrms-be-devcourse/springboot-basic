@@ -4,8 +4,10 @@ import org.prgrms.part1.engine.controller.dto.VoucherCreateRequestDto;
 import org.prgrms.part1.engine.controller.dto.VoucherResponseDto;
 import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.service.VoucherService;
+import org.prgrms.part1.exception.VoucherException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,14 +48,25 @@ public class VoucherController {
 
     @GetMapping("/vouchers/{voucherId}")
     public String viewVoucherDetailPage(Model model, @PathVariable String voucherId) {
+        Voucher voucher = findVoucherByStringId(voucherId);
+        model.addAttribute("voucher", new VoucherResponseDto(voucher));
+        return "views/voucher";
+    }
+
+    @GetMapping("/vouchers/{voucherId}/delete")
+    public String deleteVoucher(@PathVariable String voucherId) {
+        Voucher voucher = findVoucherByStringId(voucherId);
+        voucherService.removeVoucher(voucher);
+        return "redirect:/vouchers";
+    }
+
+    private Voucher findVoucherByStringId(String voucherId) {
         UUID id;
         try {
             id = UUID.fromString(voucherId);
         }catch (IllegalArgumentException ex) {
-            return "redirect:/404";
+            throw new VoucherException("Invalid Id format");
         }
-        Voucher voucher = voucherService.getVoucher(id);
-        model.addAttribute("voucher", new VoucherResponseDto(voucher));
-        return "views/voucher";
+        return voucherService.getVoucher(id);
     }
 }

@@ -4,8 +4,10 @@ import org.prgrms.part1.engine.controller.dto.CustomerCreateRequestDto;
 import org.prgrms.part1.engine.controller.dto.CustomerResponseDto;
 import org.prgrms.part1.engine.domain.Customer;
 import org.prgrms.part1.engine.service.CustomerService;
+import org.prgrms.part1.exception.VoucherException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,14 +46,27 @@ public class CustomerController {
 
     @GetMapping("/customers/{customerId}")
     public String viewCustomerDetailPage(Model model, @PathVariable String customerId) {
+        Customer customer = findCustomerByStringId(customerId);
+        CustomerResponseDto customerResponseDto = new CustomerResponseDto(customer);
+        customerService.getVouchersByCustomer(customer).forEach(v -> customerResponseDto.addVoucher(v.getVoucherId()));
+        model.addAttribute("customer", customerResponseDto);
+        return "views/customer";
+    }
+
+    @GetMapping("/customers/{customerId}/delete")
+    public String deleteCustomer(@PathVariable String customerId) {
+        Customer customer = findCustomerByStringId(customerId);
+        customerService.removeCustomer(customer);
+        return "redirect:/customers";
+    }
+
+    private Customer findCustomerByStringId(String customerId) {
         UUID id;
         try {
             id = UUID.fromString(customerId);
         }catch (IllegalArgumentException ex) {
-            return "redirect:/404";
+            throw new VoucherException("Invalid Id format");
         }
-        Customer customer = customerService.getCustomerById(id);
-        model.addAttribute("customer", new CustomerResponseDto(customer));
-        return "views/customer";
+        return customerService.getCustomerById(id);
     }
 }

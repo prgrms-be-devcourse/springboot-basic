@@ -32,9 +32,15 @@
     </tr>
     <tr>
         <th scope="row" >Owner</th>
-        <td th:text="${voucher.customerId}"></td>
+        <td>
+            <a th:href="@{/customers/{id}(id=*{voucher.customerId})}" th:text="${voucher.customerId}"></a>
+        </td>
     </tr>
     </tbody>
 </table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-outline-primary me-md-2" type="button">Update</a>
+    <a th:href="@{/vouchers/{id}/delete(id=${voucher.voucherId})}" class="btn btn-outline-danger" type="button">Delete</a>
+</div>
 </body>
 </html>

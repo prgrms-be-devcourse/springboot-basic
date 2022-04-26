@@ -34,10 +34,17 @@
     <tr>
         <th scope="row" >Owned Vouchers</th>
         <td>
-
+            <div th:each="voucher: ${customer.ownedVouchers}" class="list-group">
+                <a th:href="@{/vouchers/{id}(id=${voucher})}" th:text="${voucher}" class="list-group-item list-group-item-action active">
+                </a>
+            </div>
         </td>
     </tr>
     </tbody>
 </table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-outline-primary me-md-2" type="button">Update</a>
+    <a th:href="@{/customers/{id}/delete(id=${customer.customerId})}" class="btn btn-outline-danger" type="button">Delete</a>
+</div>
 </body>
 </html>

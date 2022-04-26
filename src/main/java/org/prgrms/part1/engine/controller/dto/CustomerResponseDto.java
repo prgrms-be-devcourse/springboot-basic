@@ -3,6 +3,8 @@ package org.prgrms.part1.engine.controller.dto;
 import org.prgrms.part1.engine.domain.Customer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CustomerResponseDto {
@@ -11,6 +13,7 @@ public class CustomerResponseDto {
     private String email;
     private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;
+    private List<UUID> ownedVouchers = new ArrayList<>();
 
     public CustomerResponseDto(Customer entity) {
         this.customerId = entity.getCustomerId();
@@ -40,6 +43,10 @@ public class CustomerResponseDto {
         return createdAt;
     }
 
+    public List<UUID> getOwnedVouchers() {
+        return ownedVouchers;
+    }
+
     @Override
     public String toString() {
         return "CustomerResponseDto{" +
@@ -49,5 +56,9 @@ public class CustomerResponseDto {
                 ", lastLoginAt=" + lastLoginAt +
                 ", createdAt=" + createdAt +
                 '}';
+    }
+
+    public void addVoucher(UUID voucherId) {
+        this.ownedVouchers.add(voucherId);
     }
 }

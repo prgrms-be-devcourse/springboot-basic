@@ -35,6 +35,11 @@ public class CustomerService {
     }
 
     @Transactional
+    public List<Voucher> getVouchersByCustomer(Customer customer) {
+        return voucherService.getVouchersByCustomer(customer);
+    }
+
+    @Transactional
     public Customer createCustomer(String name, String email) {
         return insertCustomer(new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0)));
     }
