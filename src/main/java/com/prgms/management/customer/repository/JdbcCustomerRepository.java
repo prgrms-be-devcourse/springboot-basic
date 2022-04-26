@@ -1,5 +1,9 @@
 package com.prgms.management.customer.repository;
 
+import com.prgms.management.common.exception.DeleteFailException;
+import com.prgms.management.common.exception.FindFailException;
+import com.prgms.management.common.exception.SaveFailException;
+import com.prgms.management.common.exception.UpdateFailException;
 import com.prgms.management.customer.model.Customer;
 import com.prgms.management.customer.model.CustomerType;
 import org.springframework.context.annotation.Profile;
@@ -25,37 +29,38 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer save(Customer customer) {
         int result = jdbcTemplate.update(
-                "INSERT INTO customer (id, name, type, email, last_login_at, created_at) " +
-                        "VALUES (UNHEX(REPLACE(:id, '-', '')), :name, :type, :email, :lastLoginAt, :createdAt)",
-                getCustomerMap(customer));
+            "INSERT INTO customer (id, name, type, email, last_login_at, created_at) " +
+                "VALUES (UNHEX(REPLACE(:id, '-', '')), :name, :type, :email, :lastLoginAt, :createdAt)",
+            getCustomerMap(customer));
 
         if (result == 1) {
             return customer;
         }
 
-        throw new RuntimeException("고객 정보 저장에 실패하였습니다.");
+        throw new SaveFailException("고객 정보 저장에 실패하였습니다.");
     }
 
     @Override
     public Customer update(Customer customer) {
-        int result = jdbcTemplate.update("UPDATE customer SET name = :name, type = :type WHERE id = UNHEX(REPLACE(:id, '-', ''))",
-                getCustomerMap(customer));
+        int result = jdbcTemplate.update("UPDATE customer SET name = :name, type = :type WHERE id = UNHEX(REPLACE" +
+                "(:id, '-', ''))",
+            getCustomerMap(customer));
 
         if (result == 1) {
             return customer;
         }
 
-        throw new RuntimeException("고객 정보 수정에 실패하였습니다.");
+        throw new UpdateFailException("고객 정보 수정에 실패하였습니다.");
     }
 
     @Override
     public Customer findById(UUID id) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
-                    Collections.singletonMap("id", id.toString()),
-                    (rs, rowNum) -> mapToCustomer(rs));
+                Collections.singletonMap("id", id.toString()),
+                (rs, rowNum) -> mapToCustomer(rs));
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            throw new FindFailException();
         }
     }
 
@@ -63,32 +68,32 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer findByEmail(String email) {
         try {
             return jdbcTemplate.queryForObject("SELECT * from customer WHERE email = :email",
-                    Collections.singletonMap("email", email),
-                    (rs, rowNum) -> mapToCustomer(rs));
+                Collections.singletonMap("email", email),
+                (rs, rowNum) -> mapToCustomer(rs));
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            throw new FindFailException();
         }
     }
 
     @Override
     public List<Customer> findByType(CustomerType type) {
-        return jdbcTemplate.query("SELECT * from customer WHERE type = :type",
-                Collections.singletonMap("type", type.toString()),
-                (rs, rowNum) -> mapToCustomer(rs));
+        return jdbcTemplate.query("SELECT * from customer WHERE type = :type ORDER BY created_at DESC",
+            Collections.singletonMap("type", type.toString()),
+            (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * from customer",
-                (rs, rowNum) -> mapToCustomer(rs));
+        return jdbcTemplate.query("SELECT * from customer ORDER BY created_at DESC",
+            (rs, rowNum) -> mapToCustomer(rs));
     }
 
     @Override
     public void removeById(UUID id) {
         int result = jdbcTemplate.update("DELETE FROM customer WHERE id = UNHEX(REPLACE(:id, '-', ''))",
-                Collections.singletonMap("id", id.toString()));
+            Collections.singletonMap("id", id.toString()));
         if (result != 1) {
-            throw new RuntimeException("고객 정보 삭제에 실패하였습니다.");
+            throw new DeleteFailException("고객 정보 삭제에 실패하였습니다.");
         }
     }
 

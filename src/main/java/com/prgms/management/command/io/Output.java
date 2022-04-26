@@ -1,7 +1,7 @@
 package com.prgms.management.command.io;
 
 import com.prgms.management.customer.model.Customer;
-import com.prgms.management.voucher.entity.Voucher;
+import com.prgms.management.voucher.model.Voucher;
 
 import java.util.List;
 

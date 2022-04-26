@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>New Customer</title>
+</head>
+<div layout:fragment="content">
+    <form method="post" th:action="@{/customers}">
+        <div class="form-group custom-margin-top-75">
+            <label for="customer_type">Type select</label>
+            <select class="form-control" id="customer_type" name="type">
+                <option value="WHITE">일반 회원</option>
+                <option value="BLACK">활동 제약 회원</option>
+            </select>
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="customer_name">Name</label>
+            <input class="form-control" id="customer_name" name="name" type="text">
+        </div>
+        <div class="form-group custom-margin-top-75">
+            <label for="customer_email">Email</label>
+            <input class="form-control" id="customer_email" name="email" type="email">
+        </div>
+        <button class="btn btn-outline-dark custom-btn-max" type="submit">등록하기</button>
+    </form>
+</div>
+</html>

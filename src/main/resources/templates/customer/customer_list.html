@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Customer list</title>
+</head>
+<div layout:fragment="content">
+    <a class="btn btn-outline-dark custom-btn-max" th:href="@{/customers/new}" type="button">새로운 고객 등록하기</a>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Type</th>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customerList}" th:object="${customer}">
+            <td>
+                <a th:href="@{'/customers/'+ *{id}}" th:text="*{id}">ID</a>
+            </td>
+            <td th:text="*{email}">Email</td>
+            <td th:text="*{type}">Type</td>
+            <td th:text="*{name}">Name</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

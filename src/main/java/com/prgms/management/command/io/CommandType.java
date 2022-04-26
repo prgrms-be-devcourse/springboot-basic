@@ -1,38 +1,33 @@
 package com.prgms.management.command.io;
 
 import com.prgms.management.customer.service.BlackCustomerService;
-import com.prgms.management.voucher.entity.Voucher;
-import com.prgms.management.voucher.exception.VoucherException;
+import com.prgms.management.voucher.model.Voucher;
 import com.prgms.management.voucher.service.VoucherService;
 
 public enum CommandType {
     CREATE("create", "to create a new voucher.") {
         @Override
-        public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) throws VoucherException {
-            Voucher voucher = voucherService.saveVoucher(console.getVoucher());
+        public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
+            Voucher voucher = voucherService.addVoucher(console.getVoucher());
             console.printOneVoucher(voucher);
         }
-    },
-    LIST("list", "to list all vouchers.") {
+    }, LIST("list", "to list all vouchers.") {
         @Override
-        public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) throws VoucherException {
-            console.printListVoucher(voucherService.getAllVouchers());
+        public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
+            console.printListVoucher(voucherService.findVouchers(null, null, null));
         }
-    },
-    EXIT("exit", "to exit the program.") {
+    }, EXIT("exit", "to exit the program.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
             console.close();
             System.exit(0);
         }
-    },
-    BLACKLIST("blacklist", "to list all black customers.") {
+    }, BLACKLIST("blacklist", "to list all black customers.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
             console.printListCustomer(customerService.getAllCustomers());
         }
-    },
-    ERROR("error", "this is error command.") {
+    }, ERROR("error", "this is error command.") {
         @Override
         public void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) {
             console.printString("잘못된 명령어를 입력하셨습니다.");
@@ -66,5 +61,5 @@ public enum CommandType {
         return "Type **" + command + "** " + description;
     }
 
-    public abstract void execute(VoucherService voucherService, BlackCustomerService customerService, Console console) throws VoucherException;
+    public abstract void execute(VoucherService voucherService, BlackCustomerService customerService, Console console);
 }

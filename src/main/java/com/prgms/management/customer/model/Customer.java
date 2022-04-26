@@ -1,6 +1,6 @@
 package com.prgms.management.customer.model;
 
-import com.prgms.management.customer.exception.CustomerException;
+import com.prgms.management.common.exception.InvalidParameterException;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -26,12 +26,13 @@ public class Customer {
     }
 
     public Customer(String name, CustomerType type, String email) {
-        this(UUID.randomUUID(), name, type, email, Timestamp.valueOf(LocalDateTime.now()), Timestamp.valueOf(LocalDateTime.now()));
+        this(UUID.randomUUID(), name, type, email, Timestamp.valueOf(LocalDateTime.now()),
+            Timestamp.valueOf(LocalDateTime.now()));
     }
 
     public Customer(UUID id, String name, CustomerType type, String email, Timestamp lastLoginAt, Timestamp createdAt) {
         if (type == CustomerType.NONE) {
-            throw new CustomerException("유효하지 않은 타입입니다.");
+            throw new InvalidParameterException("유효하지 않은 타입입니다.");
         }
         this.id = id;
         this.name = name;
@@ -46,7 +47,8 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id) && Objects.equals(email, customer.email) && Objects.equals(name, customer.name) && type == customer.type;
+        return Objects.equals(id, customer.id) && Objects.equals(email, customer.email) && Objects.equals(name,
+            customer.name) && type == customer.type;
     }
 
     @Override

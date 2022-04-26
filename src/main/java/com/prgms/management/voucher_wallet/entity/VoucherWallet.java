@@ -1,7 +1,7 @@
 package com.prgms.management.voucher_wallet.entity;
 
 import com.prgms.management.customer.model.Customer;
-import com.prgms.management.voucher.entity.Voucher;
+import com.prgms.management.voucher.model.Voucher;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;

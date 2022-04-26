@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!-- Sidebar-->
+<div class="border-end bg-white" id="sidebar-wrapper" th:fragment="sidebarFragment">
+    <div class="sidebar-heading border-bottom bg-light">Select Menu</div>
+    <div class="list-group list-group-flush" th:if="${menuType} == 'VOUCHER'">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/}">Main</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 active"
+           th:href="@{/vouchers}">Voucher</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/customers}">Customer</a>
+    </div>
+    <div class="list-group list-group-flush" th:if="${menuType} == 'CUSTOMER'">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/}">Main</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/vouchers}">Voucher</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 active"
+           th:href="@{/customers}">Customer</a>
+    </div>
+    <div class="list-group list-group-flush" th:if="${menuType} == 'MAIN'">
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 active"
+           th:href="@{/}">Main</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/vouchers}">Voucher</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3"
+           th:href="@{/customers}">Customer</a>
+    </div>
+</div>
+</html>
