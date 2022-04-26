@@ -1,11 +1,12 @@
 package org.prgrms.kdt.handler;
 
-import org.prgrms.kdt.command.Command;
+import javax.validation.ConstraintViolationException;
 import org.prgrms.kdt.command.CommandFactory;
-import org.prgrms.kdt.command.CommandType;
-import org.prgrms.kdt.command.ErrorType;
+import org.prgrms.kdt.exception.TypedException;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
+import org.prgrms.kdt.type.CommandType;
+import org.prgrms.kdt.type.ErrorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,6 @@ public class CommandHandler {
   private final Input input;
   private final Output output;
   private final CommandFactory commandFactory;
-
   private final Logger log = LoggerFactory.getLogger(CommandHandler.class);
 
   public CommandHandler(
@@ -48,7 +48,11 @@ public class CommandHandler {
   }
 
   private String executeCommand(CommandType commandType) {
-    Command command = commandFactory.getCommand(commandType);
-    return command.execute();
+    var command = commandFactory.getCommand(commandType);
+    try {
+      return command.execute();
+    } catch (IllegalArgumentException | ConstraintViolationException | TypedException e) {
+      return e.getMessage();
+    }
   }
 }

@@ -2,28 +2,50 @@ package org.prgrms.kdt.domain;
 
 import java.text.MessageFormat;
 import java.util.UUID;
+import org.prgrms.kdt.dto.VoucherDto;
+import org.prgrms.kdt.type.VoucherType;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
+
   private static final Long MAX_PERCENTAGE = 100L;
   private static final Long MIN_PERCENTAGE = 0L;
-  private final UUID voucherId;
   private final Long percent;
 
-  public PercentDiscountVoucher(UUID voucherId, Long percent) {
+  public PercentDiscountVoucher(UUID voucherId, UUID customerId, Long percent) {
+    super(voucherId, customerId);
     if (percent <= MIN_PERCENTAGE || percent > MAX_PERCENTAGE) {
       throw new IllegalArgumentException("Percentage must be between 0 and 100");
     }
-    this.voucherId = voucherId;
     this.percent = percent;
   }
 
-  public PercentDiscountVoucher(long percent) {
-    this(UUID.randomUUID(), percent);
+  public PercentDiscountVoucher(VoucherDto voucherDto) {
+    this(voucherDto.voucherId(), voucherDto.customerId(), voucherDto.amount());
   }
 
   @Override
   public UUID getVoucherId() {
     return voucherId;
+  }
+
+  @Override
+  public Long getAmount() {
+    return percent;
+  }
+
+  @Override
+  public int getType() {
+    return VoucherType.PERCENT.getCode();
+  }
+
+  @Override
+  public UUID getCustomerId() {
+    return customerId;
+  }
+
+  @Override
+  public void assign(UUID customerId) {
+    this.customerId = customerId;
   }
 
   public long discount(long beforeDiscount) {
@@ -32,8 +54,10 @@ public class PercentDiscountVoucher implements Voucher {
 
   @Override
   public String toString() {
-    return MessageFormat.format("PercentDiscountVoucher [voucherId={0}, percent={1}]",
+    return MessageFormat.format("Voucher: [voucherId={0}, percent={1}, type={2}, customerId={3}]",
         voucherId,
-        percent);
+        percent,
+        VoucherType.PERCENT.name(),
+        customerId);
   }
 }

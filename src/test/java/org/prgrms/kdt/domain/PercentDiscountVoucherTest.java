@@ -1,29 +1,31 @@
-package org.prgrms.kdt.voucher.domain;
+package org.prgrms.kdt.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.prgrms.kdt.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.dto.VoucherDto;
 
 class PercentDiscountVoucherTest {
 
   @Nested
   @DisplayName("PercentAmountVoucher는")
-  class Described_constructor{
+  class Described_constructor {
 
     @Nested
     @DisplayName("1 ~ 100 사이 정수를 입력하면")
     class Context_with_positive {
 
       @ParameterizedTest
-      @ValueSource(ints = {1, 50, 100})
+      @ValueSource(longs = {1, 50, 100})
       @DisplayName("정상적으로 생성된다.")
-      void test_constructor_called(int percent) {
-        var fixedAmountVoucher = new PercentDiscountVoucher(percent);
+      void test_constructor_called(Long percent) {
+        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), percent);
+        var fixedAmountVoucher = new PercentDiscountVoucher(voucherDto);
 
         assertThat(fixedAmountVoucher).isNotNull();
       }
@@ -34,10 +36,12 @@ class PercentDiscountVoucherTest {
     class Context_with_non_positive {
 
       @ParameterizedTest
-      @ValueSource(ints = {-1, 0, 101})
+      @ValueSource(longs = {-1, 0, 101})
       @DisplayName("예외가 발생한다.")
-      void test_constructor_called(int percent) {
-        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(percent));
+      void test_constructor_called(Long percent) {
+        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), percent);
+
+        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(voucherDto));
       }
     }
   }

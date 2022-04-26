@@ -1,7 +1,6 @@
 package org.prgrms.kdt.io;
 
 import java.util.Scanner;
-import org.prgrms.kdt.io.Input;
 import org.springframework.stereotype.Component;
 
 @Component
