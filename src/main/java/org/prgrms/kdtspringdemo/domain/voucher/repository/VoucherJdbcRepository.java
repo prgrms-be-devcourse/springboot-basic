@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.domain.voucher.repository;
 
+import org.prgrms.kdtspringdemo.domain.util.RepositoryUtil;
 import org.prgrms.kdtspringdemo.domain.voucher.data.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.domain.voucher.data.Voucher;
@@ -10,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
@@ -23,10 +23,10 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
 
     private static RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = RepositoryUtil.toUUID(resultSet.getBytes("voucher_id"));
         String voucherType = resultSet.getString("type");
         int amount = resultSet.getInt("amount");
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = RepositoryUtil.toUUID(resultSet.getBytes("customer_id"));
 
         if(voucherType.equals("FIXED")){
             return new FixedAmountVoucher(voucherId, amount, customerId);
@@ -44,18 +44,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
         }};
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public Voucher insert(Voucher voucher) {
-        String insertQuery = "INSERT INTO vouchers(voucher_id, type, amount, customer_id) VALUES (UUID_TO_BIN(:voucherId),:type,:amount,UUID_TO_BIN(:customerId))";
+        final String insertQuery = "INSERT INTO vouchers(voucher_id, type, amount, customer_id) VALUES (UUID_TO_BIN(:voucherId),:type,:amount,UUID_TO_BIN(:customerId))";
         int update = jdbcTemplate.update(insertQuery,toParamMap(voucher));
 
         if (update != 1) {
-            logger.error("Voucher 등록 에서 Nothing was inserted");
+            logger.error("Nothing was inserted in voucher insert");
             throw new RuntimeException("Nothing was inserted");
         }
 
@@ -64,8 +59,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        //customer_id = :customer_id
-        String updateQuery = "UPDATE vouchers SET type = :type, amount = :amount, customer_id =  UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        final String updateQuery = "UPDATE vouchers SET type = :type, amount = :amount, customer_id =  UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)";
         int update = jdbcTemplate.update(updateQuery, toParamMap(voucher));
 
         if (update != 1) {
@@ -77,21 +71,22 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public int count() {
-        String countQuery = "select count(*) from vouchers";
+        final String countQuery = "select count(*) from vouchers";
 
         return jdbcTemplate.queryForObject(countQuery, Collections.emptyMap(), Integer.class);
     }
 
     @Override
     public List<Voucher> findAll() {
-        String findAllQuery = "select * from vouchers";
+        final String findAllQuery = "select * from vouchers";
 
-        return jdbcTemplate.query(findAllQuery, voucherRowMapper);
+        return Optional.of(jdbcTemplate.query(findAllQuery, voucherRowMapper)).orElse(Collections.emptyList());
     }
 
     @Override
     public Optional<Voucher> findByCustomerId(UUID customerId) {
-        String findByCustomerQuery = "select * from vouchers WHERE customer_id = UUID_TO_BIN(:customerId)";
+        final String findByCustomerQuery = "select * from vouchers WHERE customer_id = UUID_TO_BIN(:customerId)";
+
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(findByCustomerQuery,
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
@@ -100,12 +95,11 @@ public class VoucherJdbcRepository implements VoucherRepository{
             logger.error("Got empty result: {}", e.getMessage());
             return Optional.empty();
         }
-//        return jdbcTemplate.query(findByCustomerQuery, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String findByIdQuery = "select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        final String findByIdQuery = "select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
 
         try {
             return Optional.of(jdbcTemplate.queryForObject(findByIdQuery,
@@ -113,15 +107,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
-
             return Optional.empty();
         }
     }
 
     @Override
     public void deleteAll() {
-        String deleteAllQuery = "DELETE FROM vouchers";
+        final String deleteAllQuery = "DELETE FROM vouchers";
         jdbcTemplate.update(deleteAllQuery, Collections.emptyMap());
     }
-
 }

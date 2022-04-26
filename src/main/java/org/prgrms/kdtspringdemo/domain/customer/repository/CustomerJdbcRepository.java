@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.domain.customer.repository;
 
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
+import org.prgrms.kdtspringdemo.domain.util.RepositoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -26,7 +27,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
     private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
         String customerEmail = resultSet.getString("email");
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = RepositoryUtil.toUUID(resultSet.getBytes("customer_id"));
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -44,14 +45,9 @@ public class CustomerJdbcRepository implements CustomerRepository{
         }};
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public Customer insert(Customer customer) {
-        String insertQuery = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId),:name,:email,:createdAt)";
+        final String insertQuery = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId),:name,:email,:createdAt)";
         int update = jdbcTemplate.update(insertQuery,toParamMap(customer));
 
         if (update != 1) {
@@ -64,7 +60,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
     @Override
     public Customer update(Customer customer) {
-        String updateQuery = "UPDATE customers SET name = :name, email = :email, last_login_at = last_login_at WHERE customer_id = UUID_TO_BIN(:customerId)";
+        final String updateQuery = "UPDATE customers SET name = :name, email = :email, last_login_at = last_login_at WHERE customer_id = UUID_TO_BIN(:customerId)";
         int update = jdbcTemplate.update(updateQuery, toParamMap(customer));
 
         if (update != 1) {
@@ -76,19 +72,19 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
     @Override
     public int count() {
-        String countQuery = "select count(*) from customers";
+        final String countQuery = "select count(*) from customers";
         return jdbcTemplate.queryForObject(countQuery, Collections.emptyMap(), Integer.class);
     }
 
     @Override
     public List<Customer> findAll() {
-        String findAllQuery = "select * from customers";
-        return jdbcTemplate.query(findAllQuery, customerRowMapper);
+        final String findAllQuery = "select * from customers";
+        return Optional.of(jdbcTemplate.query(findAllQuery, customerRowMapper)).orElse(Collections.emptyList());
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        String findByIdQuery = "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)";
+        final String findByIdQuery = "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)";
 
         try {
             return Optional.of(jdbcTemplate.queryForObject(findByIdQuery,
@@ -102,7 +98,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
     @Override
     public Optional<Customer> findByName(String name) {
-        String findByNameQuery = "select * from customers WHERE name = :name";
+        final String findByNameQuery = "select * from customers WHERE name = :name";
 
         try {
             return Optional.of(jdbcTemplate.queryForObject(findByNameQuery,
@@ -117,7 +113,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            String findByEmailQuery = "select * from customers WHERE email = :email";
+            final String findByEmailQuery = "select * from customers WHERE email = :email";
 
             return Optional.of(jdbcTemplate.queryForObject(findByEmailQuery,
                     Collections.singletonMap("email", email),
@@ -130,7 +126,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
     @Override
     public void deleteAll() {
-        String deleteAllQuery = "DELETE FROM customers";
+        final String deleteAllQuery = "DELETE FROM customers";
         jdbcTemplate.update(deleteAllQuery, Collections.emptyMap());
     }
 }
