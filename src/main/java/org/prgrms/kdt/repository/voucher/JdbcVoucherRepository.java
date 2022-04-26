@@ -1,17 +1,16 @@
 package org.prgrms.kdt.repository.voucher;
 
+import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.repository.JdbcWalletRepository;
-import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.prgrms.kdt.util.IntUtils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -41,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insertVoucher(Voucher voucher) {
+    public Optional<Voucher> insertVoucher(Voucher voucher) {
 
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
@@ -49,12 +48,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
             put("discountAmount", voucher.getDiscountAmount());
             put("createdAt", voucher.getCreateAt());
         }};
-        jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount_amount, created_at) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discountAmount, :createdAt)", paramMap);
-        return voucher;
+        var insertInt = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, voucher_type, discount_amount, created_at) " +
+                "VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discountAmount, :createdAt)", paramMap);
+        if (insertInt > 0) {
+            return Optional.of(voucher);
+        }
+        return Optional.empty();
     }
 
     @Override
-    public Map getVoucherList() {
+    public Map<UUID, Voucher> getVoucherList() {
         var receivedVoucherList = jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
         Map<UUID, Voucher> voucherList = new HashMap<>();
         for (Voucher voucher : receivedVoucherList) {
@@ -64,21 +67,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID deleteVoucherById(UUID voucherId) {
+    public void deleteVoucherById(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
-        return voucherId;
     }
 
     @Override
-    public Voucher getByVoucherId(UUID voucherId) {
+    public Optional<Voucher> getByVoucherId(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
-        return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                paramMap, voucherRowMapper);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    paramMap, voucherRowMapper));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -87,24 +93,32 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateVoucherOwner(UUID voucherId, UUID customerId) {
+    public Optional<Voucher> updateVoucherOwner(UUID voucherId, UUID customerId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
             put("customerId", customerId.toString().getBytes());
             put("ownedAt", LocalDateTime.now());
         }};
-        jdbcTemplate.update("UPDATE vouchers SET owner_id = UUID_TO_BIN(:customerId), owned_time = :ownedAt WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
-
-        return jdbcWalletRepository.selectJoinVoucherCustomer(voucherId);
+        int returnInt = jdbcTemplate.update("UPDATE vouchers SET owner_id = UUID_TO_BIN(:customerId), " +
+                "owned_time = :ownedAt WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
+        if (returnInt > 0) {
+            return jdbcWalletRepository.selectJoinVoucherCustomer(voucherId);
+        }
+        return Optional.empty();
     }
 
     @Override
-    public Voucher getVoucherNotProvided(UUID voucherId) {
+    public Optional<Voucher> getVoucherNotProvided(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
-        return jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) AND owner_id IS NULL"
-        ,paramMap, voucherRowMapper);
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId) AND owner_id IS NULL"
+                    , paramMap, voucherRowMapper));
+        } catch (Exception e) {
+            OutputConsole.printMessage("WRONG : invalid input");
+            return Optional.empty();
+        }
     }
 
     @Override

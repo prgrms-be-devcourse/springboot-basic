@@ -36,18 +36,16 @@ public class VoucherService {
         return voucher;
     }
 
-    public Map getVoucherList() {
+    public Map<UUID, Voucher> getVoucherList() {
         return voucherRepository.getVoucherList();
     }
 
     public void deleteVoucher(UUID voucherId, String email) {
-        try {
-            jdbcWalletRepository.getVoucherByVoucherIdAndEmail(voucherId, email);
-            voucherRepository.deleteVoucherById(voucherId);
-            OutputConsole.printMessage("voucher is deleted");
-        } catch (EmptyResultDataAccessException e) {
-            OutputConsole.printMessage("WRONG : invalid input");
-        }
+        jdbcWalletRepository.getVoucherByVoucherIdAndEmail(voucherId, email)
+                .ifPresent((voucher) -> {
+                    voucherRepository.deleteVoucherById(voucherId);
+                    OutputConsole.printMessage("voucher is deleted");
+                });
     }
 
     public List<Voucher> getOwnableVoucherList() {
@@ -56,13 +54,12 @@ public class VoucherService {
 
     public Optional<Voucher> provideVoucherToCustomer(String voucherId, String customerId) {
         try {
-            voucherRepository.getVoucherNotProvided(UUID.fromString(voucherId));
-            customerRepository.findCustomerById(UUID.fromString(customerId));
+            voucherRepository.getVoucherNotProvided(UUID.fromString(voucherId)).orElseThrow();
+            customerRepository.findCustomerById(UUID.fromString(customerId)).orElseThrow();
         } catch (Exception e) {
-            OutputConsole.printMessage("WRONG : check voucherId and customerId again\n");
             return Optional.empty();
         }
-        return Optional.of(voucherRepository.updateVoucherOwner(UUID.fromString(voucherId), UUID.fromString(customerId)));
+        return voucherRepository.updateVoucherOwner(UUID.fromString(voucherId), UUID.fromString(customerId));
     }
 
     private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {

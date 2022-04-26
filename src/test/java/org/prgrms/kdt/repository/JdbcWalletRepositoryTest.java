@@ -64,7 +64,7 @@ class JdbcWalletRepositoryTest {
         customerRepository.insertCustomer(newCustomer);
         jdbcVoucherRepository.insertVoucher(newVoucher);
         jdbcVoucherRepository.updateVoucherOwner(newVoucher.getVoucherId(), newCustomer.getCustomerId());
-        Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomer(newVoucher.getVoucherId());
+        Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomer(newVoucher.getVoucherId()).get();
         assertThat(voucher.getCustomer().getCustomerId(), equalTo(newCustomer.getCustomerId()));
     }
 }

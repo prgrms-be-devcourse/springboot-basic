@@ -44,7 +44,7 @@ public class FunctionOperator {
             case provide -> provideVoucherToCustomer();
             case manage -> {
                 String email = printCustomerVoucherList();
-                deleteCheck(email);
+                deleteVoucher(email);
             }
         }
     }
@@ -82,15 +82,26 @@ public class FunctionOperator {
 
     private void provideVoucherToCustomer() {
         List<Voucher> voucherList = voucherService.getOwnableVoucherList();
-        String voucherId = outputListInputString(voucherList);
-
         List<Customer> customerList = customerService.getAllCustomers();
+        if (isEmptyList(voucherList) || isEmptyList(customerList)) {
+            return;
+        }
+        String voucherId = outputListInputString(voucherList);
         String customerId = outputListInputString(customerList);
 
-        //vouchers table update
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
-        voucher.ifPresent(value -> OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
+        voucher.ifPresent(value ->
+                OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
     }
+
+    private boolean isEmptyList(List<?> list) {
+        if (list.isEmpty()) {
+            OutputConsole.printMessage("empty !!\n");
+            return true;
+        }
+        return false;
+    }
+
 
     private String printCustomerVoucherList() {
         String customerEmail = OutputMessageInputString("input customer Email");
@@ -99,7 +110,7 @@ public class FunctionOperator {
         return customerEmail;
     }
 
-    private void deleteCheck(String email) {
+    private void deleteVoucher(String email) {
         String inputString = OutputMessageInputString("Type D/d if you want delete");
         if (inputString.equalsIgnoreCase(DELETE_CHARACTER)) {
             String voucherId = OutputMessageInputString("Type voucherId");

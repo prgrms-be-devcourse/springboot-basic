@@ -3,25 +3,22 @@ package org.prgrms.kdt.repository.voucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
-public interface VoucherRepository<K, V> {
-    Voucher insertVoucher(Voucher voucher);
+public interface VoucherRepository {
+    Optional<Voucher> insertVoucher(Voucher voucher);
 
-    Map<K, V> getVoucherList();
+    Map<UUID, Voucher> getVoucherList();
 
-    UUID deleteVoucherById(UUID voucherId);
+    void deleteVoucherById(UUID voucherId);
 
-    Voucher getByVoucherId(UUID voucherId);
+    Optional<Voucher> getByVoucherId(UUID voucherId);
 
     List<Voucher> getVoucherListOwnerIdIsEmpty();
 
-    Voucher updateVoucherOwner(UUID voucherId, UUID customerId);
+    Optional<Voucher> updateVoucherOwner(UUID voucherId, UUID customerId);
 
-    Voucher getVoucherNotProvided(UUID voucherId);
+    Optional<Voucher> getVoucherNotProvided(UUID voucherId);
 
     void deleteAllVouchers();
 }

@@ -1,5 +1,6 @@
 package org.prgrms.kdt.repository;
 
+import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
@@ -9,9 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -41,29 +40,42 @@ public class JdbcWalletRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Voucher selectJoinVoucherCustomer(UUID voucherId) {
+    public Optional<Voucher> selectJoinVoucherCustomer(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
-        return jdbcTemplate.queryForObject("SELECT v.*, c.* FROM vouchers v, customers c WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId)",
-                paramMap, voucherCustomerRowMapper);
+        try {
+            return Optional.of(jdbcTemplate.queryForObject("SELECT v.*, c.* " +
+                            "FROM vouchers v, customers c " +
+                            "WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId)",
+                    paramMap, voucherCustomerRowMapper));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
-    public Voucher getVoucherByVoucherIdAndEmail(UUID voucherId, String email) {
+
+    public Optional<Voucher> getVoucherByVoucherIdAndEmail(UUID voucherId, String email) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
             put("email", email);
         }};
-        return jdbcTemplate.queryForObject("SELECT v.*, c.* FROM vouchers v, customers c WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId) AND email = :email",
-                paramMap, voucherCustomerRowMapper);
+        try {
+            return Optional.of(jdbcTemplate.queryForObject("SELECT v.*, c.* " +
+                            "FROM vouchers v, customers c " +
+                            "WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId) AND email = :email",
+                    paramMap, voucherCustomerRowMapper));
+        } catch (Exception e) {
+            OutputConsole.printMessage("WRONG : invalid input");
+            return Optional.empty();
+        }
     }
 
     public Map<UUID, Voucher> getVoucherListByCustomerId(String customerEmail) {
         var paramMap = new HashMap<String, Object>() {{
             put("email", customerEmail);
         }};
-
-        return  jdbcTemplate.query("SELECT c.*, v.* FROM customers c, vouchers v WHERE c.customer_id = v.owner_id AND c.email = :email",
-                paramMap, voucherCustomerRowMapper)
+        return jdbcTemplate.query("SELECT c.*, v.* FROM customers c, vouchers v WHERE c.customer_id = v.owner_id AND c.email = :email",
+                        paramMap, voucherCustomerRowMapper)
                 .stream()
                 .collect(Collectors.toMap(Voucher::getVoucherId, voucher -> voucher));
     }
