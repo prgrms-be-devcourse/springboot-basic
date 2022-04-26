@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.domain.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,6 +15,8 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     Optional<Voucher> findById(UUID voucherId);
+
+    List<Voucher> findByTypeAndDate(int type, LocalDateTime start, LocalDateTime end);
 
     void deleteById(UUID voucherId);
 

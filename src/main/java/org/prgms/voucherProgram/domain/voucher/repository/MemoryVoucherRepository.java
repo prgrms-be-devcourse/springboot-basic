@@ -1,5 +1,6 @@
 package org.prgms.voucherProgram.domain.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(int type, LocalDateTime start, LocalDateTime end) {
         throw new AssertionError();
     }
 

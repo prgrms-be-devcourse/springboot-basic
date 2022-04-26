@@ -1,6 +1,7 @@
 package org.prgms.voucherProgram.domain.voucher.repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -62,6 +63,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(int type, LocalDateTime startTime, LocalDateTime endTime) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE type = ? AND created_at BETWEEN ?  AND  ?",
+            DatabaseUtils.voucherRowMapper, type, Timestamp.valueOf(startTime), Timestamp.valueOf(endTime));
     }
 
     @Override

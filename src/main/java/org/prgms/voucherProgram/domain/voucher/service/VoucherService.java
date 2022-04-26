@@ -10,6 +10,7 @@ import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsExc
 import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
+import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.domain.voucher.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.domain.voucher.repository.VoucherRepository;
@@ -52,6 +53,11 @@ public class VoucherService {
         return voucherRepository.findById(voucherId).orElseThrow(() -> {
             throw new VoucherIsNotExistsException();
         });
+    }
+
+    public List<Voucher> findVouchers(VoucherFindRequest findRequest) {
+        return voucherRepository.findByTypeAndDate(findRequest.getType(), findRequest.getStartTime(),
+            findRequest.getEndTime());
     }
 
     public List<Voucher> findAllVoucher() {

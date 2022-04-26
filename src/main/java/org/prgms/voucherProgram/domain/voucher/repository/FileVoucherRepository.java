@@ -7,13 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 import org.prgms.voucherProgram.domain.customer.exception.WrongFileException;
+import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        throw new AssertionError();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(int type, LocalDateTime start, LocalDateTime end) {
         throw new AssertionError();
     }
 

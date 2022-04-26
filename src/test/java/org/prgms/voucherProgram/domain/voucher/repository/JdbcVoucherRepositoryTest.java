@@ -216,6 +216,35 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
+    @DisplayName("findByTypeAndDate 메서드는")
+    class Describe_findByTypeAndDate {
+
+        @Nested
+        @DisplayName("해당하는 생성기간과 타입의 바우처가 있다면")
+        class Context_with_created_date_and_type_voucher {
+            final List<Voucher> vouchers = List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.of(2022, 1, 12, 1, 1)),
+                new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.of(2022, 1, 20, 1, 1)));
+            final int type = 1;
+            final LocalDateTime start = LocalDateTime.of(2022, 1, 12, 0, 0);
+            final LocalDateTime end = LocalDateTime.of(2022, 1, 30, 0, 0);
+
+            @BeforeEach
+            void prepare() {
+                vouchers.forEach(voucher -> jdbcVoucherRepository.save(voucher));
+            }
+
+            @Test
+            @DisplayName("바우처들을 찾고 리턴한다.")
+            void it_finds_and_returns_vouchers() {
+                List<Voucher> findVouchers = jdbcVoucherRepository.findByTypeAndDate(type, start, end);
+                assertThat(findVouchers).usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .isEqualTo(vouchers);
+            }
+        }
+    }
+
+    @Nested
     @DisplayName("findByCustomerId 메서드는")
     class Describe_findByCustomerId {
 

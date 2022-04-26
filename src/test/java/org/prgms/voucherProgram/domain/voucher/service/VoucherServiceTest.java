@@ -24,6 +24,7 @@ import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.domain.voucher.exception.VoucherIsNotExistsException;
 import org.prgms.voucherProgram.domain.voucher.repository.VoucherRepository;
@@ -113,6 +114,81 @@ class VoucherServiceTest {
                     .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
                     .containsAll(vouchers);
                 then(voucherRepository).should(times(1)).findAll();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findVouchers 메서드는")
+    class Describe_findVouchers {
+
+        @Nested
+        @DisplayName("조건에 맞는 바우처들이 있다면")
+        class Context_with_saved_vouchers {
+            final VoucherFindRequest voucherFindRequest = new VoucherFindRequest(1, LocalDateTime.now(),
+                LocalDateTime.now());
+            final List<Voucher> vouchers = vouchers();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findByTypeAndDate(any(Integer.class), any(LocalDateTime.class),
+                    any(LocalDateTime.class))).willReturn(vouchers);
+            }
+
+            @Test
+            @DisplayName("해당 하는 바우처들을 리턴한다.")
+            void it_returns_vouchers() {
+                List<Voucher> findVouchers = voucherService.findVouchers(voucherFindRequest);
+
+                assertThat(findVouchers).hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .isEqualTo(vouchers);
+                then(voucherRepository).should(times(1))
+                    .findByTypeAndDate(any(Integer.class), any(LocalDateTime.class), any(LocalDateTime.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findById 메서드는")
+    class Describe_findById {
+        @Nested
+        @DisplayName("해당 아이디로 저장된 바우처가 있다면")
+        class Context_with_saved_voucher {
+            final Voucher voucher = voucher();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+            }
+
+            @Test
+            @DisplayName("해당하는 바우처를 리턴한다.")
+            void it_returns_voucher() {
+                Voucher findVoucher = voucherService.findVoucher(voucher.getVoucherId());
+
+                assertThat(findVoucher).isEqualTo(voucher);
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 아이디로 저장된 바우처가 없다면")
+        class Context_with_not_saved_voucher {
+            final UUID notSavedId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.findVoucher(notSavedId))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
             }
         }
     }
