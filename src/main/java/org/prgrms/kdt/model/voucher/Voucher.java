@@ -5,14 +5,63 @@ import org.prgrms.kdt.model.customer.Customer;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+public abstract class Voucher {
+    private final UUID voucherId;
+    private final long discountAmount;
+    private final LocalDateTime createAt;
+    private Customer customer;
+    private LocalDateTime ownedAt;
+    private final int voucherType;
 
-    long getDiscountAmount();
+    public Voucher(UUID voucherId, long discountAmount, LocalDateTime createAt, int voucherType) {
+        validateDiscountAmount(discountAmount);
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
+        this.createAt = createAt;
+        this.voucherType = voucherType;
+    }
 
-    int getVoucherType();
+    public Voucher(UUID voucherId, long discountAmount, LocalDateTime createAt, Customer customer, LocalDateTime ownedAt, int voucherType) {
+        validateDiscountAmount(discountAmount);
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
+        this.createAt = createAt;
+        this.customer = customer;
+        this.ownedAt = ownedAt;
+        this.voucherType = voucherType;
+    }
 
-    LocalDateTime getCreateAt();
+    abstract void validateDiscountAmount(long discountAmount);
 
-    Customer getCustomer();
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public long getDiscountAmount() {
+        return discountAmount;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public int getVoucherType() {
+        return voucherType;
+    }
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                "voucherId=" + voucherId +
+                ", discountAmount=" + discountAmount +
+                ", createAt=" + createAt +
+                ", customer=" + customer +
+                ", ownedAt=" + ownedAt +
+                ", voucherType=" + voucherType +
+                '}';
+    }
 }
