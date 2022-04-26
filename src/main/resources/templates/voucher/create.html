@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>바우처 등록</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
 <body>
-<div class="container">
-    <div>
-        <form th:action="@{/voucher/createVoucher}" th:object="${voucherRequest}" method="post">
-            <div class="form-group">
-                <div th:each="voucherType : ${voucherTypes}">
-                    <input type="radio" th:field="*{voucherType}" th:value="${voucherType.name()}">
-                    <label th:for="${#ids.prev('voucherType')}" th:text="${voucherType.description}">
-                        할인액
-                    </label>
+<div class="d-flex" id="wrapper">
+    <div th:include="/fragments/sidebar.html"></div>
+    <div id="page-content-wrapper">
+        <nav th:include="/fragments/nav.html"></nav>
+        <div class="container">
+            <h2>바우처 등록</h2>
+            <form th:action="@{/voucher/createVoucher}" th:object="${voucherRequest}" method="post">
+                <div>
+                    <label>할인 정책을 입력하세요</label>
+                    <div th:each="voucherType : ${voucherTypes}">
+                        <input type="radio" th:field="*{voucherType}" th:value="${voucherType.name()}">
+                        <label th:for="${#ids.prev('voucherType')}" th:text="${voucherType.description}">
+                            할인액
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label th:for="amount">할인</label>
-                <input type="number" th:field="*{amount}" class="form-control" placeholder="할인액 또는 할인율을 입력하세요">
-            </div>
-            <button type="submit" class="btn btn-primary">등록</button>
-        </form>
-        <br/>
+                <div style="text-align: center;">
+                    <label th:for="amount">할인액 또는 할인율을 입력하세요</label>
+                    <input type="number" th:field="*{amount}" class="form-control" placeholder="숫자만 입력하세요" style="width:100%;height:70px;">
+                </div>
+                <button type="submit" class="btn btn-primary">등록</button>
+            </form>
+        </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scripts.js"></script>
 </body>
 </html>

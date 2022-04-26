@@ -2,7 +2,6 @@ package com.prgrms.management.voucher.domain;
 
 import com.prgrms.management.config.ErrorMessageType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

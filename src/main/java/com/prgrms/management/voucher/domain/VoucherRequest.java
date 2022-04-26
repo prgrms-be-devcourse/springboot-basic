@@ -4,11 +4,14 @@ import com.prgrms.management.config.ErrorMessageType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 public class VoucherRequest {
     private VoucherType voucherType;
     private Long amount;
+    private UUID customerId;
 
     public VoucherRequest(String voucherType, String amount) {
         this.voucherType = VoucherType.of(voucherType);

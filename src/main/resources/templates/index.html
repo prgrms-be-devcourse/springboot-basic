@@ -6,7 +6,6 @@
     <div th:include="/fragments/sidebar.html"></div>
     <div id="page-content-wrapper">
         <nav th:include="/fragments/nav.html"></nav>
-        <!-- Page content-->
         <table border="1" class="table table-striped">
             <tr class="text-center">
                 <th>voucherId</th>
@@ -14,7 +13,6 @@
                 <th>voucherType</th>
                 <th>createdAt</th>
                 <th>customerId</th>
-                <th></th>
             </tr>
             <tr class="text-center" th:each="voucher : ${vouchers}">
                 <td th:text="${voucher.voucherId}">voucherId</td>
@@ -22,12 +20,6 @@
                 <td th:text="${voucher.voucherType}">voucherType</td>
                 <td th:text="${#temporals.format(voucher.createdAt,'yyyy-MM-dd HH:mm:ss')}">createdAt</td>
                 <td th:text="${voucher.customerId}">null</td>
-                <td style="width: 90px;height: 30px;">
-                    <form id="deleteVoucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button id="delete-btn">삭제</button>
-                    </form>
-                </td>
             </tr>
         </table>
     </div>

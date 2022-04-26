@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="d-flex" id="wrapper">
+    <div th:include="/fragments/sidebar.html"></div>
+    <div id="page-content-wrapper">
+        <nav th:include="/fragments/nav.html"></nav>
+        <div class="container">
+            <h2>바우처 검색</h2>
+            <form th:action="@{/voucher/search}" method="post">
+                <div>
+                    <label>검색할 할인 정책을 입력하세요</label>
+                    <select id="voucherType" th:name="voucherType">
+                        <option th:each="voucherType : ${voucherTypes}"
+                                th:value="${voucherType}"
+                                th:text="${voucherType}">option
+                        </option>
+                    </select>
+                    <div style="text-align: center;">
+                        <label th:for="createdAt">검색 날짜를 입력하세요</label>
+                        <input type="date" id="createdAt" th:name="createdAt">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" onclick="search()">검색</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scripts.js"></script>
+</body>
+<script type="text/javascript">
+    function search() {
+        var voucherType=$("#voucherType").val();
+        var createdAt=$("#createdAt").val();
+        $.ajax({
+            url: "voucher/search",
+            data: {
+                voucherType: voucherType,
+                createdAt: createdAt,
+            },
+            type:"POST",
+        }).done(function (fragment) {
+            console.log(fragment.msg);
+            $("#resultDiv").data(fragment.vouchers);
+        });
+    }
+</script>
+</html>
