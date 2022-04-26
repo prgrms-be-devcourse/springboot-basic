@@ -20,19 +20,6 @@ import javax.sql.DataSource;
 )
 @EnableConfigurationProperties
 public class AppConfiguration {
-    @Bean
-    public DataSource dataSource() {
-        var dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost/customer_voucher_management")
-                .username("root")
-                .password("jungki503\\")
-                .type(HikariDataSource.class)
-                .build();
-        dataSource.setMaximumPoolSize(1000);
-        dataSource.setMinimumIdle(100);
-
-        return dataSource;
-    }
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource){
