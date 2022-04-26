@@ -5,7 +5,7 @@ import com.dojinyou.devcourse.voucherapplication.view.OutputView;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -62,9 +62,9 @@ public class ApplicationController {
             case CREATE:
                 VoucherType voucherType = getVoucherType();
                 VoucherAmount amount = getVoucherAmount(voucherType);
-                VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, amount);
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType, amount);
 
-                return voucherController.create(voucherRequestDto);
+                return voucherController.create(voucherRequest);
             case LIST:
                 return voucherController.findAll();
 

@@ -5,7 +5,7 @@ import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequestDto;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -65,9 +65,9 @@ class VoucherServiceTest {
             void it_Call_of_VoucherService_create_method(VoucherType voucherType) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
                 // given
                 int voucherAmount = 50;
-                VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, VoucherAmount.of(voucherType, voucherAmount));
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
 
-                Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequestDto);
+                Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
                 Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
@@ -90,9 +90,9 @@ class VoucherServiceTest {
                 // given
 
                 int voucherAmount = 50;
-                VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, VoucherAmount.of(voucherType, voucherAmount));
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
 
-                Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequestDto);
+                Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
                 Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);

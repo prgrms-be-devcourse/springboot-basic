@@ -3,12 +3,12 @@ package com.dojinyou.devcourse.voucherapplication.voucher.dto;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 
-public class VoucherResponseDto {
+public class VoucherResponse {
     private final Long id;
     private final VoucherType type;
     private final VoucherAmount amount;
 
-    public VoucherResponseDto(Long id, VoucherType type, VoucherAmount amount) {
+    public VoucherResponse(Long id, VoucherType type, VoucherAmount amount) {
         this.id = id;
         this.type = type;
         this.amount = amount;
