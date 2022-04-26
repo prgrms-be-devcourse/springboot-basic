@@ -1,6 +1,5 @@
 package com.example.voucher_manager.application;
 
-import com.example.voucher_manager.application.ApplicationStatus;
 import com.example.voucher_manager.io.CommandType;
 import com.example.voucher_manager.io.Console;
 import org.springframework.stereotype.Component;

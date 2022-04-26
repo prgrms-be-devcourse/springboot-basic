@@ -1,7 +1,5 @@
 package com.example.voucher_manager.domain.customer;
 
-import com.example.voucher_manager.domain.voucher.Voucher;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

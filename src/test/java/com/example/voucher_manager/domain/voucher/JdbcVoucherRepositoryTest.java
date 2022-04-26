@@ -1,25 +1,17 @@
 package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.MySqlContainerInitializer;
 import com.example.voucher_manager.domain.customer.Customer;
-import com.example.voucher_manager.domain.customer.CustomerRepository;
-import com.example.voucher_manager.domain.customer.JdbcCustomerRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.testcontainers.containers.DockerComposeContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -29,8 +21,6 @@ import javax.sql.DataSource;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,7 +65,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Autowired
-    JdbcVoucherRepository voucherRepository;
+    VoucherRepository voucherRepository;
 
     @AfterEach
     void clear() {
