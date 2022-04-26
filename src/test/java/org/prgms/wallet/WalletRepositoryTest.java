@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.customer.Customer;
-import org.prgms.customer.repository.CustomerRepository;
+import org.prgms.customer.CustomerRepository;
 import org.prgms.voucher.domain.FixedAmountVoucher;
 import org.prgms.voucher.domain.PercentDiscountVoucher;
 import org.prgms.voucher.domain.Voucher;
