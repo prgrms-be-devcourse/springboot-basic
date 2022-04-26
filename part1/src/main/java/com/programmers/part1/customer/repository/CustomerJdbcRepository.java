@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import static com.programmers.part1.util.JdbcUtil.toUUID;
 
 /**
  * 현재 VoucherRepository와 customerRepository에서 voucher_wallets에 접근합니다...
@@ -129,13 +130,7 @@ public class CustomerJdbcRepository implements CustomerRepository<UUID, Customer
         if (update != 1)
             throw new NoUpdateException("바우처를 지갑에서 삭제하는데 실패하였습니다.");
     }
-
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
+    
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());

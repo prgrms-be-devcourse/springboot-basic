@@ -6,13 +6,12 @@ import com.programmers.part1.domain.voucher.Voucher;
 import com.programmers.part1.domain.voucher.VoucherType;
 import com.programmers.part1.exception.NoUpdateException;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
+import static com.programmers.part1.util.JdbcUtil.toUUID;
 
 @Repository
 @Primary
@@ -104,11 +103,4 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
             put("amount", voucher.getAmount());
         }};
     }
-
-    private UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-
 }
