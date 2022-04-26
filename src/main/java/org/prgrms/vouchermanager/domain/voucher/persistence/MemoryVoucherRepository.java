@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanager.domain.voucher.persistence;
 
+import com.google.common.base.Preconditions;
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherRepository;
 import org.springframework.context.annotation.Profile;
@@ -21,8 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (storage.get(voucher.getId()) != null)
-            throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
+        Preconditions.checkState(storage.get(voucher.getId()) == null, "이미 존재하는 voucherId 입니다.");
 
         storage.put(voucher.getId(), voucher);
         return voucher;

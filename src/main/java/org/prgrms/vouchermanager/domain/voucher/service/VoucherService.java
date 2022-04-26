@@ -12,8 +12,8 @@ public interface VoucherService {
     /**
      * 바우처 생성
      *
-     * @param type Voucher 타입.
-     * @param amount 할인율
+     * @param type Voucher 타입
+     * @param amount 할인 값
      * @return 생성된 Voucher의 UUID를 반환합니다.
      */
     UUID createVoucher(String type, Long amount);
@@ -27,7 +27,7 @@ public interface VoucherService {
      * 아이디로 Voucher 조회
      *
      * @param voucherId
-     * @return voucherId로 voucher찾아 반환합니다.
+     * @return voucherId로 voucher를 찾아 반환합니다.
      */
     Voucher findVoucher(UUID voucherId);
 }

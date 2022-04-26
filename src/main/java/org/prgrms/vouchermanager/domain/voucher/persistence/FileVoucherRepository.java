@@ -54,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 .append(voucher.getId())
                 .toString();
 
-        if (new File(savePath).exists()) throw new IllegalArgumentException();
+        if (new File(savePath).exists()) throw new IllegalArgumentException("이미 존재하는 바우처 아이디입니다.");
 
         try (FileOutputStream fileOutputStream = new FileOutputStream(savePath);
              ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {

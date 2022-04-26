@@ -17,12 +17,16 @@ public class Customer {
 
     /* 이름 */
     private final String name;
+
     /* 이메일 */
     private final String email;
+
     /* 생성 일시 */
     private final LocalDateTime createAt = LocalDateTime.now();
+
     /* 아이디 */
     private UUID id;
+
     /* 상태 */
     private CustomerStatus status = CustomerStatus.CREATED;
 
