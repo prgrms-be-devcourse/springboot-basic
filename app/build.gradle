@@ -53,6 +53,9 @@ dependencies {
         exclude module: 'junit'
     }
 
+    //embed-mysql
+    testImplementation 'com.wix:wix-embedded-mysql:4.6.1'
+
 }
 
 application {
