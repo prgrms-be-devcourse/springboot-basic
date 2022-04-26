@@ -1,6 +1,8 @@
 package kdt.vouchermanagement.domain.voucher.domain;
 
-public abstract class Voucher {
+import java.io.Serializable;
+
+public abstract class Voucher implements Serializable {
     private final Long voucherId;
     private final VoucherType voucherType;
     private final int discountValue;
