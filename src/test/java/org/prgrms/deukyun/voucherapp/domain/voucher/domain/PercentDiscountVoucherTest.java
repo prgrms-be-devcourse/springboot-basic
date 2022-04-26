@@ -1,9 +1,10 @@
-package org.prgrms.deukyun.voucherapp.domain.voucher.entity;
+package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.percentDiscountVoucher;
 
 /**
  * PDV - abbreviation of PercentDiscountVoucher
@@ -11,33 +12,35 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class PercentDiscountVoucherTest {
 
     @Test
-    void givenPercent20_whenConstructPDV_thenIsCreated() {
+    void 성공_생성() {
         //setup
         long percent = 20L;
 
         //when
-        Voucher voucher = percentDiscountVoucherWithPercent(percent);
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(20L);
 
         //assert
         assertThat(voucher).isNotNull();
+        assertThat(voucher.getId()).isNotNull();
+        assertThat(voucher.getPercent()).isEqualTo(percent);
     }
 
     @Test
-    void givenNegativePercent_whenConstructPDV_thenThrowIllegalArgumentException() {
+    void 실패_생성_범위_밖의_퍼센트() {
         //setup
-        long amount = -1000L;
+        long percent = 101L;
 
         //assert throws
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new PercentDiscountVoucher(amount));
+                .isThrownBy(() -> new PercentDiscountVoucher(percent));
 
     }
 
     @Test
-    void givenBeforeDiscountPrice_whenDiscount_thenReturnPercentDiscountedPrice() {
+    void 성공_할인() {
         //setup
         long percent = 20L;
-        Voucher voucher = percentDiscountVoucherWithPercent(percent);
+        Voucher voucher = percentDiscountVoucher();
         long beforeDiscountPrice = 1000L;
 
         //when
@@ -45,9 +48,5 @@ class PercentDiscountVoucherTest {
 
         //assert
         assertThat(discountedPrice).isEqualTo(beforeDiscountPrice * (100 - percent) / 100);
-    }
-
-    private PercentDiscountVoucher percentDiscountVoucherWithPercent(long percent) {
-        return new PercentDiscountVoucher(percent);
     }
 }

@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.FixedAmountDiscountVoucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.entity.PercentDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -26,7 +26,7 @@ class CreateVoucherCommandTest {
     }
 
     @Test
-    void givenInvalidTypeString_whenCallCreateVoucher_thenThrowsIllegalArgumentException() {
+    void 바우처_생성_실패_InvalidType_입력() {
         //setup
         when(mockConsole.readLine()).thenReturn("나는 Invalid Type");
 
@@ -35,43 +35,32 @@ class CreateVoucherCommandTest {
                 .isThrownBy(() -> command.createVoucher());
     }
 
-    @Nested
-    class givenTypeStringFixed_whenCallCreateVoucher_test {
+    @Test
+    void 정액_할인_바우처_생성_성공() {
+        //setup
+        when(mockConsole.readLine()).thenReturn("fixed");
+        when(mockConsole.readLong()).thenReturn(1000L);
 
-        @Test
-        void givenAmountString1000_thenWriteMsgAndReadLineAndInsertFADV() {
-            //setup
-            when(mockConsole.readLine()).thenReturn("fixed").thenReturn("1000");
+        //action
+        command.createVoucher();
 
-            //action
-            command.createVoucher();
+        //verify
+        InOrder inOrder = inOrder(mockConsole, mockConsole, mockVoucherService);
 
-            //verify
-            InOrder inOrder = inOrder(mockConsole, mockConsole, mockVoucherService);
-
-            inOrder.verify(mockConsole).write("enter the amount");
-            inOrder.verify(mockConsole).readLine();
-            inOrder.verify(mockVoucherService).insert(any(FixedAmountDiscountVoucher.class));
-        }
-
-        @Test
-        void givenInvalidAmountString_thenThrowsIllegalArgumentException() {
-            //setup
-            when(mockConsole.readLine()).thenReturn("fixed").thenReturn("Invalid Amount");
-
-            //assert throws
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> command.createVoucher());
-        }
+        inOrder.verify(mockConsole).write("enter the amount/percent");
+        inOrder.verify(mockConsole).readLong();
+        inOrder.verify(mockVoucherService).insert(any(FixedAmountDiscountVoucher.class));
     }
+    
 
     @Nested
-    class givenTypeStringPercent_whenCallCreateVoucher_test {
+    class 정률_할인_바우처_생성 {
 
         @Test
-        void givenPercentString20_thenWriteMsgAndReadLineAndInsertPDV() {
+        void 성공() {
             //setup
-            when(mockConsole.readLine()).thenReturn("percent").thenReturn("20");
+            when(mockConsole.readLine()).thenReturn("percent");
+            when(mockConsole.readLong()).thenReturn(20L);
 
             //action
             command.createVoucher();
@@ -79,25 +68,16 @@ class CreateVoucherCommandTest {
             //verify
             InOrder inOrder = inOrder(mockConsole, mockConsole, mockVoucherService);
 
-            inOrder.verify(mockConsole).write("enter the percent");
-            inOrder.verify(mockConsole).readLine();
+            inOrder.verify(mockConsole).write("enter the amount/percent");
+            inOrder.verify(mockConsole).readLong();
             inOrder.verify(mockVoucherService).insert(any(PercentDiscountVoucher.class));
         }
 
         @Test
-        void givenInvalidAmountStringOutOfBounds_thenThrowsIllegalArgumentException() {
+        void 실패_범위_밖의_입력() {
             //setup
-            when(mockConsole.readLine()).thenReturn("percent").thenReturn("2000");
-
-            //assert throws
-            assertThatIllegalArgumentException()
-                    .isThrownBy(() -> command.createVoucher());
-        }
-
-        @Test
-        void givenInvalidAmountString_thenThrowsIllegalArgumentException() {
-            //setup
-            when(mockConsole.readLine()).thenReturn("percent").thenReturn("Invalid Percent");
+            when(mockConsole.readLine()).thenReturn("percent");
+            when(mockConsole.readLong()).thenReturn(101L);
 
             //assert throws
             assertThatIllegalArgumentException()

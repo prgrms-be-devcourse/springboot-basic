@@ -19,10 +19,19 @@ public class ConsoleService {
         return scanner.nextLine();
     }
 
+    public long readLong() {
+        try {
+            return Long.parseLong(readLine());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("You should Enter Number");
+        }
+    }
+
     public void write(String msg, String... args) {
         System.out.print(ANSI_YELLOW);
         System.out.printf(msg, (Object[]) args);
         System.out.print(ANSI_RESET);
         System.out.println();
     }
+
 }

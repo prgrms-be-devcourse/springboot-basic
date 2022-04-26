@@ -1,4 +1,6 @@
-package org.prgrms.deukyun.voucherapp.domain.voucher.entity;
+package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
+
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -7,24 +9,23 @@ import static com.google.common.base.Preconditions.checkArgument;
 /**
  * 정액 할인 바우처
  */
-public class FixedAmountDiscountVoucher implements Voucher {
+@Getter
+public class FixedAmountDiscountVoucher extends Voucher {
 
+    /**
+     * 할인액
+     */
     private final long amount;
-    private UUID id;
 
     public FixedAmountDiscountVoucher(long amount) {
+        this(UUID.randomUUID(), amount);
+    }
+
+    public FixedAmountDiscountVoucher(UUID id, long amount) {
+        super(id);
         checkArgument(amount > 0, "amount must be positive.");
 
         this.amount = amount;
-    }
-
-    public long getAmount() {
-        return amount;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override
@@ -37,7 +38,7 @@ public class FixedAmountDiscountVoucher implements Voucher {
     @Override
     public String toDisplayString() {
         return new StringBuilder("[Fixed Amount Discount Voucher]")
-                .append(" id : ").append(id.toString(), 0, 8)
+                .append(" id : ").append(super.getId().toString(), 0, 8)
                 .append(", amount  : ").append(amount)
                 .toString();
     }

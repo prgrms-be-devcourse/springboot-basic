@@ -22,7 +22,7 @@ class ShowAllVoucherCommandTest {
     }
 
     @Test
-    void givenShowAllVoucherCommand_whenCallShowAllVoucher_thenVoucherServiceCallFindAllAndConsoleCallWrite() {
+    void 성공_전체조회명령() {
         //setup
         command = new ShowAllVoucherCommand(mockVoucherService, mockConsole);
 
