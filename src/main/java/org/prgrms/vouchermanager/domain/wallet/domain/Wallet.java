@@ -8,8 +8,14 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Getter
 public class Wallet {
+
+    /* Wallet 아이디 */
     private final UUID id = UUID.randomUUID();
+
+    /* voucher 아이디 */
     private final UUID voucherId;
+
+    /* customer 아이디 */
     private final UUID customerId;
 
     public Wallet(UUID customerId, UUID voucherId) {
