@@ -5,12 +5,14 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_DISCOUNT(1), PERCENT_DISCOUNT(2);
+    FIXED_DISCOUNT(1, "Fixed discount"), PERCENT_DISCOUNT(2, "Percnet discount");
 
     private final int order;
+    private final String description;
 
-    VoucherType(int order) {
+    VoucherType(int order, String description) {
         this.order = order;
+        this.description = description;
     }
 
     /**
@@ -45,5 +47,9 @@ public enum VoucherType {
             default:
                 throw new IllegalArgumentException("일치하는 VoucherType이 없습니다");
         }
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
