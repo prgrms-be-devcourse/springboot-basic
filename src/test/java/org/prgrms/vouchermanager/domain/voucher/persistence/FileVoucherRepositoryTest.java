@@ -64,7 +64,7 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository.insert(voucher);
 
         //then
-        assertEquals(voucher, fileVoucherRepository.findById(voucher.getVoucherId()).get());
+        assertEquals(voucher, fileVoucherRepository.findById(voucher.getId()).get());
     }
 
     @Test

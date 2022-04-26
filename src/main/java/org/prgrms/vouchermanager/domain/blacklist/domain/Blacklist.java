@@ -9,7 +9,11 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 @Getter
 public class Blacklist {
+
+    /* 아이디 */
     private final UUID id = UUID.randomUUID();
+    
+    /* 이메일 */
     private final String email;
 
     public Blacklist(String email) {

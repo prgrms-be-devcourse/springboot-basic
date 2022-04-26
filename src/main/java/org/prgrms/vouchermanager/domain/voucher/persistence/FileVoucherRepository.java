@@ -42,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return getVouchers().stream()
-                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
+                .filter(voucher -> voucher.getId().equals(voucherId))
                 .findFirst();
     }
 
@@ -51,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
         String savePath = new StringBuilder()
                 .append(voucherFilePath)
                 .append(File.separator)
-                .append(voucher.getVoucherId())
+                .append(voucher.getId())
                 .toString();
 
         if (new File(savePath).exists()) throw new IllegalArgumentException();

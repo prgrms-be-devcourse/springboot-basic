@@ -1,35 +1,33 @@
 package org.prgrms.vouchermanager.domain.voucher.service;
 
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.domain.VoucherFactory;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
-public class VoucherServiceImpl implements VoucherService {
+public class DefaultVoucherService implements VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherServiceImpl(VoucherRepository voucherRepository) {
+    public DefaultVoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     @Override
     public UUID createVoucher(String type, Long amount) {
-        Voucher voucher = VoucherFactory.getVoucher(UUID.randomUUID(), VoucherType.valueOf(type.toUpperCase()), amount);
+        Voucher voucher = Voucher.create(UUID.randomUUID(), VoucherType.valueOf(type.toUpperCase()), amount);
         Voucher insertedVoucher = voucherRepository.insert(voucher);
-        return insertedVoucher.getVoucherId();
+
+        return insertedVoucher.getId();
     }
 
     @Override
-    public String allVouchersToString() {
-        StringBuilder sb = new StringBuilder();
-        voucherRepository.getAll().forEach(v -> sb.append(v).append("\n"));
-
-        return sb.toString();
+    public List<Voucher> findVouchers() {
+        return voucherRepository.getAll();
     }
 
     @Override

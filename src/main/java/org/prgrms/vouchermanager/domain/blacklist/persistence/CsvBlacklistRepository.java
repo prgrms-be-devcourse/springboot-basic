@@ -18,8 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * resource 폴더의 customer_blacklist.csv에 저장된 목록을 읽어오는 repository입니다.
- * customer_blacklist.csv 위치 : application.properties의 blacklist.path
- * custmer_blacklist.csv는 1줄에 1email 형식으로 저장되어있습니다.
+ * customer_blacklist.csv 위치 : blacklist.path=src/main/resources/customer_blacklist.csv
+ * custmer_blacklist.csv는 1줄에 email 한 개씩 저장되어있습니다.
  * 예시:
  * blacklist01@email.com
  * blacklist02@email.com
@@ -42,7 +42,8 @@ public class CsvBlacklistRepository implements BlacklistRepository {
     void init() {
         try {
             for (String email : Files.readAllLines(Path.of(blacklistPath))) {
-                checkArgument(storage.get(email) == null, "customer_blacklist.csv에 중복이 존재합니다.");
+                
+                checkArgument(Objects.isNull(storage.get(email)), "customer_blacklist.csv에 중복이 존재합니다.");
 
                 Blacklist blacklist = new Blacklist(email);
                 storage.put(email, blacklist);

@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.domain.voucher.service;
 
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -9,7 +10,8 @@ import java.util.UUID;
  */
 public interface VoucherService {
     /**
-     * 타입과 할인율을 입력받아 Voucher를 생성하고 repository에 저장합니다.
+     * 바우처 생성
+     *
      * @param type Voucher 타입.
      * @param amount 할인율
      * @return 생성된 Voucher의 UUID를 반환합니다.
@@ -17,11 +19,13 @@ public interface VoucherService {
     UUID createVoucher(String type, Long amount);
 
     /**
-     * @return 저장된 voucher 목록을 String으로 반환합니다.
+     * 저장된 voucher 목록 조회
      */
-    String allVouchersToString();
+    List<Voucher> findVouchers();
 
     /**
+     * 아이디로 Voucher 조회
+     *
      * @param voucherId
      * @return voucherId로 voucher찾아 반환합니다.
      */

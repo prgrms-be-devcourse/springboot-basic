@@ -12,25 +12,27 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.google.common.base.Preconditions.checkState;
 
 @Repository
 public class CustomerJDBCRepository implements CustomerRepository {
 
     private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
     private final JdbcTemplate jdbcTemplate;
+
     /**
      * 데이터베이스에서 읽어온 ResultSet을 Customer로 매핑하기 위한 Mapper입니다.
      */
     private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customer_id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
+        UUID id = UUIDBytesToUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customer_id, name, email, createdAt);
+
+        return Customer.bind(id, name, email);
     };
 
     public CustomerJDBCRepository(JdbcTemplate jdbcTemplate) {
@@ -44,13 +46,13 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int theNumberOfRowAffected = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
-                customer.getCustomerId().toString().getBytes(),
+        int theNumberOfRowsAffected = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+                customer.getId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreateAt()));
-        if (theNumberOfRowAffected != 1)
-            throw new IllegalArgumentException("잘못된 삽입입니다.");
+
+        checkState(theNumberOfRowsAffected == 1, "잘못된 삽입입니다.");
         return customer;
     }
 
@@ -59,11 +61,10 @@ public class CustomerJDBCRepository implements CustomerRepository {
         int theNumberOfRowsAffected = jdbcTemplate.update("UPDATE customers SET name = ?, email =? where customer_id = UUID_TO_BIN(?)",
                 customer.getName(),
                 customer.getEmail(),
-                customer.getCustomerId().toString().getBytes()
+                customer.getId().toString().getBytes()
         );
 
-        if (theNumberOfRowsAffected != 1)
-            throw new IllegalArgumentException(MessageFormat.format("Customer: {0} 업데이트 실패", customer));
+        checkState(theNumberOfRowsAffected == 1, MessageFormat.format("Customer: {0} 업데이트 실패", customer));
         return customer;
     }
 
@@ -115,13 +116,13 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
         if (theNumberOfRowsDeleted != 1) {
             log.error(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
-            throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다.", customerId));
+            throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다. {1}개의 행이 삭제 되었습니다.", customerId, theNumberOfRowsDeleted));
         }
     }
 
     @Override
     public void deleteAll() {
         int theNumberOfRowsDeleted = jdbcTemplate.update("DELETE FROM customers");
-        log.info("전부 {} 행이 삭제되었습니다", theNumberOfRowsDeleted);
+        log.info("Customer : 전부 {} 행이 삭제되었습니다", theNumberOfRowsDeleted);
     }
 }

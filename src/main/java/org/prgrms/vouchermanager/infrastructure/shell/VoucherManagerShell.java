@@ -1,16 +1,17 @@
-package org.prgrms.vouchermanager.shell;
+package org.prgrms.vouchermanager.infrastructure.shell;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.service.VoucherService;
+import org.prgrms.vouchermanager.infrastructure.dto.VoucherDto.VoucherListResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.text.MessageFormat;
+import java.util.List;
 
-/**
- * 아직 view, controller는 구현하지 않았습니다.
- */
 @ShellComponent
 public class VoucherManagerShell {
 
@@ -21,6 +22,12 @@ public class VoucherManagerShell {
         this.voucherService = voucherService;
     }
 
+    /**
+     * 쉘 명령을 받아 바우처 생성
+     * <p>
+     * 명령 형식 - {명령어} {타입} {수량}
+     * 예) create fixed 10
+     */
     @ShellMethod("create a voucher")
     public String create(String type, long amount) {
         try {
@@ -32,8 +39,16 @@ public class VoucherManagerShell {
         return "fail to create a voucher.";
     }
 
+    /**
+     * 쉘 명령을 받아 바우처 목록 조회
+     * <p>
+     * 명령 형식 - {명령어}
+     * 예) list
+     */
     @ShellMethod("show voucher list")
-    public String list() {
-        return voucherService.allVouchersToString();
+    public VoucherListResponse list() throws JsonProcessingException {
+        final List<Voucher> vouchers = voucherService.findVouchers();
+
+        return new VoucherListResponse(vouchers);
     }
 }

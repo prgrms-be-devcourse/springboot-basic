@@ -1,7 +1,9 @@
 package org.prgrms.vouchermanager.domain.voucher.persistence;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.prgrms.vouchermanager.domain.voucher.domain.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
@@ -25,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
 
     @Autowired
@@ -42,8 +43,8 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
 
-        Voucher foundFixedVoucher = voucherRepository.findById(fixedAmountVoucher.getVoucherId()).get();
-        Voucher foundPercentVoucher = voucherRepository.findById(percentDiscountVoucher.getVoucherId()).get();
+        Voucher foundFixedVoucher = voucherRepository.findById(fixedAmountVoucher.getId()).get();
+        Voucher foundPercentVoucher = voucherRepository.findById(percentDiscountVoucher.getId()).get();
 
         //then
         assertThat(foundFixedVoucher).isEqualTo(fixedAmountVoucher);
@@ -58,7 +59,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.insert(fixedAmountVoucher);
 
         //when
-        Voucher foundVoucher = voucherRepository.findById(fixedAmountVoucher.getVoucherId()).get();
+        Voucher foundVoucher = voucherRepository.findById(fixedAmountVoucher.getId()).get();
 
         //then
         assertThat(foundVoucher).isEqualTo(fixedAmountVoucher);
@@ -109,7 +110,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.vouchermanager.voucher"})
+    @ComponentScan(basePackages = {"org.prgrms.vouchermanager.domain.voucher"})
     static class Config {
 
         @Bean

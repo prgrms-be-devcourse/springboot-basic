@@ -27,8 +27,8 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.insert(percentVoucher);
 
         //then
-        assertThat(voucherRepository.findById(fixedVoucher.getVoucherId()).get()).isEqualTo(fixedVoucher);
-        assertThat(voucherRepository.findById(percentVoucher.getVoucherId()).get()).isEqualTo(percentVoucher);
+        assertThat(voucherRepository.findById(fixedVoucher.getId()).get()).isEqualTo(fixedVoucher);
+        assertThat(voucherRepository.findById(percentVoucher.getId()).get()).isEqualTo(percentVoucher);
     }
 
     @Test
@@ -42,8 +42,8 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.insert(percentVoucher);
 
         //when
-        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
-        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getVoucherId()).get();
+        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getId()).get();
+        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getId()).get();
 
         //then
         assertThat(findFixedVoucher).isEqualTo(fixedVoucher);

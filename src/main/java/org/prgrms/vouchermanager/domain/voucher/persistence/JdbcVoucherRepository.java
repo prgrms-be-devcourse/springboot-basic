@@ -2,7 +2,6 @@ package org.prgrms.vouchermanager.domain.voucher.persistence;
 
 import org.prgrms.vouchermanager.domain.customer.persistence.CustomerJDBCRepository;
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.domain.VoucherFactory;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * 위클리미션 목록 중 JdbcVoucherRepository 구현 입니다!
+ * 위클리미션 목록 중 JdbcVoucherRepository 구현 입니다
  */
 @Repository
 @Profile("jdbc")
@@ -37,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucher_id = UUIDBytesToUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("type").toUpperCase());
         Long amount = resultSet.getLong("amount");
-        return VoucherFactory.getVoucher(voucher_id, voucherType, amount);
+        return Voucher.create(voucher_id, voucherType, amount);
     };
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -66,8 +65,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int theNumberOfRowAffected;
         try {
             theNumberOfRowAffected = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount) VALUES (UUID_TO_BIN(?), ?, ?)",
-                    voucher.getVoucherId().toString().getBytes(),
-                    voucher.getVoucherType().toString(),
+                    voucher.getId().toString().getBytes(),
+                    voucher.getType().toString(),
                     voucher.getDiscountValue());
         } catch (DuplicateKeyException e) {
             throw new IllegalArgumentException("이미 존재하는 voucherId입니다.");

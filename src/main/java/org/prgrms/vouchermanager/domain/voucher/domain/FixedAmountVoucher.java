@@ -1,24 +1,26 @@
 package org.prgrms.vouchermanager.domain.voucher.domain;
 
+import lombok.ToString;
+
 import java.util.UUID;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
+@ToString(callSuper = true)
 public class FixedAmountVoucher extends AbstractVoucher {
 
+    /* amount 최댓값 */
     public static final long MAX_FIXED_VOUCHER_AMOUNT = 10000;
+    
+    /* 고정 할인 금액 */
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId, VoucherType.FIXED);
-        validateAmount(amount);
+
+        checkArgument(amount > 0 && amount <= MAX_FIXED_VOUCHER_AMOUNT, "Amount should be between 0 and %d".formatted(MAX_FIXED_VOUCHER_AMOUNT));
 
         this.amount = amount;
-    }
-
-    private void validateAmount(long amount) {
-        if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
-        if (amount == 0) throw new IllegalArgumentException("Amount should be positive");
-        if (amount > MAX_FIXED_VOUCHER_AMOUNT)
-            throw new IllegalArgumentException("amount는 %d 를 초과할 수 없습니다.".formatted(MAX_FIXED_VOUCHER_AMOUNT));
     }
 
     @Override
@@ -29,14 +31,5 @@ public class FixedAmountVoucher extends AbstractVoucher {
     @Override
     public Long discount(long beforeDiscount) {
         return beforeDiscount - amount < 0 ? 0 : beforeDiscount - amount;
-    }
-
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "voucherId=" + getVoucherId() +
-                ", voucherType=" + getVoucherType() +
-                ", amount=" + amount +
-                '}';
     }
 }

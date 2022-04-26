@@ -1,84 +1,71 @@
 package org.prgrms.vouchermanager.domain.customer.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import org.apache.logging.log4j.util.Strings;
+
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Customer {
-    private final UUID customerId;
-    private final String email;
-    private final LocalDateTime createAt;
-    private final String name;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
-        validateCustomerConstructorArgs(customerId, name, email, createAt);
-        this.customerId = customerId;
+@Getter
+@EqualsAndHashCode(of = "id", doNotUseGetters = true)
+public class Customer {
+
+    /* 이름 */
+    private final String name;
+    /* 이메일 */
+    private final String email;
+    /* 생성 일시 */
+    private final LocalDateTime createAt = LocalDateTime.now();
+    /* 아이디 */
+    private UUID id;
+    /* 상태 */
+    private CustomerStatus status = CustomerStatus.CREATED;
+
+    private Customer(String name, String email) {
+        validateCustomerConstructorArgs(name, email);
+
         this.name = name;
         this.email = email;
-        this.createAt = createAt.truncatedTo(ChronoUnit.SECONDS);
     }
 
-    private void validateCustomerConstructorArgs(UUID customerId, String name, String email, LocalDateTime createAt) {
-        validateID(customerId);
+    public static Customer create(String name, String email) {
+        return new Customer(name, email).withId(UUID.randomUUID());
+    }
+
+    public static Customer bind(UUID id, String name, String email) {
+        return new Customer(name, email).withId(id);
+    }
+
+    private Customer withId(UUID id) {
+        if (Objects.isNull(id)) throw new IllegalArgumentException("아이디 필수");
+
+        this.id = id;
+
+        return this;
+    }
+
+    private void validateCustomerConstructorArgs(String name, String email) {
         validateName(name);
         validateEmail(email);
-        validateCreateAt(createAt);
-    }
-
-    private void validateCreateAt(LocalDateTime createAt) {
-        if (createAt == null) throw new IllegalArgumentException("createAt은 null이 될 수 없습니다.");
-    }
-
-    private void validateID(UUID customerId) {
-        if (customerId == null) throw new IllegalArgumentException("customerId는 null이 될 수 없습니다.");
-    }
-
-    private void validateEmail(String email) {
-        if (email.isBlank()) throw new IllegalArgumentException("email은 공백이 될 수 없습니다.");
-        if (!email.contains("@")) throw new IllegalArgumentException("email은 @를 포함해야 합니다.");
     }
 
     private void validateName(String name) {
-        if (name.isBlank()) throw new IllegalArgumentException("name은 공백이 될 수 없습니다.");
+        checkArgument(Strings.isNotBlank(name), "name은 공백이 될 수 없습니다.");
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    private void validateEmail(String email) {
+        checkArgument(Strings.isNotBlank(email), "email은 공백이 될 수 없습니다.");
+        checkArgument(email.contains("@"), "email은 @를 포함해야 합니다.");
     }
 
-    public String getName() {
-        return name;
-    }
+    public void changeBlackList() {
+        checkState(this.status == CustomerStatus.CREATED, "블랙리스트로 변경 불가한 상태");
 
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getCreateAt() {
-        return createAt;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Customer customer = (Customer) o;
-        return customerId.equals(customer.customerId) && email.equals(customer.email) && createAt.equals(customer.createAt) && name.equals(customer.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(customerId, email, createAt, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", createAt=" + createAt +
-                '}';
+        this.status = CustomerStatus.BLOCKED;
     }
 }

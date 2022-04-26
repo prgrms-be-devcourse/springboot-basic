@@ -13,14 +13,11 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("고정 금액을 디스카운트한다.")
     void testWIthDiscountAmount() {
-        //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
         long beforeDiscountAmount = 100;
 
-        //when
         long discounted = fixedAmountVoucher.discount(beforeDiscountAmount);
 
-        //then
         assertEquals(90, discounted);
     }
 

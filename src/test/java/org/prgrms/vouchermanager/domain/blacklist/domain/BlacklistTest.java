@@ -2,6 +2,8 @@ package org.prgrms.vouchermanager.domain.blacklist.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -16,16 +18,11 @@ class BlacklistTest {
         assertThat(blacklist.getEmail()).isEqualTo("blackList@gmail.com");
     }
 
-    @Test
-    @DisplayName("email은 공백이 될 수 없다.")
-    void email은_공백이_될_수_없다() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new Blacklist("  "));
-    }
-
-    @Test
-    @DisplayName("email은 null이 될 수 없다.")
-    void email은_null이_될_수_없다() {
-        assertThatIllegalArgumentException().isThrownBy(() -> new Blacklist(null));
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("email이 공백이면 예외를 던진다")
+    void email이_공백이면_예외를_던진다(String email) {
+        assertThatIllegalArgumentException().isThrownBy(() -> new Blacklist(email));
     }
 
     @Test

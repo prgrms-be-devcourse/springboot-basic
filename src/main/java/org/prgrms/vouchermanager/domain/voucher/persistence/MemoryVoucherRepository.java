@@ -21,10 +21,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (storage.get(voucher.getVoucherId()) != null)
+        if (storage.get(voucher.getId()) != null)
             throw new IllegalArgumentException("이미 존재하는 voucherId 입니다.");
 
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
         return voucher;
     }
 

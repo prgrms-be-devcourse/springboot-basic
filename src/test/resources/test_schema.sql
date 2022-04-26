@@ -1,6 +1,6 @@
-create database order_mgmt;
+create database test_order_mgmt;
 
-use order_mgmt;
+use test_order_mgmt;
 
 drop table if exists customers;
 drop table if exists vouchers;
