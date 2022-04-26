@@ -13,10 +13,9 @@ import java.util.*;
 import static com.kdt.commandLineApp.UUIDConverter.toUUID;
 
 @Repository
-@Profile("db")
-public class JdbcVoucherRepository implements VoucherRepository {
-    @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+@Primary
+public class JdbcVoucherRepository implements VoucherRepository{
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("vid"));
@@ -31,6 +30,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
         return null;
     };
+
+    @Autowired
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
 
     @Override
     public void add(Voucher voucher) {
@@ -47,19 +51,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(UUID voucherId) {
+    public void remove(String id) {
         namedParameterJdbcTemplate.update(
                 "delete from mysql.voucher where vid = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", voucherId.toString().getBytes())
+                Collections.singletonMap("voucherId", id.getBytes())
         );
     }
 
     @Override
-    public Optional<Voucher> get(UUID voucherId) {
+    public Optional<Voucher> get(String id) {
         try {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     "select * from mysql.voucher where vid = UUID_TO_BIN(:voucherId)",
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    Collections.singletonMap("voucherId", id.getBytes()),
                     voucherRowMapper
             ));
         }

@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.isA;
 @SpringJUnitConfig(classes = {AppContext.class})
 @ActiveProfiles("db")
 class JdbcCustomerRepositoryTest {
+    private String customerId = "90876254-1988-4f45-b296-ebbb6fedd464";
+
     @Autowired
     JdbcCustomerRepository jdbcCustomerRepository;
 
@@ -36,9 +38,9 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     void add() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464", "moon",25,"man");
+        settingCustomer(customerId, "moon",25,"man");
 
-        var result = jdbcCustomerRepository.get(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).get();
+        Customer result = jdbcCustomerRepository.get(customerId).get();
 
         assertThat(result, isA(Customer.class));
         assertThat(result.getName(), is("moon"));
@@ -48,20 +50,20 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     void getAll() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
+        settingCustomer(customerId,"moon",20, "woman");
 
-        var result =  jdbcCustomerRepository.getAll().size();
+        int result =  jdbcCustomerRepository.getAll().size();
 
         assertThat(result, is(1));
     }
 
     @Test
     void get() {
-        settingCustomer("90876254-1988-4f45-b296-ebbb6fedd464","moon",20, "woman");
+        settingCustomer(customerId,"moon",20, "woman");
 
-        var result = jdbcCustomerRepository.get(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")).get();
+        Customer result = jdbcCustomerRepository.get(customerId).get();
 
-        assertThat(result.getCustomerId(), is(UUID.fromString("90876254-1988-4f45-b296-ebbb6fedd464")));
+        assertThat(result.getCustomerId().toString(), is(customerId));
         assertThat(result.getName(), is("moon"));
         assertThat(result.getAge(), is(20));
         assertThat(result.getSex(), is("woman"));

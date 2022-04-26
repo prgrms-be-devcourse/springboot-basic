@@ -40,12 +40,12 @@ public class Customer {
         if (this == o) return true;
         if (!(o instanceof Customer)) return false;
         Customer customer = (Customer) o;
-        return age == customer.age && Objects.equals(name, customer.name) && sex == customer.sex;
+        return Objects.equals(customerId, customer.customerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, age, sex);
+        return Objects.hash(customerId);
     }
 
     public String getSex() {

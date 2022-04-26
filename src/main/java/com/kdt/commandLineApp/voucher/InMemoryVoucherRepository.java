@@ -9,7 +9,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import static java.util.stream.Collectors.toCollection;
 
 @Repository
-@Profile("dev")
 public class InMemoryVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
@@ -19,8 +18,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> get(UUID id) {
-        return Optional.ofNullable(map.get(id));
+    public Optional<Voucher> get(String id) {
+        return Optional.ofNullable(map.get(UUID.fromString(id)));
     }
 
     @Override
@@ -36,8 +35,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(UUID vid) {
-        map.remove(vid);
+    public void remove(String id) {
+        map.remove(UUID.fromString(id));
     }
 
     @Override

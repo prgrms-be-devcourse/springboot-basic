@@ -23,8 +23,8 @@ class CustomerServiceTest {
             Customer customer1 = new Customer("moon","25","man");
             Customer customer2 = new Customer("moon","26","woman");
 
-            var result1 =  customerService.getCustomers().get(0);
-            var result2 =  customerService.getCustomers().get(1);
+            Customer result1 =  customerService.getCustomers().get(0);
+            Customer result2 =  customerService.getCustomers().get(1);
 
             assertThat(result1, isA(Customer.class));
             assertThat(result2, isA(Customer.class));

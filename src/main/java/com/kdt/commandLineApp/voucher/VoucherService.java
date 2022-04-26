@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
     private VoucherRepository voucherRepository;
+
     @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -26,7 +26,7 @@ public class VoucherService {
     }
 
     public Optional<Voucher> getVoucher(String id) {
-        return voucherRepository.get(UUID.fromString(id));
+        return voucherRepository.get(id);
     }
 
     public List<Voucher> getVouchers() {
@@ -38,7 +38,7 @@ public class VoucherService {
     }
 
     public void removeVoucher(String id) {
-        voucherRepository.remove(UUID.fromString(id));
+        voucherRepository.remove(id);
     }
 
     public void removeAllVouchers() {

@@ -1,5 +1,6 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.console;
 
+import com.kdt.commandLineApp.AppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;

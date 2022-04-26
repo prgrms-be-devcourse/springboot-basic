@@ -1,5 +1,6 @@
 package com.kdt.commandLineApp.voucher;
 
+import com.kdt.commandLineApp.AppProperties;
 import com.kdt.commandLineApp.exception.FileSaveException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -13,14 +14,13 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toMap;
 
 @Repository
-@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
     private String fileName;
     private Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
-    public FileVoucherRepository(@Value("${voucher_info}") String fileName) {
+    public FileVoucherRepository(AppProperties appProperties) {
         try {
-            this.fileName = fileName;
+            this.fileName = appProperties.getVoucher_info();
             loadFile(fileName);
         }
         catch (Exception e) {
@@ -66,8 +66,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> get(UUID id) {
-        return Optional.ofNullable(map.get(id));
+    public Optional<Voucher> get(String id) {
+        return Optional.ofNullable(map.get(UUID.fromString(id)));
     }
 
     @Override
@@ -81,8 +81,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(UUID vid) {
-        map.remove(vid);
+    public void remove(String id) {
+        map.remove(UUID.fromString(id));
     }
 
     @Override

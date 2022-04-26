@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.controller;
 
 import com.kdt.commandLineApp.voucher.VoucherCreateDTO;
 import com.kdt.commandLineApp.voucher.VoucherDTO;
