@@ -15,14 +15,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Response<VoucherResponseDto> create(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         if (voucher == null) {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
-        Voucher savedVoucher = voucherRepository.create(voucher);
-        VoucherResponseDto voucherResponseDto = VoucherMapper.domainToResponseDto(savedVoucher);
-
-        Response<VoucherResponseDto> response = new Response<>(Response.State.SUCCESS, voucherResponseDto);
-        return response;
+        return voucherRepository.create(voucher);
     }
 }

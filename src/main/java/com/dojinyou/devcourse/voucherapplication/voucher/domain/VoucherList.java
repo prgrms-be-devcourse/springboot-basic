@@ -1,4 +1,4 @@
-package com.dojinyou.devcourse.voucherapplication.voucher.entity;
+package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
 import java.util.List;
 

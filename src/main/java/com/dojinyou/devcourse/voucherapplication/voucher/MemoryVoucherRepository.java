@@ -1,4 +1,10 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
-public class MemoryVoucherRepository implements IVoucherRepository{
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+
+public class MemoryVoucherRepository implements VoucherRepository{
+    @Override
+    public Voucher create(Voucher voucher) {
+        return null;
+    }
 }
