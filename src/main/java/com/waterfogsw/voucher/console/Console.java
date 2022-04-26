@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
-import static com.waterfogsw.voucher.console.Messages.INVALID_TYPE;
-
 @Component
 public class Console implements Input, Output {
 
@@ -16,19 +14,15 @@ public class Console implements Input, Output {
     public Command inputCommand() {
         System.out.print(Messages.COMMAND_INPUT);
         String commandInput = sc.nextLine();
-        return Command.getCommand(commandInput);
+        return Command.from(commandInput);
     }
 
     @Override
     public String inputType() {
         System.out.print(Messages.VOUCHER_SELECT);
         String input = sc.nextLine();
-        try {
-            int typeNum = Integer.parseInt(input);
-            return VoucherType.getVoucherType(typeNum).name();
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(INVALID_TYPE);
-        }
+        final int typeNum = Integer.parseInt(input);
+        return InputVoucherType.from(typeNum).name();
     }
 
     @Override
@@ -39,16 +33,16 @@ public class Console implements Input, Output {
 
     @Override
     public void printCommandList() {
-        Stream.of(CommandList.values())
-                .map(CommandList::getMessage)
+        Stream.of(CommandMenu.values())
+                .map(CommandMenu::getMessage)
                 .forEach(System.out::println);
     }
 
     @Override
     public void printVoucherTypes() {
         System.out.println();
-        Stream.of(VoucherType.values())
-                .forEach((v) -> System.out.println(v.getNum() + " : " + v));
+        Stream.of(InputVoucherType.values())
+                .forEach((v) -> System.out.println((v.ordinal() + 1) + " : " + v));
     }
 
     @Override
