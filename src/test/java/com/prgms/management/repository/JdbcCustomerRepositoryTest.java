@@ -71,7 +71,8 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"com.prgms.management.customer"})
+    @ComponentScan(basePackages = {"com.prgms.management.customer", "com.prgms.management.voucher_wallet", "com.prgms" +
+        ".management.voucher"})
     static class Config {
         @Bean
         public DataSource dataSource() {
