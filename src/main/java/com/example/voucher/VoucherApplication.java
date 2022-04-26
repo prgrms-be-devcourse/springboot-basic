@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 
-
 @SpringBootApplication
 public class VoucherApplication implements ApplicationRunner {
 
