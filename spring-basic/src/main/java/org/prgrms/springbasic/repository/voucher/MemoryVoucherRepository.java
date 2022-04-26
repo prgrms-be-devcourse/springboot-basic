@@ -1,6 +1,7 @@
 package org.prgrms.springbasic.repository.voucher;
 
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.domain.wallet.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -27,9 +28,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCustomerId(UUID customerId) {
+    public List<Voucher> findByCustomerId(UUID customerId) {
         //JDBC만 구현
-        return Optional.empty();
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
     }
 
     @Override
@@ -55,13 +61,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
+    public boolean deleteByVoucherId(UUID voucherId) {
         //JDBC만 구현
+        return true;
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
+    public boolean deleteByCustomerId(UUID customerId) {
         //JDBC만 구현
+        return true;
     }
 
     @Override

@@ -14,6 +14,9 @@ public enum VoucherSQL {
     SELECT_BY_CUSTOMER_ID(
             "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)"
     ),
+    SELECT_BY_VOUCHER_TYPE(
+            "select * from vouchers where voucher_type = :voucherType"
+    ),
     SELECT_VOUCHERS(
             "select * from vouchers order by created_at"
     ),

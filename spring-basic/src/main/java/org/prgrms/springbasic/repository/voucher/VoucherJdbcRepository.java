@@ -2,7 +2,6 @@ package org.prgrms.springbasic.repository.voucher;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
+import static java.util.Collections.*;
+import static java.util.Optional.empty;
 import static org.prgrms.springbasic.utils.UUIDConverter.toUUID;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERTED;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_UPDATED;
@@ -33,7 +35,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private final ObjectMapper objectMapper = new ObjectMapper()
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+            .disable(WRITE_DATES_AS_TIMESTAMPS)
             .registerModule(new JavaTimeModule());
 
     @Override
@@ -53,25 +55,41 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(),
-                    Collections.singletonMap("voucherId",
+                    singletonMap("voucherId",
                             voucherId.toString().getBytes()),
                                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
-            return Optional.empty();
+
+            return empty();
         }
     }
 
     @Override
-    public Optional<Voucher> findByCustomerId(UUID customerId) {
+    public List<Voucher> findByCustomerId(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_CUSTOMER_ID.getQuery(),
-                    Collections.singletonMap("customerId",
+            return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID.getQuery(),
+                    singletonMap("customerId",
                             customerId.toString().getBytes()),
-                                    voucherRowMapper));
+                                    voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
-            return Optional.empty();
+
+            return emptyList();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        try {
+            return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE.getQuery(),
+                    singletonMap("voucherType",
+                            voucherType.toString()),
+                                    voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("Got empty result: {}", e.getMessage());
+
+            return emptyList();
         }
     }
 
@@ -87,9 +105,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public int countVouchers() {
-        var count = jdbcTemplate.queryForObject(SELECT_COUNT.getQuery(),
-                Collections.emptyMap(),
-                Integer.class);
+        var count = jdbcTemplate.queryForObject(SELECT_COUNT.getQuery(), emptyMap(), Integer.class);
 
         return (count == null) ? 0 : count;
     }
@@ -108,18 +124,26 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
-        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.singletonMap("voucherId", voucherId));
+    public boolean deleteByVoucherId(UUID voucherId) {
+        var deletedCount = jdbcTemplate.update(DELETE_BY_VOUCHER_ID.getQuery(),
+                singletonMap("voucherId",
+                        voucherId));
+
+        return deletedCount == 1;
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
-        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.singletonMap("customerId", customerId));
+    public boolean deleteByCustomerId(UUID customerId) {
+        var deletedCount = jdbcTemplate.update(DELETE_BY_CUSTOMER_ID.getQuery(),
+                singletonMap("customerId",
+                        customerId));
+
+        return deletedCount == 1;
     }
 
     @Override
     public void deleteVouchers() {
-        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), Collections.emptyMap());
+        jdbcTemplate.update(DELETE_VOUCHERS.getQuery(), emptyMap());
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
