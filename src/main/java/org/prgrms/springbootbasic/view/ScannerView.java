@@ -196,7 +196,7 @@ public class ScannerView implements View {
         if (voucher.isFixed()) {
             System.out.println(AMOUNT + ((FixedAmountVoucher) voucher).getAmount());
         }
-        if (voucher.getClass() == PercentDiscountVoucher.class) {
+        if (voucher.isPercent()) {
             System.out.println(PERCENT + ((PercentDiscountVoucher) voucher).getPercent());
         }
     }

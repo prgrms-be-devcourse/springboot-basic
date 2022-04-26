@@ -1,5 +1,7 @@
 package org.prgrms.springbootbasic.repository.voucher;
 
+import static org.prgrms.springbootbasic.repository.voucher.FileConverter.mapToVoucherDTO;
+
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,11 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.customer.Customer;
-import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         return voucherDTOs.stream()
-            .map(this::DTOToVoucher)
+            .map(FileConverter::DTOToVoucher)
             .collect(Collectors.toList());
     }
 
@@ -94,31 +93,5 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteVoucher(Voucher voucher) {
         throw new AssertionError("아직 개발 안함");
-    }
-
-    private Voucher DTOToVoucher(VoucherDTO voucherDTO) {
-        if (voucherDTO.getVoucherType().isFixed()) {
-            return new FixedAmountVoucher(voucherDTO.getVoucherId(), voucherDTO.getAmount());
-        } else {
-            return new PercentDiscountVoucher(voucherDTO.getVoucherId(), voucherDTO.getPercent());
-        }
-    }
-
-    private VoucherDTO mapToVoucherDTO(Voucher voucher) {
-        if (voucher.isFixed()) {
-            return new VoucherDTO(
-                voucher.getVoucherId(),
-                VoucherType.FIXED,
-                ((FixedAmountVoucher) voucher).getAmount(),
-                0
-            );
-        } else {
-            return new VoucherDTO(
-                voucher.getVoucherId(),
-                VoucherType.PERCENT,
-                0,
-                ((PercentDiscountVoucher) voucher).getPercent()
-            );
-        }
     }
 }

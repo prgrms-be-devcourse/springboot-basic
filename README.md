@@ -160,3 +160,9 @@
 - [X] 예외 메세지 작성하는 습관 키우기
 - [X] SQL 문을 글로벌 상수로 관리하면 IDE의 기능을 사용할 수 없음 & SQL 예약어는 대문자로 사용하는게 가독성 측면에서 좋다.
 - [X] 계층에 맞는 메소드명 사용하기
+
+### 2차 피드백
+- [X] Entity -> DTO 전용 Converter 도입하기
+- [ ] Voucher 클래서 isFixed, isPercent 추상 메서드가 맞다는 생각이 든다.
+- [ ] Voucher getCustomerId Optional이 필요한지 생각하기.
+- [ ] VO는 불편이 중요하다 (**기본**)
