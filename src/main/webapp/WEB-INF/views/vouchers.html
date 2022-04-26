@@ -19,6 +19,7 @@
         <th scope="col">Type</th>
         <th scope="col">Value</th>
         <th scope="col">Created At</th>
+        <th scope="col">상세 정보</th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,7 @@
         <td th:text="*{voucherType}"></td>
         <td th:text="*{value}"></td>
         <td th:text="*{createdAt}"></td>
+        <td><a th:href="@{/vouchers/{id}(id=*{voucherId})}">상세 보기</a></td>
     </tr>
     </tbody>
 </table>

@@ -4,7 +4,6 @@ import org.prgrms.part1.engine.domain.Voucher;
 import org.prgrms.part1.engine.enumtype.VoucherType;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherResponseDto {
@@ -12,14 +11,14 @@ public class VoucherResponseDto {
     private Integer value;
     private VoucherType voucherType;
     private LocalDateTime createdAt;
-    private Optional<UUID> customerId;
+    private UUID customerId;
 
     public VoucherResponseDto(Voucher entity) {
         this.voucherId = entity.getVoucherId();
         this.value = entity.getValue();
         this.voucherType = entity.getVoucherType();
         this.createdAt = entity.getCreatedAt();
-        this.customerId = entity.getCustomerId();
+        this.customerId = entity.getCustomerId().isEmpty() ? null : entity.getCustomerId().get();
     }
 
     public UUID getVoucherId() {
@@ -38,7 +37,7 @@ public class VoucherResponseDto {
         return createdAt;
     }
 
-    public Optional<UUID> getCustomerId() {
+    public UUID getCustomerId() {
         return customerId;
     }
 }
