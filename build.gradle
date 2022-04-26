@@ -24,7 +24,6 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.28'
     // test 관련 라이브러리
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.mockito.mockito-core:3.1.0'
     implementation 'org.assertj:assertj-core:3.22.0'
 }
 

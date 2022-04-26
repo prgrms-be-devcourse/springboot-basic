@@ -1,3 +1,5 @@
+create database order_mgmt;
+
 use order_mgmt;
 
 CREATE TABLE customers
