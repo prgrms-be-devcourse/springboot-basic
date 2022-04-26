@@ -71,10 +71,11 @@ public class SqlVoucher {
                 "voucherId=" + voucherId +
                 ", voucherType='" + voucherType + '\'' +
                 ", discountAmount=" + discountAmount +
-                ", voucherOwner=" + voucherOwner +
+                ", voucherOwner=" + (voucherOwner == null ? "\'Not issued\'" : String.valueOf(voucherOwner)) +
                 ", isIssued=" + isIssued +
                 ", createdAt=" + createdAt +
-                ", issuedAt=" + issuedAt +
+                ", issuedAt=" + (issuedAt == null ? "\'Not issued\'" : String.valueOf(issuedAt)) +
                 '}';
     }
+
 }
