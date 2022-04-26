@@ -77,4 +77,15 @@ public class Voucher extends BaseEntity{
                 ", modifiedDateTime=" + getModifiedDateTime().toString() +
                 '}';
     }
+
+    public void changeVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
+        changeModifiedDateTime();
+    }
+
+    public void changeDiscountValue(long discountValue) {
+        validateDiscountValue(discountValue, this.voucherType);
+        this.discountValue = discountValue;
+        changeModifiedDateTime();
+    }
 }

@@ -1,7 +1,7 @@
 package org.prgrms.kdt.domain.voucher.service;
 
-import org.prgrms.kdt.domain.voucher.dto.VoucherCreateRequest;
-import org.prgrms.kdt.domain.voucher.dto.VoucherUpdateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,8 +30,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public UUID save(VoucherCreateRequest createRequest) {
-        Voucher voucher = createRequest.toEntity();
+    public UUID save(Voucher voucher) {
         UUID savedId = voucherRepository.save(voucher);
         logger.info("save Voucher id: {}", voucher.getVoucherId());
         return savedId;
@@ -70,16 +70,18 @@ public class VoucherService {
     public void updateCustomerId(UUID voucherId, UUID customerId) {
         voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
-        int update = voucherRepository.updateCustomerId(voucherId, customerId);
-        logger.info("Update Voucher's customerId count: {}", update);
+        voucherRepository.updateCustomerId(voucherId, customerId);
+        logger.info("Update Voucher's customerId : {}", voucherId);
     }
 
     @Transactional
-    public void update(VoucherUpdateRequest updateRequest, UUID voucherId) {
-        voucherRepository.findById(voucherId)
+    public void update(UUID voucherId, VoucherType voucherType, long discountValue) {
+        Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
-        Voucher voucher = updateRequest.toEntity();
+        voucher.changeVoucherType(voucherType);
+        voucher.changeDiscountValue(discountValue);
         voucherRepository.update(voucher);
+        logger.info("Update Voucher id: {}", voucher.getVoucherId());
     }
 
     @Transactional
@@ -88,15 +90,5 @@ public class VoucherService {
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
         voucherRepository.deleteById(voucherId);
         logger.info("Delete Voucher id: {}", voucherId);
-    }
-
-    @Transactional
-    public void removeByCustomerId(UUID customerId){
-        List<Voucher> vouchers = voucherRepository.findByCustomerId(customerId);
-        if(vouchers.isEmpty()){
-            throw new VoucherDataException(NOT_SAVED);
-        }
-        voucherRepository.deleteByCustomerId(customerId);
-        logger.info("Delete Voucher by customer id: {}", customerId);
     }
 }

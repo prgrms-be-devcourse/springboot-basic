@@ -18,4 +18,8 @@ public abstract class BaseEntity {
     public LocalDateTime getModifiedDateTime() {
         return modifiedDateTime;
     }
+
+    public void changeModifiedDateTime() {
+        this.modifiedDateTime = LocalDateTime.now();
+    }
 }

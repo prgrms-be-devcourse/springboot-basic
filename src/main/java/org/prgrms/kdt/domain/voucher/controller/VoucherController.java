@@ -1,11 +1,10 @@
 package org.prgrms.kdt.domain.voucher.controller;
 
-import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
-import org.prgrms.kdt.domain.voucher.dto.VoucherAssignRequest;
-import org.prgrms.kdt.domain.voucher.dto.VoucherCreateRequest;
-import org.prgrms.kdt.domain.voucher.dto.VoucherUpdateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherAssignRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
@@ -68,14 +67,17 @@ public class VoucherController {
 
     @PostMapping("/new")
     public String voucherCreate(@Valid VoucherCreateRequest createRequest) {
-        voucherService.save(createRequest);
+        Voucher voucher = createRequest.toEntity();
+        voucherService.save(voucher);
         return "redirect:/vouchers";
     }
 
     @PutMapping("/{voucherId}")
     public String voucherModify(@Valid VoucherUpdateRequest updateRequest,
                                 @PathVariable("voucherId") UUID voucherId) {
-        voucherService.update(updateRequest, voucherId);
+        voucherService.update(voucherId,
+                updateRequest.getVoucherType(),
+                updateRequest.getDiscountValue());
         return "redirect:/vouchers";
     }
 
