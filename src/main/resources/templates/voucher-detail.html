@@ -12,17 +12,20 @@
 <title>바우처 상세 페이지</title>
 
 <h1>Voucher Detail Page</h1>
-<div class="mb-3">
+<div class="mb-3 form-check">
     <label for="voucherId" class="form-label">바우처 아이디</label>
     <input type="text" class="form-control" id="voucherId" th:value="${voucher.voucherId}">
 </div>
-<div class="mb-3">
+<div class="mb-3 form-check">
     <label for="voucherKind" class="form-label">바우처 종류</label>
     <input type="text" class="form-control" id="voucherKind" th:value="${voucher.getClass().getSimpleName()}">
 </div>
 <div class="mb-3 form-check">
     <label for="voucherAmount" class="form-label">바우처 양</label>
     <input type="text" class="form-control" id="voucherAmount" th:value="${voucher.discountAmount}">
+</div>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers}" class="btn btn-primary" type="button">바우처 메인 페이지</a>
 </div>
 </body>
 </html>
