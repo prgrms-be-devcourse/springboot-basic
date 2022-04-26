@@ -8,13 +8,19 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
-    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByCustomerId(UUID customerId);
 
-    List<Customer> findAll();
+    Optional<Customer> findByVoucherId(UUID voucherId);
 
-    int countStorageSize();
+    List<Customer> findCustomers();
 
-    void clear();
+    int countCustomers();
+
+    Customer update(Customer customer);
+
+    void deleteByCustomerId(UUID customerId);
+
+    void deleteCustomers();
 }

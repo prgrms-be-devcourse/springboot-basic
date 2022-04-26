@@ -1,4 +1,4 @@
-package org.prgrms.springbasic.utils.enumm;
+package org.prgrms.springbasic.utils.enumm.path;
 
 public enum FilePath {
 

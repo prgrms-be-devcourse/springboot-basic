@@ -2,11 +2,10 @@ package org.prgrms.springbasic.utils.io.converter;
 
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;
-import org.prgrms.springbasic.domain.voucher.FixedAmountVoucher;
-import org.prgrms.springbasic.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,17 +18,11 @@ public enum ObjectType {
             UUID voucherId = UUID.fromString(arguments[0]);
             VoucherType voucherType = VoucherType.valueOf(arguments[1].toUpperCase());
             long discount = Long.parseLong(arguments[2]);
+            LocalDateTime createdAt = LocalDateTime.parse(arguments[3]);
+            LocalDateTime modifiedAt = (arguments[4].equals("null")) ? null : LocalDateTime.parse(arguments[4]);
+            UUID customerId = UUID.fromString(arguments[5]);
 
-            switch(voucherType) {
-                case FIXED:
-                    return new FixedAmountVoucher(voucherId, discount);
-                case PERCENT:
-                    return new PercentDiscountVoucher(voucherId, discount);
-                default:
-                    break;
-            }
-
-            return Optional.empty();
+            return new Voucher(voucherId, voucherType, discount, createdAt, modifiedAt, customerId);
         }
     },
     CUSTOMER(Customer.class) {
@@ -38,8 +31,10 @@ public enum ObjectType {
             UUID customerId = UUID.fromString(arguments[0]);
             CustomerType customerType = CustomerType.valueOf(arguments[1].toUpperCase());
             String name = arguments[2];
+            LocalDateTime createdAt = LocalDateTime.parse(arguments[3]);
+            LocalDateTime modifiedAt = (arguments[4].equals("null")) ? null : LocalDateTime.parse(arguments[4]);
 
-            return new Customer(customerId, customerType, name);
+            return new Customer(customerId, customerType, name, createdAt, modifiedAt);
         }
     };
 
@@ -47,8 +42,8 @@ public enum ObjectType {
 
     private final Class<?> clazz;
 
-    ObjectType(Class<?> clazz1) {
-        this.clazz = clazz1;
+    ObjectType(Class<?> clazz) {
+        this.clazz = clazz;
     }
 
     public static Optional<ObjectType> getObjectType(Class<?> clazz) {

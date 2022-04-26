@@ -1,6 +1,7 @@
 package org.prgrms.springbasic.repository.voucher;
 
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.wallet.Wallet;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,13 +9,23 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findByVoucherId(UUID voucherId);
 
-    List<Voucher> findAll();
+    Optional<Voucher> findByCustomerId(UUID customerId);
 
-    int countStorageSize();
+    List<Voucher> findVouchers();
 
-    void clear();
+    List<Wallet> findWallets();
+
+    int countVouchers();
+
+    Voucher update(Voucher voucher);
+
+    void deleteByVoucherId(UUID voucherId);
+
+    void deleteByCustomerId(UUID customerId);
+
+    void deleteVouchers();
 }
