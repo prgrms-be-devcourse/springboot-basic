@@ -56,11 +56,13 @@ public class VoucherApplication implements ApplicationRunner {
 					} catch (IllegalArgumentException e) {
 						output.printMessage(e.getMessage());
 					}
+					break;
 				}
 
 				case LIST: {
 					List<VoucherResponse> voucherListResponse = processListCommand();
 					output.printMessage(voucherListResponse);
+					break;
 				}
 			}
 		}
@@ -68,9 +70,9 @@ public class VoucherApplication implements ApplicationRunner {
 
 	private void printCommandPrompt() {
 		output.printMessage("=== Voucher Program === \n" +
-							"Type exit to exit the program.\n" +
-							"Type create to create a new voucher.\n" +
-							"Type list to list all vouchers.");
+							"Type EXIT to exit the program.\n" +
+							"Type CREATE to create a new voucher.\n" +
+							"Type LIST to list all vouchers.");
 	}
 
 	private CommandType getCommand() {
