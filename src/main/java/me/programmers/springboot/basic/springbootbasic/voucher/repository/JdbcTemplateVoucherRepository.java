@@ -47,10 +47,10 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         List<Voucher> fixvouchers = jdbcTemplate.query(
-                "select * from fixed_voucher",
+                "SELECT * FROM fixed_voucher",
                 fixVoucherRowMapper);
         List<Voucher> percentvouchers = jdbcTemplate.query(
-                "select * from percent_voucher",
+                "SELECT * FROM percent_voucher",
                 percentVoucherRowMapper);
 
         fixvouchers.addAll(percentvouchers);
@@ -61,7 +61,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             Optional<Voucher> fixVoucher = Optional.of(jdbcTemplate.queryForObject(
-                    "select * from fixed_voucher where voucher_id = (uuid_to_bin(?))",
+                    "SELECT * FROM fixed_voucher WHERE voucher_id = (uuid_to_bin(?))",
                     fixVoucherRowMapper,
                     voucherId.toString().getBytes()));
             return fixVoucher;
@@ -69,7 +69,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
         try {
             Optional<Voucher> percentVoucher = Optional.of(jdbcTemplate.queryForObject(
-                    "select * from percent_voucher where voucher_id = (uuid_to_bin(?))",
+                    "SELECT * FROM percent_voucher WHERE voucher_id = (uuid_to_bin(?))",
                     percentVoucherRowMapper,
                     voucherId.toString().getBytes()));
             return percentVoucher;
@@ -90,8 +90,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private void savePercentVoucher(PercentAmountVoucher voucher) {
         int update = jdbcTemplate.update(
-                "insert into percent_voucher(voucher_id, percent) " +
-                        "values (uuid_to_bin(?), ?)",
+                "INSERT INTO percent_voucher(voucher_id, percent) " +
+                        "VALUES (uuid_to_bin(?), ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getPercent());
         if (update != 1) {
@@ -101,8 +101,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private void saveFixVoucher(FixedAmountVoucher voucher) {
         int update = jdbcTemplate.update(
-                "insert into fixed_voucher(voucher_id, amount) " +
-                        "values (uuid_to_bin(?), ?)",
+                "INSERT INTO fixed_voucher(voucher_id, amount) " +
+                        "VALUES (uuid_to_bin(?), ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getAmount());
         if (update != 1) {
@@ -121,8 +121,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private void updateFixVoucher(FixedAmountVoucher voucher) {
         var update = jdbcTemplate.update(
-                "update fixed_voucher set amount = ? " +
-                        "where voucher_id = (uuid_to_bin(?))",
+                "UPDATE fixed_voucher SET amount = ? " +
+                        "WHERE voucher_id = (uuid_to_bin(?))",
                 voucher.getAmount(),
                 voucher.getVoucherId());
         if (update != 1) {
@@ -132,8 +132,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private void updatePercentVoucher(PercentAmountVoucher voucher) {
         var update = jdbcTemplate.update(
-                "update percent_voucher set percent = ? " +
-                        "where voucher_id = (uuid_to_bin(?))",
+                "UPDATE percent_voucher SET percent = ? " +
+                        "WHERE voucher_id = (uuid_to_bin(?))",
                 voucher.getPercent(),
                 voucher.getVoucherId());
         if (update != 1) {
@@ -142,7 +142,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     public void deleteAll() {
-        jdbcTemplate.update("delete from fixed_voucher");
-        jdbcTemplate.update("delete from percent_voucher");
+        jdbcTemplate.update("DELETE FROM fixed_voucher");
+        jdbcTemplate.update("DELETE FROM percent_voucher");
     }
 }

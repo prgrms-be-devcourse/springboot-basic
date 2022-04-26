@@ -44,8 +44,8 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         var update = jdbcTemplate.update(
-                "insert into customers(customer_id, name, email, last_login_at, created_at) " +
-                        "values (uuid_to_bin(?), ?, ?, ?, ?)",
+                "INSERT INTO customers(customer_id, name, email, last_login_at, created_at) " +
+                        "VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getCustomerInfo().getName(),
                 customer.getCustomerInfo().getEmail(),
@@ -60,8 +60,8 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         var update = jdbcTemplate.update(
-                "update customers set name = ?, email = ?, last_login_at = ? " +
-                        "where customer_id = (uuid_to_bin(?))",
+                "UPDATE customers SET name = ?, email = ?, last_login_at = ? " +
+                        "WHERE customer_id = (UUID_TO_BIN(?))",
                 customer.getCustomerInfo().getName(),
                 customer.getCustomerInfo().getEmail(),
                 Timestamp.valueOf(customer.getCreatedAt()),
@@ -75,14 +75,14 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(
-                "select * from customers",
+                "SELECT * FROM customers",
                 customerRowMapper);
     }
 
     @Override
     public int count() {
         return jdbcTemplate.queryForObject(
-                "select count(*) from customers",
+                "SELECT COUNT(*) FROM customers",
                 Integer.class);
     }
 
@@ -90,7 +90,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.of(jdbcTemplate.queryForObject(
-                    "select * from customers where customer_id = (uuid_to_bin(?))",
+                    "SELECT * FROM customers WHERE customer_id = (UUID_TO_BIN(?))",
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
@@ -103,7 +103,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     public Optional<Customer> findByName(String name) {
         try {
             return Optional.of(jdbcTemplate.queryForObject(
-                    "select * from customers where name = ?",
+                    "SELECT * FROM customers WHERE name = ?",
                     customerRowMapper,
                     name));
         } catch (EmptyResultDataAccessException e) {
@@ -116,7 +116,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     public Optional<Customer> findByEmail(String email) {
         try {
             return Optional.of(jdbcTemplate.queryForObject(
-                    "select * from customers where email = ?",
+                    "SELECT * FROM customers WHERE email = ?",
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
@@ -127,7 +127,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from customers");
+        jdbcTemplate.update("DELETE FROM customers");
     }
 
     private void mapToCustomer(List<Customer> allCustomers, ResultSet resultSet) throws SQLException {
