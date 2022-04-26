@@ -20,13 +20,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
 class VoucherServiceTest {
+    private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     @Autowired
     VoucherService voucherService;
 
@@ -62,7 +63,7 @@ class VoucherServiceTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("Voucher Service의 create 함수를 호출한다.")
-            void it_Call_of_VoucherService_create_method(VoucherType voucherType) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+            void it_Call_of_VoucherService_create_method(VoucherType voucherType) {
                 // given
                 int voucherAmount = 50;
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
@@ -70,11 +71,15 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                getDomainMethod.setAccessible(true);
-                Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
+                try {
+                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
+                    getDomainMethod.setAccessible(true);
+                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
 
-                when(voucherRepository.create(any())).thenReturn(voucherWithId);
+                    when(voucherRepository.create(any())).thenReturn(voucherWithId);
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
 
                 // when
                 voucherService.create(voucherWithNull);
@@ -86,7 +91,7 @@ class VoucherServiceTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("ResponseVoucherDto를 가진 Response를 return한다.")
-            void it_throws_Exception(VoucherType voucherType) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+            void it_throws_Exception(VoucherType voucherType) {
                 // given
 
                 int voucherAmount = 50;
@@ -95,9 +100,14 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                getDomainMethod.setAccessible(true);
-                Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
+                Voucher voucherWithId = null;
+                try {
+                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
+                    getDomainMethod.setAccessible(true);
+                    voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
+                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
 
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 

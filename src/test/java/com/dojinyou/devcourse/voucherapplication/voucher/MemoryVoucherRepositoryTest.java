@@ -18,18 +18,16 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
 class MemoryVoucherRepositoryTest {
+    private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     @Autowired()
     MemoryVoucherRepository voucherRepository;
 
@@ -62,21 +60,25 @@ class MemoryVoucherRepositoryTest {
             @ParameterizedTest
             @EnumSource(VoucherType.class)
             @DisplayName("id를 가진 Voucher를 return한다.")
-            void it_throws_Exception(VoucherType voucherType) throws NoSuchFieldException, IllegalAccessException {
+            void it_throws_Exception(VoucherType voucherType) {
                 // given
                 int amount = 50;
                 VoucherAmount voucherAmount = VoucherAmount.of(voucherType, amount);
                 Voucher voucher = VoucherMapper.requestDtoToDomain(new VoucherRequest(voucherType, voucherAmount));
-                Field idGeneratorField = voucherRepository.getClass().getDeclaredField("idGenerator");
                 Long initialId = 100L;
-                setFinalStatic(idGeneratorField, new AtomicLong(initialId));
+                try {
+                    Field idGeneratorField = voucherRepository.getClass().getDeclaredField("idGenerator");
+                    setFinalStatic(idGeneratorField, new AtomicLong(initialId));
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+                }
 
                 // when
                 Voucher savedVoucher = voucherRepository.create(voucher);
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId+1);
+                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId + 1);
                 assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
                 assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
             }

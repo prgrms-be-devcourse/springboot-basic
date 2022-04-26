@@ -17,13 +17,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Scanner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.*;
 
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = ConsoleView.class)
 class ConsoleViewTest {
+    private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+
     @Autowired
     ConsoleView consoleView;
 
@@ -37,16 +38,22 @@ class ConsoleViewTest {
         @ParameterizedTest
         @ValueSource(strings = {" ", "\n"})
         @DisplayName("입력값이 없을 때,  IllegalArgumentException을 발생시킨다.")
-        void emptyInputTest(String emptyInput) throws Exception {
+        void emptyInputTest(String emptyInput) {
             // 테스트 환경 설정
+
             InputStream emptyInputStream = generateUserInput(emptyInput);
             System.setIn(emptyInputStream);
             Scanner testScanner = new Scanner(System.in);
-            Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-            setFinalStatic(scannerField, testScanner);
+            try {
+                Field scannerField = consoleView.getClass().getDeclaredField("scanner");
+                setFinalStatic(scannerField, testScanner);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+            }
 
             // 테스트 메소드 호출 및 반환 타입 저장
             Throwable thrown = catchThrowable(() -> consoleView.getUserInput());
+
 
             // 반환에 대한 검증
             assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
@@ -55,14 +62,18 @@ class ConsoleViewTest {
         @ParameterizedTest
         @ValueSource(strings = {"create", "adfafadsf", "exit"})
         @DisplayName("정상적인 입력값이 들어온다면, 해당 입력값을 전달한다.")
-        void normalInputTest(String normalInput) throws Exception {
+        void normalInputTest(String normalInput) {
             // 테스트 환경 설정
 
             InputStream emptyInputStream = generateUserInput(normalInput);
             System.setIn(emptyInputStream);
             Scanner testScanner = new Scanner(System.in);
-            Field scannerField = consoleView.getClass().getDeclaredField("scanner");
-            setFinalStatic(scannerField, testScanner);
+            try {
+                Field scannerField = consoleView.getClass().getDeclaredField("scanner");
+                setFinalStatic(scannerField, testScanner);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+            }
 
             // 테스트 메소드 호출 및 반환 타입 저장
             String userInput = consoleView.getUserInput();
@@ -100,12 +111,15 @@ class ConsoleViewTest {
         }
     }
 
-    static void setFinalStatic(Field field, Object newValue) throws Exception {
+    static void setFinalStatic(Field field, Object newValue) throws NoSuchFieldException, IllegalAccessException {
         field.setAccessible(true);
-
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+        try {
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            modifiersField.setAccessible(true);
+            modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+        }
 
         field.set(null, newValue);
     }
