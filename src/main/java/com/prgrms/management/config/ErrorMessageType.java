@@ -3,6 +3,7 @@ package com.prgrms.management.config;
 public enum ErrorMessageType {
     NOT_EXIST_COMMAND_TYPE(":존재하지 않는 명령어 타입입니다."),
     NOT_EXIST_CUSTOMER_TYPE(":존재하지 않는 손님 타입입니다."),
+    NOT_EXIST_CUSTOMER_ID(":존재하지 않는 ID 입니다."),
     NOT_EXIST_VOUCHER_TYPE(":존재하지 않는 바우처 타입입니다."),
     INCORRECT_NUMBER_FORMAT(":올바른 숫자 형식이 아닙니다."),
     IO_EXCEPTION("IO EXCEPTION이 발생했습니다."),

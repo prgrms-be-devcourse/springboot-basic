@@ -12,17 +12,17 @@ class CommandTest {
     @Test
     void 성공_Command_입력() {
         //given
-        String inputCommand = "EXIT";
+        String inputCommand = "1";
         //when
         Command command = Command.of(inputCommand);
         //then
-        Assertions.assertThat(command).isEqualTo(Command.EXIT);
+        Assertions.assertThat(command).isEqualTo(Command.CREATE_VOUCHER);
     }
 
     @Test
     void 잘못된_Command_입력() {
         //given
-        String inputCommand = "find";
+        String inputCommand = "15";
         //then
         Assertions.assertThatThrownBy(() -> Command.of(inputCommand))
                 .isInstanceOf(NoSuchElementException.class);

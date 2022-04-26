@@ -12,11 +12,13 @@ import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
+@Profile("command")
 public class ConsoleCommandService implements CommandService {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleCommandService.class);
     private final Input input;
@@ -87,7 +89,7 @@ public class ConsoleCommandService implements CommandService {
             case ASSIGN_VOUCHER:
                 voucherId = input.inputVoucherId();
                 customerId = input.inputCustomerId();
-                voucherService.updateVoucherByCustomerId(voucherId,customerId);
+                voucherService.updateByCustomerId(voucherId,customerId);
                 break;
             case DELETE_VOUCHER:
                 customerId = input.inputCustomerId();

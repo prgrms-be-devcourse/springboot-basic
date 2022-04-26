@@ -85,7 +85,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("NotFoundException:{}", ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage());
             return Optional.empty();
         }
     }
@@ -98,7 +97,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
-            logger.info("NotFoundException:{}", ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage());
             return Optional.empty();
         }
     }

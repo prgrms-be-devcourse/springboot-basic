@@ -13,13 +13,6 @@ public class PercentVoucher extends Voucher {
     private final long amount;
     private final VoucherType voucherType;
 
-    public PercentVoucher(long amount) {
-        super();
-        validatePercentAmount(amount);
-        this.amount = amount;
-        this.voucherType = VoucherType.FIXED;
-    }
-
     public PercentVoucher(UUID voucherId, LocalDateTime createdAt, UUID customerId, long amount, VoucherType voucherType) {
         super(voucherId,createdAt,customerId);
         validatePercentAmount(amount);

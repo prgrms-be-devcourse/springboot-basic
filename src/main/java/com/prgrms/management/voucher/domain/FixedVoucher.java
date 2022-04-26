@@ -13,13 +13,6 @@ public class FixedVoucher extends Voucher {
     private final long amount;
     private final VoucherType voucherType;
 
-    public FixedVoucher(long amount) {
-        super();
-        validateFixedAmount(amount);
-        this.amount = amount;
-        this.voucherType = VoucherType.FIXED;
-    }
-
     public FixedVoucher(UUID voucherId, LocalDateTime createdAt,UUID customerId, long amount, VoucherType voucherType) {
         super(voucherId,createdAt,customerId);
         validateFixedAmount(amount);

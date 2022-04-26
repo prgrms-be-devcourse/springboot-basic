@@ -1,9 +1,16 @@
 package com.prgrms.management.voucher.repository;
 
+import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.customer.domain.Customer;
+import com.prgrms.management.customer.domain.CustomerRequest;
+import com.prgrms.management.customer.repository.CustomerRepository;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
-import org.junit.jupiter.api.*;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,55 +23,49 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestClassOrder(ClassOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
+    @Autowired
+    CustomerRepository customerRepository;
 
-    Voucher voucher, voucherTwo;
-    Voucher saveVoucher;
+    Voucher voucher = new VoucherRequest("fixed", "1000").create();
+    Voucher voucherTwo = new VoucherRequest("percent", "90").create();
+    Voucher save;
     Customer customer;
-    UUID randomId;
+    UUID randomId = UUID.randomUUID();
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
-        voucher = new VoucherRequest("fixed", "1000").create();
-        voucherTwo = new VoucherRequest("percent", "90").create();
-        randomId = UUID.randomUUID();
-        saveVoucher = voucherRepository.save(voucher);
+        save = voucherRepository.save(voucher);
         voucherRepository.save(voucherTwo);
+        customer = customerRepository.save(new Customer(new CustomerRequest("customerA", "prgrms@naver.com", "normal")));
     }
 
-    @AfterAll
+    @AfterEach
     void cleanUp() {
         voucherRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
-    @Order(2)
-    void 성공_여러명의_Vouchers_검색() {
+    void 여러명의_Vouchers_검색() {
         //when
         List<Voucher> vouchers = voucherRepository.findAll();
         //then
         assertThat(vouchers.size()).isEqualTo(2);
     }
 
-    @Nested
-    @Order(1)
-    class Voucher_정보_저장 {
-        @Test
-        void 성공_Voucher_저장() {
-            //then
-            assertThat(saveVoucher).isEqualTo(voucher);
-        }
+    @Test
+    void Voucher_저장() {
+        //then
+        assertThat(save).isEqualTo(voucher);
     }
 
     @Nested
-    @Order(3)
     class Voucher_검색 {
         @Test
-        void 성공_ID로_Voucher_검색() {
+        void ID로_Voucher_검색() {
             //given;
             UUID voucherId = voucherTwo.getVoucherId();
             //when
@@ -74,7 +75,7 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Test
-        void 실패_ID로_Voucher_검색() {
+        void ID로_Voucher_검색_실패() {
             //when
             Optional<Voucher> voucherById = voucherRepository.findById(randomId);
             //then
@@ -83,24 +84,26 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Nested
-    @Order(4)
-    class 삭제_Voucher {
+    class Voucher_업데이트 {
         @Test
-        void 성공_삭제_Voucher() {
-            //given
-            UUID voucherId = voucher.getVoucherId();
-            //when
-            voucherRepository.deleteById(voucherId);
-            //then
-            assertThat(voucherRepository.findById(voucherId).isEmpty()).isEqualTo(true);
+        void Voucher_업데이트() {
+            voucherRepository.updateByCustomerId(voucher.getVoucherId(), customer.getCustomerId());
         }
 
         @Test
-        void 실패_삭제_Voucher() {
-            //when
-            voucherRepository.deleteById(randomId);
-            //then
-            assertThat(voucherRepository.findById(randomId).isEmpty()).isEqualTo(true);
+        void Voucher_업데이트_실패() {
+            Assertions.assertThatThrownBy(() -> voucherRepository.updateByCustomerId(voucher.getVoucherId(), UUID.randomUUID()))
+                    .isInstanceOf(NotFoundException.class);
         }
+    }
+
+    @Test
+    void Voucher_삭제() {
+        //given
+        UUID voucherId = voucher.getVoucherId();
+        //when
+        voucherRepository.deleteById(voucherId);
+        //then
+        assertThat(voucherRepository.findById(voucherId).isEmpty()).isEqualTo(true);
     }
 }

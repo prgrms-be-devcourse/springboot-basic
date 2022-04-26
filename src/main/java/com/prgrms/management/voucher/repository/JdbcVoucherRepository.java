@@ -1,12 +1,14 @@
 package com.prgrms.management.voucher.repository;
 
 import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.util.ToUUID;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -92,7 +94,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateByCustomerId(UUID voucherId, UUID customerId) {
-        int update = jdbcTemplate.update(UPDATE_SQL, customerId.toString().getBytes(), voucherId.toString().getBytes());
+        int update = 0;
+        try {
+            update = jdbcTemplate.update(UPDATE_SQL, customerId.toString().getBytes(), voucherId.toString().getBytes());
+        } catch (DataIntegrityViolationException e) {
+            throw new NotFoundException(ErrorMessageType.NOT_EXIST_CUSTOMER_ID.getMessage());
+        }
         if (update != 1) {
             throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }

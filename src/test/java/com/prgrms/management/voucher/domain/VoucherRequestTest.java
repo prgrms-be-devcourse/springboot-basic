@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 class VoucherRequestTest {
 
     @Test
-    void 성공_CustomerRequest_객체_생성() {
+    void VoucherRequest_객체_생성_성공() {
         //given
         VoucherRequest percentRequest = new VoucherRequest("percent", "90");
         //then
@@ -16,11 +16,9 @@ class VoucherRequestTest {
     }
 
     @Test
-    void 실패_CustomerRequest_객체_생성() {
-        //given
-        VoucherRequest percentRequest = new VoucherRequest("gold", "90");
+    void VoucherRequest_객체_생성_실패() {
         //then
-        Assertions.assertThatThrownBy(()-> new VoucherRequest("gold", "90"))
+        Assertions.assertThatThrownBy(() -> new VoucherRequest("gold", "90"))
                 .isInstanceOf(NoSuchElementException.class);
     }
 }

@@ -42,7 +42,7 @@ public class VoucherService {
         return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
     }
 
-    public void updateVoucherByCustomerId(UUID voucherId, UUID customerId) {
+    public void updateByCustomerId(UUID voucherId, UUID customerId) {
         voucherRepository.updateByCustomerId(voucherId, customerId);
     }
 
