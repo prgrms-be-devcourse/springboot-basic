@@ -1,17 +1,16 @@
 package com.prgrms.voucher_manager.voucher;
 
 import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
-import com.prgrms.voucher_manager.io.Message;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import lombok.Builder;
-import org.springframework.stereotype.Component;
-
-import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder
 public class FixedAmountVoucher implements Voucher {
 
-    private final UUID id;
+    private final UUID voucherId;
     private long amount;
 
     private static final long MAX_AMOUNT = 10000L;
@@ -19,7 +18,7 @@ public class FixedAmountVoucher implements Voucher {
 
     public FixedAmountVoucher(UUID id, long amount) {
         validateValue(amount);
-        this.id = id;
+        this.voucherId = id;
         this.amount = amount;
     }
 
@@ -33,7 +32,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public UUID getVoucherId() {
-        return id;
+        return voucherId;
     }
 
     @Override
@@ -43,16 +42,11 @@ public class FixedAmountVoucher implements Voucher {
 
     }
 
-
-
     @Override
-    public Long getValue() {
-        return amount;
-    }
-
-    @Override
-    public String getType() {
-        return "FixedAmountVoucher";
+    public boolean validateType(String type) {
+        VoucherType voucherType = VoucherType.getVoucherType(type);
+        if(voucherType.toString().equals("FixedAmountVoucher")) return true;
+        return false;
     }
 
     @Override
@@ -62,9 +56,25 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherDto toVoucherDto() {
+        return new VoucherDto(voucherId, "FixedAmountVoucher", amount);
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> hashMap = new HashMap<>() {{
+            put("voucherId", voucherId.toString().getBytes());
+            put("type", "fix");
+            put("value", amount);
+        }};
+        System.out.println(hashMap.get("value"));
+        return hashMap;
+    }
+
+    @Override
     public String toString() {
         return "type=FixedAmountVoucher" +
-                ",id=" + id +
+                ",id=" + voucherId +
                 ",amount=" + amount +
                 "\n";
     }

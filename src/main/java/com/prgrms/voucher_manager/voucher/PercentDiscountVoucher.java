@@ -1,16 +1,18 @@
 package com.prgrms.voucher_manager.voucher;
 
-import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
-import lombok.Builder;
-import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
+import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
+import lombok.Builder;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder
 public class PercentDiscountVoucher implements Voucher{
 
-    private final UUID id;
+    private final UUID voucherId;
     private long percent;
 
     private static final long MAX_PERCENT = 100L;
@@ -18,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     public PercentDiscountVoucher(UUID id, long percent) {
         validateValue(percent);
-        this.id = id;
+        this.voucherId = id;
         this.percent = percent;
     }
 
@@ -29,7 +31,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public UUID getVoucherId() {
-        return id;
+        return voucherId;
     }
 
     @Override
@@ -38,15 +40,11 @@ public class PercentDiscountVoucher implements Voucher{
             throw new WrongVoucherValueException("0 ~ 100 사이의 수를 입력해야 합니다.");
     }
 
-
     @Override
-    public Long getValue() {
-        return percent;
-    }
-
-    @Override
-    public String getType() {
-        return "PercentDiscountVoucher";
+    public boolean validateType(String type) {
+        VoucherType voucherType = VoucherType.getVoucherType(type);
+        if(voucherType.toString().equals("PercentDiscountVoucher")) return true;
+        return false;
     }
 
     @Override
@@ -56,9 +54,25 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
+    public VoucherDto toVoucherDto() {
+        return new VoucherDto(voucherId, "PercentDiscountVoucher", percent);
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> hashMap = new HashMap<>() {{
+            put("voucherId", voucherId.toString().getBytes());
+            put("type", "percent");
+            put("value", percent);
+        }};
+        System.out.println(hashMap.get("value"));
+        return hashMap;
+    }
+
+    @Override
     public String toString() {
         return "type=PercentDiscountVoucher" +
-                ",id=" + id +
+                ",id=" + voucherId +
                 ",percent=" + percent +
                 "\n";
     }

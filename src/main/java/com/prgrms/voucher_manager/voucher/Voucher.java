@@ -1,5 +1,9 @@
 package com.prgrms.voucher_manager.voucher;
 
+import com.prgrms.voucher_manager.customer.controller.CustomerDto;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
+
+import java.util.Map;
 import java.util.UUID;
 
 public interface Voucher {
@@ -10,11 +14,11 @@ public interface Voucher {
 
     void validateValue(Long value);
 
-    Long getValue();
-
-    String getType();
+    boolean validateType(String type);
 
     void changeValue(Long value);
 
+    VoucherDto toVoucherDto();
 
+    Map<String, Object> toMap();
 }
