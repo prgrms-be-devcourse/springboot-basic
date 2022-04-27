@@ -1,23 +1,24 @@
 package com.programmers.springbootbasic.consolestarter;
 
-import com.programmers.springbootbasic.service.CustomerService;
-import com.programmers.springbootbasic.service.CustomerVoucherLogService;
-import com.programmers.springbootbasic.service.VoucherService;
+import com.programmers.springbootbasic.io.ConsoleInput;
+import com.programmers.springbootbasic.io.ConsoleOutputFormatPrinter;
+import com.programmers.springbootbasic.io.StandardInput;
+import com.programmers.springbootbasic.io.StandardOutput;
 
-import static com.programmers.springbootbasic.consolestarter.InputUtils.sc;
+import static com.programmers.springbootbasic.io.ConsoleInput.INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE;
 
-public class MainConsoleApp implements ConsoleApp {
-
-    public static final String INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE = "잘못된 값입니다. 다시 입력하세요.";
-
-    private boolean on = true;
+public class CustomerVoucherConsoleApp implements ConsoleApp {
 
     private final CustomerManager customerManager;
     private final VoucherManager voucherManager;
 
-    public MainConsoleApp(VoucherService voucherService, CustomerService customerService, CustomerVoucherLogService customerVoucherLogService) {
-        voucherManager = new VoucherManager(voucherService, customerVoucherLogService);
-        customerManager = new CustomerManager(customerService, customerVoucherLogService);
+    private final StandardInput input = new ConsoleInput();
+    private final StandardOutput output = new ConsoleOutputFormatPrinter();
+    private boolean on = true;
+
+    public CustomerVoucherConsoleApp(CustomerManager customerManager, VoucherManager voucherManager) {
+        this.customerManager = customerManager;
+        this.voucherManager = voucherManager;
     }
 
     @Override
@@ -26,32 +27,34 @@ public class MainConsoleApp implements ConsoleApp {
             showMainMenu();
 
             try {
-                int input = Integer.parseInt(sc.next());
-                switch (input) {
+                int response = Integer.parseInt(input.read());
+                switch (response) {
                     case 1 -> customerManager.serviceCustomerWork();
                     case 2 -> voucherManager.serviceVoucherWork();
-                    case 3 -> {System.out.println("이용해 주셔서 감사합니다.");
-                        on = false;}
-                    default -> System.out.println(INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE);
+                    case 3 -> {
+                        output.writeln("이용해 주셔서 감사합니다.");
+                        on = false;
+                    }
+                    default -> output.writeln(INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE);
                 }
             }
             catch (NumberFormatException e) {
-                System.out.println(INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE);
+                output.writeln(INVALID_CONSOLE_PROMPT_INPUT_VALUE_MESSAGE);
             }
             catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                output.writeln(e.getMessage());
             }
         }
     }
 
     private void showMainMenu() {
-        System.out.println("\n********************************************************************************************************************");
-        System.out.println("원하시는 업무를 선택하세요.");
-        System.out.println("1. 고객");
-        System.out.println("2. 할인권");
-        System.out.println("3. 프로그램 종료");
-        System.out.println("********************************************************************************************************************");
-        System.out.print("==> ");
+        output.writeln("\n*************************************************************************************************************************");
+        output.writeln("원하시는 업무를 선택하세요.");
+        output.writeln("1. 고객");
+        output.writeln("2. 할인권");
+        output.writeln("3. 프로그램 종료");
+        output.writeln("*************************************************************************************************************************");
+        output.write("==> ");
     }
 
 }
