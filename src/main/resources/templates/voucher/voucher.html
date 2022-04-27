@@ -19,11 +19,11 @@
     <h1>Voucher Manager</h1>
     <a th:href="@{/vouchers}">GO to main</a>
     <form th:action method="post" th:object="${voucher}">
-        <div>
+        <div class="mb-3">
             <label th:for="voucherId" class="form-label" th:text="voucherId"></label>
             <input th:field="*{voucherId}" th:class="form-control" disabled>
         </div>
-        <div>
+        <div class="mb-3">
             <label th:for="amount" class="form-label" th:text="amount"></label>
             <input th:field="*{amount}" th:class="form-control" disabled>
         </div>

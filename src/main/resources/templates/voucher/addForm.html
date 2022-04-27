@@ -18,14 +18,14 @@
     <h1>Voucher Manager</h1>
     <a th:href="@{/vouchers}">GO to main</a>
     <form th:action method="post" th:object="${voucher}">
-        <div>
+        <div class="mb-3">
             <label th:for="amount" class="form-label" th:text="amount"></label>
-            <input th:field="*{amount}" th:class="form-control">
+            <input th:field="*{amount}" th:class="form-control" required>
         </div>
         <div th:text="'Select voucher type'"></div>
         <div class="mb-3">
             <div class="form-check" th:each="type : ${voucherTypes}">
-                <input class="form-check-input" type="radio" th:field="*{voucherType}" th:value="${type.name()}">
+                <input class="form-check-input" type="radio" th:field="*{voucherType}" th:value="${type.name()}" required>
                 <label class="form-check-label" th:for="${#ids.prev('voucherType')}" th:text="${type.description}">
             </div>
         </div>
