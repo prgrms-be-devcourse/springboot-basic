@@ -1,6 +1,7 @@
 package org.prgrms.voucher.repository;
 
 import org.prgrms.voucher.models.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("local")
 public class VoucherMemoryRepository implements VoucherRepository {
 
     private static final Map<Long, Voucher> store = new ConcurrentHashMap<>();
