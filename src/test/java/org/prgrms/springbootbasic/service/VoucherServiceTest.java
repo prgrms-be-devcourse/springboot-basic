@@ -2,7 +2,6 @@ package org.prgrms.springbootbasic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
@@ -221,14 +220,10 @@ class VoucherServiceTest {
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
 
         //when
-        var voucherDto = voucherService.findVoucher(voucher.getVoucherId());
+        var foundVoucher = voucherService.findVoucher(voucher.getVoucherId());
 
         //then
-        assertAll(
-            () -> assertThat(voucherDto.getVoucherId()).isEqualTo(voucher.getVoucherId()),
-            () -> assertThat(voucherDto.getVoucherType().isFixed()).isTrue(),
-            () -> assertThat(voucherDto.getAmount()).isEqualTo(voucher.getAmount())
-        );
+        assertThat(foundVoucher).isEqualTo(voucher);
     }
 
     @DisplayName("voucherId로 voucher 조회 - 정상 상황")

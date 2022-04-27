@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
+import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.dto.VoucherListResponse;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class ApiVoucherController {
         return new VoucherListResponse(DtoConverter.toVoucherDTOs(vouchers));
     }
 
-    @GetMapping("/{voucherType}")
+    @GetMapping("/search/{voucherType}")
     @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findVoucherUsingType(
         @PathVariable("voucherType") VoucherType voucherType) {
@@ -75,5 +76,11 @@ public class ApiVoucherController {
     public ResponseEntity<Void> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{voucherId}")
+    @ResponseStatus(HttpStatus.OK)
+    public VoucherDTO findVoucherUsingId(@PathVariable("voucherId") UUID voucherId) {
+        return DtoConverter.toVoucherDTO(voucherService.findVoucher(voucherId));
     }
 }

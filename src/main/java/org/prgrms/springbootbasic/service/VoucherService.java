@@ -77,10 +77,11 @@ public class VoucherService {
             .collect(Collectors.toList());
     }
 
-    public VoucherDTO findVoucher(UUID voucherId) {
-        var voucher = voucherRepository.findById(voucherId)
+    public Voucher findVoucher(UUID voucherId) {
+        logger.info("findVoucher() called");
+
+        return voucherRepository.findById(voucherId)
             .orElseThrow(InvalidVoucherIdException::new);
-        return new VoucherDTO(voucher);
     }
 
     @Transactional

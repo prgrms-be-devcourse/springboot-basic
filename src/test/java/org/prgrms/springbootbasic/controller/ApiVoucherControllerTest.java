@@ -68,7 +68,7 @@ class ApiVoucherControllerTest {
 
         //when
         //then
-        mockMvc.perform(get("/api/v1/vouchers/fixed")
+        mockMvc.perform(get("/api/v1/vouchers/search/fixed")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.voucherDtoList", hasSize(1)));
@@ -124,5 +124,21 @@ class ApiVoucherControllerTest {
         mockMvc.perform(delete("/api/v1/vouchers/" + voucherId.toString())
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("바우처 아이디로 조회 API")
+    void findVoucherUsingId() throws Exception {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        given(voucherService.findVoucher(voucher.getVoucherId()))
+            .willReturn(voucher);
+
+        //when
+        //then
+        mockMvc.perform(get("/api/v1/vouchers/" + voucher.getVoucherId().toString())
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.voucherId").value(voucher.getVoucherId().toString()));
     }
 }

@@ -16,4 +16,8 @@ public class DtoConverter {
             .map(VoucherDTO::new)
             .collect(Collectors.toList());
     }
+
+    public static VoucherDTO toVoucherDTO(Voucher voucher) {
+        return new VoucherDTO(voucher);
+    }
 }
