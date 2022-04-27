@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 class PercentDiscountVoucherTest {
+    
     @DisplayName("정해진 할인퍼센트로 할인한다.")
     @ParameterizedTest
     @CsvSource(value = {"1000,10,900", "2000,20,1600", "532,30,372", "1000,100,0"})

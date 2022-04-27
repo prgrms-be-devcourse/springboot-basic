@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class VoucherTypeTest {
+    
     @DisplayName("command를 통해 해당하는 VoucherType을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"1,FIXED_AMOUNT", "2,PERCENT_DISCOUNT"})
