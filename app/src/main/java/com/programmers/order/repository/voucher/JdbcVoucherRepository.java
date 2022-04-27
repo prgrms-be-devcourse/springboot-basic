@@ -2,13 +2,17 @@ package com.programmers.order.repository.voucher;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,12 +32,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	final Logger log = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
 	private final VoucherManagerFactory voucherManagerFactory;
-	private final NamedParameterJdbcTemplate jdbcTemplate;
+	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public JdbcVoucherRepository(VoucherManagerFactory voucherManagerFactory,
 			NamedParameterJdbcTemplate namedJdbcTemplate) {
 		this.voucherManagerFactory = voucherManagerFactory;
-		this.jdbcTemplate = namedJdbcTemplate;
+		this.namedParameterJdbcTemplate = namedJdbcTemplate;
 	}
 
 	private Map<String, Object> toParameters(Voucher voucher) {
@@ -47,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher saveVoucher(Voucher voucher) {
-		int update = jdbcTemplate.update(
+		int update = namedParameterJdbcTemplate.update(
 				"INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at) VALUES (UUID_TO_BIN(:voucherId), :voucherType , :discountValue, :createdAt)",
 				toParameters(voucher));
 
@@ -61,7 +65,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> getVouchers() {
-		return jdbcTemplate.query("select * from vouchers", this.getVoucherRowMapper());
+		return namedParameterJdbcTemplate.query("select * from vouchers", this.getVoucherRowMapper());
+	}
+
+	@Override
+	public Optional<Voucher> findById(UUID voucherId) {
+
+		try {
+			return Optional.ofNullable(
+					namedParameterJdbcTemplate
+							.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(:voucher_id)",
+									Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
+									this.getVoucherRowMapper()));
+		} catch (EmptyResultDataAccessException e) {
+			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			return Optional.empty();
+		}
 	}
 
 	/**

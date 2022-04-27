@@ -41,6 +41,7 @@ public class App {
 			do {
 				String programType = input.read(BasicMessage.PROGRAME_INIT);
 				program = ProgramType.of(programType);
+				System.out.println("programType = " + programType);
 				Controller controller = controllerManager.of(program.getBeanName());
 
 				controller.run();

@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +76,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		return List.of();
 	}
+
+	@Override
+	public Optional<Voucher> findById(UUID voucherId) {
+		return Optional.empty();
+	}
+
 
 	private ObjectWriter getWriter() {
 		File csvFile = this.getCsvFile();

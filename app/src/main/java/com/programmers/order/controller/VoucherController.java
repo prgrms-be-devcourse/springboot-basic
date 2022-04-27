@@ -16,13 +16,14 @@ import com.programmers.order.manager.VoucherManager;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.service.VoucherService;
+import com.programmers.order.type.DomainMenu.MenuType;
 import com.programmers.order.type.ProgramType;
-import com.programmers.order.type.MenuType;
 import com.programmers.order.type.VoucherType;
 
 @Component("Voucher")
 public class VoucherController implements Controller {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+	private static final String EMPTY_STRING = "";
 
 	private final Input input;
 	private final Output output;

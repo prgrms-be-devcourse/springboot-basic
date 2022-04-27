@@ -27,4 +27,17 @@ public class VocuherDto {
 			return createdAt;
 		}
 	}
+
+	public static class Response {
+		private UUID id;
+		private long discountValue;
+		private LocalDateTime createdAt;
+
+		public Response(UUID id, long discountValue, LocalDateTime createdAt) {
+			this.id = id;
+			this.discountValue = discountValue;
+			this.createdAt = createdAt;
+		}
+	}
+
 }

@@ -110,14 +110,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public Optional<Customer> findById(UUID customerId) {
 
 		try {
-
 			return Optional.ofNullable(
 					namedParameterJdbcTemplate.queryForObject(
 							"select * from customers where customer_id = UUID_TO_BIN( :customerId )",
 							Collections.singletonMap("customerId", customerId.toString().getBytes()),
 							CUSTOMER_ROW_MAPPER)
 			);
-
 		} catch (EmptyResultDataAccessException e) {
 			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
@@ -144,9 +142,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> findByEmail(String email) {
 		try {
-			return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from customers WHERE email = :email",
-					Collections.singletonMap("email", email),
-					CUSTOMER_ROW_MAPPER));
+			return Optional.ofNullable(
+					namedParameterJdbcTemplate.queryForObject("select * from customers WHERE email = :email",
+							Collections.singletonMap("email", email),
+							CUSTOMER_ROW_MAPPER));
 		} catch (EmptyResultDataAccessException e) {
 			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
