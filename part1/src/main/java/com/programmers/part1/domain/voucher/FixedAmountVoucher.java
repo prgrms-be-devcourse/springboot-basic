@@ -1,9 +1,11 @@
 package com.programmers.part1.domain.voucher;
 
 import com.programmers.part1.exception.voucher.FixedAmountException;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
@@ -19,26 +21,10 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
-    public int getAmount() {
-        return this.amount;
-    }
-
-    @Override
     public int discount(int beforeDiscount) {
         int discountAmount = beforeDiscount - amount;
         return discountAmount < 0 ? 0 : discountAmount;
     }
-
-    @Override
-    public String voucherTypeToString() {
-        return this.voucherType.getTypeString();
-    }
-
 
     @Override
     public String toString() {

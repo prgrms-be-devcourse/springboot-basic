@@ -17,20 +17,9 @@ public enum VoucherType {
         this.typeString = typeString;
     }
 
-    public String getTypeString(){
-        return this.typeString;
-    }
-
     public static VoucherType getVoucherTypeByRequest(String request) throws VoucherTypeMissingException{
         return Arrays.stream(values())
                 .filter(type -> type.request.equals(request))
-                .findAny()
-                .orElseThrow(() -> new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다."));
-    }
-
-    public static VoucherType getVoucherTypeByTypeString(String request) throws VoucherTypeMissingException{
-        return Arrays.stream(values())
-                .filter(type -> type.typeString.equals(request))
                 .findAny()
                 .orElseThrow(() -> new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다."));
     }

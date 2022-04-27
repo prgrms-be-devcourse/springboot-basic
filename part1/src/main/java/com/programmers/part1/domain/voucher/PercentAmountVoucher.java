@@ -1,9 +1,11 @@
 package com.programmers.part1.domain.voucher;
 
 import com.programmers.part1.exception.voucher.PercentErrorException;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 public class PercentAmountVoucher implements Voucher {
 
     private final UUID voucherId;
@@ -22,11 +24,6 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    @Override
     public int getAmount() {
         return this.percent;
     }
@@ -34,11 +31,6 @@ public class PercentAmountVoucher implements Voucher {
     @Override
     public int discount(int beforeDiscount) {
         return beforeDiscount * (100 - percent) / 100;
-    }
-
-    @Override
-    public String voucherTypeToString() {
-        return this.voucherType.getTypeString();
     }
 
     @Override
