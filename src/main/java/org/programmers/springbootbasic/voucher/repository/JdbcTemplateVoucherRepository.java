@@ -1,10 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.IllegalVoucherTypeException;
-import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.*;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -42,6 +39,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             "UPDATE voucher SET member_id = :" + PARAM_KEY_MEMBER_ID + " WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_BY_ID_SQL =
             "SELECT * from voucher WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
+    private static final String FIND_BY_TYPE_SQL =
+            "SELECT * from voucher WHERE type = :" + PARAM_KEY_TYPE;
     private static final String FIND_ALL_SQL = "SELECT * from voucher";
     private static final String REMOVE_SQL = "DELETE from voucher WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
 
@@ -96,6 +95,12 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 log.error("동일 id에 2개 이상의 결과가 조회되었습니다. 해당 voucherId={}, 조회 결과 수={}", voucherId, result.size());
                 throw new IncorrectResultSizeDataAccessException(result.size());
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        var paramSource = new MapSqlParameterSource(PARAM_KEY_TYPE, type.toString());
+        return jdbcTemplate.query(FIND_BY_TYPE_SQL, paramSource, voucherRowMapper());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

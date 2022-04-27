@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @Slf4j
@@ -125,6 +126,26 @@ class JdbcTemplateVoucherRepositoryTest {
 
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers.size(), is(3));
+        assertThat(addedVouchers.containsAll(vouchers), is(true));
+    }
+
+    @Test
+    @DisplayName("종류에 따라 바우처를 검색하는 시험")
+    void findByType() {
+        var voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 3000);
+        var voucher2 = new RateDiscountVoucher(UUID.randomUUID(), 30);
+        var voucher3 = new FixedDiscountVoucher(UUID.randomUUID(), 5000);
+
+        List<Voucher> addedVouchers = new ArrayList<>();
+        addedVouchers.add(voucher1);
+        addedVouchers.add(voucher3);
+
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
+        voucherRepository.insert(voucher3);
+
+        List<Voucher> vouchers = voucherRepository.findByType(FIXED);
+        assertThat(vouchers.size(), is(2));
         assertThat(addedVouchers.containsAll(vouchers), is(true));
     }
 

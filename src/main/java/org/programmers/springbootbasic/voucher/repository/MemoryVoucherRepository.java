@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,6 +24,19 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.values().forEach(
+                voucher -> {
+                    if (voucher.getType()==type) {
+                        vouchers.add(voucher);
+                    }
+                }
+        );
+        return vouchers;
     }
 
     @Override

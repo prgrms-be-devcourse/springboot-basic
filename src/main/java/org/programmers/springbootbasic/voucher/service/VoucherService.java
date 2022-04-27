@@ -18,6 +18,8 @@ public interface VoucherService {
 
     void deleteVoucher(UUID voucherId);
 
+    List<Voucher> getVouchersByType(VoucherType type);
+
     List<Voucher> getAllVouchers();
 
     boolean isValidAmount(int amount, VoucherType voucherType);

@@ -38,6 +38,11 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> getVouchersByType(VoucherType type) {
+        return voucherRepository.findByType(type);
+    }
+
+    @Override
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }

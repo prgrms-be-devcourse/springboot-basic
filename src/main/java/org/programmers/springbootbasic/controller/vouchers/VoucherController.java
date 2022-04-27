@@ -118,11 +118,17 @@ public class VoucherController {
     }
 
     @GetMapping("vouchers")
-    public String voucherList(Model model) {
+    public String voucherList(Model model, @RequestParam(required = false) VoucherType type) {
         List<VoucherDto> vouchers = new ArrayList<>();
-        voucherService.getAllVouchers().forEach(voucher -> vouchers.add(VoucherDto.from(voucher)));
-        model.addAttribute("vouchers", vouchers);
 
+        if (type==null) {
+            voucherService.getAllVouchers().forEach(voucher -> vouchers.add(VoucherDto.from(voucher)));
+        }
+        else {
+            model.addAttribute("type", type);
+            voucherService.getVouchersByType(type).forEach(voucher -> vouchers.add(VoucherDto.from(voucher)));
+        }
+        model.addAttribute("vouchers", vouchers);
         return "vouchers/voucherList";
     }
 }

@@ -3,6 +3,8 @@
 <head th:replace="fragments/header :: header"/>
 <body>
 <h2 th:text="#{page.voucher.list}">바우처 목록</h2>
+<h3 th:if="${type!=null}" th:text="|${type.name}만 검색|"></h3>
+<a th:if="${type!=null}" th:text="#{button.reset.conditional}" th:href="@{/vouchers}"></a>
 <div>
     <table class="table">
         <thead>
@@ -16,7 +18,7 @@
         <tbody>
         <tr th:each="voucher : ${vouchers}">
             <td><a th:href="@{|/vouchers/${voucher.voucherId}|}" th:text="${voucher.voucherId}">바우처 일련번호</a></td>
-            <td><a th:href="@{|/vouchers/${voucher.voucherId}|}" th:text="${voucher.type.getName()}">바우처 종류</a>
+            <td><a th:href="@{|/vouchers?type=${voucher.type}|}" th:text="${voucher.type.getName()}">바우처 종류</a>
             </td>
             <td th:text="${voucher.amount}">바우처 할인 수치</td>
             <td th:text="${voucher.memberId}">바우처 주인 ID</td>
