@@ -42,7 +42,6 @@ public class CsvBlacklistRepository implements BlacklistRepository {
     void init() {
         try {
             for (String email : Files.readAllLines(Path.of(blacklistPath))) {
-                
                 checkArgument(Objects.isNull(storage.get(email)), "customer_blacklist.csv에 중복이 존재합니다.");
 
                 Blacklist blacklist = new Blacklist(email);

@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class CsvBlacklistRepositoryTest {
 
-    private static final String SAVE_PATH = "src/main/resources/customer_blacklist.csv";
+    private static final String SAVE_PATH = "src/test/resources/customer_blacklist.csv";
 
     private CsvBlacklistRepository csvBlacklistRepository;
 
