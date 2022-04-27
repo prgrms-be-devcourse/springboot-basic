@@ -1,56 +1,20 @@
 package com.example.voucherproject.voucher.service;
 
-import com.example.voucherproject.common.console.Input;
-import com.example.voucherproject.common.console.Output;
-import com.example.voucherproject.voucher.repository.VoucherRepository;
-import com.example.voucherproject.wallet.repository.WalletRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import com.example.voucherproject.user.model.User;
+import com.example.voucherproject.voucher.model.Voucher;
+import com.example.voucherproject.voucher.model.VoucherType;
 
-import static com.example.voucherproject.common.enums.ServiceType.VOUCHER_SERVICE;
-import static com.example.voucherproject.voucher.domain.VoucherFactory.create;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Slf4j
-@RequiredArgsConstructor
-public class VoucherService implements Runnable{
+public interface VoucherService {
+    List<Voucher> findAll();
+    Voucher createVoucher(String type, Long amount);
 
-    private final Input input;
-    private final Output output;
-    private final VoucherRepository voucherRepository;
+    Optional<Voucher> findById(UUID id);
 
-    private final WalletRepository walletRepository;
+    boolean deleteById(UUID id);
 
-    @Override
-    public void run() {
-        while(true){
-            switch(input.selectVoucherMenu(VOUCHER_SERVICE)){
-                case CREATE:{
-                    var voucher = create(input.createVoucher(),input.amount());
-                    output.createVoucher(voucherRepository.insert(voucher));
-                    break;
-                }
-                case LIST:
-                    output.printVouchers(voucherRepository.findAll());
-                    break;
-                case USERS:
-                    checkVoucherUserList();
-                    break;
-                case HOME:
-                    output.home();
-                    return;
-                default:
-                    output.error();
-                    break;
-            }
-        }
-    }
-
-    private void checkVoucherUserList() {
-        var vouchers = voucherRepository.findAll();
-        output.printVouchers(vouchers);
-        var voucher = vouchers.get(input.selectVoucher(vouchers.size()));
-        var wallets = walletRepository.findByVoucherId(voucher.getId());
-        output.printWalletUsers(wallets);
-    }
-
+    List<Voucher> findByTypeAndDate(VoucherType type, String from, String to);
 }
