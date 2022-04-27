@@ -5,11 +5,13 @@ import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
 import org.prgrms.springbootbasic.dto.VoucherListResponse;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,5 +69,11 @@ public class ApiVoucherController {
             createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
         return ResponseEntity.created(new URI("/api/v1/vouchers"))
             .build();
+    }
+
+    @DeleteMapping("/{voucherId}")
+    public ResponseEntity<Void> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return ResponseEntity.ok().build();
     }
 }

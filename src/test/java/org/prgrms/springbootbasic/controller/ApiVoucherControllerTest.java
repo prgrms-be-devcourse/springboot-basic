@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.controller;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -109,5 +110,19 @@ class ApiVoucherControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
             .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/vouchers"));
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 api")
+    void deleteVoucher() throws Exception {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        given(voucherService.deleteVoucher(voucherId)).willReturn(voucherId);
+
+        //when
+        //then
+        mockMvc.perform(delete("/api/v1/vouchers/" + voucherId.toString())
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 }
