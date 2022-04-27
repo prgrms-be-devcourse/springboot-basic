@@ -1,4 +1,4 @@
-package org.prgrms.spring_week1.customer.model.repository;
+package org.prgrms.spring_week1.customer.repository;
 
 import java.util.List;
 import java.util.Optional;
