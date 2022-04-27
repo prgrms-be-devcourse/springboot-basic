@@ -1,16 +1,15 @@
-package com.example.voucherproject.user.domain;
+package com.example.voucherproject.user.model;
 
-import com.example.voucherproject.user.enums.UserType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Builder
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class User {
     private final UUID id;
     private final UserType type;
