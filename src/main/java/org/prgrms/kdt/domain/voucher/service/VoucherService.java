@@ -1,7 +1,5 @@
 package org.prgrms.kdt.domain.voucher.service;
 
-import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
-import org.prgrms.kdt.domain.voucher.request.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
