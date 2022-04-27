@@ -36,7 +36,6 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
-  private static final Logger log = LoggerFactory.getLogger(JdbcVoucherRepositoryTest.class);
 
   @Configuration
   @ComponentScan(
@@ -158,7 +157,6 @@ class JdbcVoucherRepositoryTest {
   @Order(6)
   void testDeleteById() {
     jdbcVoucherRepository.deleteById(fixedAmountVoucher1.getVoucherID());
-    log.info("voucher size = {}", jdbcVoucherRepository.count());
     Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID());
     assertThat(foundVoucher.isPresent(), is(false));
   }
