@@ -79,18 +79,18 @@ public class VoucherApiController {
 
     private List<VoucherDto> getVoucherListByType(Integer type) {
         List<Voucher> vouchers = voucherService.findVoucherByType(VoucherType.getVoucherType(type));
-        return VoucherDto.convertList(vouchers);
+        return VoucherDto.fromList(vouchers);
     }
 
     private List<VoucherDto> getAllVoucherList() {
         List<Voucher> vouchers = voucherService.findAllVouchers();
-        return VoucherDto.convertList(vouchers);
+        return VoucherDto.fromList(vouchers);
     }
 
     private List<VoucherDto> getVoucherListByPeriod(LocalDate from, LocalDate end) {
         LocalDateTime fromLocalDateTime = LocalDateTime.of(from, LocalTime.of(0, 0));
         LocalDateTime endLocalDateTime = LocalDateTime.of(end, LocalTime.of(23, 59));
         List<Voucher> vouchers = voucherService.findVoucherByPeriod(fromLocalDateTime, endLocalDateTime);
-        return VoucherDto.convertList(vouchers);
+        return VoucherDto.fromList(vouchers);
     }
 }

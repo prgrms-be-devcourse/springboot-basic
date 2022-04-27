@@ -21,7 +21,7 @@ public class CustomerDto {
         return new CustomerDto(customer.getCustomerId(), customer.getEmail(), customer.getCreatedAt());
     }
 
-    public static List<CustomerDto> convertList(List<Customer> customers) {
+    public static List<CustomerDto> fromList(List<Customer> customers) {
         List<CustomerDto> customerDtos = new ArrayList<>();
         customers.forEach(customer -> {
             customerDtos.add(CustomerDto.from(customer));

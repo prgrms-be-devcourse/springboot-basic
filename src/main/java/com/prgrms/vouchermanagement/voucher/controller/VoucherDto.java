@@ -29,7 +29,7 @@ public class VoucherDto {
         return new VoucherDto(voucher.getVoucherId(), voucher.getAmount(), VoucherType.getVoucherType(voucher), voucher.getCreatedAt());
     }
 
-    public static List<VoucherDto> convertList(List<Voucher> vouchers) {
+    public static List<VoucherDto> fromList(List<Voucher> vouchers) {
         List<VoucherDto> voucherDtos = new ArrayList<>();
         vouchers.forEach(voucher -> voucherDtos.add(VoucherDto.from(voucher)));
         return voucherDtos;

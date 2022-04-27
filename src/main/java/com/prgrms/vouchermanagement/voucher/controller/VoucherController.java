@@ -30,7 +30,7 @@ public class VoucherController {
     @GetMapping
     public String vouchers(Model model) {
         List<Voucher> vouchers = voucherService.findAllVouchers();
-        model.addAttribute("vouchers", VoucherDto.convertList(vouchers));
+        model.addAttribute("vouchers", VoucherDto.fromList(vouchers));
         return "voucher/vouchers";
     }
 
@@ -46,7 +46,7 @@ public class VoucherController {
         VoucherDto voucherDto = VoucherDto.from(findVoucher.get());
         model.addAttribute("voucherTypes", VoucherType.values());
         model.addAttribute("voucher", voucherDto);
-        model.addAttribute("customers", CustomerDto.convertList(customers));
+        model.addAttribute("customers", CustomerDto.fromList(customers));
         return "voucher/voucher";
     }
 
