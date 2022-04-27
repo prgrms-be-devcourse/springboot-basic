@@ -12,8 +12,13 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -101,6 +106,22 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
             this.applicationContext = applicationContext;
         }
 
+        @Override
+        public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+            MarshallingHttpMessageConverter messageConverter = new MarshallingHttpMessageConverter();
+            XStreamMarshaller xStreamMarshaller = new XStreamMarshaller();
+            messageConverter.setMarshaller(xStreamMarshaller);
+            messageConverter.setUnmarshaller(xStreamMarshaller);
+            converters.add(0, messageConverter);
+
+            //추가
+            JavaTimeModule javaTimeModule = new JavaTimeModule();
+            javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
+            Jackson2ObjectMapperBuilder modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
+            converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
+
+
+        }
     }
 
     @Override
