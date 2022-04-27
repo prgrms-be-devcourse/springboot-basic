@@ -1,6 +1,7 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.dto.VoucherDto;
+import org.prgrms.kdt.function.VoucherProgramFunctions;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.service.VoucherService;
@@ -9,8 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -34,6 +35,20 @@ public class VoucherController {
     public String createVoucher(Model model, VoucherDto voucherDto) {
         Voucher createdVoucher = voucherService.createVoucher(UUID.randomUUID(), voucherDto.voucherType, voucherDto.discountAmount);
         model.addAttribute(createdVoucher);
-        return "/";
+        return "home";
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
+        ArrayList<String> functionNames = new ArrayList<>();
+        Arrays.stream(VoucherProgramFunctions.values())
+                .forEach(c -> functionNames.add(c.name()));
+        model.addAttribute(functionNames);
+        return "home";
+    }
+
+    @GetMapping("/vouchers/voucherCreateForm")
+    public String createVoucherForm() {
+        return "vouchers/voucherCreateForm";
     }
 }
