@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.consolestarter.io;
+package com.programmers.springbootbasic.io;
 
 import com.programmers.springbootbasic.domain.VoucherType;
 import com.programmers.springbootbasic.domain.Customer;
@@ -14,6 +14,11 @@ public class ConsoleOutputFormatPrinter implements StandardOutput {
 
     @Override
     public void write(String message) {
+        System.out.print(message);
+    }
+
+    @Override
+    public void writeln(String message) {
         System.out.println(message);
     }
 
@@ -39,7 +44,7 @@ public class ConsoleOutputFormatPrinter implements StandardOutput {
             printAllVouchersFormatted(vouchers);
         }
         else {
-            System.out.println("현재 [회원 ID:" +  customerId + "] 님이 소유하고 있는 할인권이 없습니다.");
+            System.out.println("현재 [회원 ID:" +  customerId + "] 님이 보유하고 있는 할인권이 없습니다.");
         }
     }
 
@@ -55,7 +60,7 @@ public class ConsoleOutputFormatPrinter implements StandardOutput {
         System.out.println("검색된 고객: " +
                 "[회원 ID: " + customer.getCustomerId() + "], " +
                 "[회원이름: " + customer.getName() + "], " +
-                "[할인권 소유일: " + customer.getRegistrationDate() + "]");
+                "[할인권 취득일: " + customer.getRegistrationDate() + "]");
     }
 
     @Override
