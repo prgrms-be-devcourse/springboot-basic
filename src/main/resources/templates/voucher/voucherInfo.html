@@ -6,29 +6,40 @@
     <div th:include="/fragments/sidebar.html"></div>
     <div id="page-content-wrapper">
         <nav th:include="/fragments/nav.html"></nav>
-        <table border="1" class="table table-striped table-hover">
-            <tr class="text-center">
-                <th>voucherId</th>
-                <th>amount</th>
-                <th>voucherType</th>
-                <th>createdAt</th>
-                <th>customerId</th>
-                <th></th>
-            </tr>
-            <tr class="text-center">
-                <td th:text="${voucher.voucherId}">voucherId</td>
-                <td th:text="${voucher.amount}">amount</td>
-                <td th:text="${voucher.voucherType}">voucherType</td>
-                <td th:text="${#temporals.format(voucher.createdAt,'yyyy-MM-dd HH:mm:ss')}">createdAt</td>
-                <td th:text="${voucher.customerId}">null</td>
-                <td style="width: 90px;height: 30px;">
-                    <form id="deleteVoucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button id="delete-btn">삭제</button>
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <div class="container">
+            <h1> 바우처 상세 조회</h1>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="voucherId">VoucherId</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" th:field="${voucher.voucherId}" readonly>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="amount">amount</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" th:field="${voucher.amount}" readonly>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="voucherType">voucherType</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" th:field="${voucher.voucherType}" readonly>
+            </div>
+            <div class="input-group input-group-sm mb-3 ">
+                <span class="input-group-text" id="createdAt">createdAt</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" th:field="${voucher.createdAt}" readonly>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="customerId">customerId</span>
+                <input type="text" class="form-control" aria-label="Sizing example input"
+                       aria-describedby="inputGroup-sizing-sm" th:field="${voucher.customerId}" readonly>
+            </div>
+            <div class="container">
+                <form id="deleteVoucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button type="submit" class="btn btn-outline-secondary">삭제</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
