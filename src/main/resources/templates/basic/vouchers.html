@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>Voucher 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/basic/vouchers/add}'|"
+                    type="button">Voucher 등록
+            </button>
+        </div>
+    </div>
+    <form action="vouchers.html"
+          th:action="@{'/basic/vouchers'}"
+          th:method="delete">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary float-end"
+                        type="submit"
+                >전체 삭제
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Voucher ID</th>
+                <th>Voucher Amount</th>
+                <th>Voucher Type</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td><a  th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.getVoucherId()})}"
+                       th:text="${voucher.getVoucherId()}">Voucher Id</a></td>
+                <td th:text="${voucher.getAmount()}">Voucher Amount</td>
+                <td th:text="${voucher.getVoucherType()}">Voucher Type</td>
+            </tr>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

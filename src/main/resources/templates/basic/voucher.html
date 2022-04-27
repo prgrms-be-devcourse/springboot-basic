@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Voucher 상세</h2></div>
+    <h2 th:if="${param.status}" th:text="저장 완료"></h2>
+    <div>
+        <label for="voucherId">Voucher ID</label>
+        <input type="text" id="voucherId" name="voucherId" class="form-control"
+               value="1" th:value="${voucher.get().getVoucherId()}" readonly>
+    </div>
+    <div>
+        <label for="voucherAmount">Voucher Amount</label>
+        <input type="text" id="voucherAmount" name="voucherAmount" class="form-control"
+               value="Voucher Amount" th:value="${voucher.get().getAmount()}" readonly></div>
+    <div>
+        <label for="voucherType">Voucher Type</label>
+        <input type="text" id="voucherType" name="voucherType" class="form-control"
+               value="Voucher Type" th:value="${voucher.get().getVoucherType()}" readonly>
+    </div>
+
+    <form action="voucher.html"
+          th:action="@{'/basic/vouchers/{voucherId}'(voucherId=${voucher.get().getVoucherId()})}"
+          th:method="delete">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:type="submit"
+            >바우처 삭제
+            </button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/basic/vouchers}'|"
+                    type="button">목록으로
+            </button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
