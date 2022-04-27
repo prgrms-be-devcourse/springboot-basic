@@ -3,6 +3,10 @@ logging:
     classpath: logback-spring.xml
 
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   datasource:
     username: root
     password: root1234!
