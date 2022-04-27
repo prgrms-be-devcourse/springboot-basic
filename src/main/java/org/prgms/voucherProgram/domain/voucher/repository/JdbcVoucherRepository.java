@@ -108,4 +108,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
             DatabaseUtils.voucherRowMapper,
             customerEmail);
     }
+
+    @Override
+    public List<Voucher> findNotAssign() {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE customer_id IS NULL",
+            DatabaseUtils.voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findAssigned() {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE customer_id IS NOT NULL",
+            DatabaseUtils.voucherRowMapper);
+    }
 }

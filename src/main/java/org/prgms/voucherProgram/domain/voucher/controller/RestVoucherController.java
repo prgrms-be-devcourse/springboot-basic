@@ -33,13 +33,10 @@ public class RestVoucherController {
 
     @GetMapping
     public ResponseEntity<List<VoucherDto>> getVouchers(@RequestParam Map<String, String> params) {
-
-        List<Voucher> vouchers = findVouchers(params);
-
-        List<VoucherDto> voucherDtos = vouchers.stream()
+        List<VoucherDto> vouchers = findVouchers(params).stream()
             .map(VoucherDto::from)
             .collect(toList());
-        return ResponseEntity.ok(voucherDtos);
+        return ResponseEntity.ok(vouchers);
     }
 
     private List<Voucher> findVouchers(Map<String, String> params) {

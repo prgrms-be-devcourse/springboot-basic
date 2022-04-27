@@ -12,15 +12,31 @@
 <body class="container-fluid">
 <h1>KDT Spring App - Wallet</h1>
 <h2>Assign Voucher</h2>
-<form method="POST" th:action="@{/wallet/assign}">
-    <div class="mb-3">
-        <label class="form-label" for="customerEmail">Customer Email</label>
-        <input aria-describedby="emailHelp" class="form-control" id="customerEmail" name="customerEmail" type="email">
-    </div>
-    <div class="mb-3">
-        <label class="form-label" for="voucherId">Voucher Id</label>
-        <input class="form-control" id="voucherId" name="voucherId" type="text">
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">DiscountValue</th>
+        <th scope="col">CreatedAt</th>
+        <th scope="col">Assign</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{type}"></td>
+        <td th:text="*{discountValue}"></td>
+        <td th:text="*{createdTime}"></td>
+        <td>
+        <td>
+            <form method="post" th:action="@{/wallet/vouchers/assign}">
+                <input hidden name="voucherId" th:value="*{voucherId}">
+                <input hidden name="customerEmail" th:value="${email}">
+                <button class="btn btn-primary" type="submit">Assign</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
 </body>

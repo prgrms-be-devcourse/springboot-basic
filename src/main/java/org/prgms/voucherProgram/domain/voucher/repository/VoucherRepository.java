@@ -27,4 +27,8 @@ public interface VoucherRepository {
     List<Voucher> findByCustomerId(UUID customerId);
 
     List<Voucher> findByCustomerEmail(String customerEmail);
+
+    List<Voucher> findNotAssign();
+
+    List<Voucher> findAssigned();
 }

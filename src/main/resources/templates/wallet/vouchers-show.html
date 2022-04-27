@@ -7,41 +7,39 @@
     <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
           name="viewport">
     <meta content="ie=edge" http-equiv="X-UA-Compatible">
-    <title>Home</title>
+    <title>KDT - Show Assign Vouchers</title>
 </head>
 <body class="container-fluid">
-<h1>KDT Spring App - Customer</h1>
+<h1>KDT Spring App - Wallet</h1>
+<h2 th:text="${email +'의 지갑'}"></h2>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-primary me-md-2" th:href="@{customers/new}" type="button">Create Customer</a>
+    <a class="btn btn-primary me-md-2" th:href="@{/wallet/vouchers/{email}/assign(email=${email})}" type="button">Assign
+        voucher</a>
 </div>
-<h2>고객 테이블</h2>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
+        <th scope="col">Type</th>
+        <th scope="col">DiscountValue</th>
         <th scope="col">CreatedAt</th>
-        <th scope="col">UpdatedAt</th>
         <th scope="col">DELETE</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="customer : ${customers}" th:object="${customer}">
-        <td><a href="#" th:href="@{/customers/{id}(id=${customer.customerId})}" th:text="${customer.customerId}"></a>
-        </td>
-        <td th:text="*{name}"></td>
-        <td th:text="*{email}"></td>
+    <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{type}"></td>
+        <td th:text="*{discountValue}"></td>
         <td th:text="*{createdTime}"></td>
-        <td th:text="*{updatedTime}"></td>
         <td>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <a class="btn btn-primary" th:href="@{/customers/delete/{email}(email=${customer.email})}"
-                   type="button">삭제</a>
+                <a class="btn btn-primary me-md-2"
+                   th:href="@{/wallet/vouchers/{email}/delete/{id}(email=${email}, id=${voucher.voucherId})}"
+                   type="button">DELETE</a>
             </div>
         </td>
     </tr>
     </tbody>
 </table>
 </body>
-</html>

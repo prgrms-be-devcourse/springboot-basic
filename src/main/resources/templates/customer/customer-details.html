@@ -11,7 +11,7 @@
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
-<h2>Customer Details</h2>
+<h2>고객 상세정보</h2>
 <form method="POST" th:action="@{/customers/update/{email}(email=${customer.email})}" th:object="${customer}">
     <div class="mb-3">
         <label class="form-label" for="CustomerId">CustomerId</label>
@@ -28,18 +28,18 @@
                type="email">
     </div>
     <div class="mb-3">
-        <label class="form-label" for="createdTime">Created At</label>
+        <label class="form-label" for="createdTime">CreatedAt</label>
         <input class="form-control" id="createdTime" name="createdTime" th:field="${customer.createdTime}"
                th:readonly="true"
                type="text">
     </div>
     <div class="mb-3">
-        <label class="form-label" for="lastLoginTime">Last Login At </label>
+        <label class="form-label" for="lastLoginTime">UpdatedAt</label>
         <input class="form-control" id="lastLoginTime" name="lastLoginTime" th:field="${customer.updatedTime}"
                th:readonly="true"
                type="text">
     </div>
-    <button class="btn btn-primary" type="submit">Update</button>
+    <button class="btn btn-primary" type="submit">수정</button>
 </form>
 
 </body>

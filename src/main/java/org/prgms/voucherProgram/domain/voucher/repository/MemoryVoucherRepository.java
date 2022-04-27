@@ -72,4 +72,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByCustomerEmail(String customerEmail) {
         throw new AssertionError();
     }
+
+    @Override
+    public List<Voucher> findNotAssign() {
+        throw new AssertionError();
+    }
+
+    @Override
+    public List<Voucher> findAssigned() {
+        throw new AssertionError();
+    }
 }

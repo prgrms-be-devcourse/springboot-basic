@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
 import org.prgms.voucherProgram.domain.customer.domain.Email;
+import org.prgms.voucherProgram.domain.customer.dto.CustomerDto;
+import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherDto;
 import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
 import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/wallet")
 public class WalletController {
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public WalletController(VoucherService voucherService) {
+    public WalletController(VoucherService voucherService,
+        CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping
@@ -32,48 +36,61 @@ public class WalletController {
         return "wallet/wallet";
     }
 
-    @GetMapping("/assign")
-    public String walletAssignPage() {
+    @GetMapping("vouchers/{email}/assign")
+    public String walletAssignPage(@PathVariable("email") Email email, Model model) {
+        List<VoucherDto> notAssignVouchers = voucherService.findNotAssignVouchers().stream()
+            .map(VoucherDto::from)
+            .toList();
+        model.addAttribute("vouchers", notAssignVouchers);
+        model.addAttribute("email", email);
         return "wallet/assign";
     }
 
-    @PostMapping("/assign")
+    @PostMapping("vouchers/assign")
     public String assignVoucher(WalletRequest walletRequest) {
         voucherService.assignVoucher(walletRequest);
-        return "redirect:/wallet";
+        return "redirect:/wallet/vouchers/" + walletRequest.getCustomerEmail();
     }
 
     @GetMapping("/vouchers")
-    public String walletVouchersPage() {
+    public String walletVouchersPage(Model model) {
+        List<CustomerDto> customers = customerService.findCustomers().stream()
+            .map(CustomerDto::from)
+            .toList();
+        model.addAttribute("customers", customers);
         return "wallet/vouchers";
     }
 
-    @PostMapping("/vouchers")
-    public String assignVouchers(@RequestParam("customerEmail") Email customerEmail, Model model) {
-        List<VoucherDto> vouchers = voucherService.findAssignVouchers(customerEmail).stream()
+    @GetMapping("/vouchers/{email}")
+    public String customerWalletPage(@PathVariable("email") Email email, Model model) {
+        List<VoucherDto> vouchers = voucherService.findAssignVouchers(email).stream()
             .map(VoucherDto::from)
             .toList();
         model.addAttribute("vouchers", vouchers);
-        model.addAttribute("email", customerEmail);
-        return "wallet/vouchers";
+        model.addAttribute("email", email);
+        return "wallet/vouchers-show";
     }
 
-    @GetMapping("/vouchers/delete/{voucherId}")
-    public String deleteAssignVoucher(@PathVariable("voucherId") UUID voucherId) {
+    @GetMapping("/vouchers/{email}/delete/{voucherId}")
+    public String deleteAssignVoucher(@PathVariable("email") Email email, @PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
-        return "redirect:/wallet/show";
+        return "redirect:/wallet/vouchers/" + email.getEmail();
     }
 
     @GetMapping("/customer")
-    public String voucherIdForm() {
+    public String findCustomerPage(Model model) {
+        List<VoucherDto> assignedVouchers = voucherService.findAssginedVouchers().stream()
+            .map(VoucherDto::from)
+            .toList();
+        model.addAttribute("vouchers", assignedVouchers);
         return "wallet/customer";
     }
 
-    @PostMapping("/customer")
-    public String findCustomer(@RequestParam("voucherId") UUID voucherId, Model model) {
+    @GetMapping("/customer/{voucherId}")
+    public String findCustomer(@PathVariable("voucherId") UUID voucherId, Model model) {
         Customer customer = voucherService.findCustomer(voucherId);
         model.addAttribute("customer", customer);
-        return "wallet/customer";
+        return "wallet/customer-show";
     }
 
     @ExceptionHandler

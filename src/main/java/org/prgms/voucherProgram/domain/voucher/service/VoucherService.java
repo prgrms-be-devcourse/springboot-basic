@@ -64,6 +64,14 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findNotAssignVouchers() {
+        return voucherRepository.findNotAssign();
+    }
+
+    public List<Voucher> findAssginedVouchers() {
+        return voucherRepository.findAssigned();
+    }
+
     public void delete(UUID voucherId) {
         voucherRepository.findById(voucherId)
             .ifPresentOrElse(voucher -> voucherRepository.deleteById(voucherId), () -> {
