@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
+    <style>
+        *{font-family: 'Gowun Dodum', sans-serif;}
+    </style>
+    <title>SUBIN : VOUCHER</title>
+</head>
+<body class="container-fluid">
+
+<div class="d-grid gap-2 justify-content-md-center">
+    <br/>
+    <h1>지갑 조회 페이지</h1>
+    <br/>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">VoucherId</th>
+            <th scope="col">User</th>
+            <th scope="col">Voucher</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">UpdatedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet, walletStat : ${wallets}" th:object="${wallet}" >
+            <td>
+                <a th:href="@{/wallet/{param1}(param1=${wallet.id})}" href="/wallets" th:text="*{id}">default ID</a>
+            </td>
+            <td>
+                <th:block th:with="user=${userMap.get(wallet.getUserId())}"}>
+                    <a th:href="@{/user/{param1}(param1=${wallet.userId})}" href="/users" th:text="|${user.getName()} [${user.getType()}]|">default ID</a>
+                </th:block>
+            </td>
+            <td>
+                <th:block th:with="voucher=${voucherMap.get(wallet.getVoucherId())}"}>
+                    <a th:href="@{/voucher/{param1}(param1=${wallet.voucherId})}" href="/vouchers" th:text="|${voucher.getAmount()} [${voucher.getType()}]|">default ID</a>
+                </th:block>
+            </td>
+            <td th:text = "*{createdAt}"></td>
+            <td th:text = "*{updatedAt}"></td>
+        </tr>
+        </th:each>
+        </tbody>
+    </table>
+    <br/>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <a th:href="@{/}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
+        <a th:href="@{/wallet/new}" class="btn btn-outline-primary btn-lg" type="button">생성하기</a>
+    </div>
+</div>
+
+
+</body>
+</html>
