@@ -44,6 +44,11 @@ public class VoucherService {
     }
 
     @Transactional
+    public Voucher updateVoucher(Voucher voucher) {
+        return voucherRepository.update(voucher);
+    }
+
+    @Transactional
     public void allocateToCustomer(Voucher voucher, Customer customer) {
         if (voucher.getCustomerId().isPresent()) {
             throw new VoucherException("This voucher is already deployed.");

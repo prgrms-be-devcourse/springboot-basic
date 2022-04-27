@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.engine.controller;
 import org.prgrms.springbootbasic.engine.controller.dto.CustomerResponseDto;
 import org.prgrms.springbootbasic.engine.controller.dto.VoucherCreateRequestDto;
 import org.prgrms.springbootbasic.engine.controller.dto.VoucherResponseDto;
+import org.prgrms.springbootbasic.engine.controller.dto.VoucherUpdateRequestDto;
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.service.CustomerService;
@@ -42,7 +43,7 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/new")
-    public String viewNewVoucherPage(Model model) {
+    public String viewVoucherCreatePage(Model model) {
         List<CustomerResponseDto> customers = customerService.getAllCustomers().stream().map(CustomerResponseDto::new).toList();
         model.addAttribute("customers", customers);
         return "views/new-voucher";
@@ -65,6 +66,30 @@ public class VoucherController {
         Voucher voucher = voucherService.getVoucher(id);
         model.addAttribute("voucher", new VoucherResponseDto(voucher));
         return "views/voucher";
+    }
+
+    @GetMapping("/vouchers/{voucherId}/edit")
+    public String viewVoucherEditPage(Model model, @PathVariable String voucherId) {
+        UUID id = convertStringToUUID(voucherId);
+        Voucher voucher = voucherService.getVoucher(id);
+        model.addAttribute("voucher", new VoucherResponseDto(voucher));
+        model.addAttribute("customers", customerService.getAllCustomers());
+        return "views/update-voucher";
+    }
+
+    @PostMapping("/vouchers/update")
+    public String updateVoucher(VoucherUpdateRequestDto voucherUpdateRequestDto) {
+        Voucher voucher = voucherService.getVoucher(voucherUpdateRequestDto.getVoucherId());
+        if (voucherUpdateRequestDto.getCustomerId().isPresent()) {
+            Customer customer = customerService.getCustomerById(voucherUpdateRequestDto.getCustomerId().get());
+            voucher.changeOwner(customer);
+            System.out.println(customer.toString());
+        } else {
+            voucher.revokeOwner();
+        }
+        voucher.changeValue(voucherUpdateRequestDto.getValue());
+        voucherService.updateVoucher(voucher);
+        return "redirect:/vouchers/" + voucher.getVoucherId();
     }
 
     @GetMapping("/vouchers/{voucherId}/delete")
