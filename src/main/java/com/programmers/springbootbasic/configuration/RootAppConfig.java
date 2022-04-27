@@ -17,7 +17,6 @@ import javax.sql.DataSource;
                                 "com.programmers.springbootbasic.repository",
                                 "com.programmers.springbootbasic.service",
                                 "com.programmers.springbootbasic.consolestarter"})
-@PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
 public class RootAppConfig {
 
     private final DataSourceProperties dataSourceProperties;
