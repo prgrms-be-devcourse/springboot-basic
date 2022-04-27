@@ -8,11 +8,13 @@ import org.prgrms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/vouchers")
 public class ApiVoucherController {
 
     private final VoucherService voucherService;
@@ -21,20 +23,22 @@ public class ApiVoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/api/v1/vouchers")
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findAllVouchers() {
-        var voucherDTOS = voucherService.findAll();
-        return new VoucherListResponse(voucherDTOS);
+        var vouchers = voucherService.findAll();
+        return new VoucherListResponse(DtoConverter.toVoucherDTOs(vouchers));
     }
 
-    @GetMapping("/api/v1/vouchers/{voucherType}")
+    @GetMapping("/{voucherType}")
+    @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findVoucherUsingType(
         @PathVariable("voucherType") VoucherType voucherType) {
         return new VoucherListResponse(
             DtoConverter.toVoucherDTOs(voucherService.findVoucherUsingType(voucherType)));
     }
 
-    @GetMapping("/api/v1/vouchers/search")
+    @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findVoucherUsingCreatedAt(
         @RequestParam("start") String start, @RequestParam("end") String end) {

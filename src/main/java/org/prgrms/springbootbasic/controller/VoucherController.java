@@ -68,7 +68,7 @@ public class VoucherController {
     public void printList() {
         logger.info("printList() called");
 
-        consoleView.printList(voucherService.findAll());
+        consoleView.printList(DtoConverter.toVoucherDTOs(voucherService.findAll()));
     }
 
     public void printBlackList() {

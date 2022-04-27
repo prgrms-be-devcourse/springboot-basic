@@ -45,12 +45,10 @@ public class VoucherService {
         }
     }
 
-    public List<VoucherDTO> findAll() {
+    public List<Voucher> findAll() {
         logger.info("findAll() called");
 
-        return voucherRepository.findAll().stream()
-            .map(VoucherDTO::new)
-            .collect(Collectors.toList());
+        return voucherRepository.findAll();
     }
 
     @Transactional

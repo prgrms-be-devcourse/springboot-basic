@@ -36,10 +36,43 @@ class ApiVoucherControllerTest {
     private VoucherService voucherService;
 
     @Test
+    @DisplayName("모든 바우처 조회 api")
+    void findAllVouchers() throws Exception {
+        //given
+        given(voucherService.findAll())
+            .willReturn(List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), 1000),
+                new PercentDiscountVoucher(UUID.randomUUID(), 20)
+            ));
+
+        //when
+        //then
+        mockMvc.perform(get("/api/v1/vouchers")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.voucherDtoList", hasSize(2)));
+    }
+
+    @Test
+    @DisplayName("특정 타입의 바우처 조회 api")
+    void findVoucherUsingType() throws Exception {
+        //given
+        given(voucherService.findVoucherUsingType(VoucherType.FIXED)).willReturn(
+            List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), 1000)));
+
+        //when
+        //then
+        mockMvc.perform(get("/api/v1/vouchers/fixed")
+                .accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.voucherDtoList", hasSize(1)));
+    }
+
+    @Test
     @DisplayName("생성기간(날짜) 기준 바우처 조회 api")
     void findVoucherUsingCreatedAt() throws Exception {
         //given
-        //when
         given(voucherService.findVoucherUsingCreatedAt(
             any(LocalDateTime.class), any(LocalDateTime.class)))
             .willReturn(List.of(
@@ -47,6 +80,7 @@ class ApiVoucherControllerTest {
                 new PercentDiscountVoucher(UUID.randomUUID(), 20)
             ));
 
+        //when
         //then
         mockMvc.perform(get("/api/v1/vouchers/search?start=2022-04-27&end=2022-04-27")
                 .accept(MediaType.APPLICATION_JSON))

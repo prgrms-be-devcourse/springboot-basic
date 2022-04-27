@@ -20,7 +20,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.controller.VoucherType;
-import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -109,7 +108,7 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherList)
-            .extracting(VoucherDTO::getVoucherId)
+            .extracting(Voucher::getVoucherId)
             .containsExactlyInAnyOrder(fixedAmountVoucher.getVoucherId(),
                 percentDiscountVoucher.getVoucherId());
     }
