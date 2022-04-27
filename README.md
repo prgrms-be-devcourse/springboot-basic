@@ -115,7 +115,7 @@
 
   - request
     ```
-    POST http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/create
+    POST http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/create
     Content-Type: application/json
     
     {
@@ -133,7 +133,7 @@
 
   - resquest
     ```
-    GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/delete/75
+    GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/delete/75
     ```
   - response
     ```
@@ -144,7 +144,7 @@
 
   - request
     ```
-    GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/77
+    GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/77
     ```
   - response
     ```
