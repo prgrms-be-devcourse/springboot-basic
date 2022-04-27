@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.repository;
 
-import com.programmers.springbootbasic.dto.CustomerDTO;
+import com.programmers.springbootbasic.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +32,12 @@ public class CustomerJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<CustomerDTO> customersRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<Customer> customersRowMapper = (rs, rowNum) -> {
         String customerId = rs.getString("customer_id");
         String name = rs.getString("name");
         LocalDateTime registrationDate = rs.getTimestamp("registration_date").toLocalDateTime();
 
-        return new CustomerDTO(customerId, name, registrationDate);
+        return new Customer(customerId, name, registrationDate);
     };
 
     @Autowired
@@ -45,26 +45,26 @@ public class CustomerJdbcRepository {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public CustomerDTO insert(CustomerDTO customerDTO) {
-        int insertResult = jdbcTemplate.update(INSERT, customerDTO.getCustomerId(), customerDTO.getName());
+    public Customer insert(Customer customer) {
+        int insertResult = jdbcTemplate.update(INSERT, customer.getCustomerId(), customer.getName());
 
         if (insertResult != 1)
             logger.error("새로운 고객 정보 저장 실패");
 
-        return customerDTO;
+        return customer;
     }
 
-    public Optional<CustomerDTO> findById(String customerId) {
+    public Optional<Customer> findById(String customerId) {
         try {
-            CustomerDTO customerDTO = jdbcTemplate.queryForObject(SELECT_BY_ID, customersRowMapper, customerId);
-            return Optional.ofNullable(customerDTO);
+            Customer customer = jdbcTemplate.queryForObject(SELECT_BY_ID, customersRowMapper, customerId);
+            return Optional.ofNullable(customer);
         } catch (DataAccessException e) {
             logger.info("존재하지 않은 고객 아이디로 고객 정보 검색 요청");
             return Optional.empty();
         }
     }
 
-    public List<CustomerDTO> findAll() {
+    public List<Customer> findAll() {
         return jdbcTemplate.query(SELECT_ALL, customersRowMapper);
     }
 

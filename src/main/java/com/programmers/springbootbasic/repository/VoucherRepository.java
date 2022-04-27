@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.repository;
 
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,13 +8,13 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    VoucherDTO insert(VoucherDTO voucherDTO);
+    Voucher insert(Voucher voucherDTO);
 
-    Optional<VoucherDTO> findById(UUID voucherId);
+    Optional<Voucher> findById(UUID voucherId);
 
-    List<VoucherDTO> findAvailableVouchers();
+    List<Voucher> findAvailableVouchers();
 
-    List<VoucherDTO> findAll();
+    List<Voucher> findAll();
 
     void deleteById(UUID voucherId);
 

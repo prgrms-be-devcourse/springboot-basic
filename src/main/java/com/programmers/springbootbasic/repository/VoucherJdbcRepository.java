@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.repository;
 
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             = "SELECT * FROM vouchers WHERE voucher_id = ?";
     private static final String SELECT_NOT_IN_STATUS
             = "SELECT * FROM vouchers v WHERE v.voucher_id NOT IN " +
-            "(SELECT s.voucher_id FROM status s)";
+            "(SELECT s.voucher_id FROM customer_voucher_log s)";
     private static final String SELECT_ALL
             = "SELECT * FROM vouchers";
     private static final String DELETE_BY_ID
@@ -36,7 +36,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 
-    private static final RowMapper<VoucherDTO> vouchersRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<Voucher> vouchersRowMapper = (rs, rowNum) -> {
         String voucherId = rs.getString("voucher_id");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
@@ -48,7 +48,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         Integer type = rs.getInt("type");
 
-        return new VoucherDTO(UUID.fromString(voucherId), createdAt, fixed_amount, discount_percent, type);
+        return new Voucher(UUID.fromString(voucherId), createdAt, fixed_amount, discount_percent, type);
     };
 
     private final JdbcTemplate jdbcTemplate;
@@ -59,7 +59,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherDTO insert(VoucherDTO voucherDTO) {
+    public Voucher insert(Voucher voucherDTO) {
         int insertResult = jdbcTemplate.update(INSERT,
                 voucherDTO.getVoucherId().toString(),
                 voucherDTO.getFixedAmount(),
@@ -73,9 +73,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<VoucherDTO> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
-            VoucherDTO voucherDTO = jdbcTemplate.queryForObject(SELECT_BY_ID,
+            Voucher voucherDTO = jdbcTemplate.queryForObject(SELECT_BY_ID,
                     vouchersRowMapper,
                     voucherId.toString());
             return Optional.ofNullable(voucherDTO);
@@ -86,12 +86,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<VoucherDTO> findAvailableVouchers() {
+    public List<Voucher> findAvailableVouchers() {
         return jdbcTemplate.query(SELECT_NOT_IN_STATUS, vouchersRowMapper);
     }
 
     @Override
-    public List<VoucherDTO> findAll() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query(SELECT_ALL, vouchersRowMapper);
     }
 
