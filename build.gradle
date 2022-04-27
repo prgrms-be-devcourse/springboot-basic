@@ -19,6 +19,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'mysql:mysql-connector-java:8.0.28'
+	implementation 'com.thoughtworks.xstream:xstream:1.4.19'
+	implementation 'org.springframework:spring-oxm:5.3.19'
 	testImplementation 'com.h2database:h2:2.1.212'
 }
 
