@@ -11,24 +11,17 @@ import org.programmers.kdt.weekly.voucherWallet.model.VoucherWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Profile("local")
 @Repository
 public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(
         JdbcVoucherWalletRepository.class);
-
-    private static final String INSERT_SQL = "INSERT INTO voucher_wallet(wallet_id, customer_id, voucher_id, created_at, expiration_at) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId),:createdAt, :expirationAt)";
-    private static final String SELECT_SQL = "SELECT * FROM voucher_wallet WHERE customer_id = UUID_TO_BIN(:customerId)";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher_wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND wallet_id = UUID_TO_BIN(:walletId)";
-    private static final String DELETE_BY_ID_SQL = "DELETE FROM voucher_wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND wallet_id = UUID_TO_BIN(:walletId)";
-    private static final String DELETE_SQL = "DELETE FROM voucher_wallet WHERE customer_id = UUID_TO_BIN(:customerId)";
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -40,8 +33,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
         var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
         var expirationAt = rs.getTimestamp("expiration_at").toLocalDateTime();
 
-        return new VoucherWallet(walletId, customerId, voucherId, createdAt,
-            expirationAt);
+        return new VoucherWallet(walletId, customerId, voucherId, createdAt);
     };
 
     private Map<String, Object> toParamMap(VoucherWallet voucherWallet) {
@@ -58,58 +50,79 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 
     @Override
     public VoucherWallet insert(VoucherWallet voucherWallet) {
-        var update = namedParameterJdbcTemplate.update(INSERT_SQL, toParamMap(voucherWallet));
-
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        String insertSql =
+            "INSERT INTO voucher_wallet(wallet_id, customer_id, voucher_id, created_at, expiration_at) "
+                + "VALUES (UNHEX(REPLACE(:walletId, '-', '')), UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')),:createdAt, :expirationAt)";
+        try {
+            var update = namedParameterJdbcTemplate.update(insertSql, toParamMap(voucherWallet));
+        } catch (InvalidDataAccessApiUsageException e) {
+            logger.error("voucher wallet insertSql error -> {}", e);
         }
 
         return voucherWallet;
     }
 
     @Override
-    public List<VoucherWallet> findAll(UUID customerId) {
+    public List<VoucherWallet> findAll() {
+        String selectSql = "SELECT * FROM voucher_wallet";
+        return namedParameterJdbcTemplate.query(selectSql,
+            Collections.emptyMap(),
+            voucherWalletRowMapper);
+    }
+
+    @Override
+    public Optional<VoucherWallet> findByWalletId(UUID walletId) {
+        String selectByWalletIdSql =
+            "SELECT * FROM voucher_wallet WHERE customer_id = wallet_id = UNHEX(REPLACE(:walletId, '-', ''))";
         try {
-            return namedParameterJdbcTemplate.query(SELECT_SQL,
+            return Optional.of(namedParameterJdbcTemplate.queryForObject(selectByWalletIdSql,
+                Collections.singletonMap("walletId",
+                    walletId.toString().getBytes()), voucherWalletRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("voucher Wallet findByWalletId empty Result ", e);
+
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<VoucherWallet> findByCustomerId(UUID customerId) {
+        String selectByCustomerIdSql =
+            "SELECT * FROM voucher_wallet WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
+        try {
+            return namedParameterJdbcTemplate.query(selectByCustomerIdSql,
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 voucherWalletRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("voucher Wallet findAll empty result ", e);
+            logger.error("voucher Wallet findByCustomerId empty Result ", e);
 
             return Collections.emptyList();
         }
     }
 
     @Override
-    public Optional<VoucherWallet> findById(UUID customerId, UUID walletId) {
-        try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
-                Map.of("customerId", customerId.toString().getBytes(), "walletId",
-                    walletId.toString().getBytes()), voucherWalletRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("voucher Wallet findById empty Result ", e);
-
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public Optional<UUID> deleteById(UUID customerId, UUID walletId) {
+        String DELETE_BY_ID_SQL =
+            "DELETE FROM voucher_wallet WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))" +
+                "AND wallet_id = UNHEX(REPLACE(:walletId, '-', ''))";
         try {
             this.namedParameterJdbcTemplate.update(DELETE_BY_ID_SQL,
                 Map.of("customerId", customerId.toString().getBytes(), "walletId",
                     walletId.toString().getBytes()));
+
             return Optional.ofNullable(walletId);
         } catch (EmptyResultDataAccessException e) {
             logger.error("voucher wallet deleteById empty result ", e);
+
             return Optional.empty();
         }
     }
 
     @Override
-    public void deleteAll(UUID customerId) {
+    public void deleteAllByCustomerId(UUID customerId) {
+        String deleteSql = "DELETE FROM voucher_wallet WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
         try {
-            this.namedParameterJdbcTemplate.update(DELETE_SQL,
+            this.namedParameterJdbcTemplate.update(deleteSql,
                 Collections.singletonMap("customerId", customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("voucher wallet deleteAll empty result ", e);

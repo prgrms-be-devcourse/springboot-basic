@@ -9,11 +9,13 @@ public interface VoucherWalletRepository {
 
     VoucherWallet insert(VoucherWallet voucherWallet);
 
-    List<VoucherWallet> findAll(UUID customerId);
+    List<VoucherWallet> findAll();
 
-    Optional<VoucherWallet> findById(UUID customerId, UUID walletId);
+    List<VoucherWallet> findByCustomerId(UUID customerId);
+
+    Optional<VoucherWallet> findByWalletId(UUID walletId);
 
     Optional<UUID> deleteById(UUID customerId, UUID walletId);
 
-    void deleteAll(UUID customerId);
+    void deleteAllByCustomerId(UUID customerId);
 }

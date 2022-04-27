@@ -5,31 +5,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.programmers.kdt.weekly.customer.model.Customer;
 import org.programmers.kdt.weekly.customer.model.CustomerType;
 import org.programmers.kdt.weekly.utils.UtilFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-@Primary
 @Repository
-public class JdbcCustomerRepository implements CustomerRepository{
+public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email,type) VALUES (UUID_TO_BIN(:customerId), :name, :email, :type)";
-    private static final String SELECT_SQL = "SELECT * FROM customers";
-    private static final String SELECT_BY_EMAIL_SQL = "SELECT * FROM customers WHERE email = :customerEmail";
-    private static final String SELECT_BY_TYPE_SQL = "SELECT * FROM customers WHERE type = :customerType";
-    private static final String UPDATE_SQL = "UPDATE customers SET type = :type WHERE customer_id = UUID_TO_BIN(:customerId)";
 
     @Autowired
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    NamedParameterJdbcTemplate jdbcTemplate;
 
     private final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> {
         var customerId = UtilFunction.toUUID(rs.getBytes("customer_id"));
@@ -53,7 +47,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public Customer insert(Customer customer) {
-        var update = namedParameterJdbcTemplate.update(INSERT_SQL, toParamMap(customer));
+        String insertSql = "INSERT INTO customers(customer_id, name, email,type) "+
+            "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :type)";
+        var update = jdbcTemplate.update(insertSql, toParamMap(customer));
 
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -63,15 +59,18 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
+        String selectSql = "SELECT * FROM customers";
 
-        return namedParameterJdbcTemplate.query(SELECT_SQL, customerRowMapper);
+        return jdbcTemplate.query(selectSql, customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findByEmail(String customerEmail) {
+        String selectByEmailSql = "SELECT * FROM customers WHERE email = :customerEmail";
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL,
-                Collections.singletonMap("customerEmail", customerEmail), customerRowMapper));
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(selectByEmailSql,
+                    Collections.singletonMap("customerEmail", customerEmail), customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("customer findByEmail empty Result", e);
 
@@ -81,21 +80,46 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findByType(String customerType) {
+        String selectByTypeSql = "SELECT * FROM customers WHERE type = :customerType";
         try {
-            return namedParameterJdbcTemplate.query(
-                SELECT_BY_TYPE_SQL, Collections.singletonMap("customerType", customerType), customerRowMapper);
-        } catch (EmptyResultDataAccessException e){
+            return jdbcTemplate.query(selectByTypeSql,
+                Collections.singletonMap("customerType", customerType), customerRowMapper);
+        } catch (EmptyResultDataAccessException e) {
             return Collections.emptyList();
+        }
+    }
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        String selectByIdSql = "SELECT * FROM customers WHERE customer_id = :customerId";
+        try {
+            return Optional.ofNullable(
+                jdbcTemplate.queryForObject(selectByIdSql,
+                    Collections.singletonMap("customerId", customerId), customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("customer findById empty Result", e);
+
+            return Optional.empty();
         }
     }
 
     @Override
     public Customer update(Customer customer) {
-        var update = namedParameterJdbcTemplate.update(UPDATE_SQL, toParamMap(customer));
+        String updateSql = "UPDATE customers SET type = :type WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
+        var update = jdbcTemplate.update(updateSql, toParamMap(customer));
 
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
         }
         return customer;
+    }
+
+    @Override
+    public void deleteAll() {
+        String deleteSql = "DELETE FROM customers";
+        try {
+            jdbcTemplate.update(deleteSql, Collections.emptyMap());
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("customer repository deleteAll error -> {}", e);
+        }
     }
 }
