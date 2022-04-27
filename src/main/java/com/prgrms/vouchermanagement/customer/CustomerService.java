@@ -4,6 +4,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,6 +31,18 @@ public class CustomerService {
         customerRepository.save(newCustomer);
 
         return customerId;
+    }
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
+    public Optional<Customer> findById(UUID customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    public void removeCustomer(UUID customerId) {
+        customerRepository.remove(customerId);
     }
 
     /**
