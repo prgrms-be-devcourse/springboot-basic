@@ -1,13 +1,14 @@
 package org.prgrms.springbootbasic.engine.controller;
 
+import org.prgrms.springbootbasic.engine.controller.dto.CustomerResponseDto;
 import org.prgrms.springbootbasic.engine.controller.dto.VoucherCreateRequestDto;
 import org.prgrms.springbootbasic.engine.controller.dto.VoucherResponseDto;
+import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
+import org.prgrms.springbootbasic.engine.service.CustomerService;
 import org.prgrms.springbootbasic.engine.service.VoucherService;
-import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,11 @@ import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUI
 public class VoucherController {
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    private final CustomerService customerService;
+
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/vouchers")
@@ -39,13 +43,20 @@ public class VoucherController {
 
     @GetMapping("/vouchers/new")
     public String viewNewVoucherPage(Model model) {
+        List<CustomerResponseDto> customers = customerService.getAllCustomers().stream().map(CustomerResponseDto::new).toList();
+        model.addAttribute("customers", customers);
         return "views/new-voucher";
     }
 
     @PostMapping("/vouchers/new")
     public String createNewVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
-        Voucher voucher = voucherService.insertVoucher(voucherCreateRequestDto.toEntity());
-        return "redirect:/vouchers";
+        Voucher voucher = voucherCreateRequestDto.toEntity();
+        if (voucherCreateRequestDto.getCustomerId().isPresent()) {
+            Customer customer = customerService.getCustomerById(voucherCreateRequestDto.getCustomerId().get());
+            voucher.changeOwner(customer);
+        }
+        voucherService.insertVoucher(voucher);
+        return "redirect:/vouchers/" + voucher.getVoucherId();
     }
 
     @GetMapping("/vouchers/{voucherId}")

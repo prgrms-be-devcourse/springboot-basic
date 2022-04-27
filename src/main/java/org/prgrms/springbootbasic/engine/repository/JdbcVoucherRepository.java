@@ -81,7 +81,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher insert(Voucher voucher) {
         Map<String, Object> paramMap = toParamMap(voucher);
-        int insertCount = jdbcTemplate.update("insert into vouchers (voucher_id, voucher_type, " + voucher.getVoucherType().getValueColumnName() + ", created_at) values (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt);",paramMap);
+        int insertCount = jdbcTemplate.update("insert into vouchers (voucher_id, voucher_type, " + voucher.getVoucherType().getValueColumnName() + ", customer_id, created_at) values (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, UNHEX(REPLACE(:customerId, '-', '')), :createdAt);",paramMap);
         if (insertCount != 1) {
             throw new VoucherException("Voucher cant be inserted!");
         }

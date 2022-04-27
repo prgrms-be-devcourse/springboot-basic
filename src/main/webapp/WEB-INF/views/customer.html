@@ -34,8 +34,8 @@
     <tr>
         <th scope="row" >Owned Vouchers</th>
         <td>
-            <div th:each="voucher: ${customer.ownedVouchers}" class="list-group">
-                <a th:href="@{/vouchers/{id}(id=${voucher})}" th:text="${voucher}" class="list-group-item list-group-item-action active">
+            <div class="list-group">
+                <a th:each="voucher: ${customer.ownedVouchers}" th:href="@{/vouchers/{id}(id=${voucher})}" th:text="${voucher}" class="list-group-item list-group-item-action">
                 </a>
             </div>
         </td>
