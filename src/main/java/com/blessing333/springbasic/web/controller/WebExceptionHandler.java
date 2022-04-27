@@ -11,7 +11,7 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ModelAndView serviceFailHandle(IllegalArgumentException e) {
-        log.error("[exceptionHandle] ex", e);
+        log.error("[WebExceptionHandle] ex", e);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/error");
         modelAndView.addObject("message", e.getMessage());

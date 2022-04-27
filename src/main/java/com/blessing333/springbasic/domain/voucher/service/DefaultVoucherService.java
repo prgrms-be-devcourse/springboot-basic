@@ -63,7 +63,6 @@ public class DefaultVoucherService implements VoucherService {
                 .orElseThrow(VoucherFindFailException::new);
         target.changeVoucherType(form.getVoucherType());
         target.changeDiscountAmount(form.getDiscountAmount());
-        log.info("in service{}",form.getDiscountAmount());
         repository.update(target);
     }
 }

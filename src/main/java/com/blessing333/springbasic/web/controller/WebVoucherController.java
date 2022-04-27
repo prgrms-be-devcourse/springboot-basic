@@ -77,7 +77,6 @@ public class WebVoucherController {
                          @PathVariable UUID voucherId,
                          Model model, Errors errors, RedirectAttributes attributes
     ) {
-        log.error("controller {}",payload.getDiscountAmount());
         if (errors.hasErrors()) {
             log.error(errors.getAllErrors().toString());
             model.addAttribute(PAYLOAD_MODEL_ATTRIBUTE,payload);

@@ -44,7 +44,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        log.info("{}",voucher.getDiscountAmount());
         int affectedRow = jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
         if (affectedRow != 1) {
             throw new IncorrectResultSizeDataAccessException(1, affectedRow);
@@ -88,7 +87,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        log.info("in param{}",voucher.getDiscountAmount());
         Map<String, Object> map = new HashMap<>();
         map.put(VOUCHER_TYPE, voucher.getVoucherType().getOptionNumber());
         map.put(VOUCHER_ID, UUIDUtil.toBinary(voucher.getVoucherId()));
