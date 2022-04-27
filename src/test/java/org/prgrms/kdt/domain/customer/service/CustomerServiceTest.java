@@ -67,6 +67,7 @@ class CustomerServiceTest {
 //        UUID savedId = customerService.saveCustomer("park", "a@gmail.com", CustomerType.NORMAL);
         //then
 //        assertThat(savedId).isEqualTo(customerId);
+
     }
 
 

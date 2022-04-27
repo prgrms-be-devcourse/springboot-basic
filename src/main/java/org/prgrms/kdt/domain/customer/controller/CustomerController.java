@@ -1,7 +1,7 @@
 package org.prgrms.kdt.domain.customer.controller;
 
-import org.prgrms.kdt.domain.customer.dto.CustomerCreateRequest;
-import org.prgrms.kdt.domain.customer.dto.CustomerUpdateRequest;
+import org.prgrms.kdt.domain.customer.request.CustomerCreateRequest;
+import org.prgrms.kdt.domain.customer.request.CustomerUpdateRequest;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
