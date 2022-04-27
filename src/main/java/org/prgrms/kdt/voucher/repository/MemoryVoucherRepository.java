@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.kdt.voucher.model.Voucher;
@@ -26,8 +27,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(UUID voucherId, long value) {
-        return null;
+    public Optional<Voucher> findById(UUID uuid) {
+        return Optional.empty();
     }
 
     @Override

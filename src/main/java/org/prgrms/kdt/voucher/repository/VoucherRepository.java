@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdt.voucher.model.Voucher;
 
@@ -10,7 +11,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Voucher update(UUID voucherId, long value);
+    Optional<Voucher> findById(UUID uuid);
 
     void deleteAll();
 

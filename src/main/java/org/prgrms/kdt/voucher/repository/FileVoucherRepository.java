@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.kdt.error.VoucherFileException;
 import org.prgrms.kdt.voucher.model.Voucher;
@@ -45,8 +46,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(UUID voucherId, long value) {
-        return null;
+    public Optional<Voucher> findById(UUID uuid) {
+        return Optional.empty();
     }
 
     @Override
