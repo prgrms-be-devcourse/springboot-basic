@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
-
 @Controller
 public class VoucherController {
 	private final VoucherService voucherService;

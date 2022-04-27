@@ -50,6 +50,7 @@ public class VoucherMemoryRepositoryTest {
 			void store_초기화_설정() {
 				voucherRepository.deleteAll();
 			}
+
 			@Test
 			@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
 			void 바우처를_저장하고_저장된_바우처를_반환한다() {
@@ -103,14 +104,16 @@ public class VoucherMemoryRepositoryTest {
 	class findAll메서드는 {
 		private Voucher createdVoucher;
 
-		@BeforeEach
-		void 테스트_위한_설정() {
-			createdVoucher = voucherRepository.save(new FixedAmountVoucher(null, 1000));
+		@AfterEach
+		void 저장소_초기화() {
+			voucherRepository.deleteAll();
 		}
 
 		@Test
 		@DisplayName("바우처를 전체 조회하고 반환한다")
 		void 바우처를_전체_조회하고_반환한다() {
+			createdVoucher = voucherRepository.save(new FixedAmountVoucher(null, 1000));
+
 			List<Voucher> vouchers = voucherRepository.findAll();
 
 			assertThat(vouchers.size()).isEqualTo(1);
