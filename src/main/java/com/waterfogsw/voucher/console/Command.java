@@ -1,29 +1,38 @@
 package com.waterfogsw.voucher.console;
 
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.waterfogsw.voucher.console.Messages.INVALID_COMMAND;
 
 public enum Command {
-    CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blacklist"),
-    EXIT("exit");
+    CREATE("Type create to create a new voucher."),
+    LIST("Type list to list all vouchers."),
+    BLACKLIST("Type blacklist to list black list."),
+    EXIT("Type exit to exit the program.");
 
-    private final String command;
+    private final String description;
 
-    Command(String command) {
-        this.command = command;
+    Command(String description) {
+        this.description = description;
     }
 
-    public String getCommand() {
-        return command;
+    public String getDescription() {
+        return description;
     }
 
-    public static Command getCommand(String command) {
+    public static String getAllDescriptions() {
         return Stream.of(Command.values())
-                .filter(i -> i.getCommand().equals(command.toLowerCase()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_COMMAND));
+                .map(Command::getDescription)
+                .collect(Collectors.joining("\n"));
+    }
+
+
+    public static Command from(String command) {
+        try {
+            return Command.valueOf(command.toUpperCase());
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(INVALID_COMMAND);
+        }
     }
 }

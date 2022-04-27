@@ -1,9 +1,8 @@
 package com.waterfogsw.voucher.console;
 
-import com.waterfogsw.voucher.console.handler.CommandHandler;
-import com.waterfogsw.voucher.console.handler.CreateHandler;
-import com.waterfogsw.voucher.console.handler.ListHandler;
 import com.waterfogsw.voucher.global.FrontController;
+import com.waterfogsw.voucher.global.GetRequest;
+import com.waterfogsw.voucher.global.PostRequest;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -23,32 +22,44 @@ public class ConsoleApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("=== Voucher Program ===");
-        output.printCommandList();
+        output.display("=== Voucher Program ===");
+        output.display(Command.getAllDescriptions());
         while (true) {
             try {
-                Command command = input.inputCommand();
+                final var command = input.inputCommand();
                 if (command == Command.EXIT) {
-                    output.printExitMessage();
+                    output.display(Messages.EXIT_PROGRAM);
                     break;
                 }
-                final CommandHandler commandHandler = handlerMapping(command);
-                commandHandler.handle();
+                handleCommand(command);
             } catch (IllegalArgumentException e) {
-                output.printErrorMessage(e.getMessage());
+                output.display("Error: " + e.getMessage());
             }
         }
     }
 
-    private CommandHandler handlerMapping(Command command) {
+    private void handleCommand(Command command) {
         switch (command) {
             case CREATE -> {
-                return new CreateHandler(input, output, frontController);
+                output.display(VoucherType.getAllInputVoucherType());
+
+                String voucherType = input.inputType();
+                String value = input.inputValue();
+
+                final var requestMessage = new PostRequest(Command.CREATE, voucherType, value);
+                final var responseMessage = frontController.request(requestMessage);
+
+                output.display(responseMessage);
             }
             case LIST -> {
-                return new ListHandler(input, output, frontController);
+                final var requestMessage = new GetRequest(Command.LIST);
+                final var responseMessage = frontController.request(requestMessage);
+
+                output.display(responseMessage);
             }
-            default -> throw new IllegalArgumentException();
+            default -> {
+                throw new IllegalArgumentException();
+            }
         }
     }
 }
