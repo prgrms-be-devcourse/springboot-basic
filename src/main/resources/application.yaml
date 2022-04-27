@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: memory
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: file
+voucher:
+  path: src/main/resources/voucher
