@@ -1,8 +1,5 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.io.OutputConsole;
-import org.prgrms.kdt.model.voucher.VoucherProgram;
-import org.prgrms.kdt.function.FunctionOperator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,9 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
     public static void main(String[] args) {
-        var applicationContext = SpringApplication.run(DemoApplication.class, args);
-        FunctionOperator functionOperator = applicationContext.getBean(FunctionOperator.class);
-
-        new VoucherProgram(functionOperator).run();
+//        var applicationContext =
+                SpringApplication.run(DemoApplication.class, args);
+//        FunctionOperator functionOperator = applicationContext.getBean(FunctionOperator.class);
+//
+//        new VoucherProgram(functionOperator).run();
     }
 }
