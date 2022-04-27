@@ -34,7 +34,7 @@ public class Customer {
     wallet = new ArrayList<>();
   }
 
-  public List<Voucher> viewWallet() {
+  public List<Voucher> getWallet() {
     return wallet;
   }
 
