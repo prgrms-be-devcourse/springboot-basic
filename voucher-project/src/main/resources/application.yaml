@@ -1,15 +1,16 @@
 kdt:
   version: 2.0
-
   path:
     voucher: voucher_list.csv
-
     user:
       all: user_allList.csv
       black: user_blackList.csv
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/voucher_app
-    username: root
-    password: qqqq
-    driver-class-name: com.zaxxer.hikari
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
