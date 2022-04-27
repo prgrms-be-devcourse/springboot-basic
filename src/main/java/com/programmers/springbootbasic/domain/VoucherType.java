@@ -1,15 +1,15 @@
 package com.programmers.springbootbasic.domain;
 
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.io.ConsoleInput;
+import com.programmers.springbootbasic.io.StandardInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.UUID;
 
-import static com.programmers.springbootbasic.validation.BusinessValidator.*;
+import static com.programmers.springbootbasic.validation.VoucherValidator.*;
 
 public enum VoucherType {
 
@@ -17,7 +17,7 @@ public enum VoucherType {
     PERCENT_DISCOUNT(2, "PERCENT DISCOUNT");
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
-    private static final Scanner sc = new Scanner(System.in);
+    private static final StandardInput input = new ConsoleInput();
 
     private final int type;
     private final String name;
@@ -27,28 +27,26 @@ public enum VoucherType {
         this.name = name;
     }
 
-    public static VoucherDTO createVoucherDTO(int type) throws IllegalArgumentException {
+    public static Voucher createVoucher(int type) throws IllegalArgumentException {
         VoucherType voucherType = findVoucherFromType(type)
                 .orElseThrow(() -> new IllegalArgumentException("해당 할인권이 존재하지 않습니다."));
 
-        VoucherDTO voucherDTO = null;
+        Voucher voucherDTO = null;
 
         switch (voucherType) {
             case FIXED_AMOUNT -> voucherDTO = makeFixedAmountVoucher();
-            case PERCENT_DISCOUNT -> voucherDTO = makePerCentDiscountVoucher();
+            case PERCENT_DISCOUNT -> voucherDTO = makePercentDiscountVoucher();
         }
 
         return voucherDTO;
     }
 
-    private static VoucherDTO makeFixedAmountVoucher() {
-        System.out.print("고정 할인 금액을 입력하세요. => ");
-
+    private static Voucher makeFixedAmountVoucher() {
         try {
-            Long fixedAmount = Long.valueOf(sc.next());
+            long fixedAmount = Long.parseLong(input.promptInput("고정 할인 금액을 입력하세요. => "));
             
-            if (validateFixedAmountVoucher(fixedAmount))
-                return new VoucherDTO(UUID.randomUUID(), fixedAmount, null, FIXED_AMOUNT.type);
+            if (isValidFixedAmountVoucher(fixedAmount))
+                return new Voucher(UUID.randomUUID(), fixedAmount, null, FIXED_AMOUNT.type);
             else {
                 logger.info("범위를 벗어난 고정 할인 금액 입력");
                 throw new IllegalArgumentException(FIXED_AMOUNT_OUT_OF_BOUNDS_EXCEPTION_MESSAGE);
@@ -59,14 +57,12 @@ public enum VoucherType {
         }
     }
 
-    private static VoucherDTO makePerCentDiscountVoucher() {
-        System.out.print("할인율을 입력하세요. => ");
-
+    private static Voucher makePercentDiscountVoucher() {
         try {
-            int discountPercent = Integer.parseInt(sc.next());
+            int discountPercent = Integer.parseInt(input.promptInput("할인율을 입력하세요. => "));
 
-            if (validatePercentDiscountVoucher(discountPercent))
-                return new VoucherDTO(UUID.randomUUID(), null, discountPercent, PERCENT_DISCOUNT.type);
+            if (isValidPercentDiscountVoucher(discountPercent))
+                return new Voucher(UUID.randomUUID(), null, discountPercent, PERCENT_DISCOUNT.type);
             else {
                 logger.info("범위를 벗어난 고정 할인율 입력");
                 throw new IllegalArgumentException(PERCENT_DISCOUNT_OUT_OF_BOUNDS_EXCEPTION_MESSAGE);

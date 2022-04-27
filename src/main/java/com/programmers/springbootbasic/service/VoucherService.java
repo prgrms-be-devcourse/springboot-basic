@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.domain.Voucher;
 import com.programmers.springbootbasic.domain.VoucherType;
-import com.programmers.springbootbasic.dto.VoucherDTO;
 import com.programmers.springbootbasic.repository.VoucherJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +20,21 @@ public class VoucherService {
         this.voucherJdbcRepository = voucherJdbcRepository;
     }
 
-    public VoucherDTO createVoucher(int type) {
-        VoucherDTO newVoucher = VoucherType.createVoucherDTO(type);
+    public Voucher createVoucher(int type) {
+        Voucher newVoucher = VoucherType.createVoucher(type);
+
         return voucherJdbcRepository.insert(newVoucher);
     }
 
-    public Optional<VoucherDTO> findVoucherById(UUID voucherId) {
+    public Optional<Voucher> getVoucherById(UUID voucherId) {
         return voucherJdbcRepository.findById(voucherId);
     }
 
-    public List<VoucherDTO> findAvailableVouchers() {
+    public List<Voucher> findAvailableVouchers() {
         return voucherJdbcRepository.findAvailableVouchers();
     }
 
-    public List<VoucherDTO> findAllVouchers() {
+    public List<Voucher> getAllVouchers() {
         return voucherJdbcRepository.findAll();
     }
 
