@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_DISCOUNT(1, "Fixed discount"), PERCENT_DISCOUNT(2, "Percnet discount");
+    FIXED_DISCOUNT(1, "fixed"), PERCENT_DISCOUNT(2, "percent");
 
     private final int order;
     private final String description;
