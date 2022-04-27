@@ -1,13 +1,15 @@
 package org.prgms.controller.api;
 
+import org.prgms.controller.CreateVoucherRequest;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -19,14 +21,39 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping("/voucher")
     public List<Voucher> getAllVouchers() {
         return voucherService.getVouchers();
     }
 
-    @GetMapping("/vouchers/{voucherType}")
+    @GetMapping("/voucher/type/{voucherType}")
     public List<Voucher> getVoucherByType(@PathVariable String voucherType) {
         return voucherService.getVoucherByType(voucherType);
     }
+
+    @PostMapping("/voucher")
+    public ResponseEntity<Voucher> createVoucher(@RequestBody CreateVoucherRequest voucherRequest) {
+        Voucher voucher = voucherRequest.toVoucher();
+
+        voucherService.createVoucher(voucher);
+
+        return new ResponseEntity<>(voucher, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/voucher/{voucherId}")
+    public void deleteVoucher(@PathVariable UUID voucherId) {
+        int deleteRow = voucherService.deleteVoucher(voucherId);
+        System.out.println(deleteRow);
+    }
+
+    @GetMapping("/voucher/{voucherId}")
+    public ResponseEntity<Voucher> getVoucher(@PathVariable UUID voucherId) {
+        Optional<Voucher> optionalVoucher = voucherService.getVoucher(voucherId);
+
+        return optionalVoucher
+                .map(voucher -> new ResponseEntity<>(voucher, HttpStatus.OK))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 
 }

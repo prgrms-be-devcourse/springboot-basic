@@ -37,8 +37,8 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public void deleteVoucher(UUID voucherId) {
-        voucherRepository.deleteById(voucherId);
+    public int deleteVoucher(UUID voucherId) {
+        return voucherRepository.deleteById(voucherId);
     }
 
     public long useVoucher(long beforeDiscount, UUID voucherId) {

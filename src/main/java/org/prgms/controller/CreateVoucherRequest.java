@@ -16,10 +16,9 @@ public record CreateVoucherRequest(String voucherKind, long discountAmount) {
     }
 
     public Voucher toVoucher() {
-        if (this.voucherKind.equals("FixedAmountVoucher")) {
+        if (this.voucherKind.equals("FixedAmountVoucher"))
             return new FixedAmountVoucher(discountAmount);
-        } else {
-            return new PercentDiscountVoucher(discountAmount);
-        }
+
+        return new PercentDiscountVoucher(discountAmount);
     }
 }

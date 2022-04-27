@@ -20,7 +20,8 @@ public interface VoucherRepository {
 
     void deleteAll();
 
-    default void deleteById(UUID voucherId) {
+    default int deleteById(UUID voucherId) {
+        return 0;
     }
 
 }
