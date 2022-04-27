@@ -1,24 +1,24 @@
-package com.programmers.springbootbasic.dto;
+package com.programmers.springbootbasic.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class VoucherDTO {
+public class Voucher {
 
-    private UUID voucherId;
+    private final UUID voucherId;
     private LocalDateTime createdAt;
-    private Long fixedAmount;
-    private Integer discountPercent;
-    private Integer type;
+    private final Long fixedAmount;
+    private final Integer discountPercent;
+    private final Integer type;
 
-    public VoucherDTO(UUID voucherId, Long fixed_amount, Integer discount_percent, Integer type) {
+    public Voucher(UUID voucherId, Long fixed_amount, Integer discount_percent, Integer type) {
         this.voucherId = voucherId;
         this.fixedAmount = fixed_amount;
         this.discountPercent = discount_percent;
         this.type = type;
     }
 
-    public VoucherDTO(UUID voucherId, LocalDateTime createdAt, Long fixed_amount, Integer discount_percent, Integer type) {
+    public Voucher(UUID voucherId, LocalDateTime createdAt, Long fixed_amount, Integer discount_percent, Integer type) {
         this.voucherId = voucherId;
         this.createdAt = createdAt;
         this.fixedAmount = fixed_amount;
@@ -30,40 +30,20 @@ public class VoucherDTO {
         return voucherId;
     }
 
-    public void setVoucherId(UUID voucherId) {
-        this.voucherId = voucherId;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     public Long getFixedAmount() {
         return fixedAmount;
     }
 
-    public void setFixedAmount(Long fixedAmount) {
-        this.fixedAmount = fixedAmount;
-    }
-
     public Integer getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(Integer discountPercent) {
-        this.discountPercent = discountPercent;
-    }
-
     public Integer getType() {
         return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
     @Override

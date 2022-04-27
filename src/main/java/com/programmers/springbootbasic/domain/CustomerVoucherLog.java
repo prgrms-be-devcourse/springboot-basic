@@ -1,20 +1,20 @@
-package com.programmers.springbootbasic.dto;
+package com.programmers.springbootbasic.domain;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class StatusDTO {
+public class CustomerVoucherLog {
 
     private String customerId;
     private UUID voucherId;
     private LocalDateTime registrationDate;
 
-    public StatusDTO(String customerId, UUID voucherId) {
+    public CustomerVoucherLog(String customerId, UUID voucherId) {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }
 
-    public StatusDTO(String customerId, UUID voucherId, LocalDateTime registrationDate) {
+    public CustomerVoucherLog(String customerId, UUID voucherId, LocalDateTime registrationDate) {
         this.customerId = customerId;
         this.voucherId = voucherId;
         this.registrationDate = registrationDate;

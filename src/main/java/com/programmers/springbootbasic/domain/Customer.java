@@ -1,21 +1,20 @@
-package com.programmers.springbootbasic.dto;
+package com.programmers.springbootbasic.domain;
 
 import java.time.LocalDateTime;
 
-public class CustomerDTO {
+public class Customer {
 
     private String customerId;
     private String name;
     private LocalDateTime registrationDate;
 
-    public CustomerDTO(String customerId, String name) {
+    public Customer(String customerId, String name) {
         this.customerId = customerId;
         this.name = name;
     }
 
-    public CustomerDTO(String id, String name, LocalDateTime registrationDate) {
-        this.customerId = id;
-        this.name = name;
+    public Customer(String id, String name, LocalDateTime registrationDate) {
+        this(id, name);
         this.registrationDate = registrationDate;
     }
 
