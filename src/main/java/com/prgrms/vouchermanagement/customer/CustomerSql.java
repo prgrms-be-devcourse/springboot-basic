@@ -12,4 +12,5 @@ public final class CustomerSql {
     public static final String SELECT_BY_NAME_SQL = "SELECT * FROM customer WHERE name = :name";
     public static final String SELECT_BY_EMAIL_SQL = "SELECT * FROM customer WHERE email = :email";
     public static final String DELETE_SQL = "DELETE FROM customer";
+    public static final String DELETE_BY_ID_SQL = "DELETE FROM customer WHERE customer_id=:customerId";
 }

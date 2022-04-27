@@ -10,6 +10,8 @@ public interface CustomerRepository {
 
     void update(Customer customer);
 
+    void remove(UUID customerId);
+
     List<Customer> findAll();
 
     Optional<Customer> findById(UUID customerID);

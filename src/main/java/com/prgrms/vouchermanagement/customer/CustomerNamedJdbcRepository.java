@@ -90,6 +90,11 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         }
     }
 
+    @Override
+    public void remove(UUID customerId) throws DataAccessException {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString()));
+    }
+
     public void clear() {
         jdbcTemplate.update(DELETE_SQL, Collections.emptyMap());
     }
