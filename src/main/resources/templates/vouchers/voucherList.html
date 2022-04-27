@@ -26,8 +26,8 @@
     <tbody>
 
     <tr th:each="voucher :  ${vouchers}" >
-        <th scope="row" th:text="${voucher.value.voucherId}"></th>
-        <td th:text="${voucher.value.voucherType}"></td>
+        <th scope="row"><a th:href="@{/vouchers/detail/{voucherId} (voucherId = ${voucher.value.voucherId})}" th:text="${voucher.value.voucherId}"></a></th>
+        <td th:text="${voucher.value.voucherType}"</td>
         <td th:text="${voucher.value.discountAmount}"></td>
         <td th:text="${voucher.value.createAt}"></td>
         <!--<td th:text="${voucher.value.ownerId}"></td>-->

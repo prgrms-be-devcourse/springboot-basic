@@ -11,7 +11,6 @@ import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -60,6 +59,10 @@ public class VoucherService {
             return Optional.empty();
         }
         return voucherRepository.updateVoucherOwner(UUID.fromString(voucherId), UUID.fromString(customerId));
+    }
+
+    public Optional<Voucher> getVoucherById(UUID voucherId) {
+        return voucherRepository.getByVoucherId(voucherId);
     }
 
     private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {
