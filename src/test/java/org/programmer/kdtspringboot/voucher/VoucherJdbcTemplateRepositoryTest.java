@@ -111,9 +111,6 @@ class VoucherJdbcTemplateRepositoryTest {
     @DisplayName("모든 Voucher 조회할 수 있음")
     void findAllVoucherTest() /*throws InterruptedException*/ {
         var vouchers = voucherJdbcTemplateRepository.findAll();
-        for(Voucher v : vouchers){
-            System.out.println(v.getInfo());
-        }
         assertThat(vouchers).isNotEmpty();
     }
 
