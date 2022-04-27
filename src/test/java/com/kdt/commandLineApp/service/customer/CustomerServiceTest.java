@@ -1,8 +1,6 @@
-package com.kdt.commandLineApp.customer;
+package com.kdt.commandLineApp.service.customer;
 
 import com.kdt.commandLineApp.AppContext;
-import com.kdt.commandLineApp.service.customer.Customer;
-import com.kdt.commandLineApp.service.customer.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;

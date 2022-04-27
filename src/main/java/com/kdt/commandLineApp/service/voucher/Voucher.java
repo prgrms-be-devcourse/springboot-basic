@@ -9,11 +9,11 @@ import java.util.UUID;
 
 @Getter
 public class Voucher implements Serializable {
-    private final UUID id;
+    private long id;
     private VoucherType type;
     private int discountAmount;
 
-    public Voucher(UUID id, String type, int discountAmount) throws WrongVoucherParamsException {
+    public Voucher(long id, String type, int discountAmount) throws WrongVoucherParamsException {
         this.id = id;
         this.type = VoucherType.fromString(type);
         if (this.type.isValidAmount(discountAmount)) {
@@ -25,7 +25,13 @@ public class Voucher implements Serializable {
     }
 
     public Voucher(String type, int discountAmount) throws WrongVoucherParamsException {
-        this(UUID.randomUUID(), type, discountAmount);
+        this.type = VoucherType.fromString(type);
+        if (this.type.isValidAmount(discountAmount)) {
+            this.discountAmount = discountAmount;
+        }
+        else {
+            throw new WrongVoucherParamsException();
+        }
     }
 
     @Override

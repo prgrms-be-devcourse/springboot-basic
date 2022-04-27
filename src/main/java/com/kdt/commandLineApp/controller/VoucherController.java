@@ -1,11 +1,10 @@
 package com.kdt.commandLineApp.controller;
 
+import com.kdt.commandLineApp.service.voucher.VoucherConverter;
 import com.kdt.commandLineApp.service.voucher.VoucherCreateDTO;
 import com.kdt.commandLineApp.service.voucher.VoucherDTO;
-import com.kdt.commandLineApp.service.voucher.VoucherConverter;
 import com.kdt.commandLineApp.service.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,7 +37,7 @@ public class VoucherController {
     @GetMapping(value = "/vouchers")
     public ModelAndView showVoucher(@RequestParam String voucherId) {
         try {
-            List<VoucherDTO> voucher = List.of(VoucherConverter.toVoucherDTO(voucherService.getVoucher(voucherId).get()));
+            List<VoucherDTO> voucher = List.of(VoucherConverter.toVoucherDTO(voucherService.getVoucher(Long.parseLong(voucherId)).get()));
             Map<String, Object> model =  Map.of("vouchers", voucher);
             return new ModelAndView("views/voucher", model);
         }
@@ -58,7 +57,7 @@ public class VoucherController {
 
     @PostMapping(value = "/delete")
     public String deleteVoucher(@RequestParam String voucherId) {
-        voucherService.removeVoucher(voucherId);
+        voucherService.removeVoucher(Long.parseLong(voucherId));
         return "redirect:/delete";
     }
 

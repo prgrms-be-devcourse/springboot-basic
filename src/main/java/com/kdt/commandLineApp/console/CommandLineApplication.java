@@ -13,7 +13,7 @@ public class CommandLineApplication {
 		ApplicationContext appContext = new AnnotationConfigApplicationContext(AppContext.class);
 		MenuMainLogic menuMainLogic = appContext.getBean("menuMainLogic", MenuMainLogic.class);
 		VoucherMainLogic voucherMainLogic = appContext.getBean("voucherMainLogic", VoucherMainLogic.class);
-		CustomerMainLogic customerMainLogicMainLogic = appContext.getBean("customerMainLogicMainLogic", CustomerMainLogic.class);
+		CustomerMainLogic customerMainLogicMainLogic = appContext.getBean("customerMainLogic", CustomerMainLogic.class);
 		VoucherWalletMainLogic voucherWalletMainLogic = appContext.getBean("voucherWalletMainLogic", VoucherWalletMainLogic.class);
 
 		while (true) {

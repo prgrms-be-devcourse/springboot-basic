@@ -16,19 +16,19 @@ public class VoucherWalletService {
         this.voucherWalletRepository = voucherWalletRepository;
     }
 
-    public void giveVoucherToCustomer(String customerId, String voucherId) {
+    public void giveVoucherToCustomer(long customerId, long voucherId) {
         voucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
     }
 
-    public void deleteVoucherFromCustomer(String customerId, String voucherId) {
+    public void deleteVoucherFromCustomer(long customerId, long voucherId) {
         voucherWalletRepository.deleteVoucherFromCustomer(customerId, voucherId);
     }
 
-    public List<Voucher> getCustomerVouchers(String customerId) {
+    public List<Voucher> getCustomerVouchers(long customerId) {
         return voucherWalletRepository.getCustomerVouchers(customerId);
     }
 
-    public List<Customer> getCustomersWithVoucherId(String voucherId) {
+    public List<Customer> getCustomersWithVoucherId(long voucherId) {
         return voucherWalletRepository.getCustomersWithVoucherId(voucherId);
     }
 }

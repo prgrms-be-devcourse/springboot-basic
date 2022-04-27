@@ -25,7 +25,7 @@ public class VoucherService {
         }
     }
 
-    public Optional<Voucher> getVoucher(String id) {
+    public Optional<Voucher> getVoucher(long id) {
         return voucherRepository.get(id);
     }
 
@@ -33,11 +33,7 @@ public class VoucherService {
         return voucherRepository.getAll(page, size, type);
     }
 
-    public void removeVoucher(String id) {
+    public void removeVoucher(long id) {
         voucherRepository.remove(id);
-    }
-
-    public void removeAllVouchers() {
-        voucherRepository.deleteAll();
     }
 }

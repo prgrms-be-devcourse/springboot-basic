@@ -21,9 +21,6 @@ import static org.hamcrest.Matchers.isA;
 @SpringJUnitConfig(classes = {AppContext.class})
 @ActiveProfiles("db")
 class JdbcVoucherWalletRepositoryTest {
-    private String custmerId = "90876254-1988-4f45-b296-ebbb6fedd464";
-    private String voucherId = "34c20e5a-15e3-4c1a-a57d-5cd5e5cf3698";
-
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
 
@@ -33,10 +30,10 @@ class JdbcVoucherWalletRepositoryTest {
     @Autowired
     JdbcVoucherWalletRepository jdbcVoucherWalletRepository;
 
-    void settingCustomer(String uuid, String name, int age, String sex) {
+    void settingCustomer(String name, String age, String sex) {
         try {
             jdbcCustomerRepository.deleteAll();
-            Customer customer = new Customer(UUID.fromString(uuid), name, age, sex);
+            Customer customer = new Customer(name, age, sex);
             jdbcCustomerRepository.add(customer);
         }
         catch (Exception e) {
@@ -44,10 +41,10 @@ class JdbcVoucherWalletRepositoryTest {
         }
     }
 
-    void settingVoucher(String uuid, String type, int amount) {
+    void settingVoucher(String type, int amount) {
         try {
             jdbcVoucherRepository.deleteAll();
-            Voucher voucher = new Voucher(UUID.fromString(uuid), type, amount);
+            Voucher voucher = new Voucher(type, amount);
             jdbcVoucherRepository.add(voucher);
         }
         catch (WrongVoucherParamsException e) {
@@ -57,10 +54,12 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void giveVoucherToCustomer() {
-        settingCustomer(custmerId,"moon",20, "woman");
-        settingVoucher(voucherId,"fixed",1000);
+        settingCustomer("moon","20", "woman");
+        settingVoucher("fixed",1000);
+        long customerId = jdbcCustomerRepository.getAll().get(0).getId();
+        long voucherId = jdbcVoucherRepository.getAll(0, 10, null).get(0).getId();
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
 
         Customer result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(voucherId).get(0);
 
@@ -72,14 +71,17 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void deleteVoucherFromCustomer() {
-        settingCustomer(custmerId,"moon",20, "woman");
-        settingVoucher(voucherId,"fixed",1000);
+        settingCustomer("moon","20", "woman");
+        settingVoucher("fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
-        int result1 = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).size();
+        long customerId = jdbcCustomerRepository.getAll().get(0).getId();
+        long voucherId = jdbcVoucherRepository.getAll(0, 10, null).get(0).getId();
 
-        jdbcVoucherWalletRepository.deleteVoucherFromCustomer(custmerId, voucherId);
-        int result2 = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).size();
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
+        int result1 = jdbcVoucherWalletRepository.getCustomerVouchers(customerId).size();
+
+        jdbcVoucherWalletRepository.deleteVoucherFromCustomer(customerId, voucherId);
+        int result2 = jdbcVoucherWalletRepository.getCustomerVouchers(customerId).size();
 
         assertThat(result1, Matchers.is(1));
         assertThat(result2, Matchers.is(0));
@@ -87,27 +89,33 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Test
     void getCustomerVouchers() {
-        settingCustomer(custmerId,"moon",20, "woman");
-        settingVoucher(voucherId,"fixed",1000);
+        settingCustomer("moon","20", "woman");
+        settingVoucher("fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
-        Voucher result = jdbcVoucherWalletRepository.getCustomerVouchers(custmerId).get(0);
+        long customerId = jdbcCustomerRepository.getAll().get(0).getId();
+        long voucherId = jdbcVoucherRepository.getAll(0, 10, null).get(0).getId();
 
-        assertThat(result.getId(), Matchers.is(UUID.fromString(voucherId)));
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
+        Voucher result = jdbcVoucherWalletRepository.getCustomerVouchers(customerId).get(0);
+
+        assertThat(result.getId(), Matchers.is(voucherId));
         assertThat(result.getType(), Matchers.is("fixed"));
         assertThat(result.getDiscountAmount(), Matchers.is(1000));
     }
 
     @Test
     void getCustomersWithVoucherId() {
-        settingCustomer(custmerId,"moon",20, "woman");
-        settingVoucher(voucherId,"fixed",1000);
+        settingCustomer("moon","20", "woman");
+        settingVoucher("fixed",1000);
 
-        jdbcVoucherWalletRepository.giveVoucherToCustomer(custmerId, voucherId);
+        long customerId = jdbcCustomerRepository.getAll().get(0).getId();
+        long voucherId = jdbcVoucherRepository.getAll(0, 10, null).get(0).getId();
+
+        jdbcVoucherWalletRepository.giveVoucherToCustomer(customerId, voucherId);
 
         Customer result = jdbcVoucherWalletRepository.getCustomersWithVoucherId(voucherId).get(0);
 
-        assertThat(result.getCustomerId(), is(UUID.fromString(custmerId)));
+        assertThat(result.getId(), is(customerId));
         assertThat(result.getName(), is("moon"));
         assertThat(result.getAge(), is(20));
         assertThat(result.getSex(), is("woman"));

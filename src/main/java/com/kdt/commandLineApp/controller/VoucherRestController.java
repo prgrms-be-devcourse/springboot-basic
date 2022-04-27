@@ -29,7 +29,7 @@ public class VoucherRestController {
     @GetMapping(value = "/vouchers/{voucherId}")
     public VoucherDTO showVoucher(@PathVariable String voucherId) {
         try {
-            return VoucherConverter.toVoucherDTO(voucherService.getVoucher(voucherId).orElse(null));
+            return VoucherConverter.toVoucherDTO(voucherService.getVoucher(Long.parseLong(voucherId)).orElse(null));
         }
         catch (Exception e) {
             return null;
@@ -38,7 +38,7 @@ public class VoucherRestController {
 
     @DeleteMapping(value = "/vouchers/{voucherId}")
     public String deleteVoucher(@PathVariable String voucherId) {
-        voucherService.removeVoucher(voucherId);
+        voucherService.removeVoucher(Long.parseLong(voucherId));
         return "successively delete voucher";
     }
 

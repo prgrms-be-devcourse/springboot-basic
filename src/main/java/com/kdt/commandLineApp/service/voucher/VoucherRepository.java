@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface VoucherRepository extends DisposableBean {
     public void add(Voucher voucher);
 
-    public Optional<Voucher> get(String id);
+    public Optional<Voucher> get(long id);
 
     public List<Voucher> getAll(int page, int size, String type);
 
-    public void remove(String id);
+    public void remove(long id);
 
     public void deleteAll();
 }

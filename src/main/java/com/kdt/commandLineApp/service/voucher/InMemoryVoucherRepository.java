@@ -2,23 +2,23 @@ package com.kdt.commandLineApp.service.voucher;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static java.util.stream.Collectors.toCollection;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
-    private Map<UUID, Voucher> map = new ConcurrentHashMap<>();
+    private Map<Long, Voucher> map = new ConcurrentHashMap<>();
 
     @Override
     public void add(Voucher voucher) {
-        map.put(voucher.getId(), voucher);
+        map.put((long) Math.random(), voucher);
     }
 
     @Override
-    public Optional<Voucher> get(String id) {
-        return Optional.ofNullable(map.get(UUID.fromString(id)));
+    public Optional<Voucher> get(long id) {
+        return Optional.ofNullable(map.get(id));
     }
 
     @Override
@@ -42,8 +42,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(String id) {
-        map.remove(UUID.fromString(id));
+    public void remove(long id) {
+        map.remove(id);
     }
 
     @Override

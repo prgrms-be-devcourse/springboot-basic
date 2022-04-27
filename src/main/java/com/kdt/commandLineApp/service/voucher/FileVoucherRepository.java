@@ -14,7 +14,7 @@ import static java.util.stream.Collectors.toMap;
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
     private String fileName;
-    private Map<UUID, Voucher> map = new ConcurrentHashMap<>();
+    private Map<Long, Voucher> map = new ConcurrentHashMap<>();
 
     public FileVoucherRepository(AppProperties appProperties) {
         try {
@@ -33,7 +33,7 @@ public class FileVoucherRepository implements VoucherRepository {
             FileInputStream fis = new FileInputStream(fileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             vouchers = (List) ois.readObject();
-            map = (Map<UUID, Voucher>) vouchers.stream().collect(toMap((e)-> e.getId(),(e)-> e));
+            map = (Map<Long, Voucher>) vouchers.stream().collect(toMap((e)-> e.getId(),(e)-> e));
         }
         catch (Exception e) {
             throw new FileSaveException();
@@ -56,7 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void add(Voucher voucher) {
         try {
-            map.put(voucher.getId(), voucher);
+            map.put((long) Math.random(), voucher);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -64,8 +64,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> get(String id) {
-        return Optional.ofNullable(map.get(UUID.fromString(id)));
+    public Optional<Voucher> get(long id) {
+        return Optional.ofNullable(map.get(id));
     }
 
     @Override
@@ -89,8 +89,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(String id) {
-        map.remove(UUID.fromString(id));
+    public void remove(long id) {
+        map.remove(id);
     }
 
     @Override

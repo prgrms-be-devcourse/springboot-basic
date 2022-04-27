@@ -1,8 +1,8 @@
-package com.kdt.commandLineApp.voucher;
+package com.kdt.commandLineApp.service.voucher;
 
 import com.kdt.commandLineApp.AppContext;
-import com.kdt.commandLineApp.service.voucher.Voucher;
 import com.kdt.commandLineApp.service.voucher.VoucherRepository;
+import com.kdt.commandLineApp.service.voucher.VoucherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -12,21 +12,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @SpringJUnitConfig(classes = {AppContext.class})
-@ActiveProfiles("dev")
-class FileVoucherRepositoryTest {
+@ActiveProfiles("db")
+class VoucherServiceTest {
+    @Autowired
+    VoucherService voucherService;
+
     @Autowired
     VoucherRepository voucherRepository;
 
     @Test
-    void add() {
+    void voucherService() {
         try {
-            Voucher voucher = new Voucher("fixed",1000);
-            voucherRepository.add(voucher);
-
-            int result = voucherRepository.getAll(0,10,null).size();
-
+            voucherRepository.deleteAll();
+            voucherService.addVoucher("percent",100);
+            int result = voucherService.getVouchers(0,10,null).size();
             assertThat(result, is(1));
-        } catch (Exception e) {
+
+            voucherService.addVoucher("fixed",100);
+            result = voucherService.getVouchers(0,10,null).size();
+            assertThat(result, is(2));
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
