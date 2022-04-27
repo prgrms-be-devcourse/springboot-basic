@@ -27,15 +27,15 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.part1.CommandLineApplication" level="warn">
+    <logger name="org.prgrms.springbootbasic.CommandLineApplication" level="warn">
         <appender-ref ref="ERROR_LOG" />
     </logger>
 
-    <logger name="org.prgrms.part1.CommandLineApplication" level="debug">
+    <logger name="org.prgrms.springbootbasic.CommandLineApplication" level="debug">
         <appender-ref ref="ACCESS_LOG" />
     </logger>
 
-    <logger name="org.prgrms.part1.VoucherProperties" level="debug">
+    <logger name="org.prgrms.springbootbasic.VoucherProperties" level="debug">
         <appender-ref ref="CONSOLE" />
     </logger>
 
