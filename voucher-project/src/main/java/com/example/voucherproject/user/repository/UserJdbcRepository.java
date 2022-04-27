@@ -1,7 +1,7 @@
 package com.example.voucherproject.user.repository;
 
-import com.example.voucherproject.user.enums.UserType;
-import com.example.voucherproject.user.domain.User;
+import com.example.voucherproject.user.model.UserType;
+import com.example.voucherproject.user.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,13 +19,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserJdbcRepository implements UserRepository{
     private final JdbcTemplate jdbcTemplate;
-    private final String INSERT_SQL = "INSERT INTO users(id, type, name, created_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?)";
-    private final String FIND_ALL_SQL = "select * from users";
-
-    private final String FIND_BY_TYPE_SQL = "select * from users where type = ?"; // TODO: 동작하려나
-    private final String FIND_BY_ID_SQL = "select * from users where id = UNHEX(REPLACE(?,'-',''))";
-    private final String COUNT_SQL = "select count(*) from users";
-    private final String DELETE_SQL = "DELETE FROM users";
+    private final String INSERT_SQL = "INSERT INTO user(id, type, name, created_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?)";
+    private final String FIND_ALL_SQL = "select * from user";
+    private final String FIND_BY_ID_SQL = "select * from user where id = UNHEX(REPLACE(?,'-',''))";
+    private final String COUNT_SQL = "select count(*) from user";
+    private final String DELETE_SQL = "DELETE FROM user";
+    private final String DELETE_BY_ID_SQL = "DELETE FROM user WHERE id = UNHEX(REPLACE(?,'-',''))";
 
     @Override
     public User insert(User user) {
@@ -40,15 +41,16 @@ public class UserJdbcRepository implements UserRepository{
     }
 
     @Override
-    public List<User> findHavingTypeAll(UserType type) { //findAll인데 타입이 왜 필요행?
+    public List<User> findAll() {
+        return jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
+    }
+
+    @Override
+    public List<User> findAllByUserType(UserType type) {
         var users = jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
         return users.stream()
                 .filter(user -> user.getType()== type)
                 .collect(Collectors.toList());
-    }
-
-    public int deleteAll() {
-        return jdbcTemplate.update(DELETE_SQL);
     }
 
     @Override
@@ -63,8 +65,12 @@ public class UserJdbcRepository implements UserRepository{
     }
 
     @Override
-    public List<User> findAll() {
-        return jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
+    public int deleteById(UUID id) {
+        return jdbcTemplate.update(DELETE_BY_ID_SQL, id.toString().getBytes());
+    }
+
+    public int deleteAll() {
+        return jdbcTemplate.update(DELETE_SQL);
     }
 
     @Override
@@ -73,14 +79,45 @@ public class UserJdbcRepository implements UserRepository{
         return (count != null) ? count.longValue() : 0;
     }
 
-    //TODO: updated At .. User에 Builder 사용하고 싶음 ㅜ ㅜ
+    @Override
+    public List<User> findByTypeAndDate(UserType type, String from, String to) {
+        var users = jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
+        var ff = from + "T00:00:00.000";
+        var tt = to + "T00:00:00.000";
+
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        var start = LocalDateTime.parse(ff, formatter);
+        var end = LocalDateTime.parse(tt, formatter);
+        System.out.println("start : "+ start.toString());
+        System.out.println("end : "+ end.toString());
+
+        if(type==UserType.ALL){
+            var listUsers =  users.stream()
+                    .filter(user -> user.getCreatedAt().isAfter(start))
+                    .filter(user -> user.getCreatedAt().isBefore(end))
+                    .collect(Collectors.toList());
+            System.out.println(listUsers);
+            System.out.println("nums : "+listUsers.size());
+            return listUsers;
+        }
+
+        var listUsers2 = users.stream()
+                .filter(user -> user.getType() == type)
+                .filter(user -> user.getCreatedAt().isAfter(start))
+                .filter(user -> user.getCreatedAt().isBefore(end))
+                .collect(Collectors.toList());
+        System.out.println(listUsers2);
+        System.out.println("nums : "+listUsers2.size());
+        return listUsers2;
+
+    }
+
     private RowMapper<User> memberRowMapper() {
         return ((rs, rowNum) -> {
             var userId = toUUID(rs.getBytes("id"));
             var type = UserType.valueOf(rs.getString("type"));
             var name = rs.getString("name");
             var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-
             var updatedAt = rs.getString("updated_at"); // nullable
 
             return new User(userId, type, name, createdAt);
