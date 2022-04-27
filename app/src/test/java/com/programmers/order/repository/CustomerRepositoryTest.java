@@ -58,22 +58,6 @@ public class CustomerRepositoryTest {
 	static class Config {
 
 		@Bean
-		public DataSource dataSource() {
-			HikariDataSource dataSource = DataSourceBuilder
-					.create()
-					.url("jdbc:mysql://localhost:2215/kdt_order")
-					.username("test")
-					.password("test")
-					.type(HikariDataSource.class)
-					.build();
-
-			dataSource.setMaximumPoolSize(1000);
-			dataSource.setMinimumIdle(100);
-
-			return dataSource;
-		}
-
-		@Bean
 		public NamedParameterJdbcTemplate jdbcTemplate(JdbcTemplate jdbcTemplate) {
 			return new NamedParameterJdbcTemplate(jdbcTemplate);
 		}
@@ -94,9 +78,9 @@ public class CustomerRepositoryTest {
 		}
 
 		@Bean
-		public CustomerRepository customerRepository() {
-			return new CustomerJdbcRepository(dataSource(), jdbcTemplate(dataSource()),
-					new NamedParameterJdbcTemplate(jdbcTemplate(dataSource())));
+		public CustomerRepository customerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
+				NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+			return new CustomerJdbcRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
 		}
 
 	}
@@ -112,7 +96,7 @@ public class CustomerRepositoryTest {
 
 	private Customer newCustomer;
 
-	private EmbeddedMysql embeddedMysql;
+	// private EmbeddedMysql embeddedMysql;
 
 	@DisplayName("최초 딱 한번 실행 메소드")
 	@BeforeAll
@@ -122,24 +106,7 @@ public class CustomerRepositoryTest {
 				, "test@programmers.co.kr"
 				, LocalDateTime.now());
 
-		MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
-				.withCharset(Charset.UTF8)
-				.withPort(2215)
-				.withUser("test", "test")
-				.withTimeZone("Asia/Seoul")
-				.build();
-
-		embeddedMysql = anEmbeddedMysql(mysqldConfig)
-				.addSchema("kdt_order", classPathScript("schema.sql"))
-				.start();
-
 	}
-
-	@AfterAll
-	public void embededDataBaseStop() {
-		embeddedMysql.stop();
-	}
-
 	@Order(1)
 	@Test
 	@DisplayName("application context loading test")
@@ -147,9 +114,6 @@ public class CustomerRepositoryTest {
 		// given
 		// when
 		// then
-		for (String beanDefinitionName : applicationContext.getBeanDefinitionNames()) {
-			System.out.println(beanDefinitionName);
-		}
 		Assertions.assertNotNull(applicationContext);
 	}
 

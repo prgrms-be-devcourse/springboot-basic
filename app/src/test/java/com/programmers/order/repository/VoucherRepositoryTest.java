@@ -5,9 +5,7 @@ import static com.wix.mysql.ScriptResolver.*;
 import static com.wix.mysql.config.MysqldConfig.*;
 import static com.wix.mysql.distribution.Version.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sql.DataSource;
@@ -33,7 +31,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import com.programmers.order.domain.Customer;
 import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.PercentDiscountVoucher;
 import com.programmers.order.domain.Voucher;
@@ -44,7 +41,7 @@ import com.programmers.order.io.Output;
 import com.programmers.order.manager.FixVoucherManager;
 import com.programmers.order.manager.PercentVoucherManager;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.repository.customer.CustomerJdbcRepository;
+import com.programmers.order.repository.voucher.JdbcVoucherRepository;
 import com.programmers.order.repository.voucher.VoucherRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
@@ -111,28 +108,25 @@ public class VoucherRepositoryTest {
 			return new VoucherManagerFactory(voucherManagers);
 		}
 
+		@Bean
+		public VoucherRepository voucherRepository(VoucherManagerFactory voucherManagerFactory,
+				NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+			return new JdbcVoucherRepository(voucherManagerFactory, namedParameterJdbcTemplate);
+		}
+
 	}
 
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	@Autowired
-	private DataSource dataSource;
-
-	@Autowired
-	private CustomerJdbcRepository customerRepository;
-
-	private Customer newCustomer;
-
 	private EmbeddedMysql embeddedMysql;
+
+	@Autowired
+	private VoucherRepository voucherRepository;
 
 	@DisplayName("최초 딱 한번 실행 메소드")
 	@BeforeAll
 	void init() {
-		newCustomer = new Customer(UUID.randomUUID()
-				, "test-user"
-				, "test@programmers.co.kr"
-				, LocalDateTime.now());
 
 		MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
 				.withCharset(Charset.UTF8)
@@ -145,9 +139,6 @@ public class VoucherRepositoryTest {
 				.addSchema("kdt_order", classPathScript("schema.sql"))
 				.start();
 	}
-
-	@Autowired
-	private VoucherRepository voucherRepository;
 
 	@AfterAll
 	public void embededDataBaseStop() {
@@ -194,6 +185,15 @@ public class VoucherRepositoryTest {
 		//then
 		MatcherAssert.assertThat(vouchers.size(), Matchers.is(2));
 
+	}
+
+	@Test
+	@DisplayName("voucher id 조회")
+	void testFindById() {
+		//given
+		//when
+
+		//then
 	}
 
 	public List<Voucher> getVouchers() {
