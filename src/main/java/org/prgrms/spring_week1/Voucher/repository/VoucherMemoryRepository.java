@@ -2,6 +2,7 @@ package org.prgrms.spring_week1.Voucher.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
@@ -16,23 +17,34 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         voucherHashMap.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
-//    @Override
-//    public ConcurrentHashMap<UUID,Voucher> getAllVoucher() {
-//            return voucherHashMap;
-//    }
 
     @Override
-    public List<String> getAllVoucher() {
-        List<String> vouchers = new ArrayList<>();
+    public List<Voucher> getAllVoucher() {
+        List<Voucher> vouchers = new ArrayList<>();
+
         for (Voucher v : voucherHashMap.values()) {
-            vouchers.add(v.toString());
+            vouchers.add(v);
         }
         return vouchers;
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return null;
+    }
 
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }
