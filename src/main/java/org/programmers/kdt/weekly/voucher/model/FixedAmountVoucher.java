@@ -6,7 +6,7 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private int amount;
+    private long amount;
     private final LocalDateTime createdAt;
     private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
 
@@ -32,7 +32,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int getValue() {
+    public long getValue() {
         return amount;
     }
 

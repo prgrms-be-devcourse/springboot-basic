@@ -5,7 +5,7 @@ public interface Voucher {
 
     long discount(long beforeDiscount);
 
-    int getValue();
+    long getValue();
 
     void changeValue(int value);
 

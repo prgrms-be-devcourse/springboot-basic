@@ -26,8 +26,8 @@ public class Console {
             .forEach((v) -> System.out.println(v.getCommandMessage()));
     }
 
-    public void printInputErrorMessage(InputErrorType inputErrorType) {
-        System.out.println(InputErrorType.getMessage(inputErrorType));
+    public void printErrorMessage(ErrorType errorType) {
+        System.out.println(ErrorType.getMessage(errorType));
         System.out.println();
     }
 

@@ -1,17 +1,15 @@
 package org.programmers.kdt.weekly.command;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
 import org.programmers.kdt.weekly.command.io.Console;
-import org.programmers.kdt.weekly.command.io.InputErrorType;
+import org.programmers.kdt.weekly.command.io.ErrorType;
 import org.programmers.kdt.weekly.customer.model.Customer;
-import org.programmers.kdt.weekly.customer.model.CustomerType;
 import org.programmers.kdt.weekly.customer.service.CustomerService;
 import org.programmers.kdt.weekly.utils.UtilFunction;
 import org.programmers.kdt.weekly.voucher.repository.VoucherRepository;
 import org.programmers.kdt.weekly.voucherWallet.service.VoucherWalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -53,7 +51,7 @@ public class VoucherWalletCommandLine {
                 case WALLET_LIST -> this.showWalletList(customer);
                 case WALLET_DELETE -> this.deleteWallet(customer);
                 case EXIT -> this.console.programExitMessage();
-                default -> this.console.printInputErrorMessage(InputErrorType.COMMAND);
+                default -> this.console.printErrorMessage(ErrorType.COMMAND);
             }
         }
     }
@@ -67,10 +65,7 @@ public class VoucherWalletCommandLine {
         if (customerService.findByEmail(customerEmail).isPresent()) {
             return this.customerService.findByEmail(customerEmail).get();
         }
-
-        var customer = new Customer(UUID.randomUUID(), customerEmail, customerName,
-            CustomerType.NORMAL);
-        this.customerService.create(customerEmail, customerName);
+        var customer = this.customerService.create(customerEmail, customerName);
         this.console.printExecutionSuccessMessage();
 
         return customer;
@@ -82,28 +77,40 @@ public class VoucherWalletCommandLine {
             voucherWallet.forEach(
                 (voucher -> System.out.println(voucher.toString())));
 
-            return ;
+            return;
         }
-        this.console.printInputErrorMessage(InputErrorType.VOUCHER_WALLET_EMPTY);
+        this.console.printErrorMessage(ErrorType.VOUCHER_WALLET_EMPTY);
     }
 
     private void insertWallet(Customer customer) {
         var voucherList = this.voucherRepository.findAll();
         var userInput = "default";
 
-        if (voucherList.size() > 0) {
-            voucherList.forEach((v) -> System.out.println(v.toString()));
-            this.console.printInputMessage("voucher UUID");
-            userInput = this.console.getUserInput();
-            var maybeVoucherId = UtilFunction.validateUUID(userInput);
-            maybeVoucherId.ifPresent(wallet -> this.voucherWalletService.insert(
-                customer.getCustomerId(), maybeVoucherId.get(),
-                LocalDateTime.now().plusDays(30L)));
-            this.console.printExecutionSuccessMessage();
+        if (voucherList.size() <= 0) {
+            console.printErrorMessage(ErrorType.VOUCHER_EMPTY);
+
+            return;
+        }
+        voucherList.forEach((v) -> System.out.println(v.toString()));
+        this.console.printInputMessage("voucher UUID");
+        userInput = this.console.getUserInput();
+        var maybeVoucherId = UtilFunction.validateUUID(userInput);
+
+        if (maybeVoucherId.isPresent()) {
+            try {
+                this.voucherWalletService.insert(
+                    customer.getCustomerId(), maybeVoucherId.get());
+                this.console.printExecutionSuccessMessage();
+
+                return;
+            } catch (InvalidDataAccessApiUsageException e) {
+                logger.error("voucherWallet insert error -> {}", e);
+                System.out.println("저장에 실패");
+            }
         }
 
         logger.debug("사용자 UUID 입력 에러 -> {}", userInput);
-        this.console.printInputErrorMessage(InputErrorType.VOUCHER_EMPTY);
+        this.console.printErrorMessage(ErrorType.VOUCHER_EMPTY);
     }
 
     private void deleteWallet(Customer customer) {
@@ -117,6 +124,6 @@ public class VoucherWalletCommandLine {
         }
 
         logger.debug("사용자 UUID 입력 에러 -> {}", userInput);
-        this.console.printInputErrorMessage(InputErrorType.VOUCHER_EMPTY);
+        this.console.printErrorMessage(ErrorType.VOUCHER_EMPTY);
     }
 }

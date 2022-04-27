@@ -2,7 +2,7 @@ package org.programmers.kdt.weekly.command;
 
 import java.util.List;
 import org.programmers.kdt.weekly.command.io.Console;
-import org.programmers.kdt.weekly.command.io.InputErrorType;
+import org.programmers.kdt.weekly.command.io.ErrorType;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
@@ -42,7 +42,7 @@ public class StartCommandLine {
                 startCommandType = StartCommandType.findByCommand(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
-                this.console.printInputErrorMessage(InputErrorType.COMMAND);
+                this.console.printErrorMessage(ErrorType.COMMAND);
             }
 
             switch (startCommandType) {
@@ -51,7 +51,7 @@ public class StartCommandLine {
                 case CUSTOMER -> this.customerCommand.run();
                 case WALLET -> this.voucherWalletCommandLine.run();
                 case EXIT -> this.console.programExitMessage();
-                default -> this.console.printInputErrorMessage(InputErrorType.COMMAND);
+                default -> this.console.printErrorMessage(ErrorType.COMMAND);
             }
         }
     }
@@ -67,7 +67,7 @@ public class StartCommandLine {
             this.console.printExecutionSuccessMessage();
         } catch (IllegalArgumentException e) {
             logger.error("create voucher user input error -> {}", e);
-            this.console.printInputErrorMessage(InputErrorType.INVALID);
+            this.console.printErrorMessage(ErrorType.INVALID);
         }
     }
 
@@ -78,6 +78,6 @@ public class StartCommandLine {
             vouchers.forEach((v) -> System.out.println(v.toString()));
             return;
         }
-        this.console.printInputErrorMessage(InputErrorType.VOUCHER_EMPTY);
+        this.console.printErrorMessage(ErrorType.VOUCHER_EMPTY);
     }
 }

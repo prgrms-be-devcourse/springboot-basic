@@ -1,6 +1,6 @@
 package org.programmers.kdt.weekly.command.io;
 
-public enum InputErrorType {
+public enum ErrorType {
     CUSTOMER_EMPTY("There are no saved customers."),
     COMMAND("This command does not exist."),
     INVALID("Invalid input."),
@@ -9,12 +9,12 @@ public enum InputErrorType {
 
     private final String message;
 
-    InputErrorType(String message) {
+    ErrorType(String message) {
         this.message = message;
     }
 
-    public static String getMessage(InputErrorType inputErrorType) {
-        return inputErrorType.message;
+    public static String getMessage(ErrorType errorType) {
+        return errorType.message;
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private int percent;
+    private long percent;
     private final LocalDateTime createdAt;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
 
@@ -34,7 +34,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public int getValue() {
+    public long getValue() {
         return percent;
     }
 
