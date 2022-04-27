@@ -47,7 +47,6 @@ public class ConsoleCommandService implements CommandService {
 
     @Override
     public void execute(Command command) {
-        UUID customerId, voucherId;
         switch (command) {
             case CREATE_VOUCHER:
                 VoucherRequest voucherRequest = input.inputVoucherTypeAndAmount();
@@ -62,20 +61,20 @@ public class ConsoleCommandService implements CommandService {
                 output.printSingle(customerService.createCustomer(customer).toString());
                 break;
             case UPDATE_CUSTOMER:
-                customerId = input.inputCustomerId();
+                UUID updateCustomerId = input.inputCustomerId();
                 String customerName = input.inputCustomerName();
-                customerService.updateCustomer(customerId, customerName);
+                customerService.updateCustomer(updateCustomerId, customerName);
                 break;
             case DELETE_CUSTOMER:
-                customerId = input.inputCustomerId();
+                UUID customerId = input.inputCustomerId();
                 customerService.deleteCustomer(customerId);
                 break;
             case DELETE_ALL_CUSTOMER:
                 customerService.deleteAllCustomer();
                 break;
             case FIND_CUSTOMER_BY_ID:
-                customerId = input.inputCustomerId();
-                output.printSingle(customerService.findById(customerId).toString());
+                UUID customerById = input.inputCustomerId();
+                output.printSingle(customerService.findById(customerById).toString());
                 break;
             case FIND_CUSTOMER_BY_EMAIL:
                 String email = input.inputCustomerEmail();
@@ -85,13 +84,13 @@ public class ConsoleCommandService implements CommandService {
                 output.printList(customerService.findAll());
                 break;
             case ASSIGN_VOUCHER:
-                voucherId = input.inputVoucherId();
-                customerId = input.inputCustomerId();
-                voucherService.updateByCustomerId(voucherId, customerId);
+                UUID voucherId = input.inputVoucherId();
+                UUID assignCustomerId = input.inputCustomerId();
+                voucherService.updateByCustomerId(voucherId, assignCustomerId);
                 break;
             case DELETE_VOUCHER:
-                customerId = input.inputCustomerId();
-                voucherService.deleteVoucherByCustomerId(customerId);
+                UUID deleteCustomerId = input.inputCustomerId();
+                voucherService.deleteVoucherByCustomerId(deleteCustomerId);
                 break;
             case LIST_VOUCHER_WITH_TYPE:
                 VoucherType voucherType = input.inputVoucherType();

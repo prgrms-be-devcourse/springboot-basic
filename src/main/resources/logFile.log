@@ -799,3 +799,7 @@
 22:03:05.311 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 47452 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
 22:03:05.312 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
 22:03:06.384 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.251 seconds (JVM running for 1.621)
+22:04:23.173 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 47746 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+22:04:23.174 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+22:04:24.032 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.083 seconds (JVM running for 1.688)
+22:05:01.597 [http-nio-8080-exec-4] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
