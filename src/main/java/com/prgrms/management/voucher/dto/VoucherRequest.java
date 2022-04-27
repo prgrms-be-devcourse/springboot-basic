@@ -1,6 +1,8 @@
-package com.prgrms.management.voucher.domain;
+package com.prgrms.management.voucher.dto;
 
 import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.voucher.domain.Voucher;
+import com.prgrms.management.voucher.domain.VoucherType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

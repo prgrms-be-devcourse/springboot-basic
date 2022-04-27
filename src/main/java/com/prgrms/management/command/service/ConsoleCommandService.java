@@ -7,7 +7,7 @@ import com.prgrms.management.config.GuideType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.service.CustomerService;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;

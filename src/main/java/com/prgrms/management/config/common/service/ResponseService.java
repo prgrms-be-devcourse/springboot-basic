@@ -1,5 +1,6 @@
 package com.prgrms.management.config.common.service;
 
+import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.config.common.CommonResult;
 import com.prgrms.management.config.common.ListResult;
 import com.prgrms.management.config.common.SingleResult;
@@ -26,10 +27,16 @@ public class ResponseService {
         return result;
     }
 
-    private void setFailResult(CommonResult result) {
+    public CommonResult getFailResult(ErrorMessageType errorMessageType) {
+        CommonResult result = new CommonResult();
+        setFailResult(errorMessageType, result);
+        return result;
+    }
+
+    private void setFailResult(ErrorMessageType errorMessageType,CommonResult result) {
         result.setSuccess(false);
         result.setCode(-1);
-        result.setMsg(FAIL);
+        result.setMsg(errorMessageType.getMessage());
     }
 
     private void setSuccessResult(CommonResult result) {

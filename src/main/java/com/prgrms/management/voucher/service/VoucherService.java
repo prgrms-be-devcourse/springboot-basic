@@ -1,8 +1,8 @@
 package com.prgrms.management.voucher.service;
 
-import com.prgrms.management.config.exception.NotFoundException;
+import com.prgrms.management.config.exception.NotExistException;
 import com.prgrms.management.voucher.domain.Voucher;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class VoucherService {
     }
 
     public Voucher findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotExistException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
     }
 
     public void updateByCustomerId(UUID voucherId, UUID customerId) {

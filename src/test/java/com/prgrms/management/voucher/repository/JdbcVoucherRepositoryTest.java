@@ -1,11 +1,11 @@
 package com.prgrms.management.voucher.repository;
 
-import com.prgrms.management.config.exception.NotFoundException;
+import com.prgrms.management.config.exception.NotExistException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.repository.CustomerRepository;
 import com.prgrms.management.voucher.domain.Voucher;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +93,7 @@ class JdbcVoucherRepositoryTest {
         @Test
         void 존재하지_않는_CustomerId로_인한_Voucher_업데이트_실패() {
             Assertions.assertThatThrownBy(() -> voucherRepository.updateByCustomerId(voucher.getVoucherId(), UUID.randomUUID()))
-                    .isInstanceOf(NotFoundException.class);
+                    .isInstanceOf(NotExistException.class);
         }
     }
 

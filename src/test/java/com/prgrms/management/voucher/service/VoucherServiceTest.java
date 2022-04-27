@@ -1,11 +1,11 @@
 package com.prgrms.management.voucher.service;
 
-import com.prgrms.management.config.exception.NotFoundException;
+import com.prgrms.management.config.exception.NotExistException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.repository.CustomerRepository;
 import com.prgrms.management.voucher.domain.Voucher;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.repository.VoucherRepository;
 import org.assertj.core.api.Assertions;
@@ -84,7 +84,7 @@ class VoucherServiceTest {
         void 존재하지_않는_ID_인한_Voucher_조회_실패() {
             //then
             Assertions.assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID()))
-                    .isInstanceOf(NotFoundException.class);
+                    .isInstanceOf(NotExistException.class);
         }
     }
 
@@ -103,7 +103,7 @@ class VoucherServiceTest {
         @Test
         void 존재하지_않는_ID_인한_Voucher_업데이트_실패() {
             Assertions.assertThatThrownBy(() -> voucherService.updateByCustomerId(voucher.getVoucherId(), UUID.randomUUID()))
-                    .isInstanceOf(NotFoundException.class);
+                    .isInstanceOf(NotExistException.class);
         }
     }
 }

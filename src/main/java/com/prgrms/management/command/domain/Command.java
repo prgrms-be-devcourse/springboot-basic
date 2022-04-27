@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import static com.prgrms.management.config.ErrorMessageType.INCORRECT_NUMBER_FORMAT;
-import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_COMMAND_TYPE;
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_TYPE;
 
 public enum Command {
     CREATE_VOUCHER(1),
@@ -31,7 +31,7 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(e -> e.input == toInt(input))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(Command.class + NOT_EXIST_COMMAND_TYPE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(Command.class + NOT_EXIST_TYPE.getMessage()));
     }
 
     private static int toInt(String input) {

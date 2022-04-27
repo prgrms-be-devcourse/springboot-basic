@@ -2,7 +2,7 @@ package com.prgrms.management.command.io;
 
 import com.prgrms.management.config.GuideType;
 import com.prgrms.management.customer.domain.CustomerRequest;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import org.springframework.stereotype.Component;
 

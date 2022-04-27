@@ -1,7 +1,7 @@
 package com.prgrms.management.voucher.repository;
 
 import com.prgrms.management.config.ErrorMessageType;
-import com.prgrms.management.config.exception.NotFoundException;
+import com.prgrms.management.config.exception.NotExistException;
 import com.prgrms.management.util.ToUUID;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
@@ -22,7 +22,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.prgrms.management.config.ErrorMessageType.NOT_EXECUTE_QUERY;
-import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_CUSTOMER_ID;
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_ID;
 
 @Repository
 @Profile({"jdbc", "test"})
@@ -103,7 +103,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             update = jdbcTemplate.update(UPDATE_SQL, customerId.toString().getBytes(), voucherId.toString().getBytes());
         } catch (DataIntegrityViolationException e) {
-            throw new NotFoundException(NOT_EXIST_CUSTOMER_ID.getMessage());
+            throw new NotExistException(NOT_EXIST_ID.getMessage());
         }
         if (update != 1) {
             throw new IllegalStateException(NOT_EXECUTE_QUERY.getMessage());

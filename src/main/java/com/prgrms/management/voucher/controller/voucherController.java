@@ -3,7 +3,7 @@ package com.prgrms.management.voucher.controller;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.service.CustomerService;
 import com.prgrms.management.voucher.domain.Voucher;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor

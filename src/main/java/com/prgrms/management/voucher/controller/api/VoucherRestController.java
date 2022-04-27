@@ -5,7 +5,7 @@ import com.prgrms.management.config.common.ListResult;
 import com.prgrms.management.config.common.SingleResult;
 import com.prgrms.management.config.common.service.ResponseService;
 import com.prgrms.management.voucher.domain.Voucher;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;

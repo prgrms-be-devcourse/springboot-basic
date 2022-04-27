@@ -1,5 +1,6 @@
 package com.prgrms.management.voucher.domain;
 
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
