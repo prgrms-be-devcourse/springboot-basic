@@ -37,7 +37,7 @@ public class VoucherService {
         voucherRepository.deleteById(voucherId);
     }
 
-    public Voucher findByIdVoucher(UUID voucherId){
-        return voucherRepository.findById(voucherId).orElse(null);
+    public Optional<Voucher> findByIdVoucher(UUID voucherId){
+        return voucherRepository.findById(voucherId);
     }
 }
