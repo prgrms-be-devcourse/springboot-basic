@@ -2,17 +2,22 @@ package org.prgrms.kdt.shop.repository;
 
 import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.shop.CommandLineApplication;
 import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
 import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.shop.domain.Voucher;
+import org.prgrms.kdt.shop.enums.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,7 +35,8 @@ import static org.hamcrest.Matchers.*;
 class VoucherJdbcRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
-
+    @MockBean
+    CommandLineApplication commandLineApplication;
     EmbeddedMysql embeddedMysql;
 
     @TestConfiguration
@@ -133,5 +139,17 @@ class VoucherJdbcRepositoryTest {
         voucherRepository.deleteAll();
         //then
         assertThat(voucherRepository.findAll().isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("바우처 타입으로 찾기 테스트")
+    void findByType( ) {
+        //given
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        //when
+        List<Voucher> voucherList = voucherRepository.findByType(VoucherType.FIXED_AMOUNT);
+        //then
+        assertThat(voucherList.size(), is(1));
     }
 }
