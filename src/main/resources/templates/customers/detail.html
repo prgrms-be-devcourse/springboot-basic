@@ -13,7 +13,7 @@
     <div class="mb-3">
         <label for="customerType" class="form-label">고객 타입</label>
         <select id="customerType" name="customerType" class="form-select">
-            <option th:each="type: ${customerType}" th:text="${type.getType()}" th:value="${type.getType()}"
+            <option th:each="type: ${customerType}" th:text="${type.getType()}" th:value="${type}"
                     th:selected="${type.getType()}==${customer.customerType.getType()}"></option>
         </select>
     </div>

@@ -8,7 +8,7 @@
     <div class="mb-3">
         <label for="voucherType" class="form-label">바우처 타입</label>
         <select id="voucherType" name="voucherType" class="form-select">
-            <option th:each="type: ${voucherType}" th:text="${type.getType()}" th:value="${type.getType()}"></option>
+            <option th:each="type: ${voucherType}" th:text="${type.getType()}" th:value="${type}"></option>
         </select>
     </div>
     <div class="mb-3">
