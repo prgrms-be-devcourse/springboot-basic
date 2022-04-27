@@ -20,6 +20,18 @@ public class VoucherDto {
         this.voucherType = voucherType;
     }
 
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public long getValue() {
+        return value;
+    }
+
     public static VoucherDto of(Voucher voucher) {
         return new VoucherDto(
                 voucher.getVoucherId(),
