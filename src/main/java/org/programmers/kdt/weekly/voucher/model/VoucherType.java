@@ -1,7 +1,6 @@
 package org.programmers.kdt.weekly.voucher.model;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.Function;
 import org.programmers.kdt.weekly.voucher.VoucherDto;
 import org.slf4j.Logger;
@@ -34,7 +33,7 @@ public enum VoucherType {
             .orElseThrow(() -> new IllegalArgumentException("Invalid number."));
     }
 
-    public Optional<Voucher> create(VoucherDto voucherDto) {
-        return Optional.ofNullable(createVoucher.apply(voucherDto));
+    public Voucher create(VoucherDto voucherDto) {
+        return createVoucher.apply(voucherDto);
     }
 }

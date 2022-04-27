@@ -22,7 +22,7 @@ public class VoucherWalletService {
         this.voucherWalletRepository = voucherWalletRepository;
     }
 
-    public VoucherWallet insertWallet(UUID customerId, UUID voucherId, LocalDateTime expirationAt) {
+    public VoucherWallet insert(UUID customerId, UUID voucherId, LocalDateTime expirationAt) {
         var voucherWallet = new VoucherWallet(UUID.randomUUID(), customerId, voucherId,
             LocalDateTime.now(), expirationAt);
         voucherWalletRepository.insert(voucherWallet);
@@ -30,15 +30,13 @@ public class VoucherWalletService {
         return voucherWallet;
     }
 
-    public List<VoucherWallet> getVoucherWallet(UUID customerId) {
-        var voucherWallet = voucherWalletRepository.findAll(customerId);
+    public List<VoucherWallet> findById(UUID customerId) {
 
-        return voucherWallet;
+        return voucherWalletRepository.findAll(customerId);
     }
 
-    public Optional<UUID> deleteWalletById(UUID customerId, UUID walletId) {
-        var deleteWalletId = voucherWalletRepository.deleteById(customerId, walletId);
+    public Optional<UUID> deleteById(UUID customerId, UUID walletId) {
 
-        return deleteWalletId;
+        return voucherWalletRepository.deleteById(customerId, walletId);
     }
 }

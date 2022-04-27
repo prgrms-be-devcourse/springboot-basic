@@ -6,13 +6,11 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @Configuration
 @ComponentScan(basePackages = {"org.programmers.kdt.weekly.*"})
-@PropertySource("classpath:/sql.xml")
-public class Config {
+public class DbConfig {
 
     @Value("${spring.datasource.username}")
     private String userName;

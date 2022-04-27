@@ -17,22 +17,22 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(String email, String name) {
+    public Customer create(String email, String name) {
         Customer customer = new Customer(UUID.randomUUID(), email, name, CustomerType.NORMAL);
         this.customerRepository.insert(customer);
 
         return customer;
     }
 
-    public List<Customer> getCustomerList(CustomerType customerType) {
+    public List<Customer> getCustomers(CustomerType customerType) {
         return this.customerRepository.findByType(customerType.toString());
     }
 
-    public Optional<Customer> findCustomerByEmail(String customerEmail) {
+    public Optional<Customer> findByEmail(String customerEmail) {
         return this.customerRepository.findByEmail(customerEmail);
     }
 
-    public Customer updateCustomerType(Customer customer) {
+    public Customer updateType(Customer customer) {
         return this.customerRepository.update(customer);
     }
 }
