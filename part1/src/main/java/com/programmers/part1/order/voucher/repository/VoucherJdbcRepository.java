@@ -21,7 +21,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        VoucherType voucherType = VoucherType.getVoucherTypeByTypeString(resultSet.getString("voucher_type"));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         int amount = resultSet.getInt("voucher_amount");
         if (voucherType == VoucherType.FIXED)
             return new FixedAmountVoucher(voucherId, amount);
@@ -99,7 +99,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<String, Object>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("voucherType", voucher.voucherTypeToString());
+            put("voucherType", voucher.getVoucherType().toString());
             put("amount", voucher.getAmount());
         }};
     }
