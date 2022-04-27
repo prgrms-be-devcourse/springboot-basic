@@ -14,11 +14,11 @@ public class CommandLineApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(CommandLineApplication.class, args);
-        Client client = Client.builder()
-                .console(new Console())
-                .customerService(applicationContext.getBean(CustomerService.class))
-                .voucherService(applicationContext.getBean(VoucherService.class))
-                .build();
-        client.run();
+//        Client client = Client.builder()
+//                .console(new Console())
+//                .customerService(applicationContext.getBean(CustomerService.class))
+//                .voucherService(applicationContext.getBean(VoucherService.class))
+//                .build();
+//        client.run();
     }
 }
