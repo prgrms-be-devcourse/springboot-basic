@@ -1,8 +1,10 @@
 package org.prgrms.voucher.models;
 
+import java.util.Arrays;
+
 public enum VoucherType {
 
-    FIXED_AMOUNT {
+    FIXED_AMOUNT("1") {
         @Override
         public Voucher createVoucher(long discountValue, VoucherType voucherType) {
 
@@ -15,7 +17,7 @@ public enum VoucherType {
             return new FixedAmountVoucher(voucherId, discountValue, voucherType);
         }
     },
-    PERCENT_DISCOUNT {
+    PERCENT_DISCOUNT("2") {
         @Override
         public Voucher createVoucher(long discountValue, VoucherType voucherType) {
 
@@ -29,11 +31,22 @@ public enum VoucherType {
         }
     };
 
+    private final String typeNumber;
+
+    VoucherType(String typeNumber) {
+
+        this.typeNumber = typeNumber;
+    }
+
+    public static VoucherType findByUserInput(String userInput) {
+
+        return Arrays.stream(VoucherType.values())
+                .filter(v -> v.typeNumber.equals(userInput))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
+    }
 
     public abstract Voucher createVoucher(long discountValue, VoucherType voucherType);
 
     public abstract Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType);
-
-    VoucherType() {
-    }
 }
