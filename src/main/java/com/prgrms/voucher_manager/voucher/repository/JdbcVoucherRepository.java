@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile({"default","test"})
+@Profile({"default","test", "dev"})
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -36,13 +36,13 @@ public class JdbcVoucherRepository implements VoucherRepository{
         long value = resultSet.getLong("value");
         if(type.equals("fix")) {
             return FixedAmountVoucher.builder()
-                    .id(voucherId)
+                    .voucherId(voucherId)
                     .amount(value)
                     .build();
         }
         else {
             return PercentDiscountVoucher.builder()
-                    .id(voucherId)
+                    .voucherId(voucherId)
                     .percent(value)
                     .build();
         }
@@ -58,7 +58,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher insert(Voucher voucher) {
 
-        int update = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
+        int update = jdbcTemplate.update(INSERT_SQL, voucher.toMap());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -68,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Voucher update(Voucher voucher) {
 
-        int update = jdbcTemplate.update(UPDATE_VALUE_BY_ID_SQL, toParamMap(voucher));
+        int update = jdbcTemplate.update(UPDATE_VALUE_BY_ID_SQL, voucher.toMap());
         if(update != 1) {
             throw new RuntimeException("Nothing was updated");
         }
@@ -102,30 +102,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher delete(Voucher voucher) {
-        jdbcTemplate.update(DELETE_BY_ID_SQL, toParamMap(voucher));
+        jdbcTemplate.update(DELETE_BY_ID_SQL, voucher.toMap());
         return voucher;
     }
 
-
-
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        String type;
-        String voucherTypeName = voucher.getClass().getSimpleName();
-        if(voucherTypeName.equals("FixedAmountVoucher")) {
-            type = "fix";
-        }
-        else {
-            type = "percent";
-        }
-
-        HashMap<String, Object> hashMap = new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("type", type);
-            put("value", voucher.getValue());
-        }};
-        System.out.println(hashMap.get("value"));
-        return hashMap;
-
-    }
 
 }

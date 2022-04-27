@@ -36,7 +36,8 @@ public class WalletService {
     }
 
     public void deleteWallet(UUID customerId, UUID voucherId) {
-        deleteVoucher(customerId, voucherId);
+        Wallet deleteWallet = new Wallet(customerId, voucherId);
+        walletRepository.deleteByVoucherId(deleteWallet);
     }
 
 
@@ -50,9 +51,9 @@ public class WalletService {
         return wallets;
     }
 
-    private void deleteVoucher(UUID customerId, UUID voucherId) {
-        Wallet deleteWallet = new Wallet(customerId, voucherId);
-        walletRepository.deleteByVoucherId(deleteWallet);
-    }
+//    private void deleteVoucher(UUID customerId, UUID voucherId) {
+//        Wallet deleteWallet = new Wallet(customerId, voucherId);
+//        walletRepository.deleteByVoucherId(deleteWallet);
+//    }
 
 }

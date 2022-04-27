@@ -117,7 +117,7 @@ class JdbcCustomerRepositoryTest {
 
         customerRepository.insert(newCustomer);
 
-        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), "beomsic", newCustomer.getEmail(), LocalDateTime.now());
+        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), "beomsic", "test-customer@gmail.com", LocalDateTime.now());
 
         try{
             customerRepository.insert(testCustomer);
@@ -133,7 +133,7 @@ class JdbcCustomerRepositoryTest {
 
         customerRepository.insert(newCustomer);
 
-        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), newCustomer.getName(), "beomsic@gmail.com", LocalDateTime.now());
+        SimpleCustomer testCustomer = new SimpleCustomer(UUID.randomUUID(), "test-customer", "beomsic@gmail.com", LocalDateTime.now());
         customerRepository.insert(testCustomer);
 
         Optional<Customer> retrieveCustomer = customerRepository.findById(testCustomer.getCustomerId());

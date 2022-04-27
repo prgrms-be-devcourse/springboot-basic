@@ -1,18 +1,15 @@
 package com.prgrms.voucher_manager.customer.repository;
 
-//import com.prgrms.voucher_manager.customer.BlackCustomer;
 import com.prgrms.voucher_manager.customer.Customer;
 import com.prgrms.voucher_manager.customer.SimpleCustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -44,9 +41,7 @@ public class BlackCustomerRepository{
         try {
             bw = getBufferWriter(file);
 
-            String insertData = customer.getCustomerId()
-                    + "," + customer.getName()
-                    + "," + customer.getEmail();
+            String insertData = customer.toString();
 
             bw.write(insertData);
             // 작성한 데이터를 파일에 넣는다
@@ -88,11 +83,6 @@ public class BlackCustomerRepository{
         return customers;
     }
 
-    public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
-    }
-
-    public void deleteAll() {}
 
     private BufferedReader getBufferReader(File file){
         try{

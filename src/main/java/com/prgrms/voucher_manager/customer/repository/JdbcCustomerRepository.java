@@ -11,12 +11,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-@Profile({"default","test"})
+@Profile({"default", "test", "dev"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
@@ -48,7 +47,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
 
-        int update = jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
+        int update = jdbcTemplate.update(INSERT_SQL, customer.toMap());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -77,7 +76,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update(UPDATE_BY_ID_SQL, toParamMap(customer));
+        int update = jdbcTemplate.update(UPDATE_BY_ID_SQL, customer.toMap());
         if(update != 1) {
             throw new RuntimeException("Customer update - 업데이트 되지 않았습니다.");
         }
@@ -86,19 +85,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer delete(Customer customer) {
-        jdbcTemplate.update(DELETE_BY_ID_SQL, toParamMap(customer));
+        jdbcTemplate.update(DELETE_BY_ID_SQL, customer.toMap());
         return customer;
     }
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        HashMap<String, Object> hashMap = new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-        }};
-        return hashMap;
-    }
 
 }
