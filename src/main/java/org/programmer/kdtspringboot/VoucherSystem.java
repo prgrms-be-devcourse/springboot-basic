@@ -4,14 +4,12 @@ import org.programmer.kdtspringboot.user.User;
 import org.programmer.kdtspringboot.user.UserService;
 import org.programmer.kdtspringboot.voucher.Voucher;
 import org.programmer.kdtspringboot.voucher.VoucherService;
-import org.programmer.kdtspringboot.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class VoucherSystem {
@@ -28,8 +26,8 @@ public class VoucherSystem {
     }
 
     public void run() {
-        try {
-            while (true) {
+        while (true) {
+            try {
                 console.menu();
                 String inputString = console.input("선택: ").toLowerCase();
                 switch (inputString) {
@@ -52,11 +50,12 @@ public class VoucherSystem {
                         logger.warn("메뉴 잘못 입력");
                         console.print("제대로 입력해주세요.");
                 }
+            } catch (IOException e) {
+                logger.error("입출력 오류");
+            } catch (NumberFormatException e) {
+                logger.error("할인값을 제대로 입력해주세요");
             }
-        } catch (IOException e) {
-            logger.error("입출력 오류");
         }
-
     }
 
     private void showBlackUserList() throws IOException {
@@ -74,25 +73,9 @@ public class VoucherSystem {
 
         String inputString = console.input("선택: ");
         logger.info("Voucher 종류 선택: " + inputString);
+        Long discount = Long.parseLong(console.input("할인값: "));
 
-        String discountString = console.input("할인값: ");
-        if (!isNumber(discountString)) {
-            console.print("할인값을 잘못 입력하셨습니다.");
-            logger.warn("할인값 잘못 입력");
-            return;
-        }
-
-        Long discount = Long.parseLong(discountString);
-        logger.info("할인값 입력: " + discountString);
+        logger.info("할인값 입력: " + discount);
         voucherService.createVoucher(inputString, discount);
-    }
-
-    private boolean isNumber(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
     }
 }
