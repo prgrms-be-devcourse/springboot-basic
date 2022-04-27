@@ -4,13 +4,14 @@ use test_order_mgmt;
 
 drop table if exists customers;
 drop table if exists vouchers;
+drop table if exists products;
 
 CREATE TABLE customers
 (
     customer_id BINARY(16) PRIMARY KEY,
-    name        varchar(20) NOT NULL,
-    email       varchar(50) NOT NULL,
-    created_at  datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    name        VARCHAR(20) NOT NULL,
+    email       VARCHAR(50) NOT NULL,
+    created_at  DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT unq_user_email UNIQUE (email),
     CONSTRAINT unq_user_name UNIQUE (name)
 );
@@ -18,8 +19,8 @@ CREATE TABLE customers
 CREATE TABLE vouchers
 (
     voucher_id BINARY(16) PRIMARY KEY,
-    type       varchar(10) not null,
-    amount     int         not null
+    type       VARCHAR(10) not null,
+    amount     INT         not null
 );
 
 CREATE TABLE products
@@ -28,6 +29,6 @@ CREATE TABLE products
     name       VARCHAR(20) NOT NULL,
     price      INT         NOT NULL,
     stock      INT         NOT NULL,
-    status     VARCHAR(20) NOT NULL,
+    status     VARCHAR(20)  NOT NULL,
     created_at DATETIME(6) NOT NULL
 );

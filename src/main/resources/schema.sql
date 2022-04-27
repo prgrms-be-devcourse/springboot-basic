@@ -4,6 +4,7 @@ use order_mgmt;
 
 drop table if exists customers;
 drop table if exists vouchers;
+drop table if exists products;
 
 CREATE TABLE customers
 (
@@ -28,6 +29,6 @@ CREATE TABLE products
     name       VARCHAR(20) NOT NULL,
     price      INT         NOT NULL,
     stock      INT         NOT NULL,
-    status     VARCHAR(20) NOT NULL,
+    status     VARCHAR(20)  NOT NULL,
     created_at DATETIME(6) NOT NULL
 );
