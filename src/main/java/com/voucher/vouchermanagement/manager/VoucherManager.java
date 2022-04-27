@@ -68,7 +68,7 @@ public class VoucherManager {
 
             this.voucherService.create(voucherType, voucherValue);
             this.output.println("Voucher Creation Completed.");
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             logAndPrintException(e);
         }
     }

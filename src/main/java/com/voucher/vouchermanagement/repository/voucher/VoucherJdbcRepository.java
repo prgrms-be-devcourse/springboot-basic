@@ -48,10 +48,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        int update = this.jdbcTemplate.update("INSERT INTO vouchers VALUES(UNHEX(REPLACE(:id, '-', '')), :value, :type, :createdAt)", toParamMap(voucher));
-
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted.");
+        try {
+            int update = this.jdbcTemplate.update("INSERT INTO vouchers VALUES(UNHEX(REPLACE(:id, '-', '')), :value, :type, :createdAt)", toParamMap(voucher));
+        } catch (Exception e) {
+            throw new RuntimeException("데이터를 생성할 수 없습니다.");
         }
     }
 
@@ -67,6 +67,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         HashMap<String, Object> paramMap = new HashMap<>();
+
         paramMap.put("id", voucher.getVoucherId().toString().getBytes());
         paramMap.put("value", voucher.getValue());
         paramMap.put("type", voucher.getClass().getSimpleName());
