@@ -36,8 +36,6 @@ import static org.hamcrest.Matchers.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcWalletRepositoryTest {
 
-  private static final Logger log = LoggerFactory.getLogger(JdbcWalletRepositoryTest.class);
-
   @Configuration
   @ComponentScan(
     basePackages = {"org.prgrms.vouchermanagement.customer", "org.prgrms.vouchermanagement.voucher"}
@@ -128,8 +126,6 @@ class JdbcWalletRepositoryTest {
   void testFindVouchersByCustomerId() {
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(2));
-    log.info("insert vouchers -> [{}, {}]", fixedAmountVoucher1, percentDiscountVoucher1);
-    log.info("vouchers -> {}", vouchers.toString());
   }
 
   @Test
@@ -138,8 +134,6 @@ class JdbcWalletRepositoryTest {
     List<UUID> customers = jdbcWalletRepository.findCustomersByVoucherId(fixedAmountVoucher1.getVoucherID());
     assertThat(customers.size(), is(1));
     assertThat(customers.contains(customer1.getCustomerId()), is(true));
-    log.info("customer1Id -> {}", customer1.getCustomerId());
-    log.info("custoers -> {}", customers);
   }
 
   @Test

@@ -78,7 +78,6 @@ class JdbcCustomerRepositoryTest {
   Customer customer1;
   Customer customer2;
 
-
   // Voucher Objects for Tests
   Voucher fixedAmountVoucher1;
   Voucher fixedAmountVoucher2;
