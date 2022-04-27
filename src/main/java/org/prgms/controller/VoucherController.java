@@ -23,7 +23,7 @@ public class VoucherController {
 
     @GetMapping("/vouchers")
     public String vouchers(Model model) {
-        model.addAttribute("vouchers", voucherService.listVoucher());
+        model.addAttribute("vouchers", voucherService.getVouchers());
 
         return "vouchers";
     }

@@ -58,7 +58,7 @@ public class CommandLineApplication {
                         }
                         break;
                     case "list":
-                        service.listVoucher();
+                        service.getVouchers();
                         break;
                     default:
                         throw new IllegalArgumentException(inputText);

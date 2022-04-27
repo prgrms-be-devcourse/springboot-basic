@@ -21,8 +21,12 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public List<Voucher> listVoucher() {
+    public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> getVoucherByType(String voucherType) {
+        return voucherRepository.findByType(voucherType);
     }
 
     public Optional<Voucher> getVoucher(UUID id) {

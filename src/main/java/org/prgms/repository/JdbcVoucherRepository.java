@@ -44,6 +44,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("SELECT * FROM vouchers;", this::mapToVoucher);
     }
 
+    public List<Voucher> findByType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_kind= ?;", this::mapToVoucher, voucherType);
+    }
+
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
