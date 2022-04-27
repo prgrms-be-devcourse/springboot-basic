@@ -1,19 +1,22 @@
 package org.programmer.kdtspringboot.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final Long amount;
+    private final Long discountAmount;
     private final VoucherType type = VoucherType.FixedAmountVoucher;
+    private final LocalDateTime createdAt;
     private final static Integer MAX_AMOUNT = 10000;
     private final static Integer MIN_AMOUNT = 0;
 
-    public FixedAmountVoucher(UUID voucherId, Long amount) {
-        validateAmount(amount);
+    public FixedAmountVoucher(UUID voucherId, Long discountAmount, LocalDateTime createdAt) {
+        validateAmount(discountAmount);
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountAmount = discountAmount;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -22,26 +25,32 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public VoucherType getType() {
+        return type;
+    }
+
+    @Override
     public Long discount(Long beforeDiscount) {
-        return beforeDiscount - amount > 0 ? beforeDiscount - amount : 0;
+        return beforeDiscount - discountAmount > 0 ? beforeDiscount - discountAmount : 0;
     }
 
     @Override
     public Long getValue() {
-        return amount;
+        return discountAmount;
     }
 
     @Override
-    public VoucherType getType() {
-        return type;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
-                ", amount=" + amount +
+                ", discountAmount=" + discountAmount +
                 ", type=" + type +
+                ", createdAt=" + createdAt +
                 '}';
     }
 

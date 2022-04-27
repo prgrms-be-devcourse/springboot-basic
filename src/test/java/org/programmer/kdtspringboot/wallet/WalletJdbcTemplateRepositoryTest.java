@@ -85,8 +85,8 @@ class WalletJdbcTemplateRepositoryTest {
         //임베디드 실습
         customer = new Customer(UUID.randomUUID(), "test-user", "test-user@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         customer2 = new Customer(UUID.randomUUID(), "test-user2", "test-kim@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
-        fixVoucher = new FixedAmountVoucher(UUID.randomUUID(),10L);
-        percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),20L);
+        fixVoucher = new FixedAmountVoucher(UUID.randomUUID(),10L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),20L, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         wallet = new Wallet(UUID.randomUUID(),customer.getCustomerId(),fixVoucher.getVoucherId());
         wallet2 = new Wallet(UUID.randomUUID(),customer2.getCustomerId(),percentVoucher.getVoucherId());
         var mysqlConfig = aMysqldConfig(v5_7_latest)

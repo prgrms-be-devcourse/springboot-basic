@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,10 +27,11 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(
-                "insert into vouchers(voucher_id, value, type) values (UNHEX(REPLACE(?, '-', '')), ?, ?)",
+                "insert into vouchers(voucher_id, value, type, created_at) values (UNHEX(REPLACE(?, '-', '')), ?, ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getValue(),
-                voucher.getType().getType()
+                voucher.getType().getType(),
+                Timestamp.valueOf(voucher.getCreatedAt())
         );
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -39,9 +42,10 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         int update = jdbcTemplate.update(
-                "update vouchers set value = ?, type = ? where voucher_id =UNHEX(REPLACE(?, '-', ''))",
+                "update vouchers set value = ?, type = ?, created_at = ? where voucher_id =UNHEX(REPLACE(?, '-', ''))",
                 voucher.getValue(),
                 voucher.getType().getType(),
+                LocalDateTime.now(),
                 voucher.getVoucherId().toString().getBytes()
         );
         if (update != 1) {
@@ -81,18 +85,22 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update("delete from vouchers where voucher_id = UNHEX(REPLACE(?, '-', ''))",
                 voucherId.toString().getBytes()
-                );
+        );
     }
-
-
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");
         var voucherType = VoucherType.getVoucherType(resultSet.getString("type"));
-        return voucherType.create(amount);
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        Voucher voucher;
+        if (voucherType.getType().equals("FIX")) {
+            voucher = new FixedAmountVoucher(voucherId, amount, createdAt);
+        } else {
+            voucher = new PercentDiscountVoucher(voucherId, amount, createdAt);
+        }
+        return voucher;
     };
-
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);

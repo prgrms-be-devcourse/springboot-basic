@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -86,7 +88,7 @@ class VoucherJdbcTemplateRepositoryTest {
     @Order(2)
     @DisplayName("FixedAmountVoucher 추가할 수 있음")
     void insertFixedAmountVoucherTest() {
-        voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+        voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
         voucherJdbcTemplateRepository.insert(voucher);
 
         var retrievedCustomer = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
@@ -97,7 +99,7 @@ class VoucherJdbcTemplateRepositoryTest {
     @Order(3)
     @DisplayName("PercentDiscountVoucher 추가할 수 있음")
     void insertPercentDiscountVoucherTest() {
-        voucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
+        voucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
         voucherJdbcTemplateRepository.insert(voucher);
 
         var retrievedCustomer = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
@@ -116,7 +118,7 @@ class VoucherJdbcTemplateRepositoryTest {
     @Order(5)
     @DisplayName("VoucherId 로 Voucher 조회할 수 있음")
     void findIdTest() {
-        voucher = new FixedAmountVoucher(UUID.randomUUID(), 30L);
+        voucher = new FixedAmountVoucher(UUID.randomUUID(), 30L, LocalDateTime.now());
         voucherJdbcTemplateRepository.insert(voucher);
 
         var getVoucher1 = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
@@ -130,7 +132,7 @@ class VoucherJdbcTemplateRepositoryTest {
     @Order(6)
     @DisplayName("VoucherId 로 삭제할 수 있음")
     void deleteVoucherIdTest() {
-        voucher = new PercentDiscountVoucher(UUID.randomUUID(), 30L);
+        voucher = new PercentDiscountVoucher(UUID.randomUUID(), 30L, LocalDateTime.now());
         voucherJdbcTemplateRepository.insert(voucher);
         var getVoucher1 = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
         assertThat(getVoucher1).isNotEmpty();

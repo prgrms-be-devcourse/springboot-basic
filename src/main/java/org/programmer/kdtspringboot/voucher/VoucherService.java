@@ -17,27 +17,27 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(String type, Long value) {
+    public Optional<Voucher> createVoucher(String type, Long value) {
         //타입을 가져오고
         try {
             VoucherType voucherType = VoucherType.getVoucherType(type);
             Voucher voucher = voucherType.create(value);
-            voucherRepository.insert(voucher);
+            return Optional.ofNullable(voucherRepository.insert(voucher));
         } catch (IllegalArgumentException e) {
             logger.info("Voucher Type 잘못 입력 했습니다 {}", type);
+            return Optional.empty();
         }
-
     }
 
     public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 
-    public void deleteVoucher(UUID voucherId){
+    public void deleteVoucher(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
     }
 
-    public Optional<Voucher> findByIdVoucher(UUID voucherId){
+    public Optional<Voucher> findByIdVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId);
     }
 }
