@@ -88,7 +88,7 @@ public class VoucherController {
     }
 
     @GetMapping("/assign")
-    public String voucherAssignShow(Model model) {
+    public String voucherAssignPage(Model model) {
         List<Voucher> vouchers = voucherService.getVouchersNotAssignedToCustomer();
         model.addAttribute("vouchers", vouchers);
         model.addAttribute("assignForm", new VoucherAssignRequest());
