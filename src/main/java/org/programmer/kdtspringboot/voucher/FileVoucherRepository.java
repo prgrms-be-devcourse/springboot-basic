@@ -25,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("입출력 오류");
         }
         logger.info("voucher 추가 " + voucher);
         return voucher;
@@ -57,7 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
             logger.info("File list 반환 성공");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("입출력 오류");
         }
 
         return list;

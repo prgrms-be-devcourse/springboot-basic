@@ -26,7 +26,7 @@ public class BlackListUserRepository implements UserRepository {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("입출력 오류");
         }
         logger.info("블랙리스트유저 추가 " + user);
     }
@@ -45,7 +45,7 @@ public class BlackListUserRepository implements UserRepository {
             }
             logger.info("CSV File list 반환 성공");
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("입출력 오류");
         }
         return list;
     }
