@@ -2,6 +2,7 @@ package org.prgms.voucherProgram.domain.voucher.controller;
 
 import static java.util.stream.Collectors.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,8 +12,14 @@ import org.prgms.voucherProgram.domain.voucher.dto.VoucherDto;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
+import org.prgms.voucherProgram.global.exception.ExceptionControllerAdvice;
+import org.prgms.voucherProgram.global.exception.ExceptionResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,10 +32,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/vouchers")
 public class RestVoucherController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
+    
     private final VoucherService voucherService;
 
     public RestVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleCustomException(Exception e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
+            e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllException(Exception e) {
+        logger.error(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
+            e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping
@@ -64,4 +88,5 @@ public class RestVoucherController {
         voucherService.delete(voucherId);
         return ResponseEntity.ok("Success");
     }
+
 }

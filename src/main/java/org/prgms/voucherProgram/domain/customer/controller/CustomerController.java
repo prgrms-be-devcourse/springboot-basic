@@ -9,7 +9,6 @@ import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
 import org.prgms.voucherProgram.domain.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,11 +61,5 @@ public class CustomerController {
     public String deleteCustomer(@PathVariable("email") Email email) {
         customerService.delete(email);
         return "redirect:/customers";
-    }
-
-    @ExceptionHandler
-    public String handleException(Exception e, Model model) {
-        model.addAttribute("error", e.getMessage());
-        return "error";
     }
 }

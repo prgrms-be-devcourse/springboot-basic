@@ -8,7 +8,6 @@ import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,11 +61,5 @@ public class VoucherController {
     public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
         return "redirect:/vouchers";
-    }
-
-    @ExceptionHandler
-    public String handleException(Exception e, Model model) {
-        model.addAttribute("error", e.getMessage());
-        return "error";
     }
 }
