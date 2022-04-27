@@ -22,4 +22,11 @@ public class FixedAmountVoucher extends Voucher {
 		return beforeDiscount - discountAmount;
 
 	}
+
+	@Override
+	public String toString() {
+		return "FixedAmountVoucher," +
+				voucherId + "," +
+				discountAmount;
+	}
 }

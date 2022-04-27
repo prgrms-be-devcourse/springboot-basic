@@ -18,4 +18,11 @@ public class PercentDiscountVoucher extends Voucher {
 		double percentDiscountValue = beforeDiscount * (discountAmount / 100.0);
 		return (int)(beforeDiscount - percentDiscountValue);
 	}
+
+	@Override
+	public String toString() {
+		return "PercentDiscountVoucher," +
+				voucherId + "," +
+				discountAmount;
+	}
 }
