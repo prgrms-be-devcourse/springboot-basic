@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-@Profile("command")
 public class ConsoleCommandService implements CommandService {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleCommandService.class);
     private final Input input;
@@ -61,7 +60,8 @@ public class ConsoleCommandService implements CommandService {
                 break;
             case CREATE_CUSTOMER:
                 CustomerRequest customerRequest = input.inputCustomer();
-                System.out.println(customerService.createCustomer(new Customer(customerRequest)));
+                Customer customer = new Customer(customerRequest);
+                output.printSingle(customerService.createCustomer(customer).toString());
                 break;
             case UPDATE_CUSTOMER:
                 customerId = input.inputCustomerId();
@@ -77,11 +77,11 @@ public class ConsoleCommandService implements CommandService {
                 break;
             case FIND_CUSTOMER_BY_ID:
                 customerId = input.inputCustomerId();
-                System.out.println(customerService.findById(customerId));
+                output.printSingle(customerService.findById(customerId).toString());
                 break;
             case FIND_CUSTOMER_BY_EMAIL:
                 String email = input.inputCustomerEmail();
-                System.out.println(customerService.findByEmail(email));
+                output.printSingle(customerService.findByEmail(email).toString());
                 break;
             case LIST_CUSTOMER:
                 output.printList(customerService.findAll());

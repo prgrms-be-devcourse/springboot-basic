@@ -56,25 +56,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteAll() {
-        jdbcTemplate.update("delete from customers");
-    }
-
-    @Override
-    public void deleteById(UUID customerId) {
-        jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(?)", customerId.toString().getBytes());
-    }
-
-    @Override
-    public Customer updateName(Customer customer) {
-        int update = jdbcTemplate.update("update customers set name = ? where customer_id = UUID_TO_BIN(?)",
-                customer.getName(),
-                customer.getCustomerId().toString().getBytes()
-        );
-        if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
-        }
-        return customer;
+    public List<Customer> findBlackList() {
+        return jdbcTemplate.query("select * from customers where customer_type = ? ",
+                customerRowMapper,
+                "blacklist");
     }
 
     @Override
@@ -102,9 +87,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findBlackList() {
-        return jdbcTemplate.query("select * from customers where customer_type = ? ",
-                customerRowMapper,
-                "blacklist");
+    public Customer updateName(Customer customer) {
+        int update = jdbcTemplate.update("update customers set name = ? where customer_id = UUID_TO_BIN(?)",
+                customer.getName(),
+                customer.getCustomerId().toString().getBytes()
+        );
+        if (update != 1) {
+            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+        }
+        return customer;
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("delete from customers");
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(?)", customerId.toString().getBytes());
     }
 }

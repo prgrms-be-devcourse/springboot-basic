@@ -23,6 +23,8 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
+        Voucher voucher = voucherRequest.create();
+        System.out.println("voucher.getCustomerId() = " + voucher.getCustomerId());
         return voucherRepository.save(voucherRequest.create());
     }
 

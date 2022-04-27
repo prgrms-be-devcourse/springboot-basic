@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header"/>
 <body>
 <div class="d-flex" id="wrapper">
     <div th:include="/fragments/sidebar.html"></div>
     <div id="page-content-wrapper">
         <nav th:include="/fragments/nav.html"></nav>
         <!-- Page content-->
-        <table border="1" class="table table-striped">
+        <table border="1" class="table table-striped table-hover">
             <tr class="text-center">
+                <th>#</th>
                 <th>voucherId</th>
                 <th>amount</th>
                 <th>voucherType</th>
-                <th>createdAt</th>
-                <th>customerId</th>
                 <th></th>
             </tr>
-            <tr class="text-center" th:each="voucher : ${vouchers}">
+            <tr class="text-center" th:each="voucher, iter : ${vouchers}">
+                <td th:text="${iter.index+1}"></td>
                 <td th:text="${voucher.voucherId}">voucherId</td>
                 <td th:text="${voucher.amount}">amount</td>
-                <td th:text="${voucher.voucherType}">voucherType</td>
-                <td th:text="${#temporals.format(voucher.createdAt,'yyyy-MM-dd HH:mm:ss')}">createdAt</td>
-                <td th:text="${voucher.customerId}">null</td>
+                <td th:text="${voucher.voucherType}">null</td>
                 <td style="width: 90px;height: 30px;">
-                    <form id="deleteVoucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button id="delete-btn">삭제</button>
+                    <form id="voucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="get">
+                        <button id="info-btn">상세 보기</button>
                     </form>
                 </td>
             </tr>

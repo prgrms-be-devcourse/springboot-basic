@@ -8,13 +8,20 @@ import java.util.UUID;
 
 @Getter
 public class PercentVoucher extends Voucher {
-    private static final Long MAX_PERCENT_DISCOUNT = 100L;
-    private static final Long MIN_PERCENT_DISCOUNT = 0L;
+    private static final long MAX_PERCENT_DISCOUNT = 100L;
+    private static final long MIN_PERCENT_DISCOUNT = 0L;
     private final long amount;
     private final VoucherType voucherType;
 
+    public PercentVoucher(long amount, VoucherType voucherType, UUID customerId) {
+        super(customerId);
+        validatePercentAmount(amount);
+        this.amount = amount;
+        this.voucherType = voucherType;
+    }
+
     public PercentVoucher(UUID voucherId, LocalDateTime createdAt, UUID customerId, long amount, VoucherType voucherType) {
-        super(voucherId,createdAt,customerId);
+        super(voucherId, createdAt, customerId);
         validatePercentAmount(amount);
         this.amount = amount;
         this.voucherType = voucherType;

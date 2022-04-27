@@ -32,15 +32,15 @@
 </body>
 <script type="text/javascript">
     function search() {
-        var voucherType=$("#voucherType").val();
-        var createdAt=$("#createdAt").val();
+        var voucherType = $("#voucherType").val();
+        var createdAt = $("#createdAt").val();
         $.ajax({
             url: "voucher/search",
             data: {
                 voucherType: voucherType,
                 createdAt: createdAt,
             },
-            type:"POST",
+            type: "POST",
         }).done(function (fragment) {
             console.log(fragment.msg);
             $("#resultDiv").data(fragment.vouchers);

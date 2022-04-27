@@ -36,42 +36,36 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        //미구현
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteAll() {
-        //미구현
-    }
-
-    @Override
-    public void deleteById(UUID customerId) {
-        //미구현
-    }
-
-    @Override
-    public Customer updateName(Customer customer) {
-        //미구현
-        return null;
+    public List<Customer> findBlackList() {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        //미구현
-        return Optional.empty();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        //미구현
-        return Optional.empty();
+        throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Customer updateName(Customer customer) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
-    public List<Customer> findBlackList() {
-        //미구현
-        return null;
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        throw new UnsupportedOperationException();
     }
 }

@@ -20,7 +20,16 @@
                 </div>
                 <div style="text-align: center;">
                     <label th:for="amount">할인액 또는 할인율을 입력하세요</label>
-                    <input type="number" th:field="*{amount}" class="form-control" placeholder="숫자만 입력하세요" style="width:100%;height:70px;">
+                    <input type="number" th:field="*{amount}" class="form-control" placeholder="숫자만 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="customer">바우처를 받을 고객 선택</label>
+                    <select name="customerId" id="customer" class="form-control">
+                        <option>고객 선택</option>
+                        <option th:each="customer : ${customers}"
+                                th:value="${customer.customerId}"
+                                th:text="${customer.name}"></option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">등록</button>
             </form>

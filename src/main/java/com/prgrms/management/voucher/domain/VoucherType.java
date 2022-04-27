@@ -10,23 +10,23 @@ import java.util.UUID;
 public enum VoucherType {
     FIXED("할인액") {
         @Override
-        public Voucher create(VoucherType voucherType, Long amount, UUID customerId) {
-            return new FixedVoucher(UUID.randomUUID(), LocalDateTime.now(), customerId, amount, voucherType);
+        public Voucher create(long amount, VoucherType voucherType, UUID customerId) {
+            return new FixedVoucher(amount, voucherType, customerId);
         }
 
         @Override
-        public Voucher create(UUID voucherId, LocalDateTime createdAt, VoucherType voucherType, Long amount, UUID customerId) {
+        public Voucher create(UUID voucherId, LocalDateTime createdAt, long amount, VoucherType voucherType, UUID customerId) {
             return new FixedVoucher(voucherId, createdAt, customerId, amount, voucherType);
         }
     },
     PERCENT("할인율") {
         @Override
-        public Voucher create(VoucherType voucherType, Long amount, UUID customerId) {
-            return new PercentVoucher(UUID.randomUUID(), LocalDateTime.now(), customerId, amount, voucherType);
+        public Voucher create(long amount, VoucherType voucherType, UUID customerId) {
+            return new PercentVoucher(amount, voucherType, customerId);
         }
 
         @Override
-        public Voucher create(UUID voucherId, LocalDateTime createdAt, VoucherType voucherType, Long amount, UUID customerId) {
+        public Voucher create(UUID voucherId, LocalDateTime createdAt, long amount, VoucherType voucherType, UUID customerId) {
             return new PercentVoucher(voucherId, createdAt, customerId, amount, voucherType);
         }
     };
@@ -44,9 +44,9 @@ public enum VoucherType {
                 .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ErrorMessageType.NOT_EXIST_VOUCHER_TYPE.getMessage()));
     }
 
-    public abstract Voucher create(VoucherType voucherType, Long amount, UUID customerId);
+    public abstract Voucher create(long amount, VoucherType voucherType, UUID customerId);
 
-    public abstract Voucher create(UUID voucherId, LocalDateTime createdAt, VoucherType voucherType, Long amount, UUID customerId);
+    public abstract Voucher create(UUID voucherId, LocalDateTime createdAt, long amount, VoucherType voucherType, UUID customerId);
 
     public String getDescription() {
         return description;

@@ -36,13 +36,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        //미구현
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void updateByCustomerId(UUID voucherId, UUID customerId) {
-        //미구현
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -65,27 +64,26 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucherList;
         */
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteById(UUID customerId) {
-        //미구현
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAll() {
-        //미구현
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
-        //미구현
-        return null;
+        throw new UnsupportedOperationException();
     }
 }

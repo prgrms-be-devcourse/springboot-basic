@@ -15,4 +15,8 @@ public class Output {
         if(list.size()==0) System.out.println(LIST_EMPTY);
         else System.out.println(list);
     }
+
+    public void printSingle(String result) {
+        System.out.println(result);
+    }
 }

@@ -20,7 +20,7 @@ class VoucherTypeTest {
 
     @Test
     void Voucher_객체_생성() {
-        Voucher voucher = VoucherType.of("FIXED").create(VoucherType.FIXED,100L, UUID.randomUUID());
+        Voucher voucher = VoucherType.of("FIXED").create(100L, VoucherType.FIXED, UUID.randomUUID());
         Assertions.assertThat(voucher).isNotNull();
     }
 

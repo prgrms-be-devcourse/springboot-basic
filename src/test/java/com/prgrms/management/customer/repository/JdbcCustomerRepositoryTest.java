@@ -22,7 +22,6 @@ class JdbcCustomerRepositoryTest {
     CustomerRepository customerRepository;
 
     Customer customer = new Customer(new CustomerRequest("customerA", "prgrms@naver.com", "normal"));
-    Customer customerTwo = new Customer(new CustomerRequest("customerB", "13lxsdf@naver.com", "blacklist"));
     Customer saveCustomer;
     UUID randomId = UUID.randomUUID();
 

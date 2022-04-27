@@ -12,9 +12,10 @@ public abstract class Voucher {
     private LocalDateTime createdAt;
     private UUID customerId;
 
-    public Voucher() {
+    public Voucher(UUID customerId) {
         this.voucherId = UUID.randomUUID();
         this.createdAt = LocalDateTime.now();
+        this.customerId = customerId;
     }
 
     public Voucher(UUID voucherId, LocalDateTime createdAt, UUID customerId) {

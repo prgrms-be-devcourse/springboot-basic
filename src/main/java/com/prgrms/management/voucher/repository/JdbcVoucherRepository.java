@@ -24,15 +24,15 @@ import java.util.stream.Collectors;
 @Repository
 @Profile({"jdbc", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-    private final JdbcTemplate jdbcTemplate;
-    private final String SAVE_SQL = "insert into vouchers(voucher_id, created_at, amount, voucher_type) values (UUID_TO_BIN(?), ?, ?, ?)";
+    private final String SAVE_SQL = "insert into vouchers(voucher_id, created_at, amount, voucher_type, customer_id) values (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))";
     private final String FIND_ALL_SQL = "select * from vouchers";
     private final String FIND_CUSTOMER_BY_TYPE_SQL = "select * from vouchers where voucher_type = ?";
     private final String FIND_BY_ID_SQL = "select * from vouchers where voucher_id = UUID_TO_BIN(?)";
     private final String UPDATE_SQL = "update vouchers set customer_id = UUID_TO_BIN(?) where voucher_id = UUID_TO_BIN(?)";
     private final String DELETE_BY_ID_SQL = "delete from vouchers where voucher_id = UUID_TO_BIN(?)";
     private final String DELETE_ALL_SQL = "delete from vouchers";
+    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -44,7 +44,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getVoucherId().toString().getBytes(),
                 Timestamp.valueOf(voucher.getCreatedAt()),
                 voucher.getAmount(),
-                voucher.getVoucherType().toString());
+                voucher.getVoucherType().toString(),
+                voucher.getCustomerId().toString().getBytes()
+        );
         if (update != 1) {
             throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
         }
@@ -122,6 +124,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var voucherType = VoucherType.of(resultSet.getString("voucher_type"));
         var customerId = resultSet.getBytes("customer_id") != null
                 ? ToUUID.toUUId(resultSet.getBytes("customer_id")) : null;
-        return voucherType.create(voucherId, createdAt, voucherType, amount, customerId);
+        return voucherType.create(voucherId, createdAt, amount, voucherType, customerId);
     };
 }

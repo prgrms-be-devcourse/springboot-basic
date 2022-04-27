@@ -21,7 +21,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("api/voucher")
 @RequiredArgsConstructor
-public class VoucherController {
+public class VoucherRestController {
     private final ResponseService responseService;
     private final VoucherService voucherService;
 

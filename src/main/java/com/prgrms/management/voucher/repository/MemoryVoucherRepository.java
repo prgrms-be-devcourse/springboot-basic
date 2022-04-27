@@ -25,17 +25,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        //미구현
-        return null;
-    }
-
-    @Override
-    public void updateByCustomerId(UUID voucherId, UUID customerId) {
-        //미구현
-    }
-
-    @Override
     public List<Voucher> findAll() {
         return storage.values()
                 .stream()
@@ -44,22 +33,31 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(UUID customerId) {
-        //미구현
-    }
-
-    @Override
-    public void deleteAll() {
-        //미구현
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
-        //미구현
-        return null;
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void updateByCustomerId(UUID voucherId, UUID customerId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new UnsupportedOperationException();
     }
 }
