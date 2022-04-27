@@ -13,14 +13,31 @@ repositories {
 }
 
 dependencies {
-
+    // Spring 관련 라이브러리
+    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // log 관련 라이브러리
     implementation 'org.slf4j:jcl-over-slf4j'
     implementation 'ch.qos.logback:logback-classic'
     implementation 'ch.qos.logback:logback-core'
-    implementation 'org.springframework.shell:spring-shell-starter:2.0.1.RELEASE'
-    testImplementation 'org.mockito.mockito-core:3.1.0'
+
+    // JDBC 관련 라이브러리
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.7'
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
+    // 유틸 관련 라이브러리
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
+
+    // Lombok 관련 라이브러리
+    implementation 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // test 관련 라이브러리
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
