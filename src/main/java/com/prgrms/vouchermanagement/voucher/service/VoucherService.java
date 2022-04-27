@@ -53,6 +53,14 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
+    public List<Voucher> findVoucherByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime end) {
+        return voucherRepository.findByPeriod(from, end);
+    }
+
     public void removeVoucher(UUID voucherId) {
         voucherRepository.remove(voucherId);
     }

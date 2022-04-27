@@ -2,6 +2,7 @@ package com.prgrms.vouchermanagement.voucher.repository;
 
 import com.prgrms.vouchermanagement.util.FilePathProperties;
 import com.prgrms.vouchermanagement.voucher.Voucher;
+import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -101,5 +103,15 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             log.error("failed to create or find {}", vouchersFilePath, e);
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end) {
+        return null;
     }
 }

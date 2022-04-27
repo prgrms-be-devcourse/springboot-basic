@@ -1,9 +1,11 @@
 package com.prgrms.vouchermanagement.voucher.repository;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
+import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -47,5 +49,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
             return;
         }
         store.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end) {
+        return null;
     }
 }

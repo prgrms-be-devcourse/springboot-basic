@@ -20,6 +20,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public static final String SELECT_SQL = "SELECT * FROM voucher";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE voucher_id=:voucherId";
     public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";
+    public static final String SELECT_BY_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type=:voucherType";
+    public static final String SELECT_BY_PERIOD_SQL = "SELECT * FROM voucher WHERE created_at BETWEEN :from AND :end";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -44,6 +46,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) throws DataAccessException {
+        return jdbcTemplate.query(SELECT_BY_TYPE_SQL, Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end) throws DataAccessException {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("from", from);
+        paramMap.put("end", end);
+        return jdbcTemplate.query(SELECT_BY_PERIOD_SQL, paramMap, voucherRowMapper);
     }
 
     @Override
