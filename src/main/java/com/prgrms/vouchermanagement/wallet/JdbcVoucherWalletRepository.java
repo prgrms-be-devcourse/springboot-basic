@@ -17,7 +17,7 @@ import java.util.*;
 @Repository
 public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
 
-    public static final String INSERT_WALLET_SQL = "INSERT INTO voucher_wallet(wallet_id, voucher_id, customer_id) VALUES (:walletId, :voucherId, :customerId)";
+    public static final String INSERT_WALLET_SQL = "INSERT INTO voucher_wallet(wallet_id, voucher_id, customer_id, created_at) VALUES (:walletId, :voucherId, :customerId, :createdAt)";
     public static final String FIND_VOUCHER_BY_CUSTOMER_SQL = "SELECT v.voucher_id, v.voucher_type ,v.amount, v.created_at FROM voucher_wallet w INNER JOIN voucher v ON v.voucher_id = w.voucher_id WHERE w.customer_id=:customerId";
     public static final String DELETE_SQL = "DELETE FROM voucher_wallet WHERE wallet_id=:walletId";
     public static final String FIND_CUSTOMER_BY_VOUCHER_SQL = "SELECT c.customer_id, c.name, c.email, c.created_at FROM voucher_wallet w INNER JOIN customer c ON c.customer_id = w.customer_id WHERE w.voucher_id=:voucherId";
@@ -36,6 +36,7 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         paramMap.put("walletId", wallet.getWalletId().toString());
         paramMap.put("voucherId", wallet.getVoucherId().toString());
         paramMap.put("customerId", wallet.getCustomerId().toString());
+        paramMap.put("createdAt", wallet.getCreatedAt());
         jdbcTemplate.update(INSERT_WALLET_SQL, paramMap);
     }
 
@@ -103,7 +104,8 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         UUID walletId = UUID.fromString(rs.getString("wallet_id"));
         UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         UUID customerId = UUID.fromString(rs.getString("customer_id"));
-        return Wallet.of(walletId, customerId, voucherId);
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+        return Wallet.of(walletId, customerId, voucherId, createdAt);
     };
 
     private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
