@@ -39,7 +39,7 @@ public class StartCommandLine {
             var userInput = this.console.getUserInput();
 
             try {
-                startCommandType = StartCommandType.findByCommand(userInput);
+                startCommandType = StartCommandType.of(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
                 this.console.printErrorMessage(ErrorType.COMMAND);

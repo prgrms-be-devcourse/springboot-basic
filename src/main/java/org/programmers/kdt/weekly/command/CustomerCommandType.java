@@ -22,7 +22,7 @@ public enum CustomerCommandType {
         return description;
     }
 
-    public static CustomerCommandType findByCommand(String userInput) {
+    public static CustomerCommandType of(String userInput) {
         return Arrays.stream(CustomerCommandType.values())
             .filter(c -> c.command.equals(userInput))
             .findFirst()

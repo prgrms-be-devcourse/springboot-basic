@@ -41,7 +41,7 @@ public class VoucherWalletCommandLine {
             var userInput = this.console.getUserInput();
 
             try {
-                commandType = VoucherWalletCommandType.findByCommand(userInput);
+                commandType = VoucherWalletCommandType.of(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
             }

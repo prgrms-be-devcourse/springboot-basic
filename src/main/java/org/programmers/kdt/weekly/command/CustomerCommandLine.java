@@ -30,7 +30,7 @@ public class CustomerCommandLine {
             var userInput = this.console.getUserInput();
 
             try {
-                commandType = CustomerCommandType.findByCommand(userInput);
+                commandType = CustomerCommandType.of(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
             }

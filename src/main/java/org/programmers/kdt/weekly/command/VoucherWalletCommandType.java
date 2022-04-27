@@ -21,7 +21,7 @@ public enum VoucherWalletCommandType {
         return description;
     }
 
-    public static VoucherWalletCommandType findByCommand(String userInput) {
+    public static VoucherWalletCommandType of(String userInput) {
         return Arrays.stream(VoucherWalletCommandType.values())
             .filter(c -> c.command.equals(userInput))
             .findFirst()

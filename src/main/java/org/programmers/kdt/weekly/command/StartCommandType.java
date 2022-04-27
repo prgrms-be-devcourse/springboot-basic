@@ -22,7 +22,7 @@ public enum StartCommandType {
         return description;
     }
 
-    public static StartCommandType findByCommand(String userInput) {
+    public static StartCommandType of(String userInput) {
         return Arrays.stream(StartCommandType.values())
             .filter(c -> c.command.equals(userInput))
             .findFirst()
