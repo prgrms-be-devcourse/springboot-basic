@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.domain.voucher.dto.SimpleResponse;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherDto;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestVoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
-    
+
     private final VoucherService voucherService;
 
     public RestVoucherController(VoucherService voucherService) {
@@ -84,9 +85,8 @@ public class RestVoucherController {
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<SimpleResponse> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
-        return ResponseEntity.ok("Success");
+        return ResponseEntity.ok(new SimpleResponse("Success"));
     }
-
 }

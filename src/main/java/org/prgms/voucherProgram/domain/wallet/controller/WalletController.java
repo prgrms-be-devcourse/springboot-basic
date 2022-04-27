@@ -31,12 +31,12 @@ public class WalletController {
     }
 
     @GetMapping
-    public String walletPage() {
+    public String viewWalletPage() {
         return "wallet/wallet";
     }
 
     @GetMapping("vouchers/{email}/assign")
-    public String walletAssignPage(@PathVariable("email") Email email, Model model) {
+    public String viewWalletAssignPage(@PathVariable("email") Email email, Model model) {
         List<VoucherDto> notAssignVouchers = voucherService.findNotAssignVouchers().stream()
             .map(VoucherDto::from)
             .toList();
@@ -52,7 +52,7 @@ public class WalletController {
     }
 
     @GetMapping("/vouchers")
-    public String walletVouchersPage(Model model) {
+    public String viewWalletVouchersPage(Model model) {
         List<CustomerDto> customers = customerService.findCustomers().stream()
             .map(CustomerDto::from)
             .toList();
@@ -61,7 +61,7 @@ public class WalletController {
     }
 
     @GetMapping("/vouchers/{email}")
-    public String customerWalletPage(@PathVariable("email") Email email, Model model) {
+    public String viewCustomerWalletPage(@PathVariable("email") Email email, Model model) {
         List<VoucherDto> vouchers = voucherService.findAssignVouchers(email).stream()
             .map(VoucherDto::from)
             .toList();
@@ -77,7 +77,7 @@ public class WalletController {
     }
 
     @GetMapping("/customer")
-    public String findCustomerPage(Model model) {
+    public String viewFindCustomerPage(Model model) {
         List<VoucherDto> assignedVouchers = voucherService.findAssginedVouchers().stream()
             .map(VoucherDto::from)
             .toList();

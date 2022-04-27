@@ -52,7 +52,7 @@ public class VoucherController {
     }
 
     @PostMapping("/update/{voucherId}")
-    public String updateVoucher(@PathVariable("voucherId") UUID voucherId, VoucherRequest voucherRequest) {
+    public String modifyVoucher(@PathVariable("voucherId") UUID voucherId, VoucherRequest voucherRequest) {
         voucherService.modify(voucherId, voucherRequest);
         return "redirect:/vouchers";
     }

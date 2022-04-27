@@ -52,7 +52,7 @@ public class CustomerController {
     }
 
     @PostMapping("/update/{email}")
-    public String updateCustomer(@PathVariable("email") Email email, CustomerRequest customerRequest) {
+    public String modifyCustomer(@PathVariable("email") Email email, CustomerRequest customerRequest) {
         customerService.modify(email, customerRequest);
         return "redirect:/customers";
     }
