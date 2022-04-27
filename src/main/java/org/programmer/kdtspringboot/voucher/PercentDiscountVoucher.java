@@ -31,7 +31,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getInfo() {
-        return voucherId + "," + percent + "," + this.getClass().getSimpleName();
+        return voucherId + "," + percent + "," + type;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class PercentDiscountVoucher implements Voucher {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
-                ", class=" + this.getClass().getSimpleName() +
+                ", type=" + type +
                 '}';
     }
 

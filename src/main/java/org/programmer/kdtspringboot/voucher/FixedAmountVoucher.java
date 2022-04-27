@@ -28,7 +28,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getInfo() {
-        return voucherId + "," + amount + "," + this.getClass().getSimpleName();
+        return voucherId + "," + amount + "," + type;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class FixedAmountVoucher implements Voucher {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
                 ", amount=" + amount +
-                ", class=" + this.getClass().getSimpleName() +
+                ", type=" + type +
                 '}';
     }
 
