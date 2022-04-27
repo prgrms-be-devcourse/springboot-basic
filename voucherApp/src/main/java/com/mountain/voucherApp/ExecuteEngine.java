@@ -1,6 +1,6 @@
 package com.mountain.voucherApp;
 
-import com.mountain.voucherApp.adapter.in.console.VoucherAppController;
+import com.mountain.voucherApp.adapter.in.VoucherAppController;
 import com.mountain.voucherApp.shared.enums.Menu;
 import com.mountain.voucherApp.shared.io.InputConsole;
 import com.mountain.voucherApp.shared.io.OutputConsole;
@@ -20,7 +20,9 @@ public class ExecuteEngine {
     private final OutputConsole outputConsole;
     private final VoucherAppController voucherAppController;
 
-    public ExecuteEngine(InputConsole inputConsole, OutputConsole outputConsole, VoucherAppController voucherAppController) {
+    public ExecuteEngine(InputConsole inputConsole,
+                         OutputConsole outputConsole,
+                         VoucherAppController voucherAppController) {
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
         this.voucherAppController = voucherAppController;

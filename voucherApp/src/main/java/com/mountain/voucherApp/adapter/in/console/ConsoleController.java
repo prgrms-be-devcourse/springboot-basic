@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.adapter.in.console;
 
+import com.mountain.voucherApp.adapter.in.VoucherAppController;
 import com.mountain.voucherApp.application.port.in.VoucherAppUseCase;
 import com.mountain.voucherApp.application.port.in.VoucherCreateDto;
 import com.mountain.voucherApp.application.port.in.VoucherIdUpdateDto;
@@ -17,17 +18,17 @@ import java.util.UUID;
 import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
 
 @Controller
-public class VoucherAppController {
+public class ConsoleController implements VoucherAppController {
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherAppController.class);
+    private static final Logger log = LoggerFactory.getLogger(ConsoleController.class);
     private static final int NOT_EXIST_DATA_NUMBER = -1;
     private final InputConsole inputConsole;
     private final OutputConsole outputConsole;
     private final VoucherAppUseCase voucherAppUseCase;
 
-    public VoucherAppController(InputConsole inputConsole,
-                                OutputConsole outputConsole,
-                                VoucherAppUseCase voucherAppUseCase) {
+    public ConsoleController(InputConsole inputConsole,
+                             OutputConsole outputConsole,
+                             VoucherAppUseCase voucherAppUseCase) {
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
         this.voucherAppUseCase = voucherAppUseCase;
@@ -42,7 +43,7 @@ public class VoucherAppController {
         }
         return true;
     }
-
+    @Override
     public void create() throws NumberFormatException {
         outputConsole.choiceDiscountPolicy();
         int policyId = Integer.valueOf(inputConsole.input());
@@ -55,19 +56,19 @@ public class VoucherAppController {
             }
         }
     }
-
+    @Override
     public void showVoucherList() {
         outputConsole.printVoucherList(voucherAppUseCase.showVoucherList());
     }
-
+    @Override
     public void showCustomerVoucherInfo() {
         outputConsole.printCustomerVoucherInfo(voucherAppUseCase.showCustomerVoucherInfo());
     }
-
+    @Override
     public void exit() {
         outputConsole.close();
     }
-
+    @Override
     public void addVoucher() {
         outputConsole.printMessage(PLEASE_INPUT_CUSTOMER_ID);
         UUID customerId = UUID.fromString(inputConsole.input());
@@ -75,13 +76,13 @@ public class VoucherAppController {
         UUID voucherId = UUID.fromString(inputConsole.input());
         voucherAppUseCase.addVoucher(new VoucherIdUpdateDto(customerId, voucherId));
     }
-
+    @Override
     public void removeVoucher() {
         outputConsole.printMessage(PLEASE_INPUT_CUSTOMER_ID);
         UUID customerId = UUID.fromString(inputConsole.input());
         voucherAppUseCase.removeVoucher(customerId);
     }
-
+    @Override
     public void showByVoucher() {
         outputConsole.printMessage(PLEASE_INPUT_VOUCHER_ID);
         UUID voucherId = UUID.fromString(inputConsole.input());

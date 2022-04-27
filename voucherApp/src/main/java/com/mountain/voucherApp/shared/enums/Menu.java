@@ -1,6 +1,6 @@
 package com.mountain.voucherApp.shared.enums;
 
-import com.mountain.voucherApp.adapter.in.console.VoucherAppController;
+import com.mountain.voucherApp.adapter.in.VoucherAppController;
 import com.mountain.voucherApp.shared.constants.ProgramMessage;
 import java.util.function.Consumer;
 
@@ -8,13 +8,13 @@ import static com.mountain.voucherApp.shared.constants.ProgramMessage.*;
 
 public enum Menu {
 
-    EXIT(ProgramMessage.EXIT, EXIT_PROGRAM_DESC, menuStrategy -> menuStrategy.exit()),
-    CREATE(ProgramMessage.CREATE, CREATE_VOUCHER_DESC, menuStrategy -> menuStrategy.create()),
-    LIST(ProgramMessage.LIST, LIST_VOUCHERS_DESC, menuStrategy -> menuStrategy.showVoucherList()),
-    ADD_VOUCHER(ProgramMessage.ADD_VOUCHER, ADD_VOUCHER_DESC, menuStrategy -> menuStrategy.addVoucher()),
-    CUSTOMER_LIST(ProgramMessage.CUSTOMER_LIST, CUSTOMER_LIST_DESC, menuStrategy -> menuStrategy.showCustomerVoucherInfo()),
-    REMOVE_VOUCHER(ProgramMessage.REMOVE_VOUCHER, REMOVE_VOUCHER_DESC, menuStrategy -> menuStrategy.removeVoucher()),
-    LIST_BY_VOUCHER(ProgramMessage.LIST_BY_VOUCHER, LIST_BY_VOUCHER_DESC, menuStrategy -> menuStrategy.showByVoucher());
+    EXIT(ProgramMessage.EXIT, EXIT_PROGRAM_DESC, voucherController -> voucherController.exit()),
+    CREATE(ProgramMessage.CREATE, CREATE_VOUCHER_DESC, voucherController -> voucherController.create()),
+    LIST(ProgramMessage.LIST, LIST_VOUCHERS_DESC, voucherController -> voucherController.showVoucherList()),
+    ADD_VOUCHER(ProgramMessage.ADD_VOUCHER, ADD_VOUCHER_DESC, voucherController -> voucherController.addVoucher()),
+    CUSTOMER_LIST(ProgramMessage.CUSTOMER_LIST, CUSTOMER_LIST_DESC, voucherController -> voucherController.showCustomerVoucherInfo()),
+    REMOVE_VOUCHER(ProgramMessage.REMOVE_VOUCHER, REMOVE_VOUCHER_DESC, voucherController -> voucherController.removeVoucher()),
+    LIST_BY_VOUCHER(ProgramMessage.LIST_BY_VOUCHER, LIST_BY_VOUCHER_DESC, voucherController -> voucherController.showByVoucher());
 
     private final String value;
     private final String description;
