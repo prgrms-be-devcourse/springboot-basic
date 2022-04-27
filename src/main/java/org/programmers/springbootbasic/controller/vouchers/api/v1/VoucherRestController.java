@@ -3,7 +3,6 @@ package org.programmers.springbootbasic.controller.vouchers.api.v1;
 import lombok.RequiredArgsConstructor;
 import org.programmers.springbootbasic.controller.vouchers.VoucherCreateForm;
 import org.programmers.springbootbasic.controller.vouchers.VoucherDto;
-import org.programmers.springbootbasic.controller.vouchers.VoucherVo;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 

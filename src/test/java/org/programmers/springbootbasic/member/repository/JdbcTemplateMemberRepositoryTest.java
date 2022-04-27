@@ -26,7 +26,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @Slf4j
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JdbcTemplateCustomerRepositoryTest {
+class JdbcTemplateMemberRepositoryTest {
 
     @Autowired
     private JdbcTemplateMemberRepository memberRepository;
@@ -66,7 +66,7 @@ class JdbcTemplateCustomerRepositoryTest {
         }
 
         @Bean
-        JdbcTemplateMemberRepository customerRepository() {
+        JdbcTemplateMemberRepository memberRepository() {
             return new JdbcTemplateMemberRepository(dataSource());
         }
     }

@@ -82,8 +82,8 @@ public class JdbcTemplateMemberRepository implements MemberRepository {
             String name = rs.getString("name");
             String email = rs.getString("email");
             var lastLoginAt = rs.getTimestamp("LAST_LOGIN_AT") != null ?
-                    rs.getTimestamp("LAST_LOGIN_AT").toLocalDateTime() : null;
-            var signedUpAt = rs.getTimestamp("SIGNED_UP_AT").toLocalDateTime();
+                    rs.getTimestamp("LAST_LOGIN_AT") : null;
+            var signedUpAt = rs.getTimestamp("SIGNED_UP_AT");
 
             return new SignedMember(memberId, name, email, lastLoginAt, signedUpAt);
         };

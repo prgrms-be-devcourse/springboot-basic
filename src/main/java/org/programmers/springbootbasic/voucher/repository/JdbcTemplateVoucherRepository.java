@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,11 +32,12 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public static final String PARAM_KEY_VOUCHER_ID = "voucherId";
     public static final String PARAM_KEY_AMOUNT = "amount";
     public static final String PARAM_KEY_TYPE = "type";
+    public static final String PARAM_KEY_REGISTERED_AT = "registeredAt";
     public static final String PARAM_KEY_MEMBER_ID = "memberId";
 
     private static final String INSERT_SQL =
-            "INSERT into voucher(voucher_id, amount, type) values (:"
-                    + PARAM_KEY_VOUCHER_ID + ", :" + PARAM_KEY_AMOUNT + ", :" + PARAM_KEY_TYPE + ")";
+            "INSERT into voucher(voucher_id, amount, type, registered_at) values (:"
+                    + PARAM_KEY_VOUCHER_ID + ", :" + PARAM_KEY_AMOUNT + ", :" + PARAM_KEY_TYPE + ", :" + PARAM_KEY_REGISTERED_AT +")";
     private static final String UPDATE_MEMBER_FK_SQL =
             "UPDATE voucher SET member_id = :" + PARAM_KEY_MEMBER_ID + " WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_BY_ID_SQL =
@@ -62,6 +64,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         paramSource.addValue(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucher.getId()));
         paramSource.addValue(PARAM_KEY_AMOUNT, voucher.getAmount());
         paramSource.addValue(PARAM_KEY_TYPE, voucher.getType().toString());
+        paramSource.addValue(PARAM_KEY_REGISTERED_AT, voucher.getRegisteredAt());
 
         return paramSource;
     }
@@ -101,11 +104,12 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             int amount = rs.getInt("amount");
             String type = rs.getString("type");
             Long memberId = (Long) rs.getObject("member_id");
+            Timestamp registered_at = rs.getTimestamp("registered_at");
 
             if (FIXED.toString().equals(type)) {
-                return new FixedDiscountVoucher(voucherId, amount, memberId);
+                return new FixedDiscountVoucher(voucherId, amount, memberId, registered_at);
             } else if (RATE.toString().equals(type)) {
-                return new RateDiscountVoucher(voucherId, amount, memberId);
+                return new RateDiscountVoucher(voucherId, amount, memberId, registered_at);
             }
             log.error("잘못된 바우처 타입입니다. type={}", type);
             throw new IllegalVoucherTypeException("잘못된 바우처 타입입니다.");

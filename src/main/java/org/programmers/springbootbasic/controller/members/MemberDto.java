@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.controller.members;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.dataOf;
 public record MemberDto(Long memberId,
                         String name,
                         String email,
-                        LocalDateTime lastLoginAt,
-                        LocalDateTime singedUpAt,
+                        Timestamp lastLoginAt,
+                        Timestamp singedUpAt,
                         List<Voucher> vouchers) {
 
     @Override
@@ -21,8 +22,8 @@ public record MemberDto(Long memberId,
         stringBuilder.append(getString("회원 등록 번호", this.memberId, Long.class));
         stringBuilder.append(getString("이름", this.name, String.class));
         stringBuilder.append(getString("이메일", this.email, String.class));
-        stringBuilder.append(getString("최종 로그인 일시", this.lastLoginAt, LocalDateTime.class));
-        stringBuilder.append(getString("가입 일시", this.singedUpAt, LocalDateTime.class));
+        stringBuilder.append(getString("최종 로그인 일시", this.lastLoginAt, Timestamp.class));
+        stringBuilder.append(getString("가입 일시", this.singedUpAt, Timestamp.class));
         stringBuilder.append(getString("바우처 목록", this.vouchers, List.class));
         return stringBuilder.toString();
     }

@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.domain;
 
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
@@ -14,6 +15,8 @@ public interface Voucher {
     int getAmount();
 
     VoucherType getType();
+
+    Timestamp getRegisteredAt();
 
     Long getMemberId();
 
