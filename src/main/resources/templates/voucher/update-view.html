@@ -13,11 +13,11 @@
 <body class="container-fluid">
 <h1>KDT Voucher Manager</h1>
 <h2>Update Voucher</h2>
-<div class="alert alert-danger alert-dismissible" role="alert" th:if="${error}">
+<div class="alert alert-danger alert-dismissible" role="alert" th:if="${message}">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-    <text th:text="${error}"></text>
+    <text th:text="${message}"></text>
 </div>
 <form th:action="@{'/vouchers/' + ${payload.voucherId}}" th:method="patch" th:object="${payload}">
     <input th:field="*{voucherId}" type="hidden"/>
