@@ -1,4 +1,4 @@
-package com.blessing333.springbasic.voucher.controller;
+package com.blessing333.springbasic.voucher.api;
 
 import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
@@ -6,6 +6,7 @@ import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
 import com.blessing333.springbasic.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +15,11 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class RestVoucherController {
     private static final String API_URL = "/api/v1/vouchers";
     private final VoucherService voucherService;
-    private final VoucherPayloadConverter converter = new VoucherPayloadConverter();
+    private final VoucherPayloadConverter converter;
 
     @GetMapping(API_URL)
     public List<VoucherInformation> loadAllVoucher(@RequestParam(required = false) String voucherTypeCode) {

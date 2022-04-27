@@ -1,6 +1,5 @@
 package com.blessing333.springbasic.console_app.customer;
 
-import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.console_app.RunnableController;
 import com.blessing333.springbasic.console_app.customer.ui.CustomerCommandOptionType;
 import com.blessing333.springbasic.console_app.customer.ui.CustomerManagingUserInterface;
@@ -42,7 +41,7 @@ public class ConsoleCustomerController implements RunnableController {
                     default -> userInterface.showHelpText();
                 }
             } catch (CommandNotSupportedException e) {
-                log.error(ExceptionStackTraceConverter.convertToString(e));
+                log.error(e.getMessage(),e);
                 userInterface.showHelpText();
             }
         }
@@ -54,7 +53,7 @@ public class ConsoleCustomerController implements RunnableController {
             Customer registeredCustomer = customerService.registerCustomer(customer);  // DataAccessException 발생 가능
             userInterface.printCustomerCreateSuccessMessage(registeredCustomer);
         } catch (IllegalArgumentException | DataAccessException e){
-            log.error(ExceptionStackTraceConverter.convertToString(e));
+            log.error(e.getMessage(),e);
             System.out.println(e.getMessage());
         }
     }
@@ -66,7 +65,7 @@ public class ConsoleCustomerController implements RunnableController {
             userInterface.printCustomerInformation(customer);
 
         }catch (IllegalArgumentException | DataAccessException e){
-            log.error(ExceptionStackTraceConverter.convertToString(e));
+            log.error(e.getMessage(),e);
             System.out.println("잘못되거나 존재하지 않는 id 입니다");
         }
     }

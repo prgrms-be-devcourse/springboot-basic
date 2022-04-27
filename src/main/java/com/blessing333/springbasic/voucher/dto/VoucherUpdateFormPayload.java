@@ -1,7 +1,6 @@
 package com.blessing333.springbasic.voucher.dto;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @RequiredArgsConstructor
 @Getter
-@Setter(AccessLevel.PRIVATE)
+@Setter
 public class VoucherUpdateFormPayload {
     @NotNull
     private final String voucherId;

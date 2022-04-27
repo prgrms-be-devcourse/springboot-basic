@@ -5,6 +5,7 @@ import com.blessing333.springbasic.voucher.domain.Voucher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     private static final String DISCOUNT_AMOUNT = "discountAmount";
     private static final String DISCOUNT_AMOUNT_COLUMN = "discount_amount";
     private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount_amount) VALUES (:voucherId, :voucherType, :discountAmount)";
-    private static final String UPDATE_SQL = "UPDATE vouchers SET discount_amount = :discountAmount WHERE voucher_id = :voucherId";
+    private static final String UPDATE_SQL = "UPDATE vouchers SET discount_amount = :discountAmount, voucher_type =:voucherType WHERE voucher_id = :voucherId";
     private static final String FIND_ALL_SQL = "SELECT * FROM vouchers";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
     private static final String FIND_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
@@ -35,12 +36,18 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
+        int affectedRow = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
+        if (affectedRow != 1) {
+            throw new IncorrectResultSizeDataAccessException(1, affectedRow);
+        }
     }
 
     @Override
     public void update(Voucher voucher) {
-        jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
+        int affectedRow = jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
+        if (affectedRow != 1) {
+            throw new IncorrectResultSizeDataAccessException(1, affectedRow);
+        }
     }
 
     @Override
@@ -69,7 +76,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         Map<String, byte[]> param = Collections.singletonMap(VOUCHER_ID, UUIDUtil.toBinary(voucherId));
-        jdbcTemplate.update(DELETE_SQL, param);
+        int affectedRow = jdbcTemplate.update(DELETE_SQL, param);
+        if (affectedRow != 1)
+            throw new IncorrectResultSizeDataAccessException(1,affectedRow);
     }
 
     @Override

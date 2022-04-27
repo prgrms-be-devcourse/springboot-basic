@@ -1,6 +1,5 @@
 package com.blessing333.springbasic.console_app;
 
-import com.blessing333.springbasic.common.util.ExceptionStackTraceConverter;
 import com.blessing333.springbasic.console_app.ui.UserInterface;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +33,7 @@ public class App implements ApplicationRunner {
             RunnableController controller = controllerMapper.getRunnableController(strategy);
             controller.startService();
         }catch (NotSupportedStrategyException e){
-            log.error(ExceptionStackTraceConverter.convertToString(e));
+            log.error(e.getMessage(),e);
             userInterface.printMessage(e.getMessage());
         }
     }

@@ -7,3 +7,8 @@
      hiddenmethod:
        filter:
          enabled: true
+
+ server:
+   error:
+     include-exception: true
+     include-message: always

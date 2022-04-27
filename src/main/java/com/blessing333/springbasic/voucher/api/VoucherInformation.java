@@ -1,17 +1,18 @@
-package com.blessing333.springbasic.voucher.controller;
+package com.blessing333.springbasic.voucher.api;
 
 import com.blessing333.springbasic.voucher.domain.Voucher;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Getter
-public class VoucherInformation implements Serializable {
+@XStreamAlias("Voucher")
+public class VoucherInformation{
     private final UUID voucherId;
     private final Voucher.VoucherType voucherType;
     private final long discountAmount;

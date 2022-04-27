@@ -1,6 +1,5 @@
 package com.blessing333.springbasic.voucher.domain;
 
-import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

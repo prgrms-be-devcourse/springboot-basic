@@ -8,31 +8,18 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <title>KDT VoucherManager</title>
+    <title>Error</title>
 </head>
 <body class="container-fluid">
-<h1>KDT Voucher Manager</h1>
-<h2>Update Voucher</h2>
-<div class="alert alert-danger alert-dismissible" role="alert" th:if="${error}">
+<h1>KDT VoucherManager</h1>
+<h2>Error</h2>
+
+<div class="alert alert-info alert-dismissible" role="alert">
     <button aria-label="Close" class="close" data-dismiss="alert" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
-    <text th:text="${error}"></text>
+    <text th:text="${message}"></text>
 </div>
-<form th:action="@{'/vouchers/' + ${payload.voucherId}}" th:method="patch" th:object="${payload}">
-    <input th:field="*{voucherId}" type="hidden"/>
-    <div class="mb-3">
-        <label class="form-label">바우처 타입</label><br>
-        <small>1.고정 금액 할인</small><br>
-        <small>2.비율 금액 할인</small>
-        <input class="form-control" th:field="*{voucherType}">
-    </div>
-    <div class="mb-3">
-        <label class="form-label">할인 금액(비율)</label>
-        <input class="form-control" th:field="*{discountAmount}">
-    </div>
-    <button class="btn btn-primary" type="submit">수정</button>
-</form>
 </body>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </html>

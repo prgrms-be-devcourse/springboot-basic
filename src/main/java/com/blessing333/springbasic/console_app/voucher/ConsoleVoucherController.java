@@ -6,9 +6,9 @@ import com.blessing333.springbasic.console_app.voucher.ui.VoucherCommandOptionTy
 import com.blessing333.springbasic.console_app.voucher.ui.VoucherManagerUserInterface;
 import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
+import com.blessing333.springbasic.voucher.domain.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateFormPayload;
-import com.blessing333.springbasic.voucher.exception.VoucherCreateFailException;
 import com.blessing333.springbasic.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

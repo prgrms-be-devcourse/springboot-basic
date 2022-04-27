@@ -1,5 +1,6 @@
 package com.blessing333.springbasic.voucher.controller;
 
+import com.blessing333.springbasic.voucher.converter.ConvertFailException;
 import com.blessing333.springbasic.voucher.converter.VoucherPayloadConverter;
 import com.blessing333.springbasic.voucher.domain.Voucher;
 import com.blessing333.springbasic.voucher.dto.VoucherCreateForm;
@@ -30,6 +31,7 @@ public class WebVoucherController {
     public static final String VOUCHER_UPDATE_VIEW = "voucher/update-view";
     private static final String PAYLOAD_MODEL_ATTRIBUTE = "payload";
     private static final String MESSAGE_MODEL_ATTRIBUTE = "message";
+    private static final String ERROR_MODEL_ATTRIBUTE = "error";
 
     private final VoucherService service;
     private final VoucherPayloadConverter converter;
@@ -50,11 +52,17 @@ public class WebVoucherController {
             model.addAttribute(PAYLOAD_MODEL_ATTRIBUTE, payload);
             return VOUCHER_REGISTRY_VIEW;
         }
-        VoucherCreateForm form = converter.toCreateForm(payload);
-        Voucher voucher = service.registerVoucher(form);
-        model.addAttribute(voucher);
-        attributes.addFlashAttribute(MESSAGE_MODEL_ATTRIBUTE, "바우처 생성 완료.");
-        return "redirect:/vouchers/" + voucher.getVoucherId();
+        try{
+            VoucherCreateForm form = converter.toCreateForm(payload);
+            Voucher voucher = service.registerVoucher(form);
+            attributes.addFlashAttribute(MESSAGE_MODEL_ATTRIBUTE, "바우처 생성 완료.");
+            return "redirect:/vouchers/" + voucher.getVoucherId();
+        } catch (ConvertFailException e){
+            log.error(e.getMessage(),e);
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE,"잘못된 값이 있습니다.");
+            model.addAttribute(PAYLOAD_MODEL_ATTRIBUTE,payload);
+            return VOUCHER_REGISTRY_VIEW;
+        }
     }
 
     @GetMapping("/{voucherId}")
@@ -70,15 +78,22 @@ public class WebVoucherController {
                          Model model, Errors errors, RedirectAttributes attributes
     ) {
         if (errors.hasErrors()) {
-            log.info("has error");
-            model.addAttribute(payload);
+            log.error(errors.getAllErrors().toString());
+            model.addAttribute(PAYLOAD_MODEL_ATTRIBUTE,payload);
             return VOUCHER_UPDATE_VIEW;
         }
-        VoucherUpdateForm form = converter.toUpdateForm(payload);
-        service.updateVoucher(form);
+        try{
+            VoucherUpdateForm form = converter.toUpdateForm(payload);
+            service.updateVoucher(form);
+            attributes.addFlashAttribute(MESSAGE_MODEL_ATTRIBUTE, "바우처 수정 완료.");
+            return "redirect:/vouchers/" + voucherId;
+        }catch (ConvertFailException e){
+            log.error(e.getMessage(),e);
+            model.addAttribute(ERROR_MODEL_ATTRIBUTE,"잘못된 값이 있습니다.");
+            model.addAttribute(PAYLOAD_MODEL_ATTRIBUTE,payload);
+            return VOUCHER_UPDATE_VIEW;
+        }
 
-        attributes.addFlashAttribute(MESSAGE_MODEL_ATTRIBUTE, "바우처 수정 완료.");
-        return "redirect:/vouchers/" + voucherId;
     }
 
     @DeleteMapping("/{voucherId}")
