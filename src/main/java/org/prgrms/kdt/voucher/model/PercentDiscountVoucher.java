@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -9,6 +10,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     private final VoucherType type = VoucherType.PERCENT;
 
     private PercentDiscountVoucher(UUID voucherId, long percent) {
@@ -18,6 +21,8 @@ public class PercentDiscountVoucher implements Voucher {
 
         this.voucherId = voucherId;
         this.percent = percent;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public static PercentDiscountVoucher create(long percent) {
