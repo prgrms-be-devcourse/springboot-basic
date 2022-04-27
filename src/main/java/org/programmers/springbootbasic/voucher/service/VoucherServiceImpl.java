@@ -9,6 +9,7 @@ import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,22 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<Voucher> getVouchersByType(VoucherType type) {
         return voucherRepository.findByType(type);
+    }
+
+    @Override
+    public List<Voucher> getVouchersByDate(Date startingDate, Date endDate) {
+//        var calendar = Calendar.getInstance();
+//        calendar.setTime(endDate);
+//        calendar.add(Calendar.DATE, 1);
+//        var instant = calendar.toInstant();
+//        Date.from(instant);
+//
+        return voucherRepository.findByDate(startingDate, endDate);
+    }
+
+    @Override
+    public List<Voucher> getVouchersByTypeAndDate(VoucherType type, Date startingDate, Date endDate) {
+        return voucherRepository.findByTypeAndDate(type, startingDate, endDate);
     }
 
     @Override

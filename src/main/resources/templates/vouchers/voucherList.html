@@ -5,6 +5,19 @@
 <h2 th:text="#{page.voucher.list}">바우처 목록</h2>
 <h3 th:if="${type!=null}" th:text="|${type.name}만 검색|"></h3>
 <a th:if="${type!=null}" th:text="#{button.reset.conditional}" th:href="@{/vouchers}"></a>
+<!--<form action="voucherList.html" th:action="@{|/vouchers?startingDate=${startingDate}&endingDate=${endingDate}|}" method="get">-->
+<form action="/vouchers" method="get">
+    <input type="hidden" name="type">
+    <div>
+        <label th:for="startingDate" th:text="#{label.search.conditional.startingDate}"></label>
+        <input type="date" name="startingDate">
+    </div>
+    <div>
+        <label th:for="endingDate" th:text="#{label.search.conditional.endingDate}"></label>
+        <input type="date" name="endingDate">
+    </div>
+    <button type="submit" th:text="#{button.search.date}">날짜로 검색하기</button>
+</form>
 <div>
     <table class="table">
         <thead>
@@ -12,6 +25,7 @@
             <th th:text="#{label.voucher.voucherId}">바우처 일련번호</th>
             <th th:text="#{label.voucher.type}">바우처 종류</th>
             <th th:text="#{label.voucher.amount}">바우처 할인 수치</th>
+            <th th:text="#{label.voucher.registeredAt}">바우처가 생성된 시간</th>
             <th th:text="#{label.voucher.memberId}">바우처 주인 ID</th>
         </tr>
         </thead>
@@ -21,6 +35,7 @@
             <td><a th:href="@{|/vouchers?type=${voucher.type}|}" th:text="${voucher.type.getName()}">바우처 종류</a>
             </td>
             <td th:text="${voucher.amount}">바우처 할인 수치</td>
+            <td th:text="${voucher.registeredAt}">바우처 생성된 시점</td>
             <td th:text="${voucher.memberId}">바우처 주인 ID</td>
         </tr>
         </tbody>

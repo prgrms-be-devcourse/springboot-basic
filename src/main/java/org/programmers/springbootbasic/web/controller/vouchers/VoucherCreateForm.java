@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.controller.vouchers;
+package org.programmers.springbootbasic.web.controller.vouchers;
 
 import lombok.Data;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;

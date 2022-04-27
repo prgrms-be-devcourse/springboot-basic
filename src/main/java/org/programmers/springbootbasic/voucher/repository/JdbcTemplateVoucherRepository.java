@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,17 +32,23 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public static final String PARAM_KEY_TYPE = "type";
     public static final String PARAM_KEY_REGISTERED_AT = "registeredAt";
     public static final String PARAM_KEY_MEMBER_ID = "memberId";
+    public static final String PARAM_KEY_STARTING_DATE = "startingDate";
+    public static final String PARAM_KEY_ENDING_DATE = "endingDate";
 
     private static final String INSERT_SQL =
             "INSERT into voucher(voucher_id, amount, type, registered_at) values (:"
-                    + PARAM_KEY_VOUCHER_ID + ", :" + PARAM_KEY_AMOUNT + ", :" + PARAM_KEY_TYPE + ", :" + PARAM_KEY_REGISTERED_AT +")";
+                    + PARAM_KEY_VOUCHER_ID + ", :" + PARAM_KEY_AMOUNT + ", :" + PARAM_KEY_TYPE + ", :" + PARAM_KEY_REGISTERED_AT + ")";
     private static final String UPDATE_MEMBER_FK_SQL =
             "UPDATE voucher SET member_id = :" + PARAM_KEY_MEMBER_ID + " WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_BY_ID_SQL =
             "SELECT * from voucher WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
     private static final String FIND_BY_TYPE_SQL =
-            "SELECT * from voucher WHERE type = :" + PARAM_KEY_TYPE;
-    private static final String FIND_ALL_SQL = "SELECT * from voucher";
+            "SELECT * from voucher WHERE type = :" + PARAM_KEY_TYPE + " ORDER BY registered_at DESC";
+    private static final String FIND_BY_DATE_SQL = "SELECT * from voucher WHERE registered_at BETWEEN :"
+            + PARAM_KEY_STARTING_DATE + " AND :" + PARAM_KEY_ENDING_DATE + " ORDER BY registered_at DESC";
+    private static final String FIND_BY_TYPE_AND_DATE_SQL = "SELECT * from voucher WHERE type = :" + PARAM_KEY_TYPE
+            + " AND registered_at BETWEEN :" + PARAM_KEY_STARTING_DATE + " AND :" + PARAM_KEY_ENDING_DATE + " ORDER BY registered_at DESC";
+    private static final String FIND_ALL_SQL = "SELECT * from voucher ORDER BY registered_at DESC";
     private static final String REMOVE_SQL = "DELETE from voucher WHERE voucher_id = :" + PARAM_KEY_VOUCHER_ID;
 
     public JdbcTemplateVoucherRepository(DataSource dataSource) {
@@ -101,6 +108,23 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public List<Voucher> findByType(VoucherType type) {
         var paramSource = new MapSqlParameterSource(PARAM_KEY_TYPE, type.toString());
         return jdbcTemplate.query(FIND_BY_TYPE_SQL, paramSource, voucherRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByDate(Date startingDate, Date endingDate) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue(PARAM_KEY_STARTING_DATE, startingDate);
+        paramSource.addValue(PARAM_KEY_ENDING_DATE, endingDate);
+        return jdbcTemplate.query(FIND_BY_DATE_SQL, paramSource, voucherRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, Date startingDate, Date endingDate) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue(PARAM_KEY_TYPE, type.toString());
+        paramSource.addValue(PARAM_KEY_STARTING_DATE, startingDate);
+        paramSource.addValue(PARAM_KEY_ENDING_DATE, endingDate);
+        return jdbcTemplate.query(FIND_BY_TYPE_AND_DATE_SQL, paramSource, voucherRowMapper());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

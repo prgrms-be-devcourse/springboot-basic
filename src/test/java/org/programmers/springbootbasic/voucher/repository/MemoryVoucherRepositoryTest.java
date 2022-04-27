@@ -7,11 +7,15 @@ import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.RATE;
@@ -72,6 +76,69 @@ class MemoryVoucherRepositoryTest {
         List<Voucher> vouchers = voucherRepository.findByType(RATE);
 
         assertEquals(vouchers.size(), expected.size());
+    }
+
+    @Test
+    @DisplayName("바우처 기간으로 조회")
+    void findByDate() {
+        var voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 3000, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 4, 25, 2, 40)));
+        var voucher2 = new FixedDiscountVoucher(UUID.randomUUID(), 8000, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 3, 15, 14, 15)));
+        var voucher3 = new FixedDiscountVoucher(UUID.randomUUID(), 12000, null,
+                Timestamp.valueOf(LocalDateTime.of(2021, 1, 22, 10, 30)));
+        var voucher4 = new RateDiscountVoucher(UUID.randomUUID(), 15, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 1, 22, 10, 30)));
+        var voucher5 = new RateDiscountVoucher(UUID.randomUUID(), 30, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 3, 22, 10, 30)));
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
+        voucherRepository.insert(voucher3);
+        voucherRepository.insert(voucher4);
+        voucherRepository.insert(voucher5);
+
+        List<Voucher> foundVouchers = voucherRepository.findByDate(
+                Timestamp.valueOf(LocalDateTime.of(2022, 1, 1, 1, 10)),
+                Timestamp.valueOf(LocalDateTime.of(2022, 4, 1, 2, 30)));
+
+        List<Voucher> expected = new ArrayList<>();
+        expected.add(voucher2);
+        expected.add(voucher4);
+        expected.add(voucher5);
+
+        assertThat(foundVouchers.size(), is(expected.size()));
+        assertThat(foundVouchers.containsAll(expected), is(true));
+    }
+
+    @Test
+    @DisplayName("바우처 종류와 기간으로 조회")
+    void findByTypeAndDate() {
+        var voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 3000, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 4, 25, 2, 40)));
+        var voucher2 = new FixedDiscountVoucher(UUID.randomUUID(), 8000, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 3, 15, 14, 15)));
+        var voucher3 = new FixedDiscountVoucher(UUID.randomUUID(), 12000, null,
+                Timestamp.valueOf(LocalDateTime.of(2021, 1, 22, 10, 30)));
+        var voucher4 = new RateDiscountVoucher(UUID.randomUUID(), 15, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 1, 22, 10, 30)));
+        var voucher5 = new RateDiscountVoucher(UUID.randomUUID(), 30, null,
+                Timestamp.valueOf(LocalDateTime.of(2022, 3, 22, 10, 30)));
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
+        voucherRepository.insert(voucher3);
+        voucherRepository.insert(voucher4);
+        voucherRepository.insert(voucher5);
+
+        List<Voucher> foundVouchers = voucherRepository.findByTypeAndDate(RATE,
+                Timestamp.valueOf(LocalDateTime.of(2022, 1, 1, 1, 10)),
+                Timestamp.valueOf(LocalDateTime.of(2022, 4, 1, 2, 30)));
+
+        List<Voucher> expected = new ArrayList<>();
+        expected.add(voucher4);
+        expected.add(voucher5);
+
+        assertThat(foundVouchers.size(), is(expected.size()));
+        assertThat(foundVouchers.containsAll(expected), is(true));
     }
 
     @Test

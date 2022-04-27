@@ -1,10 +1,15 @@
 package org.programmers.springbootbasic.voucher.repository;
 
+import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
+import static org.programmers.springbootbasic.voucher.domain.VoucherType.RATE;
 
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -18,7 +23,19 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateVoucherOwner(UUID voucherId, Long memberId) {
-        //TODO: DB 말고 java 코드 내에서도 업데이트 이뤄지게 해야 함
+        var foundVoucher = storage.get(voucherId);
+        storage.remove(voucherId);
+
+        Voucher voucherToBeInserted = null;
+        if (foundVoucher.getType() == FIXED) {
+            voucherToBeInserted = new FixedDiscountVoucher(
+                    foundVoucher.getId(), foundVoucher.getAmount(), memberId, foundVoucher.getRegisteredAt());
+        }
+        if (foundVoucher.getType() == RATE) {
+            voucherToBeInserted = new FixedDiscountVoucher(
+                    foundVoucher.getId(), foundVoucher.getAmount(), memberId, foundVoucher.getRegisteredAt());
+        }
+        storage.put(voucherId, voucherToBeInserted);
     }
 
     @Override
@@ -31,12 +48,42 @@ public class MemoryVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>();
         storage.values().forEach(
                 voucher -> {
-                    if (voucher.getType()==type) {
+                    if (voucher.getType() == type) {
                         vouchers.add(voucher);
                     }
                 }
         );
         return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByDate(Date startingDate, Date endingDate) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.values().forEach(
+                voucher -> {
+                    if (isInThePeriod(voucher.getRegisteredAt(), startingDate, endingDate)) {
+                        vouchers.add(voucher);
+                    }
+                }
+        );
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, Date startingDate, Date endingDate) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.values().forEach(
+                voucher -> {
+                    if (voucher.getType() == type && isInThePeriod(voucher.getRegisteredAt(), startingDate, endingDate)) {
+                        vouchers.add(voucher);
+                    }
+                }
+        );
+        return vouchers;
+    }
+
+    private boolean isInThePeriod(Timestamp compared, Date startingDate, Date endingDate) {
+        return startingDate.before(compared) && endingDate.after(compared);
     }
 
     @Override

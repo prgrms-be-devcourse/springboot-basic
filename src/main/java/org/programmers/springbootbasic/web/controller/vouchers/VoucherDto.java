@@ -1,10 +1,10 @@
-package org.programmers.springbootbasic.controller.vouchers;
+package org.programmers.springbootbasic.web.controller.vouchers;
 
-import lombok.Getter;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 public record VoucherDto(
@@ -14,9 +14,11 @@ public record VoucherDto(
         Integer amount,
         @NotNull
         VoucherType type,
+        @NotNull
+        Timestamp registeredAt,
         Long memberId) {
 
     public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getId(), voucher.getAmount(), voucher.getType(), voucher.getMemberId());
+        return new VoucherDto(voucher.getId(), voucher.getAmount(), voucher.getType(), voucher.getRegisteredAt(), voucher.getMemberId());
     }
 }

@@ -2,7 +2,7 @@ package org.programmers.springbootbasic.member.service;
 
 import lombok.RequiredArgsConstructor;
 import org.programmers.springbootbasic.member.domain.Member;
-import org.programmers.springbootbasic.controller.members.MemberDto;
+import org.programmers.springbootbasic.web.controller.members.MemberDto;
 import org.programmers.springbootbasic.member.domain.SignedMember;
 import org.programmers.springbootbasic.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;

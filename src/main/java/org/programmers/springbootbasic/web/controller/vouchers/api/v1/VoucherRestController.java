@@ -1,8 +1,9 @@
-package org.programmers.springbootbasic.controller.vouchers.api.v1;
+package org.programmers.springbootbasic.web.controller.vouchers.api.v1;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.springbootbasic.controller.vouchers.VoucherCreateForm;
-import org.programmers.springbootbasic.controller.vouchers.VoucherDto;
+import org.programmers.springbootbasic.web.controller.vouchers.VoucherCreateForm;
+import org.programmers.springbootbasic.web.controller.vouchers.VoucherDto;
+import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,13 @@ public class VoucherRestController {
     private final VoucherService voucherService;
 
     @GetMapping("/api/v1/vouchers")
-    public List<VoucherDto> getAllVouchers() {
-        return voucherService.getAllVouchers()
+    public List<VoucherDto> getAllVouchers(@RequestParam(required = false) VoucherType type) {
+        if (type==null) {
+            return voucherService.getAllVouchers()
+                    .stream().map(voucher -> VoucherDto.from(voucher))
+                    .collect(toList());
+        }
+        return voucherService.getVouchersByType(type)
                 .stream().map(voucher -> VoucherDto.from(voucher))
                 .collect(toList());
     }
