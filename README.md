@@ -145,6 +145,7 @@
   - request
     ```
     GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/77
+
     ```
   - response
     ```
