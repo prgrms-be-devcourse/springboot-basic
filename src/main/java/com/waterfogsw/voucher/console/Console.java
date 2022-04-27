@@ -11,14 +11,14 @@ public class Console implements Input, Output {
 
     @Override
     public Command inputCommand() {
-        System.out.print(Messages.COMMAND_INPUT);
+        display(Messages.COMMAND_INPUT);
         String commandInput = sc.nextLine();
         return Command.from(commandInput);
     }
 
     @Override
     public String inputType() {
-        System.out.print(Messages.VOUCHER_SELECT);
+        display(Messages.VOUCHER_SELECT);
         String input = sc.nextLine();
         final int typeNum = Integer.parseInt(input);
         return VoucherType.from(typeNum).name();
@@ -26,12 +26,12 @@ public class Console implements Input, Output {
 
     @Override
     public String inputValue() {
-        System.out.print(Messages.INPUT_VALUE);
+        display(Messages.INPUT_VALUE);
         return sc.nextLine();
     }
 
     @Override
     public void display(String message) {
-        System.out.println("\n" + message);
+        System.out.print("\n"+message);
     }
 }

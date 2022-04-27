@@ -21,24 +21,20 @@ public class ConsoleApplication implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         output.display("=== Voucher Program ===");
         output.display(Command.getAllDescriptions());
         while (true) {
             try {
                 final var command = input.inputCommand();
-                if (command == Command.EXIT) {
-                    output.display(Messages.EXIT_PROGRAM);
-                    break;
-                }
-                handleCommand(command);
+                if (!handleCommand(command)) return;
             } catch (IllegalArgumentException e) {
                 output.display("Error: " + e.getMessage());
             }
         }
     }
 
-    private void handleCommand(Command command) {
+    private boolean handleCommand(Command command) {
         switch (command) {
             case CREATE -> {
                 output.display(VoucherType.getAllInputVoucherType());
@@ -57,9 +53,14 @@ public class ConsoleApplication implements ApplicationRunner {
 
                 output.display(responseMessage);
             }
+            case EXIT -> {
+                output.display(Messages.EXIT_PROGRAM);
+                return false;
+            }
             default -> {
                 throw new IllegalArgumentException();
             }
         }
+        return true;
     }
 }
