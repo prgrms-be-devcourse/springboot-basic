@@ -9,7 +9,7 @@ public class CustomerRequest {
     private CustomerType customerType;
 
     public CustomerRequest(String name, String email, String customerType) {
-        this.name=name;
+        this.name = name;
         this.email = email;
         this.customerType = CustomerType.of(customerType);
     }

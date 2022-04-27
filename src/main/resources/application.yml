@@ -6,3 +6,11 @@ spring:
     password: qwer1234!
   profiles:
     active: jdbc
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+server:
+  error:
+    whitelabel:
+      enabled: false

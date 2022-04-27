@@ -4,11 +4,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 class VoucherTypeTest {
 
     @Test
-    void Fixed_Voucher_Type_입력() {
+    void Voucher_Type_입력_성공() {
         //given
         String fixedType = "fixed";
         //when
@@ -18,17 +19,13 @@ class VoucherTypeTest {
     }
 
     @Test
-    void Percent_Voucher_Type_입력() {
-        //given
-        String percentType = "percent";
-        //when
-        VoucherType voucherType = VoucherType.of(percentType);
-        //then
-        Assertions.assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
+    void Voucher_객체_생성() {
+        Voucher voucher = VoucherType.of("FIXED").create(100L, VoucherType.FIXED, UUID.randomUUID());
+        Assertions.assertThat(voucher).isNotNull();
     }
 
     @Test
-    void 잘못된_Voucher_Type_입력() {
+    void 잘못된_Voucher_Type_입력_실패() {
         //given
         String inputVoucherType = "zero";
         //then

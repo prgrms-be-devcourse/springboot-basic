@@ -1,7 +1,6 @@
 package com.prgrms.management.customer.repository;
 
 import com.prgrms.management.customer.domain.Customer;
-import com.prgrms.management.voucher.domain.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,9 @@ public interface CustomerRepository {
     List<Customer> findAll();
 
     void deleteAll();
+
     void deleteById(UUID customerId);
+
     Customer updateName(Customer customer);
 
     Optional<Customer> findById(UUID customerId);

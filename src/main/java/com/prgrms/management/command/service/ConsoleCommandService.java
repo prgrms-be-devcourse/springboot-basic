@@ -1,13 +1,13 @@
 package com.prgrms.management.command.service;
 
 import com.prgrms.management.command.domain.Command;
-import com.prgrms.management.config.GuideType;
 import com.prgrms.management.command.io.Input;
 import com.prgrms.management.command.io.Output;
+import com.prgrms.management.config.GuideType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.service.CustomerService;
-import com.prgrms.management.voucher.domain.VoucherRequest;
+import com.prgrms.management.voucher.dto.VoucherRequest;
 import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -38,62 +38,61 @@ public class ConsoleCommandService implements CommandService {
             try {
                 String inputCommand = input.readLine();
                 Command command = Command.of(inputCommand);
-                logger.info("select {}", command.name());
                 execute(command);
             } catch (RuntimeException e) {
-                logger.info("{}:{}",e.getClass(),e.getMessage());
+                logger.info("{}:{}", e.getClass(), e.getMessage());
             }
         }
     }
 
     @Override
     public void execute(Command command) {
-        UUID customerId, voucherId;
         switch (command) {
-            case CREATEVOUCHER:
+            case CREATE_VOUCHER:
                 VoucherRequest voucherRequest = input.inputVoucherTypeAndAmount();
                 voucherService.createVoucher(voucherRequest);
                 break;
-            case LISTVOUCHER:
+            case LIST_VOUCHER:
                 output.printList(voucherService.findAll());
                 break;
-            case CREATECUSTOMER:
+            case CREATE_CUSTOMER:
                 CustomerRequest customerRequest = input.inputCustomer();
-                System.out.println(customerService.createCustomer(new Customer(customerRequest)));
+                Customer customer = new Customer(customerRequest);
+                output.printSingle(customerService.createCustomer(customer).toString());
                 break;
-            case UPDATECUSTOMER:
-                customerId = input.inputCustomerId();
+            case UPDATE_CUSTOMER:
+                UUID updateCustomerId = input.inputCustomerId();
                 String customerName = input.inputCustomerName();
-                customerService.updateCustomer(customerId,customerName);
+                customerService.updateCustomer(updateCustomerId, customerName);
                 break;
-            case DELETECUSTOMER:
-                customerId = input.inputCustomerId();
+            case DELETE_CUSTOMER:
+                UUID customerId = input.inputCustomerId();
                 customerService.deleteCustomer(customerId);
                 break;
-            case DELETEALLCUSTOMER:
+            case DELETE_ALL_CUSTOMER:
                 customerService.deleteAllCustomer();
                 break;
-            case FINDCUSTOMERBYID:
-                customerId = input.inputCustomerId();
-                System.out.println(customerService.findById(customerId));
+            case FIND_CUSTOMER_BY_ID:
+                UUID customerById = input.inputCustomerId();
+                output.printSingle(customerService.findById(customerById).toString());
                 break;
-            case FINDCUSTOMERBYEMAIL:
+            case FIND_CUSTOMER_BY_EMAIL:
                 String email = input.inputCustomerEmail();
-                System.out.println(customerService.findByEmail(email));
+                output.printSingle(customerService.findByEmail(email).toString());
                 break;
-            case LISTCUSTOMER:
+            case LIST_CUSTOMER:
                 output.printList(customerService.findAll());
                 break;
-            case ASSIGNVOUCHER:
-                voucherId = input.inputVoucherId();
-                customerId = input.inputCustomerId();
-                voucherService.createVoucherByCustomerId(voucherId,customerId);
+            case ASSIGN_VOUCHER:
+                UUID voucherId = input.inputVoucherId();
+                UUID assignCustomerId = input.inputCustomerId();
+                voucherService.updateByCustomerId(voucherId, assignCustomerId);
                 break;
-            case DELETEVOUCHER:
-                customerId = input.inputCustomerId();
-                voucherService.deleteVoucherByCustomerId(customerId);
+            case DELETE_VOUCHER:
+                UUID deleteCustomerId = input.inputCustomerId();
+                voucherService.deleteVoucherByCustomerId(deleteCustomerId);
                 break;
-            case LISTVOUCHERWITHTYPE:
+            case LIST_VOUCHER_WITH_TYPE:
                 VoucherType voucherType = input.inputVoucherType();
                 output.printList(voucherService.findCustomersByVoucherType(voucherType));
                 break;

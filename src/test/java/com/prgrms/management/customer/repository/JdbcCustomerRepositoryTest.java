@@ -1,9 +1,13 @@
 package com.prgrms.management.customer.repository;
 
+import com.prgrms.management.config.exception.DuplicatedEmailException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,44 +18,42 @@ import java.util.UUID;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestClassOrder(ClassOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-    Customer customer, customerTwo;
-    UUID randomId;
+    Customer customer = new Customer(new CustomerRequest("customerA", "fdfd@naver.com", "normal"));
+    Customer saveCustomer;
+    UUID randomId = UUID.randomUUID();
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
-        customer = new Customer(new CustomerRequest("customerA", "prgrms@naver.com", "normal"));
-        customerTwo = new Customer(new CustomerRequest("customerB", "13lxsdf@naver.com", "blacklist"));
-        randomId = UUID.randomUUID();
+        saveCustomer = customerRepository.save(customer);
     }
 
-    @AfterAll
+    @AfterEach
     void cleanUp() {
         customerRepository.deleteAll();
     }
 
     @Nested
-    @Order(1)
-    class Customer_정보_저장 {
+    class Customer_저장 {
         @Test
-        void 성공_Customer_저장() {
-            //when
-            Customer saveCustomer = customerRepository.save(customer);
-            //then
+        void Customer_저장() {
             Assertions.assertThat(customer).isEqualTo(saveCustomer);
+        }
+
+        @Test
+        void 중복_이메일로_인한_Customer_저장_실패() {
+            Assertions.assertThatThrownBy(() -> customerRepository.save(customer))
+                    .isInstanceOf(DuplicatedEmailException.class);
         }
     }
 
     @Nested
-    @Order(2)
     class Customer_검색 {
         @Test
-        void 성공_ID로_Customer_검색() {
+        void ID로_Customer_검색() {
             //given
             UUID customerId = customer.getCustomerId();
             //when
@@ -61,15 +63,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void 실패_ID로_Customer_검색() {
-            //when
-            Optional<Customer> customerById = customerRepository.findById(randomId);
-            //then
-            Assertions.assertThat(customerById.isEmpty()).isEqualTo(true);
-        }
-
-        @Test
-        void 성공_EMAIL로_Customer_검색() {
+        void EMAIL로_Customer_검색() {
             //given
             String email = customer.getEmail();
             //when
@@ -79,7 +73,15 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void 실패_EMAIL로_Customer_검색() {
+        void 존재하지_않는_ID로_인한_Customer_검색_실패() {
+            //when
+            Optional<Customer> customerById = customerRepository.findById(randomId);
+            //then
+            Assertions.assertThat(customerById.isEmpty()).isEqualTo(true);
+        }
+
+        @Test
+        void 존재하지_않는_EMAIL로_인한_Customer_검색_실패() {
             //given
             String email = "fail@naver.com";
             //when
@@ -89,48 +91,29 @@ class JdbcCustomerRepositoryTest {
         }
     }
 
-    @Nested
-    @Order(3)
-    class 여러명의_Customers_검색 {
-        @Test
-        void 성공_여러명의_Customers_검색() {
-            //given
-            customerRepository.save(customerTwo);
-            //when
-            List<Customer> customers = customerRepository.findAll();
-            //then
-            Assertions.assertThat(customers.size()).isEqualTo(2);
-        }
+    @Test
+    void 여러명의_Customers_검색() {
+        //when
+        List<Customer> customers = customerRepository.findAll();
+        //then
+        Assertions.assertThat(customers.size()).isEqualTo(1);
+    }
 
-        @Test
-        void 성공_여러명의_BlackList_검색() {
-            //when
-            List<Customer> customers = customerRepository.findBlackList();
-            //then
-            Assertions.assertThat(customers.size()).isEqualTo(1);
-        }
+    @Test
+    void Customer_이름_업데이트() {
+        //given
+        String name = "hello";
+        customer.setName(name);
+        //when
+        customerRepository.updateName(customer);
+        //then
+        Assertions.assertThat(customer.getName()).isEqualTo(name);
     }
 
     @Nested
-    @Order(4)
-    class 이름_업데이트_Customer {
+    class Customer_삭제 {
         @Test
-        void 성공_이름_업데이트_Customer() {
-            //given
-            String name = "hello";
-            customer.setName(name);
-            //when
-            customerRepository.updateName(customer);
-            //then
-            Assertions.assertThat(customer.getName()).isEqualTo(name);
-        }
-    }
-
-    @Nested
-    @Order(5)
-    class 삭제_Customer {
-        @Test
-        void 성공_삭제_Customer() {
+        void Customer_삭제() {
             //given
             UUID customerId = customer.getCustomerId();
             //when
@@ -140,7 +123,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void 실패_삭제_Customer() {
+        void 존재하지_않는_아이디로_인한_Customer_삭제_실패() {
             //when
             customerRepository.deleteById(randomId);
             //then

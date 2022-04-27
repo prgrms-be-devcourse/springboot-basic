@@ -1,12 +1,19 @@
-package com.prgrms.management.voucher.domain;
+package com.prgrms.management.voucher.dto;
 
 import com.prgrms.management.config.ErrorMessageType;
-import lombok.Getter;
+import com.prgrms.management.voucher.domain.Voucher;
+import com.prgrms.management.voucher.domain.VoucherType;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
+import java.util.UUID;
+
+@Data
+@NoArgsConstructor
 public class VoucherRequest {
+    private long amount;
     private VoucherType voucherType;
-    private Long amount;
+    private UUID customerId;
 
     public VoucherRequest(String voucherType, String amount) {
         this.voucherType = VoucherType.of(voucherType);
@@ -21,5 +28,9 @@ public class VoucherRequest {
             throw new NumberFormatException(ErrorMessageType.INCORRECT_NUMBER_FORMAT.getMessage());
         }
         return amount;
+    }
+
+    public Voucher create() {
+        return this.voucherType.create(this.amount, this.voucherType, this.customerId);
     }
 }

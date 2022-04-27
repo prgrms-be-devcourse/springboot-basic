@@ -1,10 +1,805 @@
-20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 93686 (started by dhkstn in /Users/dhkstn/management)
-20:24:33.377 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
-20:24:34.181 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 0.949 seconds (JVM running for 1.69)
-20:24:34.597 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.618 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.705 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.729 [main] INFO c.p.m.c.r.JdbcCustomerRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.787 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.839 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
-20:24:34.877 [main] INFO c.p.m.v.r.JdbcVoucherRepository - class org.springframework.dao.EmptyResultDataAccessException:Incorrect result size: expected 1, actual 0
+01:56:46.220 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 93235 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+01:56:46.224 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+01:56:48.203 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 2.363 seconds (JVM running for 2.879)
+01:56:50.688 [main] INFO c.p.m.c.s.ConsoleCommandService - select CREATE_VOUCHER
+02:48:48.638 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 96985 (started by dhkstn in /Users/dhkstn/management)
+02:48:48.639 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+02:48:50.390 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.008 seconds (JVM running for 3.036)
+02:52:01.019 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 97177 (started by dhkstn in /Users/dhkstn/management)
+02:52:01.020 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+02:52:02.809 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.08 seconds (JVM running for 3.205)
+02:52:03.389 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+02:52:03.441 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+02:52:03.462 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+02:52:44.803 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 97235 (started by dhkstn in /Users/dhkstn/management)
+02:52:44.804 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+02:52:46.619 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.083 seconds (JVM running for 3.182)
+02:52:47.141 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+02:52:47.185 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+02:52:47.206 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:03:37.550 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 98197 (started by dhkstn in /Users/dhkstn/management)
+03:03:37.551 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:03:39.087 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.738 seconds (JVM running for 2.702)
+03:03:39.561 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:03:39.589 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:03:39.609 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:05:17.495 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 98318 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+03:05:17.498 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+03:05:18.434 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.251 seconds (JVM running for 1.765)
+03:08:38.733 [http-nio-8080-exec-5] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:13:08.069 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 98867 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+03:13:08.071 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+03:13:09.565 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.768 seconds (JVM running for 2.35)
+03:13:16.680 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 98887 (started by dhkstn in /Users/dhkstn/management)
+03:13:16.681 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:13:18.604 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.214 seconds (JVM running for 3.489)
+03:13:19.177 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:13:19.213 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:13:19.235 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:16:07.710 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99147 (started by dhkstn in /Users/dhkstn/management)
+03:16:07.712 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:16:09.694 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.241 seconds (JVM running for 3.387)
+03:16:10.230 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:16:10.329 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:16:46.345 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99201 (started by dhkstn in /Users/dhkstn/management)
+03:16:46.346 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:16:48.221 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.189 seconds (JVM running for 3.308)
+03:16:48.693 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:16:48.913 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:16:48.960 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:27.656 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99248 (started by dhkstn in /Users/dhkstn/management)
+03:17:27.657 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:17:29.049 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.589 seconds (JVM running for 2.399)
+03:17:29.402 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:29.564 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:29.597 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:51.807 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99281 (started by dhkstn in /Users/dhkstn/management)
+03:17:51.808 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:17:53.472 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.927 seconds (JVM running for 2.886)
+03:17:53.852 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:54.078 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:17:54.135 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:18.726 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99315 (started by dhkstn in /Users/dhkstn/management)
+03:18:18.727 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:18:20.125 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.607 seconds (JVM running for 2.401)
+03:18:20.517 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:20.716 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:20.756 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:39.177 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99339 (started by dhkstn in /Users/dhkstn/management)
+03:18:39.177 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:18:40.912 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.98 seconds (JVM running for 2.977)
+03:18:41.306 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:41.485 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:18:58.383 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99356 (started by dhkstn in /Users/dhkstn/management)
+03:18:58.384 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:18:59.983 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.852 seconds (JVM running for 2.821)
+03:19:00.353 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:19:00.508 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:19:20.026 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99389 (started by dhkstn in /Users/dhkstn/management)
+03:19:20.027 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:19:21.814 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.034 seconds (JVM running for 3.081)
+03:19:22.213 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:19:22.361 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:19:36.269 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99408 (started by dhkstn in /Users/dhkstn/management)
+03:19:36.269 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:19:38.535 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.592 seconds (JVM running for 3.773)
+03:19:38.996 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:19:39.139 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:21:47.981 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99652 (started by dhkstn in /Users/dhkstn/management)
+03:21:47.982 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:21:49.822 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.146 seconds (JVM running for 3.45)
+03:21:50.358 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:21:50.648 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:01.188 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99736 (started by dhkstn in /Users/dhkstn/management)
+03:23:01.189 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:23:03.275 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.352 seconds (JVM running for 3.456)
+03:23:03.724 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:03.901 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:12.222 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99755 (started by dhkstn in /Users/dhkstn/management)
+03:23:12.223 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:23:14.397 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.768 seconds (JVM running for 4.159)
+03:23:14.809 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:14.992 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:28.368 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99778 (started by dhkstn in /Users/dhkstn/management)
+03:23:28.369 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:23:30.440 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.38 seconds (JVM running for 3.521)
+03:23:31.263 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:31.691 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:53.913 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99813 (started by dhkstn in /Users/dhkstn/management)
+03:23:53.913 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+03:23:55.853 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.208 seconds (JVM running for 3.331)
+03:23:56.356 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:23:56.597 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:24:04.020 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99829 (started by dhkstn in /Users/dhkstn/management)
+03:24:04.021 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:24:06.088 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.385 seconds (JVM running for 3.628)
+03:25:00.759 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99889 (started by dhkstn in /Users/dhkstn/management)
+03:25:00.760 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:25:02.548 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.037 seconds (JVM running for 3.122)
+03:25:40.815 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99932 (started by dhkstn in /Users/dhkstn/management)
+03:25:40.816 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:25:42.572 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.02 seconds (JVM running for 2.989)
+03:26:39.752 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 99994 (started by dhkstn in /Users/dhkstn/management)
+03:26:39.753 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:26:41.614 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.149 seconds (JVM running for 3.204)
+03:27:01.773 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 120 (started by dhkstn in /Users/dhkstn/management)
+03:27:01.773 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:27:03.596 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.079 seconds (JVM running for 3.164)
+03:27:09.651 [main] INFO c.p.m.c.service.CustomerServiceTest - Starting CustomerServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 137 (started by dhkstn in /Users/dhkstn/management)
+03:27:09.651 [main] INFO c.p.m.c.service.CustomerServiceTest - The following 1 profile is active: "test"
+03:27:11.388 [main] INFO c.p.m.c.service.CustomerServiceTest - Started CustomerServiceTest in 1.979 seconds (JVM running for 3.251)
+03:27:12.153 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:27:12.169 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:27:12.238 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:27:12.254 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:27:12.309 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:27:12.417 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:31:15.919 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Starting VoucherControllerTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 480 (started by dhkstn in /Users/dhkstn/management)
+03:31:15.920 [main] INFO c.p.m.v.c.api.VoucherControllerTest - The following 1 profile is active: "jdbc"
+03:31:17.949 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Started VoucherControllerTest in 2.327 seconds (JVM running for 3.54)
+03:47:16.589 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Starting VoucherControllerTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 1676 (started by dhkstn in /Users/dhkstn/management)
+03:47:16.590 [main] INFO c.p.m.v.c.api.VoucherControllerTest - The following 1 profile is active: "jdbc"
+03:47:18.509 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Started VoucherControllerTest in 2.205 seconds (JVM running for 3.368)
+03:47:32.847 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Starting VoucherControllerTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 1712 (started by dhkstn in /Users/dhkstn/management)
+03:47:32.848 [main] INFO c.p.m.v.c.api.VoucherControllerTest - The following 1 profile is active: "jdbc"
+03:47:34.637 [main] INFO c.p.m.v.c.api.VoucherControllerTest - Started VoucherControllerTest in 2.172 seconds (JVM running for 3.191)
+03:52:31.595 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2071 (started by dhkstn in /Users/dhkstn/management)
+03:52:31.596 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:52:34.220 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.857 seconds (JVM running for 4.082)
+03:52:34.846 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:52:34.864 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:52:34.982 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:52:35.007 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+03:52:35.103 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:52:35.234 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:55:03.745 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2235 (started by dhkstn in /Users/dhkstn/management)
+03:55:03.747 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:55:05.891 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.542 seconds (JVM running for 3.991)
+03:55:06.308 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:57:02.224 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2359 (started by dhkstn in /Users/dhkstn/management)
+03:57:02.224 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:57:04.111 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.172 seconds (JVM running for 3.46)
+03:57:04.568 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:57:50.229 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2413 (started by dhkstn in /Users/dhkstn/management)
+03:57:50.231 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:57:52.988 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 3.084 seconds (JVM running for 4.266)
+03:57:53.641 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+03:59:04.085 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2498 (started by dhkstn in /Users/dhkstn/management)
+03:59:04.086 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:59:06.019 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.241 seconds (JVM running for 3.474)
+03:59:28.096 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2529 (started by dhkstn in /Users/dhkstn/management)
+03:59:28.096 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+03:59:29.936 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.142 seconds (JVM running for 3.203)
+04:03:18.019 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2780 (started by dhkstn in /Users/dhkstn/management)
+04:03:18.020 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+04:03:19.927 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.215 seconds (JVM running for 3.341)
+04:03:39.288 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2817 (started by dhkstn in /Users/dhkstn/management)
+04:03:39.288 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+04:03:41.042 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.024 seconds (JVM running for 3.012)
+04:06:38.718 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 2996 (started by dhkstn in /Users/dhkstn/management)
+04:06:38.719 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:06:40.617 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.172 seconds (JVM running for 3.352)
+04:07:12.134 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3036 (started by dhkstn in /Users/dhkstn/management)
+04:07:12.134 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:07:14.159 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.312 seconds (JVM running for 3.52)
+04:07:23.988 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3050 (started by dhkstn in /Users/dhkstn/management)
+04:07:23.989 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:07:25.782 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.082 seconds (JVM running for 3.212)
+04:07:52.020 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3085 (started by dhkstn in /Users/dhkstn/management)
+04:07:52.021 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:07:53.824 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.08 seconds (JVM running for 3.159)
+04:08:03.920 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3100 (started by dhkstn in /Users/dhkstn/management)
+04:08:03.921 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:08:05.654 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.968 seconds (JVM running for 3.019)
+04:09:55.632 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3210 (started by dhkstn in /Users/dhkstn/management)
+04:09:55.632 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:09:57.259 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.848 seconds (JVM running for 2.857)
+04:10:11.229 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3231 (started by dhkstn in /Users/dhkstn/management)
+04:10:11.229 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:10:12.811 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.82 seconds (JVM running for 2.803)
+04:10:38.631 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3273 (started by dhkstn in /Users/dhkstn/management)
+04:10:38.632 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:10:40.407 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.035 seconds (JVM running for 3.142)
+04:10:52.719 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3297 (started by dhkstn in /Users/dhkstn/management)
+04:10:52.720 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:10:54.427 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.943 seconds (JVM running for 2.953)
+04:12:58.811 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3431 (started by dhkstn in /Users/dhkstn/management)
+04:12:58.820 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:13:00.491 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.918 seconds (JVM running for 2.932)
+04:13:10.596 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3450 (started by dhkstn in /Users/dhkstn/management)
+04:13:10.597 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:13:12.363 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.058 seconds (JVM running for 3.203)
+04:13:52.400 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3512 (started by dhkstn in /Users/dhkstn/management)
+04:13:52.401 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:13:54.158 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.051 seconds (JVM running for 3.154)
+04:16:56.182 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3781 (started by dhkstn in /Users/dhkstn/management)
+04:16:56.183 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:16:58.011 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.125 seconds (JVM running for 3.335)
+04:17:03.643 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3790 (started by dhkstn in /Users/dhkstn/management)
+04:17:03.645 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:17:05.614 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.293 seconds (JVM running for 3.559)
+04:17:58.938 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 3855 (started by dhkstn in /Users/dhkstn/management)
+04:17:58.938 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:18:00.914 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.253 seconds (JVM running for 3.574)
+04:28:59.699 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 4620 (started by dhkstn in /Users/dhkstn/management)
+04:28:59.700 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:29:01.346 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.875 seconds (JVM running for 2.728)
+04:29:58.747 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 4697 (started by dhkstn in /Users/dhkstn/management)
+04:29:58.747 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+04:30:00.635 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.152 seconds (JVM running for 3.193)
+04:30:34.718 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 4761 (started by dhkstn in /Users/dhkstn/management)
+04:30:34.719 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+04:30:36.617 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.148 seconds (JVM running for 3.562)
+04:30:37.280 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.461 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.470 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.479 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.554 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.564 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.651 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:30:37.947 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:31:58.025 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 4857 (started by dhkstn in /Users/dhkstn/management)
+04:31:58.026 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+04:31:59.943 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.29 seconds (JVM running for 3.76)
+04:32:00.698 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:00.892 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:00.905 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:00.918 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:01.010 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:01.023 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:01.099 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:32:01.437 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:18.117 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5076 (started by dhkstn in /Users/dhkstn/management)
+04:35:18.118 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+04:35:20.236 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 2.394 seconds (JVM running for 3.525)
+04:35:20.838 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:20.859 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:20.890 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:20.908 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:20.926 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:35:20.951 [main] INFO c.p.m.c.r.JdbcCustomerRepository - NotFoundException:존재하지 않는 객체입니다.
+04:37:44.044 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5237 (started by dhkstn in /Users/dhkstn/management)
+04:37:44.045 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+04:37:45.742 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.927 seconds (JVM running for 2.932)
+04:40:22.494 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5392 (started by dhkstn in /Users/dhkstn/management)
+04:40:22.495 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+04:40:24.608 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 2.473 seconds (JVM running for 3.752)
+04:40:33.208 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5405 (started by dhkstn in /Users/dhkstn/management)
+04:40:33.209 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+04:40:35.902 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 2.94 seconds (JVM running for 4.242)
+04:40:36.710 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:40:37.321 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:40:37.662 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+04:41:35.352 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5466 (started by dhkstn in /Users/dhkstn/management)
+04:41:35.352 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+04:41:36.803 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.632 seconds (JVM running for 2.513)
+04:42:01.961 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 5499 (started by dhkstn in /Users/dhkstn/management)
+04:42:01.961 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+04:42:03.828 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 2.152 seconds (JVM running for 3.494)
+17:06:16.330 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 25151 (started by dhkstn in /Users/dhkstn/management)
+17:06:16.331 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+17:06:17.681 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.511 seconds (JVM running for 2.304)
+17:06:18.250 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+17:06:18.681 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+17:06:18.889 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+17:06:53.199 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 25186 (started by dhkstn in /Users/dhkstn/management)
+17:06:53.200 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+17:06:54.372 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.324 seconds (JVM running for 1.979)
+17:06:59.938 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 25200 (started by dhkstn in /Users/dhkstn/management)
+17:06:59.938 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+17:07:01.282 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.515 seconds (JVM running for 2.175)
+17:15:00.331 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 25834 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+17:15:00.332 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+17:15:01.310 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.174 seconds (JVM running for 1.536)
+17:16:15.820 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 25911 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+17:16:15.821 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+17:16:16.658 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.986 seconds (JVM running for 1.335)
+17:16:20.996 [main] INFO c.p.m.c.s.ConsoleCommandService - select EXIT
+17:55:13.293 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 28484 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+17:55:13.295 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+17:55:14.490 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.405 seconds (JVM running for 1.76)
+18:02:07.466 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29040 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:02:07.467 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:02:08.391 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.117 seconds (JVM running for 1.502)
+18:03:04.232 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29106 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:03:04.233 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:03:05.059 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.996 seconds (JVM running for 1.403)
+18:05:03.172 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29241 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:05:03.173 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:05:04.069 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.073 seconds (JVM running for 1.378)
+18:06:08.675 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29306 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:06:08.676 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:06:09.562 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.053 seconds (JVM running for 1.399)
+18:07:21.739 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29386 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:07:21.741 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:07:22.628 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.059 seconds (JVM running for 1.384)
+18:10:33.392 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 29655 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:10:33.393 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:10:34.457 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.25 seconds (JVM running for 1.632)
+18:15:20.396 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 30010 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:15:20.397 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:15:21.388 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.164 seconds (JVM running for 1.635)
+18:15:55.385 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 30045 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:15:55.386 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:15:56.365 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.387 seconds (JVM running for 1.941)
+18:18:27.961 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 30210 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:18:27.962 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:18:28.769 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.964 seconds (JVM running for 1.323)
+18:20:58.772 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 30367 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:20:58.773 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:20:59.574 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.95 seconds (JVM running for 1.377)
+18:30:37.502 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 31061 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:30:37.503 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:30:38.503 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.197 seconds (JVM running for 1.573)
+18:42:51.255 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 31896 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:42:51.256 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:42:52.182 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.107 seconds (JVM running for 1.601)
+18:44:23.111 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 31997 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:44:23.112 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:44:24.387 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.441 seconds (JVM running for 1.734)
+18:46:15.955 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 32117 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:46:15.956 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:46:16.813 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.028 seconds (JVM running for 1.469)
+18:47:00.988 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 32161 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:47:00.990 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:47:01.866 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.133 seconds (JVM running for 1.784)
+18:47:56.804 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 32235 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:47:56.809 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:47:57.692 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.341 seconds (JVM running for 1.894)
+18:49:25.557 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 32333 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:49:25.559 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:49:26.352 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.97 seconds (JVM running for 1.287)
+18:52:45.795 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 32552 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:52:45.796 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:52:46.692 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.05 seconds (JVM running for 1.389)
+18:59:06.123 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33002 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+18:59:06.124 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+18:59:07.275 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.417 seconds (JVM running for 2.293)
+19:02:34.958 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33204 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:02:34.959 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:02:35.895 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.178 seconds (JVM running for 1.704)
+19:03:21.221 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33251 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:03:21.223 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:03:22.120 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.087 seconds (JVM running for 1.554)
+19:03:39.295 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33280 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:03:39.296 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:03:40.158 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.019 seconds (JVM running for 1.326)
+19:04:10.028 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33315 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:04:10.030 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:04:10.982 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.111 seconds (JVM running for 1.509)
+19:06:00.757 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33425 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:06:00.761 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:06:01.689 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.115 seconds (JVM running for 1.426)
+19:11:56.583 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33879 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:11:56.585 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:11:57.675 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.461 seconds (JVM running for 1.893)
+19:13:14.816 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 33985 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:13:14.819 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:13:15.717 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.16 seconds (JVM running for 1.535)
+19:13:26.491 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34014 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:13:26.492 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:13:27.359 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.026 seconds (JVM running for 1.426)
+19:13:41.395 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34037 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:13:41.396 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:13:42.216 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.971 seconds (JVM running for 1.386)
+19:16:58.828 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34280 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:16:58.832 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:16:59.669 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.011 seconds (JVM running for 1.488)
+19:19:09.315 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34413 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:19:09.354 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:19:11.108 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 2.255 seconds (JVM running for 2.605)
+19:20:39.686 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34522 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:20:39.688 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:20:40.662 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.138 seconds (JVM running for 2.051)
+19:20:40.682 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.683 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.684 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.685 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.685 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.685 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.686 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.686 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.686 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.686 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.686 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.687 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.687 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.687 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.688 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.689 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.690 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.691 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.692 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.693 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.694 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.695 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.695 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.695 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:40.695 [main] INFO c.p.m.c.s.ConsoleCommandService - class java.util.NoSuchElementException:No line found
+19:20:43.633 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34537 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:20:43.634 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:20:44.550 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.082 seconds (JVM running for 1.445)
+19:22:26.685 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34719 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:22:26.687 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:22:27.534 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.012 seconds (JVM running for 1.38)
+19:23:30.689 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34809 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:23:30.694 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:23:31.588 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.086 seconds (JVM running for 1.396)
+19:25:09.779 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34995 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+19:25:09.781 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+19:25:10.716 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.237 seconds (JVM running for 1.588)
+19:48:29.961 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37034 (started by dhkstn in /Users/dhkstn/management)
+19:48:29.962 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:48:31.228 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.429 seconds (JVM running for 2.331)
+19:49:24.024 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37098 (started by dhkstn in /Users/dhkstn/management)
+19:49:24.024 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:49:25.284 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.409 seconds (JVM running for 2.315)
+19:50:07.801 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37142 (started by dhkstn in /Users/dhkstn/management)
+19:50:07.801 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:50:08.951 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.301 seconds (JVM running for 2.057)
+19:50:12.591 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37153 (started by dhkstn in /Users/dhkstn/management)
+19:50:12.593 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:50:14.279 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.924 seconds (JVM running for 2.843)
+19:50:18.185 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37161 (started by dhkstn in /Users/dhkstn/management)
+19:50:18.186 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:50:19.330 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.291 seconds (JVM running for 2.094)
+19:50:19.709 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:20.028 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:20.201 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:42.257 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37196 (started by dhkstn in /Users/dhkstn/management)
+19:50:42.257 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:50:43.439 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.324 seconds (JVM running for 2.11)
+19:50:43.849 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:44.194 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:44.429 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:51:57.333 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37274 (started by dhkstn in /Users/dhkstn/management)
+19:51:57.334 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:51:58.467 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.277 seconds (JVM running for 1.937)
+19:52:02.809 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37286 (started by dhkstn in /Users/dhkstn/management)
+19:52:02.809 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:52:04.392 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.747 seconds (JVM running for 2.417)
+19:52:22.419 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37311 (started by dhkstn in /Users/dhkstn/management)
+19:52:22.419 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:52:23.565 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.288 seconds (JVM running for 2.025)
+19:52:24.004 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:52:24.368 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:52:24.556 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:11.760 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37373 (started by dhkstn in /Users/dhkstn/management)
+19:53:11.760 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:53:12.902 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.366 seconds (JVM running for 2.32)
+19:53:13.347 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:13.696 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:13.868 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:39.469 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37403 (started by dhkstn in /Users/dhkstn/management)
+19:53:39.470 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:53:40.562 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.245 seconds (JVM running for 2.038)
+19:53:41.059 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:41.368 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:41.535 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:55:33.923 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37533 (started by dhkstn in /Users/dhkstn/management)
+19:55:33.924 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:55:35.243 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.476 seconds (JVM running for 2.225)
+19:59:06.276 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37779 (started by dhkstn in /Users/dhkstn/management)
+19:59:06.277 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:59:07.426 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.293 seconds (JVM running for 1.976)
+19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37823 (started by dhkstn in /Users/dhkstn/management)
+19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:59:43.315 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.4 seconds (JVM running for 2.068)
+20:19:59.588 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 39406 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:19:59.589 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:20:01.337 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.933 seconds (JVM running for 2.483)
+20:21:07.167 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 39489 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:21:07.168 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:21:08.045 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.077 seconds (JVM running for 1.559)
+20:47:28.979 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42131 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:47:28.980 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:47:30.028 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.252 seconds (JVM running for 1.681)
+20:48:54.752 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42243 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:48:54.753 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:48:55.597 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.993 seconds (JVM running for 1.38)
+20:49:15.618 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42271 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:49:15.620 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:49:16.664 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.579 seconds (JVM running for 2.246)
+20:49:40.145 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42307 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:49:40.147 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:49:41.214 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.484 seconds (JVM running for 2.146)
+20:50:25.805 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42365 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:50:25.806 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:50:26.651 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.997 seconds (JVM running for 1.314)
+20:51:57.455 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42456 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:51:57.458 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:51:58.576 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.344 seconds (JVM running for 1.853)
+20:52:34.774 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42499 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:52:34.775 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:52:35.644 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.054 seconds (JVM running for 1.412)
+20:53:18.636 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42556 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:53:18.637 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:53:19.470 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.065 seconds (JVM running for 1.371)
+20:53:57.677 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42602 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:53:57.678 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:53:58.714 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.191 seconds (JVM running for 1.507)
+20:54:20.302 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42631 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:54:20.305 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:54:21.364 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.436 seconds (JVM running for 2.03)
+20:54:44.052 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42665 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:54:44.053 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:54:44.827 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.924 seconds (JVM running for 1.39)
+20:55:16.320 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42707 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:55:16.320 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:55:17.127 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.012 seconds (JVM running for 1.346)
+20:55:29.495 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42726 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:55:29.496 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:55:30.317 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.094 seconds (JVM running for 1.662)
+20:57:34.249 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42865 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:57:34.250 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:57:35.065 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 0.984 seconds (JVM running for 1.34)
+20:58:29.920 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42933 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:58:29.922 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:58:30.852 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.135 seconds (JVM running for 1.483)
+20:59:26.600 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 42991 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:59:26.603 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:59:27.956 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.708 seconds (JVM running for 2.112)
+21:00:07.435 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 43032 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+21:00:07.437 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+21:00:08.659 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.529 seconds (JVM running for 1.919)
+21:00:27.278 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 43065 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+21:00:27.280 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+21:00:28.201 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.09 seconds (JVM running for 1.52)
+21:00:37.243 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 43079 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+21:00:37.245 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+21:00:39.020 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 2.178 seconds (JVM running for 2.507)
+22:03:05.311 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 47452 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+22:03:05.312 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+22:03:06.384 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.251 seconds (JVM running for 1.621)
+22:04:23.173 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 47746 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+22:04:23.174 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+22:04:24.032 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.083 seconds (JVM running for 1.688)
+22:05:01.597 [http-nio-8080-exec-4] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="d-flex" id="wrapper">
+    <div th:include="/fragments/sidebar.html"></div>
+    <div id="page-content-wrapper">
+        <nav th:include="/fragments/nav.html"></nav>
+        <div class="container">
+            <h2>바우처 등록</h2>
+            <form th:action="@{/voucher/createVoucher}" th:object="${voucherRequest}" method="post">
+                <div>
+                    <label>할인 정책을 입력하세요</label>
+                    <div th:each="voucherType : ${voucherTypes}">
+                        <input type="radio" th:field="*{voucherType}" th:value="${voucherType.name()}">
+                        <label th:for="${#ids.prev('voucherType')}" th:text="${voucherType.description}">
+                            할인액
+                        </label>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <label th:for="amount">할인액 또는 할인율을 입력하세요</label>
+                    <input type="number" th:field="*{amount}" class="form-control" placeholder="숫자만 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label for="customer">바우처를 받을 고객 선택</label>
+                    <select name="customerId" id="customer" class="form-control">
+                        <option>고객 선택</option>
+                        <option th:each="customer : ${customers}"
+                                th:value="${customer.customerId}"
+                                th:text="${customer.name}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-secondary">등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/scripts.js"></script>
+</body>
+</html>

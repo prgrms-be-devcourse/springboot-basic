@@ -1,6 +1,6 @@
 package com.prgrms.management.customer.repository;
 
-import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotSavedException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
 import org.slf4j.Logger;
@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.NOT_SAVED_EXCEPTION;
 
 @Repository
 @Profile({"local", "dev"})
@@ -29,49 +31,50 @@ public class FileCustomerRepository implements CustomerRepository {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
-            logger.info("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+            throw new NotSavedException(this.getClass() + NOT_SAVED_EXCEPTION.getMessage());
         }
         return customer;
     }
 
     @Override
     public List<Customer> findAll() {
-        //미구현
-        return null;
+        // TODO: Custmers 반환하는 메서드
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteAll() {
-        //미구현
-    }
-
-    @Override
-    public void deleteById(UUID customerId) {
-        //미구현
-    }
-
-    @Override
-    public Customer updateName(Customer customer) {
-        //미구현
-        return null;
+    public List<Customer> findBlackList() {
+        // TODO: BlackList custmers 반환하는 메서드
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        //미구현
-        return Optional.empty();
+        // TODO: customerById를 반환하는 메서드
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        //미구현
-        return Optional.empty();
+        // TODO: customerByEmail을 반환하는 메서드
+        throw new UnsupportedOperationException();
     }
 
+    @Override
+    public Customer updateName(Customer customer) {
+        // TODO: name 업데이트 메서드
+        throw new UnsupportedOperationException();
+    }
 
     @Override
-    public List<Customer> findBlackList() {
-        //미구현
-        return null;
+    public void deleteAll() {
+        // TODO: 전부 삭제하는 메서드
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        // TODO: 아이디로 customer 삭제하는 메서드
+        throw new UnsupportedOperationException();
     }
 }
