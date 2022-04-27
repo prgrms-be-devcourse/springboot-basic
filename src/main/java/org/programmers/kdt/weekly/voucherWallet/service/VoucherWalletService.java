@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.programmers.kdt.weekly.voucherWallet.repository.VoucherWalletRepository;
 import org.programmers.kdt.weekly.voucherWallet.model.VoucherWallet;
+import org.programmers.kdt.weekly.voucherWallet.repository.VoucherWalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,9 +22,9 @@ public class VoucherWalletService {
         this.voucherWalletRepository = voucherWalletRepository;
     }
 
-    public VoucherWallet insert(UUID customerId, UUID voucherId, LocalDateTime expirationAt) {
+    public VoucherWallet insert(UUID customerId, UUID voucherId) {
         var voucherWallet = new VoucherWallet(UUID.randomUUID(), customerId, voucherId,
-            LocalDateTime.now(), expirationAt);
+            LocalDateTime.now());
         voucherWalletRepository.insert(voucherWallet);
 
         return voucherWallet;
@@ -32,7 +32,7 @@ public class VoucherWalletService {
 
     public List<VoucherWallet> findById(UUID customerId) {
 
-        return voucherWalletRepository.findAll(customerId);
+        return voucherWalletRepository.findByCustomerId(customerId);
     }
 
     public Optional<UUID> deleteById(UUID customerId, UUID walletId) {

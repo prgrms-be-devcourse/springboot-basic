@@ -13,16 +13,20 @@ public class VoucherWallet {
     private final LocalDateTime expirationAt;
 
     public VoucherWallet(UUID walletId, UUID customerId, UUID voucherId,
-        LocalDateTime createdAt, LocalDateTime expirationAt) {
+        LocalDateTime createdAt) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
         this.createdAt = createdAt;
-        this.expirationAt = expirationAt;
+        expirationAt = createdAt.plusDays(30);
     }
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public UUID getWalletId() {
+        return walletId;
     }
 
     @Override

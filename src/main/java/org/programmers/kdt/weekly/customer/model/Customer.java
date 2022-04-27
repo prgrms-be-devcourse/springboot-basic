@@ -20,6 +20,10 @@ public class Customer {
         return customerId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void changeCustomerType(CustomerType customerType) {
         this.customerType = customerType;
     }
@@ -34,6 +38,6 @@ public class Customer {
     }
 
     public String serializeCustomer() {
-        return customerId + "," + email + "," + customerName + "," + customerType.toString();
+        return customerId + "," + email + "," + customerName + "," + customerType;
     }
 }
