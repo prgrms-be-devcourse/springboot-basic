@@ -1,0 +1,9 @@
+spring.config.activate.on-profile: local
+kdt:
+  version: "v1.0"
+
+---
+
+spring.config.activate.on-profile: file
+kdt:
+  version: "v1.0-file"
