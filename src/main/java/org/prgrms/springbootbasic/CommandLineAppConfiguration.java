@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-@ComponentScan
+//@ComponentScan
 @PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class CommandLineAppConfiguration {
