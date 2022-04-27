@@ -8,12 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -32,16 +35,15 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long value = resultSet.getLong("value");
         String DTYPE = resultSet.getString("DTYPE");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         VoucherType type = VoucherType.getType(DTYPE);
         switch (type) {
             case FIXEDAMOUNT:
-                return new FixedAmountVoucher(voucherId, value);
+                return new FixedAmountVoucher(voucherId, value, createdAt);
             case PERCENTDISCOUNT:
-                return new PercentDiscountVoucher(voucherId, value);
+                return new PercentDiscountVoucher(voucherId, value, createdAt);
             default:
-                //Exception
-                logger.error("유효하지 않은 Voucher type -> {}", type);
                 throw new IllegalArgumentException("Voucher type error");
         }
     };
@@ -51,6 +53,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
             {
                 put("voucherId", voucher.getVoucherId().toString().getBytes());
                 put("value", voucher.getValue());
+                put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
                 put("DTYPE", voucher.getDTYPE());
             }
         };
@@ -58,12 +61,13 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        var insert = jdbcTemplate.update("insert into VOUCHERS(voucher_id, value, DTYPE) values(UUID_TO_BIN(:voucherId), :value, :DTYPE);",
+        var insert = jdbcTemplate.update("insert into VOUCHERS(voucher_id, value, created_at, DTYPE) values(UUID_TO_BIN(:voucherId), :value, :createdAt, :DTYPE);",
                 toParamMap(voucher));
 
         if (insert != 1) {
-            throw new RuntimeException("Voucher Insertion failed");
+            throw new DuplicateKeyException("Voucher Insertion failed");
         }
+
         return voucher;
     }
 
@@ -80,6 +84,24 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         }
     }
 
+
+    @Override
+    public List<Voucher> findByVoucherType(String DTYPE) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("DTYPE", DTYPE);
+        }};
+        return jdbcTemplate.query("select * from VOUCHERS where DTYPE = :DTYPE", paramMap, voucherRowMapper);
+    }
+
+    public List<Voucher> findByCreated(LocalDateTime date) {
+
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("date", Timestamp.valueOf(date));
+        }};
+
+        return jdbcTemplate.query("select * from VOUCHERS where date(created_at) = date(:date)", paramMap, voucherRowMapper);
+    }
+
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from VOUCHERS", voucherRowMapper);
@@ -88,6 +110,16 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from VOUCHERS", Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Map<String, Object> paramMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
+
+        var delete = jdbcTemplate.update("delete from VOUCHERS where voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
+        if (delete != 1) {
+            throw new IllegalArgumentException();
+        }
     }
 
     private static UUID toUUID(byte[] bytes) {
