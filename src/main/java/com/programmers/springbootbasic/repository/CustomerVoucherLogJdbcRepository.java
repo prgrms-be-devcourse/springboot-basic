@@ -18,31 +18,31 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class StatusJdbcRepository {
+public class CustomerVoucherLogJdbcRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(StatusJdbcRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerVoucherLogJdbcRepository.class);
 
     private static final String INSERT =
-            "INSERT INTO status(customer_id, voucher_id) VALUES(?, ?)";
+            "INSERT INTO customer_voucher_log(customer_id, voucher_id) VALUES(?, ?)";
     private static final String SELECT_BY_CUSTOMER_ID =
-            "SELECT * FROM status WHERE customer_id = ?";
+            "SELECT * FROM customer_voucher_log WHERE customer_id = ?";
     private static final String SELECT_BY_VOUCHER_ID =
-            "SELECT * FROM status WHERE voucher_id = ?";
+            "SELECT * FROM customer_voucher_log WHERE voucher_id = ?";
     private static final String SELECT_ALL =
-            "SELECT * FROM status";
+            "SELECT * FROM customer_voucher_log";
 
     private static final String SELECT_VOUCHERS_BY_CUSTOMER_ID =
             "SELECT v.voucher_id, v.created_at, v.fixed_amount, v.discount_percent, v.type " +
-            "From customers c, status s, vouchers v " +
+            "From customers c, customer_voucher_log s, vouchers v " +
             "WHERE s.voucher_id = v.voucher_id AND s.customer_id = c.customer_id AND s.customer_id = ?";
     private static final String SELECT_CUSTOMER_BY_VOUCHER_ID =
             "SELECT c.customer_id, c.name, s.registration_date " +
-                    "FROM customers c, status s, vouchers v " +
+                    "FROM customers c, customer_voucher_log s, vouchers v " +
                     "WHERE s.voucher_id = v.voucher_id AND s.customer_id = c.customer_id AND s.voucher_id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<CustomerVoucherLog> statusRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<CustomerVoucherLog> customerVoucherLogRowMapper = (rs, rowNum) -> {
         String customerId = rs.getString("customer_id");
         UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         LocalDateTime registrationDate = rs.getTimestamp("registration_date").toLocalDateTime();
@@ -74,28 +74,28 @@ public class StatusJdbcRepository {
     };
 
     @Autowired
-    public StatusJdbcRepository(DataSource dataSource) {
+    public CustomerVoucherLogJdbcRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public CustomerVoucherLog insert(String customerId, UUID voucherId) {
-        CustomerVoucherLog statusDTO = new CustomerVoucherLog(customerId, voucherId);
+        CustomerVoucherLog customerVoucherLog = new CustomerVoucherLog(customerId, voucherId);
         int insertResult = jdbcTemplate.update(INSERT, customerId, voucherId.toString());
 
         if (insertResult != 1)
             logger.error("새로운 상태 저장 요청 실패");
 
-        return statusDTO;
+        return customerVoucherLog;
     }
 
     public List<CustomerVoucherLog> findByCustomerId(String customerId) {
-        return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID, statusRowMapper, customerId);
+        return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID, customerVoucherLogRowMapper, customerId);
     }
 
     public Optional<CustomerVoucherLog> findByVoucherId(UUID voucherId) {
         try {
-            CustomerVoucherLog statusDTO = jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID, statusRowMapper, voucherId.toString());
-            return Optional.ofNullable(statusDTO);
+            CustomerVoucherLog customerVoucherLog = jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID, customerVoucherLogRowMapper, voucherId.toString());
+            return Optional.ofNullable(customerVoucherLog);
         } catch (DataAccessException e) {
             logger.info("존재하지 않은 할인권 아이디로 상태 정보 검색 요청");
             return Optional.empty();
@@ -103,7 +103,7 @@ public class StatusJdbcRepository {
     }
 
     public List<CustomerVoucherLog> findAll() {
-        return jdbcTemplate.query(SELECT_ALL, statusRowMapper);
+        return jdbcTemplate.query(SELECT_ALL, customerVoucherLogRowMapper);
     }
 
     public List<Voucher> findVouchersByCustomerId(String customerId) {
