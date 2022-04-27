@@ -27,14 +27,13 @@ class VoucherTest {
         itemValue = 10000;
         fix = new FixedAmountVoucher(UUID.randomUUID(), 10);
         percent = new PercentDiscountVoucher(UUID.randomUUID(), 30);
-
     }
 
     @Test
     @DisplayName("기본적인 voucher 생성 테스트")
     void saveVoucher() {
-        assertThat(true, is(fix.getValue() == 10));
-        assertThat(true, is(percent.getValue() == 20));
+        assertThat(fix, samePropertyValuesAs(new FixedAmountVoucher(fix.getVoucherId(), 10)));
+        assertThat(percent, samePropertyValuesAs(new PercentDiscountVoucher(percent.getVoucherId(), 30)));
     }
 
 

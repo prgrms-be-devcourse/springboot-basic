@@ -32,24 +32,28 @@ public class MemoryVoucherRepository implements VoucherRepository {
         logger.info("MemoryVoucherRepository - findAll");
         storage.forEach(((uuid, voucher) -> {
             vouchers.add(voucher);
-            System.out.println(voucher.toString());
         }));
         return vouchers;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public List<Voucher> findByType(String type) {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.forEach((id, voucher) -> {
+            if(voucher.validateType(type)) vouchers.add(voucher);
+        });
+        return vouchers;
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        storage.replace(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
@@ -60,7 +64,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public int count() {
-        return 0;
+        return storage.size();
     }
 
 }
