@@ -1,5 +1,6 @@
 package com.waterfogsw.voucher.console;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,10 +30,9 @@ public enum Command {
 
 
     public static Command from(String command) {
-        try {
-            return Command.valueOf(command.toUpperCase());
-        } catch (NullPointerException e) {
-            throw new IllegalArgumentException(INVALID_COMMAND);
-        }
+        return Arrays.stream(Command.values())
+                .filter(v -> v.name().equals(command.toUpperCase()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_COMMAND));
     }
 }
