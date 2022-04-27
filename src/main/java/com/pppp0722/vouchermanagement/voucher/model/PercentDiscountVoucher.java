@@ -12,13 +12,6 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private final UUID memberId;
 
-    public PercentDiscountVoucher(UUID voucherId, long amount, UUID memberId) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.memberId = memberId;
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
-    }
-
     public PercentDiscountVoucher(UUID voucherId, long amount, LocalDateTime createdAt,
         UUID memberId) {
         this.voucherId = voucherId;

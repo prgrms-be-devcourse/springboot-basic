@@ -12,13 +12,6 @@ public class FixedAmountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private final UUID memberId;
 
-    public FixedAmountVoucher(UUID voucherId, long amount, UUID memberId) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.memberId = memberId;
-        createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
-    }
-
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt,
         UUID memberId) {
         this.voucherId = voucherId;

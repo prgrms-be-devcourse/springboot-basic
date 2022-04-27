@@ -12,6 +12,7 @@ import com.pppp0722.vouchermanagement.member.service.MemberService;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -80,8 +81,7 @@ public class Create {
             createVoucher();
         }
 
-        Optional<Voucher> voucher = voucherService.createVoucher(UUID.randomUUID(), type, amount,
-            memberId);
+        Optional<Voucher> voucher = voucherService.createVoucher(UUID.randomUUID(), type, amount, LocalDateTime.now(), memberId);
         if (voucher.isPresent()) {
             console.printSuccess();
         } else {

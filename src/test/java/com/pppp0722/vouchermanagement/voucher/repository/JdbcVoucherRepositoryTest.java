@@ -118,7 +118,7 @@ class JdbcVoucherRepositoryTest {
     @Order(5)
     @DisplayName("updateVoucher() 테스트")
     public void testUpdateVoucher() {
-        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
+        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20, LocalDateTime.now(),
             newVoucher.getMemberId());
 
         Optional<Voucher> member = voucherRepository.update(updatedVoucher);
@@ -166,7 +166,7 @@ class JdbcVoucherRepositoryTest {
     @Order(9)
     @DisplayName("updateVoucher() voucher 존재 X 예외 테스트")
     public void testUpdateVoucherException() {
-        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20,
+        Voucher updatedVoucher = new PercentDiscountVoucher(newVoucher.getVoucherId(), 20, LocalDateTime.now(),
             newVoucher.getMemberId());
         Optional<Voucher> member = voucherRepository.update(updatedVoucher);
         assertThat(member.isEmpty(), is(true));
