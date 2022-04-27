@@ -33,6 +33,10 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
     public long useVoucher(long beforeDiscount, UUID voucherId) {
         val voucher = voucherRepository.findById(voucherId);
         if (voucher.isEmpty())

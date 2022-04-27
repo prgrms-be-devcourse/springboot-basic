@@ -32,4 +32,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
             db.remove(0);
         }
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Optional<Voucher> voucher = db.stream().filter(v -> v.getVoucherId() == voucherId).findFirst();
+
+        voucher.ifPresent(db::remove);
+    }
 }

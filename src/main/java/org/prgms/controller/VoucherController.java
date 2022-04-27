@@ -53,4 +53,12 @@ public class VoucherController {
     public String newVoucher() {
         return "new-voucher";
     }
+
+    @GetMapping("/vouchers/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+
+        return "vouchers";
+    }
+
 }
