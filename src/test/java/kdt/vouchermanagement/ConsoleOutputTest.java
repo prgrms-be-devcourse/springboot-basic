@@ -3,6 +3,7 @@ package kdt.vouchermanagement;
 import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
+import kdt.vouchermanagement.global.io.ConsoleOutput;
 import kdt.vouchermanagement.global.io.Output;
 import kdt.vouchermanagement.global.response.Response;
 import kdt.vouchermanagement.global.view.CommandMessage;
