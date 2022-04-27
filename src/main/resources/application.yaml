@@ -1,0 +1,23 @@
+#spring:
+#  profiles:
+#    active: local
+
+#---
+#
+spring:
+  profiles:
+    active: dev
+
+#spring:
+#  profiles:
+#    active: file
+
+
+datasource:
+  url: jdbc:mysql://localhost:3306/voucher_mgmt
+  username: root
+  password: root1234!
+  type: com.zaxxer.hikari.HikariDataSource
+
+
+
