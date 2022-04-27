@@ -34,7 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         //TODO: 구현 보류
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -66,16 +66,19 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         //TODO: 구현 보류
-        return Optional.empty();
+        throw new UnsupportedOperationException();
+        //return Optional.empty();
     }
 
     @Override
     public void deleteAll() {
         //TODO: 구현 보류
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteById(UUID voucherId) {
         //TODO: 구현 보류
+        throw new UnsupportedOperationException();
     }
 }
