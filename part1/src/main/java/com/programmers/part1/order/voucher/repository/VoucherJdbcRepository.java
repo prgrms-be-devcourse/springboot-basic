@@ -10,7 +10,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static com.programmers.part1.util.JdbcUtil.toLocalDateTime;
 import static com.programmers.part1.util.JdbcUtil.toUUID;
 
 @Repository
@@ -25,7 +29,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,voucher_amount) VALUES(UUID_TO_BIN(:voucherId),:voucherType,:amount)",
+        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,voucher_type,voucher_amount, created_at) VALUES(UUID_TO_BIN(:voucherId),:voucherType,:amount,:createdAt)",
                 toParamMap(voucher));
         if (update != 1)
             throw new NoUpdateException("바우처의 저장에 실패했습니다.");
@@ -48,7 +52,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
 
     @Override
     public List<Voucher> findVoucherByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("SELECT v.voucher_id, v.voucher_type, v.voucher_amount FROM voucher_wallets AS vw JOIN vouchers AS v ON vw.voucher_id = v.voucher_id WHERE customer_id = UUID_TO_BIN(:customerId)",
+        return jdbcTemplate.query("SELECT v.voucher_id, v.voucher_type, v.voucher_amount, v.created_at FROM voucher_wallets AS vw JOIN vouchers AS v ON vw.voucher_id = v.voucher_id WHERE customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 voucherRowMapper);
 
@@ -89,6 +93,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("voucherType", voucher.getVoucherType().toString());
             put("amount", voucher.getAmount());
+            put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
         }};
     }
 
@@ -96,11 +101,12 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         int amount = resultSet.getInt("voucher_amount");
+        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
 
         if (voucherType == VoucherType.FIXED)
-            return new FixedAmountVoucher(voucherId, amount);
+            return new FixedAmountVoucher(voucherId, amount, createdAt);
         else if (voucherType == VoucherType.PERCENT)
-            return new PercentAmountVoucher(voucherId, amount);
+            return new PercentAmountVoucher(voucherId, amount, createdAt);
         else
             throw new RuntimeException();
     };
