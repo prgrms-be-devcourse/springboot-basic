@@ -12,7 +12,9 @@ CREATE TABLE vouchers
 (
     voucher_id    BINARY(16) PRIMARY KEY,
     voucher_type  varchar(30) NOT NULL,
-    voucher_amount int NOT NULL
+    voucher_amount int NOT NULL,
+    created_at     datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    last_login_at     datetime(6) DEFAULT NULL
 );
 
 create table voucher_wallets
