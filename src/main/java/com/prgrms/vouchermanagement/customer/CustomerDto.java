@@ -8,17 +8,24 @@ import java.util.UUID;
 public class CustomerDto {
 
     private UUID customerId;
+
+    private String name;
     private String email;
     private LocalDateTime createdAt;
 
-    public CustomerDto(UUID customerId, String email, LocalDateTime createdAt) {
+    private CustomerDto() {
+
+    }
+
+    public CustomerDto(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
+        this.name = name;
         this.email = email;
         this.createdAt = createdAt;
     }
 
     public static CustomerDto from(Customer customer) {
-        return new CustomerDto(customer.getCustomerId(), customer.getEmail(), customer.getCreatedAt());
+        return new CustomerDto(customer.getCustomerId(), customer.getName(), customer.getEmail(), customer.getCreatedAt());
     }
 
     public static List<CustomerDto> fromList(List<Customer> customers) {
@@ -27,6 +34,10 @@ public class CustomerDto {
             customerDtos.add(CustomerDto.from(customer));
         });
         return customerDtos;
+    }
+
+    public static CustomerDto getEmptyCustomerDto() {
+        return new CustomerDto();
     }
 
     public UUID getCustomerId() {
@@ -39,5 +50,9 @@ public class CustomerDto {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public String getName() {
+        return name;
     }
 }
