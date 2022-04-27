@@ -3,19 +3,24 @@ package org.prgrms.kdt.shop.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.shop.CommandLineApplication;
 import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
 import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.shop.domain.Voucher;
+import org.prgrms.kdt.shop.enums.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +38,8 @@ import static org.hamcrest.Matchers.*;
 class MemoryVoucherRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
+    @MockBean
+    CommandLineApplication commandLineApplication;
 
     @TestConfiguration
     static class TestConfig {
@@ -44,7 +51,6 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("입력 테스트")
-    @Order(1)
     void insert( ) {
         //given
         voucherRepository.deleteAll();
@@ -56,7 +62,6 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 항목 검색 테스트")
-    @Order(2)
     void findAll( ) {
         //given
         voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 2000));
@@ -68,7 +73,6 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("ID를 이용한 검색 테스트")
-    @Order(3)
     void findById( ) {
         //given
         UUID uuid = UUID.randomUUID();
@@ -88,7 +92,6 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("수정 테스트")
-    @Order(4)
     void update( ) {
         //given
         voucherRepository.deleteAll();
@@ -104,7 +107,6 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("특정 항목 삭제 테스트")
-    @Order(5)
     void deleteTest( ) {
         //given
         deleteAll();
@@ -119,11 +121,22 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 항목 삭제 테스트")
-    @Order(6)
     void deleteAll( ) {
         //when
         voucherRepository.deleteAll();
         //then
         assertThat(voucherRepository.findAll().isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("바우처 타입으로 찾기 테스트")
+    void findByType( ) {
+        //given
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        //when
+        List<Voucher> voucherList = voucherRepository.findByType(VoucherType.FIXED_AMOUNT);
+        //then
+        assertThat(voucherList.size(), is(1));
     }
 }

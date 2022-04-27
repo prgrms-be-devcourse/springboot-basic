@@ -1,5 +1,8 @@
 package org.prgrms.kdt.shop.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -7,8 +10,9 @@ public class Customer {
     private final UUID customerId;
     private final LocalDateTime createAt;
     private final String email;
-    private String name;
+    private final String name;
     private LocalDateTime lastLoginAt;
+    private static final Logger logger = LoggerFactory.getLogger(Customer.class);
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
         validateName(name);
@@ -29,6 +33,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
+            logger.error("Name should not be a blank");
             throw new RuntimeException("Name should not be blank");
         }
     }

@@ -3,7 +3,6 @@ package org.prgrms.kdt.shop.enums;
 import java.util.Arrays;
 
 public enum VoucherType {
-
     FIXED_AMOUNT("1"), PERCENT_DISCOUNT("2");
 
     private final String inputVoucher;

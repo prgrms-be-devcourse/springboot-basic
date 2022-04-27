@@ -1,9 +1,8 @@
 package org.prgrms.kdt.shop.service;
 
 import org.prgrms.kdt.shop.domain.Voucher;
+import org.prgrms.kdt.shop.enums.VoucherType;
 import org.prgrms.kdt.shop.repository.VoucherRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,30 +14,37 @@ import java.util.UUID;
 @Transactional
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
         return Optional.ofNullable(voucherRepository.findById(voucherId).orElseThrow(( ) -> new RuntimeException("Can not find a voucher for%s".formatted(voucherId))));
     }
 
-    public Voucher insert(Voucher voucher) {
+    public List<Voucher> findVoucherByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public Voucher addVoucher(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }
 
-    public void delete(UUID uuid) {
+    public void deleteVoucherById(UUID uuid) {
         voucherRepository.delete(uuid);
     }
 
-    public Voucher update(Voucher voucher) {
+    public Voucher updateVoucher(Voucher voucher) {
         return voucherRepository.update(voucher);
     }
 
-    public void deleteAll( ) {
+    public void deleteAllVoucher( ) {
         voucherRepository.deleteAll();
+    }
+
+    public List<Voucher> findAllVoucher( ) {
+        return voucherRepository.findAll();
     }
 
     public void printAll( ) {

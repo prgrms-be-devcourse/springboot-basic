@@ -34,9 +34,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
             return new FixedAmountVoucher(voucherId, voucherAmount);
         } else if (VoucherType.find(voucherType).equals(VoucherType.PERCENT_DISCOUNT)) {
             return new PercentDiscountVoucher(voucherId, voucherAmount);
-        } else {
-            return null;
         }
+        return null;
     };
 
     @Override
@@ -50,7 +49,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "select * from vouchers WHERE voucher_id = UUID_TO_BIN(?)";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, voucherRowMapper, voucherId.toString().getBytes()));
-
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
         }
@@ -62,6 +60,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "insert into vouchers(voucher_id, voucher_amount, voucher_type) values(UUID_TO_BIN(?),?,?)";
         var insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString().getBytes(), voucher.getAmount(), voucher.getVoucherType().getInputVoucher());
         if (insert != 1) {
+            logger.error("Nothing was inserted");
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
@@ -77,7 +76,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "update vouchers set voucher_amount = ? , voucher_type = ? where voucher_id = UUID_TO_BIN(?)";
         var update = jdbcTemplate.update(sql, voucher.getAmount(), voucher.getVoucherType().getInputVoucher(), voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            logger.error("Nothing was updated");
+            throw new RuntimeException("Nothing was updated");
         }
         return voucher;
     }
@@ -87,10 +87,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = "delete from vouchers where voucher_id = UUID_TO_BIN(?)";
         try {
             Optional.ofNullable(jdbcTemplate.update(sql, voucherId.toString().getBytes()));
-
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String sql = "select * from vouchers WHERE voucher_type = ?";
+        return jdbcTemplate.query(sql, voucherRowMapper, voucherType.getInputVoucher());
     }
 
     private static UUID toUUID(byte[] bytes) {

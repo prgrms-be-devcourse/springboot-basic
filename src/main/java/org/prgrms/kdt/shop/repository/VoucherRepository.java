@@ -1,6 +1,7 @@
 package org.prgrms.kdt.shop.repository;
 
 import org.prgrms.kdt.shop.domain.Voucher;
+import org.prgrms.kdt.shop.enums.VoucherType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface VoucherRepository {
     Voucher update(Voucher voucher);
 
     void delete(UUID voucherId);
+
+    List<Voucher> findByType(VoucherType voucherType);
 }

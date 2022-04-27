@@ -1,13 +1,13 @@
 package org.prgrms.kdt.shop.io;
 
 public interface Output {
-    void menu( );
+    void printMenu( );
 
-    void inputError( );
+    void printInputError( );
 
-    void selectVoucher( );
+    void printVoucherSelector( );
 
-    void selectDiscount( );
+    void printDiscountInput( );
 
-    void selectMenu( );
+    void printMenuSelector( );
 }

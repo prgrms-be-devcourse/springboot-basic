@@ -1,6 +1,7 @@
 package org.prgrms.kdt.shop.repository;
 
 import org.prgrms.kdt.shop.domain.Voucher;
+import org.prgrms.kdt.shop.enums.VoucherType;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,4 +46,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.remove(voucherId);
     }
 
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        List<Voucher> voucherList = findAll();
+        List<Voucher> voucherTypeList = new ArrayList<>();
+        for (Voucher voucher : voucherList) {
+            if (voucher.getVoucherType().equals(voucherType)) {
+                voucherTypeList.add(voucher);
+            }
+        }
+        return voucherTypeList;
+    }
 }
