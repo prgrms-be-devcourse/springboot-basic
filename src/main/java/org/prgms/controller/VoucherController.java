@@ -54,11 +54,12 @@ public class VoucherController {
         return "new-voucher";
     }
 
+    // HTML에서 Delete Method 호출이 안되어.. 후에 react로 변경 시 @DeleteMapping 사용 해볼 수 있을듯합니다.
     @GetMapping("/vouchers/delete/{voucherId}")
     public String deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
 
-        return "vouchers";
+        return "redirect:/vouchers";
     }
 
 }

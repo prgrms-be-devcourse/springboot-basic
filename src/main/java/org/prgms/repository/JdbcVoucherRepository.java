@@ -65,7 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM vouchers WHERE  voucher_id = ?", UuidUtils.uuidToBytes(voucherId));
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", UuidUtils.uuidToBytes(voucherId));
     }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {
