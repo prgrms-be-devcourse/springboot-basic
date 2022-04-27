@@ -18,14 +18,17 @@ public class CustomerService {
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public void addCustomer(String name, String email) throws DataAccessException, IllegalArgumentException {
+    public UUID addCustomer(String name, String email) throws DataAccessException, IllegalArgumentException {
         if (isRegisteredCustomer(email)) {
             throw new IllegalArgumentException("중복된 email입니다.");
         }
 
-        Customer newCustomer = Customer.of(UUID.randomUUID(), name, email, LocalDateTime.now());
+        UUID customerId = UUID.randomUUID();
+        Customer newCustomer = Customer.of(customerId, name, email, LocalDateTime.now());
 
         customerRepository.save(newCustomer);
+
+        return customerId;
     }
 
     /**
