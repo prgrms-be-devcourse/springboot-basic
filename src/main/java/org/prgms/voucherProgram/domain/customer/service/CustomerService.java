@@ -40,7 +40,7 @@ public class CustomerService {
     }
 
     public Customer modify(Email email, CustomerRequest customerRequest) {
-        Customer customer = findCustomer(email);
+        Customer customer = findByEmail(email);
         customer.changeInformation(customerRequest.getName(), customerRequest.getEmail(), LocalDateTime.now());
 
         customerRepository.findByEmail(customer.getEmail())
@@ -55,7 +55,7 @@ public class CustomerService {
         }
     }
 
-    private Customer findCustomer(Email email) {
+    public Customer findByEmail(Email email) {
         return customerRepository.findByEmail(email.getEmail()).orElseThrow(() -> {
             throw new CustomerIsNotExistsException();
         });
@@ -81,10 +81,6 @@ public class CustomerService {
             .ifPresentOrElse(customer -> customerRepository.deleteByEmail(email.getEmail()), () -> {
                 throw new CustomerIsNotExistsException();
             });
-    }
-
-    public Customer findByEmail(Email email) {
-        return findCustomer(email);
     }
 
     public Customer findById(UUID customerId) {
