@@ -19,18 +19,6 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        int amount = resultSet.getInt("voucher_amount");
-        if (voucherType == VoucherType.FIXED)
-            return new FixedAmountVoucher(voucherId, amount);
-        else if (voucherType == VoucherType.PERCENT)
-            return new PercentAmountVoucher(voucherId, amount);
-        else
-            throw new RuntimeException();
-    };
-
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -103,4 +91,17 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
             put("amount", voucher.getAmount());
         }};
     }
+
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        int amount = resultSet.getInt("voucher_amount");
+
+        if (voucherType == VoucherType.FIXED)
+            return new FixedAmountVoucher(voucherId, amount);
+        else if (voucherType == VoucherType.PERCENT)
+            return new PercentAmountVoucher(voucherId, amount);
+        else
+            throw new RuntimeException();
+    };
 }

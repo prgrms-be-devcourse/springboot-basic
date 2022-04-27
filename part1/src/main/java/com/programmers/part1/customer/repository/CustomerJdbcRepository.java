@@ -8,11 +8,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import static com.programmers.part1.util.JdbcUtil.toUUID;
+import static com.programmers.part1.util.JdbcUtil.toLocalDateTime;
 
 /**
  * 현재 VoucherRepository와 customerRepository에서 voucher_wallets에 접근합니다...
@@ -25,23 +25,6 @@ import static com.programmers.part1.util.JdbcUtil.toUUID;
 public class CustomerJdbcRepository implements CustomerRepository<UUID, Customer> {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        String customerName = resultSet.getString("name");
-        String email = resultSet.getString("email");
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-
-        return Customer.builder()
-                .customerId(customerId)
-                .name(customerName)
-                .email(email)
-                .createdAt(createdAt)
-                .lastLoginAt(lastLoginAt)
-                .build();
-    };
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -140,4 +123,20 @@ public class CustomerJdbcRepository implements CustomerRepository<UUID, Customer
             put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
         }};
     }
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
+        LocalDateTime lastLoginAt = toLocalDateTime(resultSet.getTimestamp("last_login_at"));
+
+        return Customer.builder()
+                .customerId(customerId)
+                .name(customerName)
+                .email(email)
+                .createdAt(createdAt)
+                .lastLoginAt(lastLoginAt)
+                .build();
+    };
 }
