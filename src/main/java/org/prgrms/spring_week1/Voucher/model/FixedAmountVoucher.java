@@ -13,16 +13,14 @@ public class FixedAmountVoucher implements Voucher {
     private final VoucherType voucherType;
 
 
-
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= 0){
+    public FixedAmountVoucher(UUID voucherId, long discount) {
+        if (discount <= 0) {
             throw new IllegalArgumentException("amount should be plus");
-        }
-        else if (amount > 10000000){
+        } else if (discount > 10000000) {
             throw new IllegalArgumentException("amount should be smaller than 10,000,000");
         }
         this.voucherId = voucherId;
-        this.discount = amount;
+        this.discount = discount;
         this.voucherStatus = VoucherStatus.VALID;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
@@ -82,9 +80,14 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public void setStatus(VoucherStatus status) {
+        this.voucherStatus = status;
+    }
+
+    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
-            "/ discount=" + discount +
+            "discount=" + discount +
             "/ voucherStatus=" + voucherStatus +
             '}';
     }

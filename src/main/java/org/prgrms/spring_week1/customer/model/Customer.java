@@ -4,16 +4,17 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
+
     private final UUID customerId;
     private String name;
     private String address;
     private Gender gender;
-    private PhoneNumber phoneNumber;
+    private String phoneNumber;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     public Customer(UUID customerId, String name, String address,
-        Gender gender, PhoneNumber phoneNumber) {
+        Gender gender, String phoneNumber) {
         this.customerId = customerId;
         this.name = name;
         this.address = address;
@@ -24,7 +25,7 @@ public class Customer {
     }
 
     public Customer(UUID customerId, String name, String address,
-        Gender gender, PhoneNumber phoneNumber, LocalDateTime createdAt,
+        Gender gender, String phoneNumber, LocalDateTime createdAt,
         LocalDateTime updatedAt) {
         this.customerId = customerId;
         this.name = name;
@@ -51,7 +52,7 @@ public class Customer {
         return gender;
     }
 
-    public PhoneNumber getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -80,7 +81,7 @@ public class Customer {
 
     }
 
-    public void setPhoneNumber(PhoneNumber phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
         this.updatedAt = LocalDateTime.now();
 

@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.spring_week1.customer.model.Customer;
 import org.prgrms.spring_week1.customer.model.Gender;
-import org.prgrms.spring_week1.customer.model.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -33,7 +32,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> getAll() {
-        return jdbcTemplate.query("select * from Customers", customerRowMapper);
+        return jdbcTemplate.query("select * from Customer", customerRowMapper);
     }
 
     @Override
@@ -41,7 +40,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         try {
             return Optional.of(jdbcTemplate
                 .queryForObject(
-                    "select * from Customers where customer_id = UUID_TO_BIN(:customerId)",
+                    "select * from Customer where customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -54,9 +53,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         int insert = jdbcTemplate.update(
-            "insert into Customers(customer_id, gender, name, phone_number, address, created_at, updated_at)"
+            "insert into Customer(customer_id, gender, name, phone_number, address, created_at, updated_at)"
                 +
-                "values(UUID_TO_BIN(:customerId), :, :gender, :name, :phoneNumber, :address, :createdAt, :updatedAt)",
+                "values(UUID_TO_BIN(:customerId), :gender, :name, :phoneNumber, :address, :createdAt, :updatedAt)",
             toParamMap(customer));
         if (insert != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -67,9 +66,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update("update Customers "
+        int update = jdbcTemplate.update("update Customer "
             + "set name = :name, gender = :gender, address = :address, phone_number = :phoneNumber, created_at = :createdAt, updated_at = :updatedAt "
-            + "where customer_id = UUID_TO_BIN(customerId)", toParamMap(customer));
+            + "where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
         }
@@ -78,7 +77,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("select from Customers", Collections.emptyMap());
+        jdbcTemplate.update("delete from Customer", Collections.emptyMap());
     }
 
     private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -86,7 +85,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         Gender gender = Gender.valueOf(resultSet.getString("gender"));
         String address = resultSet.getString("address");
         String name = resultSet.getString("name");
-        PhoneNumber phoneNumber = new PhoneNumber(resultSet.getString("phone_number"));
+        String phoneNumber = resultSet.getString("phone_number");
         LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
         LocalDateTime updatedAt = toLocalDateTime(resultSet.getTimestamp("updated_at"));
 
