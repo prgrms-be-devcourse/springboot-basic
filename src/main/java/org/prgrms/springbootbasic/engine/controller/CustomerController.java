@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.engine.controller;
 import org.prgrms.springbootbasic.engine.controller.dto.CustomerCreateRequestDto;
 import org.prgrms.springbootbasic.engine.controller.dto.CustomerResponseDto;
 import org.prgrms.springbootbasic.engine.domain.Customer;
+import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.service.CustomerService;
 import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUID;
 
 @Controller
 public class CustomerController {
@@ -46,7 +49,8 @@ public class CustomerController {
 
     @GetMapping("/customers/{customerId}")
     public String viewCustomerDetailPage(Model model, @PathVariable String customerId) {
-        Customer customer = findCustomerByStringId(customerId);
+        UUID id = convertStringToUUID(customerId);
+        Customer customer = customerService.getCustomerById(id);
         CustomerResponseDto customerResponseDto = new CustomerResponseDto(customer);
         customerService.getVouchersByCustomer(customer).forEach(v -> customerResponseDto.addVoucher(v.getVoucherId()));
         model.addAttribute("customer", customerResponseDto);
@@ -55,18 +59,9 @@ public class CustomerController {
 
     @GetMapping("/customers/{customerId}/delete")
     public String deleteCustomer(@PathVariable String customerId) {
-        Customer customer = findCustomerByStringId(customerId);
+        UUID id = convertStringToUUID(customerId);
+        Customer customer = customerService.getCustomerById(id);
         customerService.removeCustomer(customer);
         return "redirect:/customers";
-    }
-
-    private Customer findCustomerByStringId(String customerId) {
-        UUID id;
-        try {
-            id = UUID.fromString(customerId);
-        }catch (IllegalArgumentException ex) {
-            throw new VoucherException("Invalid Id format");
-        }
-        return customerService.getCustomerById(id);
     }
 }

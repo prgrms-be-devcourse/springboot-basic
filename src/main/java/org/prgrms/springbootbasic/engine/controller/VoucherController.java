@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUID;
+
 @Controller
 public class VoucherController {
     private final VoucherService voucherService;
@@ -48,25 +50,16 @@ public class VoucherController {
 
     @GetMapping("/vouchers/{voucherId}")
     public String viewVoucherDetailPage(Model model, @PathVariable String voucherId) {
-        Voucher voucher = findVoucherByStringId(voucherId);
+        UUID id = convertStringToUUID(voucherId);
+        Voucher voucher = voucherService.getVoucher(id);
         model.addAttribute("voucher", new VoucherResponseDto(voucher));
         return "views/voucher";
     }
 
     @GetMapping("/vouchers/{voucherId}/delete")
     public String deleteVoucher(@PathVariable String voucherId) {
-        Voucher voucher = findVoucherByStringId(voucherId);
-        voucherService.removeVoucher(voucher);
+        UUID id = convertStringToUUID(voucherId);
+        voucherService.removeVoucherById(id);
         return "redirect:/vouchers";
-    }
-
-    private Voucher findVoucherByStringId(String voucherId) {
-        UUID id;
-        try {
-            id = UUID.fromString(voucherId);
-        }catch (IllegalArgumentException ex) {
-            throw new VoucherException("Invalid Id format");
-        }
-        return voucherService.getVoucher(id);
     }
 }

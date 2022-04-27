@@ -63,6 +63,11 @@ public class VoucherService {
         voucherRepository.deleteById(voucher.getVoucherId());
     }
 
+    @Transactional
+    public void removeVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
     private Voucher validateVoucher(Voucher voucher) {
         Optional<Voucher> findVoucher = voucherRepository.findById(voucher.getVoucherId());
         return findVoucher.orElseThrow(() -> new VoucherException("Invalid voucher id"));
