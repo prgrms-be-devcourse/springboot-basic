@@ -1,10 +1,11 @@
 package com.prgrms.management.voucher.domain;
 
-import com.prgrms.management.config.ErrorMessageType;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.OUT_OF_RANGE_PERCENT_NUMBER;
 
 @Getter
 public class PercentVoucher extends Voucher {
@@ -29,6 +30,6 @@ public class PercentVoucher extends Voucher {
 
     private void validatePercentAmount(long amount) {
         if (amount < MIN_PERCENT_DISCOUNT || amount > MAX_PERCENT_DISCOUNT)
-            throw new NumberFormatException(VoucherType.class + ErrorMessageType.OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
+            throw new NumberFormatException(VoucherType.class + OUT_OF_RANGE_PERCENT_NUMBER.getMessage());
     }
 }

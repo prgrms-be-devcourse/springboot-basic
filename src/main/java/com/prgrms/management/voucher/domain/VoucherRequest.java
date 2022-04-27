@@ -17,6 +17,7 @@ public class VoucherRequest {
         this.voucherType = VoucherType.of(voucherType);
         this.amount = toLong(amount);
     }
+
     private long toLong(String inputAmount) {
         long amount = 0L;
         try {

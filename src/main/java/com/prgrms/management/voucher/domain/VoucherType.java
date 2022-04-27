@@ -1,11 +1,11 @@
 package com.prgrms.management.voucher.domain;
 
-import com.prgrms.management.config.ErrorMessageType;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_VOUCHER_TYPE;
 
 public enum VoucherType {
     FIXED("할인액") {
@@ -41,7 +41,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(e -> e.name().equals(input.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(VoucherType.class + ErrorMessageType.NOT_EXIST_VOUCHER_TYPE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(VoucherType.class + NOT_EXIST_VOUCHER_TYPE.getMessage()));
     }
 
     public abstract Voucher create(long amount, VoucherType voucherType, UUID customerId);

@@ -21,6 +21,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXECUTE_QUERY;
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_CUSTOMER_ID;
+
 @Repository
 @Profile({"jdbc", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -45,10 +48,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Timestamp.valueOf(voucher.getCreatedAt()),
                 voucher.getAmount(),
                 voucher.getVoucherType().toString(),
-                voucher.getCustomerId().toString().getBytes()
+                voucher.getCustomerId() != null ? voucher.getCustomerId().toString().getBytes() : null
         );
         if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+            throw new IllegalStateException(NOT_EXECUTE_QUERY.getMessage());
         }
         return voucher;
     }
@@ -100,10 +103,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             update = jdbcTemplate.update(UPDATE_SQL, customerId.toString().getBytes(), voucherId.toString().getBytes());
         } catch (DataIntegrityViolationException e) {
-            throw new NotFoundException(ErrorMessageType.NOT_EXIST_CUSTOMER_ID.getMessage());
+            throw new NotFoundException(NOT_EXIST_CUSTOMER_ID.getMessage());
         }
         if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+            throw new IllegalStateException(NOT_EXECUTE_QUERY.getMessage());
         }
     }
 

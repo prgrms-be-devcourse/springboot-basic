@@ -1,12 +1,13 @@
 package com.prgrms.management.customer.repository;
 
-import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.DuplicatedEmailException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
 import com.prgrms.management.util.ToUUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +17,9 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.DUPLICATE_CUSTOMER_EMAIL;
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXECUTE_QUERY;
 
 @Repository
 @Profile({"jdbc", "test"})
@@ -38,14 +42,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        int update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at, customer_type) values (UUID_TO_BIN(?), ?, ?, ?, ?)",
-                customer.getCustomerId().toString().getBytes(),
-                customer.getName(),
-                customer.getEmail(),
-                Timestamp.valueOf(customer.getCreatedAt()),
-                customer.getCustomerType().equals(CustomerType.NORMAL) ? "normal" : "blacklist");
+        int update = 0;
+        try {
+            update = jdbcTemplate.update("insert into customers(customer_id, name, email, created_at, customer_type) values (UUID_TO_BIN(?), ?, ?, ?, ?)",
+                    customer.getCustomerId().toString().getBytes(),
+                    customer.getName(),
+                    customer.getEmail(),
+                    Timestamp.valueOf(customer.getCreatedAt()),
+                    customer.getCustomerType().equals(CustomerType.NORMAL) ? "normal" : "blacklist");
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedEmailException(this.getClass() + DUPLICATE_CUSTOMER_EMAIL.getMessage());
+        }
         if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+            throw new IllegalStateException(NOT_EXECUTE_QUERY.getMessage());
         }
         return customer;
     }
@@ -93,7 +102,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes()
         );
         if (update != 1) {
-            throw new IllegalStateException(ErrorMessageType.NOT_EXECUTE_QUERY.getMessage());
+            throw new IllegalStateException(NOT_EXECUTE_QUERY.getMessage());
         }
         return customer;
     }

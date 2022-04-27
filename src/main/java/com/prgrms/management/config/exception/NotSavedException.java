@@ -1,9 +1,9 @@
 package com.prgrms.management.config.exception;
 
-public class NotFoundException extends RuntimeException {
+public class NotSavedException extends RuntimeException {
     private final String message;
 
-    public NotFoundException(String message) {
+    public NotSavedException(String message) {
         this.message = message;
     }
 }

@@ -1,9 +1,9 @@
 package com.prgrms.management.command.service;
 
 import com.prgrms.management.command.domain.Command;
-import com.prgrms.management.config.GuideType;
 import com.prgrms.management.command.io.Input;
 import com.prgrms.management.command.io.Output;
+import com.prgrms.management.config.GuideType;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import com.prgrms.management.customer.service.CustomerService;
@@ -12,7 +12,6 @@ import com.prgrms.management.voucher.domain.VoucherType;
 import com.prgrms.management.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -39,10 +38,9 @@ public class ConsoleCommandService implements CommandService {
             try {
                 String inputCommand = input.readLine();
                 Command command = Command.of(inputCommand);
-                logger.info("select {}", command.name());
                 execute(command);
             } catch (RuntimeException e) {
-                logger.info("{}:{}",e.getClass(),e.getMessage());
+                logger.info("{}:{}", e.getClass(), e.getMessage());
             }
         }
     }
@@ -66,7 +64,7 @@ public class ConsoleCommandService implements CommandService {
             case UPDATE_CUSTOMER:
                 customerId = input.inputCustomerId();
                 String customerName = input.inputCustomerName();
-                customerService.updateCustomer(customerId,customerName);
+                customerService.updateCustomer(customerId, customerName);
                 break;
             case DELETE_CUSTOMER:
                 customerId = input.inputCustomerId();
@@ -89,7 +87,7 @@ public class ConsoleCommandService implements CommandService {
             case ASSIGN_VOUCHER:
                 voucherId = input.inputVoucherId();
                 customerId = input.inputCustomerId();
-                voucherService.updateByCustomerId(voucherId,customerId);
+                voucherService.updateByCustomerId(voucherId, customerId);
                 break;
             case DELETE_VOUCHER:
                 customerId = input.inputCustomerId();

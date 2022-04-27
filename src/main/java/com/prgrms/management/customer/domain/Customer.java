@@ -1,6 +1,5 @@
 package com.prgrms.management.customer.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,7 @@ public class Customer {
     private final LocalDateTime createdAt;
     private CustomerType customerType;
 
-    public Customer(UUID customerId, String name, String email,LocalDateTime createdAt,CustomerType customerType) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, CustomerType customerType) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
@@ -33,7 +32,7 @@ public class Customer {
     }
 
     public Customer(CustomerType customerType) {
-        this.customerId=UUID.randomUUID();
+        this.customerId = UUID.randomUUID();
         this.customerType = customerType;
         this.createdAt = LocalDateTime.now();
     }

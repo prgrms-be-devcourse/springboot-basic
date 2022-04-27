@@ -22,7 +22,7 @@ public class Input {
         String voucherType = scanner.nextLine();
         System.out.println(GuideType.DISCOUNT.getMESSAGE());
         String amount = scanner.nextLine();
-        return new VoucherRequest(voucherType,amount);
+        return new VoucherRequest(voucherType, amount);
     }
 
     public VoucherType inputVoucherType() {
@@ -38,7 +38,7 @@ public class Input {
         String email = scanner.nextLine();
         System.out.println(GuideType.CUSTOMER_TYPE.getMESSAGE());
         String customerType = scanner.nextLine();
-        return new CustomerRequest(name,email,customerType);
+        return new CustomerRequest(name, email, customerType);
     }
 
     public UUID inputCustomerId() {

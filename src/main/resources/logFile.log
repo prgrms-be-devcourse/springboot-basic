@@ -676,3 +676,60 @@
 19:25:09.779 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 34995 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
 19:25:09.781 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
 19:25:10.716 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.237 seconds (JVM running for 1.588)
+19:48:29.961 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37034 (started by dhkstn in /Users/dhkstn/management)
+19:48:29.962 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:48:31.228 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.429 seconds (JVM running for 2.331)
+19:49:24.024 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37098 (started by dhkstn in /Users/dhkstn/management)
+19:49:24.024 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:49:25.284 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.409 seconds (JVM running for 2.315)
+19:50:07.801 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37142 (started by dhkstn in /Users/dhkstn/management)
+19:50:07.801 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:50:08.951 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.301 seconds (JVM running for 2.057)
+19:50:12.591 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37153 (started by dhkstn in /Users/dhkstn/management)
+19:50:12.593 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - The following 1 profile is active: "test"
+19:50:14.279 [main] INFO c.p.m.v.r.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.924 seconds (JVM running for 2.843)
+19:50:18.185 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37161 (started by dhkstn in /Users/dhkstn/management)
+19:50:18.186 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:50:19.330 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.291 seconds (JVM running for 2.094)
+19:50:19.709 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:20.028 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:20.201 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:42.257 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37196 (started by dhkstn in /Users/dhkstn/management)
+19:50:42.257 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:50:43.439 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.324 seconds (JVM running for 2.11)
+19:50:43.849 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:44.194 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:50:44.429 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:51:57.333 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37274 (started by dhkstn in /Users/dhkstn/management)
+19:51:57.334 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:51:58.467 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.277 seconds (JVM running for 1.937)
+19:52:02.809 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37286 (started by dhkstn in /Users/dhkstn/management)
+19:52:02.809 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:52:04.392 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.747 seconds (JVM running for 2.417)
+19:52:22.419 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37311 (started by dhkstn in /Users/dhkstn/management)
+19:52:22.419 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:52:23.565 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.288 seconds (JVM running for 2.025)
+19:52:24.004 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:52:24.368 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:52:24.556 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:11.760 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37373 (started by dhkstn in /Users/dhkstn/management)
+19:53:11.760 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:53:12.902 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.366 seconds (JVM running for 2.32)
+19:53:13.347 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:13.696 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:13.868 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:39.469 [main] INFO c.p.m.v.service.VoucherServiceTest - Starting VoucherServiceTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37403 (started by dhkstn in /Users/dhkstn/management)
+19:53:39.470 [main] INFO c.p.m.v.service.VoucherServiceTest - The following 1 profile is active: "test"
+19:53:40.562 [main] INFO c.p.m.v.service.VoucherServiceTest - Started VoucherServiceTest in 1.245 seconds (JVM running for 2.038)
+19:53:41.059 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:41.368 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:53:41.535 [main] INFO c.p.m.v.r.JdbcVoucherRepository - NotFoundException:존재하지 않는 객체입니다.
+19:55:33.923 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37533 (started by dhkstn in /Users/dhkstn/management)
+19:55:33.924 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:55:35.243 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.476 seconds (JVM running for 2.225)
+19:59:06.276 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37779 (started by dhkstn in /Users/dhkstn/management)
+19:59:06.277 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:59:07.426 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.293 seconds (JVM running for 1.976)
+19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37823 (started by dhkstn in /Users/dhkstn/management)
+19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
+19:59:43.315 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.4 seconds (JVM running for 2.068)

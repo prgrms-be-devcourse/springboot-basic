@@ -1,5 +1,6 @@
 package com.prgrms.management.customer.repository;
 
+import com.prgrms.management.config.exception.DuplicatedEmailException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerRequest;
 import org.assertj.core.api.Assertions;
@@ -21,7 +22,7 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-    Customer customer = new Customer(new CustomerRequest("customerA", "prgrms@naver.com", "normal"));
+    Customer customer = new Customer(new CustomerRequest("customerA", "fdfd@naver.com", "normal"));
     Customer saveCustomer;
     UUID randomId = UUID.randomUUID();
 
@@ -35,10 +36,18 @@ class JdbcCustomerRepositoryTest {
         customerRepository.deleteAll();
     }
 
-    @Test
-    void 성공_Customer_저장() {
-        //then
-        Assertions.assertThat(customer).isEqualTo(saveCustomer);
+    @Nested
+    class Customer_저장 {
+        @Test
+        void Customer_저장() {
+            Assertions.assertThat(customer).isEqualTo(saveCustomer);
+        }
+
+        @Test
+        void 중복_이메일로_인한_Customer_저장_실패() {
+            Assertions.assertThatThrownBy(() -> customerRepository.save(customer))
+                    .isInstanceOf(DuplicatedEmailException.class);
+        }
     }
 
     @Nested
@@ -64,7 +73,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void ID로_Customer_검색_실패() {
+        void 존재하지_않는_ID로_인한_Customer_검색_실패() {
             //when
             Optional<Customer> customerById = customerRepository.findById(randomId);
             //then
@@ -72,7 +81,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void EMAIL로_Customer_검색_실패() {
+        void 존재하지_않는_EMAIL로_인한_Customer_검색_실패() {
             //given
             String email = "fail@naver.com";
             //when
@@ -114,7 +123,7 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Test
-        void Customer_삭제_실패() {
+        void 존재하지_않는_아이디로_인한_Customer_삭제_실패() {
             //when
             customerRepository.deleteById(randomId);
             //then

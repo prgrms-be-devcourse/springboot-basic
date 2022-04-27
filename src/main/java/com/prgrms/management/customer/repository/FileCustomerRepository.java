@@ -1,6 +1,6 @@
 package com.prgrms.management.customer.repository;
 
-import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotSavedException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.domain.CustomerType;
 import org.slf4j.Logger;
@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.NOT_SAVED_EXCEPTION;
 
 @Repository
 @Profile({"local", "dev"})
@@ -29,7 +31,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
-            logger.info("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+            throw new NotSavedException(this.getClass() + NOT_SAVED_EXCEPTION.getMessage());
         }
         return customer;
     }

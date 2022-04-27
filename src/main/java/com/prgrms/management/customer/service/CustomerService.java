@@ -1,6 +1,5 @@
 package com.prgrms.management.customer.service;
 
-import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.customer.domain.Customer;
 import com.prgrms.management.customer.repository.CustomerRepository;
@@ -8,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_EXCEPTION;
 
 
 @Service
@@ -31,15 +32,15 @@ public class CustomerService {
     }
 
     public Customer findById(UUID customerId) {
-        return customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
+        return customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
     }
 
     public Customer findByEmail(String email) {
-        return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
+        return customerRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
     }
 
     public void updateCustomer(UUID customerId, String customerName) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new NotFoundException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
         customer.setName(customerName);
         customerRepository.updateName(customer);
     }

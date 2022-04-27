@@ -1,6 +1,5 @@
 package com.prgrms.management.voucher.service;
 
-import com.prgrms.management.config.ErrorMessageType;
 import com.prgrms.management.config.exception.NotFoundException;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherRequest;
@@ -13,6 +12,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_EXCEPTION;
+
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -23,8 +24,6 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Voucher voucher = voucherRequest.create();
-        System.out.println("voucher.getCustomerId() = " + voucher.getCustomerId());
         return voucherRepository.save(voucherRequest.create());
     }
 
@@ -41,7 +40,7 @@ public class VoucherService {
     }
 
     public Voucher findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + ErrorMessageType.NOT_EXIST_EXCEPTION.getMessage()));
+        return voucherRepository.findById(voucherId).orElseThrow(() -> new NotFoundException(this.getClass() + NOT_EXIST_EXCEPTION.getMessage()));
     }
 
     public void updateByCustomerId(UUID voucherId, UUID customerId) {

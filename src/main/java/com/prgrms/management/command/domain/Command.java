@@ -1,9 +1,10 @@
 package com.prgrms.management.command.domain;
 
-import com.prgrms.management.config.ErrorMessageType;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+
+import static com.prgrms.management.config.ErrorMessageType.INCORRECT_NUMBER_FORMAT;
+import static com.prgrms.management.config.ErrorMessageType.NOT_EXIST_COMMAND_TYPE;
 
 public enum Command {
     CREATE_VOUCHER(1),
@@ -30,7 +31,7 @@ public enum Command {
         return Arrays.stream(Command.values())
                 .filter(e -> e.input == toInt(input))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(Command.class + ErrorMessageType.NOT_EXIST_COMMAND_TYPE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(Command.class + NOT_EXIST_COMMAND_TYPE.getMessage()));
     }
 
     private static int toInt(String input) {
@@ -38,7 +39,7 @@ public enum Command {
         try {
             amount = Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new NumberFormatException(ErrorMessageType.INCORRECT_NUMBER_FORMAT.getMessage());
+            throw new NumberFormatException(INCORRECT_NUMBER_FORMAT.getMessage());
         }
         return amount;
     }

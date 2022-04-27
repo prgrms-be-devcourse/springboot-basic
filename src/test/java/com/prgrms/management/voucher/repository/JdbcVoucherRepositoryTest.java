@@ -75,7 +75,7 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Test
-        void ID로_Voucher_검색_실패() {
+        void 존재하지_않는_ID로_인한_Voucher_검색_실패() {
             //when
             Optional<Voucher> voucherById = voucherRepository.findById(randomId);
             //then
@@ -91,7 +91,7 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Test
-        void Voucher_업데이트_실패() {
+        void 존재하지_않는_CustomerId로_인한_Voucher_업데이트_실패() {
             Assertions.assertThatThrownBy(() -> voucherRepository.updateByCustomerId(voucher.getVoucherId(), UUID.randomUUID()))
                     .isInstanceOf(NotFoundException.class);
         }

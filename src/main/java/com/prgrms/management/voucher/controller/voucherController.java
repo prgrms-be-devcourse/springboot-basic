@@ -60,10 +60,10 @@ public class voucherController {
 
     @PostMapping("/voucher/search")
     public String searchVoucher(
-            Model model,
             @RequestParam(value = "voucherType", required = false) VoucherType voucherType,
             @DateTimeFormat(pattern = "yyyy-MM-dd")
-            @RequestParam(value = "createdAt", required = false) LocalDate createdAt
+            @RequestParam(value = "createdAt", required = false) LocalDate createdAt,
+            Model model
     ) {
         model.addAttribute("msg", "HELLO");
         model.addAttribute("vouchers", voucherService.findAllByVoucherTypeOrCreatedAt(voucherType, createdAt));

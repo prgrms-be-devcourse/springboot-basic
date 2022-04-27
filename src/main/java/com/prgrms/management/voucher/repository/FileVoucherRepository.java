@@ -1,6 +1,6 @@
 package com.prgrms.management.voucher.repository;
 
-import com.prgrms.management.config.ErrorMessageType;
+import com.prgrms.management.config.exception.NotSavedException;
 import com.prgrms.management.voucher.domain.Voucher;
 import com.prgrms.management.voucher.domain.VoucherType;
 import org.slf4j.Logger;
@@ -12,10 +12,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.prgrms.management.config.ErrorMessageType.NOT_SAVED_EXCEPTION;
 
 @Repository
 @Profile("dev")
@@ -29,7 +30,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bufferedWriter.write(voucher.serialized());
             bufferedWriter.newLine();
         } catch (IOException e) {
-            logger.warn("{}:{}", e.getClass(), ErrorMessageType.IO_EXCEPTION.getMessage());
+            throw new NotSavedException(this.getClass() + NOT_SAVED_EXCEPTION.getMessage());
         }
         return voucher;
     }

@@ -34,6 +34,7 @@ class VoucherServiceTest {
     VoucherRequest voucherRequest = new VoucherRequest("fixed", "1000");
     Voucher voucher;
     Customer customer;
+
     @BeforeEach
     void setup() {
         voucher = voucherService.createVoucher(voucherRequest);
@@ -61,14 +62,6 @@ class VoucherServiceTest {
         }
 
         @Test
-        void FIXED_Vouchers_조회() {
-            //when
-            List<UUID> fixedList = voucherService.findCustomersByVoucherType(VoucherType.FIXED);
-            //then
-            Assertions.assertThat(fixedList.size()).isEqualTo(1);
-        }
-
-        @Test
         void 조건별_Vouchers_조회() {
             //when
             List<Voucher> vouchers = voucherService.findAllByVoucherTypeOrCreatedAt(VoucherType.FIXED, LocalDate.now());
@@ -84,11 +77,11 @@ class VoucherServiceTest {
             //when
             Voucher voucherById = voucherService.findById(voucher.getVoucherId());
             //then
-            Assertions.assertThat(voucher).isNotNull();
+            Assertions.assertThat(voucherById).isNotNull();
         }
 
         @Test
-        void Voucher_조회_실패_NotFoundException() {
+        void 존재하지_않는_ID_인한_Voucher_조회_실패() {
             //then
             Assertions.assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID()))
                     .isInstanceOf(NotFoundException.class);
@@ -108,7 +101,7 @@ class VoucherServiceTest {
         }
 
         @Test
-        void Voucher_업데이트_실패_NotFoundException() {
+        void 존재하지_않는_ID_인한_Voucher_업데이트_실패() {
             Assertions.assertThatThrownBy(() -> voucherService.updateByCustomerId(voucher.getVoucherId(), UUID.randomUUID()))
                     .isInstanceOf(NotFoundException.class);
         }
