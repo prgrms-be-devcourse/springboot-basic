@@ -36,9 +36,11 @@ class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
         long discountPrice = 10000;
         VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+        LocalDateTime now = LocalDateTime.now();
+        Voucher voucher = new Voucher(voucherId, voucherType, discountPrice, now, now);
         //when
         when(voucherRepository.save(any())).thenReturn(voucherId);
-        UUID savedVoucherId = voucherService.saveVoucher(voucherType, discountPrice);
+        UUID savedVoucherId = voucherService.save(voucher);
         //then
         assertThat(savedVoucherId).isEqualTo(voucherId);
     }
@@ -50,9 +52,11 @@ class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
         long percentDiscount = 90;
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+        LocalDateTime now = LocalDateTime.now();
+        Voucher voucher = new Voucher(voucherId, voucherType, percentDiscount, now, now);
         //when
         when(voucherRepository.save(any())).thenReturn(voucherId);
-        UUID savedVoucherId = voucherService.saveVoucher(voucherType, percentDiscount);
+        UUID savedVoucherId = voucherService.save(voucher);
         //then
         assertThat(savedVoucherId).isEqualTo(voucherId);
     }

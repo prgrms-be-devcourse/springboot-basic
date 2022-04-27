@@ -62,11 +62,18 @@ class CustomerServiceTest {
     void createCustomer() throws Exception {
         //given
         UUID customerId = UUID.randomUUID();
+        LocalDateTime now = LocalDateTime.now();
+        Customer customer = new Customer(customerId,
+                "park",
+                "a@gmail.com",
+                CustomerType.NORMAL,
+                now,
+                now);
         //when
         when(customerRepository.save(any())).thenReturn(customerId);
-//        UUID savedId = customerService.saveCustomer("park", "a@gmail.com", CustomerType.NORMAL);
+        UUID savedId = customerService.save(customer);
         //then
-//        assertThat(savedId).isEqualTo(customerId);
+        assertThat(savedId).isEqualTo(customerId);
 
     }
 

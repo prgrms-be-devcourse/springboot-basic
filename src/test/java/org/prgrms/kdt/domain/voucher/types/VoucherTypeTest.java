@@ -22,7 +22,7 @@ class VoucherTypeTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"", " ", "voucher"})
+    @ValueSource(strings = {"", " ", "templates/vouchers"})
     @DisplayName("지원하지 않는 바우처 타입을 입력시 예외를 발생시킨다.")
     void exception_findVoucherType(String type){
         //given
