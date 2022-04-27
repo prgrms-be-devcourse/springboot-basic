@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/dev?characterEncoding=UTF-8&serverTimezone=UTC
+    username: yeon
+    password: root1234
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath*:test-data.sql
