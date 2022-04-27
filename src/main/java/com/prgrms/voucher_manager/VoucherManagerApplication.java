@@ -16,9 +16,6 @@ public class VoucherManagerApplication {
         ApplicationContext applicationContext = SpringApplication.run(VoucherManagerApplication.class, args);
 //        var console = applicationContext.getBean(VoucherManagerConsole.class);
 //        console.run();
-
-        //var applicationContext = springApplication.run(args);
-        //var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
     }
 
 }

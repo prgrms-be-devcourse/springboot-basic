@@ -14,13 +14,13 @@ import javax.sql.DataSource;
 @ComponentScan(basePackages = {"com.prgrms.voucher_manager"})
 public class DataSourceConfiguration {
 
-    @Value("${datasource.url}")
+    @Value("${spring.datasource.url}")
     private String url;
 
-    @Value("${datasource.username}")
+    @Value("${spring.datasource.username}")
     private String username;
 
-    @Value("${datasource.password}")
+    @Value("${spring.datasource.password}")
     private String password;
 
 
