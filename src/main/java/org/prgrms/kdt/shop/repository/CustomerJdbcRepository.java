@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
-
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -44,6 +43,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         String sql = "insert into customers(customer_id, name, email, created_at) values(UUID_TO_BIN(?),?,?,?)";
         var insert = jdbcTemplate.update(sql, customer.getCustomerId().toString().getBytes(), customer.getName(), customer.getEmail(), Timestamp.valueOf(customer.getCreateAt()));
         if (insert != 1) {
+            logger.error("Nothing was inserted.");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
@@ -54,6 +54,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         String sql = "update customers set name = ?, email = ? ,last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)";
         var update = jdbcTemplate.update(sql, customer.getName(), customer.getEmail(), customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null, customer.getCustomerId().toString().getBytes());
         if (update != 1) {
+            logger.error("Nothing was updated");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
