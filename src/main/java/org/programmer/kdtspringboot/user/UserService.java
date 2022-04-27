@@ -10,7 +10,7 @@ public class UserService {
 
     private final UserRepository UserRepository;
 
-    public UserService(org.programmer.kdtspringboot.user.UserRepository userRepository) {
+    public UserService(UserRepository userRepository) {
         UserRepository = userRepository;
     }
 
