@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Profile("file")
@@ -46,11 +49,11 @@ public class FileVoucherRepository implements VoucherRepository {
         ) {
             while ((content = bufferedReader.readLine()) != null) {
                 String[] contents = content.split(",");
-                if(contents[2].equals(VoucherType.FixedAmountVoucher.toString())){
+                if (contents[2].equals(VoucherType.FixedAmountVoucher.toString())) {
                     list.add(new FixedAmountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
-                }else if(contents[2].equals(VoucherType.PercentDiscountVoucher.toString())){
+                } else if (contents[2].equals(VoucherType.PercentDiscountVoucher.toString())) {
                     list.add(new PercentDiscountVoucher(UUID.fromString(contents[0]), Long.parseLong(contents[1])));
-                }else{
+                } else {
                     logger.info("File 읽는 도중 알수없는 타입 발견");
                     throw new IOException();
                 }

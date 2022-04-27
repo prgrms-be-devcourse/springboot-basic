@@ -90,13 +90,7 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");
         var voucherType = VoucherType.getVoucherType(resultSet.getString("type"));
-        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            logger.info("FIX 타입");
-            return new FixedAmountVoucher(voucherId, amount);
-        } else {
-            logger.info("PER 타입");
-            return new PercentDiscountVoucher(voucherId, amount);
-        }
+        return voucherType.create(amount);
     };
 
 
