@@ -15,9 +15,7 @@ public class VoucherCreateRequest {
     @Positive
     private long discountValue;
 
-    public VoucherCreateRequest(String voucherType, long discountValue) {
-        this.voucherType = VoucherType.findVoucherType(voucherType);
-        this.discountValue = discountValue;
+    public VoucherCreateRequest() {
     }
 
     public VoucherType getVoucherType() {
@@ -26,6 +24,14 @@ public class VoucherCreateRequest {
 
     public long getDiscountValue() {
         return discountValue;
+    }
+
+    public void setVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
+    }
+
+    public void setDiscountValue(long discountValue) {
+        this.discountValue = discountValue;
     }
 
     public Voucher toEntity() {
