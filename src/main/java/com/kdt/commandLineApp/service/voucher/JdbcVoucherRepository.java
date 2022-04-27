@@ -9,15 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static com.kdt.commandLineApp.util.UUIDConverter.toUUID;
-
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository{
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("vid"));
+        long voucherId = resultSet.getInt("id");
         String type = resultSet.getString("type");
         int amount = resultSet.getInt("amount");
 
@@ -37,32 +35,30 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public void add(Voucher voucher) {
-        Map<String,Object> paramMap = new HashMap<>() {{
-            put("voucherId",voucher.getId().toString().getBytes());
-            put("type",voucher.getType());
-            put("amount",voucher.getDiscountAmount());
-        }};
+        Map<String,Object> paramMap = new HashMap<>();
 
+        paramMap.put("type",voucher.getType());
+        paramMap.put("amount", voucher.getDiscountAmount());
         namedParameterJdbcTemplate.update(
-                "insert into mysql.voucher(vid, type, amount) values(UUID_TO_BIN(:voucherId),:type,:amount)",
+                "insert into mysql.voucher(type, amount) values(:type,:amount)",
                 paramMap
         );
     }
 
     @Override
-    public void remove(String id) {
+    public void remove(long id) {
         namedParameterJdbcTemplate.update(
-                "delete from mysql.voucher where vid = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", id.getBytes())
+                "delete from mysql.voucher where id = :voucherId",
+                Collections.singletonMap("voucherId", id)
         );
     }
 
     @Override
-    public Optional<Voucher> get(String id) {
+    public Optional<Voucher> get(long id) {
         try {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
-                    "select * from mysql.voucher where vid = UUID_TO_BIN(:voucherId)",
-                    Collections.singletonMap("voucherId", id.getBytes()),
+                    "select * from mysql.voucher where id = :voucherId",
+                    Collections.singletonMap("voucherId", id),
                     voucherRowMapper
             ));
         }
@@ -76,14 +72,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public List<Voucher> getAll(int page, int size, String type) {
         Map<String, Object> paramMap = new HashMap<>();
         int voucherListSize;
-        paramMap.put("type", type);
         String sql;
 
         if ((page < 0) || (size < 0)) {
             return List.of();
         }
         if (type == null) {
-            Integer.toString(size);
             sql = "select * from mysql.voucher limit "+ size +" offset " + page * size;
             voucherListSize = this.size();
             if (page * size >= voucherListSize) {
@@ -96,6 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
             );
         }
         else {
+            paramMap.put("type", type);
             sql = "select * from mysql.voucher where type = :type limit "+ size +" offset " + page * size;
             voucherListSize = this.size(type);
             if (page * size >= voucherListSize) {

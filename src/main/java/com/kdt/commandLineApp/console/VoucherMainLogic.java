@@ -19,11 +19,12 @@ public class VoucherMainLogic {
     public void createVoucher() throws Exception {
         io.print("Type voucher type(fixed or percent) and amount");
         String voucherType = io.get();
+        io.print("Type discount amount");
         int amount = Integer.parseInt(io.get());
         voucherService.addVoucher(voucherType, amount);
     }
 
     public void showVouchers() {
-        io.print(voucherService.getVouchers(0, 0, null));
+        io.print(voucherService.getVouchers(0, 10, null));
     }
 }
