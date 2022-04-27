@@ -1,9 +1,5 @@
 package org.prgrms.kdt.domain.voucher.controller;
 
-import org.prgrms.kdt.domain.common.exception.ExceptionType;
-import org.prgrms.kdt.domain.customer.model.Customer;
-import org.prgrms.kdt.domain.customer.service.CustomerService;
-import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
@@ -21,7 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
@@ -34,23 +31,23 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Result<List<VoucherResponse>>> voucherList() {
+    public ResponseEntity<List<VoucherResponse>> voucherList() {
         List<Voucher> vouchers = voucherService.getAllVouchers();
         List<VoucherResponse> voucherResponseList = vouchers.stream()
                 .map(VoucherResponse::new).toList();
         return ResponseEntity.ok()
-                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
+                .body(voucherResponseList);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Result<List<VoucherResponse>>> VoucherSearch(
+    public ResponseEntity<List<VoucherResponse>> VoucherSearch(
             @RequestParam("voucherType") VoucherType voucherType,
             @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
         List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(voucherType, createdDate);
         List<VoucherResponse> voucherResponseList = vouchers.stream()
                 .map(VoucherResponse::new).toList();
         return ResponseEntity.ok()
-                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
+                .body(voucherResponseList);
     }
 
     @PostMapping
