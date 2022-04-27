@@ -37,7 +37,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
   @Override
   public List<UUID> findVouchersByCustomerId(UUID customerId) {
-    return jdbcTemplate.query("select voucher_id from wallet where customer_id = uuid_to_bin(:customerId)",
+    return jdbcTemplate.query("SELECT voucher_id FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId)",
       Collections.singletonMap("customerId", customerId.toString().getBytes()),
       voucherIdRowMapper
     );
@@ -45,7 +45,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
   @Override
   public List<UUID> findCustomersByVoucherId(UUID voucherId) {
-    return jdbcTemplate.query("select customer_id from wallet where voucher_id = uuid_to_bin(:voucherId)",
+    return jdbcTemplate.query("SELECT customer_id FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)",
       Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
       customerIdRowMapper
     );
@@ -54,7 +54,7 @@ public class JdbcWalletRepository implements WalletRepository {
   @Override
   public void insert(UUID customerId, UUID voucherId) {
     int update = jdbcTemplate.update(
-      "insert into wallet(voucher_id, customer_id) values (uuid_to_bin(:voucherId), uuid_to_bin(:customerId))",
+      "INSERT INTO wallet(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))",
       toParamMap(customerId, voucherId));
     if(update != 1) {
       throw new RuntimeException("Nothing was inserted");
@@ -64,7 +64,7 @@ public class JdbcWalletRepository implements WalletRepository {
   @Override
   public void delete(UUID customerId, UUID voucherId) {
     try {
-      jdbcTemplate.update("delete from wallet where voucher_id = uuid_to_bin(:voucherId) AND customer_id = uuid_to_bin(:customerId)",
+      jdbcTemplate.update("DELETE FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId) AND customer_id = UUID_TO_BIN(:customerId)",
         toParamMap(customerId, voucherId));
     } catch (Exception e) {
       log.error("No such voucher", e);
@@ -73,7 +73,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
   @Override
   public int count() {
-    return jdbcTemplate.queryForObject("select count(*) from wallet", Collections.emptyMap(), Integer.class);
+    return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM wallet", Collections.emptyMap(), Integer.class);
   }
 
   private Map<String, Object> toParamMap(UUID customerId, UUID voucherId) {

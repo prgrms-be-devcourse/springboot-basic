@@ -37,7 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   @Override
   public Voucher insert(Voucher voucher) {
     var update = jdbcTemplate.update(
-      "insert into vouchers(voucher_id, reduction, created_at, voucher_type) values (uuid_to_bin(:voucherId), :reduction, :createdAt, :voucherType)",
+      "INSERT INTO vouchers(voucher_id, reduction, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :reduction, :createdAt, :voucherType)",
       toParamMap(voucher));
     if(update != 1) {
       throw new RuntimeException("Nothing was inserted");
@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> findAll() {
-    return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     Map<String, Object> paramMap = new HashMap<>() {{
       put("voucherType", voucherType.toDbValue());
     }};
-    return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType ",
+    return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType ",
       Collections.singletonMap("voucherType", voucherType.toDbValue()),
       voucherRowMapper);
   }
@@ -63,7 +63,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
     try {
-      return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = uuid_to_bin(:voucherId)",
+      return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
         voucherRowMapper));
     } catch (EmptyResultDataAccessException e) {
@@ -74,18 +74,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   @Override
   public int count() {
-    return jdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(), Integer.class);
+    return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vouchers", Collections.emptyMap(), Integer.class);
   }
 
   @Override
   public void deleteAll() {
-    jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
+    jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
   }
 
   @Override
   public void deleteById(UUID voucherId) {
     try {
-      jdbcTemplate.update("delete from vouchers where voucher_id = uuid_to_bin(:voucherId)",
+      jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     } catch (Exception e) {
       log.error("No such voucherId", e);
@@ -95,12 +95,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
   @Override
   public void updateById(UUID voucherId, long reduction) {
     Optional<Voucher> voucher = findById(voucherId);
-    if(voucher.isEmpty()) log.error("No such voucher");
+    if(voucher.isEmpty()) {
+      log.error("No such voucher");
+    }
     Voucher oldVoucher = voucher.get();
 
     if((VoucherType.fromInstance(oldVoucher) == VoucherType.FIXED_AMOUNT && FixedAmountVoucher.checkReduction(reduction)) ||
       (VoucherType.fromInstance(oldVoucher) == VoucherType.PERCENT_DISCOUNT && PercentDiscountVoucher.checkReduction(reduction))) {
-      jdbcTemplate.update("update vouchers set reduction = :reduction where voucher_id = uuid_to_bin(:voucherId)",
+      jdbcTemplate.update("UPDATE vouchers SET reduction = :reduction WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         new Hashtable<>(){{
           put("voucherId", voucherId.toString().getBytes());
           put("reduction", reduction);
