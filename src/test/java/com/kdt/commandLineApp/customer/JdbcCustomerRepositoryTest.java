@@ -1,7 +1,9 @@
 package com.kdt.commandLineApp.customer;
 
 import com.kdt.commandLineApp.AppContext;
-import com.kdt.commandLineApp.voucher.JdbcVoucherRepository;
+import com.kdt.commandLineApp.service.customer.Customer;
+import com.kdt.commandLineApp.service.customer.JdbcCustomerRepository;
+import com.kdt.commandLineApp.service.voucher.JdbcVoucherRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;

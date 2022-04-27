@@ -1,11 +1,11 @@
 package com.kdt.commandLineApp;
 
-import com.kdt.commandLineApp.customer.Customer;
-import com.kdt.commandLineApp.customer.JdbcCustomerRepository;
+import com.kdt.commandLineApp.service.customer.Customer;
+import com.kdt.commandLineApp.service.customer.JdbcCustomerRepository;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
-import com.kdt.commandLineApp.voucher.JdbcVoucherRepository;
-import com.kdt.commandLineApp.voucher.Voucher;
-import com.kdt.commandLineApp.voucherWallet.JdbcVoucherWalletRepository;
+import com.kdt.commandLineApp.service.voucher.JdbcVoucherRepository;
+import com.kdt.commandLineApp.service.voucher.Voucher;
+import com.kdt.commandLineApp.service.voucherWallet.JdbcVoucherWalletRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -16,11 +16,11 @@
 - Spring MVC 적용
 - JSON을 지원하는 REST API 개발
 - API 제공 기능
-  - [x]  전체 조회기능
-  - [x]  특정 할인타입별 조회기능
+  - [x]  바우처 조회 페이징
+  - [x]  특정 할인 타입별 조회기능
+  - [x]  바우처 아이디로 조회 기능
   - [x]  바우처 추가기능
   - [x]  바우처 삭제기능
-  - [x]  바우처 아이디로 조회 기능
   
 ### **바우처 관리 웹어플리케이션 설명**
 - 조회 페이지에서는 생성된 모든 바우처 목록을 확인할 수 있습니다.
@@ -33,13 +33,20 @@
   ![](https://velog.velcdn.com/images/y005/post/673d03db-fe85-49d5-9eec-c485735b648f/image.png)
 
 ### **바우처 관리 Rest API 설명**
-- 전체 조회 기능
+#### 1. 조회 기능
+- param description
 
-  resquest
+  |name| type     |value|
+    |----------|---|--------------|
+    | type | optional | fixed or percent|
+    | page | optional | default is 0 |
+    | size | optional | default is 10 |
+
+- request
   ```
   GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers
   ```
-  response
+- response
   ```
   [
   {
@@ -65,13 +72,11 @@
   ]
   ```
 
-- 특정 할인타입 별 조회 기능(fixed, percent 중 하나)
-
-  resquest
+- resquest
   ```
-  GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/fixed
+  GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers?type=fixed
   ```
-  response
+- response
   ```
   [
   {
@@ -91,11 +96,11 @@
   }
   ]
   ```
-  resquest
+ - request
   ```
-  GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers/percent
+  GET http://localhost:8080/demo_main_war_exploded2/api/v1/vouchers?type=percent
   ```
-  response
+- response
   ```
   [
   {
@@ -106,44 +111,46 @@
   ]
   ``` 
 
-- 바우처 추가 기능
+#### 2. 바우처 추가 기능
 
-  resquest
-  ```
-  POST http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/create
-  Content-Type: application/x-www-form-urlencoded
-  
-  type=fixed&amount=1000
-  ```
-  response
+  - request
+    ```
+    POST http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/create
+    Content-Type: application/json
+    
+    {
+      "type" : "fixed",
+      "amount" : 1000 
+    }
+    ```
+
+- response
   ```
   successively create voucher
   ```
-- 바우처 삭제 기능
+  
+#### 3. 바우처 삭제 기능
 
-  resquest
-  ```
-  GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/delete/4cf0378c-2fa5-432d-9730-ae7755d4cf63
-  ```
-  response
-  ```
-  successively delete voucher
-  ```
-- 바우처 아이디로 조회 기능
+  - resquest
+    ```
+    GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/delete/4cf0378c-2fa5-432d-9730-ae7755d4cf63
+    ```
+  - response
+    ```
+    successively delete voucher
+    ```
+    
+#### 4. 바우처 아이디 검색 기능
 
-  resquest
-  ```
-  GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/2694aa41-c19e-4147-9da0-e1b785b110e3
-  ```
-  response
-  ```
-  {
-    "id": "2694aa41-c19e-4147-9da0-e1b785b110e3",
-    "type": "fixed",
-    "amount": 1000
-  }
-  ```
-### Class Diagram
-
-![](https://velog.velcdn.com/images/y005/post/9d28ed41-df2a-45e9-a757-1c020da138d0/image.png)
-
+  - request
+    ```
+    GET http://localhost:8080/demo_main_war_exploded2/api/v1/voucher/2694aa41-c19e-4147-9da0-e1b785b110e3
+    ```
+  - response
+    ```
+    {
+      "id": "2694aa41-c19e-4147-9da0-e1b785b110e3",
+      "type": "fixed",
+      "amount": 1000
+    }
+    ```

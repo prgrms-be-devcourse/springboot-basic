@@ -1,10 +1,9 @@
-package com.kdt.commandLineApp.voucherWallet;
+package com.kdt.commandLineApp.service.voucherWallet;
 
-import com.kdt.commandLineApp.customer.Customer;
-import com.kdt.commandLineApp.voucher.Voucher;
+import com.kdt.commandLineApp.service.customer.Customer;
+import com.kdt.commandLineApp.service.voucher.Voucher;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface VoucherWalletRepository {
     public void giveVoucherToCustomer(String customerId, String voucherId);

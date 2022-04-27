@@ -1,6 +1,8 @@
 package com.kdt.commandLineApp.voucher;
 
 import com.kdt.commandLineApp.AppContext;
+import com.kdt.commandLineApp.service.voucher.VoucherRepository;
+import com.kdt.commandLineApp.service.voucher.VoucherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
@@ -23,11 +25,11 @@ class VoucherServiceTest {
         try {
             voucherRepository.deleteAll();
             voucherService.addVoucher("percent",100);
-            int result = voucherService.getVouchers().size();
+            int result = voucherService.getVouchers(0,10,null).size();
             assertThat(result, is(1));
 
             voucherService.addVoucher("fixed",100);
-            result = voucherService.getVouchers().size();
+            result = voucherService.getVouchers(0,10,null).size();
             assertThat(result, is(2));
         }
         catch (Exception e) {

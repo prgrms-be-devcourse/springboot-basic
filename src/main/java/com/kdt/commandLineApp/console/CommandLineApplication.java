@@ -11,33 +11,36 @@ public class CommandLineApplication {
 
 	public static void main(String[] args) {
 		ApplicationContext appContext = new AnnotationConfigApplicationContext(AppContext.class);
-		MainLogic mainLogic = appContext.getBean("mainLogic", MainLogic.class);
+		MenuMainLogic menuMainLogic = appContext.getBean("menuMainLogic", MenuMainLogic.class);
+		VoucherMainLogic voucherMainLogic = appContext.getBean("voucherMainLogic", VoucherMainLogic.class);
+		CustomerMainLogic customerMainLogicMainLogic = appContext.getBean("customerMainLogicMainLogic", CustomerMainLogic.class);
+		VoucherWalletMainLogic voucherWalletMainLogic = appContext.getBean("voucherWalletMainLogic", VoucherWalletMainLogic.class);
 
 		while (true) {
-			mainLogic.printMainMenu();
+			menuMainLogic.printMainMenu();
 			try {
-				Command command  = mainLogic.getCommand();
+				Command command  = menuMainLogic.getCommand();
 				switch (command) {
 					case CREATE :
-						mainLogic.createVoucher();
+						voucherMainLogic.createVoucher();
 						break;
 					case LIST :
-						mainLogic.showVouchers();
+						voucherMainLogic.showVouchers();
 						break;
 					case BLACKLIST :
-						mainLogic.showBlackList();
+						customerMainLogicMainLogic.showBlackList();
 						break;
 					case GIVE_VOUCHER :
-						mainLogic.giveVoucher();
+						voucherWalletMainLogic.giveVoucher();
 						break;
 					case TAKE_VOUCHER :
-						mainLogic.takeVoucher();
+						voucherWalletMainLogic.takeVoucher();
 						break;
 					case CUSTOMER_LIST_WITH_SAME_VOUCHER :
-						mainLogic.getCustomerListWithSameVoucher();
+						voucherWalletMainLogic.getCustomerListWithSameVoucher();
 						break;
 					case VOUCHER_LIST_OF_CUSTOMER:
-						mainLogic.getVoucherListOfCustomer();
+						voucherWalletMainLogic.getVoucherListOfCustomer();
 						break;
 					case EXIT:
 						logger.debug("successfully exit");

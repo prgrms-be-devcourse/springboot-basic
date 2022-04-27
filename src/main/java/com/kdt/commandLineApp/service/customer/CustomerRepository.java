@@ -1,9 +1,8 @@
-package com.kdt.commandLineApp.customer;
+package com.kdt.commandLineApp.service.customer;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomerRepository{
     public List<Customer> getAllBlacklist() throws IOException;

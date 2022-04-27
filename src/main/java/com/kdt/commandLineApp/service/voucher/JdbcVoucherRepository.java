@@ -1,16 +1,15 @@
-package com.kdt.commandLineApp.voucher;
+package com.kdt.commandLineApp.service.voucher;
 
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static com.kdt.commandLineApp.UUIDConverter.toUUID;
+import static com.kdt.commandLineApp.util.UUIDConverter.toUUID;
 
 @Repository
 @Primary
@@ -74,20 +73,40 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> getType(String type) {
-        return namedParameterJdbcTemplate.query(
-                "select * from mysql.voucher where type = :type",
-                Collections.singletonMap("type", type),
-                voucherRowMapper
-        );
-    }
+    public List<Voucher> getAll(int page, int size, String type) {
+        Map<String, Object> paramMap = new HashMap<>();
+        int voucherListSize;
+        paramMap.put("type", type);
+        String sql;
 
-    @Override
-    public List<Voucher> getAll() {
-        return namedParameterJdbcTemplate.query(
-                "select * from mysql.voucher",
-                voucherRowMapper
-        );
+        if ((page < 0) || (size < 0)) {
+            return List.of();
+        }
+        if (type == null) {
+            Integer.toString(size);
+            sql = "select * from mysql.voucher limit "+ size +" offset " + page * size;
+            voucherListSize = this.size();
+            if (page * size >= voucherListSize) {
+                return List.of();
+            }
+            return namedParameterJdbcTemplate.query(
+                    sql,
+                    paramMap,
+                    voucherRowMapper
+            );
+        }
+        else {
+            sql = "select * from mysql.voucher where type = :type limit "+ size +" offset " + page * size;
+            voucherListSize = this.size(type);
+            if (page * size >= voucherListSize) {
+                return List.of();
+            }
+            return namedParameterJdbcTemplate.query(
+                    sql,
+                    paramMap,
+                    voucherRowMapper
+            );
+        }
     }
 
     @Override
@@ -95,9 +114,24 @@ public class JdbcVoucherRepository implements VoucherRepository{
         namedParameterJdbcTemplate.update("delete from mysql.voucher", Collections.emptyMap());
     }
 
-
     @Override
     public void destroy() throws Exception {
 
+    }
+
+    public int size() {
+        return namedParameterJdbcTemplate.queryForObject(
+                "select count(*) from mysql.voucher",
+                Collections.emptyMap(),
+                Integer.class
+        );
+    }
+
+    public int size(String type) {
+        return namedParameterJdbcTemplate.queryForObject(
+                "select count(*) from mysql.voucher where type = :type",
+                Collections.singletonMap("type", type),
+                Integer.class
+        );
     }
 }

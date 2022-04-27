@@ -3,6 +3,7 @@ package com.kdt.commandLineApp.voucher;
 import com.kdt.commandLineApp.AppContext;
 import com.kdt.commandLineApp.exception.CanNotDiscountException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
+import com.kdt.commandLineApp.service.voucher.Voucher;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

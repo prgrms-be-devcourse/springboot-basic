@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp.customer;
+package com.kdt.commandLineApp.service.customer;
 
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import lombok.Getter;

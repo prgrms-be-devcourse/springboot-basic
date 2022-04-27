@@ -1,7 +1,7 @@
-package com.kdt.commandLineApp.voucherWallet;
+package com.kdt.commandLineApp.service.voucherWallet;
 
-import com.kdt.commandLineApp.customer.Customer;
-import com.kdt.commandLineApp.voucher.Voucher;
+import com.kdt.commandLineApp.service.customer.Customer;
+import com.kdt.commandLineApp.service.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

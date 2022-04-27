@@ -1,9 +1,7 @@
-package com.kdt.commandLineApp.customer;
+package com.kdt.commandLineApp.service.customer;
 
 import com.kdt.commandLineApp.AppProperties;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;

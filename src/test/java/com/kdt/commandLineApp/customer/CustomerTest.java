@@ -2,6 +2,7 @@ package com.kdt.commandLineApp.customer;
 
 import com.kdt.commandLineApp.AppContext;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
+import com.kdt.commandLineApp.service.customer.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

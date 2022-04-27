@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp;
+package com.kdt.commandLineApp.util;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

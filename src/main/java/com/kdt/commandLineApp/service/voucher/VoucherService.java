@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp.voucher;
+package com.kdt.commandLineApp.service.voucher;
 
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +29,8 @@ public class VoucherService {
         return voucherRepository.get(id);
     }
 
-    public List<Voucher> getVouchers() {
-        return voucherRepository.getAll();
-    }
-
-    public List<Voucher> getVouchersWithType(String type) {
-        return voucherRepository.getType(type);
+    public List<Voucher> getVouchers(int page, int size, String type) {
+        return voucherRepository.getAll(page, size, type);
     }
 
     public void removeVoucher(String id) {

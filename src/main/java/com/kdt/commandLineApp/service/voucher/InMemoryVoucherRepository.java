@@ -1,6 +1,5 @@
-package com.kdt.commandLineApp.voucher;
+package com.kdt.commandLineApp.service.voucher;
 
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -23,15 +22,23 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getType(String type) {
-        return map.values().stream().filter((e)-> e.getType().equals(type)).toList();
-    }
+    public List<Voucher> getAll(int page, int size, String type) {
+        List<Voucher> voucherList;
 
-    @Override
-    public List<Voucher> getAll() {
-        return map.values()
+        if ((page < 0) || (size < 0)) {
+            return List.of();
+        }
+        voucherList = map.values()
                 .stream()
-                .collect(toCollection(ArrayList::new));
+                .filter((e)-> type.equals(null)||e.getType().equals(type))
+                .toList();
+        if (page * size >= voucherList.size()) {
+            return List.of();
+        }
+        return voucherList.stream()
+                .skip(page * size)
+                .limit(size)
+                .toList();
     }
 
     @Override

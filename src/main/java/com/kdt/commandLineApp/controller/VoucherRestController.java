@@ -1,18 +1,17 @@
 package com.kdt.commandLineApp.controller;
 
-import com.kdt.commandLineApp.voucher.VoucherCreateDTO;
-import com.kdt.commandLineApp.voucher.VoucherDTO;
-import com.kdt.commandLineApp.voucher.VoucherMapper;
-import com.kdt.commandLineApp.voucher.VoucherService;
+import com.kdt.commandLineApp.service.voucher.VoucherCreateDTO;
+import com.kdt.commandLineApp.service.voucher.VoucherDTO;
+import com.kdt.commandLineApp.service.voucher.VoucherConverter;
+import com.kdt.commandLineApp.service.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1")
 public class VoucherRestController {
     private VoucherService voucherService;
 
@@ -21,40 +20,30 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @RequestMapping(value = "/api/v1/vouchers", method = RequestMethod.GET)
-    public List<VoucherDTO> showVouchers() {
-        return voucherService.getVouchers().stream().map(VoucherMapper::toVoucherDTO).toList();
+    @GetMapping(value = "/vouchers")
+    public List<VoucherDTO> showVouchers(@RequestParam(defaultValue = "0", required = false)String page, @RequestParam(defaultValue = "10", required = false) String size, @RequestParam(required = false) String type) {
+        System.out.println(page+type+size);
+        return voucherService.getVouchers(Integer.parseInt(page),Integer.parseInt(size), type).stream().map(VoucherConverter::toVoucherDTO).toList();
     }
 
-    @RequestMapping(value = "/api/v1/vouchers/{type}", method = RequestMethod.GET)
-    public List<VoucherDTO> showVouchersWith(@PathVariable String type) {
-        return voucherService.getVouchersWithType(type).stream().map(VoucherMapper::toVoucherDTO).toList();
-    }
-
-    @RequestMapping(value = "/api/v1/voucher/{voucherId}", method = RequestMethod.GET)
+    @GetMapping(value = "/vouchers/{voucherId}")
     public VoucherDTO showVoucher(@PathVariable String voucherId) {
         try {
-            return VoucherMapper.toVoucherDTO(voucherService.getVoucher(voucherId).orElse(null));
+            return VoucherConverter.toVoucherDTO(voucherService.getVoucher(voucherId).orElse(null));
         }
         catch (Exception e) {
             return null;
         }
     }
 
-    @RequestMapping(value = "/api/v1/voucher/deleteAll", method = RequestMethod.GET)
-    public String deleteVoucher() {
-        voucherService.removeAllVouchers();
-        return "successively delete all vouchers";
-    }
-
-    @RequestMapping(value = "/api/v1/voucher/delete/{voucherId}", method = RequestMethod.GET)
+    @DeleteMapping(value = "/vouchers/{voucherId}")
     public String deleteVoucher(@PathVariable String voucherId) {
         voucherService.removeVoucher(voucherId);
         return "successively delete voucher";
     }
 
-    @RequestMapping(value = "/api/v1/voucher/create", method = RequestMethod.POST)
-    public String createVoucher(VoucherCreateDTO voucherCreateDTO) {
+    @PostMapping(value = "/vouchers")
+    public String createVoucher(@RequestBody VoucherCreateDTO voucherCreateDTO) {
         try {
             voucherService.addVoucher(voucherCreateDTO.getType(), voucherCreateDTO.getAmount());
         } catch (Exception e) {

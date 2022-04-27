@@ -1,9 +1,8 @@
-package com.kdt.commandLineApp.customer;
+package com.kdt.commandLineApp.service.customer;
 
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.io.IOException;
 import java.util.*;
 
-import static com.kdt.commandLineApp.UUIDConverter.toUUID;
+import static com.kdt.commandLineApp.util.UUIDConverter.toUUID;
 
 @Repository
 @Primary

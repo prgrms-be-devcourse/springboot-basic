@@ -1,16 +1,13 @@
 package com.kdt.commandLineApp.controller;
 
-import com.kdt.commandLineApp.voucher.VoucherCreateDTO;
-import com.kdt.commandLineApp.voucher.VoucherDTO;
-import com.kdt.commandLineApp.voucher.VoucherMapper;
-import com.kdt.commandLineApp.voucher.VoucherService;
+import com.kdt.commandLineApp.service.voucher.VoucherCreateDTO;
+import com.kdt.commandLineApp.service.voucher.VoucherDTO;
+import com.kdt.commandLineApp.service.voucher.VoucherConverter;
+import com.kdt.commandLineApp.service.voucher.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -30,18 +27,18 @@ public class VoucherController {
         return "jsp/hello";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value = "")
     public ModelAndView showVouchers() {
-        List<VoucherDTO> allVouchers = voucherService.getVouchers().stream().map(VoucherMapper::toVoucherDTO).toList();
+        List<VoucherDTO> allVouchers = voucherService.getVouchers(0, 10, null).stream().map(VoucherConverter::toVoucherDTO).toList();
         Map<String, Object> model =  Map.of("vouchers", allVouchers);
 
         return new ModelAndView("views/voucher", model);
     }
 
-    @RequestMapping(value = "/voucher", method = RequestMethod.GET)
+    @GetMapping(value = "/vouchers")
     public ModelAndView showVoucher(@RequestParam String voucherId) {
         try {
-            List<VoucherDTO> voucher = List.of(VoucherMapper.toVoucherDTO(voucherService.getVoucher(voucherId).get()));
+            List<VoucherDTO> voucher = List.of(VoucherConverter.toVoucherDTO(voucherService.getVoucher(voucherId).get()));
             Map<String, Object> model =  Map.of("vouchers", voucher);
             return new ModelAndView("views/voucher", model);
         }
@@ -51,26 +48,26 @@ public class VoucherController {
         }
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @GetMapping(value = "/delete")
     public ModelAndView deleteVoucher() {
-        List<VoucherDTO> allVouchers = voucherService.getVouchers().stream().map(VoucherMapper::toVoucherDTO).toList();
+        List<VoucherDTO> allVouchers = voucherService.getVouchers(0, 10, null).stream().map(VoucherConverter::toVoucherDTO).toList();
         Map<String, Object> model =  Map.of("vouchers", allVouchers);
 
         return new ModelAndView("views/deleteVoucher", model);
     }
 
-    @PostMapping(value = "/delete", consumes={MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(value = "/delete")
     public String deleteVoucher(@RequestParam String voucherId) {
         voucherService.removeVoucher(voucherId);
         return "redirect:/delete";
     }
 
-    @RequestMapping(value = "/create", method=RequestMethod.GET)
+    @GetMapping(value = "/create")
     public String createVoucher() {
         return "views/createVoucher";
     }
 
-    @PostMapping(value = "/create", consumes={MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    @PostMapping(value = "/create")
     public String createVoucher(VoucherCreateDTO voucherCreateDTO) {
         try {
             voucherService.addVoucher(voucherCreateDTO.getType(), voucherCreateDTO.getAmount());

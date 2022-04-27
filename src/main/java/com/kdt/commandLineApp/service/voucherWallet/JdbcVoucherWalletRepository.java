@@ -1,11 +1,10 @@
-package com.kdt.commandLineApp.voucherWallet;
+package com.kdt.commandLineApp.service.voucherWallet;
 
-import com.kdt.commandLineApp.customer.Customer;
+import com.kdt.commandLineApp.service.customer.Customer;
 import com.kdt.commandLineApp.exception.WrongCustomerParamsException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
-import com.kdt.commandLineApp.voucher.Voucher;
+import com.kdt.commandLineApp.service.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.kdt.commandLineApp.UUIDConverter.toUUID;
+import static com.kdt.commandLineApp.util.UUIDConverter.toUUID;
 
 @Repository
 public class JdbcVoucherWalletRepository implements VoucherWalletRepository {

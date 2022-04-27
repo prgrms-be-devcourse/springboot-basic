@@ -1,4 +1,4 @@
-package com.kdt.commandLineApp.voucher;
+package com.kdt.commandLineApp.service.voucher;
 
 import com.kdt.commandLineApp.exception.CanNotDiscountException;
 import com.kdt.commandLineApp.exception.WrongVoucherParamsException;
