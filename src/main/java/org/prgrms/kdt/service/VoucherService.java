@@ -30,7 +30,7 @@ public class VoucherService {
         this.jdbcWalletRepository = jdbcWalletRepository;
     }
 
-    public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, int discountAmount) {
+    public Voucher createVoucher(UUID voucherId, int voucherTypeNumber, long discountAmount) {
         Voucher voucher = getVoucherTypeByNumber(voucherTypeNumber).createNewVoucher(voucherId, discountAmount, LocalDateTime.now());
         voucherRepository.insertVoucher(voucher);
         return voucher;
