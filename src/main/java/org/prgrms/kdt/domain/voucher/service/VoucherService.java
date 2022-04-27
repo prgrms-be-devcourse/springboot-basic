@@ -76,10 +76,10 @@ public class VoucherService {
 
     @Transactional
     public void update(UUID voucherId, VoucherType voucherType, long discountValue) {
-        Voucher voucher = voucherRepository.findById(voucherId)
+        voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
-        voucher.changeVoucherType(voucherType);
-        voucher.changeDiscountValue(discountValue);
+        LocalDateTime now = LocalDateTime.now();
+        Voucher voucher = new Voucher(voucherId, voucherType, discountValue, now, now);
         voucherRepository.update(voucher);
         logger.info("Update Voucher id: {}", voucher.getVoucherId());
     }

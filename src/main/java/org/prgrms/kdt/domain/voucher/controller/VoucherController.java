@@ -60,7 +60,7 @@ public class VoucherController {
     }
 
     @GetMapping("/new")
-    public String voucherCreateShow(Model model) {
+    public String voucherCreatePage(Model model) {
         model.addAttribute("voucherType", VoucherType.values());
         return "vouchers/create";
     }
