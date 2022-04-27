@@ -1,8 +1,8 @@
-package org.prgms.voucher.service;
+package org.prgms.service;
 
 import lombok.val;
-import org.prgms.voucher.domain.Voucher;
-import org.prgms.voucher.domain.VoucherRepository;
+import org.prgms.domain.Voucher;
+import org.prgms.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

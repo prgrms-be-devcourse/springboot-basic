@@ -1,4 +1,4 @@
-package org.prgms.voucher.domain;
+package org.prgms.domain;
 
 import java.io.Serializable;
 import java.util.UUID;

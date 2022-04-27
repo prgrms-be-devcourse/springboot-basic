@@ -1,4 +1,4 @@
-package org.prgms.wallet;
+package org.prgms.domain;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
 package org.prgms.io;
 
-import org.prgms.customer.Customer;
+import org.prgms.domain.Customer;
 
 import java.io.File;
 import java.util.List;

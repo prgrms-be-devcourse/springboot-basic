@@ -1,12 +1,10 @@
-package org.prgms.voucher;
+package org.prgms.domain;
 
 import lombok.val;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
 
 import java.util.UUID;
 

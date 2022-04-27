@@ -1,10 +1,9 @@
-package org.prgms.voucher.repository;
+package org.prgms.repository;
 
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
+import org.prgms.domain.Voucher;
 import org.prgms.utils.UuidUtils;
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucher.domain.Voucher;
-import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

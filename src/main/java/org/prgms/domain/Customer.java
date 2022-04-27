@@ -1,4 +1,4 @@
-package org.prgms.customer;
+package org.prgms.domain;
 
 import java.util.UUID;
 
