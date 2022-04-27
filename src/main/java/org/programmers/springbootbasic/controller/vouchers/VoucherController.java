@@ -2,6 +2,9 @@ package org.programmers.springbootbasic.controller.vouchers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.springbootbasic.controller.members.MemberDto;
+import org.programmers.springbootbasic.member.service.MemberService;
+import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
@@ -24,7 +27,9 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final MemberService memberService;
     private final VoucherProperty voucherProperty;
+
     private static final VoucherType[] VOUCHER_TYPES = values();
 
     @ModelAttribute("voucherTypes")
@@ -65,7 +70,6 @@ public class VoucherController {
         return "vouchers/editVoucher";
     }
 
-    //TODO: 바우처 할당하기
     @PostMapping("vouchers/{voucherId}")
     public String modifyVoucher(@PathVariable("voucherId") UUID voucherId, @Valid @ModelAttribute("voucher") VoucherUpdateForm form,
                                 BindingResult bindingResult) {
@@ -83,6 +87,17 @@ public class VoucherController {
         voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }
+
+    //TODO: 바우처 할당하기
+//    @GetMapping("vouchers/{voucherId}/update")
+//    public String updateVoucherOwnerForm(@PathVariable("voucherId") UUID voucherId, @ModelAttribute VoucherDto voucher, Model model) {
+//        List<MemberDto> members = memberService.getAllMembers();
+//        model.addAttribute("members", members);
+//        model.addAttribute("voucher", voucher);
+//
+//        return "vouchers/updateVoucherOwner";
+//    }
+
 
     private String redirectToForm(VoucherCreateForm form, BindingResult bindingResult) {
         if (form.getType() != null || form.getAmount() != null) {

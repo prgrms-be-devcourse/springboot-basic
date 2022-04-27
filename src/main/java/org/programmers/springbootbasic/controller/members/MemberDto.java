@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.member.domain;
+package org.programmers.springbootbasic.controller.members;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 

@@ -1,7 +1,7 @@
 package org.programmers.springbootbasic.member.service;
 
 import org.programmers.springbootbasic.member.domain.Member;
-import org.programmers.springbootbasic.member.domain.MemberDto;
+import org.programmers.springbootbasic.controller.members.MemberDto;
 
 import java.util.List;
 

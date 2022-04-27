@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.controller.vouchers;
 
+import lombok.Getter;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
@@ -15,7 +16,7 @@ public record VoucherDto(
         VoucherType type,
         Long memberId) {
 
-    static VoucherDto from(Voucher voucher) {
+    public static VoucherDto from(Voucher voucher) {
         return new VoucherDto(voucher.getId(), voucher.getAmount(), voucher.getType(), voucher.getMemberId());
     }
 }

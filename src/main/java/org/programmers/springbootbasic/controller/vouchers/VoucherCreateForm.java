@@ -6,7 +6,7 @@ import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import javax.validation.constraints.NotNull;
 
 @Data
-class VoucherCreateForm {
+public class VoucherCreateForm {
 
     @NotNull
     private VoucherType type;
