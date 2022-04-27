@@ -26,6 +26,13 @@ public class JdbcProductRepository implements ProductRepository {
     private final Logger log = LoggerFactory.getLogger(JdbcProductRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
+    public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    /**
+     * 데이터베이스에서 읽어온 ResultSet을 Product로 매핑하기 위한 Mapper입니다.
+     */
     private final RowMapper<Product> productRowMapper = (resultSet, rowNum) -> {
         UUID id = UUIDBytesToUUID(resultSet.getBytes("product_id"));
         String name = resultSet.getString("name");
@@ -35,10 +42,6 @@ public class JdbcProductRepository implements ProductRepository {
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return Product.bind(id, name, price, stock, status, createdAt);
     };
-
-    public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     private UUID UUIDBytesToUUID(byte[] customer_id) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(customer_id);
@@ -95,7 +98,7 @@ public class JdbcProductRepository implements ProductRepository {
 
         if (theNumberOfRowsDeleted != 1) {
             log.error(MessageFormat.format("productId : {0} 반환 결과가 1개 행이 아닙니다.", product.getId()));
-            throw new IllegalArgumentException(MessageFormat.format("customerId : {0} 반환 결과가 1개 행이 아닙니다. {1}개의 행이 삭제 되었습니다.", product.getId(), theNumberOfRowsDeleted));
+            throw new IllegalArgumentException(MessageFormat.format("productId : {0} 반환 결과가 1개 행이 아닙니다. {1}개의 행이 삭제 되었습니다.", product.getId(), theNumberOfRowsDeleted));
         }
     }
 
