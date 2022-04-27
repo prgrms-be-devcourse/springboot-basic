@@ -9,4 +9,6 @@ public interface Output {
     void listCommand();
     void listVoucher(List<Voucher> vouchers);
     void listVoucherType();
+
+    void printError(String error);
 }

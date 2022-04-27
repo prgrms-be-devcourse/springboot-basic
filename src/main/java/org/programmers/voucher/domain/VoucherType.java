@@ -3,13 +3,15 @@ package org.programmers.voucher.domain;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER("Fixed"),
-    PERCENT_DISCOUNT_VOUCHER("Percent");
+    FIXED_AMOUNT_VOUCHER("Fixed", "양수 값을 입력하세요."),
+    PERCENT_DISCOUNT_VOUCHER("Percent", "0~100 사이의 값을 입력하세요.");
 
     private final String alias;
+    private final String description;
 
-    VoucherType(String alias){
+    VoucherType(String alias, String description){
         this.alias = alias;
+        this.description = description;
     }
 
     public boolean isMatches(String input) {
@@ -18,6 +20,10 @@ public enum VoucherType {
 
     public String getAlias() {
         return alias;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public static Voucher makeVoucher(VoucherType type, long value) {

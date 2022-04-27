@@ -32,6 +32,11 @@ public class ConsoleOutput implements Output{
 
     @Override
     public void listVoucherType() {
-        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.getAlias()));
+        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.getAlias() + " -> " + value.getDescription()));
+    }
+
+    @Override
+    public void printError(String error) {
+        System.out.println(error);
     }
 }
