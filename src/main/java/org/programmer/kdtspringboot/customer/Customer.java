@@ -11,6 +11,7 @@ public class Customer {
     private final LocalDateTime createAt;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -18,11 +19,8 @@ public class Customer {
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+        this(customerId,name,email,createAt);
         this.lastLoginAt = lastLoginAt;
-        this.createAt = createAt;
     }
 
     public UUID getCustomerId() {
