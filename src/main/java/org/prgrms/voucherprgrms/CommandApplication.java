@@ -6,11 +6,12 @@ import org.prgrms.voucherprgrms.io.InputConsole;
 import org.prgrms.voucherprgrms.io.OutputConsole;
 import org.prgrms.voucherprgrms.voucher.VoucherService;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
-import org.prgrms.voucherprgrms.voucher.model.VoucherDTO;
+import org.prgrms.voucherprgrms.voucher.model.VoucherForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -58,10 +59,10 @@ public class CommandApplication implements ApplicationRunner {
                         outputConsole.commandErrorMessage();
                 }
             } catch (IllegalArgumentException e) {
-                logger.error("IllegalArgumentException, Message : {}", e.getMessage());
+                logger.error("IllegalArgumentException, Message from : {}", e.getStackTrace());
                 outputConsole.commandErrorMessage();
-            } catch (RuntimeException e) {
-                logger.error("RuntimeException, Message : {}", e.getMessage());
+            } catch (DuplicateKeyException e) {
+                logger.error("DuplicateKeyException, Message from : {}", e.getStackTrace());
                 outputConsole.sqlErrorMessage();
             }
         }
@@ -101,6 +102,6 @@ public class CommandApplication implements ApplicationRunner {
         String voucherType = inputConsole.getVoucherType();
         long value = inputConsole.getVoucherValue();
 
-        voucherService.createVoucher(new VoucherDTO(voucherType, value));
+        voucherService.createVoucher(new VoucherForm(voucherType, value));
     }
 }
