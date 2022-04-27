@@ -118,10 +118,11 @@ public class VoucherControllerTest {
 
                 when(voucherServiceMock.list()).thenReturn(list);
 
-                Response response = voucherController.list();
+                Response<List<VoucherDto.VoucherResponse>> response = voucherController.list();
 
                 Assertions.assertThat(response.state()).isEqualTo(ResponseState.SUCCESS);
-                Assertions.assertThat(response.data()).isEqualTo(list);
+                Assertions.assertThat(response.data().get(0).voucherId()).isEqualTo(list.get(0).getVoucherId());
+                Assertions.assertThat(response.data().get(1).voucherId()).isEqualTo(list.get(1).getVoucherId());
             }
         }
     }
