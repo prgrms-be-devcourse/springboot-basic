@@ -1,15 +1,10 @@
-
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 600px;}
-    </style>
+<head th:replace="fragments/header :: html-head" >
 </head>
 <body>
+<div class ="container">
+    <div th:replace="fragments/header :: header">
+    </div>
+</div>
 <div class="container">
     <div class="py-5 text-center">
         <h2>바우처 상세</h2> </div>

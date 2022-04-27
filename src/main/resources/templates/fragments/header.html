@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="html-head">
+    <meta charset="UTF-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="header" class="mb-5">
+    <nav class="navbar navbar-expand navbar-dark bg-dark mb-3 fixed-top">
+        <a class="navbar-brand" href="/">Voucher Management</a>
+        <div class="navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav ">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/vouchers" >Voucher</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/customers" >Customer</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>

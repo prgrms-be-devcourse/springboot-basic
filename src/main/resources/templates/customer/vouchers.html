@@ -1,12 +1,11 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-
+<head th:replace="fragments/header :: html-head" >
 </head>
 <body>
-<div class="container" style="max-width: 600px">
+<div class ="container">
+    <div th:replace="fragments/header :: header">
+    </div>
+</div>
+<div class="container">
     <div class="py-5 text-center">
         <h2>바우처 목록</h2> </div>
     <hr class="my-4">
