@@ -59,17 +59,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucherDTO) {
+    public Voucher insert(Voucher voucher) {
         int insertResult = jdbcTemplate.update(INSERT,
-                voucherDTO.getVoucherId().toString(),
-                voucherDTO.getFixedAmount(),
-                voucherDTO.getDiscountPercent(),
-                voucherDTO.getType());
+                voucher.getVoucherId().toString(),
+                voucher.getFixedAmount(),
+                voucher.getDiscountPercent(),
+                voucher.getType());
 
         if (insertResult != 1)
             logger.error("새로운 할인권 저장 요청 실패");
 
-        return voucherDTO;
+        return voucher;
     }
 
     @Override
