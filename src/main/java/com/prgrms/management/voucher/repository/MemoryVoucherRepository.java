@@ -33,31 +33,38 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByVoucherTypeOrCreatedAt(VoucherType voucherType, LocalDate date) {
+        // TODO: 조건별 vouchers 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public List<UUID> findCustomerByVoucherType(VoucherType voucherType) {
+        // TODO: voucherType 조건으로 vouchers 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        // TODO: voucherById 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void updateByCustomerId(UUID voucherId, UUID customerId) {
+        // TODO: voucherId 검색 후 customerId 주입하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteById(UUID customerId) {
+        // TODO: customerId로 삭제하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAll() {
+        // TODO: 전부 삭제하는 메서드
         throw new UnsupportedOperationException();
     }
 }
+

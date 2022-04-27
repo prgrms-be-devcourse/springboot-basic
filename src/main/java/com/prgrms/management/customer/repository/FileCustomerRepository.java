@@ -38,36 +38,43 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
+        // TODO: Custmers 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public List<Customer> findBlackList() {
+        // TODO: BlackList custmers 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
+        // TODO: customerById를 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
+        // TODO: customerByEmail을 반환하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Customer updateName(Customer customer) {
+        // TODO: name 업데이트 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAll() {
+        // TODO: 전부 삭제하는 메서드
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteById(UUID customerId) {
+        // TODO: 아이디로 customer 삭제하는 메서드
         throw new UnsupportedOperationException();
     }
 }
