@@ -20,7 +20,7 @@ public class RestVoucherController {
     private static final String API_URL = "/api/v1/vouchers";
     private final VoucherService voucherService;
     private final VoucherPayloadConverter converter;
-
+    //TODO: 질문1
     @GetMapping(API_URL)
     public List<VoucherInformation> loadAllVoucher(@RequestParam(required = false) String voucherTypeCode) {
         List<Voucher> vouchers;
@@ -46,6 +46,7 @@ public class RestVoucherController {
         return VoucherInformation.fromEntity(result);
     }
 
+    //TODO: 질문3
     @DeleteMapping(API_URL + "/{voucherId}")
     public ResponseEntity<String> removeVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);

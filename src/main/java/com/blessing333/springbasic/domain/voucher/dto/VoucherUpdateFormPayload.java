@@ -19,6 +19,7 @@ public class VoucherUpdateFormPayload {
     @NotBlank
     private final String discountAmount;
 
+    //TODO: 질문2
     public static VoucherUpdateFormPayload fromEntity(Voucher voucher){
         String id = voucher.getVoucherId().toString();
         String type = voucher.getVoucherType().getOptionNumber();
