@@ -1,7 +1,10 @@
 package org.programmers.kdt.weekly.command.io;
 
+import java.util.Arrays;
 import java.util.Scanner;
-import org.programmers.kdt.weekly.command.CommandType;
+import org.programmers.kdt.weekly.command.CustomerCommandType;
+import org.programmers.kdt.weekly.command.StartCommandType;
+import org.programmers.kdt.weekly.command.VoucherWalletCommandType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,21 +16,19 @@ public class Console {
         return sc.nextLine();
     }
 
-    public void newLinePrint() {
-        System.out.println();
-    }
-
     public void programExitMessage() {
         System.out.println("Terminates the program.");
     }
 
     public void printVoucherMessage() {
         System.out.println("=== Voucher Program ===");
-        CommandType.findByProgramType("start").forEach((v) -> System.out.println(v.getCommandMessage()));
+        Arrays.stream(StartCommandType.values()).filter((v) -> !v.equals(StartCommandType.DEFAULT))
+            .forEach((v) -> System.out.println(v.getCommandMessage()));
     }
 
     public void printInputErrorMessage(InputErrorType inputErrorType) {
         System.out.println(InputErrorType.getMessage(inputErrorType));
+        System.out.println();
     }
 
     public void printVoucherSelectMessage() {
@@ -48,7 +49,9 @@ public class Console {
 
     public void printVoucherWalletCommand() {
         System.out.println("=== Voucher Wallet Menu ===");
-        CommandType.findByProgramType("wallet").forEach((v) -> System.out.println(v.getCommandMessage()));
+        Arrays.stream(VoucherWalletCommandType.values())
+            .filter((v) -> !v.equals(VoucherWalletCommandType.DEFAULT))
+            .forEach((v) -> System.out.println(v.getCommandMessage()));
     }
 
     public void printInputMessage(String type) {
@@ -57,6 +60,8 @@ public class Console {
 
     public void printCustomerCommand() {
         System.out.println("=== Customer Menu ===");
-        CommandType.findByProgramType("customer").forEach((v) -> System.out.println(v.getCommandMessage()));
+        Arrays.stream(CustomerCommandType.values())
+            .filter((v) -> !v.equals(CustomerCommandType.DEFAULT))
+            .forEach((v) -> System.out.println(v.getCommandMessage()));
     }
 }

@@ -23,23 +23,23 @@ public class CustomerCommandLine {
     }
 
     public void run() {
-        var commandType = CommandType.DEFAULT;
+        var commandType = CustomerCommandType.DEFAULT;
 
-        while (commandType != CommandType.EXIT) {
+        while (commandType.isRunnable()) {
             this.console.printCustomerCommand();
             var userInput = this.console.getUserInput();
 
             try {
-                commandType = CommandType.findByCommand(userInput);
+                commandType = CustomerCommandType.findByCommand(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
             }
 
             switch (commandType) {
-                case CUSTOMER_CREATE -> createCustomer();
-                case CUSTOMER_LIST -> showCustomerList(CustomerType.NORMAL);
-                case CUSTOMER_BLACK_LIST -> showCustomerList(CustomerType.BLACK);
-                case CUSTOMER_TYPE_CHANGE -> changeCustomerType();
+                case CUSTOMER_CREATE -> this.createCustomer();
+                case CUSTOMER_LIST -> this.showCustomerList(CustomerType.NORMAL);
+                case CUSTOMER_BLACK_LIST -> this.showCustomerList(CustomerType.BLACK);
+                case CUSTOMER_TYPE_CHANGE -> this.changeCustomerType();
                 case EXIT -> this.console.programExitMessage();
                 default -> this.console.printInputErrorMessage(InputErrorType.INVALID);
             }
@@ -57,12 +57,12 @@ public class CustomerCommandLine {
 
             return;
         }
-        this.customerService.createCustomer(userEmail, userName);
+        this.customerService.create(userEmail, userName);
         this.console.printExecutionSuccessMessage();
     }
 
     private void showCustomerList(CustomerType customerType) {
-        var customerList = this.customerService.getCustomerList(customerType);
+        var customerList = this.customerService.getCustomers(customerType);
 
         if (customerList.isEmpty()) {
             this.console.printInputErrorMessage(InputErrorType.CUSTOMER_EMPTY);
@@ -75,12 +75,12 @@ public class CustomerCommandLine {
     private void changeCustomerType() {
         this.console.printInputMessage("customer email");
         var customerEmail = this.console.getUserInput();
-        var maybeCustomer = customerService.findCustomerByEmail(customerEmail);
+        var maybeCustomer = customerService.findByEmail(customerEmail);
 
         if (maybeCustomer.isPresent()) {
             var changeType = this.console.getUserInput();
             maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
-            this.customerService.updateCustomerType(maybeCustomer.get());
+            this.customerService.updateType(maybeCustomer.get());
             this.console.printExecutionSuccessMessage();
 
             return;
@@ -89,6 +89,6 @@ public class CustomerCommandLine {
     }
 
     private boolean isDuplicateEmail(String userInput) {
-        return this.customerService.findCustomerByEmail(userInput).isPresent();
+        return this.customerService.findByEmail(userInput).isPresent();
     }
 }

@@ -35,23 +35,23 @@ public class VoucherWalletCommandLine {
     }
 
     public void run() {
-        var commandType = CommandType.DEFAULT;
+        var commandType = VoucherWalletCommandType.DEFAULT;
         var customer = createCustomer();
 
-        while (commandType != CommandType.EXIT) {
+        while (commandType.isRunnable()) {
             this.console.printVoucherWalletCommand();
             var userInput = this.console.getUserInput();
 
             try {
-                commandType = CommandType.findByCommand(userInput);
+                commandType = VoucherWalletCommandType.findByCommand(userInput);
             } catch (IllegalArgumentException e) {
                 logger.debug("잘못된 사용자 입력 -> {}", userInput);
             }
 
             switch (commandType) {
-                case WALLET_INSERT -> insertWallet(customer);
-                case WALLET_LIST -> showWalletList(customer);
-                case WALLET_DELETE -> deleteWallet(customer);
+                case WALLET_INSERT -> this.insertWallet(customer);
+                case WALLET_LIST -> this.showWalletList(customer);
+                case WALLET_DELETE -> this.deleteWallet(customer);
                 case EXIT -> this.console.programExitMessage();
                 default -> this.console.printInputErrorMessage(InputErrorType.COMMAND);
             }
@@ -64,20 +64,20 @@ public class VoucherWalletCommandLine {
         this.console.printInputMessage("name");
         var customerName = this.console.getUserInput();
 
-        if (customerService.findCustomerByEmail(customerEmail).isPresent()) {
-            return this.customerService.findCustomerByEmail(customerEmail).get();
+        if (customerService.findByEmail(customerEmail).isPresent()) {
+            return this.customerService.findByEmail(customerEmail).get();
         }
 
         var customer = new Customer(UUID.randomUUID(), customerEmail, customerName,
             CustomerType.NORMAL);
-        this.customerService.createCustomer(customerEmail, customerName);
+        this.customerService.create(customerEmail, customerName);
         this.console.printExecutionSuccessMessage();
 
         return customer;
     }
 
     private void showWalletList(Customer customer) {
-        var voucherWallet = this.voucherWalletService.getVoucherWallet(customer.getCustomerId());
+        var voucherWallet = this.voucherWalletService.findById(customer.getCustomerId());
         if (voucherWallet.size() > 0) {
             voucherWallet.forEach(
                 (voucher -> System.out.println(voucher.toString())));
@@ -96,7 +96,7 @@ public class VoucherWalletCommandLine {
             this.console.printInputMessage("voucher UUID");
             userInput = this.console.getUserInput();
             var maybeVoucherId = UtilFunction.validateUUID(userInput);
-            maybeVoucherId.ifPresent(wallet -> this.voucherWalletService.insertWallet(
+            maybeVoucherId.ifPresent(wallet -> this.voucherWalletService.insert(
                 customer.getCustomerId(), maybeVoucherId.get(),
                 LocalDateTime.now().plusDays(30L)));
             this.console.printExecutionSuccessMessage();
@@ -112,7 +112,7 @@ public class VoucherWalletCommandLine {
         var maybeWalletId = UtilFunction.validateUUID(userInput);
 
         if (maybeWalletId.isPresent()) {
-            this.voucherWalletService.deleteWalletById(customer.getCustomerId(), maybeWalletId.get());
+            this.voucherWalletService.deleteById(customer.getCustomerId(), maybeWalletId.get());
             this.console.printExecutionSuccessMessage();
         }
 
