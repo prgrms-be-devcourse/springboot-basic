@@ -1,6 +1,6 @@
 package org.prgrms.vouchermanager.domain.voucher.persistence;
 
-import org.prgrms.vouchermanager.domain.customer.persistence.CustomerJDBCRepository;
+import org.prgrms.vouchermanager.domain.customer.persistence.JdbcCustomerRepository;
 import org.prgrms.vouchermanager.domain.voucher.domain.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.domain.VoucherType;
@@ -26,7 +26,7 @@ import java.util.UUID;
 @Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
+    private final Logger log = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
     /**

@@ -3,7 +3,7 @@ package org.prgrms.vouchermanager.domain.product.persistence;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class MemoryProductRepositoryTest {
+class JdbcProductRepositoryTest {
 
     @Test
     @DisplayName("insert 할 수 있다")

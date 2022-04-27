@@ -19,9 +19,9 @@ import java.util.UUID;
 import static com.google.common.base.Preconditions.checkState;
 
 @Repository
-public class CustomerJDBCRepository implements CustomerRepository {
+public class JdbcCustomerRepository implements CustomerRepository {
 
-    private final Logger log = LoggerFactory.getLogger(CustomerJDBCRepository.class);
+    private final Logger log = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
     /**
@@ -35,7 +35,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         return Customer.bind(id, name, email);
     };
 
-    public CustomerJDBCRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

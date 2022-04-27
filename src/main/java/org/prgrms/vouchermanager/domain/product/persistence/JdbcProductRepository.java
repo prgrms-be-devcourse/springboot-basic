@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class MemoryProductRepository implements ProductRepository {
+public class JdbcProductRepository implements ProductRepository {
     @Override
     public Product insert(Product product) {
         return null;

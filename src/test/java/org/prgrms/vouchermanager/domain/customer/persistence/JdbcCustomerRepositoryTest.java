@@ -22,7 +22,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
-class CustomerJDBCRepositoryTest {
+class JdbcCustomerRepositoryTest {
 
     @Autowired
     CustomerRepository customerJdbcRepository;
