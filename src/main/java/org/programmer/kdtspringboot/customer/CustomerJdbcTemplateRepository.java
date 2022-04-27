@@ -20,7 +20,8 @@ public class CustomerJdbcTemplateRepository implements CustomerRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcTemplateRepository.class);
     private final JdbcTemplate jdbcTemplate;
-    private static RowMapper<Customer> customerRowMapper = (resultSet, rowNum) ->{
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) ->{
         var customerName = resultSet.getString("name");
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var customerEmail = resultSet.getString("email");
