@@ -20,7 +20,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String content = voucher.getInfo();
+        String content = voucher.getVoucherId()+","+ voucher.getValue()+"," +voucher.getType();
         try (FileWriter fileWriter = new FileWriter(fileName, true);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {

@@ -30,11 +30,6 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getInfo() {
-        return voucherId + "," + percent + "," + type;
-    }
-
-    @Override
     public Long getValue() {
         return percent;
     }

@@ -27,11 +27,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getInfo() {
-        return voucherId + "," + amount + "," + type;
-    }
-
-    @Override
     public Long getValue() {
         return amount;
     }
