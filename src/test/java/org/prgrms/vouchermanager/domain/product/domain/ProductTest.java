@@ -20,7 +20,7 @@ class ProductTest {
             Product product = new Product(UUID.randomUUID(), "productName", 1000L, 10);
 
             assertThat(product.getId()).isNotNull();
-            assertThat(product.getName()).isEqualTo("product01");
+            assertThat(product.getName()).isEqualTo("productName");
             assertThat(product.getPrice()).isEqualTo(1000);
             assertThat(product.getStock()).isEqualTo(10);
             assertThat(product.getStatus()).isEqualTo(ProductStatus.FOR_SALE);

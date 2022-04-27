@@ -17,16 +17,13 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("Voucher를 insert하고 똑같은 객체를 반환받는다.")
     void testWithInsert() {
-        //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
         Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
         Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
 
-        //when
         voucherRepository.insert(fixedVoucher);
         voucherRepository.insert(percentVoucher);
 
-        //then
         assertThat(voucherRepository.findById(fixedVoucher.getId()).get()).isEqualTo(fixedVoucher);
         assertThat(voucherRepository.findById(percentVoucher.getId()).get()).isEqualTo(percentVoucher);
     }
@@ -34,18 +31,15 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("voucherId로 Voucher를 찾을 수 있다.")
     void testWithFindById() {
-        //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
         Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
         Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
         voucherRepository.insert(fixedVoucher);
         voucherRepository.insert(percentVoucher);
 
-        //when
         Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getId()).get();
         Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getId()).get();
 
-        //then
         assertThat(findFixedVoucher).isEqualTo(fixedVoucher);
         assertThat(findPercentVoucher).isEqualTo(percentVoucher);
     }
@@ -53,15 +47,12 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("이미 존재하는 voucher를 insert 할 수 없다.")
     void testWithDuplicatedInsert() {
-        //given
         VoucherRepository voucherRepository = new MemoryVoucherRepository();
         Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(),10);
 
-        //when
         voucherRepository.insert(fixedVoucher);
 
-        //then
-        assertThatThrownBy(() -> voucherRepository.insert(fixedVoucher)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> voucherRepository.insert(fixedVoucher)).isInstanceOf(IllegalStateException.class);
     }
 
 }

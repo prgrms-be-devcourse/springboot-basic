@@ -77,7 +77,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.insert(percentDiscountVoucher);
 
         //when
-        List<Voucher> all = voucherRepository.getAll();
+        List<Voucher> all = voucherRepository.findAll();
 
         //then
         assertThat(all).isNotEmpty().containsAll(testVoucherList);

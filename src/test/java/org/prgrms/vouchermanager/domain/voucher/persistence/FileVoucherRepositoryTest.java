@@ -76,7 +76,7 @@ class FileVoucherRepositoryTest {
 
         //when
         mockVouchers.forEach(fileVoucherRepository::insert);
-        List<Voucher> findVouchers = fileVoucherRepository.getAll();
+        List<Voucher> findVouchers = fileVoucherRepository.findAll();
 
         //then
         assertTrue((mockVouchers.size() == findVouchers.size()) && findVouchers.containsAll(mockVouchers) && mockVouchers.containsAll(findVouchers));
