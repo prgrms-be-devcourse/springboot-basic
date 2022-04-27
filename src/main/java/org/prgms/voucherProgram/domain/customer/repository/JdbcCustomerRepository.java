@@ -39,7 +39,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             "UPDATE customer SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
             customer.getName(),
             customer.getEmail(),
-            customer.getLastLoginTime() != null ? Timestamp.valueOf(customer.getLastLoginTime()) : null,
+            customer.getUpdatedTime() != null ? Timestamp.valueOf(customer.getUpdatedTime()) : null,
             DatabaseUtils.toBytes(customer.getCustomerId()));
 
         DatabaseUtils.validateExecute(result);

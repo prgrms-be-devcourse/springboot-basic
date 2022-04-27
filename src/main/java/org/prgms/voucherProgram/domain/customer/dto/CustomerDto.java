@@ -10,20 +10,20 @@ public class CustomerDto {
     private final String name;
     private final String email;
     private final LocalDateTime createdTime;
-    private final LocalDateTime lastLoginTime;
+    private final LocalDateTime updatedTime;
 
     public CustomerDto(UUID customerId, String name, String email, LocalDateTime createdTime,
-        LocalDateTime lastLoginTime) {
+        LocalDateTime updatedTime) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdTime = createdTime;
-        this.lastLoginTime = lastLoginTime;
+        this.updatedTime = updatedTime;
     }
 
     public static CustomerDto from(Customer customer) {
         return new CustomerDto(customer.getCustomerId(), customer.getName(), customer.getEmail(),
-            customer.getCreatedTime(), customer.getLastLoginTime());
+            customer.getCreatedTime(), customer.getUpdatedTime());
     }
 
     public UUID getCustomerId() {
@@ -42,7 +42,7 @@ public class CustomerDto {
         return createdTime;
     }
 
-    public LocalDateTime getLastLoginTime() {
-        return lastLoginTime;
+    public LocalDateTime getUpdatedTime() {
+        return updatedTime;
     }
 }

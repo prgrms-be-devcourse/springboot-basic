@@ -8,29 +8,29 @@ public class Customer {
     private final LocalDateTime createdTime;
     private Name name;
     private Email email;
-    private LocalDateTime lastLoginTime;
+    private LocalDateTime updatedTime;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdTime) {
         this(customerId, name, email, createdTime, null);
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdTime,
-        LocalDateTime lastLoginTime) {
+        LocalDateTime updatedTime) {
         this.customerId = customerId;
         this.name = new Name(name);
         this.email = new Email(email);
         this.createdTime = createdTime;
-        this.lastLoginTime = lastLoginTime;
+        this.updatedTime = updatedTime;
     }
 
     public boolean isNotSameCustomer(Customer customer) {
         return !this.customerId.equals(customer.customerId);
     }
 
-    public void changeInformation(String name, String email, LocalDateTime lastLoginTime) {
+    public void changeInformation(String name, String email, LocalDateTime updateTime) {
         this.name = new Name(name);
         this.email = new Email(email);
-        this.lastLoginTime = lastLoginTime;
+        this.updatedTime = updateTime;
     }
 
     public UUID getCustomerId() {
@@ -49,8 +49,8 @@ public class Customer {
         return email.getEmail();
     }
 
-    public LocalDateTime getLastLoginTime() {
-        return lastLoginTime;
+    public LocalDateTime getUpdatedTime() {
+        return updatedTime;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Customer {
             ", createdTime=" + createdTime +
             ", name=" + name +
             ", email=" + email +
-            ", lastLoginTime=" + lastLoginTime +
+            ", lastLoginTime=" + updatedTime +
             '}';
     }
 }
