@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:mysql://localhost/order_mgmt
+    username: root
+    password: root1234!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+file:
+  path:
+    blacklist: file/customer_blacklist.csv
+    voucher: ./voucherData.txt
