@@ -2,7 +2,7 @@ package org.prgrms.voucherprgrms.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.voucherprgrms.voucher.model.VoucherDTO;
+import org.prgrms.voucherprgrms.voucher.model.VoucherForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,11 @@ class VoucherCreatorTest {
 
     @Test
     @DisplayName("voucher 생성")
-    public void voucherCreationTest() {
+    void voucherCreationTest() {
         //given-when
 
-        var fixedOne = voucherCreator.create(new VoucherDTO("FixedAmountVoucher", 100L));
-        var percentOne = voucherCreator.create(new VoucherDTO("PercentDiscountVoucher", 35L));
+        var fixedOne = voucherCreator.create(new VoucherForm("FixedAmountVoucher", 100L));
+        var percentOne = voucherCreator.create(new VoucherForm("PercentDiscountVoucher", 35L));
 
         //then
         assertThat(fixedOne.toString(), is(equalTo("FixedAmountVoucher")));
@@ -51,8 +51,8 @@ class VoucherCreatorTest {
 
     @Test
     @DisplayName("유효하지 않은 voucher type")
-    public void illegalArguExceptionTest() {
-        var illegalOne = new VoucherDTO("illegalType", 100);
+    void illegalArguExceptionTest() {
+        var illegalOne = new VoucherForm("illegalType", 100);
 
         var exception = assertThrows(IllegalArgumentException.class, () -> voucherCreator.create(illegalOne));
         logger.info("Exception Message is '{}'", exception.getMessage());

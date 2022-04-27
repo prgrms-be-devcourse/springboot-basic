@@ -79,7 +79,7 @@ public class EmbeddedCustomerNamedJdbcRepositoryTest {
     @BeforeAll
     void setup() {
         newCustomer = new Customer(UUID.randomUUID(), "testUser", "testUser@gmail.com", LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        var mysqldConfig=aMysqldConfig(v8_0_11)
+        var mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(Charset.UTF8)
                 .withPort(2215)
                 .withUser("test", "test123")
@@ -99,7 +99,7 @@ public class EmbeddedCustomerNamedJdbcRepositoryTest {
     @Test
     @Order(1)
     @DisplayName("CUSTOMER INSERT")
-    public void insertTest(){
+    void insertTest() {
         //given
         customerNamedJdbcRepository.insert(newCustomer);
         var findCustomer = customerNamedJdbcRepository.findByEmail(newCustomer.getEmail());
@@ -113,7 +113,7 @@ public class EmbeddedCustomerNamedJdbcRepositoryTest {
     @Test
     @Order(2)
     @DisplayName("Voucher 할당 테스트")
-    public void allocateVoucherTest() {
+    void allocateVoucherTest() {
         var newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         voucherNamedJdbcRepository.insert(newVoucher);
 
@@ -131,7 +131,7 @@ public class EmbeddedCustomerNamedJdbcRepositoryTest {
     @Test
     @Order(3)
     @DisplayName("Voucher 제거 테스트")
-    public void removeVoucherTest() {
+    void removeVoucherTest() {
         newCustomer.removeVoucher();
         customerNamedJdbcRepository.changeVoucher(newCustomer);
 

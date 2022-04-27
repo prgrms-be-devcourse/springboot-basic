@@ -6,7 +6,6 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.voucherprgrms.voucher.model.FixedAmountVoucher;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
-import org.prgrms.voucherprgrms.voucher.repository.VoucherNamedJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -72,9 +71,9 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setUp(){
+    void setUp() {
         newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        var mysqldConfig=aMysqldConfig(v8_0_11)
+        var mysqldConfig = aMysqldConfig(v8_0_11)
                 .withCharset(Charset.UTF8)
                 .withPort(2215)
                 .withUser("test", "test123")
@@ -95,14 +94,14 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
     @Order(1)
     @Disabled
     @DisplayName("Connection check")
-    public void testHikariConnectionPool(){
+    void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
     @Test
     @Order(2)
     @DisplayName("INSERT 쿼리 테스트")
-    public void voucherInsertTest() {
+    void voucherInsertTest() {
         voucherNamedJdbcRepository.insert(newVoucher);
 
         var findVoucher = voucherNamedJdbcRepository.findById(newVoucher.getVoucherId());
@@ -113,7 +112,7 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("DELETE ALL 테스트")
-    public void deleteAllTest() {
+    void deleteAllTest() {
         voucherNamedJdbcRepository.deleteAll();
         var voucherList = voucherNamedJdbcRepository.findAll();
         assertThat(voucherList.isEmpty(), is(true));
