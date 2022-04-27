@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile({"default","test"})
+@Profile({"default","test","dev"})
 public class JdbcWalletRepository implements WalletRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);

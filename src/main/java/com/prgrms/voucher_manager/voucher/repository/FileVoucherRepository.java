@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("dev")
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -128,6 +128,7 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new EmptyRepositoryException("FileVoucherRepository 가 비어있습니다.");
         }
     }
+
 
     //TODO
     // 바우처를 수정 후 새로 다시 파일을 작성해야 하나?

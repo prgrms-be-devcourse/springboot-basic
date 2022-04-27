@@ -22,12 +22,10 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
-
     @Override
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0 ) ? 0 : discountedAmount;
-
     }
 
     @Override
@@ -67,7 +65,6 @@ public class FixedAmountVoucher implements Voucher {
             put("type", "fix");
             put("value", amount);
         }};
-        System.out.println(hashMap.get("value"));
         return hashMap;
     }
 

@@ -17,7 +17,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@Profile({"default","test"})
+@Profile({"default","test","dev"})
 public class VoucherServiceFacade {
 
     private final static Logger logger = LoggerFactory.getLogger(VoucherService.class);
