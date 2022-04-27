@@ -19,4 +19,6 @@ public interface Voucher {
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();
+
+    void setStatus(VoucherStatus status);
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.prgrms.spring_week1.customer.model.Customer;
 
 public interface CustomerRepository {
+
     List<Customer> getAll();
 
     Optional<Customer> findById(UUID customerId);

@@ -1,7 +1,6 @@
 package org.prgrms.spring_week1.order.model;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
 
@@ -26,7 +25,7 @@ public class Order {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderItemList = orderItemList;
-        this.voucher =  voucher;
+        this.voucher = voucher;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {

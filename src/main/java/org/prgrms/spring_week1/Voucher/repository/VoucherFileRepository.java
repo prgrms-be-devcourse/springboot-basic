@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,12 +27,11 @@ public class VoucherFileRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
 
     @Override
-    public void insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         StringBuilder sb = new StringBuilder();
 
-
         // try with resources로 해당 구문 벗어나면 AutoCloseable은 close 된다.
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path, true))) {
             // UUID,voucher.toString() 형식으로 작성
             sb.append(voucher.getVoucherId());
             sb.append(",");
@@ -43,17 +44,19 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error("Got error while writing in file ", e);
         }
+
+        return voucher;
     }
 
     @Override
-    public List<String> getAllVoucher() {
+    public List<Voucher> getAllVoucher() {
         String line = " ";
-        List<String> vouchers = new ArrayList<>();
+        List<Voucher> vouchers = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path))){
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             while ((line = br.readLine()) != null) {
                 String[] strings = line.split(",");
-                vouchers.add(strings[1]); // voucher.toString()만 slicing
+                // vouchers.add(strings[1]); // voucher.toString()만 slicing
 
             }
 
@@ -63,8 +66,21 @@ public class VoucherFileRepository implements VoucherRepository {
             logger.error("Got error while reading file ", e);
         }
 
+        return null;
+    }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return null;
+    }
 
-        return vouchers;
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

@@ -1,13 +1,20 @@
 package org.prgrms.spring_week1.Voucher.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
 
 public interface VoucherRepository {
 
-    void insert(Voucher voucher);
+    List<Voucher> getAllVoucher();
 
-    //ConcurrentHashMap<UUID,Voucher> getAllVoucher();
-    List<String> getAllVoucher();
+    Optional<Voucher> findById(UUID voucherId);
+
+    Voucher insert(Voucher voucher);
+
+    Voucher update(Voucher voucher);
+
+    void deleteAll();
 
 }

@@ -2,8 +2,9 @@ package org.prgrms.spring_week1;
 
 import static java.lang.System.exit;
 
-import org.prgrms.spring_week1.Order.OrderService;
+import org.prgrms.spring_week1.order.OrderService;
 import org.prgrms.spring_week1.Voucher.VoucherService;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.prgrms.spring_week1.io.ConsoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +51,8 @@ public class SpringWeek1Application {
                 }
 
             } else if (opt.equals("list")) {  // 조회
-                for (String voucher : voucherService.getAllVoucher()) {
-                    consoleService.output(voucher);
+                for (Voucher voucher : voucherService.getAllVoucher()) {
+                    consoleService.output(voucher.toString());
                 }
 
             } else if (opt.equals("exit")) {  // 종료

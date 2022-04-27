@@ -35,7 +35,7 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<String> getAllVoucher() {
+    public List<Voucher> getAllVoucher() {
         return voucherRepository.getAllVoucher();
 
     }

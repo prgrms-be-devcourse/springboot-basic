@@ -13,14 +13,14 @@ public class PercentDiscountVoucher implements Voucher {
     private final VoucherType voucherType;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent <= 0){
+        if (percent <= 0) {
             throw new IllegalArgumentException("percent should not be minus");
-        } else if(percent > 100){
+        } else if (percent > 100) {
             throw new IllegalArgumentException("percent should be smaller than 100");
         }
         this.voucherId = voucherId;
         this.discount = percent;
-        this.voucherStatus= VoucherStatus.VALID;
+        this.voucherStatus = VoucherStatus.VALID;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.voucherType = VoucherType.PERCENTDISCOUNT;
@@ -77,9 +77,14 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public void setStatus(VoucherStatus status) {
+        this.voucherStatus = status;
+    }
+
+    @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-            "/ discount=" + discount +
+            " discount=" + discount +
             "/ voucherStatus=" + voucherStatus +
             '}';
     }
