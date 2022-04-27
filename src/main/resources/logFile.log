@@ -733,3 +733,9 @@
 19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 11.0.14.1 on macui-MacBookAir.local with PID 37823 (started by dhkstn in /Users/dhkstn/management)
 19:59:42.072 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - The following 1 profile is active: "test"
 19:59:43.315 [main] INFO c.p.m.c.r.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.4 seconds (JVM running for 2.068)
+20:19:59.588 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 39406 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:19:59.589 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:20:01.337 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.933 seconds (JVM running for 2.483)
+20:21:07.167 [main] INFO c.p.management.VoucherApplication - Starting VoucherApplication using Java 11.0.14.1 on macui-MacBookAir.local with PID 39489 (/Users/dhkstn/management/target/classes started by dhkstn in /Users/dhkstn/management)
+20:21:07.168 [main] INFO c.p.management.VoucherApplication - The following 1 profile is active: "jdbc"
+20:21:08.045 [main] INFO c.p.management.VoucherApplication - Started VoucherApplication in 1.077 seconds (JVM running for 1.559)

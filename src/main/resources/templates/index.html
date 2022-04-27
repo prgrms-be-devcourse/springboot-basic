@@ -12,16 +12,18 @@
                 <th>voucherId</th>
                 <th>amount</th>
                 <th>voucherType</th>
-                <th>createdAt</th>
-                <th>customerId</th>
+                <th></th>
             </tr>
             <tr class="text-center" th:each="voucher, iter : ${vouchers}">
                 <td th:text="${iter.index+1}"></td>
                 <td th:text="${voucher.voucherId}">voucherId</td>
                 <td th:text="${voucher.amount}">amount</td>
-                <td th:text="${voucher.voucherType}">voucherType</td>
-                <td th:text="${#temporals.format(voucher.createdAt,'yyyy-MM-dd HH:mm:ss')}">createdAt</td>
-                <td th:text="${voucher.customerId}">null</td>
+                <td th:text="${voucher.voucherType}">null</td>
+                <td style="width: 90px;height: 30px;">
+                    <form id="voucher" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="get">
+                        <button id="info-btn">상세 보기</button>
+                    </form>
+                </td>
             </tr>
         </table>
     </div>
