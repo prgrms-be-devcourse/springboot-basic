@@ -56,7 +56,7 @@ public class CustomerController {
     }
 
     @GetMapping("/new")
-    public String customerCreateShow(Model model) {
+    public String customerCreatePage(Model model) {
         model.addAttribute("customerType", CustomerType.values());
         model.addAttribute("createForm", new CustomerCreateRequest());
         return "customers/create";
@@ -78,8 +78,10 @@ public class CustomerController {
     @PutMapping("/{customerId}")
     public String customerModify(@Valid CustomerUpdateRequest updateRequest,
                                  @PathVariable("customerId") UUID customerId) {
-        Customer customer = updateRequest.toEntity();
-        customerService.update(customer);
+        customerService.update(customerId,
+                updateRequest.getName(),
+                updateRequest.getEmail(),
+                updateRequest.getCustomerType());
         return "redirect:/customers";
     }
 

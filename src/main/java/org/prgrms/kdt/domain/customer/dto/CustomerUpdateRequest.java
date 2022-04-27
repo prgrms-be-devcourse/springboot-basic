@@ -1,18 +1,14 @@
 package org.prgrms.kdt.domain.customer.dto;
 
-import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class CustomerUpdateRequest {
 
-    private UUID customerId;
     @NotNull
     private CustomerType customerType;
     @NotBlank(message = "이름에 공백이 들어갈 수 없습니다.")
@@ -24,10 +20,6 @@ public class CustomerUpdateRequest {
     private String email;
 
     public CustomerUpdateRequest() {
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
     }
 
     public CustomerType getCustomerType() {
@@ -42,10 +34,6 @@ public class CustomerUpdateRequest {
         return email;
     }
 
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
-    }
-
     public void setCustomerType(CustomerType customerType) {
         this.customerType = customerType;
     }
@@ -58,12 +46,4 @@ public class CustomerUpdateRequest {
         this.email = email;
     }
 
-    public Customer toEntity() {
-        return new Customer(customerId,
-                name,
-                email,
-                customerType,
-                LocalDateTime.now(),
-                LocalDateTime.now());
-    }
 }

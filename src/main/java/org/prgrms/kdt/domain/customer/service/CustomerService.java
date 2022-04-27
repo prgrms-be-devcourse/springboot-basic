@@ -1,7 +1,5 @@
 package org.prgrms.kdt.domain.customer.service;
 
-import org.prgrms.kdt.domain.customer.dto.CustomerCreateRequest;
-import org.prgrms.kdt.domain.customer.dto.CustomerUpdateRequest;
 import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
@@ -76,9 +74,11 @@ public class CustomerService {
     }
 
     @Transactional
-    public void update(Customer customer) {
-        customerRepository.findById(customer.getCustomerId())
+    public void update(UUID customerId, String name, String email, CustomerType customerType) {
+        customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerDataException(NOT_SAVED));
+        LocalDateTime now = LocalDateTime.now();
+        Customer customer = new Customer(customerId, name, email, customerType, now, now);
         customerRepository.update(customer);
     }
 
