@@ -40,8 +40,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
-  private static final Logger log = LoggerFactory.getLogger(JdbcCustomerRepositoryTest.class);
-
   @Configuration
   @ComponentScan(
     basePackages = {"org.prgrms.vouchermanagement.customer"}
@@ -118,29 +116,20 @@ class JdbcCustomerRepositoryTest {
   @DisplayName("고객을 추가할 수 있다")
   public void testInsert() {
     jdbcCustomerRepository.insert(customer1);
-
     var retrieveCustomer = jdbcCustomerRepository.findById(customer1.getCustomerId());
     assertThat(retrieveCustomer.isEmpty(), is(false));
-
-    log.info("retrieveCustomer -> {}", retrieveCustomer.get());
-    log.info("customer1 -> {}", customer1);
     assertThat(retrieveCustomer.get(), samePropertyValuesAs(customer1));
   }
 
   @Test
-  @Order(2)
-  @Disabled
+  @Order(3)
   @DisplayName("중복된 고객은 추가할 수 없다")
   public void testInsertException() {
-    try {
-      jdbcCustomerRepository.insert(customer1);
-    } catch (Exception e) {
-      log.error("Got DuplicateKeyException error code -> {}", e.getMessage());
-    }
+    assertThrows(DuplicateKeyException.class, () -> jdbcCustomerRepository.insert(customer1));
   }
 
   @Test
-  @Order(3)
+  @Order(4)
   @DisplayName("전체 고객을 조회할 수 있다")
   public void testFindAll() {
     var customers = jdbcCustomerRepository.findAll();
@@ -148,29 +137,27 @@ class JdbcCustomerRepositoryTest {
   }
 
   @Test
-  @Order(4)
+  @Order(5)
   @DisplayName("이름으로 고객을 조회할 수 있다")
   public void testFindByName() {
     var customer = jdbcCustomerRepository.findByName(customer1.getName());
     assertThat(customer.isEmpty(), is(false));
-
     var unknown = jdbcCustomerRepository.findByName("unknown-user");
     assertThat(unknown.isEmpty(), is(true));
   }
 
   @Test
-  @Order(5)
+  @Order(6)
   @DisplayName("이메일로 고객을 조회할 수 있다")
   public void testFindByEmail() {
     var customer = jdbcCustomerRepository.findByEmail(customer1.getEmail());
     assertThat(customer.isEmpty(), is(false));
-
     var unknown = jdbcCustomerRepository.findByEmail("unknown-user@gmail.com");
     assertThat(unknown.isEmpty(), is(true));
   }
 
   @Test
-  @Order(6)
+  @Order(7)
   @DisplayName("고객을 수정할 수 있다")
   public void testUpdate() {
     customer1.changeName("updated-user");
