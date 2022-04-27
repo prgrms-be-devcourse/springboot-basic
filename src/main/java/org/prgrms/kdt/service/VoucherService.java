@@ -65,6 +65,10 @@ public class VoucherService {
         return voucherRepository.getByVoucherId(voucherId);
     }
 
+    public void deleteVoucherById(UUID voucherId) {
+        voucherRepository.deleteVoucherById(voucherId);
+    }
+
     private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {
         Optional<VoucherType> voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumber);
         if (voucherType.isEmpty()) {

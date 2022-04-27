@@ -62,4 +62,10 @@ public class VoucherController {
         return "vouchers/voucherDetail";
     }
 
+    @GetMapping("/vouchers/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable String voucherId) {
+        voucherService.deleteVoucherById(UUID.fromString(voucherId));
+        return "home";
+    }
+
 }

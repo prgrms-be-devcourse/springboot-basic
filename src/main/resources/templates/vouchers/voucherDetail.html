@@ -28,8 +28,9 @@
     <dt class="col-sm-3">생성일시</dt>
     <dd class="col-sm-9" th:text="${voucher.createAt}"></dd>
 </dl>
-<button th:onclick="location.href = '/'" style="padding: 10px;" class="btn btn-primary">홈으로 이동</button>
 
+<button th:onclick="location.href = '/'" >홈으로 이동</button>
+<button ><a th:href="@{/vouchers/delete/{voucherId} (voucherId = ${voucher.voucherId})}">바우처 삭제하기</a></button>
 </body>
 
 </html>
