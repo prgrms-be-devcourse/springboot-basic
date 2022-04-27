@@ -1,5 +1,6 @@
-package org.prgms.wallet;
+package org.prgms.repository;
 
+import org.prgms.domain.Wallet;
 import org.prgms.utils.UuidUtils;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;

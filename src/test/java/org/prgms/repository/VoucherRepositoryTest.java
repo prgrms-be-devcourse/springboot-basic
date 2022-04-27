@@ -1,13 +1,12 @@
-package org.prgms.voucher.repository;
+package org.prgms.repository;
 
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucher.domain.Voucher;
-import org.prgms.voucher.domain.VoucherRepository;
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
+import org.prgms.domain.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;

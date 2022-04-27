@@ -1,11 +1,11 @@
 package org.prgms;
 
-import org.prgms.customer.Customer;
+import org.prgms.domain.Customer;
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
 import org.prgms.io.FileReader;
 import org.prgms.io.InOut;
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucher.service.VoucherService;
+import org.prgms.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

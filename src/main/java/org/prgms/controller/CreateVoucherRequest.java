@@ -1,8 +1,8 @@
-package org.prgms.voucher.controller;
+package org.prgms.controller;
 
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucher.domain.Voucher;
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
+import org.prgms.domain.Voucher;
 
 public record CreateVoucherRequest(int voucherKind, long discountAmount) {
 

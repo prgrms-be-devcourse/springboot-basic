@@ -1,6 +1,6 @@
-package org.prgms.customer.repository;
+package org.prgms.repository;
 
-import org.prgms.customer.Customer;
+import org.prgms.domain.Customer;
 import org.prgms.utils.UuidUtils;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
