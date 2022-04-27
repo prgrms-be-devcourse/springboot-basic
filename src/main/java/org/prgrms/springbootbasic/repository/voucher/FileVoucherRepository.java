@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,6 +107,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType voucherType) {
+        throw new AssertionError("아직 개발 안함");
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startTime, LocalDateTime endTime) {
         throw new AssertionError("아직 개발 안함");
     }
 }

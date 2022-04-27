@@ -21,6 +21,8 @@ import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString
 import static org.prgrms.springbootbasic.repository.voucher.VoucherDBConstString.UPDATE_CUSTOMER_ID_SQL;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -154,6 +156,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(SELECT_BY_TYPE,
             mapToVoucher,
             voucherType.toString());
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startTime, LocalDateTime endTime) {
+        return jdbcTemplate.query(
+            "SELECT * FROM vouchers where date(created_at) BETWEEN ? AND ?",
+            mapToVoucher,
+            startTime.format(DateTimeFormatter.ISO_LOCAL_DATE),
+            endTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
     }
 
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {

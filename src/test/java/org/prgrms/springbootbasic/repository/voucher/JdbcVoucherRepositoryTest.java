@@ -11,6 +11,7 @@ import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELET
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
@@ -248,6 +249,24 @@ class JdbcVoucherRepositoryTest {
             .containsExactlyInAnyOrder(voucher, voucher2);
     }
 
+    @Test
+    @DisplayName("생성일(날짜) 기준 바우처 조회")
+    void findByCreatedAt() {
+        //given
+        var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        jdbcVoucherRepository.save(voucher1);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByCreatedAt(
+            LocalDateTime.now(), LocalDateTime.now());
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
+    }
 
     @Configuration
     @ComponentScan

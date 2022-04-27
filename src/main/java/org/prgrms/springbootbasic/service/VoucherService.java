@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -103,5 +104,9 @@ public class VoucherService {
 
     public List<Voucher> findVoucherUsingType(VoucherType voucherType) {
         return voucherRepository.findByType(voucherType);
+    }
+
+    public List<Voucher> findVoucherUsingCreatedAt(LocalDateTime startTime, LocalDateTime endTime) {
+        return voucherRepository.findByCreatedAt(startTime, endTime);
     }
 }

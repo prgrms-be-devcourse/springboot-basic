@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.repository.voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,4 +25,6 @@ public interface VoucherRepository {
     void deleteVoucher(Voucher voucher);
 
     List<Voucher> findByType(VoucherType voucherType);
+
+    List<Voucher> findByCreatedAt(LocalDateTime startTime, LocalDateTime endTime);
 }
