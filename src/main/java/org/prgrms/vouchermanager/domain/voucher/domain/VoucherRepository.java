@@ -9,5 +9,5 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    List<Voucher> getAll();
+    List<Voucher> findAll();
 }

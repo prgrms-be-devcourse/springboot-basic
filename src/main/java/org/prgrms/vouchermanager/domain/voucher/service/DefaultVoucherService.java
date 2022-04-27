@@ -27,7 +27,7 @@ public class DefaultVoucherService implements VoucherService {
 
     @Override
     public List<Voucher> findVouchers() {
-        return voucherRepository.getAll();
+        return voucherRepository.findAll();
     }
 
     @Override

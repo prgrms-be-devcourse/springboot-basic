@@ -1,4 +1,10 @@
-=== Voucher Program ===
-Type exit to exit the program.
-Type create to create a new voucher.
-Type list to list all vouchers.
+                                  d8b
+                                  ?88
+                                   88b
+?88   d8P d8888b ?88   d8P d8888b  888888b  d8888b  88bd88b      88bd8b,d88b  d888b8b    88bd88b  d888b8b   d888b8b   d8888b  88bd88b
+d88  d8P'd8P' ?88d88   88 d8P' `P  88P `?8bd8b_,dP  88P'  `      88P'`?8P'?8bd8P' ?88    88P' ?8bd8P' ?88  d8P' ?88  d8b_,dP  88P'  `
+?8b ,88' 88b  d88?8(  d88 88b     d88   88P88b     d88          d88  d88  88P88b  ,88b  d88   88P88b  ,88b 88b  ,88b 88b     d88
+`?888P'  `?8888P'`?88P'?8b`?888P'd88'   88b`?888P'd88'         d88' d88'  88b`?88P'`88bd88'   88b`?88P'`88b`?88P'`88b`?888P'd88'
+                                                                                                                  )88
+                                                                                                                 ,88P
+                                                                                                             `?8888P

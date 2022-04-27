@@ -35,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getAll() {
+    public List<Voucher> findAll() {
         return getVouchers();
     }
 
