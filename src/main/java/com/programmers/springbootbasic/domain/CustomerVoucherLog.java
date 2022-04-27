@@ -40,6 +40,10 @@ public class StatusDTO {
         return registrationDate;
     }
 
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
     public String toString() {
         return "[회원 ID: " + customerId + "], [할인권 ID: " + voucherId + "]";

@@ -39,6 +39,10 @@ public class CustomerDTO {
         return registrationDate;
     }
 
+    public void setRegistrationDate(LocalDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
     @Override
     public String toString() {
         return  "[회원 ID: " + customerId + "], [회원이름: " + name + "], [가입날짜: " + registrationDate + "]";

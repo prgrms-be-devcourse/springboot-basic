@@ -15,7 +15,8 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties
 @ComponentScan(basePackages = {"com.programmers.springbootbasic.configuration",
                                 "com.programmers.springbootbasic.repository",
-                                "com.programmers.springbootbasic.service"})
+                                "com.programmers.springbootbasic.service",
+                                "com.programmers.springbootbasic.consolestarter"})
 @PropertySource(value = "classpath:application.yaml", factory = YamlPropertiesFactory.class)
 public class RootAppConfig {
 

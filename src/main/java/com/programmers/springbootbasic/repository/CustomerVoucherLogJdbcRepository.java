@@ -1,8 +1,8 @@
 package com.programmers.springbootbasic.repository;
 
-import com.programmers.springbootbasic.dto.CustomerDTO;
-import com.programmers.springbootbasic.dto.StatusDTO;
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.domain.Customer;
+import com.programmers.springbootbasic.domain.CustomerVoucherLog;
+import com.programmers.springbootbasic.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +42,15 @@ public class StatusJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final RowMapper<StatusDTO> statusRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<CustomerVoucherLog> statusRowMapper = (rs, rowNum) -> {
         String customerId = rs.getString("customer_id");
         UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         LocalDateTime registrationDate = rs.getTimestamp("registration_date").toLocalDateTime();
 
-        return new StatusDTO(customerId, voucherId, registrationDate);
+        return new CustomerVoucherLog(customerId, voucherId, registrationDate);
     };
 
-    private static final RowMapper<VoucherDTO> vouchersRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<Voucher> vouchersRowMapper = (rs, rowNum) -> {
         String voucherId = rs.getString("voucher_id");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
@@ -62,15 +62,15 @@ public class StatusJdbcRepository {
 
         Integer type = rs.getInt("type");
 
-        return new VoucherDTO(UUID.fromString(voucherId), createdAt, fixed_amount, discount_percent, type);
+        return new Voucher(UUID.fromString(voucherId), createdAt, fixed_amount, discount_percent, type);
     };
 
-    private static final RowMapper<CustomerDTO> customersRowMapper = (rs, rowNum) -> {
+    private static final RowMapper<Customer> customersRowMapper = (rs, rowNum) -> {
         String customerId = rs.getString("customer_id");
         String name = rs.getString("name");
         LocalDateTime registrationDate = rs.getTimestamp("registration_date").toLocalDateTime();
 
-        return new CustomerDTO(customerId, name, registrationDate);
+        return new Customer(customerId, name, registrationDate);
     };
 
     @Autowired
@@ -78,8 +78,8 @@ public class StatusJdbcRepository {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    public StatusDTO insert(String customerId, UUID voucherId) {
-        StatusDTO statusDTO = new StatusDTO(customerId, voucherId);
+    public CustomerVoucherLog insert(String customerId, UUID voucherId) {
+        CustomerVoucherLog statusDTO = new CustomerVoucherLog(customerId, voucherId);
         int insertResult = jdbcTemplate.update(INSERT, customerId, voucherId.toString());
 
         if (insertResult != 1)
@@ -88,13 +88,13 @@ public class StatusJdbcRepository {
         return statusDTO;
     }
 
-    public List<StatusDTO> findByCustomerId(String customerId) {
+    public List<CustomerVoucherLog> findByCustomerId(String customerId) {
         return jdbcTemplate.query(SELECT_BY_CUSTOMER_ID, statusRowMapper, customerId);
     }
 
-    public Optional<StatusDTO> findByVoucherId(UUID voucherId) {
+    public Optional<CustomerVoucherLog> findByVoucherId(UUID voucherId) {
         try {
-            StatusDTO statusDTO = jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID, statusRowMapper, voucherId.toString());
+            CustomerVoucherLog statusDTO = jdbcTemplate.queryForObject(SELECT_BY_VOUCHER_ID, statusRowMapper, voucherId.toString());
             return Optional.ofNullable(statusDTO);
         } catch (DataAccessException e) {
             logger.info("존재하지 않은 할인권 아이디로 상태 정보 검색 요청");
@@ -102,18 +102,18 @@ public class StatusJdbcRepository {
         }
     }
 
-    public List<StatusDTO> findAll() {
+    public List<CustomerVoucherLog> findAll() {
         return jdbcTemplate.query(SELECT_ALL, statusRowMapper);
     }
 
-    public List<VoucherDTO> findVouchersByCustomerId(String customerId) {
+    public List<Voucher> findVouchersByCustomerId(String customerId) {
         return jdbcTemplate.query(SELECT_VOUCHERS_BY_CUSTOMER_ID, vouchersRowMapper, customerId);
     }
 
-    public Optional<CustomerDTO> findCustomerByVoucherId(UUID voucherId) {
+    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         try {
-            CustomerDTO customerDTO = jdbcTemplate.queryForObject(SELECT_CUSTOMER_BY_VOUCHER_ID, customersRowMapper, voucherId.toString());
-            return Optional.ofNullable(customerDTO);
+            Customer customer = jdbcTemplate.queryForObject(SELECT_CUSTOMER_BY_VOUCHER_ID, customersRowMapper, voucherId.toString());
+            return Optional.ofNullable(customer);
         } catch (DataAccessException e) {
             logger.info("존재하지 않거나 또는 할당되지 않은 할인권 아이디로 해당 하는 할인권을 소유한 고객 정보 요청");
             return Optional.empty();

@@ -1,31 +1,39 @@
-package com.programmers.springbootbasic.consolestarter;
+package com.programmers.springbootbasic.consolestarter.io;
 
 import com.programmers.springbootbasic.domain.VoucherType;
-import com.programmers.springbootbasic.dto.CustomerDTO;
-import com.programmers.springbootbasic.dto.StatusDTO;
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.domain.Customer;
+import com.programmers.springbootbasic.domain.CustomerVoucherLog;
+import com.programmers.springbootbasic.domain.Voucher;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class OutputConsolePrinter {
+public class ConsoleOutputFormatPrinter implements StandardOutput {
 
-    public static final String DIVISION_LINE = "--------------------------------------------------------------------------------------------------------------------";
+    public static final String DIVISION_LINE = "-------------------------------------------------------------------------------------------------------------------------";
 
-    public static void printNewCustomer(CustomerDTO customerDTO) {
-        System.out.println("새로운 고객이 생성되었습니다.");
-        System.out.println("생성된 고객: " +
-                "[회원 ID: " + customerDTO.getCustomerId() + "], " +
-                "[회원이름: " + customerDTO.getName() + "]");
+    @Override
+    public void write(String message) {
+        System.out.println(message);
     }
 
-    public static void printAllocationAcknowledgement(StatusDTO statusDTO) {
+    @Override
+    public void printNewCustomer(Customer customer) {
+        System.out.println("새로운 고객이 생성되었습니다.");
+        System.out.println("생성된 고객: " +
+                "[회원 ID: " + customer.getCustomerId() + "], " +
+                "[회원이름: " + customer.getName() + "]");
+    }
+
+    @Override
+    public void printAllocationAcknowledgement(CustomerVoucherLog statusDTO) {
         System.out.println("[회원 ID: " + statusDTO.getCustomerId() +
                 "] 님에게 [할인권 ID: " + statusDTO.getVoucherId() +
                 "] 을 정상적으로 할당하였습니다.");
     }
 
-    public static void printVouchersOfCustomer(String customerId, List<VoucherDTO> vouchers) {
+    @Override
+    public void printVouchersOfCustomer(String customerId, List<Voucher> vouchers) {
         if (vouchers.size() > 0) {
             System.out.println("[회원 ID: " +  customerId + "] 님이 보유하고 있는 할인권은 다음과 같습니다.");
             printAllVouchersFormatted(vouchers);
@@ -33,28 +41,31 @@ public class OutputConsolePrinter {
         else {
             System.out.println("현재 [회원 ID:" +  customerId + "] 님이 소유하고 있는 할인권이 없습니다.");
         }
-
     }
 
-    public static void printFoundCustomer(CustomerDTO customerDTO) {
+    @Override
+    public void printFoundCustomer(Customer customer) {
         System.out.println("요청하신 고객의 정보는 다음과 같습니다.");
-        System.out.println("검색된 고객: " + customerDTO);
+        System.out.println("검색된 고객: " + customer);
     }
 
-    public static void printCustomerByVoucherId(CustomerDTO customerDTO) {
+    @Override
+    public void printCustomerByVoucherId(Customer customer) {
         System.out.println("요청하신 고객의 정보는 다음과 같습니다.");
         System.out.println("검색된 고객: " +
-                "[회원 ID: " + customerDTO.getCustomerId() + "], " +
-                "[회원이름: " + customerDTO.getName() + "], " +
-                "[할인권 소유일: " + customerDTO.getRegistrationDate() + "]");
+                "[회원 ID: " + customer.getCustomerId() + "], " +
+                "[회원이름: " + customer.getName() + "], " +
+                "[할인권 소유일: " + customer.getRegistrationDate() + "]");
     }
 
-    public static void printDeletedCustomer(CustomerDTO customerDTO) {
+    @Override
+    public void printDeletedCustomer(Customer customer) {
         System.out.println("고객의 정보가 삭제되었습니다.");
-        System.out.println("삭제된 고객: " + customerDTO);
+        System.out.println("삭제된 고객: " + customer);
     }
 
-    public static void printAllCustomers(List<CustomerDTO> customers) {
+    @Override
+    public void printAllCustomers(List<Customer> customers) {
         if (customers.size() > 0) {
             System.out.println("현재 저장된 모든 고객의 정보는 다음과 같습니다.");
             System.out.println(DIVISION_LINE);
@@ -71,7 +82,8 @@ public class OutputConsolePrinter {
         }
     }
 
-    public static void printNewVoucher(VoucherDTO voucherDTO) {
+    @Override
+    public void printNewVoucher(Voucher voucherDTO) {
         String benefit = "";
         benefit = (voucherDTO.getFixedAmount() == null ? benefit :
                 "[할인 금액: " + voucherDTO.getFixedAmount() + "원]");
@@ -85,7 +97,8 @@ public class OutputConsolePrinter {
                 benefit);
     }
 
-    public static void printFoundVoucher(VoucherDTO voucherDTO) {
+    @Override
+    public void printFoundVoucher(Voucher voucherDTO) {
         String benefit = "";
         benefit = (voucherDTO.getFixedAmount() == null ? benefit :
                 "[할인 금액: " + voucherDTO.getFixedAmount() + "원]");
@@ -99,7 +112,8 @@ public class OutputConsolePrinter {
                 benefit);
     }
 
-    public static void printAvailableVouchers(List<VoucherDTO> vouchers) {
+    @Override
+    public void printAvailableVouchers(List<Voucher> vouchers) {
         if (vouchers.size() > 0) {
             System.out.println("이용 가능한 할인권의 정보는 다음과 같습니다.");
             printAllVouchersFormatted(vouchers);
@@ -109,7 +123,8 @@ public class OutputConsolePrinter {
         }
     }
 
-    public static void printAllVouchers(List<VoucherDTO> vouchers) {
+    @Override
+    public void printAllVouchers(List<Voucher> vouchers) {
         if (vouchers.size() > 0) {
             System.out.println("현재 저장된 모든 할인권의 정보는 다음과 같습니다.");
             printAllVouchersFormatted(vouchers);
@@ -119,7 +134,8 @@ public class OutputConsolePrinter {
         }
     }
 
-    private static void printAllVouchersFormatted(List<VoucherDTO> vouchers) {
+    @Override
+    public void printAllVouchersFormatted(List<Voucher> vouchers) {
         System.out.println(DIVISION_LINE);
         System.out.printf("%15s%35s%30s%16s%8s%n", "생성일", "할인권 No.", "할인권 유형", "할인 금액", "할인율");
         System.out.println(DIVISION_LINE);
@@ -132,7 +148,8 @@ public class OutputConsolePrinter {
         System.out.println(DIVISION_LINE);
     }
 
-    public static void printDeletedVoucher(VoucherDTO voucherDTO) {
+    @Override
+    public void printDeletedVoucher(Voucher voucherDTO) {
         System.out.println("할인권이 삭제되었습니다.");
         System.out.println("삭제된 할인권: " + "[할인권 ID: " + voucherDTO.getVoucherId() + "]");
     }

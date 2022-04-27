@@ -1,8 +1,8 @@
 package com.programmers.springbootbasic.service;
 
-import com.programmers.springbootbasic.dto.CustomerDTO;
-import com.programmers.springbootbasic.dto.StatusDTO;
-import com.programmers.springbootbasic.dto.VoucherDTO;
+import com.programmers.springbootbasic.domain.Customer;
+import com.programmers.springbootbasic.domain.CustomerVoucherLog;
+import com.programmers.springbootbasic.domain.Voucher;
 import com.programmers.springbootbasic.repository.StatusJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,27 +21,27 @@ public class StatusService {
         this.statusJdbcRepository = statusJdbcRepository;
     }
 
-    public StatusDTO createStatus(String customerId, UUID voucherId) {
+    public CustomerVoucherLog createStatus(String customerId, UUID voucherId) {
         return statusJdbcRepository.insert(customerId, voucherId);
     }
 
-    public List<StatusDTO> findAllStatus() {
+    public List<CustomerVoucherLog> getAllStatus() {
         return statusJdbcRepository.findAll();
     }
 
-    public List<StatusDTO> findStatusByCustomerId(String customerId) {
+    public List<CustomerVoucherLog> getStatusByCustomerId(String customerId) {
         return statusJdbcRepository.findByCustomerId(customerId);
     }
 
-    public Optional<StatusDTO> findStatusByVoucherId(UUID voucherId) {
+    public Optional<CustomerVoucherLog> getStatusByVoucherId(UUID voucherId) {
         return statusJdbcRepository.findByVoucherId(voucherId);
     }
 
-    public Optional<CustomerDTO> findCustomerHoldingVoucher(UUID voucherId) {
+    public Optional<Customer> getCustomerHoldingVoucher(UUID voucherId) {
         return statusJdbcRepository.findCustomerByVoucherId(voucherId);
     }
 
-    public List<VoucherDTO> findVouchersOfCustomer(String customerId) {
+    public List<Voucher> getVouchersOfCustomer(String customerId) {
         return statusJdbcRepository.findVouchersByCustomerId(customerId);
     }
 
