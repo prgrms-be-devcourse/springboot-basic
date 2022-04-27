@@ -5,16 +5,20 @@ import com.prgrms.voucher_manager.customer.SimpleCustomer;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
 import com.prgrms.voucher_manager.infra.facade.VoucherServiceFacade;
 import com.prgrms.voucher_manager.voucher.Voucher;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
 import com.prgrms.voucher_manager.wallet.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +45,9 @@ public class CustomerController {
     @GetMapping("")
     public String customers(Model model) {
         List<Customer> customers = customerService.findAllCustomer();
-        model.addAttribute("customers", customers);
+        List<CustomerDto> customerDtos = new ArrayList<>();
+        customers.forEach(customer -> customerDtos.add(customer.toCustomerDto()));
+        model.addAttribute("customers", customerDtos);
         return "customer/customers";
     }
 
@@ -50,7 +56,7 @@ public class CustomerController {
         Optional<Customer> customer = customerService.findCustomerById(customerId);
 
         if(customer.isPresent()) {
-            model.addAttribute("customer", customer.get());
+            model.addAttribute("customer", customer.get().toCustomerDto());
             return "customer/customer";
         } else {
             logger.info("해당 고객 정보가 없습니다.");
@@ -75,8 +81,9 @@ public class CustomerController {
     @GetMapping("/{customerId}/update")
     public String updateCustomerForm(@PathVariable UUID customerId, Model model) {
         Optional<Customer> customer = customerService.findCustomerById(customerId);
+
         if (customer.isPresent()) {
-            model.addAttribute("customer", customer.get());
+            model.addAttribute("customer", customer.get().toCustomerDto());
             return "customer/updateCustomer";
         } else {
             logger.info("해당 고객 정보가 없습니다.");
@@ -111,18 +118,22 @@ public class CustomerController {
     @GetMapping("/{customerId}/vouchers")
     public String findCustomerByVoucherType(@PathVariable UUID customerId, Model model) {
         List<Voucher> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
+        List<VoucherDto> voucherDtos = new ArrayList<>();
+        vouchers.forEach(voucher -> voucherDtos.add(voucher.toVoucherDto()));
         if(vouchers.isEmpty()) {
             logger.info("해당 고객은 보유한 바우처가 없습니다.");
             return "redirect:/customers/{customerId}";
         }
         else {
-            model.addAttribute("vouchers", vouchers);
+            model.addAttribute("vouchers", voucherDtos);
             return "customer/vouchers";
         }
     }
 
     @PostMapping("/{customerId}/vouchers")
     public String deleteVoucher(@PathVariable UUID customerId, @RequestParam UUID voucherId) {
+        logger.info("voucherId {}", voucherId);
+        logger.info("customerId {}", customerId);
         walletService.deleteWallet(customerId, voucherId);
         return "redirect:/customers/{customerId}";
     }
@@ -130,12 +141,14 @@ public class CustomerController {
     @GetMapping("/{customerId}/vouchers/add")
     public String addVoucherSelect(@PathVariable UUID customerId, Model model) {
         List<Voucher> vouchers = voucherService.getFindAllVoucher();
+        List<VoucherDto> voucherDtos = new ArrayList<>();
+        vouchers.forEach(voucher -> voucherDtos.add(voucher.toVoucherDto()));
         if(vouchers.isEmpty()) {
             logger.info("등록된 바우처가 없습니다.");
             return "redirect:/customers/{customerId}";
         }
         else {
-            model.addAttribute("vouchers", vouchers);
+            model.addAttribute("vouchers", voucherDtos);
             model.addAttribute("customerId", customerId);
             return "customer/addVoucher";
         }
@@ -147,4 +160,6 @@ public class CustomerController {
         walletService.createWallet(customerId, voucherId);
         return "redirect:/customers/{customerId}";
     }
+
+
 }
