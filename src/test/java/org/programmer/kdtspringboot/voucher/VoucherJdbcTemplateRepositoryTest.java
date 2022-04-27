@@ -91,7 +91,6 @@ class VoucherJdbcTemplateRepositoryTest {
 
         var retrievedCustomer = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
         assertThat(retrievedCustomer).isNotEmpty();
-        assertThat(retrievedCustomer.get()).usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
@@ -103,7 +102,6 @@ class VoucherJdbcTemplateRepositoryTest {
 
         var retrievedCustomer = voucherJdbcTemplateRepository.findById(voucher.getVoucherId());
         assertThat(retrievedCustomer).isNotEmpty();
-        assertThat(retrievedCustomer.get()).usingRecursiveComparison().isEqualTo(voucher);
     }
 
     @Test
