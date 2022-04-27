@@ -28,9 +28,9 @@ public class ConsoleCustomerController implements RunnableController {
     @Override
     public void startService() {
         boolean isExit = false;
-        while(!isExit){
-            userInterface.showGuideText();
-            String command = userInterface.inputMessage();
+        while (!isExit) {
+            userInterface.printGuide();
+            String command = userInterface.requestMessage();
             try {
                 CustomerCommandOptionType type = CustomerCommandOptionType.fromString(command);
                 switch (type) {
@@ -38,39 +38,39 @@ public class ConsoleCustomerController implements RunnableController {
                     case INQUIRY -> showCustomerInformation();
                     case LIST -> showAllCustomerInformation();
                     case QUIT -> isExit = true;
-                    default -> userInterface.showHelpText();
+                    default -> userInterface.printHelp();
                 }
             } catch (CommandNotSupportedException e) {
-                log.error(e.getMessage(),e);
-                userInterface.showHelpText();
+                log.error(e.getMessage(), e);
+                userInterface.printHelp();
             }
         }
     }
 
-    private void registerNewCustomer(){
+    private void registerNewCustomer() {
         try {
-            Customer customer = customerCreateFormConverter.convert(userInterface.requestCustomerInformation()); //IllegalArgumentException 발생 가능
-            Customer registeredCustomer = customerService.registerCustomer(customer);  // DataAccessException 발생 가능
-            userInterface.printCustomerCreateSuccessMessage(registeredCustomer);
-        } catch (IllegalArgumentException | DataAccessException e){
-            log.error(e.getMessage(),e);
+            Customer customer = customerCreateFormConverter.convert(userInterface.requestCustomerInformation());
+            Customer registeredCustomer = customerService.registerCustomer(customer);
+            userInterface.printRegisterComplete(registeredCustomer);
+        } catch (IllegalArgumentException | DataAccessException e) {
+            log.error(e.getMessage(), e);
             System.out.println(e.getMessage());
         }
     }
 
-    private void showCustomerInformation(){
+    private void showCustomerInformation() {
         try {
             UUID id = UUID.fromString(userInterface.requestCustomerId());
             Customer customer = customerService.inquiryCustomerInformation(id);
             userInterface.printCustomerInformation(customer);
 
-        }catch (IllegalArgumentException | DataAccessException e){
-            log.error(e.getMessage(),e);
+        } catch (IllegalArgumentException | DataAccessException e) {
+            log.error(e.getMessage(), e);
             System.out.println("잘못되거나 존재하지 않는 id 입니다");
         }
     }
 
-    private void showAllCustomerInformation(){
+    private void showAllCustomerInformation() {
         List<Customer> customerList = customerService.loadAllCustomerInformation();
         userInterface.printAllCustomerInformation(customerList);
     }

@@ -13,7 +13,7 @@ public class ControllerMapper {
     public RunnableController getRunnableController(ServiceStrategy strategy) {
         switch (strategy){
             case VOUCHER_MANAGING : return context.getBean("consoleVoucherController", RunnableController.class);
-            case CUSTOMER_MANAGING: return context.getBean("consoleCustomerController", RunnableController.class);
+            case CUSTOMER_MANAGING : return context.getBean("consoleCustomerController", RunnableController.class);
             default : throw new NotSupportedStrategyException();
         }
     }

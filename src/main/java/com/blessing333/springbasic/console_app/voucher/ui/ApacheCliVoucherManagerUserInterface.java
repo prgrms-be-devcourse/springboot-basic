@@ -39,12 +39,12 @@ public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine impl
     }
 
     @Override
-    public String inputMessage() {
+    public String requestMessage() {
         return scanner.nextLine();
     }
 
     @Override
-    public void showGuideText() {
+    public void printGuide() {
         printMessage("=== Voucher Program ===");
         printMessage("Type exit to exit the program.");
         printMessage("Type create to create a new voucher.");
@@ -54,22 +54,22 @@ public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine impl
     }
 
     @Override
-    public void showVoucherTypeSelectText() {
+    public void printVoucherTypeGuide() {
         printMessage("생성할 바우쳐의 타입을 입력하세요.");
         printMessage(AVAILABLE_VOUCHER_TYPE_GUIDE);
     }
 
     @Override
     public VoucherCreateFormPayload requestVoucherInformation() {
-        showVoucherTypeSelectText();
-        String voucherType = inputMessage();
+        printVoucherTypeGuide();
+        String voucherType = requestMessage();
         printMessage("할인 금액 혹은 비율을 입력하세요");
-        String discountAmount = inputMessage();
+        String discountAmount = requestMessage();
         return new VoucherCreateFormPayload(voucherType, discountAmount);
     }
 
     @Override
-    public void printVoucherCreateSuccessMessage(Voucher voucher) {
+    public void printRegisterComplete(Voucher voucher) {
         printMessage("바우쳐 생성이 완료되었습니다.");
         printVoucherInformation(voucher);
     }
@@ -80,7 +80,7 @@ public class ApacheCliVoucherManagerUserInterface extends ApacheCommandLine impl
     }
 
     @Override
-    public void showHelpText() {
+    public void printHelp() {
         printHelpText("바우처 관리");
     }
 }

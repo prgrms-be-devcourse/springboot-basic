@@ -18,22 +18,22 @@ public class App implements ApplicationRunner {
     private final ControllerMapper controllerMapper;
 
     @Override
-    public void run(ApplicationArguments args){
-        while(true){
-            userInterface.showGuideText();
-            String command = userInterface.inputMessage();
-            if(PROGRAM_EXIT.equals(command)) break;
+    public void run(ApplicationArguments args) {
+        while (true) {
+            userInterface.printGuide();
+            String command = userInterface.requestMessage();
+            if (PROGRAM_EXIT.equals(command)) break;
             else doService(command);
         }
     }
 
-    private void doService(String command){
-        try{
+    private void doService(String command) {
+        try {
             ServiceStrategy strategy = ServiceStrategy.fromString(command);
             RunnableController controller = controllerMapper.getRunnableController(strategy);
             controller.startService();
-        }catch (NotSupportedStrategyException e){
-            log.error(e.getMessage(),e);
+        } catch (NotSupportedStrategyException e) {
+            log.error(e.getMessage(), e);
             userInterface.printMessage(e.getMessage());
         }
     }

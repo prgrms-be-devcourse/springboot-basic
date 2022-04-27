@@ -30,19 +30,19 @@ public class ConsoleVoucherController implements RunnableController {
     public void startService() {
         boolean isExit = false;
         while(!isExit){
-            userInterface.showGuideText();
-            String command = userInterface.inputMessage();
+            userInterface.printGuide();
+            String command = userInterface.requestMessage();
             try {
                 VoucherCommandOptionType type = VoucherCommandOptionType.find(command);
                 switch (type) {
                     case CREATE -> startCreateNewVoucher();
                     case LIST -> showAllVoucherInformation();
                     case QUIT -> isExit = true;
-                    default -> userInterface.showHelpText();
+                    default -> userInterface.printHelp();
                 }
             } catch (CommandNotSupportedException e) {
                 log.error(e.getMessage(),e);
-                userInterface.showHelpText();
+                userInterface.printHelp();
             }
         }
     }
@@ -52,7 +52,7 @@ public class ConsoleVoucherController implements RunnableController {
             VoucherCreateFormPayload form = userInterface.requestVoucherInformation();
             VoucherCreateForm convertedForm = voucherPayloadConverter.toCreateForm(form);
             Voucher newVoucher = voucherService.registerVoucher(convertedForm);
-            userInterface.printVoucherCreateSuccessMessage(newVoucher);
+            userInterface.printRegisterComplete(newVoucher);
         } catch (VoucherCreateFailException e){
             log.error(e.getMessage(),e);
             userInterface.printMessage(e.getMessage());

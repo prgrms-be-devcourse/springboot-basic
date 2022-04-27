@@ -1,14 +1,16 @@
 package com.blessing333.springbasic.console_app.ui;
 
 public interface UserInterface {
-    default void printDivider(){
+    default void printDivider() {
         printMessage("=========================");
     }
+
     void printMessage(String message);
 
-    String inputMessage();
+    String requestMessage();
 
-    default void showHelpText(){}
+    default void printHelp() {
+    }
 
-    void showGuideText();
+    void printGuide();
 }

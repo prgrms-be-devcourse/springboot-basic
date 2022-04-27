@@ -21,7 +21,7 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
     }
 
     @Override
-    public void showHelpText() {
+    public void printHelp() {
         printDivider();
         printHelpText("고객 관리 명령어");
         printDivider();
@@ -30,7 +30,7 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
     @Override
     public String requestCustomerId() {
         printMessage("조회할 고객의 아이디를 입력해주세요");
-        return inputMessage();
+        return requestMessage();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
     }
 
     @Override
-    public void printCustomerCreateSuccessMessage(Customer customer) {
+    public void printRegisterComplete(Customer customer) {
         printMessage("고객 생성이 완료되었습니다.");
         printCustomerInformation(customer);
     }
@@ -59,9 +59,9 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
     @Override
     public CustomerCreateForm requestCustomerInformation() {
         printMessage("고객의 이름을 입력하세요.");
-        String name = inputMessage();
+        String name = requestMessage();
         printMessage("고객의 이메일 주소를 입력하세요");
-        String email = inputMessage();
+        String email = requestMessage();
         return new CustomerCreateForm(name,email);
     }
 
@@ -71,12 +71,12 @@ public class ApacheCliCustomerUserInterface extends ApacheCommandLine implements
     }
 
     @Override
-    public String inputMessage() {
+    public String requestMessage() {
         return scanner.nextLine();
     }
 
     @Override
-    public void showGuideText() {
+    public void printGuide() {
         printMessage("=== Customer Managing Program ===");
         printMessage("Type exit to exit the program.");
         printMessage("Type create to create a new customer.");
