@@ -4,10 +4,10 @@
 <body>
 <h2 th:text="#{page.voucher.list}">바우처 목록</h2>
 <h3 th:if="${type!=null}" th:text="|${type.name}만 검색|"></h3>
+<h3 th:if="${startingDate!=null && endingDate!=null}" th:text="|${startingDate} ~ ${endingDate} 사이 값|"></h3>
 <a th:if="${type!=null}" th:text="#{button.reset.conditional}" th:href="@{/vouchers}"></a>
-<!--<form action="voucherList.html" th:action="@{|/vouchers?startingDate=${startingDate}&endingDate=${endingDate}|}" method="get">-->
 <form action="/vouchers" method="get">
-    <input type="hidden" name="type">
+    <input type="hidden" name="type" th:value="${type}">
     <div>
         <label th:for="startingDate" th:text="#{label.search.conditional.startingDate}"></label>
         <input type="date" name="startingDate">

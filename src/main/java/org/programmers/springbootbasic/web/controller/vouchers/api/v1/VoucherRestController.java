@@ -7,6 +7,7 @@ import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,13 +20,25 @@ public class VoucherRestController {
     private final VoucherService voucherService;
 
     @GetMapping("/api/v1/vouchers")
-    public List<VoucherDto> getAllVouchers(@RequestParam(required = false) VoucherType type) {
-        if (type==null) {
-            return voucherService.getAllVouchers()
+    public List<VoucherDto> getAllVouchers(@RequestParam(required = false) VoucherType type,
+                                           @RequestParam(required = false) Date startingDate, @RequestParam(required = false)
+    Date endingDate) {
+        if (type!=null) {
+            if (startingDate != null && endingDate != null) {
+                return voucherService.getVouchersByTypeAndDate(type, startingDate, endingDate)
+                        .stream().map(voucher -> VoucherDto.from(voucher))
+                        .collect(toList());
+            }
+            return voucherService.getVouchersByType(type)
                     .stream().map(voucher -> VoucherDto.from(voucher))
                     .collect(toList());
         }
-        return voucherService.getVouchersByType(type)
+        if (startingDate != null && endingDate != null) {
+            return voucherService.getVouchersByDate(startingDate, endingDate)
+                    .stream().map(voucher -> VoucherDto.from(voucher))
+                    .collect(toList());
+        }
+        return voucherService.getAllVouchers()
                 .stream().map(voucher -> VoucherDto.from(voucher))
                 .collect(toList());
     }
