@@ -17,6 +17,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -111,6 +113,27 @@ class VoucherRestControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 생성 요청에서 할인값이 음수가 들어올 경우 예외가 발생한다.")
+    void voucherCreate_discountValueNegative_exception() throws Exception{
+        //given
+        UUID voucherId = UUID.randomUUID();
+        VoucherCreateRequest createRequest = new VoucherCreateRequest();
+        createRequest.setVoucherType(FIXED_AMOUNT);
+        createRequest.setDiscountValue(-100);
+        String jsonContent = objectMapper.writeValueAsString(createRequest);
+        //when
+        when(voucherService.save(any())).thenReturn(voucherId);
+        //then
+        mockMvc.perform(post("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonContent))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
+    }
+
+    @Test
     @DisplayName("바우처 ID를 통해 바우처에 대한 상세 정보 조회 요청을 처리할 수 있다.")
     void voucherDetails() throws Exception{
         //given
@@ -141,6 +164,26 @@ class VoucherRestControllerTest {
                         .content(jsonContent)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("바우처 수정 요청에서 바우처 타입이 null일 경우 예외가 발생한다.")
+    void voucherModify_voucherTypeNull_exception() throws Exception{
+        //given
+        UUID voucherId = UUID.randomUUID();
+        VoucherUpdateRequest updateRequest = new VoucherUpdateRequest();
+        updateRequest.setVoucherType(null);
+        updateRequest.setDiscountValue(100L);
+        String jsonContent = objectMapper.writeValueAsString(updateRequest);
+        //when
+        //then
+        mockMvc.perform(put("/api/v1/vouchers/{voucherId}", voucherId)
+                        .content(jsonContent)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
     }
 
     @Test

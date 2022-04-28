@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.prgrms.kdt.domain.voucher.model.VoucherType.FIXED_AMOUNT;
@@ -133,6 +135,40 @@ class VoucherControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 생성 요청에서 입력받은 할인값이 음수일 경우 예외가 발생한다.")
+    void voucherCreate_discountValueNotPositive_exception() throws Exception {
+        //given
+        VoucherType voucherType = FIXED_AMOUNT;
+        long discountValue = -100;
+        //when
+        //then
+        mockMvc.perform(post("/vouchers/new")
+                        .param("voucherType", String.valueOf(voucherType))
+                        .param("discountValue", String.valueOf(discountValue)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
+    }
+
+    @Test
+    @DisplayName("바우처 생성 요청에서 입력받은 바우처 타입이 없을경우 예외가 발생한다.")
+    void voucherCreate_voucherTypeNull_exception() throws Exception {
+        //given
+        VoucherType voucherType = null;
+        long discountValue = 100;
+        //when
+        //then
+        mockMvc.perform(post("/vouchers/new")
+                        .param("voucherType", String.valueOf(voucherType))
+                        .param("discountValue", String.valueOf(discountValue)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
+    }
+
+    @Test
     @DisplayName("바우처 타입과 할인 값을 받아 바우처 수정 요청을 처리할 수 있다.")
     void voucherModify() throws Exception{
         //given
@@ -146,6 +182,42 @@ class VoucherControllerTest {
                         .param("discountValue", String.valueOf(discountValue)))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/vouchers"));
+    }
+
+    @Test
+    @DisplayName("바우처 수정 요청에서 입력받은 할인값이 음수일 경우 예외가 발생한다.")
+    void voucherModify_discountValueNotPositive_exception() throws Exception{
+        //given
+        VoucherType voucherType = FIXED_AMOUNT;
+        long discountValue = -100L;
+        UUID voucherId = UUID.randomUUID();
+        //when
+        //then
+        mockMvc.perform(put("/vouchers/{voucherId}", voucherId)
+                        .param("voucherType", String.valueOf(voucherType))
+                        .param("discountValue", String.valueOf(discountValue)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
+    }
+
+    @Test
+    @DisplayName("바우처 수정 요청에서 입력받은 바우처 타입이 null일 경우 예외가 발생한다.")
+    void voucherModify_voucherTypeNull_exception() throws Exception{
+        //given
+        VoucherType voucherType = null;
+        long discountValue = 100L;
+        UUID voucherId = UUID.randomUUID();
+        //when
+        //then
+        mockMvc.perform(put("/vouchers/{voucherId}", voucherId)
+                        .param("voucherType", String.valueOf(voucherType))
+                        .param("discountValue", String.valueOf(discountValue)))
+                .andExpect(status().is4xxClientError())
+                .andExpect(result -> assertThat(result.getResolvedException()
+                        .getClass()
+                        .isAssignableFrom(MethodArgumentNotValidException.class)).isTrue());
     }
 
     @Test
