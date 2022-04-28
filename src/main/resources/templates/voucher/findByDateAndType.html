@@ -1,0 +1,40 @@
+<head th:replace="fragments/header :: html-head" >
+</head>
+<body>
+<div class ="container">
+    <div th:replace="fragments/header :: header"></div>
+</div>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>검색 결과</h2>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>생성 날짜</th>
+                <th>바우처 타입</th>
+                <th>할인 양</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td><a href="voucher.html" th:href="@{/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.createdAt}">생성날짜</a></td>
+                <td th:text="${voucher.type}">type</a></td>
+                <td th:text="${voucher.value}">value</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/vouchers}'|"
+                    onclick="location.href='vouchers.html'" type="button">바우처 목록으로
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

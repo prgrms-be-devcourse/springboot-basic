@@ -14,7 +14,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>생성 날짜</th>
                         <th>바우처 타입</th>
                         <th>할인 양</th>
                     </tr>
@@ -22,7 +22,7 @@
                 <tbody>
                     <tr th:each="voucher : ${vouchers}">
                         <form action="addVoucher.html" th:action method="post">
-                            <td><input id="voucherId" name="voucherId" type="text" th:placeholder="${voucher.voucherId}" th:value="${voucher.voucherId}" readonly/></td>
+                            <td th:text="${voucher.createdAt}">생성날짜</td>
                             <td th:text="${voucher.type}">type</td>
                             <td th:text="${voucher.value}">value</td>
                             <td>

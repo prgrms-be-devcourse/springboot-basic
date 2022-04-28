@@ -10,7 +10,7 @@
         <form action="voucher.html" th:action method="post">
             <div>
                 <label for="voucherID">바우처 ID</label>
-                <input type="text" id="voucherID" name="voucherID" class="form-control" value="1" th:value="${voucher.voucherId}" readonly>
+                <input type="text" id="voucherID" name="voucherID" class="form-control" value="1" th:value="${voucher.voucherId}" disabled>
             </div>
             <div>
                 <label for="type">type</label>
@@ -19,6 +19,10 @@
             <div>
                 <label for="value">할인양</label>
                 <input type="text" id="value" name="value" class="form-control" value="10" th:value="${voucher.value}">
+            </div>
+            <div>
+                <label for="value">생성날짜</label>
+                <input type="text" id="createdAt" name="createdAt" disabled class="form-control" value="10" th:value="${voucher.createdAt}">
             </div>
             <hr class="my-4">
             <div class="row">

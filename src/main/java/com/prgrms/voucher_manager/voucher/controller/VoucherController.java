@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,9 +37,7 @@ public class VoucherController {
     @GetMapping("")
     public String Vouchers(Model model) {
         List<Voucher> vouchers = voucherService.getFindAllVoucher();
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> voucherDtos.add(voucher.toVoucherDto()));
-        model.addAttribute("vouchers", voucherDtos);
+        model.addAttribute("vouchers", getVoucherDtoList(vouchers));
         return "voucher/vouchers";
     }
 
@@ -60,6 +60,23 @@ public class VoucherController {
         voucherService.createVoucher(type, value);
 
         return "redirect:/vouchers";
+    }
+
+    @GetMapping("/date")
+    public String findVoucherByDateAndTypeForm(Model model) {
+        return "voucher/findByDateAndTypeForm";
+    }
+
+    @PostMapping("/date")
+    public String findVoucherByDateAndType(@RequestParam String type,
+                                           @RequestParam String start,
+                                           @RequestParam String end,
+                                           Model model) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        List<Voucher> vouchers = voucherService.findByDateAndType(startDate, endDate, type);
+        model.addAttribute("vouchers", getVoucherDtoList(vouchers));
+        return "voucher/findByDateAndType";
     }
 
     @GetMapping("/{voucherId}/update")
@@ -103,6 +120,15 @@ public class VoucherController {
             return "voucher/customers";
         }
 
+    }
+
+
+    private List<VoucherDto> getVoucherDtoList(List<Voucher> vouchers) {
+        List<VoucherDto> voucherDtos = new ArrayList<>();
+        vouchers.forEach(voucher -> {
+            voucherDtos.add(voucher.toVoucherDto());
+        });
+        return voucherDtos;
     }
 
 }

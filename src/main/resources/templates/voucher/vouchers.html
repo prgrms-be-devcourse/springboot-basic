@@ -24,6 +24,13 @@
                 </button>
             </div>
             <div class="col">
+                <button class="btn btn-secondary float-end"
+                        th:onclick="|location.href='@{/vouchers/date}'|"
+                        onclick="location.href='findByTypeAndDate.html'"
+                        type="button">생성날짜, 타입으로 바우처 검색
+                </button>
+            </div>
+            <div class="col">
                 <button class="btn btn-primary float-end"
                         th:onclick="|location.href='@{/vouchers/add}'|"
                         onclick="location.href='addVoucher.html'"
@@ -36,14 +43,14 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>생성 날짜</th>
                         <th>바우처 타입</th>
                         <th>할인 양</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="voucher : ${vouchers}">
-                        <td><a href="voucher.html" th:href="@{vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a></td>
+                        <td><a href="voucher.html" th:href="@{vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.createdAt}">생성날짜</a></td>
                         <td th:text="${voucher.type}">type</a></td>
                         <td th:text="${voucher.value}">value</td>
                     </tr>
