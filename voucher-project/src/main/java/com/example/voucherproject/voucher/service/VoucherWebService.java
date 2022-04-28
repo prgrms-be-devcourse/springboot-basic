@@ -1,8 +1,8 @@
 package com.example.voucherproject.voucher.service;
 
+import com.example.voucherproject.voucher.dto.VoucherDTO;
+import com.example.voucherproject.voucher.dto.VoucherDtoMapper;
 import com.example.voucherproject.voucher.model.Voucher;
-import com.example.voucherproject.voucher.model.VoucherFactory;
-import com.example.voucherproject.voucher.model.VoucherType;
 import com.example.voucherproject.voucher.repository.VoucherRepository;
 import com.example.voucherproject.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +21,17 @@ import java.util.UUID;
 public class VoucherWebService implements VoucherService{
     private final VoucherRepository voucherRepository;
     private final WalletRepository walletRepository;
+
+    @Transactional
+    public Voucher createVoucher(VoucherDTO.Create dto) {
+        var voucher = VoucherDtoMapper.asEntity(dto);
+        return voucherRepository.insert(voucher);
+    }
+
     @Override
     @Transactional
-    public Voucher createVoucher(String type, Long amount) {
-        var voucher = VoucherFactory.createVoucher(VoucherType.valueOf(type), amount);
-        return voucherRepository.insert(voucher);
+    public void updateDTO(VoucherDTO.Update dto) {
+        voucherRepository.updateTypeAndAmountByDto(dto);
     }
 
     @Override
@@ -34,6 +40,7 @@ public class VoucherWebService implements VoucherService{
         vouchers.sort(Comparator.comparing(Voucher::getCreatedAt));
         return vouchers;
     }
+
 
     @Override
     public Optional<Voucher> findById(UUID id) {
@@ -56,7 +63,7 @@ public class VoucherWebService implements VoucherService{
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType type, String from, String to) {
-        return voucherRepository.findByTypeAndDate(type, from, to);
+    public List<Voucher> findByTypeAndDate(VoucherDTO.Query queryDTO) {
+        return voucherRepository.findByTypeAndDate(queryDTO);
     }
 }

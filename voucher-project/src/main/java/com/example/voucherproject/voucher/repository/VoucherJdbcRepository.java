@@ -2,9 +2,11 @@ package com.example.voucherproject.voucher.repository;
 
 import com.example.voucherproject.user.model.User;
 import com.example.voucherproject.user.model.UserType;
+import com.example.voucherproject.voucher.dto.VoucherDTO;
 import com.example.voucherproject.voucher.model.VoucherType;
 import com.example.voucherproject.voucher.model.Voucher;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository{
     private final JdbcTemplate jdbcTemplate;
@@ -28,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
     private final String COUNT_SQL = "select count(*) from voucher";
     private final String DELETE_SQL = "DELETE FROM voucher";
     private final String DELETE_BY_ID_SQL = "DELETE FROM voucher WHERE id = UNHEX(REPLACE(?,'-',''))";
-
+    private final String UPDATE_TYPE_AND_AMOUNT = "UPDATE voucher SET type = ? , amount = ? WHERE id = UNHEX(REPLACE(?,'-',''))";
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(INSERT_SQL,
@@ -76,30 +79,38 @@ public class VoucherJdbcRepository implements VoucherRepository{
         return jdbcTemplate.update(DELETE_BY_ID_SQL, id.toString().getBytes());
     }
 
+
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType type, String from, String to) {
+    public void updateTypeAndAmountByDto(VoucherDTO.Update dto) {
+        var update = jdbcTemplate.update(UPDATE_TYPE_AND_AMOUNT,
+                dto.getType().toString(),
+                dto.getAmount(),
+                dto.getId().toString().getBytes());
+
+        if (update != 1){
+            throw new RuntimeException("Nothing Updated");
+        }
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherDTO.Query query) {
+
         var vouchers = jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
 
-        var start = string2LocalDateTimeConverter(from);
-        var end = string2LocalDateTimeConverter(to);
-
-        if(type==VoucherType.ALL){
+        if(query.getType()==VoucherType.ALL){
             var listVouchers =  vouchers.stream()
-                    .filter(voucher -> voucher.getCreatedAt().isAfter(start))
-                    .filter(voucher -> voucher.getCreatedAt().isBefore(end))
+                    .filter(voucher -> voucher.getCreatedAt().isAfter(query.convertTimeFrom()))
+                    .filter(voucher -> voucher.getCreatedAt().isBefore(query.convertTimeTo()))
                     .collect(Collectors.toList());
-            System.out.println(listVouchers);
-            System.out.println("nums : "+listVouchers.size());
             return listVouchers;
         }
 
         var listUsers2 = vouchers.stream()
-                .filter(voucher -> voucher.getType() == type)
-                .filter(voucher -> voucher.getCreatedAt().isAfter(start))
-                .filter(voucher -> voucher.getCreatedAt().isBefore(end))
+                .filter(voucher -> voucher.getType() == query.getType())
+                .filter(voucher -> voucher.getCreatedAt().isAfter(query.convertTimeFrom()))
+                .filter(voucher -> voucher.getCreatedAt().isBefore(query.convertTimeTo()))
                 .collect(Collectors.toList());
-        System.out.println(listUsers2);
-        System.out.println("nums : "+listUsers2.size());
+
         return listUsers2;
 
     }
@@ -111,13 +122,15 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
     /* helper method */
     private RowMapper<Voucher> rowMapper() {
-        return ((rs, rowNum) -> {
-            var id = toUUID(rs.getBytes("id"));
-            var type = VoucherType.valueOf(rs.getString("type"));
-            var amount = rs.getLong("amount");
-            var createdAt = rs.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
-            var updatedAt = rs.getString("updated_at");
-            return new Voucher(id,type,amount,createdAt);
+        return ((resultSet, rowNum) -> {
+            var id = toUUID(resultSet.getBytes("id"));
+            var type = VoucherType.valueOf(resultSet.getString("type"));
+            var amount = resultSet.getLong("amount");
+            var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
+
+            var updatedAt = resultSet.getTimestamp("updated_at") != null ?
+                    resultSet.getTimestamp("updated_at").toLocalDateTime() : null;
+            return new Voucher(id, type, amount, createdAt, updatedAt);
         });
     }
 
@@ -125,8 +138,5 @@ public class VoucherJdbcRepository implements VoucherRepository{
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
-    private static LocalDateTime string2LocalDateTimeConverter(String date){
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        return LocalDateTime.parse(date + "T00:00:00.000", formatter);
-    }
+
 }

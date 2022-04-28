@@ -1,4 +1,5 @@
 package com.example.voucherproject.voucher.repository;
+import com.example.voucherproject.voucher.dto.VoucherDTO;
 import com.example.voucherproject.voucher.model.VoucherType;
 import com.example.voucherproject.voucher.model.Voucher;
 import java.util.List;
@@ -14,5 +15,7 @@ public interface VoucherRepository {
     int deleteAll();
     long count();
     int deleteById(UUID id);
-    List<Voucher> findByTypeAndDate(VoucherType type, String from, String to);
+    List<Voucher> findByTypeAndDate(VoucherDTO.Query query);
+
+    void updateTypeAndAmountByDto(VoucherDTO.Update update);
 }
