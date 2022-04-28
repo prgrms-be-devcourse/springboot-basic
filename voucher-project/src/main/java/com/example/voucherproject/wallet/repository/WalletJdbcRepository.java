@@ -1,6 +1,6 @@
 package com.example.voucherproject.wallet.repository;
 
-import com.example.voucherproject.wallet.domain.Wallet;
+import com.example.voucherproject.wallet.model.Wallet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,21 +15,19 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 public class WalletJdbcRepository implements WalletRepository{
-
     private final JdbcTemplate jdbcTemplate;
 
-    private final String INSERT_SQL = "INSERT INTO wallets(id, user_id, voucher_id, created_at) " +
+    private final String INSERT_SQL = "INSERT INTO wallet(id, user_id, voucher_id, created_at) " +
             "VALUES(UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), ?)";
-    private final String FIND_ALL_SQL = "select * from wallets";
-
-    private final String FIND_BY_IDS_SQL = "select * from wallets " +
+    private final String FIND_ALL_SQL = "select * from wallet";
+    private final String FIND_BY_IDS_SQL = "select * from wallet " +
             "where user_id = UNHEX(REPLACE(?,'-','')) and voucher_id = UNHEX(REPLACE(?,'-',''))";
-
-    private final String COUNT_SQL = "select count(*) from wallets";
-    private final String DELETE_SQL = "DELETE FROM wallets";
-    private final String DELETE_BY_ID_SQL = "DELETE FROM wallets WHERE id = UNHEX(REPLACE(?,'-',''))";
-    private final String FIND_BY_USER_ID_SQL = "select * FROM wallets WHERE user_id = UNHEX(REPLACE(?,'-',''))";
-    private final String FIND_BY_VOUCHER_ID_SQL = "select * FROM wallets WHERE voucher_id = UNHEX(REPLACE(?,'-',''))";
+    private final String COUNT_SQL = "select count(*) from wallet";
+    private final String DELETE_SQL = "DELETE FROM wallet";
+    private final String DELETE_BY_ID_SQL = "DELETE FROM wallet WHERE id = UNHEX(REPLACE(?,'-',''))";
+    private final String FIND_BY_USER_ID_SQL = "select * FROM wallet WHERE user_id = UNHEX(REPLACE(?,'-',''))";
+    private final String FIND_BY_VOUCHER_ID_SQL = "select * FROM wallet WHERE voucher_id = UNHEX(REPLACE(?,'-',''))";
+    private final String FIND_BY_ID_SQL = "select * from wallet where id = UNHEX(REPLACE(?,'-',''))";
 
     @Override
     public Wallet insert(Wallet wallet) {
@@ -44,7 +42,16 @@ public class WalletJdbcRepository implements WalletRepository{
         }
         return wallet;
     }
-
+    @Override
+    public Optional<Wallet> findById(UUID id) {
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
+                    rowMapper(),
+                    id.toString().getBytes()));
+        }catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
     @Override
     public Optional<Wallet> findByIds(UUID userId, UUID voucherId) {
         try{
@@ -55,29 +62,26 @@ public class WalletJdbcRepository implements WalletRepository{
         }
     }
     @Override
-    public List<Wallet> findByUserId(UUID userId) {
+    public List<Wallet> findAllByUserId(UUID userId) {
         return jdbcTemplate.query(FIND_BY_USER_ID_SQL, rowMapper(), userId.toString().getBytes());
     }
-
     @Override
-    public List<Wallet> findByVoucherId(UUID voucherId) {
+    public List<Wallet> findAllByVoucherId(UUID voucherId) {
         return jdbcTemplate.query(FIND_BY_VOUCHER_ID_SQL, rowMapper(), voucherId.toString().getBytes());
+    }
+    @Override
+    public List<Wallet> findAll() {
+        return jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
     }
 
     @Override
     public int deleteById(UUID id) {
         return jdbcTemplate.update(DELETE_BY_ID_SQL, id.toString().getBytes());
     }
-
-    @Override
-    public List<Wallet> findAll() {
-        return jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
-    }
     @Override
     public int deleteAll() {
         return jdbcTemplate.update(DELETE_SQL);
     }
-
     @Override
     public int count() {
         var count = jdbcTemplate.queryForObject(COUNT_SQL, Integer.class);
