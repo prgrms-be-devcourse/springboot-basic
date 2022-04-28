@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.voucher.dao;
 
 import static org.prgms.voucheradmin.global.util.Util.toUUID;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -58,8 +59,21 @@ public class JdbcVoucherRepository implements VoucherRepository{
      * 조건(voucherType)에 의한 바우처 조회 메서드
      **/
     @Override
-    public List<Voucher> findAllWithCondition(VoucherType voucherType) {
-        return jdbcTemplate.query("select * from vouchers where voucher_type = ?", voucherRowMapper, voucherType.getTypeName());
+    public List<Voucher> findAllWithVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = ?", voucherRowMapper,
+                voucherType.getTypeName());
+    }
+
+    @Override
+    public List<Voucher> findAllWithDate(LocalDate from, LocalDate to) {
+        return jdbcTemplate.query("select * from vouchers where date(created_at) between ? and ? order by created_at", voucherRowMapper,
+                from, to);
+    }
+
+    @Override
+    public List<Voucher> findAllWithVoucherTypeAndDate(VoucherType voucherType, LocalDate from, LocalDate to) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = ? and date(created_at) between ? and ? order by created_at", voucherRowMapper,
+                voucherType.getTypeName(), from, to);
     }
 
     /**

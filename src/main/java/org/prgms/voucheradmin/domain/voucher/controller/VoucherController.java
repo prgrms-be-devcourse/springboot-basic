@@ -37,8 +37,9 @@ public class VoucherController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto> getVouchers(@RequestParam(required = false) VoucherType voucherType) throws IOException {
-        List<Voucher> allVouchers = voucherService.getVouchers(voucherType);
+    public ResponseEntity<ResponseDto> getVouchers(@ModelAttribute VoucherCondition voucherCondition) throws IOException {
+        List<Voucher> allVouchers = (voucherCondition.hasVoucherType() || voucherCondition.hasVoucherDateRage()) ?
+                voucherService.getVouchersWithCondition(voucherCondition) : voucherService.getVouchers();
 
         VouchersResDto vouchersResDto = new VouchersResDto(allVouchers.size(), allVouchers);
 

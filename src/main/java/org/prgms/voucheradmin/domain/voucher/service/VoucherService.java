@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.prgms.voucheradmin.domain.voucher.dto.VoucherCondition;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.entity.FixedAmountVoucher;
 import org.prgms.voucheradmin.domain.voucher.entity.PercentageDiscountVoucher;
@@ -31,34 +32,38 @@ public class VoucherService {
     /**
      * 바우처의 생성을 담당하는 메서드입니다.
     */
-    @Transactional
     public Voucher createVoucher(VoucherReqDto voucherReqDto) throws IOException {
         Voucher voucher = getVoucherInstance(UUID.randomUUID(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount(), LocalDateTime.now());
 
         return voucherRepository.create(voucher);
     }
+    /**
+     * 바우처 목록을 조회하는 메서드 입니다.
+     **/
+    public List<Voucher> getVouchers() throws IOException{
+        return voucherRepository.findAll();
+    }
 
-    @Transactional(readOnly = true)
+    public List<Voucher> getVouchersWithCondition(VoucherCondition voucherCondition) {
+        if(voucherCondition.hasVoucherType() && !voucherCondition.hasVoucherDateRage()) {
+            return voucherRepository.findAllWithVoucherType(voucherCondition.getVoucherType());
+        }else if(!voucherCondition.hasVoucherType() && voucherCondition.hasVoucherDateRage()) {
+            return voucherRepository.findAllWithDate(voucherCondition.getFrom(), voucherCondition.getTo());
+        }else{
+            return voucherRepository.findAllWithVoucherTypeAndDate(
+                    voucherCondition.getVoucherType(),
+                    voucherCondition.getFrom(),
+                    voucherCondition.getTo());
+        }
+    }
+
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
     }
 
     /**
-     * 바우처 목록을 조회하는 메서드 입니다.
-     **/
-    @Transactional(readOnly = true)
-    public List<Voucher> getVouchers(VoucherType...voucherTypes) throws IOException{
-        if(voucherTypes.length != 0 && Optional.ofNullable(voucherTypes[0]).isPresent()) {
-            return voucherRepository.findAllWithCondition(voucherTypes[0]);
-        }else{
-            return voucherRepository.findAll();
-        }
-    }
-
-    /**
      * 바우처의 type, amount(percent)를 수정하는 메서드입니다.
      **/
-    @Transactional
     public Voucher updateVoucher(UUID voucherId, VoucherReqDto voucherReqDto) {
         Voucher retrievedVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
@@ -70,7 +75,6 @@ public class VoucherService {
     /**
      * 바우처를 삭제하는 메서드입니다.
      **/
-    @Transactional
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new VoucherNotFoundException(voucherId));
         voucherRepository.delete(voucher);

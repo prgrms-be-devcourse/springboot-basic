@@ -9,6 +9,7 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -79,8 +80,8 @@ class voucherRepositoryTest {
             .email("tester@gmail.com")
             .createdAt(LocalDateTime.now())
             .build();
-    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
-    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now());
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now().minusDays(3));
+    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now().minusDays(2));
     Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now());
     VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId());
     VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher2.getVoucherId());
@@ -152,6 +153,7 @@ class voucherRepositoryTest {
     @DisplayName("고객에게 할당된 바우처 조회")
     void testFindAllocatedVouchers() throws IOException {
         customerRepository.create(customer);
+        voucherRepository.create(voucher);
         voucherRepository.create(voucher1);
         voucherRepository.create(voucher2);
         voucherWalletRepository.create(voucherWallet1);
@@ -160,5 +162,32 @@ class voucherRepositoryTest {
         List<Voucher> vouchers = voucherRepository.findAllocatedVouchers(customer.getCustomerId());
 
         assertThat(vouchers.size(), is(2));
+    }
+
+
+    @Test
+    @Order(6)
+    @DisplayName("바우처 타입으로 조회")
+    void testFindAllWithVoucherType() {
+        List<Voucher> vouchers = voucherRepository.findAllWithVoucherType(FIXED_AMOUNT);
+        assertThat(vouchers.size(), is(2));
+        assertThat(vouchers.get(0).getVoucherType(), is(FIXED_AMOUNT));
+
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("생성일로 조회")
+    void testFindAllWithDate() {
+        List<Voucher> vouchers = voucherRepository.findAllWithDate(LocalDate.now().minusDays(2), LocalDate.now());
+        assertThat(vouchers.size(), is(2));
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("바우처 타입 + 생성일 조회")
+    void testFindAllWithVoucherTypeAndDate() {
+        List<Voucher> vouchers = voucherRepository.findAllWithVoucherTypeAndDate(FIXED_AMOUNT, LocalDate.now().minusDays(2), LocalDate.now());
+        assertThat(vouchers.size(), is(1));
     }
 }

@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -13,7 +14,15 @@ public interface VoucherRepository {
 
     List<Voucher> findAll() throws IOException;
 
-    default List<Voucher> findAllWithCondition(VoucherType voucherType) {
+    default List<Voucher> findAllWithVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    default List<Voucher> findAllWithDate(LocalDate from, LocalDate to) {
+        return null;
+    }
+
+    default List<Voucher> findAllWithVoucherTypeAndDate(VoucherType voucherType, LocalDate from, LocalDate to) {
         return null;
     }
 
