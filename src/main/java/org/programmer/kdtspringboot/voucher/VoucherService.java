@@ -17,16 +17,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> createVoucher(String type, Long value) {
-        //타입을 가져오고
-        try {
-            VoucherType voucherType = VoucherType.getVoucherType(type);
-            Voucher voucher = voucherType.create(value);
-            return Optional.ofNullable(voucherRepository.insert(voucher));
-        } catch (IllegalArgumentException e) {
-            logger.info("Voucher Type 잘못 입력 했습니다 {}", type);
-            return Optional.empty();
-        }
+    public Voucher createVoucher(String type, Long discountValue) {
+        VoucherType voucherType = VoucherType.getVoucherType(type);
+        Voucher voucher = voucherType.create(discountValue);
+        return voucherRepository.insert(voucher);
     }
 
     public List<Voucher> findAllVouchers() {
