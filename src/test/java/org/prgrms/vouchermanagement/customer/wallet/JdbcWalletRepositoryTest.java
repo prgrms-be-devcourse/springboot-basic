@@ -107,8 +107,12 @@ class JdbcWalletRepositoryTest {
     embeddedMysql.stop();
   }
 
+  @BeforeEach
+  void beforeEach() {
+    jdbcWalletRepository.deleteAll();
+  }
+
   @Test
-  @Order(1)
   void testIssueVoucherToCustomer() {
     assertThat(jdbcWalletRepository.count(), is(0));
 
@@ -122,23 +126,26 @@ class JdbcWalletRepositoryTest {
   }
 
   @Test
-  @Order(2)
   void testFindVouchersByCustomerId() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
+
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(2));
   }
 
   @Test
-  @Order(3)
   void testFindCustomersByVoucherId() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
     List<UUID> customers = jdbcWalletRepository.findCustomersByVoucherId(fixedAmountVoucher1.getVoucherID());
     assertThat(customers.size(), is(1));
     assertThat(customers.contains(customer1.getCustomerId()), is(true));
   }
 
   @Test
-  @Order(4)
   void testDelete() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
     jdbcWalletRepository.delete(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(1));
