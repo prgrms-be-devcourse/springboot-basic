@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.controller.web;
 import java.util.UUID;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
 import org.prgrms.springbootbasic.service.VoucherService;
+import org.prgrms.springbootbasic.util.DtoConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,15 +26,15 @@ public class WebVoucherController {
 
     @GetMapping("/vouchers")
     public String viewVouchersPage(Model model) {
-        var voucherDTOs = voucherService.findAll();
-        model.addAttribute("voucherDTOs", voucherDTOs);
+        var vouchers = voucherService.findAll();
+        model.addAttribute("voucherDTOs", DtoConverter.toVoucherDTOs(vouchers));
         return "vouchers";
     }
 
     @GetMapping("/vouchers/{voucherId}")
     public String viewVoucherPage(@PathVariable("voucherId") UUID voucherId, Model model) {
-        var voucherDTO = voucherService.findVoucher(voucherId);
-        model.addAttribute("voucher", voucherDTO);
+        var voucher = voucherService.findVoucher(voucherId);
+        model.addAttribute("voucher", DtoConverter.toVoucherDTO(voucher));
         return "voucher";
     }
 
