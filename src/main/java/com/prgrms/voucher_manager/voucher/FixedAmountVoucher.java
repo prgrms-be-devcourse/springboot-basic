@@ -3,6 +3,8 @@ package com.prgrms.voucher_manager.voucher;
 import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
 import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import lombok.Builder;
+
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -12,14 +14,23 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private long amount;
+    private final LocalDate createdAt;
 
     private static final long MAX_AMOUNT = 10000L;
     private static final long MIN_AMOUNT = 0L;
 
-    public FixedAmountVoucher(UUID id, long amount) {
+    public FixedAmountVoucher(UUID id, long amount, LocalDate createdAt) {
         validateValue(amount);
         this.voucherId = id;
         this.amount = amount;
+        this.createdAt = createdAt;
+    }
+
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        validateValue(amount);
+        this.voucherId = voucherId;
+        this.amount = amount;
+        createdAt = LocalDate.now();
     }
 
     @Override
@@ -55,7 +66,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public VoucherDto toVoucherDto() {
-        return new VoucherDto(voucherId, "FixedAmountVoucher", amount);
+        return new VoucherDto(voucherId, "FixedAmountVoucher", amount, createdAt);
     }
 
     @Override
@@ -64,6 +75,7 @@ public class FixedAmountVoucher implements Voucher {
             put("voucherId", voucherId.toString().getBytes());
             put("type", "fix");
             put("value", amount);
+            put("createdAt", createdAt);
         }};
         return hashMap;
     }
@@ -73,6 +85,7 @@ public class FixedAmountVoucher implements Voucher {
         return "type=FixedAmountVoucher" +
                 ",id=" + voucherId +
                 ",amount=" + amount +
+                ",createdAt=" + createdAt +
                 "\n";
     }
 }
