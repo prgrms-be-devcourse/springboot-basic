@@ -1,5 +1,18 @@
 package com.waterfogsw.voucher.voucher.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = FixedAmountVoucher.class, name = "FIXED_AMOUNT"),
+        @JsonSubTypes.Type(value = PercentDiscountVoucher.class, name = "PERCENT_DISCOUNT"),
+})
 public abstract class Voucher {
 
     private final Long id;
