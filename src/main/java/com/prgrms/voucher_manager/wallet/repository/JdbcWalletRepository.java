@@ -28,7 +28,7 @@ public class JdbcWalletRepository implements WalletRepository{
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM wallets";
 
 
-    private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
+    private final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
         UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         return Wallet.builder()
