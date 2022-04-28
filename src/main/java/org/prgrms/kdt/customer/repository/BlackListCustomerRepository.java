@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.kdt.customer.model.Customer;
@@ -22,7 +21,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class BlackListCustomerRepository implements CustomerRepository {
+public class BlackListCustomerRepository implements BlackListRepository {
 
     private static final Logger log = LoggerFactory.getLogger(BlackListCustomerRepository.class);
 
@@ -56,21 +55,6 @@ public class BlackListCustomerRepository implements CustomerRepository {
         }
 
         return customers;
-    }
-
-    @Override
-    public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Customer save(Customer customer) {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-
     }
 
 }
