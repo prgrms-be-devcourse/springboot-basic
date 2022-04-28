@@ -9,14 +9,12 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ConsoleController {
 
-  private final ListController listController;
   private final VoucherService voucherService;
   private final CustomerService customerService;
   private final Input input;
   private final Output output;
 
-  public ConsoleController(ListController listController, VoucherService voucherService, CustomerService customerService, Input input, Output output) {
-    this.listController = listController;
+  public ConsoleController(VoucherService voucherService, CustomerService customerService, Input input, Output output) {
     this.voucherService = voucherService;
     this.customerService = customerService;
     this.input = input;

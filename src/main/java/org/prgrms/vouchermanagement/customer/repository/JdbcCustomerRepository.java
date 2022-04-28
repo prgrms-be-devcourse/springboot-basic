@@ -123,7 +123,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     return new HashMap<String, Object>(){{
       put("customerId", customer.getCustomerId().toString().getBytes());
       put("name", customer.getName());
-      put("email", customer.getEmail());
+      put("email", customer.getEmail().getAddress());
       put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
       put("lastLoginAt", customer.getLastLoginAt() != null? Timestamp.valueOf(customer.getLastLoginAt()): null);
     }};

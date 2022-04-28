@@ -149,7 +149,7 @@ class JdbcCustomerRepositoryTest {
   @Order(6)
   @DisplayName("이메일로 고객을 조회할 수 있다")
   public void testFindByEmail() {
-    var customer = jdbcCustomerRepository.findByEmail(customer1.getEmail());
+    var customer = jdbcCustomerRepository.findByEmail(customer1.getEmail().getAddress());
     assertThat(customer.isEmpty(), is(false));
     var unknown = jdbcCustomerRepository.findByEmail("unknown-user@gmail.com");
     assertThat(unknown.isEmpty(), is(true));

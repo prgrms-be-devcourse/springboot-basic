@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanagement.customer;
 
+import org.prgrms.vouchermanagement.customer.vo.Email;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 
 import java.time.LocalDateTime;
@@ -11,7 +12,7 @@ import java.util.UUID;
 public class Customer {
   private final UUID customerId;
   private String name;
-  private final String email;
+  private final Email email;
   private LocalDateTime lastLoginAt;
   private final LocalDateTime createdAt;
   private List<Voucher> wallet;
@@ -20,7 +21,7 @@ public class Customer {
     validateName(name);
     this.customerId = customerId;
     this.name = name;
-    this.email = email;
+    this.email = new Email(email);
     this.createdAt = createdAt;
     wallet = new ArrayList<>();
   }
@@ -28,7 +29,7 @@ public class Customer {
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
     this.customerId = customerId;
     this.name = name;
-    this.email = email;
+    this.email = new Email(email);
     this.lastLoginAt = lastLoginAt;
     this.createdAt = createdAt;
     wallet = new ArrayList<>();
@@ -61,7 +62,7 @@ public class Customer {
     return name;
   }
 
-  public String getEmail() {
+  public Email getEmail() {
     return email;
   }
 
