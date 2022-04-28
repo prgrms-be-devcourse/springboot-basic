@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,13 +19,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
-        logger.info("voucher 생성 "+ voucher);
+        logger.info("voucher 생성 " + voucher);
         return voucher;
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        storage.put(voucher.getVoucherId(),voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 

@@ -11,9 +11,9 @@ import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
-
-import static java.util.Map.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public class VoucherJdbcTemplateRepository implements VoucherRepository {
@@ -106,7 +106,7 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
                 createdAt);
     }
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");
         var voucherType = VoucherType.getVoucherType(resultSet.getString("type"));
