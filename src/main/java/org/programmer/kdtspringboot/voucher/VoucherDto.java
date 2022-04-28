@@ -5,27 +5,27 @@ import java.util.UUID;
 
 public class VoucherDto {
     private final UUID voucherId;
-    private final Long discountPercent;
+    private final Long discountAmount;
     private final String type;
     private final LocalDateTime createdAt;
 
-    public VoucherDto(UUID voucherId, Long discountPercent, String type, LocalDateTime createdAt) {
+    public VoucherDto(UUID voucherId, Long discountAmount, String type, LocalDateTime createdAt) {
         this.voucherId = voucherId;
-        this.discountPercent = discountPercent;
+        this.discountAmount = discountAmount;
         this.type = type;
         this.createdAt = createdAt;
     }
 
     public VoucherDto() {
         this.voucherId = null;
-        this.discountPercent = null;
+        this.discountAmount = null;
         this.type = null;
         this.createdAt = null;
     }
 
-    public VoucherDto(Long discountPercent, String type) {
+    public VoucherDto(Long discountAmount, String type) {
         this.voucherId = null;
-        this.discountPercent = discountPercent;
+        this.discountAmount = discountAmount;
         this.type = type;
         this.createdAt = null;
     }
@@ -38,8 +38,8 @@ public class VoucherDto {
         return voucherId;
     }
 
-    public Long getDiscountPercent() {
-        return discountPercent;
+    public Long getDiscountAmount() {
+        return discountAmount;
     }
 
     public String getType() {
