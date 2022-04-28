@@ -9,6 +9,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.pppp0722.vouchermanagement.member.model.Member;
 import com.wix.mysql.EmbeddedMysql;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -64,16 +66,12 @@ class JdbcMemberRepositoryTest {
 
     @Test
     @Order(1)
-    @DisplayName("createMember() 테스트")
+    @DisplayName("멤버를 생성할 수 있다.")
     public void testCreateMember() {
-        Optional<Member> member = memberRepository.insert(newMember);
-
-        if (member.isEmpty()) {
-            assertThat(false, is(true));
-        }
+        Member member = memberRepository.insert(newMember);
 
         Optional<Member> readMember = memberRepository.findById(
-            newMember.getMemberId());
+            member.getMemberId());
 
         if (readMember.isEmpty()) {
             assertThat(false, is(true));
@@ -84,7 +82,7 @@ class JdbcMemberRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("readMembers() 테스트")
+    @DisplayName("모든 멤버들을 읽어올 수 있다.")
     public void testReadMembers() {
         List<Member> members = memberRepository.findAll();
         assertThat(members.isEmpty(), is(false));
@@ -92,7 +90,7 @@ class JdbcMemberRepositoryTest {
 
     @Test
     @Order(3)
-    @DisplayName("readMember() 테스트")
+    @DisplayName("멤버를 읽어올 수 있다.")
     public void testReadMember() {
         Optional<Member> member = memberRepository.findById(newMember.getMemberId());
 
@@ -105,57 +103,49 @@ class JdbcMemberRepositoryTest {
 
     @Test
     @Order(4)
-    @DisplayName("updateMember() 테스트")
+    @DisplayName("멤버를 업데이트할 수 있다.")
     public void testUpdateMember() {
-        Member updatedMember = new Member(newMember.getMemberId(), "lee");
+        Member newMember2 = new Member(newMember.getMemberId(), "lee");
+        Member updatedMember = memberRepository.update(newMember2);
 
-        Optional<Member> member = memberRepository.update(updatedMember);
-
-        if (member.isEmpty()) {
-            assertThat(false, is(true));
-        }
-
-        assertThat(member.get(), not(samePropertyValuesAs(newMember)));
+        assertThat(updatedMember, not(samePropertyValuesAs(newMember)));
     }
 
     @Test
     @Order(5)
-    @DisplayName("deleteMember() 테스트")
+    @DisplayName("멤버를 삭제할 수 있다.")
     public void testDeleteMember() {
-        Optional<Member> deletedMember = memberRepository.delete(newMember);
+        memberRepository.delete(newMember);
+        List<Member> members = memberRepository.findAll();
 
-        if (deletedMember.isEmpty()) {
-            assertThat(false, is(true));
-        }
-
-        Optional<Member> retrievedMember = memberRepository.findById(deletedMember.get()
-            .getMemberId());
-
-        assertThat(retrievedMember.isEmpty(), is(true));
+        assertThat(members.isEmpty(), is(true));
     }
 
     @Test
     @Order(6)
-    @DisplayName("readMember() member 존재 X 예외 테스트")
+    @DisplayName("멤버를 읽어올 때 아이디가 존재하지 않으면 empty를 반환한다.")
     public void testReadMemberException() {
         Optional<Member> member = memberRepository.findById(newMember.getMemberId());
+
         assertThat(member.isEmpty(), is(true));
     }
 
     @Test
     @Order(7)
-    @DisplayName("updateMember() member 존재 X 예외 테스트")
+    @DisplayName("멤버를 업데이트할 때 아이디가 존재하지 않으면 예외가 발생한다.")
     public void testUpdateMemberException() {
         Member updatedMember = new Member(newMember.getMemberId(), "lee");
-        Optional<Member> member = memberRepository.update(updatedMember);
-        assertThat(member.isEmpty(), is(true));
+        assertThrows(RuntimeException.class, () -> {
+            memberRepository.update(updatedMember);
+        });
     }
 
     @Test
     @Order(8)
-    @DisplayName("deleteMember() member 존재 X 예외 테스트")
+    @DisplayName("멤버를 삭제할 때 아이디가 존재하지 않으면 예외가 발생한다.")
     public void testDeleteMemberException() {
-        Optional<Member> member = memberRepository.delete(newMember);
-        assertThat(member.isEmpty(), is(true));
+        assertThrows(RuntimeException.class, () -> {
+            memberRepository.delete(newMember);
+        });
     }
 }
