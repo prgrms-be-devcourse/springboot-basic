@@ -1,29 +1,29 @@
 package org.prgms.voucher.repository;
 
-import org.hamcrest.Matchers;
+import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.TestConfig;
-import org.prgms.TestContextInitializer;
-import org.prgms.voucher.FixedAmountVoucher;
-import org.prgms.voucher.Voucher;
+import org.prgms.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucher.domain.Voucher;
+import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringJUnitConfig(value = TestConfig.class, initializers = TestContextInitializer.class)
-@ActiveProfiles("db")
+@Transactional
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
-    Voucher voucher = new FixedAmountVoucher(null, 10L, UUID.randomUUID());
+    private final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+    private final Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
 
     @BeforeEach
     void deleteAll() {
@@ -34,28 +34,32 @@ class VoucherRepositoryTest {
     @DisplayName("바우처 저장 테스트")
     void saveTest() {
         voucherRepository.save(voucher);
-        List<Voucher> vouchers = voucherRepository.findAll();
-        assertThat(vouchers, Matchers.contains(Matchers.samePropertyValuesAs(voucher)));
+
+        val vouchers = voucherRepository.findAll();
+
+        assertThat(vouchers).containsExactly(voucher);
     }
 
     @Test
     @DisplayName("바우처 조회 테스트")
     void findAllTest() {
-        for (int i = 0; i < 3; i++) {
-            voucherRepository.save(new FixedAmountVoucher(null, 10L, UUID.randomUUID()));
-        }
-        List<Voucher> vouchers = voucherRepository.findAll();
-        assertThat(vouchers, Matchers.hasSize(3));
+        voucherRepository.save(voucher);
+        voucherRepository.save(voucher2);
+
+        val vouchers = voucherRepository.findAll();
+
+        assertThat(vouchers).containsExactlyInAnyOrder(voucher, voucher2);
     }
 
     @Test
     @DisplayName("바우처 id로 조회 테스트")
     void findByIdTest() {
         voucherRepository.save(voucher);
-        var unknown = voucherRepository.findById(UUID.randomUUID());
-        assertThat(unknown.isEmpty(), Matchers.is(true));
 
+        var unknown = voucherRepository.findById(UUID.randomUUID());
         var foundVoucher = voucherRepository.findById(voucher.getVoucherId());
-        assertThat(foundVoucher.get(), Matchers.samePropertyValuesAs(voucher));
+
+        assertThat(unknown.isEmpty()).isTrue();
+        assertThat(foundVoucher.orElseThrow()).isEqualTo(voucher);
     }
 }

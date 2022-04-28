@@ -1,7 +1,7 @@
 package org.prgms.voucher.service;
 
-import org.prgms.voucher.Voucher;
-import org.prgms.voucher.repository.VoucherRepository;
+import org.prgms.voucher.domain.Voucher;
+import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +29,7 @@ public class VoucherService {
 
     public long useVoucher(long beforeDiscount, UUID voucherId) {
         var voucher = voucherRepository.findById(voucherId);
+
         if (voucher.isEmpty())
             return beforeDiscount;
 

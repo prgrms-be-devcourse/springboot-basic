@@ -32,7 +32,9 @@ public class Console implements InOut {
     @Override
     public int chooseVoucher() {
         logger.info("which one to create : 1. FixedAmountVoucher,  2. PercentDiscountVoucher");
+
         String opt = scanner.nextLine();
+
         return Integer.parseInt(opt);
     }
 }
