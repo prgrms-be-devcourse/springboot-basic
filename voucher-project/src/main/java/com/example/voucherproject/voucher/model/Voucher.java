@@ -1,24 +1,29 @@
 package com.example.voucherproject.voucher.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@RequiredArgsConstructor
+import static lombok.AccessLevel.PROTECTED;
+
 @Getter
 @ToString
-public class Voucher implements Serializable {
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class Voucher {
     private final UUID id;
-    private final VoucherType type;
-    private final Long amount;
+    private VoucherType type;
+    private Long amount;
+
     private final LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
     public Long discount(Long originPrice){
         return type.discount(originPrice, amount);
     }
-
 }
