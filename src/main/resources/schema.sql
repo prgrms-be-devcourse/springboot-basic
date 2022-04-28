@@ -7,7 +7,7 @@ CREATE TABLE customer
 (
     customer_id   UUID        NOT NULL, -- 고객 PK
     customer_name VARCHAR(20) NOT NULL, -- 고객 이름
-    blacklist     BOOLEAN     NOT NULL, -- 블랙리스트 여부
+    blocked     BOOLEAN     NOT NULL, -- 블랙리스트 여부
     PRIMARY KEY (customer_id)
 );
 

@@ -21,11 +21,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final String insertQuery = "INSERT INTO customer(customer_id, customer_name, blacklist) VALUES (:id, :name, :blacklist)";
+    private static final String insertQuery = "INSERT INTO customer(customer_id, customer_name, blocked) VALUES (:id, :name, :blocked)";
     private static final String findByIdQuery = "SELECT * FROM customer WHERE customer_id = :id";
     private static final String findAllQuery = "SELECT * FROM customer";
+    private static final String findAllBlockedQuery = "SELECT * FROM customer WHERE ";
     private static final String clearQuery = "DELETE FROM customer";
-
 
     @Override
     public Customer insert(Customer customer) {
@@ -51,6 +51,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAllBlocked() {
+        return jdbcTemplate.query(findAllBlockedQuery, customerRowMapper);
+    }
+
+    @Override
     public void clear() {
         jdbcTemplate.update(clearQuery, Collections.emptyMap());
     }
@@ -59,12 +64,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private Map<String, Object> resolveParamMap(Customer customer) {
         return Map.of("id", customer.getId(),
                 "name", customer.getName(),
-                "blacklist", customer.isBlocked());
+                "blocked", customer.isBlocked());
     }
 
     private static final RowMapper<Customer> customerRowMapper = (rs, i) ->
         new Customer(UUID.fromString(rs.getString("customer_id")),
             rs.getString("customer_name"),
-            rs.getBoolean("blackList"),
+            rs.getBoolean("blocked"),
             Collections.emptyList());
 }

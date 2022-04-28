@@ -15,5 +15,7 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
+    List<Customer> findAllBlocked();
+
     void clear();
 }
