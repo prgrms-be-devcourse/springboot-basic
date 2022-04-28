@@ -110,25 +110,31 @@ class JdbcCustomerRepositoryTest {
     embeddedMysql.stop();
   }
 
+  @BeforeEach
+  void beforeEach() {
+    jdbcCustomerRepository.insert(customer1);
+  }
+
+  @AfterEach
+  void afterEach() {
+    jdbcCustomerRepository.deleteAll();
+  }
+
   @Test
-  @Order(2)
   @DisplayName("고객을 추가할 수 있다")
   public void testInsert() {
-    jdbcCustomerRepository.insert(customer1);
     var retrieveCustomer = jdbcCustomerRepository.findById(customer1.getCustomerId());
     assertThat(retrieveCustomer.isEmpty(), is(false));
     assertThat(retrieveCustomer.get(), samePropertyValuesAs(customer1));
   }
 
   @Test
-  @Order(3)
   @DisplayName("중복된 고객은 추가할 수 없다")
   public void testInsertException() {
     assertThrows(DuplicateKeyException.class, () -> jdbcCustomerRepository.insert(customer1));
   }
 
   @Test
-  @Order(4)
   @DisplayName("전체 고객을 조회할 수 있다")
   public void testFindAll() {
     var customers = jdbcCustomerRepository.findAll();
@@ -136,7 +142,6 @@ class JdbcCustomerRepositoryTest {
   }
 
   @Test
-  @Order(5)
   @DisplayName("이름으로 고객을 조회할 수 있다")
   public void testFindByName() {
     var customer = jdbcCustomerRepository.findByName(customer1.getName());
@@ -146,7 +151,6 @@ class JdbcCustomerRepositoryTest {
   }
 
   @Test
-  @Order(6)
   @DisplayName("이메일로 고객을 조회할 수 있다")
   public void testFindByEmail() {
     var customer = jdbcCustomerRepository.findByEmail(customer1.getEmail().getAddress());
@@ -156,7 +160,6 @@ class JdbcCustomerRepositoryTest {
   }
 
   @Test
-  @Order(7)
   @DisplayName("고객을 수정할 수 있다")
   public void testUpdate() {
     customer1.changeName("updated-user");
