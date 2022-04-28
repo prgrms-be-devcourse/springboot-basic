@@ -1,10 +1,10 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
-import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
+import org.prgrms.deukyun.voucherapp.view.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;

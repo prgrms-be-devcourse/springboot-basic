@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

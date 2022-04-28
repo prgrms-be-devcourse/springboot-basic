@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.springframework.shell.ExitRequest;
 import org.springframework.shell.standard.ShellComponent;

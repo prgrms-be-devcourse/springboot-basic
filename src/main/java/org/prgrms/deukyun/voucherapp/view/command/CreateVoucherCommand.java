@@ -1,7 +1,7 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import lombok.RequiredArgsConstructor;
-import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
+import org.prgrms.deukyun.voucherapp.view.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.VoucherFactory;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;

@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp;
+package org.prgrms.deukyun.voucherapp.config;
 
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-public class VoucherAppInitializer {
+public class InitialDataConstructor {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
@@ -28,7 +28,7 @@ public class VoucherAppInitializer {
     private static final int AMOUNT_INIT_OWNED_VOUCHERS = 400;
     private static final int AMOUNT_INIT_NOT_OWNED_VOUCHERS = 100;
 
-    public VoucherAppInitializer(VoucherService voucherService, CustomerService customerService) {
+    public InitialDataConstructor(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.faker = new Faker(new Locale("ko"));

@@ -1,8 +1,8 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
+import org.prgrms.deukyun.voucherapp.view.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
 import static org.mockito.ArgumentMatchers.any;

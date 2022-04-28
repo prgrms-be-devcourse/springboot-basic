@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.app.console;
+package org.prgrms.deukyun.voucherapp.view.console;
 
 import org.springframework.stereotype.Service;
 
