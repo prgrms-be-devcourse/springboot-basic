@@ -45,7 +45,7 @@ public class JdbcVoucherDao implements VoucherDao {
                     SELECT_BY_ID_SQL,
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     customerRowMapper()));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | NullPointerException e) {
             log.error("result empty -> {}", e.toString());
             return Optional.empty();
         }

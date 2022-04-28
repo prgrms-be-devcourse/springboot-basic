@@ -127,9 +127,10 @@ public class VoucherDaoTest {
         }
 
         @Test
-        @DisplayName("바우처 아이디가 db에 존재하지 않을 때 -> 실패")
+        @DisplayName("바우처 아이디 null 로 조회 -> 빈 값조회")
         public void findNull() throws Exception {
-            assertThrows(RuntimeException.class, () -> voucherDao.findById(null));
+            Optional<Voucher> byId = voucherDao.findById(null);
+            assertThat(byId.isPresent()).isFalse();
         }
     }
 
@@ -377,5 +378,6 @@ public class VoucherDaoTest {
         public void cancelValidVoucher() throws Exception {
             assertThrows(IllegalArgumentException.class, () -> voucher.cancelVoucher());
         }
+
     }
 }
