@@ -71,8 +71,9 @@ class VoucherRestControllerTest {
         //then
         mockMvc.perform(get("/api/v1/vouchers"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].voucherId", equalTo(firstVoucherId.toString())))
-                .andExpect(jsonPath("$[1].voucherId", equalTo(secondVoucherId.toString())));
+                .andExpect(jsonPath("$.count", equalTo(2)))
+                .andExpect(jsonPath("$.data[0].voucherId", equalTo(firstVoucherId.toString())))
+                .andExpect(jsonPath("$.data[1].voucherId", equalTo(secondVoucherId.toString())));
     }
 
     @Test
@@ -90,8 +91,8 @@ class VoucherRestControllerTest {
                         .param("voucherType", FIXED_AMOUNT.toString())
                         .param("date", now.toLocalDate().toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].voucherId", equalTo(voucherId.toString())))
-                .andExpect(jsonPath("$.length()", equalTo(1)));
+                .andExpect(jsonPath("$.count", equalTo(1)))
+                .andExpect(jsonPath("$.data[0].voucherId", equalTo(voucherId.toString())));
     }
 
     @Test
@@ -145,8 +146,7 @@ class VoucherRestControllerTest {
         //then
         mockMvc.perform(get("/api/v1/vouchers/{voucherId}", voucherId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.count", equalTo(1)))
-                .andExpect(jsonPath("$.data.voucherId", equalTo(voucherId.toString())));
+                .andExpect(jsonPath("$.voucherId", equalTo(voucherId.toString())));
     }
 
     @Test

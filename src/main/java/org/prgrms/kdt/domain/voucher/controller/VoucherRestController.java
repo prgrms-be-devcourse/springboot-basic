@@ -31,23 +31,23 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> voucherList() {
+    public ResponseEntity<Result<List<VoucherResponse>>> voucherList() {
         List<Voucher> vouchers = voucherService.getAllVouchers();
         List<VoucherResponse> voucherResponseList = vouchers.stream()
                 .map(VoucherResponse::new).toList();
         return ResponseEntity.ok()
-                .body(voucherResponseList);
+                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<VoucherResponse>> VoucherSearch(
+    public ResponseEntity<Result<List<VoucherResponse>>> VoucherSearch(
             @RequestParam("voucherType") VoucherType voucherType,
             @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
         List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(voucherType, createdDate);
         List<VoucherResponse> voucherResponseList = vouchers.stream()
                 .map(VoucherResponse::new).toList();
         return ResponseEntity.ok()
-                .body(voucherResponseList);
+                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
     }
 
     @PostMapping
@@ -58,10 +58,10 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<Result<Voucher>> voucherDetails(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<Voucher> voucherDetails(@PathVariable("voucherId") UUID voucherId) {
         Optional<Voucher> voucher = voucherService.getVoucherById(voucherId);
-        return voucher.map(value -> ResponseEntity.ok().body(new Result<>(value, 1)))
-                .orElseGet(() -> ResponseEntity.ok().body(new Result<>(null, 0)));
+        return voucher.map(value -> ResponseEntity.ok().body(value))
+                .orElseGet(() -> ResponseEntity.ok().body(null));
     }
 
     @PutMapping("/{voucherId}")
