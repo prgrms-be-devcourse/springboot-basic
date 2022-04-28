@@ -4,10 +4,10 @@ import org.springframework.util.Assert;
 
 import java.util.Objects;
 
-public class Email {
+public class EmailVO {
   private final String address;
 
-  public Email(String address) {
+  public EmailVO(String address) {
     Assert.notNull(address, "address should not be null");
     Assert.isTrue(4 <= address.length() && address.length() <= 50, "address length must be between 4 and 50 characters.");
     Assert.isTrue(checkAddress(address), "Invalid email address");
@@ -22,7 +22,7 @@ public class Email {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Email email = (Email) o;
+    EmailVO email = (EmailVO) o;
     return Objects.equals(address, email.address);
   }
 
