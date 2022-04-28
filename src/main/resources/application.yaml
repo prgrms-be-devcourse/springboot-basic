@@ -1,6 +1,12 @@
 spring:
   profiles:
-    active: file, console
-
+    active: jdbc, console
+  datasource:
+    url: jdbc:mysql://localhost:3306/springbasic
+    username: root
+    password: hjmaharu
+  sql:
+    init:
+      mode: always
 voucher:
   file: src/main/resources/vouchers.csv
