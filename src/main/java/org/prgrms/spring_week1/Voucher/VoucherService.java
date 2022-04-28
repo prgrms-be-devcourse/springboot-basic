@@ -9,6 +9,7 @@ import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.prgrms.spring_week1.Voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(long discount, UUID customerId, VoucherType voucherType){
+    public Voucher createVoucher(long discount, UUID customerId, VoucherType voucherType) throws DataAccessException{
         Voucher voucher;
         if (voucherType == VoucherType.FIXEDAMOUNT){
             voucher = new FixedAmountVoucher(UUID.randomUUID(), discount, customerId);
@@ -39,8 +40,12 @@ public class VoucherService {
 
     }
 
-    public List<Voucher> findByCustomer(UUID customerId) {
+    public List<Voucher> findByCustomer(UUID customerId) throws DataAccessException {
         return voucherRepository.findByCustomer(customerId);
+    }
+
+    public Voucher updateVoucher(Voucher voucher) throws DataAccessException{
+        return voucherRepository.update(voucher);
     }
 
 

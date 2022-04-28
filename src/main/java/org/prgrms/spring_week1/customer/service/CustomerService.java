@@ -7,6 +7,7 @@ import org.prgrms.spring_week1.customer.model.Customer;
 import org.prgrms.spring_week1.customer.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,11 +29,11 @@ public class CustomerService {
         return customerRepository.getAll();
     }
 
-    public Customer update(Customer customer){
+    public Customer update(Customer customer) throws DataAccessException {
         return customerRepository.update(customer);
     }
 
-    public Customer insert(Customer customer){
+    public Customer insert(Customer customer) throws DataAccessException {
         return customerRepository.insert(customer);
     }
 
