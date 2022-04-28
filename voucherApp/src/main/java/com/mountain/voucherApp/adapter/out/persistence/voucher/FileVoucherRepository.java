@@ -1,6 +1,7 @@
 package com.mountain.voucherApp.adapter.out.persistence.voucher;
 
 import com.mountain.voucherApp.application.port.out.VoucherPort;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import com.mountain.voucherApp.shared.properties.FileRepositoryProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,9 +79,9 @@ public class FileVoucherRepository implements VoucherPort {
 
     private VoucherEntity getVoucherEntity(String[] data) {
         UUID voucherId = UUID.fromString(data[0]);
-        Integer policyId = Integer.valueOf(data[1]);
+        DiscountPolicy discountPolicy = DiscountPolicy.valueOf(data[1]);
         Long discountAmount = Long.valueOf(data[2]);
-        VoucherEntity entity = new VoucherEntity(voucherId, policyId, discountAmount);
+        VoucherEntity entity = new VoucherEntity(voucherId, discountPolicy, discountAmount);
         return entity;
     }
 
@@ -96,10 +97,10 @@ public class FileVoucherRepository implements VoucherPort {
 
 
     @Override
-    public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
+    public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
         return storage.stream()
                 .filter((voucherEntity) -> (
-                        voucherEntity.getDiscountPolicyId() == discountPolicyId) &&
+                        voucherEntity.getDiscountPolicy() == discountPolicy) &&
                         (voucherEntity.getDiscountAmount() == discountAmount))
                 .findFirst();
     }

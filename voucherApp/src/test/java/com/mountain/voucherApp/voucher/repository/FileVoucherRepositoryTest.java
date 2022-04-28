@@ -1,6 +1,7 @@
 package com.mountain.voucherApp.voucher.repository;
 
 import com.mountain.voucherApp.adapter.out.persistence.voucher.FileVoucherRepository;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import com.mountain.voucherApp.shared.properties.FileRepositoryProperties;
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import org.junit.jupiter.api.Assertions;
@@ -35,7 +36,7 @@ class FileVoucherRepositoryTest {
         // when
         for (int i = 0; i < 10; i++) {
             // given
-            VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 1, 100L);
+            VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 100L);
             // when, then
             Assertions.assertDoesNotThrow(() -> fileVoucherRepository.insert(voucherEntity));
         }
@@ -47,7 +48,7 @@ class FileVoucherRepositoryTest {
 
         for (int i = 0; i < 3; i++) {
             // given
-            VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 1, 100L);
+            VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 100L);
             // when, then
             Assertions.assertDoesNotThrow(() -> fileVoucherRepository.insert(voucherEntity));
         }
@@ -60,11 +61,11 @@ class FileVoucherRepositoryTest {
     @Test
     public void findDiscountPolicyAndAmountTest() throws Exception {
         // given
-        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 2, 3L);
+        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.PERCENT, 3L);
         // when
         fileVoucherRepository.insert(voucherEntity);
-        Optional<VoucherEntity> existVoucher = fileVoucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount());
-        Optional<VoucherEntity> notExistVoucher = fileVoucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount() * 2);
+        Optional<VoucherEntity> existVoucher = fileVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount());
+        Optional<VoucherEntity> notExistVoucher = fileVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount() * 2);
         // then
         assertThat(existVoucher.isEmpty(), is(false));
         assertThat(notExistVoucher.isEmpty(), is(true));

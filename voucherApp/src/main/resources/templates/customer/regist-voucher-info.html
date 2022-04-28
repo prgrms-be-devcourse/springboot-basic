@@ -19,7 +19,7 @@
     <h3>고객에게 바우처를 할당합니다.</h3>
     <form th:action="@{/regist-voucher}" method="post">
         <div class="mb-3">
-            <label for="customerId" class="form-label">customer</label>
+            <label for="customerId" class="form-label">고객</label>
             <select id="customerId" name="customerId" class="form-select" aria-label="Default select example">
                 <option th:each="customer : ${customers}" th:object="${customer}"
                         th:value="*{customerId}"
@@ -28,11 +28,11 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="voucherId" class="form-label">voucher</label>
+            <label for="voucherId" class="form-label">할인 정책</label>
             <select id="voucherId" name="voucherId" class="form-select" aria-label="Default select example">
                 <option th:each="voucher : ${vouchers}" th:object="${voucher}"
                         th:value="*{voucherId}"
-                        th:text="*{voucherId}">등록된 바우처가 없음
+                        th:text="|*{discountAmount}*{discountPolicy.getUnit()}|">등록된 바우처가 없음
                 </option>
             </select>
         </div>

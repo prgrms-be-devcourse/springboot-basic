@@ -16,9 +16,9 @@
     <h3>Voucher 등록</h3>
     <form th:action="@{/new-voucher}" method="post">
         <div class="mb-3">
-            <label for="policyId" class="form-label">policyId</label>
-            <select id="policyId" name="policyId" class="form-select" aria-label="Default select example">
-                <option th:each="policy : ${policyMap}" th:value="${policy.key}"
+            <label for="discountPolicy" class="form-label">policyId</label>
+            <select id="discountPolicy" name="discountPolicy" class="form-select" aria-label="Default select example">
+                <option th:each="policy : ${policyMap}" th:value="${policy.value.toString()}"
                         th:text="${policy.value.getDescription()}">정책 없음
                 </option>
             </select>

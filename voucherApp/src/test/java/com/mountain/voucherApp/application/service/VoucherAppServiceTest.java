@@ -7,6 +7,7 @@ import com.mountain.voucherApp.application.port.in.VoucherIdUpdateDto;
 import com.mountain.voucherApp.application.port.out.CustomerPort;
 import com.mountain.voucherApp.application.port.out.VoucherPort;
 import com.mountain.voucherApp.domain.vo.CustomerName;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,8 +44,8 @@ class VoucherAppServiceTest {
     @DisplayName("바우처 리스트를 조회할 수 있다.")
     public void testShowVoucherList() {
         List<VoucherEntity> givenVouchers = List.of(
-                new VoucherEntity(UUID.randomUUID(), 1, 1L),
-                new VoucherEntity(UUID.randomUUID(), 1, 2L)
+                new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1L),
+                new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 2L)
         );
         // mocking
         given(voucherPort.findAll()).willReturn(givenVouchers);
@@ -109,9 +110,9 @@ class VoucherAppServiceTest {
     @Test
     @DisplayName("policyId와 discoumtAmount 조건으로 등록된 데이터가 없는 경우 새로운 바우처를 생성.")
     public void testCreateSuccess() {
-        VoucherCreateDto voucherCreateDto = new VoucherCreateDto(1, 1000L);
-        given(voucherPort.findByPolicyIdAndDiscountAmount(
-                voucherCreateDto.getPolicyId(),
+        VoucherCreateDto voucherCreateDto = new VoucherCreateDto(DiscountPolicy.FIXED, 1000L);
+        given(voucherPort.findByDiscountPolicyAndAmount(
+                voucherCreateDto.getDiscountPolicy(),
                 voucherCreateDto.getDiscountAmount()
         )).willReturn(Optional.empty());
 
@@ -124,12 +125,12 @@ class VoucherAppServiceTest {
     @Test
     @DisplayName("바우처가 존재하면 생성하지 않는다.")
     public void testCreateExistVoucher() {
-        VoucherCreateDto voucherCreateDto = new VoucherCreateDto(1, 1000L);
-        given(voucherPort.findByPolicyIdAndDiscountAmount(
-                voucherCreateDto.getPolicyId(),
+        VoucherCreateDto voucherCreateDto = new VoucherCreateDto(DiscountPolicy.FIXED, 1000L);
+        given(voucherPort.findByDiscountPolicyAndAmount(
+                voucherCreateDto.getDiscountPolicy(),
                 voucherCreateDto.getDiscountAmount()
         )).willReturn(
-                Optional.of(new VoucherEntity(UUID.randomUUID(), 1, 1000L))
+                Optional.of(new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L))
         );
         voucherAppService.create(voucherCreateDto);
         assertAll(

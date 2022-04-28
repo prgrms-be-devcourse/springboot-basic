@@ -4,6 +4,7 @@ import com.mountain.voucherApp.adapter.out.persistence.voucher.MemoryVoucherRepo
 import com.mountain.voucherApp.domain.PercentDiscountVoucher;
 import com.mountain.voucherApp.domain.Voucher;
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,7 @@ class MemoryVoucherRepositoryTest {
         //given
         Voucher voucher = new PercentDiscountVoucher();
 
-        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 1, 1000L);
+        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L);
 
         //when
         VoucherEntity saved = voucherRepository.insert(voucherEntity);
@@ -48,7 +49,7 @@ class MemoryVoucherRepositoryTest {
         //given
         for (int i = 1; i <= 10; i++) {
             VoucherEntity entity = new VoucherEntity(UUID.randomUUID(),
-                    1,
+                    DiscountPolicy.FIXED,
                     100L);
             voucherRepository.insert(entity);
         }
@@ -63,11 +64,11 @@ class MemoryVoucherRepositoryTest {
     @Test
     public void findDiscountPolicyAndAmountTest() throws Exception {
         // given
-        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), 2, 3L);
+        VoucherEntity voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.PERCENT, 3L);
         // when
         voucherRepository.insert(voucherEntity);
-        Optional<VoucherEntity> existVoucher = voucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount());
-        Optional<VoucherEntity> notExistVoucher = voucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount() * 2);
+        Optional<VoucherEntity> existVoucher = voucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount());
+        Optional<VoucherEntity> notExistVoucher = voucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount() * 2);
         // then
         assertThat(existVoucher.isEmpty(), is(false));
         assertThat(notExistVoucher.isEmpty(), is(true));

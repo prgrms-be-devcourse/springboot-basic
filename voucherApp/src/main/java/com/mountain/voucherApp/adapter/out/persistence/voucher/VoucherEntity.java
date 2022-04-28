@@ -7,13 +7,12 @@ import java.util.UUID;
 
 public class VoucherEntity {
     private final UUID voucherId;
-    private Integer discountPolicyId;
+    private DiscountPolicy discountPolicy;
     private Long discountAmount;
 
-    public VoucherEntity(UUID voucherId, Integer discountPolicyId, Long discountAmount) {
-        validatePolicyId(discountPolicyId);
+    public VoucherEntity(UUID voucherId, DiscountPolicy discountPolicy, Long discountAmount) {
         this.voucherId = voucherId;
-        this.discountPolicyId = discountPolicyId;
+        this.discountPolicy = discountPolicy;
         this.discountAmount = discountAmount;
     }
 
@@ -21,30 +20,24 @@ public class VoucherEntity {
         return voucherId;
     }
 
-    public Integer getDiscountPolicyId() {
-        return discountPolicyId;
-    }
-
     public Long getDiscountAmount() {
         return discountAmount;
     }
 
-    private void validatePolicyId(int discountPolicyId) {
-        if (discountPolicyId <= 0 || discountPolicyId > DiscountPolicy.values().length)
-            throw new RuntimeException("Name should not be blank");
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
     }
 
-    public void changeVoucherInfo(Integer discountPolicyId, Long discountAmount) {
-        validatePolicyId(discountPolicyId);
+    public void changeVoucherInfo(Integer discountPolicyId, DiscountPolicy discountPolicy) {
         this.discountAmount = discountAmount;
-        this.discountPolicyId = discountPolicyId;
+        this.discountPolicy = discountPolicy;
     }
 
     @Override
     public String toString() {
         return MessageFormat.format("{0},{1},{2}{3}",
                 voucherId,
-                discountPolicyId,
+                discountPolicy.toString(),
                 discountAmount,
                 System.lineSeparator()
         );

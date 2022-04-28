@@ -1,6 +1,7 @@
 package com.mountain.voucherApp.adapter.out.persistence.voucher;
 
 import com.mountain.voucherApp.application.port.out.VoucherPort;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class JdbcVoucherRepository implements VoucherPort {
     private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
         return new HashMap<>() {{
             put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-            put(DISCOUNT_POLICY_ID_CAMEL.getValue(), voucherEntity.getDiscountPolicyId());
+            put(DISCOUNT_POLICY_CAMEL.getValue(), voucherEntity.getDiscountPolicy().toString());
             put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
         }};
     }
@@ -61,7 +62,7 @@ public class JdbcVoucherRepository implements VoucherPort {
     public VoucherEntity insert(VoucherEntity voucherEntity) {
         Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
-                "INSERT INTO vouchers (voucher_id, discount_policy_id, discount_amount) VALUES (UUID_TO_BIN(:voucherId), :discountPolicyId, :discountAmount)",
+                "INSERT INTO vouchers (voucher_id, discount_policy, discount_amount) VALUES (UUID_TO_BIN(:voucherId), :discountPolicy, :discountAmount)",
                 paramMap
         );
         if (executeUpdate != 1) {
@@ -73,7 +74,7 @@ public class JdbcVoucherRepository implements VoucherPort {
     public VoucherEntity update(VoucherEntity voucherEntity) {
         Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
-                "UPDATE vouchers SET discount_policy_id = :discountPolicyId, discount_amount = :discountAmount where voucher_id = UUID_TO_BIN(:voucherId)",
+                "UPDATE vouchers SET discount_policy = :discountPolicy, discount_amount = :discountAmount where voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap
         );
         if (executeUpdate != 1) {
@@ -83,14 +84,14 @@ public class JdbcVoucherRepository implements VoucherPort {
     }
 
     @Override
-    public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
+    public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put(DISCOUNT_POLICY_ID_CAMEL.getValue(), discountPolicyId);
+            put(DISCOUNT_POLICY_CAMEL.getValue(), discountPolicy.toString());
             put(DISCOUNT_AMOUNT_CAMEL.getValue(), discountAmount);
         }};
         try {
             Optional<VoucherEntity> voucherEntity = Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from vouchers WHERE discount_policy_id = :discountPolicyId and discount_amount = :discountAmount",
+                    "select * from vouchers WHERE discount_policy = :discountPolicy and discount_amount = :discountAmount",
                     paramMap,
                     voucherEntityRowMapper
             ));
@@ -107,8 +108,8 @@ public class JdbcVoucherRepository implements VoucherPort {
             byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
             UUID uuid = toUUID(voucherId);
             long discountAmount = rs.getLong(DISCOUNT_AMOUNT.getValue());
-            int discountPolicyId = rs.getInt(DISCOUNT_POLICY_ID.getValue());
-            return new VoucherEntity(uuid, discountPolicyId, discountAmount);
+            DiscountPolicy discountPolicy = DiscountPolicy.valueOf(rs.getString(DISCOUNT_POLICY.getValue()));
+            return new VoucherEntity(uuid, discountPolicy, discountAmount);
         }
     };
 

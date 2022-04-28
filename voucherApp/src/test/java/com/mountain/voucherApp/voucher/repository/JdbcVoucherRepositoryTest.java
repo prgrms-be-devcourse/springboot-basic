@@ -3,6 +3,7 @@ package com.mountain.voucherApp.voucher.repository;
 
 import com.mountain.voucherApp.adapter.out.persistence.voucher.JdbcVoucherRepository;
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -94,7 +95,7 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        voucherEntity = new VoucherEntity(UUID.randomUUID(), 1, 1000L);
+        voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L);
         MysqldConfig config = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -144,7 +145,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("바우처를 수정할 수 있다.")
     @Order(4)
     public void testUpdate() throws Exception {
-        voucherEntity.changeVoucherInfo(1, 100L);
+        voucherEntity.changeVoucherInfo(1, DiscountPolicy.PERCENT);
         jdbcVoucherRepository.update(voucherEntity);
 
         List<VoucherEntity> vouchers = jdbcVoucherRepository.findAll();
@@ -162,8 +163,8 @@ class JdbcVoucherRepositoryTest {
     @Order(5)
     public void findDiscountPolicyAndAmountTest() throws Exception {
 
-        Optional<VoucherEntity> existVoucher = jdbcVoucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount());
-        Optional<VoucherEntity> notExistVoucher = jdbcVoucherRepository.findByPolicyIdAndDiscountAmount(voucherEntity.getDiscountPolicyId(), voucherEntity.getDiscountAmount() * 2);
+        Optional<VoucherEntity> existVoucher = jdbcVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount());
+        Optional<VoucherEntity> notExistVoucher = jdbcVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount() * 2);
 
         assertThat(existVoucher.isEmpty(), is(false));
         assertThat(notExistVoucher.isEmpty(), is(true));

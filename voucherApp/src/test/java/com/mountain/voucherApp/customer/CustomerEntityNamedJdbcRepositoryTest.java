@@ -5,6 +5,7 @@ import com.mountain.voucherApp.adapter.out.persistence.voucher.JdbcVoucherReposi
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import com.mountain.voucherApp.application.port.in.CustomerDto;
 import com.mountain.voucherApp.domain.vo.CustomerName;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -110,7 +111,7 @@ class CustomerEntityNamedJdbcRepositoryTest {
                 LocalDateTime.now());
 
         voucherEntity = new VoucherEntity(UUID.randomUUID(),
-                1,
+                DiscountPolicy.FIXED,
                 1000L);
 
         MysqldConfig config = aMysqldConfig(v8_0_11)

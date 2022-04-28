@@ -13,8 +13,8 @@ public enum Field {
     VOUCHER_ID_CAMEL("voucherId"),
     DISCOUNT_AMOUNT("discount_amount"),
     DISCOUNT_AMOUNT_CAMEL("discountAmount"),
-    DISCOUNT_POLICY_ID("discount_policy_id"),
-    DISCOUNT_POLICY_ID_CAMEL("discountPolicyId");
+    DISCOUNT_POLICY("discount_policy"),
+    DISCOUNT_POLICY_CAMEL("discountPolicy");
 
     private final String value;
 

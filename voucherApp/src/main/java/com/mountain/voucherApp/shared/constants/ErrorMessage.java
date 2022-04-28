@@ -9,6 +9,7 @@ public class ErrorMessage {
     public static final String NOT_BLANK = "공백이 될 수 없습니다.";
     public static final String EMAIL_OUT_OF_RANGE = "이메일의 입력 범위(4~50)를 벗어났습니다.";
     public static final String EMAIL_NOT_VALID = "이메일 형식이 올바르지 않습니다.";
+    public static final String WRONG_VALUE = "올바른 값을 입력해주세요.";
     // jdbc
     public static final String NOT_INSERTED = "Insert가 수행되지 않았습니다.";
     public static final String NOT_UPDATED = "Update가 수행되지 않았습니다.";

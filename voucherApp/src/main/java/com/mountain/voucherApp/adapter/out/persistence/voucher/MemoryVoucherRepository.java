@@ -1,6 +1,7 @@
 package com.mountain.voucherApp.adapter.out.persistence.voucher;
 
 import com.mountain.voucherApp.application.port.out.VoucherPort;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -35,9 +36,9 @@ public class MemoryVoucherRepository implements VoucherPort {
     }
 
     @Override
-    public Optional<VoucherEntity> findByPolicyIdAndDiscountAmount(int discountPolicyId, long discountAmount) {
+    public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
         return storage.values().stream()
-                .filter((e) -> (e.getDiscountPolicyId() == discountPolicyId) && (e.getDiscountAmount() == discountAmount))
+                .filter((e) -> (e.getDiscountPolicy() == discountPolicy) && (e.getDiscountAmount() == discountAmount))
                 .findFirst();
     }
 

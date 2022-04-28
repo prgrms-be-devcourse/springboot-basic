@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.mountain.voucherApp.shared.constants.ProgramMessage.MANUAL_TITLE;
-import static com.mountain.voucherApp.shared.utils.DiscountPolicyUtil.getDiscountPolicyMap;
 import static com.mountain.voucherApp.shared.utils.MenuUtil.getMenuMap;
 
 @Component
@@ -50,7 +49,7 @@ public class OutputConsole implements Output {
                 .forEach(
                         (p) -> textTerminal.println(MessageFormat.format(
                                 "[{0}]. {1}",
-                                p.getPolicyId(),
+                                p.ordinal(),
                                 p.getDescription())
                         )
                 );
@@ -58,15 +57,13 @@ public class OutputConsole implements Output {
 
     @Override
     public void printVoucherList(List<VoucherEntity> voucherEntityList) {
-        Map<Integer, DiscountPolicy> discountPolicyMap = getDiscountPolicyMap();
         for (int i = 0; i < voucherEntityList.size(); i++) {
             VoucherEntity voucherEntity = voucherEntityList.get(i);
-            DiscountPolicy policy = discountPolicyMap.get(voucherEntity.getDiscountPolicyId());
             textTerminal.println(MessageFormat.format("[{0}]. {1}: {2}{3}",
                     i,
-                    policy.getDescription(),
+                    voucherEntity.getDiscountPolicy().getDescription(),
                     voucherEntity.getDiscountAmount(),
-                    policy.getUnit()));
+                    voucherEntity.getDiscountPolicy().getUnit()));
         }
 
     }

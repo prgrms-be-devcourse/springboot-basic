@@ -1,20 +1,22 @@
 package com.mountain.voucherApp.application.port.in;
 
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
+
 public class VoucherCreateDto {
-    private int policyId;
+    private DiscountPolicy discountPolicy;
     private Long discountAmount;
 
-    public VoucherCreateDto(int policyId, Long discountAmount) {
-        this.policyId = policyId;
+    public VoucherCreateDto(DiscountPolicy discountPolicy, Long discountAmount) {
+        this.discountPolicy = discountPolicy;
         this.discountAmount = discountAmount;
     }
 
-    public int getPolicyId() {
-        return policyId;
+    public DiscountPolicy getDiscountPolicy() {
+        return discountPolicy;
     }
 
-    public void setPolicyId(int policyId) {
-        this.policyId = policyId;
+    public void setDiscountPolicy(DiscountPolicy discountPolicy) {
+        this.discountPolicy = discountPolicy;
     }
 
     public Long getDiscountAmount() {
@@ -24,6 +26,4 @@ public class VoucherCreateDto {
     public void setDiscountAmount(Long discountAmount) {
         this.discountAmount = discountAmount;
     }
-
-
 }

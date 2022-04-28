@@ -7,25 +7,18 @@ import com.mountain.voucherApp.domain.Voucher;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
-import java.util.Map;
-
-import static com.mountain.voucherApp.shared.utils.DiscountPolicyUtil.getDiscountPolicyMap;
-import static com.mountain.voucherApp.shared.utils.DiscountPolicyUtil.getVoucher;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DiscountPolicyUtilTest {
+class DiscountPolicyTest {
 
     @DisplayName("DiscountPolicy 객체를 기준으로 만든 Map 조회")
     @Test
     public void testPolicyMap() {
-        //given
-        Map<Integer, DiscountPolicy> discountPolicyMap = getDiscountPolicyMap();
-        //when
+
         Arrays.stream(DiscountPolicy.values())
                 .forEach((policy) -> {
-                    DiscountPolicy getPolicy = discountPolicyMap.get(policy.getPolicyId());
+                    DiscountPolicy getPolicy = DiscountPolicy.find(policy.ordinal());
                     //then
                     Assertions.assertEquals(policy, getPolicy);
                 });
@@ -35,9 +28,8 @@ class DiscountPolicyUtilTest {
     @Test
     public void fixedVoucherTest() {
         //given
-        int fixedSeq = 1;
         //when
-        Voucher fixedVoucher = getVoucher(fixedSeq);
+        Voucher fixedVoucher = DiscountPolicy.FIXED.getVoucher();
         //then
         assertThat(fixedVoucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(fixedVoucher).isNotInstanceOf((PercentDiscountVoucher.class));
@@ -49,10 +41,10 @@ class DiscountPolicyUtilTest {
         //given
         int percentSeq = 2;
         //when
-        Voucher fixedVoucher = getVoucher(percentSeq);
+        Voucher percentVoucher = DiscountPolicy.PERCENT.getVoucher();
         //then
-        assertThat(fixedVoucher).isInstanceOf(PercentDiscountVoucher.class);
-        assertThat(fixedVoucher).isNotInstanceOf((FixedAmountVoucher.class));
+        assertThat(percentVoucher).isInstanceOf(PercentDiscountVoucher.class);
+        assertThat(percentVoucher).isNotInstanceOf((FixedAmountVoucher.class));
     }
 
 }

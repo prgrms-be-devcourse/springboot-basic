@@ -1,9 +1,9 @@
 CREATE TABLE vouchers
 (
     voucher_id          BINARY(16) PRIMARY KEY,
-    discount_policy_id  INT NOT NULL,
+    discount_policy      varchar(50) NOT NULL,
     discount_amount     BIGINT NOT NULL,
-    UNIQUE KEY unq_policy_id_and_amount (discount_policy_id, discount_amount)
+    UNIQUE KEY unq_policy_id_and_amount (discount_policy, discount_amount)
 );
 
 CREATE TABLE customers

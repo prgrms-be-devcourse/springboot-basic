@@ -3,14 +3,13 @@ package com.mountain.voucherApp.adapter.in.web;
 import com.mountain.voucherApp.application.port.in.VoucherAppUseCase;
 import com.mountain.voucherApp.application.port.in.VoucherCreateDto;
 import com.mountain.voucherApp.application.service.VoucherService;
+import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import static com.mountain.voucherApp.shared.utils.DiscountPolicyUtil.getDiscountPolicyMap;
 
 @Controller
 public class VoucherController {
@@ -29,7 +28,7 @@ public class VoucherController {
 
     @GetMapping("/new-voucher")
     public String createVoucherPage(Model model) {
-        model.addAttribute("policyMap", getDiscountPolicyMap());
+        model.addAttribute("policyMap", DiscountPolicy.discountPolicies);
         return "/voucher/new-voucher";
     }
 
