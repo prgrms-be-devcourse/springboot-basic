@@ -68,6 +68,10 @@ public class VoucherApplication implements ApplicationRunner {
 					}
 					break;
 				}
+
+				case EXIT: {
+					return;
+				}
 			}
 		}
 	}
