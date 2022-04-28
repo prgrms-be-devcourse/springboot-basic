@@ -1,22 +1,12 @@
 package org.prgms.management.voucher.repository;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.prgms.management.voucher.entity.Voucher;
-import org.prgms.management.voucher.entity.VoucherCreator;
+import org.prgms.management.model.voucher.Voucher;
+import org.prgms.management.model.voucher.VoucherCreator;
+import org.prgms.management.repository.voucher.VoucherJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import javax.sql.DataSource;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,10 +29,10 @@ class VoucherJdbcRepositoryTest {
     @BeforeAll
     void setup() {
         voucherJdbcRepository.deleteAll();
-        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 1000, "voucher-test1", "fixed", LocalDateTime.now()).orElse(null));
-        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 500, "voucher-test2", "fixed", LocalDateTime.now()).orElse(null));
-        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 99, "voucher-test3", "percent", LocalDateTime.now()).orElse(null));
-        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 50, "voucher-test4", "percent", LocalDateTime.now()).orElse(null));
+        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 1000, "voucher-test1", "fixed", LocalDateTime.now()));
+        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 500, "voucher-test2", "fixed", LocalDateTime.now()));
+        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 99, "voucher-test3", "percent", LocalDateTime.now()));
+        newVouchers.add(VoucherCreator.createVoucher(UUID.randomUUID(), 50, "voucher-test4", "percent", LocalDateTime.now()));
     }
 
     @Test
