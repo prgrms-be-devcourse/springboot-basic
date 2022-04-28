@@ -42,7 +42,12 @@ public class MappingController {
                 // 할당할 voucher 1개를 고른다.
                 Voucher assignedVoucher = mappingDetailController.chooseOneVoucher();
                 // voucher 의 customer id 를 업데이트 한다.
-                voucherService.updateCustomerId(assignedVoucher, customer.getCustomerId());
+                try{
+                    voucherService.updateCustomerId(assignedVoucher, customer.getCustomerId());
+                }catch (NullPointerException e){
+                    logger.error("Customer 혹은 Voucher 값이 null 입니다.");
+                    System.out.println("Custorm 혹은 Voucher 값 등록이 안되어있습니다.");
+                }
 
                 System.out.println("Update voucher's customer id");
             }
