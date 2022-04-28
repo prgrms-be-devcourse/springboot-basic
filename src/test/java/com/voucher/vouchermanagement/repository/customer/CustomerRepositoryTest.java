@@ -1,6 +1,6 @@
 package com.voucher.vouchermanagement.repository.customer;
 
-import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
+import com.voucher.vouchermanagement.model.customer.Customer;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
@@ -12,16 +12,26 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
+@SpringJUnitConfig
+@ActiveProfiles("prod")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CustomerRepositoryTest {
 
     @Autowired
@@ -31,7 +41,6 @@ public class CustomerRepositoryTest {
 
     @Configuration
     @ComponentScan(basePackages = {"com.voucher.vouchermanagement.repository.customer"})
-    @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
     @AutoConfigureJdbc
     static class AppConfig {
         @Bean
@@ -78,42 +87,116 @@ public class CustomerRepositoryTest {
     @Test
     @DisplayName("Customer 데이터를 삽입한다.")
     public void insertTest() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "jh", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
 
+        //when
+        Customer insertedCustomer = customerRepository.insert(customer);
+
+        //then
+        assertThat(insertedCustomer, samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("Id로 Customer를 식별한다.")
     public void findByIdTest() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "jh", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        customerRepository.insert(customer);
 
+        //when
+        Optional<Customer> insertedCustomer = customerRepository.findById(customer.getId());
+
+        //then
+        assertThat(insertedCustomer.isPresent(), is(true));
+        assertThat(insertedCustomer.get(), samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("Email로 Customer를 식별한다.")
     public void findByEmailTest() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "jh", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        customerRepository.insert(customer);
 
+        //when
+        Optional<Customer> insertedCustomer = customerRepository.findByEmail(customer.getEmail());
+
+        //then
+        assertThat(insertedCustomer.isPresent(), is(true));
+        assertThat(insertedCustomer.get(), samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("Name으로 Customer를 식별한다.")
     public void findByNameTest() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "jh", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        customerRepository.insert(customer);
 
+        //when
+        Optional<Customer> insertedCustomer = customerRepository.findByName(customer.getName());
+
+        //then
+        assertThat(insertedCustomer.isPresent(), is(true));
+        assertThat(insertedCustomer.get(), samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("Customer 정보를 수정한다.")
     public void updateTest() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "jh", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        customerRepository.insert(customer);
 
+        //when
+        customer.login();
+        customerRepository.update(customer);
+        Optional<Customer> foundCustomer = customerRepository.findByEmail("pjh_jn@naver.com");
+
+        //then
+        assertThat(foundCustomer.isPresent(), is(true));
+        assertThat(foundCustomer.get(), samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("다수의 Customer를 조회한다.")
     public void findAllTest() {
+        //given
+        List<Customer> customers = List.of(
+                new Customer(UUID.randomUUID(), "customerA", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now()),
+                new Customer(UUID.randomUUID(), "customerB", "mail@mail.com", LocalDateTime.now(), LocalDateTime.now()),
+                new Customer(UUID.randomUUID(), "customerC", "naver1@naver.com", LocalDateTime.now(), LocalDateTime.now())
+        );
+        customers.forEach(customerRepository::insert);
 
+        //when
+        List<Customer> foundCustomers = customerRepository.findAll();
+
+        //then
+        assertThat(foundCustomers.size(), is(3));
+        assertThat(foundCustomers, containsInAnyOrder(samePropertyValuesAs(foundCustomers.get(0)),
+                samePropertyValuesAs(foundCustomers.get(1)),
+                samePropertyValuesAs(foundCustomers.get(2))
+        ));
     }
 
     @Test
     @DisplayName("모든 Customer를 제거한다.")
     public void deleteAll() {
+        //given
+        List<Customer> customers = List.of(
+                new Customer(UUID.randomUUID(), "customerA", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now()),
+                new Customer(UUID.randomUUID(), "customerB", "mail@mail.com", LocalDateTime.now(), LocalDateTime.now()),
+                new Customer(UUID.randomUUID(), "customerC", "naver1@naver.com", LocalDateTime.now(), LocalDateTime.now())
+        );
+        customers.forEach(customerRepository::insert);
 
+        //when
+        customerRepository.deleteAll();
+        List<Customer> foundCustomers = customerRepository.findAll();
+
+        //then
+        assertThat(foundCustomers.size(), is(0));
     }
 }

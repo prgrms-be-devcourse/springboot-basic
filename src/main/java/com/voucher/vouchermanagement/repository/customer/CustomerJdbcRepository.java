@@ -12,7 +12,7 @@ import java.util.*;
 import static com.voucher.vouchermanagement.repository.JdbcUtils.toLocalDateTime;
 import static com.voucher.vouchermanagement.repository.JdbcUtils.toUUID;
 
-@Repository
+@Repository("prod")
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
