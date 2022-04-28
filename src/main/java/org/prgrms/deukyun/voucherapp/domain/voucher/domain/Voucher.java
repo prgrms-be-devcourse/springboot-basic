@@ -48,5 +48,4 @@ public abstract class Voucher {
      */
     abstract public long discount(long beforeDiscountPrice);
 
-    abstract public String toDisplayString();
 }

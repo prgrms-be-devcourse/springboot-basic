@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.prgrms.deukyun.voucherapp.view.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
+import org.prgrms.deukyun.voucherapp.view.console.ToStringResolver;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
@@ -24,7 +25,7 @@ public class ShowAllVoucherCommand {
 
         console.write(
             voucherService.findAll().stream()
-                .map(Voucher::toDisplayString)
+                .map(ToStringResolver::voucherToString)
                 .collect(Collectors.joining("\n"))
         );
     }

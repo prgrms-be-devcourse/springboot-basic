@@ -38,11 +38,4 @@ public class PercentDiscountVoucher extends Voucher {
         return beforeDiscountPrice * (100 - percent) / 100;
     }
 
-    @Override
-    public String toDisplayString() {
-        return new StringBuilder("[Percent Discount Voucher]     ")
-                .append(" id : ").append(super.getId().toString(), 0, 8)
-                .append(", percent : ").append(percent)
-                .toString();
-    }
 }
