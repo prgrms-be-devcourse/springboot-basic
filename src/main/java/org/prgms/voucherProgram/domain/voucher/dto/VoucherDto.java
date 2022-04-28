@@ -12,15 +12,16 @@ public class VoucherDto {
     private final long discountValue;
     private final LocalDateTime createdTime;
 
-    public VoucherDto(UUID voucherId, int type, long discountValue, LocalDateTime createdTime) {
+    public VoucherDto(UUID voucherId, String type, long discountValue, LocalDateTime createdTime) {
         this.voucherId = voucherId;
-        this.type = VoucherType.findByNumber(type).toString();
+        this.type = type;
         this.discountValue = discountValue;
         this.createdTime = createdTime;
     }
 
     public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), voucher.getType(), voucher.getDiscountValue(),
+        return new VoucherDto(voucher.getVoucherId(), VoucherType.findByNumber(voucher.getType()).toString(),
+            voucher.getDiscountValue(),
             voucher.getCreatedTime());
     }
 
