@@ -32,6 +32,8 @@ public class VoucherController {
     }
 
     public Response<VoucherResponseList> findAll() {
-        return null;
+        VoucherList responsedVoucherList = voucherService.findAll();
+        VoucherResponseList voucherResponseList = responsedVoucherList.toResponseList();
+        return new Response<>(Response.State.SUCCESS, voucherResponseList);
     }
 }

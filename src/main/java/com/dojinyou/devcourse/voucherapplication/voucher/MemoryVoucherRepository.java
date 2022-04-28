@@ -6,9 +6,12 @@ import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -28,7 +31,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public VoucherList findAll() {
-        return null;
+        Collection<VoucherEntity> collection = store.values();
+        List<Voucher> voucherList = collection.stream()
+                                              .map(VoucherMapper::entityToDomain)
+                                              .collect(Collectors.toList());
+        return new VoucherList(voucherList);
     }
 
     private Voucher save(VoucherEntity voucherEntity) {
