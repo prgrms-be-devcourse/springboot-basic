@@ -11,13 +11,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +29,7 @@ public class UserController {
     public String addUserView(){
         return "user/new-user";
     }
-    //,consumes = "application/json"
+
     @PostMapping(value = "/user/new")
     public String addUser(@RequestParam String name, @RequestParam String type){
         var userDTO = new UserDTO(UUID.randomUUID(), name, UserType.valueOf(type));
@@ -96,4 +91,5 @@ public class UserController {
         model.addAttribute("users", users);
         return "user/users";
     }
+
 }
