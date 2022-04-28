@@ -7,9 +7,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    void insert(Customer voucher);
+    Customer insert(Customer customer);
+
+    Customer update(Customer customer);
 
     Optional<Customer> findById(UUID id);
+
+    Optional<Customer> findByName(String name);
+
+    Optional<Customer> findByEmail(String email);
 
     List<Customer> findAll();
 

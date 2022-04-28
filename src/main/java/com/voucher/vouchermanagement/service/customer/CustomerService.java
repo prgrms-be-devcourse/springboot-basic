@@ -39,4 +39,16 @@ public class CustomerService {
                 this.customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
         );
     }
+
+    public CustomerDto findByName(String name) {
+        return CustomerDto.of(
+                this.customerRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
+        );
+    }
+
+    public CustomerDto findByEmail(String email) {
+        return CustomerDto.of(
+                this.customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
+        );
+    }
 }

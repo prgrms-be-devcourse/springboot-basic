@@ -1,14 +1,13 @@
 package com.voucher.vouchermanagement.repository.customer;
 
 import com.voucher.vouchermanagement.model.customer.Customer;
-
-import java.time.LocalDateTime;
-import java.util.*;
-
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static com.voucher.vouchermanagement.repository.JdbcUtils.toLocalDateTime;
 import static com.voucher.vouchermanagement.repository.JdbcUtils.toUUID;
@@ -23,21 +22,60 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void insert(Customer customer) {
-        int update = jdbcTemplate.update("INSERT INTO customers VALUES(UNHEX(REPLACE(:id, '-', '')), :name, :email, :lastLoginAt, :createdAt)",
-                toParamMap(customer));
+    public Customer insert(Customer customer) {
+        try {
+            int update = jdbcTemplate.update("INSERT INTO customers VALUES(UNHEX(REPLACE(:id, '-', '')), :name, :email, :lastLoginAt, :createdAt)",
+                    toParamMap(customer));
 
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted.");
+            if (update != 1) {
+                throw new RuntimeException("아무것도 삽입되지 않았습니다.");
+            }
+        } catch (DataAccessException e) {
+            throw new RuntimeException("데이터를 삽입할 수 없습니다.");
         }
+
+        return customer;
     }
 
+    @Override
+    public Customer update(Customer customer) {
+        try {
+            int update = jdbcTemplate.update("UPDATE customers SET id = :id, name = :name, email = :email, last_login_at = :lastLoginAt, created_at = :createdAt " +
+                    "WHERE id = :id", toParamMap(customer));
+
+            if (update != 1) {
+                throw new RuntimeException("아무것도 수정되지 않았습니다.");
+            }
+        } catch (DataAccessException e) {
+            throw new RuntimeException("데이터를 수정 할 수 없습니다.");
+        }
+
+        return customer;
+    }
 
     @Override
     public Optional<Customer> findById(UUID id) {
         return Optional.ofNullable(
                 jdbcTemplate.queryForObject("SELECT * FROM customers WHERE id = UNHEX(REPLACE(:id, '-',''))",
                         Collections.singletonMap("id", id.toString().getBytes()),
+                        customerRowMapper)
+        );
+    }
+
+    @Override
+    public Optional<Customer> findByName(String name) {
+        return Optional.ofNullable(
+                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE name = :name",
+                        Collections.singletonMap("name", name),
+                        customerRowMapper)
+        );
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.ofNullable(
+                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
+                        Collections.singletonMap("email", email),
                         customerRowMapper)
         );
     }
@@ -78,6 +116,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         paramMap.put("email", customer.getEmail());
         paramMap.put("lastLoginAt", customer.getLastLoginAt());
         paramMap.put("createdAt", customer.getCreatedAt());
+
         return paramMap;
     }
 }
