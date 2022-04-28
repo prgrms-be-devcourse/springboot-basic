@@ -20,6 +20,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -194,7 +197,54 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.delete(newFixedVoucher);
         customers = voucherRepository.findAll();
         assertThat(customers.isEmpty(), is(true));
+    }
 
+    @Test
+    @DisplayName("특정 기간안에 만들어진 바우처 조회 테스트")
+    void testFindByDate() {
+        voucherRepository.insert(newFixedVoucher);
+
+        int year = LocalDate.now().getYear();
+        Month month = LocalDate.now().getMonth();
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+
+        FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000, LocalDate.of(year, month, dayOfMonth + 2));
+        PercentDiscountVoucher newVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDate.of(year, month, dayOfMonth - 1));
+        PercentDiscountVoucher newVoucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 70, LocalDate.of(year, month, dayOfMonth + 1));
+
+        voucherRepository.insert(newVoucher);
+        voucherRepository.insert(newVoucher2);
+        voucherRepository.insert(newVoucher3);
+
+        List<Voucher> byDate = voucherRepository.findByDate(LocalDate.of(year, month, dayOfMonth - 1), LocalDate.of(year, month, dayOfMonth + 1));
+        assertThat(byDate.isEmpty(), is(false));
+        assertThat(byDate, hasSize(3));
+    }
+
+    @Test
+    @DisplayName("특정 타입과 같고 특정 기간에 만들어진 바우처 조회 테스트")
+    void testFindByDateAndType() {
+        voucherRepository.insert(newFixedVoucher);
+
+        int year = LocalDate.now().getYear();
+        Month month = LocalDate.now().getMonth();
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+
+        PercentDiscountVoucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30, LocalDate.of(year, month, dayOfMonth + 2));
+        FixedAmountVoucher newVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 50, LocalDate.of(year, month, dayOfMonth - 1));
+        PercentDiscountVoucher newVoucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 70, LocalDate.of(year, month, dayOfMonth + 1));
+
+        voucherRepository.insert(newVoucher);
+        voucherRepository.insert(newVoucher2);
+        voucherRepository.insert(newVoucher3);
+
+        List<Voucher> byDate = voucherRepository.findByDateAndType(
+                LocalDate.of(year, month, dayOfMonth - 1),
+                LocalDate.of(year, month, dayOfMonth + 1),
+                "percent");
+        assertThat(byDate.isEmpty(), is(false));
+        assertThat(byDate, hasSize(1));
+        assertThat(byDate.get(0), samePropertyValuesAs(newVoucher3));
     }
 
 }
