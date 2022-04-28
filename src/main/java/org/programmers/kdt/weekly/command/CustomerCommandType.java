@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum CustomerCommandType {
     DEFAULT("default", "init"),
-    CUSTOMER_CREATE("create", "Type create to create a new customer ."),
+    CUSTOMER_CREATE("create", "Type create to create a new customer."),
     CUSTOMER_LIST("list", "Type list to list all customers."),
     CUSTOMER_BLACK_LIST("blacklist", "Type blacklist to list all customers."),
     CUSTOMER_TYPE_CHANGE("change", "Type change to change customer Type."),

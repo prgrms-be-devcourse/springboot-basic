@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import org.programmers.kdt.weekly.command.CustomerCommandType;
 import org.programmers.kdt.weekly.command.StartCommandType;
-import org.programmers.kdt.weekly.command.VoucherWalletCommandType;
+import org.programmers.kdt.weekly.command.VoucherCommandType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,14 +16,28 @@ public class Console {
         return sc.nextLine();
     }
 
-    public void programExitMessage() {
-        System.out.println("Terminates the program.");
-    }
-
-    public void printVoucherMessage() {
-        System.out.println("=== Voucher Program ===");
+    public void printStartCommandMessage() {
+        System.out.println("=== Management Program ===");
         Arrays.stream(StartCommandType.values()).filter((v) -> !v.equals(StartCommandType.DEFAULT))
             .forEach((v) -> System.out.println(v.getCommandMessage()));
+    }
+
+    public void printVoucherCommand() {
+        System.out.println("=== Voucher Menu ===");
+        Arrays.stream(VoucherCommandType.values())
+            .filter((v) -> !v.equals(VoucherCommandType.DEFAULT))
+            .forEach((v) -> System.out.println(v.getCommandMessage()));
+    }
+
+    public void printCustomerCommand() {
+        System.out.println("=== Customer Menu ===");
+        Arrays.stream(CustomerCommandType.values())
+            .filter((v) -> !v.equals(CustomerCommandType.DEFAULT))
+            .forEach((v) -> System.out.println(v.getCommandMessage()));
+    }
+
+    public void programExitMessage() {
+        System.out.println("Terminates the program.");
     }
 
     public void printErrorMessage(ErrorType errorType) {
@@ -47,21 +61,13 @@ public class Console {
         System.out.println("success!!");
     }
 
-    public void printVoucherWalletCommand() {
-        System.out.println("=== Voucher Wallet Menu ===");
-        Arrays.stream(VoucherWalletCommandType.values())
-            .filter((v) -> !v.equals(VoucherWalletCommandType.DEFAULT))
-            .forEach((v) -> System.out.println(v.getCommandMessage()));
-    }
-
     public void printInputMessage(String type) {
         System.out.println("input " + type);
     }
-
-    public void printCustomerCommand() {
-        System.out.println("=== Customer Menu ===");
-        Arrays.stream(CustomerCommandType.values())
-            .filter((v) -> !v.equals(CustomerCommandType.DEFAULT))
-            .forEach((v) -> System.out.println(v.getCommandMessage()));
-    }
+//    public void printVoucherWalletCommand() {
+//        System.out.println("=== Voucher Wallet Menu ===");
+//        Arrays.stream(VoucherWalletCommandType.values())
+//            .filter((v) -> !v.equals(VoucherWalletCommandType.DEFAULT))
+//            .forEach((v) -> System.out.println(v.getCommandMessage()));
+//    }
 }

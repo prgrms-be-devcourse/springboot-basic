@@ -1,5 +1,6 @@
 package org.programmers.kdt.weekly.command;
 
+import java.util.UUID;
 import org.programmers.kdt.weekly.command.io.Console;
 import org.programmers.kdt.weekly.command.io.ErrorType;
 import org.programmers.kdt.weekly.customer.model.CustomerType;
@@ -57,12 +58,12 @@ public class CustomerCommandLine {
 
             return;
         }
-        this.customerService.create(userName, userEmail);
+        this.customerService.create(UUID.randomUUID(), userEmail, userName);
         this.console.printExecutionSuccessMessage();
     }
 
     private void showCustomerList(CustomerType customerType) {
-        var customerList = this.customerService.getCustomers(customerType);
+        var customerList = this.customerService.findByCustomerType(customerType);
 
         if (customerList.isEmpty()) {
             this.console.printErrorMessage(ErrorType.CUSTOMER_EMPTY);
@@ -81,7 +82,7 @@ public class CustomerCommandLine {
             System.out.println("타입을 입력 해주세요"); //TODO console로 넣을 예정입니다.
             var changeType = this.console.getUserInput();
             maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
-            this.customerService.updateType(maybeCustomer.get());
+            this.customerService.changeBlackType(maybeCustomer.get());
             this.console.printExecutionSuccessMessage();
 
             return;
