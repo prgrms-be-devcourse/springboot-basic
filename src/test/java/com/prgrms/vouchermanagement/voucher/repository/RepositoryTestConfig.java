@@ -1,0 +1,21 @@
+package com.prgrms.vouchermanagement.voucher.repository;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+@Configuration
+public class RepositoryTestConfig {
+
+	@Bean
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
+	}
+
+	@Bean
+	public VoucherRepository voucherRepository(JdbcTemplate jdbcTemplate) {
+		return new JdbcVoucherRepository(jdbcTemplate);
+	}
+}
