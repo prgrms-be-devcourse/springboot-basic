@@ -16,7 +16,7 @@ public class InitDataConstructor {
     private final VoucherData voucherData;
 
     @PostConstruct
-    void initData() {
+    public void initData() {
         customerData.initData();
         voucherData.initData();
     }

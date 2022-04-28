@@ -18,7 +18,7 @@ class ExitCommandTest {
 
     @Test
     void 성공_퇴장_예외던지면_성공임() {
-        //assert throws
+        //then
         assertThatThrownBy(() -> command.exit())
                 .isInstanceOf(ExitRequest.class);
     }

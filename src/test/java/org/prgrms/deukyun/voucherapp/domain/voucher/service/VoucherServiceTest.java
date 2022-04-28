@@ -14,19 +14,19 @@ import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.*;
 class VoucherServiceTest {
 
     VoucherService voucherService;
-    VoucherRepository mockVoucherRepository;
+    VoucherRepository voucherRepository;
 
     @BeforeEach
     void setUp() {
-        mockVoucherRepository = mock(VoucherRepository.class);
-        voucherService = new VoucherService(mockVoucherRepository);
+        voucherRepository = mock(VoucherRepository.class);
+        voucherService = new VoucherService(voucherRepository);
     }
 
     @Test
     void 성공_전체조회(){
         //given
         List<Voucher> vouchers = List.of(fixedAmountDiscountVoucher(), percentDiscountVoucher());
-        when(mockVoucherRepository.findAll()).thenReturn(vouchers);
+        when(voucherRepository.findAll()).thenReturn(vouchers);
 
         //when
         List<Voucher> foundVouchers = voucherService.findAll();
@@ -44,6 +44,6 @@ class VoucherServiceTest {
         voucherService.insert(voucher);
 
         //then
-        verify(mockVoucherRepository).insert(voucher);
+        verify(voucherRepository).insert(voucher);
     }
 }

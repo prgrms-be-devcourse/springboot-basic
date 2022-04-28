@@ -15,19 +15,19 @@ import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 class CustomerSelectorTest {
 
     CustomerSelector customerSelector;
-    CustomerService mockCustomerService;
+    CustomerService customerService;
 
     @BeforeEach
     void setUp() {
-        mockCustomerService = mock(CustomerService.class);
-        customerSelector = new CustomerSelector(mockCustomerService);
+        customerService = mock(CustomerService.class);
+        customerSelector = new CustomerSelector(customerService);
     }
 
     @Test
     void 성공_램덤한_사용자_선택_후_홀더에_담기() {
         //given
         List<Customer> customers = List.of(customer(), customer(), customer(), customer(), customer());
-        when(mockCustomerService.findAll()).thenReturn(customers);
+        when(customerService.findAll()).thenReturn(customers);
 
         //when
         customerSelector.setRandomCustomer();

@@ -30,21 +30,21 @@ class FixedAmountDiscountVoucherTest {
 
     @Test
     void 생성_실패_음수_amount() {
-        //setup
+        //given
         long amount = -1000L;
 
-        //assert throws
+        //then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new FixedAmountDiscountVoucher(amount));
     }
 
     @Test
     void 실패_생성_정가_가_할인액_초과() {
-        //setup
+        //given
         FixedAmountDiscountVoucher voucher = fixedAmountDiscountVoucher();
         long beforeDiscountPrice = 500L;
 
-        //assert throws
+        //then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> voucher.discount(beforeDiscountPrice));
     }
@@ -76,14 +76,14 @@ class FixedAmountDiscountVoucherTest {
 
     @Test
     void 성공_할인() {
-        //setup
+        //given
         FixedAmountDiscountVoucher voucher = fixedAmountDiscountVoucher();
         long beforeDiscountPrice = 3000L;
 
         //when
         long discountedPrice = voucher.discount(beforeDiscountPrice);
 
-        //assert
+        //then
         assertThat(discountedPrice).isEqualTo(beforeDiscountPrice - voucher.getAmount());
     }
 

@@ -46,14 +46,14 @@ class JdbcVoucherRepositoryTest {
         //when
         Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
 
-        //assert
+        //then
         assertVoucher(insertedVoucher);
         assertFADV(insertedVoucher, voucher);
     }
 
     @Test
     void 성공_전체조회() {
-        //setup
+        //given
         Voucher voucher1 = voucher();
         Voucher voucher2 = voucher();
         jdbcVoucherRepository.insert(voucher1);
@@ -62,7 +62,7 @@ class JdbcVoucherRepositoryTest {
         //when
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
-        //assert
+        //then
         assertThat(vouchers).extracting("id")
                 .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
@@ -107,42 +107,42 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void 성공_단건조회() {
-        //setup
+        //given
         jdbcVoucherRepository.insert(voucher);
         UUID id = voucher.getId();
 
         //when
         Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
 
-        //assert
+        //then
         assertThat(foundVoucher).isPresent();
         assertFADV(foundVoucher.get(), voucher);
     }
 
     @Test
     void 성공_단건조회_아이디가_없을경우_OptionalEmpty_반환() {
-        //setup
+        //given
         jdbcVoucherRepository.insert(voucher);
         UUID id = UUID.randomUUID();
 
         //when
         Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
 
-        //assert
+        //then
         assertThat(foundVoucher).isNotPresent();
     }
 
 
     @Test
     void 성공_전체삭제() {
-        //setup
+        //given
         jdbcVoucherRepository.insert(voucher());
         jdbcVoucherRepository.insert(voucher());
 
-        //action
+        //when
         jdbcVoucherRepository.deleteAll();
 
-        //assert
+        //then
         assertThat(jdbcVoucherRepository.findAll()).isEmpty();
     }
 

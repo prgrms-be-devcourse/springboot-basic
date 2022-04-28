@@ -12,25 +12,25 @@ import static org.mockito.Mockito.verify;
 class ShowAllVoucherCommandTest {
 
     ShowAllVoucherCommand command;
-    VoucherService mockVoucherService;
-    ConsoleService mockConsole;
+    VoucherService voucherService;
+    ConsoleService console;
 
     @BeforeEach
     void setup() {
-        mockVoucherService = mock(VoucherService.class);
-        mockConsole = mock(ConsoleService.class);
+        voucherService = mock(VoucherService.class);
+        console = mock(ConsoleService.class);
     }
 
     @Test
     void 성공_전체조회명령() {
-        //setup
-        command = new ShowAllVoucherCommand(mockVoucherService, mockConsole);
+        //given
+        command = new ShowAllVoucherCommand(voucherService, console);
 
-        //action
+        //when
         command.showAllVoucher();
 
         //verify
-        verify(mockVoucherService).findAll();
-        verify(mockConsole).write(any());
+        verify(voucherService).findAll();
+        verify(console).write(any());
     }
 }

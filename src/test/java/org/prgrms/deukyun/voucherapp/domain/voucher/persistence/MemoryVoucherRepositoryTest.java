@@ -21,7 +21,7 @@ class MemoryVoucherRepositoryTest {
     Voucher voucher;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         memoryRepository = new MemoryVoucherRepository();
         voucher = voucher();
     }
@@ -31,14 +31,14 @@ class MemoryVoucherRepositoryTest {
         //when
         Voucher insertedVoucher = memoryRepository.insert(voucher);
 
-        //assert
+        //then
         assertVoucher(insertedVoucher);
         assertFADV(insertedVoucher, voucher);
     }
 
     @Test
     void 성공_전체조회() {
-        //setup
+        //given
         Voucher voucher1 = voucher();
         Voucher voucher2 = voucher();
         memoryRepository.insert(voucher1);
@@ -47,7 +47,7 @@ class MemoryVoucherRepositoryTest {
         //when
         List<Voucher> vouchers = memoryRepository.findAll();
 
-        //assert
+        //then
         assertThat(vouchers).extracting("id")
                 .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
@@ -91,41 +91,41 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     void 성공_단건조회() {
-        //setup
+        //given
         UUID id = voucher.getId();
         memoryRepository.insert(voucher);
         //when
         Optional<Voucher> foundVoucher = memoryRepository.findById(id);
 
-        //assert
+        //then
         assertThat(foundVoucher).isPresent();
         assertFADV(foundVoucher.get(), voucher);
     }
 
     @Test
     void 성공_단건조회_아이디가_없을경우_OptionalEmpty_반환() {
-        //setup
+        //given
         UUID id = UUID.randomUUID();
         memoryRepository.insert(voucher);
 
         //when
         Optional<Voucher> foundVoucher = memoryRepository.findById(id);
 
-        //assert
+        //then
         assertThat(foundVoucher).isNotPresent();
     }
 
 
     @Test
     void 성공_전체_삭제() {
-        //setup
+        //given
         memoryRepository.insert(voucher());
         memoryRepository.insert(voucher());
 
-        //action
+        //when
         memoryRepository.deleteAll();
 
-        //assert
+        //then
         assertThat(memoryRepository.findAll()).isEmpty();
     }
 

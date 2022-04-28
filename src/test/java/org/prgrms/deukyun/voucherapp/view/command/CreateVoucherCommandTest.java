@@ -15,41 +15,41 @@ import static org.mockito.Mockito.*;
 class CreateVoucherCommandTest {
 
     CreateVoucherCommand command;
-    VoucherService mockVoucherService;
-    ConsoleService mockConsole;
+    VoucherService voucherService;
+    ConsoleService console;
 
     @BeforeEach
     void setup() {
-        mockVoucherService = mock(VoucherService.class);
-        mockConsole = mock(ConsoleService.class);
-        command = new CreateVoucherCommand(mockVoucherService, mockConsole);
+        voucherService = mock(VoucherService.class);
+        console = mock(ConsoleService.class);
+        command = new CreateVoucherCommand(voucherService, console);
     }
 
     @Test
     void 바우처_생성_실패_InvalidType_입력() {
-        //setup
-        when(mockConsole.readLine()).thenReturn("나는 Invalid Type");
+        //given
+        when(console.readLine()).thenReturn("나는 Invalid Type");
 
-        //assert throws
+        //then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> command.createVoucher());
     }
 
     @Test
     void 정액_할인_바우처_생성_성공() {
-        //setup
-        when(mockConsole.readLine()).thenReturn("fixed");
-        when(mockConsole.readLong()).thenReturn(1000L);
+        //given
+        when(console.readLine()).thenReturn("fixed");
+        when(console.readLong()).thenReturn(1000L);
 
-        //action
+        //when
         command.createVoucher();
 
         //verify
-        InOrder inOrder = inOrder(mockConsole, mockConsole, mockVoucherService);
+        InOrder inOrder = inOrder(console, console, voucherService);
 
-        inOrder.verify(mockConsole).write("enter the amount/percent");
-        inOrder.verify(mockConsole).readLong();
-        inOrder.verify(mockVoucherService).insert(any(FixedAmountDiscountVoucher.class));
+        inOrder.verify(console).write("enter the amount/percent");
+        inOrder.verify(console).readLong();
+        inOrder.verify(voucherService).insert(any(FixedAmountDiscountVoucher.class));
     }
     
 
@@ -58,28 +58,28 @@ class CreateVoucherCommandTest {
 
         @Test
         void 성공() {
-            //setup
-            when(mockConsole.readLine()).thenReturn("percent");
-            when(mockConsole.readLong()).thenReturn(20L);
+            //given
+            when(console.readLine()).thenReturn("percent");
+            when(console.readLong()).thenReturn(20L);
 
-            //action
+            //when
             command.createVoucher();
 
             //verify
-            InOrder inOrder = inOrder(mockConsole, mockConsole, mockVoucherService);
+            InOrder inOrder = inOrder(console, console, voucherService);
 
-            inOrder.verify(mockConsole).write("enter the amount/percent");
-            inOrder.verify(mockConsole).readLong();
-            inOrder.verify(mockVoucherService).insert(any(PercentDiscountVoucher.class));
+            inOrder.verify(console).write("enter the amount/percent");
+            inOrder.verify(console).readLong();
+            inOrder.verify(voucherService).insert(any(PercentDiscountVoucher.class));
         }
 
         @Test
         void 실패_범위_밖의_입력() {
-            //setup
-            when(mockConsole.readLine()).thenReturn("percent");
-            when(mockConsole.readLong()).thenReturn(101L);
+            //given
+            when(console.readLine()).thenReturn("percent");
+            when(console.readLong()).thenReturn(101L);
 
-            //assert throws
+            //then
             assertThatIllegalArgumentException()
                     .isThrownBy(() -> command.createVoucher());
         }

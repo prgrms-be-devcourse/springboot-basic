@@ -24,42 +24,42 @@ class ConsoleServiceTest {
 
     @Test
     void 성공_출력_메시지() {
-        //setup
+        //given
         String msg = "Write Me!";
 
-        //action
+        //when
         console.write(msg);
 
-        //assert
+        //then
         assertThat(out.toString()).contains(ANSI_YELLOW);
         assertThat(out.toString()).contains("Write Me!");
     }
 
     @Test
     void 성공_출력_메시지_와_인자() {
-        //setup
+        //given
         String msg = "Write Me! %s";
         String[] args = {"Me Either!"};
 
-        //action
+        //when
         console.write(msg, args);
 
-        //assert
+        //then
         assertThat(out.toString()).contains("Write Me! Me Either!");
     }
 
     @Test
     void 성공_입력_인풋스트립() {
-        //setup
+        //given
         String input = "Read Me!";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         console = new ConsoleService();
 
-        //action
+        //when
         String readMessage = console.readLine();
 
-        //assert
+        //then
         assertThat(readMessage).isEqualTo(input);
     }
 }

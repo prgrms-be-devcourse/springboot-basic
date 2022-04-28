@@ -44,7 +44,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     void 성공_전체조회() {
-        //setup
+        //given
         Customer customer1 = customer();
         Customer customer2 = customer();
         jdbcCustomerRepository.insert(customer1);
@@ -53,14 +53,14 @@ class JdbcCustomerRepositoryTest {
         //when
         List<Customer> customers = jdbcCustomerRepository.findAll();
 
-        //assert
+        //then
         assertThat(customers).extracting("id")
                 .containsExactlyInAnyOrder(customer1.getId(), customer2.getId());
     }
 
     @Test
     void 성공_차단_전체조회() {
-        //setup
+        //given
         List<Customer> customers = List.of(customer(), customer(), customer(), customer(), customer());
         Object[] blockedCustomerIds = customers.stream().filter(Customer::isBlocked).map(Customer::getId).toArray();
         customers.forEach(c -> jdbcCustomerRepository.insert(c));
@@ -75,40 +75,40 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     void 성공() {
-        //setup
+        //given
         UUID id = customer.getId();
         jdbcCustomerRepository.insert(customer);
 
         //when
         Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
 
-        //assert
+        //then
         assertCustomer(foundCustomer.get(), customer);
     }
 
     @Test
     void 성공_아이디가_없을경우_OptionalEmpty_반환() {
-        //setup
+        //given
         UUID id = UUID.randomUUID();
         jdbcCustomerRepository.insert(customer);
 
         //when
         Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
 
-        //assert
+        //then
         assertThat(foundCustomer).isNotPresent();
     }
 
     @Test
     void 성공_전체_삭제() {
-        //setup
+        //given
         jdbcCustomerRepository.insert(customer());
         jdbcCustomerRepository.insert(customer());
 
-        //action
+        //when
         jdbcCustomerRepository.clear();
 
-        //assert
+        //then
         assertThat(jdbcCustomerRepository.findAll()).isEmpty();
     }
 

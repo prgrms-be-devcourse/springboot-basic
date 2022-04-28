@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
 import java.util.List;
 
@@ -15,19 +14,19 @@ import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.*;
 class CustomerServiceTest {
 
     CustomerService customerService;
-    CustomerRepository mockCustomerRepository;
+    CustomerRepository customerRepository;
 
     @BeforeEach
     void setUp() {
-        mockCustomerRepository = mock(CustomerRepository.class);
-        customerService = new CustomerService(mockCustomerRepository);
+        customerRepository = mock(CustomerRepository.class);
+        customerService = new CustomerService(customerRepository);
     }
 
     @Test
     void 성공_전체조회() {
         //given
         List<Customer> customers = List.of(customer(), customer());
-        when(mockCustomerRepository.findAll()).thenReturn(customers);
+        when(customerRepository.findAll()).thenReturn(customers);
 
         //when
         List<Customer> foundCustomers = customerService.findAll();
@@ -40,7 +39,7 @@ class CustomerServiceTest {
     void 성공_차단고객_전체조회() {
         //given
         List<Customer> customers = List.of(customer(), customer());
-        when(mockCustomerRepository.findAllBlocked()).thenReturn(customers);
+        when(customerRepository.findAllBlocked()).thenReturn(customers);
 
         //when
         List<Customer> foundCustomers = customerService.findAllBlocked();
@@ -58,6 +57,6 @@ class CustomerServiceTest {
         customerService.insert(customer);
 
         //then
-        verify(mockCustomerRepository).insert(customer);
+        verify(customerRepository).insert(customer);
     }
 }
