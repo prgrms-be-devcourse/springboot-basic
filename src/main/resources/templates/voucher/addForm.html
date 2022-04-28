@@ -15,8 +15,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Voucher Manager</h1>
-    <a th:href="@{/vouchers}">GO to main</a>
+    <h1>Add Voucher</h1>
     <form th:action method="post" th:object="${voucher}">
         <div class="mb-3">
             <label th:for="amount" class="form-label" th:text="amount"></label>
