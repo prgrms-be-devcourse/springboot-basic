@@ -96,4 +96,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
 
     }
+
+    @Override
+    public boolean deleteVoucherById(UUID voucherId) {
+        return false;
+    }
 }

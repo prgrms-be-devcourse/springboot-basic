@@ -14,4 +14,5 @@ public interface VoucherRepository {
     Optional<Voucher> insert(Voucher voucher);
     void clear();
     void deleteVoucherByCustomer(Voucher voucher, Customer customer);
+    boolean deleteVoucherById(UUID voucherId);
 }

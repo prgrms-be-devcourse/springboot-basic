@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -7,13 +8,19 @@ public class FixedAmountVoucher extends Voucher {
     private final VoucherType voucherType;
 
     private FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType) {
-        super(voucherId, null);
+        super(voucherId, null, null);
         this.discountPrice = discountPrice;
         this.voucherType = voucherType;
     }
 
     private FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId) {
-        super(voucherId, ownerId);
+        super(voucherId, ownerId, null);
+        this.discountPrice = discountPrice;
+        this.voucherType = voucherType;
+    }
+
+    private FixedAmountVoucher(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId, LocalDateTime createdAt) {
+        super(voucherId, ownerId, createdAt);
         this.discountPrice = discountPrice;
         this.voucherType = voucherType;
     }
@@ -24,6 +31,18 @@ public class FixedAmountVoucher extends Voucher {
 
     public static FixedAmountVoucher of(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId) {
         return new FixedAmountVoucher(voucherId, discountPrice, voucherType, ownerId);
+    }
+
+    public static FixedAmountVoucher of(UUID voucherId, Long discountPrice, VoucherType voucherType, UUID ownerId, LocalDateTime createdAt) {
+        return new FixedAmountVoucher(voucherId, discountPrice, voucherType, ownerId, createdAt);
+    }
+
+    public static FixedAmountVoucher of(VoucherDto voucherDto) {
+        return new FixedAmountVoucher(voucherDto.getVoucherId(),
+                voucherDto.getDiscountInfo(),
+                voucherDto.getVoucherType(),
+                voucherDto.getOwnerId(),
+                voucherDto.getCreatedAt());
     }
 
     @Override

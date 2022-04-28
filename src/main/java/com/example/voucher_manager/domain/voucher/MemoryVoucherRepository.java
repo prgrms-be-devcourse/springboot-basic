@@ -42,6 +42,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public boolean deleteVoucherById(UUID voucherId) {
+        return false;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         if (memory.containsKey(voucherId)) {
             return Optional.of(memory.get(voucherId));

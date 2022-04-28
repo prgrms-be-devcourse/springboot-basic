@@ -4,6 +4,7 @@ import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +28,18 @@ public class VoucherService {
 
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public Optional<Voucher> findVoucher(UUID voucherId){
+        return voucherRepository.findById(voucherId);
+    }
+
+    public Voucher updateVoucher(Voucher voucher) {
+        return voucherRepository.update(voucher);
+    }
+
+    public boolean deleteVoucher(UUID voucherId) {
+        return voucherRepository.deleteVoucherById(voucherId);
     }
 
     public Voucher provideVoucherToCustomer(Voucher voucher, Customer customer){
