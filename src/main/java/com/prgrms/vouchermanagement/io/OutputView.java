@@ -2,12 +2,12 @@ package com.prgrms.vouchermanagement.io;
 
 import java.util.List;
 
-import com.prgrms.vouchermanagement.voucher.domain.Voucher;
+import com.prgrms.vouchermanagement.voucher.dto.VoucherInfo;
 
 public interface OutputView {
 	void showMenu();
 
-	void printVoucher(Voucher target);
+	void printVoucher(VoucherInfo target);
 
 	void showVoucherMenu();
 

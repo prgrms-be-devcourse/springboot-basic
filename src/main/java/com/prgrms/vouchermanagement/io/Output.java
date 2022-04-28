@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.prgrms.vouchermanagement.voucher.domain.Voucher;
+import com.prgrms.vouchermanagement.voucher.dto.VoucherInfo;
 
 @Component
 public class Output implements OutputView {
@@ -14,7 +14,7 @@ public class Output implements OutputView {
 	}
 
 	@Override
-	public void printVoucher(Voucher target) {
+	public void printVoucher(VoucherInfo target) {
 		System.out.println(target);
 	}
 

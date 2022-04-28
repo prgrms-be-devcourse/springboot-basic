@@ -12,6 +12,7 @@ import com.prgrms.vouchermanagement.io.InputView;
 import com.prgrms.vouchermanagement.io.OutputView;
 import com.prgrms.vouchermanagement.voucher.VoucherService;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
+import com.prgrms.vouchermanagement.voucher.dto.VoucherInfo;
 
 @Component
 public class CommandLineApplication {
@@ -53,7 +54,7 @@ public class CommandLineApplication {
 			} catch (NoMappingOneException e) {
 				logger.info("INPUT {} --> {}", e.getInput(), e.getMessage(), e);
 			} catch (Exception e) {
-				logger.error("예기치 못한 오류 발생", e);
+				logger.error("예기치 못한 오류로 프로그램을 종료합니다", e);
 
 				return;
 			}
@@ -68,14 +69,14 @@ public class CommandLineApplication {
 	}
 
 	private void createVoucher() {
-		// TODO : Voucher 에 대한 의존성 없애기
 		VoucherType voucherType = selectVoucherType();
 
 		long voucherDiscountInfo = getVoucherInfo();
 
 		voucherService.create(voucherType, voucherDiscountInfo)
 			.ifPresentOrElse(voucher ->
-				outputView.printVoucher(voucher), () ->
+				outputView.printVoucher(VoucherInfo
+					.fromEntity(voucher)), () ->
 				outputView.printErrorMessage(ErrorMessage.CREATION_FAIL
 					.getInfoMessage())
 			);
