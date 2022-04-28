@@ -17,3 +17,4 @@ mvn clean package spring-boot:repackage
 java -jar target/spring_week1-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev 
 java -jar target/spring_week1-0.0.1-SNAPSHOT.jar --spring.profiles.active=local
 ```
+
