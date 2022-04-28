@@ -22,11 +22,11 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public List<Voucher> findAllVoucher() {
-		return voucherRepository.findAllVoucher();
+	public List<Voucher> findAll() {
+		return voucherRepository.findAll();
 	}
 
-	public Optional<Voucher> publishVoucher(VoucherType voucherType, long voucherDiscountInfo) {
+	public Optional<Voucher> create(VoucherType voucherType, long voucherDiscountInfo) {
 		UUID id = UUID.randomUUID();
 		Voucher voucher = null;
 
@@ -43,7 +43,7 @@ public class VoucherService {
 		return Optional.ofNullable(voucher);
 	}
 
-	public void deleteVoucherById(UUID voucherId) {
+	public void deleteById(UUID voucherId) {
 		// TODO delete 예외상황 처리
 		voucherRepository.deleteById(voucherId);
 	}

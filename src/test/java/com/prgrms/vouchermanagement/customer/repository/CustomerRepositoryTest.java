@@ -38,7 +38,7 @@ class CustomerRepositoryTest {
 	@DisplayName("실제로 저장했던 데이터 개수와 같은 사이즈다")
 	void given_repository_when_compareSize_thenSuccess() {
 
-		List<Customer> customers = customerRepository.findAllCustomers();
+		List<Customer> customers = customerRepository.findAll();
 
 		assertThat(customers.size(), is(3));
 	}

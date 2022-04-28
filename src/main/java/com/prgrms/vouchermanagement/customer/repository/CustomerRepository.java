@@ -11,7 +11,7 @@ public interface CustomerRepository {
 
 	Customer update(Customer customer);
 
-	List<Customer> findAllCustomers();
+	List<Customer> findAll();
 
 	Optional<Customer> findById(UUID customerId);
 

@@ -38,7 +38,7 @@ class VoucherRepositoryTest {
 	@Test
 	@DisplayName("실제로 저장했던 데이터 개수와 같은 사이즈여야한다")
 	void given_repository_when_compareSize_thenSuccess() {
-		List<Voucher> vouchers = voucherRepository.findAllVoucher();
+		List<Voucher> vouchers = voucherRepository.findAll();
 
 		assertThat(vouchers.size(), is(3));
 	}

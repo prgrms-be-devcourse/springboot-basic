@@ -42,7 +42,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = 1000L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(fixedType, amount);
 		// then
 		assertThat(voucherOptional.isPresent(), is(true));
 	}
@@ -53,7 +53,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = -1000L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(percentType, amount);
 		// then
 		assertThat(voucherOptional.isPresent(), is(false));
 	}
@@ -64,7 +64,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = 0L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(percentType, amount);
 		// then
 		assertThat(voucherOptional.isPresent(), is(false));
 	}
@@ -75,7 +75,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = 10L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(percentType, amount);
 		// then
 		assertThat(voucherOptional.isPresent(), is(true));
 	}
@@ -86,7 +86,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = -1000L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(fixedType, amount);
 		// then
 		Assertions.assertThrows(NoSuchElementException.class, voucherOptional::get);
 	}
@@ -97,7 +97,7 @@ public class VoucherServiceTest {
 		// given
 		long amount = 0L;
 		// when
-		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
+		Optional<Voucher> voucherOptional = voucherService.create(fixedType, amount);
 		// then
 		assertThat(voucherOptional.isPresent(), is(false));
 	}

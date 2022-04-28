@@ -21,7 +21,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	private final Logger logger = LoggerFactory.getLogger(VoucherMemoryRepository.class);
 
 	@Override
-	public List<Voucher> findAllVoucher() {
+	public List<Voucher> findAll() {
 		return storage.values()
 			.stream()
 			.collect(Collectors.toList());

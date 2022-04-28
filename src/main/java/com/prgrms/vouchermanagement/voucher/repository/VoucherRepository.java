@@ -7,7 +7,7 @@ import java.util.UUID;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 public interface VoucherRepository {
-	List<Voucher> findAllVoucher();
+	List<Voucher> findAll();
 
 	Voucher insert(Voucher voucher);
 

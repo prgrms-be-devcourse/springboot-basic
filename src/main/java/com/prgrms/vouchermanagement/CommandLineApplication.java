@@ -64,7 +64,7 @@ public class CommandLineApplication {
 
 	private void showAllVouchers() {
 		outputView.showAll(voucherService
-			.findAllVoucher());
+			.findAll());
 	}
 
 	private void createVoucher() {
@@ -73,7 +73,7 @@ public class CommandLineApplication {
 
 		long voucherDiscountInfo = getVoucherInfo();
 
-		voucherService.publishVoucher(voucherType, voucherDiscountInfo)
+		voucherService.create(voucherType, voucherDiscountInfo)
 			.ifPresentOrElse(voucher ->
 				outputView.printVoucher(voucher), () ->
 				outputView.printErrorMessage(ErrorMessage.CREATION_FAIL
