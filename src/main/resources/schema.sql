@@ -1,22 +1,18 @@
 DROP TABLE IF EXISTS vouchers CASCADE;
 DROP TABLE IF EXISTS customers CASCADE;
 
-create table vouchers (
-    voucher_id      BINARY(16)  PRIMARY KEY,
-    value           DECIMAL NOT NULL,
-    voucher_type    VARCHAR(50) NOT NULL
+-- 바우처 데이터 입니다.
+create table vouchers
+(
+    voucher_id   BINARY(16) PRIMARY KEY, -- 바우처 PK
+    value        DECIMAL     NOT NULL,   -- 바우처 값
+    voucher_type VARCHAR(50) NOT NULL    -- 바우처 타입
 );
 
-INSERT INTO vouchers(voucher_id, value, voucher_type) VALUES (UUID_TO_BIN('dd6d3f65-2525-4ae3-a1d1-bd3d70f7ca2c'), 500, 'FIXED_AMOUNT');
-INSERT INTO vouchers(voucher_id, value, voucher_type) VALUES (UUID_TO_BIN('12d538e9-a838-4c84-ba06-50e9b999c9e0'), 99, 'PERCENT_DISCOUNT');
-
-create table customers (
-    customer_id     BINARY(16)  PRIMARY KEY,
-    name            VARCHAR(50) NOT NULL,
-    customer_grade  VARCHAR(50) NOT NULL
+-- 고객 데이터 입니다.
+create table customers
+(
+    customer_id   BINARY(16) PRIMARY KEY, -- 고객 PK
+    name          VARCHAR(50) NOT NULL,   -- 고객 이름
+    customer_type VARCHAR(50) NOT NULL    -- 고객 유형
 );
-
-INSERT INTO customers(customer_id, name, customer_grade) VALUES (UUID_TO_BIN('4fab4016-f315-42f0-8870-f2fd04f2995f'), 'black', 'BLACK_LIST');
-INSERT INTO customers(customer_id, name, customer_grade) VALUES (UUID_TO_BIN('715ddb14-6f1e-4118-aa3d-fbf577513d22'), 'gray', 'BLACK_LIST');
-INSERT INTO customers(customer_id, name, customer_grade) VALUES (UUID_TO_BIN('94aef515-b5de-432a-a793-abc2aeec3405'), 'white', 'NORMAL');
-INSERT INTO customers(customer_id, name, customer_grade) VALUES (UUID_TO_BIN('f0a8642b-ad72-443d-ada7-782b5e93f40b'), 'yellow', 'NORMAL');
