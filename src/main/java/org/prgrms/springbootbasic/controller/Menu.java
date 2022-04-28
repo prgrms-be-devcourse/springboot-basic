@@ -1,6 +1,7 @@
 package org.prgrms.springbootbasic.controller;
 
 import java.util.function.Function;
+import org.prgrms.springbootbasic.controller.console.VoucherController;
 
 public enum Menu {
 

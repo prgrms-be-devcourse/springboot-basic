@@ -1,8 +1,11 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.controller.console;
 
+import org.prgrms.springbootbasic.controller.Menu;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
+import org.prgrms.springbootbasic.util.DtoConverter;
 import org.prgrms.springbootbasic.view.ConsoleView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

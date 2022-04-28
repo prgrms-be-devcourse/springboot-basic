@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.controller.api;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;

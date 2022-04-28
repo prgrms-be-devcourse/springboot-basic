@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.util;
 
 import java.util.List;
 import java.util.stream.Collectors;

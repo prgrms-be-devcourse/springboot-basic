@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.controller.web;
 
 import java.util.UUID;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
