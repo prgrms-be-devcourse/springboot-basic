@@ -7,7 +7,7 @@ import java.util.List;
 public class VoucherResponseList {
     private final List<VoucherResponse> voucherList;
 
-    protected VoucherResponseList(List<VoucherResponse> voucherList) {
+    public VoucherResponseList(List<VoucherResponse> voucherList) {
         this.voucherList = voucherList;
     }
 }

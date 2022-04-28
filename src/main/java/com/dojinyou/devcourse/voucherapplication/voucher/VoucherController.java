@@ -4,6 +4,7 @@ import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherResponseList;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class VoucherController {
         return new Response<>(Response.State.SUCCESS, voucherResponse);
     }
 
-    public Response<VoucherList> findAll() {
+    public Response<VoucherResponseList> findAll() {
         return null;
     }
 }
