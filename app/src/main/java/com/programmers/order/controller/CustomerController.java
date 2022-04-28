@@ -3,6 +3,7 @@ package com.programmers.order.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
-import com.programmers.order.dto.IntegrationDto;
 import com.programmers.order.dto.VocuherDto;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
@@ -101,8 +101,8 @@ public class CustomerController implements Controller {
 			String registrationInformation = input.read(BasicMessage.CUSTOMER_REGISTER_COUPON);
 			String[] informationBundles = registrationInformation.split(DEFAULT_DELIMITER);
 			CustomerDto.RegisterVoucherDto registerVoucherDto = getCustomerDtoConverter().convert(informationBundles);
-			Optional<IntegrationDto.SaveRequestDto> customerVoucherDto = customerService.registerVoucher(
-					registerVoucherDto);
+			Optional<UUID> customerVoucherDto = customerService.registerVoucher(registerVoucherDto);
+
 			isRenter = customerVoucherDto.isEmpty();
 
 			if (isRenter) {

@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -56,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 				toParameters(voucher));
 
 		if (update != 1) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -78,7 +77,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 									Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 									this.getVoucherRowMapper()));
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 			return Optional.empty();
 		}
 	}

@@ -1,27 +1,26 @@
 package com.programmers.order.domain;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 import com.programmers.order.dto.CustomerDto;
 
 public class Customer {
-	private final UUID id;
+	private final UUID customerId;
 	private String name;
 	private final String email;
 	private LocalDateTime lastLoginAt;
 	private final LocalDateTime createdAt;
 
-	public Customer(UUID id, String name, String email, LocalDateTime createdAt) {
-		this.id = id;
+	public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+		this.customerId = customerId;
 		this.name = name;
 		this.email = email;
 		this.createdAt = createdAt;
 	}
 
-	public Customer(UUID id, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-		this.id = id;
+	public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+		this.customerId = customerId;
 		this.name = name;
 		this.email = email;
 		this.lastLoginAt = lastLoginAt;
@@ -37,8 +36,8 @@ public class Customer {
 		this.lastLoginAt = localDateTime;
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getCustomerId() {
+		return customerId;
 	}
 
 	public String getName() {

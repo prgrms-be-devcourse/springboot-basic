@@ -45,10 +45,10 @@ public class FileVoucherRepository implements VoucherRepository {
 					.write(voucher);
 			output.flush();
 		} catch (FileNotFoundException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_FILE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_FILE);
 			e.printStackTrace();
 		} catch (IOException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.IO_EXCEPTION);
 			e.printStackTrace();
 		}
 
@@ -113,10 +113,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.IO_EXCEPTION);
 		} catch (FileException.NotCreateFileException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
 		}
 	}
 

@@ -12,12 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.domain.Customer;
-import com.programmers.order.dto.IntegrationDto;
 import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.exception.CustomerVoucherException;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.InfoLogMessage;
 import com.programmers.order.repository.customer.CustomerRepository;
 import com.programmers.order.utils.TranslatorUtils;
 
@@ -28,11 +29,13 @@ public class CustomerService {
 	private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 	private final CustomerRepository customerRepository;
 
+	private final CustomerVoucherService customerVoucherService;
 	private final VoucherService voucherService;
 
 	public CustomerService(CustomerRepository customerRepository, VoucherService voucherService,
-			VoucherService voucherService1) {
+			CustomerVoucherService customerVoucherService, VoucherService voucherService1) {
 		this.customerRepository = customerRepository;
+		this.customerVoucherService = customerVoucherService;
 		this.voucherService = voucherService1;
 	}
 
@@ -43,7 +46,7 @@ public class CustomerService {
 		try {
 			return Optional.of(customerRepository.insert(customer));
 		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.info(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
 
 			return Optional.empty();
 		}
@@ -60,7 +63,7 @@ public class CustomerService {
 
 			return Optional.of(customerRepository.update(customer));
 		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.info(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
 
 			return Optional.empty();
 		}
@@ -84,26 +87,26 @@ public class CustomerService {
 		return customerRepository.findById(TranslatorUtils.toUUID(uuid.getBytes()));
 	}
 
-	public Optional<IntegrationDto.SaveRequestDto> registerVoucher(
-			CustomerDto.RegisterVoucherDto registerVoucherDto) {
-
-		Voucher voucher;
-		Customer customer;
+	@Transactional
+	public Optional<UUID> registerVoucher(CustomerDto.RegisterVoucherDto registerVoucherDto) {
 
 		try {
-			voucher = voucherService.findById(registerVoucherDto.getVoucherId())
+			Voucher voucher = voucherService.findById(registerVoucherDto.getVoucherId())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
-			customer = this.findByEmail(registerVoucherDto.getEmail())
+			Customer customer = this.findByEmail(registerVoucherDto.getEmail())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
+
+			if (customerVoucherService.isDuplicatePublish(customer.getCustomerId(), voucher.getVoucherId())) {
+				log.info(InfoLogMessage.getPrefix(), InfoLogMessage.DUPLICATE_VOUCHER_REGISTER);
+				return Optional.empty();
+			}
+
+			return customerVoucherService.save(customer.getCustomerId(), voucher.getVoucherId());
 		} catch (DomainException.NotFoundResource e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
-			return Optional.empty();
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
-		// todo : 중간 테이블 생성하기
-
-
-		return null;
+		return Optional.empty();
 	}
 
 	public List<CustomerDto.ReponseDto> getCustomers(String voucherId) {
@@ -118,7 +121,7 @@ public class CustomerService {
 	public List<VocuherDto.Response> lookUpWithVouchers(String email) {
 		Customer customer = this.findByEmail(email)
 				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
-		UUID id = customer.getId();
+		UUID id = customer.getCustomerId();
 		// todo : 중간 테이블 조회 하기 -> voucher 정보들 모두 가져오기
 		return null;
 	}

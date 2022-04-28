@@ -57,7 +57,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	private Map<String, Object> toParameters(Customer customer) {
 		return new HashMap<>() {{
-			put("customerId", customer.getId().toString().getBytes());
+			put("customerId", customer.getCustomerId().toString().getBytes());
 			put("name", customer.getName());
 			put("email", customer.getEmail());
 			put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
@@ -79,7 +79,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				toParameters(customer));
 
 		if (update != 1) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -94,7 +94,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		);
 
 		if (result != 1) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -117,7 +117,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							CUSTOMER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -133,7 +133,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							CUSTOMER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -147,7 +147,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							Collections.singletonMap("email", email),
 							CUSTOMER_ROW_MAPPER));
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
