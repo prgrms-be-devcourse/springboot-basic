@@ -28,6 +28,14 @@ public abstract class Voucher {
         this.id = id;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setOwnerId(UUID customerId) {
+        this.customerId = customerId;
+    }
+
     /**
      * 바우처의 할인 로직 적용
      *

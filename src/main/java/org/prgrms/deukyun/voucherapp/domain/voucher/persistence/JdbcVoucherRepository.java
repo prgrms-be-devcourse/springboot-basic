@@ -17,7 +17,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final String insertQuery = "INSERT INTO voucher(voucher_id, voucher_type, amount, percent) VALUES (:id, :type, :amount, :percent)";
+    private static final String insertQuery = "INSERT INTO voucher(voucher_id, customer_id, voucher_type, amount, percent) VALUES (:id, :customerId, :type, :amount, :percent)";
     private static final String findAllQuery = "SELECT * FROM voucher";
     private static final String findByIdQuery = "SELECT * FROM voucher WHERE voucher_id = :id";
     private static final String deleteAllQuery = "DELETE FROM voucher";
@@ -52,18 +52,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> resolveParamMap(Voucher voucher) {
 
-        Map<String, Object> paramMap;
+        Map<String, Object> paramMap = new HashMap<>();
         UUID id = voucher.getId();
+        UUID customerId = voucher.getCustomerId();
+        paramMap.put("id", id);
+        paramMap.put("customerId", customerId);
+
         if (voucher instanceof FixedAmountDiscountVoucher) {
-            paramMap = Map.of("id", id,
-                    "type", "fixed",
-                    "amount", ((FixedAmountDiscountVoucher) voucher).getAmount(),
-                    "percent", 0);
+            paramMap.put("type", "fixed");
+            paramMap.put("amount", ((FixedAmountDiscountVoucher)voucher).getAmount());
+            paramMap.put("percent", null);
         } else if (voucher instanceof PercentDiscountVoucher) {
-            paramMap = Map.of("id", id,
-                    "type", "percent",
-                    "amount", 0,
-                    "percent", ((PercentDiscountVoucher) voucher).getPercent());
+            paramMap.put("type", "percent");
+            paramMap.put("amount", null);
+            paramMap.put("percent", ((PercentDiscountVoucher)voucher).getPercent());
         } else {
             throw new IllegalArgumentException("Invalid voucher type given");
         }

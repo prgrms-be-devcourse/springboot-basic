@@ -23,7 +23,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String insertQuery = "INSERT INTO customer(customer_id, customer_name, blacklist) VALUES (:id, :name, :blacklist)";
     private static final String findByIdQuery = "SELECT * FROM customer WHERE customer_id = :id";
-    private static final String findByIdFetchVouchersQuery = "SELECT * FROM customer  WHERE customer_id = :id";
     private static final String findAllQuery = "SELECT * FROM customer";
     private static final String clearQuery = "DELETE FROM customer";
 
@@ -44,12 +43,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-    }
-
-    @Override
-    public Customer findByIdFetchVouchers(UUID id) {
-
-        return null;
     }
 
     @Override

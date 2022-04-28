@@ -2,14 +2,19 @@ package org.prgrms.deukyun.voucherapp;
 
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomUtils;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.service.CustomerService;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -19,6 +24,9 @@ public class VoucherAppInitializer {
     private final CustomerService customerService;
     private final Faker faker;
 
+    private static final int AMOUNT_INIT_CUSTOMER = 100;
+    private static final int AMOUNT_INIT_OWNED_VOUCHERS = 400;
+    private static final int AMOUNT_INIT_NOT_OWNED_VOUCHERS = 100;
 
     public VoucherAppInitializer(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
@@ -26,12 +34,50 @@ public class VoucherAppInitializer {
         this.faker = new Faker(new Locale("ko"));
     }
 
-
     @PostConstruct
-    public void initCustomers(){
-        log.info("init customer insert");
-        for (int i = 0; i < 100; i++) {
-            customerService.insert(new Customer(faker.name().fullName(), i%2==0, Collections.emptyList()));
-        }
+    public void initData() {
+        UUID[] customerIds = initCustomers();
+        initOwnedVouchers(customerIds);
+        initNotOwnedVouchers();
     }
+
+    private UUID[] initCustomers() {
+        UUID[] customerIds = new UUID[AMOUNT_INIT_CUSTOMER];
+        for (int i = 0; i < AMOUNT_INIT_CUSTOMER; i++) {
+            Customer customer = new Customer(faker.name().fullName(), RandomUtils.nextInt() % 2 == 0, Collections.emptyList());
+
+            customerIds[i] = customer.getId();
+            customerService.insert(customer);
+        }
+        log.info("{} init customer inserted", AMOUNT_INIT_CUSTOMER);
+        return customerIds;
+    }
+
+    private void initOwnedVouchers(UUID[] customerIds) {
+        for (int i = 0; i < AMOUNT_INIT_OWNED_VOUCHERS; i++) {
+            Voucher voucher;
+            if (RandomUtils.nextInt() % 2 == 0) {
+                voucher = new FixedAmountDiscountVoucher(RandomUtils.nextLong(1, 21) * 1000);
+            } else {
+                voucher = new PercentDiscountVoucher(RandomUtils.nextLong(0, 11) * 10);
+            }
+            voucher.setOwnerId(customerIds[RandomUtils.nextInt(0, AMOUNT_INIT_CUSTOMER)]);
+            voucherService.insert(voucher);
+        }
+        log.info("{} init owned voucher inserted", AMOUNT_INIT_OWNED_VOUCHERS);
+    }
+
+    private void initNotOwnedVouchers() {
+        for (int i = 0; i < AMOUNT_INIT_NOT_OWNED_VOUCHERS; i++) {
+            Voucher voucher;
+            if (RandomUtils.nextInt() % 2 == 0) {
+                voucher = new FixedAmountDiscountVoucher(RandomUtils.nextLong(1, 21) * 1000);
+            } else {
+                voucher = new PercentDiscountVoucher(RandomUtils.nextLong(0, 11) * 10);
+            }
+            voucherService.insert(voucher);
+        }
+        log.info("{} init not owned voucher inserted", AMOUNT_INIT_NOT_OWNED_VOUCHERS);
+    }
+
 }

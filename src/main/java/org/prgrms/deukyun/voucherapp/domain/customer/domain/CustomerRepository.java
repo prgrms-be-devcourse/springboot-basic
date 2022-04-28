@@ -13,8 +13,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID id);
 
-    Customer findByIdFetchVouchers(UUID id);
-
     List<Customer> findAll();
 
     void clear();
