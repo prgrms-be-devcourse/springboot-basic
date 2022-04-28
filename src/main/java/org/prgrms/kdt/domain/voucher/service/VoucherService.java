@@ -29,39 +29,27 @@ public class VoucherService {
 
     @Transactional
     public UUID save(Voucher voucher) {
-        UUID savedId = voucherRepository.save(voucher);
-        logger.info("save Voucher id: {}", voucher.getVoucherId());
-        return savedId;
+        return voucherRepository.save(voucher);
     }
 
     public Optional<Voucher> getVoucherById(UUID voucherId) {
-        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-        logger.info("find Voucher By Id {}", voucherId);
-        return voucher;
+        return voucherRepository.findById(voucherId);
     }
 
     public List<Voucher> getAllVouchers() {
-        List<Voucher> vouchers = voucherRepository.findAll();
-        logger.info("find All Voucher size: {}", vouchers.size());
-        return vouchers;
+        return voucherRepository.findAll();
     }
 
     public List<Voucher> getVouchersByCustomerId(UUID customerId) {
-        List<Voucher> vouchers = voucherRepository.findByCustomerId(customerId);
-        logger.info("Get voucher by customerId size: {}", vouchers.size());
-        return vouchers;
+        return voucherRepository.findByCustomerId(customerId);
     }
 
     public List<Voucher> getVouchersNotAssignedToCustomer() {
-        List<Voucher> vouchers = voucherRepository.findByCustomerIdIsNull();
-        logger.info("Get voucher by customerId size: {}", vouchers.size());
-        return vouchers;
+        return voucherRepository.findByCustomerIdIsNull();
     }
 
     public List<Voucher> getVoucherByTypeAndDate(VoucherType voucherType, LocalDate date) {
-        List<Voucher> vouchers = voucherRepository.findByTypeAndDate(voucherType, date);
-        logger.info("Get voucher by type and date size: {}", vouchers.size());
-        return vouchers;
+        return voucherRepository.findByTypeAndDate(voucherType, date);
     }
 
     @Transactional
@@ -69,7 +57,6 @@ public class VoucherService {
         voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
         voucherRepository.updateCustomerId(voucherId, customerId);
-        logger.info("Update Voucher's customerId : {}", voucherId);
     }
 
     @Transactional

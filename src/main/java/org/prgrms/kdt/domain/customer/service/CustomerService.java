@@ -35,33 +35,23 @@ public class CustomerService {
 
     @Transactional
     public UUID save(Customer customer) {
-        UUID customerId = customerRepository.save(customer);
-        logger.info("create Customer Id: {}", customer.getCustomerId());
-        return customerId;
+        return customerRepository.save(customer);
     }
 
     public List<Customer> getBlackCustomers() {
-        List<Customer> blackCustomers = customerRepository.findByType(CustomerType.BLACK_LIST);
-        logger.info("Get blackList customers size: {}", blackCustomers.size());
-        return blackCustomers;
+        return customerRepository.findByType(CustomerType.BLACK_LIST);
     }
 
     public Optional<Customer> getCustomerById(UUID customerId) {
-        Optional<Customer> customer = customerRepository.findById(customerId);
-        logger.info("find Customer By Id {}", customerId);
-        return customer;
+        return customerRepository.findById(customerId);
     }
 
     public Optional<Customer> getCustomerByEmail(String email) {
-        Optional<Customer> customer = customerRepository.findByEmail(email);
-        logger.info("find Customer By email {}", email);
-        return customer;
+        return customerRepository.findByEmail(email);
     }
 
     public List<Customer> getAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        logger.info("Get all stored customers size: {}", customers.size());
-        return customers;
+        return customerRepository.findAll();
     }
 
     public List<Customer> getCustomersByVoucherTypeAndDate(VoucherType voucherType, LocalDate date) {
@@ -69,7 +59,6 @@ public class CustomerService {
         List<Customer> customers = new ArrayList<>();
         vouchers.forEach(voucher -> customerRepository.findByVoucherId(voucher.getVoucherId())
                 .ifPresent(customers::add));
-        logger.info("Get customers by voucher type and date size: {}", customers.size());
         return customers;
     }
 
@@ -80,6 +69,7 @@ public class CustomerService {
         LocalDateTime now = LocalDateTime.now();
         Customer customer = new Customer(customerId, name, email, customerType, now, now);
         customerRepository.update(customer);
+        logger.info("Update Customer id : {}", customerId);
     }
 
 
