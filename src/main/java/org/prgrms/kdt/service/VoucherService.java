@@ -69,6 +69,10 @@ public class VoucherService {
         voucherRepository.deleteVoucherById(voucherId);
     }
 
+    public VoucherList getVoucherListByVoucherType(int voucherType) {
+        return voucherRepository.getVoucherListByVoucherType(voucherType);
+    }
+
     private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {
         Optional<VoucherType> voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumber);
         if (voucherType.isEmpty()) {

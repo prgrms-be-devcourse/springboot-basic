@@ -50,4 +50,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteAllVouchers() {
 
     }
+
+    @Override
+    public VoucherList getVoucherListByVoucherType(int voucherType) {
+        return null;
+    }
 }

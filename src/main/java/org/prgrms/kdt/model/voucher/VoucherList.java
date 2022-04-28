@@ -3,6 +3,8 @@ package org.prgrms.kdt.model.voucher;
 import org.prgrms.kdt.io.OutputConsole;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class VoucherList {
     private final List<Voucher> vouchers;
@@ -19,5 +21,9 @@ public class VoucherList {
         vouchers.forEach(voucher -> {
             OutputConsole.printMessage(voucher.getVoucherId().toString());
         });
+    }
+
+    public List<Voucher> getVouchers() {
+        return List.copyOf(vouchers);
     }
 }

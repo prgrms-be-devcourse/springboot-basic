@@ -86,6 +86,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public VoucherList getVoucherListByVoucherType(int voucherType) {
+        var paramMap = new HashMap<String, Object>() {{
+            put("voucherType", voucherType);
+        }};
+        var receivedVoucherList = jdbcTemplate.query("SELECT * FROM vouchers " +
+                "WHERE voucher_type = :voucherType", paramMap, voucherRowMapper);
+        return new VoucherList(receivedVoucherList);
+    }
+
+    @Override
     public VoucherList getVoucherListOwnerIdIsEmpty() {
         List<Voucher> vouchers= jdbcTemplate.query("SELECT * FROM vouchers WHERE owner_id IS NULL", voucherRowMapper);
         VoucherList voucherList = new VoucherList(vouchers);

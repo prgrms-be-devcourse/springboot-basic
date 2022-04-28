@@ -23,4 +23,6 @@ public interface VoucherRepository {
     Optional<Voucher> getVoucherNotProvided(UUID voucherId);
 
     void deleteAllVouchers();
+
+    VoucherList getVoucherListByVoucherType(int voucherType);
 }
