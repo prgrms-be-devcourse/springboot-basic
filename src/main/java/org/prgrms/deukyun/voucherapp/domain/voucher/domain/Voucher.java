@@ -17,6 +17,11 @@ public abstract class Voucher {
      */
     private final UUID id;
 
+    /**
+     * 고객 아이디
+     */
+    private UUID customerId;
+
     protected Voucher(UUID id) {
         checkArgument(id != null, "id must be provided.");
 
