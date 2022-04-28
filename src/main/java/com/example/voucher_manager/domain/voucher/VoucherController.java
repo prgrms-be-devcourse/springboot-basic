@@ -1,5 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
+import com.example.voucher_manager.web.Util.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,9 +79,10 @@ public class VoucherController {
 
     @DeleteMapping("/api/v1/vouchers/{voucherId}")
     @ResponseBody
-    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<Status> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         var response = voucherService.deleteVoucher(voucherId);
-        return response ? ResponseEntity.ok("Success") : ResponseEntity.internalServerError().build();
+        Status status = new Status("Success");
+        return response ? ResponseEntity.ok(status) : ResponseEntity.internalServerError().build();
     }
 
     // ===== VIEWS =====
