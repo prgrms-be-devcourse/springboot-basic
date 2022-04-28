@@ -1,15 +1,17 @@
 package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.domain.customer.CreateCustomerRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -23,6 +25,65 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
+    // ===== API =====
+    @GetMapping("/api/v1/vouchers")
+    @ResponseBody
+    public ResponseEntity<List<VoucherDto>> findVouchers(@RequestParam Map<String, String> params) {
+        if (params.isEmpty()) {
+            List<VoucherDto> vouchers = voucherService.findAll().stream()
+                    .map(VoucherDto::from)
+                    .toList();
+            return ResponseEntity.ok(vouchers);
+        }
+
+        var vouchers = findByQueryParams(params).stream()
+                .map(VoucherDto::from)
+                .toList();
+        return ResponseEntity.ok(vouchers);
+    }
+
+    private List<Voucher> findByQueryParams(Map<String, String> params) {
+        if (params.containsKey("type")){
+            return voucherService.findSameTypeVoucher(VoucherType.of(params.get("type")));
+        }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        System.out.println("params.get(\"start\") = " + params.get("start"));
+        System.out.println("params.get(\"end\") = " + params.get("end"));
+        return voucherService.findVouchersByPeriods(
+                LocalDateTime.parse(params.get("start"), formatter),
+                LocalDateTime.parse(params.get("end"), formatter));
+    }
+
+    @GetMapping("/api/v1/vouchers/{voucherId}")
+    @ResponseBody
+    public ResponseEntity<VoucherDto> findVoucher(@PathVariable("voucherId") UUID voucherId) {
+        var voucher = voucherService.findVoucher(voucherId);
+        if (voucher.isPresent()) {
+            var voucherDto = VoucherDto.from(voucher.get());
+            return ResponseEntity.ok(voucherDto);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/api/v1/vouchers")
+    @ResponseBody
+    public ResponseEntity<VoucherDto> createVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
+        var voucher = voucherService.createVoucher(
+                VoucherType.of(createVoucherRequest.voucherType()),
+                createVoucherRequest.discountInfo());
+
+        return ResponseEntity.ok(VoucherDto.from(voucher));
+    }
+
+    @DeleteMapping("/api/v1/vouchers/{voucherId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        var response = voucherService.deleteVoucher(voucherId);
+        return response ? ResponseEntity.ok("Success") : ResponseEntity.internalServerError().build();
+    }
+
+    // ===== VIEWS =====
     @GetMapping("/vouchers")
     public String viewVouchersPage(Model model) {
         List<VoucherDto> convertObject = voucherService.findAll().stream()
@@ -55,7 +116,7 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/new")
-    public String createVoucher(CreateVoucherRequest createVoucherRequest) {
+    public String createVoucherPage(CreateVoucherRequest createVoucherRequest) {
         logger.info("Got create voucher request {}", createVoucherRequest);
         voucherService.createVoucher(
                 VoucherType.of(createVoucherRequest.voucherType()),

@@ -4,6 +4,7 @@ import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,6 +20,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findVoucherListByCustomer(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByPeriods(LocalDateTime start, LocalDateTime end) {
         return null;
     }
 

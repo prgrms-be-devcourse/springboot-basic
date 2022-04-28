@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -57,6 +58,21 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public List<Voucher> findVoucherListByCustomer(Customer customer) {
         return jdbcTemplate.query("select * from vouchers where owner_id = UUID_TO_BIN(:ownerId)",
                 Collections.singletonMap("ownerId", customer.getCustomerId().toString().getBytes()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.getType()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByPeriods(LocalDateTime start, LocalDateTime end) {
+        return jdbcTemplate.query("select * from vouchers where created_at BETWEEN :start AND :end",
+                Map.of("start", start,
+                        "end", end),
                 voucherRowMapper);
     }
 
