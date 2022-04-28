@@ -22,7 +22,7 @@ import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class MemoryVoucherRepositoryTest {
+class VoucherRepositoryTest {
 	// TODO : test data 를 BeforeEach, BeforeAll 에서 save 하는 것으로 변경 후 afterEach 를 작성하여 동일 결과를 보장할 수 있도록 해야함
 
 	@Autowired
