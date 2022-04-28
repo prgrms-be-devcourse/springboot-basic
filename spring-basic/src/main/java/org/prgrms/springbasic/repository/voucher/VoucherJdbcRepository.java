@@ -100,7 +100,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             return jdbcTemplate.query(SELECT_BY_DATETIME.getQuery(),
                     of("from", from,
                             "to", to),
-                            voucherRowMapper);
+                    voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             log.error("Got empty result: {}", e.getMessage());
 

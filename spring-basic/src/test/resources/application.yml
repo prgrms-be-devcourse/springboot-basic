@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+    dbcp2:
+      driver-class-name: com.mysql.jdbc.Driver
+      test-on-borrow: true
+
+  profiles:
+    active: test
+
+server:
+  port: 7070

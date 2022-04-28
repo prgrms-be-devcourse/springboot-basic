@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:3306/weekly_mission
+    username: root
+    password: tjdgus12
+
+  profiles:
+    active: prd
+
+server:
+  port: 7070

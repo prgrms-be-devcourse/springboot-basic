@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Voucher</title>
+  <meta charset="UTF-8">
+  <title>Voucher</title>
 </head>
 <body>
 <div class="container">
-    <form role="form" th:action="@{/vouchers/new}" th:object="${newVoucherDto}" method="post">
-        <div>
-            <label th:for="voucherType">Type
-                <select th:field="*{voucherType}">
-                    <option
-                            th:each="type : ${T(org.prgrms.springbasic.domain.voucher.VoucherType).values()}"
-                            th:value="${type}"
-                            th:text="${type}">
-                    </option>
-                </select>
-            </label>
-        </div>
+  <form role="form" th:action="@{/vouchers/new}" th:object="${newVoucherDto}" method="post">
+    <div>
+      <label th:for="voucherType">Type
+        <select th:field="*{voucherType}">
+          <option
+                  th:each="type : ${T(org.prgrms.springbasic.domain.voucher.VoucherType).values()}"
+                  th:value="${type}"
+                  th:text="${type}">
+          </option>
+        </select>
+      </label>
+    </div>
 
-        <div>
-            <label th:for="discountInfo">DiscountInfo
-                <input type="number" th:field="*{discountInfo}" placeholder="For discount info" min="0">
-            </label>
-        </div>
+    <div>
+      <label th:for="discountInfo">DiscountInfo
+        <input type="number" th:field="*{discountInfo}" placeholder="For discount info" min="0">
+      </label>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers}'|">Cancel</button>
-    </form>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers}'|">Cancel</button>
+  </form>
 </div>
 </body>
 </html>

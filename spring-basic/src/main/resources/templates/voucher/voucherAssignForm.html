@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Voucher</title>
+  <meta charset="UTF-8">
+  <title>Voucher</title>
 </head>
 <body>
 <div class="container">
-    <form role="form" th:action="@{/vouchers/{voucherId}/assignment (voucherId = ${assignVoucherDto.voucherId})}" th:object="${assignVoucherDto}" method="post">
-        <div>
-            <label th:for="customerId">CustomerID
-                <input type="text" th:field="*{customerId}" placeholder="For customer id">
-            </label>
-        </div>
+  <form role="form" th:action="@{/vouchers/{voucherId}/assignment (voucherId = ${assignVoucherDto.voucherId})}" th:object="${assignVoucherDto}" method="post">
+    <div>
+      <label th:for="customerId">CustomerID
+        <input type="text" th:field="*{customerId}" placeholder="For customer id">
+      </label>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers}'|">Cancel</button>
-    </form>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/vouchers}'|">Cancel</button>
+  </form>
 </div>
 </body>
 </html>
