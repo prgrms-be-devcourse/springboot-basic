@@ -1,5 +1,8 @@
 package org.prgrms.springbootbasic.controller.api;
 
+import static org.prgrms.springbootbasic.util.DtoConverter.toVoucherDTO;
+import static org.prgrms.springbootbasic.util.DtoConverter.toVoucherDTOs;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
@@ -11,7 +14,7 @@ import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.dto.VoucherListResponse;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.util.DtoConverter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/vouchers")
 public class ApiVoucherController {
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private final VoucherService voucherService;
 
     public ApiVoucherController(VoucherService voucherService) {
@@ -38,7 +42,7 @@ public class ApiVoucherController {
     @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findAllVouchers() {
         var vouchers = voucherService.findAll();
-        return new VoucherListResponse(DtoConverter.toVoucherDTOs(vouchers));
+        return new VoucherListResponse(toVoucherDTOs(vouchers));
     }
 
     @GetMapping("/search/{voucherType}")
@@ -46,21 +50,18 @@ public class ApiVoucherController {
     public VoucherListResponse findVoucherUsingType(
         @PathVariable("voucherType") VoucherType voucherType) {
         return new VoucherListResponse(
-            DtoConverter.toVoucherDTOs(voucherService.findVoucherUsingType(voucherType)));
+            toVoucherDTOs(voucherService.findVoucherUsingType(voucherType)));
     }
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
     public VoucherListResponse findVoucherUsingCreatedAt(
         @RequestParam("start") String start, @RequestParam("end") String end) {
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime startTime = LocalDate.parse(start, formatter).atStartOfDay();
         LocalDateTime endTime = LocalDate.parse(end, formatter).atStartOfDay();
 
-        var voucherDTOS = DtoConverter.toVoucherDTOs(
-            voucherService.findVoucherUsingCreatedAt(startTime, endTime));
-
-        return new VoucherListResponse(voucherDTOS);
+        return new VoucherListResponse(
+            toVoucherDTOs(voucherService.findVoucherUsingCreatedAt(startTime, endTime)));
     }
 
     @PostMapping
@@ -77,12 +78,14 @@ public class ApiVoucherController {
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<Void> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok()
+            .header(HttpHeaders.LOCATION, "/api/v1/vouchers")
+            .build();
     }
 
     @GetMapping("/{voucherId}")
     @ResponseStatus(HttpStatus.OK)
     public VoucherDTO findVoucherUsingId(@PathVariable("voucherId") UUID voucherId) {
-        return DtoConverter.toVoucherDTO(voucherService.findVoucher(voucherId));
+        return toVoucherDTO(voucherService.findVoucher(voucherId));
     }
 }

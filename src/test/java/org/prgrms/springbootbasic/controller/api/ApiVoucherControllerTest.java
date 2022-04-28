@@ -1,7 +1,6 @@
 package org.prgrms.springbootbasic.controller.api;
 
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -42,62 +41,67 @@ class ApiVoucherControllerTest {
     private VoucherService voucherService;
 
     @Test
-    @DisplayName("모든 바우처 조회 api")
-    void findAllVouchers() throws Exception {
+    @DisplayName("모든 바우처 조회")
+    void testFindAllVouchers() throws Exception {
         //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+
         given(voucherService.findAll())
-            .willReturn(List.of(
-                new FixedAmountVoucher(UUID.randomUUID(), 1000),
-                new PercentDiscountVoucher(UUID.randomUUID(), 20)
-            ));
+            .willReturn(List.of(voucher));
 
         //when
         //then
         mockMvc.perform(get("/api/v1/vouchers")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.voucherDtoList", hasSize(2)));
+            .andExpect(jsonPath("$.voucherDtoList", hasSize(1)))
+            .andExpect(
+                jsonPath("$.voucherDtoList[0].voucherId").value(voucher.getVoucherId().toString()));
     }
 
     @Test
-    @DisplayName("특정 타입의 바우처 조회 api")
-    void findVoucherUsingType() throws Exception {
+    @DisplayName("특정 타입의 바우처 조회")
+    void testFindVoucherUsingType() throws Exception {
         //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         given(voucherService.findVoucherUsingType(VoucherType.FIXED)).willReturn(
-            List.of(
-                new FixedAmountVoucher(UUID.randomUUID(), 1000)));
+            List.of(voucher));
 
         //when
         //then
         mockMvc.perform(get("/api/v1/vouchers/search/fixed")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.voucherDtoList", hasSize(1)));
+            .andExpect(jsonPath("$.voucherDtoList", hasSize(1)))
+            .andExpect(
+                jsonPath("$.voucherDtoList[0].voucherId").value(voucher.getVoucherId().toString()))
+            .andExpect(
+                jsonPath("$.voucherDtoList[0].voucherType").value(VoucherType.FIXED.name()));
     }
 
     @Test
-    @DisplayName("생성기간(날짜) 기준 바우처 조회 api")
-    void findVoucherUsingCreatedAt() throws Exception {
+    @DisplayName("특정 기간에 생성된 바우처 조회(시간 제외)")
+    void testFindVoucherUsingCreatedAt() throws Exception {
         //given
-        given(voucherService.findVoucherUsingCreatedAt(
-            any(LocalDateTime.class), any(LocalDateTime.class)))
+        var date = LocalDate.now();
+        given(voucherService.findVoucherUsingCreatedAt(date.atStartOfDay(), date.atStartOfDay()))
             .willReturn(List.of(
                 new FixedAmountVoucher(UUID.randomUUID(), 1000),
-                new PercentDiscountVoucher(UUID.randomUUID(), 20)
-            ));
+                new PercentDiscountVoucher(UUID.randomUUID(), 20)));
 
         //when
         //then
-        mockMvc.perform(get("/api/v1/vouchers/search?start=2022-04-27&end=2022-04-27")
-                .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(
+                get("/api/v1/vouchers/search?start=" + date.toString() + "&end=" + date.toString())
+                    .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(jsonPath("$.voucherDtoList", hasSize(2)));
     }
 
     @Test
-    @DisplayName("바우처 생성 api")
-    void createVoucher() throws Exception {
+    @DisplayName("바우처 생성")
+    void testCreateVoucher() throws Exception {
         //given
         var request = new CreateVoucherRequest();
         request.setVoucherType(VoucherType.FIXED);
@@ -114,8 +118,8 @@ class ApiVoucherControllerTest {
     }
 
     @Test
-    @DisplayName("바우처 삭제 api")
-    void deleteVoucher() throws Exception {
+    @DisplayName("바우처 삭제")
+    void testDeleteVoucher() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
         given(voucherService.deleteVoucher(voucherId)).willReturn(voucherId);
@@ -124,12 +128,13 @@ class ApiVoucherControllerTest {
         //then
         mockMvc.perform(delete("/api/v1/vouchers/" + voucherId.toString())
                 .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+            .andExpect(status().isOk())
+            .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/vouchers"));
     }
 
     @Test
-    @DisplayName("바우처 아이디로 조회 API")
-    void findVoucherUsingId() throws Exception {
+    @DisplayName("특정 아이디의 바우처 조회")
+    void testFindVoucherUsingId() throws Exception {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         given(voucherService.findVoucher(voucher.getVoucherId()))
