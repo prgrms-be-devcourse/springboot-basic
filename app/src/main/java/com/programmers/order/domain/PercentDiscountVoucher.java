@@ -5,7 +5,7 @@ import static com.programmers.order.domain.constraint.VoucherConstraint.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -34,7 +34,7 @@ public class PercentDiscountVoucher implements Voucher {
 		return new PercentDiscountVoucher(UUID.randomUUID(), percent);
 	}
 
-	public static PercentDiscountVoucher build(VocuherDto.Resolver resolver) {
+	public static PercentDiscountVoucher build(VoucherDto.Resolver resolver) {
 		return new PercentDiscountVoucher(resolver.getId(), resolver.getDiscountValue(), resolver.getCreatedAt());
 	}
 

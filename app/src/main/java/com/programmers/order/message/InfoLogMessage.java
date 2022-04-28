@@ -3,8 +3,8 @@ package com.programmers.order.message;
 public enum InfoLogMessage {
 	INFO_PREFIX("info : {}"),
 	DUPLICATE_VOUCHER_REGISTER("쿠폰 등록을 재시도 하였습니다."),
-
-	POSSIBLE_REGISTER("쿠폰 등록이 가능한 회원 입니다.");
+	POSSIBLE_REGISTER("쿠폰 등록이 가능한 회원 입니다."),
+	CUSTOMER_NOT_EXIST_EMAIL("회원이 존재하지 않습니다.");
 
 	private final String message;
 

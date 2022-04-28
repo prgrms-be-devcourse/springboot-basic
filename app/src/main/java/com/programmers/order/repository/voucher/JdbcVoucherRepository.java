@@ -11,13 +11,14 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.order.domain.Voucher;
-import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.manager.VoucherManager;
@@ -26,6 +27,7 @@ import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
 import com.programmers.order.utils.TranslatorUtils;
 
+@Profile("jdbc")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 	final Logger log = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -96,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 			VoucherType type = VoucherType.MatchTheType(voucherType);
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(type);
-			VocuherDto.Resolver resolver = new VocuherDto.Resolver(id, discountValue, createdAt);
+			VoucherDto.Resolver resolver = new VoucherDto.Resolver(id, discountValue, createdAt);
 			return voucherManager.resolve(resolver);
 		};
 	}

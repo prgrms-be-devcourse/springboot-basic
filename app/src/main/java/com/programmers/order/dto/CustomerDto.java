@@ -1,17 +1,14 @@
 package com.programmers.order.dto;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import com.programmers.order.domain.Customer;
-import com.programmers.order.utils.TranslatorUtils;
 
 public class CustomerDto {
 
@@ -77,13 +74,26 @@ public class CustomerDto {
 		}
 	}
 
-	public static class ReponseDto {
+	public static class ResponseDto {
 		private final String email;
 		private final String name;
 
-		public ReponseDto(String email, String name) {
+		public ResponseDto(String email, String name) {
 			this.email = email;
 			this.name = name;
+		}
+
+		public String show() {
+			return "email='" + email + '\'' +
+					", name='" + name + '\'';
+		}
+
+		@Override
+		public String toString() {
+			return "ResponseDto{" +
+					"email='" + email + '\'' +
+					", name='" + name + '\'' +
+					'}';
 		}
 	}
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
-import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
@@ -58,9 +58,6 @@ public class CustomerController implements Controller {
 				case LIST_UP_WITH_VOUCHER -> {
 					listUpWithVoucher();
 				}
-				case LIST_UP_WITH_CUSTOMER -> {
-					listUpWithCustomer();
-				}
 				case REGISTER -> {
 					RegisterVoucher();
 				}
@@ -78,17 +75,6 @@ public class CustomerController implements Controller {
 		}
 
 		output.write(BasicMessage.EXIT);
-	}
-
-	private void listUpWithCustomer() {
-		boolean isReEnter = true;
-		String voucherId = EMPTY_STRING;
-		do {
-			voucherId = input.read(BasicMessage.VOUCHER_LIST_UP_WITH_CUSTOMER);
-			isReEnter = customerService.isNotExist(voucherId);
-		} while (isReEnter);
-
-		customerService.getCustomers(voucherId);
 	}
 
 	private void UnMappingVoucher() {
@@ -110,6 +96,8 @@ public class CustomerController implements Controller {
 				continue;
 			}
 		} while (isRenter);
+
+		output.write(BasicMessage.CUSTOMER_REGISTER_COMPLETE);
 	}
 
 	private void listUpWithVoucher() {
@@ -119,9 +107,12 @@ public class CustomerController implements Controller {
 		do {
 			email = input.read(BasicMessage.CUSTOMER_LIST_UP_WITH_VOUCHER);
 			isRenter = customerService.notExistByEmail(email);
+			if(isRenter){
+				output.write(BasicMessage.CUSTOMER_NOT_EXIST_EMAIL);
+			}
 		} while (isRenter);
 
-		List<VocuherDto.Response> responses = customerService.lookUpWithVouchers(email);
+		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
 
 		if (responses.isEmpty()) {
 			output.write(BasicMessage.NOT_EXIST_DATE);
@@ -136,7 +127,7 @@ public class CustomerController implements Controller {
 
 	}
 
-	// todo : validation check
+	//todo : validation check
 	private void create() {
 		boolean isRenter = true;
 

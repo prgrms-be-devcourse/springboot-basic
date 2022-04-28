@@ -9,19 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.CustomerDto;
-import com.programmers.order.exception.DomainException;
-import com.programmers.order.message.ErrorMessage;
-import com.programmers.order.repository.customer.CustomerRepository;
 import com.programmers.order.repository.voucher.VoucherRepository;
-import com.programmers.order.utils.TranslatorUtils;
 
 @Transactional(readOnly = true)
 @Service
 public class VoucherService {
 
+	private final CustomerVoucherService customerVoucherService;
 	private final VoucherRepository voucherRepository;
 
-	public VoucherService(VoucherRepository voucherRepository) {
+	public VoucherService(CustomerVoucherService customerVoucherService, VoucherRepository voucherRepository) {
+		this.customerVoucherService = customerVoucherService;
 		this.voucherRepository = voucherRepository;
 	}
 
@@ -43,6 +41,13 @@ public class VoucherService {
 
 	public Optional<Voucher> findById(UUID voucherId) {
 		return voucherRepository.findById(voucherId);
+	}
+
+	public List<CustomerDto.ResponseDto> lookUpForCustomer(String voucherId) {
+		return customerVoucherService.getCustomerForVoucher(voucherId)
+				.stream()
+				.map(customer -> new CustomerDto.ResponseDto(customer.getEmail(), customer.getName()))
+				.toList();
 	}
 }
 /**

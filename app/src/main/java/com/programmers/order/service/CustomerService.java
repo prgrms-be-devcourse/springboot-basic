@@ -12,8 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.domain.Customer;
-import com.programmers.order.dto.VocuherDto;
-import com.programmers.order.exception.CustomerVoucherException;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.ErrorLogMessage;
@@ -30,13 +29,10 @@ public class CustomerService {
 	private final CustomerRepository customerRepository;
 
 	private final CustomerVoucherService customerVoucherService;
-	private final VoucherService voucherService;
 
-	public CustomerService(CustomerRepository customerRepository, VoucherService voucherService,
-			CustomerVoucherService customerVoucherService, VoucherService voucherService1) {
+	public CustomerService(CustomerRepository customerRepository, CustomerVoucherService customerVoucherService) {
 		this.customerRepository = customerRepository;
 		this.customerVoucherService = customerVoucherService;
-		this.voucherService = voucherService1;
 	}
 
 	@Transactional
@@ -78,9 +74,7 @@ public class CustomerService {
 	}
 
 	public boolean notExistByEmail(String email) {
-		Optional<Customer> customer = customerRepository.findByEmail(email);
-
-		return customer.isEmpty();
+		return customerRepository.findByEmail(email).isEmpty();
 	}
 
 	public Optional<Customer> findById(String uuid) {
@@ -91,7 +85,7 @@ public class CustomerService {
 	public Optional<UUID> registerVoucher(CustomerDto.RegisterVoucherDto registerVoucherDto) {
 
 		try {
-			Voucher voucher = voucherService.findById(registerVoucherDto.getVoucherId())
+			Voucher voucher = customerVoucherService.findById(registerVoucherDto.getVoucherId())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 			Customer customer = this.findByEmail(registerVoucherDto.getEmail())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
@@ -109,25 +103,23 @@ public class CustomerService {
 		return Optional.empty();
 	}
 
-	public List<CustomerDto.ReponseDto> getCustomers(String voucherId) {
-		Voucher voucher = voucherService.findById(UUID.fromString(voucherId))
-				.orElseThrow(() -> new DomainException.NotFoundResource(
-						ErrorMessage.CLIENT_ERROR));
+	public List<VoucherDto.Response> lookUpWithVouchers(String email) {
+		try {
+			Customer customer = this.findByEmail(email)
+					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 
-		//todo : 중간테이블 조회 -> customer 조회!
-		return null;
-	}
+			return customerVoucherService.getVouchersForCustomer(customer.getCustomerId())
+					.stream()
+					.map(voucher -> new VoucherDto.Response(
+							voucher.getVoucherId(),
+							Long.parseLong(voucher.getDiscountValue()),
+							voucher.getCreatedAt()
+					)).toList();
+		} catch (DomainException.NotFoundResource e) {
+			log.info(InfoLogMessage.getPrefix(), InfoLogMessage.CUSTOMER_NOT_EXIST_EMAIL);
+		}
 
-	public List<VocuherDto.Response> lookUpWithVouchers(String email) {
-		Customer customer = this.findByEmail(email)
-				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
-		UUID id = customer.getCustomerId();
-		// todo : 중간 테이블 조회 하기 -> voucher 정보들 모두 가져오기
-		return null;
-	}
-
-	public boolean isNotExist(String voucherId) {
-		return voucherService.isNotExist(voucherId);
+		return List.of();
 	}
 
 	// todo : 바우처 매핑,조회(고객이 가지고 있는 바우처 및 바우처를 보유한 고객 리스트),특정 바우처 제거

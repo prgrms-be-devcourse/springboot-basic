@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.exception.ServiceException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
@@ -24,6 +25,7 @@ import com.programmers.order.type.VoucherType;
 public class VoucherController implements Controller {
 	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 	private static final String EMPTY_STRING = "";
+	private static final String LINE = "\n";
 
 	private final Input input;
 	private final Output output;
@@ -53,6 +55,9 @@ public class VoucherController implements Controller {
 				case LIST -> {
 					showVouchers();
 				}
+				case LIST_UP_WITH_CUSTOMER -> {
+					listUpWithCustomer();
+				}
 				case NONE -> {
 					output.write(ErrorMessage.CLIENT_ERROR);
 					logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
@@ -71,7 +76,6 @@ public class VoucherController implements Controller {
 		return ProgramType.VOUCHER;
 	}
 
-	// todo : 스코프 범위 줄이기(불필요한 부분 삭제)
 	private void createVoucher() {
 		VoucherType voucherType = VoucherType.NONE;
 
@@ -104,8 +108,26 @@ public class VoucherController implements Controller {
 		String voucherBundle = vouchers
 				.stream()
 				.map(Voucher::show)
-				.collect(Collectors.joining("\n"));
+				.collect(Collectors.joining(LINE, LINE, LINE));
+
 		output.write(voucherBundle);
+	}
+
+	private void listUpWithCustomer() {
+		boolean isReEnter = true;
+		String voucherId = EMPTY_STRING;
+
+		do {
+			voucherId = input.read(BasicMessage.VOUCHER_LIST_UP_WITH_CUSTOMER);
+			isReEnter = voucherService.isNotExist(voucherId);
+		} while (isReEnter);
+
+		String value = voucherService.lookUpForCustomer(voucherId)
+				.stream()
+				.map(CustomerDto.ResponseDto::show)
+				.collect(Collectors.joining(LINE, LINE, LINE));
+
+		output.write(value);
 	}
 
 }

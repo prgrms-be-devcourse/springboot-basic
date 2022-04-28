@@ -1,6 +1,5 @@
 package com.programmers.order.manager;
 
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.domain.constraint.VoucherConstraint;
-import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
@@ -59,7 +58,7 @@ public class FixVoucherManager implements VoucherManager {
 	}
 
 	@Override
-	public Voucher resolve(VocuherDto.Resolver resolver) {
+	public Voucher resolve(VoucherDto.Resolver resolver) {
 		return FixedAmountVoucher.build(resolver);
 	}
 

@@ -5,7 +5,7 @@ import static com.programmers.order.domain.constraint.VoucherConstraint.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.programmers.order.dto.VocuherDto;
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -35,7 +35,7 @@ public class FixedAmountVoucher implements Voucher {
 		return new FixedAmountVoucher(UUID.randomUUID(), amount);
 	}
 
-	public static FixedAmountVoucher build(VocuherDto.Resolver resolver) {
+	public static FixedAmountVoucher build(VoucherDto.Resolver resolver) {
 		return new FixedAmountVoucher(resolver.getId(), resolver.getDiscountValue(), resolver.getCreatedAt());
 	}
 

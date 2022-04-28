@@ -1,6 +1,7 @@
 package com.programmers.order.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.programmers.order.domain.Customer;
 import com.programmers.order.domain.CustomerVoucher;
+import com.programmers.order.domain.Voucher;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.repository.customervoucher.CustomerVoucherRepository;
@@ -46,4 +49,15 @@ public class CustomerVoucherService {
 		return customerVoucherRepository.isDuplicatePublish(customerId, voucherId);
 	}
 
+	public List<Voucher> getVouchersForCustomer(UUID customerId) {
+		return customerVoucherRepository.joinVouchers(customerId);
+	}
+
+	public List<Customer> getCustomerForVoucher(String voucherId) {
+		return customerVoucherRepository.joinCustomers(voucherId);
+	}
+
+	public Optional<Voucher> findById(UUID voucherId) {
+		return customerVoucherRepository.findVoucherByVoucherId(voucherId);
+	}
 }

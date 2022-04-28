@@ -3,7 +3,7 @@ package com.programmers.order.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class VocuherDto {
+public class VoucherDto {
 	public static class Resolver {
 		private UUID id;
 		private long discountValue;
