@@ -22,8 +22,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final String insertQuery = "INSERT INTO customer(customer_id, customer_name, blacklist) VALUES (:id, :name, :blacklist)";
-    private static final String findAllQuery = "SELECT * FROM customer";
     private static final String findByIdQuery = "SELECT * FROM customer WHERE customer_id = :id";
+    private static final String findByIdFetchVouchersQuery = "SELECT * FROM customer  WHERE customer_id = :id";
+    private static final String findAllQuery = "SELECT * FROM customer";
     private static final String clearQuery = "DELETE FROM customer";
 
 
@@ -33,12 +34,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         jdbcTemplate.update(insertQuery, paramMap);
         return customer;
-    }
-
-    private Map<String, Object> resolveParamMap(Customer customer) {
-        return Map.of("id", customer.getId(),
-                "name", customer.getName(),
-                "blacklist", customer.isBlocked());
     }
 
     @Override
@@ -52,6 +47,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Customer findByIdFetchVouchers(UUID id) {
+
+        return null;
+    }
+
+    @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(findAllQuery, customerRowMapper);
     }
@@ -59,6 +60,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void clear() {
         jdbcTemplate.update(clearQuery, Collections.emptyMap());
+    }
+
+
+    private Map<String, Object> resolveParamMap(Customer customer) {
+        return Map.of("id", customer.getId(),
+                "name", customer.getName(),
+                "blacklist", customer.isBlocked());
     }
 
     private static final RowMapper<Customer> customerRowMapper = (rs, i) ->
