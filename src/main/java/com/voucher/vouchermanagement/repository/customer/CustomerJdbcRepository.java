@@ -22,32 +22,24 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) {
-        try {
-            int update = jdbcTemplate.update("INSERT INTO customers VALUES(UNHEX(REPLACE(:id, '-', '')), :name, :email, :lastLoginAt, :createdAt)",
-                    toParamMap(customer));
+    public Customer insert(Customer customer) throws DataAccessException {
+        int update = jdbcTemplate.update("INSERT INTO customers VALUES(UNHEX(REPLACE(:id, '-', '')), :name, :email, :lastLoginAt, :createdAt)",
+                toParamMap(customer));
 
-            if (update != 1) {
-                throw new RuntimeException("아무것도 삽입되지 않았습니다.");
-            }
-        } catch (DataAccessException e) {
-            throw new RuntimeException("데이터를 삽입할 수 없습니다.");
+        if (update != 1) {
+            throw new RuntimeException("아무것도 삽입되지 않았습니다.");
         }
 
         return customer;
     }
 
     @Override
-    public Customer update(Customer customer) {
-        try {
-            int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt, created_at = :createdAt " +
-                    "WHERE id = UNHEX(REPLACE(:id, '-', ''))", toParamMap(customer));
+    public Customer update(Customer customer) throws DataAccessException {
+        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt, created_at = :createdAt " +
+                "WHERE id = UNHEX(REPLACE(:id, '-', ''))", toParamMap(customer));
 
-            if (update != 1) {
-                throw new RuntimeException("아무것도 수정되지 않았습니다.");
-            }
-        } catch (DataAccessException e) {
-            throw new RuntimeException("데이터를 수정 할 수 없습니다.");
+        if (update != 1) {
+            throw new RuntimeException("아무것도 수정되지 않았습니다.");
         }
 
         return customer;
