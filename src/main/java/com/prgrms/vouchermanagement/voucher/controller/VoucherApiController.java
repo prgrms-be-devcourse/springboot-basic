@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -47,14 +48,15 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public UUID addVoucher(@RequestBody VoucherDto voucherDto) {
+    public ResponseEntity<Object> addVoucher(@RequestBody VoucherDto voucherDto) {
         UUID voucherId = voucherService.addVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
-        return voucherId;
+        return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucherId)).build();
     }
 
     @DeleteMapping("/{voucherId}")
-    public void removeVoucher(@PathVariable UUID voucherId) {
+    public ResponseEntity<Object> removeVoucher(@PathVariable UUID voucherId) {
         voucherService.removeVoucher(voucherId);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{voucherId}")
