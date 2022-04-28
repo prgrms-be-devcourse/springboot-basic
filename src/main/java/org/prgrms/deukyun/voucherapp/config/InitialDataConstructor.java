@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.UUID;
 
+import static org.apache.commons.lang3.RandomUtils.*;
+
 @Slf4j
 @Component
 public class InitialDataConstructor {
@@ -44,7 +46,7 @@ public class InitialDataConstructor {
     private UUID[] initCustomers() {
         UUID[] customerIds = new UUID[AMOUNT_INIT_CUSTOMER];
         for (int i = 0; i < AMOUNT_INIT_CUSTOMER; i++) {
-            Customer customer = new Customer(faker.name().fullName(), RandomUtils.nextInt() % 2 == 0, Collections.emptyList());
+            Customer customer = new Customer(faker.name().fullName(), nextInt() % 2 == 0, Collections.emptyList());
 
             customerIds[i] = customer.getId();
             customerService.insert(customer);
@@ -56,12 +58,12 @@ public class InitialDataConstructor {
     private void initOwnedVouchers(UUID[] customerIds) {
         for (int i = 0; i < AMOUNT_INIT_OWNED_VOUCHERS; i++) {
             Voucher voucher;
-            if (RandomUtils.nextInt() % 2 == 0) {
-                voucher = new FixedAmountDiscountVoucher(RandomUtils.nextLong(1, 21) * 1000);
+            if (nextInt() % 2 == 0) {
+                voucher = new FixedAmountDiscountVoucher(nextLong(1, 21) * 1000);
             } else {
-                voucher = new PercentDiscountVoucher(RandomUtils.nextLong(0, 11) * 10);
+                voucher = new PercentDiscountVoucher(nextLong(0, 11) * 10);
             }
-            voucher.setOwnerId(customerIds[RandomUtils.nextInt(0, AMOUNT_INIT_CUSTOMER)]);
+            voucher.setOwnerId(customerIds[nextInt(0, AMOUNT_INIT_CUSTOMER)]);
             voucherService.insert(voucher);
         }
         log.info("{} init owned voucher inserted", AMOUNT_INIT_OWNED_VOUCHERS);
@@ -70,10 +72,10 @@ public class InitialDataConstructor {
     private void initNotOwnedVouchers() {
         for (int i = 0; i < AMOUNT_INIT_NOT_OWNED_VOUCHERS; i++) {
             Voucher voucher;
-            if (RandomUtils.nextInt() % 2 == 0) {
-                voucher = new FixedAmountDiscountVoucher(RandomUtils.nextLong(1, 21) * 1000);
+            if (nextInt() % 2 == 0) {
+                voucher = new FixedAmountDiscountVoucher(nextLong(1, 21) * 1000);
             } else {
-                voucher = new PercentDiscountVoucher(RandomUtils.nextLong(0, 11) * 10);
+                voucher = new PercentDiscountVoucher(nextLong(0, 11) * 10);
             }
             voucherService.insert(voucher);
         }

@@ -1,6 +1,9 @@
 package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,39 +34,44 @@ class JdbcCustomerRepositoryTest {
         customer = customer();
     }
 
-    @Nested
-    @DisplayName("삽입")
-    class insertTest {
+    @Test
+    void 성공_삽입() {
+        //when
+        Customer insertedCustomer = jdbcCustomerRepository.insert(customer);
 
-        @Test
-        void 성공() {
-            //when
-            Customer insertedCustomer = jdbcCustomerRepository.insert(customer);
-
-            //then
-            assertCustomer(insertedCustomer, customer);
-        }
+        //then
+        assertCustomer(insertedCustomer, customer);
     }
 
-    @Nested
-    @DisplayName("전체 조회")
-    class findAllTest {
+    @Test
+    void 성공_전체조회() {
+        //setup
+        Customer customer1 = customer();
+        Customer customer2 = customer();
+        jdbcCustomerRepository.insert(customer1);
+        jdbcCustomerRepository.insert(customer2);
 
-        @Test
-        void 성공() {
-            //setup
-            Customer customer1 = customer();
-            Customer customer2 = customer();
-            jdbcCustomerRepository.insert(customer1);
-            jdbcCustomerRepository.insert(customer2);
+        //when
+        List<Customer> customers = jdbcCustomerRepository.findAll();
 
-            //when
-            List<Customer> customers = jdbcCustomerRepository.findAll();
+        //assert
+        assertThat(customers).extracting("id")
+                .containsExactlyInAnyOrder(customer1.getId(), customer2.getId());
+    }
 
-            //assert
-            assertThat(customers).extracting("id")
-                    .containsExactlyInAnyOrder(customer1.getId(), customer2.getId());
-        }
+    @Test
+    void 성공_차단_전체조회() {
+        //setup
+        List<Customer> customers = List.of(customer(), customer(), customer(), customer(), customer());
+        Object[] blockedCustomerIds = customers.stream().filter(Customer::isBlocked).map(Customer::getId).toArray();
+        customers.forEach(c -> jdbcCustomerRepository.insert(c));
+
+        //when
+        List<Customer> foundBlockedCustomers = jdbcCustomerRepository.findAllBlocked();
+
+        //then
+        assertThat(foundBlockedCustomers).extracting("id")
+                .containsExactlyInAnyOrder(blockedCustomerIds);
     }
 
     @Nested
@@ -102,22 +110,17 @@ class JdbcCustomerRepositoryTest {
         }
     }
 
-    @Nested
-    @DisplayName("전체 삭제")
-    class deleteAllTest{
+    @Test
+    void 성공_전체_삭제() {
+        //setup
+        jdbcCustomerRepository.insert(customer());
+        jdbcCustomerRepository.insert(customer());
 
-        @Test
-        void 성공(){
-            //setup
-            jdbcCustomerRepository.insert(customer());
-            jdbcCustomerRepository.insert(customer());
+        //action
+        jdbcCustomerRepository.clear();
 
-            //action
-            jdbcCustomerRepository.clear();
-
-            //assert
-            assertThat(jdbcCustomerRepository.findAll()).isEmpty();
-        }
+        //assert
+        assertThat(jdbcCustomerRepository.findAll()).isEmpty();
     }
 
     private void assertCustomer(Customer actualCustomer, Customer expectedCustomer) {

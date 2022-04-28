@@ -24,7 +24,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String insertQuery = "INSERT INTO customer(customer_id, customer_name, blocked) VALUES (:id, :name, :blocked)";
     private static final String findByIdQuery = "SELECT * FROM customer WHERE customer_id = :id";
     private static final String findAllQuery = "SELECT * FROM customer";
-    private static final String findAllBlockedQuery = "SELECT * FROM customer WHERE ";
+    private static final String findAllBlockedQuery = "SELECT * FROM customer WHERE blocked = true";
     private static final String clearQuery = "DELETE FROM customer";
 
     @Override

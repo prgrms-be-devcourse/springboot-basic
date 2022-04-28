@@ -54,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         Map<String, Object> paramMap = new HashMap<>();
         UUID id = voucher.getId();
-        UUID customerId = voucher.getCustomerId();
+        UUID customerId = voucher.getCustomerId().orElse(null);
         paramMap.put("id", id);
         paramMap.put("customerId", customerId);
 

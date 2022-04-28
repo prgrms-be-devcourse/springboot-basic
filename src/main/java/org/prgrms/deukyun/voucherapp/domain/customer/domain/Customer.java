@@ -25,7 +25,7 @@ public class Customer {
     private final String name;
 
     /**
-     * 블랙리스트 여부
+     * 차단 여부
      */
     private final boolean blocked;
 
