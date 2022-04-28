@@ -15,7 +15,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/vouchers")
 public class VoucherRestController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherRestController.class);
 
     private final VoucherService voucherService;
 
