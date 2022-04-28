@@ -26,7 +26,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM customers";
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = Utils.toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");

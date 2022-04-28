@@ -132,8 +132,6 @@ public class CustomerController {
 
     @PostMapping("/{customerId}/vouchers")
     public String deleteVoucher(@PathVariable UUID customerId, @RequestParam UUID voucherId) {
-        logger.info("voucherId {}", voucherId);
-        logger.info("customerId {}", customerId);
         walletService.deleteWallet(customerId, voucherId);
         return "redirect:/customers/{customerId}";
     }
@@ -156,7 +154,6 @@ public class CustomerController {
 
     @PostMapping("/{customerId}/vouchers/add")
     public String addVoucher(@PathVariable UUID customerId, @RequestParam UUID voucherId) {
-        logger.info("Create Wallet");
         walletService.createWallet(customerId, voucherId);
         return "redirect:/customers/{customerId}";
     }

@@ -30,7 +30,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM vouchers";
 
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
         String type = resultSet.getString("type");
         long value = resultSet.getLong("value");
