@@ -20,6 +20,10 @@ public class VoucherService {
     }
 
     public Voucher create(UUID voucherId, long voucherValue, VoucherType voucherType) {
+        checkArgument(voucherId != null, "voucherId must be provided.");
+        checkArgument(voucherValue > 0, "voucherValue must be provided.");
+        checkArgument(voucherType != null, "voucherType must be provided.");
+
         Voucher voucher = voucherType.createVoucher(voucherId, voucherValue);
         return voucherRepository.insert(voucher);
     }
@@ -36,6 +40,8 @@ public class VoucherService {
     }
 
     public void delete(UUID voucherId) {
+        checkArgument(voucherId != null, "voucherId must be provided.");
+
         voucherRepository.delete(voucherId);
     }
 
