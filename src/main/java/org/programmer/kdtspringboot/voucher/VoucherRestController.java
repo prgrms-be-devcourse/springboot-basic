@@ -2,11 +2,12 @@ package org.programmer.kdtspringboot.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +40,7 @@ public class VoucherRestController {
         return new VoucherDto(
                 voucherService.createVoucher(
                         voucherDto.getType(),
-                        voucherDto.getDiscountPercent()
+                        voucherDto.getDiscountAmount()
                 )
         );
     }
@@ -50,16 +51,16 @@ public class VoucherRestController {
         voucherService.deleteVoucher(voucherId);
     }
 
-    @GetMapping("/{type}")
-    public List<VoucherDto> findByType(@PathVariable("type") String type) {
-        return null;
+    @GetMapping("/type/{type}")
+    public List<Voucher> findByType(@PathVariable("type") String type) {
+        return voucherService.findByType(type);
     }
 
-    @GetMapping("/")
-    public List<VoucherDto> findByCreatedAt(
-            @RequestParam(value = "from", required = false) LocalDateTime from,
-            @RequestParam(value = "to", required = false) LocalDateTime to
+    @GetMapping("/time")
+    public List<Voucher> findByCreatedAt(
+            @DateTimeFormat(pattern = "yyyy-MM-dd")
+            @RequestParam(value = "time", required = false) LocalDate createdAt
     ) {
-        return null;
+        return voucherService.findByCreatedAt(createdAt);
     }
 }
