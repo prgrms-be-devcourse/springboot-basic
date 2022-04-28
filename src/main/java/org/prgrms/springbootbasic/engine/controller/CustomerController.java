@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.engine.controller;
 
 import org.prgrms.springbootbasic.engine.controller.dto.CustomerCreateRequestDto;
 import org.prgrms.springbootbasic.engine.controller.dto.CustomerResponseDto;
+import org.prgrms.springbootbasic.engine.controller.dto.CustomerUpdateRequestDto;
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.service.CustomerService;
@@ -37,14 +38,14 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/new")
-    public String viewNewCustomerPage(Model model) {
+    public String viewCustomerCreatePage(Model model) {
         return "views/new-customer";
     }
 
     @PostMapping("/customers/new")
     public String createNewCustomer(CustomerCreateRequestDto customerCreateRequestDto) {
         Customer customer = customerService.createCustomer(customerCreateRequestDto.getName(), customerCreateRequestDto.getEmail());
-        return "redirect:/customers";
+        return "redirect:/customers/" + customer.getCustomerId();
     }
 
     @GetMapping("/customers/{customerId}")
@@ -63,5 +64,21 @@ public class CustomerController {
         Customer customer = customerService.getCustomerById(id);
         customerService.removeCustomer(customer);
         return "redirect:/customers";
+    }
+
+    @GetMapping("/customers/{customerId}/edit")
+    public String showVoucherEditPage(Model model, @PathVariable String customerId) {
+        UUID id = convertStringToUUID(customerId);
+        Customer customer = customerService.getCustomerById(id);
+        model.addAttribute("customer", customer);
+        return "views/update-customer";
+    }
+
+    @PostMapping("/customers/update")
+    public String updateCustomer(CustomerUpdateRequestDto customerUpdateRequestDto) {
+        Customer customer = customerService.getCustomerById(customerUpdateRequestDto.getCustomerId());
+        customer.changeName(customerUpdateRequestDto.getName());
+        customerService.updateCustomer(customer);
+        return "redirect:/customers/" + customer.getCustomerId();
     }
 }

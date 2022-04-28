@@ -96,6 +96,4 @@ public class FixedAmountVoucher implements Voucher {
             throw new VoucherException("Amount should be less than 1000001");
         }
     }
-
-
 }

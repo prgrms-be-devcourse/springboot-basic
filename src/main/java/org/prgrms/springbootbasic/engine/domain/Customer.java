@@ -12,7 +12,7 @@ public class Customer {
     @CsvBindByName
     private String name;
     @CsvBindByName
-    private final String email;
+    private String email;
     @CsvBindByName
     private LocalDateTime lastLoginAt;
     @CsvBindByName
@@ -20,7 +20,8 @@ public class Customer {
     private Boolean isBlack;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        validate(name, email);
+        validate(name);
+        validate(email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -30,7 +31,8 @@ public class Customer {
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        validate(name, email);
+        validate(name);
+        validate(email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -39,8 +41,13 @@ public class Customer {
     }
 
     public void changeName(String name) {
-        validate(name, email);
+        validate(name);
         this.name = name;
+    }
+
+    public void changeEmail(String email) {
+        validate(email);
+        this.email = email;
     }
 
     public void toBlack() {
@@ -83,8 +90,8 @@ public class Customer {
                 '}';
     }
 
-    private void validate(String name, String email) {
-        if (name.isBlank() || email.isBlank()) {
+    private void validate(String input) {
+        if (input.isBlank()) {
             throw new VoucherException("Name and email is required!");
         }
     }

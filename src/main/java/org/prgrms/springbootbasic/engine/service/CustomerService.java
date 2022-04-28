@@ -50,6 +50,11 @@ public class CustomerService {
     }
 
     @Transactional
+    public Customer updateCustomer(Customer customer) {
+        return customerRepository.update(customer);
+    }
+
+    @Transactional
     public void removeCustomer(Customer customer) {
         List<Voucher> ownedVouchers = voucherService.getVouchersByCustomer(customer);
         ownedVouchers.forEach(voucherService::removeVoucher);

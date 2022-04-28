@@ -43,7 +43,7 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-outline-primary me-md-2" type="button">Update</a>
+    <a th:href="@{/customers/{id}/edit(id=${customer.customerId})}" class="btn btn-outline-primary me-md-2" type="button">Update</a>
     <a th:href="@{/customers/{id}/delete(id=${customer.customerId})}" class="btn btn-outline-danger" type="button">Delete</a>
 </div>
 </body>

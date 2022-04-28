@@ -83,7 +83,6 @@ public class VoucherController {
         if (voucherUpdateRequestDto.getCustomerId().isPresent()) {
             Customer customer = customerService.getCustomerById(voucherUpdateRequestDto.getCustomerId().get());
             voucher.changeOwner(customer);
-            System.out.println(customer.toString());
         } else {
             voucher.revokeOwner();
         }

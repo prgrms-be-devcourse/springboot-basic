@@ -15,7 +15,7 @@ public class VoucherUpdateRequestDto {
         try {
             this.voucherId = UUID.fromString(voucherId);
         } catch (IllegalArgumentException ex) {
-            throw new VoucherException("Invalid voucher Id.");
+            throw new VoucherException("Invalid Id format.");
         }
         try {
             this.customerId = Optional.of(UUID.fromString(customerId));
