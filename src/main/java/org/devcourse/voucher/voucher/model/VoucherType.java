@@ -1,14 +1,19 @@
 package org.devcourse.voucher.voucher.model;
 
+import java.util.UUID;
+import java.util.function.BiFunction;
+
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER("1"),
-    PERCENT_DISCOUNT_VOUCHER("2"),
-    NONE("");
+    FIXED_AMOUNT_VOUCHER("1", FixedAmountVoucher::new),
+    PERCENT_DISCOUNT_VOUCHER("2", PercentDiscountVoucher::new),
+    NONE("", null);
 
     private String option;
+    BiFunction<UUID, Long, Voucher> creator;
 
-    VoucherType(String option) {
+    VoucherType(String option, BiFunction<UUID, Long, Voucher> creator) {
         this.option = option;
+        this.creator = creator;
     }
 
     public static VoucherType discriminate(String input) {
@@ -20,5 +25,9 @@ public enum VoucherType {
             default -> voucherType = NONE;
         }
         return voucherType;
+    }
+
+    public Voucher voucherCreator(UUID voucherId, long discount) {
+        return creator.apply(voucherId, discount);
     }
 }

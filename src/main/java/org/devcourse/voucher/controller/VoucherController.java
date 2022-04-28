@@ -10,5 +10,5 @@ public interface VoucherController {
 
     Voucher createVoucherMapper(VoucherType voucher, long discount);
 
-    List<Object> findListMapper(ListType list);
+    List<?> findListMapper(ListType listType);
 }
