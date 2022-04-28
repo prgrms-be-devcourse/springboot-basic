@@ -1,5 +1,7 @@
 package org.prgrms.springbasic.domain.voucher;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 import static java.util.UUID.randomUUID;
 import static org.prgrms.springbasic.domain.voucher.Voucher.fixedVoucher;
 import static org.prgrms.springbasic.domain.voucher.Voucher.percentVoucher;
@@ -41,4 +43,9 @@ public enum VoucherType {
     abstract long discount(long beforeDiscount, long discountInfo);
 
     public abstract Voucher createVoucher(long discountInfo);
+
+    @JsonCreator
+    public static VoucherType from(String voucherType) {
+        return VoucherType.valueOf(voucherType.toUpperCase());
+    }
 }
