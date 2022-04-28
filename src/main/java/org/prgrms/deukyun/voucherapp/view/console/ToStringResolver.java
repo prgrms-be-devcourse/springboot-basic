@@ -12,12 +12,12 @@ public class ToStringResolver {
         if(voucher instanceof FixedAmountDiscountVoucher){
             long amount = ((FixedAmountDiscountVoucher) voucher).getAmount();
 
-            return String.format("[Fixed Amount Discount Voucher] id : %s, amount  : %d₩", id, amount);
+            return String.format("[Fixed Amount Discount Voucher] id : %s, amount  : %10d ₩", id, amount);
 
         }else if(voucher instanceof PercentDiscountVoucher){
             long percent = ((PercentDiscountVoucher) voucher).getPercent();
 
-            return String.format("[Percent Discount Voucher]      id : %s, percent : %d%%", id, percent);
+            return String.format("[Percent Discount Voucher]      id : %s, percent : %10d %%%%", id, percent);
 
         }else{
             throw new IllegalArgumentException("Invalid voucher type given");
