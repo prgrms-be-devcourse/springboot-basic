@@ -29,12 +29,7 @@ public class CustomerService {
     }
 
     public boolean deleteCustomer(UUID customerId) {
-        var customer = customerRepository.findById(customerId);
-        if (customer.isPresent()) {
-            customerRepository.deleteCustomer(customer.get());
-            return true;
-        }
-        return false;
+        return customerRepository.deleteCustomerById(customerId);
     }
 
     public Customer modifyProfile(Customer customer) {

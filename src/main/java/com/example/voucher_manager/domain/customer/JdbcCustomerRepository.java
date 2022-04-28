@@ -114,9 +114,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public boolean deleteCustomer(Customer customer) {
+    public boolean deleteCustomerById(UUID customerId) {
         var delete = jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId)",
-                toParamMap(customer));
+                Collections.singletonMap("customerId", customerId));
         if (delete != 1){
             logger.error("Noting was deleted.");
             return false;

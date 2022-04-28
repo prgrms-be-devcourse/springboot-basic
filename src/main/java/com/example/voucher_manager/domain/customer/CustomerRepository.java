@@ -12,5 +12,5 @@ public interface CustomerRepository {
     Customer update(Customer customer);
     Optional<Customer> insert(Customer customer);
     void clear();
-    boolean deleteCustomer(Customer customer);
+    boolean deleteCustomerById(UUID customerId);
 }
