@@ -12,6 +12,9 @@ import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * Jdbc 바우처 리포지토리
+ */
 @Primary
 @Repository
 @RequiredArgsConstructor

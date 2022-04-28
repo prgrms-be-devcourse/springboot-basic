@@ -11,6 +11,10 @@ import java.util.Locale;
 
 import static org.apache.commons.lang3.RandomUtils.nextInt;
 
+/**
+ * 고객 데이터 <br>
+ * - 초기 고객 데이터의 생성과 삽입을 책임짐
+ */
 @Slf4j
 @Component
 public class CustomerData {

@@ -10,8 +10,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+/**
+ * 고객 선택자 <br>
+ * - 로그인 기능을 대체하기 위해 구현 <br>
+ * - 시스템이 램덤으로 초기 고객 데이터중 선택하여 로그인 한 것으로 처리
+ */
 @Component
-@DependsOn("initData")
+@DependsOn("initDataConstructor")
 @RequiredArgsConstructor
 public class CustomerSelector {
 

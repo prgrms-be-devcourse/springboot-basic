@@ -68,8 +68,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static final RowMapper<Customer> customerRowMapper = (rs, i) ->
-        new Customer(UUID.fromString(rs.getString("customer_id")),
-            rs.getString("customer_name"),
-            rs.getBoolean("blocked"),
-            Collections.emptyList());
+            new Customer(UUID.fromString(rs.getString("customer_id")),
+                    rs.getString("customer_name"),
+                    rs.getBoolean("blocked"),
+                    Collections.emptyList());
 }

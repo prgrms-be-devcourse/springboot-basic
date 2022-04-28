@@ -6,9 +6,10 @@ import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
+/**
+ * 고객 서비스
+ */
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -19,7 +20,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> findAllBlocked(){
+    public List<Customer> findAllBlocked() {
         return customerRepository.findAllBlocked();
     }
 

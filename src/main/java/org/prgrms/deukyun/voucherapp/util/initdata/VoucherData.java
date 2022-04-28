@@ -8,16 +8,19 @@ import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVo
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.RandomUtils.nextInt;
 import static org.apache.commons.lang3.RandomUtils.nextLong;
 
+/**
+ * 바우처 데이터 <br>
+ * - 초기 바우처 데이터의 생성과 삽입을 책임짐
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -34,7 +37,7 @@ public class VoucherData {
         initNotOwnedVouchers();
     }
 
-    private void initOwnedVouchers( ) {
+    private void initOwnedVouchers() {
         List<UUID> customerIds = getCustomerIds();
         int customerAmount = customerIds.size();
         for (int i = 0; i < AMOUNT_INIT_OWNED_VOUCHERS; i++) {

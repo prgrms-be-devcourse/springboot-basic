@@ -1,6 +1,7 @@
 package org.prgrms.deukyun.voucherapp.view.console;
 
 import org.jline.utils.AttributedString;
+import org.prgrms.deukyun.voucherapp.util.security.CustomerHolder;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,15 @@ public class CustomPromptProvider implements PromptProvider {
 
     @Override
     public AttributedString getPrompt() {
-        String greetingMessage = "\n=== Voucher Program ===\n" +
-                "Type exit to exit the program.\n" +
-                "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.\n\n";
+        String customerName = CustomerHolder.getCustomer().getName();
+
+        String greetingMessage = String.format(
+                "\n안녕하세요 %s 님" +
+                "\n=== Voucher Program ===" +
+                "\nType exit to exit the program." +
+                "\nType create to create a new voucher." +
+                "\nType list to list all vouchers.\n\n",
+                customerName);
         return new AttributedString(greetingMessage);
     }
 }
