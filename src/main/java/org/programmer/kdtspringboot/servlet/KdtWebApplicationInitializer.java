@@ -117,12 +117,6 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
             converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
 
         }
-
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/api/**")
-                    .allowedOrigins("*");
-        }
     }
 
     @Override
