@@ -22,6 +22,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "org.springframework.boot:spring-boot-starter-jdbc"
     implementation "mysql:mysql-connector-java:8.0.21"
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.springframework:spring-oxm:3.0.4.RELEASE'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.17'
+    implementation 'javax.servlet:jstl:1.2'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

@@ -9,9 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class VoucherManagerApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(VoucherManagerApplication.class, args);
-        var application = context.getBean(RunApplication.class);
-        application.run();
+        SpringApplication.run(VoucherManagerApplication.class, args);
     }
 
 }
