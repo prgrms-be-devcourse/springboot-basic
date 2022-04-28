@@ -1,9 +1,9 @@
 package com.prgrms.kdt.springbootbasic.outputPackage;
 
-import com.prgrms.kdt.springbootbasic.entity.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
-import com.prgrms.kdt.springbootbasic.inputPackage.ConsoleInput;
+import com.prgrms.kdt.springbootbasic.VoucherList;
+import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Profile("console")
@@ -28,20 +30,23 @@ public class ConsoleOutput implements CustomOutput{
 
     @Override
     public void informNewVoucherInfo() {
-        System.out.println("\n=== Create New Voucher ===\n"+
-                "Type 1 to create Fixed Amount Voucher\n"+
-                "Type 2 to create Percent Amount Voucher\n");
+        System.out.println("\n=== Create New Voucher ===");
+        List<String> voucherList = Stream.of(VoucherList.values()).map(v -> v.getClassName()).collect(Collectors.toList());
+
+        for (int i = 0; i<voucherList.size(); i++){
+            System.out.println(MessageFormat.format("Type {0} to create {1} Amount Voucher.", i, voucherList.get(i)));
+        }
     }
 
     @Override
     public void printVoucherList(List<Voucher> voucherList) {
-        if (voucherList.size() == 0) {
+        if (voucherList.isEmpty()) {
             logger.error("[ConsoleOutput : printVoucherList] VoucherList is empty");
             System.out.println("Voucher List is empty");
             return;
         }
 
-        voucherList.stream().forEach(voucher -> {
+        voucherList.forEach(voucher -> {
             if (voucher instanceof FixedAmountVoucher)
                 System.out.println(MessageFormat.format("Voucher Id : {0}\t Discount Amount : {1}", voucher.getVoucherId(), voucher.getDiscountAmount()));
             else if (voucher instanceof PercentDiscountVoucher)

@@ -1,11 +1,11 @@
 package com.prgrms.kdt.springbootbasic.outputPackage;
 
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 
 import java.util.List;
 
 public interface CustomOutput {
-    public void informCommandWithConsole();
+    void informCommandWithConsole();
 
     void informNewVoucherInfo();
 

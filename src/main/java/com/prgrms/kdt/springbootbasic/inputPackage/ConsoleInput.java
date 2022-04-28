@@ -1,6 +1,6 @@
 package com.prgrms.kdt.springbootbasic.inputPackage;
 
-import com.prgrms.kdt.springbootbasic.controller.VoucherController;
+import com.prgrms.kdt.springbootbasic.VoucherList;
 import com.prgrms.kdt.springbootbasic.returnFormats.VoucherInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class ConsoleInput implements CustomInput{
@@ -28,10 +31,11 @@ public class ConsoleInput implements CustomInput{
     public VoucherInfo getNewVoucherInfo() throws IOException {
         System.out.print("Please enter the type of voucher : ");
         int voucherType = Integer.parseInt(bufferedReader.readLine().strip());
+        List<String> voucherList = Stream.of(VoucherList.values()).map(v -> v.getClassName()).collect(Collectors.toList());
 
-        while (voucherType<1 || voucherType>2){
+        while (voucherType < 0 || voucherType >= voucherList.size()){
             logger.info(MessageFormat.format("[ConsoleInput : getNewVoucherInfo] Wrong voucherType has been inputted : {0}", voucherType));
-            System.out.println("Please Enter Right Type (1,2)");
+            System.out.println("Please Enter Right Command");
             System.out.print("Please enter the type of voucher : ");
             voucherType = Integer.parseInt(bufferedReader.readLine().strip());
         }
@@ -48,6 +52,6 @@ public class ConsoleInput implements CustomInput{
 
         logger.info(MessageFormat.format("[ConsoleInput : getNewVoucherInfo] voucher Type : {0} | discountAmount : {1}", voucherType, discountAmount));
 
-        return new VoucherInfo(voucherType,discountAmount);
+        return new VoucherInfo(voucherList.get(voucherType),discountAmount);
     }
 }

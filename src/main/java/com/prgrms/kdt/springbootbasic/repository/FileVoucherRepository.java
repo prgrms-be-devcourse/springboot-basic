@@ -1,9 +1,8 @@
 package com.prgrms.kdt.springbootbasic.repository;
 
-import com.prgrms.kdt.springbootbasic.entity.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
-import com.prgrms.kdt.springbootbasic.outputPackage.ConsoleOutput;
+import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -29,7 +25,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
     private final String filePath;
 
-    private static Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    private Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
     private final File file;
 
     public FileVoucherRepository(ResourceLoader resourceLoader, @Value("${voucher.file}") String filePath) {
@@ -64,12 +60,16 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        return voucherStorage.get(voucherId);
+    public Optional<Voucher> findById(UUID voucherId) {
+        if (voucherStorage.containsKey(voucherId)) {
+            return Optional.of(voucherStorage.get(voucherId));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Voucher saveVoucher(Voucher voucher) {
+    public Optional<Voucher> saveVoucher(Voucher voucher) {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(file,true);
@@ -92,7 +92,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
                 }
             }
-            return voucher;
+            return Optional.of(voucher);
         }
     }
 

@@ -1,16 +1,16 @@
 package com.prgrms.kdt.springbootbasic.repository;
 
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
 
-    public Voucher findById(UUID voucherId);
+    public Optional<Voucher> findById(UUID voucherId);
 
-    public Voucher saveVoucher(Voucher voucher);
+    public Optional<Voucher> saveVoucher(Voucher voucher);
 
     public List<Voucher> getAllVouchers();
 }

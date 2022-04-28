@@ -1,14 +1,12 @@
 package com.prgrms.kdt.springbootbasic.repository;
 
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
-import com.prgrms.kdt.springbootbasic.outputPackage.ConsoleOutput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -16,17 +14,21 @@ import java.util.stream.Collectors;
 @Profile("local")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository{
-    private static Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    private Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        return voucherStorage.get(voucherId);
+    public Optional<Voucher> findById(UUID voucherId) {
+        if (voucherStorage.containsKey(voucherId)) {
+            return Optional.of(voucherStorage.get(voucherId));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
-    public Voucher saveVoucher(Voucher voucher){
+    public Optional<Voucher> saveVoucher(Voucher voucher){
         voucherStorage.put(voucher.getVoucherId(), voucher);
-        return voucher;
+        return Optional.of(voucher);
     }
 
     @Override

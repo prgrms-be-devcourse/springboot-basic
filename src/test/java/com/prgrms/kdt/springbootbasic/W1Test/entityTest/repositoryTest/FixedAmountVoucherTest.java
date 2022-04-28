@@ -1,11 +1,9 @@
-package com.prgrms.kdt.springbootbasic.entityTest;
+package com.prgrms.kdt.springbootbasic.W1Test.entityTest;
 
-import com.prgrms.kdt.springbootbasic.entity.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 
 import static org.junit.Assert.*;
 
