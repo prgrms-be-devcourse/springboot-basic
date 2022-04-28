@@ -1,9 +1,9 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
+import org.prgrms.deukyun.voucherapp.domain.customer.persistence.JdbcCustomerRepository;
 import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
@@ -18,6 +18,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 
 @Transactional
@@ -28,6 +30,8 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
     JdbcVoucherRepository jdbcVoucherRepository;
+    @Autowired
+    JdbcCustomerRepository jdbcCustomerRepository;
     Voucher voucher;
 
     @BeforeEach
@@ -36,97 +40,112 @@ class JdbcVoucherRepositoryTest {
         voucher = voucher();
     }
 
-    @Nested
-    @DisplayName("삽입")
-    class insertTest {
 
-        @Test
-        void 성공() {
-            //when
-            Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
+    @Test
+    void 성공_생성() {
+        //when
+        Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
 
-            //assert
-            assertVoucher(insertedVoucher);
-            assertFADV(insertedVoucher, voucher);
-        }
+        //assert
+        assertVoucher(insertedVoucher);
+        assertFADV(insertedVoucher, voucher);
     }
 
-    @Nested
-    @DisplayName("전체 조회")
-    class findAllTest {
+    @Test
+    void 성공_전체조회() {
+        //setup
+        Voucher voucher1 = voucher();
+        Voucher voucher2 = voucher();
+        jdbcVoucherRepository.insert(voucher1);
+        jdbcVoucherRepository.insert(voucher2);
 
-        @Test
-        void 성공() {
-            //setup
-            Voucher voucher1 = voucher();
-            Voucher voucher2 = voucher();
-            jdbcVoucherRepository.insert(voucher1);
-            jdbcVoucherRepository.insert(voucher2);
+        //when
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
 
-            //when
-            List<Voucher> vouchers = jdbcVoucherRepository.findAll();
-
-            //assert
-            assertThat(vouchers).extracting("id")
-                    .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
-        }
+        //assert
+        assertThat(vouchers).extracting("id")
+                .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
 
-    @Nested
-    @DisplayName("단건 조회")
-    class findByIdTest {
+    @Test
+    void 성공_고객의_아이디로_전체_조회() {
+        //given
+        Customer customer = customer();
+        UUID customerId = customer.getId();
+        jdbcCustomerRepository.insert(customer);
 
-        UUID id;
+        Voucher voucher1 = voucher();
+        voucher1.setOwnerId(customerId);
+        jdbcVoucherRepository.insert(voucher1);
 
-        @BeforeEach
-        void setup() {
-            jdbcVoucherRepository.insert(voucher);
-        }
+        Voucher voucher2 = voucher();
+        voucher2.setOwnerId(customerId);
+        jdbcVoucherRepository.insert(voucher2);
 
-        @Test
-        void 성공() {
-            //setup
-            id = voucher.getId();
+        Voucher voucher3 = voucher();
+        jdbcVoucherRepository.insert(voucher3);
 
-            //when
-            Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
+        //when
+        List<Voucher> foundVouchers = jdbcVoucherRepository.findByCustomerId(customerId);
 
-            //assert
-            assertThat(foundVoucher).isPresent();
-            assertFADV(foundVoucher.get(), voucher);
-        }
-
-        @Test
-        void 성공_아이디가_없을경우_OptionalEmpty_반환() {
-            //setup
-            id = UUID.randomUUID();
-
-            //when
-            Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
-
-            //assert
-            assertThat(foundVoucher).isNotPresent();
-        }
+        //then
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers).extracting("id")
+                .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
 
-    @Nested
-    @DisplayName("전체 삭제")
-    class deleteAllTest {
+    @Test
+    void 실패_고객의_아이디로_단건_조회() {
+        //given
+        UUID customerId = null;
 
-        @Test
-        void 성공() {
-            //setup
-            jdbcVoucherRepository.insert(voucher());
-            jdbcVoucherRepository.insert(voucher());
-
-            //action
-            jdbcVoucherRepository.deleteAll();
-
-            //assert
-            assertThat(jdbcVoucherRepository.findAll()).isEmpty();
-        }
+        //then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> jdbcVoucherRepository.findByCustomerId(customerId));
     }
-    
+
+
+    @Test
+    void 성공_단건조회() {
+        //setup
+        jdbcVoucherRepository.insert(voucher);
+        UUID id = voucher.getId();
+
+        //when
+        Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
+
+        //assert
+        assertThat(foundVoucher).isPresent();
+        assertFADV(foundVoucher.get(), voucher);
+    }
+
+    @Test
+    void 성공_단건조회_아이디가_없을경우_OptionalEmpty_반환() {
+        //setup
+        jdbcVoucherRepository.insert(voucher);
+        UUID id = UUID.randomUUID();
+
+        //when
+        Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(id);
+
+        //assert
+        assertThat(foundVoucher).isNotPresent();
+    }
+
+
+    @Test
+    void 성공_전체삭제() {
+        //setup
+        jdbcVoucherRepository.insert(voucher());
+        jdbcVoucherRepository.insert(voucher());
+
+        //action
+        jdbcVoucherRepository.deleteAll();
+
+        //assert
+        assertThat(jdbcVoucherRepository.findAll()).isEmpty();
+    }
+
     private void assertVoucher(Voucher actualVoucher) {
         assertThat(actualVoucher).isNotNull();
         assertThat(actualVoucher.getId()).isNotNull();

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Primary
 @Repository
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String insertQuery = "INSERT INTO voucher(voucher_id, customer_id, voucher_type, amount, percent) VALUES (:id, :customerId, :type, :amount, :percent)";
     private static final String findAllQuery = "SELECT * FROM voucher";
     private static final String findByIdQuery = "SELECT * FROM voucher WHERE voucher_id = :id";
+    private static final String findByCustomerIdQuery = "SELECT * FROM voucher WHERE customer_id = :customerId";
     private static final String deleteAllQuery = "DELETE FROM voucher";
 
     @Override
@@ -43,6 +46,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(findAllQuery, voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        checkArgument(customerId != null, "customerId must be provided");
+
+        Map<String, UUID> paramMap = Map.of("customerId", customerId);
+        return jdbcTemplate.query(findByCustomerIdQuery, paramMap,voucherRowMapper);
     }
 
     @Override

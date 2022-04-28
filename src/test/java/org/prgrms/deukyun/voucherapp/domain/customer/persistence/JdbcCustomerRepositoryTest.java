@@ -1,8 +1,6 @@
 package org.prgrms.deukyun.voucherapp.domain.customer.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.testutil.JdbcTestConfig;
@@ -24,7 +22,8 @@ import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 @ContextConfiguration(classes = JdbcTestConfig.class)
 class JdbcCustomerRepositoryTest {
 
-    @Autowired NamedParameterJdbcTemplate jdbcTemplate;
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
     JdbcCustomerRepository jdbcCustomerRepository;
     Customer customer;
 
@@ -74,40 +73,30 @@ class JdbcCustomerRepositoryTest {
                 .containsExactlyInAnyOrder(blockedCustomerIds);
     }
 
-    @Nested
-    @DisplayName("단건 조회")
-    class findByIdTest {
+    @Test
+    void 성공() {
+        //setup
+        UUID id = customer.getId();
+        jdbcCustomerRepository.insert(customer);
 
-        UUID id;
+        //when
+        Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
 
-        @BeforeEach
-        void setup() {
-            jdbcCustomerRepository.insert(customer);
-        }
+        //assert
+        assertCustomer(foundCustomer.get(), customer);
+    }
 
-        @Test
-        void 성공() {
-            //setup
-            id = customer.getId();
+    @Test
+    void 성공_아이디가_없을경우_OptionalEmpty_반환() {
+        //setup
+        UUID id = UUID.randomUUID();
+        jdbcCustomerRepository.insert(customer);
 
-            //when
-            Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
+        //when
+        Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
 
-            //assert
-            assertCustomer(foundCustomer.get(), customer);
-        }
-
-        @Test
-        void 성공_아이디가_없을경우_OptionalEmpty_반환() {
-            //setup
-            id = UUID.randomUUID();
-
-            //when
-            Optional<Customer> foundCustomer = jdbcCustomerRepository.findById(id);
-
-            //assert
-            assertThat(foundCustomer).isNotPresent();
-        }
+        //assert
+        assertThat(foundCustomer).isNotPresent();
     }
 
     @Test

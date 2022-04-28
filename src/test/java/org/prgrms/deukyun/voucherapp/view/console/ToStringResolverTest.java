@@ -20,7 +20,7 @@ class ToStringResolverTest {
 
         //then
         assertThat(voucherDisplayString).contains("[Fixed Amount Discount Voucher]");
-        assertThat(voucherDisplayString).contains("amount  : " + voucher.getAmount());
+        assertThat(voucherDisplayString).contains(String.format("amount  : %10d ₩",voucher.getAmount()));
     }
 
     @Test
@@ -34,6 +34,6 @@ class ToStringResolverTest {
 
         //then
         assertThat(voucherDisplayString).contains("[Percent Discount Voucher]     ");
-        assertThat(voucherDisplayString).contains("percent : " + voucher.getPercent());
+        assertThat(voucherDisplayString).contains(String.format("percent : %10d %%%%",voucher.getPercent()));
     }
 }

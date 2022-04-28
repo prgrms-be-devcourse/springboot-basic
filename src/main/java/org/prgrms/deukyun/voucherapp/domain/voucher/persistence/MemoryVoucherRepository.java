@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * 메모리 바우처 리포지토리
@@ -33,6 +34,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return new ArrayList<>(storage.values()).stream()
+                .filter(v -> v.getCustomerId().isPresent()
+                        && v.getCustomerId().get().equals(customerId))
+                .collect(Collectors.toList());
     }
 
     @Override
