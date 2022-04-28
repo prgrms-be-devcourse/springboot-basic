@@ -1,8 +1,10 @@
 package com.dojinyou.devcourse.voucherapplication;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherResponseList;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -14,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -43,13 +44,14 @@ class ApplicationControllerTest {
                 Command command = null;
 
                 //when
-                Throwable thrown = catchThrowable(()->applicationController.commandHandle(command));
+                Throwable thrown = catchThrowable(() -> applicationController.commandHandle(command));
 
                 //then
                 assertThat(thrown).isNotNull();
                 assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
             }
         }
+
         @Nested
         @DisplayName("사용자가 프로그램 종료 명령 입력 시,")
         class Context_Enter_Exit_Command {
@@ -68,6 +70,7 @@ class ApplicationControllerTest {
                 assertThat(response.getData()).isEqualTo(Command.EXIT);
             }
         }
+
         @Nested
         @Disabled
         @DisplayName("사용자가 바우처 생성 명령 입력 시,")
@@ -104,6 +107,7 @@ class ApplicationControllerTest {
                 assertThat(response.getData()).isInstanceOf(Voucher.class);
             }
         }
+
         @Nested
         @DisplayName("사용자가 바우처 조회 명령 입력 시,")
         class Context_Enter_List_Command {
@@ -128,7 +132,7 @@ class ApplicationControllerTest {
                 //given
                 String userInput = "LIST";
                 Command command = Command.of(userInput);
-                Response<VoucherList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherList(Arrays.asList(new Voucher[]{})));
+                Response<VoucherResponseList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherResponseList(Arrays.asList(new VoucherResponse[]{})));
                 when(voucherController.findAll()).thenReturn(expectedReturnObject);
 
                 //when

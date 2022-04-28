@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -150,7 +150,7 @@ class VoucherControllerTest {
             @DisplayName("Voucher Repository의 findAll 함수를 호출한다.")
             void it_Call_of_VoucherService_findAll_method() {
                 // given
-                when(voucherService.findAll()).thenReturn(new VoucherListBuilder().setVoucherList(new ArrayList<>()).createVoucherList());
+                when(voucherService.findAll()).thenReturn(new VoucherList(Arrays.asList(new Voucher[]{})));
 
                 // when
                 voucherController.findAll();
@@ -165,10 +165,10 @@ class VoucherControllerTest {
             @DisplayName("VoucherList를 가진 Response를 return한다.")
             void it_throws_Exception() {
                 // given
-                when(voucherService.findAll()).thenReturn(new VoucherListBuilder().setVoucherList(new ArrayList<>()).createVoucherList());
+                when(voucherService.findAll()).thenReturn(new VoucherList(Arrays.asList(new Voucher[]{})));
 
                 // when
-                Response<VoucherList> response = voucherController.findAll();
+                Response<VoucherResponseList> response = voucherController.findAll();
 
                 // then
                 assertThat(response).isNotNull();
