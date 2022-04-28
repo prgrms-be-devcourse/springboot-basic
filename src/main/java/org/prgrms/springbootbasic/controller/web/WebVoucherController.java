@@ -28,20 +28,20 @@ public class WebVoucherController {
     public String viewVouchersPage(Model model) {
         var vouchers = voucherService.findAll();
         model.addAttribute("voucherDTOs", DtoConverter.toVoucherDTOs(vouchers));
-        return "vouchers";
+        return "voucher/vouchers";
     }
 
     @GetMapping("/vouchers/{voucherId}")
     public String viewVoucherPage(@PathVariable("voucherId") UUID voucherId, Model model) {
         var voucher = voucherService.findVoucher(voucherId);
         model.addAttribute("voucher", DtoConverter.toVoucherDTO(voucher));
-        return "voucher";
+        return "voucher/voucher";
     }
 
     @GetMapping("/vouchers/new")
     public String viewNewVoucherPage(Model model) {
         model.addAttribute(new CreateVoucherRequest());
-        return "new-voucher";
+        return "voucher/new-voucher";
     }
 
     @PostMapping("/vouchers/new")
@@ -59,20 +59,20 @@ public class WebVoucherController {
 
         if (bindingResult.hasErrors()) {
             logger.info("errors={}", bindingResult);
-            return "new-voucher";
+            return "voucher/new-voucher";
         }
 
         voucherService.createVoucher(
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
             createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
-        return "redirect:/vouchers";
+        return "redirect:voucher/vouchers";
     }
 
     @PostMapping("/vouchers/{voucherId}/delete")
     public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
-        return "redirect:/vouchers";
+        return "redirect:voucher/vouchers";
     }
 
     private void validatePercentVoucherInput(CreateVoucherRequest createVoucherRequest,
