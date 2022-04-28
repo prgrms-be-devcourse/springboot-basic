@@ -3,10 +3,12 @@ package com.example.voucher.domain.voucher;
 import java.util.Objects;
 
 public abstract class Voucher {
+	final VoucherType voucherType;
 	final Long voucherId;
 	final int discountAmount;
 
-	public Voucher(Long voucherId, int discountAmount) {
+	public Voucher(VoucherType voucherType, Long voucherId, int discountAmount) {
+		this.voucherType = voucherType;
 		this.voucherId = voucherId;
 		this.discountAmount = discountAmount;
 	}
@@ -19,6 +21,10 @@ public abstract class Voucher {
 		return discountAmount;
 	}
 
+	public VoucherType getVoucherType() {
+		return voucherType;
+	}
+
 	public abstract int discount(int beforeDiscount);
 
 	@Override
@@ -26,11 +32,11 @@ public abstract class Voucher {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Voucher voucher = (Voucher) o;
-		return discountAmount == voucher.discountAmount && Objects.equals(voucherId, voucher.voucherId);
+		return discountAmount == voucher.discountAmount && voucherType == voucher.voucherType && Objects.equals(voucherId, voucher.voucherId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(voucherId, discountAmount);
+		return Objects.hash(voucherType, voucherId, discountAmount);
 	}
 }

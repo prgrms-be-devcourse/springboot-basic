@@ -20,15 +20,20 @@ public class VoucherFileRepository implements VoucherRepository {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(SERVER_ERROR.name());
 		}
-		if (voucher.getVoucherId() == null) {
-			VoucherType voucherType = VoucherType.of(voucher.getClass().getSimpleName());
-			if (voucherType == EMPTY) {
-				// TODO: 로그 남기기
-				throw new IllegalArgumentException(SERVER_ERROR.name());
-			}
-			voucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+
+		VoucherType voucherType = VoucherType.of(voucher.getVoucherType().getTypeString());
+		if(voucherType == EMPTY) {
+			// TODO: 로그 남기기
+			throw new IllegalArgumentException(SERVER_ERROR.name());
 		}
-		FileUtils.writeFile(PATH, voucher.toString()+"\n");
+
+		if (voucher.getVoucherId() == null) {
+			Voucher createdVoucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+			FileUtils.writeFile(PATH, createdVoucher+"\n");
+			return createdVoucher;
+		}
+
+		FileUtils.writeFile(PATH, voucher+"\n");
 		return voucher;
 	}
 
@@ -50,7 +55,9 @@ public class VoucherFileRepository implements VoucherRepository {
 		}
 
 		try {
-			return voucherType.create(Long.valueOf(voucherId), Integer.valueOf(discountAmount));
+			Long convertedVoucherId = Long.valueOf(voucherId);
+			int convertedDiscountAmount = Integer.valueOf(discountAmount);
+			return voucherType.create(convertedVoucherId, convertedDiscountAmount);
 		} catch (NumberFormatException e) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());

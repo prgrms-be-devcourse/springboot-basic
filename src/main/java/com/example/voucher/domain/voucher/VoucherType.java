@@ -16,6 +16,10 @@ public enum VoucherType {
 		this.expression = expression;
 	}
 
+	public String getTypeString() {
+		return typeString;
+	}
+
 	public Voucher create(Long voucherId, int discountAmount) {
 		return expression.apply(voucherId, discountAmount);
 	}

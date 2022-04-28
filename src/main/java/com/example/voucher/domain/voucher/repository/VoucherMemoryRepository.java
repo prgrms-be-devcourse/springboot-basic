@@ -4,7 +4,6 @@ import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,15 +24,16 @@ public class VoucherMemoryRepository implements VoucherRepository {
 			throw new IllegalArgumentException(SERVER_ERROR.name());
 		}
 
+		VoucherType voucherType = VoucherType.of(voucher.getVoucherType().getTypeString());
+		if(voucherType == EMPTY) {
+			// TODO: 로그 남기기
+			throw new IllegalArgumentException(SERVER_ERROR.name());
+		}
+
 		if (voucher.getVoucherId() == null) {
-			VoucherType voucherType = VoucherType.of(voucher.getClass().getSimpleName());
-
-			if (voucherType == EMPTY) {
-				// TODO: 로그 남기기
-				throw new IllegalArgumentException(SERVER_ERROR.name());
-			}
-
-			voucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+			Voucher createdVoucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+			store.put(createdVoucher.getVoucherId(), createdVoucher);
+			return createdVoucher;
 		}
 
 		store.put(voucher.getVoucherId(), voucher);
