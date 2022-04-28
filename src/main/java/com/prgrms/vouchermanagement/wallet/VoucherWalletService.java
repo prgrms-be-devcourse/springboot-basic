@@ -58,6 +58,10 @@ public class VoucherWalletService {
         return walletRepository.findCustomerByVoucher(voucherId);
     }
 
+    public List<Wallet> findAll() {
+        return walletRepository.findAll();
+    }
+
     private void validateCustomerId(UUID customerId) throws IllegalArgumentException {
         if (!customerService.isRegisteredCustomer(customerId)) {
             throw new IllegalArgumentException("등록되지 않은 Customer입니다.");

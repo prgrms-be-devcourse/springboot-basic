@@ -18,4 +18,6 @@ public interface VoucherWalletRepository {
     List<Customer> findCustomerByVoucher(UUID voucherId);
 
     Optional<Wallet> findWallet(UUID walletId);
+
+    List<Wallet> findAll();
 }

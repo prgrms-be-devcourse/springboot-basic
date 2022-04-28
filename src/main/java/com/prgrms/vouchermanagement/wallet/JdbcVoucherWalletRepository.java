@@ -85,6 +85,16 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         }
     }
 
+    @Override
+    public List<Wallet> findAll() throws DataAccessException {
+        try {
+            return jdbcTemplate.query("SELECT * FROM voucher_wallet", Collections.emptyMap(), walletRowMapper);
+        } catch (DataAccessException e) {
+            log.error("fail to execute query", e);
+            throw e;
+        }
+    }
+
     /**
      * 테스트에서 사용
      */
