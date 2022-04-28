@@ -1,7 +1,6 @@
 package org.prgms.voucheradmin.domain.voucher.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,7 +8,6 @@ import org.prgms.voucheradmin.domain.voucher.dto.VoucherCondition;
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherReqDto;
 import org.prgms.voucheradmin.domain.voucher.dto.VouchersResDto;
 import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
-import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
 import org.prgms.voucheradmin.domain.voucher.service.VoucherService;
 import org.prgms.voucheradmin.global.common.ResponseDto;
 import org.springframework.http.HttpStatus;
@@ -39,7 +37,8 @@ public class VoucherController {
     @GetMapping
     public ResponseEntity<ResponseDto> getVouchers(@ModelAttribute VoucherCondition voucherCondition) throws IOException {
         List<Voucher> allVouchers = (voucherCondition.hasVoucherType() || voucherCondition.hasVoucherDateRage()) ?
-                voucherService.getVouchersWithCondition(voucherCondition) : voucherService.getVouchers();
+                voucherService.getVouchersWithCondition(voucherCondition) :
+                voucherService.getVouchers();
 
         VouchersResDto vouchersResDto = new VouchersResDto(allVouchers.size(), allVouchers);
 
