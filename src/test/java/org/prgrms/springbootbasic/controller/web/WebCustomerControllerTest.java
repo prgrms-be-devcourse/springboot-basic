@@ -2,6 +2,9 @@ package org.prgrms.springbootbasic.controller.web;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -13,6 +16,8 @@ import org.prgrms.springbootbasic.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers = WebCustomerController.class)
@@ -52,5 +57,30 @@ class WebCustomerControllerTest {
         //then
         mockMvc.perform(get("/customers/" + customer.getCustomerId().toString()))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("회원 등록 폼")
+    void viewRegisterForm() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(get("/customers/new"))
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("회원 등록")
+    void registerCustomer() throws Exception {
+        //given
+        //when
+        //then
+        mockMvc.perform(post("/customers/new")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("name", "test")
+                .param("email", "test@gmail.com"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(header().string(HttpHeaders.LOCATION, "/customers"))
+            .andDo(print());
     }
 }

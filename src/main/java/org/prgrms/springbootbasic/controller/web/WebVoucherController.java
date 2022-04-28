@@ -66,7 +66,7 @@ public class WebVoucherController {
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
             createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
 
     @PostMapping("/vouchers/{voucherId}/delete")
