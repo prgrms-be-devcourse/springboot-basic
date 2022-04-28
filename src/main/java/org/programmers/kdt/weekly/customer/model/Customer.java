@@ -1,5 +1,6 @@
 package org.programmers.kdt.weekly.customer.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -24,8 +25,9 @@ public class Customer {
         return email;
     }
 
-    public void changeCustomerType(CustomerType customerType) {
+    public Customer changeCustomerType(CustomerType customerType) {
         this.customerType = customerType;
+        return this;
     }
 
     @Override
@@ -39,5 +41,22 @@ public class Customer {
 
     public String serializeCustomer() {
         return customerId + "," + email + "," + customerName + "," + customerType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Customer customer = (Customer) o;
+        return Objects.equals(customerId, customer.customerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId);
     }
 }
