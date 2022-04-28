@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class VoucherController {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
+    private static final String SUCCESS_MESSAGE = "바우처가 생성되었습니다.";
+
     private final VoucherService voucherService;
     private final VoucherAppUseCase voucherAppUseCase;
-
-    // 옮기기
-    public static final String EXIST_VOUCHER = "이미 존재하는 바우처 입니다.";
 
     public VoucherController(VoucherService voucherService, VoucherAppUseCase voucherAppUseCase) {
         this.voucherService = voucherService;
@@ -33,14 +32,26 @@ public class VoucherController {
     }
 
     @GetMapping("/new-voucher-success")
-    public String createVoucherSuccess() {
-        return "/voucher/new-voucher-success";
+    public String createVoucherSuccessPage(Model model) {
+        model.addAttribute("message", SUCCESS_MESSAGE);
+        return "/common/success";
     }
 
-
     @GetMapping("/voucher-exist")
-    public String existVoucher() {
+    public String existVoucherPage() {
         return "/voucher/voucher-exist";
+    }
+
+    @GetMapping("/vouchers")
+    public String vouchersPage(Model model) {
+        model.addAttribute("vouchers", voucherService.findAll());
+        return "/voucher/voucher-list";
+    }
+
+    @GetMapping("select-vouchers")
+    public String selectVouchersPage(Model model) {
+        model.addAttribute("vouchers", voucherService.findAll());
+        return "/voucher/voucher-list-select";
     }
 
     @PostMapping("/new-voucher")
@@ -50,11 +61,5 @@ public class VoucherController {
             return "redirect:voucher-exist";
         }
         return "redirect:new-voucher-success";
-    }
-
-    @GetMapping("/vouchers")
-    public String vouchers(Model model) {
-        model.addAttribute("vouchers", voucherService.findAll());
-        return "/voucher/voucher-list";
     }
 }
