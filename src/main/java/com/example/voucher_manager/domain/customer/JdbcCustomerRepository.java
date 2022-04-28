@@ -83,7 +83,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
                 toParamMap(customer));
         if (update != 1){
             logger.error("Noting was updated");
+            return customer;
         }
+        logger.info("Customer data Successfully updated.");
         return customer;
     }
 
@@ -102,12 +104,25 @@ public class JdbcCustomerRepository implements CustomerRepository{
             // logger.error("Duplicate entry can't inserted");
             throw new DuplicateKeyException("Duplicate entry can't inserted");
         }
+        logger.info("Customer data Successfully inserted.");
         return Optional.of(customer);
     }
 
     @Override
     public void clear() {
         jdbcTemplate.update("DELETE FROM customers", Map.of());
+    }
+
+    @Override
+    public boolean deleteCustomer(Customer customer) {
+        var delete = jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId)",
+                toParamMap(customer));
+        if (delete != 1){
+            logger.error("Noting was deleted.");
+            return false;
+        }
+        logger.info("Customer data Successfully deleted.");
+        return true;
     }
 
     static UUID toUUID(byte[] bytes) {

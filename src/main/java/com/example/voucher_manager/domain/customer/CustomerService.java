@@ -3,6 +3,7 @@ package com.example.voucher_manager.domain.customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,6 +22,24 @@ public class CustomerService {
 
     public List<Customer> findAllBlackList() {
         return blacklistCustomerRepository.findAll();
+    }
+
+    public Optional<Customer> findCustomer(UUID customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    public boolean deleteCustomer(UUID customerId) {
+        var customer = customerRepository.findById(customerId);
+        if (customer.isPresent()) {
+            customerRepository.deleteCustomer(customer.get());
+            return true;
+        }
+        return false;
+    }
+
+    public Customer modifyProfile(Customer customer) {
+        customerRepository.update(customer);
+        return customer;
     }
 
     public Customer signUp(String name, String email) {
