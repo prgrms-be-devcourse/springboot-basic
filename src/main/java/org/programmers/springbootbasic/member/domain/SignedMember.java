@@ -6,7 +6,6 @@ import lombok.ToString;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class SignedMember implements Member {
     private final String name;
     private final String email;
     private Timestamp lastLoginAt;
-    private final Timestamp  signedUpAt;
+    private final Timestamp signedUpAt;
     private final List<Voucher> vouchers = new ArrayList<>();
 
     public SignedMember(Long memberId, String name, String email, Timestamp lastLoginAt, Timestamp signedUpAt) {

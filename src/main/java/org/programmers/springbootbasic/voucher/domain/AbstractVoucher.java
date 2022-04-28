@@ -27,7 +27,7 @@ public abstract class AbstractVoucher implements Voucher {
         this.registeredAt = Timestamp.from(java.time.Instant.now());
     }
 
-    public AbstractVoucher(UUID id, int amount, VoucherType type, Long memberId, Timestamp registeredAt) {
+    protected AbstractVoucher(UUID id, int amount, VoucherType type, Long memberId, Timestamp registeredAt) {
         this.id = id;
         this.amount = amount;
         this.type = type;

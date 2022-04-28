@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.console.command.Command;
 import org.programmers.springbootbasic.console.model.ConsoleModelAndView;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
-import org.programmers.springbootbasic.web.dto.MemberDto;
 import org.programmers.springbootbasic.member.service.MemberService;
+import org.programmers.springbootbasic.web.dto.MemberDto;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;

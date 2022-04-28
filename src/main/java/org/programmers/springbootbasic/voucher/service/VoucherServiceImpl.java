@@ -45,12 +45,6 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<Voucher> getVouchersByDate(Date startingDate, Date endDate) {
-//        var calendar = Calendar.getInstance();
-//        calendar.setTime(endDate);
-//        calendar.add(Calendar.DATE, 1);
-//        var instant = calendar.toInstant();
-//        Date.from(instant);
-//
         return voucherRepository.findByDate(startingDate, endDate);
     }
 

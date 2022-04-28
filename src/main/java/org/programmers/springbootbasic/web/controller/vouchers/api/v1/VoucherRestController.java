@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -27,21 +26,21 @@ public class VoucherRestController {
         if (type != null) {
             if (startingDate != null && endingDate != null) {
                 return voucherService.getVouchersByTypeAndDate(type, startingDate, endingDate)
-                        .stream().map(voucher -> VoucherDto.from(voucher))
-                        .collect(toList());
+                        .stream().map(VoucherDto::from)
+                        .toList();
             }
             return voucherService.getVouchersByType(type)
-                    .stream().map(voucher -> VoucherDto.from(voucher))
-                    .collect(toList());
+                    .stream().map(VoucherDto::from)
+                    .toList();
         }
         if (startingDate != null && endingDate != null) {
             return voucherService.getVouchersByDate(startingDate, endingDate)
-                    .stream().map(voucher -> VoucherDto.from(voucher))
-                    .collect(toList());
+                    .stream().map(VoucherDto::from)
+                    .toList();
         }
         return voucherService.getAllVouchers()
-                .stream().map(voucher -> VoucherDto.from(voucher))
-                .collect(toList());
+                .stream().map(VoucherDto::from)
+                .toList();
     }
 
     @GetMapping("/api/v1/vouchers/{voucherId}")

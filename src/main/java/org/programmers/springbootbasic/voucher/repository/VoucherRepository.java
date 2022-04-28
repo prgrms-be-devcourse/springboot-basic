@@ -3,7 +3,6 @@ package org.programmers.springbootbasic.voucher.repository;
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

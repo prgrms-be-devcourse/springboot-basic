@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.programmers.springbootbasic.console.converter.UuidByteArrayConverter.bytesToUuid;
-import static org.programmers.springbootbasic.console.converter.UuidByteArrayConverter.uuidToBytes;
+import static org.programmers.springbootbasic.voucher.converter.UuidByteArrayConverter.bytesToUuid;
+import static org.programmers.springbootbasic.voucher.converter.UuidByteArrayConverter.uuidToBytes;
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.FIXED;
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.RATE;
 

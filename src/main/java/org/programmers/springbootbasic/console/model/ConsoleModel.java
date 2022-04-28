@@ -11,9 +11,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class ConsoleModel {
     private final Map<String, Object> attributes = new ConcurrentHashMap<>();
-    @Getter @Setter
+    @Getter
+    @Setter
     private String inputSignature;
-    @Getter @Setter
+    @Getter
+    @Setter
     private RedirectCommand redirectLink;
 
     public void addAttributes(String name, Object attribute) {

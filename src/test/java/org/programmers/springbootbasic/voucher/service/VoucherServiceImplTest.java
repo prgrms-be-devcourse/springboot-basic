@@ -55,7 +55,6 @@ class VoucherServiceImplTest {
         assertThrows(IllegalArgumentException.class, () -> VOUCHER_SERVICE.createVoucher(0, RATE));
     }
 
-
     @Test
     @DisplayName("바우처 찾기")
     void getVoucher() {

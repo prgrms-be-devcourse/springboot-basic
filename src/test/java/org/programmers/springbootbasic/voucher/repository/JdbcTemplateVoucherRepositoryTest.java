@@ -46,7 +46,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @Component
     static class DataSourceCleaner {
 
-        private JdbcTemplate template;
+        private final JdbcTemplate template;
 
         public DataSourceCleaner(DataSource dataSource) {
             this.template = new JdbcTemplate(dataSource);

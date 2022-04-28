@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.console.converter;
+package org.programmers.springbootbasic.voucher.converter;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;

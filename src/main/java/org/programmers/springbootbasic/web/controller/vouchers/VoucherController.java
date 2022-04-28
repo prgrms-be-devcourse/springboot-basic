@@ -24,12 +24,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static java.util.stream.Collectors.toList;
 import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+//TODO: PR 포인트 1
 public class VoucherController {
 
     private final VoucherRepository voucherRepository;
@@ -71,6 +71,7 @@ public class VoucherController {
         return "vouchers/createVoucher";
     }
 
+    //TODO: PR 포인트2
     @PostMapping("voucher")
     public String createVoucher(@Valid @ModelAttribute("voucher") VoucherCreateForm form,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -86,21 +87,6 @@ public class VoucherController {
 
     private boolean isFormInputValid(boolean hasError, Integer amount, VoucherType type) {
         return !hasError && (amount != null && type != null) && voucherService.isValidAmount(amount, type);
-    }
-
-    @GetMapping("vouchers/{voucherId}")
-    public String getVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
-        VoucherDto voucher = VoucherDto.from(voucherService.getVoucher(voucherId));
-        model.addAttribute("voucher", voucher);
-
-        return "vouchers/editVoucher";
-    }
-
-    @PostMapping("vouchers/{voucherId}/delete")
-    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
-        log.info("deleteRequest for voucherId = {}", voucherId);
-        voucherService.deleteVoucher(voucherId);
-        return "redirect:/vouchers";
     }
 
     private String redirectToForm(VoucherCreateForm form, BindingResult bindingResult) {
@@ -121,6 +107,22 @@ public class VoucherController {
         return "vouchers/createVoucher";
     }
 
+    @GetMapping("vouchers/{voucherId}")
+    public String getVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+        VoucherDto voucher = VoucherDto.from(voucherService.getVoucher(voucherId));
+        model.addAttribute("voucher", voucher);
+
+        return "vouchers/editVoucher";
+    }
+
+    @PostMapping("vouchers/{voucherId}/delete")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        log.info("deleteRequest for voucherId = {}", voucherId);
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
+    }
+
+    //TODO: PR 포인트3
     @GetMapping("vouchers")
     public String voucherList(Model model, @RequestParam(required = false) VoucherType type,
                               @RequestParam(required = false) Date startingDate, @RequestParam(required = false) Date endingDate) {
@@ -147,7 +149,7 @@ public class VoucherController {
         model.addAttribute("startingDate", startingDate);
         model.addAttribute("endingDate", endingDate);
         List<VoucherDto> vouchers = voucherService.getVouchersByTypeAndDate(type, startingDate, endingDate)
-                .stream().map(voucher -> VoucherDto.from(voucher)).collect(toList());
+                .stream().map(VoucherDto::from).toList();
         model.addAttribute("vouchers", vouchers);
         return "vouchers/voucherList";
     }
@@ -155,7 +157,7 @@ public class VoucherController {
     private String voucherListByType(Model model, VoucherType type) {
         model.addAttribute("type", type);
         List<VoucherDto> vouchers = voucherService.getVouchersByType(type)
-                .stream().map(voucher -> VoucherDto.from(voucher)).collect(toList());
+                .stream().map(VoucherDto::from).toList();
         model.addAttribute("vouchers", vouchers);
         return "vouchers/voucherList";
     }
@@ -164,7 +166,7 @@ public class VoucherController {
         model.addAttribute("startingDate", startingDate);
         model.addAttribute("endingDate", endingDate);
         List<VoucherDto> vouchers = voucherService.getVouchersByDate(startingDate, endingDate)
-                .stream().map(voucher -> VoucherDto.from(voucher)).collect(toList());
+                .stream().map(VoucherDto::from).toList();
         model.addAttribute("vouchers", vouchers);
         return "vouchers/voucherList";
     }
