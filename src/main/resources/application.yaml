@@ -1,0 +1,29 @@
+menu:
+  main: |-
+    === Voucher Program ===
+    Type "exit" to exit the program.
+    Type "create" to a new voucher.
+    Type "list" to list all vouchers or blacklists.
+    >
+  create: |-
+    Please select the voucher you want to create by "number".
+    1. FixedAmountVoucher
+    2. PercentDiscountVoucher
+    >
+  list: |-
+    Please select the information you want to check by "number".
+    1. VoucherList
+    2. BlackList
+    >
+  discount: |-
+    Enter discount :
+
+---
+path:
+  blacklist: "src/main/resources/data/blackList.csv"
+  voucher: "src/main/resources/data/voucherList.csv"
+---
+error:
+  invalidCommand: "Invalid command entered."
+  inputNegativeNumbers: "A value of 0 or less has been entered."
+  inputNotNumbers: "You must enter only numbers."
