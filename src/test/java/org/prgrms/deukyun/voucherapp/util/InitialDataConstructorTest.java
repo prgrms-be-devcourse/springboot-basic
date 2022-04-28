@@ -3,18 +3,15 @@ package org.prgrms.deukyun.voucherapp.util;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.prgrms.deukyun.voucherapp.domain.customer.service.CustomerService;
-import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
-import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
+import org.prgrms.deukyun.voucherapp.util.initdata.CustomerData;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 
 class InitialDataConstructorTest {
 
-    InitialDataConstructor dataConstructor;
-    VoucherService mockVoucherService;
+    CustomerData dataConstructor;
     CustomerService mockCustomerService;
 
     static int AMOUNT_INIT_CUSTOMER = 100;
@@ -23,9 +20,8 @@ class InitialDataConstructorTest {
 
     @BeforeEach
     void setUp() {
-        mockVoucherService = mock(VoucherService.class);
         mockCustomerService = mock(CustomerService.class);
-        dataConstructor = new InitialDataConstructor(mockVoucherService, mockCustomerService);
+        dataConstructor = new CustomerData(mockCustomerService);
     }
 
     @Test
@@ -35,18 +31,18 @@ class InitialDataConstructorTest {
 
         //then
         verify(mockCustomerService, times(AMOUNT_INIT_CUSTOMER)).insert(any());
-        verify(mockVoucherService, times(AMOUNT_INIT_OWNED_VOUCHERS)).insert(ownedVoucher());
-        verify(mockVoucherService, times(AMOUNT_INIT_NOT_OWNED_VOUCHERS)).insert(notOwnedVoucher());
+//        verify(mockVoucherService, times(AMOUNT_INIT_OWNED_VOUCHERS)).insert(ownedVoucher());
+//        verify(mockVoucherService, times(AMOUNT_INIT_NOT_OWNED_VOUCHERS)).insert(notOwnedVoucher());
     }
 
 
 
-    private Voucher notOwnedVoucher() {
-        return argThat(voucher -> voucher.getCustomerId().isEmpty());
-    }
-
-    private  Voucher ownedVoucher() {
-        return argThat(voucher -> voucher.getCustomerId().isPresent());
-    }
+//    private Voucher notOwnedVoucher() {
+//        return argThat(voucher -> voucher.getCustomerId().isEmpty());
+//    }
+//
+//    private  Voucher ownedVoucher() {
+//        return argThat(voucher -> voucher.getCustomerId().isPresent());
+//    }
 
 }

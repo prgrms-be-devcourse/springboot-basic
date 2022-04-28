@@ -1,6 +1,6 @@
-package org.prgrms.deukyun.voucherapp.util;
+package org.prgrms.deukyun.voucherapp.util.initdata;
 
-import com.github.javafaker.Faker;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.service.CustomerService;
@@ -8,53 +8,35 @@ import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVo
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.RandomUtils.*;
+import static org.apache.commons.lang3.RandomUtils.nextInt;
+import static org.apache.commons.lang3.RandomUtils.nextLong;
 
 @Slf4j
 @Component
-public class InitialDataConstructor {
+@RequiredArgsConstructor
+public class VoucherData {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    private final Faker faker;
 
-    private static final int AMOUNT_INIT_CUSTOMER = 100;
     private static final int AMOUNT_INIT_OWNED_VOUCHERS = 400;
     private static final int AMOUNT_INIT_NOT_OWNED_VOUCHERS = 100;
 
-    public InitialDataConstructor(VoucherService voucherService, CustomerService customerService) {
-        this.voucherService = voucherService;
-        this.customerService = customerService;
-        this.faker = new Faker(new Locale("ko"));
-    }
-
-    @PostConstruct
     public void initData() {
-        UUID[] customerIds = initCustomers();
-        initOwnedVouchers(customerIds);
+        initOwnedVouchers();
         initNotOwnedVouchers();
     }
 
-    private UUID[] initCustomers() {
-        UUID[] customerIds = new UUID[AMOUNT_INIT_CUSTOMER];
-        for (int i = 0; i < AMOUNT_INIT_CUSTOMER; i++) {
-            Customer customer = new Customer(faker.name().fullName(), nextInt() % 2 == 0, Collections.emptyList());
-
-            customerIds[i] = customer.getId();
-            customerService.insert(customer);
-        }
-        log.info("{} init customer inserted", AMOUNT_INIT_CUSTOMER);
-        return customerIds;
-    }
-
-    private void initOwnedVouchers(UUID[] customerIds) {
+    private void initOwnedVouchers( ) {
+        List<UUID> customerIds = getCustomerIds();
+        int customerAmount = customerIds.size();
         for (int i = 0; i < AMOUNT_INIT_OWNED_VOUCHERS; i++) {
             Voucher voucher;
             if (nextInt() % 2 == 0) {
@@ -62,10 +44,14 @@ public class InitialDataConstructor {
             } else {
                 voucher = new PercentDiscountVoucher(nextLong(0, 11) * 10);
             }
-            voucher.setOwnerId(customerIds[nextInt(0, AMOUNT_INIT_CUSTOMER)]);
+            voucher.setOwnerId(customerIds.get(nextInt(0, customerAmount)));
             voucherService.insert(voucher);
         }
         log.info("{} init owned voucher inserted", AMOUNT_INIT_OWNED_VOUCHERS);
+    }
+
+    private List<UUID> getCustomerIds() {
+        return customerService.findAll().stream().map(Customer::getId).collect(Collectors.toList());
     }
 
     private void initNotOwnedVouchers() {

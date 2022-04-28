@@ -6,6 +6,7 @@ import org.prgrms.deukyun.voucherapp.domain.customer.domain.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -13,6 +14,10 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
 
     public List<Customer> findAllBlocked(){
         return customerRepository.findAllBlocked();
