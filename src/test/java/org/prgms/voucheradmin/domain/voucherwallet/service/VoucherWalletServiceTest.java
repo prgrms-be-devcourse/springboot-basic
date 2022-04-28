@@ -45,7 +45,7 @@ class VoucherWalletServiceTest {
             .email("a@test.com")
             .createdAt(LocalDateTime.now())
             .build();
-    Voucher voucher = new FixedAmountVoucher(voucherWalletReqDto.getVoucherId(), 1000);
+    Voucher voucher = new FixedAmountVoucher(voucherWalletReqDto.getVoucherId(), 1000, LocalDateTime.now());
     VoucherWallet voucherWallet = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
 
     @Test

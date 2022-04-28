@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,10 +33,7 @@ public class VoucherService {
     */
     @Transactional
     public Voucher createVoucher(VoucherReqDto voucherReqDto) throws IOException {
-        Voucher voucher = getVoucherInstance(
-                UUID.randomUUID(),
-                voucherReqDto.getVoucherType(),
-                voucherReqDto.getAmount());
+        Voucher voucher = getVoucherInstance(UUID.randomUUID(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount(), LocalDateTime.now());
 
         return voucherRepository.create(voucher);
     }
@@ -65,7 +63,7 @@ public class VoucherService {
         Voucher retrievedVoucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
-        Voucher updatedVoucher = getVoucherInstance(retrievedVoucher.getVoucherId(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount());
+        Voucher updatedVoucher = getVoucherInstance(retrievedVoucher.getVoucherId(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount(), retrievedVoucher.getCreatedAt());
         return voucherRepository.update(updatedVoucher);
     }
 
@@ -81,12 +79,12 @@ public class VoucherService {
     /**
      * 바우처의 종류에 따라 알맞은 Voucehr를 반환 하는 메서드입니다.
      **/
-    private Voucher getVoucherInstance(UUID voucherId, VoucherType voucherType, long amount) {
+    private Voucher getVoucherInstance(UUID voucherId, VoucherType voucherType, long amount, LocalDateTime createdAt) {
         switch (voucherType) {
             case FIXED_AMOUNT:
-                return new FixedAmountVoucher(voucherId, amount);
+                return new FixedAmountVoucher(voucherId, amount, createdAt);
             case PERCENTAGE_DISCOUNT:
-                return new PercentageDiscountVoucher(voucherId, (int)amount);
+                return new PercentageDiscountVoucher(voucherId, (int)amount, createdAt);
             default:
                 throw new WrongInputException();
         }

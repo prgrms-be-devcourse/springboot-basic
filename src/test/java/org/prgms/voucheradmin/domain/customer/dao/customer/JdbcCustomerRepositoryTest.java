@@ -84,7 +84,7 @@ class customerRepositoryTest {
             .createdAt(LocalDateTime.now())
             .build();
 
-    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now());
     VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
     VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer2.getCustomerId(), voucher.getVoucherId());
 

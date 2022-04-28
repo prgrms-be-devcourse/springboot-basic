@@ -6,6 +6,7 @@ import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +40,7 @@ class VoucherServiceTest {
     void testVoucherCreation() {
         try {
             // when
-            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
+            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
             when(voucherRepository.create(any(Voucher.class))).thenReturn(voucher);
 
             // given
@@ -70,7 +71,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 수정 테스트")
     void testUpdateVoucher() {
         UUID voucherId = UUID.randomUUID();
-        Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10);
+        Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10, LocalDateTime.now());
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
 
@@ -84,7 +85,7 @@ class VoucherServiceTest {
     void testUpdateVoucherException() {
         try{
             UUID voucherId = UUID.randomUUID();
-            Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10);
+            Voucher retrievedVoucher = new FixedAmountVoucher(voucherId, 10, LocalDateTime.now());
             when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(retrievedVoucher));
 
             voucherService.updateVoucher(voucherId, new VoucherReqDto(PERCENTAGE_DISCOUNT, 10));
@@ -97,7 +98,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 삭제 테스트")
     void testDeleteVoucher() {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, 10L);
+        Voucher voucher = new FixedAmountVoucher(voucherId, 10L, LocalDateTime.now());
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
 

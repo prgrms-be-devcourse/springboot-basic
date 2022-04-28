@@ -77,8 +77,8 @@ class JdbcVoucherWalletRepositoryTest {
             .email("tester@gmail.com")
             .createdAt(LocalDateTime.now())
             .build();
-    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-    Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50);
+    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now());
+    Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now());
     VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId());
     VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher2.getVoucherId());
 

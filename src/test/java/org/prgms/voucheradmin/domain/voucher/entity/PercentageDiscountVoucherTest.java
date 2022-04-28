@@ -3,6 +3,7 @@ package org.prgms.voucheradmin.domain.voucher.entity;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -17,7 +18,7 @@ class PercentageDiscountVoucherTest {
     @MethodSource("percentageDiscountParameter")
     @DisplayName("퍼센트 할인 테스트")
     void discount(long beforeDiscount, int percent, long afterDiscount) {
-        Voucher voucher = new PercentageDiscountVoucher(UUID.randomUUID(), percent);
+        Voucher voucher = new PercentageDiscountVoucher(UUID.randomUUID(), percent, LocalDateTime.now());
         assertThat(voucher.discount(beforeDiscount), is(afterDiscount));
     }
 

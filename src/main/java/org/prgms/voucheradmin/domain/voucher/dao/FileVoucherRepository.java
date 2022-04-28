@@ -1,6 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.dao;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -55,11 +56,11 @@ public class FileVoucherRepository implements VoucherRepository{
             switch (voucherType) {
                 case FIXED_AMOUNT:
                     long amount = Long.parseLong(st.nextToken());
-                    vouchers.add(new FixedAmountVoucher(voucherId, amount));
+                    vouchers.add(new FixedAmountVoucher(voucherId, amount, LocalDateTime.now()));
                     break;
                 default:
                     int percent = Integer.parseInt(st.nextToken());
-                    vouchers.add(new PercentageDiscountVoucher(voucherId, percent));
+                    vouchers.add(new PercentageDiscountVoucher(voucherId, percent, LocalDateTime.now()));
                     break;
             }
         }

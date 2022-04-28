@@ -79,9 +79,9 @@ class voucherRepositoryTest {
             .email("tester@gmail.com")
             .createdAt(LocalDateTime.now())
             .build();
-    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-    Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50);
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
+    Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now());
+    Voucher voucher2 = new PercentageDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now());
     VoucherWallet voucherWallet1 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId());
     VoucherWallet voucherWallet2 = new VoucherWallet(UUID.randomUUID(), customer.getCustomerId(), voucher2.getVoucherId());
 
@@ -119,7 +119,7 @@ class voucherRepositoryTest {
     @Order(2)
     @DisplayName("바우처 수정 확인")
     void testUpdateVoucher() throws Throwable{
-        voucherRepository.update(new PercentageDiscountVoucher(voucher.getVoucherId(), 20));
+        voucherRepository.update(new PercentageDiscountVoucher(voucher.getVoucherId(), 20, voucher.getCreatedAt()));
 
         List<Voucher> vouchers = voucherRepository.findAll();
 

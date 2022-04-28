@@ -15,6 +15,7 @@ import org.prgms.voucheradmin.domain.voucher.entity.Voucher;
 import org.prgms.voucheradmin.global.properties.VoucherAdminProperties;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("파일 저장 조회 테스트")
     void testSaveAndGetAll() {
         UUID voucherId = UUID.randomUUID();
-        Voucher newVoucher = new PercentageDiscountVoucher(voucherId, 10);
+        Voucher newVoucher = new PercentageDiscountVoucher(voucherId, 10, LocalDateTime.now());
         when(voucherAdminProperties.getVoucherFilePath()).thenReturn("src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt");
 
         try {

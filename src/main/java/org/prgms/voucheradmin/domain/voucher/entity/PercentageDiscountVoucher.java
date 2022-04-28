@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.voucher.entity;
 
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.PERCENTAGE_DISCOUNT;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
@@ -13,11 +14,13 @@ public class PercentageDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final int percent;
+    private final LocalDateTime createdAt;
 
-    public PercentageDiscountVoucher(UUID voucherId, int percent) {
+    public PercentageDiscountVoucher(UUID voucherId, int percent, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.voucherType = PERCENTAGE_DISCOUNT;
         this.percent = percent;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -33,6 +36,11 @@ public class PercentageDiscountVoucher implements Voucher {
     @Override
     public long getAmount() {
         return this.percent;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

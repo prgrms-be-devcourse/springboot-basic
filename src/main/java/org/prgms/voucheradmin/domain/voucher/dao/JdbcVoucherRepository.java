@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.voucher.dao;
 
 import static org.prgms.voucheradmin.global.util.Util.toUUID;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,8 +36,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
      **/
     @Override
     public Voucher create(Voucher voucher) {
-        int update = jdbcTemplate.update("insert into vouchers(voucher_id, voucher_type, voucher_amount) value(UUID_TO_BIN(?), ?, ?)",
-                voucher.getVoucherId().toString().getBytes(), voucher.getVoucherType().name(), voucher.getAmount());
+        int update = jdbcTemplate.update("insert into vouchers(voucher_id, voucher_type, voucher_amount, created_at) value(UUID_TO_BIN(?), ?, ?, ?)",
+                voucher.getVoucherId().toString().getBytes(), voucher.getVoucherType().name(), voucher.getAmount(), voucher.getCreatedAt());
 
         if(update != 1) {
             throw new CreationFailException();
@@ -78,7 +79,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
      **/
     @Override
     public List<Voucher> findAllocatedVouchers(UUID customerId) {
-        return jdbcTemplate.query("select v.voucher_id, v.voucher_type, v.voucher_amount from voucher_wallets as vw join vouchers as v on vw.voucher_id = v.voucher_id where customer_id = UUID_TO_BIN(?)", voucherRowMapper,
+        return jdbcTemplate.query("select v.voucher_id, v.voucher_type, v.voucher_amount, v.created_at from voucher_wallets as vw join vouchers as v on vw.voucher_id = v.voucher_id where customer_id = UUID_TO_BIN(?)", voucherRowMapper,
                 customerId.toString().getBytes());
     }
 
@@ -114,14 +115,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         switch (voucherType) {
             case FIXED_AMOUNT:
                 long amount = resultSet.getLong("voucher_amount");
-                return new FixedAmountVoucher(voucherId, amount);
+                return new FixedAmountVoucher(voucherId, amount, createdAt);
             default:
                 int percent = resultSet.getInt("voucher_amount");
-                return new PercentageDiscountVoucher(voucherId, percent);
+                return new PercentageDiscountVoucher(voucherId, percent, createdAt);
         }
     };
 }

@@ -2,6 +2,7 @@ package org.prgms.voucheradmin.domain.voucher.entity;
 
 import static org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType.FIXED_AMOUNT;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.entity.vo.VoucherType;
@@ -13,11 +14,13 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final long amount;
+    private final LocalDateTime createdAt;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.voucherType = FIXED_AMOUNT;
         this.amount = amount;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -41,7 +44,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
     public String toString() {
-        return String.format("%s\t%s\t%d", voucherId.toString(), voucherType.getTypeName(), amount);
+        return String.format("%s\t%s\t%d\t%s", voucherId.toString(), voucherType.getTypeName(), amount, createdAt.toString());
     }
 }
