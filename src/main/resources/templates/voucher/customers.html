@@ -1,40 +1,40 @@
 <head th:replace="fragments/header :: html-head" >
 </head>
 <body>
-<div class ="container">
-    <div th:replace="fragments/header :: header"></div>
-</div>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>고객 목록</h2> </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-primary float-end"
-                    th:onclick="|location.href='@{/vouchers}'|"
-                    onclick="location.href='vouchers.html'"
-                    type="button">돌아가기</button>
+    <div class ="container">
+        <div th:replace="fragments/header :: header"></div>
+    </div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>고객 목록</h2>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary float-end"
+                        th:onclick="|location.href='@{/vouchers}'|"
+                        onclick="location.href='vouchers.html'"
+                        type="button">돌아가기</button>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>고객명</th>
+                        <th>이메일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="customer : ${customers}">
+                        <td th:text="${customer.customerId}">고객 Id</td>
+                        <td th:text="${customer.name}">고객명</td>
+                        <td th:text="${customer.email}">email</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <hr class="my-4">
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>고객명</th>
-                <th>이메일</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="customer : ${customers}">
-                <td th:text="${customer.customerId}">고객 Id</td>
-                <td th:text="${customer.name}">고객명</td>
-                <td th:text="${customer.email}">email</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    </div>
-</div> <!-- /container -->
 </body>
 </html>

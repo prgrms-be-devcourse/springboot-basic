@@ -1,53 +1,55 @@
 <head th:replace="fragments/header :: html-head" >
 </head>
 <body>
-<div class ="container">
-    <div th:replace="fragments/header :: header">
+    <div class ="container">
+        <div th:replace="fragments/header :: header"></div>
     </div>
-</div>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>바우처 목록</h2> </div>
-    <div class="row">
-        <div class="col">
-            <button class="btn btn-secondary float-end"
-                    th:onclick="|location.href='@{/vouchers/fix/customer}'|"
-                    onclick="location.href='customers.html'"
-                    type="button">FixedAmountVoucher 소유 고객확인</button>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>바우처 목록</h2>
         </div>
-        <div class="col">
-            <button class="btn btn-secondary float-end"
-                    th:onclick="|location.href='@{/vouchers/percent/customer}'|"
-                    onclick="location.href='customers.html'"
-                    type="button">PercentAmountVoucher 소유 고객확인</button>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-secondary float-end"
+                        th:onclick="|location.href='@{/vouchers/fix/customer}'|"
+                        onclick="location.href='customers.html'"
+                        type="button">FixedAmountVoucher 소유 고객확인
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-secondary float-end"
+                        th:onclick="|location.href='@{/vouchers/percent/customer}'|"
+                        onclick="location.href='customers.html'"
+                        type="button">PercentAmountVoucher 소유 고객확인
+                </button>
+            </div>
+            <div class="col">
+                <button class="btn btn-primary float-end"
+                        th:onclick="|location.href='@{/vouchers/add}'|"
+                        onclick="location.href='addVoucher.html'"
+                        type="button">바우처 등록
+                </button>
+            </div>
         </div>
-        <div class="col">
-            <button class="btn btn-primary float-end"
-                    th:onclick="|location.href='@{/vouchers/add}'|"
-                    onclick="location.href='addVoucher.html'"
-                    type="button">바우처 등록</button>
+        <hr class="my-4">
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>바우처 타입</th>
+                        <th>할인 양</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="voucher : ${vouchers}">
+                        <td><a href="voucher.html" th:href="@{vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a></td>
+                        <td th:text="${voucher.type}">type</a></td>
+                        <td th:text="${voucher.value}">value</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <hr class="my-4">
-    <div>
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>바우처 타입</th>
-                <th>할인 양</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="voucher : ${vouchers}">
-                <td><a href="voucher.html" th:href="@{vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}">Voucher Id</a></td>
-                <td th:text="${voucher.type}">type</a></td>
-                <td th:text="${voucher.value}">value</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-</div> <!-- /container -->
 </body>
 </html>

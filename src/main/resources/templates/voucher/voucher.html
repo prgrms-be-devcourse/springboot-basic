@@ -1,43 +1,49 @@
 <head th:replace="fragments/header :: html-head" >
 </head>
 <body>
-<div class ="container">
-    <div th:replace="fragments/header :: header">
-    </div>
-</div>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>바우처 상세</h2> </div>
-    <div>
-        <label for="voucherId">바우처 ID</label>
-        <input type="text" id="voucherId" name="voucherId" class="form-control"
-               value="1" th:value="${voucher.voucherId}" readonly>
-    </div> <div>
-    <label for="type">type</label>
-    <input type="text" id="type" name="type" class="form-control"
-           value="FixedAmount" th:value="${voucher.type}" readonly> </div>
-    <div>
-        <label for="value">할인양</label>
-        <input type="text" id="value" name="value" class="form-control"
-               value="10" th:value="${voucher.value}"  readonly>
-    </div>
-    <hr class="my-4">
-    <div class="row">
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/vouchers/{voucherId}/update(voucherId=${voucher.voucherId})}'|"
-                    onclick="location.href='updateVoucher.html'" type="button">바우처 정보 수정</button>
+    <div class ="container">
+        <div th:replace="fragments/header :: header">
         </div>
-        <div class="col">
-            <button class="w-100 btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
-                    onclick="location.href='vouchers.html'" type="button">바우처 삭제</button>
-        </div>
-        <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg"
-                    th:onclick="|location.href='@{/vouchers}'|"
-                    onclick="location.href='vouchers.html'" type="button">바우처 목록으로</button> </div>
     </div>
-</div>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>바우처 상세</h2> </div>
+        <div>
+            <label for="voucherId">바우처 ID</label>
+            <input type="text" id="voucherId" name="voucherId" class="form-control"
+                   value="1" th:value="${voucher.voucherId}" readonly>
+        </div>
+        <div>
+            <label for="type">type</label>
+            <input type="text" id="type" name="type" class="form-control"
+                   value="FixedAmount" th:value="${voucher.type}" readonly>
+        </div>
+        <div>
+            <label for="value">할인양</label>
+            <input type="text" id="value" name="value" class="form-control"
+                   value="10" th:value="${voucher.value}"  readonly>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        th:onclick="|location.href='@{/vouchers/{voucherId}/update(voucherId=${voucher.voucherId})}'|"
+                        onclick="location.href='updateVoucher.html'" type="button">바우처 정보 수정
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        th:onclick="|location.href='@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
+                        onclick="location.href='vouchers.html'" type="button">바우처 삭제
+                </button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/vouchers}'|"
+                        onclick="location.href='vouchers.html'" type="button">바우처 목록으로
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
