@@ -88,12 +88,12 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("findAll method에 관하여")
     class Describe_findAll_method {
         @Nested
-        @DisplayName("잘못된 domain이 들어온다면,")
-        class Context_Illegal_VoucherCreateDTo {
+        @DisplayName("함수가 호출 되었을 때,")
+        class Context_MethodCall {
 
             @Test
-            @DisplayName("예외를 발생시킨다.")
-            void it_throws_Exception() {
+            @DisplayName("VoucherList type을 return 한다")
+            void it_Return_VoucherList_Object() {
                 // given
 
                 // when

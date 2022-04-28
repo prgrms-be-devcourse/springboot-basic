@@ -127,7 +127,7 @@ class ApplicationControllerTest {
             }
 
             @Test
-            @DisplayName("List<Voucher> Type data를 가진 응답 객체를 반환한다.")
+            @DisplayName("Response<VoucherResponseList> data를 가진 응답 객체를 반환한다.")
             void it_Return_Voucher_Data() {
                 //given
                 String userInput = "LIST";
@@ -142,7 +142,7 @@ class ApplicationControllerTest {
                 assertThat(response).isNotNull();
                 assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
                 assertThat(response.getData()).isNotNull();
-                assertThat(response.getData()).isInstanceOf(VoucherList.class);
+                assertThat(response.getData()).isInstanceOf(VoucherResponseList.class);
             }
         }
     }

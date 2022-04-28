@@ -147,7 +147,7 @@ class VoucherControllerTest {
         class Context_MethodCall {
 
             @Test
-            @DisplayName("Voucher Repository의 findAll 함수를 호출한다.")
+            @DisplayName("Voucher Service의 findAll 함수를 호출한다.")
             void it_Call_of_VoucherService_findAll_method() {
                 // given
                 when(voucherService.findAll()).thenReturn(new VoucherList(Arrays.asList(new Voucher[]{})));
@@ -162,7 +162,7 @@ class VoucherControllerTest {
             }
 
             @Test
-            @DisplayName("VoucherList를 가진 Response를 return한다.")
+            @DisplayName("VoucherResponseList를 가진 Response를 return한다.")
             void it_throws_Exception() {
                 // given
                 when(voucherService.findAll()).thenReturn(new VoucherList(Arrays.asList(new Voucher[]{})));
