@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Primary
 @Qualifier("csv")
 @Repository
 public class CsvCustomerRepository implements CustomerRepository {
