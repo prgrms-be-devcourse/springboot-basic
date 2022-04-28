@@ -1,12 +1,14 @@
 package com.waterfogsw.voucher.voucher.repository;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile({"dev"})
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository {
 
