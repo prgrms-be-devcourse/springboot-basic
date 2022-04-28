@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface VoucherAppUseCase {
 
-    VoucherEntity create(VoucherCreateDto voucherCreateDto);
+    boolean create(VoucherCreateDto voucherCreateDto);
 
     List<VoucherEntity> showVoucherList();
 

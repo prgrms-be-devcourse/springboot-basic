@@ -1,6 +1,6 @@
 package com.mountain.voucherApp.shared.enums;
 
-import com.mountain.voucherApp.adapter.in.VoucherAppController;
+import com.mountain.voucherApp.adapter.in.console.VoucherConsoleController;
 import com.mountain.voucherApp.shared.constants.ProgramMessage;
 import java.util.function.Consumer;
 
@@ -18,9 +18,9 @@ public enum Menu {
 
     private final String value;
     private final String description;
-    private final Consumer<VoucherAppController> consumer;
+    private final Consumer<VoucherConsoleController> consumer;
 
-    Menu(String value, String description, Consumer<VoucherAppController> consumer) {
+    Menu(String value, String description, Consumer<VoucherConsoleController> consumer) {
         this.value = value;
         this.description = description;
         this.consumer = consumer;
@@ -34,7 +34,7 @@ public enum Menu {
         return description;
     }
 
-    public void exec(VoucherAppController voucherAppController) {
-        consumer.accept(voucherAppController);
+    public void exec(VoucherConsoleController voucherConsoleController) {
+        consumer.accept(voucherConsoleController);
     }
 }

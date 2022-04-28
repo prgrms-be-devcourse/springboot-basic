@@ -7,7 +7,6 @@ import com.mountain.voucherApp.application.port.in.VoucherIdUpdateDto;
 import com.mountain.voucherApp.application.port.out.CustomerPort;
 import com.mountain.voucherApp.application.port.out.VoucherPort;
 import com.mountain.voucherApp.domain.vo.CustomerName;
-import org.hamcrest.core.IsNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

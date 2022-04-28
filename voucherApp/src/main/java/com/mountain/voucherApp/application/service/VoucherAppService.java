@@ -37,18 +37,18 @@ public class VoucherAppService implements VoucherAppUseCase {
     }
 
     @Override
-    public VoucherEntity create(VoucherCreateDto voucherCreateDto) {
+    public boolean create(VoucherCreateDto voucherCreateDto) {
         Optional<VoucherEntity> findEntity = voucherPort.findByPolicyIdAndDiscountAmount(voucherCreateDto.getPolicyId(),
                 voucherCreateDto.getDiscountAmount());
-        VoucherEntity newVoucherEntity = null;
         if (!findEntity.isPresent()) {
-            newVoucherEntity = new VoucherEntity(UUID.randomUUID(),
+            VoucherEntity newVoucherEntity = new VoucherEntity(UUID.randomUUID(),
                     voucherCreateDto.getPolicyId(),
                     voucherCreateDto.getDiscountAmount());
             voucherPort.insert(newVoucherEntity);
             log.info(CREATE_NEW_VOUCHER);
+            return true;
         }
-        return findEntity.orElse(newVoucherEntity);
+        return false;
     }
 
     @Override

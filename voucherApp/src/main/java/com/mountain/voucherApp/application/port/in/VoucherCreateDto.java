@@ -24,4 +24,6 @@ public class VoucherCreateDto {
     public void setDiscountAmount(Long discountAmount) {
         this.discountAmount = discountAmount;
     }
+
+
 }
