@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.FixedAmountVoucher;
 import org.prgrms.spring_week1.Voucher.model.PercentDiscountVoucher;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
+import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.prgrms.spring_week1.Voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +23,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-
-    public Voucher createFixedVoucher(long amount) {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-        voucherRepository.insert(voucher);
-        return voucher;
-    }
-
-    public Voucher createPercentVoucher(long percent) {
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+    public Voucher createVoucher(long discount, UUID customerId, VoucherType voucherType){
+        Voucher voucher;
+        if (voucherType == VoucherType.FIXEDAMOUNT){
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), discount, customerId);
+        } else {
+            voucher = new PercentDiscountVoucher(UUID.randomUUID(), discount, customerId);
+        }
         voucherRepository.insert(voucher);
         return voucher;
     }
@@ -38,6 +37,10 @@ public class VoucherService {
     public List<Voucher> getAllVoucher() {
         return voucherRepository.getAllVoucher();
 
+    }
+
+    public List<Voucher> findByCustomer(UUID customerId) {
+        return voucherRepository.findByCustomer(customerId);
     }
 
 

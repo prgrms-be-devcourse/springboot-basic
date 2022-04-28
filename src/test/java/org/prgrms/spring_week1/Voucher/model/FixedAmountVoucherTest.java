@@ -13,19 +13,19 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("할인가격은 음수가 될 수 없다.")
     void minusAmountTest(){
-        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -10));
+        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -10, UUID.randomUUID()));
     }
 
     @Test
     @DisplayName("할인가격은 천만원을 넘을 수 없다.")
     void bigAmountTest(){
-        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 10000001));
+        assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), 10000001, UUID.randomUUID()));
     }
 
     @Test
     @DisplayName("할인 후 금액은 음수가 될 수 없다.")
     void discountTest() {
-        FixedAmountVoucher sut = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucher sut = new FixedAmountVoucher(UUID.randomUUID(), 100, UUID.randomUUID());
         assertEquals(0, sut.discount(50));
     }
 

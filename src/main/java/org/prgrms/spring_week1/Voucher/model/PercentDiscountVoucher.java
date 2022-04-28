@@ -11,8 +11,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private final VoucherType voucherType;
+    private final UUID customerId;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, UUID customerId) {
         if (percent <= 0) {
             throw new IllegalArgumentException("percent should not be minus");
         } else if (percent > 100) {
@@ -24,17 +25,19 @@ public class PercentDiscountVoucher implements Voucher {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.voucherType = VoucherType.PERCENTDISCOUNT;
+        this.customerId = customerId;
     }
 
     public PercentDiscountVoucher(UUID voucherId, long discount,
         VoucherStatus voucherStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-        VoucherType voucherType) {
+        VoucherType voucherType, UUID customerId) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherStatus = voucherStatus;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.voucherType = voucherType;
+        this.customerId = customerId;
     }
 
     public void setVoucherStatus(VoucherStatus voucherStatus) {

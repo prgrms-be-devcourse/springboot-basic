@@ -11,9 +11,10 @@ public class FixedAmountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private final VoucherType voucherType;
+    private final UUID customerId;
 
 
-    public FixedAmountVoucher(UUID voucherId, long discount) {
+    public FixedAmountVoucher(UUID voucherId, long discount, UUID customerId) {
         if (discount <= 0) {
             throw new IllegalArgumentException("amount should be plus");
         } else if (discount > 10000000) {
@@ -25,17 +26,19 @@ public class FixedAmountVoucher implements Voucher {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.voucherType = VoucherType.FIXEDAMOUNT;
+        this.customerId = customerId;
     }
 
     public FixedAmountVoucher(UUID voucherId, long discount,
         VoucherStatus voucherStatus, LocalDateTime createdAt, LocalDateTime updatedAt,
-        VoucherType voucherType) {
+        VoucherType voucherType, UUID customerId) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherStatus = voucherStatus;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.voucherType = voucherType;
+        this.customerId = customerId;
     }
 
     public void setVoucherStatus(VoucherStatus voucherStatus) {

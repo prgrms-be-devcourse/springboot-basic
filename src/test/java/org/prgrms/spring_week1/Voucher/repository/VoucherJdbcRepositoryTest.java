@@ -60,7 +60,7 @@ class VoucherJdbcRepositoryTest {
         embeddedMysql.stop();
     }
 
-    private static final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+    private static final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, UUID.randomUUID());
 
     @Autowired
     VoucherRepository voucherRepository;

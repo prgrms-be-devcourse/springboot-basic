@@ -17,6 +17,7 @@ import org.prgrms.spring_week1.Voucher.model.VoucherStatus;
 import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -35,6 +36,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("type"));
         Long discount = resultSet.getLong("discount");
         VoucherStatus voucherStatus = VoucherStatus.valueOf(resultSet.getString("status"));
@@ -43,10 +45,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucherType == VoucherType.FIXEDAMOUNT) {
             return new FixedAmountVoucher(voucherId, discount, voucherStatus, createdAt, updatedAt,
-                voucherType);
+                voucherType, customerId);
         } else {
             return new PercentDiscountVoucher(voucherId, discount, voucherStatus, createdAt,
-                updatedAt, voucherType);
+                updatedAt, voucherType, customerId);
         }
     };
 
@@ -86,13 +88,24 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate
+            return Optional.of(jdbcTemplate
                 .queryForObject("select * from Voucher where voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result :", e);
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByCustomer(UUID customerId) {
+        try {
+            return jdbcTemplate.query("select * from Voucher where customer_id = :customerId",
+                Collections.singletonMap("customerId", customerId),
+                voucherRowMapper);
+        } catch (DataAccessException e){
+            throw e;
         }
     }
 
