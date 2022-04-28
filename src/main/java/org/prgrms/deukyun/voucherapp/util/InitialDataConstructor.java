@@ -1,8 +1,7 @@
-package org.prgrms.deukyun.voucherapp.config;
+package org.prgrms.deukyun.voucherapp.util;
 
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.RandomUtils;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.service.CustomerService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;

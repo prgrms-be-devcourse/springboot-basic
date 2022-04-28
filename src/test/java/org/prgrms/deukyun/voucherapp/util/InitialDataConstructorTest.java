@@ -1,16 +1,11 @@
-package org.prgrms.deukyun.voucherapp.config;
+package org.prgrms.deukyun.voucherapp.util;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
-import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.customer.service.CustomerService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
