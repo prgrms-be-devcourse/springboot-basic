@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springbootbasic.console.model.ConsoleModel;
 import org.programmers.springbootbasic.console.request.ConsoleRequest;
-import org.programmers.springbootbasic.web.controller.members.MemberDto;
+import org.programmers.springbootbasic.web.dto.MemberDto;
 import org.programmers.springbootbasic.member.service.MemberService;
 
 import java.util.ArrayList;

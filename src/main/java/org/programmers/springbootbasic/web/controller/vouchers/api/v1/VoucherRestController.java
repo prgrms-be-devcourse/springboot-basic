@@ -1,10 +1,10 @@
 package org.programmers.springbootbasic.web.controller.vouchers.api.v1;
 
 import lombok.RequiredArgsConstructor;
-import org.programmers.springbootbasic.web.controller.vouchers.VoucherCreateForm;
-import org.programmers.springbootbasic.web.controller.vouchers.VoucherDto;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.web.dto.VoucherCreateForm;
+import org.programmers.springbootbasic.web.dto.VoucherDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +23,8 @@ public class VoucherRestController {
     @GetMapping("/api/v1/vouchers")
     public List<VoucherDto> getAllVouchers(@RequestParam(required = false) VoucherType type,
                                            @RequestParam(required = false) Date startingDate, @RequestParam(required = false)
-    Date endingDate) {
-        if (type!=null) {
+                                                   Date endingDate) {
+        if (type != null) {
             if (startingDate != null && endingDate != null) {
                 return voucherService.getVouchersByTypeAndDate(type, startingDate, endingDate)
                         .stream().map(voucher -> VoucherDto.from(voucher))
@@ -53,6 +54,7 @@ public class VoucherRestController {
         return VoucherDto.from(voucherService.createVoucher(createForm.getAmount(), createForm.getType()));
     }
 
+    @ResponseStatus(OK)
     @DeleteMapping("/api/v1/vouchers/{voucherId}")
     public void deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);

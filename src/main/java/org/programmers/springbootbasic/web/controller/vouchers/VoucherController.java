@@ -8,6 +8,8 @@ import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.web.dto.VoucherCreateForm;
+import org.programmers.springbootbasic.web.dto.VoucherDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +61,7 @@ public class VoucherController {
         voucherRepository.insert(voucher4);
         voucherRepository.insert(voucher5);
 
-        return "redirect:/";
+        return "redirect:/vouchers";
     }
 
     @GetMapping("voucher")
@@ -94,34 +96,12 @@ public class VoucherController {
         return "vouchers/editVoucher";
     }
 
-    @PostMapping("vouchers/{voucherId}")
-    public String modifyVoucher(@PathVariable("voucherId") UUID voucherId, @Valid @ModelAttribute("voucher") VoucherUpdateForm form,
-                                BindingResult bindingResult) {
-        log.info("postRequest for VoucherId = {}", voucherId);
-        if (isFormInputValid(bindingResult.hasErrors(), form.getAmount(), form.getType())) {
-//            voucherService.updateVoucher();
-            return "redirect:vouchers/{voucherId}";
-        }
-        return "redirect:/vouchers";
-    }
-
     @PostMapping("vouchers/{voucherId}/delete")
     public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         log.info("deleteRequest for voucherId = {}", voucherId);
         voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }
-
-    //TODO: 바우처 할당하기
-//    @GetMapping("vouchers/{voucherId}/update")
-//    public String updateVoucherOwnerForm(@PathVariable("voucherId") UUID voucherId, @ModelAttribute VoucherDto voucher, Model model) {
-//        List<MemberDto> members = memberService.getAllMembers();
-//        model.addAttribute("members", members);
-//        model.addAttribute("voucher", voucher);
-//
-//        return "vouchers/updateVoucherOwner";
-//    }
-
 
     private String redirectToForm(VoucherCreateForm form, BindingResult bindingResult) {
         if (form.getType() != null || form.getAmount() != null) {

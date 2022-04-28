@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.web.controller.vouchers;
+package org.programmers.springbootbasic.web.dto;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;

@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.web.controller.vouchers;
+package org.programmers.springbootbasic.web.dto;
 
 import lombok.Data;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
@@ -6,7 +6,7 @@ import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class VoucherUpdateForm {
+public class VoucherCreateForm {
 
     @NotNull
     private VoucherType type;

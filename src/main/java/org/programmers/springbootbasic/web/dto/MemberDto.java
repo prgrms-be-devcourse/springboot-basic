@@ -1,9 +1,8 @@
-package org.programmers.springbootbasic.web.controller.members;
+package org.programmers.springbootbasic.web.dto;
 
 import org.programmers.springbootbasic.voucher.domain.Voucher;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +18,16 @@ public record MemberDto(Long memberId,
     @Override
     public String toString() {
         var stringBuilder = new StringBuilder();
-        stringBuilder.append(getString("회원 등록 번호", this.memberId, Long.class));
-        stringBuilder.append(getString("이름", this.name, String.class));
-        stringBuilder.append(getString("이메일", this.email, String.class));
-        stringBuilder.append(getString("최종 로그인 일시", this.lastLoginAt, Timestamp.class));
-        stringBuilder.append(getString("가입 일시", this.singedUpAt, Timestamp.class));
-        stringBuilder.append(getString("바우처 목록", this.vouchers, List.class));
+        stringBuilder.append(getFieldData("회원 등록 번호", this.memberId, Long.class));
+        stringBuilder.append(getFieldData("이름", this.name, String.class));
+        stringBuilder.append(getFieldData("이메일", this.email, String.class));
+        stringBuilder.append(getFieldData("최종 로그인 일시", this.lastLoginAt, Timestamp.class));
+        stringBuilder.append(getFieldData("가입 일시", this.singedUpAt, Timestamp.class));
+        stringBuilder.append(getFieldData("바우처 목록", this.vouchers, List.class));
         return stringBuilder.toString();
     }
 
-    private <T> String getString(String dataName, T data, Class<T> dataType) {
+    private <T> String getFieldData(String dataName, T data, Class<T> dataType) {
         if (memberId == null) {
             return "";
         }
@@ -45,7 +44,6 @@ public record MemberDto(Long memberId,
 
         List<String> allVouchersInformation = new ArrayList<>(this.vouchers.size());
 
-        //TODO: Iterable 출력 로직 분리, 재사용: Drawer
         for (Voucher voucher : this.vouchers) {
             allVouchersInformation.add(dataOf(voucher));
         }
