@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Service
 public class CustomerService {
 
@@ -21,6 +23,8 @@ public class CustomerService {
     }
 
     public List<Customer> findAllByCustomerType(CustomerType customerType) {
+        checkArgument(customerType != null, "customerType must be provided.");
+
         return customerRepository.findAllByCustomerType(customerType);
     }
 }
