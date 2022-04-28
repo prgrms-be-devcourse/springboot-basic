@@ -10,7 +10,7 @@ public interface Output {
 
     void info(String msg);
 
-    void printList(List<Object> list);
+    void printList(List<?> list);
 
     void createMenu();
 

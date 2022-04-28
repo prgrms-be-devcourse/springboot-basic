@@ -30,6 +30,6 @@ public class FixedAmountVoucher implements Voucher {
     public String toString() {
         return "FixedAmountVoucher\t" +
                 voucherId + "\t" +
-                amount + "\n";
+                amount + "원";
     }
 }

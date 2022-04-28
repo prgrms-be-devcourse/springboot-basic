@@ -21,7 +21,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         File file = new File(filePath.getVoucher());
         try (
                 FileWriter outputFile = new FileWriter(file, true);
@@ -34,6 +34,7 @@ public class CsvVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             // logging
         }
+        return voucher;
     }
 
     @Override
@@ -43,7 +44,14 @@ public class CsvVoucherRepository implements VoucherRepository {
                 FileReader fileReader = new FileReader(filePath.getVoucher());
                 CSVReader csvReader = new CSVReader(fileReader);
         ) {
+            String[] nextRecord;
+            StringBuilder voucher = new StringBuilder();
 
+            while((nextRecord = csvReader.readNext()) != null) {
+                for (String record : nextRecord) {
+                    voucher.append(record).append("\t");
+                }
+            }
         } catch (Exception e) {
 //            e.printStackTrace();
         }

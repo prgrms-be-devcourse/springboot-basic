@@ -1,6 +1,7 @@
 package org.devcourse.voucher.view;
 
 import org.devcourse.voucher.error.ErrorType;
+import org.devcourse.voucher.voucher.model.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,9 +26,9 @@ public class OutputView implements Output{
     }
 
     @Override
-    public void printList(List<Object> list) {
+    public void printList(List<?> list) {
         for (Object item : list) {
-            System.out.println(list);
+            System.out.println(item);
         }
     }
 
