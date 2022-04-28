@@ -10,15 +10,15 @@ public interface Output {
 
     void printMenu();
 
-    void printSuccess();
-
-    void printFailure();
-
     void printInputError();
-
-    void printEmpty();
 
     void printVoucherList(List<Voucher> voucherList);
 
     void printMemberList(List<Member> memberList);
+
+    void printMember(Member member);
+
+    void printVoucher(Voucher voucher);
+
+    void printFailure();
 }

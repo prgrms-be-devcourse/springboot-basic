@@ -1,25 +1,16 @@
 package com.pppp0722.vouchermanagement.engine.command;
 
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.MEMBER;
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.VOUCHER;
-import static com.pppp0722.vouchermanagement.engine.command.validate.Validate.isValidAmount;
-
-import com.pppp0722.vouchermanagement.engine.CommandLineApplication;
-import com.pppp0722.vouchermanagement.engine.command.validate.Validate;
 import com.pppp0722.vouchermanagement.io.Console;
-import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.member.service.MemberService;
-import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
-import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Update {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(Update.class);
     private final Console console = Console.getInstance();
     private final MemberService memberService;
     private final VoucherService voucherService;
@@ -29,74 +20,58 @@ public class Update {
         this.voucherService = voucherService;
     }
 
-    // member -> updateMember(), voucher -> updateVoucher()
-    public void start() {
-        EntityType type = console.inputEntityType("member\nvoucher");
-        if (type.equals(MEMBER)) {
-            updateMember();
-        } else if (type.equals(VOUCHER)) {
-            updateVoucher();
-        } else {
+    public void update() {
+        try {
+            EntityType entityType = console.inputEntityType();
+            switch (entityType) {
+                case MEMBER:
+                    updateMember();
+                    break;
+                case VOUCHER:
+                    updateVoucher();
+                    break;
+                default:
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
             logger.error("Invalid entity type!");
             console.printInputError();
-            start();
+            update();
         }
     }
 
-    // input memberId, name -> MemberService.updateMember()
     public void updateMember() {
-        UUID memberId = null;
         try {
-            memberId = UUID.fromString(console.inputMemberId());
+            UUID memberId = console.inputMemberId();
+            String name = console.inputMemberName();
+            try {
+                memberService.updateMember(memberId, name);
+            } catch (RuntimeException e) {
+                logger.error("Failed to update member!");
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
             updateMember();
-        }
-
-        String name = console.inputMemberName();
-        if (!Validate.isValidName(name)) {
-            logger.error("Invalid name!");
-            console.printInputError();
-            updateMember();
-        }
-
-        Optional<Member> member = memberService.updateMember(memberId, name);
-        if (member.isPresent()) {
-            console.printSuccess();
-        } else {
-            logger.error("Update member failed!");
-            console.printFailure();
         }
     }
 
-    // input voucherId, type, amount -> VoucherService.updateVoucher()
     public void updateVoucher() {
-        UUID voucherId = null;
         try {
-            voucherId = UUID.fromString(console.inputVoucherId());
+            UUID voucherId = console.inputVoucherId();
+            VoucherType type = console.inputVoucherType();
+            long amount = console.inputVoucherAmount();
+            try {
+                voucherService.updateVoucher(voucherId, type, amount);
+            } catch (RuntimeException e) {
+                logger.error("Failed to update voucher!");
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid UUID!", e);
+            logger.error("Invalid input!", e);
             console.printInputError();
             updateVoucher();
-        }
-
-        VoucherType type = console.inputVoucherType();
-        long amount = console.inputVoucherAmount();
-
-        if (!isValidAmount(type, amount)) {
-            logger.error("Invalid discount amount!");
-            console.printInputError();
-            updateVoucher();
-        }
-
-        Optional<Voucher> voucher = voucherService.updateVoucher(voucherId, type, amount);
-
-        if (voucher.isPresent()) {
-            console.printSuccess();
-        } else {
-            logger.error("Update voucher failed!");
-            console.printFailure();
         }
     }
 }

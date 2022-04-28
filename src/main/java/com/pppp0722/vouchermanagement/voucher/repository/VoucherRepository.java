@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Optional<Voucher> insert(Voucher voucher);
+    Voucher insert(Voucher voucher);
 
     List<Voucher> findAll();
 
@@ -15,9 +15,9 @@ public interface VoucherRepository {
 
     List<Voucher> findByMemberId(UUID memberId);
 
-    Optional<Voucher> update(Voucher voucher);
+    Voucher update(Voucher voucher);
 
-    Optional<Voucher> delete(Voucher voucher);
+    Voucher delete(Voucher voucher);
 
     void deleteAll();
 }

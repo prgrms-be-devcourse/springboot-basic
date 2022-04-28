@@ -1,26 +1,17 @@
 package com.pppp0722.vouchermanagement.engine.command;
 
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.MEMBER;
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.VOUCHER;
-import static com.pppp0722.vouchermanagement.engine.command.validate.Validate.isValidAmount;
-
-import com.pppp0722.vouchermanagement.engine.CommandLineApplication;
-import com.pppp0722.vouchermanagement.engine.command.validate.Validate;
 import com.pppp0722.vouchermanagement.io.Console;
-import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.member.service.MemberService;
-import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Create {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(Create.class);
     private final Console console = Console.getInstance();
     private final MemberService memberService;
     private final VoucherService voucherService;
@@ -30,63 +21,51 @@ public class Create {
         this.voucherService = voucherService;
     }
 
-    // member -> createdMember(), voucher -> createVoucher()
-    public void start() {
-        EntityType type = console.inputEntityType("member\nvoucher");
-        if (type.equals(MEMBER)) {
-            createMember();
-        } else if (type.equals(VOUCHER)) {
-            createVoucher();
-        } else {
+    public void create() {
+        try {
+            EntityType entityType = console.inputEntityType();
+            switch (entityType) {
+                case MEMBER:
+                    createMember();
+                    break;
+                case VOUCHER:
+                    createVoucher();
+                    break;
+                default:
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
             logger.error("Invalid entity type!");
             console.printInputError();
-            start();
+            create();
         }
     }
 
-    // input memberName -> MemberService.createMember()
     public void createMember() {
         String name = console.inputMemberName();
-        if (!Validate.isValidName(name)) {
-            logger.error("Invalid name!");
-            console.printInputError();
-            createMember();
-        }
-
-        Optional<Member> member = memberService.createMember(UUID.randomUUID(), name);
-        if (member.isPresent()) {
-            console.printSuccess();
-        } else {
-            logger.error("Create member failed!");
+        try {
+            memberService.createMember(UUID.randomUUID(), name);
+        } catch (RuntimeException e) {
             console.printFailure();
         }
     }
 
-    // input memberId, type, amount -> VoucherService.createVoucher()
     public void createVoucher() {
-        UUID memberId = null;
         try {
-            memberId = UUID.fromString(console.inputMemberId());
+            UUID memberId = console.inputMemberId();
+            VoucherType voucherType = console.inputVoucherType();
+            long amount = console.inputVoucherAmount();
+            try {
+                voucherService.createVoucher(UUID.randomUUID(), voucherType, amount,
+                    LocalDateTime.now(),
+                    memberId);
+            } catch (RuntimeException e) {
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid UUID!", e);
+            logger.error("Invalid input!", e);
             console.printInputError();
             createVoucher();
-        }
-
-        VoucherType type = console.inputVoucherType();
-        long amount = console.inputVoucherAmount();
-        if (!isValidAmount(type, amount)) {
-            logger.error("Invalid discount amount!");
-            console.printInputError();
-            createVoucher();
-        }
-
-        Optional<Voucher> voucher = voucherService.createVoucher(UUID.randomUUID(), type, amount, LocalDateTime.now(), memberId);
-        if (voucher.isPresent()) {
-            console.printSuccess();
-        } else {
-            logger.error("Create voucher failed!");
-            console.printFailure();
         }
     }
 }

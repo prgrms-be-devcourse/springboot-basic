@@ -17,7 +17,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<Member> createMember(UUID memberId, String name) {
+    public Member createMember(UUID memberId, String name) {
         return memberRepository.insert(new Member(memberId, name));
     }
 
@@ -27,25 +27,34 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<Member> getMemberById(UUID memberID) {
-        return memberRepository.findById(memberID);
+    public Member getMemberById(UUID memberId) {
+        Optional<Member> member = memberRepository.findById(memberId);
+
+        if (member.isEmpty()) {
+            throw new RuntimeException("Member does not exist.");
+        }
+
+        return member.get();
     }
 
     @Override
-    public Optional<Member> updateMember(UUID memberId, String name) {
+    public Member updateMember(UUID memberId, String name) {
         return memberRepository.update(new Member(memberId, name));
     }
 
     @Override
-    public Optional<Member> deleteMember(UUID memberId) {
+    public Member deleteMember(UUID memberId) {
         Optional<Member> member = memberRepository.findById(memberId);
 
         if (member.isEmpty()) {
-            return Optional.empty();
+            throw new RuntimeException("Member does not exist.");
         }
 
         return memberRepository.delete(member.get());
     }
 
-
+    @Override
+    public void deleteAllMembers() {
+        memberRepository.deleteAll();
+    }
 }

@@ -3,7 +3,6 @@ package com.pppp0722.vouchermanagement.member.repository;
 import static com.pppp0722.vouchermanagement.util.JdbcUtils.toUUID;
 
 import com.pppp0722.vouchermanagement.member.model.Member;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +12,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,34 +28,31 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> insert(Member member) {
+    public Member insert(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "INSERT INTO members(member_id, name) VALUES(UNHEX(REPLACE(:memberId, '-', '')), :name)",
                 toParamMap(member));
 
             if (update != 1) {
-                logger.error("Nothing was created! (Member)");
-                return Optional.empty();
+                throw new RuntimeException("Nothing gets inserted!");
             }
-        } catch (RuntimeException e) {
-            logger.error("Can not create member!", e);
-            return Optional.empty();
-        }
 
-        return Optional.of(member);
+            return member;
+        } catch (RuntimeException e) {
+            logger.error("Failed to insert member!", e);
+            throw e;
+        }
     }
 
     @Override
     public List<Member> findAll() {
-        List<Member> members;
         try {
-            members = jdbcTemplate.query("SELECT * FROM members", memberRowMapper);
+            return jdbcTemplate.query("SELECT * FROM members", memberRowMapper);
         } catch (RuntimeException e) {
-            logger.error("Can not read members!", e);
-            members = new ArrayList<>();
+            logger.error("Failed to find all members!", e);
+            throw e;
         }
-        return members;
     }
 
     @Override
@@ -66,48 +63,55 @@ public class JdbcMemberRepository implements MemberRepository {
                     "SELECT * FROM members WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
                     Collections.singletonMap("memberId", memberId.toString().getBytes()),
                     memberRowMapper));
-        } catch (RuntimeException e) {
-            logger.error("Can not read member!", e);
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Member> update(Member member) {
+    public Member update(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "UPDATE members SET name = :name WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
                 toParamMap(member));
 
             if (update != 1) {
-                logger.error("Nothing was updated! (Member)");
-                return Optional.empty();
+                throw new RuntimeException("Nothing gets updated!");
             }
-        } catch (RuntimeException e) {
-            logger.error("Can not update member!", e);
-            return Optional.empty();
-        }
 
-        return Optional.of(member);
+            return member;
+        } catch (RuntimeException e) {
+            logger.error("Failed to update member!", e);
+            throw e;
+        }
     }
 
     @Override
-    public Optional<Member> delete(Member member) {
+    public Member delete(Member member) {
         try {
             int update = jdbcTemplate.update(
                 "DELETE FROM members WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
                 toParamMap(member));
 
             if (update != 1) {
-                logger.error("Nothing was deleted! (Member)");
-                return Optional.empty();
+                throw new RuntimeException("Nothing gets deleted!");
             }
-        } catch (RuntimeException e) {
-            logger.error("Can not delete member!", e);
-            return Optional.empty();
-        }
 
-        return Optional.of(member);
+            return member;
+        } catch (RuntimeException e) {
+            logger.error("Failed to delete member!", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try {
+            jdbcTemplate.update("DELETE FROM members", Collections.emptyMap());
+        } catch (RuntimeException e) {
+            logger.error("Failed to delete all members!");
+            throw e;
+        }
     }
 
     private static final RowMapper<Member> memberRowMapper = (resultSet, i) -> {

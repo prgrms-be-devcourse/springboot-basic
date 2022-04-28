@@ -37,27 +37,31 @@ public class CommandLineApplication {
         boolean isExit = false;
         while (!isExit) {
             console.printMenu();
-            String command = console.getCommand();
-            CommandType commandType = CommandType.getCommandType(command);
+            CommandType commandType;
+            try {
+                commandType = console.inputCommandType();
+            } catch (IllegalArgumentException e) {
+                logger.error("Invalid command type!", e);
+                console.printInputError();
+                continue;
+            }
             switch (commandType) {
                 case CREATE:
-                    create.start();
+                    create.create();
                     break;
                 case READ:
-                    read.start();
+                    read.read();
                     break;
                 case UPDATE:
-                    update.start();
+                    update.update();
                     break;
                 case DELETE:
-                    delete.start();
+                    delete.delete();
                     break;
                 case EXIT:
                     isExit = true;
                     break;
                 default:
-                    console.printInputError();
-                    logger.error("Invalid command! -> {}", command);
                     break;
             }
             System.out.println();

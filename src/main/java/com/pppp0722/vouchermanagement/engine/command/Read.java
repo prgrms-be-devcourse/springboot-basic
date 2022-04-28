@@ -1,16 +1,10 @@
 package com.pppp0722.vouchermanagement.engine.command;
 
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.MEMBER;
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.VOUCHER;
-import static com.pppp0722.vouchermanagement.engine.command.EntityType.WALLET;
-
-import com.pppp0722.vouchermanagement.engine.CommandLineApplication;
 import com.pppp0722.vouchermanagement.io.Console;
 import com.pppp0722.vouchermanagement.member.model.Member;
 import com.pppp0722.vouchermanagement.member.service.MemberService;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class Read {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(Read.class);
     private final Console console = Console.getInstance();
     private final MemberService memberService;
     private final VoucherService voucherService;
@@ -29,133 +23,126 @@ public class Read {
         this.voucherService = voucherService;
     }
 
-    // member -> readMember(), voucher -> readVoucher(), wallet -> readWallet()
-    public void start() {
-        EntityType type = console.inputEntityType("member\nvoucher\nwallet");
-        if (type.equals(MEMBER)) {
-            readMember();
-        } else if (type.equals(VOUCHER)) {
-            readVoucher();
-        } else if (type.equals(WALLET)) {
-            readWallet();
-        } else {
+    public void read() {
+        try {
+            EntityType entityType = console.inputEntityType();
+            switch (entityType) {
+                case MEMBER:
+                    readMember();
+                    break;
+                case VOUCHER:
+                    readVoucher();
+                    break;
+                default:
+                    break;
+            }
+        } catch (IllegalArgumentException e) {
             logger.error("Invalid entity type!");
             console.printInputError();
-            start();
+            read();
         }
     }
 
-    // all -> printAllMembers(), one -> printMember()
     public void readMember() {
-        String count = console.inputCount();
-        if (count.equals("all")) {
-            printAllMembers();
-        } else if (count.equals("one")) {
-            printMember();
-        } else {
-            logger.error("Invalid command!");
-            console.printInputError();
-            readMember();
+        String readType = console.inputMemberReadType();
+        switch (readType) {
+            case "1": // all
+                readAllMembers();
+                break;
+            case "2": // by member id
+                readMemberByMemberId();
+                break;
+            default:
+                logger.error("Invalid command!");
+                console.printInputError();
+                readMember();
+                break;
         }
     }
 
-    // MemberService.getAllMember() -> Console.printMemberList()
-    public void printAllMembers() {
-        List<Member> memberList = memberService.getAllMembers();
-        if (memberList.isEmpty()) {
-            logger.info("Member is Empty.");
-            console.printEmpty();
-        } else {
+    public void readAllMembers() {
+        try {
+            List<Member> memberList = memberService.getAllMembers();
             console.printMemberList(memberList);
+        } catch (RuntimeException e) {
+            console.printFailure();
         }
     }
 
-    // input memberId -> MemberService.getMemberById() -> Console.printMemberList()
-    public void printMember() {
-        UUID memberId = null;
+    public void readMemberByMemberId() {
         try {
-            memberId = UUID.fromString(console.inputMemberId());
+            UUID memberId = console.inputMemberId();
+            try {
+                Member member = memberService.getMemberById(memberId);
+                console.printMember(member);
+            } catch (RuntimeException e) {
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
-            printMember();
-        }
-
-        Optional<Member> member = memberService.getMemberById(memberId);
-        if (member.isEmpty()) {
-            logger.info("Member does not exist.");
-            console.printEmpty();
-        } else {
-            console.printMemberList(new ArrayList<>() {{
-                add(member.get());
-            }});
+            readMemberByMemberId();
         }
     }
 
-    // all -> printAllVouchers, one -> printVoucher
     public void readVoucher() {
-        String count = console.inputCount();
-        if (count.equals("all")) {
-            printAllVouchers();
-        } else if (count.equals("one")) {
-            printVoucher();
-        } else {
-            logger.error("Invalid command!");
-            console.printInputError();
-            readVoucher();
+        String readType = console.inputVoucherReadType();
+        switch (readType) {
+            case "1": // all
+                readAllVouchers();
+                break;
+            case "2": // by voucher id
+                readVoucherByVoucherId();
+                break;
+            case "3": // by member id
+                readVoucherByMemberId();
+                break;
+            default:
+                logger.error("Invalid command!");
+                console.printInputError();
+                readVoucher();
+                break;
         }
     }
 
-    // VoucherService.getAllVouchers() -> Console.printVoucherList()
-    public void printAllVouchers() {
-        List<Voucher> voucherList = voucherService.getAllVouchers();
-        if (voucherList.isEmpty()) {
-            logger.info("Voucher is Empty.");
-            console.printEmpty();
-        } else {
-            console.printVoucherList(voucherList);
-        }
-    }
-
-    // input voucherId -> VoucherService.getVoucherByVoucherId() -> Console.printVoucherList()
-    public void printVoucher() {
-        UUID voucherId = null;
+    public void readAllVouchers() {
         try {
-            voucherId = UUID.fromString(console.inputVoucherId());
+            List<Voucher> voucherList = voucherService.getAllVouchers();
+            console.printVoucherList(voucherList);
+        } catch (RuntimeException e) {
+            console.printFailure();
+        }
+    }
+
+    public void readVoucherByVoucherId() {
+        try {
+            UUID voucherId = console.inputVoucherId();
+            try {
+                Voucher voucher = voucherService.getVoucherById(voucherId);
+                console.printVoucher(voucher);
+            } catch (RuntimeException e) {
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
-            printVoucher();
-        }
-
-        Optional<Voucher> voucher = voucherService.getVoucherById(voucherId);
-        if (voucher.isEmpty()) {
-            logger.info("Voucher does not exist.");
-            console.printEmpty();
-        } else {
-            console.printVoucherList(new ArrayList<>() {{
-                add(voucher.get());
-            }});
+            readVoucherByVoucherId();
         }
     }
 
-    // input memberId -> VoucherService.getVouchersByMemberId() -> Console.printVoucherList()
-    public void readWallet() {
-        UUID memberId = null;
+    public void readVoucherByMemberId() {
         try {
-            memberId = UUID.fromString(console.inputMemberId());
+            UUID memberId = console.inputMemberId();
+            try {
+                List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
+                console.printVoucherList(voucherList);
+            } catch (RuntimeException e) {
+                console.printFailure();
+            }
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
-            readWallet();
-        }
-
-        List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
-        if (voucherList.isEmpty()) {
-            logger.info("Wallet is Empty.");
-            console.printEmpty();
-        } else {
-            console.printVoucherList(voucherList);
+            readVoucherByMemberId();
         }
     }
 }

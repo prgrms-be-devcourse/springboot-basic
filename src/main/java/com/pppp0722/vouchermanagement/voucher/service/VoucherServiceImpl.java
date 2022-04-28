@@ -1,5 +1,6 @@
 package com.pppp0722.vouchermanagement.voucher.service;
 
+import com.pppp0722.vouchermanagement.exception.InvalidVoucherTypeException;
 import com.pppp0722.vouchermanagement.voucher.model.FixedAmountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.PercentDiscountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
@@ -9,10 +10,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherServiceImpl.class);
 
     private final VoucherRepository voucherRepository;
 
@@ -20,9 +25,9 @@ public class VoucherServiceImpl implements VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> createVoucher(UUID voucherId, VoucherType type, long amount, LocalDateTime createdAt, UUID memberId) {
-        Voucher voucher = null;
-
+    public Voucher createVoucher(UUID voucherId, VoucherType type, long amount,
+        LocalDateTime createdAt, UUID memberId) {
+        Voucher voucher;
         switch (type) {
             case FIXED_AMOUNT:
                 voucher = new FixedAmountVoucher(voucherId, amount, createdAt, memberId);
@@ -30,8 +35,8 @@ public class VoucherServiceImpl implements VoucherService {
             case PERCENT_DISCOUNT:
                 voucher = new PercentDiscountVoucher(voucherId, amount, createdAt, memberId);
                 break;
-            case NONE:
-                return Optional.empty();
+            default:
+                throw new InvalidVoucherTypeException("Invalid voucher type!");
         }
 
         return voucherRepository.insert(voucher);
@@ -43,8 +48,14 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> getVoucherById(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
+    public Voucher getVoucherById(UUID voucherId) {
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+
+        if (voucher.isEmpty()) {
+            throw new RuntimeException("Voucher does not exist.");
+        }
+
+        return voucher.get();
     }
 
     @Override
@@ -53,31 +64,29 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> updateVoucher(UUID voucherId, VoucherType type, long amount) {
-        Voucher voucher = null;
-
-        Optional<Voucher> existing = voucherRepository.findById(voucherId);
-
-        if (existing.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return voucherRepository.update(existing.get());
-    }
-
-    @Override
-    public Optional<Voucher> deleteVoucher(UUID voucherId) {
+    public Voucher updateVoucher(UUID voucherId, VoucherType type, long amount) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
 
         if (voucher.isEmpty()) {
-            return Optional.empty();
+            throw new RuntimeException("Voucher does not exist.");
+        }
+
+        return voucherRepository.update(voucher.get());
+    }
+
+    @Override
+    public Voucher deleteVoucher(UUID voucherId) {
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+
+        if (voucher.isEmpty()) {
+            throw new RuntimeException("Voucher does not exist.");
         }
 
         return voucherRepository.delete(voucher.get());
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteAllVouchers() {
         voucherRepository.deleteAll();
     }
 }

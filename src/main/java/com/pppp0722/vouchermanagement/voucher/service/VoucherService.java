@@ -4,22 +4,21 @@ import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.model.VoucherType;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherService {
 
-    Optional<Voucher> createVoucher(UUID voucherId, VoucherType voucherType, long amount, LocalDateTime createdAt, UUID memberId);
+    Voucher createVoucher(UUID voucherId, VoucherType voucherType, long amount, LocalDateTime createdAt, UUID memberId);
 
     List<Voucher> getAllVouchers();
 
-    Optional<Voucher> getVoucherById(UUID voucherId);
+    Voucher getVoucherById(UUID voucherId);
 
     List<Voucher> getVouchersByMemberId(UUID memberId);
 
-    Optional<Voucher> updateVoucher(UUID voucherId, VoucherType type, long amount);
+    Voucher updateVoucher(UUID voucherId, VoucherType type, long amount);
 
-    Optional<Voucher> deleteVoucher(UUID voucherId);
+    Voucher deleteVoucher(UUID voucherId);
 
-    void deleteAll();
+    void deleteAllVouchers();
 }
