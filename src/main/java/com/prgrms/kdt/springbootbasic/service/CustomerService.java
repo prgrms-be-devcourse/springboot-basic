@@ -28,7 +28,7 @@ public class CustomerService {
     }
 
     public boolean checkDuplication(Customer customer){
-        var findResult = customerRepository.findCustomerById(customer.getCustomerId());
+        var findResult = customerRepository.findCustomerByEmail(customer.getEmail());
         if(findResult.isEmpty())
             return false;
         return true;

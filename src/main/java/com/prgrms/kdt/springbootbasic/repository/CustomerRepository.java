@@ -57,6 +57,16 @@ public class CustomerRepository {
         }
     }
 
+    public Optional<Customer> findCustomerByEmail(String email){
+        try{
+            Customer findCustomer = jdbcTemplate.queryForObject("SELECT * FROM customers where email = :email",
+                    Collections.singletonMap("email",email),customerRowMapper);
+            return Optional.of(findCustomer);
+        } catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
+
     public List<Customer> getAllCustomers(){
         return jdbcTemplate.query("Select * from customers",customerRowMapper);
     }

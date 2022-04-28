@@ -62,6 +62,18 @@ class CustomerRepositoryTest {
     }
 
     @Test
+    public void findByCustomerEmail(){
+        var findCustomer = customerRepository.findCustomerByEmail(customer.getEmail());
+        assertThat(findCustomer.get()).as("Customer").isEqualToIgnoringGivenFields(customer,"customerId");
+    }
+
+    @Test
+    public void findByCustomerEmailNotExist(){
+        var findCustomer = customerRepository.findCustomerByEmail("notexit@email.com");
+        assertThat(findCustomer.isEmpty()).isTrue();
+    }
+
+    @Test
     public void getAllVouchers(){
         List<Customer> assertList = new ArrayList<>();
         assertList.add(customer);

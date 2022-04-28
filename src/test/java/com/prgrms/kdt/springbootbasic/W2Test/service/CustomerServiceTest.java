@@ -31,7 +31,7 @@ class CustomerServiceTest {
     @Test
     void checkDuplicationExist(){
         //Given
-        when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
+        when(customerRepository.findCustomerByEmail(customer.getEmail())).thenReturn(Optional.of(customer));
 
         //When
         var duplicationResult = customerService.checkDuplication(customer);
@@ -44,7 +44,7 @@ class CustomerServiceTest {
     void checkDuplicationNotExist(){
         //Given
         var newCustomer = new Customer(UUID.randomUUID(),"tester","tester@email.com");
-        when(customerRepository.findCustomerById(newCustomer.getCustomerId())).thenReturn(Optional.empty());
+        when(customerRepository.findCustomerByEmail(newCustomer.getEmail())).thenReturn(Optional.empty());
 
         //When
         var duplicationResult = customerService.checkDuplication(newCustomer);
@@ -56,21 +56,22 @@ class CustomerServiceTest {
     @Test
     void saveCustomerNotDuplicated() {
         //Given
-        when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.empty());
-        when(customerRepository.saveCustomer(customer)).thenReturn(Optional.of(customer));
+        var newCustomer = new Customer(UUID.randomUUID(),"tester","tester@email.com");
+        when(customerRepository.findCustomerByEmail(newCustomer.getEmail())).thenReturn(Optional.empty());
+        when(customerRepository.saveCustomer(newCustomer)).thenReturn(Optional.of(newCustomer));
 
         //When
-        var savedCustomer = customerService.saveCustomer(customer);
+        var savedCustomer = customerService.saveCustomer(newCustomer);
 
         //Then
-        verify(customerRepository).saveCustomer(customer);
-        assertThat(savedCustomer.get()).as("Customer").isEqualToComparingFieldByField(customer);
+        verify(customerRepository).saveCustomer(newCustomer);
+        assertThat(savedCustomer.get()).as("Customer").isEqualToComparingFieldByField(newCustomer);
     }
 
     @Test
     void saveCustomerDuplicated(){
         //Given
-        when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
+        when(customerRepository.findCustomerByEmail(customer.getEmail())).thenReturn(Optional.of(customer));
 
         //When
         var savedCustomer = customerService.saveCustomer(customer);
