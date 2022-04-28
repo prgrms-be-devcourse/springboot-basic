@@ -47,4 +47,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public void deleteAll() {
 
     }
+
+    @Override
+    public List<Voucher> findByCustomer(UUID customerId) {
+        return null;
+    }
 }
