@@ -26,20 +26,22 @@ public class ConsoleController {
   public void run() {
     boolean progress = true;
     while (progress) {
-      switch (input.readCommand()) {
-        case "exit":
-          progress = false;
-          break;
-        case "list":
-          listController.processList();
-          break;
-        case "create":
-          break;
-        default:
-          output.printNotExistingCommand();
-      }
+      progress = execute();
     }
   }
 
+  public boolean execute() {
+    String command = input.readCommand();
+    return ConsoleCommand.valueOf(command.toUpperCase()).apply(this);
+  }
 
+  public void processList() {
+    String listType = input.readListType().toLowerCase();
+    if(listType.equals("customer")) output.printList(customerService.getCustomerList());
+    else if(listType.equals("voucher")) output.printList(voucherService.getVoucherList());
+  }
+
+  public void nonExistentCommand() {
+    output.printNotExistingCommand();
+  }
 }
