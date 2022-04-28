@@ -55,7 +55,7 @@ public class VoucherServiceTest {
 		// when
 		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
 		// then
-		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
+		assertThat(voucherOptional.isPresent(), is(false));
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class VoucherServiceTest {
 		// when
 		Optional<Voucher> voucherOptional = voucherService.publishVoucher(percentType, amount);
 		// then
-		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
+		assertThat(voucherOptional.isPresent(), is(false));
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class VoucherServiceTest {
 		// when
 		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
 		// then
-		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
+		Assertions.assertThrows(NoSuchElementException.class, voucherOptional::get);
 	}
 
 	@Test
@@ -99,7 +99,10 @@ public class VoucherServiceTest {
 		// when
 		Optional<Voucher> voucherOptional = voucherService.publishVoucher(fixedType, amount);
 		// then
-		Assertions.assertThrows(NoSuchElementException.class, () -> voucherOptional.get());
+		assertThat(voucherOptional.isPresent(), is(false));
 	}
+
+	// @Test
+	// @DisplayName("해당 바우처를 가진 고객을 조회 할 수 있다")
 
 }

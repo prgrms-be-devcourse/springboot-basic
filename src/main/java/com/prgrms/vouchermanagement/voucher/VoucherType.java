@@ -3,7 +3,6 @@ package com.prgrms.vouchermanagement.voucher;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
@@ -13,7 +12,7 @@ import com.prgrms.vouchermanagement.voucher.domain.PercentDiscountVoucher;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 public enum VoucherType implements CodeMappable {
-	FIXED("fixed") {
+	FIXED(1) {
 		@Override
 		public Voucher getVoucher(UUID voucherId, long fixedAmount, LocalDateTime createdAt) {
 			try {
@@ -23,7 +22,7 @@ public enum VoucherType implements CodeMappable {
 			}
 		}
 	},
-	PERCENT("percent") {
+	PERCENT(2) {
 		@Override
 		public Voucher getVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
 			try {
@@ -34,23 +33,32 @@ public enum VoucherType implements CodeMappable {
 		}
 	};
 
-	private final String code;
+	private final int code;
 
-	VoucherType(String code) {
+	VoucherType(int code) {
 		this.code = code;
 	}
 
 	public static VoucherType from(String type) {
 		return Arrays.stream(VoucherType.values())
 			.filter(constant ->
-				constant.getMappingCode().equalsIgnoreCase(type))
+				constant.name().equalsIgnoreCase(type))
 			.findFirst()
 			.orElseThrow(() ->
 				new NoMappingOneException(type));
 	}
 
+	public static VoucherType of(int code) {
+		return Arrays.stream(VoucherType.values())
+			.filter(constant ->
+				constant.getMappingCode() == code)
+			.findFirst()
+			.orElseThrow(() ->
+				new NoMappingOneException(Integer.toString(code)));
+	}
+
 	@Override
-	public String getMappingCode() {
+	public int getMappingCode() {
 		return this.code;
 	}
 

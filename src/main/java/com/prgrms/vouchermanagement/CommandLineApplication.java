@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.prgrms.vouchermanagement.commons.CodeMappable;
 import com.prgrms.vouchermanagement.commons.ErrorMessage;
 import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
 import com.prgrms.vouchermanagement.io.InputView;
@@ -107,29 +106,18 @@ public class CommandLineApplication {
 		}
 	}
 
-	private enum MenuSelection implements CodeMappable {
-		EXIT("exit"),
-		CREATE("create"),
-		LIST("list");
-
-		private final String code;
-
-		MenuSelection(String code) {
-			this.code = code;
-		}
+	private enum MenuSelection {
+		EXIT,
+		CREATE,
+		LIST;
 
 		public static MenuSelection from(String type) {
 			return Arrays.stream(MenuSelection.values())
 				.filter(constant ->
-					constant.getMappingCode().equalsIgnoreCase(type))
+					constant.name().equalsIgnoreCase(type))
 				.findFirst()
 				.orElseThrow(() ->
 					new NoMappingOneException(type));
-		}
-
-		@Override
-		public String getMappingCode() {
-			return this.code;
 		}
 	}
 }

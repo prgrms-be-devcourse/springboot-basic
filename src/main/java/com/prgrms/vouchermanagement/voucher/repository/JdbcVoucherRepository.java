@@ -34,7 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		UUID voucher_id = toUUID(rs.getBytes("voucher_id"));
 		long discount_info = rs.getLong("discount_info");
 		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-		VoucherType type = VoucherType.from(rs.getString("type"));
+		VoucherType type = VoucherType.of(rs.getInt("type"));
 
 		return type.getVoucher(voucher_id, discount_info, createdAt);
 	};
@@ -63,7 +63,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 			throw new UpdateFailException(e);
 		} catch (DataAccessException e) {
-			logger.info("Voucher {} insert fail", voucher);
+			logger.info("Voucher {} insert fail", voucher, e);
 
 			throw new UpdateFailException(e);
 		}
@@ -78,7 +78,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 				jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(?)",
 					voucherRowMapper, voucherId.toString().getBytes()));
 		} catch (DataAccessException e) {
-			logger.info("find voucher by id {} fail", voucherId);
+			logger.info("find voucher by id {} fail", voucherId, e);
 
 			return Optional.empty();
 		}
@@ -89,8 +89,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		try {
 			jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(?)",
 				voucherId.toString().getBytes());
-		}catch (DataAccessException e){
-			logger.info("delete by id {} 실패", voucherId);
+		} catch (DataAccessException e) {
+			logger.info("delete by id {} 실패", voucherId, e);
 
 			return false;
 		}
@@ -101,8 +101,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	public boolean deleteAll() {
 		try {
 			jdbcTemplate.update("DELETE FROM vouchers");
-		}catch (DataAccessException e){
-			logger.info("deleteAll 실패");
+		} catch (DataAccessException e) {
+			logger.info("deleteAll 실패", e);
 
 			return false;
 		}

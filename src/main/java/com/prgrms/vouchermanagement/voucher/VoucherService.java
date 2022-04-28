@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanagement.voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,16 +31,21 @@ public class VoucherService {
 		Voucher voucher = null;
 
 		try {
-			voucher = voucherType.getVoucher(id, voucherDiscountInfo);
+			voucher = voucherType.getVoucher(id, voucherDiscountInfo, LocalDateTime.now());
 
 			logger.info("Publish new Voucher : {}", voucher);
 
-			voucherRepository.save(voucher);
+			voucherRepository.insert(voucher);
 		} catch (CreationFailException e) {
 			logger.error("{}", e.getMessage(), e);
 		}
 
 		return Optional.ofNullable(voucher);
+	}
+
+	public void deleteVoucherById(UUID voucherId) {
+		// TODO delete 예외상황 처리
+		voucherRepository.deleteById(voucherId);
 	}
 
 }
