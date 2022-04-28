@@ -16,6 +16,6 @@ public class RepositoryTestConfig {
 
 	@Bean
 	public VoucherRepository voucherRepository(JdbcTemplate jdbcTemplate) {
-		return new JdbcVoucherRepository(jdbcTemplate);
+		return new VoucherJdbcRepository(jdbcTemplate);
 	}
 }

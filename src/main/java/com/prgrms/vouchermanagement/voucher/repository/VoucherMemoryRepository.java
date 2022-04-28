@@ -16,9 +16,9 @@ import com.prgrms.vouchermanagement.commons.exception.UpdateFailException;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
 	private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-	private final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+	private final Logger logger = LoggerFactory.getLogger(VoucherMemoryRepository.class);
 
 	@Override
 	public List<Voucher> findAllVoucher() {

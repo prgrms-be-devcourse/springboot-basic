@@ -22,11 +22,11 @@ import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 @Repository
 @Primary
-public class JdbcVoucherRepository implements VoucherRepository {
-	private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+public class VoucherJdbcRepository implements VoucherRepository {
+	private final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 	private final JdbcTemplate jdbcTemplate;
 
-	public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
+	public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
