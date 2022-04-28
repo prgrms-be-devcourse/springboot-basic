@@ -72,6 +72,11 @@ public class JdbcWalletRepository implements WalletRepository {
   }
 
   @Override
+  public void deleteAll() {
+    jdbcTemplate.update("DELETE FROM wallet", Collections.emptyMap());
+  }
+
+  @Override
   public int count() {
     return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM wallet", Collections.emptyMap(), Integer.class);
   }
