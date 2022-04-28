@@ -9,14 +9,12 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ConsoleController {
 
-  private final ListController listController;
   private final VoucherService voucherService;
   private final CustomerService customerService;
   private final Input input;
   private final Output output;
 
-  public ConsoleController(ListController listController, VoucherService voucherService, CustomerService customerService, Input input, Output output) {
-    this.listController = listController;
+  public ConsoleController(VoucherService voucherService, CustomerService customerService, Input input, Output output) {
     this.voucherService = voucherService;
     this.customerService = customerService;
     this.input = input;
@@ -26,20 +24,22 @@ public class ConsoleController {
   public void run() {
     boolean progress = true;
     while (progress) {
-      switch (input.readCommand()) {
-        case "exit":
-          progress = false;
-          break;
-        case "list":
-          listController.processList();
-          break;
-        case "create":
-          break;
-        default:
-          output.printNotExistingCommand();
-      }
+      progress = execute();
     }
   }
 
+  public boolean execute() {
+    String command = input.readCommand();
+    return ConsoleCommand.valueOf(command.toUpperCase()).apply(this);
+  }
 
+  public void processList() {
+    String listType = input.readListType().toLowerCase();
+    if(listType.equals("customer")) output.printList(customerService.getCustomerList());
+    else if(listType.equals("voucher")) output.printList(voucherService.getVoucherList());
+  }
+
+  public void nonExistentCommand() {
+    output.printNotExistingCommand();
+  }
 }

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-  private static final long MAX_REDUCTION = 1_000_000L;
+  private static final int MAX_REDUCTION = 1_000_000;
 
   public FixedAmountVoucher(UUID voucherId, long reduction, LocalDateTime createdAt) {
     super(voucherId, reduction, createdAt);

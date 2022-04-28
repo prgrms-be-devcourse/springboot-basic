@@ -6,24 +6,32 @@ import java.util.List;
 
 @Component
 public class ConsoleOutput implements Output {
-  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===\n" +
-    "Type exit to exit the program.\n" +
-    "Type create to create a new voucher.\n" +
-    "Type \"list voucher\" to list all vouchers.\n" +
-    "Type \"list customer\" to list all vouchers.\n" +
-    "Type issue to issue voucher to customer\n";
+  public static final String AVAILABLE_COMMANDS = "=== Voucher Program ===" +
+    System.lineSeparator() +
+    "Type exit to exit the program." +
+    System.lineSeparator() +
+    "Type create to create a new voucher." +
+    System.lineSeparator() +
+    "Type \"list voucher\" to list all vouchers." +
+    System.lineSeparator() +
+    "Type \"list customer\" to list all vouchers." +
+    System.lineSeparator() +
+    "Type issue to issue voucher to customer" +
+    System.lineSeparator();
 
   private static final String NOT_EXISTING_COMMAND = "Command does not exist";
 
   private static final String LIST_TYPE = "Which do you want customer or voucher? (customer OR voucher): ";
-  public static final String AVAILABLE_VOUCHERS = "Which type do you want?\n\t" +
-    "1. FixedAmountVoucher(Fixed)\n\t" +
+
+  public static final String AVAILABLE_VOUCHERS = "Which type do you want?" +
+    System.lineSeparator() +
+    "1. FixedAmountVoucher(Fixed)" +
+    System.lineSeparator() +
     "2. PercentDiscountVoucher(Percent)";
 
   public static final String ISSUE_COMMAND_CUSTOMER = "Input the Customer ID: ";
 
   public static final String ISSUE_COMMAND_VOUCHER = "Input the Voucher ID: ";
-
 
   @Override
   public void printCommandList() {

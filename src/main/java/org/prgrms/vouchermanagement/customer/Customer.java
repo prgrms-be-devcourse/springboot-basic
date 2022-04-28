@@ -1,5 +1,7 @@
 package org.prgrms.vouchermanagement.customer;
 
+import org.prgrms.vouchermanagement.customer.vo.EmailVO;
+import org.prgrms.vouchermanagement.customer.vo.NameVO;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 
 import java.time.LocalDateTime;
@@ -10,8 +12,8 @@ import java.util.UUID;
 
 public class Customer {
   private final UUID customerId;
-  private String name;
-  private final String email;
+  private NameVO name;
+  private final EmailVO email;
   private LocalDateTime lastLoginAt;
   private final LocalDateTime createdAt;
   private List<Voucher> wallet;
@@ -19,29 +21,25 @@ public class Customer {
   public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
     validateName(name);
     this.customerId = customerId;
-    this.name = name;
-    this.email = email;
+    this.name = new NameVO(name);
+    this.email = new EmailVO(email);
     this.createdAt = createdAt;
     wallet = new ArrayList<>();
   }
 
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
     this.customerId = customerId;
-    this.name = name;
-    this.email = email;
+    this.name = new NameVO(name);
+    this.email = new EmailVO(email);
     this.lastLoginAt = lastLoginAt;
     this.createdAt = createdAt;
     wallet = new ArrayList<>();
   }
 
-  public List<Voucher> viewWallet() {
+  public List<Voucher> getWallet() {
     return wallet;
   }
 
-  public void changeName(String name) {
-    validateName(name);
-    this.name = name;
-  }
 
   private void validateName(String name) {
     if (name.isBlank()) {
@@ -58,10 +56,10 @@ public class Customer {
   }
 
   public String getName() {
-    return name;
+    return name.getName();
   }
 
-  public String getEmail() {
+  public EmailVO getEmail() {
     return email;
   }
 
@@ -91,10 +89,14 @@ public class Customer {
   public String toString() {
     return "Customer{" +
       "customerId=" + customerId +
-      ", name='" + name + '\'' +
-      ", email='" + email + '\'' +
+      ", name='" + name.getName() + '\'' +
+      ", email='" + email.getAddress() + '\'' +
       ", lastLoginAt=" + lastLoginAt +
       ", createdAt=" + createdAt +
       '}';
+  }
+
+  public void changeName(String newName) {
+    name.changeName(newName);
   }
 }

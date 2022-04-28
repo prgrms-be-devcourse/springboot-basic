@@ -36,8 +36,6 @@ import static org.hamcrest.Matchers.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcWalletRepositoryTest {
 
-  private static final Logger log = LoggerFactory.getLogger(JdbcWalletRepositoryTest.class);
-
   @Configuration
   @ComponentScan(
     basePackages = {"org.prgrms.vouchermanagement.customer", "org.prgrms.vouchermanagement.voucher"}
@@ -109,8 +107,12 @@ class JdbcWalletRepositoryTest {
     embeddedMysql.stop();
   }
 
+  @BeforeEach
+  void beforeEach() {
+    jdbcWalletRepository.deleteAll();
+  }
+
   @Test
-  @Order(1)
   void testIssueVoucherToCustomer() {
     assertThat(jdbcWalletRepository.count(), is(0));
 
@@ -124,27 +126,26 @@ class JdbcWalletRepositoryTest {
   }
 
   @Test
-  @Order(2)
   void testFindVouchersByCustomerId() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
+
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(2));
-    log.info("insert vouchers -> [{}, {}]", fixedAmountVoucher1, percentDiscountVoucher1);
-    log.info("vouchers -> {}", vouchers.toString());
   }
 
   @Test
-  @Order(3)
   void testFindCustomersByVoucherId() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
     List<UUID> customers = jdbcWalletRepository.findCustomersByVoucherId(fixedAmountVoucher1.getVoucherID());
     assertThat(customers.size(), is(1));
     assertThat(customers.contains(customer1.getCustomerId()), is(true));
-    log.info("customer1Id -> {}", customer1.getCustomerId());
-    log.info("custoers -> {}", customers);
   }
 
   @Test
-  @Order(4)
   void testDelete() {
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
     jdbcWalletRepository.delete(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(1));

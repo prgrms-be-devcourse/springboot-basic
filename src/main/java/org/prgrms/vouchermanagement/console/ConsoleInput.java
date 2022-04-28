@@ -19,7 +19,9 @@ public class ConsoleInput implements  Input {
   @Override
   public Optional<String> read() {
     String line = reader.read();
-    if(line.length() == 0) return Optional.empty();
+    if(line.length() == 0) {
+      return Optional.empty();
+    }
     return Optional.of(line);
   }
 

@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class VoucherTest {
 
-  Logger log = LoggerFactory.getLogger(VoucherTest.class);
-
   @Test
   void testVoucherTypeConversion() {
     Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
@@ -58,9 +56,7 @@ public class VoucherTest {
     assertThat(fixedAmountVoucher.discount(1000L), is(900L));
     assertThat(fixedAmountVoucher.discount(100L), is(0L));
     assertThat(fixedAmountVoucher.discount(10L), is(0L));
-
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, LocalDateTime.now());
-    log.info("voucher class = {}", voucher.getClass().getSimpleName());
   }
 
   @Test

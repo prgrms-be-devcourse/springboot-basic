@@ -13,5 +13,7 @@ public interface WalletRepository {
 
   void delete(UUID customerId, UUID voucherId);
 
+  void deleteAll();
+
   public int count();
 }
