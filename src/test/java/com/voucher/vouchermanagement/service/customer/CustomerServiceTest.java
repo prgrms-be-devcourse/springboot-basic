@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -26,6 +27,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -212,5 +214,12 @@ public class CustomerServiceTest {
         );
     }
 
+    @Test
+    public void duplicatedEmailTest() {
+        //given
+        customerService.join("customerA", "pjh_jn@naver.com");
 
+        //when, then
+        assertThrows(DuplicateKeyException.class, () -> customerService.join("customerB", "pjh_jn@naver.com"));
+    }
 }

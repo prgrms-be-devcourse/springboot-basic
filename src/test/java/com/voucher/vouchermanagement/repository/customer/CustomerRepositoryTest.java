@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -28,6 +29,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
 @ActiveProfiles("prod")
@@ -56,9 +58,7 @@ public class CustomerRepositoryTest {
                     .password("test1234!")
                     .type(HikariDataSource.class)
                     .build();
-
         }
-
     }
 
     @BeforeAll
@@ -198,5 +198,17 @@ public class CustomerRepositoryTest {
 
         //then
         assertThat(foundCustomers.size(), is(0));
+    }
+
+    @Test
+    @DisplayName("이메일은 중복될 수 없다.")
+    public void duplicatedEmailTest() {
+        //given
+        Customer customerA = new Customer(UUID.randomUUID(), "customerA", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        Customer customerB = new Customer(UUID.randomUUID(), "customerB", "pjh_jn@naver.com", LocalDateTime.now(), LocalDateTime.now());
+        customerRepository.insert(customerA);
+
+        //when, then
+        DuplicateKeyException duplicateKeyException = assertThrows(DuplicateKeyException.class, () -> customerRepository.insert(customerB));
     }
 }
