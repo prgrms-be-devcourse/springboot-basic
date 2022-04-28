@@ -1,10 +1,5 @@
 package com.programmers.order.repository;
 
-import static com.wix.mysql.EmbeddedMysql.*;
-import static com.wix.mysql.ScriptResolver.*;
-import static com.wix.mysql.config.MysqldConfig.*;
-import static com.wix.mysql.distribution.Version.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +9,6 @@ import javax.sql.DataSource;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -41,10 +34,6 @@ import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.repository.customer.CustomerJdbcRepository;
 import com.programmers.order.repository.customer.CustomerRepository;
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -58,32 +47,32 @@ public class CustomerRepositoryTest {
 	static class Config {
 
 		@Bean
-		public NamedParameterJdbcTemplate jdbcTemplate(JdbcTemplate jdbcTemplate) {
-			return new NamedParameterJdbcTemplate(jdbcTemplate);
-		}
-
-		@Bean
-		public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-			return new JdbcTemplate(dataSource);
-		}
-
-		@Bean
-		public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-			return new DataSourceTransactionManager(dataSource);
-		}
-
-		@Bean
-		public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
-			return new TransactionTemplate(platformTransactionManager);
-		}
-
-		@Bean
-		public CustomerRepository customerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
-				NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-			return new CustomerJdbcRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
-		}
-
+	public NamedParameterJdbcTemplate jdbcTemplate(JdbcTemplate jdbcTemplate) {
+		return new NamedParameterJdbcTemplate(jdbcTemplate);
 	}
+
+	@Bean
+	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+		return new JdbcTemplate(dataSource);
+	}
+
+	@Bean
+	public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
+
+	@Bean
+	public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
+		return new TransactionTemplate(platformTransactionManager);
+	}
+
+	@Bean
+	public CustomerRepository customerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
+			NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+		return new CustomerJdbcRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
+	}
+
+}
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -154,9 +143,9 @@ public class CustomerRepositoryTest {
 		}
 
 		// then
-		Optional<Customer> customer = customerRepository.findById(newCustomer.getId());
+		Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
 		MatcherAssert.assertThat(customer.isEmpty(), Matchers.is(NOT_EMPTY));
-		MatcherAssert.assertThat(customer.get().getId(), Matchers.is(newCustomer.getId()));
+		MatcherAssert.assertThat(customer.get().getCustomerId(), Matchers.is(newCustomer.getCustomerId()));
 	}
 
 	@Order(5)
@@ -165,7 +154,7 @@ public class CustomerRepositoryTest {
 	void updateTest() {
 		//given
 
-		Customer previousCustomer = customerRepository.findById(newCustomer.getId())
+		Customer previousCustomer = customerRepository.findById(newCustomer.getCustomerId())
 				.orElseThrow(() -> new RuntimeException("No data ..."));
 
 		String updatedName = "update-name";
@@ -194,7 +183,7 @@ public class CustomerRepositoryTest {
 		//then
 		Assertions.assertEquals(customers.size(), 1);
 		// MatcherAssert.assertThat(customers.get(0), Matchers.samePropertyValuesAs(newCustomer));
-		MatcherAssert.assertThat(customers.get(0).getId(), Matchers.is(newCustomer.getId()));
+		MatcherAssert.assertThat(customers.get(0).getCustomerId(), Matchers.is(newCustomer.getCustomerId()));
 	}
 
 	@Order(7)
