@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
@@ -66,7 +65,7 @@ public class WebPageVoucherController {
   }
 
   @PostMapping("/delete")
-  public String deleteVoucher(@RequestParam @Valid @NotNull UUID voucherId) {
+  public String deleteVoucher(@RequestParam UUID voucherId) {
     voucherService.remove(voucherId);
     return "redirect:/voucher";
   }

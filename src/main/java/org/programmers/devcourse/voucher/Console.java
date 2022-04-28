@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console implements Input, Output {
 
-
   private static final String MENU_STRING = "\n=== Voucher Program ===\n"
       + "Type exit to exit the program.\n"
       + "Type create to create a new voucher.\n"
@@ -63,7 +62,6 @@ public class Console implements Input, Output {
     return discountData;
   }
 
-
   @Override
   public void printInputError(String message) {
     System.out.println(MessageFormat.format("[ERROR] : {0}", message));
@@ -100,7 +98,6 @@ public class Console implements Input, Output {
     System.out.println(buffer);
 
   }
-
 
   @Override
   public void close() throws IOException {

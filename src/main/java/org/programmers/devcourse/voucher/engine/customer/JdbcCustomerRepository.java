@@ -154,7 +154,6 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   @Override
   public int deleteAll() {
     return namedParameterJdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
-
   }
 
   @Override
@@ -163,11 +162,9 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
       return namedParameterJdbcTemplate.update(
           "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
           Map.of(CUSTOMER_ID.toString(), UUIDMapper.toBytes(customer.getCustomerId())));
-
     } catch (DataAccessException exception) {
       logger.error("DB query failed", exception);
       return 0;
-
     }
   }
 

@@ -10,7 +10,6 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class FileBlackListRepository implements BlackListRepository {
 

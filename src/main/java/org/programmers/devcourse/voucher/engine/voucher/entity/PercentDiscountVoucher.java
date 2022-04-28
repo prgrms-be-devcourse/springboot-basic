@@ -7,8 +7,7 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeO
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 
-public class PercentDiscountVoucher extends
-    AbstractVoucher {
+public class PercentDiscountVoucher extends AbstractVoucher {
 
   public static final VoucherFactory factory = PercentDiscountVoucher::new;
   private final UUID voucherId;

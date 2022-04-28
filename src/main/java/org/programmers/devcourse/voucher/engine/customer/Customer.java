@@ -12,7 +12,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
 
-
 @ToString
 public class Customer {
 

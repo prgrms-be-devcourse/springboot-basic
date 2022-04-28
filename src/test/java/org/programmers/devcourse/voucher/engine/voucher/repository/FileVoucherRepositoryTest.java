@@ -22,7 +22,6 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class FileVoucherRepositoryTest {
 
-
   static Stream<Arguments> voucherSource() throws VoucherDiscountDegreeOutOfRangeException {
     return Stream.of(arguments(List.of(
         FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()),

@@ -100,4 +100,5 @@ class WebPageVoucherControllerTest {
     mockMvc.perform(post("/voucher/delete").param(voucherIdKey, voucherIdLiteral))
         .andExpect(status().is4xxClientError());
   }
+
 }

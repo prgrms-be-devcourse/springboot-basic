@@ -7,8 +7,7 @@ import org.programmers.devcourse.voucher.engine.exception.VoucherDiscountDegreeO
 import org.programmers.devcourse.voucher.engine.voucher.VoucherFactory;
 
 
-public class FixedAmountVoucher extends
-    AbstractVoucher {
+public class FixedAmountVoucher extends AbstractVoucher {
 
   private static final long MAX_AMOUNT = 1000000;
   public static final VoucherFactory factory = FixedAmountVoucher::new;
@@ -29,7 +28,7 @@ public class FixedAmountVoucher extends
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;
   }
-  
+
   @Override
   public long getDiscountDegree() {
     return discountAmount;

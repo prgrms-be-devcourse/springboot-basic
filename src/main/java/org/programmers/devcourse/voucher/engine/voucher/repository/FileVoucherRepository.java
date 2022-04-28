@@ -22,8 +22,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("local")
-public class FileVoucherRepository implements
-    VoucherRepository {
+public class FileVoucherRepository implements VoucherRepository {
 
   private static final String DELIMITER_REGEX = "\\|\\|";
   private static final String DELIMITER = "||";
