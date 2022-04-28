@@ -92,7 +92,7 @@ class WebVoucherControllerTest {
         mockMvc.perform(post("/vouchers")
                         .param("voucherType", invalidPayload.getVoucherType())
                         .param("discountAmount", invalidPayload.getDiscountAmount()))
-                .andExpect(model().attributeExists("payload","error"))
+                .andExpect(model().attributeExists("payload","message"))
                 .andExpect(view().name(VOUCHER_REGISTRY_VIEW))
                 .andExpect(status().is2xxSuccessful());
     }
@@ -142,7 +142,7 @@ class WebVoucherControllerTest {
                         .param("voucherType", payload.getVoucherType())
                         .param("voucherId", payload.getVoucherId())
                         .param("discountAmount", payload.getDiscountAmount()))
-                .andExpect(model().attributeExists("payload","error"))
+                .andExpect(model().attributeExists("payload","message"))
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name(VOUCHER_UPDATE_VIEW));
     }
