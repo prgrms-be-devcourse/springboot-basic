@@ -1,19 +1,19 @@
 package org.programmers.devcourse.voucher.engine.voucher.repository;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.sql.DataSource;
 import org.programmers.devcourse.voucher.configuration.Transactional;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.programmers.devcourse.voucher.util.UUIDMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -25,40 +25,27 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile({"dev", "web"})
+@Primary
 public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
   private final DataSourceTransactionManager transactionManager;
+  private final RowMapper<Voucher> voucherRowMapper = (resultSet, ignored) -> {
+    var voucherId = UUIDMapper.fromBytes(resultSet.getBytes("voucher_id"));
+    var type = resultSet.getString("type");
+    var discountDegree = resultSet.getInt("discount_degree");
+    var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+    return VoucherType.from(type).orElseThrow(SQLException::new).createVoucher(voucherId, discountDegree, createdAt);
+  };
 
   public JdbcVoucherRepository(DataSource dataSource) {
     this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
     this.transactionManager = new DataSourceTransactionManager(dataSource);
   }
 
-  private static class SqlMapperKeys {
-
-    static final String VOUCHER_ID = "voucherId";
-    static final String TYPE = "type";
-    static final String DISCOUNT_DEGREE = "discountDegree";
-  }
-
-  private final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
-    UUID voucherId;
-    try {
-      voucherId = UUIDMapper.fromBytes(resultSet.getBinaryStream("voucher_id").readAllBytes());
-    } catch (IOException e) {
-      throw new VoucherException(e);
-    }
-
-    var type = resultSet.getString("type");
-    var discountDegree = resultSet.getInt("discount_degree");
-    var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-
-    return VoucherType.from(type).orElseThrow(SQLException::new).getFactory().create(voucherId, discountDegree, createdAt);
-  };
-
   private Map<String, Object> mapToParam(Voucher voucher) {
-    var map = new ConcurrentHashMap<String, Object>();
+    var map = new HashMap<String, Object>();
     map.put(SqlMapperKeys.VOUCHER_ID, voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
     map.put(SqlMapperKeys.TYPE, VoucherType.mapToTypeId(voucher));
     map.put(SqlMapperKeys.DISCOUNT_DEGREE, voucher.getDiscountDegree());
@@ -116,5 +103,12 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
       transactionManager.rollback(status);
       throw exception;
     }
+  }
+
+  private static class SqlMapperKeys {
+
+    static final String VOUCHER_ID = "voucherId";
+    static final String TYPE = "type";
+    static final String DISCOUNT_DEGREE = "discountDegree";
   }
 }

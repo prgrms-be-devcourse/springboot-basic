@@ -2,9 +2,9 @@ package org.programmers.devcourse.voucher.engine.voucher.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.programmers.devcourse.voucher.engine.voucher.VoucherTestUtil.voucherFixtures;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,19 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.programmers.devcourse.voucher.EmbeddedDatabaseTestModule;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
-import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
-import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.dao.DataAccessException;
 
 class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
 
   private static JdbcVoucherRepository repository;
-  private final static List<Voucher> vouchersToTest = List.of(
-      FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11, LocalDateTime.now())
-  );
 
   @BeforeAll
   static void setup() {
@@ -33,6 +25,10 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
       mysql.start();
     }
     repository = new JdbcVoucherRepository(getTestDataSource());
+  }
+
+  private static void loadVouchersToTestDatabase() {
+    voucherFixtures.forEach(voucher -> repository.save(voucher));
   }
 
   @BeforeEach
@@ -46,20 +42,19 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
     assertThat(repository.getAllVouchers()).isEmpty();
   }
 
-
   @Test
   @DisplayName("save를 호출하면 voucher가 정확히 저장되어야 한다.")
   void save_proper_voucher() throws VoucherException {
     loadVouchersToTestDatabase();
-    assertThat(repository.getAllVouchers()).containsAll(vouchersToTest);
+    assertThat(repository.getAllVouchers()).containsAll(voucherFixtures);
   }
 
   @Test
   @DisplayName("voucherId로 원하는 voucher를 가져올 수 있어야 한다.")
   void get_proper_voucher_by_voucher_id() throws VoucherException {
     loadVouchersToTestDatabase();
-    assertThat(repository.getAllVouchers()).containsAll(vouchersToTest);
-    vouchersToTest.forEach(voucher -> {
+    assertThat(repository.getAllVouchers()).containsAll(voucherFixtures);
+    voucherFixtures.forEach(voucher -> {
       assertThat(repository.getVoucherById(voucher.getVoucherId())).isNotEmpty().get().isEqualTo(voucher);
     });
   }
@@ -68,15 +63,11 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
   @DisplayName("voucherId로 원하는 voucher를 삭제할 수 있어야 한다.")
   void delete_voucher_by_Id() throws VoucherException {
     loadVouchersToTestDatabase();
-    var voucherToRemove = vouchersToTest.get(0);
+    var voucherToRemove = voucherFixtures.get(0);
     repository.delete(voucherToRemove.getVoucherId());
 
     assertThat(repository.getVoucherById(voucherToRemove.getVoucherId())).isEmpty();
-    assertThat(repository.getAllVouchers()).hasSize(vouchersToTest.size() - 1);
-  }
-
-  private static void loadVouchersToTestDatabase() {
-    vouchersToTest.forEach(voucher -> repository.save(voucher));
+    assertThat(repository.getAllVouchers()).hasSize(voucherFixtures.size() - 1);
   }
 
   @Test
@@ -85,9 +76,9 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
     assertThatThrownBy(() ->
         repository.runTransaction(() -> {
           repository.save(FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()));
-          repository.save(vouchersToTest.get(0));
-          repository.save(vouchersToTest.get(0));
-          repository.save(vouchersToTest.get(0));
+          repository.save(voucherFixtures.get(0));
+          repository.save(voucherFixtures.get(0));
+          repository.save(voucherFixtures.get(0));
         })).isInstanceOf(DataAccessException.class);
 
     assertThat(repository.getAllVouchers()).isEmpty();

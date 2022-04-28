@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Repository;
 
@@ -22,13 +23,12 @@ public class FileBlackListRepository implements BlackListRepository {
 
     try {
       var inputStream = blackListResource.getInputStream();
-      blackListReader = new BufferedReader(
-          new InputStreamReader(inputStream));
+      blackListReader = new BufferedReader(new InputStreamReader(inputStream));
 
       blackListReader.lines().forEach(line -> {
         var fields = Arrays.stream(line.split(",")).map(String::trim).toArray(String[]::new);
         if (fields.length != 2) {
-          throw new RuntimeException();
+          throw new VoucherException("파일이 잘못 저장되었습니다.");
         }
         var name = fields[0];
         var reason = fields[1];
@@ -36,7 +36,7 @@ public class FileBlackListRepository implements BlackListRepository {
       });
       blackListReader.close();
     } catch (Exception exception) {
-      throw new RuntimeException("BlackListRepository 읽기 실패", exception);
+      throw new VoucherException("BlackListRepository 읽기 실패", exception);
     }
   }
 

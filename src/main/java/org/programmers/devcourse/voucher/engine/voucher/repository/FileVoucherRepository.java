@@ -35,10 +35,10 @@ public class FileVoucherRepository implements
         voucher.getDiscountDegree(),
         String.valueOf(voucher.getCreatedAt().toEpochSecond(ZoneOffset.UTC)));
   };
-  // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
-  private Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
   private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
   private final FileChannel fileChannel;
+  // 바우처를 로드했을 때 먼저 파일 스트림을 연다.
+  private Map<UUID, Voucher> memoryStorage = new LinkedHashMap<>();
 
   public FileVoucherRepository(
       FileChannel fileChannel) {
@@ -51,11 +51,10 @@ public class FileVoucherRepository implements
       var discountDegree = Long.parseLong(fields[2].replace(",", ""));
       var createdAt = LocalDateTime.ofEpochSecond(Long.parseLong(fields[3]), 0, ZoneOffset.UTC);
       try {
-        memoryStorage.put(voucherId, voucherType.getFactory().create(voucherId, discountDegree, createdAt));
+        memoryStorage.put(voucherId, voucherType.createVoucher(voucherId, discountDegree, createdAt));
       } catch (VoucherDiscountDegreeOutOfRangeException e) {
         logger.error(MessageFormat.format("{0} : Not valid voucher", voucherId));
       }
-
     });
   }
 

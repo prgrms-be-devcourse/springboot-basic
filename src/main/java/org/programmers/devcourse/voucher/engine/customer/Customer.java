@@ -25,7 +25,7 @@ public class Customer {
   private final LocalDateTime lastLoginAt;
   @Getter
   private final LocalDateTime createdAt;
-  
+
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt,
       LocalDateTime createdAt) {
     this.customerId = customerId;

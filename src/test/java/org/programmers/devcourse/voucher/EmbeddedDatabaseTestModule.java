@@ -32,19 +32,19 @@ public abstract class EmbeddedDatabaseTestModule {
     public String getUrl() {
       return mysql.getJdbcUrl();
     }
-
   };
 
   private static DataSource testDataSource = null;
 
   protected static DataSource getTestDataSource() {
     if (testDataSource == null) {
-      testDataSource = DataSourceBuilder.create().type(HikariDataSource.class)
-          .username(jdbcProperties.getUser()).password(jdbcProperties.getPassword())
+      testDataSource = DataSourceBuilder.create()
+          .type(HikariDataSource.class)
+          .username(jdbcProperties.getUser())
+          .password(jdbcProperties.getPassword())
           .url(jdbcProperties.getUrl())
           .build();
     }
-
     return testDataSource;
   }
 

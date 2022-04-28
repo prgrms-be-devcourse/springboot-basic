@@ -10,10 +10,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class VoucherApplication {
 
   public static void main(String[] args) {
-
     var app = new SpringApplication(VoucherApplication.class);
     var context = app.run(args);
-
     if (Arrays.asList(context.getEnvironment().getActiveProfiles()).contains("dev")) {
       context.getBean(CliVoucherApplication.class).start();
     }

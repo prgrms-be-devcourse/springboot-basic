@@ -15,6 +15,8 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 class FixedAmountVoucherTest {
 
+  private final static LocalDateTime now = LocalDateTime.now();
+
   @DisplayName("등록되어 있는 금액 만큼 가격을 할인해야 한다.")
   @ParameterizedTest
   @CsvSource(value = {
@@ -23,7 +25,7 @@ class FixedAmountVoucherTest {
   })
   void discount_price_in_normal_situation(long beforeDiscount, long discountDegree,
       long afterDiscount) throws VoucherDiscountDegreeOutOfRangeException {
-    Voucher voucher0 = FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now());
+    Voucher voucher0 = FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree, now);
     assertThat(voucher0.discount(beforeDiscount)).isEqualTo(afterDiscount);
   }
 
@@ -35,7 +37,7 @@ class FixedAmountVoucherTest {
   })
   void throw_exception_when_discount_degree_is_negative(long discountDegree) {
     var voucherId = UUID.randomUUID();
-    assertThatThrownBy(() -> FixedAmountVoucher.factory.create(voucherId, discountDegree, LocalDateTime.now()))
+    assertThatThrownBy(() -> FixedAmountVoucher.factory.create(voucherId, discountDegree, now))
         .isInstanceOf(VoucherDiscountDegreeOutOfRangeException.class);
   }
 
@@ -49,7 +51,6 @@ class FixedAmountVoucherTest {
       long discountDegree) throws VoucherDiscountDegreeOutOfRangeException {
     long discountedPrice = FixedAmountVoucher.factory.create(UUID.randomUUID(), discountDegree, LocalDateTime.now())
         .discount(beforeDiscount);
-
     assertThat(discountedPrice).isZero();
   }
 

@@ -21,7 +21,7 @@ public class VoucherService {
   public Voucher create(String voucherTypeId, long voucherDiscountData) throws VoucherException {
     // validation
     var voucherType = VoucherType.from(voucherTypeId).orElseThrow(() -> new VoucherException("Invalid Voucher Type Id"));
-    var voucher = voucherType.getFactory().create(UUID.randomUUID(), voucherDiscountData, LocalDateTime.now());
+    var voucher = voucherType.createVoucher(UUID.randomUUID(), voucherDiscountData, LocalDateTime.now());
     voucherRepository.save(voucher);
     return voucher;
   }

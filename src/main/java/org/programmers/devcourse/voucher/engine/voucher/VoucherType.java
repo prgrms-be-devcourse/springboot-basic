@@ -1,14 +1,17 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.PercentDiscountVoucher;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
+import org.springframework.lang.Nullable;
 
 public enum VoucherType {
   FIXED_AMOUNT("1", "$", FixedAmountVoucher.factory),
@@ -26,6 +29,10 @@ public enum VoucherType {
     this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
+  }
+
+  public Voucher createVoucher(UUID id, long discountDegree, @Nullable LocalDateTime createdAt) {
+    return this.factory.create(id, discountDegree, createdAt);
   }
 
   public static Optional<VoucherType> from(String typeId) {
@@ -56,7 +63,4 @@ public enum VoucherType {
     return unit;
   }
 
-  public VoucherFactory getFactory() {
-    return factory;
-  }
 }

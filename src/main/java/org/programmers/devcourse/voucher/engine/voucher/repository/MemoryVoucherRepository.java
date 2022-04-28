@@ -5,15 +5,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("local")
-public class MemoryVoucherRepository implements
-    VoucherRepository {
+public class MemoryVoucherRepository implements VoucherRepository {
 
   private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
@@ -36,18 +34,13 @@ public class MemoryVoucherRepository implements
 
   @Override
   public int deleteAll() {
-    AtomicInteger count = new AtomicInteger(0);
-    storage.keySet().forEach(key -> {
-      storage.remove(key);
-      count.incrementAndGet();
-    });
-    return count.intValue();
+    var removedSize = storage.size();
+    storage.clear();
+    return removedSize;
   }
 
   @Override
   public void delete(UUID voucherId) {
     storage.remove(voucherId);
   }
-
-
 }

@@ -40,6 +40,25 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
   private final PlatformTransactionManager transactionManager;
+  private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
+    UUID customerId = null;
+    try {
+      customerId = UUIDMapper.fromBytes(resultSet.getBinaryStream(CUSTOMER_ID.dbColumnLabel).readAllBytes());
+    } catch (IOException e) {
+      throw new SQLException("Getting UUID from binaryStream failed");
+    }
+    var name = resultSet.getString(NAME.dbColumnLabel);
+    var email = resultSet.getString(EMAIL.dbColumnLabel);
+    var lastLoginAt = resultSet.getTimestamp(LAST_LOGIN_AT.dbColumnLabel) == null ? null
+        : resultSet.getTimestamp(LAST_LOGIN_AT.dbColumnLabel).toLocalDateTime();
+    var createdAt = resultSet.getTimestamp(CREATED_AT.dbColumnLabel).toLocalDateTime();
+    return new Customer(customerId, name, email, lastLoginAt, createdAt);
+  };
+
+  public JdbcCustomerRepository(DataSource dataSource) {
+    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
+    this.transactionManager = new DataSourceTransactionManager(dataSource);
+  }
 
   public void runTransaction(Runnable runnable) throws DataAccessException {
     var status = transactionManager.getTransaction(null);
@@ -52,33 +71,13 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
     }
   }
 
-  private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
-    UUID customerId = null;
-    try {
-      customerId = UUIDMapper.fromBytes(resultSet.getBinaryStream("customer_id").readAllBytes());
-    } catch (IOException e) {
-      throw new SQLException("Getting UUID from binaryStream failed");
-    }
-    var name = resultSet.getString("name");
-    var email = resultSet.getString("email");
-    var lastLoginAt = resultSet.getTimestamp("last_login_at") == null ? null
-        : resultSet.getTimestamp("last_login_at").toLocalDateTime();
-    var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-    return new Customer(customerId, name, email, lastLoginAt, createdAt);
-  };
-
-  public JdbcCustomerRepository(DataSource dataSource) {
-    this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource));
-    this.transactionManager = new DataSourceTransactionManager(dataSource);
-  }
-
   @Override
   public Optional<Customer> getById(UUID customerId) {
 
     try {
       var customer = namedParameterJdbcTemplate.queryForObject(
           "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-          Map.of("customerId", customerId.toString().getBytes(StandardCharsets.UTF_8)),
+          Map.of(CUSTOMER_ID.value, customerId.toString().getBytes(StandardCharsets.UTF_8)),
           mapToCustomer
       );
       return Optional.ofNullable(customer);
@@ -107,15 +106,12 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
     try {
       var customer = namedParameterJdbcTemplate.queryForObject(
           "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE name=:name",
-          Map.of("name", name),
-          mapToCustomer
-      );
-
+          Map.of(NAME.value, name),
+          mapToCustomer);
       return Optional.ofNullable(customer);
     } catch (DataAccessException exception) {
       logger.error(exception.getClass().getSimpleName(), exception);
       return Optional.empty();
-
     }
   }
 
@@ -124,15 +120,13 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
     try {
       var customer = namedParameterJdbcTemplate.queryForObject(
           "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE email=:email",
-          Map.of("email", email),
+          Map.of(EMAIL.value, email),
           mapToCustomer
       );
-
       return Optional.ofNullable(customer);
     } catch (DataAccessException exception) {
       logger.error("DataAccessException", exception);
       return Optional.empty();
-
     }
   }
 
@@ -170,7 +164,6 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
           "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
           Map.of(CUSTOMER_ID.toString(), UUIDMapper.toBytes(customer.getCustomerId())));
 
-
     } catch (DataAccessException exception) {
       logger.error("DB query failed", exception);
       return 0;
@@ -180,7 +173,6 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
 
   @Override
   public Customer update(Customer customer) {
-
     try {
       namedParameterJdbcTemplate.update(
           "UPDATE customers SET name=:name, email=:email, created_at=:createdAt, last_login_at=:lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
@@ -192,11 +184,17 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   }
 
   enum CustomerParam {
-    CUSTOMER_ID("customerId"), NAME("name"), EMAIL("email"), LAST_LOGIN_AT("lastLoginAt"), CREATED_AT("createdAt");
+    CUSTOMER_ID("customerId", "customer_id"),
+    NAME("name", "name"),
+    EMAIL("email", "email"),
+    LAST_LOGIN_AT("lastLoginAt", "last_login_at"),
+    CREATED_AT("createdAt", "created_at");
     private final String value;
+    private final String dbColumnLabel;
 
-    CustomerParam(String value) {
+    CustomerParam(String value, String dbColumnLabel) {
       this.value = value;
+      this.dbColumnLabel = dbColumnLabel;
     }
 
     @Override
