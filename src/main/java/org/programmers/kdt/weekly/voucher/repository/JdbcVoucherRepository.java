@@ -49,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String insertSql = " INSERT INTO vouchers(voucher_id, type, value, created_at) " +
+        String insertSql = "INSERT INTO vouchers(voucher_id, type, value, created_at) " +
             "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt)";
         var update = jdbcTemplate.update(insertSql, toParamMap(voucher));
         if (update != 1) {
@@ -61,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        String updateValueSql = " UPDATE vouchers SET value = :value " +
+        String updateValueSql = "UPDATE vouchers SET value = :value " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         var update = jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
@@ -81,7 +81,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String selectByIdSql = " SELECT * FROM vouchers "
+        String selectByIdSql = "SELECT * FROM vouchers "
             + "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(selectByIdSql,
@@ -96,7 +96,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        String deleteByIdSql = "  DELETE FROM vouchers " +
+        String deleteByIdSql = "DELETE FROM vouchers " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         try {
             jdbcTemplate.update(deleteByIdSql,

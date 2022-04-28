@@ -2,6 +2,7 @@ package org.programmers.kdt.weekly.voucher.model;
 
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -11,7 +12,16 @@ public class PercentDiscountVoucher implements Voucher {
     private final LocalDateTime createdAt;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
 
-    public PercentDiscountVoucher(UUID voucherId, int percent, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if (percent <= 0 || percent >= 100) {
+            throw new IllegalArgumentException();
+        }
+        this.voucherId = voucherId;
+        this.percent = percent;
+        this.createdAt = LocalDateTime.now().withNano(0);
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
@@ -22,10 +32,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     public UUID getVoucherId() {
         return voucherId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     @Override
@@ -53,5 +59,22 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String serializeVoucher() {
         return voucherId + "," + voucherType + "," + percent + "," + createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }

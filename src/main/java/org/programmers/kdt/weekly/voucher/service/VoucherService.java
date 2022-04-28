@@ -18,8 +18,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher create(VoucherType voucherType, int value) {
-        VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), value, LocalDateTime.now());
+    public Voucher create(UUID voucherId, VoucherType voucherType, long value) {
+        VoucherDto voucherDto = new VoucherDto(voucherId, value, LocalDateTime.now());
 
         return voucherRepository.insert(voucherType.create(voucherDto));
     }

@@ -10,7 +10,6 @@ import static org.hamcrest.Matchers.*;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -56,8 +55,7 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     VoucherRepository jdbcTemplateVoucherRepository;
 
-    FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 25,
-        LocalDateTime.now().withNano(0));
+    FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 25);
 
     @BeforeEach
     void setOn() {
@@ -104,7 +102,7 @@ class JdbcVoucherRepositoryTest {
         //when
         jdbcTemplateVoucherRepository.update(voucher);
         //then
-        assertThat(voucher.getValue(), is(30));
+        assertThat(voucher.getValue(), is(30L));
     }
 
     @Test

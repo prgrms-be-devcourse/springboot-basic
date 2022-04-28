@@ -3,9 +3,12 @@ package org.programmers.kdt.weekly.voucher;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record VoucherDto(UUID voucherId, int value, LocalDateTime createdAt) {
+public class VoucherDto {
+    private UUID voucherId;
+    private long value;
+    private LocalDateTime createdAt;
 
-    public VoucherDto(UUID voucherId, int value, LocalDateTime createdAt) {
+    public VoucherDto(UUID voucherId, long value, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.value = value;
         this.createdAt = createdAt.withNano(0);
@@ -15,11 +18,11 @@ public record VoucherDto(UUID voucherId, int value, LocalDateTime createdAt) {
         return voucherId;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public long getValue() {
+        return value;
     }
 
-    public int getValue() {
-        return value;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
