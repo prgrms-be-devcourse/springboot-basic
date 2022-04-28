@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * 메모리 바우처 리포지토리
  */
@@ -38,6 +40,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
+        checkArgument(customerId != null, "customerId must be provided");
+
         return new ArrayList<>(storage.values()).stream()
                 .filter(v -> v.getCustomerId().isPresent()
                         && v.getCustomerId().get().equals(customerId))

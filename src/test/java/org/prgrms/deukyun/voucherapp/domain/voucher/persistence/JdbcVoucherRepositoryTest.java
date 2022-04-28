@@ -95,7 +95,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    void 실패_고객의_아이디로_단건_조회() {
+    void 실패_고객의_아이디로_전체_조회() {
         //given
         UUID customerId = null;
 

@@ -2,6 +2,7 @@ package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
@@ -10,6 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 
 class MemoryVoucherRepositoryTest {
@@ -47,6 +50,42 @@ class MemoryVoucherRepositoryTest {
         //assert
         assertThat(vouchers).extracting("id")
                 .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
+    }
+
+    @Test
+    void 성공_고객의_아이디로_전체_조회() {
+        //given
+        Customer customer = customer();
+        UUID customerId = customer.getId();
+
+        Voucher voucher1 = voucher();
+        voucher1.setOwnerId(customerId);
+        memoryRepository.insert(voucher1);
+
+        Voucher voucher2 = voucher();
+        voucher2.setOwnerId(customerId);
+        memoryRepository.insert(voucher2);
+
+        Voucher voucher3 = voucher();
+        memoryRepository.insert(voucher3);
+
+        //when
+        List<Voucher> foundVouchers = memoryRepository.findByCustomerId(customerId);
+
+        //then
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers).extracting("id")
+                .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
+    }
+
+    @Test
+    void 실패_고객의_아이디로_전체_조회() {
+        //given
+        UUID customerId = null;
+
+        //then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> memoryRepository.findByCustomerId(customerId));
     }
 
 
