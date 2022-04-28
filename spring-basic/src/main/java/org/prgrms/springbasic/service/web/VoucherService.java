@@ -2,8 +2,8 @@ package org.prgrms.springbasic.service.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.controller.view.dto.VoucherDto;
+import org.prgrms.springbasic.domain.voucher.Voucher;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.repository.voucher.VoucherRepository;
 import org.prgrms.springbasic.utils.exception.DuplicatedDataException;
@@ -14,6 +14,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.springbasic.utils.PeriodConverter.of;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.DUPLICATED_VOUCHER;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_FOUND_VOUCHER;
 import static org.prgrms.springbasic.utils.validator.VoucherValidator.validateVouchers;
@@ -45,6 +46,14 @@ public class VoucherService {
         var retrievedVouchers = voucherRepository.findByVoucherType(voucherType);
 
         return validateVouchers(retrievedVouchers);
+    }
+
+    public List<Voucher> findVoucherByPeriod(String from, String to) {
+        var period = of(from, to);
+
+        var retrievedVoucher = voucherRepository.findByCreatedPeriod(period.get(0), period.get(1));
+
+        return validateVouchers(retrievedVoucher);
     }
 
     //입력
@@ -84,4 +93,5 @@ public class VoucherService {
             throw new DuplicatedDataException(DUPLICATED_VOUCHER.getMessage());
         }
     }
+
 }

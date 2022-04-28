@@ -18,6 +18,8 @@ public interface VoucherRepository {
 
     List<Voucher> findByVoucherType(VoucherType voucherType);
 
+    List<Voucher> findByCreatedPeriod(String from, String to);
+
     List<Voucher> findVouchers();
 
     List<Wallet> findWallets();

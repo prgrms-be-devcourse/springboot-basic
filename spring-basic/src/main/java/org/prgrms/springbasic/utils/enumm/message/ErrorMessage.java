@@ -14,6 +14,8 @@ public enum ErrorMessage {
 
     NOT_UPDATED("Nothing was updated."),
 
+    NOT_DELETED("Nothing was deleted."),
+
     DUPLICATED_CUSTOMER("Duplicated customer."),
 
     DUPLICATED_VOUCHER("Duplicated voucher."),

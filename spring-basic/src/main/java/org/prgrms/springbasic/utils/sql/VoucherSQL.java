@@ -17,6 +17,9 @@ public enum VoucherSQL {
     SELECT_BY_VOUCHER_TYPE(
             "select * from vouchers where voucher_type = :voucherType"
     ),
+    SELECT_BY_DATETIME(
+            "select * from vouchers where created_at >= :from and created_at < :to order by created_at desc"
+    ),
     SELECT_VOUCHERS(
             "select * from vouchers order by created_at"
     ),
@@ -35,10 +38,12 @@ public enum VoucherSQL {
                     "where voucher_id = UUID_TO_BIN(:voucherId)"
     ),
     DELETE_BY_VOUCHER_ID(
-            "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)"
+            "delete from vouchers" +
+                    " where voucher_id = UUID_TO_BIN(:voucherId)"
     ),
     DELETE_BY_CUSTOMER_ID(
-            "delete from vouchers where customer_id = UUID_TO_BIN(:customerId)"
+            "delete from vouchers" +
+                    " where customer_id = UUID_TO_BIN(:customerId)"
     ),
     DELETE_VOUCHERS(
             "delete from vouchers"

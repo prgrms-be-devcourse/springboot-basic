@@ -20,6 +20,7 @@ import java.util.*;
 
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static java.util.Collections.*;
+import static java.util.Map.of;
 import static java.util.Optional.empty;
 import static org.prgrms.springbasic.utils.UUIDConverter.toUUID;
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.NOT_INSERTED;
@@ -94,6 +95,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCreatedPeriod(String from, String to) {
+        try {
+            return jdbcTemplate.query(SELECT_BY_DATETIME.getQuery(),
+                    of("from", from,
+                            "to", to),
+                            voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            log.error("Got empty result: {}", e.getMessage());
+
+            return emptyList();
+        }
+    }
+
+    @Override
     public List<Voucher> findVouchers() {
         return jdbcTemplate.query(SELECT_VOUCHERS.getQuery(), voucherRowMapper);
     }
@@ -126,8 +141,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public boolean deleteByVoucherId(UUID voucherId) {
         var deletedCount = jdbcTemplate.update(DELETE_BY_VOUCHER_ID.getQuery(),
-                singletonMap("voucherId",
-                        voucherId));
+                singletonMap("voucherId", voucherId.toString().getBytes()));
 
         return deletedCount == 1;
     }
@@ -135,8 +149,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public boolean deleteByCustomerId(UUID customerId) {
         var deletedCount = jdbcTemplate.update(DELETE_BY_CUSTOMER_ID.getQuery(),
-                singletonMap("customerId",
-                        customerId));
+                singletonMap("customerId", customerId.toString().getBytes()));
 
         return deletedCount == 1;
     }

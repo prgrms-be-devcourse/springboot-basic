@@ -49,6 +49,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCreatedPeriod(String from, String to) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findVouchers() {
         return fileManager.objectToList(Voucher.class);
     }
