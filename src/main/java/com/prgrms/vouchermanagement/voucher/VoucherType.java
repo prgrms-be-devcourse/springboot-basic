@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanagement.voucher;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -12,24 +13,31 @@ import com.prgrms.vouchermanagement.voucher.domain.PercentDiscountVoucher;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 public enum VoucherType implements CodeMappable {
-	FIXED("fixed", FixedAmountVoucher::new),
-	PERCENT("percent", PercentDiscountVoucher::new);
+	FIXED("fixed") {
+		@Override
+		public Voucher getVoucher(UUID voucherId, long fixedAmount, LocalDateTime createdAt) {
+			try {
+				return new FixedAmountVoucher(voucherId, fixedAmount, createdAt);
+			} catch (IllegalArgumentException e) {
+				throw new CreationFailException(e);
+			}
+		}
+	},
+	PERCENT("percent") {
+		@Override
+		public Voucher getVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+			try {
+				return new PercentDiscountVoucher(voucherId, percent, createdAt);
+			} catch (IllegalArgumentException e) {
+				throw new CreationFailException(e);
+			}
+		}
+	};
 
 	private final String code;
-	private final BiFunction<UUID, Long, Voucher> factory;
 
-	VoucherType(String code,
-		BiFunction<UUID, Long, Voucher> creatorFunction) {
+	VoucherType(String code) {
 		this.code = code;
-		this.factory = creatorFunction;
-	}
-
-	public Voucher getVoucher(UUID id, long voucherDetailsInfo) {
-		try {
-			return factory.apply(id, voucherDetailsInfo);
-		} catch (IllegalArgumentException e) {
-			throw new CreationFailException(e);
-		}
 	}
 
 	public static VoucherType from(String type) {
@@ -45,4 +53,7 @@ public enum VoucherType implements CodeMappable {
 	public String getMappingCode() {
 		return this.code;
 	}
+
+	public abstract Voucher getVoucher(UUID voucherId, long percent, LocalDateTime createdAt) throws
+		CreationFailException;
 }
