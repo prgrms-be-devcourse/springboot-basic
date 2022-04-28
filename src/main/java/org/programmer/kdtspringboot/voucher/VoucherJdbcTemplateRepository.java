@@ -106,7 +106,7 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
                 createdAt);
     }
 
-    private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+    private RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var amount = resultSet.getLong("value");
         var voucherType = VoucherType.getVoucherType(resultSet.getString("type"));
