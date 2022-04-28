@@ -40,8 +40,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         try {
-            int update = jdbcTemplate.update("UPDATE customers SET id = :id, name = :name, email = :email, last_login_at = :lastLoginAt, created_at = :createdAt " +
-                    "WHERE id = :id", toParamMap(customer));
+            int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt, created_at = :createdAt " +
+                    "WHERE id = UNHEX(REPLACE(:id, '-', ''))", toParamMap(customer));
 
             if (update != 1) {
                 throw new RuntimeException("아무것도 수정되지 않았습니다.");
