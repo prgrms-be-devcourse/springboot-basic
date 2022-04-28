@@ -12,17 +12,16 @@ import java.util.List;
 public class FileUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
-    private static final String FILE_VOUCHER_REPO_PATH = "src/main/resources/voucherFileRepository.txt";
 
-    public static void saveEntity(String voucherInformation) {
+    public static void saveEntity(String voucherInformation, String voucherFilePath) {
 
-        try {
-            FileWriter fileWriter = new FileWriter(FILE_VOUCHER_REPO_PATH, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        try (
+            FileWriter fileWriter = new FileWriter(voucherFilePath, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
+        ) {
 
             bufferedWriter.write(voucherInformation);
             bufferedWriter.newLine();
-            bufferedWriter.close();
         } catch (IOException ioException) {
             logger.error("file io exception : ", ioException);
 
@@ -30,10 +29,10 @@ public class FileUtils {
         }
     }
 
-    public static List<String> readEntity() {
+    public static List<String> readEntities(String voucherFilePath) {
 
         try {
-            Path path = Paths.get(FILE_VOUCHER_REPO_PATH);
+            Path path = Paths.get(voucherFilePath);
 
             return Files.readAllLines(path);
         } catch (IOException ioException) {

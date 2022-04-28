@@ -42,7 +42,7 @@ public class VoucherFileRepositoryTest {
         @DisplayName("save 기능을 테스트 할 때 바우처 객체를 인자로 받으면")
         class ContextReceiveNullVoucherType {
 
-            Voucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher(100, VoucherType.FIXED_AMOUNT);
 
             @Test
             @DisplayName("파일 저장소에 저장하고 저장한 바우처를 반환한다.")
@@ -50,7 +50,8 @@ public class VoucherFileRepositoryTest {
 
                 Voucher voucherCheck = voucherRepository.save(voucher);
 
-                Assertions.assertThat(voucherCheck).isEqualTo(voucher);
+                Assertions.assertThat(voucherCheck.getDiscountValue()).isEqualTo(voucher.getDiscountValue());
+                Assertions.assertThat(voucherCheck.getVoucherType()).isEqualTo(voucher.getVoucherType());
             }
         }
     }
