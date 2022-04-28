@@ -1,13 +1,11 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -19,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -120,6 +119,43 @@ class VoucherServiceTest {
                 assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherWithId.getVoucherType());
                 assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherWithId.getVoucherAmount());
                 verify(voucherRepository, atLeastOnce()).create(any());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("List mehotd에 관하여")
+    class Describe_list_method {
+        @Nested
+        @DisplayName("함수가 호출되었을 때,")
+        class Context_MethodCall {
+
+            @Test
+            @DisplayName("Voucher Repository의 findAll 함수를 호출한다.")
+            void it_Call_of_VoucherRepository_findAll_method() {
+                // given
+                when(voucherRepository.findAll()).thenReturn(new VoucherListBuilder().setVoucherList(new ArrayList<>()).createVoucherList());
+
+                // when
+                voucherService.findAll();
+
+                // then
+                verify(voucherRepository, atLeastOnce()).findAll();
+
+
+            }
+
+            @Test
+            @DisplayName("VoucherList를 가진 Response를 return한다.")
+            void it_throws_Exception() {
+                // given
+                when(voucherRepository.findAll()).thenReturn(new VoucherListBuilder().setVoucherList(new ArrayList<>()).createVoucherList());
+
+                // when
+                VoucherList response = voucherService.findAll();
+
+                // then
+                assertThat(response).isNotNull();
             }
         }
     }

@@ -1,13 +1,11 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -32,7 +30,7 @@ class MemoryVoucherRepositoryTest {
     MemoryVoucherRepository voucherRepository;
 
     @Nested
-    @DisplayName("Create mehotd에 관하여")
+    @DisplayName("Create method에 관하여")
     class Describe_create_method {
         @Nested
         @DisplayName("잘못된 domain이 들어온다면,")
@@ -81,6 +79,28 @@ class MemoryVoucherRepositoryTest {
                 assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId + 1);
                 assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
                 assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
+            }
+        }
+    }
+
+
+    @Nested
+    @DisplayName("findAll method에 관하여")
+    class Describe_findAll_method {
+        @Nested
+        @DisplayName("잘못된 domain이 들어온다면,")
+        class Context_Illegal_VoucherCreateDTo {
+
+            @Test
+            @DisplayName("예외를 발생시킨다.")
+            void it_throws_Exception() {
+                // given
+
+                // when
+                VoucherList voucherList = voucherRepository.findAll();
+
+                // then
+                assertThat(voucherList).isNotNull();
             }
         }
     }

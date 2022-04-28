@@ -28,9 +28,6 @@ public class VoucherController {
         VoucherResponse voucherResponse = VoucherMapper.domainToResponseDto(savedVoucher);
 
         return new Response<>(Response.State.SUCCESS, voucherResponse);
-
-
-
     }
 
     public Response<VoucherList> findAll() {
