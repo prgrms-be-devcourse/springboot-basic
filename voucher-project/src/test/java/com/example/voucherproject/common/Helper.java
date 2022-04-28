@@ -13,11 +13,13 @@ import java.util.UUID;
 
 public class Helper {
     public class VoucherHelper{
-        public static Voucher makeVoucher(long amount, VoucherType type){
+        public static Voucher makeVoucher( VoucherType type, long amount){
             return makeVoucherWithId(UUID.randomUUID(), amount, type);
         }
         public static Voucher makeVoucherWithId(UUID id, long amount, VoucherType type){
-            return new Voucher(id, type, amount, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+            return new Voucher(id, type, amount,
+                    LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
+                    LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
         }
     }
 
