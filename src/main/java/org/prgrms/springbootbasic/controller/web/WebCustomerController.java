@@ -49,4 +49,10 @@ public class WebCustomerController {
         return "redirect:/customers";
     }
 
+    @PostMapping("/{customerId}/delete")
+    public String deleteCustomer(@PathVariable("customerId") UUID customerId) {
+        customerService.deleteCustomer(customerId);
+        return "redirect:/customers";
+    }
+
 }

@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.repository.customer;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_CUSTOMER_ID;
 import static org.prgrms.springbootbasic.repository.customer.CustomerDBConstString.COLUMN_EMAIL;
@@ -125,5 +126,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
             mapToCustomer,
             type.name());
+    }
+
+    @Override
+    public UUID deleteById(UUID customerId) {
+        logger.info("deleteById() called");
+
+        var delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = uuid_to_bin(?)",
+            customerId.toString().getBytes());
+        if (delete != 1) {
+            throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG);
+        }
+        return customerId;
     }
 }

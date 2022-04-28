@@ -264,6 +264,20 @@ class JdbcCustomerRepositoryTest {
         assertThat(customers).isEmpty();
     }
 
+    @Test
+    @DisplayName("특정 아이디를 가진 바우처 삭제")
+    void deleteById() {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        jdbcCustomerRepository.deleteById(customer.getCustomerId());
+
+        //then
+        assertThat(jdbcCustomerRepository.findAll()).isEmpty();
+    }
+
 
     @Configuration
     @ComponentScan(

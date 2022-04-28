@@ -83,4 +83,19 @@ class WebCustomerControllerTest {
             .andExpect(header().string(HttpHeaders.LOCATION, "/customers"))
             .andDo(print());
     }
+
+    @Test
+    @DisplayName("회원 삭제")
+    void testDeleteCustomer() throws Exception {
+        //given
+        var customerId = UUID.randomUUID();
+        given(customerService.deleteCustomer(customerId)).willReturn(customerId);
+
+        //when
+        //then
+        mockMvc.perform(post("/customers/" + customerId.toString() + "/delete"))
+            .andExpect(status().is3xxRedirection())
+            .andExpect(header().string(HttpHeaders.LOCATION, "/customers"))
+            .andDo(print());
+    }
 }

@@ -172,4 +172,15 @@ class CustomerServiceTest {
         //then
         assertThat(foundCustomer).isEqualTo(customer);
     }
+
+    @Test
+    @DisplayName("특정 아이디 손님 삭제")
+    void testDeleteCustomer() {
+        //given
+        //when
+        customerService.deleteCustomer(UUID.randomUUID());
+
+        //then
+        verify(customerRepository).deleteById(any(UUID.class));
+    }
 }
