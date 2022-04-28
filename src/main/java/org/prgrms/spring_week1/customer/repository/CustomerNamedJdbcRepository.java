@@ -65,6 +65,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
             return customer;
         } catch (DataAccessException e){
+            logger.error("Get error during insert customer : ", e);
             throw e;
         }
     }
@@ -80,6 +81,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             }
             return customer;
         } catch (DataAccessException e){
+            logger.error("Get error during update customer : ", e);
             throw e;
         }
     }

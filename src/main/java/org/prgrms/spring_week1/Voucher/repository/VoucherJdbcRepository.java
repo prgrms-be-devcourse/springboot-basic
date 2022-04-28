@@ -77,9 +77,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             if (insert != 1) {
                 throw new RuntimeException("Nothing was inserted");
             }
-
             return voucher;
         } catch (DataAccessException e){
+            logger.error("Get error during insert voucher : " , e );
             throw e;
         }
     }
@@ -105,10 +105,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
         try {
-            return jdbcTemplate.query("select * from Voucher where customer_id = :customerId",
+            return jdbcTemplate.query("select * from Voucher where customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId),
                 voucherRowMapper);
         } catch (DataAccessException e){
+            logger.error("Get error during find customer's voucher : " , e );
             throw e;
         }
     }
@@ -122,9 +123,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             if (update != 1) {
                 throw new RuntimeException("Nothing was updated");
             }
-
             return voucher;
         } catch (DataAccessException e){
+            logger.error("Get error during insert voucher : " , e );
             throw e;
         }
     }

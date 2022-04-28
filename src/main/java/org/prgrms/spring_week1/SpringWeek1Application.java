@@ -46,14 +46,27 @@ public class SpringWeek1Application {
                 if (type.equals("1")) { // fixedVoucher
                     consoleService.output("정해진 할인가격을 입력하세요.");
                     String amount = consoleService.input();
-                    voucherService.createVoucher(Long.parseLong(amount), customer.getCustomerId(), VoucherType.FIXEDAMOUNT);
+                    try {
+                        voucherService
+                            .createVoucher(Long.parseLong(amount), customer.getCustomerId(),
+                                VoucherType.FIXEDAMOUNT);
+                    } catch (NumberFormatException e){
+                        logger.error("사용자가 Long으로 변환할 수 없는 입력을 했습니다");
+                        consoleService.wrongInput();
+                    }
 
 
                 } else if (type.equals("2")) { // percentVoucher
                     consoleService.output("할인율을 입력하세요");
                     String percent = consoleService.input();
-                    voucherService.createVoucher(Long.parseLong(percent), customer.getCustomerId(),
-                        VoucherType.PERCENTDISCOUNT);
+                    try {
+                        voucherService
+                            .createVoucher(Long.parseLong(percent), customer.getCustomerId(),
+                                VoucherType.PERCENTDISCOUNT);
+                    } catch (NumberFormatException e){
+                        logger.error("사용자가 Long으로 변환할 수 없는 입력을 했습니다");
+                        consoleService.wrongInput();
+                    }
 
                 } else { // 잘못된 입력
                     logger.info("사용자가 생성할바우처 종류선택에서 기대되지않는 입력을 했습니다.");

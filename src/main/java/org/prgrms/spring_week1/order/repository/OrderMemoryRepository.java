@@ -12,7 +12,8 @@ public class OrderMemoryRepository implements OrderRepository {
 
 
     @Override
-    public void insert(Order order) {
+    public Order insert(Order order) {
         orderHashMap.put(order.getOrderId(), order);
+        return order;
     }
 }
