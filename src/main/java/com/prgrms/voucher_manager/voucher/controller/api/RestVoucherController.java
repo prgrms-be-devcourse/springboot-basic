@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -74,9 +75,35 @@ public class RestVoucherController {
                 .body(customerDtos);
     }
 
+    @GetMapping("/date")
+    public ResponseEntity voucherByDate(@RequestParam String start,
+                                        @RequestParam String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        List<Voucher> vouchers = voucherService.findByDate(startDate, endDate);
+        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        return ResponseEntity.ok()
+                .headers(getHttpHeaders())
+                .body(voucherDtos);
+    }
+
+
+    @GetMapping("/date/type")
+    public ResponseEntity customerByVoucherType(@RequestParam String start,
+                                                @RequestParam String end,
+                                                @RequestParam String type) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        List<Voucher> vouchers = voucherService.findByDateAndType(startDate, endDate, type);
+        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        return ResponseEntity.ok()
+                .headers(getHttpHeaders())
+                .body(voucherDtos);
+    }
+
 
     @PostMapping("/add")
-    public ResponseEntity restAddVoucher(@RequestBody VoucherDto voucherDto) {
+    public ResponseEntity addVoucher(@RequestBody VoucherDto voucherDto) {
         logger.info("save Voucher {}", voucherDto);
         voucherService.createVoucher(voucherDto.getType(), voucherDto.getValue());
         return ResponseEntity.created(URI.create("/api/vouchers/add")).build();
@@ -84,7 +111,7 @@ public class RestVoucherController {
 
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity restDeleteVoucher(@PathVariable UUID voucherId) {
+    public ResponseEntity deleteVoucher(@PathVariable UUID voucherId) {
         Voucher deleteVoucher = voucherService.findById(voucherId);
         voucherService.deleteVoucher(deleteVoucher);
         return ResponseEntity.noContent().build();
