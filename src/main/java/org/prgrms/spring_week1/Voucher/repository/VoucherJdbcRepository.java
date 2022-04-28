@@ -69,15 +69,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        int insert = jdbcTemplate.update(
-            "insert into Voucher(voucher_id, discount, status, type, created_at, updated_at)" +
-                "values(UUID_TO_BIN(:voucherId), :discount, :voucherStatus, :voucherType, :createdAt, :updatedAt)",
-            toParamMap(voucher));
-        if (insert != 1) {
-            throw new RuntimeException("Nothing was inserted");
-        }
+        try {
+            int insert = jdbcTemplate.update(
+                "insert into Voucher(voucher_id, discount, status, type, created_at, updated_at)" +
+                    "values(UUID_TO_BIN(:voucherId), :discount, :voucherStatus, :voucherType, :createdAt, :updatedAt)",
+                toParamMap(voucher));
+            if (insert != 1) {
+                throw new RuntimeException("Nothing was inserted");
+            }
 
-        return voucher;
+            return voucher;
+        } catch (DataAccessException e){
+            throw e;
+        }
     }
 
     @Override
@@ -111,13 +115,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        int update = jdbcTemplate.update("update Voucher "
-            + "set discount = :discount, type = :voucherType, status = :voucherStatus, created_at = :createdAt, updated_at = :updatedAt "
-            + "where voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(voucher));
-        if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+        try {
+            int update = jdbcTemplate.update("update Voucher "
+                + "set discount = :discount, type = :voucherType, status = :voucherStatus, created_at = :createdAt, updated_at = :updatedAt "
+                + "where voucher_id = UUID_TO_BIN(:voucherId)", toParamMap(voucher));
+            if (update != 1) {
+                throw new RuntimeException("Nothing was updated");
+            }
+
+            return voucher;
+        } catch (DataAccessException e){
+            throw e;
         }
-        return voucher;
     }
 
     @Override

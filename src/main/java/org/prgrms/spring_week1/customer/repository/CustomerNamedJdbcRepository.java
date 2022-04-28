@@ -14,6 +14,7 @@ import org.prgrms.spring_week1.customer.model.Customer;
 import org.prgrms.spring_week1.customer.model.Gender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -52,27 +53,35 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int insert = jdbcTemplate.update(
-            "insert into Customer(customer_id, gender, name, phone_number, address, created_at, updated_at)"
-                +
-                "values(UUID_TO_BIN(:customerId), :gender, :name, :phoneNumber, :address, :createdAt, :updatedAt)",
-            toParamMap(customer));
-        if (insert != 1) {
-            throw new RuntimeException("Nothing was inserted");
-        }
+        try {
+            int insert = jdbcTemplate.update(
+                "insert into Customer(customer_id, gender, name, phone_number, address, created_at, updated_at)"
+                    +
+                    "values(UUID_TO_BIN(:customerId), :gender, :name, :phoneNumber, :address, :createdAt, :updatedAt)",
+                toParamMap(customer));
+            if (insert != 1) {
+                throw new RuntimeException("Nothing was inserted");
+            }
 
-        return customer;
+            return customer;
+        } catch (DataAccessException e){
+            throw e;
+        }
     }
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update("update Customer "
-            + "set name = :name, gender = :gender, address = :address, phone_number = :phoneNumber, created_at = :createdAt, updated_at = :updatedAt "
-            + "where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
-        if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+        try {
+            int update = jdbcTemplate.update("update Customer "
+                + "set name = :name, gender = :gender, address = :address, phone_number = :phoneNumber, created_at = :createdAt, updated_at = :updatedAt "
+                + "where customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
+            if (update != 1) {
+                throw new RuntimeException("Nothing was updated");
+            }
+            return customer;
+        } catch (DataAccessException e){
+            throw e;
         }
-        return customer;
     }
 
     @Override
