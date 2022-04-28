@@ -54,6 +54,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteAll() {
+        jdbcTemplate.getJdbcTemplate().update("DELETE FROM vouchers");
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
