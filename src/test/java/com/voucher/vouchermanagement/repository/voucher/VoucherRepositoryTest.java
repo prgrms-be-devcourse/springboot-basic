@@ -1,6 +1,5 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
-import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
 import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
 import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
 import com.voucher.vouchermanagement.model.voucher.Voucher;
@@ -15,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -45,7 +43,6 @@ class VoucherRepositoryTest {
 
     @Configuration
     @ComponentScan(basePackages = {"com.voucher.vouchermanagement.repository.voucher"})
-    @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
     @AutoConfigureJdbc
     static class AppConfig {
         @Bean
@@ -63,7 +60,6 @@ class VoucherRepositoryTest {
                     .build();
 
         }
-
     }
 
     @BeforeAll
