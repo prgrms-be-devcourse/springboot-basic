@@ -36,7 +36,7 @@ public class VoucherRestController {
 
   @GetMapping("/type/{type}")
   public List<VoucherDto> getAllVouchersByType(@PathVariable String type) {
-    // TODO: 바우처 필터 기능을 컨트롤러에서 담당하는 게 맞을까? Repository에 맡기는 것이 나을까?
+    // TODO : PR Point 4
     return voucherService.getAllVouchers()
         .stream()
         .filter(voucher -> VoucherType.mapToTypeId(voucher).equals(type))
@@ -46,7 +46,6 @@ public class VoucherRestController {
 
   @GetMapping("/created-at/{createdAt}")
   public List<VoucherDto> getAllVouchersByTypes(@PathVariable("createdAt") String dateString) {
-    // 특정 일자 기준으로 필터링
     var parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyyMMdd")).atStartOfDay();
     return voucherService.getAllVouchers()
         .stream()

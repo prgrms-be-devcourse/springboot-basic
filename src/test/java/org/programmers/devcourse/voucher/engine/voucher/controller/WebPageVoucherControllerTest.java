@@ -28,6 +28,7 @@ class WebPageVoucherControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
+  // TODO : PR Point 2
   @MockBean
   private VoucherService voucherService;
   @MockBean
@@ -46,7 +47,7 @@ class WebPageVoucherControllerTest {
   void show_voucher_by_id() throws Exception {
     var voucher = voucherFixtures.get(0);
     when(voucherService.getVoucherById(voucher.getVoucherId())).thenReturn(voucher);
-
+    // TODO : PR Point 1
     mockMvc.perform(get("/voucher/" + voucher.getVoucherId())).andDo(
         result -> {
           var modelAndView = result.getModelAndView();

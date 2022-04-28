@@ -9,11 +9,13 @@ import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
 
 public class VoucherTestUtil {
 
+  private static final LocalDateTime now = LocalDateTime.now();
+
   public static final List<Voucher> voucherFixtures = List.of(
-      FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75, LocalDateTime.now()),
-      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11, LocalDateTime.now())
+      FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, now.minusDays(4)),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 50, now.minusHours(40)),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 75, now.minusMinutes(40)),
+      PercentDiscountVoucher.factory.create(UUID.randomUUID(), 11, now)
   );
 
   private VoucherTestUtil() {
