@@ -29,7 +29,7 @@ public class DtoConverter {
             .collect(Collectors.toList());
     }
 
-    private static CustomerDto toCustomerDto(Customer customer) {
+    public static CustomerDto toCustomerDto(Customer customer) {
         return new CustomerDto(
             customer.getCustomerId().toString(),
             customer.getEmail(),

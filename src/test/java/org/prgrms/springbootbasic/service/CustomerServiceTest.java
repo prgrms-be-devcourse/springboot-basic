@@ -3,6 +3,7 @@ package org.prgrms.springbootbasic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -155,5 +156,20 @@ class CustomerServiceTest {
 
         //then
         verify(customerRepository).findByVoucherType(voucherType);
+    }
+
+    @Test
+    @DisplayName("아이디로 손님 찾기")
+    void findCustomer() {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        given(customerRepository.findById(customer.getCustomerId()))
+            .willReturn(Optional.of(customer));
+
+        //when
+        var foundCustomer = customerService.findCustomer(customer.getCustomerId());
+
+        //then
+        assertThat(foundCustomer).isEqualTo(customer);
     }
 }

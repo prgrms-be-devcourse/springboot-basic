@@ -39,4 +39,18 @@ class WebCustomerControllerTest {
         mockMvc.perform(get("/customers"))
             .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("손님 상세 페이지")
+    void viewCustomer() throws Exception {
+        //given
+        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        given(customerService.findCustomer(customer.getCustomerId()))
+            .willReturn(customer);
+
+        //when
+        //then
+        mockMvc.perform(get("/customers/" + customer.getCustomerId().toString()))
+            .andExpect(status().isOk());
+    }
 }

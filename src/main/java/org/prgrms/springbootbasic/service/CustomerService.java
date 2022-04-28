@@ -73,4 +73,9 @@ public class CustomerService {
             throw new DuplicateCustomerEmailException();
         }
     }
+
+    public Customer findCustomer(UUID customerId) {
+        return customerRepository.findById(customerId)
+            .orElseThrow(InvalidCustomerIdException::new);
+    }
 }
