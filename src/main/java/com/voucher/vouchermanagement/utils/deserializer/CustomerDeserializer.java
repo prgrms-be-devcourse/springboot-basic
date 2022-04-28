@@ -13,8 +13,9 @@ public class CustomerDeserializer implements CsvDeserializer<Customer> {
         String id = stringTokenizer.nextToken().trim();
         String name = stringTokenizer.nextToken().trim();
         String email = stringTokenizer.nextToken().trim();
+        LocalDateTime lastLoginAt = LocalDateTime.parse(stringTokenizer.nextToken());
         LocalDateTime createdAt = LocalDateTime.parse(stringTokenizer.nextToken());
 
-        return new Customer(UUID.fromString(id), name, email, createdAt);
+        return new Customer(UUID.fromString(id), name, email, lastLoginAt,createdAt);
     }
 }
