@@ -7,7 +7,7 @@ public class CustomerDto {
     private final String name;
     private final String email;
 
-    public CustomerDto(UUID customerId, String name, String email) {
+    private CustomerDto(UUID customerId, String name, String email) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
