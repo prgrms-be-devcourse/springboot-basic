@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -127,6 +128,16 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new EmptyRepositoryException("FileVoucherRepository 가 비어있습니다.");
         }
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate start, LocalDate end) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDateAndType(LocalDate start, LocalDate end, String type) {
+        return null;
     }
 
 

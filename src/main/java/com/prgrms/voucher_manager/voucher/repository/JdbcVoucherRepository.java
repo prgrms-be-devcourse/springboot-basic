@@ -12,6 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -20,13 +22,15 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, value) VALUES (UUID_TO_BIN(:voucherId), :type, :value)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, value, created_at) VALUES (UUID_TO_BIN(:voucherId), :type, :value, :createdAt)";
     private static final String UPDATE_VALUE_BY_ID_SQL = "UPDATE vouchers SET value = :value, type = :type WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String SELECT_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE type = :type";
+    private static final String SELECT_BY_DATE_SQL = "SELECT * FROM vouchers WHERE created_at between :start and :end ORDER BY created_at";
+    private static final String SELECT_BY_DATE_TYPE_SQL = "SELECT * FROM vouchers WHERE (created_at between :start and :end) AND type = :type ORDER BY created_at";
     private static final String SELECT_COUNT_ALL_SQL = "SELECT COUNT(*) FROM vouchers";
 
 
@@ -34,16 +38,19 @@ public class JdbcVoucherRepository implements VoucherRepository{
         UUID voucherId = Utils.toUUID(resultSet.getBytes("voucher_id"));
         String type = resultSet.getString("type");
         long value = resultSet.getLong("value");
+        LocalDate createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().toLocalDate();
         if(type.equals("fix")) {
             return FixedAmountVoucher.builder()
                     .voucherId(voucherId)
                     .amount(value)
+                    .createdAt(createdAt)
                     .build();
         }
         else {
             return PercentDiscountVoucher.builder()
                     .voucherId(voucherId)
                     .percent(value)
+                    .createdAt(createdAt)
                     .build();
         }
     };
@@ -88,6 +95,25 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findByType(String type) {
         return jdbcTemplate.query(SELECT_BY_TYPE_SQL, Collections.singletonMap("type", type), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate start, LocalDate end) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("start", start);
+            put("end", end);
+        }};
+        return jdbcTemplate.query(SELECT_BY_DATE_SQL, paramMap, voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByDateAndType(LocalDate start, LocalDate end, String type) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put("start", start);
+            put("end", end);
+            put("type", type);
+        }};
+        return jdbcTemplate.query(SELECT_BY_DATE_TYPE_SQL, paramMap, voucherRowMapper);
     }
 
     @Override
