@@ -4,6 +4,7 @@ import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,5 +33,12 @@ public class VoucherRestController {
     @ResponseBody
     public Optional<Voucher> getVoucherByID(@PathVariable String voucherId) {
         return voucherService.getVoucherById(UUID.fromString(voucherId));
+    }
+
+    @DeleteMapping("/api/v1/voucher/id/{voucherId}")
+    @ResponseBody
+    public String deleteVoucherById(@PathVariable String voucherId) {
+        voucherService.deleteVoucherById(UUID.fromString(voucherId));
+        return "delete";
     }
 }
