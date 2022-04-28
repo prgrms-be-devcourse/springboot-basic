@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,4 +86,16 @@ public class FileVoucherRepository implements VoucherRepository {
         //TODO: 구현 보류
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public List<Voucher> findByType(String type) {
+        //TODO: 구현 보류
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate createdAt) {
+        return null;
+    }
+
 }

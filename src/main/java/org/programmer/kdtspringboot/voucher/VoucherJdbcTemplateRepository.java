@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import static java.util.Map.*;
 
 @Repository
 public class VoucherJdbcTemplateRepository implements VoucherRepository {
@@ -86,6 +87,23 @@ public class VoucherJdbcTemplateRepository implements VoucherRepository {
         jdbcTemplate.update("delete from vouchers where voucher_id = UNHEX(REPLACE(?, '-', ''))",
                 voucherId.toString().getBytes()
         );
+    }
+
+    @Override
+    public List<Voucher> findByType(String type) {
+
+        return jdbcTemplate.query(
+                "select * from vouchers where type = ?",
+                voucherRowMapper,
+                type
+        );
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate createdAt) {
+        return jdbcTemplate.query("select * from vouchers where DATE(created_at) = ?",
+                voucherRowMapper,
+                createdAt);
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {

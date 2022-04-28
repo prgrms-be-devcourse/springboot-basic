@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,4 +50,18 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
     }
+
+    @Override
+    public List<Voucher> findByType(String type) {
+        //TODO: 구현 보류
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate createdAt) {
+        //TODO: 구현 보류
+        throw new UnsupportedOperationException();
+    }
+
+
 }

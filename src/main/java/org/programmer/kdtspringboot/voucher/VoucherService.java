@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,5 +35,13 @@ public class VoucherService {
 
     public Optional<Voucher> findByIdVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId);
+    }
+
+    public List<Voucher> findByType(String type) {
+        return voucherRepository.findByType(type);
+    }
+
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+        return voucherRepository.findByDate(createdAt);
     }
 }
