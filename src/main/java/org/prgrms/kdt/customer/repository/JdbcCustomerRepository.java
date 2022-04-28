@@ -13,7 +13,9 @@ import org.prgrms.kdt.customer.model.Customer;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -69,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId());
+        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
         paramMap.put("name", customer.getName());
         paramMap.put("createdAt", customer.getCreatedAt());
 

@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.customer.repository.BlackListRepository;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.Command;
@@ -19,11 +20,13 @@ public class VoucherController {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private final BlackListRepository blackListRepository;
 
-    public VoucherController(VoucherService voucherService,
-        CustomerService customerService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService,
+        BlackListRepository blackListRepository) {
         this.voucherService = voucherService;
         this.customerService = customerService;
+        this.blackListRepository = blackListRepository;
     }
 
     public void run() {
