@@ -20,8 +20,9 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label for="inputVoucherAmount" class="form-label">할인 정도</label>
-                <input type="number" name="amount" class="form-control" id="inputVoucherAmount">
+                <label for="amount" class="form-label">할인 정도</label>
+                <input type="text" id="amount" name="amount" class="form-control" >
+
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
                 <a th:href="@{/vouchers}" class="btn btn-outline-success btn-lg me-md-2" type="button">뒤로가기</a>

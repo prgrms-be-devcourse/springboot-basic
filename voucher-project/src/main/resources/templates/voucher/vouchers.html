@@ -23,12 +23,12 @@
             </div>
 
             <div class="form-floating">
-                <input class="form-select" type="date" name="startDate" id="startDate">
-                <label for="startDate">FROM</label>
+                <input class="form-select" type="date" name="from" id="from">
+                <label for="from">FROM</label>
             </div>
             <div class="form-floating">
-                <input class="form-select" type="date" name="endDate" id="endDate">
-                <label for="endDate">TO</label>
+                <input class="form-select" type="date" name="to" id="to">
+                <label for="to">TO</label>
             </div>
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
@@ -50,7 +50,7 @@
         <tbody>
         <tr th:each="voucher :${vouchers}" th:object="${voucher}" >
             <td>
-                <a th:href="@{/voucher/{param1}(param1=${voucher.id})}" href="/vouchers" th:text="*{id}">default ID</a>
+                <a th:href="@{/voucher/detail/{param1}(param1=${voucher.id})}" href="/vouchers" th:text="*{id}">default ID</a>
             </td>
             <td th:text = "*{type}"></td>
             <td th:text = "*{amount}"></td>
@@ -63,7 +63,7 @@
     <br/>
     <div class="d-grid gap-2 d-md-flex justify-content-md-center">
         <a th:href="@{/}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
-        <a th:href="@{/vouchers/new}" class="btn btn-outline-primary btn-lg" type="button">생성하기</a>
+        <a th:href="@{/voucher}" class="btn btn-outline-primary btn-lg" type="button">생성하기</a>
     </div>
 </div>
 

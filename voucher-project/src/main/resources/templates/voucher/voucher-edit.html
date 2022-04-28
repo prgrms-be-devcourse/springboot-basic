@@ -12,35 +12,37 @@
 
 <div class="container">
     <form th:action="@{/voucher/{param1}(param1=${voucher.id})}" th:method="post">
-        <input type="hidden" name="_method" value="post"/>
         <legend>바우처 상세 정보</legend>
         <div class="mb-3">
             <label for="disabledTextInput1" class="form-label">Id</label>
-            <input disabled type="text" id="disabledTextInput1" class="form-control" th:placeholder="${voucher.id}" placeholder="Id">
+            <input readonly type="text" id="disabledTextInput1" class="form-control" th:placeholder="${voucher.id}" placeholder="Id">
         </div>
 
         <div class="mb-3">
-            <label for="disabledSelect" class="form-label">Type</label>
-            <select id="disabledSelect" class="form-select">
-                <option th:if="${#strings.equals(voucher.type, 'PERCENT')}">PERCENT</option>
-                <option th:if="${#strings.equals(voucher.type, 'PERCENT')}">FIXED</option>
-                <option th:if="${#strings.equals(voucher.type, 'FIXED')}"> FIXED</option>
-                <option th:if="${#strings.equals(voucher.type, 'FIXED')}"> PERCENT</option>
+            <label for="type" class="form-label">Type</label>
+            <select id="type" name="type"  class="form-select">
+                <option value="PERCENT" th:if="${#strings.equals(voucher.type, 'PERCENT')}" selected>PERCENT</option>
+                <option value="FIXED" th:if="${#strings.equals(voucher.type, 'PERCENT')}">FIXED</option>
+                <option value="FIXED" th:if="${#strings.equals(voucher.type, 'FIXED')}" selected>FIXED</option>
+                <option value="PERCENT" th:if="${#strings.equals(voucher.type, 'FIXED')}">PERCENT</option>
             </select>
         </div>
 
         <div class="mb-3">
-            <label for="disabledTextInput2" class="form-label">Amount</label>
-            <input type="text" id="disabledTextInput2" class="form-control" th:placeholder="${voucher.amount}" placeholder="Amount">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="text" name="amount" id="amount" class="form-control"  th:placeholder="${voucher.amount}" placeholder="amount">
         </div>
+
         <div class="mb-3">
-            <label for="disabledTextInput3" class="form-label">CreatedAt</label>
-            <input disabled type="text" id="disabledTextInput3" class="form-control" th:placeholder="${voucher.createdAt}" placeholder="CreatedAt">
+            <label for="createdAt" class="form-label">CreatedAt</label>
+            <input readonly type="text" name="createdAt" id="createdAt" class="form-control" th:value="${voucher.createdAt}" placeholder="CreatedAt">
         </div>
+
         <div class="mb-3">
-            <label for="disabledTextInput4" class="form-label">UpdatedAt</label>
-            <input disabled type="text" id="disabledTextInput4" class="form-control" th:placeholder="${voucher.updatedAt}" placeholder="UpdatedAt">
+            <label for="updatedAt" class="form-label">UpdatedAt</label>
+            <input readonly type="text" name="updatedAt" id="updatedAt" class="form-control" th:value="${voucher.updatedAt}" placeholder="">
         </div>
+
         <button type="submit" class="btn btn-outline-primary me-md-2 btn-lg">수정하기</button>
     </form>
 </div>

@@ -43,7 +43,7 @@
     <form th:action="@{/voucher/{param1}(param1=${voucher.id})}" th:method="delete">
         <input type="hidden" name="_method" value="delete"/>
         <a th:href="@{/vouchers}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
-        <a th:href="@{/vouchers/{param}/edit(param=${voucher.id})}" class="btn btn-outline-primary me-md-2 btn-lg" type="button">수정하기</a>
+        <a th:href="@{/voucher/{param}(param=${voucher.id})}" class="btn btn-outline-primary me-md-2 btn-lg" type="button">수정하기</a>
         <button type="submit" class="btn btn-outline-danger btn-lg">삭제하기</button>
     </form>
 </div>
