@@ -6,4 +6,5 @@ public interface Voucher {
     UUID getVoucherId();
     long getVoucherValue();
     long discount(long beforeDiscount);
+    void changeValue(long value);
 }

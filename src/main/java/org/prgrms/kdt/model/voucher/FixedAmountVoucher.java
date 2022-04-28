@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         checkArgument(voucherId != null, "voucherId must be provided.");
@@ -33,6 +33,13 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
+    }
+
+    @Override
+    public void changeValue(long amount) {
+        checkArgument(amount > 0, "amount must be greater than 0");
+
+        this.amount = amount;
     }
 
     @Override

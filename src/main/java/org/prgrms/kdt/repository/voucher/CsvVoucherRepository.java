@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.supercsv.exception.SuperCsvException;
 import org.supercsv.io.CsvMapReader;
@@ -20,15 +19,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
-@Primary
 @Qualifier("csv")
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
@@ -87,6 +82,11 @@ public class CsvVoucherRepository implements VoucherRepository {
             throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return vouchers;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
     }
 
     public String getPathCsvFile() {
