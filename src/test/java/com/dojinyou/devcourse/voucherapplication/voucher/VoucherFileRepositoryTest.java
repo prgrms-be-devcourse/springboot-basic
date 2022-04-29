@@ -118,7 +118,7 @@ class VoucherFileRepositoryTest {
         class Context_MethodCall {
 
             @Test
-            @DisplayName("VoucherList type을 return 한다")
+            @DisplayName("List<Voucher> type을 return 한다")
             void it_Return_VoucherList_Object() {
                 // given
                 List<String[]> readData = CsvFileUtils.read(TEST_FILE_PATH);
