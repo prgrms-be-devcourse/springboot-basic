@@ -53,13 +53,9 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-        log.error("handleEntityNotFoundException", e);
-        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
+    /**
+     * 바우처 도메인에서 발생하는 오류 핸들링
+     */
     @ExceptionHandler(VoucherException.class)
     protected ResponseEntity<ErrorResponse> handleVoucherException(Exception e) {
         log.error("VoucherException ", e);
@@ -67,16 +63,32 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * 유저 도메인에서 발생하는 오류 핸들링
+     */
     @ExceptionHandler(UserException.class)
     protected ResponseEntity<ErrorResponse> handleUserException(Exception e) {
         log.error("UserException ", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    /**
+     * 지갑 도메인에서 발생하는 오류 핸들링
+     */
     @ExceptionHandler(WalletException.class)
     protected ResponseEntity<ErrorResponse> handleWalletException(Exception e) {
         log.error("WalletException ", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    
+    /**
+     * 잡히지 않은 오류 핸들링
+     */
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+        log.error("handleEntityNotFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
