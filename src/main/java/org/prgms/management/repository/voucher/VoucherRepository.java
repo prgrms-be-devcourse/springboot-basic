@@ -14,13 +14,13 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findById(UUID voucherId);
+    Voucher findById(UUID voucherId);
 
     List<Voucher> findByCreatedAt(LocalDateTime cratedAt);
 
     List<Voucher> findByType(String type);
 
-    Optional<Voucher> findByName(String name);
+    Voucher findByName(String name);
 
     Voucher update(Voucher voucher);
 

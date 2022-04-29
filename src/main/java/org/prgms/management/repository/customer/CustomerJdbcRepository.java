@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Timestamp;
 import java.util.*;
 
-import static org.prgms.management.util.JdbcUtils.*;
+import static org.prgms.management.util.JdbcUtils.toUUID;
 
 @Repository
 @Profile({"local-db", "dev", "test"})
@@ -41,34 +41,31 @@ public class CustomerJdbcRepository implements CustomerRepository {
         try {
             return jdbcTemplate.query("SELECT * FROM customers", rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
             return List.of();
         }
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Customer findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                     "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    rowMapper));
+                    rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
-            return Optional.empty();
+            return null;
         }
     }
 
     @Override
-    public Optional<Customer> findByName(String name) {
+    public Customer findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                     "SELECT * FROM customers WHERE name = :name",
                     Collections.singletonMap("name", name),
-                    rowMapper));
+                    rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
-            return Optional.empty();
+            return null;
         }
     }
 

@@ -28,10 +28,10 @@ public class VoucherController {
     @GetMapping("/voucher/{id}")
     public String voucherPage(Model model, @PathVariable("id") UUID id) {
         var voucher = voucherService.getById(id);
-        if (voucher.isEmpty()) {
+        if (voucher == null) {
             return "error/404";
         }
-        model.addAttribute("voucher", voucher.get());
+        model.addAttribute("voucher", voucher);
         return "voucher/voucher-detail";
     }
 

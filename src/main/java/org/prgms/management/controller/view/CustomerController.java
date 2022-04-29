@@ -26,10 +26,10 @@ public class CustomerController {
     @GetMapping("/customer/{id}")
     public String customerPage(Model model, @PathVariable("id") UUID id) {
         var customer = customerService.getById(id);
-        if (customer.isEmpty()) {
+        if (customer == null) {
             return "error/404";
         }
-        model.addAttribute("customer", customer.get());
+        model.addAttribute("customer", customer);
         return "customer/customer-detail";
     }
 }

@@ -50,14 +50,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                     "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                    rowMapper));
+                    rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+            return null;
         }
     }
 
@@ -86,14 +86,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByName(String name) {
+    public Voucher findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
+            return jdbcTemplate.queryForObject(
                     "SELECT * FROM vouchers WHERE name = :name",
                     Collections.singletonMap("name", name),
-                    rowMapper));
+                    rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
+            return null;
         }
     }
 

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,11 +26,11 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getById(UUID customerId) {
+    public Customer getById(UUID customerId) {
         return customerRepository.findById(customerId);
     }
 
-    public Optional<Customer> getByName(String name) {
+    public Customer getByName(String name) {
         return customerRepository.findByName(name);
     }
 
@@ -45,10 +44,10 @@ public class CustomerService {
 
     public Customer delete(UUID customerId) {
         var customer = customerRepository.findById(customerId);
-        if (customer.isEmpty()) {
+        if (customer == null) {
             return null;
         }
-        return customerRepository.delete(customer.get());
+        return customerRepository.delete(customer);
     }
 
     public void deleteAll() {

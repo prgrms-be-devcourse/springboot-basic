@@ -4,7 +4,6 @@ import org.prgms.management.model.customer.Customer;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -13,9 +12,9 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    Optional<Customer> findById(UUID customerId);
+    Customer findById(UUID customerId);
 
-    Optional<Customer> findByName(String name);
+    Customer findByName(String name);
 
     Customer update(Customer customer);
 

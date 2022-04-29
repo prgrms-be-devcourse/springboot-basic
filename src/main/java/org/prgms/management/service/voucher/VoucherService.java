@@ -28,7 +28,7 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Optional<Voucher> getById(UUID voucherId) {
+    public Voucher getById(UUID voucherId) {
         return voucherRepository.findById(voucherId);
     }
 
@@ -40,7 +40,7 @@ public class VoucherService {
         return voucherRepository.findByType(type);
     }
 
-    public Optional<Voucher> getByName(String name) {
+    public Voucher getByName(String name) {
         return voucherRepository.findByName(name);
     }
 
@@ -54,10 +54,10 @@ public class VoucherService {
 
     public Voucher delete(UUID id) {
         var voucher = voucherRepository.findById(id);
-        if (voucher.isEmpty()) {
+        if (voucher == null) {
             return null;
         }
-        return voucherRepository.delete(voucher.get());
+        return voucherRepository.delete(voucher);
     }
 
     public void deleteAll() {
