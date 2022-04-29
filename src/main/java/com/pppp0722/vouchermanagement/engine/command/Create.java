@@ -43,11 +43,7 @@ public class Create {
 
     public void createMember() {
         String name = console.inputMemberName();
-        try {
-            memberService.createMember(UUID.randomUUID(), name);
-        } catch (RuntimeException e) {
-            console.printFailure();
-        }
+        memberService.createMember(UUID.randomUUID(), name);
     }
 
     public void createVoucher() {
@@ -55,13 +51,9 @@ public class Create {
             UUID memberId = console.inputMemberId();
             VoucherType voucherType = console.inputVoucherType();
             long amount = console.inputVoucherAmount();
-            try {
-                voucherService.createVoucher(UUID.randomUUID(), voucherType, amount,
-                    LocalDateTime.now(),
-                    memberId);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            voucherService.createVoucher(UUID.randomUUID(), voucherType, amount,
+                LocalDateTime.now(),
+                memberId);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid input!", e);
             console.printInputError();

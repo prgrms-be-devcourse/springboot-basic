@@ -6,7 +6,6 @@ import com.pppp0722.vouchermanagement.member.service.MemberService;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
 import com.pppp0722.vouchermanagement.voucher.service.VoucherService;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,23 +60,15 @@ public class Read {
     }
 
     public void readAllMembers() {
-        try {
-            List<Member> memberList = memberService.getAllMembers();
-            console.printMemberList(memberList);
-        } catch (RuntimeException e) {
-            console.printFailure();
-        }
+        List<Member> memberList = memberService.getAllMembers();
+        console.printMemberList(memberList);
     }
 
     public void readMemberByMemberId() {
         try {
             UUID memberId = console.inputMemberId();
-            try {
-                Member member = memberService.getMemberById(memberId);
-                console.printMember(member);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            Member member = memberService.getMemberById(memberId);
+            console.printMember(member);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
@@ -106,23 +97,15 @@ public class Read {
     }
 
     public void readAllVouchers() {
-        try {
-            List<Voucher> voucherList = voucherService.getAllVouchers();
-            console.printVoucherList(voucherList);
-        } catch (RuntimeException e) {
-            console.printFailure();
-        }
+        List<Voucher> voucherList = voucherService.getAllVouchers();
+        console.printVoucherList(voucherList);
     }
 
     public void readVoucherByVoucherId() {
         try {
             UUID voucherId = console.inputVoucherId();
-            try {
-                Voucher voucher = voucherService.getVoucherById(voucherId);
-                console.printVoucher(voucher);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            Voucher voucher = voucherService.getVoucherById(voucherId);
+            console.printVoucher(voucher);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
@@ -133,12 +116,8 @@ public class Read {
     public void readVoucherByMemberId() {
         try {
             UUID memberId = console.inputMemberId();
-            try {
-                List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
-                console.printVoucherList(voucherList);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            List<Voucher> voucherList = voucherService.getVouchersByMemberId(memberId);
+            console.printVoucherList(voucherList);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();

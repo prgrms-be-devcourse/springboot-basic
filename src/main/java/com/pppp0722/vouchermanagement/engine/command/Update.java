@@ -44,12 +44,7 @@ public class Update {
         try {
             UUID memberId = console.inputMemberId();
             String name = console.inputMemberName();
-            try {
-                memberService.updateMember(memberId, name);
-            } catch (RuntimeException e) {
-                logger.error("Failed to update member!");
-                console.printFailure();
-            }
+            memberService.updateMember(memberId, name);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
@@ -62,12 +57,7 @@ public class Update {
             UUID voucherId = console.inputVoucherId();
             VoucherType type = console.inputVoucherType();
             long amount = console.inputVoucherAmount();
-            try {
-                voucherService.updateVoucher(voucherId, type, amount);
-            } catch (RuntimeException e) {
-                logger.error("Failed to update voucher!");
-                console.printFailure();
-            }
+            voucherService.updateVoucher(voucherId, type, amount);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid input!", e);
             console.printInputError();

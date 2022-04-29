@@ -42,11 +42,7 @@ public class Delete {
     public void deleteMemberByMemberId() {
         try {
             UUID memberId = console.inputMemberId();
-            try {
-                memberService.deleteMember(memberId);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            memberService.deleteMember(memberId);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();
@@ -57,11 +53,7 @@ public class Delete {
     public void deleteVoucherByVoucherId() {
         try {
             UUID voucherId = console.inputVoucherId();
-            try {
-                voucherService.deleteVoucher(voucherId);
-            } catch (RuntimeException e) {
-                console.printFailure();
-            }
+            voucherService.deleteVoucher(voucherId);
         } catch (IllegalArgumentException e) {
             logger.error("Invalid UUID!", e);
             console.printInputError();

@@ -41,9 +41,14 @@ public class Console implements Input, Output {
     }
 
     @Override
+    public void printEmptyResult() {
+        System.out.println("Empty.");
+    }
+
+    @Override
     public void printVoucherList(List<Voucher> voucherList) {
         if (voucherList.isEmpty()) {
-            System.out.println("Empty.");
+            printEmptyResult();
         } else {
             for (Voucher voucher : voucherList) {
                 System.out.println(voucher);
@@ -54,7 +59,7 @@ public class Console implements Input, Output {
     @Override
     public void printMemberList(List<Member> memberList) {
         if (memberList.isEmpty()) {
-            System.out.println("Empty.");
+            printEmptyResult();
         } else {
             for (Member member : memberList) {
                 System.out.println(member);
