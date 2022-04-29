@@ -1,8 +1,9 @@
 package org.programmers.springbootbasic.voucher.service;
 
-import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
+import org.programmers.springbootbasic.exception.NoIdException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
+import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -33,9 +35,9 @@ public class VoucherService {
     }
 
     public Voucher updateVoucher(UUID voucherId, long value) {
-        Voucher voucher = this.getVoucher(voucherId).orElseThrow();
-        VoucherType voucherType = VoucherType.findByType(String.valueOf(voucher.getVoucherType()));
-        Voucher updateVoucher = voucherType.create(voucherId, value, voucher.getCreatedAt());
+        Optional<Voucher> voucher = getVoucher(voucherId);
+        VoucherType voucherType = VoucherType.findByType(String.valueOf(voucher.orElseThrow(() -> new NoIdException("아이디 중복입니다.")).getVoucherType()));
+        Voucher updateVoucher = voucherType.create(voucherId, value, voucher.orElseThrow(() -> new NoIdException("아이디 중복입니다.")).getCreatedAt());
         return voucherRepository.update(updateVoucher);
     }
 
