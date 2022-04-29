@@ -30,11 +30,10 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        Collection<VoucherEntity> collection = store.values();
-        List<Voucher> voucherList = collection.stream()
-                                              .map(VoucherMapper::entityToDomain)
-                                              .collect(Collectors.toList());
-        return voucherList;
+        return store.values()
+                    .stream()
+                    .map(VoucherMapper::entityToDomain)
+                    .collect(Collectors.toList());
     }
 
     private Voucher save(VoucherEntity voucherEntity) {
