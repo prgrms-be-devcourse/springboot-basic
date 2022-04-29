@@ -87,4 +87,21 @@ class JdbcVoucherRepositoryTest {
                 .hasSameElementsAs(assertList);
     }
 
+    @Test
+    public void updateVoucherAmount(){
+        fixedAmountVoucher.setAmount(40);
+
+        var updatedVoucher = jdbcVoucherRepository.updateVoucherAmount(fixedAmountVoucher);
+        assertThat(updatedVoucher.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
+    }
+
+    @Test
+    public void deleteVoucher(){
+        var deletedResult = jdbcVoucherRepository.deleteVoucher(fixedAmountVoucher);
+        assertThat(deletedResult).isTrue();
+
+        var findResult = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+        assertThat(findResult.isEmpty()).isTrue();
+    }
+
 }

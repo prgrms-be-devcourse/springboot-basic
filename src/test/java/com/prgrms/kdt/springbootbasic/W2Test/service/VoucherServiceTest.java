@@ -99,4 +99,57 @@ class VoucherServiceTest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(voucherList);
     }
+
+    @Test
+    void updateVoucherExist(){
+        //Given
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+        Voucher updatedVoucher = new FixedAmountVoucher(voucher.getVoucherId(), 40);
+        when(voucherRepository.updateVoucherAmount(updatedVoucher)).thenReturn(Optional.of(updatedVoucher));
+
+        //When
+        var updateResult = voucherService.updateVoucher(updatedVoucher);
+
+        //Then
+        assertThat(updateResult.get()).as("Voucher").isEqualToComparingFieldByFieldRecursively(updatedVoucher);
+    }
+
+    @Test
+    void updateVoucherNotExist(){
+        //Given
+        Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),20);
+        when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
+
+        //When
+        var updatedResult = voucherService.updateVoucher(newVoucher);
+
+        //Then
+        assertThat(updatedResult.isEmpty()).isTrue();
+    }
+
+    @Test
+    void deleteVoucherExist(){
+        //Given
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+        when(voucherRepository.deleteVoucher(voucher)).thenReturn(true);
+
+        //When
+        var deletedResult = voucherService.deleteVoucher(voucher);
+
+        //Then
+        assertThat(deletedResult).isTrue();
+    }
+
+    @Test
+    void deleteVoucherNotExist(){
+        //Given
+        Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),20);
+        when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
+
+        //When
+        var deletedResult = voucherService.deleteVoucher(newVoucher);
+
+        //Then
+        assertThat(deletedResult).isFalse();
+    }
 }

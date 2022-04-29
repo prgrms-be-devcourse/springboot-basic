@@ -3,6 +3,8 @@ package com.prgrms.kdt.springbootbasic.repository;
 import com.prgrms.kdt.springbootbasic.entity.Customer;
 import com.prgrms.kdt.springbootbasic.entity.Wallet;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,6 +16,7 @@ import java.util.*;
 
 @Repository
 public class WalletRepository {
+    private final Logger logger = LoggerFactory.getLogger(WalletRepository.class);
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 

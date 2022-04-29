@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Profile("file")
 @Repository
 public class FileVoucherRepository implements VoucherRepository{
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private final ResourceLoader resourceLoader;
 
@@ -99,6 +99,26 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> getAllVouchers() {
         return voucherStorage.values().stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Voucher> updateVoucherAmount(Voucher voucher) {
+        var foundVoucher = findById(voucher.getVoucherId());
+        if (foundVoucher.isEmpty())
+            return Optional.empty();
+
+        foundVoucher.get().setAmount(voucher.getDiscountAmount());
+        return Optional.of(foundVoucher.get());
+    }
+
+    @Override
+    public boolean deleteVoucher(Voucher voucher) {
+        var foundVoucher = findById(voucher.getVoucherId());
+        if (foundVoucher.isEmpty())
+            return false;
+
+        voucherStorage.remove(foundVoucher.get().getVoucherId());
+        return true;
     }
 
     private void initVoucherStorage(){

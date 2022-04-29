@@ -108,4 +108,57 @@ class CustomerServiceTest {
                 .usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(customerList);
     }
+
+    @Test
+    void updateCustomerExist(){
+        //Given
+        when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
+        Customer newCustomer = new Customer(customer.getCustomerId(), "ChangedName", customer.getEmail());
+        when(customerRepository.updateCustomer(newCustomer)).thenReturn(Optional.of(newCustomer));
+
+        //When
+        var updatedResult = customerService.updateCustomer(newCustomer);
+
+        //Then
+        assertThat(updatedResult.get()).as("Customer").isEqualToComparingFieldByField(newCustomer);
+    }
+
+    @Test
+    void updateCustomerNotExist(){
+        //Given
+        Customer newCustomer = new Customer(UUID.randomUUID(), "newCustomer", "newCustomer@gmail.com");
+        when(customerRepository.findCustomerById(newCustomer.getCustomerId())).thenReturn(Optional.empty());
+
+        //When
+        var updatedResult = customerService.updateCustomer(newCustomer);
+
+        //Then
+        assertThat(updatedResult.isEmpty()).isTrue();
+    }
+
+    @Test
+    void deleteCustomerExist(){
+        //Given
+        when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
+        when(customerRepository.deleteCustomer(customer)).thenReturn(true);
+
+        //When
+        var deletedResult = customerService.deleteCustomer(customer);
+
+        //Then
+        assertThat(deletedResult).isTrue();
+    }
+
+    @Test
+    void deleteCustomerNotExist(){
+        //Given
+        Customer newCustomer = new Customer(UUID.randomUUID(), "newCustomer", "newCustomer@gmail.com");
+        when(customerRepository.findCustomerById(newCustomer.getCustomerId())).thenReturn(Optional.empty());
+
+        //When
+        var deletedResult = customerService.deleteCustomer(newCustomer);
+
+        //Then
+        assertThat(deletedResult).isFalse();
+    }
 }

@@ -3,7 +3,10 @@ package com.prgrms.kdt.springbootbasic.service;
 import com.prgrms.kdt.springbootbasic.entity.Customer;
 import com.prgrms.kdt.springbootbasic.entity.Wallet;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
 import com.prgrms.kdt.springbootbasic.repository.WalletRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +15,7 @@ import java.util.UUID;
 
 @Service
 public class WalletService {
+    private final Logger logger = LoggerFactory.getLogger(WalletService.class);
     private final WalletRepository walletRepository;
 
     public WalletService(WalletRepository walletRepository) {

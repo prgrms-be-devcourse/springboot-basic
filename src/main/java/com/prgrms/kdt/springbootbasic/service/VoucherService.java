@@ -43,4 +43,23 @@ public class VoucherService {
         return true;
     }
 
+    public Optional<Voucher> updateVoucher(Voucher voucher){
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        if (foundVoucher.isEmpty()) //일치하는 객체가 없으면 update된 것이 없으므로 return empty
+            return Optional.empty();
+
+        //수정할 내용 없으면 empty return
+        if (foundVoucher.get().getDiscountAmount() == voucher.getDiscountAmount())
+            return Optional.empty();
+
+        return voucherRepository.updateVoucherAmount(voucher);
+    }
+
+    public boolean deleteVoucher(Voucher voucher){
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        if (foundVoucher.isEmpty())
+            return false;
+        return voucherRepository.deleteVoucher(voucher);
+    }
+
 }

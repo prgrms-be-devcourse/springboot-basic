@@ -82,4 +82,21 @@ class CustomerRepositoryTest {
         assertThat(foundList).usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(assertList);
     }
+
+    @Test
+    public void updateCustomer(){
+        customer.setName("changedName");
+
+        var updatedCustomer = customerRepository.updateCustomer(customer);
+        assertThat(updatedCustomer.get()).as("Customer").isEqualToComparingFieldByField(customer);
+    }
+
+    @Test
+    public void deleteCustomer(){
+        var deletedResult = customerRepository.deleteCustomer(customer);
+        assertThat(deletedResult).isTrue();
+
+        var findResult = customerRepository.findCustomerById(customer.getCustomerId());
+        assertThat(findResult.isEmpty()).isTrue();
+    }
 }

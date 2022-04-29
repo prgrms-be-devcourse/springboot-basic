@@ -2,6 +2,8 @@ package com.prgrms.kdt.springbootbasic.repository;
 
 import com.prgrms.kdt.springbootbasic.VoucherList;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,6 +19,7 @@ import java.util.*;
 @Repository
 @Profile("!jdbc")
 public class JdbcVoucherRepository implements VoucherRepository{
+    private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -67,5 +70,22 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> getAllVouchers() {
         return jdbcTemplate.query("Select * from vouchers",voucherRowMapper);
+    }
+
+    @Override
+    public Optional<Voucher> updateVoucherAmount(Voucher voucher){
+        var updateResult = jdbcTemplate.update("UPDATE vouchers SET amount = :amount WHERE voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", toParamMap(voucher));
+        if (updateResult != 1){
+            return Optional.empty();
+        }
+        return Optional.of(voucher);
+    }
+
+    @Override
+    public boolean deleteVoucher(Voucher voucher){
+        var deleteResult = jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", Collections.singletonMap("voucher_id", voucher.getVoucherId().toString().getBytes()));
+        if(deleteResult!=1)
+            return false;
+        return true;
     }
 }

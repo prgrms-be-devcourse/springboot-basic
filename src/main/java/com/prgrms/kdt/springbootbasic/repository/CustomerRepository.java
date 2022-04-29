@@ -1,6 +1,8 @@
 package com.prgrms.kdt.springbootbasic.repository;
 
 import com.prgrms.kdt.springbootbasic.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,6 +15,7 @@ import java.util.*;
 
 @Repository
 public class CustomerRepository {
+    private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -71,4 +74,19 @@ public class CustomerRepository {
         return jdbcTemplate.query("Select * from customers",customerRowMapper);
     }
 
+
+    public Optional<Customer> updateCustomer(Customer customer){
+        var updateResult = jdbcTemplate.update("UPDATE customers SET name = :name where customer_id = UNHEX(REPLACE( :customerId, '-', ''))", toParamMap(customer));
+        if (updateResult != 1){
+            return Optional.empty();
+        }
+        return Optional.of(customer);
+    }
+
+    public boolean deleteCustomer(Customer customer){
+        var deleteResult = jdbcTemplate.update("DELETE FROM customers where customer_id = UNHEX(REPLACE( :customerId, '-', ''))", toParamMap(customer));
+        if(deleteResult!=1)
+            return false;
+        return true;
+    }
 }

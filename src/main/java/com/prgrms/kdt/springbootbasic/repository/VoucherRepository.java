@@ -13,4 +13,8 @@ public interface VoucherRepository {
     public Optional<Voucher> saveVoucher(Voucher voucher);
 
     public List<Voucher> getAllVouchers();
+
+    public Optional<Voucher> updateVoucherAmount(Voucher voucher);
+
+    public boolean deleteVoucher(Voucher voucher);
 }
