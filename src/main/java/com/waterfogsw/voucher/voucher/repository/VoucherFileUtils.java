@@ -9,14 +9,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class FileUtils {
+public class VoucherFileUtils {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private static final String FILE_FORMAT = ".json";
     private static final String FILE_EXIST = "File already exist";
     private static final String DIRECTORY_ERROR = "Error Occurred While Initialize Directory";
 
-    private FileUtils() {
+    private VoucherFileUtils() {
     }
 
     public static void save(Voucher voucher, String path) {
@@ -35,7 +35,7 @@ public class FileUtils {
         final File folder = new File(path);
 
         return Arrays.stream(Objects.requireNonNull(folder.listFiles()))
-                .map(FileUtils::wrapperReadValue)
+                .map(VoucherFileUtils::wrapperReadValue)
                 .toList();
     }
 
@@ -54,7 +54,7 @@ public class FileUtils {
         final File[] allFiles = root.listFiles();
         if (allFiles != null) {
             Arrays.stream(allFiles)
-                    .forEach(FileUtils::deleteDirectory);
+                    .forEach(VoucherFileUtils::deleteDirectory);
         }
 
         if (!root.delete()) {
