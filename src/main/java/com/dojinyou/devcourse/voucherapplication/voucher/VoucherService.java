@@ -1,8 +1,9 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VoucherService {
@@ -20,7 +21,7 @@ public class VoucherService {
         return voucherRepository.create(voucher);
     }
 
-    public VoucherList findAll() {
+    public List<Voucher> findAll() {
         return null;
     }
 }

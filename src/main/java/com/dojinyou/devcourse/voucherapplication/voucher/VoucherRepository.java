@@ -1,10 +1,11 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
+
+import java.util.List;
 
 public interface VoucherRepository {
     Voucher create(Voucher voucher);
 
-    VoucherList findAll();
+    List<Voucher> findAll();
 }
