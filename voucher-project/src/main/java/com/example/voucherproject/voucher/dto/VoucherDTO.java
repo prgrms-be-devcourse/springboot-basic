@@ -32,7 +32,8 @@ public interface VoucherDTO {
 
         @PositiveOrZero
         private long amount;
-
+        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+        private LocalDateTime updatedAt;
     }
 
     @Data

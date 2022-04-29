@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -22,13 +23,13 @@ import static com.example.voucherproject.common.Utils.*;
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository{
     private final JdbcTemplate jdbcTemplate;
-    private final String INSERT_SQL = "INSERT INTO voucher(id, type, amount, created_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?)";
+    private final String INSERT_SQL = "INSERT INTO voucher(id, type, amount, created_at, updated_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?, ?)";
     private final String FIND_ALL_SQL = "select * from voucher";
     private final String FIND_BY_ID_SQL = "select * from voucher where id = UNHEX(REPLACE(?,'-',''))";
     private final String COUNT_SQL = "select count(*) from voucher";
     private final String DELETE_SQL = "DELETE FROM voucher";
     private final String DELETE_BY_ID_SQL = "DELETE FROM voucher WHERE id = UNHEX(REPLACE(?,'-',''))";
-    private final String UPDATE_TYPE_AND_AMOUNT = "UPDATE voucher SET type = ? , amount = ? WHERE id = UNHEX(REPLACE(?,'-',''))";
+    private final String UPDATE_TYPE_AND_AMOUNT = "UPDATE voucher SET type = ? , amount = ?, updated_at = ? WHERE id = UNHEX(REPLACE(?,'-',''))";
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -36,7 +37,8 @@ public class VoucherJdbcRepository implements VoucherRepository{
                 voucher.getId().toString().getBytes(),
                 voucher.getType().toString(),
                 voucher.getAmount(),
-                Timestamp.valueOf(voucher.getCreatedAt()));
+                Timestamp.valueOf(voucher.getCreatedAt()),
+                Timestamp.valueOf(voucher.getUpdatedAt()));
 
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -84,6 +86,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
         var update = jdbcTemplate.update(UPDATE_TYPE_AND_AMOUNT,
                 dto.getType().toString(),
                 dto.getAmount(),
+                Timestamp.valueOf(LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)),
                 dto.getId().toString().getBytes());
 
         if (update != 1){
@@ -123,7 +126,6 @@ public class VoucherJdbcRepository implements VoucherRepository{
             var type = VoucherType.valueOf(resultSet.getString("type"));
             var amount = resultSet.getLong("amount");
             var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
-
             var updatedAt = resultSet.getTimestamp("updated_at") != null ?
                     resultSet.getTimestamp("updated_at").toLocalDateTime() : null;
             return new Voucher(id, type, amount, createdAt, updatedAt);

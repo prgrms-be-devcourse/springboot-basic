@@ -17,8 +17,8 @@ import java.util.UUID;
 public class WalletJdbcRepository implements WalletRepository{
     private final JdbcTemplate jdbcTemplate;
 
-    private final String INSERT_SQL = "INSERT INTO wallet(id, user_id, voucher_id, created_at) " +
-            "VALUES(UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), ?)";
+    private final String INSERT_SQL = "INSERT INTO wallet(id, user_id, voucher_id, created_at, updated_at) " +
+            "VALUES(UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), UNHEX(REPLACE(?,'-','')), ?, ?)";
     private final String FIND_ALL_SQL = "select * from wallet";
     private final String FIND_BY_IDS_SQL = "select * from wallet " +
             "where user_id = UNHEX(REPLACE(?,'-','')) and voucher_id = UNHEX(REPLACE(?,'-',''))";
@@ -35,7 +35,8 @@ public class WalletJdbcRepository implements WalletRepository{
                 wallet.getId().toString().getBytes(),
                 wallet.getUserId().toString().getBytes(),
                 wallet.getVoucherId().toString().getBytes(),
-                Timestamp.valueOf(wallet.getCreatedAt()));
+                Timestamp.valueOf(wallet.getCreatedAt()),
+                Timestamp.valueOf(wallet.getUpdatedAt()));
 
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");

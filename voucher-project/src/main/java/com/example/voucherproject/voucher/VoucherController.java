@@ -34,7 +34,7 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
-    // 바우처 생성
+    // 바우처 생성 (View)
     @GetMapping("/voucher")
     public String addVoucherView(Model model){
         model.addAttribute("dto",new VoucherDTO.Create());
@@ -85,7 +85,7 @@ public class VoucherController {
         return "redirect:../vouchers/";
     }
 
-    // 바우처 수정
+    // 바우처 수정 (View)
     @GetMapping("/voucher/{id}")
     public String editVoucherView(@PathVariable UUID id, Model model){
         var maybeVoucher = voucherService.findById(id);

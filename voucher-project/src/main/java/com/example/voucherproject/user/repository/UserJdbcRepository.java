@@ -19,7 +19,7 @@ import static com.example.voucherproject.common.Utils.*;
 @RequiredArgsConstructor
 public class UserJdbcRepository implements UserRepository{
     private final JdbcTemplate jdbcTemplate;
-    private final String INSERT_SQL = "INSERT INTO user(id, type, name, created_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?)";
+    private final String INSERT_SQL = "INSERT INTO user(id, type, name, created_at, updated_at) VALUES(UNHEX(REPLACE(?,'-','')), ?, ?, ?, ?)";
     private final String FIND_ALL_SQL = "select * from user";
     private final String FIND_BY_ID_SQL = "select * from user where id = UNHEX(REPLACE(?,'-',''))";
     private final String COUNT_SQL = "select count(*) from user";
@@ -32,7 +32,8 @@ public class UserJdbcRepository implements UserRepository{
                 user.getId().toString().getBytes(),
                 user.getType().toString(),
                 user.getName(),
-                Timestamp.valueOf(user.getCreatedAt()));
+                Timestamp.valueOf(user.getCreatedAt()),
+                Timestamp.valueOf(user.getUpdatedAt()));
 
         if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
@@ -99,7 +100,6 @@ public class UserJdbcRepository implements UserRepository{
         return listUsers2;
     }
 
-
     private RowMapper<User> rowMapper() {
         return ((resultSet, rowNum) -> {
             var userId = toUUID(resultSet.getBytes("id"));
@@ -108,7 +108,7 @@ public class UserJdbcRepository implements UserRepository{
             var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
             var updatedAt = resultSet.getTimestamp("updated_at") != null ?
                     resultSet.getTimestamp("updated_at").toLocalDateTime() : null;
-            return new User(userId, type, name, createdAt,updatedAt);
+            return new User(userId, type, name, createdAt, updatedAt);
         });
     }
 

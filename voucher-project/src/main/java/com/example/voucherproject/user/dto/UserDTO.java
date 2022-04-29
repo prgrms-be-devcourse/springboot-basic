@@ -36,6 +36,7 @@ public interface UserDTO {
     }
 
     @Builder
+    @Getter
     class Result {
         private UUID id;
         private UserType type;
