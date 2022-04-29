@@ -42,7 +42,7 @@ public enum VoucherType {
 
     public abstract Voucher create(UUID voucherId, long value, LocalDateTime createdAt);
 
-    public boolean equalsNumber(int findNumber) {
+    private boolean equalsNumber(int findNumber) {
         return (this.number == findNumber);
     }
 }

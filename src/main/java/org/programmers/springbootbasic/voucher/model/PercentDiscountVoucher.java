@@ -1,9 +1,10 @@
 package org.programmers.springbootbasic.voucher.model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private long percent;
     private final LocalDateTime createdAt;
@@ -54,5 +55,19 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public void changeValue(long value) {
         this.percent = value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) return true;
+        if (o==null || getClass()!=o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return voucherId.equals(that.voucherId);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }
