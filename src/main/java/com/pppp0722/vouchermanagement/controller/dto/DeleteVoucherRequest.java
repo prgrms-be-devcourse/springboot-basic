@@ -1,4 +1,4 @@
-package com.pppp0722.vouchermanagement.controller;
+package com.pppp0722.vouchermanagement.controller.dto;
 
 import java.util.UUID;
 

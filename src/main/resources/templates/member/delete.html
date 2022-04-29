@@ -19,10 +19,14 @@
   </style>
 </head>
 <body>
-<h1 id="header">Welcome!</h1>
-<div class="d-grid gap-2 col-6 mx-auto">
-  <a th:href="@{/member}" class="btn btn-primary" type="button">멤버 관리</a>
-  <a th:href="@{/voucher}" class="btn btn-primary" type="button">바우처 관리</a>
-</div>
+<h1 id="header">멤버 삭제</h1>
+<a th:href="@{/member}" class="btn btn-primary me-md-2" type="button">돌아가기</a>
+<form th:action="@{/member/delete}" method="post">
+  <div class="mb-3">
+    <label for="memberId" class="form-label">member id</label>
+    <input type="text" class="form-control" id="memberId" name="memberId">
+  </div>
+  <button type="submit" class="btn btn-primary">삭제</button>
+</form>
 </body>
 </html>
