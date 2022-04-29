@@ -5,6 +5,8 @@ import me.programmers.springboot.basic.springbootbasic.voucher.repository.JdbcTe
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class JdbcVoucherService {
@@ -25,6 +27,11 @@ public class JdbcVoucherService {
 
     public List<Voucher> getAllPercentVouchers() {
         return voucherRepository.findAllPercentVouchers();
+    }
+
+    public Voucher getVoucherById(UUID voucherId) {
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+        return voucher.get();
     }
 
     public void save(Voucher voucher) {

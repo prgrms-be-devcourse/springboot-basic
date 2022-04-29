@@ -5,8 +5,10 @@ import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVouch
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherMvcController {
@@ -24,6 +26,13 @@ public class VoucherMvcController {
         model.addAttribute("fixVouchers", fixVouchers);
         model.addAttribute("percentVouchers", percentVouchers);
         return "vouchers";
+    }
+
+    @GetMapping("/vouchers/{uuid}")
+    public String showDetailVoucher(@PathVariable UUID uuid, Model model) {
+        Voucher voucher = voucherService.getVoucherById(uuid);
+        model.addAttribute("voucher", voucher);
+        return "detail";
     }
 
 }

@@ -17,13 +17,17 @@
         <th scope="col">ID</th>
         <th scope="col">Type</th>
         <th scope="col">Amount</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucher: ${fixVouchers}" th:object="${fixVouchers}" >
-        <td th:text="${voucher.voucherId}"></td>
+    <tr th:each="voucher: ${fixVouchers}" th:object="${fixVouchers}">
+        <td th:text="${voucher.voucherId}" th:href="@{/vouchers/(uuid=${voucher.voucherId})}"></td>
         <td>Fixed Voucher</td>
         <td th:text="${voucher.amount}"></td>
+        <td>
+            <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -34,13 +38,17 @@
         <th scope="col">ID</th>
         <th scope="col">Type</th>
         <th scope="col">Percent</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucher: ${percentVouchers}" th:object="${percentVouchers}" >
+    <tr th:each="voucher: ${percentVouchers}" th:object="${percentVouchers}">
         <td th:text="${voucher.voucherId}"></td>
         <td>Percent Voucher</td>
         <td th:text="${voucher.percent}"></td>
+        <td>
+            <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
+        </td>
     </tr>
     </tbody>
 </table>
