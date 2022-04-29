@@ -3,6 +3,7 @@ package org.programmers.kdtspring;
 import org.programmers.kdtspring.ConsoleIO.*;
 import org.programmers.kdtspring.repository.user.CustomerRepository;
 import org.programmers.kdtspring.repository.voucher.VoucherRepository;
+import org.programmers.kdtspring.service.CustomerService;
 import org.programmers.kdtspring.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,23 +15,18 @@ import java.util.*;
 public class VoucherManagement implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherManagement.class);
-    private Map<String, CommandStrategy> commandStrategy = new HashMap<>();
-
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-    private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
+    private Map<String, CommandStrategy> commandStrategy = new HashMap<>();
 
-
-    public VoucherManagement(Input input, Output output, VoucherService voucherService, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public VoucherManagement(Input input, Output output, VoucherService voucherService, VoucherRepository voucherRepository, CustomerRepository customerRepository, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
-        this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+        this.customerService = customerService;
     }
-
 
     @Override
     public void run() {
@@ -43,9 +39,9 @@ public class VoucherManagement implements Runnable {
     }
 
     private void putStrategy() {
-        commandStrategy.put("exit", new ExitCommandStrategy());
-        commandStrategy.put("create", new CreateCommandStrategy(input, voucherService, customerRepository));
-        commandStrategy.put("list", new ListCommandStrategy(output, voucherRepository));
-        commandStrategy.put("listForCustomer", new ListVoucherForCustomer(input, voucherService, customerRepository));
+        commandStrategy.put("exit", new ExitCommandStrategy(output));
+        commandStrategy.put("create", new CreateCommandStrategy(input, output, voucherService));
+        commandStrategy.put("list", new ListCommandStrategy(output, voucherService));
+        commandStrategy.put("listForCustomer", new ListVoucherForCustomer(input, output, customerService));
     }
 }
