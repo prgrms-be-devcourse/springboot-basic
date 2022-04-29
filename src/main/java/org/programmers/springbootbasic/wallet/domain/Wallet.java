@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.wallet.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Wallet {
@@ -23,5 +24,18 @@ public class Wallet {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) return true;
+        if (o==null || getClass()!=o.getClass()) return false;
+        Wallet wallet = (Wallet) o;
+        return Objects.equals(walletId, wallet.walletId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(walletId);
     }
 }
