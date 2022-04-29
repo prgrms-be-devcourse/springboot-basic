@@ -29,6 +29,7 @@
             <option th:each="customer:${customers}" th:object="${customer}" th:text="|*{name} *{email}|" th:value="*{customerId}"></option>
         </select>
     </div>
+    <a th:href="@{/vouchers}" class="btn btn-primary me-md-2" type="button">Back to List</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </body>

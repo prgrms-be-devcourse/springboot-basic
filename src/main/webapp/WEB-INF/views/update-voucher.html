@@ -22,6 +22,7 @@
             <option th:each="customer:${customers}" th:object="${customer}" th:text="|*{name} *{email}|" th:value="*{customerId}" th:selected="${customer.customerId==voucher.customerId}"></option>
         </select>
     </div>
+    <a th:href="@{/vouchers/{id}(id=${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">Back</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </body>
