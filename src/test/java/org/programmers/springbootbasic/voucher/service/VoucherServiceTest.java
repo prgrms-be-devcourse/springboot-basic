@@ -17,7 +17,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = {DBConfig.class})
@@ -42,77 +41,6 @@ class VoucherServiceTest {
 
     @Autowired
     VoucherRepository voucherRepository;
-
-    @Nested
-    @DisplayName("VoucherType은")
-    class VoucherType_Of {
-
-        @Nested
-        @DisplayName("바우처 넘버가 유효하지 않은 값 일 때")
-        class Context_with_unValid_voucherNumber {
-
-            @Test
-            @DisplayName("예외를 던집니다.")
-            void it_returns_a_throw() {
-                assertThatThrownBy(() -> VoucherType.findByNumber(3))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("잘못된 바우처 넘버입니다.");
-            }
-        }
-
-        @Nested
-        @DisplayName("바우처 넘버가 유효한 값 일 때")
-        class Context_with_valid_voucherNumber {
-            VoucherType voucherType = VoucherType.findByNumber(2);
-
-            @Test
-            @DisplayName("바우처 타입을 반환합니다.")
-            void it_has_a_voucherType() {
-                assertThat(voucherType).isEqualTo(VoucherType.PERCENT);
-            }
-
-            @Test
-            @DisplayName("바우처를 생성 할 수 있습니다.")
-            void it_returns_a_voucher() {
-                Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), 50, LocalDateTime.now());
-
-                assertThat(voucher.getVoucherType()).isEqualTo(voucherType);
-            }
-        }
-
-        @Nested
-        @DisplayName("바우처 타입이 유효하지 않은 값 일 때")
-        class Context_with_unValid_voucherType {
-
-            @Test
-            @DisplayName("예외를 던집니다.")
-            void it_returns_a_throw() {
-                assertThatThrownBy(() -> VoucherType.findByType("unknown"))
-                        .isInstanceOf(IllegalArgumentException.class)
-                        .hasMessageContaining("잘못된 바우처 타입입니다.");
-            }
-        }
-
-        @Nested
-        @DisplayName("바우처 타입이 유효한 값 일 때")
-        class Context_with_valid_voucherType {
-            VoucherType voucherType = VoucherType.findByType("FIXED");
-
-            @Test
-            @DisplayName("바우처 타입을 반환합니다.")
-            void it_has_a_voucherType() {
-                assertThat(voucherType).isEqualTo(VoucherType.FIXED);
-            }
-
-            @Test
-            @DisplayName("바우처를 생성 할 수 있습니다.")
-            void it_returns_a_voucher() {
-                Voucher voucher = voucherService.createVoucher(voucherType, UUID.randomUUID(), 50, LocalDateTime.now());
-
-                assertThat(voucher.getVoucherType()).isEqualTo(voucherType);
-            }
-        }
-    }
 
     @Nested
     @DisplayName("getVoucher 메소드는")

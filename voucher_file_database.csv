@@ -1,1 +1,2 @@
-PercentDiscountVoucher voucherId: c25208a3-4dff-47cc-8819-b8d823790d73 percent: 10 createdAt: 2022-04-21T02:48:05.963044
+PERCENT voucherId: c25208a3-4dff-47cc-8819-b8d823790d73 percent: 10 createdAt: 2022-04-21T02:48:05.963044
+FIXED voucherId: 0529e354-43e7-43f4-980e-b6c81a4386ff amount: 5000 createdAt: 2022-04-27T11:05:57.048436

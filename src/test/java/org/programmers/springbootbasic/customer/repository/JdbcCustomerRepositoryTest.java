@@ -1,6 +1,5 @@
 package org.programmers.springbootbasic.customer;
 
-import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.config.DBConfig;
 import org.programmers.springbootbasic.customer.model.Customer;
@@ -15,6 +14,7 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.programmers.springbootbasic.config.DBConfig.dbSetup;
 
 @SpringJUnitConfig
 @ContextConfiguration(classes = {DBConfig.class})
@@ -22,19 +22,17 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
 
-    private static EmbeddedMysql embeddedMysql;
-
     @Autowired
     CustomerRepository jdbcCustomerRepository;
 
     @BeforeAll
     void setup() {
-        embeddedMysql = DBConfig.dbSetup();
+        dbSetup();
     }
 
-    @AfterAll
+    @AfterEach
     void cleanup() {
-        embeddedMysql.stop();
+        jdbcCustomerRepository.deleteAll();
     }
 
     @Test
