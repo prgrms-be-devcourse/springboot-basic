@@ -14,43 +14,57 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
-    private Long sequence = 1L;
-
-    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
     }
 
-    public void createFixedAmountVoucher(Optional<Customer> customer, int amount) {
+    public Optional<Voucher> createVoucher(VoucherType voucherType, int amount, int percent) {
         logger.info("[VoucherService] createFixedAmountVoucher(long amount) called");
+        UUID uuid = UUID.randomUUID();
+        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
+            voucherRepository.save(new FixedAmountVoucher(uuid, amount, String.valueOf(voucherType)));
+            return voucherRepository.findById(uuid);
+        }
 
-        Voucher FixedAmountVoucher = new FixedAmountVoucher(sequence++, customer.get().getCustomerId(), amount, VoucherType.FixedAmountVoucher.name());
-        voucherRepository.save(FixedAmountVoucher);
-
-        logger.info("{} saved", FixedAmountVoucher);
+        if (voucherType.equals(VoucherType.PercentDiscountVoucher)) {
+            voucherRepository.save(new PercentDiscountVoucher(uuid, percent, String.valueOf(voucherType)));
+            return voucherRepository.findById(uuid);
+        }
+        logger.info("voucher created");
+        return Optional.empty();
     }
 
-    public void createPercentDiscountVoucher(int percent) {
-        logger.info("[VoucherService] createPercentDiscountVoucher(long amount) called");
+    public void allocateVoucher(UUID voucherId, UUID customerId) {
+        logger.info("[VoucherService] allocateVoucher() called");
 
-        Voucher PercentDiscountVoucher = new PercentDiscountVoucher(sequence++, percent, VoucherType.PercentDiscountVoucher.name());
-        voucherRepository.save(PercentDiscountVoucher);
+        var voucher = voucherRepository.findById(voucherId).orElseThrow(
+                NoSuchElementException::new);
+        var customer = customerRepository.findById(customerId).orElseThrow(
+                NoSuchElementException::new);
 
-        logger.info("{} saved", PercentDiscountVoucher);
+        voucher.belongToCustomer(customer);
+        voucherRepository.updateCustomerId(voucher);
     }
 
-    public List<Voucher> findVoucherForCustomer(Long customerId) {
+    public List<Voucher> findVoucherForCustomer(UUID customerId) {
         logger.info("[VoucherService] findVoucherForCustomer() called");
-        Customer customer = customerRepository.findById(customerId).orElseThrow(NoSuchElementException::new);
+
+        var customer = customerRepository.findById(customerId)
+                .orElseThrow(IllegalArgumentException::new);
         return voucherRepository.findByCustomer(customer);
     }
 
+    public List<Voucher> showAll() {
+        return voucherRepository.findAll();
+    }
 }
