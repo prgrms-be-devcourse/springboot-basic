@@ -23,7 +23,11 @@ public class VoucherWalletController {
         VoucherList voucherWalletList = voucherWalletService.getVoucherWalletList();
         List<Voucher> voucherWallet = voucherWalletList.getVouchers();
         model.addAttribute("voucherWallet", voucherWallet);
-        System.out.println("found");
         return "voucherWallet/voucherWalletList";
+    }
+
+    @GetMapping("/walletHome")
+    public String walletHome() {
+      return "voucherWallet/walletHome";
     }
 }
