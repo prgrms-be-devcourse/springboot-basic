@@ -45,7 +45,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer insert(Customer customer) {
         var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
                 toParamMap(customer));
         if (update != 1) {

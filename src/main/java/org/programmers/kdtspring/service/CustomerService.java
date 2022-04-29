@@ -1,6 +1,7 @@
 package org.programmers.kdtspring.service;
 
 import org.programmers.kdtspring.entity.user.Customer;
+import org.programmers.kdtspring.entity.user.Email;
 import org.programmers.kdtspring.repository.user.CustomerRepository;
 import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
@@ -29,14 +30,18 @@ public class CustomerService {
         log.info("[CustomerService] createCustomer() called");
 
         var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
-        return customerRepository.save(customer);
+        return customerRepository.insert(customer);
     }
 
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
-    public Optional<Customer> getCustomer(String email) {
+    public Optional<Customer> getCustomerById(UUID customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
 }
