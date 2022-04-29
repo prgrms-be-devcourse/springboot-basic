@@ -57,4 +57,10 @@ public class VoucherWalletController {
         });
         return String.valueOf(returnPage);
     }
+
+    @GetMapping("/voucherWallet/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable String voucherId) {
+        voucherService.deleteVoucherById(UUID.fromString(voucherId));
+        return "/voucherWallet/walletHome";
+    }
 }

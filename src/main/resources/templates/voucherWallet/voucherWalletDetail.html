@@ -31,7 +31,7 @@
 
 <button th:onclick="location.href = '/walletHome'" >홈으로 이동</button>
 <button ><a th:href="@{/voucherWallet/provideForm/{voucherId}/ (voucherId = ${voucher.voucherId})}">사용자에게 부여하기</a></button>
-<button ><a th:href="@{/vouchers/delete/{voucherId} (voucherId = ${voucher.voucherId})}">바우처 삭제하기</a></button>
+<button ><a th:href="@{/voucherWallet/delete/{voucherId} (voucherId = ${voucher.voucherId})}">바우처 삭제하기</a></button>
 </body>
 
 </html>
