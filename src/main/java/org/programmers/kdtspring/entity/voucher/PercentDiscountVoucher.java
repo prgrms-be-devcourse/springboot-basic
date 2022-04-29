@@ -23,7 +23,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public int getDiscount() {
-        return this.percent;
+        return percent;
     }
 
     @Override

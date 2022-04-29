@@ -20,7 +20,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public int getDiscount() {
-        return this.amount;
+        return amount;
     }
 
     @Override
