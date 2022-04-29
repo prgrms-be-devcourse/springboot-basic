@@ -37,6 +37,10 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public List<Customer> findCustomerByVoucher(UUID voucherId) throws DataAccessException {
+        return customerRepository.findCustomerByVoucher(voucherId);
+    }
+
     public Optional<Customer> findById(UUID customerId) {
         return customerRepository.findById(customerId);
     }

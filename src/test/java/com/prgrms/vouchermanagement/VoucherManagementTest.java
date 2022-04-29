@@ -435,7 +435,8 @@ class VoucherManagementTest {
         List<Customer> customers = List.of(customer1, customer2, customer3);
 
         when(console.inputUUID(anyString())).thenReturn(voucherId);
-        when(voucherWalletService.findCustomerByVoucher(voucherId)).thenReturn(customers);
+        when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
+        when(customerService.findCustomerByVoucher(voucherId)).thenReturn(customers);
 
         // when
         runApplication();
@@ -477,7 +478,7 @@ class VoucherManagementTest {
 
         UUID notExistsVoucherId = UUID.randomUUID();
         when(console.inputUUID(anyString())).thenReturn(notExistsVoucherId);
-        when(voucherWalletService.findCustomerByVoucher(notExistsVoucherId)).thenThrow(IllegalArgumentException.class);
+        when(voucherService.isRegisteredVoucher(notExistsVoucherId)).thenReturn(false);
 
         // when
         runApplication();
@@ -498,7 +499,8 @@ class VoucherManagementTest {
         when(console.inputNumber(anyString())).thenReturn(FIND_CUSTOMER.getOrder());
 
         when(console.inputUUID(anyString())).thenReturn(voucherId);
-        when(voucherWalletService.findCustomerByVoucher(voucherId)).thenReturn(emptyCustomer);
+        when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
+        when(customerService.findCustomerByVoucher(voucherId)).thenReturn(emptyCustomer);
 
         // when
         runApplication();

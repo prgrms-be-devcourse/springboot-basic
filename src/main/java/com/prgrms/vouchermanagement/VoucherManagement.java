@@ -162,7 +162,12 @@ public class VoucherManagement {
         try {
             voucherId = input.inputUUID("voucherId");
 
-            List<Customer> vouchers = walletService.findCustomerByVoucher(voucherId);
+            if (!voucherService.isRegisteredVoucher(voucherId)) {
+                output.printMessage("This voucher is not registered");
+                return;
+            }
+
+            List<Customer> vouchers = customerService.findCustomerByVoucher(voucherId);
 
             if (vouchers == null || vouchers.isEmpty()) {
                 output.printMessage("any customer has no this voucher");
@@ -172,8 +177,6 @@ public class VoucherManagement {
             output.printList(vouchers);
         } catch (InputMismatchException e) {
             output.printMessage("Please input in UUID format");
-        } catch (IllegalArgumentException e) {
-            output.printMessage("This voucher is not registered");
         } catch (DataAccessException e) {
             output.printMessage(DB_ERROR_MESSAGE);
         }

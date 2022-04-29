@@ -2,10 +2,10 @@ package com.prgrms.vouchermanagement.voucher.controller;
 
 import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.customer.CustomerDto;
+import com.prgrms.vouchermanagement.customer.CustomerService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.service.VoucherService;
-import com.prgrms.vouchermanagement.wallet.VoucherWalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +19,12 @@ import java.util.UUID;
 @RequestMapping("/vouchers")
 public class VoucherController {
 
-    private final VoucherWalletService walletService;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherWalletService walletService, VoucherService voucherService) {
-        this.walletService = walletService;
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping
@@ -37,7 +37,7 @@ public class VoucherController {
     @GetMapping("/{voucherId}")
     public String findVoucher(@PathVariable UUID voucherId, Model model) {
         Optional<Voucher> findVoucher = voucherService.findVoucherById(voucherId);
-        List<Customer> customers = walletService.findCustomerByVoucher(voucherId);
+        List<Customer> customers = customerService.findCustomerByVoucher(voucherId);
 
         if (findVoucher.isEmpty()) {
             return "error/404";

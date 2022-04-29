@@ -19,4 +19,6 @@ public interface CustomerRepository {
     List<Customer> findByName(String name);
 
     Optional<Customer> findByEmail(String email);
+
+    List<Customer> findCustomerByVoucher(UUID voucherId);
 }

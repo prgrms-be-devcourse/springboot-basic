@@ -2,6 +2,8 @@ package com.prgrms.vouchermanagement.wallet;
 
 import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.customer.CustomerNamedJdbcRepository;
+import com.prgrms.vouchermanagement.customer.CustomerRepository;
+import com.prgrms.vouchermanagement.customer.CustomerService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.JdbcVoucherRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -57,6 +59,12 @@ class JdbcVoucherWalletRepositoryTest {
             return new CustomerNamedJdbcRepository(jdbcTemplate);
         }
 
+
+        @Bean
+        CustomerService customerService(CustomerRepository customerRepository) {
+            return new CustomerService(customerRepository);
+        }
+
         @Bean
         JdbcVoucherWalletRepository jdbcVoucherWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
             return new JdbcVoucherWalletRepository(jdbcTemplate);
@@ -71,6 +79,9 @@ class JdbcVoucherWalletRepositoryTest {
 
     @Autowired
     CustomerNamedJdbcRepository customerRepository;
+
+    @Autowired
+    CustomerService customerService;
 
     @AfterEach
     void afterEach() {
@@ -144,7 +155,7 @@ class JdbcVoucherWalletRepositoryTest {
         voucherWalletRepository.save(Wallet.of(UUID.randomUUID(), customer3.getCustomerId(), voucher.getVoucherId()));
 
         // when
-        List<Customer> findCustomers = voucherWalletRepository.findCustomerByVoucher(voucher.getVoucherId());
+        List<Customer> findCustomers = customerService.findCustomerByVoucher(voucher.getVoucherId());
 
         // then
         assertThat(findCustomers.size()).isEqualTo(3);

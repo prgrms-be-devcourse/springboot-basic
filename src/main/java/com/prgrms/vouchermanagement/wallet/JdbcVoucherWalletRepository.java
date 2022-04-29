@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import com.prgrms.vouchermanagement.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -17,7 +16,6 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
 
     public static final String INSERT_WALLET_SQL = "INSERT INTO voucher_wallet(wallet_id, voucher_id, customer_id, created_at) VALUES (:walletId, :voucherId, :customerId, :createdAt)";
     public static final String DELETE_SQL = "DELETE FROM voucher_wallet WHERE wallet_id=:walletId";
-    public static final String FIND_CUSTOMER_BY_VOUCHER_SQL = "SELECT c.customer_id, c.name, c.email, c.created_at FROM voucher_wallet w INNER JOIN customer c ON c.customer_id = w.customer_id WHERE w.voucher_id=:voucherId";
     public static final String SELECT_WALLET_BY_ID = "SELECT * FROM voucher_wallet WHERE wallet_id=:walletId";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -41,16 +39,6 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
     public void removeWallet(UUID walletId) throws DataAccessException {
         try {
             jdbcTemplate.update(DELETE_SQL, Collections.singletonMap("walletId", walletId.toString()));
-        } catch (DataAccessException e) {
-            log.error("fail to execute query", e);
-            throw e;
-        }
-    }
-
-    @Override
-    public List<Customer> findCustomerByVoucher(UUID voucherId) throws DataAccessException {
-        try {
-            return jdbcTemplate.query(FIND_CUSTOMER_BY_VOUCHER_SQL, Collections.singletonMap("voucherId", voucherId.toString()), customerRowMapper);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
             throw e;
@@ -86,14 +74,6 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
     public void clear() {
         jdbcTemplate.update("DELETE FROM voucher_wallet", Collections.emptyMap());
     }
-
-    public static final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> {
-        UUID customerId = UUID.fromString(rs.getString("customer_id"));
-        String name = rs.getString("name");
-        String email = rs.getString("email");
-        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-        return Customer.of(customerId, name, email, createdAt);
-    };
 
     private final RowMapper<Wallet> walletRowMapper = (rs, rowNum) -> {
         UUID walletId = UUID.fromString(rs.getString("wallet_id"));

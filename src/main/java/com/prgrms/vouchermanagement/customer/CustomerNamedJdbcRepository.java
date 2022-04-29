@@ -91,6 +91,16 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findCustomerByVoucher(UUID voucherId) throws DataAccessException {
+        try {
+            return jdbcTemplate.query(FIND_CUSTOMER_BY_VOUCHER_SQL, Collections.singletonMap("voucherId", voucherId.toString()), customerRowMapper);
+        } catch (DataAccessException e) {
+            log.error("fail to execute query", e);
+            throw e;
+        }
+    }
+
+    @Override
     public void remove(UUID customerId) throws DataAccessException {
         jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString()));
     }

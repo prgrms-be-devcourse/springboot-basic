@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.customer.CustomerService;
 import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.dao.DataAccessException;
@@ -39,14 +38,6 @@ public class VoucherWalletService {
     public void removeVoucherInWallet(UUID walletId) throws IllegalArgumentException, DataAccessException {
         validateWalletId(walletId);
         walletRepository.removeWallet(walletId);
-    }
-
-    /**
-     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
-     */
-    public List<Customer> findCustomerByVoucher(UUID voucherId) throws IllegalArgumentException, DataAccessException {
-        validateVoucherId(voucherId);
-        return walletRepository.findCustomerByVoucher(voucherId);
     }
 
     public List<Wallet> findAll() {
