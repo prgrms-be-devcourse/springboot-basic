@@ -3,6 +3,7 @@ package com.example.voucherproject.user.model;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Getter
@@ -12,8 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class User {
     private final UUID id;
-    private final UserType type;
-    private final String name;
+    private UserType type;
+    private String name;
     private final LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
