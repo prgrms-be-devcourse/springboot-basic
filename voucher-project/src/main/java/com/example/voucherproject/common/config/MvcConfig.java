@@ -11,6 +11,9 @@ import java.util.List;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+    /**
+     *  response json & xml 둘 모두 지원하도록 설정
+     */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         var messageConverter = new MarshallingHttpMessageConverter();
@@ -19,5 +22,4 @@ public class MvcConfig implements WebMvcConfigurer {
         messageConverter.setUnmarshaller(xStreamMarshaller);
         converters.add(0, messageConverter);
     }
-
 }
