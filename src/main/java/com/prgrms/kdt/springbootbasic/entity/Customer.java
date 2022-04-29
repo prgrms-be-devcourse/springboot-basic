@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
-    private final String name;
-    private final String email;
+    private String name;
+    private final String email; //email로 duplicate 체크함
 
     public Customer(UUID customerId, String name, String email) {
         this.customerId = customerId;
@@ -23,5 +23,9 @@ public class Customer {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
