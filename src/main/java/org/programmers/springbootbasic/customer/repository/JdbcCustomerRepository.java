@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.customer.repository;
 
 import org.programmers.springbootbasic.customer.model.Customer;
+import org.programmers.springbootbasic.exception.NotInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,7 +18,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final int SUCCESS = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -48,7 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 "INSERT INTO customers(customer_id, name, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :createdAt)",
                 parameterMap);
         if (insert != SUCCESS) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new NotInsertException("Nothing was inserted");
         }
         return customer;
     }
