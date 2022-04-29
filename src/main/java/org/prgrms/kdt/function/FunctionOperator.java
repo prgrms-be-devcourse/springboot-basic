@@ -93,7 +93,7 @@ public class FunctionOperator {
 
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
         voucher.ifPresent(value ->
-                OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
+                OutputConsole.printMessage(MessageFormat.format("{0} is provided", value.getVoucherId())));
     }
 
     private void printCustomerVoucherList() {
