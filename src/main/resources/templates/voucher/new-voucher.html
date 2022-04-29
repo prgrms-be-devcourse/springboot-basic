@@ -16,7 +16,7 @@
 <img th:src="@{/images/intro.jpeg}" class="img-fluid">
 
 <h2>Voucher 생성</h2>
-<form th:action="@{/voucher/new}" method="post" th:object="${createVoucherRequest}">
+<form th:action="@{/vouchers/new}" method="post" th:object="${createVoucherRequest}">
   <div class="mb-3">
     <select class="form-select" aria-label="Default select example" th:field="*{voucherType}">
       <option th:each="voucherType : ${T(org.prgrms.springbootbasic.controller.VoucherType).values()}"

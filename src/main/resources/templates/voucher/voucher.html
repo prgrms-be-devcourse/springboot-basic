@@ -19,22 +19,22 @@
 
   <div>
     <label for="voucherId">VOUCHER ID</label>
-    <input type="text" id="voucherId" name="voucherId" class="form-control" th:value="${voucher.voucherId}" readonly>
+    <input type="text" id="voucherId" name="voucherId" class="form-control" th:value="${voucherDTO.voucherId}" readonly>
   </div>
 
-  <div th:if="${voucher.voucherType.isFixed()}">
+  <div th:if="${voucherDTO.voucherType.isFixed()}">
     <label for="amount">AMOUNT</label>
-    <input type="text" id="amount" name="amount" class="form-control" th:value="${voucher.amount}" readonly>
+    <input type="text" id="amount" name="amount" class="form-control" th:value="${voucherDTO.amount}" readonly>
   </div>
 
-  <div th:if="${voucher.voucherType.isPercent()}">
+  <div th:if="${voucherDTO.voucherType.isPercent()}">
     <label for="percent">PERCENT</label>
-    <input type="text" id="percent" name="percent" class="form-control" th:value="${voucher.percent}" readonly>
+    <input type="text" id="percent" name="percent" class="form-control" th:value="${voucherDTO.percent}" readonly>
   </div>
 
   <div>
     <label for="customerId">CUSTOMER ID</label>
-    <input type="text" id="customerId" name="customerId" class="form-control" th:value="${voucher.customerId}?: 'X'" readonly>
+    <input type="text" id="customerId" name="customerId" class="form-control" th:value="${voucherDTO.customerId}?: 'X'" readonly>
   </div>
 
 </body>

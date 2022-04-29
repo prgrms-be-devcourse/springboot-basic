@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/vouchers")
 public class WebVoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebVoucherController.class);
@@ -24,27 +26,27 @@ public class WebVoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping
     public String viewVouchersPage(Model model) {
         var vouchers = voucherService.findAll();
         model.addAttribute("voucherDTOs", DtoConverter.toVoucherDTOs(vouchers));
         return "voucher/vouchers";
     }
 
-    @GetMapping("/vouchers/{voucherId}")
+    @GetMapping("/{voucherId}")
     public String viewVoucherPage(@PathVariable("voucherId") UUID voucherId, Model model) {
         var voucher = voucherService.findVoucher(voucherId);
-        model.addAttribute("voucher", DtoConverter.toVoucherDTO(voucher));
+        model.addAttribute("voucherDTO", DtoConverter.toVoucherDTO(voucher));
         return "voucher/voucher";
     }
 
-    @GetMapping("/vouchers/new")
+    @GetMapping("/new")
     public String viewNewVoucherPage(Model model) {
-        model.addAttribute(new CreateVoucherRequest());
+        model.addAttribute("createVoucherRequest", new CreateVoucherRequest());
         return "voucher/new-voucher";
     }
 
-    @PostMapping("/vouchers/new")
+    @PostMapping("/new")
     public String createVoucher(
         @ModelAttribute CreateVoucherRequest createVoucherRequest,
         BindingResult bindingResult) {
@@ -69,10 +71,10 @@ public class WebVoucherController {
         return "redirect:/vouchers";
     }
 
-    @PostMapping("/vouchers/{voucherId}/delete")
+    @PostMapping("/{voucherId}/delete")
     public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
 
     private void validatePercentVoucherInput(CreateVoucherRequest createVoucherRequest,
