@@ -21,21 +21,16 @@ public class CommandLineApplication implements Runnable {
 	@Override
 	public void run() {
 		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-
-		while (execute(voucherService)) ;
-	}
-
-	private boolean execute(VoucherService voucherService) {
 		boolean runProgram = true;
 
-		try {
-			console.printMenu();
-			String choiceCommandType = console.input("");
-			runProgram = CommandType.execute(choiceCommandType, console, voucherService);
-		} catch (IllegalArgumentException exception) {
-			logger.error("Invalid Command Type", exception);
+		while (runProgram) {
+			try {
+				console.printMenu();
+				String choiceCommandType = console.input("");
+				runProgram = CommandType.execute(choiceCommandType, console, voucherService);
+			} catch (IllegalArgumentException exception) {
+				logger.error("Invalid Command Type", exception);
+			}
 		}
-
-		return runProgram;
 	}
 }
