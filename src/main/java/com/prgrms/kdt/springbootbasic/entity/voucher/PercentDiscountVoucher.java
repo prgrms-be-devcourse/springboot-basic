@@ -11,7 +11,7 @@ public class PercentDiscountVoucher extends Voucher{
     }
 
     public PercentDiscountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
-        this.voucherId = voucherId;
+        super(voucherId, createdAt.truncatedTo(ChronoUnit.MILLIS));
         if (amount >100){
             this.amount = 100;
         }else if (amount<0){
@@ -19,8 +19,6 @@ public class PercentDiscountVoucher extends Voucher{
         }else{
             this.amount = amount;
         }
-
-        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
         this.voucherType = "Percent";
     }
 
@@ -48,6 +46,19 @@ public class PercentDiscountVoucher extends Voucher{
     @Override
     public String getVoucherType() {
         return voucherType;
+    }
+
+    @Override
+    public long setAmount(long amount) {
+        if (amount >100){
+            this.amount = 100;
+        }else if (amount<0){
+            this.amount = 0;
+        }else{
+            this.amount = amount;
+        }
+
+        return this.amount;
     }
 
 

@@ -1,11 +1,12 @@
 package com.prgrms.kdt.springbootbasic.entity.voucher;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class DefaultNotUsedVoucher extends Voucher{
     public DefaultNotUsedVoucher() {
-        this.createdAt = LocalDateTime.now();
+        super(null, LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
     }
 
     @Override
@@ -31,5 +32,10 @@ public class DefaultNotUsedVoucher extends Voucher{
     @Override
     public String getVoucherType() {
         return null;
+    }
+
+    @Override
+    public long setAmount(long amount) {
+        return 0;
     }
 }

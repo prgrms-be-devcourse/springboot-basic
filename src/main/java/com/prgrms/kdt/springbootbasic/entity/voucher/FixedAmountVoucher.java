@@ -17,9 +17,12 @@ public class FixedAmountVoucher extends Voucher{
     }
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
+        super(voucherId, createdAt.truncatedTo(ChronoUnit.MILLIS));
+        if (amount<0){
+            this.amount = 0;
+        }else {
+            this.amount = amount;
+        }
         this.voucherType = "Fixed";
     }
 
@@ -55,5 +58,16 @@ public class FixedAmountVoucher extends Voucher{
     @Override
     public String getVoucherType() {
         return voucherType;
+    }
+
+    @Override
+    public long setAmount(long amount) {
+        if (amount<0){
+            this.amount = 0;
+        }else {
+            this.amount = amount;
+        }
+
+        return this.amount;
     }
 }
