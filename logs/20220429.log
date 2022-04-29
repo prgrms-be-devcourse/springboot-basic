@@ -1,0 +1,36 @@
+15:24:05.139 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 7584 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+15:24:05.140 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+15:24:05.323 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.318 seconds (JVM running for 0.653)
+15:24:07.276 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+15:24:07.276 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+15:25:34.305 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+15:28:48.365 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+15:30:50.606 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 7712 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+15:30:50.608 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+15:30:50.849 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.387 seconds (JVM running for 0.646)
+15:30:56.371 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+15:30:56.372 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+16:02:54.203 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 8331 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+16:02:54.204 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+16:02:54.403 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.329 seconds (JVM running for 0.609)
+16:03:05.871 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+16:03:05.872 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+16:47:29.414 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 9068 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+16:47:29.415 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+16:47:29.622 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.446 seconds (JVM running for 0.849)
+16:47:35.757 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : Processing voucher generation
+17:13:21.297 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 9462 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+17:13:21.298 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:13:21.507 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.497 seconds (JVM running for 0.818)
+17:13:26.011 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : Processing voucher generation
+17:13:26.011 [main] INFO  o.d.v.v.service.VoucherServiceImpl - Service : Create Voucher
+17:13:26.012 [main] INFO  o.d.v.v.r.CsvVoucherRepository - Repository : Record a voucher write
+17:13:34.742 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : List inquire processing
+17:13:34.744 [main] INFO  o.d.v.v.service.VoucherServiceImpl - Service : Voucher Inquiry
+17:13:34.744 [main] INFO  o.d.v.v.r.CsvVoucherRepository - Repository : Record a voucher read
+17:13:45.533 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+17:13:45.534 [main] ERROR o.devcourse.voucher.view.OutputView - exit
+17:16:24.551 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 9504 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+17:16:24.552 [main] INFO  o.d.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:16:24.781 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.428 seconds (JVM running for 0.708)
+17:16:27.866 [main] INFO  o.devcourse.voucher.view.OutputView - exit
