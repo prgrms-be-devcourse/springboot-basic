@@ -17,6 +17,7 @@
 <body>
 <div class="container">
     <h1>Customer</h1>
+    <a th:href="@{/customers}">Go customer home</a>
     <form th:action method="post" th:object="${customer}">
         <div class="mb-3">
             <label th:for="customerId" class="form-label" th:text="'Customer ID'"></label>

@@ -17,6 +17,7 @@
 <body>
 <div class="container">
     <h1>Voucher</h1>
+    <a th:href="@{/vouchers}">Go voucher home</a>
     <form th:action method="post" th:object="${voucher}">
         <div class="mb-3">
             <label th:for="voucherId" class="form-label" th:text="voucherId"></label>
@@ -51,7 +52,6 @@
             </tr>
             </tbody>
         </table>
-</div>
 </form>
 </div>
 </body>
