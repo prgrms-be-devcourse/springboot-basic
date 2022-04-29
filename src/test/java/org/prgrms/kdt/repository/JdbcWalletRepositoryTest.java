@@ -53,7 +53,7 @@ class JdbcWalletRepositoryTest {
     @DisplayName("지갑에서는 사용자에게 할당되지 않은 바우처이면, 바우처값을 가져올 수 없다.")
     void getVoucherUnprovided() {
         assertThrows(EmptyResultDataAccessException.class,
-                () -> jdbcWalletRepository.selectJoinVoucherCustomer(fixedAmountVoucher.getVoucherId()));
+                () -> jdbcWalletRepository.selectJoinVoucherCustomerByVoucherId(fixedAmountVoucher.getVoucherId()));
     }
 
     @Test
@@ -64,7 +64,7 @@ class JdbcWalletRepositoryTest {
         customerRepository.insertCustomer(newCustomer);
         jdbcVoucherRepository.insertVoucher(newVoucher);
         jdbcVoucherRepository.updateVoucherOwner(newVoucher.getVoucherId(), newCustomer.getCustomerId());
-        Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomer(newVoucher.getVoucherId()).get();
+        Voucher voucher = jdbcWalletRepository.selectJoinVoucherCustomerByVoucherId(newVoucher.getVoucherId()).get();
         assertThat(voucher.getCustomer().getCustomerId(), equalTo(newCustomer.getCustomerId()));
     }
 }

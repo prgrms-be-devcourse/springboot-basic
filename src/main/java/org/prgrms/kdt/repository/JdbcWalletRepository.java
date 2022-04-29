@@ -59,14 +59,14 @@ public class JdbcWalletRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<Voucher> selectJoinVoucherCustomer(UUID voucherId) {
+    public Optional<Voucher> selectJoinVoucherCustomerByVoucherId(UUID voucherId) {
         var paramMap = new HashMap<String, Object>() {{
             put("voucherId", voucherId.toString().getBytes());
         }};
         try {
-            return Optional.of(jdbcTemplate.queryForObject("SELECT v.*, c.* " +
-                            "FROM vouchers v, customers c " +
-                            "WHERE c.customer_id = v.owner_id AND voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.of(jdbcTemplate.queryForObject("SELECT * " +
+                            "FROM vouchers v LEFT JOIN customers c on c.customer_id = v.owner_id " +
+                            "WHERE v.voucher_id = UUID_TO_BIN(:voucherId)",
                     paramMap, voucherCustomerRowMapper));
         } catch (Exception e) {
             return Optional.empty();

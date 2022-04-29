@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,4 +30,9 @@ public class VoucherWalletService {
         List<Voucher> voucherWalletList = jdbcWalletRepository.getVoucherWalletList();
         return new VoucherList(voucherWalletList);
     }
+
+    public Optional<Voucher> getVoucherWalletById (UUID voucherId) {
+        return jdbcWalletRepository.selectJoinVoucherCustomerByVoucherId(voucherId);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -71,6 +72,13 @@ class VoucherWalletServiceTest {
         assertThat(unknownCustomerVoucherMap.isEmptyMap(), is(true));
         assertThat(newCustomerVoucherList.isEmptyMap(), is(true));
     }
+    @Test
+    void selectJoinVoucherCustomerByVoucherId() {
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 300, LocalDateTime.now());
 
-
+        jdbcVoucherRepository.insertVoucher(fixedAmountVoucher);
+        Optional<Voucher> voucher = voucherWalletService.getVoucherWalletById(fixedAmountVoucher.getVoucherId());
+        assertThat(voucher.isPresent(), is(true));
+    }
+    
 }

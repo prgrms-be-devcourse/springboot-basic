@@ -123,7 +123,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int returnInt = jdbcTemplate.update("UPDATE vouchers SET owner_id = UUID_TO_BIN(:customerId), " +
                 "owned_time = :ownedAt WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
         if (returnInt > 0) {
-            return jdbcWalletRepository.selectJoinVoucherCustomer(voucherId);
+            return jdbcWalletRepository.selectJoinVoucherCustomerByVoucherId(voucherId);
         }
         return Optional.empty();
     }
