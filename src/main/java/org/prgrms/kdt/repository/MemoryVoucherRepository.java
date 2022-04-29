@@ -1,5 +1,6 @@
 package org.prgrms.kdt.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,6 +39,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
   }
 
   @Override
+  public void deleteById(UUID voucherId) {
+    storage.remove(voucherId);
+  }
+
+  @Override
   public void deleteAll() {
     storage.clear();
   }
@@ -45,5 +51,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
   @Override
   public List<Voucher> findByCustomerId(UUID customerId) {
     return storage.values().stream().filter(v -> v.getCustomerId() == customerId).toList();
+  }
+
+  @Override
+  public List<Voucher> findByTypeAndCreatedAt(Integer type, LocalDateTime startAt,
+      LocalDateTime endAt) {
+    return storage.values().stream()
+        .filter(voucher -> voucher.getType().getCode() == type)
+        .filter(voucher -> voucher.getCreatedAt().isAfter(startAt))
+        .filter(voucher -> voucher.getCreatedAt().isBefore(endAt)).toList();
   }
 }

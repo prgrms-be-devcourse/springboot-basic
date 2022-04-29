@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +74,16 @@ public class FileVoucherRepository implements VoucherRepository {
   }
 
   @Override
+  public void deleteById(UUID voucherId) {
+    var vouchers = findAll();
+    var voucher = vouchers.stream()
+        .filter(v -> v.getVoucherId() == voucherId)
+        .findFirst().orElseThrow();
+    vouchers.remove(voucher);
+    vouchers.forEach(this::save);
+  }
+
+  @Override
   public void deleteAll() {
     try (var ignored = new PrintWriter(getResource().getFile())) {
       log.info("delete all vouchers");
@@ -83,6 +94,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> findByCustomerId(UUID customerId) {
+    return null;
+  }
+
+  @Override
+  public List<Voucher> findByTypeAndCreatedAt(Integer type, LocalDateTime startAt,
+      LocalDateTime endAt) {
     return null;
   }
 

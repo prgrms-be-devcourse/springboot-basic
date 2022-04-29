@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.prgrms.kdt.dto.VoucherDto;
 import org.prgrms.kdt.type.VoucherType;
@@ -11,8 +12,9 @@ public class PercentDiscountVoucher extends Voucher {
   private static final Long MIN_PERCENTAGE = 0L;
   private final Long percent;
 
-  public PercentDiscountVoucher(UUID voucherId, UUID customerId, Long percent) {
-    super(voucherId, customerId);
+  public PercentDiscountVoucher(UUID voucherId, UUID customerId, Long percent,
+      LocalDateTime createdAt) {
+    super(voucherId, customerId, createdAt);
     if (percent <= MIN_PERCENTAGE || percent > MAX_PERCENTAGE) {
       throw new IllegalArgumentException("Percentage must be between 0 and 100");
     }
@@ -20,7 +22,10 @@ public class PercentDiscountVoucher extends Voucher {
   }
 
   public PercentDiscountVoucher(VoucherDto voucherDto) {
-    this(voucherDto.voucherId(), voucherDto.customerId(), voucherDto.amount());
+    this(voucherDto.voucherId(),
+        voucherDto.customerId(),
+        voucherDto.amount(),
+        voucherDto.createdAt());
   }
 
   @Override
@@ -34,8 +39,8 @@ public class PercentDiscountVoucher extends Voucher {
   }
 
   @Override
-  public int getType() {
-    return VoucherType.PERCENT.getCode();
+  public VoucherType getType() {
+    return VoucherType.PERCENT;
   }
 
   @Override

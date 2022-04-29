@@ -7,6 +7,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.times;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -57,11 +58,13 @@ class VoucherServiceTest {
       @Test
       @DisplayName("사용자에게 바우처를 할당한다.")
       void it_assign_voucher() {
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 30L);
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 30L,
+            LocalDateTime.now());
         var customer = new Customer("abc", "abc@gmail.com");
         given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
         given(voucherRepository.update(any())).willReturn(Optional.of(new FixedAmountVoucher(
-            voucher.getVoucherId(), customer.getCustomerId(), voucher.getAmount())));
+            voucher.getVoucherId(), customer.getCustomerId(), voucher.getAmount(),
+            LocalDateTime.now())));
 
         var sut = voucherService.assign(voucher.getVoucherId(),
             customer.getCustomerId());

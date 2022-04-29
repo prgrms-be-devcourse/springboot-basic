@@ -30,7 +30,7 @@ public class DeleteVoucherCommand implements Command {
     var customerId = UUID.fromString(input.read());
     output.printLine("Type voucher id to delete");
     var voucherId = UUID.fromString(input.read());
-    voucherService.delete(customerId, voucherId);
+    voucherService.deleteByIdAndCustomerId(customerId, voucherId);
     return "Voucher deleted";
   }
 }

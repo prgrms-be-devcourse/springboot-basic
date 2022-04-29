@@ -2,6 +2,7 @@ package org.prgrms.kdt.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -66,7 +67,9 @@ class JdbcCustomerRepositoryTest extends DatabaseIntegrationTest {
   public void find_customer_by_voucherId() {
     var customer = new Customer("John", "john@gmail.com");
     customer = customerRepository.save(customer).orElseThrow(EntityNotFoundException::new);
-    var voucherDto = new VoucherDto(UUID.randomUUID(), customer.getCustomerId(), 20L);
+    var voucherDto = new VoucherDto(UUID.randomUUID(), customer.getCustomerId(), 20L,
+        VoucherType.of(1),
+        LocalDateTime.now());
     var voucher = VoucherType.FIXED.create(voucherDto);
     voucherRepository.save(voucher);
 

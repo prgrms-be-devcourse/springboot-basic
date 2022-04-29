@@ -1,5 +1,6 @@
 package org.prgrms.kdt.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,7 +18,11 @@ public interface VoucherRepository {
 
   void delete(UUID voucherId, UUID customerId);
 
+  void deleteById(UUID voucherId);
+
   void deleteAll();
 
   List<Voucher> findByCustomerId(UUID customerId);
+
+  List<Voucher> findByTypeAndCreatedAt(Integer type, LocalDateTime startAt, LocalDateTime endAt);
 }

@@ -14,5 +14,6 @@ CREATE TABLE voucher
     amount       INTEGER     NOT NULL,
     customer_id  BINARY(16)  NULL,
     voucher_type varchar(20) NOT NULL,
+    created_at   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     CONSTRAINT fk_voucher_customer FOREIGN KEY (customer_id) REFERENCES customer (customer_id)
 );

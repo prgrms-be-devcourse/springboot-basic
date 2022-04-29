@@ -2,6 +2,7 @@ package org.prgrms.kdt.repository;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,8 +33,10 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
   public void find_vouchers_by_customer_id() {
     var customer = new Customer("John", "john@gmail.com");
     customerRepository.save(customer);
-    var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L);
-    var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), customer.getCustomerId(), 10L);
+    var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L,
+        LocalDateTime.now());
+    var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), customer.getCustomerId(), 10L,
+        LocalDateTime.now());
     voucherRepository.save(voucher1);
     voucherRepository.save(voucher2);
 
@@ -49,7 +52,8 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
     var customer = new Customer("John", "john@gmail.com");
     customer = customerRepository.save(customer).orElseThrow(EntityNotFoundException::new);
 
-    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L);
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 100L,
+        LocalDateTime.now());
     voucherRepository.save(voucher);
     voucher.assign(customer.getCustomerId());
 
@@ -62,7 +66,7 @@ class JdbcVoucherRepositoryTest extends DatabaseIntegrationTest {
   @Test
   @DisplayName("바우처를 생성한다.")
   public void save_voucher() {
-    var voucher = new FixedAmountVoucher(UUID.randomUUID(), null, 100L);
+    var voucher = new FixedAmountVoucher(UUID.randomUUID(), null, 100L, LocalDateTime.now());
 
     var sut = voucherRepository.save(voucher);
 

@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.kdt.dto.VoucherDto;
+import org.prgrms.kdt.type.VoucherType;
 
 class FixedAmountVoucherTest {
 
@@ -24,7 +26,9 @@ class FixedAmountVoucherTest {
       @Test
       @DisplayName("정상적으로 생성된다.")
       void test_constructor_called() {
-        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), 100L);
+        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), 100L,
+            VoucherType.of(1),
+            LocalDateTime.now());
         var fixedAmountVoucher = new FixedAmountVoucher(voucherDto);
 
         assertThat(fixedAmountVoucher).isNotNull();
@@ -39,7 +43,8 @@ class FixedAmountVoucherTest {
       @ValueSource(longs = {-1, 0})
       @DisplayName("예외가 발생한다.")
       void test_constructor_called(Long amount) {
-        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), amount);
+        var voucherDto = new VoucherDto(UUID.randomUUID(), UUID.randomUUID(), amount,
+            VoucherType.of(1), LocalDateTime.now());
 
         assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(voucherDto));
       }

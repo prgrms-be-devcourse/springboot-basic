@@ -1,21 +1,21 @@
 package org.prgrms.kdt.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import org.prgrms.kdt.type.VoucherType;
 
 public abstract class Voucher implements Serializable {
 
   protected final UUID voucherId;
   protected UUID customerId;
+  protected LocalDateTime createdAt;
 
-  protected Voucher(UUID voucherId, UUID customerId) {
+  protected Voucher(UUID voucherId, UUID customerId, LocalDateTime createdAt) {
     this.voucherId = voucherId;
     this.customerId = customerId;
-  }
-
-  protected Voucher(UUID voucherId) {
-    this(voucherId, null);
+    this.createdAt = createdAt;
   }
 
   public void assign(UUID customerId) {
@@ -30,9 +30,13 @@ public abstract class Voucher implements Serializable {
     return customerId;
   }
 
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
+
   public abstract Long getAmount();
 
-  public abstract int getType();
+  public abstract VoucherType getType();
 
   public abstract long discount(long beforeDiscount);
 
