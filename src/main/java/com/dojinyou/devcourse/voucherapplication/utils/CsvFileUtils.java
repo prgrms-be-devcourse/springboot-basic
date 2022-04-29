@@ -28,7 +28,7 @@ public class CsvFileUtils {
             if (readData.size() == 0) {
                 throw new IOException("데이터가 없습니다.");
             }
-            if (lineNumber >= readData.size()) {
+            if (Math.abs(lineNumber) >= readData.size()) {
                 throw new IOException("lineNumber가 너무 큽니다.");
             }
 
