@@ -3,8 +3,11 @@ package com.programmers.part1.customer;
 import com.programmers.part1.domain.VoucherWallet;
 import com.programmers.part1.domain.customer.Customer;
 import com.programmers.part1.customer.repository.CustomerRepository;
+import com.programmers.part1.domain.customer.RequestCustomerDto;
 import com.programmers.part1.exception.ListEmptyException;
+import com.programmers.part1.exception.ResponseEmptyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,7 +56,11 @@ public class CustomerService {
         return customerList;
     }
 
-    public Customer updateCustomer(Customer customer) {
+    @Transactional
+    public Customer updateCustomer(UUID customerId, RequestCustomerDto requestCustomerDto) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(()->new ResponseEmptyException("고객이 없습니다."));
+        customer.changeName(requestCustomerDto.getName());
+        customer.changeEmail(requestCustomerDto.getEmail());
         return customerRepository.update(customer);
     }
 

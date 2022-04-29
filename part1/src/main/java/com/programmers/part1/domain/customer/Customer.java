@@ -15,9 +15,8 @@ public class Customer {
     private final UUID customerId;
     private String name;
     private String email;
-    private LocalDateTime createdAt;
+    private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
-    private List<UUID> voucherIdList;
 
     @Builder
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
@@ -26,23 +25,18 @@ public class Customer {
         this.email = email;
         this.createdAt = createdAt;
         this.lastLoginAt = lastLoginAt;
-        this.voucherIdList = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return String.format("id: %-20s name: %-10s email: %-30s",this.customerId, this.name, this.email);
+        return String.format("id: %-20s name: %-10s email: %-30s", this.customerId, this.name, this.email);
     }
 
-    public void changeName(String name){
+    public void changeName(String name) {
         this.name = name;
     }
 
-    public void changeEmail(String email){
+    public void changeEmail(String email) {
         this.email = email;
-    }
-
-    public void addVoucher(UUID voucherId){
-        this.voucherIdList.add(voucherId);
     }
 }
