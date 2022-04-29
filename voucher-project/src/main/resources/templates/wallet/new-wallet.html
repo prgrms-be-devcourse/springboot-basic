@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments/head::headFragment"></head>
+
+<body class="container-fluid">
+
+    <div class="d-grid gap-2 justify-content-md-center">
+        <br/>
+        <h1>지갑 생성 페이지</h1>
+        <br/>
+    </div>
+
+    <div class="container">
+        <form th:action method="post">
+
+            <div class="mb-3">
+                <label for="selectUserId" class="form-label">유저 선택</label>
+                <select id="selectUserId" name="userId" class="form-select">
+                    <th:block th:each="user : ${users}" th:object="${user}">
+                        <option th:value="*{id}" th:text="|[*{type}] *{name}  - (*{id})|">NORMAL</option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="selectVoucherId" class="form-label">바우처 선택</label>
+                <select id="selectVoucherId" name="voucherId" class="form-select">
+                    <th:block th:each="voucher : ${vouchers}" th:object="${voucher}">
+                        <option th:value="*{id}" th:text="|[*{type}] *{amount}  - (*{id})|">NORMAL</option>
+                    </th:block>
+                </select>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a th:href="@{/wallets}" class="btn btn-outline-success btn-lg me-md-2" type="button">뒤로가기</a>
+                <button class="btn btn-outline-primary btn-lg" type="submit">생성하기</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

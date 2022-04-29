@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments/head::headFragment"></head>
+
+<body class="container-fluid">
+
+<div class="d-grid gap-2 justify-content-md-center">
+    <br/>
+    <h1>바우처 상세 페이지</h1>
+    <br/>
+</div>
+
+<div class="container">
+    <form th:action="@{/voucher/{param1}(param1=${voucher.id})}" th:method="post">
+        <legend>바우처 상세 정보</legend>
+        <div class="mb-3">
+            <label for="disabledTextInput1" class="form-label">Id</label>
+            <input readonly type="text" id="disabledTextInput1" class="form-control" th:placeholder="${voucher.id}" placeholder="Id">
+        </div>
+
+        <div class="mb-3">
+            <label for="type" class="form-label">Type</label>
+            <select id="type" name="type"  class="form-select">
+                <option value="PERCENT" th:if="${#strings.equals(voucher.type, 'PERCENT')}" selected>PERCENT</option>
+                <option value="FIXED" th:if="${#strings.equals(voucher.type, 'PERCENT')}">FIXED</option>
+                <option value="FIXED" th:if="${#strings.equals(voucher.type, 'FIXED')}" selected>FIXED</option>
+                <option value="PERCENT" th:if="${#strings.equals(voucher.type, 'FIXED')}">PERCENT</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="text" name="amount" id="amount" class="form-control"  th:placeholder="${voucher.amount}" placeholder="amount">
+        </div>
+
+        <div class="mb-3">
+            <label for="createdAt" class="form-label">CreatedAt</label>
+            <input readonly type="text" name="createdAt" id="createdAt" class="form-control" th:value="${voucher.createdAt}" placeholder="CreatedAt">
+        </div>
+
+        <div class="mb-3">
+            <label for="updatedAt" class="form-label">UpdatedAt</label>
+            <input readonly type="text" name="updatedAt" id="updatedAt" class="form-control" th:value="${voucher.updatedAt}" placeholder="">
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary me-md-2 btn-lg">수정하기</button>
+    </form>
+</div>
+
+
+</body>
+</html>

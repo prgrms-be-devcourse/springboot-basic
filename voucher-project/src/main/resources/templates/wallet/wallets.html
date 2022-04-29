@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments/head::headFragment"></head>
+
+<body class="container-fluid">
+
+<div class="d-grid gap-2 justify-content-md-center">
+    <br/>
+    <h1>지갑 조회 페이지</h1>
+    <br/>
+</div>
+
+<div class="container">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">VoucherId</th>
+            <th scope="col">User</th>
+            <th scope="col">Voucher</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">UpdatedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet, walletStat : ${wallets}" th:object="${wallet}" >
+            <td>
+                <a th:href="@{/wallet/{param1}(param1=${wallet.id})}" href="/wallets" th:text="*{id}">default ID</a>
+            </td>
+            <td>
+                <th:block th:with="user=${userMap.get(wallet.getUserId())}"}>
+                    <a th:href="@{/user/{param1}(param1=${wallet.userId})}" href="/users" th:text="|${user.getName()} [${user.getType()}]|">default ID</a>
+                </th:block>
+            </td>
+            <td>
+                <th:block th:with="voucher=${voucherMap.get(wallet.getVoucherId())}"}>
+                    <a th:href="@{/voucher/{param1}(param1=${wallet.voucherId})}" href="/vouchers" th:text="|${voucher.getAmount()} [${voucher.getType()}]|">default ID</a>
+                </th:block>
+            </td>
+            <td th:text = "*{createdAt}"></td>
+            <td th:text = "*{updatedAt}"></td>
+        </tr>
+        </th:each>
+        </tbody>
+    </table>
+    <br/>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <a th:href="@{/}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
+        <a th:href="@{/wallet}" class="btn btn-outline-primary btn-lg" type="button">생성하기</a>
+    </div>
+</div>
+
+
+</body>
+</html>

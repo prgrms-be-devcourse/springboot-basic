@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "11"
+sourceCompatibility = "16"
 
 configurations {
     compileOnly {
@@ -20,19 +20,27 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.projectlombok:lombok:1.18.22'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.7'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    implementation 'org.projectlombok:lombok:1.18.24'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.projectlombok:lombok'
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.6'
-
     implementation 'mysql:mysql-connector-java:8.0.28'
     testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.6'
-    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.hamcrest:hamcrest-library:2.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
+    implementation 'org.springframework:spring-oxm:5.3.19'
+    implementation 'com.thoughtworks.xstream:xstream:1.4.19'
 
+    implementation 'au.com.dius:pact-jvm-provider-junit5-spring:4.0.10'
+    implementation 'au.com.dius.pact.provider:junit5spring:4.3.6'
 }
 
 tasks.named('test') {

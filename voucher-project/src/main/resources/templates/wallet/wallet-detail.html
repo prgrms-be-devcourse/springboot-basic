@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments/head::headFragment"></head>
+
+<body class="container-fluid">
+
+<div class="d-grid gap-2 justify-content-md-center">
+    <br/>
+    <h1>지갑 상세 페이지</h1>
+    <br/>
+</div>
+
+<div class="container">
+    <form>
+        <fieldset disabled>
+            <legend>지갑 상세 정보</legend>
+            <div class="mb-3">
+                <label for="disabledTextInput1" class="form-label">Id</label>
+                <input type="text" id="disabledTextInput1" class="form-control" th:placeholder="${wallet.id}" placeholder="Id">
+            </div>
+
+            <div class="mb-3">
+                <label for="disabledTextInput2" class="form-label">userId</label>
+                <input type="text" id="disabledTextInput2" class="form-control" th:placeholder="${wallet.userId}" placeholder="userId">
+            </div>
+
+            <div class="mb-3">
+                <label for="disabledTextInput3" class="form-label">voucherId</label>
+                <input type="text" id="disabledTextInput3" class="form-control" th:placeholder="${wallet.voucherId}" placeholder="voucherId">
+            </div>
+
+            <div class="mb-3">
+                <label for="disabledTextInput5" class="form-label">CreatedAt</label>
+                <input type="text" id="disabledTextInput5" class="form-control" th:placeholder="${wallet.createdAt}" placeholder="CreatedAt">
+            </div>
+            <div class="mb-3">
+                <label for="disabledTextInput4" class="form-label">UpdatedAt</label>
+                <input type="text" id="disabledTextInput4" class="form-control" th:placeholder="${wallet.updatedAt}" placeholder="UpdatedAt">
+            </div>
+        </fieldset>
+    </form>
+
+    <form th:action="@{/wallet/{param1}(param1=${wallet.id})}" th:method="delete">
+        <input type="hidden" name="_method" value="delete"/>
+        <a th:href="@{/wallets}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
+        <button type="submit" class="btn btn-outline-primary me-md-2 btn-lg" disabled>수정하기</button>
+        <button type="submit" class="btn btn-outline-danger btn-lg">삭제하기</button>
+    </form>
+</div>
+
+
+</body>
+</html>

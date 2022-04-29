@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="fragments/head::headFragment"></head>
+
+<body class="container-fluid">
+
+<div class="d-grid gap-2 justify-content-md-center">
+    <br/>
+    <h1>바우처 조회 페이지</h1>
+    <br/>
+</div>
+
+<div class="container">
+    <form th:action="@{/voucher/query}" th:method="post">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <div class="form-floating">
+                <select id="filterVoucherType" name="type" class="form-select">
+                    <option value="ALL" selected>ALL</option>
+                    <option value="FIXED">FIXED</option>
+                    <option value="PERCENT">PERCENT</option>
+                </select>
+                <label for="filterVoucherType">바우처 타입</label>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-select" type="date" name="from" id="from">
+                <label for="from">FROM</label>
+            </div>
+            <div class="form-floating">
+                <input class="form-select" type="date" name="to" id="to">
+                <label for="to">TO</label>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <button class="btn btn-outline-dark btn-lg" type="submit">검색</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Type</th>
+            <th scope="col">Amount</th>
+            <th scope="col">CreatedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher :${vouchers}" th:object="${voucher}" >
+            <td>
+                <a th:href="@{/voucher/detail/{param1}(param1=${voucher.id})}" href="/vouchers" th:text="*{id}">default ID</a>
+            </td>
+            <td th:text = "*{type}"></td>
+            <td th:text = "*{amount}"></td>
+            <td th:text = "*{createdAt}"></td>
+        </tr>
+        </th:each>
+        </tbody>
+    </table>
+    <br/>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <a th:href="@{/}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
+        <a th:href="@{/voucher}" class="btn btn-outline-primary btn-lg" type="button">생성하기</a>
+    </div>
+</div>
+
+</body>
+</html>
