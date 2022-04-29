@@ -26,7 +26,7 @@ public class FixedAmountVoucher extends Voucher {
   @Override
   public String toString() {
     return "FixedAmountVoucher{" +
-      "voucherId=" + super.getVoucherID() +
+      "voucherId=" + super.getVoucherId() +
       ", amount=" + super.getReduction() +
       '}';
   }

@@ -11,29 +11,25 @@
           crossorigin="anonymous">
     <title>Vouchers</title>
 </head>
-<body>
+<body class="container-fluid">
 
 <h1>Voucher List</h1>
 
-<!--<table class="table table-hover">
-    <thead>
+<table class="table table-hover">
+    <thead class="table-dark">
     <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Voucher Type</th>
-        <th scope="col">Reduction</th>
-        <th scope="col">Created At</th>
+        <th scope="col">id</th>
+        <th scope="col">reduction</th>
+        <th scope="col">createdAt</th>
     </tr>
     </thead>
     <tbody>
-    &lt;!&ndash;        <tr th:each="customer: ${customers}">&ndash;&gt;
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
-        <td th:text="*{name}"></td>
-        <td th:text="*{email}"></td>
+        <td th:text="*{reduction}"></td>
         <td th:text="*{createdAt}"></td>
-        <td th:text="*{lastLoginAt}"></td>
     </tr>
     </tbody>
-</table>-->
+</table>
 </body>
 </html>

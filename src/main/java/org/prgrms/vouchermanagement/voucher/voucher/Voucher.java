@@ -14,7 +14,7 @@ public abstract class Voucher {
     this.createdAt = createdAt;
   }
 
-  public UUID getVoucherID() {
+  public UUID getVoucherId() {
     return voucherId;
   }
 
