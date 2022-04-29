@@ -9,8 +9,6 @@ import org.prgms.io.FileReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,11 +52,5 @@ class CustomerTest {
     @DisplayName("고객 이메일은 null이거나 비어있을 수 없음")
     void nullTest(String email) {
         assertThatIllegalArgumentException().isThrownBy(() -> new Customer(UUID.randomUUID(), "name", email));
-    }
-
-    @Test
-    void name() {
-        LocalDate date = LocalDate.parse("20211115", DateTimeFormatter.ofPattern("yyyyMMdd"));
-        System.out.println(date);
     }
 }

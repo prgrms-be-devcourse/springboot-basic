@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -46,8 +47,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("SELECT * FROM vouchers;", this::mapToVoucher);
     }
 
+    @Override
     public List<Voucher> findByType(String voucherType) {
         return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_kind= ?;", this::mapToVoucher, voucherType);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE DATE(created_at) between ? and ?", this::mapToVoucher, begin, end);
     }
 
     @Override

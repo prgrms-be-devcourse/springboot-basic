@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -55,5 +56,18 @@ class VoucherRepositoryTest {
 
         assertThat(unknown.isEmpty()).isTrue();
         assertThat(foundVoucher.orElseThrow()).isEqualTo(voucher);
+    }
+
+    @Test
+    @DisplayName("생성일자 기간으로 조회 테스트")
+    void findByCreatedAtTest() {
+        voucherRepository.save(voucher);
+        voucherRepository.save(voucher2);
+
+        List<Voucher> noVouchers = voucherRepository.findByCreatedAt(LocalDate.now().minusDays(10), LocalDate.now().minusDays(5));
+        List<Voucher> existVouchers = voucherRepository.findByCreatedAt(LocalDate.now().minusDays(1), LocalDate.now());
+
+        assertThat(noVouchers).hasSize(0);
+        assertThat(existVouchers).containsExactlyInAnyOrder(voucher, voucher2);
     }
 }

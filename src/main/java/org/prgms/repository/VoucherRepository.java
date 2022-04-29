@@ -2,6 +2,7 @@ package org.prgms.repository;
 
 import org.prgms.domain.Voucher;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,10 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     default List<Voucher> findByType(String voucherType) {
+        return new ArrayList<>();
+    }
+
+    default List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end) {
         return new ArrayList<>();
     }
 
