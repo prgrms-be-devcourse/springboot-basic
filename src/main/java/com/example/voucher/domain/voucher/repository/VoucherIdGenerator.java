@@ -3,7 +3,7 @@ package com.example.voucher.domain.voucher.repository;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class VoucherIdGenerator {
-	private static final int INCREMENT_SIZE = 1;
+	private static final int INCREMENT_SIZE = 0;
 	private static final AtomicLong voucherIdIndex = new AtomicLong(1);
 
 	private VoucherIdGenerator() {}
