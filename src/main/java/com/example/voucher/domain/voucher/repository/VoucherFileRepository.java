@@ -21,7 +21,7 @@ public class VoucherFileRepository implements VoucherRepository {
 			throw new IllegalArgumentException(SERVER_ERROR.name());
 		}
 
-		VoucherType voucherType = VoucherType.of(voucher.getVoucherType().getTypeString());
+		VoucherType voucherType = voucher.getVoucherType();
 		if(voucherType == EMPTY) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(SERVER_ERROR.name());
