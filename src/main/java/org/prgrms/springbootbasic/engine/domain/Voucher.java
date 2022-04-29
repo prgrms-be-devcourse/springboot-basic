@@ -19,6 +19,8 @@ public interface Voucher {
 
     void changeOwner(Customer customer);
 
+    void changeOwnerById(UUID customerId);
+
     void revokeOwner();
 
     Optional<UUID> getCustomerId();

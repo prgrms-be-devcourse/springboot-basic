@@ -1,8 +1,11 @@
 package org.prgrms.springbootbasic.engine.controller.dto;
 
 import org.prgrms.springbootbasic.engine.domain.Voucher;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
+import org.prgrms.springbootbasic.exception.InvalidInputFormatException;
 import org.prgrms.springbootbasic.exception.VoucherException;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,9 +18,14 @@ public class VoucherCreateRequestDto {
 
     public Voucher toEntity() {
         try {
-            return voucherType.createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0));
+            Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0));
+            if (this.customerId.isPresent()) {
+                voucher.changeOwnerById(customerId.get());
+                System.out.println(customerId.get());
+            }
+            return voucher;
         } catch (IllegalArgumentException ex) {
-            throw new VoucherException("Invalid Voucher Creation Type.");
+            throw new InvalidInputFormatException("Invalid Voucher Creation Type.", ErrorCode.INVALID_VOUCHER_TYPE);
         }
     }
 
@@ -25,9 +33,11 @@ public class VoucherCreateRequestDto {
         this.voucherType = voucherType;
         this.value = value;
         try {
-            this.customerId = Optional.of(UUID.fromString(customerId));
-        } catch (IllegalArgumentException ex) {
             this.customerId = Optional.empty();
+            if (customerId != null) {
+                this.customerId = Optional.of(UUID.fromString(customerId));
+            }
+        } catch (IllegalArgumentException ex) {
         }
     }
 

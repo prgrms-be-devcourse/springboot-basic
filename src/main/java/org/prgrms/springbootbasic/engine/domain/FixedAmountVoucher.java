@@ -45,6 +45,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public void changeOwnerById(UUID customerId) {
+        this.customerId = customerId;
+    }
+
+    @Override
     public void revokeOwner() {
         this.customerId = null;
     }
