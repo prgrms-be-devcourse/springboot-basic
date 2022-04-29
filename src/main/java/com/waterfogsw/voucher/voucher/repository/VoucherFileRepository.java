@@ -15,7 +15,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     public VoucherFileRepository(@Value("${file-repository-path}") String path) {
         repositoryPath = path;
-        FileUtils.initFilePath(path);
+        VoucherFileUtils.initFilePath(path);
     }
 
     @Override
@@ -26,17 +26,17 @@ public class VoucherFileRepository implements VoucherRepository {
 
         if (voucher.getId() == null) {
             Voucher newVoucher = createVoucherEntity(voucher);
-            FileUtils.save(newVoucher, repositoryPath);
+            VoucherFileUtils.save(newVoucher, repositoryPath);
             return newVoucher;
         }
 
-        FileUtils.save(voucher, repositoryPath);
+        VoucherFileUtils.save(voucher, repositoryPath);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return FileUtils.findAll(repositoryPath);
+        return VoucherFileUtils.findAll(repositoryPath);
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {
