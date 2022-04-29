@@ -22,4 +22,12 @@ public class Console implements Input, Output {
     public void printSuccessMessage() {
         System.out.println("Voucher has been created");
     }
+
+    public void printSuccessUpdateMessage() {
+        System.out.println("Voucher has been updated");
+    }
+
+    public void printSuccessDeleteMessage() {
+        System.out.println("Voucher has been deleted");
+    }
 }
