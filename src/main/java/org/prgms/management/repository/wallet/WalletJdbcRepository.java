@@ -59,7 +59,6 @@ public class WalletJdbcRepository implements WalletRepository {
                     rowMapper);
         } catch (
                 EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
             return List.of();
         }
     }
@@ -84,7 +83,6 @@ public class WalletJdbcRepository implements WalletRepository {
                     Collections.singletonMap("walletId", walletId.toString().getBytes()),
                     rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
             return List.of();
         }
     }
@@ -109,7 +107,6 @@ public class WalletJdbcRepository implements WalletRepository {
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     rowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
             return List.of();
         }
     }
