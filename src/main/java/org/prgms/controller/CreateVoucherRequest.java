@@ -3,14 +3,15 @@ package org.prgms.controller;
 import org.prgms.domain.FixedAmountVoucher;
 import org.prgms.domain.PercentDiscountVoucher;
 import org.prgms.domain.Voucher;
+import org.prgms.domain.VoucherType;
 
-public record CreateVoucherRequest(int voucherKind, long discountAmount) {
+public record CreateVoucherRequest(String voucherKind, long discountAmount) {
 
     public Voucher toVoucher() {
-        if (this.voucherKind == 1) {
+        if (this.voucherKind.equals(VoucherType.FIXED.name())) {
             return new FixedAmountVoucher(discountAmount);
-        } else {
-            return new PercentDiscountVoucher(discountAmount);
         }
+
+        return new PercentDiscountVoucher(discountAmount);
     }
 }
