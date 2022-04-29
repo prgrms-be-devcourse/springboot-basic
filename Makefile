@@ -7,8 +7,8 @@
 ############################################
 
 VERSION = 0.0.1-SNAPSHOT
-NAME = kdt-spring-voucher-week1
-
+NAME = voucher
+PROFILE = prod
 ############################################
 #				Rules		               #
 ############################################
@@ -31,7 +31,7 @@ build : clean
 ##
 start :
 		@echo "🏃 Voucher Management System start..."
-		@ java -jar target/$(NAME)-$(VERSION).jar
+		@java -jar -Dspring.profiles.active=$(PROFILE) target/$(NAME)-$(VERSION).jar
 
 ## clean	바우처 관리 프로그램을 삭제합니다.
 clean :
