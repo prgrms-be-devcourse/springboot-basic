@@ -1,9 +1,11 @@
-package org.devcourse.voucher.error;
+package org.devcourse.voucher.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource(value = "classpath:error.yaml", factory = YamlPropertiesFactory.class)
 @ConfigurationProperties(prefix = "error")
 public class ErrorProperties {
     private static String invalidCommand;

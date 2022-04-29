@@ -1,5 +1,7 @@
 package org.devcourse.voucher.error;
 
+import org.devcourse.voucher.configuration.ErrorProperties;
+
 import java.util.function.Supplier;
 
 public enum ErrorType {
