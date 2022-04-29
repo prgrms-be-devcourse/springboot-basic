@@ -40,7 +40,8 @@
         </fieldset>
     </form>
 
-    <form th:action="@{/wallet/{param1}(param1=${wallet.id})}" th:method="post">
+    <form th:action="@{/wallet/{param1}(param1=${wallet.id})}" th:method="delete">
+        <input type="hidden" name="_method" value="delete"/>
         <a th:href="@{/wallets}" class="btn btn-outline-success me-md-2 btn-lg" type="button">뒤로가기</a>
         <button type="submit" class="btn btn-outline-primary me-md-2 btn-lg" disabled>수정하기</button>
         <button type="submit" class="btn btn-outline-danger btn-lg">삭제하기</button>
