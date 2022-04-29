@@ -89,13 +89,14 @@ public class WalletJdbcRepository implements WalletRepository{
     }
 
     private RowMapper<Wallet> rowMapper() {
-        return ((rs, rowNum) -> {
-            var id = toUUID(rs.getBytes("id"));
-            var userId = toUUID(rs.getBytes("user_id"));
-            var voucherId = toUUID(rs.getBytes("voucher_id"));
-            var createdAt = rs.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
-
-            return new Wallet(id, userId, voucherId,createdAt);
+        return ((resultSet, rowNum) -> {
+            var id = toUUID(resultSet.getBytes("id"));
+            var userId = toUUID(resultSet.getBytes("user_id"));
+            var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+            var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
+            var updatedAt = resultSet.getTimestamp("updated_at") != null ?
+                    resultSet.getTimestamp("updated_at").toLocalDateTime() : null;
+            return new Wallet(id, userId, voucherId, createdAt,updatedAt);
         });
     }
     private static UUID toUUID(byte[] bytes) {

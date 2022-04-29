@@ -1,7 +1,6 @@
 package com.example.voucherproject.wallet.service;
 
 import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserDTO;
 import com.example.voucherproject.voucher.model.Voucher;
 import com.example.voucherproject.wallet.model.Wallet;
 

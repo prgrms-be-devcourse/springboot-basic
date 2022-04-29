@@ -1,5 +1,6 @@
 package com.example.voucherproject.wallet.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -13,7 +14,7 @@ import java.util.UUID;
 */
 @Getter
 @ToString
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Wallet {
     private final UUID id;
     private final UUID userId;
@@ -23,7 +24,7 @@ public class Wallet {
 
     public static Wallet create(UUID userId, UUID voucherId){
         return new Wallet(UUID.randomUUID(),userId, voucherId,
+                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
     }
-
 }

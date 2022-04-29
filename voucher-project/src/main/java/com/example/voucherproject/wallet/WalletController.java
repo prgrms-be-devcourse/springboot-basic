@@ -1,5 +1,7 @@
 package com.example.voucherproject.wallet;
 
+import com.example.voucherproject.voucher.exception.VoucherNotFoundException;
+import com.example.voucherproject.wallet.exception.WalletNotFoundException;
 import com.example.voucherproject.wallet.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,34 +29,32 @@ public class WalletController {
     @GetMapping("/wallet/{id}")
     public String voucherDetailView(@PathVariable UUID id, Model model){
         var maybeWallet = walletService.findById(id);
-
         if (maybeWallet.isPresent()){
             model.addAttribute("wallet", maybeWallet.get());
             return "wallet/wallet-detail";
         }
-        else{
-            return "basic/404";
-        }
+        throw new WalletNotFoundException(String.format("%s voucher not found",id));
     }
 
     // 지갑 생성 - 뷰
-    @GetMapping("/wallet/new")
+    @GetMapping("/wallet")
     public String addWalletView(Model model){
         model.addAttribute("users",  walletService.findAllUsers());
         model.addAttribute("vouchers",  walletService.findAllVouchers());
         return "wallet/new-wallet";
     }
+
     // 지갑 생성
-    @PostMapping("/wallet/new")
+    @PostMapping("/wallet")
     public String addWalletRedirect(@RequestParam UUID userId, @RequestParam UUID voucherId){
         walletService.create(userId, voucherId);
-        return "redirect:../wallets/";
+        return "redirect:/wallets";
     }
 
     // 지갑 삭제
-    @PostMapping("/wallet/{id}")
+    @DeleteMapping("/wallet/{id}")
     public String deleteWallet(@PathVariable UUID id){
         walletService.deleteById(id);
-        return "redirect:../wallets/";
+        return "redirect:/wallets";
     }
 }
