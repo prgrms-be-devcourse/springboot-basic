@@ -14,6 +14,7 @@ import java.util.UUID;
 public class BlackListUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(BlackListUserService.class);
+
     private final BlackListUserRepository blackListUserRepository;
 
     public BlackListUserService(BlackListUserRepository blackListUserRepository) {
@@ -33,6 +34,4 @@ public class BlackListUserService {
     public List<String[]> showBlackList() {
         return blackListUserRepository.findAll();
     }
-
-
 }

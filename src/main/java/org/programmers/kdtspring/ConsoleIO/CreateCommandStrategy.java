@@ -7,9 +7,6 @@ import org.programmers.kdtspring.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
-import java.util.Scanner;
-
 public class CreateCommandStrategy implements CommandStrategy {
 
     private static final Logger log = LoggerFactory.getLogger(CreateCommandStrategy.class);

@@ -13,6 +13,4 @@ public interface Output {
     void voucherCreated();
 
     void showBlackList();
-
-    void errorMessage();
 }

@@ -23,5 +23,4 @@ public interface VoucherRepository {
     void deleteOne(Voucher voucher);
 
     void deleteAll();
-
 }
