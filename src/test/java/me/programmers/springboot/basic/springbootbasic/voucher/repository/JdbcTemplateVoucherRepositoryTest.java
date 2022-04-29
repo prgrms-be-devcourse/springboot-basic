@@ -23,9 +23,7 @@ import javax.sql.DataSource;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.CoreMatchers.everyItem;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -128,18 +126,25 @@ class JdbcTemplateVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("FixVoucher 수정")
+    @DisplayName("FixVoucher 수정 성공")
     public void testFixVoucherUpdate() {
-        fixVoucher.setAmount(2000);
-        jdbcRepository.update(fixVoucher);
+        FixedAmountVoucher voucher = (FixedAmountVoucher) jdbcRepository.findById(UUID.fromString("13fc058b-5e0c-451b-9ca8-0e9da5f317a5")).get();
+        fixVoucher.setAmount(3000);
+        jdbcRepository.update(voucher);
 
-        var all = jdbcRepository.findAll();
-        assertThat(all, hasSize(1));
-        assertThat(all, everyItem(samePropertyValuesAs(fixVoucher)));
+        FixedAmountVoucher updatedVoucher = (FixedAmountVoucher) jdbcRepository.findById(UUID.fromString("13fc058b-5e0c-451b-9ca8-0e9da5f317a5")).get();
+        assertThat(voucher.getAmount(), is(updatedVoucher.getAmount()));
+    }
 
-        var retrievedFixVoucher = jdbcRepository.findById(fixVoucher.getVoucherId());
-        assertThat(retrievedFixVoucher.isEmpty(), is(false));
-        assertThat(retrievedFixVoucher.get(), samePropertyValuesAs(fixVoucher));
+    @Test
+    @DisplayName("FixVoucher가 없을 때 수정 실패")
+    public void testFixVoucherUpdateFail() {
+        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        voucher.setAmount(3000);
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            jdbcRepository.update(voucher);
+        });
     }
 
 }
