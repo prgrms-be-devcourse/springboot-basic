@@ -24,12 +24,14 @@ public class CustomerRestController {
         return customerService.getAll();
     }
 
-    @GetMapping("/api/v1/customer/id")
+    @GetMapping("/api/v1/customer/id",
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Customer getCustomerById(@RequestParam UUID customerId) {
         return customerService.getById(customerId).orElse(null);
     }
 
-    @GetMapping("/api/v1/customer/name")
+    @GetMapping("/api/v1/customer/name",
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Customer getCustomerByName(@RequestParam String customerName) {
         return customerService.getByName(customerName).orElse(null);
     }

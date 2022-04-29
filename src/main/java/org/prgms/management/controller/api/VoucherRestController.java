@@ -23,17 +23,20 @@ public class VoucherRestController {
         return voucherService.getAll();
     }
 
-    @GetMapping("/api/v1/vouchers/type")
+    @GetMapping("/api/v1/vouchers/type",
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public List<Voucher> getVoucherList(@RequestParam String voucherType) {
         return voucherService.getByType(voucherType);
     }
 
-    @GetMapping("/api/v1/vouchers/createdAt")
+    @GetMapping("/api/v1/vouchers/createdAt",
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public List<Voucher> getVoucherList(@RequestParam LocalDateTime createdAt) {
         return voucherService.getByCreatedAt(createdAt);
     }
 
-    @GetMapping("/api/v1/voucher/id")
+    @GetMapping("/api/v1/voucher/id",
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Voucher getVoucherById(@RequestParam UUID voucherId) {
         return voucherService.getById(voucherId).orElse(null);
     }
