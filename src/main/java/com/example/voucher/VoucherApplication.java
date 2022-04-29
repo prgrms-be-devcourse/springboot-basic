@@ -51,6 +51,7 @@ public class VoucherApplication implements ApplicationRunner {
 						continue;
 					}
 
+					// FileUtils에서 예외 넘어올 경우 
 					try {
 						processCreateCommand(voucherType, discountAmount);
 					} catch (IllegalArgumentException e) {
@@ -60,8 +61,11 @@ public class VoucherApplication implements ApplicationRunner {
 				}
 
 				case LIST: {
-					List<VoucherResponse> voucherListResponse = processListCommand();
-					output.printMessage(voucherListResponse);
+					try {
+						output.printMessage(processListCommand());
+					} catch (IllegalArgumentException e) {
+						output.printMessage(e.getMessage());
+					}
 					break;
 				}
 			}
@@ -70,9 +74,9 @@ public class VoucherApplication implements ApplicationRunner {
 
 	private void printCommandPrompt() {
 		output.printMessage("=== Voucher Program === \n" +
-							"Type EXIT to exit the program.\n" +
-							"Type CREATE to create a new voucher.\n" +
-							"Type LIST to list all vouchers.");
+				            "Type EXIT to exit the program.\n" +
+				            "Type CREATE to create a new voucher.\n" +
+				            "Type LIST to list all vouchers.");
 	}
 
 	private CommandType getCommand() {

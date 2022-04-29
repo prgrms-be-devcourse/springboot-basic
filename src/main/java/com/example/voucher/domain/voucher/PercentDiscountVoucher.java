@@ -1,11 +1,12 @@
 package com.example.voucher.domain.voucher;
 
+import static com.example.voucher.domain.voucher.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 
 public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(Long voucherId, int discountAmount) {
-		super(voucherId, discountAmount);
+		super(PERCENT_DISCOUNT_VOUCHER, voucherId, discountAmount);
 
 		if (discountAmount < 0 || discountAmount > 100) {
 			// TODO: 로그 남기기
@@ -17,5 +18,12 @@ public class PercentDiscountVoucher extends Voucher {
 	public int discount(int beforeDiscount) {
 		double percentDiscountValue = beforeDiscount * (discountAmount / 100.0);
 		return (int)(beforeDiscount - percentDiscountValue);
+	}
+
+	@Override
+	public String toString() {
+		return "PercentDiscountVoucher," +
+				voucherId + "," +
+				discountAmount;
 	}
 }

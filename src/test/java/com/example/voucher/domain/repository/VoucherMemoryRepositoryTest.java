@@ -83,18 +83,28 @@ public class VoucherMemoryRepositoryTest {
 		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 		class 바우처_타입이_EMPTY라면 {
 
+			private Voucher createdVoucher;
+
+			private class VoucherStub extends Voucher{
+				public VoucherStub(VoucherType voucherType, Long voucherId, int discountAmount) {
+					super(voucherType, voucherId, discountAmount);
+				}
+				@Override
+				public int discount(int beforeDiscount) {
+					return 0;
+				}
+			}
+
+			@BeforeEach
+			void 바우처_생성() {
+				createdVoucher = new VoucherStub(EMPTY, null, 1000);
+			}
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
 			void IllegalArgumentException_예외를_던진다() {
-
-				try (MockedStatic<VoucherType> voucherType = Mockito.mockStatic(VoucherType.class)) {
-					voucherType.when(() -> VoucherType.of(anyString()))
-							.thenReturn(EMPTY);
-
-					assertThatThrownBy(() -> voucherRepository.save(new FixedAmountVoucher(null, 1000)))
-							.isInstanceOf(IllegalArgumentException.class)
-							.hasMessage(SERVER_ERROR.name());
-				}
+				assertThatThrownBy(() -> voucherRepository.save(createdVoucher))
+						.isInstanceOf(IllegalArgumentException.class)
+						.hasMessage(SERVER_ERROR.name());
 			}
 		}
 	}
