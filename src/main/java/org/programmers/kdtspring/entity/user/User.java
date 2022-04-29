@@ -6,5 +6,5 @@ public interface User {
 
     UUID getUserId();
 
-    String getUserName();
+    Name getUserName();
 }

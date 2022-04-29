@@ -12,10 +12,9 @@ public class Customer {
 
     private final UUID customerId;
     private final Email email;
-    private final LocalDateTime createdAt;
     private Name name;
+    private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
-
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);

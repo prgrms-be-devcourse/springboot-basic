@@ -5,16 +5,16 @@ import java.util.UUID;
 public class BlackListedUser implements User {
 
     private final UUID userId;
-    private final String userName;
+    private final Name name;
 
-    public BlackListedUser(UUID userId, String userName) {
+    public BlackListedUser(UUID userId, String name) {
         this.userId = userId;
-        this.userName = userName;
+        this.name = new Name(name);
     }
 
     @Override
-    public String getUserName() {
-        return this.userName;
+    public Name getUserName() {
+        return this.name;
     }
 
     @Override
