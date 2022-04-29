@@ -9,4 +9,11 @@ public class IdGenerator {
     public static Long idGenerate() {
         return count.incrementAndGet();
     }
+
+    public static Long fileIdGenerate(Long lastId){
+
+        count.set(lastId);
+
+        return count.incrementAndGet();
+    }
 }

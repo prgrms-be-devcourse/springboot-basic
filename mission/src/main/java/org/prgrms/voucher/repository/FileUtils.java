@@ -41,4 +41,34 @@ public class FileUtils {
             throw new IllegalStateException();
         }
     }
+
+    public static void saveIdSequence(Long voucherId, String idSequencePath) {
+
+        try (
+                FileWriter fileWriter = new FileWriter(idSequencePath);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
+        ) {
+
+            bufferedWriter.write(voucherId.toString());
+            bufferedWriter.newLine();
+        } catch (IOException ioException) {
+            logger.error("file io exception : ", ioException);
+
+            throw new IllegalStateException();
+        }
+    }
+
+    public static Long getLastId(String idSequencePath) {
+
+        try (FileReader fileReader = new FileReader(idSequencePath);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)){
+            String idInformation = bufferedReader.readLine();
+
+            return idInformation == null ? 0 : Long.parseLong(idInformation);
+        } catch (IOException ioException) {
+            logger.error("file io exception : ", ioException);
+
+            throw new IllegalStateException();
+        }
+    }
 }
