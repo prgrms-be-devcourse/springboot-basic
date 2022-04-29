@@ -1,0 +1,3 @@
+path:
+  blacklist: "src/main/resources/data/blackList.csv"
+  voucher: "src/main/resources/data/voucherList.csv"

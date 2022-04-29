@@ -1,11 +1,16 @@
-package org.devcourse.voucher.view;
+package org.devcourse.voucher.configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 @Configuration
+@PropertySource(value = "classpath:menu.yaml", factory = YamlPropertiesFactory.class)
 @ConfigurationProperties(prefix = "menu")
 public class MenuProperties {
+
     private String discount;
 
     private String create;

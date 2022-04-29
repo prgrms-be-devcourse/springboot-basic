@@ -1,7 +1,7 @@
 package org.devcourse.voucher.view;
 
+import org.devcourse.voucher.configuration.MenuProperties;
 import org.devcourse.voucher.error.ErrorType;
-import org.devcourse.voucher.voucher.model.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
