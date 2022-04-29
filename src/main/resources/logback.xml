@@ -6,8 +6,12 @@
 
     <property name="CONSOLE_LOG_PATTERN"
               value="%clr(%d{HH:mm:ss.SSS}){yellow} [%thread] %clr(%-5level) %logger{36} - %msg%n"/>
-    <property name="FILE_LOG_PATTERN"
+
+    <property name="ERROR_FILE_LOG_PATTERN"
               value="%d{dd}th %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <property name="INFO_FILE_LOG_PATTERN"
+              value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -15,21 +19,33 @@
         </encoder>
     </appender>
 
-    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ERROR_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/error-%d{yyyy-MM}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <pattern>${ERROR_FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
 
-    <logger name="org.devcourse.voucher" level="ERROR">
-        <appender-ref ref="ROLLING_FILE"/>
-    </logger>
+    <appender name="INFO_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyyMMdd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${INFO_FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ERROR_ROLLING_FILE"/>
+        <appender-ref ref="INFO_ROLLING_FILE"/>
     </root>
 
 </configuration>

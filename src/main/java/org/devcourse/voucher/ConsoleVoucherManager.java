@@ -30,7 +30,7 @@ public class ConsoleVoucherManager {
             output.mainMenu();
             command = discriminate(input.nextLine());
             switch(command) {
-                case EXIT -> output.info("bye");
+                case EXIT -> output.info("exit");
                 case CREATE -> {
                     VoucherType voucherType = selectVoucher();
                     long discount = 0;

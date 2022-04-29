@@ -2,6 +2,8 @@ package org.devcourse.voucher.view;
 
 import org.devcourse.voucher.configuration.MenuProperties;
 import org.devcourse.voucher.error.ErrorType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 public class OutputView implements Output{
 
     private static MenuProperties menu;
+    private final Logger logger = LoggerFactory.getLogger(OutputView.class);
 
     public OutputView(MenuProperties menu) {
         this.menu = menu;
@@ -17,12 +20,13 @@ public class OutputView implements Output{
 
     @Override
     public void mainMenu() {
-        System.out.print(menu.getMain());
+        System.out.print(menu.getMain() + " ");
     }
 
     @Override
     public void info(String msg) {
         System.out.println(msg);
+        logger.info(msg);
     }
 
     @Override
@@ -34,12 +38,12 @@ public class OutputView implements Output{
 
     @Override
     public void createMenu() {
-        System.out.print(menu.getCreate());
+        System.out.print(menu.getCreate() + " ");
     }
 
     @Override
     public void listMenu() {
-        System.out.print(menu.getList());
+        System.out.print(menu.getList() + " ");
     }
 
     @Override
@@ -50,5 +54,6 @@ public class OutputView implements Output{
     @Override
     public void warn(ErrorType errorType) {
         System.out.println(errorType.message());
+        logger.warn(errorType.message());
     }
 }
