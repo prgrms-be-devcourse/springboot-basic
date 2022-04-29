@@ -21,11 +21,9 @@ public class FileUtils {
 	}
 
 	public static final void writeFile(String path, String string) {
-		try {
-			FileWriter fw = new FileWriter(path, true);
-			BufferedWriter bw = new BufferedWriter(fw);
+		try (FileWriter fw = new FileWriter(path, true);
+		     BufferedWriter bw = new BufferedWriter(fw)) {
 			bw.write(string);
-			bw.close();
 		} catch (IOException e) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(FILE_WRITE_ERROR.name());
