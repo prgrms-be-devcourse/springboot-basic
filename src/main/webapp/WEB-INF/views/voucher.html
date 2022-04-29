@@ -29,12 +29,6 @@
         }
     </style>
 
-    <script type="text/javascript">
-        function filter(){
-            var value = document.getElementById("vid").value;
-        }
-    </script>
-
     <!-- Custom styles for this template -->
     <link href="resources/dashboard.css" rel="stylesheet">
 </head>
@@ -77,6 +71,12 @@
                             Delete Voucher
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/voucherWallet/giveVoucher}">
+                            <span data-feather="log-in"></span>
+                            Give Voucher
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -95,7 +95,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="voucher : ${vouchers}">
-                        <td th:text="${voucher.id}"/>
+                        <td>
+                            <a th:text="${voucher.id}" th:href="@{/voucherWallet/voucher(voucherId=${voucher.id})}"/>
+                        </td>
                         <td th:text="${voucher.type}"/>
                         <td th:text="${voucher.amount}"/>
                     </tr>

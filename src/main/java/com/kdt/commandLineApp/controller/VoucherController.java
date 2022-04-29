@@ -1,24 +1,31 @@
 package com.kdt.commandLineApp.controller;
 
+import com.kdt.commandLineApp.service.customer.CustomerConverter;
+import com.kdt.commandLineApp.service.customer.CustomerDTO;
 import com.kdt.commandLineApp.service.voucher.VoucherConverter;
 import com.kdt.commandLineApp.service.voucher.VoucherCreateDTO;
 import com.kdt.commandLineApp.service.voucher.VoucherDTO;
 import com.kdt.commandLineApp.service.voucher.VoucherService;
+import com.kdt.commandLineApp.service.voucherWallet.VoucherWalletDTO;
+import com.kdt.commandLineApp.service.voucherWallet.VoucherWalletService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class VoucherController {
     private VoucherService voucherService;
+    private VoucherWalletService voucherWalletService;
 
     @Autowired
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, VoucherWalletService voucherWalletService) {
         this.voucherService = voucherService;
+        this.voucherWalletService = voucherWalletService;
     }
 
     @RequestMapping(value = "/jsp", method = RequestMethod.GET)
@@ -56,7 +63,7 @@ public class VoucherController {
     }
 
     @PostMapping(value = "/delete")
-    public String deleteVoucher(@RequestParam String voucherId) {
+    public String deleteVoucher(String voucherId) {
         voucherService.removeVoucher(Long.parseLong(voucherId));
         return "redirect:/delete";
     }
@@ -75,5 +82,42 @@ public class VoucherController {
             e.printStackTrace();
         }
         return "redirect:/";
+    }
+
+    @GetMapping(value = "/voucherWallet/customer")
+    public ModelAndView showVoucherList(@RequestParam long customerId) {
+        List<VoucherDTO> vouchers = voucherWalletService.getCustomerVouchers(customerId).stream().map(VoucherConverter::toVoucherDTO).toList();
+        Map<String, Object> model =  new HashMap<>();
+
+        model.put("vouchers", vouchers);
+        model.put("customerId", Long.toString(customerId));
+        return new ModelAndView("views/voucherList", model);
+    }
+
+    @GetMapping(value = "/voucherWallet/voucher")
+    public ModelAndView showCustomerList(@RequestParam long voucherId) {
+        List<CustomerDTO> customers = voucherWalletService.getCustomersWithVoucherId(voucherId).stream().map(CustomerConverter::toCustomerDTO).toList();
+        Map<String, Object> model =  new HashMap<>();
+
+        model.put("customers", customers);
+        model.put("voucherId", Long.toString(voucherId));
+        return new ModelAndView("views/customerList", model);
+    }
+
+    @GetMapping(value = "/voucherWallet/giveVoucher")
+    public String giveVoucher() {
+        return "views/giveVoucher";
+    }
+
+    @PostMapping(value = "/voucherWallet/giveVoucher")
+    public String giveVoucher(VoucherWalletDTO voucherWalletDTO) {
+        voucherWalletService.giveVoucherToCustomer(voucherWalletDTO.getCustomerId(), voucherWalletDTO.getVoucherId());
+        return "redirect:/voucherWallet/giveVoucher";
+    }
+
+    @PostMapping(value = "/voucherWallet/takeVoucher")
+    public String takeVoucher(VoucherWalletDTO voucherWalletDTO) {
+        voucherWalletService.deleteVoucherFromCustomer(voucherWalletDTO.getCustomerId(), voucherWalletDTO.getVoucherId());
+        return "redirect:/voucherWallet/customer?customerId="+ voucherWalletDTO.getCustomerId();
     }
 }
