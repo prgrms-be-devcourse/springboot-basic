@@ -3,11 +3,14 @@ package com.example.voucherproject.voucher;
 import com.example.voucherproject.voucher.dto.VoucherDTO;
 import com.example.voucherproject.voucher.exception.VoucherNotFoundException;
 import com.example.voucherproject.voucher.model.Voucher;
+import com.example.voucherproject.voucher.model.VoucherType;
 import com.example.voucherproject.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,11 +46,10 @@ public class VoucherRestController {
     }
 
     // 바우처 삭제
-    @PostMapping("/voucher/{id}")
+    @DeleteMapping("/voucher/{id}")
     public void deleteUser(@PathVariable UUID id){
         voucherService.deleteById(id);
     }
-
 
     // 조건별 조회 기능
     @PostMapping("/voucher/query")

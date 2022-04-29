@@ -76,6 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
     @Override
     public int deleteById(UUID id) {
+        log.info("Voucher is deleted -> id : {}",id);
         return jdbcTemplate.update(DELETE_BY_ID_SQL, id.toString().getBytes());
     }
 

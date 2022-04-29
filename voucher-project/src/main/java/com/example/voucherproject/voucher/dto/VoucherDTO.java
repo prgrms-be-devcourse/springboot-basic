@@ -40,9 +40,8 @@ public interface VoucherDTO {
 
     }
 
-    @Getter
-    @Builder
-    @ToString
+    @Data
+    @NoArgsConstructor
     class Query {
         private VoucherType type;
         private String from;

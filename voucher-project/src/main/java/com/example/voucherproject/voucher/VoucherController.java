@@ -104,8 +104,6 @@ public class VoucherController {
     // 바우처 필터링
     @PostMapping("/voucher/query")
     public String queryVoucher(@ModelAttribute VoucherDTO.Query query, Model model){
-        System.out.println(query);
-
         List<Voucher> vouchers = voucherService.findByTypeAndDate(query);
         model.addAttribute("vouchers", vouchers);
         return "voucher/vouchers";
