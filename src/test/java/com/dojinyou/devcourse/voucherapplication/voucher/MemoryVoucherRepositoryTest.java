@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.*;
@@ -97,7 +98,7 @@ class MemoryVoucherRepositoryTest {
                 // given
 
                 // when
-                VoucherList voucherList = voucherRepository.findAll();
+                List<Voucher> voucherList = voucherRepository.findAll();
 
                 // then
                 assertThat(voucherList).isNotNull();

@@ -1,7 +1,6 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 import org.springframework.stereotype.Repository;
@@ -30,12 +29,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherList findAll() {
+    public List<Voucher> findAll() {
         Collection<VoucherEntity> collection = store.values();
         List<Voucher> voucherList = collection.stream()
                                               .map(VoucherMapper::entityToDomain)
                                               .collect(Collectors.toList());
-        return new VoucherList(voucherList);
+        return voucherList;
     }
 
     private Voucher save(VoucherEntity voucherEntity) {

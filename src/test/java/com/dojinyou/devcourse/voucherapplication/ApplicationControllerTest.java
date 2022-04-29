@@ -2,8 +2,6 @@ package com.dojinyou.devcourse.voucherapplication;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherResponseList;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -132,7 +131,7 @@ class ApplicationControllerTest {
                 //given
                 String userInput = "LIST";
                 Command command = Command.of(userInput);
-                Response<VoucherResponseList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherResponseList(Arrays.asList(new VoucherResponse[]{})));
+                Response<List<VoucherResponse>> expectedReturnObject = new Response<>(Response.State.SUCCESS, Arrays.asList(new VoucherResponse[]{}));
                 when(voucherController.findAll()).thenReturn(expectedReturnObject);
 
                 //when
@@ -142,7 +141,7 @@ class ApplicationControllerTest {
                 assertThat(response).isNotNull();
                 assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
                 assertThat(response.getData()).isNotNull();
-                assertThat(response.getData()).isInstanceOf(VoucherResponseList.class);
+                assertThat(response.getData()).isInstanceOf(List.class);
             }
         }
     }
