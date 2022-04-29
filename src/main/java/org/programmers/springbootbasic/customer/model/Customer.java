@@ -1,6 +1,9 @@
 package org.programmers.springbootbasic.customer.model;
 
+import org.programmers.springbootbasic.exception.CustomInvalidNameException;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -18,7 +21,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+            throw new CustomInvalidNameException("Name should not be blank");
         }
     }
 
@@ -32,5 +35,18 @@ public class Customer {
 
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) return true;
+        if (o==null || getClass()!=o.getClass()) return false;
+        Customer that = (Customer) o;
+        return customerId.equals(that.customerId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId);
     }
 }
