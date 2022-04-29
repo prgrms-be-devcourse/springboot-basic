@@ -32,6 +32,11 @@ public class VoucherRestController {
         return voucherService.getVoucherByType(voucherType);
     }
 
+    @GetMapping("/voucher/created/{begin}/{end}")
+    public List<Voucher> getVoucherByCreatedTime(@PathVariable String begin, @PathVariable String end) {
+        return voucherService.getVoucherByCreatedTime(begin, end);
+    }
+
     @PostMapping("/voucher")
     public ResponseEntity<Voucher> createVoucher(@RequestBody CreateVoucherRequest voucherRequest) {
         Voucher voucher = voucherRequest.toVoucher();
