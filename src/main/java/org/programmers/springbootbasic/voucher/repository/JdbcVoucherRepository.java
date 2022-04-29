@@ -1,10 +1,14 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 
+import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
+import org.programmers.springbootbasic.exception.NotInsertException;
+import org.programmers.springbootbasic.exception.NotUpdateException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final int SUCCESS = 1;
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -43,7 +47,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
-                    jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    jdbcTemplate.queryForObject(
+                            "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -62,24 +67,27 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        Map<String, Object> parameterMap = Map.of(
+    public Voucher insert(Voucher voucher) throws DuplicateObjectKeyException {
+        Map<String, ?> parameterMap = Map.of(
                 "voucherId", voucher.getVoucherId().toString().getBytes(),
                 "discountValue", voucher.getValue(),
                 "createdAt", Timestamp.valueOf(voucher.getCreatedAt()),
                 "voucherType", voucher.getVoucherType().name());
-
-        var insert = jdbcTemplate.update(
-                "INSERT INTO vouchers(voucher_id, discount_value, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :createdAt, :voucherType)",
-                parameterMap);
-        if (insert != SUCCESS) {
-            throw new RuntimeException("Nothing was inserted");
+        try {
+            var insert = jdbcTemplate.update(
+                    "INSERT INTO vouchers(voucher_id, discount_value, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :createdAt, :voucherType)",
+                    parameterMap);
+            if (insert != SUCCESS) {
+                throw new NotInsertException("Nothing was inserted");
+            }
+        } catch (DuplicateKeyException duplicateKeyException) {
+            throw new DuplicateObjectKeyException("이미 등록된 키 입니다.");
         }
         return voucher;
     }
 
     public Voucher update(Voucher voucher) {
-        Map<String, Object> parameterMap = Map.of(
+        Map<String, ?> parameterMap = Map.of(
                 "voucherId", voucher.getVoucherId().toString().getBytes(),
                 "discountValue", voucher.getValue());
 
@@ -87,7 +95,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 "UPDATE vouchers SET discount_value = :discountValue WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 parameterMap);
         if (update != SUCCESS) {
-            throw new RuntimeException("Nothing was updated");
+            throw new NotUpdateException("Nothing was updated");
         }
         return voucher;
     }
@@ -95,12 +103,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public void deleteById(UUID voucherId) {
         Map<String, Object> parameterMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
-        var delete = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 parameterMap);
-
-        if (delete != SUCCESS) {
-            throw new RuntimeException("Nothing was updated");
-        }
     }
 
     public void deleteAll() {

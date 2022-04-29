@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.voucher.repository;
 
+import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.UUID;
 public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
-    Voucher insert(Voucher voucher);
+    Voucher insert(Voucher voucher) throws DuplicateObjectKeyException;
 
     List<Voucher> findAll();
 

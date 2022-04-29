@@ -19,6 +19,7 @@ import java.util.UUID;
 @Repository
 @Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     private VoucherType voucherType;
@@ -26,28 +27,29 @@ public class FileVoucherRepository implements VoucherRepository {
     @Value("${path.voucher}")
     private String file;
 
-    public File createFile(File file) {
+    public File createFile(String file) {
         try (
                 FileOutputStream ignored = new FileOutputStream(file, true);
         ) {
         } catch (IOException e) {
             logger.error("IOException 에러입니다. {0}", e);
         }
-        return file;
+        return new File(file);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         String line;
         try (
-                FileReader fileReader = new FileReader(createFile(new File(file)));
+                FileReader fileReader = new FileReader(createFile(file));
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             while ((line = bufferedReader.readLine())!=null) {
                 String[] voucherInfo = line.split(" ");
                 if (voucherInfo[2].equals(voucherId.toString())) {
                     voucherType = VoucherType.findByType(voucherInfo[0]);
-                    return Optional.of(voucherType.create(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
+                    return Optional.of(voucherType.create(UUID.fromString(voucherInfo[2]),
+                            Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
                 }
             }
         } catch (EmptyResultDataAccessException e) {
@@ -61,7 +63,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         try (
-                FileWriter fileWriter = new FileWriter(file, true);
+                FileWriter fileWriter = new FileWriter(createFile(file), true);
                 BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         ) {
             bufferedWriter.write(voucher.toString());
@@ -79,18 +81,18 @@ public class FileVoucherRepository implements VoucherRepository {
 
         String line;
         try (
-                FileReader fileReader = new FileReader(createFile(new File(file)));
+                FileReader fileReader = new FileReader(createFile(file));
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             while ((line = bufferedReader.readLine())!=null) {
                 String[] voucherInfo = line.split(" ");
                 voucherType = VoucherType.findByType(voucherInfo[0]);
-                voucherList.add(voucherType.create(UUID.fromString(voucherInfo[2]), Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
+                voucherList.add(voucherType.create(UUID.fromString(voucherInfo[2]),
+                        Long.parseLong(voucherInfo[4]), LocalDateTime.parse(voucherInfo[6])));
             }
         } catch (FileNotFoundException e) {
             logger.warn("FileNotFoundException 입니다.", e);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             logger.error("모두 찾기 IOException 에러입니다. {0}", e);
         }
         return voucherList;
