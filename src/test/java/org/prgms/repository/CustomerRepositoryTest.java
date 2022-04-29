@@ -42,7 +42,7 @@ class CustomerRepositoryTest {
     void findByNameTest() {
         val customers = jdbcCustomerRepository.findByName("user-test");
 
-        assertThat(customers).extracting(Customer::name).contains("user-test");
+        assertThat(customers).extracting(Customer::name).containsExactly("user-test");
     }
 
     @Test
@@ -77,7 +77,7 @@ class CustomerRepositoryTest {
         jdbcCustomerRepository.save(customer);
         val customers = jdbcCustomerRepository.findByName("new-insert");
 
-        assertThat(customers).contains(customer);
+        assertThat(customers).containsExactly(customer);
     }
 
     @Test
@@ -88,6 +88,6 @@ class CustomerRepositoryTest {
         jdbcCustomerRepository.update(updateUser);
         var customers = jdbcCustomerRepository.findByName("update-user");
 
-        assertThat(customers).contains(updateUser);
+        assertThat(customers).containsExactly(updateUser);
     }
 }
