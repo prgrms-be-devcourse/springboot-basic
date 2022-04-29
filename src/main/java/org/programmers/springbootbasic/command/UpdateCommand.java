@@ -1,5 +1,7 @@
 package org.programmers.springbootbasic.command;
 
+import org.programmers.springbootbasic.exception.NoIdException;
+import org.programmers.springbootbasic.exception.NotUpdateException;
 import org.programmers.springbootbasic.io.Console;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -16,13 +18,15 @@ public class UpdateCommand implements Command{
             String voucherId = console.input("Type Change VoucherId");
             long value = Long.parseLong(console.input("Type Change value"));
             voucherService.updateVoucher(UUID.fromString(voucherId), value);
-            console.printSuccessMessage();
+            console.printSuccessUpdateMessage();
         } catch (NumberFormatException e) {
             logger.error("NumberFormat Exception 입니다", e);
         } catch (IllegalArgumentException e) {
-            logger.error("잘못된 바우처 타입입니다.", e);
-        } catch (RuntimeException e) {
+            logger.error("잘못된 입력 입니다.", e);
+        } catch (NotUpdateException e) {
             logger.error("업데이트에 실패하였습니다.", e);
+        } catch (NoIdException e) {
+            logger.error("바우처를 찾을 수 없습니다.");
         }
         return true;
     }
