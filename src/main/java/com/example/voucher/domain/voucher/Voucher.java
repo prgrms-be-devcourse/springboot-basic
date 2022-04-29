@@ -32,11 +32,11 @@ public abstract class Voucher {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Voucher voucher = (Voucher) o;
-		return discountAmount == voucher.discountAmount && voucherType == voucher.voucherType && Objects.equals(voucherId, voucher.voucherId);
+		return Objects.equals(voucherId, voucher.voucherId);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(voucherType, voucherId, discountAmount);
+		return Objects.hash(voucherId);
 	}
 }
