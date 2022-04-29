@@ -13,9 +13,13 @@ import java.util.List;
 public class VoucherFileRepository implements VoucherRepository {
 
     private final String voucherFilePath;
+    private final String idSequencePath;
 
-    public VoucherFileRepository(@Value("${voucher.path}") String voucherFilePath) {
+    public VoucherFileRepository(@Value("${voucher.path}") String voucherFilePath,
+                                 @Value("${sequence.path}") String idSequencePath) {
+
         this.voucherFilePath = voucherFilePath;
+        this.idSequencePath = idSequencePath;
     }
 
     @Override
@@ -32,6 +36,7 @@ public class VoucherFileRepository implements VoucherRepository {
                     + voucherEntity.getDiscountValue() + ", "
                     + voucherEntity.getVoucherType();
             FileUtils.saveEntity(saveFile, voucherFilePath);
+            FileUtils.saveIdSequence(voucherEntity.getVoucherId(), idSequencePath);
 
             return voucherEntity;
         }
@@ -57,8 +62,10 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private Voucher setIdVoucher(Voucher voucher) {
 
+        Long lastId = FileUtils.getLastId(idSequencePath);
+
         return voucher.getVoucherType().createVoucher(
-                IdGenerator.idGenerate(),
+                IdGenerator.fileIdGenerate(lastId),
                 voucher.getDiscountValue(),
                 voucher.getVoucherType()
         );

@@ -14,8 +14,8 @@ import java.util.List;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class VoucherFileRepositoryTest {
 
-    String filePath = "src/main/resources/voucherFileRepository.txt";
-    private final VoucherRepository voucherRepository = new VoucherFileRepository(filePath);
+    String filePath = "src/main/resources/voucherFileRepository.txt";String idSequencePath = "src/main/resources/voucherIdSequence";
+    private final VoucherRepository voucherRepository = new VoucherFileRepository(filePath, idSequencePath);
 
     @Nested
     @Order(1)
