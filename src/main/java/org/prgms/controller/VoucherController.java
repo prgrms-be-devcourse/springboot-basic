@@ -1,5 +1,6 @@
 package org.prgms.controller;
 
+import org.prgms.controller.dto.CreateVoucherRequest;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
 import org.springframework.stereotype.Controller;

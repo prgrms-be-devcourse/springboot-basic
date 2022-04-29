@@ -1,4 +1,4 @@
-package org.prgms.controller;
+package org.prgms.controller.dto;
 
 import org.prgms.domain.FixedAmountVoucher;
 import org.prgms.domain.PercentDiscountVoucher;

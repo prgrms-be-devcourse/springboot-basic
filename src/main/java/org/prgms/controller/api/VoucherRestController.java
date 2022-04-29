@@ -1,8 +1,9 @@
 package org.prgms.controller.api;
 
-import org.prgms.controller.CreateVoucherRequest;
+import org.prgms.controller.dto.CreateVoucherRequest;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,17 +44,17 @@ public class VoucherRestController {
     @DeleteMapping("/voucher/{voucherId}")
     public void deleteVoucher(@PathVariable UUID voucherId) {
         int deleteRow = voucherService.deleteVoucher(voucherId);
-        System.out.println(deleteRow);
     }
 
     @GetMapping("/voucher/{voucherId}")
     public ResponseEntity<Voucher> getVoucher(@PathVariable UUID voucherId) {
+        HttpHeaders headers = new HttpHeaders();
+
         Optional<Voucher> optionalVoucher = voucherService.getVoucher(voucherId);
 
+
         return optionalVoucher
-                .map(voucher -> new ResponseEntity<>(voucher, HttpStatus.OK))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+                .map(voucher -> new ResponseEntity<>(voucher, headers, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(headers, HttpStatus.OK));
     }
-
-
 }
