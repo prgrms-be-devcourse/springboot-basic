@@ -6,3 +6,6 @@ spring.config.activate.on-profile: file
 
 voucher:
   path: src/main/resources/voucherFileRepository.txt
+
+sequence:
+  path : src/main/resources/voucherIdSequence
