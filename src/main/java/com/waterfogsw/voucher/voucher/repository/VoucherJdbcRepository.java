@@ -1,7 +1,5 @@
 package com.waterfogsw.voucher.voucher.repository;
 
-import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
-import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -22,18 +20,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         final var id = resultSet.getLong("voucher_id");
         final var type = VoucherType.valueOf(resultSet.getString("voucher_type"));
         final var value = resultSet.getInt("value");
-
-        switch (type) {
-            case FIXED_AMOUNT -> {
-                return new FixedAmountVoucher(id, type, value);
-            }
-            case PERCENT_DISCOUNT -> {
-                return new PercentDiscountVoucher(id, type, value);
-            }
-            default -> {
-                throw new IllegalArgumentException();
-            }
-        }
+        return Voucher.toEntity(id, Voucher.of(type, value));
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
