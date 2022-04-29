@@ -1,17 +1,17 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.voucher.repository;
 
 import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.config.DBConfig;
-import org.programmers.springbootbasic.exception.NotInsertException;
+import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherType;
-import org.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,72 +37,135 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객을 추가 할 수 있다.")
+    @DisplayName("바우처를 추가 할 수 있다.")
     void testInsert() {
-        VoucherType fixedAmountType = VoucherType.FIXED;
-        Voucher fixedAmountVoucher = fixedAmountType.create(UUID.randomUUID(), 100L ,LocalDateTime.now());
-        jdbcVoucherRepository.insert(fixedAmountVoucher);
+        //given
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L ,LocalDateTime.now());
 
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
         var retrievedVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
 
+        //then
         assertThat(retrievedVoucher).isPresent().get().isEqualTo(fixedAmountVoucher);
     }
 
     @Test
-    @DisplayName("전체 고객을 조회 할 수 있다.")
+    @DisplayName("중복되는 바우처를 추가 할 수 없다.")
+    void testDuplicateVoucher() {
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
+
+        //then
+        assertThatThrownBy(() ->jdbcVoucherRepository.insert(fixedAmountVoucher))
+                .isInstanceOf(DuplicateObjectKeyException.class);
+    }
+
+    @Test
+    @DisplayName("전체 바우처를 조회 할 수 있다.")
     void testFindAll() {
-        VoucherType fixedAmountType = VoucherType.FIXED;
-        Voucher fixedAmountVoucher = fixedAmountType.create(UUID.randomUUID(), 100L ,LocalDateTime.now());
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+        List<Voucher> voucherList = List.of(fixedAmountVoucher);
+
+        //when
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         var vouchers = jdbcVoucherRepository.findAll();
 
-        assertThat(vouchers).hasSize(1);
+        //then
+        assertThat(vouchers).usingRecursiveFieldByFieldElementComparator().hasSameElementsAs(voucherList);
     }
 
     @Test
-    @DisplayName("아이디로 고객을 조회 할 수 있다.")
-    void testFindByName() {
-        VoucherType fixedAmountType = VoucherType.FIXED;
-        Voucher fixedAmountVoucher = fixedAmountType.create(UUID.randomUUID(), 100L ,LocalDateTime.now());
-        jdbcVoucherRepository.insert(fixedAmountVoucher);
-        var vouchers = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
-        assertThat(vouchers).isPresent();
-
-        var unknown = jdbcVoucherRepository.findById(UUID.randomUUID());
-        assertThat(unknown).isNotPresent();
-    }
-
-    @Test
-    @DisplayName("생성일 순으로 고객을 조회 할 수 있다.")
+    @DisplayName("생성일 순으로 바우처를 조회 할 수 있다.")
     void testFindByCreatedAt() {
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+        var fixedAmountVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 500L, LocalDateTime.now());
+
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher2);
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
         var vouchers = jdbcVoucherRepository.findByCreatedAt();
 
-        assertThat(vouchers).hasSize(0);
+        //then
+        assertThat(vouchers.get(0).getCreatedAt()).isBefore(vouchers.get(1).getCreatedAt());
+    }
+
+    @Test
+    @DisplayName("아이디로 바우처를 조회 할 수 있다.")
+    void testFindByName() {
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
+        var vouchers = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+
+        //then
+        assertThat(vouchers).isPresent();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이디로 바우처를 조회 할 수 없다.")
+    void testFindByNonexistentName() {
+        //given
+        var unknown = jdbcVoucherRepository.findById(UUID.randomUUID());
+
+        //then
+        assertThat(unknown).isNotPresent();
     }
 
     @Test
     @DisplayName("바우처를 수정 할 수 있다.")
     void testUpdate() {
-        VoucherType fixedAmountType = VoucherType.FIXED;
-        Voucher fixedAmountVoucher = fixedAmountType.create(UUID.randomUUID(), 100L ,LocalDateTime.now());
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+
+        //when
         jdbcVoucherRepository.insert(fixedAmountVoucher);
         fixedAmountVoucher.changeValue(300L);
         jdbcVoucherRepository.update(fixedAmountVoucher);
 
-        var all = jdbcVoucherRepository.findAll();
-        assertThat(all).hasSize(1).containsOnlyOnce(fixedAmountVoucher);
-
+        //then
         var retrievedVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(retrievedVoucher).isPresent().get().isEqualTo(fixedAmountVoucher);
     }
 
     @Test
-    @DisplayName("중복 바우처 테스트")
-    void duplicateVoucher() {
+    @DisplayName("아이디로 바우처를 삭제 할 수 있다.")
+    void testDeleteById() {
+        //given
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
-        jdbcVoucherRepository.insert(fixedAmountVoucher);
 
-        assertThatThrownBy(() -> jdbcVoucherRepository.insert(fixedAmountVoucher))
-                .isInstanceOf(NotInsertException.class);
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
+        jdbcVoucherRepository.deleteById(fixedAmountVoucher.getVoucherId());
+        var vouchers = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+
+        //then
+        assertThat(vouchers).isNotPresent();
+    }
+
+    @Test
+    @DisplayName("모든 바우처를 삭제 할 수 있다.")
+    void testDeleteAll() {
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000, LocalDateTime.now());
+        var fixedAmountVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3000, LocalDateTime.now());
+        var percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20, LocalDateTime.now());
+
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
+        jdbcVoucherRepository.insert(fixedAmountVoucher1);
+        jdbcVoucherRepository.insert(percentDiscountVoucher);
+        jdbcVoucherRepository.deleteAll();
+        var all = jdbcVoucherRepository.findAll();
+
+        //then
+        assertThat(all).isEmpty();
     }
 }

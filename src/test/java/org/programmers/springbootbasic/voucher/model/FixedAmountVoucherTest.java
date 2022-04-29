@@ -1,9 +1,8 @@
-package org.programmers.springbootbasic.voucher;
+package org.programmers.springbootbasic.voucher.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,18 +10,17 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-
 @DisplayName("FixedAmountVoucher 클래스")
 class FixedAmountVoucherTest {
 
     @Nested
     @DisplayName("discount 메소드는")
-    class Discount_of {
+    class DiscountOf {
         private final FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
 
         @Nested
         @DisplayName("amount가 할인 가능한 값일때.")
-        class Context_with_discount_able {
+        class ContextWithDiscountAble {
 
             @Test
             @DisplayName("입력 값에서 amount만큼 할인된 값을 반환합니다.")
@@ -33,7 +31,7 @@ class FixedAmountVoucherTest {
 
         @Nested
         @DisplayName("amount가 할인 가능한 값보다 클 때")
-        class Context_with_discount_unable {
+        class ContextWithDiscountUnable {
 
             @Test
             @DisplayName("예외를 던집니다.")
@@ -48,11 +46,11 @@ class FixedAmountVoucherTest {
 
     @Nested
     @DisplayName("바우처를 생성할 때")
-    class Context_with_create_voucher {
+    class ContextWithCreateVoucher {
 
         @Nested
         @DisplayName("amount가 양수값이고 MAX_AMOUNT보다 작다면")
-        class Context_with_able_amount{
+        class ContextWithAbleAmount{
             private final FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
 
             @Test
@@ -64,7 +62,7 @@ class FixedAmountVoucherTest {
 
         @Nested
         @DisplayName("amount가 음수값이라면")
-        class Context_with_minus {
+        class ContextWithMinus {
 
             @Test
             @DisplayName("예외를 던집니다.")
@@ -78,7 +76,7 @@ class FixedAmountVoucherTest {
         }
         @Nested
         @DisplayName("amount가 MAX_AMOUNT보다 큰 값이라면")
-        class Context_with_more_than_max_amount {
+        class ContextWithMoreThanMaxAmount {
             private static final long MAX_VOUCHER_AMOUNT = 10000;
 
             @Test
