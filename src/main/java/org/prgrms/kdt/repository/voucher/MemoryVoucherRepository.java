@@ -55,4 +55,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public VoucherList getVoucherListByVoucherType(int voucherType) {
         return null;
     }
+
+    @Override
+    public VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
+        return null;
+    }
 }

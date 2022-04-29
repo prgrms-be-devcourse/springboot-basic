@@ -5,6 +5,8 @@ import org.prgrms.kdt.model.voucher.VoucherList;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public interface VoucherRepository {
@@ -25,4 +27,6 @@ public interface VoucherRepository {
     void deleteAllVouchers();
 
     VoucherList getVoucherListByVoucherType(int voucherType);
+
+    VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate);
 }

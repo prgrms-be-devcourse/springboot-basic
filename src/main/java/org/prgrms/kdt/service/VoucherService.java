@@ -72,6 +72,9 @@ public class VoucherService {
     public VoucherList getVoucherListByVoucherType(int voucherType) {
         return voucherRepository.getVoucherListByVoucherType(voucherType);
     }
+    public VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
+        return voucherRepository.getVoucherListByCreatedFromToDate(fromDate, toDate);
+    }
 
     private VoucherType getVoucherTypeByNumber(int voucherTypeNumber) {
         Optional<VoucherType> voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumber);

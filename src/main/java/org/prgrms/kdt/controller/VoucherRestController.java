@@ -53,4 +53,11 @@ public class VoucherRestController {
         VoucherList voucherList = voucherService.getVoucherListByVoucherType(voucherType);
         return voucherList.getVouchers();
     }
+
+    @GetMapping("/api/v1/voucher/date/{fromDate}/{toDate}")
+    @ResponseBody
+    public List<Voucher> createVoucher(@PathVariable String fromDate, @PathVariable String toDate){
+        VoucherList voucherList = voucherService.getVoucherListByCreatedFromToDate(fromDate, toDate);
+        return voucherList.getVouchers();
+    }
 }
