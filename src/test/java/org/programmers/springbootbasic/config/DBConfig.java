@@ -21,7 +21,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 
 @Configuration
 @ComponentScan(
-        basePackages = {"org.programmers.springbootbasic.customer", "org.programmers.springbootbasic.voucher"}
+        basePackages = {"org.programmers.springbootbasic.customer", "org.programmers.springbootbasic.voucher", "org.programmers.springbootbasic.wallet"}
 )
 @EnableConfigurationProperties
 public class DBConfig {
