@@ -1,6 +1,5 @@
 package org.prgms.repository;
 
-import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +33,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("모두 조회 기능 테스트")
     void findAllTest() {
-        val customers = jdbcCustomerRepository.findAll();
+        List<Customer> customers = jdbcCustomerRepository.findAll();
 
         assertThat(customers).containsExactlyInAnyOrder(newCustomer, newCustomer2);
     }
@@ -40,15 +41,15 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("이름으로 조회 테스트")
     void findByNameTest() {
-        val customers = jdbcCustomerRepository.findByName("user-test");
+        List<Customer> customers = jdbcCustomerRepository.findByName("user-test");
 
-        assertThat(customers).extracting(Customer::name).contains("user-test");
+        assertThat(customers).extracting(Customer::name).containsExactly("user-test");
     }
 
     @Test
     @DisplayName("메일로 조회 테스트")
     void findByEmailTest() {
-        val maybeCustomer = jdbcCustomerRepository.findByEmail("user-test2@gmail.com");
+        Optional<Customer> maybeCustomer = jdbcCustomerRepository.findByEmail("user-test2@gmail.com");
 
         assertThat(maybeCustomer.orElseThrow()).extracting(Customer::email).isEqualTo("user-test2@gmail.com");
     }
@@ -56,7 +57,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("ID로 조회 테스트")
     void findByIdTest() {
-        val maybeCustomer = jdbcCustomerRepository.findById(newCustomer.customerId());
+        Optional<Customer> maybeCustomer = jdbcCustomerRepository.findById(newCustomer.customerId());
 
         assertThat(maybeCustomer.orElseThrow()).isEqualTo(newCustomer);
     }
@@ -64,7 +65,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("없는 ID로 조회 테스트")
     void findByNotExistingIdTest() {
-        val maybeCustomer = jdbcCustomerRepository.findById(UUID.randomUUID());
+        Optional<Customer> maybeCustomer = jdbcCustomerRepository.findById(UUID.randomUUID());
 
         assertThat(maybeCustomer.isEmpty()).isTrue();
     }
@@ -72,22 +73,22 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("고객 데이터 insert 테스트")
     void insertTest() {
-        val customer = new Customer(UUID.randomUUID(), "new-insert", "insert@gmail.com");
+        Customer customer = new Customer(UUID.randomUUID(), "new-insert", "insert@gmail.com");
 
         jdbcCustomerRepository.save(customer);
-        val customers = jdbcCustomerRepository.findByName("new-insert");
+        List<Customer> customers = jdbcCustomerRepository.findByName("new-insert");
 
-        assertThat(customers).contains(customer);
+        assertThat(customers).containsExactly(customer);
     }
 
     @Test
     @DisplayName("고객 정보 업데이트 테스트")
     public void updateTest() {
-        val updateUser = new Customer(newCustomer.customerId(), "update-user", newCustomer.email());
+        Customer updateUser = new Customer(newCustomer.customerId(), "update-user", newCustomer.email());
 
         jdbcCustomerRepository.update(updateUser);
-        var customers = jdbcCustomerRepository.findByName("update-user");
+        List<Customer> customers = jdbcCustomerRepository.findByName("update-user");
 
-        assertThat(customers).contains(updateUser);
+        assertThat(customers).containsExactly(updateUser);
     }
 }
