@@ -1,5 +1,8 @@
 package com.example.voucherproject.common.exception;
 
+import com.example.voucherproject.user.exception.UserException;
+import com.example.voucherproject.voucher.exception.VoucherException;
+import com.example.voucherproject.wallet.exception.WalletException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,5 +58,25 @@ public class GlobalExceptionHandler {
         log.error("handleEntityNotFoundException", e);
         final ErrorResponse response = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(VoucherException.class)
+    protected ResponseEntity<ErrorResponse> handleVoucherException(Exception e) {
+        log.error("VoucherException ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserException.class)
+    protected ResponseEntity<ErrorResponse> handleUserException(Exception e) {
+        log.error("UserException ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(WalletException.class)
+    protected ResponseEntity<ErrorResponse> handleWalletException(Exception e) {
+        log.error("WalletException ", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCode.ENTITY_NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
