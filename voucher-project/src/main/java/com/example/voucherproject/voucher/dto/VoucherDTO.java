@@ -17,20 +17,15 @@ import static com.example.voucherproject.common.exception.ErrorCode.INVALID_INPU
 public interface VoucherDTO {
 
     @Data
-    @Builder
     @NoArgsConstructor
-    @AllArgsConstructor
     class Create {
         private VoucherType type;
-
         @PositiveOrZero @Max(10000)
         private long amount;
     }
 
     @Data
-    @Builder
     @NoArgsConstructor
-    @AllArgsConstructor
     class Update {
         private UUID id;
         private VoucherType type;
