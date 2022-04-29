@@ -4,7 +4,7 @@ spring:
   thymeleaf:
     view-names: "views/*"
     prefix: "/WEB-INF/"
-  datasource:
-    url: jdbc:mysql://localhost/order_mgmt
-    username: root
-    password: 1q2w3e4r!
+  profiles:
+    include:
+      - secret
+    active: default
