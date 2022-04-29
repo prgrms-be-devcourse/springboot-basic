@@ -5,12 +5,18 @@
 
 - Spring MVC 적용
 - thymeleaf를 이용한 관리 페이지
-- 관리 페이지 제공 기능 
+- 웹페이지 제공 기능 
   - [x]  조회페이지
   - [x]  상세페이지
   - [x]  입력페이지
   - [x]  삭제페이지
 
+**(보너스) 바우처 지갑용 관리 페이지**
+- 웹페이지 제공 기능
+    - [x]  고객 보유 바우처 조회페이지(바우처 회수 가능)
+    - [x]  특정 바우처 보유 고객정보 조회페이지
+    - [x]  고객 바우처 부여 페이지
+  
 **(기본) 바우처 서비스의 API 개발하기**
 
 - Spring MVC 적용
@@ -24,13 +30,19 @@
   
 ### **바우처 관리 웹어플리케이션 설명**
 - 조회 페이지에서는 생성된 모든 바우처 목록을 확인할 수 있습니다.
-  ![](https://velog.velcdn.com/images/y005/post/85f6c7b9-c446-43fd-9e06-fdcda5250f18/image.png)
+  ![](https://velog.velcdn.com/images/y005/post/0cd89797-04c0-44d3-abb8-93e34817a856/image.png)
+- 바우처 아이디를 클릭하면 해당 바우처를 보유한 고객 정보를 확인할 수 있습니다.
+  ![](https://velog.velcdn.com/images/y005/post/4a4ba09a-2911-41aa-9a68-955a34929ded/image.png)
+- 고객 아이디를 클릭하면 해당 고객이 보유한 바우처 정보를 확인하고 바우처를 회수할 수 있습니다.
+  ![](https://velog.velcdn.com/images/y005/post/9227b07d-8935-47de-87ca-4372984d7fe5/image.png)
 - 상단의 검색 기능을 통해 바우처 아이디에 해당하는 바우처 정보를 확인할 수 있습니다.
-  ![](https://velog.velcdn.com/images/y005/post/dd65ae2a-d60b-4628-bccf-90b23f2479b9/image.png)
+  ![](https://velog.velcdn.com/images/y005/post/086eb6d3-9343-4e40-95c7-cd7f86596179/image.png)
 - 입력 페이지에서는 fixed voucher나 percent voucher를 생성할 수 있습니다.
-  ![](https://velog.velcdn.com/images/y005/post/c8735fa7-f2ab-45fb-a3a8-6e375a0a9da2/image.png)
+  ![](https://velog.velcdn.com/images/y005/post/64c5a75c-2dc1-4e37-8ed2-b75e27d5d40a/image.png)
 - 삭제 페이지에서는 생성한 바우처를 삭제할 수 있습니다.
-  ![](https://velog.velcdn.com/images/y005/post/89e0f911-eae5-4aa8-9bed-7229f8b965ef/image.png)
+  ![](https://velog.velcdn.com/images/y005/post/55a4389f-f31b-475d-8f8e-ff02a6b108ef/image.png)
+- 바우처 부여 페이지에서는 고객에게 바우처를 부여할 수 있습니다.
+  ![](https://velog.velcdn.com/images/y005/post/370a23c9-5a1a-4ba1-9fd8-b75c6df369c5/image.png)
 
 ### **바우처 관리 Rest API 설명**
 #### 1. 조회 기능
