@@ -1,8 +1,8 @@
 package com.dojinyou.devcourse.voucherapplication;
 
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.VoucherController;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -43,13 +43,14 @@ class ApplicationControllerTest {
                 Command command = null;
 
                 //when
-                Throwable thrown = catchThrowable(()->applicationController.commandHandle(command));
+                Throwable thrown = catchThrowable(() -> applicationController.commandHandle(command));
 
                 //then
                 assertThat(thrown).isNotNull();
                 assertThat(thrown).isInstanceOf(IllegalArgumentException.class);
             }
         }
+
         @Nested
         @DisplayName("사용자가 프로그램 종료 명령 입력 시,")
         class Context_Enter_Exit_Command {
@@ -68,6 +69,7 @@ class ApplicationControllerTest {
                 assertThat(response.getData()).isEqualTo(Command.EXIT);
             }
         }
+
         @Nested
         @Disabled
         @DisplayName("사용자가 바우처 생성 명령 입력 시,")
@@ -104,6 +106,7 @@ class ApplicationControllerTest {
                 assertThat(response.getData()).isInstanceOf(Voucher.class);
             }
         }
+
         @Nested
         @DisplayName("사용자가 바우처 조회 명령 입력 시,")
         class Context_Enter_List_Command {
@@ -123,12 +126,12 @@ class ApplicationControllerTest {
             }
 
             @Test
-            @DisplayName("List<Voucher> Type data를 가진 응답 객체를 반환한다.")
+            @DisplayName("Response<VoucherResponseList> data를 가진 응답 객체를 반환한다.")
             void it_Return_Voucher_Data() {
                 //given
                 String userInput = "LIST";
                 Command command = Command.of(userInput);
-                Response<VoucherList> expectedReturnObject = new Response<>(Response.State.SUCCESS, new VoucherList(Arrays.asList(new Voucher[]{})));
+                Response<List<VoucherResponse>> expectedReturnObject = new Response<>(Response.State.SUCCESS, Arrays.asList(new VoucherResponse[]{}));
                 when(voucherController.findAll()).thenReturn(expectedReturnObject);
 
                 //when
@@ -138,7 +141,7 @@ class ApplicationControllerTest {
                 assertThat(response).isNotNull();
                 assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
                 assertThat(response.getData()).isNotNull();
-                assertThat(response.getData()).isInstanceOf(VoucherList.class);
+                assertThat(response.getData()).isInstanceOf(List.class);
             }
         }
     }

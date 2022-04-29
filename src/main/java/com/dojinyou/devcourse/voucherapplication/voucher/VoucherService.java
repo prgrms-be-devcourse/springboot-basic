@@ -1,10 +1,9 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
-import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
-import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VoucherService {
@@ -20,5 +19,9 @@ public class VoucherService {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
         return voucherRepository.create(voucher);
+    }
+
+    public List<Voucher> findAll() {
+        return null;
     }
 }

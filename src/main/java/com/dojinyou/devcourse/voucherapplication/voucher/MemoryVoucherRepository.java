@@ -5,6 +5,7 @@ import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,6 +24,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
         long id = idGenerator.incrementAndGet();
         VoucherEntity voucherEntity = VoucherMapper.domainToEntity(id, voucher);
         return save(voucherEntity);
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return null;
     }
 
     private Voucher save(VoucherEntity voucherEntity) {
