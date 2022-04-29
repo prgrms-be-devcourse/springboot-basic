@@ -58,6 +58,23 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         return fixvouchers;
     }
 
+    public List<Voucher> findAllFixVouchers() {
+        List<Voucher> fixvouchers = jdbcTemplate.query(
+                "SELECT * FROM fixed_voucher",
+                fixVoucherRowMapper);
+
+        return fixvouchers;
+    }
+
+
+    public List<Voucher> findAllPercentVouchers() {
+        List<Voucher> percentvouchers = jdbcTemplate.query(
+                "SELECT * FROM percent_voucher",
+                percentVoucherRowMapper);
+
+        return percentvouchers;
+    }
+
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             Optional<Voucher> fixVoucher = Optional.of(jdbcTemplate.queryForObject(
@@ -74,8 +91,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                     voucherId.toString().getBytes()));
             return percentVoucher;
         } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
         }
+
+        return Optional.empty();
     }
 
     @Override
@@ -122,9 +140,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     private void updateFixVoucher(FixedAmountVoucher voucher) {
         var update = jdbcTemplate.update(
                 "UPDATE fixed_voucher SET amount = ? " +
-                        "WHERE voucher_id = (uuid_to_bin(?))",
+                        "WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getAmount(),
-                voucher.getVoucherId());
+                voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
             throw new IllegalArgumentException("Nothing was inserted");
         }
@@ -135,7 +153,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 "UPDATE percent_voucher SET percent = ? " +
                         "WHERE voucher_id = (uuid_to_bin(?))",
                 voucher.getPercent(),
-                voucher.getVoucherId());
+                voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
             throw new IllegalArgumentException("Nothing was inserted");
         }

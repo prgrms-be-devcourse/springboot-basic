@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h1>Voucher App</h1>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${fixVouchers}" th:object="${fixVouchers}" >
+        <td th:text="${voucher.voucherId}"></td>
+        <td>Fixed Voucher</td>
+        <td th:text="${voucher.amount}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">Percent</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${percentVouchers}" th:object="${percentVouchers}" >
+        <td th:text="${voucher.voucherId}"></td>
+        <td>Percent Voucher</td>
+        <td th:text="${voucher.percent}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

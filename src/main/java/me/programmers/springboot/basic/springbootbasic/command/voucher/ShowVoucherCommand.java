@@ -23,7 +23,7 @@ public class ShowVoucherCommand implements CommandStrategy {
 
     @Override
     public void operateCommand() {
-        List<Voucher> vouchers = voucherService.getVouchers();
+        List<Voucher> vouchers = voucherService.getAllVouchers();
 
         if (vouchers.isEmpty()) {
             console.output("저장된 Voucher 가 없습니다.");

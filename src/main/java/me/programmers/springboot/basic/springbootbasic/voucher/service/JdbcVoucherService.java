@@ -15,8 +15,16 @@ public class JdbcVoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public List<Voucher> getVouchers() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> getAllFixVouchers() {
+        return voucherRepository.findAllFixVouchers();
+    }
+
+    public List<Voucher> getAllPercentVouchers() {
+        return voucherRepository.findAllPercentVouchers();
     }
 
     public void save(Voucher voucher) {
