@@ -10,7 +10,7 @@ public class VoucherService {
     public static final String ERROR_MESSAGE_FOR_NULL = "잘못된 입력입니다.";
     private VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherMemoryRepository voucherRepository) {
+    public VoucherService(VoucherFileRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

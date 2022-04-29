@@ -17,6 +17,19 @@ public class PercentAmount extends VoucherAmount {
         }
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        PercentAmount otherVoucherAmount = (PercentAmount) other;
+        if (this == other || this.getAmount() == otherVoucherAmount.getAmount()) {
+            return true;
+        }
+        return false;
+    }
+
     public double getRemainRate() {
         return 1 - getDiscountRate();
     }

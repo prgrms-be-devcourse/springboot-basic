@@ -11,6 +11,19 @@ public class FixedAmount extends VoucherAmount {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        FixedAmount otherVoucherAmount = (FixedAmount) other;
+        if (this == other || this.getAmount() == otherVoucherAmount.getAmount()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public void validate(int amount) {
         if (amount < MIN_AMOUNT || MAX_AMOUNT < amount) {
             throw new IllegalArgumentException(ERROR_MESSAGE_OUT_OT_RANGE);

@@ -14,15 +14,36 @@ public abstract class VoucherEntity {
         this.amount = amount;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        if (this == other) {
+            return true;
+        }
+
+        VoucherEntity otherEntity = (VoucherEntity) other;
+        if (this.id.equals(otherEntity.getId())) {
+            return true;
+        }
+        return false;
+    }
+
     public Long getId() {
         return this.id;
     }
 
-    public VoucherType getType() {
+    public VoucherType getVoucherType() {
         return this.type;
     }
 
-    public VoucherAmount getAmount() {
+    public VoucherAmount getVoucherAmount() {
         return amount;
+    }
+
+    public int getAmount() {
+        return amount.getAmount();
     }
 }
