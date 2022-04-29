@@ -1,5 +1,6 @@
 package org.prgms.controller.api;
 
+import com.google.gson.JsonObject;
 import org.prgms.controller.dto.CreateVoucherRequest;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
@@ -47,8 +48,14 @@ public class VoucherRestController {
     }
 
     @DeleteMapping("/voucher/{voucherId}")
-    public void deleteVoucher(@PathVariable UUID voucherId) {
+    public String deleteVoucher(@PathVariable UUID voucherId) {
         int deleteRow = voucherService.deleteVoucher(voucherId);
+
+        JsonObject jsonObj = new JsonObject();
+        jsonObj.addProperty("deleted", deleteRow == 1);
+        jsonObj.addProperty("affctedRow", deleteRow);
+
+        return jsonObj.toString();
     }
 
     @GetMapping("/voucher/{voucherId}")
