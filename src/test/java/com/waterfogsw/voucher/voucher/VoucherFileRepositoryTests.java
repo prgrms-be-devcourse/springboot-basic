@@ -5,20 +5,19 @@ import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.repository.VoucherFileRepository;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@TestClassOrder(ClassOrderer.OrderAnnotation.class)
 public class VoucherFileRepositoryTests {
 
     private VoucherRepository voucherRepository = new VoucherFileRepository("./repository/voucher");
 
     @Nested
+    @Order(1)
     @DisplayName("save 메소드는")
     class Describe_save {
         @Nested
@@ -26,7 +25,6 @@ public class VoucherFileRepositoryTests {
         class Context_with_null_argument {
 
             @Test
-            @Order(1)
             @DisplayName("IllegalArgumentException 예외를 발생시킨다")
             void it_throw_error() {
                 assertThrows(IllegalArgumentException.class, () -> voucherRepository.save(null));
@@ -38,7 +36,6 @@ public class VoucherFileRepositoryTests {
         class Context_with_saved_success {
 
             @Test
-            @Order(2)
             @DisplayName("저장한 Voucher 를 return 한다")
             void it_return_saved_voucher() {
                 Voucher voucher1 = new FixedAmountVoucher(1000);
@@ -56,6 +53,7 @@ public class VoucherFileRepositoryTests {
     }
 
     @Nested
+    @Order(2)
     @DisplayName("findAll 메소드는")
     class Describe_findAll {
 
@@ -64,7 +62,6 @@ public class VoucherFileRepositoryTests {
         class Context_with_call {
 
             @Test
-            @Order(3)
             @DisplayName("저장된 모든 Voucher 에 대한 List 를 리턴한다")
             void it_return_saved_voucherList() {
                 Voucher voucher1 = new FixedAmountVoucher(1000);

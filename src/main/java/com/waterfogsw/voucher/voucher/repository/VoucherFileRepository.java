@@ -1,18 +1,22 @@
 package com.waterfogsw.voucher.voucher.repository;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
-@Profile({"dev"})
+@Profile({"default"})
 @Repository
-public class VoucherMemoryRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
 
-    private static final Map<Long, Voucher> voucherStore = new ConcurrentHashMap<>();
+    private final String repositoryPath;
+
+    public VoucherFileRepository(@Value("${file-repository-path}") String path) {
+        repositoryPath = path;
+        VoucherFileUtils.initFilePath(path);
+    }
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -22,24 +26,21 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
         if (voucher.getId() == null) {
             Voucher newVoucher = createVoucherEntity(voucher);
-            voucherStore.put(newVoucher.getId(), newVoucher);
+            VoucherFileUtils.save(newVoucher, repositoryPath);
             return newVoucher;
         }
 
-        voucherStore.put(voucher.getId(), voucher);
+        VoucherFileUtils.save(voucher, repositoryPath);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return voucherStore.values()
-                .stream()
-                .toList();
+        return VoucherFileUtils.findAll(repositoryPath);
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {
         Long id = KeyGenerator.keyGenerate();
         return Voucher.toEntity(id, voucher);
     }
-
 }
