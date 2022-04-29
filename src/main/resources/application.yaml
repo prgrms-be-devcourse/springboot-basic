@@ -8,3 +8,7 @@ spring:
     include:
       - secret
     active: default
+#server:
+#  error:
+#    whitelabel:
+#      enabled: false
