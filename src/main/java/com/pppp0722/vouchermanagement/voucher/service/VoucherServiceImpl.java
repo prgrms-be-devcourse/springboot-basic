@@ -85,7 +85,7 @@ public class VoucherServiceImpl implements VoucherService {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
 
         if (voucher.isEmpty()) {
-            throw new RuntimeException("Voucher does not exist.");
+            throw new EmptyResultDataAccessException(1);
         }
 
         return voucherRepository.delete(voucher.get());

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,13 +42,11 @@ public class VoucherRestController {
     }
 
     @GetMapping("/api/v1/vouchers/{voucherId}")
-    @ResponseBody
     public VoucherDto getVoucherById(@RequestParam(value = "id") UUID voucherId) {
         return VoucherDto.from(voucherService.getVoucherById(voucherId));
     }
 
     @PostMapping("/api/v1/vouchers")
-    @ResponseBody
     public VoucherDto createVoucher(@RequestBody CreateVoucherRequest request) {
         return VoucherDto.from(
             voucherService.createVoucher(UUID.randomUUID(), request.type(), request.amount(),
@@ -57,7 +54,6 @@ public class VoucherRestController {
     }
 
     @PostMapping("/api/v1/vouchers/delete/{voucherId}")
-    @ResponseBody
     public VoucherDto deleteVoucher(@RequestBody DeleteVoucherRequest request) {
         return VoucherDto.from(
             voucherService.deleteVoucher(request.voucherId()));

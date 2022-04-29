@@ -86,52 +86,32 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public CommandType inputCommandType() {
-        try {
-            return CommandType.valueOf(getCommand().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid command type!");
-        }
+    public CommandType inputCommandType() throws IllegalArgumentException {
+        return CommandType.valueOf(getCommand().toUpperCase());
     }
 
     @Override
-    public EntityType inputEntityType() {
+    public EntityType inputEntityType() throws IllegalArgumentException {
         System.out.println("member\nvoucher");
-        try {
-            return EntityType.valueOf(getCommand().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid entity type!");
-        }
+        return EntityType.valueOf(getCommand().toUpperCase());
     }
 
     @Override
-    public VoucherType inputVoucherType() {
+    public VoucherType inputVoucherType() throws IllegalArgumentException {
         System.out.println("fixed_amount\npercent_discount");
-        try {
-            return VoucherType.valueOf(getCommand().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid voucher type!");
-        }
+        return VoucherType.valueOf(getCommand().toUpperCase());
     }
 
     @Override
-    public UUID inputMemberId() {
+    public UUID inputMemberId() throws IllegalArgumentException {
         System.out.println("Type member id.");
-        try {
-            return UUID.fromString(getCommand());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Check UUID format.");
-        }
+        return UUID.fromString(getCommand());
     }
 
     @Override
-    public UUID inputVoucherId() {
+    public UUID inputVoucherId() throws IllegalArgumentException {
         System.out.println("Type voucher id.");
-        try {
-            return UUID.fromString(getCommand());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Check UUID format.");
-        }
+        return UUID.fromString(getCommand());
     }
 
     @Override
@@ -153,12 +133,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public long inputVoucherAmount() {
+    public long inputVoucherAmount() throws IllegalArgumentException {
         System.out.println("Type discount amount.");
-        try {
-            return Long.parseLong(getCommand());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Not a number.");
-        }
+        return Long.parseLong(getCommand());
     }
 }

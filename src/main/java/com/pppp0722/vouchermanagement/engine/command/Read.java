@@ -36,7 +36,7 @@ public class Read {
                     break;
             }
         } catch (IllegalArgumentException e) {
-            logger.error("Invalid entity type!");
+            logger.error("Invalid command!");
             console.printInputError();
             read();
         }

@@ -43,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> member = memberRepository.findById(memberId);
 
         if (member.isEmpty()) {
-            throw new RuntimeException("Member does not exist.");
+            throw new EmptyResultDataAccessException(1);
         }
 
         return memberRepository.delete(member.get());

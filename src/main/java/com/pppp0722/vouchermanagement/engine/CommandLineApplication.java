@@ -41,7 +41,7 @@ public class CommandLineApplication {
             try {
                 commandType = console.inputCommandType();
             } catch (IllegalArgumentException e) {
-                logger.error("Invalid command type!", e);
+                logger.error("Invalid command!", e);
                 console.printInputError();
                 continue;
             }

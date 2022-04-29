@@ -18,7 +18,7 @@ public class ViewControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
     public String handleNotFoundException(EmptyResultDataAccessException e) {
-        return "500";
+        return "404";
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
