@@ -34,6 +34,7 @@ public class VoucherJdbcRepositoryTests {
 
     @Autowired
     VoucherJdbcRepository voucherRepository;
+
     @Autowired
     DataSource dataSource;
 
@@ -52,7 +53,7 @@ public class VoucherJdbcRepositoryTests {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:3306/voucher_mgmt")
+                    .url("jdbc:mysql://localhost:3306/test_voucher_mgmt")
                     .username("root")
                     .password("02709580")
                     .type(HikariDataSource.class)
