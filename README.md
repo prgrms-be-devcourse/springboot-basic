@@ -6,6 +6,11 @@
 git clone -b zxcv9203/week2 
 make run
 ```
+기본적으로 프로파일은 prod로 실행되며 dev로 변경하고 싶을 경우 다음과 같이 값을 지정하여 실행할 수 있습니다.
+
+```shell
+make run PROFILE=dev
+```
 
 ### Makefile 사용방법
 - help : 사용 가능한 명령어 목록을 출력해줍니다.
@@ -21,3 +26,4 @@ make run
 
 
 - run : 바우처 관리 프로그램을 빌드 후 실행합니다.
+

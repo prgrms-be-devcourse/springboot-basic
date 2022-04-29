@@ -6,7 +6,7 @@ import org.devcourse.voucher.voucher.model.Voucher;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -19,7 +19,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 @Repository
-@Primary
+@Profile("prod")
 public class CsvVoucherRepository implements VoucherRepository {
 
     private final FilePathProperties filePath;
