@@ -47,6 +47,7 @@ public class VoucherFileRepository implements VoucherRepository {
             } catch (Exception e) {
                 idInit(0);
             }
+            isInitId = true;
         }
         long id = idGenerator.incrementAndGet();
         VoucherEntity voucherEntity = VoucherMapper.domainToEntity(id, voucher);
