@@ -1,9 +1,9 @@
 package com.waterfogsw.voucher.voucher.controller;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.Response;
 import com.waterfogsw.voucher.voucher.dto.ResponseStatus;
-import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.ResponseVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,8 @@ public class VoucherController {
             return Response.ok(ResponseVoucherDto.of(savedVoucher));
         } catch (IllegalArgumentException e) {
             return Response.error(ResponseStatus.BAD_REQUEST);
+        } catch (IllegalStateException e) {
+            return Response.error(ResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
