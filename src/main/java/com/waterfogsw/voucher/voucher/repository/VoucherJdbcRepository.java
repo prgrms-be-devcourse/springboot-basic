@@ -48,7 +48,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     toParamMap(voucher)
             );
             if (update != 1) {
-                throw new RuntimeException("Nothing was inserted");
+                throw new IllegalStateException("Nothing was inserted");
             }
 
             final var id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Collections.emptyMap(), Long.class);
@@ -57,12 +57,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         final var update = jdbcTemplate.update(
-                "UPDATE voucher_mgmt SET voucher_type = :type, value = :value WHERE id = :id",
+                "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id",
                 toParamMap(voucher)
         );
 
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalStateException(String.valueOf(update));
         }
 
         return voucher;

@@ -3,6 +3,7 @@ package com.waterfogsw.voucher.voucher;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import com.waterfogsw.voucher.voucher.repository.VoucherJdbcRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
@@ -34,6 +35,7 @@ public class VoucherJdbcRepositoryTests {
 
     @Autowired
     VoucherJdbcRepository voucherRepository;
+
     @Autowired
     DataSource dataSource;
 
@@ -52,7 +54,7 @@ public class VoucherJdbcRepositoryTests {
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:3306/voucher_mgmt")
+                    .url("jdbc:mysql://localhost:3306/test_voucher_mgmt")
                     .username("root")
                     .password("02709580")
                     .type(HikariDataSource.class)
@@ -117,6 +119,26 @@ public class VoucherJdbcRepositoryTests {
                 assertThat(savedVoucher2.getValue(), is(voucher2.getValue()));
             }
         }
+
+        @Nested
+        @DisplayName("중복된 id가 저장되면")
+        class Context_with_duplicate_id {
+
+            @Test
+            @Order(4)
+            @Transactional
+            @DisplayName("해당 컬럼을 업데이트 한다")
+            void it_throw_error() {
+                Voucher voucher1 = new FixedAmountVoucher(0L, 1000);
+                Voucher voucher2 = new PercentDiscountVoucher(0L, 20);
+
+                voucherRepository.save(voucher1);
+                final var savedVoucher = voucherRepository.save(voucher2);
+
+                assertThat(savedVoucher.getType(), is(VoucherType.PERCENT_DISCOUNT));
+                assertThat(savedVoucher.getValue(), is(20));
+            }
+        }
     }
 
     @Nested
@@ -128,7 +150,7 @@ public class VoucherJdbcRepositoryTests {
         class Context_with_call {
 
             @Test
-            @Order(4)
+            @Order(5)
             @Transactional
             @DisplayName("저장된 모든 Voucher 에 대한 List 를 리턴한다")
             void it_return_saved_voucherList() {
