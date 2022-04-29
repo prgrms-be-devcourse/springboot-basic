@@ -33,7 +33,6 @@ public class VoucherWalletService {
     /**
      * 고객에게 바우처를 할당하는 메서드 입니다.
      */
-    @Transactional
     public VoucherWallet createVoucherWallet(UUID customerId, UUID voucherId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));
@@ -47,7 +46,6 @@ public class VoucherWalletService {
     /**
      * 고객에게 할당된 바우처를 조회하는 메서드입니다.
      */
-    @Transactional(readOnly = true)
     public List<Voucher> getAllocatedVouchers(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));

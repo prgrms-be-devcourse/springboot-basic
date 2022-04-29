@@ -31,7 +31,6 @@ public class CustomerService {
     /**
      * 고객을 생성하는 메서드입니다.
      */
-    @Transactional
     public Customer createCustomer(CustomerCreateReqDto customerCreateReqDto) {
         return customerRepository.create(customerCreateReqDto.toEntity());
     }
@@ -39,12 +38,10 @@ public class CustomerService {
     /**
      * 고객을 목록을 조회하는 메서드입니다.
      */
-    @Transactional(readOnly = true)
     public List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public Customer getCustomer(UUID customerId) {
         return customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
     }
@@ -52,7 +49,6 @@ public class CustomerService {
     /**
      * id를 이용하여 고객의 이름을 수정하는 메서드입니다.
      */
-    @Transactional
     public Customer updateCustomer(UUID customerId, CustomerUpdateReqDto customerUpdateReqDto) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
 
@@ -63,7 +59,6 @@ public class CustomerService {
     /**
      * id를 이용해 고객을 제거하는 메서드입니다.
      */
-    @Transactional
     public void deleteCustomer(UUID customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerNotFoundException(customerId));
         customerRepository.delete(customer);
