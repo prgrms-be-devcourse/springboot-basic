@@ -1,21 +1,37 @@
 package com.waterfogsw.voucher.voucher.repository;
 
+import com.waterfogsw.voucher.utils.FileUtils;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 @Profile({"default"})
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
+    private static final String INVALID_PATH = "Invalid Path";
     private final String repositoryPath;
 
     public VoucherFileRepository(@Value("${file-repository-path}") String path) {
-        repositoryPath = path;
-        VoucherFileUtils.initFilePath(path);
+        if (!FileUtils.validatePath(path)) {
+            throw new IllegalArgumentException(INVALID_PATH);
+        }
+        this.repositoryPath = path;
+    }
+
+    @PostConstruct
+    public void init() {
+        FileUtils.initFilePath(repositoryPath);
+    }
+
+    @PreDestroy
+    public void destroy() {
+        FileUtils.initFilePath(repositoryPath);
     }
 
     @Override
@@ -26,17 +42,17 @@ public class VoucherFileRepository implements VoucherRepository {
 
         if (voucher.getId() == null) {
             Voucher newVoucher = createVoucherEntity(voucher);
-            VoucherFileUtils.save(newVoucher, repositoryPath);
+            FileUtils.write(repositoryPath, newVoucher.getId().toString(), newVoucher);
             return newVoucher;
         }
 
-        VoucherFileUtils.save(voucher, repositoryPath);
+        FileUtils.write(repositoryPath, repositoryPath, voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return VoucherFileUtils.findAll(repositoryPath);
+        return FileUtils.readAll(repositoryPath, Voucher.class);
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {
