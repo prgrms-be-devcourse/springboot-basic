@@ -3,6 +3,7 @@ package com.example.voucher.domain.voucher.repository;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.util.FileUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,7 +13,11 @@ import static com.example.voucher.exception.ErrorMessage.*;
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
-	private static final String PATH = "voucherList.csv";
+	private final String path;
+
+	public VoucherFileRepository(@Value("${voucher-file-path}") String path) {
+		this.path = path;
+	}
 
 	@Override
 	public Voucher save(Voucher voucher) {
@@ -29,17 +34,17 @@ public class VoucherFileRepository implements VoucherRepository {
 
 		if (voucher.getVoucherId() == null) {
 			Voucher createdVoucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
-			FileUtils.writeFile(PATH, createdVoucher+"\n");
+			FileUtils.writeFile(path, createdVoucher+"\n");
 			return createdVoucher;
 		}
 
-		FileUtils.writeFile(PATH, voucher+"\n");
+		FileUtils.writeFile(path, voucher+"\n");
 		return voucher;
 	}
 
 	@Override
 	public List<Voucher> findAll() {
-		return FileUtils.readFile(PATH).stream()
+		return FileUtils.readFile(path).stream()
 				.map((s -> {
 					String[] split = s.split(",");
 					return convertVoucher(split[0], split[1], split[2]);
