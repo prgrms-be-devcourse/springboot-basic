@@ -147,7 +147,7 @@ class VoucherServiceTest {
             }
 
             @Test
-            @DisplayName("VoucherList를 가진 Response를 return한다.")
+            @DisplayName("List<Voucher>를 가진 Response를 return한다.")
             void it_throws_Exception() {
                 // given
                 when(voucherRepository.findAll()).thenReturn(Arrays.asList(new Voucher[]{}));

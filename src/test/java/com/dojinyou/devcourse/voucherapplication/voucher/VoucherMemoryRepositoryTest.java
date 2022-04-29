@@ -92,15 +92,15 @@ class VoucherMemoryRepositoryTest {
         class Context_MethodCall {
 
             @Test
-            @DisplayName("VoucherList type을 return 한다")
+            @DisplayName("List<Voucher> type을 return 한다")
             void it_Return_VoucherList_Object() {
                 // given
 
                 // when
-                List<Voucher> voucherList = voucherRepository.findAll();
+                List<Voucher> vouchers = voucherRepository.findAll();
 
                 // then
-                assertThat(voucherList).isNotNull();
+                assertThat(vouchers).isNotNull();
             }
         }
     }
