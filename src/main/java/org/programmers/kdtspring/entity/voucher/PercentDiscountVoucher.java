@@ -5,6 +5,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher extends Voucher {
 
     private static final int HUNDRED = 100;
+
     private final int percent;
     private final String voucherType;
 
