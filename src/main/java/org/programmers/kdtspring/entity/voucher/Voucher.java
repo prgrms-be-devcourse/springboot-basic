@@ -2,33 +2,34 @@ package org.programmers.kdtspring.entity.voucher;
 
 import org.programmers.kdtspring.entity.user.Customer;
 
+import java.util.Optional;
+import java.util.UUID;
+
 public abstract class Voucher {
 
-    private final Long voucherId;
-    private Long customerId;
+    private final UUID voucherId;
+    private UUID customerId;
 
-    public Voucher(Long voucherId) {
+    public Voucher(UUID voucherId) {
         this.voucherId = voucherId;
     }
 
-    public Voucher(Long voucherId, Long customerId) {
+    public Voucher(UUID voucherId, UUID customerId) {
         this(voucherId);
         this.customerId = customerId;
     }
 
-    public Long getVoucherId() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Optional<UUID> getCustomerId() {
+        return Optional.ofNullable(customerId);
     }
 
     public void belongToCustomer(Customer customer) {
         this.customerId = customer.getCustomerId();
     }
-
-    public abstract long discount(long beforeDiscount);
 
     public abstract int getDiscount();
 

@@ -12,7 +12,7 @@ public interface VoucherRepository {
 
     void save(Voucher voucher);
 
-    Optional<Voucher> findById(Long voucherId);
+    Optional<Voucher> findById(UUID voucherId);
 
     List<Voucher> findAll();
 
