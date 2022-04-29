@@ -1,6 +1,6 @@
 package org.devcourse.voucher.customer.service;
 
-import org.devcourse.voucher.customer.Customer;
+import org.devcourse.voucher.customer.model.Customer;
 
 import java.util.List;
 

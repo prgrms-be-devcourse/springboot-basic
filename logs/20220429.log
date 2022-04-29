@@ -113,3 +113,6 @@
 17:38:27.883 [main] INFO  o.d.v.v.service.VoucherServiceImpl - Service : Voucher Inquiry
 17:38:27.883 [main] INFO  o.d.v.v.r.CsvVoucherRepository - Repository : Record a voucher read
 17:38:29.279 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+18:09:36.583 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 12540 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+18:09:36.585 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+18:09:37.244 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 1.082 seconds (JVM running for 1.634)
