@@ -1,7 +1,8 @@
 package org.prgrms.springbootbasic.engine.repository;
 
 import org.prgrms.springbootbasic.engine.domain.Customer;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
+import org.prgrms.springbootbasic.exception.RecordNotUpdatedException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -87,7 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Map<String, Object> paramMap = toParamMap(customer);
         int update = jdbcTemplate.update("insert into customers(customer_id, name, is_black, email, created_at) values (UNHEX(REPLACE(:customerId, '-', '')), :name, :isBlack, :email, :createdAt);", paramMap);
         if (update != 1) {
-            throw new VoucherException("Customer cant be inserted");
+            throw new RecordNotUpdatedException("Customer cant be inserted!", ErrorCode.CUSTOMER_NOT_UPDATED);
         }
         return customer;
     }
@@ -97,7 +98,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Map<String, Object> paramMap = toParamMap(customer);
         int update = jdbcTemplate.update("update customers set name = :name, is_black = :isBlack, last_login_at = :lastLoginAt where customer_id = UNHEX(REPLACE(:customerId, '-', ''));", paramMap);
         if (update < 1) {
-            throw new VoucherException("Noting was updated");
+            throw new RecordNotUpdatedException("Customer cant be updated!", ErrorCode.CUSTOMER_NOT_UPDATED);
         }
         return customer;
     }
@@ -111,7 +112,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteById(UUID customerId) {
         int deleteCount = jdbcTemplate.update("delete from customers where customer_id=UNHEX(REPLACE(:customerId, '-', ''))", Collections.singletonMap("customerId", customerId.toString().getBytes()));
         if (deleteCount != 1) {
-            throw new VoucherException("Customer cant be deleted!");
+            throw new RecordNotUpdatedException("Customer cant be deleted!", ErrorCode.CUSTOMER_NOT_UPDATED);
         }
     }
 }

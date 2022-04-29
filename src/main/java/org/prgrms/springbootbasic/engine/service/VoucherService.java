@@ -2,7 +2,9 @@ package org.prgrms.springbootbasic.engine.service;
 
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.repository.VoucherRepository;
+import org.prgrms.springbootbasic.exception.RecordNotFoundException;
 import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +30,7 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
         if (voucher.isEmpty()) {
-            throw new VoucherException("Invalid VoucherId.");
+            throw new RecordNotFoundException("Invalid VoucherId.", ErrorCode.VOUCHER_NOT_FOUND);
         }
         return voucher.get();
     }
@@ -71,10 +73,5 @@ public class VoucherService {
     @Transactional
     public void removeVoucherById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
-    }
-
-    private Voucher validateVoucher(Voucher voucher) {
-        Optional<Voucher> findVoucher = voucherRepository.findById(voucher.getVoucherId());
-        return findVoucher.orElseThrow(() -> new VoucherException("Invalid voucher id"));
     }
 }

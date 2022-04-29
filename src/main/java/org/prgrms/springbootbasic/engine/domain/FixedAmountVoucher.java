@@ -1,7 +1,8 @@
 package org.prgrms.springbootbasic.engine.domain;
 
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.exception.VoucherValueRangeException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -89,11 +90,11 @@ public class FixedAmountVoucher implements Voucher {
 
     private void validateValue(Integer amount) {
         if (amount < 0) {
-            throw new VoucherException("Amount should be positive");
+            throw new VoucherValueRangeException("Fixed amount should be positive.", ErrorCode.VALUE_RANGE_OUT);
         } else if (amount == 0) {
-            throw new VoucherException("Amount shouldn't be zero");
+            throw new VoucherValueRangeException("Fixed amount shouldn't be zero.", ErrorCode.VALUE_RANGE_OUT);
         } else if (amount > MAX_VOUCHER_AMOUNT) {
-            throw new VoucherException("Amount should be less than 1000001");
+            throw new VoucherValueRangeException("Fixed amount should be less than 1000001.", ErrorCode.VALUE_RANGE_OUT);
         }
     }
 }

@@ -10,6 +10,7 @@ import org.prgrms.springbootbasic.engine.service.CustomerService;
 import org.prgrms.springbootbasic.engine.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,5 +97,17 @@ public class VoucherController {
         UUID id = convertStringToUUID(voucherId);
         voucherService.removeVoucherById(id);
         return "redirect:/vouchers";
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    public String handleRuntimeException(RuntimeException ex, Model model) {
+        model.addAttribute("exception", ex);
+        return "views/error/400";
+    }
+
+    @ExceptionHandler({Exception.class})
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("exception", ex);
+        return "views/error/500";
     }
 }

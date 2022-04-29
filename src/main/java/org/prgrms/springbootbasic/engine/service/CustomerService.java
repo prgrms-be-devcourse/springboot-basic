@@ -2,8 +2,9 @@ package org.prgrms.springbootbasic.engine.service;
 
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.repository.CustomerRepository;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.exception.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class CustomerService {
     @Transactional
     public Customer getCustomerById(UUID customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
-        return customer.orElseThrow(() -> new VoucherException("Invalid customer id."));
+        return customer.orElseThrow(() -> new RecordNotFoundException("Invalid customer id.", ErrorCode.CUSTOMER_NOT_FOUND));
     }
 
     @Transactional

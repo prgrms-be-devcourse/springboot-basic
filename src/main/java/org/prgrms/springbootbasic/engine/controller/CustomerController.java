@@ -6,13 +6,11 @@ import org.prgrms.springbootbasic.engine.controller.dto.CustomerUpdateRequestDto
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.service.CustomerService;
+import org.prgrms.springbootbasic.exception.RecordNotFoundException;
 import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -80,5 +78,22 @@ public class CustomerController {
         customer.changeName(customerUpdateRequestDto.getName());
         customerService.updateCustomer(customer);
         return "redirect:/customers/" + customer.getCustomerId();
+    }
+
+    @GetMapping("/error/error")
+    public String error() {
+        return "views/error";
+    }
+
+    @ExceptionHandler({RuntimeException.class})
+    public String handleRuntimeException(RuntimeException ex, Model model) {
+        model.addAttribute("exception", ex);
+        return "views/error/400";
+    }
+
+    @ExceptionHandler({Exception.class})
+    public String handleException(Exception ex, Model model) {
+        model.addAttribute("exception", ex);
+        return "views/error/500";
     }
 }

@@ -2,8 +2,9 @@ package org.prgrms.springbootbasic.engine.repository;
 
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.exception.RecordNotUpdatedException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -83,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         Map<String, Object> paramMap = toParamMap(voucher);
         int insertCount = jdbcTemplate.update("insert into vouchers (voucher_id, voucher_type, " + voucher.getVoucherType().getValueColumnName() + ", customer_id, created_at) values (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, UNHEX(REPLACE(:customerId, '-', '')), :createdAt);",paramMap);
         if (insertCount != 1) {
-            throw new VoucherException("Voucher cant be inserted!");
+            throw new RecordNotUpdatedException("Voucher cant be inserted!", ErrorCode.VOUCHER_NOT_UPDATED);
         }
         return voucher;
     }
@@ -93,7 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
         Map<String, Object> paramMap = toParamMap(voucher);
         int updateCount = jdbcTemplate.update("update vouchers set "+ voucher.getVoucherType().getValueColumnName() + "= :value, customer_id = UNHEX(REPLACE(:customerId, '-', '')) where voucher_id = UNHEX(REPLACE(:voucherId, '-', ''));",paramMap);
         if (updateCount < 1) {
-            throw new VoucherException("Nothing was updated!");
+            throw new RecordNotUpdatedException("Voucher cant be updated!", ErrorCode.VOUCHER_NOT_UPDATED);
         }
         return voucher;
     }
@@ -107,7 +108,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     public void deleteById(UUID voucherId) {
         int deleteCount = jdbcTemplate.update("delete from vouchers where voucher_id=UNHEX(REPLACE(:voucherId, '-', ''))", Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
         if (deleteCount != 1) {
-            throw new VoucherException("Voucher cant be deleted!");
+            throw new RecordNotUpdatedException("Voucher cant be deleted!", ErrorCode.VOUCHER_NOT_UPDATED);
         }
     }
 }

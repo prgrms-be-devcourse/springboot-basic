@@ -1,10 +1,14 @@
 package org.prgrms.springbootbasic.engine.domain;
 
 import com.opencsv.bean.CsvBindByName;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
+import org.prgrms.springbootbasic.exception.InvalidInputFormatException;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
+
+import static org.prgrms.springbootbasic.engine.util.GlobalUtil.validateNotBlank;
 
 public class Customer {
     @CsvBindByName
@@ -12,7 +16,7 @@ public class Customer {
     @CsvBindByName
     private String name;
     @CsvBindByName
-    private String email;
+    private final String email;
     @CsvBindByName
     private LocalDateTime lastLoginAt;
     @CsvBindByName
@@ -20,8 +24,8 @@ public class Customer {
     private Boolean isBlack;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-        validate(name);
-        validate(email);
+        validateNotBlank(name);
+        validateEmail(email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -31,8 +35,8 @@ public class Customer {
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        validate(name);
-        validate(email);
+        validateNotBlank(name);
+        validateEmail(email);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -41,13 +45,8 @@ public class Customer {
     }
 
     public void changeName(String name) {
-        validate(name);
+        validateNotBlank(name);
         this.name = name;
-    }
-
-    public void changeEmail(String email) {
-        validate(email);
-        this.email = email;
     }
 
     public void toBlack() {
@@ -90,9 +89,9 @@ public class Customer {
                 '}';
     }
 
-    private void validate(String input) {
-        if (input.isBlank()) {
-            throw new VoucherException("Name and email is required!");
+    private void validateEmail(String email) {
+        if (!Pattern.matches("\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b", email)) {
+            throw new InvalidInputFormatException("Invalid Email format", ErrorCode.INVALID_EMAIL_FORMAT);
         }
     }
 }

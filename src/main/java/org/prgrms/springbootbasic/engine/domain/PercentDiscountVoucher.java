@@ -1,7 +1,8 @@
 package org.prgrms.springbootbasic.engine.domain;
 
+import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
-import org.prgrms.springbootbasic.exception.VoucherException;
+import org.prgrms.springbootbasic.exception.VoucherValueRangeException;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -89,11 +90,11 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validateValue(Integer percent) {
         if (percent < 0) {
-            throw new VoucherException("Amount should be positive");
+            throw new VoucherValueRangeException("Percent discount should be positive.", ErrorCode.VALUE_RANGE_OUT);
         } else if (percent == 0) {
-            throw new VoucherException("Amount shouldn't be zero");
+            throw new VoucherValueRangeException("Percent discount shouldn't be zero.", ErrorCode.VALUE_RANGE_OUT);
         } else if (percent > 100) {
-            throw new VoucherException("Amount should be less than 100");
+            throw new VoucherValueRangeException("Percent discount should be less than 100.", ErrorCode.VALUE_RANGE_OUT);
         }
     }
 }
