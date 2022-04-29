@@ -6,6 +6,7 @@ import org.programmers.springbootbasic.customer.model.Customer;
 import org.programmers.springbootbasic.customer.repository.JdbcCustomerRepository;
 import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.wallet.domain.Wallet;
 import org.programmers.springbootbasic.wallet.repository.JdbcWalletRepository;
@@ -175,9 +176,9 @@ class JdbcWalletRepositoryTest {
     @DisplayName("모든 월렛을 삭제 할 수 있다.")
     void testDeleteAll() {
         //given
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
-        var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 100L, LocalDateTime.now());
-        var voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 100L, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 100L, LocalDateTime.now());
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
         Customer customer = new Customer(UUID.randomUUID(), "new-customer", LocalDateTime.now());
         Wallet wallet = new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
         Wallet wallet1 = new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId());
@@ -185,13 +186,16 @@ class JdbcWalletRepositoryTest {
 
         //when
         jdbcVoucherRepository.insert(voucher);
+        jdbcVoucherRepository.insert(voucher1);
+        jdbcVoucherRepository.insert(voucher2);
         jdbcCustomerRepository.insert(customer);
         jdbcWalletRepository.insert(wallet);
         jdbcWalletRepository.insert(wallet1);
         jdbcWalletRepository.insert(wallet2);
         jdbcWalletRepository.deleteAll();
+        var emptyLists = jdbcWalletRepository.findVoucherByCustomerId(customer.getCustomerId());
 
         //then
-//        assertThat(jdbcWalletRepository)
+        assertThat(emptyLists).isEmpty();
     }
 }
