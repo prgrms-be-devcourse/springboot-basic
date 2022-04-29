@@ -6,6 +6,7 @@ import java.util.Arrays;
 public enum CommandType {
 	CREATE,
 	LIST,
+	EXIT,
 	EMPTY;
 	public static CommandType of(String commandTypeStr) {
 		return Arrays.stream(values())

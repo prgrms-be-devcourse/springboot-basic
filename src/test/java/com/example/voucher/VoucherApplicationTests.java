@@ -319,18 +319,7 @@ class VoucherApplicationTests {
 			verify(voucherController).findAll();
 		}
 	}
-
-	@Nested
-	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-	class EXIT_입력이_주어지면 {
-
-		@Test
-		@DisplayName("애플리케이션을 종료한다")
-		void 애플리케이션을_종료한다 () {
-
-		}
-	}
-
+	
 	@Nested
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class 이외의_입력이_주어지면 {
