@@ -24,8 +24,15 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("VoucherFileRepository 클래스의")
 public class VoucherFileRepositoryTest {
-	private final VoucherRepository voucherRepository = new VoucherFileRepository();
 
+	private static final String PATH = "test-voucherList.csv";
+
+	private final VoucherRepository voucherRepository = new VoucherFileRepository(PATH);
+
+	@BeforeEach
+	void 테스트를_위한_파일_경로_설정() {
+
+	}
 	@Nested
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class save메서드는 {
@@ -43,7 +50,7 @@ public class VoucherFileRepositoryTest {
 
 			@AfterEach
 			void 생성된_파일_삭제() {
-				new File("voucherList.csv").delete();
+				new File(PATH).delete();
 			}
 
 
