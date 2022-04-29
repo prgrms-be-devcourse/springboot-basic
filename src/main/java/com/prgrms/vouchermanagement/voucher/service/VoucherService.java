@@ -19,8 +19,8 @@ public class VoucherService {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository repository) {
-        this.voucherRepository = repository;
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
     /**
@@ -61,7 +61,12 @@ public class VoucherService {
         return voucherRepository.findByPeriod(from, end);
     }
 
+    public List<Voucher> findVoucherByCustomer(UUID customerId) throws IllegalArgumentException, DataAccessException {
+        return voucherRepository.findVoucherByCustomer(customerId);
+    }
+
     public void removeVoucher(UUID voucherId) {
         voucherRepository.remove(voucherId);
     }
+
 }

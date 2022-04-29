@@ -22,6 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";
     public static final String SELECT_BY_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type=:voucherType";
     public static final String SELECT_BY_PERIOD_SQL = "SELECT * FROM voucher WHERE created_at BETWEEN :from AND :end";
+    public static final String FIND_VOUCHER_BY_CUSTOMER_SQL = "SELECT v.voucher_id, v.voucher_type ,v.amount, v.created_at FROM voucher_wallet w INNER JOIN voucher v ON v.voucher_id = w.voucher_id WHERE w.customer_id=:customerId";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -62,6 +63,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVoucherByCustomer(UUID customerId) throws DataAccessException {
+        return jdbcTemplate.query(FIND_VOUCHER_BY_CUSTOMER_SQL,
+                Collections.singletonMap("customerId", customerId.toString()),
+                voucherRowMapper);
+    }
+
+    @Override
     public void update(Voucher voucher) throws DataAccessException {
         jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
     }
@@ -87,7 +95,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return paramMap;
     }
 
-    private RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
         VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
         UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         int amount = rs.getInt("amount");

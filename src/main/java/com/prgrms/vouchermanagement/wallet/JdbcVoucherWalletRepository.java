@@ -1,8 +1,6 @@
 package com.prgrms.vouchermanagement.wallet;
 
 import com.prgrms.vouchermanagement.customer.Customer;
-import com.prgrms.vouchermanagement.voucher.Voucher;
-import com.prgrms.vouchermanagement.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -18,7 +16,6 @@ import java.util.*;
 public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
 
     public static final String INSERT_WALLET_SQL = "INSERT INTO voucher_wallet(wallet_id, voucher_id, customer_id, created_at) VALUES (:walletId, :voucherId, :customerId, :createdAt)";
-    public static final String FIND_VOUCHER_BY_CUSTOMER_SQL = "SELECT v.voucher_id, v.voucher_type ,v.amount, v.created_at FROM voucher_wallet w INNER JOIN voucher v ON v.voucher_id = w.voucher_id WHERE w.customer_id=:customerId";
     public static final String DELETE_SQL = "DELETE FROM voucher_wallet WHERE wallet_id=:walletId";
     public static final String FIND_CUSTOMER_BY_VOUCHER_SQL = "SELECT c.customer_id, c.name, c.email, c.created_at FROM voucher_wallet w INNER JOIN customer c ON c.customer_id = w.customer_id WHERE w.voucher_id=:voucherId";
     public static final String SELECT_WALLET_BY_ID = "SELECT * FROM voucher_wallet WHERE wallet_id=:walletId";
@@ -41,18 +38,6 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
     }
 
     @Override
-    public List<Voucher> findVoucherByCustomer(UUID customerId) throws DataAccessException {
-        try {
-            return jdbcTemplate.query(FIND_VOUCHER_BY_CUSTOMER_SQL,
-                    Collections.singletonMap("customerId", customerId.toString()),
-                    voucherRowMapper);
-        } catch (DataAccessException e) {
-            log.error("fail to execute query", e);
-            throw e;
-        }
-    }
-
-    @Override
     public void removeWallet(UUID walletId) throws DataAccessException {
         try {
             jdbcTemplate.update(DELETE_SQL, Collections.singletonMap("walletId", walletId.toString()));
@@ -61,7 +46,7 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
             throw e;
         }
     }
-    
+
     @Override
     public List<Customer> findCustomerByVoucher(UUID voucherId) throws DataAccessException {
         try {
@@ -116,13 +101,5 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         UUID customerId = UUID.fromString(rs.getString("customer_id"));
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
         return Wallet.of(walletId, customerId, voucherId, createdAt);
-    };
-
-    private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
-        UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
-        VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
-        int amount = rs.getInt("amount");
-        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-        return voucherType.constructor(voucherId, amount, createdAt);
     };
 }

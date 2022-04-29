@@ -18,6 +18,8 @@ public interface VoucherRepository {
 
     List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end);
 
+    List<Voucher> findVoucherByCustomer(UUID customerId);
+
     Optional<Voucher> findById(UUID voucherId);
 
     void update(Voucher voucher);

@@ -338,7 +338,8 @@ class VoucherManagementTest {
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
         when(console.inputUUID(anyString())).thenReturn(customerId);
-        when(voucherWalletService.findVoucherByCustomer(customerId)).thenReturn(vouchers);
+        when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
+        when(voucherService.findVoucherByCustomer(customerId)).thenReturn(vouchers);
 
         // when
         runApplication();
@@ -372,7 +373,7 @@ class VoucherManagementTest {
         verify(console).printMessage("Please input in UUID format");
 
         //정상 로직은 호출되지 않는다.
-        verify(voucherWalletService, times(0)).findVoucherByCustomer(any());
+        verify(voucherService, times(0)).findVoucherByCustomer(any());
     }
 
     @Test
@@ -386,7 +387,7 @@ class VoucherManagementTest {
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
         when(console.inputUUID(anyString())).thenReturn(notExistsCustomerId);
-        when(voucherWalletService.findVoucherByCustomer(notExistsCustomerId)).thenThrow(IllegalArgumentException.class);
+        when(customerService.isRegisteredCustomer(notExistsCustomerId)).thenReturn(false);
 
         // when
         runApplication();
@@ -407,7 +408,8 @@ class VoucherManagementTest {
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
         when(console.inputUUID(anyString())).thenReturn(customerId);
-        when(voucherWalletService.findVoucherByCustomer(customerId)).thenReturn(emptyVoucher);
+        when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
+        when(voucherService.findVoucherByCustomer(customerId)).thenReturn(emptyVoucher);
 
         // when
         runApplication();
@@ -461,7 +463,7 @@ class VoucherManagementTest {
         verify(console).printMessage("Please input in UUID format");
 
         //정상 로직은 호출되지 않는다.
-        verify(voucherWalletService, times(0)).findVoucherByCustomer(any());
+        verify(voucherService, times(0)).findVoucherByCustomer(any());
     }
 
     @Test

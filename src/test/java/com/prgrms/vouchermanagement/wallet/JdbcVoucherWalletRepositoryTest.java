@@ -93,7 +93,7 @@ class JdbcVoucherWalletRepositoryTest {
         voucherWalletRepository.save(wallet);
 
         // then
-        List<Voucher> findVoucher = voucherWalletRepository.findVoucherByCustomer(customer.getCustomerId());
+        List<Voucher> findVoucher = voucherRepository.findVoucherByCustomer(customer.getCustomerId());
         assertThat(findVoucher.size()).isEqualTo(1);
         assertThat(findVoucher).containsExactly(voucher);
     }
@@ -118,7 +118,7 @@ class JdbcVoucherWalletRepositoryTest {
         voucherWalletRepository.save(Wallet.of(UUID.randomUUID(), customer.getCustomerId(), voucher3.getVoucherId()));
 
         // when
-        List<Voucher> findVouchers = voucherWalletRepository.findVoucherByCustomer(customer.getCustomerId());
+        List<Voucher> findVouchers = voucherRepository.findVoucherByCustomer(customer.getCustomerId());
 
         // then
         assertThat(findVouchers.size()).isEqualTo(3);
@@ -168,7 +168,7 @@ class JdbcVoucherWalletRepositoryTest {
         voucherWalletRepository.removeWallet(wallet.getWalletId());
 
         // then
-        List<Voucher> vouchers = voucherWalletRepository.findVoucherByCustomer(customer.getCustomerId());
+        List<Voucher> vouchers = voucherRepository.findVoucherByCustomer(customer.getCustomerId());
         assertThat(vouchers.size()).isEqualTo(0);
     }
 

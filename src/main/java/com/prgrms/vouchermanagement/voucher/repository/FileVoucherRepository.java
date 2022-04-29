@@ -114,4 +114,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end) {
         return null;
     }
+
+    @Override
+    public List<Voucher> findVoucherByCustomer(UUID customerId) {
+        return null;
+    }
 }

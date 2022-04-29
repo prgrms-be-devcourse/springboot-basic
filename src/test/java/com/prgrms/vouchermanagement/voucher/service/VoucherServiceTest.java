@@ -120,7 +120,6 @@ class VoucherServiceTest {
     @DisplayName("등록되지 않은 voucherId로 isRegisteredVoucher() 호출하면 false가 반환된다.")
     void isRegisteredVoucherNotExistsIdTest() {
         // given
-        UUID voucherId = voucherService.addVoucher(FIXED_DISCOUNT, 120000);
         UUID wrongVoucherId = UUID.randomUUID();
 
         // when

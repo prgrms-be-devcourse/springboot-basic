@@ -2,7 +2,7 @@ package com.prgrms.vouchermanagement.customer;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.controller.VoucherDto;
-import com.prgrms.vouchermanagement.wallet.VoucherWalletService;
+import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +17,11 @@ import java.util.UUID;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final VoucherWalletService walletService;
+    private final VoucherService voucherService;
 
-    public CustomerController(CustomerService customerService, VoucherWalletService walletService) {
+    public CustomerController(CustomerService customerService, VoucherService voucherService) {
         this.customerService = customerService;
-        this.walletService = walletService;
+        this.voucherService = voucherService;
     }
 
     @GetMapping
@@ -40,7 +40,7 @@ public class CustomerController {
         }
 
         Customer findCustomer = optionalCustomer.get();
-        List<Voucher> vouchers = walletService.findVoucherByCustomer(findCustomer.getCustomerId());
+        List<Voucher> vouchers = voucherService.findVoucherByCustomer(findCustomer.getCustomerId());
 
         model.addAttribute("customer", CustomerDto.from(findCustomer));
         model.addAttribute("vouchers", VoucherDto.fromList(vouchers));
