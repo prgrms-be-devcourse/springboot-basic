@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.VoucherWalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,8 +15,11 @@ public class VoucherWalletController {
 
     private final VoucherWalletService voucherWalletService;
 
-    public VoucherWalletController(VoucherWalletService voucherWalletService) {
+    private final VoucherService voucherService;
+
+    public VoucherWalletController(VoucherWalletService voucherWalletService, VoucherService voucherService) {
         this.voucherWalletService = voucherWalletService;
+        this.voucherService = voucherService;
     }
 
     @GetMapping("/voucherWallet")
@@ -28,6 +32,14 @@ public class VoucherWalletController {
 
     @GetMapping("/walletHome")
     public String walletHome() {
-      return "voucherWallet/walletHome";
+        return "voucherWallet/walletHome";
+    }
+
+    @GetMapping("/voucherWallet/ownableList")
+    public String showOwnableVoucherList(Model model) {
+        VoucherList ownableVoucherList = voucherService.getOwnableVoucherList();
+        List<Voucher> vouchers = ownableVoucherList.getVouchers();
+        model.addAttribute("vouchers", vouchers);
+        return "voucherWallet/ownableVoucherList";
     }
 }
