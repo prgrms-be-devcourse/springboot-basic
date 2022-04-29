@@ -21,7 +21,7 @@ import static com.example.voucherproject.user.model.UserType.NORMAL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig(classes = TestRepositoryConfig.class)
-@DisplayName("User Persistence Layer Test")
+@DisplayName("유저 레포지토리 레이어 테스트")
 class UserJdbcRepositoryTest {
 
     @Autowired

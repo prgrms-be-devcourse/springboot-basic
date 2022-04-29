@@ -1,9 +1,8 @@
 package com.example.voucherproject.user;
 
 
+import com.example.voucherproject.user.dto.UserDTO;
 import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserDTO;
-import com.example.voucherproject.user.model.UserFactory;
 import com.example.voucherproject.user.model.UserType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -12,8 +11,8 @@ import org.junit.jupiter.params.provider.EnumSource;
 
 import static com.example.voucherproject.common.Helper.UserHelper.makeUser;
 import static com.example.voucherproject.common.Helper.UserHelper.makeUserDTO;
-import static com.example.voucherproject.user.model.UserDTO.asUserDTO;
-import static com.example.voucherproject.user.model.UserDTO.asUserModel;
+import static com.example.voucherproject.user.dto.UserDtoMapper.asUserDTO;
+import static com.example.voucherproject.user.dto.UserDtoMapper.asUserModel;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class UserTest {
@@ -26,7 +25,7 @@ public class UserTest {
         @EnumSource(value = UserType.class, names= {"NORMAL", "BLACK"})
         @DisplayName("[create:성공] 각 타입의 유저를 생성할 수 있다.")
         void createUserTypeTest(UserType type){
-            var normalUser = UserFactory.createUser("test", type);
+            var normalUser = makeUser("test", type);
             assertThat(normalUser).isInstanceOf(User.class);
             assertThat(normalUser.getType()).isEqualTo(type);
         }
@@ -53,11 +52,11 @@ public class UserTest {
         @DisplayName("[asUserDTO:성공] 유저 Model → 유저 DTO 변환할 수 있다.")
         void asUserDTOTest(UserType type){
             var user = makeUser("test", type);
-            var userDTO = asUserDTO(user);
+            var dto = asUserDTO(user);
 
-            assertThat(userDTO).isInstanceOf(UserDTO.class);
-            assertThat(userDTO.getName()).isEqualTo(user.getName());
-            assertThat(userDTO.getType()).isEqualTo(user.getType());
+            assertThat(dto).isInstanceOf(UserDTO.Result.class);
+            assertThat(dto.getName()).isEqualTo(user.getName());
+            assertThat(dto.getType()).isEqualTo(user.getType());
         }
     }
 

@@ -1,32 +1,24 @@
 package com.example.voucherproject.user;
 
-import com.example.voucherproject.common.config.DataSourceConfig;
-import com.example.voucherproject.common.config.UserServiceConfig;
+import com.example.voucherproject.user.dto.UserDtoMapper;
 import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserDTO;
 import com.example.voucherproject.user.repository.UserRepository;
 import com.example.voucherproject.user.service.UserWebService;
 import com.example.voucherproject.wallet.model.Wallet;
-import com.example.voucherproject.wallet.repository.WalletJdbcRepository;
 import com.example.voucherproject.wallet.repository.WalletRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.example.voucherproject.common.Helper.UserHelper.makeUser;
 import static com.example.voucherproject.common.Helper.WalletHelper.makeWallet;
-import static com.example.voucherproject.user.model.UserDTO.asUserDTO;
-import static com.example.voucherproject.user.model.UserFactory.createUser;
 import static com.example.voucherproject.user.model.UserType.BLACK;
 import static com.example.voucherproject.user.model.UserType.NORMAL;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +42,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("[createUser:성공] 유저를 생성할 수 있다. (행위 검증, 상태 검증)")
     void createUserTest() {
-        var givenUser = createUser("test0", BLACK);
+        var givenUser = makeUser("test0", BLACK);
 
         // Mock 객체에서 기대되는 행위
         when(userRepository.insert(any(User.class)))
@@ -70,9 +62,9 @@ public class UserServiceTest {
     @DisplayName("[findAll:성공] 전체 유저 조회 (행위 검증, 상태검증)")
     void findAllTest(){
         List<User> givenUsers = new ArrayList<>();
-        givenUsers.add(createUser("test1", BLACK));
-        givenUsers.add(createUser("test2", NORMAL));
-        givenUsers.add(createUser("test3", NORMAL));
+        givenUsers.add(makeUser("test1", BLACK));
+        givenUsers.add(makeUser("test2", NORMAL));
+        givenUsers.add(makeUser("test3", NORMAL));
 
         // Mock 객체에서 기대되는 행위
         when(userRepository.findAll())
@@ -82,15 +74,15 @@ public class UserServiceTest {
         then(userRepository).should(times(1)).findAll();
 
         // 상태 검증
-        var givenUserDTOs = givenUsers.stream().map(UserDTO::asUserDTO).toList();
         assertThat(serviceUsers).usingRecursiveFieldByFieldElementComparator()
-                .containsAll(givenUserDTOs);
+                .containsAll(givenUsers);
     }
 
     @Test
     @DisplayName("[findById:성공] 유저 ID로 해당 유저를 조회할 수 있다.(행위검증, 상태검증)")
     void findById(){
-        var givenUser = createUser("test4", BLACK);
+        var givenUser = makeUser("test", BLACK);
+
         when(userRepository.findById(any(UUID.class)))
                 .thenReturn(Optional.ofNullable(givenUser));
 
@@ -110,7 +102,7 @@ public class UserServiceTest {
     @DisplayName("[deleteById:성공] 특정 유저 삭제 (행위 검증)")
     void deleteById(){
 
-        var givenUser = createUser("test5", BLACK);
+        var givenUser = makeUser("test5", BLACK);
         List<Wallet> givenWallets = List.of(makeWallet(), makeWallet(),makeWallet());
 
         // Mock 객체에서 기대되는 행위
