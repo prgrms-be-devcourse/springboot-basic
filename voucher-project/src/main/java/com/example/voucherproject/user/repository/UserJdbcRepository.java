@@ -1,5 +1,6 @@
 package com.example.voucherproject.user.repository;
 
+import com.example.voucherproject.user.dto.UserDTO;
 import com.example.voucherproject.user.model.UserType;
 import com.example.voucherproject.user.model.User;
 import lombok.RequiredArgsConstructor;
@@ -7,14 +8,13 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.example.voucherproject.common.Utils.*;
 
 @RequiredArgsConstructor
 public class UserJdbcRepository implements UserRepository{
@@ -42,12 +42,12 @@ public class UserJdbcRepository implements UserRepository{
 
     @Override
     public List<User> findAll() {
-        return jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
+        return jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
     }
 
     @Override
     public List<User> findAllByUserType(UserType type) {
-        var users = jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
+        var users = jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
         return users.stream()
                 .filter(user -> user.getType()== type)
                 .collect(Collectors.toList());
@@ -57,7 +57,7 @@ public class UserJdbcRepository implements UserRepository{
     public Optional<User> findById(UUID userId) {
         try{
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
-                    memberRowMapper(),
+                    rowMapper(),
                     userId.toString().getBytes()));
         }catch (EmptyResultDataAccessException e){
             return Optional.empty();
@@ -80,52 +80,37 @@ public class UserJdbcRepository implements UserRepository{
     }
 
     @Override
-    public List<User> findByTypeAndDate(UserType type, String from, String to) {
-        var users = jdbcTemplate.query(FIND_ALL_SQL, memberRowMapper());
-        var ff = from + "T00:00:00.000";
-        var tt = to + "T00:00:00.000";
+    public List<User> findByTypeAndDate(UserDTO.Query query) {
+        var users = jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
 
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        var start = LocalDateTime.parse(ff, formatter);
-        var end = LocalDateTime.parse(tt, formatter);
-        System.out.println("start : "+ start.toString());
-        System.out.println("end : "+ end.toString());
-
-        if(type==UserType.ALL){
+        if(query.getType()==UserType.ALL){
             var listUsers =  users.stream()
-                    .filter(user -> user.getCreatedAt().isAfter(start))
-                    .filter(user -> user.getCreatedAt().isBefore(end))
+                    .filter(user -> user.getCreatedAt().isAfter(convertLocalDateTimeFrom(query.getFrom())))
+                    .filter(user -> user.getCreatedAt().isBefore(convertLocalDateTimeTo(query.getTo())))
                     .collect(Collectors.toList());
-            System.out.println(listUsers);
-            System.out.println("nums : "+listUsers.size());
             return listUsers;
         }
 
         var listUsers2 = users.stream()
-                .filter(user -> user.getType() == type)
-                .filter(user -> user.getCreatedAt().isAfter(start))
-                .filter(user -> user.getCreatedAt().isBefore(end))
+                .filter(user -> user.getType() == query.getType())
+                .filter(user -> user.getCreatedAt().isAfter(convertLocalDateTimeFrom(query.getFrom())))
+                .filter(user -> user.getCreatedAt().isBefore(convertLocalDateTimeTo(query.getTo())))
                 .collect(Collectors.toList());
-        System.out.println(listUsers2);
-        System.out.println("nums : "+listUsers2.size());
         return listUsers2;
-
     }
 
-    private RowMapper<User> memberRowMapper() {
-        return ((rs, rowNum) -> {
-            var userId = toUUID(rs.getBytes("id"));
-            var type = UserType.valueOf(rs.getString("type"));
-            var name = rs.getString("name");
-            var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-            var updatedAt = rs.getString("updated_at"); // nullable
 
-            return new User(userId, type, name, createdAt);
+    private RowMapper<User> rowMapper() {
+        return ((resultSet, rowNum) -> {
+            var userId = toUUID(resultSet.getBytes("id"));
+            var type = UserType.valueOf(resultSet.getString("type"));
+            var name = resultSet.getString("name");
+            var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+            var updatedAt = resultSet.getTimestamp("updated_at") != null ?
+                    resultSet.getTimestamp("updated_at").toLocalDateTime() : null;
+            return new User(userId, type, name, createdAt,updatedAt);
         });
     }
 
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
+
 }

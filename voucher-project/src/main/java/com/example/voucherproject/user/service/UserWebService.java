@@ -1,8 +1,7 @@
 package com.example.voucherproject.user.service;
 
+import com.example.voucherproject.user.dto.UserDTO;
 import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserDTO;
-import com.example.voucherproject.user.model.UserType;
 import com.example.voucherproject.user.repository.UserRepository;
 import com.example.voucherproject.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.example.voucherproject.user.model.UserDTO.asUserDTO;
-import static com.example.voucherproject.user.model.UserDTO.asUserModel;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -39,10 +36,10 @@ public class UserWebService implements UserService{
     }
 
     @Override
-    public Optional<UserDTO> findById(UUID id) {
+    public Optional<User> findById(UUID id) {
         var user = userRepository.findById(id);
         if(user.isPresent()){
-            return Optional.of(asUserDTO(user.get()));
+            return Optional.of(user.get());
         }
         return Optional.empty();
     }
@@ -61,8 +58,8 @@ public class UserWebService implements UserService{
     }
 
     @Override
-    public List<User> findByTypeAndDate(UserType type, String from, String to) {
-        var filteredUsers =  userRepository.findByTypeAndDate(type, from, to);
+    public List<User> findByTypeAndDate(UserDTO.Query query) {
+        var filteredUsers =  userRepository.findByTypeAndDate(query);
         filteredUsers.sort(Comparator.comparing(User::getCreatedAt));
         return filteredUsers;
     }

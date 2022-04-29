@@ -1,22 +1,19 @@
 package com.example.voucherproject.user;
 
 
+import com.example.voucherproject.user.dto.UserDTO;
 import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserDTO;
-import com.example.voucherproject.user.model.UserType;
 import com.example.voucherproject.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.voucherproject.user.model.UserDTO.asUserModel;
+import static com.example.voucherproject.user.dto.UserDtoMapper.asUserModel;
 
 @Slf4j
 @Controller
@@ -24,32 +21,17 @@ import static com.example.voucherproject.user.model.UserDTO.asUserModel;
 public class UserController {
     private final UserService userService;
 
-    // 유저 생성
-    @GetMapping("/user/new")
+    // 유저 생성 (View)
+    @GetMapping("/user")
     public String addUserView(){
         return "user/new-user";
     }
 
-    @PostMapping(value = "/user/new")
-    public String addUser(@RequestParam String name, @RequestParam String type){
-        var userDTO = new UserDTO(UUID.randomUUID(), name, UserType.valueOf(type));
-        userService.createUser(asUserModel(userDTO));
-        // Validation
-        if(!StringUtils.hasText(userDTO.getName())){
-            log.info("이름 null");
-//            bindingResult.addError(new FieldError("userDTO", "userName","이름값은 공백을 허용하지 않습니다."));
-        }
-        if(userDTO.getType() == null){
-            log.info("타입 null");
-//            bindingResult.addError(new FieldError("userDTO", "userType","유저 타입을 선택해 주세요."));
-        }
-
-//        if(bindingResult.hasErrors()){
-//            log.info("errors = {} redirect to 404 page",bindingResult);
-//            return "basic/404";
-//        }
-
-        return "redirect:../users/";
+    // 유저 생성
+    @PostMapping("/user")
+    public String addUser(@ModelAttribute UserDTO.Create dto){
+        userService.createUser(asUserModel(dto));
+        return "redirect:/users";
     }
 
     // 유저 전체 조회
@@ -65,7 +47,7 @@ public class UserController {
     public String getUserDetail(@PathVariable UUID id, Model model){
         var maybeUser = userService.findById(id);
         if (maybeUser.isPresent()){
-            model.addAttribute("user", asUserModel(maybeUser.get()));
+            model.addAttribute("user", maybeUser.get());
             return "user/user-detail";
         }
         else{
@@ -77,19 +59,15 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public String deleteUserById(@PathVariable UUID id){
         userService.deleteById(id);
-        return "redirect:../users/";
+        return "redirect:/users";
     }
 
+    // 유저 검색
     @PostMapping("/user/query")
-    public String queryUser2(@RequestParam("type") String type,
-                            @Nullable @RequestParam("startDate") String from,
-                            @Nullable @RequestParam("endDate") String to, Model model){
-        if(from.isEmpty()) { from = "2022-01-01"; }
-        if(to.isEmpty()) { to = "2222-12-29"; }
-//        List<User> users = userService.findByTypeAndDate(userFilterDTO.userType(),userFilterDTO.from(),userFilterDTO.to());
-        List<User> users = userService.findByTypeAndDate(UserType.valueOf(type),from, to);
+    public String queryUser(@ModelAttribute UserDTO.Query query, Model model){
+        System.out.println(query);
+        List<User> users = userService.findByTypeAndDate(query);
         model.addAttribute("users", users);
         return "user/users";
     }
-
 }

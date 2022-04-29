@@ -1,5 +1,6 @@
 package com.example.voucherproject.user.repository;
 
+import com.example.voucherproject.user.dto.UserDTO;
 import com.example.voucherproject.user.model.UserType;
 import com.example.voucherproject.user.model.User;
 
@@ -23,5 +24,5 @@ public interface UserRepository {
 
     long count();
 
-    List<User> findByTypeAndDate(UserType type, String from, String to);
+    List<User> findByTypeAndDate(UserDTO.Query query);
 }
