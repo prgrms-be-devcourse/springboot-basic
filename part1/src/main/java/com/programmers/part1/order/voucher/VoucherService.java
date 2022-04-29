@@ -9,6 +9,7 @@ import com.programmers.part1.order.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -26,12 +27,26 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, int amount){
+
         if (voucherType == VoucherType.FIXED)
             return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),amount));
         else if (voucherType == VoucherType.PERCENT)
             return voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),amount));
         else
             throw new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다.");
+    }
+
+    List<Voucher> getVoucherByVoucherType(String voucherType){
+        return voucherRepository.findVouchersByVoucherType(VoucherType.valueOf(voucherType));
+    }
+
+
+    public Optional<Voucher> getVoucherById(UUID voucherId){
+        return voucherRepository.findById(voucherId);
+    }
+
+    public void deleteVoucherById(UUID voucherId){
+        voucherRepository.deleteById(voucherId);
     }
 
     public List<Voucher> getAllVoucher(){

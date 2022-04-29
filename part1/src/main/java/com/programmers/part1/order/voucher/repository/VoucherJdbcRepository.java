@@ -42,6 +42,13 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
     }
 
     @Override
+    public List<Voucher> findVouchersByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.toString()),
+                voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(
                 jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
@@ -81,7 +88,7 @@ public class VoucherJdbcRepository implements VoucherRepository<UUID, Voucher> {
 
     @Override
     public void deleteAll() {
-        int update = jdbcTemplate.update("DELETE FROM vouchers",
+        int update = jdbcTemplate.update("DELETE * FROM vouchers",
                 Collections.emptyMap());
 
         if (update != 1)

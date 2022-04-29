@@ -1,10 +1,10 @@
 package com.programmers.part1.order.voucher.repository;
 
-import com.programmers.part1.customer.repository.CustomerJdbcRepository;
-import com.programmers.part1.domain.customer.Customer;
 import com.programmers.part1.domain.voucher.FixedAmountVoucher;
 import com.programmers.part1.domain.voucher.PercentAmountVoucher;
 import com.programmers.part1.domain.voucher.Voucher;
+import com.programmers.part1.domain.voucher.VoucherType;
+import com.programmers.part1.exception.NoUpdateException;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -35,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -97,8 +96,8 @@ class VoucherJdbcRepositoryTest {
     @BeforeAll
     void setup() {
 
-        baseFixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        basePercentVoucher = new PercentAmountVoucher(UUID.randomUUID(), 20);
+        baseFixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        basePercentVoucher = new PercentAmountVoucher(UUID.randomUUID(), 20, LocalDateTime.now());
 
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
@@ -111,7 +110,6 @@ class VoucherJdbcRepositoryTest {
                 .addSchema("test-voucher_management", classPathScript("schema.sql"))
                 .start();
 
-        voucherRepository.deleteAll();
     }
 
     @AfterAll
@@ -153,7 +151,7 @@ class VoucherJdbcRepositoryTest {
     void testUpdate(){
         voucherRepository.save(baseFixedVoucher);
 
-        Voucher updatePercentVoucher = new PercentAmountVoucher(baseFixedVoucher.getVoucherId(),30);
+        Voucher updatePercentVoucher = new PercentAmountVoucher(baseFixedVoucher.getVoucherId(),30, baseFixedVoucher.getCreatedAt());
         voucherRepository.update(updatePercentVoucher);
 
         Optional<Voucher> maybePercentVoucher = voucherRepository.findById(updatePercentVoucher.getVoucherId());
@@ -169,7 +167,7 @@ class VoucherJdbcRepositoryTest {
         voucherRepository.save(baseFixedVoucher);
         voucherRepository.save(basePercentVoucher);
 
-        voucherRepository.deleteById(UUID.randomUUID());
+        assertThrows(NoUpdateException.class,() -> voucherRepository.deleteById(UUID.randomUUID()));
 
         assertThat(voucherRepository.findAll().size(),is(2));
 
@@ -179,5 +177,18 @@ class VoucherJdbcRepositoryTest {
         voucherRepository.deleteById(basePercentVoucher.getVoucherId());
         assertThat(voucherRepository.findAll().size(),is(0));
 
+    }
+
+    @Test
+    @DisplayName("카테고리 조건으로 바우처 리스트 찾기")
+    void categoryAll(){
+
+        voucherRepository.save(baseFixedVoucher);
+        voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),10));
+        voucherRepository.save(basePercentVoucher);
+        voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),2000));
+
+        assertThat(voucherRepository.findVouchersByVoucherType(VoucherType.FIXED).size(),is(2));
+        assertThat(voucherRepository.findVouchersByVoucherType(VoucherType.PERCENT).size(),is(2));
     }
 }
