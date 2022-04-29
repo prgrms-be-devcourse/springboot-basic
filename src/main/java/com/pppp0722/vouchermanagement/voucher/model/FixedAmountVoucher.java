@@ -1,6 +1,5 @@
 package com.pppp0722.vouchermanagement.voucher.model;
 
-import com.pppp0722.vouchermanagement.exception.InvalidAmountException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -19,7 +18,7 @@ public class FixedAmountVoucher implements Voucher {
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt,
         UUID memberId) {
         if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
-            throw new InvalidAmountException("Amount must be between 100 and 1000000!");
+            throw new IllegalArgumentException("Amount must be between 100 and 1000000!");
         }
 
         this.voucherId = voucherId;
@@ -55,13 +54,21 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("FixedAmountVoucher{");
-        sb.append("voucherId=").append(voucherId);
-        sb.append(", amount=").append(amount);
-        sb.append(", type=").append(type);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", memberId=").append(memberId);
-        sb.append('}');
-        return sb.toString();
+        return "FixedAmountVoucher{" + "voucherId=" + voucherId
+            + ", amount=" + amount
+            + ", type=" + type
+            + ", createdAt=" + createdAt
+            + ", memberId=" + memberId
+            + '}';
+    }
+
+    @Override
+    public void setType(VoucherType type) {
+        this.type = type;
+    }
+
+    @Override
+    public void setAmount(long amount) {
+        this.amount = amount;
     }
 }
