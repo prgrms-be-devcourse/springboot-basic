@@ -1,4 +1,4 @@
-file-repository-path: "./repository/voucher/"
+file-repository-path: "./repository/voucher"
 
 spring:
   datasource:
