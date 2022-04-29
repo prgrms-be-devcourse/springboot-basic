@@ -1,6 +1,5 @@
 package org.prgms.service;
 
-import lombok.val;
 import org.prgms.domain.Voucher;
 import org.prgms.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,8 @@ public class VoucherService {
     }
 
     public long useVoucher(long beforeDiscount, UUID voucherId) {
-        val voucher = voucherRepository.findById(voucherId);
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+
         if (voucher.isEmpty())
             return beforeDiscount;
 

@@ -8,6 +8,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MainApplication implements WebMvcConfigurer {
     public static void main(String[] args) throws Exception {
         SpringApplication.run(MainApplication.class, args);
-//        context.getBean(CommandLineApplication.class).run();
     }
 }

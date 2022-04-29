@@ -70,15 +70,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {
 
-        var voucherId = UuidUtils.bytesToUUID(rs.getBytes("voucher_id"));
-        var amount = rs.getInt("amount");
-        var voucherKind = rs.getString("voucher_kind");
+        UUID voucherId = UuidUtils.bytesToUUID(rs.getBytes("voucher_id"));
+        int amount = rs.getInt("amount");
+        String voucherKind = rs.getString("voucher_kind");
 
         return decideVoucherType(voucherKind, amount, voucherId);
     }
 
     private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId) {
-
         if (voucherKind.equals(FixedAmountVoucher.class.getSimpleName()))
             return new FixedAmountVoucher(voucherId, amount);
 
@@ -87,6 +86,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         else
             throw new IllegalArgumentException(MessageFormat.format("voucher Kind의 값이 잘못되었습니다. : {0}", voucherKind));
+
 
     }
 }
