@@ -21,3 +21,7 @@ CREATE TABLE wallet
     voucher_id BINARY(16) NOT NULL,
     customer_id BINARY(16)NOT NULL
 );
+
+use voucher_mgmt;
+SELECT * FROM vouchers v;
+show columns from vouchers;

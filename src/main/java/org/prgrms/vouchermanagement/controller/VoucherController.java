@@ -7,8 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -28,9 +31,17 @@ public class VoucherController {
 
   @GetMapping("/vouchers")
   public String vouchersPage(Model model) {
-//    List<Voucher> vouchers = voucherService.getVoucherList();
-//    log.info("vouchers = {}", vouchers);
     model.addAttribute("vouchers", voucherService.getVoucherList());
+    for (Voucher v : voucherService.getVoucherList()) {
+      System.out.println(v.getVoucherId().toString());
+    }
     return "voucher-list";
+  }
+
+  @GetMapping("/voucher")
+  public String voucherPage(@RequestParam("id") UUID voucherId, Model model) {
+    log.info("voucherId={}", voucherId);
+    Optional<Voucher> voucherById = voucherService.getVoucherById(voucherId);
+    return "voucher";
   }
 }

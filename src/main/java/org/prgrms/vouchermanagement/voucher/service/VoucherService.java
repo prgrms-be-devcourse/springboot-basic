@@ -8,6 +8,7 @@ import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,5 +39,9 @@ public class VoucherService {
 
   public List<Customer> getCustomerList() {
     return customerRepository.findAll();
+  }
+
+  public Optional<Voucher> getVoucherById(UUID voucherId) {
+    return voucherRepository.findById(voucherId);
   }
 }

@@ -21,6 +21,7 @@
         <th scope="col">id</th>
         <th scope="col">reduction</th>
         <th scope="col">createdAt</th>
+        <th scope="col">view more information</th>
     </tr>
     </thead>
     <tbody>
@@ -28,6 +29,7 @@
         <td th:text="*{voucherId}"></td>
         <td th:text="*{reduction}"></td>
         <td th:text="*{createdAt}"></td>
+        <td><a type="button" class="btn btn-secondary" th:href="@{/voucher} + '?id=' + *{voucherId} ">click here!</a></td>
     </tr>
     </tbody>
 </table>

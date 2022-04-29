@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.DoubleStream;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -63,6 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   @Override
   public Optional<Voucher> findById(UUID voucherId) {
     try {
+      log.info("voucherId = {}", voucherId);
       return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
         voucherRowMapper));
@@ -119,7 +122,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }};
   }
 
-  static UUID toUUID(byte[] bytes) throws SQLException {
+  public static UUID toUUID(byte[] bytes) {
     var byteBuffer = ByteBuffer.wrap(bytes);
     return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
   }
