@@ -21,13 +21,13 @@ import java.util.UUID;
 public class VoucherRestController {
     private final VoucherService voucherService;
 
-    // 전체 조회기능
-    @GetMapping(value = "/vouchers")
+    // 바우처 전체 조회
+    @GetMapping("/vouchers")
     public List<Voucher> vouchersView(){
         return voucherService.findAll();
     }
 
-    // 바우처 추가 기능
+    // 바우처 추가
     @PostMapping("/voucher")
     public Voucher addVoucherRedirect(@RequestBody VoucherDTO.Create dto){
         return voucherService.createVoucher(dto);
@@ -51,7 +51,7 @@ public class VoucherRestController {
         voucherService.deleteById(id);
     }
 
-    // 조건별 조회 기능
+    // 바우처 검색
     @PostMapping("/voucher/query")
     public List<Voucher> queryUser(@RequestBody VoucherDTO.Query queryDTO){
         return voucherService.findByTypeAndDate(queryDTO);

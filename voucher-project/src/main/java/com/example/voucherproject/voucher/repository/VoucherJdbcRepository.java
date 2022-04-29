@@ -1,7 +1,5 @@
 package com.example.voucherproject.voucher.repository;
 
-import com.example.voucherproject.user.model.User;
-import com.example.voucherproject.user.model.UserType;
 import com.example.voucherproject.voucher.dto.VoucherDTO;
 import com.example.voucherproject.voucher.model.VoucherType;
 import com.example.voucherproject.voucher.model.Voucher;
@@ -11,15 +9,14 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.example.voucherproject.common.Utils.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +29,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
     private final String DELETE_SQL = "DELETE FROM voucher";
     private final String DELETE_BY_ID_SQL = "DELETE FROM voucher WHERE id = UNHEX(REPLACE(?,'-',''))";
     private final String UPDATE_TYPE_AND_AMOUNT = "UPDATE voucher SET type = ? , amount = ? WHERE id = UNHEX(REPLACE(?,'-',''))";
+
     @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update(INSERT_SQL,
@@ -97,23 +95,20 @@ public class VoucherJdbcRepository implements VoucherRepository{
     public List<Voucher> findByTypeAndDate(VoucherDTO.Query query) {
 
         var vouchers = jdbcTemplate.query(FIND_ALL_SQL, rowMapper());
-
         if(query.getType()==VoucherType.ALL){
             var listVouchers =  vouchers.stream()
-                    .filter(voucher -> voucher.getCreatedAt().isAfter(query.convertTimeFrom()))
-                    .filter(voucher -> voucher.getCreatedAt().isBefore(query.convertTimeTo()))
+                    .filter(voucher -> voucher.getCreatedAt().isAfter(convertLocalDateTimeFrom(query.getFrom())))
+                    .filter(voucher -> voucher.getCreatedAt().isBefore(convertLocalDateTimeTo(query.getTo())))
                     .collect(Collectors.toList());
             return listVouchers;
         }
-
         var listUsers2 = vouchers.stream()
                 .filter(voucher -> voucher.getType() == query.getType())
-                .filter(voucher -> voucher.getCreatedAt().isAfter(query.convertTimeFrom()))
-                .filter(voucher -> voucher.getCreatedAt().isBefore(query.convertTimeTo()))
+                .filter(voucher -> voucher.getCreatedAt().isAfter(convertLocalDateTimeFrom(query.getFrom())))
+                .filter(voucher -> voucher.getCreatedAt().isBefore(convertLocalDateTimeTo(query.getTo())))
                 .collect(Collectors.toList());
 
         return listUsers2;
-
     }
 
     @Override
@@ -134,10 +129,4 @@ public class VoucherJdbcRepository implements VoucherRepository{
             return new Voucher(id, type, amount, createdAt, updatedAt);
         });
     }
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
 }

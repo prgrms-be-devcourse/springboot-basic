@@ -41,25 +41,6 @@ public interface VoucherDTO {
         private VoucherType type;
         private String from;
         private String to;
-
-        public LocalDateTime convertTimeFrom(){
-            var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-            try{
-                return LocalDateTime.parse(from + "T00:00:00.000", formatter);
-            }
-            catch (Exception e){
-                return LocalDateTime.MIN.truncatedTo(ChronoUnit.MILLIS);
-            }
-        }
-        public LocalDateTime convertTimeTo(){
-            var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-            try{
-                return LocalDateTime.parse(to + "T00:00:00.000", formatter);
-            }
-            catch (Exception e){
-                return LocalDateTime.MAX.truncatedTo(ChronoUnit.MILLIS);
-            }
-        }
     }
 
     @Builder

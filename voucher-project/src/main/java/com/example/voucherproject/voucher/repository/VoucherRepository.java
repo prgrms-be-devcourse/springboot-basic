@@ -16,6 +16,5 @@ public interface VoucherRepository {
     long count();
     int deleteById(UUID id);
     List<Voucher> findByTypeAndDate(VoucherDTO.Query query);
-
     void updateTypeAndAmountByDto(VoucherDTO.Update update);
 }
