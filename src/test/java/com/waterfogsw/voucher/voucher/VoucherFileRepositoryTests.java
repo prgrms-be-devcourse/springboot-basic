@@ -43,7 +43,7 @@ public class VoucherFileRepositoryTests {
             voucherRepository.init();
         }
 
-        @BeforeEach
+        @AfterEach
         void afterEach() {
             voucherRepository.destroy();
         }
@@ -93,7 +93,7 @@ public class VoucherFileRepositoryTests {
             voucherRepository.init();
         }
 
-        @BeforeEach
+        @AfterEach
         void afterEach() {
             voucherRepository.destroy();
         }
