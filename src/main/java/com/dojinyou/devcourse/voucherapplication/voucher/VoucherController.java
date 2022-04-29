@@ -2,12 +2,13 @@ package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherList;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherResponseList;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -31,9 +32,9 @@ public class VoucherController {
         return new Response<>(Response.State.SUCCESS, voucherResponse);
     }
 
-    public Response<VoucherResponseList> findAll() {
-        VoucherList responsedVoucherList = voucherService.findAll();
-        VoucherResponseList voucherResponseList = responsedVoucherList.toResponseList();
+    public Response<List<VoucherResponse>> findAll() {
+        List<Voucher> responsedVoucherList = voucherService.findAll();
+        List<VoucherResponse> voucherResponseList = responsedVoucherList.stream().map(VoucherMapper::domainToResponseDto).collect(Collectors.toList());
         return new Response<>(Response.State.SUCCESS, voucherResponseList);
     }
 }
