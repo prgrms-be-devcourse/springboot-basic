@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,11 +22,11 @@ import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
-class MemoryVoucherRepositoryTest {
+class VoucherMemoryRepositoryTest {
     private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
 
     @Autowired()
-    MemoryVoucherRepository voucherRepository;
+    VoucherMemoryRepository voucherRepository;
 
     @Nested
     @DisplayName("Create method에 관하여")

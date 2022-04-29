@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
     public static final String ERROR_MESSAGE_FOR_NULL = "잘못된 입력입니다.";
     private static final AtomicLong idGenerator = new AtomicLong();
     private static final Map<Long, VoucherEntity> store = new ConcurrentHashMap<>();

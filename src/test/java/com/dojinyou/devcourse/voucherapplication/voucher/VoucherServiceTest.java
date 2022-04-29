@@ -31,7 +31,7 @@ class VoucherServiceTest {
     VoucherService voucherService;
 
     @MockBean
-    MemoryVoucherRepository voucherRepository;
+    VoucherMemoryRepository voucherRepository;
 
     @Nested
     @DisplayName("Create mehotd에 관하여")
