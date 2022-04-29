@@ -1,6 +1,5 @@
 package com.pppp0722.vouchermanagement.voucher.service;
 
-import com.pppp0722.vouchermanagement.exception.InvalidVoucherTypeException;
 import com.pppp0722.vouchermanagement.voucher.model.FixedAmountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.PercentDiscountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
@@ -12,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,7 +36,10 @@ public class VoucherServiceImpl implements VoucherService {
                 voucher = new PercentDiscountVoucher(voucherId, amount, createdAt, memberId);
                 break;
             default:
-                throw new InvalidVoucherTypeException("Invalid voucher type!");
+                RuntimeException e = new RuntimeException(
+                    "Invalid voucher type!");
+                logger.error("Invalid voucher type!", e);
+                throw e;
         }
 
         return voucherRepository.insert(voucher);
@@ -48,14 +51,14 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
+    public List<Voucher> getVouchersByType(VoucherType type) {
+        return voucherRepository.findByType(type);
+    }
+
+    @Override
     public Voucher getVoucherById(UUID voucherId) {
-        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-
-        if (voucher.isEmpty()) {
-            throw new RuntimeException("Voucher does not exist.");
-        }
-
-        return voucher.get();
+        return voucherRepository.findById(voucherId).orElseThrow(
+            () -> new EmptyResultDataAccessException(1));
     }
 
     @Override
@@ -65,13 +68,16 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public Voucher updateVoucher(UUID voucherId, VoucherType type, long amount) {
-        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-
-        if (voucher.isEmpty()) {
+        Optional<Voucher> maybeVoucher = voucherRepository.findById(voucherId);
+        if (maybeVoucher.isEmpty()) {
             throw new RuntimeException("Voucher does not exist.");
         }
 
-        return voucherRepository.update(voucher.get());
+        Voucher voucher = maybeVoucher.get();
+        voucher.setType(type);
+        voucher.setAmount(amount);
+
+        return voucherRepository.update(voucher);
     }
 
     @Override

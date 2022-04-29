@@ -5,6 +5,7 @@ import com.pppp0722.vouchermanagement.member.repository.MemberRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -28,13 +29,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberById(UUID memberId) {
-        Optional<Member> member = memberRepository.findById(memberId);
-
-        if (member.isEmpty()) {
-            throw new RuntimeException("Member does not exist.");
-        }
-
-        return member.get();
+        return memberRepository.findById(memberId)
+            .orElseThrow(() -> new EmptyResultDataAccessException(1));
     }
 
     @Override

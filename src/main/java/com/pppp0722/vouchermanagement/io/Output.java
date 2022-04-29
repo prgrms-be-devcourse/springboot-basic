@@ -20,5 +20,5 @@ public interface Output {
 
     void printVoucher(Voucher voucher);
 
-    void printFailure();
+    void printEmptyResult();
 }

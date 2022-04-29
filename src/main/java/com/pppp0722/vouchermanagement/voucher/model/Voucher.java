@@ -14,4 +14,8 @@ public interface Voucher {
     LocalDateTime getCreatedAt();
 
     UUID getMemberId();
+
+    void setType(VoucherType type);
+
+    void setAmount(long amount);
 }

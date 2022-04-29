@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -135,17 +134,13 @@ class JdbcMemberRepositoryTest {
     @DisplayName("멤버를 업데이트할 때 아이디가 존재하지 않으면 예외가 발생한다.")
     public void testUpdateMemberException() {
         Member updatedMember = new Member(newMember.getMemberId(), "lee");
-        assertThrows(RuntimeException.class, () -> {
-            memberRepository.update(updatedMember);
-        });
+        assertThrows(RuntimeException.class, () -> memberRepository.update(updatedMember));
     }
 
     @Test
     @Order(8)
     @DisplayName("멤버를 삭제할 때 아이디가 존재하지 않으면 예외가 발생한다.")
     public void testDeleteMemberException() {
-        assertThrows(RuntimeException.class, () -> {
-            memberRepository.delete(newMember);
-        });
+        assertThrows(RuntimeException.class, () -> memberRepository.delete(newMember));
     }
 }

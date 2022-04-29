@@ -78,11 +78,6 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printFailure() {
-        System.out.println("Failed!");
-    }
-
-    @Override
     public String getCommand() {
         System.out.print("Input : ");
         String command = scanner.nextLine();

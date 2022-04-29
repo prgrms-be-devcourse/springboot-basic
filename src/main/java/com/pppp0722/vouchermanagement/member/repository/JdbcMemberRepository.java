@@ -64,7 +64,11 @@ public class JdbcMemberRepository implements MemberRepository {
                     Collections.singletonMap("memberId", memberId.toString().getBytes()),
                     memberRowMapper));
         } catch (EmptyResultDataAccessException e) {
+            logger.info("There is no member matching the member id.", e);
             return Optional.empty();
+        } catch (RuntimeException e) {
+            logger.error("Failed to find member by member id!", e);
+            throw e;
         }
     }
 

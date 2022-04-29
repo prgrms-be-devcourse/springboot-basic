@@ -3,7 +3,6 @@ package com.pppp0722.vouchermanagement.voucher.repository;
 import static com.pppp0722.vouchermanagement.util.JdbcUtils.toLocalDateTime;
 import static com.pppp0722.vouchermanagement.util.JdbcUtils.toUUID;
 
-import com.pppp0722.vouchermanagement.exception.InvalidVoucherTypeException;
 import com.pppp0722.vouchermanagement.voucher.model.FixedAmountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.PercentDiscountVoucher;
 import com.pppp0722.vouchermanagement.voucher.model.Voucher;
@@ -70,8 +69,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Failed to find voucher by voucher id!", e);
+            logger.info("There is no voucher matching the voucher id.", e);
             return Optional.empty();
+        } catch (RuntimeException e) {
+            logger.error("Failed to find voucher by voucher id!", e);
+            throw e;
         }
     }
 
@@ -81,6 +83,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return jdbcTemplate.query(
                 "SELECT * FROM vouchers WHERE member_id = UNHEX(REPLACE(:memberId, '-', ''))",
                 Collections.singletonMap("memberId", memberId.toString().getBytes()),
+                voucherRowMapper);
+
+        } catch (RuntimeException e) {
+            logger.error("Failed to find voucher by member id!", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        try {
+            return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE type = :type)",
+                Collections.singletonMap("type", type.toString()),
                 voucherRowMapper);
 
         } catch (RuntimeException e) {
@@ -148,8 +164,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
             case PERCENT_DISCOUNT:
                 return new PercentDiscountVoucher(voucherId, amount, createdAt, memberId);
             default:
-                logger.error("Invalid voucher type!");
-                throw new InvalidVoucherTypeException("Invalid voucher type!");
+                IllegalArgumentException e = new IllegalArgumentException(
+                    "Voucher type must be FIXED_AMOUNT or PERCENT_DISCOUNT!");
+                logger.error("Invalid voucher type!", e);
+                throw e;
         }
     };
 
