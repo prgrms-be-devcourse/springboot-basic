@@ -6,7 +6,7 @@ menu:
     Type "list" to list all vouchers or blacklists.
     >
   create: |-
-    Please select the voucher you want to create by "number".
+    Please select the voucher you want to create by number or Type.
     1. FixedAmountVoucher
     2. PercentDiscountVoucher
     >

@@ -1,24 +1,33 @@
 package org.devcourse.voucher.customer;
 
-
-import java.util.UUID;
-
 public class Customer {
-    private final UUID customerId;
-
     private String name;
-    private String age;
+    private int age;
 
-    public Customer(UUID customerId, String name, String age) {
-        this.customerId = customerId;
+    public Customer(String name, int age) {
         this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
         this.age = age;
     }
 
     @Override
     public String toString() {
-        return  customerId + "\t" +
-                name + "\t" +
-                age + "\t";
+        return name + "\t" +
+                age;
     }
 }

@@ -4,15 +4,17 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER("1", FixedAmountVoucher::new),
-    PERCENT_DISCOUNT_VOUCHER("2", PercentDiscountVoucher::new),
-    NONE("", null);
+    FIXED_AMOUNT_VOUCHER("1", "FixedAmountVoucher", FixedAmountVoucher::new),
+    PERCENT_DISCOUNT_VOUCHER("2", "PercentDiscountVoucher", PercentDiscountVoucher::new),
+    NONE("", "", null);
 
-    private String option;
-    BiFunction<UUID, Long, Voucher> creator;
+    private final String option;
+    private final String name;
+    private final BiFunction<UUID, Long, Voucher> creator;
 
-    VoucherType(String option, BiFunction<UUID, Long, Voucher> creator) {
+    VoucherType(String option, String name, BiFunction<UUID, Long, Voucher> creator) {
         this.option = option;
+        this.name = name;
         this.creator = creator;
     }
 
@@ -20,8 +22,8 @@ public enum VoucherType {
         VoucherType voucherType;
 
         switch (input) {
-            case "1" -> voucherType = FIXED_AMOUNT_VOUCHER;
-            case "2" -> voucherType = PERCENT_DISCOUNT_VOUCHER;
+            case "1", "FixedAmountVoucher" -> voucherType = FIXED_AMOUNT_VOUCHER;
+            case "2", "PercentDiscountVoucher" -> voucherType = PERCENT_DISCOUNT_VOUCHER;
             default -> voucherType = NONE;
         }
         return voucherType;

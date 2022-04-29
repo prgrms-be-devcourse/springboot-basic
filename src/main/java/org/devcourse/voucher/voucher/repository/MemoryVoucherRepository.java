@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Primary
+//@Primary
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> store = new LinkedHashMap<>();
