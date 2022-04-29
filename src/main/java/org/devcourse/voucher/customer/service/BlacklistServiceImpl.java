@@ -1,8 +1,7 @@
 package org.devcourse.voucher.customer.service;
 
-import org.devcourse.voucher.customer.Customer;
+import org.devcourse.voucher.customer.model.Customer;
 import org.devcourse.voucher.customer.repository.BlacklistRepository;
-import org.devcourse.voucher.customer.repository.CsvBlacklistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
