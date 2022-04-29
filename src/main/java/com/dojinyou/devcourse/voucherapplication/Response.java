@@ -1,5 +1,7 @@
 package com.dojinyou.devcourse.voucherapplication;
 
+import java.util.List;
+
 public class Response<T> {
     private final State state;
     private final T data;
@@ -11,7 +13,17 @@ public class Response<T> {
 
     @Override
     public String toString() {
-        return "응답 결과(" + this.state + "): " + data.toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("응답 결과(" + this.state + "): ");
+        if (data instanceof List) {
+            List dataList = (List)data;
+            for(var obj:dataList) {
+                sb.append(obj.toString());
+            }
+        } else {
+            sb.append(data.toString());
+        }
+        return sb.toString();
     }
 
     public State getState() {
