@@ -4,36 +4,36 @@ import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.VoucherType;
 import org.programmers.kdtspring.repository.user.CustomerRepository;
 import org.programmers.kdtspring.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.Scanner;
 
 public class CreateCommandStrategy implements CommandStrategy {
 
+    private static final Logger log = LoggerFactory.getLogger(CreateCommandStrategy.class);
     private final Input input;
+    private final Output output;
     private final VoucherService voucherService;
-    private final CustomerRepository customerRepository;
-    private final Scanner scanner = new Scanner(System.in);
 
-    public CreateCommandStrategy(Input input, VoucherService voucherService, CustomerRepository customerRepository) {
+    public CreateCommandStrategy(Input input, Output output, VoucherService voucherService) {
         this.input = input;
+        this.output = output;
         this.voucherService = voucherService;
-        this.customerRepository = customerRepository;
     }
 
     @Override
     public void runCommand() {
         String chosenVoucher = input.chooseVoucher();
-        String email = input.inputEmail();
-        Optional<Customer> customer = customerRepository.findByEmail(email);
         if (chosenVoucher.equalsIgnoreCase(String.valueOf(VoucherType.FixedAmountVoucher))) {
-            int amount = scanner.nextInt();
-            voucherService.createFixedAmountVoucher(customer, amount);
+            int amount = input.inputDiscount();
+            voucherService.createVoucher(VoucherType.FixedAmountVoucher, amount, 0);
         }
         if (chosenVoucher.equalsIgnoreCase(String.valueOf(VoucherType.PercentDiscountVoucher))) {
-            int percent = scanner.nextInt();
-            voucherService.createPercentDiscountVoucher(percent);
+            int percent = input.inputDiscount();
+            voucherService.createVoucher(VoucherType.FixedAmountVoucher, 0, percent);
         }
-
+        output.voucherCreated();
     }
 }

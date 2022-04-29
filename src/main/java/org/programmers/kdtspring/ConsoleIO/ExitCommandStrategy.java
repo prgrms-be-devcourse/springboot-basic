@@ -2,8 +2,14 @@ package org.programmers.kdtspring.ConsoleIO;
 
 public class ExitCommandStrategy implements CommandStrategy {
 
+    private final Output output;
+
+    public ExitCommandStrategy(Output output) {
+        this.output = output;
+    }
+
     @Override
     public void runCommand() {
-        System.out.println("프로그램을 종료합니다.");
+        output.terminate();
     }
 }
