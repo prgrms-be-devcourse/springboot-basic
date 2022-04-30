@@ -1,15 +1,18 @@
 package org.prgrms.kdt.controller;
 
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.CustomerList;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.VoucherWalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
@@ -21,9 +24,12 @@ public class VoucherWalletController {
 
     private final VoucherService voucherService;
 
-    public VoucherWalletController(VoucherWalletService voucherWalletService, VoucherService voucherService) {
+    private final CustomerService customerService;
+
+    public VoucherWalletController(VoucherWalletService voucherWalletService, VoucherService voucherService, CustomerService customerService) {
         this.voucherWalletService = voucherWalletService;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping("/voucherWallet")
@@ -62,5 +68,25 @@ public class VoucherWalletController {
     public String deleteVoucher(@PathVariable String voucherId) {
         voucherService.deleteVoucherById(UUID.fromString(voucherId));
         return "/voucherWallet/walletHome";
+    }
+
+    @GetMapping("/voucherWallet/provideForm/{voucherId}")
+    public String voucherProvideForm(Model model, @PathVariable String voucherId){
+        CustomerList customerList = customerService.getAllCustomers();
+        List<Customer> customers = customerList.getCustomers();
+
+        model.addAttribute("customers", customers);
+        model.addAttribute("voucherId", voucherId);
+        return "voucherWallet/voucherProvideForm";
+    }
+
+    @PostMapping("/voucherWallet/provide")
+    public String voucherProvide(@RequestParam Map<String, String> parameter) {
+        String customerId = parameter.get("customerId");
+        String voucherId = parameter.get("voucherId");
+        System.out.println(customerId);
+        System.out.println(voucherId);
+        voucherService.provideVoucherToCustomer(voucherId, customerId);
+        return "voucherWallet/walletHome";
     }
 }

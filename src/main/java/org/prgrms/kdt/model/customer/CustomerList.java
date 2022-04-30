@@ -22,4 +22,8 @@ public class CustomerList {
             OutputConsole.printMessage(customer.getCustomerId().toString());
         });
     }
+
+    public List<Customer> getCustomers() {
+        return List.copyOf(customers);
+    }
 }
