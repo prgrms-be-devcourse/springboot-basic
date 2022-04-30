@@ -52,6 +52,7 @@ public class BasicMessage {
 		FIX_VOUCHER_SELECT_MESSAGE("\n고정 할인 쿠폰 생성을 누르셨습니다.\n할인 금액을 적어주세요.\n할인금액[1~100_000_000]\n\n 입력 : "),
 		PERCENT_VOUCHER_SELECT_MESSAGE("\n정률 할인 쿠폰 생성을 누르셨습니다.\n할인율을 적어주세요.\n할인 퍼센트[1~100] \n\n 입력 : "),
 		VOUCHER_LIST_UP_WITH_CUSTOMER("\n쿠폰 번호를 입력해주세요. 쿠폰을 보유한 고객들을 조회힙니다.\n\n 입력 : "),
+		DELETE("\n 삭제할 쿠폰 번호를 입력해주세요.\n\n입력 : "),
 		EXIT("\n=== 프로그램을 종료합니다 ===\n");
 
 		private String message;

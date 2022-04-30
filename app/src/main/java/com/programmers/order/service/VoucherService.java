@@ -9,7 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.CustomerDto;
+import com.programmers.order.exception.DomainException;
+import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.repository.voucher.VoucherRepository;
+import com.programmers.order.utils.TranslatorUtils;
 
 @Transactional(readOnly = true)
 @Service
@@ -25,11 +28,11 @@ public class VoucherService {
 
 	@Transactional
 	public Voucher save(Voucher voucher) {
-		return voucherRepository.saveVoucher(voucher);
+		return voucherRepository.insert(voucher);
 	}
 
 	public List<Voucher> lookUp() {
-		return voucherRepository.getVouchers();
+		return voucherRepository.findAll();
 	}
 
 	public boolean isNotExist(String voucherId) {
@@ -48,6 +51,17 @@ public class VoucherService {
 				.stream()
 				.map(customer -> new CustomerDto.ResponseDto(customer.getEmail(), customer.getName()))
 				.toList();
+	}
+
+	public void delete(String voucherId) {
+		UUID voucherIdentity = TranslatorUtils.toUUID(voucherId.getBytes());
+		Optional<Voucher> voucher = findById(voucherIdentity);
+
+		if (voucher.isEmpty()) {
+			throw new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR);
+		}
+
+		voucherRepository.delete(voucherIdentity);
 	}
 }
 /**

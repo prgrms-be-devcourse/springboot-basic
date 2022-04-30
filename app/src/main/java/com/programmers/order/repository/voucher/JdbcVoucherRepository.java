@@ -51,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher saveVoucher(Voucher voucher) {
+	public Voucher insert(Voucher voucher) {
 		int update = namedParameterJdbcTemplate.update(
 				"INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at) VALUES (UUID_TO_BIN(:voucherId), :voucherType , :discountValue, :createdAt)",
 				toParameters(voucher));
@@ -65,7 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> getVouchers() {
+	public List<Voucher> findAll() {
 		return namedParameterJdbcTemplate.query("select * from vouchers", this.getVoucherRowMapper());
 	}
 
@@ -84,11 +84,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		}
 	}
 
-	/**
-	 * what : 추상 팩터리 메소드로 해당 타입에 맞는 객체로 Resolve함.
-	 *   멘토님 의견 들어봐야함!
-	 * why : 현재 해당 도메인 객체를 실제 생성해야 하는데 Voucher는 interface 타입이라 인스턴스 화를 못시킴..
-	 */
+	@Override
+	public void delete(UUID voucherId) {
+		namedParameterJdbcTemplate.update(
+				"DELETE FROM customers where customer_id = :customerId",
+				Collections.singletonMap("voucher_id", voucherId.toString().getBytes())
+		);
+	}
+
 	private RowMapper<Voucher> getVoucherRowMapper() {
 		return (rs, rowNum) -> {
 			UUID id = TranslatorUtils.toUUID(rs.getBytes("voucher_id"));

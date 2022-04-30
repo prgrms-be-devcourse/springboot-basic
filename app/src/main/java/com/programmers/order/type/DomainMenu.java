@@ -8,7 +8,7 @@ public class DomainMenu {
 	}
 
 	public enum MenuType {
-		CREATE, LIST, EXIT, LIST_UP_WITH_CUSTOMER, NONE;
+		CREATE, LIST, EXIT, LIST_UP_WITH_CUSTOMER,DELETE, NONE;
 
 		public static MenuType of(String input) {
 			return Arrays.stream(MenuType.values())

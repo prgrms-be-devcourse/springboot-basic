@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.CustomerDto;
+import com.programmers.order.exception.DomainException;
 import com.programmers.order.exception.ServiceException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.io.Input;
@@ -16,6 +17,7 @@ import com.programmers.order.io.Output;
 import com.programmers.order.manager.VoucherManager;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.service.VoucherService;
 import com.programmers.order.type.DomainMenu.MenuType;
 import com.programmers.order.type.ProgramType;
@@ -23,7 +25,7 @@ import com.programmers.order.type.VoucherType;
 
 @Component("Voucher")
 public class VoucherController implements Controller {
-	private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+	private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 	private static final String EMPTY_STRING = "";
 	private static final String LINE = "\n";
 
@@ -58,9 +60,12 @@ public class VoucherController implements Controller {
 				case LIST_UP_WITH_CUSTOMER -> {
 					listUpWithCustomer();
 				}
+				case DELETE -> {
+					delete();
+				}
 				case NONE -> {
 					output.write(ErrorMessage.CLIENT_ERROR);
-					logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
+					log.error("error : {}", ErrorMessage.CLIENT_ERROR);
 					continue;
 				}
 			}
@@ -69,6 +74,17 @@ public class VoucherController implements Controller {
 		}
 
 		output.write(BasicMessage.CommonMessage.EXIT);
+	}
+
+	private void delete() {
+		String voucherId = input.read(BasicMessage.Voucher.DELETE);
+		try {
+			voucherService.delete(voucherId);
+		} catch (DomainException.NotFoundResource e) {
+			e.printStackTrace();
+			log.info(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
+			output.write(ErrorMessage.CLIENT_ERROR);
+		}
 	}
 
 	@Override
@@ -89,7 +105,7 @@ public class VoucherController implements Controller {
 			voucherService.save(voucherManager.create());
 		} catch (ServiceException.NotSupportedException exception) {
 			output.write(ErrorMessage.CLIENT_ERROR);
-			logger.error("error : {}", ErrorMessage.CLIENT_ERROR);
+			log.error("error : {}", ErrorMessage.CLIENT_ERROR);
 		}
 
 	}

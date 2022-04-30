@@ -45,7 +45,7 @@ class FileStoreManagerTest {
 
 		demoVouchers.forEach(voucher -> {
 			//when
-			Voucher savedVoucher = storeManager.saveVoucher(voucher);
+			Voucher savedVoucher = storeManager.insert(voucher);
 
 			// then
 			Assertions.assertThat(savedVoucher).isNotNull();
@@ -63,7 +63,7 @@ class FileStoreManagerTest {
 				.map(Voucher::getVoucherId)
 				.toList();
 		//when
-		List<Voucher> vouchers = storeManager.getVouchers();
+		List<Voucher> vouchers = storeManager.findAll();
 		List<UUID> uuids = vouchers.stream()
 				.map(Voucher::getVoucherId)
 				.toList();

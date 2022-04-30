@@ -35,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final boolean CONTINUE_WRITING = true;
 
 	@Override
-	public Voucher saveVoucher(Voucher voucher) {
+	public Voucher insert(Voucher voucher) {
 
 		File csvFile = this.getCsvFile();
 		ObjectWriter writer = this.getWriter();
@@ -56,7 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> getVouchers() {
+	public List<Voucher> findAll() {
 		CsvMapper csvMapper = FileUtils.getCsvMapper();
 		CsvSchema schema = FileUtils.getSchemaWithHeader(VoucherForCsv.class);
 
@@ -82,6 +82,10 @@ public class FileVoucherRepository implements VoucherRepository {
 		return Optional.empty();
 	}
 
+	@Override
+	public void delete(UUID voucherId) {
+
+	}
 
 	private ObjectWriter getWriter() {
 		File csvFile = this.getCsvFile();
