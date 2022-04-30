@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.util.security;
+package org.prgrms.deukyun.voucherapp.system.security;
 
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 

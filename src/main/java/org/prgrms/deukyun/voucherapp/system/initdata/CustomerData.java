@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.util.initdata;
+package org.prgrms.deukyun.voucherapp.system.initdata;
 
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;

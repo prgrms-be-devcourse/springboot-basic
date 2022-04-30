@@ -1,7 +1,7 @@
 package org.prgrms.deukyun.voucherapp.view.console;
 
 import org.jline.utils.AttributedString;
-import org.prgrms.deukyun.voucherapp.util.security.CustomerHolder;
+import org.prgrms.deukyun.voucherapp.system.security.CustomerHolder;
 import org.springframework.shell.jline.PromptProvider;
 import org.springframework.stereotype.Component;
 

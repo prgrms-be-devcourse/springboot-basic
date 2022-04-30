@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.util.initdata;
+package org.prgrms.deukyun.voucherapp.system.initdata;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

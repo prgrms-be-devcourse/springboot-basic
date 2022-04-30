@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.util.security;
+package org.prgrms.deukyun.voucherapp.system.security;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

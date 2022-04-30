@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.util.security;
+package org.prgrms.deukyun.voucherapp.system.security;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
