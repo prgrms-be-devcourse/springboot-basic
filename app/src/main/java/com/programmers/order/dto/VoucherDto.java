@@ -38,6 +38,25 @@ public class VoucherDto {
 			this.discountValue = discountValue;
 			this.createdAt = createdAt;
 		}
+
+		public UUID getId() {
+			return id;
+		}
+
+		public String show() {
+			return "id=" + id +
+					", discountValue=" + discountValue +
+					", createdAt=" + createdAt;
+		}
+
+		@Override
+		public String toString() {
+			return "Response{" +
+					"id=" + id +
+					", discountValue=" + discountValue +
+					", createdAt=" + createdAt +
+					'}';
+		}
 	}
 
 }

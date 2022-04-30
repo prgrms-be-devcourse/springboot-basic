@@ -21,4 +21,6 @@ public interface CustomerVoucherRepository {
 	List<Voucher> joinVouchers(UUID customerId);
 
 	List<Customer> joinCustomers(String voucherId);
+
+	void deleteByCustomerIdAndVoucherId(UUID customerIdentity, UUID voucherIdentity);
 }

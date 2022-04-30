@@ -3,6 +3,7 @@ package com.programmers.order.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -19,9 +20,9 @@ import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.service.CustomerService;
-import com.programmers.order.service.VoucherService;
 import com.programmers.order.type.DomainMenu.CustomerMenuType;
 import com.programmers.order.type.ProgramType;
+import com.programmers.order.utils.TranslatorUtils;
 
 @Component("Customer")
 public class CustomerController implements Controller {
@@ -29,18 +30,15 @@ public class CustomerController implements Controller {
 	private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 	private static final String DEFAULT_DELIMITER = ",";
 	private static final String EMPTY_STRING = "";
+	private static final String LINE = "\n";
 	private final Input input;
 	private final Output output;
-
 	private final CustomerService customerService;
-	private final VoucherService voucherService;
 
-	public CustomerController(Input input, Output output, CustomerService customerService,
-			VoucherService voucherService) {
+	public CustomerController(Input input, Output output, CustomerService customerService) {
 		this.input = input;
 		this.output = output;
 		this.customerService = customerService;
-		this.voucherService = voucherService;
 	}
 
 	@Override
@@ -77,15 +75,50 @@ public class CustomerController implements Controller {
 		output.write(BasicMessage.EXIT);
 	}
 
+	/**
+	 * todo
+	 *  1. emailId 를 입력 받고
+	 *  2. 해당 email에 관련된 voucher 현황을 보여주고 거기에서 지우고 싶은 voucherId를 입력하라함.
+	 *
+	 */
 	private void UnMappingVoucher() {
+		boolean isRenter = true;
+		String email = EMPTY_STRING;
+
+		do {
+			email = input.read(BasicMessage.CUSTOMER_UN_MAPPING_EMAIL);
+			isRenter = customerService.notExistByEmail(email);
+		} while (isRenter);
+
+		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
+		String voucherBundles = responses
+				.stream()
+				.map(VoucherDto.Response::show)
+				.collect(Collectors.joining(LINE));
+
+		output.write(voucherBundles);
+
+		Set<UUID> validVoucherIds = responses.stream()
+				.map(response -> response.getId())
+				.collect(Collectors.toSet());
+		String voucher = EMPTY_STRING;
+		UUID voucherIdentity = new UUID(0, 0);
+
+		do {
+			voucher = input.read(BasicMessage.CUSTOMER_UN_MAPPING_VOUCHER);
+			voucherIdentity = TranslatorUtils.toUUID(voucher.getBytes());
+			isRenter = !validVoucherIds.contains(voucherIdentity);
+		} while (isRenter);
+
+		customerService.unMappingVoucher(email, voucherIdentity);
+
 	}
 
 	private void RegisterVoucher() {
 		boolean isRenter = true;
 
 		do {
-			String registrationInformation = input.read(BasicMessage.CUSTOMER_REGISTER_COUPON);
-			String[] informationBundles = registrationInformation.split(DEFAULT_DELIMITER);
+			String[] informationBundles = input.read(BasicMessage.CUSTOMER_REGISTER_COUPON).split(DEFAULT_DELIMITER);
 			CustomerDto.RegisterVoucherDto registerVoucherDto = getCustomerDtoConverter().convert(informationBundles);
 			Optional<UUID> customerVoucherDto = customerService.registerVoucher(registerVoucherDto);
 
@@ -107,9 +140,11 @@ public class CustomerController implements Controller {
 		do {
 			email = input.read(BasicMessage.CUSTOMER_LIST_UP_WITH_VOUCHER);
 			isRenter = customerService.notExistByEmail(email);
-			if(isRenter){
+
+			if (isRenter) {
 				output.write(BasicMessage.CUSTOMER_NOT_EXIST_EMAIL);
 			}
+
 		} while (isRenter);
 
 		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
@@ -120,8 +155,8 @@ public class CustomerController implements Controller {
 		}
 
 		String voucherBundles = responses.stream()
-				.map(Object::toString)
-				.collect(Collectors.joining("\n", "--start--\n", "--end--\n"));
+				.map(VoucherDto.Response::show)
+				.collect(Collectors.joining(LINE, LINE, LINE));
 
 		output.write(voucherBundles);
 

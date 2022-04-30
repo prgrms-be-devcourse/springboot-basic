@@ -60,4 +60,8 @@ public class CustomerVoucherService {
 	public Optional<Voucher> findById(UUID voucherId) {
 		return customerVoucherRepository.findVoucherByVoucherId(voucherId);
 	}
+
+	public void deleteByCustomerIdAndVoucherId(UUID customerIdentity, UUID voucherIdentity) {
+		customerVoucherRepository.deleteByCustomerIdAndVoucherId(customerIdentity,voucherIdentity);
+	}
 }

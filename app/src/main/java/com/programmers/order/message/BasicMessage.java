@@ -2,6 +2,8 @@ package com.programmers.order.message;
 
 public enum BasicMessage {
 
+
+
 	PROGRAME_INIT("\n번호를 선택하세요.\n1. 고객 관리 프로그램 \n2. 쿠폰 관리 프로그램\n3. 프로그램 종료\n\n 입력 : "),
 
 	CUSTOMER_INIT(
@@ -11,7 +13,8 @@ public enum BasicMessage {
 	CUSTOMER_REGISTER_COUPON("\n이메일과 쿠폰 번호를 입력해주세요. (ex: 홍길동,123-3123-123)\n\n 입력 : "),
 
 	CUSTOMER_LIST_UP_WITH_VOUCHER("\n이메일을 입력해주세요. 쿠폰 보유 항목을 조회힙니다.\n\n 입력 : "),
-	CUSTOMER_UN_MAPPING("\n이메일과 쿠폰 번호를 입력해주세요. 보유한 쿠폰을 삭제합니다.\n\n 입력 : "),
+	CUSTOMER_UN_MAPPING_EMAIL("\n이메일과 보유한 쿠폰을 삭제합니다.\n\n 입력 : "),
+	CUSTOMER_UN_MAPPING_VOUCHER("\n쿠폰 번호를 입력해주세요.\n\n 입력 : "),
 	VOUCHER_INIT(
 			"\n=== Voucher Program ===\n Type 'exit' to exit the program.\n Type 'list_up_with_customer' to exit the program.\n Type 'create' to create a new voucher.\n Type 'list' to list all vouchers.\n\n 입력 : "),
 	VOUCHER_SELECT("\n번호를 선택하세요.\n1. FixedAmountVoucher \n2. PercentDiscountVoucher \n\n 입력 : "),

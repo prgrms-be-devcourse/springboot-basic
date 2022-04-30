@@ -122,6 +122,13 @@ public class CustomerService {
 		return List.of();
 	}
 
+	public void unMappingVoucher(String email, UUID voucherIdentity) {
+		Customer customer = customerRepository.findByEmail(email)
+				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.INTERNAL_PROGRAM_ERROR));
+		UUID customerIdentity = customer.getCustomerId();
+		customerVoucherService.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
+	}
+
 	// todo : 바우처 매핑,조회(고객이 가지고 있는 바우처 및 바우처를 보유한 고객 리스트),특정 바우처 제거
 
 }

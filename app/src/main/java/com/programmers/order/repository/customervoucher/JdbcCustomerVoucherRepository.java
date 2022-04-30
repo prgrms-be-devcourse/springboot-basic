@@ -147,6 +147,15 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 				CUSTOMER_ROW_MAPPER);
 	}
 
+	@Override
+	public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+		namedParameterJdbcTemplate.update(
+				"DELETE FROM customers where customer_id = :customerId and voucher_id= :voucherId", Map.ofEntries(
+						Map.entry("voucherId", voucherId),
+						Map.entry("customerId", customerId)
+				));
+	}
+
 	private Map<String, Object> toParameters(CustomerVoucher customerVoucher) {
 		return new HashMap<>() {{
 			put("id", customerVoucher.getId().toString().getBytes());
