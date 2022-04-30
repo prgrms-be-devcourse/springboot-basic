@@ -61,16 +61,16 @@ public class CsvVoucherRepository implements VoucherRepository {
             String[] record;
 
             while ((record = csvReader.readNext()) != null) {
-                Voucher voucher = VoucherType.discriminate(record[VOUCHER_TYPE])
+                Voucher voucher = VoucherType.nameDiscriminate(record[VOUCHER_TYPE])
                         .voucherCreator(UUID.fromString(record[VOUCHER_ID]), Long.parseLong(record[DISCOUNT]));
                 vouchers.add(voucher);
             }
         } catch (FileNotFoundException e) {
-            logger.error(MessageFormat.format("File not found -> {0}", e.getMessage()));
+            logger.error("File not found -> {}", e.getMessage());
         } catch (CsvValidationException e) {
-            logger.error(MessageFormat.format("This is not a valid format CSV file -> {0}", e.getMessage()));
+            logger.error("This is not a valid format CSV file -> {}", e.getMessage());
         } catch (IOException e) {
-            logger.error(MessageFormat.format("Failed to read data from file -> {0}", e.getMessage()));
+            logger.error("Failed to read data from file -> {}", e.getMessage());
         }
         return vouchers;
     }

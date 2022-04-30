@@ -30,6 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         paramMap.put("name", customer.getName());
         return paramMap;
     }
+
     @Override
     public Customer insert(Customer customer) {
         int inserted = jdbcTemplate.update("INSERT INTO customers VALUES(UUID_TO_BIN(:customerId), :name)",

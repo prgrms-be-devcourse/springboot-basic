@@ -1,0 +1,13 @@
+00:01:47.062 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3348 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+00:01:47.062 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+00:01:47.360 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.518 seconds (JVM running for 0.79)
+00:02:01.263 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : Processing voucher generation
+00:02:01.265 [main] INFO  o.d.v.v.service.VoucherServiceImpl - Service : Create Voucher
+00:02:01.281 [main] INFO  o.d.v.v.r.CsvVoucherRepository - Repository : Record a voucher write
+00:02:13.183 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+00:02:43.031 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+00:02:49.045 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+00:02:53.714 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : List inquire processing
+00:02:53.716 [main] INFO  o.d.v.c.service.BlacklistServiceImpl - Service : Blacklist Inquiry
+00:02:53.724 [main] INFO  o.d.v.c.r.CsvBlacklistRepository - Repository : Blacklist File Inquiry
+00:02:57.792 [main] INFO  o.devcourse.voucher.view.OutputView - exit

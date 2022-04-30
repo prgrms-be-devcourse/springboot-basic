@@ -52,6 +52,21 @@ public class OutputView implements Output{
     }
 
     @Override
+    public void voucherMenu() {
+        System.out.print(menu.getVoucher() + " ");
+    }
+
+    @Override
+    public void nameMenu() {
+        System.out.print(menu.getName() + " ");
+    }
+
+    @Override
+    public void emailMenu() {
+        System.out.print(menu.getEmail() + " ");
+    }
+
+    @Override
     public void warn(ErrorType errorType) {
         System.out.println(errorType.message());
         logger.warn(errorType.message());

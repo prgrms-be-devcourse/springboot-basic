@@ -18,5 +18,11 @@ public interface Output {
 
     void discountMenu();
 
+    void voucherMenu();
+
+    void nameMenu();
+
+    void emailMenu();
+
     void warn(ErrorType errorType);
 }

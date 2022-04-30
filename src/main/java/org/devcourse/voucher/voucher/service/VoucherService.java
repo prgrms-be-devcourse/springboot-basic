@@ -1,6 +1,5 @@
 package org.devcourse.voucher.voucher.service;
 
-import org.devcourse.voucher.model.ListType;
 import org.devcourse.voucher.voucher.model.Voucher;
 import org.devcourse.voucher.voucher.model.VoucherType;
 
