@@ -62,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         );
 
         if (updatedNum != 1) {
-            throw new IllegalStateException(String.valueOf(updatedNum));
+            throw new IllegalStateException("Error occur while update");
         }
 
         return voucher;
