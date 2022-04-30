@@ -20,7 +20,6 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    //조회
     @GetMapping
     public String customerList(Model model) {
         var customers = customerService.findCustomers();
@@ -30,7 +29,6 @@ public class CustomerController {
         return "/customer/customers";
     }
 
-    //상세
     @GetMapping("/{customerId}/detail")
     public String customerDetails(@PathVariable UUID customerId, Model model) {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
@@ -40,7 +38,6 @@ public class CustomerController {
         return "/customer/customerDetail";
     }
 
-    //입력
     @GetMapping("/new")
     public String customerAdd(Model model) {
         model.addAttribute("newCustomerDto", new CustomerDto());
@@ -78,7 +75,6 @@ public class CustomerController {
     }
 
 
-    //삭제
     @PostMapping("/{customerId}/removal")
     public String customerRemove(@PathVariable UUID customerId) {
         customerService.removeCustomerById(customerId);

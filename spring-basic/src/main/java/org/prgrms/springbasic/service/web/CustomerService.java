@@ -23,7 +23,6 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    //조회, 상세
     public List<Customer> findCustomers() {
         return customerRepository.findCustomers();
     }
@@ -33,7 +32,6 @@ public class CustomerService {
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_CUSTOMER.getMessage()));
     }
 
-    //입력
     public void addCustomer(Customer customer) {
         validateDuplicatedCustomer(customer.getCustomerId());
 
@@ -46,7 +44,6 @@ public class CustomerService {
         customerRepository.update(retrievedCustomer);
     }
 
-    //삭제
     public void removeCustomerById(UUID customerId) {
         customerRepository.deleteByCustomerId(customerId);
     }

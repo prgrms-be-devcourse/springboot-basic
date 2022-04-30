@@ -15,7 +15,6 @@ public class WalletService {
 
     private final VoucherRepository repository;
 
-    //조회
     public List<Wallet> findWallets() {
         return repository.findWallets();
     }

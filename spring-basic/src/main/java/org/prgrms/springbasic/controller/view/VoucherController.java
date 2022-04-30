@@ -20,7 +20,6 @@ public class VoucherController {
     
     private final VoucherService voucherService;
 
-    //조회
     @GetMapping
     public String voucherList(Model model) {
         var vouchers = voucherService.findVouchers();
@@ -39,7 +38,6 @@ public class VoucherController {
         return "/voucher/customerVouchers";
     }
 
-    //상세
     @GetMapping("/{voucherId}/detail")
     public String voucherDetails(@PathVariable UUID voucherId, Model model) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
@@ -49,7 +47,6 @@ public class VoucherController {
         return "/voucher/voucherDetail";
     }
 
-    //입력
     @GetMapping("/new")
     public String voucherAdd(Model model) {
         model.addAttribute("newVoucherDto", new VoucherDto());
@@ -104,7 +101,6 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-    //삭제
     @PostMapping("/{voucherId}/removal")
     public String voucherRemove(@PathVariable UUID voucherId) {
         voucherService.removeVoucherById(voucherId);

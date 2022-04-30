@@ -26,7 +26,6 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    //조회, 상세
     public List<Voucher> findVouchers() {
         return voucherRepository.findVouchers();
     }
@@ -56,7 +55,6 @@ public class VoucherService {
         return validateVouchers(retrievedVoucher);
     }
 
-    //입력
     public Voucher addVoucher(Voucher voucher) throws DuplicatedDataException {
         validateDuplicatedVoucher(voucher.getVoucherId());
 
@@ -75,7 +73,6 @@ public class VoucherService {
         voucherRepository.update(assignedVoucher);
     }
 
-    //삭제
     public boolean removeVoucherById(UUID voucherId) {
         return voucherRepository.deleteByVoucherId(voucherId);
     }
