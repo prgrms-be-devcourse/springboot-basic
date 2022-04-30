@@ -21,8 +21,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.VoucherForCsv;
 import com.programmers.order.exception.FileException;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.utils.FileUtils;
 
 @Profile("file")
@@ -45,10 +45,10 @@ public class FileVoucherRepository implements VoucherRepository {
 					.write(voucher);
 			output.flush();
 		} catch (FileNotFoundException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_FILE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_FILE);
 			e.printStackTrace();
 		} catch (IOException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.IO_EXCEPTION);
 			e.printStackTrace();
 		}
 
@@ -71,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			return it.readAll();
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error("error : {}", ErrorLogMessage.IO_EXCEPTION);
+			log.error("error : {}", LogMessage.ErrorLogMessage.IO_EXCEPTION);
 		}
 
 		return List.of();
@@ -113,10 +113,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.IO_EXCEPTION);
 		} catch (FileException.NotCreateFileException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_CREATE_FILE);
 		}
 	}
 

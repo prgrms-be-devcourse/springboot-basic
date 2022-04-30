@@ -22,8 +22,8 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.order.domain.Customer;
 import com.programmers.order.exception.JdbcException;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.utils.TranslatorUtils;
 
 @Profile("jdbc")
@@ -79,7 +79,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				toParameters(customer));
 
 		if (update != 1) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -94,7 +94,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		);
 
 		if (result != 1) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -117,7 +117,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							CUSTOMER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -133,7 +133,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							CUSTOMER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -147,7 +147,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 							Collections.singletonMap("email", email),
 							CUSTOMER_ROW_MAPPER));
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();

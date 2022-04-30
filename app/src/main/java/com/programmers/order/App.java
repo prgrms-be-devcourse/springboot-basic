@@ -39,9 +39,8 @@ public class App {
 		return args -> {
 			ProgramType program = ProgramType.NONE;
 			do {
-				String programType = input.read(BasicMessage.PROGRAME_INIT);
+				String programType = input.read(BasicMessage.CommonMessage.PROGRAM_INIT);
 				program = ProgramType.of(programType);
-				System.out.println("programType = " + programType);
 				Controller controller = controllerManager.of(program.getBeanName());
 
 				controller.run();

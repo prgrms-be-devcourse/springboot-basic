@@ -14,7 +14,7 @@ import com.programmers.order.domain.Customer;
 import com.programmers.order.domain.CustomerVoucher;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.exception.JdbcException;
-import com.programmers.order.message.ErrorLogMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.repository.customervoucher.CustomerVoucherRepository;
 
 @Transactional(readOnly = true)
@@ -39,7 +39,7 @@ public class CustomerVoucherService {
 			return Optional.ofNullable(customerVoucher.getId());
 		} catch (JdbcException.NotExecuteQuery e) {
 			e.printStackTrace();
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 
 			return Optional.empty();
 		}

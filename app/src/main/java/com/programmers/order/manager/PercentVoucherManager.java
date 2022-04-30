@@ -38,7 +38,7 @@ public class PercentVoucherManager implements VoucherManager {
 		String percent = NOT_DECISION;
 
 		while (isReEnter) {
-			percent = input.read(BasicMessage.PERCENT_VOUCHER_SELECT_MESSAGE);
+			percent = input.read(BasicMessage.Voucher.PERCENT_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPercent(percent)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);

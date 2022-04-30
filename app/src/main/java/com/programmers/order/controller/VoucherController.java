@@ -45,7 +45,7 @@ public class VoucherController implements Controller {
 		MenuType menuType = MenuType.NONE;
 
 		while (menuType.isReEnter()) {
-			String menu = input.read(BasicMessage.VOUCHER_INIT);
+			String menu = input.read(BasicMessage.Voucher.VOUCHER_INIT);
 			menuType = MenuType.of(menu);
 
 			switch (menuType) {
@@ -65,10 +65,10 @@ public class VoucherController implements Controller {
 				}
 			}
 
-			output.write(BasicMessage.NEW_LINE);
+			output.write(BasicMessage.CommonMessage.NEW_LINE);
 		}
 
-		output.write(BasicMessage.EXIT);
+		output.write(BasicMessage.CommonMessage.EXIT);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class VoucherController implements Controller {
 		VoucherType voucherType = VoucherType.NONE;
 
 		do {
-			String voucher = input.read(BasicMessage.VOUCHER_SELECT);
+			String voucher = input.read(BasicMessage.Voucher.VOUCHER_SELECT);
 			voucherType = VoucherType.of(voucher);
 		} while (voucherType.isReEnter());
 
@@ -95,12 +95,12 @@ public class VoucherController implements Controller {
 	}
 
 	private void showVouchers() {
-		output.write(BasicMessage.NEW_LINE);
+		output.write(BasicMessage.CommonMessage.NEW_LINE);
 
 		List<Voucher> vouchers = voucherService.lookUp();
 
 		if (vouchers.isEmpty()) {
-			output.write(BasicMessage.NOT_EXIST_DATE);
+			output.write(BasicMessage.CommonMessage.NOT_EXIST_DATE);
 
 			return;
 		}
@@ -118,7 +118,7 @@ public class VoucherController implements Controller {
 		String voucherId = EMPTY_STRING;
 
 		do {
-			voucherId = input.read(BasicMessage.VOUCHER_LIST_UP_WITH_CUSTOMER);
+			voucherId = input.read(BasicMessage.Voucher.VOUCHER_LIST_UP_WITH_CUSTOMER);
 			isReEnter = voucherService.isNotExist(voucherId);
 		} while (isReEnter);
 

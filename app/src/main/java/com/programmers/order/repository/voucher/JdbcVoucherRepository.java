@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,8 +22,8 @@ import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.type.VoucherType;
 import com.programmers.order.utils.TranslatorUtils;
 
@@ -58,7 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 				toParameters(voucher));
 
 		if (update != 1) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -80,7 +79,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 									Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 									this.getVoucherRowMapper()));
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 			return Optional.empty();
 		}
 	}

@@ -17,7 +17,7 @@ public class ExitController implements Controller {
 
 	@Override
 	public void run() {
-		output.write(BasicMessage.EXIT);
+		output.write(BasicMessage.CommonMessage.EXIT);
 	}
 
 	@Override

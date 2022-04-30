@@ -46,7 +46,7 @@ public class CustomerController implements Controller {
 		CustomerMenuType menuType = CustomerMenuType.NONE;
 
 		while (menuType.isReEnter()) {
-			String menu = input.read(BasicMessage.CUSTOMER_INIT);
+			String menu = input.read(BasicMessage.Customer.CUSTOMER_INIT);
 			menuType = CustomerMenuType.of(menu);
 
 			switch (menuType) {
@@ -57,10 +57,10 @@ public class CustomerController implements Controller {
 					listUpWithVoucher();
 				}
 				case REGISTER -> {
-					RegisterVoucher();
+					registerVoucher();
 				}
 				case UNMAPPING -> {
-					UnMappingVoucher();
+					unMappingVoucher();
 				}
 				case NONE -> {
 					output.write(ErrorMessage.CLIENT_ERROR);
@@ -69,24 +69,18 @@ public class CustomerController implements Controller {
 				}
 			}
 
-			output.write(BasicMessage.NEW_LINE);
+			output.write(BasicMessage.CommonMessage.NEW_LINE);
 		}
 
-		output.write(BasicMessage.EXIT);
+		output.write(BasicMessage.CommonMessage.EXIT);
 	}
 
-	/**
-	 * todo
-	 *  1. emailId 를 입력 받고
-	 *  2. 해당 email에 관련된 voucher 현황을 보여주고 거기에서 지우고 싶은 voucherId를 입력하라함.
-	 *
-	 */
-	private void UnMappingVoucher() {
+	private void unMappingVoucher() {
 		boolean isRenter = true;
 		String email = EMPTY_STRING;
 
 		do {
-			email = input.read(BasicMessage.CUSTOMER_UN_MAPPING_EMAIL);
+			email = input.read(BasicMessage.Customer.CUSTOMER_UN_MAPPING_EMAIL);
 			isRenter = customerService.notExistByEmail(email);
 		} while (isRenter);
 
@@ -99,13 +93,13 @@ public class CustomerController implements Controller {
 		output.write(voucherBundles);
 
 		Set<UUID> validVoucherIds = responses.stream()
-				.map(response -> response.getId())
+				.map(VoucherDto.Response::getId)
 				.collect(Collectors.toSet());
 		String voucher = EMPTY_STRING;
 		UUID voucherIdentity = new UUID(0, 0);
 
 		do {
-			voucher = input.read(BasicMessage.CUSTOMER_UN_MAPPING_VOUCHER);
+			voucher = input.read(BasicMessage.Customer.CUSTOMER_UN_MAPPING_VOUCHER);
 			voucherIdentity = TranslatorUtils.toUUID(voucher.getBytes());
 			isRenter = !validVoucherIds.contains(voucherIdentity);
 		} while (isRenter);
@@ -114,11 +108,11 @@ public class CustomerController implements Controller {
 
 	}
 
-	private void RegisterVoucher() {
+	private void registerVoucher() {
 		boolean isRenter = true;
 
 		do {
-			String[] informationBundles = input.read(BasicMessage.CUSTOMER_REGISTER_COUPON).split(DEFAULT_DELIMITER);
+			String[] informationBundles = input.read(BasicMessage.Customer.CUSTOMER_REGISTER_COUPON).split(DEFAULT_DELIMITER);
 			CustomerDto.RegisterVoucherDto registerVoucherDto = getCustomerDtoConverter().convert(informationBundles);
 			Optional<UUID> customerVoucherDto = customerService.registerVoucher(registerVoucherDto);
 
@@ -130,7 +124,7 @@ public class CustomerController implements Controller {
 			}
 		} while (isRenter);
 
-		output.write(BasicMessage.CUSTOMER_REGISTER_COMPLETE);
+		output.write(BasicMessage.Customer.CUSTOMER_REGISTER_COMPLETE);
 	}
 
 	private void listUpWithVoucher() {
@@ -138,11 +132,11 @@ public class CustomerController implements Controller {
 		String email = EMPTY_STRING;
 
 		do {
-			email = input.read(BasicMessage.CUSTOMER_LIST_UP_WITH_VOUCHER);
+			email = input.read(BasicMessage.Customer.CUSTOMER_LIST_UP_WITH_VOUCHER);
 			isRenter = customerService.notExistByEmail(email);
 
 			if (isRenter) {
-				output.write(BasicMessage.CUSTOMER_NOT_EXIST_EMAIL);
+				output.write(BasicMessage.Customer.CUSTOMER_NOT_EXIST_EMAIL);
 			}
 
 		} while (isRenter);
@@ -150,7 +144,7 @@ public class CustomerController implements Controller {
 		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
 
 		if (responses.isEmpty()) {
-			output.write(BasicMessage.NOT_EXIST_DATE);
+			output.write(BasicMessage.CommonMessage.NOT_EXIST_DATE);
 			return;
 		}
 
@@ -167,7 +161,7 @@ public class CustomerController implements Controller {
 		boolean isRenter = true;
 
 		do {
-			String customerInformation = input.read(BasicMessage.CUSTOMER_CREATE);
+			String customerInformation = input.read(BasicMessage.Customer.CUSTOMER_CREATE);
 			String[] informationBundles = customerInformation.split(DEFAULT_DELIMITER);
 			CustomerDto.SaveRequestDto requestDto = getSaveRequestDtoConverter().convert(informationBundles);
 			Optional<Customer> savedCustomer = customerService.save(requestDto);

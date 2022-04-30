@@ -38,7 +38,7 @@ public class FixVoucherManager implements VoucherManager {
 		String fixPrice = NOT_DECISION;
 
 		while (isReEnter) {
-			fixPrice = input.read(BasicMessage.FIX_VOUCHER_SELECT_MESSAGE);
+			fixPrice = input.read(BasicMessage.Voucher.FIX_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPrice(fixPrice)) {
 				log.info("error : {}", ErrorMessage.CLIENT_ERROR);

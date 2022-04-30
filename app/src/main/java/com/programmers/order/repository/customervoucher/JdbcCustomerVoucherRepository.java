@@ -28,9 +28,8 @@ import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.factory.VoucherManagerFactory;
 import com.programmers.order.manager.VoucherManager;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
-import com.programmers.order.message.InfoLogMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.type.VoucherType;
 import com.programmers.order.utils.TranslatorUtils;
 
@@ -60,7 +59,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 				toParameters(customerVoucher));
 
 		if (update != 1) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
@@ -77,7 +76,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 							CUSTOMER_VOUCHER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -92,7 +91,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 									Collections.singletonMap("voucher_id", voucherId.toString().getBytes()),
 									(rs, row) -> this.getVoucherMapper(rs)));
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 			return Optional.empty();
 		}
 	}
@@ -107,7 +106,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 							CUSTOMER_VOUCHER_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -125,7 +124,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 							), (rs, rowNom) -> TranslatorUtils.toUUID(rs.getBytes("id")))
 			).isPresent();
 		} catch (EmptyResultDataAccessException e) {
-			log.info(InfoLogMessage.getPrefix(), InfoLogMessage.POSSIBLE_REGISTER);
+			log.info(LogMessage.InfoLogMessage.getPrefix(), LogMessage.InfoLogMessage.POSSIBLE_REGISTER);
 			return false;
 		}
 
@@ -154,6 +153,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 						Map.entry("voucherId", voucherId),
 						Map.entry("customerId", customerId)
 				));
+
 	}
 
 	private Map<String, Object> toParameters(CustomerVoucher customerVoucher) {

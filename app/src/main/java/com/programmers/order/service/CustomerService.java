@@ -15,9 +15,8 @@ import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.exception.JdbcException;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
-import com.programmers.order.message.InfoLogMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.repository.customer.CustomerRepository;
 import com.programmers.order.utils.TranslatorUtils;
 
@@ -27,7 +26,6 @@ public class CustomerService {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 	private final CustomerRepository customerRepository;
-
 	private final CustomerVoucherService customerVoucherService;
 
 	public CustomerService(CustomerRepository customerRepository, CustomerVoucherService customerVoucherService) {
@@ -42,7 +40,7 @@ public class CustomerService {
 		try {
 			return Optional.of(customerRepository.insert(customer));
 		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.info(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 
 			return Optional.empty();
 		}
@@ -59,7 +57,7 @@ public class CustomerService {
 
 			return Optional.of(customerRepository.update(customer));
 		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_EXECUTE_QUERY);
+			log.info(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 
 			return Optional.empty();
 		}
@@ -91,13 +89,13 @@ public class CustomerService {
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 
 			if (customerVoucherService.isDuplicatePublish(customer.getCustomerId(), voucher.getVoucherId())) {
-				log.info(InfoLogMessage.getPrefix(), InfoLogMessage.DUPLICATE_VOUCHER_REGISTER);
+				log.info(LogMessage.InfoLogMessage.getPrefix(), LogMessage.InfoLogMessage.DUPLICATE_VOUCHER_REGISTER);
 				return Optional.empty();
 			}
 
 			return customerVoucherService.save(customer.getCustomerId(), voucher.getVoucherId());
 		} catch (DomainException.NotFoundResource e) {
-			log.error(ErrorLogMessage.getPrefix(), ErrorLogMessage.NOT_FOUND_RESOURCE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
 
 		return Optional.empty();
@@ -116,7 +114,7 @@ public class CustomerService {
 							voucher.getCreatedAt()
 					)).toList();
 		} catch (DomainException.NotFoundResource e) {
-			log.info(InfoLogMessage.getPrefix(), InfoLogMessage.CUSTOMER_NOT_EXIST_EMAIL);
+			log.info(LogMessage.InfoLogMessage.getPrefix(),LogMessage.InfoLogMessage.CUSTOMER_NOT_EXIST_EMAIL);
 		}
 
 		return List.of();
@@ -128,7 +126,4 @@ public class CustomerService {
 		UUID customerIdentity = customer.getCustomerId();
 		customerVoucherService.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
 	}
-
-	// todo : 바우처 매핑,조회(고객이 가지고 있는 바우처 및 바우처를 보유한 고객 리스트),특정 바우처 제거
-
 }

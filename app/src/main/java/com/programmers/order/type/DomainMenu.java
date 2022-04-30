@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class DomainMenu {
 
 	private DomainMenu() {
-
 	}
 
 	public enum MenuType {
@@ -25,11 +24,7 @@ public class DomainMenu {
 	}
 
 	public enum CustomerMenuType {
-		CREATE,
-		REGISTER,
-		LIST_UP_WITH_VOUCHER,
-		UNMAPPING,
-		EXIT, NONE;
+		CREATE, REGISTER, LIST_UP_WITH_VOUCHER, UNMAPPING, EXIT, NONE;
 
 		public static CustomerMenuType of(String input) {
 			return Arrays.stream(CustomerMenuType.values())
