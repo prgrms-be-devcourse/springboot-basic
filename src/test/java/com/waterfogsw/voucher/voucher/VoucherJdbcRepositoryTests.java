@@ -2,7 +2,6 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
-import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import com.waterfogsw.voucher.voucher.repository.VoucherJdbcRepository;
 import com.zaxxer.hikari.HikariDataSource;
@@ -107,11 +106,11 @@ public class VoucherJdbcRepositoryTests {
             @Transactional
             @DisplayName("저장한 바우처를 리턴한다")
             void it_return_saved_voucher() {
-                Voucher voucher1 = new FixedAmountVoucher(1000);
-                Voucher voucher2 = new PercentDiscountVoucher(50);
+                final var voucher1 = new FixedAmountVoucher(1000);
+                final var voucher2 = new PercentDiscountVoucher(50);
 
-                Voucher savedVoucher1 = voucherRepository.save(voucher1);
-                Voucher savedVoucher2 = voucherRepository.save(voucher2);
+                final var savedVoucher1 = voucherRepository.save(voucher1);
+                final var savedVoucher2 = voucherRepository.save(voucher2);
 
                 assertThat(savedVoucher1.getType(), is(voucher1.getType()));
                 assertThat(savedVoucher1.getValue(), is(voucher1.getValue()));
@@ -129,8 +128,8 @@ public class VoucherJdbcRepositoryTests {
             @Transactional
             @DisplayName("해당 컬럼을 업데이트 한다")
             void it_throw_error() {
-                Voucher voucher1 = new FixedAmountVoucher(0L, 1000);
-                Voucher voucher2 = new PercentDiscountVoucher(0L, 20);
+                final var voucher1 = new FixedAmountVoucher(0L, 1000);
+                final var voucher2 = new PercentDiscountVoucher(0L, 20);
 
                 voucherRepository.save(voucher1);
                 final var savedVoucher = voucherRepository.save(voucher2);
@@ -156,9 +155,9 @@ public class VoucherJdbcRepositoryTests {
             void it_return_saved_voucherList() {
                 final var existingVoucherList = voucherRepository.findAll();
 
-                final Voucher voucher1 = new FixedAmountVoucher(1000);
-                final Voucher voucher2 = new PercentDiscountVoucher(50);
-                final Voucher voucher3 = new PercentDiscountVoucher(30);
+                final var voucher1 = new FixedAmountVoucher(1000);
+                final var voucher2 = new PercentDiscountVoucher(50);
+                final var voucher3 = new PercentDiscountVoucher(30);
 
                 voucherRepository.save(voucher1);
                 voucherRepository.save(voucher2);
