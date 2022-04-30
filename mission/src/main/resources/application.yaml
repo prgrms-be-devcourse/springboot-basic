@@ -9,3 +9,13 @@ voucher:
 
 sequence:
   path : src/main/resources/voucherIdSequence
+
+---
+
+spring.config.activate.on-profile: database
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/voucher_program
+    username: root
+    password: root1234!
