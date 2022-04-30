@@ -80,6 +80,7 @@ class VoucherJdbcRepositoryTest {
         class ContextReceiveWrongVoucher {
 
             Voucher wrongVoucher = new FixedAmountVoucher(2L, 120, VoucherType.FIXED_AMOUNT);
+
             @Test
             @DisplayName("잘못된 바우처 예외를 반환한다.")
             void itReturnWrongVoucherException() {
