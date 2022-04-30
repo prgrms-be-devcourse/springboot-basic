@@ -89,8 +89,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				jdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(?)",
 					customerRowMapper,
 					customerId.toString().getBytes()));
-		} catch (DataAccessException e) {
-			logger.error("find by ID {} 실패!", customerId, e);
+		} catch (EmptyResultDataAccessException e) {
+			logger.info("id {} 을 가진 Customer 가 존재하지 않습니다", customerId);
 
 			return Optional.empty();
 		}
@@ -103,7 +103,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				customerRowMapper,
 				name));
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("find by name {} 실패!", name, e);
+			logger.info("name {} 을 가진 Customer 가 존재하지 않습니다", name);
 
 			return Optional.empty();
 		}
@@ -116,7 +116,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				customerRowMapper,
 				email));
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("find by email {} 실패!", email, e);
+			logger.info("email {} 을 가진 Customer 가 존재하지 않습니다", email);
 
 			return Optional.empty();
 		}
