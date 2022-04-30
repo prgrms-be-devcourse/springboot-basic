@@ -10,15 +10,6 @@ import java.util.Scanner;
 @Component
 public class ConsoleInput implements Input {
     private final Scanner scanner = new Scanner(System.in);
-    private final VoucherService voucherService;
-    private final CustomerService customerService;
-    private final BlackListUserService blackListUserService;
-
-    public ConsoleInput(VoucherService voucherService, CustomerService customerService, BlackListUserService blackListUserService) {
-        this.voucherService = voucherService;
-        this.customerService = customerService;
-        this.blackListUserService = blackListUserService;
-    }
 
     @Override
     public String showOption() {

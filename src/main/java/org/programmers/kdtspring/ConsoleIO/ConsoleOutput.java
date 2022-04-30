@@ -42,9 +42,4 @@ public class ConsoleOutput implements Output {
     public void voucherCreated() {
         System.out.println("Voucher Created!");
     }
-
-    @Override
-    public void errorMessage() {
-
-    }
 }
