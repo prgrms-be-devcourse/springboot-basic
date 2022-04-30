@@ -14,7 +14,10 @@
     <form method="POST" th:action="@{/vouchers/new}">
         <div class="mb-3">
             <label class="form-label" for="voucherType">voucherType</label>
-            <input class="form-control" id="voucherType" name="voucherType" type="text">
+            <select id="voucherType" name="voucherType" class="form-select">
+                <option value="fixed" selected>fixed</option>
+                <option value="percent">percent</option>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label" for="discountInfo">discount</label>
