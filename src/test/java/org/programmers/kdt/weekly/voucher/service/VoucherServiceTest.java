@@ -2,7 +2,7 @@ package org.programmers.kdt.weekly.voucher.service;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,17 +24,30 @@ class VoucherServiceTest {
     private final UUID VOUCHER_ID = UUID.randomUUID();
     private final VoucherType VOUCHER_TYPE = VoucherType.FIXED_AMOUNT_VOUCHER;
     private final long VALUE = 20L;
-    private final Voucher VOUCHER = VOUCHER_TYPE.create(new VoucherDto(VOUCHER_ID,VALUE, LocalDateTime.now()));
+    private final Voucher VOUCHER = VOUCHER_TYPE.create(
+        new VoucherDto(VOUCHER_ID, VALUE, LocalDateTime.now()));
 
     @Test
     @DisplayName("create 호출시 voucherRepository.insert() 가 호출되고 voucher가 return 되어야함")
-    void create(){
+    void create() {
         //given
-        given(voucherRepository.insert(VOUCHER)).willReturn(VOUCHER);
+        when(voucherRepository.insert(VOUCHER)).thenReturn(VOUCHER);
         //when
-        var createVoucher = voucherService.create(VOUCHER_ID,VOUCHER_TYPE,VALUE);
+        var createVoucher = voucherService.create(VOUCHER_ID, VOUCHER_TYPE, VALUE);
         //then
-        verify(voucherRepository,times(1)).insert(VOUCHER);
+        verify(voucherRepository, times(1)).insert(VOUCHER);
+        assertThat(createVoucher, equalTo(VOUCHER));
+    }
+
+    @Test
+    @DisplayName("create 호출시 voucherRepository.insert() 가 호출되고 voucher가 return 되어야함")
+    void createFail() {
+        //given
+        when(voucherRepository.insert(VOUCHER)).thenReturn(VOUCHER);
+        //when
+        var createVoucher = voucherService.create(VOUCHER_ID, VOUCHER_TYPE, VALUE);
+        //then
+        verify(voucherRepository, times(1)).insert(VOUCHER);
         assertThat(createVoucher, equalTo(VOUCHER));
     }
 
@@ -43,7 +56,7 @@ class VoucherServiceTest {
     void getVouchers() {
         //given
         var vouchers = List.of(VOUCHER);
-        given(voucherRepository.findAll()).willReturn(vouchers);
+        when(voucherRepository.findAll()).thenReturn(vouchers);
         //when
         var findVouchers = voucherService.getVouchers();
         //then

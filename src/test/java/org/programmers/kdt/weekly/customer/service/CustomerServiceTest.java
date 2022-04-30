@@ -2,7 +2,7 @@ package org.programmers.kdt.weekly.customer.service;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +30,7 @@ class CustomerServiceTest {
     @DisplayName("create 함수 호출시 customerRepository.insert() 호출 후 customer 반환")
     void create() {
         //given
-        given(customerRepository.insert(CUSTOMER)).willReturn(CUSTOMER);
+        when(customerRepository.insert(CUSTOMER)).thenReturn(CUSTOMER);
         //when
         var createCustomer = customerService.create(CUSTOMER_ID, EMAIL, NAME);
         //then
@@ -44,7 +44,7 @@ class CustomerServiceTest {
         //given
         CustomerType customerType = CustomerType.NORMAL;
         List<Customer> customers = List.of(CUSTOMER);
-        given(customerRepository.findByType(customerType.toString())).willReturn(customers);
+        when(customerRepository.findByType(customerType.toString())).thenReturn(customers);
         //when
         var findCustomer = customerService.findByCustomerType(customerType);
         //then
@@ -57,7 +57,7 @@ class CustomerServiceTest {
     void findByEmail() {
         //given
         Optional<Customer> optionalCustomer = Optional.of(CUSTOMER);
-        given(customerRepository.findByEmail(EMAIL)).willReturn(optionalCustomer);
+        when(customerRepository.findByEmail(EMAIL)).thenReturn(optionalCustomer);
         //when
         var findCustomer = customerService.findByEmail(EMAIL);
         //then
@@ -70,7 +70,7 @@ class CustomerServiceTest {
     void changeBlackType() {
         //given
         Customer changeCustomer = CUSTOMER.changeCustomerType(CustomerType.BLACK);
-        given(customerRepository.update(changeCustomer)).willReturn(changeCustomer);
+        when(customerRepository.update(changeCustomer)).thenReturn(changeCustomer);
         //when
         var updateCustomer = customerService.changeBlackType(CUSTOMER);
         //then
