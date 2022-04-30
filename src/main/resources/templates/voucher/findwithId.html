@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Grids & Circles</title>
+</head>
+<body class = "container-fluid">
+<h1>Voucher Customer Service</h1>
+<h2>Customer Management</h2>
+
+
+<form th:action="@{/voucher/findwithId}" method="post">
+
+    <select id = "voucherId" name="voucherId" class="form-select"  >
+        <option th:each="voucher: ${vouchers}" th:object="${voucher}" value="*{voucherId}" th:text = "*{voucherId}" ></option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</body>
+</html>
