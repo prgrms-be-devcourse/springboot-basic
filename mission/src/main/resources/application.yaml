@@ -12,7 +12,7 @@ sequence:
 
 ---
 
-spring.config.activate.on-profile: database
+spring.config.activate.on-profile: dataBase
 
 spring:
   datasource:

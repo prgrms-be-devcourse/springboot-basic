@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("database")
+@Profile("dataBase")
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
