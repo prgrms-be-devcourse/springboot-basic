@@ -1,13 +1,21 @@
 package org.prgms.kdt.application.voucher.service;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.*;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,13 +23,29 @@ import org.prgms.kdt.application.customer.domain.Customer;
 import org.prgms.kdt.application.customer.repository.CustomerRepository;
 import org.prgms.kdt.application.voucher.domain.FixedAmountVoucher;
 import org.prgms.kdt.application.voucher.domain.Voucher;
-import org.prgms.kdt.application.voucher.domain.VoucherType;
 import org.prgms.kdt.application.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
+@ActiveProfiles("test")
 class VoucherServiceTest {
+
+    static EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    static void setup() {
+        MysqldConfig config = aMysqldConfig(v5_7_latest)
+            .withCharset(Charset.UTF8)
+            .withPort(2215)
+            .withUser("test", "test1234!")
+            .withTimeZone("Asia/Seoul")
+            .build();
+        embeddedMysql = anEmbeddedMysql(config)
+            .addSchema("test-db", classPathScript("sql/schema.sql"))
+            .start();
+    }
 
     @Autowired
     CustomerRepository customerRepository;
@@ -41,14 +65,14 @@ class VoucherServiceTest {
             UUID.randomUUID(),
             "sample4",
             "sample4@gmail.com",
-            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         customerRepository.insert(customer);
 
         voucher = new FixedAmountVoucher(
             UUID.randomUUID(),
             customer.getCustomerId(),
             2000L,
-            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         voucherRepository.insert(voucher);
     }
 
@@ -61,7 +85,12 @@ class VoucherServiceTest {
     @Test
     @DisplayName("voucher 생성")
     void createVoucher() {
-        Voucher newVoucher = voucherService.createVoucher(VoucherType.PERCENT_DISCOUNT, 20L, customer);
+        Voucher newVoucher = voucherService.createVoucher(new FixedAmountVoucher(
+            UUID.randomUUID(),
+            customer.getCustomerId(),
+            2000L,
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS)));
         Optional<Voucher> findVoucher = voucherService.getVoucherByVoucherId(newVoucher.getVoucherId());
         assertThat(newVoucher).isEqualTo(findVoucher.get());
     }
@@ -101,7 +130,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("voucherId로 voucher 삭제")
     void deleteVoucherId() {
-        voucherService.deleteVoucherId(voucher.getVoucherId());
+        voucherService.deleteByVoucherId(voucher.getVoucherId());
         assertThat(voucherService.getVoucherByVoucherId(voucher.getVoucherId()).isEmpty()).isTrue();
     }
 }

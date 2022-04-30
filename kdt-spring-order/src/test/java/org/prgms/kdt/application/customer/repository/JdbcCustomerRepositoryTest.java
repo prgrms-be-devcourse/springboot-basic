@@ -1,7 +1,14 @@
 package org.prgms.kdt.application.customer.repository;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.*;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -9,16 +16,34 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.kdt.application.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@Slf4j
 @SpringBootTest
+@ActiveProfiles("test")
+@Slf4j
 class JdbcCustomerRepositoryTest {
+
+    static EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    static void setup() {
+        MysqldConfig config = aMysqldConfig(v5_7_latest)
+            .withCharset(Charset.UTF8)
+            .withPort(2215)
+            .withUser("test", "test1234!")
+            .withTimeZone("Asia/Seoul")
+            .build();
+        embeddedMysql = anEmbeddedMysql(config)
+            .addSchema("test-db", classPathScript("sql/schema.sql"))
+            .start();
+    }
 
     @Autowired
     CustomerRepository customerRepository;
@@ -31,7 +56,7 @@ class JdbcCustomerRepositoryTest {
             UUID.randomUUID(),
             "sample1",
             "sample1@gmail.com",
-            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         customerRepository.insert(customer);
     }
 
@@ -51,7 +76,7 @@ class JdbcCustomerRepositoryTest {
             UUID.randomUUID(),
             "example",
             "example@gmail.com",
-            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         Customer insertCustomer = customerRepository.insert(customer);
         assertThat(customer).isEqualTo(insertCustomer);
     }
@@ -63,7 +88,7 @@ class JdbcCustomerRepositoryTest {
             customer.getCustomerId(),
             "update",
             "update@gmail.com",
-            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+            LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS), LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         customerRepository.update(customer);
     }
 
