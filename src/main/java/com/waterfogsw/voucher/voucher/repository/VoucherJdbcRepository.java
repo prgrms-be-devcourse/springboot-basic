@@ -43,11 +43,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         if (voucher.getId() == null) {
-            final var update = jdbcTemplate.update(
+            final var updatedNum = jdbcTemplate.update(
                     "INSERT INTO vouchers(voucher_type, value) VALUES (:type, :value)",
                     toParamMap(voucher)
             );
-            if (update != 1) {
+            if (updatedNum != 1) {
                 throw new IllegalStateException("Nothing was inserted");
             }
 
@@ -56,13 +56,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
             return Voucher.toEntity(id, voucher);
         }
 
-        final var update = jdbcTemplate.update(
+        final var updatedNum = jdbcTemplate.update(
                 "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id",
                 toParamMap(voucher)
         );
 
-        if (update != 1) {
-            throw new IllegalStateException(String.valueOf(update));
+        if (updatedNum != 1) {
+            throw new IllegalStateException(String.valueOf(updatedNum));
         }
 
         return voucher;
