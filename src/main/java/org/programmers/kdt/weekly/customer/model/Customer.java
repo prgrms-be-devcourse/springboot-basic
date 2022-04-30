@@ -2,6 +2,7 @@ package org.programmers.kdt.weekly.customer.model;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class Customer {
 
@@ -11,6 +12,10 @@ public class Customer {
     private CustomerType customerType;
 
     public Customer(UUID customerId, String email, String customerName, CustomerType customerType) {
+        if (!validatedEmail(email) || !validatedName(customerName)) {
+            throw new IllegalArgumentException();
+        }
+
         this.customerId = customerId;
         this.email = email;
         this.customerName = customerName;
@@ -58,5 +63,15 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(customerId);
+    }
+
+    public boolean validatedName(String name) {
+        return name.isBlank();
+    }
+
+    public boolean validatedEmail(String email) {
+        var regExp = "/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i";
+
+        return Pattern.matches(regExp, email);
     }
 }

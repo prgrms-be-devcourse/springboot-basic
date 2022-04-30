@@ -19,9 +19,8 @@ public class CustomerService {
 
     public Customer create(UUID customerId, String email, String name) {
         Customer customer = new Customer(customerId, email, name, CustomerType.NORMAL);
-        this.customerRepository.insert(customer);
 
-        return customer;
+        return this.customerRepository.insert(customer);
     }
 
     public List<Customer> findByCustomerType(CustomerType customerType) {
