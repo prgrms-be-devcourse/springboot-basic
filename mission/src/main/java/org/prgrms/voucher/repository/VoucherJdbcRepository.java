@@ -39,26 +39,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             return voucher;
         }
 
-        try {
-            if (Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = :voucherId",
-                    Collections.singletonMap("voucherId", voucher.getVoucherId().toString()), voucherRowMapper)).isPresent()
-            ) {
-                int update = jdbcTemplate.update("UPDATE voucher SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = :voucherId",
-                        toParamMap(voucher)
-                );
-
-                if (update != 1) {
-                    throw new RuntimeException("Noting was updated");
-                }
-
-                return voucher;
-            }
-
-            throw new IllegalArgumentException("Wrong Voucher..");
-        } catch (EmptyResultDataAccessException dataAccessException) {
-
-            throw new IllegalArgumentException("Wrong Voucher..");
-        }
+        throw new IllegalArgumentException("Wrong Voucher..");
     }
 
     @Override

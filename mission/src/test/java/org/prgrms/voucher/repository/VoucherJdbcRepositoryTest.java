@@ -92,7 +92,7 @@ class VoucherJdbcRepositoryTest {
 
         @Nested
         @Order(3)
-        @DisplayName("save 기능을 테스트 할 때 새로 생성된 바우처 객체를 인자로 받으면")
+        @DisplayName("save 기능을 테스트 할 때 새로 생성된 바우처(id == null) 객체를 인자로 받으면")
         class ContextReceiveNullVoucherType {
 
             Voucher voucher = new FixedAmountVoucher( 100, VoucherType.FIXED_AMOUNT);
@@ -112,17 +112,10 @@ class VoucherJdbcRepositoryTest {
         @Order(4)
         @DisplayName("save 기능을 테스트 할 때 이미 있는 ID의 바우처 객체를 인자로 받으면")
         class ContextReceiveDuplicateId {
-
-            Voucher updatedVoucher = new FixedAmountVoucher(1L, 120, VoucherType.FIXED_AMOUNT);
             @Test
             @DisplayName("해당 바우처를 업데이트 한다.")
             void itUpdateThisVoucher() {
 
-                Voucher voucherCheck = voucherRepository.save(updatedVoucher);
-
-                Assertions.assertThat(voucherCheck.getVoucherId()).isEqualTo(updatedVoucher.getVoucherId());
-                Assertions.assertThat(voucherCheck.getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
-                Assertions.assertThat(voucherCheck.getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
             }
         }
     }
