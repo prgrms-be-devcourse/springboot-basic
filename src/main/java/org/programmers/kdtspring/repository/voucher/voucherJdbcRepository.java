@@ -13,27 +13,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-
-import static org.programmers.kdtspring.repository.voucher.SQLString.*;
 
 @Repository
 @Primary
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherJdbcRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
-
-    public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var type = resultSet.getString("type");
@@ -48,12 +39,22 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
     };
 
+    public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     @Override
     public void save(Voucher voucher) {
         log.info("[voucherJdbcRepository] save() called");
 
         if (voucher instanceof FixedAmountVoucher) {
-            int insert = jdbcTemplate.update(INSERT_VOUCHER,
+            int insert = jdbcTemplate.update(
+                    "INSERT INTO VOUCHERS(VOUCHER_ID, TYPE, AMOUNT, PERCENT, CUSTOMER_ID) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                     voucher.getVoucherId().toString().getBytes(),
                     VoucherType.FixedAmountVoucher.toString(),
                     voucher.getDiscount(),
@@ -66,7 +67,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher instanceof PercentDiscountVoucher) {
             int insert = jdbcTemplate.update(
-                    INSERT_VOUCHER,
+                    "INSERT INTO vouchers(VOUCHER_ID, TYPE, AMOUNT, PERCENT, CUSTOMER_ID) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                     voucher.getVoucherId(),
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,
@@ -83,7 +84,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    SELECT_BY_ID,
+                    "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                     mapToVoucher,
                     voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
@@ -94,7 +95,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomer(Customer customer) {
-        return jdbcTemplate.query(SELECT_BY_CUSTOMER,
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(?)",
                 mapToVoucher,
                 customer.getCustomerId().toString().getBytes());
     }
@@ -102,7 +104,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         log.info("[voucherJdbcRepository] findAll() called");
-        return jdbcTemplate.query(SELECT_ALL, mapToVoucher);
+        return jdbcTemplate.query("SELECT * FROM vouchers", mapToVoucher);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         log.info("[VoucherService] updateCustomerId called()");
 
         int update = jdbcTemplate.update(
-                UPDATE_BY_ID_SQL,
+                "UPDATE vouchers SET customer_id = UUID_TO_BIN(?) WHERE voucher_id = uuid_to_bin(?)",
                 voucher.getCustomerId().toString().getBytes(),
                 voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
@@ -123,7 +125,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteOne(Voucher voucher) {
         log.info("[voucherJdbcRepository] deleteOne() called");
 
-        int delete = jdbcTemplate.update(DELETE_VOUCHER,
+        int delete = jdbcTemplate.update(
+                "DELETE  FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getVoucherId().toString().getBytes());
         if (delete != 1) {
             throw new RuntimeException("Nothing was deleted");
@@ -134,12 +137,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteAll() {
         log.info("[voucherJdbcRepository] deleteAll() called");
 
-        jdbcTemplate.update(DELETE_ALL);
-    }
-
-    public static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        jdbcTemplate.update("DELETE FROM vouchers");
     }
 
 }
