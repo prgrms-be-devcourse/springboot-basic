@@ -1,0 +1,20 @@
+HELP.md
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### maven ###
+mvnw
+mvnw.cmd
+
+### log ###
+logs/
+
+### yaml ###
+.yaml
