@@ -20,8 +20,12 @@ public class EmailVO {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     EmailVO email = (EmailVO) o;
     return Objects.equals(address, email.address);
   }
