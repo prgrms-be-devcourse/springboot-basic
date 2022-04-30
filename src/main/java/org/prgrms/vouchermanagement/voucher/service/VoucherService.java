@@ -5,8 +5,11 @@ import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.prgrms.vouchermanagement.customer.wallet.WalletRepository;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
+import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,13 +26,19 @@ public class VoucherService {
     this.walletRepository = walletRepository;
   }
 
-  public boolean issueVoucher(UUID voucherId, UUID customerId) {
-    if(voucherRepository.findById(voucherId).isPresent() &&
-      customerRepository.findById(customerId).isPresent()) {
+  public boolean issueVoucher(UUID customerId, UUID voucherId) {
+    if(voucherRepository.checkExistenceById(voucherId) &&
+      customerRepository.checkExistenceById(customerId)) {
       walletRepository.insert(customerId, voucherId);
       return true;
     }
     return false;
+  }
+
+  public Voucher createVoucher(VoucherType voucherType, long reduction, LocalDateTime createdAt) {
+    var newVoucher = VoucherFactory.createVoucher(voucherType, reduction, createdAt);
+    voucherRepository.insert(newVoucher);
+    return newVoucher;
   }
 
   public List<Voucher> getVoucherList() {
