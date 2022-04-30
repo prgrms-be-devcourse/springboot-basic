@@ -32,7 +32,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
 
         logger.info("[FileVoucherRepository] save(Voucher voucher) called");
 

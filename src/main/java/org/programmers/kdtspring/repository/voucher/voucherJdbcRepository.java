@@ -49,7 +49,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
         log.info("[voucherJdbcRepository] save() called");
 
         if (voucher instanceof FixedAmountVoucher) {
