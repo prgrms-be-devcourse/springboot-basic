@@ -6,8 +6,6 @@ import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -168,5 +166,15 @@ class JdbcVoucherRepositoryTest {
     assertThat(jdbcVoucherRepository.count(), is(not(0)));
     jdbcVoucherRepository.deleteAll();
     assertThat(jdbcVoucherRepository.count(), is(0));
+  }
+
+  @Test
+  @DisplayName("ID로 존재 유무를 알 수 있다")
+  void testCheckExistenceById() {
+    var result1 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    assertThat(result1, is(false));
+    jdbcVoucherRepository.insert(fixedAmountVoucher1);
+    var result2 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    assertThat(result2, is(true));
   }
 }

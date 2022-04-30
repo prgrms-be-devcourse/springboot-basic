@@ -73,6 +73,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
   }
 
   @Override
+  public boolean checkExistenceById(UUID voucherId) {
+    var found = jdbcTemplate.query("SELECT * FROM vouchers WHERE EXISTS(SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId))",
+      Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+      voucherRowMapper);
+    return !found.isEmpty();
+  }
+
+  @Override
   public int count() {
     return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vouchers", Collections.emptyMap(), Integer.class);
   }
