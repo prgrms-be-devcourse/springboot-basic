@@ -8,7 +8,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
@@ -26,16 +28,23 @@ public class VoucherService {
 		return voucherRepository.findAll();
 	}
 
+	@Transactional
 	public Optional<Voucher> create(VoucherType voucherType, long voucherDiscountInfo) {
+		checkNull(voucherType, "voucherType 는 null 이 올 수 없습니다");
+		checkNull(voucherDiscountInfo, "voucherDiscountInfo 는 null 이 올 수 없습니다");
+
 		UUID id = UUID.randomUUID();
+
+		checkDuplicatedId(id);
+
 		Voucher voucher = null;
 
 		try {
 			voucher = voucherType.getVoucher(id, voucherDiscountInfo, LocalDateTime.now());
 
-			logger.info("Publish new Voucher : {}", voucher);
-
 			voucherRepository.insert(voucher);
+
+			logger.info("Publish new Voucher : {}", voucher);
 		} catch (CreationFailException e) {
 			logger.error("{}", e.getMessage(), e);
 		}
@@ -43,8 +52,33 @@ public class VoucherService {
 		return Optional.ofNullable(voucher);
 	}
 
+	@Transactional
+	public Optional<Voucher> findById(UUID id) {
+		checkNull(id, "id 는 null 이 올 수 없습니다");
+		checkDuplicatedId(id);
+
+		return voucherRepository.findById(id);
+	}
+
+	public void checkNull(Object obj, String message) {
+		if (obj == null) {
+			throw new IllegalArgumentException(message);
+		}
+	}
+
+	@Transactional(readOnly = true)
+	protected void checkDuplicatedId(UUID id) {
+		if(voucherRepository.findById(id)
+			.isPresent()){
+			throw new AlreadyExistException();
+		}
+	}
+
+	@Transactional
 	public void deleteById(UUID voucherId) {
-		// TODO delete 예외상황 처리
+		checkNull(voucherId, "id 는 null 이 올 수 없습니다");
+		checkDuplicatedId(voucherId);
+
 		voucherRepository.deleteById(voucherId);
 	}
 
