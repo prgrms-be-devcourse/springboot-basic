@@ -32,12 +32,12 @@ public class VoucherService {
         logger.info("[VoucherService] createFixedAmountVoucher(long amount) called");
         UUID uuid = UUID.randomUUID();
         if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            voucherRepository.save(new FixedAmountVoucher(uuid, amount, String.valueOf(voucherType)));
+            voucherRepository.insert(new FixedAmountVoucher(uuid, amount, String.valueOf(voucherType)));
             return voucherRepository.findById(uuid);
         }
 
         if (voucherType.equals(VoucherType.PercentDiscountVoucher)) {
-            voucherRepository.save(new PercentDiscountVoucher(uuid, percent, String.valueOf(voucherType)));
+            voucherRepository.insert(new PercentDiscountVoucher(uuid, percent, String.valueOf(voucherType)));
             return voucherRepository.findById(uuid);
         }
         logger.info("voucher created");

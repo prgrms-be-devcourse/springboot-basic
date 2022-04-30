@@ -1,6 +1,8 @@
 package org.programmers.kdtspring.repository.user;
 
 import org.programmers.kdtspring.entity.user.Customer;
+import org.programmers.kdtspring.exception.CustomerInsertFailed;
+import org.programmers.kdtspring.exception.CustomerUpdateFailed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -10,15 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
@@ -29,9 +28,16 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -49,7 +55,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
                 toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new CustomerInsertFailed("Noting was inserted");
         }
         return customer;
     }
@@ -60,7 +66,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 toParamMap(customer)
         );
         if (update != 1) {
-            throw new RuntimeException("Noting was updated");
+            throw new CustomerUpdateFailed("Noting was updated");
         }
         return customer;
     }
@@ -113,11 +119,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM customers", Collections.emptyMap(), Integer.class);
     }
 }

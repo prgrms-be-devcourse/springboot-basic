@@ -5,6 +5,9 @@ import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.PercentDiscountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;
 import org.programmers.kdtspring.entity.voucher.VoucherType;
+import org.programmers.kdtspring.exception.VoucherDeleteFailed;
+import org.programmers.kdtspring.exception.VoucherInsertFailed;
+import org.programmers.kdtspring.exception.VoucherUpdateFailed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -60,7 +63,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     voucher.getDiscount(),
                     null);
             if (insert != 1) {
-                throw new RuntimeException("Nothing was saved");
+                throw new VoucherInsertFailed("Nothing was saved");
             }
             return;
         }
@@ -73,7 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     null,
                     voucher.getDiscount());
             if (insert != 1) {
-                throw new RuntimeException("Nothing was saved");
+                throw new VoucherInsertFailed("Nothing was saved");
             }
         }
     }
@@ -116,7 +119,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 voucher.getCustomerId().toString().getBytes(),
                 voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
-            throw new RuntimeException("Nothing was updated");
+            throw new VoucherUpdateFailed("Nothing was updated");
         }
         return voucher;
     }
@@ -129,7 +132,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 "DELETE  FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getVoucherId().toString().getBytes());
         if (delete != 1) {
-            throw new RuntimeException("Nothing was deleted");
+            throw new VoucherDeleteFailed("Nothing was deleted");
         }
     }
 
@@ -139,5 +142,4 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         jdbcTemplate.update("DELETE FROM vouchers");
     }
-
 }

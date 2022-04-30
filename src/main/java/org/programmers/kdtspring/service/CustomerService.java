@@ -29,18 +29,21 @@ public class CustomerService {
     public Customer createCustomer(String email, String name) {
         log.info("[CustomerService] createCustomer() called");
 
-        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
+        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
         return customerRepository.insert(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Optional<Customer> getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
