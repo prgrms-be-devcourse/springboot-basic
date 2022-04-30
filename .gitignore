@@ -4,6 +4,8 @@
 # IntelliJ
 *.idea
 
+# log files
+application_log/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,maven
