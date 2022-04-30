@@ -28,6 +28,7 @@ public class Customer {
   }
 
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    validateName(name);
     this.customerId = customerId;
     this.name = new Name(name);
     this.email = new Email(email);
@@ -39,7 +40,6 @@ public class Customer {
   public List<Voucher> getWallet() {
     return wallet;
   }
-
 
   private void validateName(String name) {
     if (name.isBlank()) {
