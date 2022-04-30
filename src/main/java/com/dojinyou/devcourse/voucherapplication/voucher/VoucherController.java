@@ -33,10 +33,10 @@ public class VoucherController {
     }
 
     public Response<List<VoucherResponse>> findAll() {
-        List<VoucherResponse> voucherResponseList = voucherService.findAll()
+        List<VoucherResponse> responsedVouchers = voucherService.findAll()
                                                                   .stream()
                                                                   .map(VoucherMapper::domainToResponseDto)
                                                                   .collect(Collectors.toList());
-        return new Response<>(Response.State.SUCCESS, voucherResponseList);
+        return new Response<>(Response.State.SUCCESS, responsedVouchers);
     }
 }
