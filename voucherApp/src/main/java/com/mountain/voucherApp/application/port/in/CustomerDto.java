@@ -2,6 +2,7 @@ package com.mountain.voucherApp.application.port.in;
 
 
 import com.mountain.voucherApp.domain.vo.CustomerName;
+import com.mountain.voucherApp.domain.vo.Email;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -11,16 +12,11 @@ public class CustomerDto {
     private final UUID customerId;
     private UUID voucherId;
     private CustomerName customerName;
-    private final String email;
+    private final Email email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    public CustomerDto(UUID customerId,
-                       UUID voucherId,
-                       CustomerName customerName,
-                       String email,
-                       LocalDateTime lastLoginAt,
-                       LocalDateTime createdAt) {
+    public CustomerDto(UUID customerId, UUID voucherId, CustomerName customerName, Email email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.voucherId = voucherId;
         this.customerName = customerName;
@@ -41,7 +37,7 @@ public class CustomerDto {
         return customerName.getName();
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 

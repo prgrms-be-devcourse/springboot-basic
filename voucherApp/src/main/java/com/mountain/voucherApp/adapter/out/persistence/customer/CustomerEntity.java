@@ -35,8 +35,8 @@ public class CustomerEntity {
         return name;
     }
 
-    public String getEmail() {
-        return email.getAddress();
+    public Email getEmail() {
+        return email;
     }
 
     public LocalDateTime getLastLoginAt() {

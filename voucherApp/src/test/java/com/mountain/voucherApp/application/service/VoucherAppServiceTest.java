@@ -7,6 +7,7 @@ import com.mountain.voucherApp.application.port.in.VoucherIdUpdateDto;
 import com.mountain.voucherApp.application.port.out.CustomerPort;
 import com.mountain.voucherApp.application.port.out.VoucherPort;
 import com.mountain.voucherApp.domain.vo.CustomerName;
+import com.mountain.voucherApp.domain.vo.Email;
 import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -61,8 +62,8 @@ class VoucherAppServiceTest {
     @DisplayName("고객 리스트를 조회할 수 있다.")
     public void testShowCustomerVoucherInfo() {
         List<CustomerDto> givenCustomers = List.of(
-                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("customer1"), "customer1@gmail.com", LocalDateTime.now(), LocalDateTime.now()),
-                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("customer2"), "customer2@gmail.com", LocalDateTime.now(), LocalDateTime.now())
+                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("customer1"), new Email("customer1@gmail.com"), LocalDateTime.now(), LocalDateTime.now()),
+                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("customer2"), new Email("customer2@gmail.com"), LocalDateTime.now(), LocalDateTime.now())
         );
         // mocking
         given(customerPort.findAll()).willReturn(givenCustomers);

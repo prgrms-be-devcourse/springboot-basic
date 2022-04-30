@@ -6,6 +6,7 @@ import com.mountain.voucherApp.adapter.out.persistence.voucher.JdbcVoucherReposi
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
 import com.mountain.voucherApp.application.port.in.CustomerDto;
 import com.mountain.voucherApp.domain.vo.CustomerName;
+import com.mountain.voucherApp.domain.vo.Email;
 import com.mountain.voucherApp.shared.enums.DiscountPolicy;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
@@ -136,7 +137,7 @@ class CustomerEntityNamedJdbcRepositoryTest {
         return new CustomerDto(UUID.randomUUID(),
                 null,
                 new CustomerName(name),
-                email,
+                new Email(email),
                 null,
                 LocalDateTime.now());
     }
@@ -189,7 +190,7 @@ class CustomerEntityNamedJdbcRepositoryTest {
     @Test
     @DisplayName("이메일로 고객 조회.")
     public void testFindByEmail() throws Exception {
-        Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByEmail(customer.getEmail());
+        Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByEmail(customer.getEmail().getAddress());
         Optional<CustomerDto> unknown = customerNamedJdbcRepository.findByEmail("unknown-user");
 
         assertAll(

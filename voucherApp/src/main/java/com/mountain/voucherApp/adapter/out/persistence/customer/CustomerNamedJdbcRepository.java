@@ -43,7 +43,7 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
             put(CUSTOMER_ID_CAMEL.getValue(), customerDto.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
             put(VOUCHER_ID_CAMEL.getValue(), customerDto.getVoucherId() != null ? customerDto.getVoucherId().toString().getBytes(StandardCharsets.UTF_8) : null);
             put(NAME.getValue(), customerDto.getCustomerName());
-            put(EMAIL.getValue(), customerDto.getEmail());
+            put(EMAIL.getValue(), customerDto.getEmail().getAddress());
             put(CREATED_AT_CAMEL.getValue(), Timestamp.valueOf(customerDto.getCreatedAt()));
             put(LAST_LOGIN_AT_CAMEL.getValue(), customerDto.getLastLoginAt() != null ? Timestamp.valueOf(customerDto.getLastLoginAt()) : null);
         }};
