@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: header" />
+<body class="container-fluid">
+<div th:replace="fragment/bodyHeader :: bodyHeader" />
+<h2>Voucher List</h2>
+<table class="table table-hover table-striped">
+  <thead>
+  <tr>
+    <th scope="col">voucherId</th>
+    <th scope="col">customerId</th>
+    <th scope="col">voucherType</th>
+    <th scope="col">discountValue</th>
+    <th scope="col">createdAt</th>
+    <th scope="col">updatedAt</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+    <td th:text="*{voucherId}"></td>
+    <td th:text="*{customerId}"></td>
+    <td th:text="*{voucherType}"></td>
+    <td th:text="*{discountValue}"></td>
+    <td th:text="*{createdAt}"></td>
+    <td th:text="*{updatedAt}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

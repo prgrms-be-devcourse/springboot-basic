@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: header" />
+<body class="container-fluid">
+<div th:replace="fragment/bodyHeader :: bodyHeader" />
+<h2>Customer Detail</h2>
+<form th:object="${customer}">
+  <div class="form-group">
+    <label th:for="customerId" class="form-label">customerId</label>
+    <input type="text" class="form-control" th:field="*{customerId}" name="customerId" disabled>
+  </div>
+  <div class="form-group">
+    <label th:for="name" class="form-label">name</label>
+    <input type="text" class="form-control" th:field="*{name}" name="name" disabled>
+  </div>
+  <div class="form-group">
+    <label th:for="email" class="form-label">email</label>
+    <input type="text" class="form-control" th:field="*{email}" name="email" disabled>
+  </div>
+  <div class="form-group">
+    <label th:for="createdAt" class="form-label">createdAt</label>
+    <input type="text" class="form-control" th:field="*{createdAt}" name="createdAt" disabled>
+  </div>
+  <div class="form-group">
+    <label th:for="updatedAt" class="form-label">updatedAt</label>
+    <input type="text" class="form-control" th:field="*{updatedAt}" name="updatedAt" disabled>
+  </div>
+</form>
+</body>
+</html>
