@@ -1,7 +1,7 @@
 package org.prgms.controller.api;
 
-import com.google.gson.JsonObject;
 import org.prgms.controller.dto.CreateVoucherRequest;
+import org.prgms.controller.dto.DeleteVoucherResponse;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
 import org.springframework.http.HttpHeaders;
@@ -46,14 +46,10 @@ public class VoucherRestController {
     }
 
     @DeleteMapping("/voucher/{voucherId}")
-    public String deleteVoucher(@PathVariable UUID voucherId) {
+    public DeleteVoucherResponse deleteVoucher(@PathVariable UUID voucherId) {
         int deleteRow = voucherService.deleteVoucher(voucherId);
 
-        JsonObject jsonObj = new JsonObject();
-        jsonObj.addProperty("deleted", deleteRow == 1);
-        jsonObj.addProperty("affctedRow", deleteRow);
-
-        return jsonObj.toString();
+        return new DeleteVoucherResponse(deleteRow == 1, deleteRow);
     }
 
     @GetMapping("/voucher/{voucherId}")
@@ -61,7 +57,6 @@ public class VoucherRestController {
         HttpHeaders headers = new HttpHeaders();
 
         Optional<Voucher> optionalVoucher = voucherService.getVoucher(voucherId);
-
 
         return optionalVoucher
                 .map(voucher -> new ResponseEntity<>(voucher, headers, HttpStatus.OK))
