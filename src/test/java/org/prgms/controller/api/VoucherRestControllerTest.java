@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -34,11 +33,6 @@ class VoucherRestControllerTest {
 
     @MockBean
     private VoucherService voucherService;
-
-    protected MediaType contentType = new MediaType(
-            MediaType.APPLICATION_JSON.getType(),
-            MediaType.APPLICATION_JSON.getSubtype(),
-            StandardCharsets.UTF_8);
 
     private final Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
     private final Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
