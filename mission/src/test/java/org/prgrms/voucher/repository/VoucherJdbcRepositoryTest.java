@@ -68,7 +68,6 @@ class VoucherJdbcRepositoryTest {
             @DisplayName("잘못된 인자 예외를 던진다.")
             void itIllegalArgumentExceptionThrow() {
 
-
                 Assertions.assertThatThrownBy(() -> voucherRepository.save(voucher))
                         .isInstanceOf(IllegalArgumentException.class)
                         .hasMessage("Voucher is null");
@@ -97,7 +96,6 @@ class VoucherJdbcRepositoryTest {
         class ContextReceiveNullVoucherType {
 
             Voucher voucher = new FixedAmountVoucher( 100, VoucherType.FIXED_AMOUNT);
-
 
             @Test
             @DisplayName("데이터 베이스 저장소에 저장하고 저장한 바우처를 반환한다.")
@@ -144,8 +142,8 @@ class VoucherJdbcRepositoryTest {
 
                 List<Voucher> list = voucherRepository.findAll();
 
-                Assertions.assertThat(list.get(0).getVoucherId()).isEqualTo(1);
                 Assertions.assertThat(list.isEmpty()).isFalse();
+                Assertions.assertThat(list.get(0).getVoucherId()).isEqualTo(1);
             }
         }
     }
