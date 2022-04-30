@@ -28,7 +28,7 @@ public class CustomerController {
 
     @GetMapping("/new")
     public String viewAddForm(){
-        return "customer-add";
+        return "/customer/customer-add";
     }
 
     @PostMapping("/new")
