@@ -187,6 +187,17 @@ public class CustomerNamedJdbcRepository implements CustomerPort {
                 customerId.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
+    @Override
+    public void removeVoucherId(UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+        }};
+        jdbcTemplate.update(
+                "UPDATE customers SET voucher_id = null where voucher_id = UUID_TO_BIN(:voucherId)",
+                paramMap
+        );
+    }
+
     private static RowMapper<CustomerEntity> customerRowMapper = new RowMapper<CustomerEntity>() {
         @Override
         public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -18,6 +18,7 @@ public interface CustomerPort {
     List<CustomerDto> findByVoucherId(UUID voucherId);
     List<CustomerDto> findByVoucherIdNotNull();
     void removeByCustomerId(UUID customerId);
+    void removeVoucherId(UUID voucherId);
     int count();
     void deleteAll();
 }

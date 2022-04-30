@@ -42,6 +42,10 @@ public class MemoryVoucherRepository implements VoucherPort {
                 .findFirst();
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
     public void clear() {
         storage.clear();
     }

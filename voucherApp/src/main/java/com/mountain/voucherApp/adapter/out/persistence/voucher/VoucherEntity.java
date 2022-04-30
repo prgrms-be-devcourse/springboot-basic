@@ -28,9 +28,9 @@ public class VoucherEntity {
         return discountPolicy;
     }
 
-    public void changeVoucherInfo(Integer discountPolicyId, DiscountPolicy discountPolicy) {
-        this.discountAmount = discountAmount;
+    public void changeVoucherInfo(DiscountPolicy discountPolicy, long discountAmount) {
         this.discountPolicy = discountPolicy;
+        this.discountAmount = discountAmount;
     }
 
     @Override

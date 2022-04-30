@@ -110,6 +110,10 @@ public class FileVoucherRepository implements VoucherPort {
         return Optional.empty();
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
     @PostConstruct
     public void postConstruct() throws IOException {
         if (!voucherListFile.exists()) {

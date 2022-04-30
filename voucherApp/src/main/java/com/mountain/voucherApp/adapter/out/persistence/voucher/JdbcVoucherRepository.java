@@ -32,14 +32,6 @@ public class JdbcVoucherRepository implements VoucherPort {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
-        return new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-            put(DISCOUNT_POLICY_CAMEL.getValue(), voucherEntity.getDiscountPolicy().toString());
-            put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
-        }};
-    }
-
     public Optional<VoucherEntity> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
@@ -100,6 +92,24 @@ public class JdbcVoucherRepository implements VoucherPort {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<>() {{
+            put(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes(StandardCharsets.UTF_8));
+        }};
+        jdbcTemplate.update("DELETE from vouchers where voucher_id = UUID_TO_BIN(:voucherId)"
+                ,paramMap
+        );
+    }
+
+    private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
+        return new HashMap<>() {{
+            put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+            put(DISCOUNT_POLICY_CAMEL.getValue(), voucherEntity.getDiscountPolicy().toString());
+            put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
+        }};
     }
 
     private static RowMapper<VoucherEntity> voucherEntityRowMapper = new RowMapper<VoucherEntity>() {

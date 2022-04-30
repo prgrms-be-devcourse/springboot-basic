@@ -17,6 +17,7 @@
         <th scope="col">voucherId</th>
         <th scope="col">할인 정책</th>
         <th scope="col">discountAmount</th>
+        <th scope="col">삭제</th>
     </tr>
     </thead>
     <tbody>
@@ -24,6 +25,9 @@
         <td th:text="*{voucherId}"></td>
         <td th:text="*{discountPolicy.getDescription()}"></td>
         <td th:text="|*{discountAmount}*{discountPolicy.getUnit()}|"></td>
+        <td>
+            <a th:href="@{'/delete-voucher/' + *{voucherId}}" type="button" class="btn btn-danger">Remove</a>
+        </td>
     </tr>
     </tbody>
 </table>

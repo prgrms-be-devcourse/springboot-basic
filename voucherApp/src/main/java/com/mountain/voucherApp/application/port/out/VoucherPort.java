@@ -15,4 +15,6 @@ public interface VoucherPort {
     VoucherEntity insert(VoucherEntity voucherEntity);
 
     Optional<VoucherEntity> findById(UUID voucherId);
+
+    void deleteById(UUID voucherId);
 }
