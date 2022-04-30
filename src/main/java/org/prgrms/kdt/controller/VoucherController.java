@@ -58,7 +58,7 @@ public class VoucherController {
                 OutPutView.showVouchers(vouchers);
                 break;
             case CUSTOMER:
-                List<Customer> customers = customerService.getAll();
+                List<Customer> customers = customerService.getCustomers();
                 OutPutView.showCustomers(customers);
                 break;
         }

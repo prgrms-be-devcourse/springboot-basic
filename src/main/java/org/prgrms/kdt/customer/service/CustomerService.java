@@ -1,6 +1,8 @@
 package org.prgrms.kdt.customer.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -15,8 +17,21 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getAll() {
+    public List<Customer> getCustomers() {
         return customerRepository.findAll();
+    }
+
+    public Customer getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId)
+            .orElseThrow(NoSuchElementException::new);
+    }
+
+    public Customer makeCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
+    public void deleteCustomers() {
+        customerRepository.deleteAll();
     }
 
 }
