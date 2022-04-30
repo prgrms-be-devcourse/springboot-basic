@@ -19,7 +19,6 @@ public class Customer {
   private List<Voucher> wallet;
 
   public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
-    validateName(name);
     this.customerId = customerId;
     this.name = new Name(name);
     this.email = new Email(email);
@@ -28,7 +27,6 @@ public class Customer {
   }
 
   public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
-    validateName(name);
     this.customerId = customerId;
     this.name = new Name(name);
     this.email = new Email(email);
@@ -101,6 +99,6 @@ public class Customer {
   }
 
   public void changeName(String newName) {
-    name.changeName(newName);
+    name = new Name(newName);
   }
 }
