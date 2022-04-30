@@ -22,6 +22,15 @@ dependencies {
     //Mockito-core
     testImplementation 'org.mockito:mockito-core:4.4.0'
 
+    //Jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.7'
+
+    //Mysql_Connect
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
+    //Wix-Embedded-Mysql
+    testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.2'
+
 }
 
 tasks.named('test') {
