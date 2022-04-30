@@ -8,6 +8,7 @@ import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -32,6 +33,10 @@ public class VoucherController {
     }
 
     public Response<List<VoucherResponse>> findAll() {
-        return null;
+        List<VoucherResponse> responsedVouchers = voucherService.findAll()
+                                                                  .stream()
+                                                                  .map(VoucherMapper::domainToResponseDto)
+                                                                  .collect(Collectors.toList());
+        return new Response<>(Response.State.SUCCESS, responsedVouchers);
     }
 }

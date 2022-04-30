@@ -22,6 +22,6 @@ public class VoucherService {
     }
 
     public List<Voucher> findAll() {
-        return null;
+        return voucherRepository.findAll();
     }
 }
