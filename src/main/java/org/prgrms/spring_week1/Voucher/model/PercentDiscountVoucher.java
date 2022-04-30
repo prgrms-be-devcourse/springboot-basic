@@ -80,15 +80,25 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public void setStatus(VoucherStatus status) {
         this.voucherStatus = status;
     }
 
+
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-            " discount=" + discount +
-            "/ voucherStatus=" + voucherStatus +
+            "discount=" + discount +
+            ", voucherStatus=" + voucherStatus +
+            ", createdAt=" + createdAt +
+            ", updatedAt=" + updatedAt +
+            ", voucherType=" + voucherType +
+            ", customerId=" + customerId +
             '}';
     }
 }

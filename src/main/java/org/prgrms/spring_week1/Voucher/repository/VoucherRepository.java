@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
+import org.prgrms.spring_week1.Voucher.model.VoucherType;
 
 public interface VoucherRepository {
 
@@ -17,6 +18,7 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    void deleteAll();
+    void deleteById(UUID voucherId);
 
+    List<Voucher> findByType(VoucherType voucherType);
 }

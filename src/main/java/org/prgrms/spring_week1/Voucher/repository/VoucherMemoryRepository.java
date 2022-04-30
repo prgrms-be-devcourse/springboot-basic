@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
+import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -44,12 +45,17 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteById(UUID voucherId) {
 
     }
 
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         return null;
     }
 }

@@ -3,6 +3,7 @@ package org.prgrms.spring_week1.Voucher.repository;
 import static org.prgrms.spring_week1.jdbcUtils.toLocalDateTime;
 import static org.prgrms.spring_week1.jdbcUtils.toUUID;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import org.prgrms.spring_week1.Voucher.model.VoucherStatus;
 import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -60,6 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         objectHashMap.put("voucherStatus", voucher.getVoucherStatus().toString());
         objectHashMap.put("createdAt", voucher.getCreatedAt());
         objectHashMap.put("updatedAt", voucher.getUpdatedAt());
+        objectHashMap.put("customerId", voucher.getCustomerId().toString().getBytes());
 
         return objectHashMap;
 
@@ -71,15 +74,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         try {
             int insert = jdbcTemplate.update(
-                "insert into Voucher(voucher_id, discount, status, type, created_at, updated_at)" +
-                    "values(UUID_TO_BIN(:voucherId), :discount, :voucherStatus, :voucherType, :createdAt, :updatedAt)",
+                "insert into Voucher(voucher_id, discount, status, type, created_at, updated_at, customer_id)"
+                    +
+                    " values(UUID_TO_BIN(:voucherId), :discount, :voucherStatus, :voucherType, :createdAt, :updatedAt, UUID_TO_BIN(:customerId))",
                 toParamMap(voucher));
             if (insert != 1) {
                 throw new RuntimeException("Nothing was inserted");
             }
             return voucher;
-        } catch (DataAccessException e){
-            logger.error("Get error during insert voucher : " , e );
+        } catch (DataAccessException e) {
+            logger.error("Get error during insert voucher : ", e);
             throw e;
         }
     }
@@ -105,11 +109,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
         try {
-            return jdbcTemplate.query("select * from Voucher where customer_id = UUID_TO_BIN(:customerId)",
-                Collections.singletonMap("customerId", customerId),
-                voucherRowMapper);
-        } catch (DataAccessException e){
-            logger.error("Get error during find customer's voucher : " , e );
+            return jdbcTemplate
+                .query("select * from Voucher where customer_id = UUID_TO_BIN(:customerId)",
+                    Collections.singletonMap("customerId", customerId),
+                    voucherRowMapper);
+        } catch (DataAccessException e) {
+            logger.error("Get error during find customer's voucher : ", e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        try {
+            return jdbcTemplate.query("select * from Voucher where type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
+        } catch (DataAccessException e) {
+            logger.error("Get error during find customer's voucher : ", e);
             throw e;
         }
     }
@@ -124,14 +140,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 throw new RuntimeException("Nothing was updated");
             }
             return voucher;
-        } catch (DataAccessException e){
-            logger.error("Get error during insert voucher : " , e );
+        } catch (DataAccessException e) {
+            logger.error("Get error during insert voucher : ", e);
             throw e;
         }
     }
 
     @Override
-    public void deleteAll() {
-        jdbcTemplate.update("delete from Voucher", Collections.emptyMap());
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("delete  from Voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+            Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
+
+
 }

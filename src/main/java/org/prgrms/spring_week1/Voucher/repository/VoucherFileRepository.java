@@ -11,14 +11,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.spring_week1.Voucher.model.Voucher;
+import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
-@Repository
-@Profile("dev")
+
 public class VoucherFileRepository implements VoucherRepository {
 
     @Value("${file.voucher.path}")
@@ -80,12 +78,17 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
+    public void deleteById(UUID voucherId) {
 
     }
 
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         return null;
     }
 }
