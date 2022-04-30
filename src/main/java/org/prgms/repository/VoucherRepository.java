@@ -1,4 +1,6 @@
-package org.prgms.voucher.domain;
+package org.prgms.repository;
+
+import org.prgms.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,4 +14,8 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
 
     void deleteAll();
+
+    default void deleteById(UUID voucherId) {
+    }
+
 }

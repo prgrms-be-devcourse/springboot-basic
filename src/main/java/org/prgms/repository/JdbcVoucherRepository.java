@@ -1,10 +1,10 @@
-package org.prgms.voucher.repository;
+package org.prgms.repository;
 
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
+import org.prgms.domain.Voucher;
+import org.prgms.domain.VoucherType;
 import org.prgms.utils.UuidUtils;
-import org.prgms.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucher.domain.Voucher;
-import org.prgms.voucher.domain.VoucherRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -32,12 +32,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
 
+        VoucherType voucherType = getVoucherType(voucher);
+
         jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, voucher_kind, created_at) values(?, ?, ?, ?)",
                 UuidUtils.uuidToBytes(voucher.getVoucherId()),
                 voucher.getDiscountAmount(),
-                voucher.getClass().getSimpleName(),
+                voucherType.name(),
                 LocalDateTime.now());
-
     }
 
     @Override
@@ -64,6 +65,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update("DELETE FROM vouchers;");
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", UuidUtils.uuidToBytes(voucherId));
+    }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {
 
@@ -75,15 +80,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher decideVoucherType(String voucherKind, long amount, UUID voucherId) {
-        if (voucherKind.equals(FixedAmountVoucher.class.getSimpleName()))
+        if (voucherKind.equals(VoucherType.FIXED.name()))
             return new FixedAmountVoucher(voucherId, amount);
 
-        else if (voucherKind.equals(PercentDiscountVoucher.class.getSimpleName()))
+        else if (voucherKind.equals(VoucherType.PERCENT.name()))
             return new PercentDiscountVoucher(voucherId, amount);
 
         else
             throw new IllegalArgumentException(MessageFormat.format("voucher Kind의 값이 잘못되었습니다. : {0}", voucherKind));
+    }
 
+    private VoucherType getVoucherType(Voucher voucher) {
+        if (voucher.getClass().getSimpleName().equals(FixedAmountVoucher.class.getSimpleName())) {
+            return VoucherType.FIXED;
+        } else if (voucher.getClass().getSimpleName().equals(PercentDiscountVoucher.class.getSimpleName())) {
+            return VoucherType.PERCENT;
+        } else {
+            throw new IllegalArgumentException(MessageFormat.format(
+                    "해당하는 Voucher 종류의 Enum 값이 존재하지 않습니다. : {0}",
+                    voucher.getClass().getSimpleName()));
+        }
 
     }
 }

@@ -1,5 +1,6 @@
-package org.prgms.customer;
+package org.prgms.repository;
 
+import org.prgms.domain.Customer;
 import org.prgms.utils.UuidUtils;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -76,7 +77,7 @@ public class CustomerRepository {
 
 
     public int save(Customer customer) {
-        int update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
+        var update = jdbcTemplate.update(INSERT_QUERY, UuidUtils.uuidToBytes(customer.customerId()), customer.name(), customer.email());
 
         checkState(update == 1, "데이터 저장 실패. 유효한 row 갯수가 1이 아님 : %s", update);
 
@@ -95,7 +96,7 @@ public class CustomerRepository {
 
 
     public void update(Customer targetCustomer) {
-        int update = jdbcTemplate.update(
+        var update = jdbcTemplate.update(
                 UPDATE_NAME_BY_ID_QUERY,
                 targetCustomer.name(),
                 UuidUtils.uuidToBytes(targetCustomer.customerId())
@@ -106,10 +107,9 @@ public class CustomerRepository {
 
     private Customer mapToCustomer(ResultSet resultSet, int rowNum) {
         try {
-            UUID customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
-            String name = resultSet.getString("name");
-            String email = resultSet.getString("email");
-
+            var customerId = UuidUtils.bytesToUUID(resultSet.getBytes("customer_id"));
+            var name = resultSet.getString("name");
+            var email = resultSet.getString("email");
             return new Customer(customerId, name, email);
         } catch (SQLException e) {
             throw new DataRetrievalFailureException(MessageFormat.format("데이터를 가져오는 데 실패했습니다. {0}", e.getMessage()));

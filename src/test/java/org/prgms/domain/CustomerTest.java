@@ -1,4 +1,4 @@
-package org.prgms.customer;
+package org.prgms.domain;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,6 @@
-package org.prgms.voucher.repository;
+package org.prgms.repository;
 
-import org.prgms.voucher.domain.Voucher;
-import org.prgms.voucher.domain.VoucherRepository;
+import org.prgms.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -32,5 +31,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
         while (!db.isEmpty()) {
             db.remove(0);
         }
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        Optional<Voucher> voucher = db.stream().filter(v -> v.getVoucherId() == voucherId).findFirst();
+
+        voucher.ifPresent(db::remove);
     }
 }

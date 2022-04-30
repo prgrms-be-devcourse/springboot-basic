@@ -1,10 +1,9 @@
-package org.prgms.customer.repository;
+package org.prgms.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.customer.Customer;
-import org.prgms.customer.CustomerRepository;
+import org.prgms.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,7 +43,7 @@ class CustomerRepositoryTest {
     void findByNameTest() {
         List<Customer> customers = jdbcCustomerRepository.findByName("user-test");
 
-        assertThat(customers).extracting(Customer::name).contains("user-test");
+        assertThat(customers).extracting(Customer::name).containsExactly("user-test");
     }
 
     @Test
@@ -79,7 +78,7 @@ class CustomerRepositoryTest {
         jdbcCustomerRepository.save(customer);
         List<Customer> customers = jdbcCustomerRepository.findByName("new-insert");
 
-        assertThat(customers).contains(customer);
+        assertThat(customers).containsExactly(customer);
     }
 
     @Test
@@ -90,6 +89,6 @@ class CustomerRepositoryTest {
         jdbcCustomerRepository.update(updateUser);
         List<Customer> customers = jdbcCustomerRepository.findByName("update-user");
 
-        assertThat(customers).contains(updateUser);
+        assertThat(customers).containsExactly(updateUser);
     }
 }

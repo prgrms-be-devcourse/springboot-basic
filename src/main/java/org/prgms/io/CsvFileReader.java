@@ -2,7 +2,7 @@ package org.prgms.io;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import org.prgms.customer.Customer;
+import org.prgms.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
