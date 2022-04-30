@@ -16,7 +16,8 @@ public class VoucherFileRepository implements VoucherRepository {
     private final String idSequencePath;
 
     public VoucherFileRepository(@Value("${voucher.path}") String voucherFilePath,
-                                 @Value("${sequence.path}") String idSequencePath) {
+                                 @Value("${sequence.path}") String idSequencePath
+    ) {
 
         this.voucherFilePath = voucherFilePath;
         this.idSequencePath = idSequencePath;
