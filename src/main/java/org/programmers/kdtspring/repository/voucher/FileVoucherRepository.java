@@ -5,6 +5,7 @@ import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.PercentDiscountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;
 import org.programmers.kdtspring.entity.voucher.VoucherType;
+import org.programmers.kdtspring.exception.NotAvailableMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -76,21 +77,21 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomer(Customer customer) {
-        return null;
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 
     @Override
     public Voucher updateCustomerId(Voucher voucher) {
-        return null;
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 
     @Override
     public void deleteOne(Voucher voucher) {
-
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 
     @Override
     public void deleteAll() {
-
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 }
