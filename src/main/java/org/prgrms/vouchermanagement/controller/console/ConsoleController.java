@@ -24,7 +24,7 @@ public class ConsoleController {
   public void run() {
     boolean progress = true;
     while (progress) {
-      progress = executeV1();
+      progress = executeV2();
     }
   }
 
