@@ -19,8 +19,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Profile("dev")
+//@Repository
+//@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
