@@ -16,6 +16,8 @@ public interface Voucher {
 
     LocalDateTime getCreatedAt();
 
+    LocalDateTime getUpdatedAt();
+
     long discount(long beforeDiscount);
 
     void changeDiscountValue(long discountValue);

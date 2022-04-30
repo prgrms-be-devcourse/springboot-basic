@@ -12,14 +12,15 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.kdt.application.customer.domain.Customer;
-import org.springframework.context.annotation.Profile;
+import org.prgms.kdt.application.customer.exception.CustomerDuplicateKeyException;
+import org.prgms.kdt.application.util.UuidUtils;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
 @Slf4j
 public class JdbcCustomerRepository implements CustomerRepository {
 
@@ -32,15 +33,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var customerId = UuidUtils.toUUID(resultSet.getBytes("customer_id"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, createdAt);
+        var updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
+        return new Customer(customerId, customerName, email, createdAt, updatedAt);
     };
-
-    static UUID toUUID(byte[] bytes) throws SQLException {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
@@ -48,26 +45,39 @@ public class JdbcCustomerRepository implements CustomerRepository {
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
+            put("updatedAt", Timestamp.valueOf(customer.getUpdatedAt()));
         }};
     }
 
     @Override
     public Customer insert(Customer customer) {
-        String sql = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :createdAt)";
-        int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
-        if (updateRow != 1) {
-            throw new IllegalStateException("Customer가 정상적으로 생성 되지 않았습니다.");
+        try {
+            String sql = "INSERT INTO customers(customer_id, name, email, created_at, updated_at) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :createdAt, :updatedAt)";
+            int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
+            if (updateRow != 1) {
+                throw new IllegalStateException("Customer가 정상적으로 생성 되지 않았습니다.");
+            }
+        } catch (DuplicateKeyException e) {
+            log.error("Customer 중복된 Key 발생");
+            throw new CustomerDuplicateKeyException("Customer 중복된 Key 발생",e);
         }
+
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        String sql = "UPDATE customers SET name = :name, email = :email WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
-        int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
-        if (updateRow != 1) {
-            throw new IllegalStateException("Customer가 정상적으로 업데이트 되지 않았습니다.");
+        try {
+            String sql = "UPDATE customers SET name = :name, email = :email WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
+            int updateRow = jdbcTemplate.update(sql, toParamMap(customer));
+            if (updateRow != 1) {
+                throw new IllegalStateException("Customer가 정상적으로 업데이트 되지 않았습니다.");
+            }
+        } catch (DuplicateKeyException e) {
+            log.error("Customer 중복된 Key 발생");
+            throw new CustomerDuplicateKeyException("Customer 중복된 Key 발생",e);
         }
+
         return customer;
     }
 

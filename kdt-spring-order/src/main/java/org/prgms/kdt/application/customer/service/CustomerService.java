@@ -19,9 +19,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public Customer join(String name, String email) {
-        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        validateDuplicateCustomer(customer);
+    public Customer join(Customer customer) {
         return customerRepository.insert(customer);
     }
 
@@ -34,18 +32,10 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(Customer customer) {
-        validateDuplicateCustomer(customer);
         return customerRepository.update(customer);
     }
 
     public void deleteCustomerById(UUID customerId) {
         customerRepository.delete(customerId);
-    }
-
-    private void validateDuplicateCustomer(Customer customer) {
-        Optional<Customer> findCustomer = customerRepository.findByName(customer.getName());
-        if (findCustomer.isPresent()) {
-            throw new IllegalStateException("이미 존재하는 이름입니다.");
-        }
     }
 }

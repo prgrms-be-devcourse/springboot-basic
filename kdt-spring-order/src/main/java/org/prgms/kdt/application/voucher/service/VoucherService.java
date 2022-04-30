@@ -23,29 +23,12 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public Voucher createVoucher (VoucherType voucherType, long discountValue, Customer customer) {
-        Voucher voucher = null;
-        UUID customerId = customer != null ? customer.getCustomerId() : null;
-        switch (voucherType) {
-            case FIXED_AMOUNT:
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), customerId, discountValue, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-                log.info("create FixedAmountVoucher {}", voucher);
-                break;
-            case PERCENT_DISCOUNT:
-                voucher = new PercentDiscountVoucher(UUID.randomUUID(), customerId, discountValue, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-                log.info("create PercentDiscountVoucher {}", voucher);
-                break;
-            default:
-                break;
-        }
+    public Voucher createVoucher (Voucher voucher) {
         return voucherRepository.insert(voucher);
     }
 
     public List<Voucher> getAllVouchers () {
         List<Voucher> voucherList = voucherRepository.findAll();
-        if (voucherList.isEmpty()) {
-            throw new IllegalStateException("no such data");
-        }
         return voucherList;
     }
 
@@ -55,9 +38,6 @@ public class VoucherService {
 
     public List<Voucher> getVoucherByCustomerId(UUID customerId) {
         List<Voucher> voucherList = voucherRepository.findByCustomerId(customerId);
-        if (voucherList.isEmpty()) {
-            throw new IllegalStateException("no such data");
-        }
         return voucherList;
     }
 
@@ -66,7 +46,7 @@ public class VoucherService {
         return voucherRepository.updateDiscountValue(voucher);
     }
 
-    public void deleteVoucherId(UUID voucherId) {
+    public void deleteByVoucherId(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
     }
 }

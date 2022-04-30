@@ -1,6 +1,7 @@
 package org.prgms.kdt.application.command;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class CommandLineApplication implements Runnable {
                         output.printExit();
                         break;
                     case CREATE_CUSTOMER:
-                        customerService.join("name", "email@gmail.com");
+                        customerService.join(new Customer(UUID.randomUUID(),"name", "email@gmail.com", LocalDateTime.now(), LocalDateTime.now()));
                         break;
                     case GET_CUSTOMER_LIST:
                         List<Customer> allCustomers = customerService.getAllCustomers();
@@ -46,7 +47,6 @@ public class CommandLineApplication implements Runnable {
                     case CREATE_VOUCHER:
                         String voucherTypeInput = input.typeOptionInput();
                         VoucherType voucherType = VoucherType.findVoucherType(voucherTypeInput);
-                        voucherService.createVoucher(voucherType, 2000L, null);
                     case GET_VOUCHER_LIST:
                         List<Voucher> allVouchers = voucherService.getAllVouchers();
                     default:
