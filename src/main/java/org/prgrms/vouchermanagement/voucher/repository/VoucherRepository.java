@@ -16,11 +16,11 @@ public interface VoucherRepository {
 
   Optional<Voucher> findById(UUID voucherId);
 
-  public void deleteAll();
+  void deleteAll();
 
-  public void deleteById(UUID voucherId);
+  void deleteById(UUID voucherId);
 
-  public void updateById(UUID voucherId, long reduction);
+  void updateById(UUID voucherId, long reduction);
 
-  public int count();
+  int count();
 }
