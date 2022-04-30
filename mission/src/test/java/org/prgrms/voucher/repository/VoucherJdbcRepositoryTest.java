@@ -76,13 +76,13 @@ class VoucherJdbcRepositoryTest {
 
         @Nested
         @Order(2)
-        @DisplayName("save 기능을 테스트 할 때 알수 없는 ID의 바우처 객체를 인자로 받으면")
+        @DisplayName("save 기능을 테스트 할 때 알 수 없는 ID의 바우처 객체를 인자로 받으면")
         class ContextReceiveWrongVoucher {
 
             Voucher wrongVoucher = new FixedAmountVoucher(2L, 120, VoucherType.FIXED_AMOUNT);
             @Test
             @DisplayName("잘못된 바우처 예외를 반환한다.")
-            void itUpdateThisVoucher() {
+            void itReturnWrongVoucherException() {
 
                 Assertions.assertThatThrownBy(() -> voucherRepository.save(wrongVoucher))
                         .isInstanceOf(IllegalArgumentException.class)
@@ -92,7 +92,7 @@ class VoucherJdbcRepositoryTest {
 
         @Nested
         @Order(3)
-        @DisplayName("save 기능을 테스트 할 때 새로 생성된 바우처(id == null) 객체를 인자로 받으면")
+        @DisplayName("save 기능을 테스트 할 때 새로 생성된 바우처(id = null) 객체를 인자로 받으면")
         class ContextReceiveNullVoucherType {
 
             Voucher voucher = new FixedAmountVoucher( 100, VoucherType.FIXED_AMOUNT);
@@ -123,7 +123,7 @@ class VoucherJdbcRepositoryTest {
     @Nested
     @Order(2)
     @DisplayName("Repository findAll 메서드는")
-    class DescribeFindAll {
+    class DescribeFindAllMethod {
 
         @Nested
         @DisplayName("호출이 되면")
