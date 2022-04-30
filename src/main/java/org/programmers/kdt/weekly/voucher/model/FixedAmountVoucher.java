@@ -15,6 +15,7 @@ public class FixedAmountVoucher implements Voucher {
         if (amount <= 0) {
             throw new IllegalArgumentException();
         }
+
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = LocalDateTime.now().withNano(0);
@@ -24,6 +25,7 @@ public class FixedAmountVoucher implements Voucher {
         if (amount <= 0) {
             throw new IllegalArgumentException();
         }
+
         this.voucherId = voucherId;
         this.amount = amount;
         this.createdAt = createdAt;

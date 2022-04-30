@@ -52,7 +52,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String insertSql = "INSERT INTO vouchers(voucher_id, type, value, created_at) " +
             "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt)";
         var update = jdbcTemplate.update(insertSql, toParamMap(voucher));
-        if (update != 1) {
+
+        if (update == 0) {
             throw new RuntimeException("Nothing was inserted");
         }
 
@@ -65,7 +66,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         var update = jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
-        if (update != 1) {
+        if (update == 0) {
             throw new RuntimeException("Nothing was updated");
         }
 
@@ -83,10 +84,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         String selectByIdSql = "SELECT * FROM vouchers "
             + "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
+
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(selectByIdSql,
+            var voucher = jdbcTemplate.queryForObject(selectByIdSql,
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                voucherRowMapper));
+                voucherRowMapper);
+
+            return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
             logger.error("voucher findById empty Result ", e);
 
@@ -98,6 +102,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         String deleteByIdSql = "DELETE FROM vouchers " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
+
         try {
             jdbcTemplate.update(deleteByIdSql,
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()));

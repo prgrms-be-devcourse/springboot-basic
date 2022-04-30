@@ -16,6 +16,7 @@ public class PercentDiscountVoucher implements Voucher {
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
+
         this.voucherId = voucherId;
         this.percent = percent;
         this.createdAt = LocalDateTime.now().withNano(0);
@@ -25,13 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
         if (percent <= 0 || percent >= 100) {
             throw new IllegalArgumentException();
         }
+
         this.voucherId = voucherId;
         this.percent = percent;
         this.createdAt = createdAt;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override
