@@ -2,6 +2,7 @@ package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 
 import lombok.Getter;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -17,10 +18,26 @@ public abstract class Voucher {
      */
     private final UUID id;
 
+    /**
+     * 고객 아이디
+     */
+    private Optional<UUID> customerId;
+
     protected Voucher(UUID id) {
         checkArgument(id != null, "id must be provided.");
 
         this.id = id;
+        this.customerId = Optional.empty();
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setOwnerId(UUID customerId) {
+        checkArgument(customerId != null, "customerId must be provided.");
+
+        this.customerId = Optional.of(customerId);
     }
 
     /**
@@ -31,5 +48,4 @@ public abstract class Voucher {
      */
     abstract public long discount(long beforeDiscountPrice);
 
-    abstract public String toDisplayString();
 }

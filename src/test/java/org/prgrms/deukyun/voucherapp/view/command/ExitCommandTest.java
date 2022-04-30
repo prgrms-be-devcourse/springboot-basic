@@ -1,4 +1,4 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class ExitCommandTest {
 
     @Test
     void 성공_퇴장_예외던지면_성공임() {
-        //assert throws
+        //then
         assertThatThrownBy(() -> command.exit())
                 .isInstanceOf(ExitRequest.class);
     }

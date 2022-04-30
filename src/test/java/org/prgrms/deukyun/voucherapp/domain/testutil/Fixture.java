@@ -1,11 +1,15 @@
 package org.prgrms.deukyun.voucherapp.domain.testutil;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
 import java.util.Collections;
+
+import static java.util.Collections.*;
+import static org.apache.commons.lang3.RandomUtils.*;
 
 public class Fixture {
 
@@ -22,7 +26,6 @@ public class Fixture {
     }
 
     public static Customer customer() {
-        return new Customer("ndy", true, Collections.emptyList());
+        return new Customer("ndy", nextBoolean(), emptyList());
     }
-
 }

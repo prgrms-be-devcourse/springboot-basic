@@ -35,11 +35,4 @@ public class FixedAmountDiscountVoucher extends Voucher {
         return beforeDiscountPrice - amount;
     }
 
-    @Override
-    public String toDisplayString() {
-        return new StringBuilder("[Fixed Amount Discount Voucher]")
-                .append(" id : ").append(super.getId().toString(), 0, 8)
-                .append(", amount  : ").append(amount)
-                .toString();
-    }
 }

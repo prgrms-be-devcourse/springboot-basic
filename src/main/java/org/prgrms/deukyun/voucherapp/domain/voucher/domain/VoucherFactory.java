@@ -3,6 +3,9 @@ package org.prgrms.deukyun.voucherapp.domain.voucher.domain;
 import java.text.MessageFormat;
 import java.util.UUID;
 
+/**
+ * 바우처 팩토리
+ */
 public class VoucherFactory {
 
     public static Voucher createVoucher(String type, long argument) {

@@ -1,8 +1,8 @@
-package org.prgrms.deukyun.voucherapp.app.command;
+package org.prgrms.deukyun.voucherapp.view.command;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prgrms.deukyun.voucherapp.app.console.ConsoleService;
+import org.prgrms.deukyun.voucherapp.view.console.ConsoleService;
 import org.prgrms.deukyun.voucherapp.domain.voucher.service.VoucherService;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -12,25 +12,25 @@ import static org.mockito.Mockito.verify;
 class ShowAllVoucherCommandTest {
 
     ShowAllVoucherCommand command;
-    VoucherService mockVoucherService;
-    ConsoleService mockConsole;
+    VoucherService voucherService;
+    ConsoleService console;
 
     @BeforeEach
     void setup() {
-        mockVoucherService = mock(VoucherService.class);
-        mockConsole = mock(ConsoleService.class);
+        voucherService = mock(VoucherService.class);
+        console = mock(ConsoleService.class);
     }
 
     @Test
     void 성공_전체조회명령() {
-        //setup
-        command = new ShowAllVoucherCommand(mockVoucherService, mockConsole);
+        //given
+        command = new ShowAllVoucherCommand(voucherService, console);
 
-        //action
+        //when
         command.showAllVoucher();
 
         //verify
-        verify(mockVoucherService).findAll();
-        verify(mockConsole).write(any());
+        verify(voucherService).findAll();
+        verify(console).write(any());
     }
 }

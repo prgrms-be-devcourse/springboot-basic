@@ -1,9 +1,8 @@
 package org.prgrms.deukyun.voucherapp.domain.voucher.persistence;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.prgrms.deukyun.voucherapp.domain.customer.domain.Customer;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.FixedAmountDiscountVoucher;
 import org.prgrms.deukyun.voucherapp.domain.voucher.domain.Voucher;
 
@@ -12,6 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.customer;
 import static org.prgrms.deukyun.voucherapp.domain.testutil.Fixture.voucher;
 
 class MemoryVoucherRepositoryTest {
@@ -20,100 +21,112 @@ class MemoryVoucherRepositoryTest {
     Voucher voucher;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         memoryRepository = new MemoryVoucherRepository();
         voucher = voucher();
     }
 
-    @Nested
-    @DisplayName("삽입")
-    class insertTest {
+    @Test
+    void 성공_삽입() {
+        //when
+        Voucher insertedVoucher = memoryRepository.insert(voucher);
 
-        @Test
-        void 성공() {
-            //when
-            Voucher insertedVoucher = memoryRepository.insert(voucher);
-
-            //assert
-            assertVoucher(insertedVoucher);
-            assertFADV(insertedVoucher, voucher);
-        }
+        //then
+        assertVoucher(insertedVoucher);
+        assertFADV(insertedVoucher, voucher);
     }
 
-    @Nested
-    @DisplayName("전체 조회")
-    class findAllTest {
+    @Test
+    void 성공_전체조회() {
+        //given
+        Voucher voucher1 = voucher();
+        Voucher voucher2 = voucher();
+        memoryRepository.insert(voucher1);
+        memoryRepository.insert(voucher2);
 
-        @Test
-        void 성공() {
-            //setup
-            Voucher voucher1 = voucher();
-            Voucher voucher2 = voucher();
-            memoryRepository.insert(voucher1);
-            memoryRepository.insert(voucher2);
+        //when
+        List<Voucher> vouchers = memoryRepository.findAll();
 
-            //when
-            List<Voucher> vouchers = memoryRepository.findAll();
-
-            //assert
-            assertThat(vouchers).extracting("id")
-                    .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
-        }
+        //then
+        assertThat(vouchers).extracting("id")
+                .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
 
-    @Nested
-    @DisplayName("단건 조회")
-    class findByIdTest {
+    @Test
+    void 성공_고객의_아이디로_전체_조회() {
+        //given
+        Customer customer = customer();
+        UUID customerId = customer.getId();
 
-        UUID id;
+        Voucher voucher1 = voucher();
+        voucher1.setOwnerId(customerId);
+        memoryRepository.insert(voucher1);
 
-        @BeforeEach
-        void setup() {
-            memoryRepository.insert(voucher);
-        }
+        Voucher voucher2 = voucher();
+        voucher2.setOwnerId(customerId);
+        memoryRepository.insert(voucher2);
 
-        @Test
-        void 성공() {
-            //setup
-            id = voucher.getId();
+        Voucher voucher3 = voucher();
+        memoryRepository.insert(voucher3);
 
-            //when
-            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
+        //when
+        List<Voucher> foundVouchers = memoryRepository.findByCustomerId(customerId);
 
-            //assert
-            assertThat(foundVoucher).isPresent();
-            assertFADV(foundVoucher.get(), voucher);
-        }
-
-        @Test
-        void 성공_아이디가_없을경우_OptionalEmpty_반환() {
-            //setup
-            id = UUID.randomUUID();
-
-            //when
-            Optional<Voucher> foundVoucher = memoryRepository.findById(id);
-
-            //assert
-            assertThat(foundVoucher).isNotPresent();
-        }
+        //then
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers).extracting("id")
+                .containsExactlyInAnyOrder(voucher1.getId(), voucher2.getId());
     }
 
-    @Nested
-    @DisplayName("전체 삭제")
-    class deleteAllTest{
+    @Test
+    void 실패_고객의_아이디로_전체_조회() {
+        //given
+        UUID customerId = null;
 
-        @Test
-        void 성공(){
-            //setup
-            memoryRepository.insert(voucher());
-            memoryRepository.insert(voucher());
+        //then
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> memoryRepository.findByCustomerId(customerId));
+    }
 
-            //action
-            memoryRepository.deleteAll();
 
-            //assert
-            assertThat(memoryRepository.findAll()).isEmpty();
-        }
+    @Test
+    void 성공_단건조회() {
+        //given
+        UUID id = voucher.getId();
+        memoryRepository.insert(voucher);
+        //when
+        Optional<Voucher> foundVoucher = memoryRepository.findById(id);
+
+        //then
+        assertThat(foundVoucher).isPresent();
+        assertFADV(foundVoucher.get(), voucher);
+    }
+
+    @Test
+    void 성공_단건조회_아이디가_없을경우_OptionalEmpty_반환() {
+        //given
+        UUID id = UUID.randomUUID();
+        memoryRepository.insert(voucher);
+
+        //when
+        Optional<Voucher> foundVoucher = memoryRepository.findById(id);
+
+        //then
+        assertThat(foundVoucher).isNotPresent();
+    }
+
+
+    @Test
+    void 성공_전체_삭제() {
+        //given
+        memoryRepository.insert(voucher());
+        memoryRepository.insert(voucher());
+
+        //when
+        memoryRepository.deleteAll();
+
+        //then
+        assertThat(memoryRepository.findAll()).isEmpty();
     }
 
     private void assertVoucher(Voucher actualVoucher) {

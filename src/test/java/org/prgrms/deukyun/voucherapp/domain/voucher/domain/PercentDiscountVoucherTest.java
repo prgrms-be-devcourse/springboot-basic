@@ -13,13 +13,13 @@ class PercentDiscountVoucherTest {
 
     @Test
     void 성공_생성() {
-        //setup
+        //given
         long percent = 20L;
 
         //when
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(20L);
 
-        //assert
+        //then
         assertThat(voucher).isNotNull();
         assertThat(voucher.getId()).isNotNull();
         assertThat(voucher.getPercent()).isEqualTo(percent);
@@ -27,10 +27,10 @@ class PercentDiscountVoucherTest {
 
     @Test
     void 실패_생성_범위_밖의_퍼센트() {
-        //setup
+        //given
         long percent = 101L;
 
-        //assert throws
+        //then
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new PercentDiscountVoucher(percent));
 
@@ -38,7 +38,7 @@ class PercentDiscountVoucherTest {
 
     @Test
     void 성공_할인() {
-        //setup
+        //given
         long percent = 20L;
         Voucher voucher = percentDiscountVoucher();
         long beforeDiscountPrice = 1000L;
@@ -46,7 +46,7 @@ class PercentDiscountVoucherTest {
         //when
         long discountedPrice = voucher.discount(beforeDiscountPrice);
 
-        //assert
+        //then
         assertThat(discountedPrice).isEqualTo(beforeDiscountPrice * (100 - percent) / 100);
     }
 }
