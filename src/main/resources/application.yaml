@@ -1,1 +1,7 @@
 file-repository-path: "./repository/voucher"
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: "02709580"
