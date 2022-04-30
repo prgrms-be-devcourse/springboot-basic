@@ -27,13 +27,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, int amount){
-
-        if (voucherType == VoucherType.FIXED)
-            return voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),amount));
-        else if (voucherType == VoucherType.PERCENT)
-            return voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),amount));
-        else
-            throw new VoucherTypeMissingException("Voucher Type이 잘못 입력되었습니다.");
+        return voucherRepository.save(voucherType.createVoucher(UUID.randomUUID(), amount));
     }
 
     List<Voucher> getVoucherByVoucherType(String voucherType){
