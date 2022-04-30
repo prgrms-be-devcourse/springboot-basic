@@ -5,6 +5,7 @@ import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.util.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
@@ -17,6 +18,11 @@ public class VoucherFileRepository implements VoucherRepository {
 
 	public VoucherFileRepository(@Value("${voucher-file-path}") String path) {
 		this.path = path;
+	}
+
+	@PostConstruct
+	public void init() {
+		FileUtils.deleteFile(path);
 	}
 
 	@Override

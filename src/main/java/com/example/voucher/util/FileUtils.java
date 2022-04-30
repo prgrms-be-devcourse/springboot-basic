@@ -29,4 +29,8 @@ public class FileUtils {
 			throw new IllegalArgumentException(FILE_WRITE_ERROR.name());
 		}
 	}
+
+	public static final void deleteFile(String path) {
+		new File(path).delete();
+	}
 }
