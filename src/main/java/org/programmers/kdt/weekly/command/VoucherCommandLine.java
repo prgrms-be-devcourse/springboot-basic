@@ -1,9 +1,11 @@
 package org.programmers.kdt.weekly.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.programmers.kdt.weekly.command.io.Console;
-import org.programmers.kdt.weekly.command.io.ErrorType;
+import org.programmers.kdt.weekly.command.io.InfoMessageType;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
@@ -14,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherCommandLine {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerCommandLine.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLine.class);
 
     private final Console console;
     private final VoucherService voucherService;
@@ -29,47 +31,50 @@ public class VoucherCommandLine {
         VoucherCommandType voucherCommandType = VoucherCommandType.DEFAULT;
 
         while (voucherCommandType.isRunnable()) {
-            this.console.printVoucherCommand();
+            this.console.printCommandDescription(getCommandDescription());
             var userInput = this.console.getUserInput();
 
             try {
                 voucherCommandType = VoucherCommandType.of(userInput);
-            } catch (IllegalArgumentException e) {
-                logger.debug("잘못된 사용자 입력 -> {}", userInput);
-                this.console.printErrorMessage(ErrorType.COMMAND);
-            }
 
-            switch (voucherCommandType) {
-                case VOUCHER_CREATE -> this.createVoucher();
-                case VOUCHER_LIST -> this.showVoucherList();
-                default -> this.console.printErrorMessage(ErrorType.COMMAND);
+                switch (voucherCommandType) {
+                    case VOUCHER_CREATE -> this.createVoucher();
+                    case VOUCHER_LIST -> this.showVoucherList();
+                }
+            } catch (IllegalArgumentException e) {
+                logger.error("voucherCommandLine error -> {}", e);
+                this.console.printInfoMessage(InfoMessageType.INVALID);
             }
         }
     }
 
     private void createVoucher() {
         this.console.printVoucherSelectMessage();
-        try {
-            var selectVoucherType = Integer.parseInt(console.getUserInput());
-            var voucherType = VoucherType.findByNumber(selectVoucherType);
-            this.console.printVoucherDiscountSelectMessage();
-            var voucherValue = Integer.parseInt(this.console.getUserInput());
-            this.voucherService.create(UUID.randomUUID(), voucherType, voucherValue);
-            this.console.printExecutionSuccessMessage();
-        } catch (IllegalArgumentException e) {
-            logger.error("create voucher user input error -> {}", e);
-            this.console.printErrorMessage(ErrorType.INVALID);
-        }
+        var selectVoucherType = Integer.parseInt(console.getUserInput());
+        var voucherType = VoucherType.findByNumber(selectVoucherType);
+
+        this.console.printVoucherDiscountSelectMessage();
+        var voucherValue = Integer.parseInt(this.console.getUserInput());
+        this.voucherService.create(UUID.randomUUID(), voucherType, voucherValue);
+        this.console.print("success !");
     }
 
     private void showVoucherList() {
         List<Voucher> vouchers = voucherService.getVouchers();
 
-        if (vouchers.size() > 0) {
-            vouchers.forEach((v) -> System.out.println(v.toString()));
+        if (vouchers.size() <= 0) {
+            this.console.printInfoMessage(InfoMessageType.VOUCHER_EMPTY);
 
             return;
         }
-        this.console.printErrorMessage(ErrorType.VOUCHER_EMPTY);
+        vouchers.forEach((v) -> System.out.println(v.toString()));
+    }
+
+    private List<String> getCommandDescription() {
+        List<String> commandDescription = new ArrayList<>();
+        Arrays.stream(VoucherCommandType.values())
+            .forEach((v) -> commandDescription.add(v.getCommandMessage()));
+
+        return commandDescription;
     }
 }

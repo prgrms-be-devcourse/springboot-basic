@@ -3,7 +3,7 @@ package org.programmers.kdt.weekly.command;
 import java.util.Arrays;
 
 public enum VoucherCommandType {
-    DEFAULT("default", "init"),
+    DEFAULT("default", "=== Voucher Menu ==="),
     VOUCHER_CREATE("create", "Type create to create a new voucher."),
     VOUCHER_LIST("list", "Type list to list all vouchers."),
     EXIT("exit", "Type exit to exit the program.");

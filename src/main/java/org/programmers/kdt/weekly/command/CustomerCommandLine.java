@@ -1,8 +1,11 @@
 package org.programmers.kdt.weekly.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import org.programmers.kdt.weekly.command.io.Console;
-import org.programmers.kdt.weekly.command.io.ErrorType;
+import org.programmers.kdt.weekly.command.io.InfoMessageType;
 import org.programmers.kdt.weekly.customer.model.CustomerType;
 import org.programmers.kdt.weekly.customer.service.CustomerService;
 import org.slf4j.Logger;
@@ -27,70 +30,81 @@ public class CustomerCommandLine {
         var commandType = CustomerCommandType.DEFAULT;
 
         while (commandType.isRunnable()) {
-            this.console.printCustomerCommand();
+            this.console.printCommandDescription(getCommandDescription());
             var userInput = this.console.getUserInput();
 
             try {
                 commandType = CustomerCommandType.of(userInput);
-            } catch (IllegalArgumentException e) {
-                logger.debug("잘못된 사용자 입력 -> {}", userInput);
-            }
 
-            switch (commandType) {
-                case CUSTOMER_CREATE -> this.createCustomer();
-                case CUSTOMER_LIST -> this.showCustomerList(CustomerType.NORMAL);
-                case CUSTOMER_BLACK_LIST -> this.showCustomerList(CustomerType.BLACK);
-                case CUSTOMER_TYPE_CHANGE -> this.changeCustomerType();
-                case EXIT -> this.console.programExitMessage();
-                default -> this.console.printErrorMessage(ErrorType.INVALID);
+                switch (commandType) {
+                    case CUSTOMER_CREATE -> this.createCustomer();
+                    case CUSTOMER_LIST -> this.showCustomerList(CustomerType.NORMAL);
+                    case CUSTOMER_BLACK_LIST -> this.showCustomerList(CustomerType.BLACK);
+                    case CUSTOMER_TYPE_CHANGE -> this.changeCustomerType();
+                    case EXIT -> this.console.programExitMessage();
+                }
+            } catch (IllegalArgumentException e) {
+                logger.error("customerCommandLine error -> {]", e);
+                this.console.printInfoMessage(InfoMessageType.INVALID);
             }
         }
     }
 
     private void createCustomer() {
-        this.console.printInputMessage("name");
+        this.console.print("input name");
         var userName = console.getUserInput();
-        this.console.printInputMessage("email");
+        this.console.print("input email");
         var userEmail = console.getUserInput();
 
         if (isDuplicateEmail(userEmail)) {
-            this.console.printErrorMessage(ErrorType.DUPLICATE_EMAIL);
+            this.console.printInfoMessage(InfoMessageType.DUPLICATE_EMAIL);
 
             return;
         }
+
         this.customerService.create(UUID.randomUUID(), userEmail, userName);
-        this.console.printExecutionSuccessMessage();
+        this.console.print("success !");
     }
 
     private void showCustomerList(CustomerType customerType) {
         var customerList = this.customerService.findByCustomerType(customerType);
 
         if (customerList.isEmpty()) {
-            this.console.printErrorMessage(ErrorType.CUSTOMER_EMPTY);
+            this.console.printInfoMessage(InfoMessageType.CUSTOMER_EMPTY);
 
             return;
         }
+
         customerList.forEach((customer) -> System.out.println(customer.toString()));
     }
 
     private void changeCustomerType() {
-        this.console.printInputMessage("customer email");
+        this.console.print("input customer email");
         var customerEmail = this.console.getUserInput();
         var maybeCustomer = customerService.findByEmail(customerEmail);
 
-        if (maybeCustomer.isPresent()) {
-            System.out.println("타입을 입력 해주세요"); //TODO console로 넣을 예정입니다.
-            var changeType = this.console.getUserInput();
-            maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
-            this.customerService.changeBlackType(maybeCustomer.get());
-            this.console.printExecutionSuccessMessage();
+        if (maybeCustomer.isEmpty()) {
+            this.console.printInfoMessage(InfoMessageType.INVALID);
 
             return;
         }
-        this.console.printErrorMessage(ErrorType.INVALID);
+
+        this.console.print("input type");
+        var changeType = this.console.getUserInput();
+        maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
+        this.customerService.changeBlackType(maybeCustomer.get());
+        this.console.print("success !");
     }
 
     private boolean isDuplicateEmail(String userInput) {
         return this.customerService.findByEmail(userInput).isPresent();
+    }
+
+    private List<String> getCommandDescription() {
+        List<String> commandDescription = new ArrayList<>();
+        Arrays.stream(CustomerCommandType.values())
+            .forEach((v) -> commandDescription.add(v.getCommandMessage()));
+
+        return commandDescription;
     }
 }

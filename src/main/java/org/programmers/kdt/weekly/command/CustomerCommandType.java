@@ -3,7 +3,7 @@ package org.programmers.kdt.weekly.command;
 import java.util.Arrays;
 
 public enum CustomerCommandType {
-    DEFAULT("default", "init"),
+    DEFAULT("default", "=== Customer Menu ==="),
     CUSTOMER_CREATE("create", "Type create to create a new customer."),
     CUSTOMER_LIST("list", "Type list to list all customers."),
     CUSTOMER_BLACK_LIST("blacklist", "Type blacklist to list all customers."),

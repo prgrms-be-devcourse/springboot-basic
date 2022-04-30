@@ -3,7 +3,7 @@ package org.programmers.kdt.weekly.command;
 import java.util.Arrays;
 
 public enum StartCommandType {
-    DEFAULT("default", "init"),
+    DEFAULT("default", "=== Management Program ==="),
     VOUCHER("voucher", "Type voucher to voucher menu"),
     CUSTOMER("customer", "Type customer to customer menu"),
     EXIT("exit", "Type exit to exit the program.");

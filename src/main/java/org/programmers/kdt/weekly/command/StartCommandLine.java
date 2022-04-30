@@ -1,7 +1,10 @@
 package org.programmers.kdt.weekly.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import org.programmers.kdt.weekly.command.io.Console;
-import org.programmers.kdt.weekly.command.io.ErrorType;
+import org.programmers.kdt.weekly.command.io.InfoMessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -28,22 +31,29 @@ public class StartCommandLine {
         StartCommandType startCommandType = StartCommandType.DEFAULT;
 
         while (startCommandType.isRunnable()) {
-            this.console.printStartCommandMessage();
+            this.console.printCommandDescription(getCommandDescription());
             var userInput = this.console.getUserInput();
 
             try {
                 startCommandType = StartCommandType.of(userInput);
-            } catch (IllegalArgumentException e) {
-                logger.debug("잘못된 사용자 입력 -> {}", userInput);
-                this.console.printErrorMessage(ErrorType.COMMAND);
-            }
 
-            switch (startCommandType) {
-                case VOUCHER -> this.voucherCommandLine.run();
-                case CUSTOMER -> this.customerCommand.run();
-                case EXIT -> this.console.programExitMessage();
-                default -> this.console.printErrorMessage(ErrorType.COMMAND);
+                switch (startCommandType) {
+                    case VOUCHER -> this.voucherCommandLine.run();
+                    case CUSTOMER -> this.customerCommand.run();
+                    case EXIT -> this.console.programExitMessage();
+                }
+            } catch (IllegalArgumentException e) {
+                logger.error("startCommandLine -> {}", e);
+                this.console.printInfoMessage(InfoMessageType.COMMAND);
             }
         }
+    }
+
+    private List<String> getCommandDescription() {
+        List<String> commandDescription = new ArrayList<>();
+        Arrays.stream(StartCommandType.values())
+            .forEach((v) -> commandDescription.add(v.getCommandMessage()));
+
+        return commandDescription;
     }
 }
