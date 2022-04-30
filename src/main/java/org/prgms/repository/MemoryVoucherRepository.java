@@ -13,8 +13,9 @@ import java.util.UUID;
 public class MemoryVoucherRepository implements VoucherRepository {
     private final List<Voucher> db = new ArrayList<>();
 
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         db.add(voucher);
+        return voucher;
     }
 
     public List<Voucher> findAll() {

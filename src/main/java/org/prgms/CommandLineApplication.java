@@ -1,8 +1,7 @@
 package org.prgms;
 
 import org.prgms.domain.Customer;
-import org.prgms.domain.FixedAmountVoucher;
-import org.prgms.domain.PercentDiscountVoucher;
+import org.prgms.domain.VoucherType;
 import org.prgms.io.FileReader;
 import org.prgms.io.InOut;
 import org.prgms.service.VoucherService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class CommandLineApplication {
@@ -52,8 +50,8 @@ public class CommandLineApplication {
                     case "create":
                         int opt = console.chooseVoucher();
                         switch (opt) {
-                            case 1 -> service.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-                            case 2 -> service.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10L));
+                            case 1 -> service.createVoucher(VoucherType.FIXED.name(), 10L);
+                            case 2 -> service.createVoucher(VoucherType.PERCENT.name(), 10L);
                             default -> throw new IllegalArgumentException(String.valueOf(opt));
                         }
                         break;

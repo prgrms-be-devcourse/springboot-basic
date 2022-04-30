@@ -43,9 +43,7 @@ public class VoucherController {
 
     @PostMapping("/new-voucher")
     public String createNewVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = createVoucherRequest.toVoucher();
-
-        voucherService.createVoucher(voucher);
+        voucherService.createVoucher(createVoucherRequest.voucherKind(), createVoucherRequest.discountAmount());
 
         return "redirect:/vouchers";
     }

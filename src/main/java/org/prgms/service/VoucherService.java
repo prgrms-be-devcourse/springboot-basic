@@ -1,6 +1,9 @@
 package org.prgms.service;
 
+import org.prgms.domain.FixedAmountVoucher;
+import org.prgms.domain.PercentDiscountVoucher;
 import org.prgms.domain.Voucher;
+import org.prgms.domain.VoucherType;
 import org.prgms.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +21,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(Voucher voucher) {
-        voucherRepository.save(voucher);
+    public Voucher createVoucher(String voucherKind, long discountAmount) {
+        Voucher voucher = voucherKind.equals(VoucherType.FIXED.name()) ?
+                new FixedAmountVoucher(discountAmount) :
+                new PercentDiscountVoucher(discountAmount);
+
+        return voucherRepository.save(voucher);
     }
 
     public List<Voucher> getVouchers() {

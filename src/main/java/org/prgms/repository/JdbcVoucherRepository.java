@@ -31,7 +31,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
 
         VoucherType voucherType = getVoucherType(voucher);
 
@@ -40,6 +40,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getDiscountAmount(),
                 voucherType.name(),
                 LocalDateTime.now());
+
+        return voucher;
     }
 
     @Override
