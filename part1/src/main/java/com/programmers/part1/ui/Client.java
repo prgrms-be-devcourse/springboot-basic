@@ -80,7 +80,7 @@ public class Client implements Runnable {
     //3. 새로운 바우처 생성
     private void createVoucher() {
         console.write(Message.VOUCHER_PROMPT);
-        VoucherType requestType = VoucherType.getVoucherTypeByRequest(console.readLine());
+        VoucherType requestType = VoucherType.getVoucherType(Integer.parseInt(console.readLine().trim()));
 
         console.write(Message.AMOUNT_PROMPT);
         int amount = Integer.parseInt(console.readLine());

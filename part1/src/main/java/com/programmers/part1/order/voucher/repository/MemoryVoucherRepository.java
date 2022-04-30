@@ -1,6 +1,7 @@
 package com.programmers.part1.order.voucher.repository;
 
 import com.programmers.part1.domain.voucher.Voucher;
+import com.programmers.part1.domain.voucher.VoucherType;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,6 +26,11 @@ public class MemoryVoucherRepository implements VoucherRepository<UUID, Voucher>
         return storage.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public List<Voucher> findVouchersByVoucherType(VoucherType voucherType) {
+        return null;
     }
 
     @Override

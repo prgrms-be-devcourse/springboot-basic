@@ -6,8 +6,8 @@ import java.util.UUID;
 public interface Voucher {
     UUID getVoucherId ();
     int getAmount();
+    LocalDateTime getCreatedAt();
     VoucherType getVoucherType();
     int discount(int beforeDiscount);
-    LocalDateTime getCreatedAt();
     String toString();
 }

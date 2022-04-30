@@ -184,9 +184,9 @@ class VoucherJdbcRepositoryTest {
     void categoryAll(){
 
         voucherRepository.save(baseFixedVoucher);
-        voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),10));
+        voucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(),10, LocalDateTime.now()));
         voucherRepository.save(basePercentVoucher);
-        voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),2000));
+        voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(),2000, LocalDateTime.now()));
 
         assertThat(voucherRepository.findVouchersByVoucherType(VoucherType.FIXED).size(),is(2));
         assertThat(voucherRepository.findVouchersByVoucherType(VoucherType.PERCENT).size(),is(2));
