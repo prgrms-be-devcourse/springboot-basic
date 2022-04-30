@@ -3,7 +3,6 @@ package com.example.voucher_manager.domain.voucher;
 import com.example.voucher_manager.web.Util.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,8 +48,6 @@ public class VoucherController {
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        System.out.println("params.get(\"start\") = " + params.get("start"));
-        System.out.println("params.get(\"end\") = " + params.get("end"));
         return voucherService.findVouchersByPeriods(
                 LocalDateTime.parse(params.get("start"), formatter),
                 LocalDateTime.parse(params.get("end"), formatter));
