@@ -137,7 +137,7 @@ class JdbcVoucherRepositoryTest {
   @DisplayName("voucherId를 사용하여 voucher를 조회할 수 있다")
   void testByVoucherId() {
     jdbcVoucherRepository.insert(fixedAmountVoucher1);
-    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()), is(not(Optional.empty())));
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherId()), is(not(Optional.empty())));
     assertThat(jdbcVoucherRepository.findById(UUID.randomUUID()), is(Optional.empty()));
   }
 
@@ -145,16 +145,16 @@ class JdbcVoucherRepositoryTest {
   @DisplayName("voucherId를 사용하여 reduction을 수정할 수 있다")
   void testUpdateById() {
     jdbcVoucherRepository.insert(fixedAmountVoucher1);
-    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(100L));
-    jdbcVoucherRepository.updateById(fixedAmountVoucher1.getVoucherID(), 200L);
-    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID()).get().getReduction(), is(200L));
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherId()).get().getReduction(), is(100L));
+    jdbcVoucherRepository.updateById(fixedAmountVoucher1.getVoucherId(), 200L);
+    assertThat(jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherId()).get().getReduction(), is(200L));
   }
 
   @Test
   void testDeleteById() {
     jdbcVoucherRepository.insert(fixedAmountVoucher1);
-    jdbcVoucherRepository.deleteById(fixedAmountVoucher1.getVoucherID());
-    Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherID());
+    jdbcVoucherRepository.deleteById(fixedAmountVoucher1.getVoucherId());
+    Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(fixedAmountVoucher1.getVoucherId());
     assertThat(foundVoucher.isPresent(), is(false));
   }
 
@@ -171,10 +171,10 @@ class JdbcVoucherRepositoryTest {
   @Test
   @DisplayName("ID로 존재 유무를 알 수 있다")
   void testCheckExistenceById() {
-    var result1 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    var result1 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherId());
     assertThat(result1, is(false));
     jdbcVoucherRepository.insert(fixedAmountVoucher1);
-    var result2 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    var result2 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherId());
     assertThat(result2, is(true));
   }
 }

@@ -4,8 +4,6 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.vouchermanagement.customer.Customer;
-import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
-import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,10 +114,10 @@ class JdbcWalletRepositoryTest {
   void testIssueVoucherToCustomer() {
     assertThat(jdbcWalletRepository.count(), is(0));
 
-    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
-    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
-    jdbcWalletRepository.insert(customer2.getCustomerId(), fixedAmountVoucher2.getVoucherID());
-    jdbcWalletRepository.insert(customer2.getCustomerId(), percentDiscountVoucher2.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherId());
+    jdbcWalletRepository.insert(customer2.getCustomerId(), fixedAmountVoucher2.getVoucherId());
+    jdbcWalletRepository.insert(customer2.getCustomerId(), percentDiscountVoucher2.getVoucherId());
 
     assertThat(jdbcWalletRepository.count(), is(not(0)));
     assertThat(jdbcWalletRepository.count(), is(4));
@@ -127,8 +125,8 @@ class JdbcWalletRepositoryTest {
 
   @Test
   void testFindVouchersByCustomerId() {
-    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
-    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherId());
 
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(2));
@@ -136,17 +134,17 @@ class JdbcWalletRepositoryTest {
 
   @Test
   void testFindCustomersByVoucherId() {
-    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
-    List<UUID> customers = jdbcWalletRepository.findCustomersByVoucherId(fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId());
+    List<UUID> customers = jdbcWalletRepository.findCustomersByVoucherId(fixedAmountVoucher1.getVoucherId());
     assertThat(customers.size(), is(1));
     assertThat(customers.contains(customer1.getCustomerId()), is(true));
   }
 
   @Test
   void testDelete() {
-    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
-    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID());
-    jdbcWalletRepository.delete(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId());
+    jdbcWalletRepository.insert(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherId());
+    jdbcWalletRepository.delete(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId());
     List<UUID> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer1.getCustomerId());
     assertThat(vouchers.size(), is(1));
   }

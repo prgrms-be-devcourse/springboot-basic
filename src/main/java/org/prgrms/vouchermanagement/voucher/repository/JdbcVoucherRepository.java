@@ -120,7 +120,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   private Map<String, Object> toParamMap(Voucher voucher) {
     return new HashMap<String, Object>(){{
-      put("voucherId", voucher.getVoucherID().toString().getBytes());
+      put("voucherId", voucher.getVoucherId().toString().getBytes());
       put("reduction", voucher.getReduction());
       put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
       put("voucherType", VoucherType.toDbValue(voucher));

@@ -28,7 +28,6 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -113,20 +112,20 @@ class VoucherServiceTest {
   void testIssueVoucher() {
     customerRepository.insert(customer1);
     voucherRepository.insert(fixedAmountVoucher1);
-    assertThat(voucherService.issueVoucher(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherID()), is(true));
+    assertThat(voucherService.issueVoucher(customer1.getCustomerId(), fixedAmountVoucher1.getVoucherId()), is(true));
   }
 
   @Test
   void testIssueVoucherFalseWhenCustomerDoesNotExist() {
     customerRepository.insert(customer1);
     voucherRepository.insert(fixedAmountVoucher1);
-    assertThat(voucherService.issueVoucher(customer2.getCustomerId(), fixedAmountVoucher1.getVoucherID()), is(false));
+    assertThat(voucherService.issueVoucher(customer2.getCustomerId(), fixedAmountVoucher1.getVoucherId()), is(false));
   }
 
   @Test
   void testIssueVoucherFalseWhenVoucherDoesNotExist() {
     customerRepository.insert(customer1);
     voucherRepository.insert(fixedAmountVoucher1);
-    assertThat(voucherService.issueVoucher(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherID()), is(false));
+    assertThat(voucherService.issueVoucher(customer1.getCustomerId(), percentDiscountVoucher1.getVoucherId()), is(false));
   }
 }
