@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -49,10 +48,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				customer.getName(),
 				customer.getEmail(),
 				Timestamp.valueOf(customer.getCreatedAt()));
-		} catch (DuplicateKeyException e) {
-			logger.info("Customer {} insert fail", customer);
-
-			throw new UpdateFailException(e);
 		} catch (DataAccessException e) {
 			logger.info("Customer {} insert fail", customer);
 

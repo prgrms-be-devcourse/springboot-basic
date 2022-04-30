@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -58,10 +58,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 				voucher.getType().getMappingCode(),
 				voucher.getDiscountInfo(),
 				Timestamp.valueOf(voucher.getCreatedTime()));
-		} catch (DuplicateKeyException e) {
-			logger.info("Voucher {} insert fail", voucher);
-
-			throw new UpdateFailException(e);
 		} catch (DataAccessException e) {
 			logger.info("Voucher {} insert fail", voucher, e);
 
@@ -77,8 +73,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 			return Optional.ofNullable(
 				jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(?)",
 					voucherRowMapper, voucherId.toString().getBytes()));
-		} catch (DataAccessException e) {
-			logger.info("find voucher by id {} fail", voucherId, e);
+		} catch (EmptyResultDataAccessException e) {
+			logger.info("id {} 을 가진 Voucher 가 존재하지 않습니다", voucherId);
 
 			return Optional.empty();
 		}
