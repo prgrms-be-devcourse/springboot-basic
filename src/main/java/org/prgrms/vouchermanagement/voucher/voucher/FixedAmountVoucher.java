@@ -18,10 +18,11 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   public static boolean checkReduction(long reduction) {
-    if(MAX_REDUCTION < reduction || reduction <= 0) return false;
+    if(MAX_REDUCTION < reduction || reduction <= 0) {
+      return false;
+    }
     return true;
   }
-
 
   @Override
   public String toString() {

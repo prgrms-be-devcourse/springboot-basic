@@ -1,8 +1,6 @@
 package org.prgrms.vouchermanagement.controller.console;
 
-import java.util.function.Function;
-
-public enum ConsoleCommand {
+public enum ConsoleCommandV1 {
   EXIT, LIST, CREATE;
   public boolean apply(ConsoleController consoleController) {
     switch(this) {

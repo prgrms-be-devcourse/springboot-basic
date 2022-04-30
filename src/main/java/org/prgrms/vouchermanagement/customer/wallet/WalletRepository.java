@@ -15,5 +15,5 @@ public interface WalletRepository {
 
   void deleteAll();
 
-  public int count();
+  int count();
 }

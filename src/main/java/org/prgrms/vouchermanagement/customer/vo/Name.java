@@ -1,10 +1,10 @@
 package org.prgrms.vouchermanagement.customer.vo;
 
-public class NameVO {
+public class Name {
 
   private String name;
 
-  public NameVO(String name) {
+  public Name(String name) {
     this.name = name;
   }
 

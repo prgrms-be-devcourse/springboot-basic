@@ -18,6 +18,17 @@ public class VoucherFactory {
     throw new RuntimeException("[VouherFactory] Voucher를 생성할 수 없습니다");
   }
 
+  public static Voucher createVoucher(VoucherType voucherType, long reduction, LocalDateTime createdAt) {
+    if(voucherType == VoucherType.FIXED_AMOUNT && FixedAmountVoucher.checkReduction(reduction)) {
+      return new FixedAmountVoucher(UUID.randomUUID(), reduction, createdAt);
+    }
+    else if(voucherType == VoucherType.PERCENT_DISCOUNT && PercentDiscountVoucher.checkReduction(reduction)) {
+      return new PercentDiscountVoucher(UUID.randomUUID(), reduction, createdAt);
+    }
+    throw new RuntimeException("[VouherFactory] Voucher를 생성할 수 없습니다");
+  }
+
+
   // Jdbc에서 Voucher를 읽고 Voucher을 생성할 대 사용
   public static Voucher createVoucher(UUID voucherId, long reduction, LocalDateTime createdAt, VoucherType voucherType) {
     if(voucherType == VoucherType.FIXED_AMOUNT && FixedAmountVoucher.checkReduction(reduction)) {
