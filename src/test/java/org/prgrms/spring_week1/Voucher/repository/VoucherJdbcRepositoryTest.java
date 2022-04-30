@@ -100,7 +100,7 @@ class VoucherJdbcRepositoryTest {
     @Order(4)
     @DisplayName("바우처 전체삭제 할 수 있다.")
     void deleteAllTest() {
-        voucherRepository.deleteAll();
+        voucherRepository.deleteById(voucher.getVoucherId());
         List<Voucher> vouchers = voucherRepository.getAllVoucher();
         assertThat(vouchers.isEmpty(), is(true));
     }

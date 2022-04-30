@@ -83,6 +83,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    @Override
     public void setStatus(VoucherStatus status) {
         this.voucherStatus = status;
     }
@@ -91,7 +96,11 @@ public class FixedAmountVoucher implements Voucher {
     public String toString() {
         return "FixedAmountVoucher{" +
             "discount=" + discount +
-            "/ voucherStatus=" + voucherStatus +
+            ", voucherStatus=" + voucherStatus +
+            ", createdAt=" + createdAt +
+            ", updatedAt=" + updatedAt +
+            ", voucherType=" + voucherType +
+            ", customerId=" + customerId +
             '}';
     }
 }

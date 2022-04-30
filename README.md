@@ -18,3 +18,15 @@ java -jar target/spring_week1-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 java -jar target/spring_week1-0.0.1-SNAPSHOT.jar --spring.profiles.active=local
 ```
 
+
+# week 3 
+
+### main page(+type별 조회)
+![](img/스크린샷%202022-04-30%20오후%206.56.32.png)
+
+### create page
+![](img/스크린샷%202022-04-30%20오후%206.56.48.png)
+
+### detail page(+delete)
+![](img/스크린샷%202022-04-30%20오후%206.57.00.png)
+

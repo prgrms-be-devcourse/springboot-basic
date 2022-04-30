@@ -3,13 +3,12 @@ package org.prgrms.spring_week1;
 import static java.lang.System.exit;
 
 import java.util.UUID;
+import org.prgrms.spring_week1.Voucher.VoucherService;
+import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.prgrms.spring_week1.Voucher.model.VoucherType;
 import org.prgrms.spring_week1.customer.model.Customer;
 import org.prgrms.spring_week1.customer.model.Gender;
 import org.prgrms.spring_week1.customer.service.CustomerService;
-import org.prgrms.spring_week1.order.OrderService;
-import org.prgrms.spring_week1.Voucher.VoucherService;
-import org.prgrms.spring_week1.Voucher.model.Voucher;
 import org.prgrms.spring_week1.io.ConsoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +32,7 @@ public class SpringWeek1Application {
 
         // 현재 고객 저장
         Customer customer = new Customer(UUID.randomUUID(), "customer1", "address", Gender.FEMALE, "010-2222-2222" );
-        customerService.insert(customer);
+        customerService.join(customer);
 
         while (true) {
             consoleService.mainMenu();
