@@ -113,6 +113,7 @@ class VoucherJdbcRepositoryTest {
         @Order(4)
         @DisplayName("save 기능을 테스트 할 때 이미 있는 ID의 바우처 객체를 인자로 받으면")
         class ContextReceiveDuplicateId {
+
             @Test
             @DisplayName("해당 바우처를 업데이트 한다.")
             void itUpdateThisVoucher() {
