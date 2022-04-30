@@ -39,7 +39,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("prod")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
@@ -112,8 +111,17 @@ class JdbcVoucherRepositoryTest {
         embeddedMysql.stop();
     }
 
+    @BeforeEach
+    void init() {
+        jdbcVoucherRepository.insert(voucherEntity);
+    }
+
+    @AfterEach
+    void clear() {
+        jdbcVoucherRepository.deleteById(voucherEntity.getVoucherId());
+    }
+
     @Test
-    @Order(1)
     @Description("dataSource가 정상적으로 Autowired되었는지 확인.")
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
@@ -121,21 +129,21 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 추가할 수 있다.")
-    @Order(2)
     public void testInsert() throws Exception {
+        VoucherEntity percentVoucher = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.PERCENT, 10L);
         try {
-            jdbcVoucherRepository.insert(voucherEntity);
+            jdbcVoucherRepository.insert(percentVoucher);
         } catch (BadSqlGrammarException e) {
             log.info("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
         }
-        Optional<VoucherEntity> savedVoucher = jdbcVoucherRepository.findById(voucherEntity.getVoucherId());
+        Optional<VoucherEntity> savedVoucher = jdbcVoucherRepository.findById(percentVoucher.getVoucherId());
         assertThat(savedVoucher.isEmpty(), is(false));
-        assertThat(savedVoucher.get(), samePropertyValuesAs(voucherEntity));
+        assertThat(savedVoucher.get(), samePropertyValuesAs(percentVoucher));
+        jdbcVoucherRepository.deleteById(percentVoucher.getVoucherId());
     }
 
     @Test
     @DisplayName("전체 바우처 조회.")
-    @Order(3)
     public void testFindAll() throws Exception {
         List<VoucherEntity> vouchers = jdbcVoucherRepository.findAll();
         assertThat(vouchers.isEmpty(), is(false));
@@ -143,13 +151,11 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처를 수정할 수 있다.")
-    @Order(4)
     public void testUpdate() throws Exception {
-        voucherEntity.changeVoucherInfo(1, DiscountPolicy.PERCENT);
+        voucherEntity.changeVoucherInfo(DiscountPolicy.PERCENT, 11L);
         jdbcVoucherRepository.update(voucherEntity);
 
         List<VoucherEntity> vouchers = jdbcVoucherRepository.findAll();
-
         assertThat(vouchers, hasSize(1));
         assertThat(vouchers, everyItem(samePropertyValuesAs(voucherEntity)));
 
@@ -160,15 +166,22 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("할인 정책과 금액을 조건으로 데이터를 검색할 수 있다.")
-    @Order(5)
-    public void findDiscountPolicyAndAmountTest() throws Exception {
-
+    public void testFindDiscountPolicyAndAmount() throws Exception {
         Optional<VoucherEntity> existVoucher = jdbcVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount());
         Optional<VoucherEntity> notExistVoucher = jdbcVoucherRepository.findByDiscountPolicyAndAmount(voucherEntity.getDiscountPolicy(), voucherEntity.getDiscountAmount() * 2);
 
         assertThat(existVoucher.isEmpty(), is(false));
         assertThat(notExistVoucher.isEmpty(), is(true));
         assertThat(existVoucher.get(), samePropertyValuesAs(voucherEntity));
+    }
+
+    @Test
+    @DisplayName("voucherId로 데이터를 삭제할 수 있다.")
+    public void deleteByVoucherIdTest() {
+        jdbcVoucherRepository.deleteById(voucherEntity.getVoucherId());
+
+        Optional<VoucherEntity> voucher = jdbcVoucherRepository.findById(voucherEntity.getVoucherId());
+        assertThat(voucher.isPresent(), is(false));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.customer;
 
+import com.mountain.voucherApp.adapter.out.persistence.customer.CustomerEntity;
 import com.mountain.voucherApp.adapter.out.persistence.customer.CustomerNamedJdbcRepository;
 import com.mountain.voucherApp.adapter.out.persistence.voucher.JdbcVoucherRepository;
 import com.mountain.voucherApp.adapter.out.persistence.voucher.VoucherEntity;
@@ -43,7 +44,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("prod")
 class CustomerEntityNamedJdbcRepositoryTest {
@@ -103,17 +103,6 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @BeforeAll
     void setUp() {
-        customer = new CustomerDto(UUID.randomUUID(),
-                null,
-                new CustomerName("test-user"),
-                "test-user@gmail.com",
-                null,
-                LocalDateTime.now());
-
-        voucherEntity = new VoucherEntity(UUID.randomUUID(),
-                DiscountPolicy.FIXED,
-                1000L);
-
         MysqldConfig config = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -125,13 +114,39 @@ class CustomerEntityNamedJdbcRepositoryTest {
                 .start();
     }
 
+    @BeforeEach
+    void init() {
+        customer = generateCustomer();
+        voucherEntity = new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L);
+        jdbcVoucherRepository.insert(voucherEntity);
+        customerNamedJdbcRepository.insert(customer);
+    }
+
+    @AfterEach
+    void clear() {
+        customerNamedJdbcRepository.deleteAll();
+        jdbcVoucherRepository.deleteById(voucherEntity.getVoucherId());
+    }
+
+
+    static int seq = 1;
+    private CustomerDto generateCustomer() {
+        String name = "test" + seq++;
+        String email = name + "@gmail.com";
+        return new CustomerDto(UUID.randomUUID(),
+                null,
+                new CustomerName(name),
+                email,
+                null,
+                LocalDateTime.now());
+    }
+
     @AfterAll
     void cleanup() {
         embeddedMysql.stop();
     }
 
     @Test
-    @Order(1)
     @Description("dataSource가 정상적으로 Autowired되었는지 확인.")
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
@@ -139,23 +154,22 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("고객을 추가할 수 있다.")
-    @Order(2)
     public void testInsert() throws Exception {
+        CustomerDto customer2 = generateCustomer();
         try {
-            customerNamedJdbcRepository.insert(customer);
+            customerNamedJdbcRepository.insert(customer2);
         } catch (BadSqlGrammarException e) {
             log.info("Got BadSqlGrammarException error code -> {}", e.getSQLException().getErrorCode(), e);
         }
-        Optional<CustomerDto> savedCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
+        Optional<CustomerDto> savedCustomer = customerNamedJdbcRepository.findById(customer2.getCustomerId());
         assertAll(
                 () -> assertThat(savedCustomer.isEmpty(), is(false)),
-                () -> assertThat(savedCustomer.get(), samePropertyValuesAs(customer))
+                () -> assertThat(savedCustomer.get(), samePropertyValuesAs(customer2))
         );
     }
 
     @Test
     @DisplayName("전체 고객 조회.")
-    @Order(3)
     public void testFindAll() throws Exception {
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findAll();
         assertThat(customerEntities.isEmpty(), is(false));
@@ -163,7 +177,6 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("이름으로 고객 조회.")
-    @Order(4)
     public void testFindByName() {
         Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByName(customer.getCustomerName());
         Optional<CustomerDto> unknown = customerNamedJdbcRepository.findByName("unknown-user");
@@ -175,7 +188,6 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("이메일로 고객 조회.")
-    @Order(5)
     public void testFindByEmail() throws Exception {
         Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findByEmail(customer.getEmail());
         Optional<CustomerDto> unknown = customerNamedJdbcRepository.findByEmail("unknown-user");
@@ -188,9 +200,7 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("고객을 수정할 수 있다.")
-    @Order(6)
     public void testUpdate() throws Exception {
-        jdbcVoucherRepository.insert(voucherEntity);
         CustomerDto updateCustomer = new CustomerDto(
                 customer.getCustomerId(),
                 voucherEntity.getVoucherId(),
@@ -212,10 +222,12 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("voucherId로 고객 조회.")
-    @Order(7)
     public void testFindByVoucherId() throws Exception {
+        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), voucherEntity.getVoucherId());
+
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
         List<CustomerDto> unknown = customerNamedJdbcRepository.findByVoucherId(UUID.randomUUID());
+
         assertAll(
                 () -> assertThat(customerEntities.isEmpty(), is(false)),
                 () -> assertThat(customerEntities.get(0).getVoucherId(), is(voucherEntity.getVoucherId())),
@@ -225,15 +237,12 @@ class CustomerEntityNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("동일한 voucherId를 가진 2명 고객 조회.")
-    @Order(8)
     public void testFindByVoucherIdListCase() throws Exception {
-        CustomerDto customer2 = new CustomerDto(UUID.randomUUID(),
-                voucherEntity.getVoucherId(),
-                new CustomerName("test-user2"),
-                "test-user2@gmail.com",
-                null,
-                LocalDateTime.now());
+        CustomerDto customer2 = generateCustomer();
         customerNamedJdbcRepository.insert(customer2);
+        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), voucherEntity.getVoucherId());
+        customerNamedJdbcRepository.updateVoucherId(customer2.getCustomerId(), voucherEntity.getVoucherId());
+
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
         assertAll(
                 () -> assertThat(customerEntities.isEmpty(), is(false)),
@@ -242,10 +251,10 @@ class CustomerEntityNamedJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("voucher id가 not null인 고객만 조회 할 수 있어야 한.")
-    @Order(9)
+    @DisplayName("voucherId가 not null인 고객만 조회 할 수 있어야 한.")
     public void testVoucherIdNotNullList() throws Exception {
-        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), null);
+        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), voucherEntity.getVoucherId());
+
         List<CustomerDto> customerEntities = customerNamedJdbcRepository.findByVoucherIdNotNull();
         assertAll(
                 () -> assertThat(customerEntities.isEmpty(), is(false)),
@@ -254,39 +263,42 @@ class CustomerEntityNamedJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("customerId를 조건으로 voucherId를 update 할 수 있어야 한다.")
-    @Order(10)
-    public void updateVoucherId() throws Exception {
-        Optional<CustomerDto> optionalCustomer2 = customerNamedJdbcRepository.findByName("test-user2");
-        CustomerDto customer2 = optionalCustomer2.get();
+    @DisplayName("고객의 voucherId를 update 할 수 있어야 한다.")
+    public void updateVoucherId() {
+        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), voucherEntity.getVoucherId());
 
-        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), null);
-        customerNamedJdbcRepository.updateVoucherId(customer2.getCustomerId(), voucherEntity.getVoucherId());
-        Optional<CustomerDto> getCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());;
-
-//        assertThat(getCustomer.isEmpty(), is(true));
-//        assertThat(getCustomer.get().getVoucherId(), nullValue());
-//        assertThat(customer2.getVoucherId(), is(voucherEntity.getVoucherId()));
-
+        Optional<CustomerDto> findCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
         assertAll(
-                () -> assertThat(getCustomer.isEmpty(), is(false)),
-                () -> assertThat(getCustomer.get().getVoucherId(), nullValue()),
-                () -> assertThat(customer2.getVoucherId(), is(voucherEntity.getVoucherId()))
+                () -> assertThat(findCustomer.isEmpty(), is(false)),
+                () -> assertThat(findCustomer.get().getVoucherId(), is(voucherEntity.getVoucherId()))
         );
     }
 
     @Test
     @DisplayName("customer id로 삭제할 수 있어야 한다.")
-    @Order(11)
     public void removeByCustomerId() throws Exception {
-        UUID customerId = customer.getCustomerId();
-        customerNamedJdbcRepository.removeByCustomerId(customerId);
-        Optional<CustomerDto> selectedCustomer = customerNamedJdbcRepository.findById(customerId);
-        int allSize = customerNamedJdbcRepository.findAll().size();
+        customerNamedJdbcRepository.removeByCustomerId(customer.getCustomerId());
+        Optional<CustomerDto> selectedCustomer = customerNamedJdbcRepository.findById(customer.getCustomerId());
         assertAll(
-                () -> assertThat(selectedCustomer.isEmpty(), is(true)),
-                () -> assertThat(allSize, is(1))
+                () -> assertThat(selectedCustomer.isEmpty(), is(true))
         );
+    }
+
+    @Test
+    @DisplayName("해당 voucherId를 모두 null로 변경한다.")
+    public void testUpdateAllByVoucherId() {
+        CustomerDto customer2 = generateCustomer();
+        customerNamedJdbcRepository.insert(customer2);
+        customerNamedJdbcRepository.updateVoucherId(customer.getCustomerId(), voucherEntity.getVoucherId());
+        customerNamedJdbcRepository.updateVoucherId(customer2.getCustomerId(), voucherEntity.getVoucherId());
+
+        customerNamedJdbcRepository.removeVoucherId(voucherEntity.getVoucherId());
+        List<CustomerDto> customers = customerNamedJdbcRepository.findByVoucherId(voucherEntity.getVoucherId());
+        assertAll(
+                () -> assertThat(customers.isEmpty(), is(true)),
+                () -> assertThat(customers.size(), is(0))
+        );
+
     }
 
 }
