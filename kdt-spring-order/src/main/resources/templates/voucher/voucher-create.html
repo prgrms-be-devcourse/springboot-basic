@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: header" />
+<body class="container-fluid">
+<div th:replace="fragment/bodyHeader :: bodyHeader" />
+<form th:action="@{/voucher}" method="post">
+  <div class="form-group">
+    <label for="voucherType" class="form-label">voucherType</label>
+    <select class="form-control" name="voucherType" id="voucherType">
+      <option selected>Open this select menu</option>
+      <option value="FIXED_AMOUNT">FIXED_AMOUNT</option>
+      <option value="PERCENT_DISCOUNT">PERCENT_DISCOUNT</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="discountValue" class="form-label">discountValue</label>
+    <input type="number" class="form-control" id="discountValue" name="discountValue">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>

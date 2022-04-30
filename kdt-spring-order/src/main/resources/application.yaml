@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: rkdtmfrl903@
+
+file:
+  voucher:
+    path: "src/main/resources/csv/file-voucher-list.csv"
+  member:
+    blacklist:
+      path: "src/main/resources/csv/customer-blacklist.csv"

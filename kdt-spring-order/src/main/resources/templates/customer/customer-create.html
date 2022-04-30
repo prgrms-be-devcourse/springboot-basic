@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragment/header :: header" />
+<body class="container-fluid">
+<div th:replace="fragment/bodyHeader :: bodyHeader" />
+<h2>Customer Create</h2>
+<form th:action="@{/customer}" method="post">
+  <div class="form-group">
+    <label for="name" class="form-label">name</label>
+    <input type="text" class="form-control" id="name" name="name">
+  </div>
+  <div class="form-group">
+    <label for="email" class="form-label">email</label>
+    <input type="text" class="form-control" id="email" name="email">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>
