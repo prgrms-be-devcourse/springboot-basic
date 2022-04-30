@@ -49,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String insertSql = "INSERT INTO vouchers(voucher_id, type, value, created_at) " +
+        String insertSql = "INSERT INTO voucher(voucher_id, type, value, created_at) " +
             "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :value, :createdAt)";
         var update = jdbcTemplate.update(insertSql, toParamMap(voucher));
 
@@ -62,7 +62,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        String updateValueSql = "UPDATE vouchers SET value = :value " +
+        String updateValueSql = "UPDATE voucher SET value = :value " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         var update = jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
@@ -75,14 +75,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String selectSql = "SELECT * FROM vouchers";
+        String selectSql = "SELECT * FROM voucher";
 
         return jdbcTemplate.query(selectSql, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String selectByIdSql = "SELECT * FROM vouchers "
+        String selectByIdSql = "SELECT * FROM voucher "
             + "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
 
         try {
@@ -100,7 +100,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        String deleteByIdSql = "DELETE FROM vouchers " +
+        String deleteByIdSql = "DELETE FROM voucher " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
 
         try {
@@ -113,7 +113,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        String deleteSql = "DELETE FROM vouchers";
+        String deleteSql = "DELETE FROM voucher";
         jdbcTemplate.update(deleteSql, Collections.emptyMap());
     }
 }

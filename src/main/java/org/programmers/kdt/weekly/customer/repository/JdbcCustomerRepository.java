@@ -47,26 +47,27 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        String insertSql = "INSERT INTO customers(customer_id, name, email,type) " +
+        String insertSql = "INSERT INTO customer(customer_id, name, email,type) " +
             "VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :type)";
-        var update = jdbcTemplate.update(insertSql, toParamMap(customer));
+            var update = jdbcTemplate.update(insertSql, toParamMap(customer));
 
-        if (update == 0) {
-            throw new RuntimeException("Nothing was inserted");
-        }
-        return customer;
+            if (update == 0) {
+                throw new RuntimeException("Nothing was inserted");
+            }
+
+            return customer;
     }
 
     @Override
     public List<Customer> findAll() {
-        String selectSql = "SELECT * FROM customers";
+        String selectSql = "SELECT * FROM customer";
 
         return jdbcTemplate.query(selectSql, customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findByEmail(String customerEmail) {
-        String selectByEmailSql = "SELECT * FROM customers WHERE email = :customerEmail";
+        String selectByEmailSql = "SELECT * FROM customer WHERE email = :customerEmail";
 
         try {
             var customer = jdbcTemplate.queryForObject(selectByEmailSql,
@@ -82,7 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByType(String customerType) {
-        String selectByTypeSql = "SELECT * FROM customers WHERE type = :customerType";
+        String selectByTypeSql = "SELECT * FROM customer WHERE type = :customerType";
 
         try {
             return jdbcTemplate.query(selectByTypeSql,
@@ -94,7 +95,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        String selectByIdSql = "SELECT * FROM customers WHERE customer_id = :customerId";
+        String selectByIdSql = "SELECT * FROM customer WHERE customer_id = :customerId";
 
         try {
             var customer = jdbcTemplate.queryForObject(selectByIdSql,
@@ -110,7 +111,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        String updateSql = "UPDATE customers SET type = :type WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
+        String updateSql = "UPDATE customer SET type = :type WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))";
         var update = jdbcTemplate.update(updateSql, toParamMap(customer));
 
         if (update == 0) {
@@ -121,7 +122,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        String deleteSql = "DELETE FROM customers";
+        String deleteSql = "DELETE FROM customer";
 
         try {
             jdbcTemplate.update(deleteSql, Collections.emptyMap());
