@@ -10,12 +10,6 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DBConfig {
-
-  private String drivuerClassName = "com.mysql.jdbc.Driver";
-  private String url = "jdbc:mysql://localhost:3306/connectdb?useSSL=false";
-  private String username = "connectuser";
-  private String userPassword = "connect123!@#";
-
   @Bean
   public DataSource dataSource() {
     var dataSource = DataSourceBuilder.create()
