@@ -1,10 +1,7 @@
 package org.devcourse.voucher.voucher.service;
 
-import org.devcourse.voucher.customer.repository.BlacklistRepository;
-import org.devcourse.voucher.model.ListType;
 import org.devcourse.voucher.voucher.model.Voucher;
 import org.devcourse.voucher.voucher.model.VoucherType;
-import org.devcourse.voucher.voucher.repository.CsvVoucherRepository;
 import org.devcourse.voucher.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

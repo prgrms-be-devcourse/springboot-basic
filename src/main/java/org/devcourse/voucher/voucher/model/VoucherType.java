@@ -1,5 +1,8 @@
 package org.devcourse.voucher.voucher.model;
 
+import org.devcourse.voucher.model.menu.CreateMenuType;
+
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
@@ -18,15 +21,26 @@ public enum VoucherType {
         this.creator = creator;
     }
 
-    public static VoucherType discriminate(String input) {
-        VoucherType voucherType;
+    public String getOption() {
+        return option;
+    }
 
-        switch (input) {
-            case "1", "FixedAmountVoucher" -> voucherType = FIXED_AMOUNT_VOUCHER;
-            case "2", "PercentDiscountVoucher" -> voucherType = PERCENT_DISCOUNT_VOUCHER;
-            default -> voucherType = NONE;
-        }
-        return voucherType;
+    public String getName() {
+        return name;
+    }
+
+    public static VoucherType optionDiscriminate(String input) {
+        return Arrays.stream(values())
+                .filter(type -> type.getOption().equals(input))
+                .findFirst()
+                .orElse(NONE);
+    }
+
+    public static VoucherType nameDiscriminate(String input) {
+        return Arrays.stream(values())
+                .filter(type -> type.getName().equals(input))
+                .findFirst()
+                .orElse(NONE);
     }
 
     public Voucher voucherCreator(UUID voucherId, long discount) {

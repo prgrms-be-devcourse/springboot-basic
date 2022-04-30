@@ -1,6 +1,7 @@
 package org.devcourse.voucher.customer.service;
 
 import org.devcourse.voucher.customer.model.Customer;
+import org.devcourse.voucher.customer.model.Email;
 import org.devcourse.voucher.customer.repository.CustomerRepository;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer createCustomer(UUID customerId, String name) {
+    public Customer createCustomer(UUID customerId, String name, Email email) {
         return null;
     }
 

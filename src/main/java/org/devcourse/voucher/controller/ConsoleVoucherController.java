@@ -1,7 +1,7 @@
 package org.devcourse.voucher.controller;
 
 import org.devcourse.voucher.customer.service.BlacklistService;
-import org.devcourse.voucher.model.ListType;
+import org.devcourse.voucher.model.menu.ListMenuType;
 import org.devcourse.voucher.voucher.model.Voucher;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.devcourse.voucher.voucher.service.VoucherService;
@@ -30,7 +30,7 @@ public class ConsoleVoucherController implements VoucherController{
     }
 
     @Override
-    public List<?> findListMapper(ListType listType) {
+    public List<?> findListMapper(ListMenuType listType) {
         List<?> list;
 
         logger.info("Controller : List inquire processing");

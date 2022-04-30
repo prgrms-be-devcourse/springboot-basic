@@ -1,63 +1,96 @@
 package org.devcourse.voucher;
 
 import org.devcourse.voucher.controller.VoucherController;
-import org.devcourse.voucher.model.Command;
-import org.devcourse.voucher.model.ListType;
+import org.devcourse.voucher.customer.controller.CustomerController;
+import org.devcourse.voucher.model.menu.CreateMenuType;
+import org.devcourse.voucher.model.menu.MainMenuType;
+import org.devcourse.voucher.model.menu.ListMenuType;
 import org.devcourse.voucher.view.Input;
 import org.devcourse.voucher.view.Output;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
 import static org.devcourse.voucher.error.ErrorType.*;
-import static org.devcourse.voucher.model.Command.*;
+import static org.devcourse.voucher.model.menu.MainMenuType.*;
 
 
 @Component
 public class ConsoleVoucherManager {
-    VoucherController voucherController;
-    Input input;
-    Output output;
+    private final VoucherController voucherController;
+    private final CustomerController customerController;
+    private final Input input;
+    private final Output output;
 
-    public ConsoleVoucherManager(VoucherController voucherController, Input input, Output output) {
+    public ConsoleVoucherManager(VoucherController voucherController, CustomerController customerController, Input input, Output output) {
         this.voucherController = voucherController;
+        this.customerController = customerController;
         this.input = input;
         this.output = output;
     }
 
     public void run() {
-        Command command = NONE;
+        MainMenuType command = NONE;
         while (command != EXIT) {
             output.mainMenu();
             command = discriminate(input.nextLine());
             switch(command) {
                 case EXIT -> output.info("exit");
                 case CREATE -> {
-                    VoucherType voucherType = selectVoucher();
-                    long discount = 0;
-                    while (discount <= 0) {
-                        discount = inputDiscount();
+                    CreateMenuType createMenuType = selectCreate();
+                    switch (createMenuType) {
+                        case VOUCHER -> selectVoucher();
+                        case CUSTOMER -> selectCustomer();
+                        default -> output.warn(INVALID_COMMAND);
                     }
-                    voucherController.createVoucherMapper(voucherType, discount);
                 }
                 case LIST -> {
-                    ListType listType = selectList();
-                    output.printList(voucherController.findListMapper(listType));
+                    ListMenuType listMenuType = selectList();
+                    output.printList(voucherController.findListMapper(listMenuType));
                 }
                 default -> output.warn(INVALID_COMMAND);
             }
         }
     }
 
-    private ListType selectList() {
-        ListType listType = ListType.NONE;
-        while (listType == ListType.NONE) {
-            output.listMenu();
-            listType = ListType.discriminate(input.nextLine());
-            if (listType == ListType.NONE) {
+    private void selectCustomer() {
+        output.nameMenu();
+        String name = input.nextLine();
+        output.emailMenu();
+        String email = input.nextLine();
+        customerController.createCustomerMapper(name, email);
+    }
+
+    private void selectVoucher() {
+        VoucherType voucherType = selectVoucherType();
+        long discount = 0;
+        while (discount <= 0) {
+            discount = inputDiscount();
+        }
+        voucherController.createVoucherMapper(voucherType, discount);
+    }
+
+    private CreateMenuType selectCreate() {
+        CreateMenuType createMenuType = CreateMenuType.NONE;
+        while (createMenuType == CreateMenuType.NONE) {
+            output.createMenu();
+            createMenuType = CreateMenuType.discriminate(input.nextLine());
+            if (createMenuType == CreateMenuType.NONE) {
                 output.warn(INVALID_COMMAND);
             }
         }
-        return listType;
+        return createMenuType;
+    }
+
+    private ListMenuType selectList() {
+        ListMenuType listMenuType = ListMenuType.NONE;
+        while (listMenuType == ListMenuType.NONE) {
+            output.listMenu();
+            listMenuType = ListMenuType.discriminate(input.nextLine());
+            if (listMenuType == ListMenuType.NONE) {
+                output.warn(INVALID_COMMAND);
+            }
+        }
+        return listMenuType;
     }
 
     private long inputDiscount() {
@@ -76,11 +109,11 @@ public class ConsoleVoucherManager {
         return price;
     }
 
-    private VoucherType selectVoucher() {
+    private VoucherType selectVoucherType() {
         VoucherType voucherType = VoucherType.NONE;
         while (voucherType == VoucherType.NONE) {
-            output.createMenu();
-            voucherType = VoucherType.discriminate(input.nextLine());
+            output.voucherMenu();
+            voucherType = VoucherType.optionDiscriminate(input.nextLine());
             if (voucherType == VoucherType.NONE) {
                 output.warn(INVALID_COMMAND);
             }

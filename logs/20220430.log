@@ -1,122 +1,4 @@
-29th 15:48:19.776 [main] INFO  o.devcourse.voucher.view.OutputView - exit
-29th 15:48:19.778 [main] ERROR o.devcourse.voucher.view.OutputView - exit
-29th 16:01:11.788 [main] ERROR o.devcourse.voucher.view.OutputView - exit
-29th 16:01:47.080 [main] ERROR o.s.boot.SpringApplication - Application run failed
-java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalArgumentException: Illegal pattern character 'A'
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:328)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:282)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:240)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:216)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
-	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
-	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
-	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
-	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:339)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:297)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:12)
-Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalArgumentException: Illegal pattern character 'A'
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:179)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:232)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:73)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:60)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
-	... 18 common frames omitted
-29th 16:02:07.751 [main] ERROR o.s.boot.SpringApplication - Application run failed
-java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@5460cf3a - There is no conversion class registered for conversion word [d20220429]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@5460cf3a - [d20220429] is not a valid conversion word
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@65a15628 - There is no conversion class registered for conversion word [d20220429]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@65a15628 - [d20220429] is not a valid conversion word
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalStateException: FileNamePattern [logs/%d20220429.log] does not contain a valid DateToken
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:328)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:282)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:240)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:216)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
-	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
-	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
-	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
-	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:339)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:297)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:12)
-Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@5460cf3a - There is no conversion class registered for conversion word [d20220429]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@5460cf3a - [d20220429] is not a valid conversion word
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@65a15628 - There is no conversion class registered for conversion word [d20220429]
-ERROR in ch.qos.logback.core.pattern.parser.Compiler@65a15628 - [d20220429] is not a valid conversion word
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalStateException: FileNamePattern [logs/%d20220429.log] does not contain a valid DateToken
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:179)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:232)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:73)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:60)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
-	... 18 common frames omitted
-29th 16:02:12.272 [main] ERROR o.s.boot.SpringApplication - Application run failed
-java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalStateException: FileNamePattern [logs/20220429.log] does not contain a valid DateToken
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:328)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:282)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:240)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:216)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
-	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
-	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
-	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
-	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
-	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
-	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:339)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:297)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1312)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1301)
-	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:12)
-Caused by: java.lang.IllegalStateException: Logback configuration error detected: 
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@41:25 - RuntimeException in Action for tag [rollingPolicy] java.lang.IllegalStateException: FileNamePattern [logs/20220429.log] does not contain a valid DateToken
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@42:18 - no applicable action for [encoder], current ElementPath  is [[configuration][appender][encoder]]
-ERROR in ch.qos.logback.core.joran.spi.Interpreter@43:22 - no applicable action for [pattern], current ElementPath  is [[configuration][appender][encoder][pattern]]
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:179)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:232)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:73)
-	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:60)
-	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
-	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
-	... 18 common frames omitted
-29th 16:03:05.872 [main] ERROR o.devcourse.voucher.view.OutputView - exit
-29th 17:13:45.534 [main] ERROR o.devcourse.voucher.view.OutputView - exit
-30th 12:19:29.232 [main] ERROR o.s.boot.SpringApplication - Application run failed
+12:19:29.232 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@68:63 - no applicable action for [filter], current ElementPath  is [[configuration][filter]]
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@69:16 - no applicable action for [level], current ElementPath  is [[configuration][filter][level]]
@@ -165,7 +47,13 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 18 common frames omitted
-30th 12:19:44.116 [main] ERROR o.s.boot.SpringApplication - Application run failed
+12:19:43.819 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [org.devcourse.voucher.VoucherApplicationTests], using SpringBootContextLoader
+12:19:43.833 [main] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [org.devcourse.voucher.VoucherApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+12:19:43.834 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.devcourse.voucher.VoucherApplicationTests]: VoucherApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:19:43.900 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.devcourse.voucher.VoucherApplication for test class org.devcourse.voucher.VoucherApplicationTests
+12:19:43.944 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+12:19:43.952 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@55dfcc6, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@222eb8aa, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@93cf163, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1852a3ff, org.springframework.test.context.support.DirtiesContextTestExecutionListener@7203c7ff, org.springframework.test.context.transaction.TransactionalTestExecutionListener@25bfcafd, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@4b6690c0, org.springframework.test.context.event.EventPublishingTestExecutionListener@46268f08, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@2a76840c, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@71454b9d, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@eda25e5, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@7cf6a5f9, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@623e088f, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@39fcbef6]
+12:19:44.116 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@68:63 - no applicable action for [filter], current ElementPath  is [[configuration][filter]]
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@69:16 - no applicable action for [level], current ElementPath  is [[configuration][filter][level]]
@@ -282,7 +170,7 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 86 common frames omitted
-30th 12:19:44.161 [main] ERROR o.s.boot.SpringApplication - Application run failed
+12:19:44.161 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@68:63 - no applicable action for [filter], current ElementPath  is [[configuration][filter]]
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@69:16 - no applicable action for [level], current ElementPath  is [[configuration][filter][level]]
@@ -398,7 +286,7 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 85 common frames omitted
-30th 12:19:44.161 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1852a3ff] to prepare test instance [org.devcourse.voucher.VoucherApplicationTests@7249dadf]
+12:19:44.161 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@1852a3ff] to prepare test instance [org.devcourse.voucher.VoucherApplicationTests@7249dadf]
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132)
 	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
@@ -518,7 +406,13 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 86 common frames omitted
-30th 12:20:38.266 [main] ERROR o.s.boot.SpringApplication - Application run failed
+12:20:38.006 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [org.devcourse.voucher.VoucherApplicationTests], using SpringBootContextLoader
+12:20:38.010 [main] INFO  o.s.t.c.s.AbstractContextLoader - Could not detect default resource locations for test class [org.devcourse.voucher.VoucherApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+12:20:38.010 [main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.devcourse.voucher.VoucherApplicationTests]: VoucherApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+12:20:38.063 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.devcourse.voucher.VoucherApplication for test class org.devcourse.voucher.VoucherApplicationTests
+12:20:38.111 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener, org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+12:20:38.118 [main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1852a3ff, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@7203c7ff, org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener@25bfcafd, org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4b6690c0, org.springframework.test.context.support.DirtiesContextTestExecutionListener@46268f08, org.springframework.test.context.transaction.TransactionalTestExecutionListener@2a76840c, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@71454b9d, org.springframework.test.context.event.EventPublishingTestExecutionListener@eda25e5, org.springframework.boot.test.mock.mockito.ResetMocksTestExecutionListener@7cf6a5f9, org.springframework.boot.test.autoconfigure.restdocs.RestDocsTestExecutionListener@623e088f, org.springframework.boot.test.autoconfigure.web.client.MockRestServiceServerResetTestExecutionListener@39fcbef6, org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrintOnlyOnFailureTestExecutionListener@66565121, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverTestExecutionListener@2fc6f97f, org.springframework.boot.test.autoconfigure.webservices.client.MockWebServiceServerTestExecutionListener@3d2ee678]
+12:20:38.266 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@68:63 - no applicable action for [filter], current ElementPath  is [[configuration][filter]]
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@69:16 - no applicable action for [level], current ElementPath  is [[configuration][filter][level]]
@@ -635,7 +529,7 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 86 common frames omitted
-30th 12:20:38.308 [main] ERROR o.s.boot.SpringApplication - Application run failed
+12:20:38.308 [main] ERROR o.s.boot.SpringApplication - Application run failed
 java.lang.IllegalStateException: java.lang.IllegalStateException: Logback configuration error detected: 
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@68:63 - no applicable action for [filter], current ElementPath  is [[configuration][filter]]
 ERROR in ch.qos.logback.core.joran.spi.Interpreter@69:16 - no applicable action for [level], current ElementPath  is [[configuration][filter][level]]
@@ -751,7 +645,7 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 85 common frames omitted
-30th 12:20:38.308 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4b6690c0] to prepare test instance [org.devcourse.voucher.VoucherApplicationTests@200606de]
+12:20:38.308 [main] ERROR o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener@4b6690c0] to prepare test instance [org.devcourse.voucher.VoucherApplicationTests@200606de]
 java.lang.IllegalStateException: Failed to load ApplicationContext
 	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:132)
 	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124)
@@ -871,7 +765,13 @@ ERROR in ch.qos.logback.core.rolling.RollingFileAppender[INFO_ROLLING_FILE] - Fo
 	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:132)
 	at org.springframework.boot.context.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:313)
 	... 86 common frames omitted
-30th 12:25:37.965 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+12:25:37.688 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2572 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+12:25:37.689 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+12:25:37.951 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Failed to determine a suitable driver class
+12:25:37.955 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+12:25:37.965 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
 
 ***************************
 APPLICATION FAILED TO START
@@ -890,7 +790,13 @@ Consider the following:
 	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
 	If you have database settings to be loaded from a particular profile you may need to activate it (the profiles prod are currently active).
 
-30th 19:43:37.777 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:43:37.515 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2837 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:43:37.516 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:43:37.766 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
+19:43:37.769 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:43:37.777 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -927,7 +833,13 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:44:47.098 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:44:46.852 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2855 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:44:46.853 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:44:47.084 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
+19:44:47.089 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:44:47.098 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -964,8 +876,14 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:45:05.698 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:45:05.713 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:45:05.481 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2863 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:45:05.482 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:45:05.698 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:45:05.700 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:45:05.705 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:45:05.713 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1003,7 +921,13 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:45:18.373 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:45:18.142 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2867 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:45:18.143 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:45:18.362 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
+19:45:18.366 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:45:18.373 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1040,8 +964,14 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:45:31.744 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:45:31.757 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:45:31.527 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2878 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:45:31.528 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:45:31.744 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:45:31.745 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:45:31.749 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:45:31.757 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1079,7 +1009,13 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:45:55.460 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:45:55.224 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2883 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:45:55.225 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:45:55.448 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
+19:45:55.452 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:45:55.460 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1116,8 +1052,14 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:46:14.721 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:46:14.733 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:46:14.494 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2887 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:46:14.495 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:46:14.721 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:46:14.722 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:46:14.726 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:46:14.733 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1155,8 +1097,14 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:55:37.933 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:55:37.951 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:55:37.710 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2932 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:55:37.711 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:55:37.933 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:55:37.935 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:55:37.939 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:55:37.951 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1194,8 +1142,14 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:56:18.625 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:56:18.638 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:56:18.354 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2943 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:56:18.355 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:56:18.625 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:56:18.627 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:56:18.630 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:56:18.638 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1233,8 +1187,14 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
-30th 19:56:27.854 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
-30th 19:56:27.866 [main] ERROR o.s.boot.SpringApplication - Application run failed
+19:56:27.574 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2947 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:56:27.575 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:56:27.854 [main] ERROR com.zaxxer.hikari.HikariConfig - Failed to load driver class com.mysql.cj.jdbc.Driver from HikariConfig class classloader jdk.internal.loader.ClassLoaders$AppClassLoader@251a69d7
+19:56:27.855 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
+19:56:27.858 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+19:56:27.866 [main] ERROR o.s.boot.SpringApplication - Application run failed
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.RuntimeException: Failed to load driver class com.mysql.cj.jdbc.Driver in either of HikariConfig class loader or Thread context classloader
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658)
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:638)
@@ -1272,3 +1232,70 @@ Caused by: java.lang.RuntimeException: Failed to load driver class com.mysql.cj.
 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
 	... 19 common frames omitted
+19:56:33.967 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2962 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:56:33.968 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:56:34.213 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.427 seconds (JVM running for 0.711)
+19:56:54.943 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2975 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+19:56:54.945 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+19:56:55.196 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.396 seconds (JVM running for 0.651)
+19:58:16.216 [main] INFO  o.d.v.c.ConsoleVoucherController - Controller : Processing voucher generation
+19:58:16.217 [main] INFO  o.d.v.v.service.VoucherServiceImpl - Service : Create Voucher
+19:58:16.232 [main] INFO  o.d.v.v.r.CsvVoucherRepository - Repository : Record a voucher write
+19:58:22.559 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:24:31.668 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 1878 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:24:31.670 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:24:32.057 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.648 seconds (JVM running for 1.209)
+22:24:34.570 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:24:38.101 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 1884 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:24:38.110 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:24:38.784 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.934 seconds (JVM running for 1.517)
+22:24:52.968 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:25:01.662 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 1888 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:25:01.662 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:25:02.096 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.616 seconds (JVM running for 1.83)
+22:29:46.325 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 1973 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:29:46.327 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:29:46.626 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.52 seconds (JVM running for 0.796)
+22:29:47.685 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:30:12.868 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:30:16.169 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:30:18.110 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:21.553 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:22.799 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:24.121 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:25.155 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:30:29.768 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:31.290 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:30:41.999 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2026 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:30:42.003 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:30:42.843 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 1.317 seconds (JVM running for 1.812)
+22:31:21.653 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2057 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:31:21.654 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:31:21.954 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.539 seconds (JVM running for 0.824)
+22:31:24.535 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:31:26.298 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+23:55:33.100 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3224 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:55:33.101 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:55:33.393 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.486 seconds (JVM running for 0.916)
+23:55:45.167 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3228 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:55:45.170 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:55:45.680 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.847 seconds (JVM running for 1.486)
+23:55:48.368 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3233 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:55:48.370 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:55:48.820 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.669 seconds (JVM running for 0.948)
+23:55:56.189 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:55:59.517 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:56:01.070 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:56:02.518 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:56:03.746 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:56:36.902 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3285 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:56:36.905 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:56:37.518 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 1.041 seconds (JVM running for 1.639)
+23:56:47.283 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:56:59.611 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:57:05.291 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+23:57:22.697 [main] WARN  o.devcourse.voucher.view.OutputView - You must enter only numbers.
+23:57:25.319 [main] WARN  o.devcourse.voucher.view.OutputView - You must enter only numbers.
+23:57:32.869 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3290 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:57:32.871 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:57:33.187 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.636 seconds (JVM running for 1.143)

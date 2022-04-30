@@ -1,6 +1,5 @@
 <configuration>
-
-    <conversionRule
+ <conversionRule
             conversionWord="clr"
             converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
 
@@ -21,7 +20,7 @@
 
     <appender name="ERROR_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
+            <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
