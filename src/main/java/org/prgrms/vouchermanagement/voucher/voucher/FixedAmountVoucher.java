@@ -24,7 +24,6 @@ public class FixedAmountVoucher extends Voucher {
     return true;
   }
 
-
   @Override
   public String toString() {
     return "FixedAmountVoucher{" +
