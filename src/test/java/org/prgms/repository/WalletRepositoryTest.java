@@ -1,14 +1,12 @@
-package org.prgms.wallet;
+package org.prgms.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.domain.*;
-import org.prgms.repository.CustomerRepository;
-import org.prgms.repository.VoucherRepository;
-import org.prgms.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -18,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
+@ActiveProfiles("test")
 class WalletRepositoryTest {
 
     @Autowired
