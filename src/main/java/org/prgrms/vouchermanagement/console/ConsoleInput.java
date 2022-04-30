@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class ConsoleInput implements  Input {
+public class ConsoleInput implements Input {
 
   private final Output printer;
   private final Reader reader;
