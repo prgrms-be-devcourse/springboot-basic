@@ -32,16 +32,17 @@ public class VoucherController {
   @GetMapping("/vouchers")
   public String vouchersPage(Model model) {
     model.addAttribute("vouchers", voucherService.getVoucherList());
-    for (Voucher v : voucherService.getVoucherList()) {
-      System.out.println(v.getVoucherId().toString());
-    }
     return "voucher-list";
   }
 
   @GetMapping("/voucher")
   public String voucherPage(@RequestParam("id") UUID voucherId, Model model) {
     log.info("voucherId={}", voucherId);
-    Optional<Voucher> voucherById = voucherService.getVoucherById(voucherId);
-    return "voucher";
+    Optional<Voucher> found = voucherService.getVoucherById(voucherId);
+    if(found.isPresent()) {
+      model.addAttribute("voucher", found.get());
+      return "voucher";
+    }
+    return "redirect:/voucher-list";
   }
 }
