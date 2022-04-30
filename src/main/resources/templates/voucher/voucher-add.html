@@ -24,9 +24,8 @@
     <div class="mb-3">
         <label for="voucherType" class="form-label">Type</label>
         <select id="voucherType" name="voucherType" class="form-select">
-            <option selected>Open this select menu</option>
-            <option value="fixed">fixed</option>
-            <option value="percent">percent</option>
+            <option th:each="type: ${types}" th:object="${type}"
+                    th:text="${type}" th:attr="value=${type}"></option>
         </select>
     </div>
 
@@ -35,7 +34,7 @@
         <input type="number" class="form-control" id="discountNum" name="discountNum">
     </div>
 
-    <a th:href="@{/vouchers}" class="btn btn-primary" >Back</a>
+    <a th:href="@{/vouchers}" class="btn btn-primary">Back</a>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 </body>

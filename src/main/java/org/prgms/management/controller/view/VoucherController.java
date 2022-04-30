@@ -1,5 +1,6 @@
 package org.prgms.management.controller.view;
 
+import org.prgms.management.model.voucher.VoucherCreator;
 import org.prgms.management.model.voucher.VoucherDto;
 import org.prgms.management.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,8 @@ public class VoucherController {
     }
 
     @GetMapping("/voucher/add")
-    public String addVoucherPage() {
+    public String addVoucherPage(Model model) {
+        model.addAttribute("types", VoucherCreator.values());
         return "voucher/voucher-add";
     }
 

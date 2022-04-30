@@ -1,8 +1,6 @@
 package org.prgms.management.repository.customer;
 
 import org.prgms.management.model.customer.Customer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,7 +15,6 @@ import static org.prgms.management.util.JdbcUtils.toUUID;
 @Repository
 @Profile({"local-db", "dev", "test"})
 public class CustomerJdbcRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {

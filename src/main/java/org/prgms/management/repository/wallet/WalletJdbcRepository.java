@@ -2,8 +2,6 @@ package org.prgms.management.repository.wallet;
 
 import org.prgms.management.model.voucher.VoucherCreator;
 import org.prgms.management.model.wallet.Wallet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,7 +16,6 @@ import static org.prgms.management.util.JdbcUtils.toUUID;
 @Repository
 @Profile({"local-db", "dev", "test"})
 public class WalletJdbcRepository implements WalletRepository {
-    private static final Logger logger = LoggerFactory.getLogger(WalletJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public WalletJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {

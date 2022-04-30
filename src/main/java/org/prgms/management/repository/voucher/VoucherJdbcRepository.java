@@ -2,8 +2,6 @@ package org.prgms.management.repository.voucher;
 
 import org.prgms.management.model.voucher.Voucher;
 import org.prgms.management.model.voucher.VoucherCreator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,7 +17,6 @@ import static org.prgms.management.util.JdbcUtils.toUUID;
 @Repository
 @Profile({"local-db", "dev", "test"})
 public class VoucherJdbcRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {

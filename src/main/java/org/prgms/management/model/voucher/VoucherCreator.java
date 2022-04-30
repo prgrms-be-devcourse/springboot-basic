@@ -53,7 +53,7 @@ public enum VoucherCreator {
         }
 
         return voucherCreator.get().create(UUID.randomUUID(), discountNum, voucherName,
-                voucherCreator.get().name(), LocalDateTime.now());
+                voucherCreator.toString(), LocalDateTime.now());
     }
 
     public abstract Voucher create(
