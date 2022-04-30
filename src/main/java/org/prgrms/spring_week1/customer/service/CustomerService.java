@@ -29,11 +29,11 @@ public class CustomerService {
         return customerRepository.getAll();
     }
 
-    public Customer update(Customer customer) throws DataAccessException {
+    public Customer update(Customer customer)  {
         return customerRepository.update(customer);
     }
 
-    public Customer insert(Customer customer) throws DataAccessException {
+    public Customer join(Customer customer)  {
         return customerRepository.insert(customer);
     }
 
