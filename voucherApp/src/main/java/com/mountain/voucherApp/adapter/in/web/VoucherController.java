@@ -77,8 +77,8 @@ public class VoucherController {
     public String createVoucher(VoucherCreateDto voucherCreateDto) {
         log.info("parameters.. {}", voucherCreateDto.toString());
         if (!voucherAppUseCase.create(voucherCreateDto)) {
-            return "redirect:voucher-exist";
+            return "redirect:/voucher-exist";
         }
-        return "redirect:new-voucher-success";
+        return "redirect:/new-voucher-success";
     }
 }

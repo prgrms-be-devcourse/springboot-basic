@@ -72,12 +72,12 @@ public class CustomerController {
     @PostMapping("remove-voucher")
     public String removeVoucher(String customerId) {
         voucherAppUseCase.removeVoucher(UUID.fromString(customerId));
-        return "redirect:remove-voucher-success";
+        return "redirect:/remove-voucher-success";
     }
 
     @PostMapping("regist-voucher")
     public String registVoucher(VoucherIdUpdateDto voucherIdUpdateDto) {
         voucherAppUseCase.addVoucher(voucherIdUpdateDto);
-        return "redirect:regist-voucher-success";
+        return "redirect:/regist-voucher-success";
     }
 }
