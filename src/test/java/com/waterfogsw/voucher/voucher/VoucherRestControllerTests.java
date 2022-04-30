@@ -45,7 +45,7 @@ public class VoucherRestControllerTests {
     @DisplayName("voucherAdd 메서드는")
     class Describe_voucherAdd {
 
-        final String url = "/api/v1/vouchers/new";
+        final String url = "/api/v1/vouchers";
 
         @Nested
         @DisplayName("바우처 타입이 헤더에 없으면")

@@ -18,7 +18,7 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/api/v1/vouchers/new")
+    @PostMapping("/api/v1/vouchers")
     public ResponseVoucherDto voucherAdd(@RequestBody RequestVoucherDto request) {
         final var savedVoucher = voucherService.saveVoucher(request.toDomain());
         return ResponseVoucherDto.of(savedVoucher);
