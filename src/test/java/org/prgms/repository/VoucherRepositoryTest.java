@@ -58,9 +58,11 @@ class VoucherRepositoryTest {
     @Test
     @DisplayName("타입별 바우처 조회 테스트")
     void findByTypeTest() {
-        List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> fixedVouchers = voucherRepository.findByType("FIXED");
+        List<Voucher> percentVouchers = voucherRepository.findByType("PERCENT");
 
-        assertThat(vouchers).containsExactlyInAnyOrder(voucher, voucher2);
+        assertThat(fixedVouchers).containsExactly(voucher);
+        assertThat(percentVouchers).containsExactly(voucher2);
     }
 
 
