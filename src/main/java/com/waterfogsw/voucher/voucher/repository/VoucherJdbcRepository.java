@@ -57,12 +57,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         final var update = jdbcTemplate.update(
-                "UPDATE voucher_mgmt SET voucher_type = :type, value = :value WHERE id = :id",
+                "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id",
                 toParamMap(voucher)
         );
 
-        if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+        if (update != voucher.getId()) {
+            throw new RuntimeException(String.valueOf(update));
         }
 
         return voucher;
