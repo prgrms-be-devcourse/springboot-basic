@@ -88,7 +88,7 @@ class JdbcCustomerRepositoryTest {
   void setUp() {
     // Objects for test
     customer1 = new Customer(UUID.randomUUID(), "customer1", "customer1@gmail.com", LocalDateTime.now());
-    customer2 = new Customer(UUID.randomUUID(), "customer1", "customer1@gmail.com", LocalDateTime.now());
+    customer2 = new Customer(UUID.randomUUID(), "customer2", "customer2@gmail.com", LocalDateTime.now());
     fixedAmountVoucher1 = VoucherFactory.createVoucher(1, 100L, LocalDateTime.now());
     fixedAmountVoucher2 = VoucherFactory.createVoucher(1, 1000L, LocalDateTime.now());
     percentDiscountVoucher1 = VoucherFactory.createVoucher(2, 10L, LocalDateTime.now());
@@ -110,11 +110,6 @@ class JdbcCustomerRepositoryTest {
     embeddedMysql.stop();
   }
 
-  @BeforeEach
-  void beforeEach() {
-    jdbcCustomerRepository.insert(customer1);
-  }
-
   @AfterEach
   void afterEach() {
     jdbcCustomerRepository.deleteAll();
@@ -123,6 +118,7 @@ class JdbcCustomerRepositoryTest {
   @Test
   @DisplayName("고객을 추가할 수 있다")
   public void testInsert() {
+    jdbcCustomerRepository.insert(customer1);
     var retrieveCustomer = jdbcCustomerRepository.findById(customer1.getCustomerId());
     assertThat(retrieveCustomer.isEmpty(), is(false));
     assertThat(retrieveCustomer.get(), samePropertyValuesAs(customer1));
@@ -131,12 +127,14 @@ class JdbcCustomerRepositoryTest {
   @Test
   @DisplayName("중복된 고객은 추가할 수 없다")
   public void testInsertException() {
+    jdbcCustomerRepository.insert(customer1);
     assertThrows(DuplicateKeyException.class, () -> jdbcCustomerRepository.insert(customer1));
   }
 
   @Test
   @DisplayName("전체 고객을 조회할 수 있다")
   public void testFindAll() {
+    jdbcCustomerRepository.insert(customer1);
     var customers = jdbcCustomerRepository.findAll();
     assertThat(customers.isEmpty(), is(false));
   }
@@ -144,6 +142,7 @@ class JdbcCustomerRepositoryTest {
   @Test
   @DisplayName("이름으로 고객을 조회할 수 있다")
   public void testFindByName() {
+    jdbcCustomerRepository.insert(customer1);
     var customer = jdbcCustomerRepository.findByName(customer1.getName());
     assertThat(customer.isEmpty(), is(false));
     var unknown = jdbcCustomerRepository.findByName("unknown-user");
@@ -153,6 +152,7 @@ class JdbcCustomerRepositoryTest {
   @Test
   @DisplayName("이메일로 고객을 조회할 수 있다")
   public void testFindByEmail() {
+    jdbcCustomerRepository.insert(customer1);
     var customer = jdbcCustomerRepository.findByEmail(customer1.getEmail().getAddress());
     assertThat(customer.isEmpty(), is(false));
     var unknown = jdbcCustomerRepository.findByEmail("unknown-user@gmail.com");
@@ -162,6 +162,7 @@ class JdbcCustomerRepositoryTest {
   @Test
   @DisplayName("고객을 수정할 수 있다")
   public void testUpdate() {
+    jdbcCustomerRepository.insert(customer1);
     customer1.changeName("updated-user");
     jdbcCustomerRepository.update(customer1);
 
@@ -174,4 +175,13 @@ class JdbcCustomerRepositoryTest {
     assertThat(retrievedCustomer.get(), samePropertyValuesAs(customer1));
   }
 
+  @Test
+  @DisplayName("ID로 존재 유무를 알 수 있다")
+  void testCheckExistenceById() {
+    var result1 = jdbcCustomerRepository.checkExistenceById(customer1.getCustomerId());
+    assertThat(result1, is(false));
+    jdbcCustomerRepository.insert(customer1);
+    var result2 = jdbcCustomerRepository.checkExistenceById(customer1.getCustomerId());
+    assertThat(result2, is(true));
+  }
 }

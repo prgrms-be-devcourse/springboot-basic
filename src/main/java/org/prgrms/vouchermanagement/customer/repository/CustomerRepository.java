@@ -15,6 +15,8 @@ public interface CustomerRepository {
 
   List<Customer> findAll();
 
+  boolean checkExistenceById(UUID customerId);
+
   Optional<Customer> findById(UUID customerId);
 
   Optional<Customer> findByName(String name);
