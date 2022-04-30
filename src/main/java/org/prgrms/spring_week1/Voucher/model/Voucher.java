@@ -10,6 +10,8 @@ public interface Voucher {
 
     UUID getVoucherId();
 
+    UUID getCustomerId();
+
     VoucherType getVoucherType();
 
     VoucherStatus getVoucherStatus();
@@ -19,6 +21,7 @@ public interface Voucher {
     LocalDateTime getCreatedAt();
 
     LocalDateTime getUpdatedAt();
+
 
     void setStatus(VoucherStatus status);
 }
