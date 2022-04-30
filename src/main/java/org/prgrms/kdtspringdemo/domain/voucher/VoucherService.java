@@ -89,7 +89,21 @@ public class VoucherService {
         return allVoucher.get(index);
     }
 
+    public Voucher findById(UUID voucherId){
+        Voucher voucher = voucherRepository.findById(voucherId).get();
+        return voucher;
+    }
+
     public Optional<Voucher> findVoucherListByCustomerId(UUID customerId) {
         return voucherRepository.findByCustomerId(customerId);
+    }
+
+
+    public List<Voucher> findByFixed(){
+        return voucherRepository.findByFixedType();
+    }
+
+    public List<Voucher> findByPercent(){
+        return voucherRepository.findByPercentType();
     }
 }

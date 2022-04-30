@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.domain.voucher.controller;
+package org.prgrms.kdtspringdemo.domain.voucher.console;
 
 import org.prgrms.kdtspringdemo.domain.console.Input;
 import org.prgrms.kdtspringdemo.domain.console.Output;

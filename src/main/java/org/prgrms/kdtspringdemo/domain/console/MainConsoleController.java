@@ -1,31 +1,28 @@
-package org.prgrms.kdtspringdemo.domain;
+package org.prgrms.kdtspringdemo.domain.console;
 
-import org.prgrms.kdtspringdemo.domain.console.Input;
-import org.prgrms.kdtspringdemo.domain.console.Menu;
-import org.prgrms.kdtspringdemo.domain.console.Output;
-import org.prgrms.kdtspringdemo.domain.customer.CustomerController;
-import org.prgrms.kdtspringdemo.domain.mapping.controller.MappingController;
-import org.prgrms.kdtspringdemo.domain.voucher.controller.VoucherDMLTypeController;
-import org.prgrms.kdtspringdemo.domain.voucher.controller.VoucherChooseController;
+import org.prgrms.kdtspringdemo.domain.customer.console.CustomerConsoleController;
+import org.prgrms.kdtspringdemo.domain.mapping.console.MappingController;
+import org.prgrms.kdtspringdemo.domain.voucher.console.VoucherDMLTypeController;
+import org.prgrms.kdtspringdemo.domain.voucher.console.VoucherChooseController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class MainController {
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+public class MainConsoleController {
+    private static final Logger logger = LoggerFactory.getLogger(MainConsoleController.class);
     private final Output output;
     private final Input input;
 
-    private final CustomerController customerController;
+    private final CustomerConsoleController customerConsoleController;
     private final VoucherChooseController voucherChooseController;
     private final VoucherDMLTypeController voucherDMLTypeController;
     private final MappingController mappingController;
 
-    public MainController(Output output, Input input, CustomerController customerController, VoucherChooseController voucherChooseController, VoucherDMLTypeController voucherDMLTypeController, MappingController mappingController) {
+    public MainConsoleController(Output output, Input input, CustomerConsoleController customerConsoleController, VoucherChooseController voucherChooseController, VoucherDMLTypeController voucherDMLTypeController, MappingController mappingController) {
         this.output = output;
         this.input = input;
-        this.customerController = customerController;
+        this.customerConsoleController = customerConsoleController;
         this.voucherChooseController = voucherChooseController;
         this.voucherDMLTypeController = voucherDMLTypeController;
         this.mappingController = mappingController;
@@ -67,7 +64,7 @@ public class MainController {
             }
             case CUSTOMER -> {
                 Menu.CUSTOMER.writeStateInfo();
-                customerController.chooseDML();
+                customerConsoleController.chooseDML();
             }
             case VOUCHER -> {
                 Menu.VOUCHER.writeStateInfo();
@@ -79,7 +76,7 @@ public class MainController {
             }
             case BLACKLIST -> {
                 Menu.BLACKLIST.writeStateInfo();
-                customerController.readBlackListCSV();
+                customerConsoleController.readBlackListCSV();
             }
             case None -> Menu.None.writeStateInfo();
         }

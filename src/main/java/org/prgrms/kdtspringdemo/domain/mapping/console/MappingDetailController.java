@@ -1,8 +1,7 @@
-package org.prgrms.kdtspringdemo.domain.mapping.controller;
+package org.prgrms.kdtspringdemo.domain.mapping.console;
 
 import org.prgrms.kdtspringdemo.domain.console.Input;
-import org.prgrms.kdtspringdemo.domain.console.Output;
-import org.prgrms.kdtspringdemo.domain.customer.CustomerController;
+import org.prgrms.kdtspringdemo.domain.customer.console.CustomerConsoleController;
 import org.prgrms.kdtspringdemo.domain.customer.data.Customer;
 import org.prgrms.kdtspringdemo.domain.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.domain.mapping.type.MappingType;
@@ -21,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 public class MappingDetailController {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerConsoleController.class);
     private final Input input;
     private final VoucherService voucherService;
     private final CustomerService customerService;
