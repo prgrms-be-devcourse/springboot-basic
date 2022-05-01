@@ -28,6 +28,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     private final String SELECT_BY_ID_SQL = "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private final String SELECT_BY_NAME_SQL = "select * from customers WHERE name = :name";
     private final String SELECT_BY_EMAIL_SQL = "select * from customers WHERE email = :email";
+    private final String DELETE_BY_ID_SQL = "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private final String DELETE_ALL_SQL = "DELETE FROM customers";
     private final String DELETE_ISSUED_VOUCHER_SQL = "DELETE FROM vouchers WHERE is_issued = true";
 
@@ -121,6 +122,11 @@ public class JdbcCustomerRepository implements CustomerRepository{
             logger.error("Got empty result", e);
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     @Override

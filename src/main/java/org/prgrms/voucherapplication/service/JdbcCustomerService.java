@@ -4,6 +4,7 @@ import org.prgrms.voucherapplication.entity.Customer;
 import org.prgrms.voucherapplication.repository.customer.jdbc.JdbcCustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,6 +23,11 @@ public class JdbcCustomerService {
      * @param customer
      */
     public void saveCustomer(Customer customer) {
+        customerRepository.insert(customer);
+    }
+
+    public void saveCustomer(String name, String email) {
+        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
         customerRepository.insert(customer);
     }
 
@@ -58,5 +64,13 @@ public class JdbcCustomerService {
      */
     public Optional<Customer> getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email);
+    }
+
+    /**
+     * 고객 id로 고객 삭제
+     * @param customerId
+     */
+    public void deleteCustomerById(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 }
