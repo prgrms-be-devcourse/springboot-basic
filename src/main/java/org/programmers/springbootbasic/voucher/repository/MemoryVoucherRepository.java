@@ -43,4 +43,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
     }
+
+    @Override
+    public int getCountByVoucherId(UUID voucherId) {
+        return 0;
+    }
 }

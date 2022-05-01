@@ -93,6 +93,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
 
+    @Override
+    public int getCountByVoucherId(UUID voucherId) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()), Integer.class);
+    }
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var discountValue = resultSet.getLong("discount_value");

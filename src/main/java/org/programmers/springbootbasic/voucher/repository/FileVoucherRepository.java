@@ -108,6 +108,11 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteById(UUID vouhcerId) {
         // TODO delete
     }
+
+    @Override
+    public int getCountByVoucherId(UUID voucherId) {
+        return 0;
+    }
 }
 
 
