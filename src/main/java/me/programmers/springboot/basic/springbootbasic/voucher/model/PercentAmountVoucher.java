@@ -1,5 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.model;
 
+import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherUpdateRequestDto;
+
 import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher {
@@ -36,6 +38,11 @@ public class PercentAmountVoucher extends Voucher {
         double discountRange = percent / discountBase;
         long discountedPrice = beforeDiscount - (long) (beforeDiscount * discountRange);
         return discountedPrice < 0 ? 0 : discountedPrice;
+    }
+
+    @Override
+    public void update(VoucherUpdateRequestDto requestDto) {
+        this.percent = Long.parseLong(requestDto.getDiscountPercent());
     }
 
     @Override

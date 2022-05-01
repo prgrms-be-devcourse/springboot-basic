@@ -8,30 +8,103 @@
 </head>
 <body class="container-fluid">
 <h1>Voucher Detail</h1>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-primary me-md-2" type="button">Update Voucher</a>
-</div>
 
 <table class="table table-striped table-hover">
     <thead>
     <tr>
         <th scope="col">ID</th>
         <th scope="col">Type</th>
-        <th scope="col"  th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">Amount</th>
-        <th scope="col"  th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">Percent</th>
+        <th scope="col"
+            th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+            Amount
+        </th>
+        <th scope="col"
+            th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+            Percent
+        </th>
     </tr>
     </thead>
     <tbody>
     <tr>
         <td th:text="${voucher.voucherId}"></td>
-        <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">Fixed Voucher</td>
-        <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">Percent Voucher</td>
+        <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+            Fixed Voucher
+        </td>
+        <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+            Percent Voucher
+        </td>
 
-        <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}" th:text="${voucher.amount}"></td>
-        <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}" th:text="${voucher.percent}"></td>
+        <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}"
+            th:text="${voucher.amount}"></td>
+        <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}"
+            th:text="${voucher.percent}"></td>
     </tr>
     </tbody>
 </table>
+
+<h3>Update Voucher</h3>
+
+<form th:action="@{/vouchers/update/{uuid}(uuid = ${voucher.voucherId})}" method="post">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Type</th>
+            <th scope="col"
+                th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                Amount
+            </th>
+            <th scope="col"
+                th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                Percent
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                Fixed Voucher
+            </td>
+            <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                Percent Voucher
+            </td>
+
+            <td th:if="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                <label for="discountPrice" class="form-label">할인 가격 입력</label>
+                <input type="number" class="form-control" id="discountPrice" name="discountPrice">
+            </td>
+            <td th:unless="${voucher instanceof T(me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher)}">
+                <label for="discountPercent" class="form-label">할인 비율 입력</label>
+                <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="0"
+                       maxlength="100">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<!--
+<form th:action="@{/vouchers/new}" method="post">
+    <div class="mb-3">
+        <label for="type-select" class="form-label">Type</label>
+        <select class="form-select" aria-label="Default select example" id="type-select" name="type">
+            <option value="fixed">Fixed</option>
+            <option value="percent">Percent</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="discountPrice" class="form-label">할인 가격</label>
+        <input type="number" class="form-control" id="discountPrice" name="discountPrice">
+    </div>
+    <div class="mb-3">
+        <label for="discountPercent" class="form-label">할인 비율</label>
+        <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="0" maxlength="100">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+-->
 
 </body>
 </html>

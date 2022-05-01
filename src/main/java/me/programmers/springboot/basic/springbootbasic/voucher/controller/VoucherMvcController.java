@@ -1,6 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.controller;
 
 import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreateRequestDto;
+import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherUpdateRequestDto;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
@@ -58,4 +59,13 @@ public class VoucherMvcController {
 
         return "redirect:/vouchers";
     }
+
+    @PostMapping("/vouchers/update/{uuid}")
+    public String updateVoucher(@PathVariable UUID uuid, @ModelAttribute VoucherUpdateRequestDto requestDto) {
+        Voucher voucher = voucherService.getVoucherById(uuid);
+        voucher.update(requestDto);
+        voucherService.update(voucher);
+        return "redirect:/vouchers";
+    }
+
 }

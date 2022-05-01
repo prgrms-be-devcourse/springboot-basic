@@ -1,5 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.model;
 
+import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherUpdateRequestDto;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -34,6 +36,11 @@ public class FixedAmountVoucher extends Voucher {
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
         return discountedAmount < 0 ? 0 : discountedAmount;
+    }
+
+    @Override
+    public void update(VoucherUpdateRequestDto requestDto) {
+        this.amount = Long.parseLong(requestDto.getDiscountPrice());
     }
 
     @Override
