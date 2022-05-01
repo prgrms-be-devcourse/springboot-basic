@@ -8,7 +8,6 @@ import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,20 +26,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        var discountValue = resultSet.getLong("discount_value");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var voucherType = resultSet.getString("voucher_type");
-
-        return VoucherType.findByType(voucherType).create(voucherId, discountValue, createdAt);
-    };
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     @Override
@@ -73,16 +58,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 "discountValue", voucher.getValue(),
                 "createdAt", Timestamp.valueOf(voucher.getCreatedAt()),
                 "voucherType", voucher.getVoucherType().name());
-        try {
-            var insert = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_id, discount_value, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :createdAt, :voucherType)",
-                    parameterMap);
-            if (insert != SUCCESS) {
-                throw new NotInsertException("Nothing was inserted");
-            }
-        } catch (DuplicateKeyException duplicateKeyException) {
-            throw new DuplicateObjectKeyException("이미 등록된 키 입니다.");
+        var insert = jdbcTemplate.update(
+                "INSERT INTO vouchers(voucher_id, discount_value, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :createdAt, :voucherType)",
+                parameterMap);
+        if (insert != SUCCESS) {
+            throw new NotInsertException("Nothing was inserted");
         }
+
         return voucher;
     }
 
@@ -109,5 +91,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+    }
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        var discountValue = resultSet.getLong("discount_value");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        var voucherType = resultSet.getString("voucher_type");
+
+        return VoucherType.findByType(voucherType).create(voucherId, discountValue, createdAt);
+    };
+
+    static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

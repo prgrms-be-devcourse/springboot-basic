@@ -1,13 +1,11 @@
 package org.programmers.springbootbasic.wallet.repository;
 
 import org.programmers.springbootbasic.customer.model.Customer;
-import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.exception.NotInsertException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.wallet.domain.Wallet;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,19 +20,6 @@ public class JdbcWalletRepository implements WalletRepository {
 
     public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
-        UUID walletId = toUUID(resultSet.getBytes("wallet_id"));
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-
-        return new Wallet(walletId, customerId, voucherId);
-    };
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     @Override
@@ -77,12 +62,12 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Optional<Wallet> findById(UUID walletId) {
+    public Optional<Wallet> findById(UUID inputWalletId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM wallets WHERE wallet_id = UUID_TO_BIN(:walletId)",
-                    Collections.singletonMap("walletId", walletId.toString().getBytes()),
+                    Collections.singletonMap("walletId", inputWalletId.toString().getBytes()),
                     walletRowMapper));
-        } catch (IncorrectResultSizeDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -93,14 +78,11 @@ public class JdbcWalletRepository implements WalletRepository {
                 "customerId", wallet.getCustomerId().toString().getBytes(),
                 "voucherId", wallet.getVoucherId().toString().getBytes());
 
-        try {
-            int insert = jdbcTemplate.update("INSERT INTO wallets(wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))", parameterMap);
-            if (insert != SUCCESS) {
-                throw new NotInsertException("Noting was inserted");
-            }
-        } catch (DuplicateKeyException e) {
-            throw new DuplicateObjectKeyException("이미 등록된 월렛 입니다.");
+        int insert = jdbcTemplate.update("INSERT INTO wallets(wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))", parameterMap);
+        if (insert != SUCCESS) {
+            throw new NotInsertException("Noting was inserted");
         }
+
         return wallet;
     }
 
@@ -112,5 +94,18 @@ public class JdbcWalletRepository implements WalletRepository {
 
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM wallets", Collections.emptyMap());
+    }
+
+    private final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
+        UUID walletId = toUUID(resultSet.getBytes("wallet_id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+
+        return new Wallet(walletId, customerId, voucherId);
+    };
+
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
