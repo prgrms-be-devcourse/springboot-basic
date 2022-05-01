@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.text.MessageFormat;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -145,11 +146,12 @@ public class VoucherRestControllerTests {
                 try {
                     final var resultActions = mockMvc.perform(request);
                     final var content = resultActions.andReturn().getResponse().getContentAsString();
-                    assertThat(
-                            "[{\"id\":1,\"type\":\"FIXED_AMOUNT\",\"value\":2000}," +
-                                    "{\"id\":2,\"type\":\"PERCENT_DISCOUNT\",\"value\":10}]",
-                            is(content)
-                    );
+
+                    String expected = MessageFormat.format("[{0},{1}]",
+                            objectMapper.writeValueAsString(voucher1),
+                            objectMapper.writeValueAsString(voucher2));
+
+                    assertThat(expected, is(content));
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
                 }
