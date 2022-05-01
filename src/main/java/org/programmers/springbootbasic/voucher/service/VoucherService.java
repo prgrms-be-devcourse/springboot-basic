@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.service;
 
-import org.programmers.springbootbasic.exception.NoIdException;
+import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
+import org.programmers.springbootbasic.exception.NotUpdateException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
@@ -29,18 +30,27 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long value, LocalDateTime createdAt) {
-        var voucher = voucherType.create(voucherId, value, createdAt);
+        if (checkVoucherExist(voucherId)) {
+            throw new DuplicateObjectKeyException("이미 존재하는 바우처 입니다.");
+        }
+        var voucher = VoucherType.findByType(String.valueOf(voucherType))
+                .create(voucherId, value, createdAt);
         return voucherRepository.insert(voucher);
     }
 
     public Voucher updateVoucher(UUID voucherId, long value) {
-        Optional<Voucher> voucher = getVoucher(voucherId);
-        VoucherType voucherType = VoucherType.findByType(String.valueOf(voucher.orElseThrow(() -> new NoIdException("아이디 중복입니다.")).getVoucherType()));
-        Voucher updateVoucher = voucherType.create(voucherId, value, voucher.orElseThrow(() -> new NoIdException("아이디 중복입니다.")).getCreatedAt());
-        return voucherRepository.update(updateVoucher);
+        if (!checkVoucherExist(voucherId)) {
+            throw new NotUpdateException("업데이트 할 바우처가 없습니다.");
+        }
+        Voucher voucher = getVoucher(voucherId).orElseThrow();
+        return voucherRepository.update(voucher.changeValue(value));
     }
 
     public void deleteVoucher(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    private boolean checkVoucherExist(UUID voucherId) {
+        return voucherRepository.getCountByVoucherId(voucherId) > 0;
     }
 }
