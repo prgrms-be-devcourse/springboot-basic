@@ -27,7 +27,8 @@ public class CommandLineApplication implements Runnable {
 			try {
 				console.printMenu();
 				String choiceCommandType = console.input("");
-				runProgram = CommandType.execute(choiceCommandType, console, voucherService);
+				runProgram = CommandType.execute(
+						CommandType.getCreate(choiceCommandType), console, voucherService);
 			} catch (IllegalArgumentException exception) {
 				logger.error("Invalid Command Type", exception);
 			}
