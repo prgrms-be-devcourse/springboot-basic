@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.time.LocalDateTime;
+
 @JsonTypeName("FIXED_AMOUNT")
 public class FixedAmountVoucher extends Voucher {
 
@@ -19,11 +21,19 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
+    public FixedAmountVoucher(Long id, int amount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, VoucherType.FIXED_AMOUNT, createdAt, updatedAt);
+        validate(amount);
+        this.amount = amount;
+    }
+
     @JsonCreator
     public FixedAmountVoucher(@JsonProperty("id") Long id,
                               @JsonProperty("type") VoucherType type,
-                              @JsonProperty("value") int amount) {
-        super(id, type);
+                              @JsonProperty("value") int amount,
+                              @JsonProperty("createdAt") LocalDateTime createdAt,
+                              @JsonProperty("updatedAt") LocalDateTime updatedAt) {
+        super(id, type, createdAt, updatedAt);
         validate(amount);
         this.amount = amount;
     }

@@ -1,6 +1,7 @@
 package com.waterfogsw.voucher.voucher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.waterfogsw.voucher.voucher.controller.VoucherRestController;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
@@ -29,12 +30,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class VoucherRestControllerTests {
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @Mock
     private VoucherService voucherService;
     @InjectMocks
     private VoucherRestController voucherRestController;
     private MockMvc mockMvc;
+
+    @BeforeAll
+    public static void beforeAll() {
+        objectMapper.registerModule(new JavaTimeModule());
+    }
 
     @BeforeEach
     public void beforeEach() {

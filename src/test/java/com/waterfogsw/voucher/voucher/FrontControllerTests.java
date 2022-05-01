@@ -19,6 +19,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,7 +65,7 @@ public class FrontControllerTests {
             @DisplayName("생성한 데이터를 반환한다")
             void it_return_enum() {
                 final var requestVoucherDto = new RequestVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
-                final var responseVoucherDto = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000);
+                final var responseVoucherDto = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000, LocalDateTime.now(), LocalDateTime.now());
                 final var response = new Response<>(responseVoucherDto, ResponseStatus.OK);
 
                 when(messageConverter.convert(any(PostRequest.class))).thenReturn(requestVoucherDto);
@@ -83,8 +84,8 @@ public class FrontControllerTests {
             @Test
             @DisplayName("모든 바우처에 대한 정보를 반환한다")
             void it_return_enum() {
-                final var voucherDto1 = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000);
-                final var voucherDto2 = new ResponseVoucherDto(2L, VoucherType.FIXED_AMOUNT, 2000);
+                final var voucherDto1 = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000, LocalDateTime.now(), LocalDateTime.now());
+                final var voucherDto2 = new ResponseVoucherDto(2L, VoucherType.FIXED_AMOUNT, 2000, LocalDateTime.now(), LocalDateTime.now());
 
                 final List<ResponseVoucherDto> voucherDtoList = new ArrayList<>(
                         Arrays.asList(voucherDto1, voucherDto2)
