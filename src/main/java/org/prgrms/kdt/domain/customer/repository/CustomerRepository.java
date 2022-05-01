@@ -17,7 +17,7 @@ public interface CustomerRepository {
 
     Optional<Customer> findByVoucherId(UUID voucherId);
 
-    List<Customer> findByType(CustomerType customerType);
+    List<Customer> findAllByType(CustomerType customerType);
 
     Optional<Customer> findByEmail(String email);
 

@@ -69,7 +69,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findByType(CustomerType customerType) {
+    public List<Customer> findAllByType(CustomerType customerType) {
         throw new CustomerDataException(NOT_SUPPORTED);
     }
 

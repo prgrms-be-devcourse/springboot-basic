@@ -76,7 +76,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public List<Customer> findByType(CustomerType customerType) {
+    public List<Customer> findAllByType(CustomerType customerType) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE customer_type = :customerType",
                 Collections.singletonMap("customerType", customerType.getType()),
                 customerRowMapper());
@@ -97,25 +97,17 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public int update(Customer customer) {
-        int updatedRows = jdbcTemplate.update("UPDATE customer " +
+        return jdbcTemplate.update("UPDATE customer " +
                         "SET customer_type = :customerType, name = :name, email = :email, modified_date = :modifiedDate " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 toParamMap(customer));
-        if(updatedRows == 0) {
-            throw new CustomerDataException(NOT_UPDATED);
-        }
-        return updatedRows;
     }
 
     @Override
     public int deleteById(UUID customerId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM customer " +
+        return jdbcTemplate.update("DELETE FROM customer " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
-        if(deletedRows == 0) {
-            throw new CustomerDataException(NOT_DELETED);
-        }
-        return deletedRows;
     }
 
     @Override

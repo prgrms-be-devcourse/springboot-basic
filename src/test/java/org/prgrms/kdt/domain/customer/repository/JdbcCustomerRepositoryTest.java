@@ -12,7 +12,6 @@ import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDateTime;
@@ -26,8 +25,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
 @SpringJUnitConfig(classes = TestConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -155,7 +153,7 @@ class JdbcCustomerRepositoryTest {
                 "dbslzld15@naver.com", CustomerType.BLACK_LIST, now, now);
         customerRepository.save(customer);
         //when
-        List<Customer> customers = customerRepository.findByType(CustomerType.BLACK_LIST);
+        List<Customer> customers = customerRepository.findAllByType(CustomerType.BLACK_LIST);
         //then
         assertThat(customers.size()).isEqualTo(1);
         assertThat(customers.get(0)).usingRecursiveComparison().isEqualTo(customer);
@@ -189,7 +187,7 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThatThrownBy(() -> customerRepository.update(updateCustomer))
                 .isInstanceOf(CustomerDataException.class)
-                .hasMessage(NOT_UPDATED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
@@ -216,7 +214,7 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThatThrownBy(() -> customerRepository.deleteById(customerId))
                 .isInstanceOf(CustomerDataException.class)
-                .hasMessage(NOT_DELETED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test

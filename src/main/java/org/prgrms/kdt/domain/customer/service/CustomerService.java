@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -39,7 +39,7 @@ public class CustomerService {
     }
 
     public List<Customer> getBlackCustomers() {
-        return customerRepository.findByType(CustomerType.BLACK_LIST);
+        return customerRepository.findAllByType(CustomerType.BLACK_LIST);
     }
 
     public Optional<Customer> getCustomerById(UUID customerId) {
@@ -69,7 +69,7 @@ public class CustomerService {
         LocalDateTime now = LocalDateTime.now();
         Customer customer = new Customer(customerId, name, email, customerType, now, now);
         customerRepository.update(customer);
-        logger.info("Update Customer id : {}", customerId);
+        logger.info("Update customer, customer id : {}", customerId);
     }
 
 
@@ -78,6 +78,6 @@ public class CustomerService {
         customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerDataException(NOT_SAVED));
         customerRepository.deleteById(customerId);
-        logger.info("Delete Customer id: {}", customerId);
+        logger.info("Delete customer, customer id: {}", customerId);
     }
 }
