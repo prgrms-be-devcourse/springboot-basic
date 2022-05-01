@@ -21,8 +21,8 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(Long id, int percent, LocalDateTime createdAt) {
-        super(id, VoucherType.PERCENT_DISCOUNT, createdAt);
+    public PercentDiscountVoucher(Long id, int percent, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, VoucherType.PERCENT_DISCOUNT, createdAt, updatedAt);
         validate(percent);
         this.percent = percent;
     }
@@ -31,8 +31,9 @@ public class PercentDiscountVoucher extends Voucher {
     public PercentDiscountVoucher(@JsonProperty("id") Long id,
                                   @JsonProperty("type") VoucherType type,
                                   @JsonProperty("value") int percent,
-                                  @JsonProperty("createdAt") LocalDateTime createdAt) {
-        super(id, type, createdAt);
+                                  @JsonProperty("createdAt") LocalDateTime createdAt,
+                                  @JsonProperty("updatedAt") LocalDateTime updatedAt) {
+        super(id, type, createdAt, updatedAt);
         validate(percent);
         this.percent = percent;
     }

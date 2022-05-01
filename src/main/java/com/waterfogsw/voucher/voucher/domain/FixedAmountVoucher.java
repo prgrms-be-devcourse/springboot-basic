@@ -21,8 +21,8 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(Long id, int amount, LocalDateTime createdAt) {
-        super(id, VoucherType.FIXED_AMOUNT, createdAt);
+    public FixedAmountVoucher(Long id, int amount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(id, VoucherType.FIXED_AMOUNT, createdAt, updatedAt);
         validate(amount);
         this.amount = amount;
     }
@@ -31,8 +31,9 @@ public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(@JsonProperty("id") Long id,
                               @JsonProperty("type") VoucherType type,
                               @JsonProperty("value") int amount,
-                              @JsonProperty("createdAt") LocalDateTime createdAt) {
-        super(id, type, createdAt);
+                              @JsonProperty("createdAt") LocalDateTime createdAt,
+                              @JsonProperty("updatedAt") LocalDateTime updatedAt) {
+        super(id, type, createdAt, updatedAt);
         validate(amount);
         this.amount = amount;
     }

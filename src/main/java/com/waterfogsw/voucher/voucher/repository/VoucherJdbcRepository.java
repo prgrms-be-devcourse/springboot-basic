@@ -22,7 +22,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         final var type = VoucherType.valueOf(resultSet.getString("voucher_type"));
         final var value = resultSet.getInt("value");
         final var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return Voucher.of(id, type, value, createdAt);
+        final var updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
+        return Voucher.of(id, type, value, createdAt, updatedAt);
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -36,6 +37,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("type", voucher.getType().name());
             put("value", voucher.getValue());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+            put("updatedAt", Timestamp.valueOf(voucher.getUpdatedAt()));
         }};
     }
 
@@ -47,7 +49,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher.getId() == null) {
             final var updatedNum = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_type, value, created_at) VALUES (:type, :value, :createdAt)",
+                    "INSERT INTO vouchers(voucher_type, value, created_at, updated_at) VALUES (:type, :value, :createdAt, :updatedAt)",
                     toParamMap(voucher)
             );
             if (updatedNum != 1) {
@@ -60,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         final var updatedNum = jdbcTemplate.update(
-                "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id",
+                "UPDATE vouchers SET voucher_type = :type, value = :value, updated_at = :updatedAt WHERE voucher_id = :id",
                 toParamMap(voucher)
         );
 

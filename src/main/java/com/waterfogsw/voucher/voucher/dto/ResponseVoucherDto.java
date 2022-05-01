@@ -9,7 +9,8 @@ public record ResponseVoucherDto(
         Long id,
         VoucherType type,
         int value,
-        LocalDateTime createdAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
 
     public ResponseVoucherDto {
@@ -17,7 +18,11 @@ public record ResponseVoucherDto(
     }
 
     public static ResponseVoucherDto of(Voucher voucher) {
-        return new ResponseVoucherDto(voucher.getId(), voucher.getType(), voucher.getValue(), voucher.getCreatedAt());
+        return new ResponseVoucherDto(voucher.getId(),
+                voucher.getType(),
+                voucher.getValue(),
+                voucher.getCreatedAt(),
+                voucher.getUpdatedAt());
     }
 
     private static void validate(VoucherType type, int value) {
