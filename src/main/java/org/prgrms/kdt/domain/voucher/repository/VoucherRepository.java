@@ -17,6 +17,8 @@ public interface VoucherRepository {
 
     List<Voucher> findByCustomerIdIsNull();
 
+    List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date);
+
     List<Voucher> findAll();
 
     int update(Voucher voucher);
@@ -28,6 +30,4 @@ public interface VoucherRepository {
     int deleteAll();
 
     int deleteByCustomerId(UUID customerId);
-
-    List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date);
 }

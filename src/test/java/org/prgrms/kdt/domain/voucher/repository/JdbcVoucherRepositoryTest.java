@@ -5,7 +5,6 @@ import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.TestConfig;
-import org.prgrms.kdt.domain.common.exception.ExceptionType;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.repository.JdbcCustomerRepository;
 import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
@@ -26,8 +25,7 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -167,7 +165,7 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> voucherRepository.update(updateVoucher))
                 .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_UPDATED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
@@ -196,7 +194,7 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> voucherRepository.updateCustomerId(voucherId, customerId))
                 .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_UPDATED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
@@ -222,7 +220,7 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> voucherRepository.deleteById(voucherId))
                 .isInstanceOf(VoucherDataException.class)
-                .hasMessage(ExceptionType.NOT_DELETED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
@@ -265,6 +263,6 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThatThrownBy(() -> voucherRepository.deleteByCustomerId(customerId))
                 .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_DELETED.getMsg());
+                .hasMessage(NOT_SAVED.getMsg());
     }
 }

@@ -17,8 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_DELETED;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_UPDATED;
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.*;
 
 @Repository
 @Primary
@@ -37,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                         "VALUES (UNHEX(REPLACE(:voucherId, '-', '')), :voucherType, :discountValue, UNHEX(REPLACE(:customerId, '-', '')), :createdDate, :modifiedDate)",
                 toParamMap(voucher));
         if(savedRows != 1){
-            throw new VoucherDataException(NOT_UPDATED);
+            throw new VoucherDataException(NOT_SAVED);
         }
         return voucher.getVoucherId();
     }
@@ -90,14 +89,10 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public int update(Voucher voucher) {
-        int updatedRows = jdbcTemplate.update("UPDATE voucher " +
+        return jdbcTemplate.update("UPDATE voucher " +
                         "SET voucher_type = :voucherType, discount_value = :discountValue, customer_id = UNHEX(REPLACE(:customerId, '-', '')), modified_date = :modifiedDate " +
                         "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(voucher));
-        if(updatedRows == 0) {
-            throw new VoucherDataException(NOT_UPDATED);
-        }
-        return updatedRows;
     }
 
     @Override
@@ -107,25 +102,17 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("customerId", UuidUtils.UuidToByte(customerId));
             put("modifiedDate", LocalDateTime.now());
         }};
-        int updatedRows = jdbcTemplate.update("UPDATE voucher " +
+        return jdbcTemplate.update("UPDATE voucher " +
                         "SET customer_id = UNHEX(REPLACE(:customerId, '-', '')), modified_date = :modifiedDate " +
                         "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 paramMap);
-        if(updatedRows == 0) {
-            throw new VoucherDataException(NOT_UPDATED);
-        }
-        return updatedRows;
     }
 
     @Override
     public int deleteById(UUID voucherId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM voucher " +
+        return jdbcTemplate.update("DELETE FROM voucher " +
                         "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 Collections.singletonMap("voucherId", UuidUtils.UuidToByte(voucherId)));
-        if(deletedRows == 0) {
-            throw new VoucherDataException(NOT_DELETED);
-        }
-        return deletedRows;
     }
 
     @Override
@@ -135,13 +122,9 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public int deleteByCustomerId(UUID customerId) {
-        int deletedRows = jdbcTemplate.update("DELETE FROM voucher " +
+        return jdbcTemplate.update("DELETE FROM voucher " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", UuidUtils.UuidToByte(customerId)));
-        if(deletedRows == 0) {
-            throw new VoucherDataException(NOT_DELETED);
-        }
-        return deletedRows;
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
