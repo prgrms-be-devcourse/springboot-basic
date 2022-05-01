@@ -33,14 +33,12 @@ public class BlackListRepository {
             while ((name = br.readLine()) != null) {
                 blackList.add(Customer.of(null, name,null ,null, null));
             }
-            log.info("init blackList. size={}", blackList.size());
         } catch (IOException e) {
             log.error("not found {}", blackListFilePath, e);
         }
     }
 
     public List<Customer> findAll() {
-        log.info("find all blackList. size={}", blackList.size());
         return blackList;
     }
 }

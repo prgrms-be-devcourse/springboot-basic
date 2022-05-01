@@ -3,8 +3,6 @@ package com.prgrms.vouchermanagement.voucher.service;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -29,7 +26,6 @@ public class VoucherService {
     public UUID addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
         Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
         voucherRepository.save(newVoucher);
-        log.info("voucher is saved - {}", newVoucher);
         return newVoucher.getVoucherId();
     }
 
@@ -38,7 +34,6 @@ public class VoucherService {
      */
     public List<Voucher> findAllVouchers() throws DataAccessException {
         List<Voucher> allVouchers = voucherRepository.findAll();
-        log.info("find all vouchers. size={}", allVouchers.size());
         return allVouchers;
     }
 
