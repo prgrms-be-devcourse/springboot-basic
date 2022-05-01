@@ -1,6 +1,5 @@
 package org.programmers.springbootbasic.command;
 
-import org.programmers.springbootbasic.exception.NoIdException;
 import org.programmers.springbootbasic.exception.NotUpdateException;
 import org.programmers.springbootbasic.io.Console;
 import org.programmers.springbootbasic.voucher.service.VoucherService;
@@ -25,8 +24,6 @@ public class UpdateCommand implements Command{
             logger.error("잘못된 입력 입니다.", e);
         } catch (NotUpdateException e) {
             logger.error("업데이트에 실패하였습니다.", e);
-        } catch (NoIdException e) {
-            logger.error("바우처를 찾을 수 없습니다.");
         }
         return true;
     }
