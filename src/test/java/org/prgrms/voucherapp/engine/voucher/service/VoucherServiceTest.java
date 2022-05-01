@@ -12,6 +12,7 @@ import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.repository.VoucherRepository;
 import org.prgrms.voucherapp.engine.wallet.repository.WalletRepository;
 import org.prgrms.voucherapp.exception.NullVoucherException;
+import org.prgrms.voucherapp.global.Util;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
@@ -35,8 +36,8 @@ class VoucherServiceTest {
     @Mock
     WalletRepository walletRepository;
 
-    private final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
-    private final Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+    private final Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000, Util.NOW());
+    private final Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, Util.NOW());
 
     @Test
     @DisplayName("존재하는 바우처를 조회한다.")
@@ -56,7 +57,7 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 바우처를 조회한다.")
     void testGetNonExistCustomer() {
         //Given
-        Voucher unknown = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        Voucher unknown = new PercentDiscountVoucher(UUID.randomUUID(), 20, Util.NOW());
         //When
         assertThrows(NullVoucherException.class, () -> voucherService.getVoucher(unknown.getVoucherId()));
         verify(voucherRepository, atLeast(1)).findById(unknown.getVoucherId());

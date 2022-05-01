@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 public class VoucherService {
@@ -23,6 +24,10 @@ public class VoucherService {
     public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
         this.walletRepository = walletRepository;
+    }
+
+    public List<Voucher> getVouchersByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before){
+        return voucherRepository.findByFilter(voucherType, before, after);
     }
 
     public Voucher getVoucher(UUID voucherId){

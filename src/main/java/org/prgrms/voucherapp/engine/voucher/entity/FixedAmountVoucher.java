@@ -14,10 +14,10 @@ public class FixedAmountVoucher implements Voucher {
     private static final String type = VoucherType.FIX.toString();
     private final LocalDateTime createdAt;
 
-    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount, LocalDateTime createdAt) {
         this.discountAmount = discountAmount;
         this.voucherId = voucherId;
-        this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
+        this.createdAt = createdAt;
     }
 
     @Override

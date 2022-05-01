@@ -16,7 +16,7 @@ public record VoucherDto(
         long amount,
         LocalDateTime createdAt
 ) {
-    static VoucherDto of(Voucher voucher){
+    public static VoucherDto of(Voucher voucher){
         return new VoucherDto(
                 voucher.getVoucherId(),
                 voucher.getTypeName(),
@@ -25,9 +25,9 @@ public record VoucherDto(
         );
     }
 
-    static Voucher to(VoucherDto dto){
+    public static Voucher to(VoucherDto dto){
         VoucherType dtoVoucherType = VoucherType.getType(dto.type)
-                .orElseThrow(()->new UnknownVoucherTypeException("알 수 없는 바우처 타입입니다."));
+                .orElseThrow(UnknownVoucherTypeException::new);
         return dtoVoucherType.createVoucher(dto.voucherId, dto.amount);
     }
 }

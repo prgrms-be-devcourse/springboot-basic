@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.prgrms.voucherapp.engine.voucher.entity.FixedAmountVoucher;
 import org.prgrms.voucherapp.engine.voucher.entity.PercentDiscountVoucher;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
+import org.prgrms.voucherapp.global.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,8 +92,8 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setUp(){
-        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
-        percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000, Util.NOW());
+        percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, Util.NOW());
         MysqldConfig mySqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -140,7 +141,7 @@ class JdbcVoucherRepositoryTest {
     @Order(4)
     @DisplayName("바우처를 수정할 수 있다.")
     public void testNameUpdate() {
-        Voucher newVoucher = new FixedAmountVoucher(percentVoucher.getVoucherId(), 3000);
+        Voucher newVoucher = new FixedAmountVoucher(percentVoucher.getVoucherId(), 3000, Util.NOW());
         voucherRepository.update(newVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherRepository.findById(newVoucher.getVoucherId());

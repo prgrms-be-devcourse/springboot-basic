@@ -1,9 +1,11 @@
 package org.prgrms.voucherapp.engine.voucher.repository;
 
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
+import org.prgrms.voucherapp.global.enums.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,5 +42,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before) {
+        List<Voucher> voucherList = this.findAll();
+        if(voucherType.isPresent()){
+            voucherList = voucherList.stream().filter(v -> v.getTypeName().equals(voucherType.get().toString())).toList();
+        }
+        if(after.isPresent()){
+            voucherList = voucherList.stream().filter(v -> v.getCreatedAt().isAfter(after.get())).toList();
+        }
+        if(before.isPresent()){
+            voucherList = voucherList.stream().filter(v -> v.getCreatedAt().isBefore(before.get())).toList();
+        }
+        return voucherList;
     }
 }
