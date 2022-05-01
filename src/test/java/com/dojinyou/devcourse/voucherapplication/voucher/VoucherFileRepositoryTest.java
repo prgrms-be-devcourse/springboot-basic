@@ -1,34 +1,60 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
+import com.dojinyou.devcourse.voucherapplication.utils.CsvFileUtils;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.NullSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
-class MemoryVoucherRepositoryTest {
+class VoucherFileRepositoryTest {
+
     private static final String ERROR_MESSAGE_ABOUT_REFLEXTION = "reflextion 과정에서 에러가 발생하였습니다.\n";
+    private final int idIndex = 0;
+    private final int lastLineNumber = -1;
+    private final Path TEST_FILE_PATH;
 
     @Autowired()
-    MemoryVoucherRepository voucherRepository;
+    VoucherFileRepository voucherRepository;
+
+    VoucherFileRepositoryTest(@Value("${test-db-file-path}") String testFilePath) {
+        TEST_FILE_PATH = Paths.get(testFilePath+"/Voucher.csv");
+    }
+
+    @BeforeAll
+    void setUp() {
+        // test File(DB)로 Path 변경 필요
+        try {
+            Field filePathFiled = VoucherFileRepository.class.getDeclaredField("FILE_PATH");
+            filePathFiled.setAccessible(true);
+            filePathFiled.set(voucherRepository, TEST_FILE_PATH);
+        } catch (NoSuchFieldException|IllegalAccessException e) {
+            fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+        }
+    }
 
     @Nested
     @DisplayName("Create method에 관하여")
@@ -54,7 +80,7 @@ class MemoryVoucherRepositoryTest {
 
         @Nested
         @DisplayName("정상적인 domain가 들어온다면,")
-        class Context_Correct_VoucherCreateDTo {
+        class Context_Correct_VoucherCreateDto {
 
             @ParameterizedTest
             @EnumSource(VoucherType.class)
@@ -64,12 +90,11 @@ class MemoryVoucherRepositoryTest {
                 int amount = 50;
                 VoucherAmount voucherAmount = VoucherAmount.of(voucherType, amount);
                 Voucher voucher = VoucherMapper.requestDtoToDomain(new VoucherRequest(voucherType, voucherAmount));
-                Long initialId = 100L;
-                try {
-                    Field idGeneratorField = voucherRepository.getClass().getDeclaredField("idGenerator");
-                    setFinalStatic(idGeneratorField, new AtomicLong(initialId));
-                } catch (NoSuchFieldException | IllegalAccessException e) {
-                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
+
+                int lastId = 0;
+                if(CsvFileUtils.read(TEST_FILE_PATH).size() != 0) {
+                    String[] lastData = CsvFileUtils.readLine(TEST_FILE_PATH, lastLineNumber);
+                    lastId = Integer.parseInt(lastData[idIndex]);
                 }
 
                 // when
@@ -77,7 +102,7 @@ class MemoryVoucherRepositoryTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId + 1);
+                assertThat(savedVoucher.getVoucherId()).isEqualTo(lastId + 1);
                 assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
                 assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
             }
@@ -96,23 +121,15 @@ class MemoryVoucherRepositoryTest {
             @DisplayName("List<Voucher> type을 return 한다")
             void it_Return_VoucherList_Object() {
                 // given
+                List<String[]> readData = CsvFileUtils.read(TEST_FILE_PATH);
 
                 // when
                 List<Voucher> vouchers = voucherRepository.findAll();
 
                 // then
                 assertThat(vouchers).isNotNull();
+                assertThat(vouchers.size()).isEqualTo(readData.size());
             }
         }
-    }
-
-    static void setFinalStatic(Field field, Object newValue) throws NoSuchFieldException, IllegalAccessException {
-        field.setAccessible(true);
-
-        Field modifiersField = Field.class.getDeclaredField("modifiers");
-        modifiersField.setAccessible(true);
-        modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
-
-        field.set(null, newValue);
     }
 }

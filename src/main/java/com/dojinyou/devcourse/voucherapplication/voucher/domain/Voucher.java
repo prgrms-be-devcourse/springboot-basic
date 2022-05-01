@@ -18,15 +18,19 @@ public abstract class Voucher {
 
 
     public Long getVoucherId() {
-        return this.id;
+        return id;
     }
 
     public VoucherType getVoucherType() {
-        return this.type;
+        return type;
     }
 
     public VoucherAmount getVoucherAmount() {
-        return this.amount;
+        return amount;
+    }
+
+    public int getAmount() {
+        return amount.getAmount();
     }
 
     public abstract double discount(double originAmount);
