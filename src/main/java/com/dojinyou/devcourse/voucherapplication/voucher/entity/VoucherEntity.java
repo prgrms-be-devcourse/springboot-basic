@@ -16,7 +16,7 @@ public abstract class VoucherEntity {
 
     @Override
     public boolean equals(Object other) {
-        if (other == null || this.getClass() != other.getClass()) {
+        if (other == null || !(other instanceof VoucherEntity)) {
             return false;
         }
 
@@ -25,10 +25,29 @@ public abstract class VoucherEntity {
         }
 
         VoucherEntity otherEntity = (VoucherEntity) other;
-        if (this.id.equals(otherEntity.getId())) {
-            return true;
+        if (this.id != otherEntity.getId()) {
+            return false;
         }
-        return false;
+        if (this.type != otherEntity.getVoucherType()) {
+            return false;
+        }
+        if (this.getVoucherAmount() != otherEntity.getVoucherAmount() || this.getAmount() != otherEntity.getAmount()) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+
+        result = (result * PRIME) + this.id.hashCode();
+        result = (result * PRIME) + this.type.hashCode();
+        result = (result * PRIME) + this.getVoucherAmount().hashCode();
+        result = (result * PRIME) + this.getAmount();
+
+        return result;
     }
 
     public Long getId() {
