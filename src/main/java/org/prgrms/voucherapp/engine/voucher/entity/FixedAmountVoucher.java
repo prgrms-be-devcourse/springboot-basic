@@ -3,6 +3,8 @@ package org.prgrms.voucherapp.engine.voucher.entity;
 import org.prgrms.voucherapp.global.enums.VoucherType;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -10,10 +12,12 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long discountAmount;
     private static final String type = VoucherType.FIX.toString();
+    private final LocalDateTime createdAt;
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         this.discountAmount = discountAmount;
         this.voucherId = voucherId;
+        this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS);
     }
 
     @Override
@@ -29,6 +33,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String getTypeName() {
         return type;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

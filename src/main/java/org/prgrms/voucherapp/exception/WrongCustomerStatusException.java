@@ -1,13 +1,7 @@
 package org.prgrms.voucherapp.exception;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class WrongCustomerStatusException extends RuntimeException{
-    private String message;
-
-    @Override
-    public String toString() {
-        return message;
+    public WrongCustomerStatusException(String message){
+        super(message);
     }
 }
