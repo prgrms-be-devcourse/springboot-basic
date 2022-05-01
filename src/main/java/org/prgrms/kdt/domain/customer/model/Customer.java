@@ -4,7 +4,6 @@ import org.prgrms.kdt.domain.common.model.BaseEntity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Customer extends BaseEntity {
@@ -12,7 +11,7 @@ public class Customer extends BaseEntity {
     private String name;
     private final String email;
     private CustomerType customerType = CustomerType.NORMAL;
-    private static final String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+    private static final Pattern emailPattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
 
     public Customer(UUID customerId, String name, String email, CustomerType customerType, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         super(createdDate, modifiedDate);
@@ -48,9 +47,7 @@ public class Customer extends BaseEntity {
     }
 
     private void validateEmail(String email) {
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(email);
-        if(!matcher.matches()) {
+        if(!emailPattern.matcher(email).matches()) {
             throw new IllegalArgumentException("이메일 주소를 확인해주세요");
         }
     }
