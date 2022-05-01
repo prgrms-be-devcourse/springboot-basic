@@ -26,7 +26,8 @@ public class VoucherDto {
             Long voucherId,
             long discountValue,
             VoucherType voucherType,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            LocalDateTime updatedAt
             ) {
 
         public static VoucherResponse from(Voucher voucher) {
@@ -35,7 +36,8 @@ public class VoucherDto {
                     voucher.getVoucherId(),
                     voucher.getDiscountValue(),
                     voucher.getVoucherType(),
-                    voucher.getCreatedAt()
+                    voucher.getCreatedAt(),
+                    voucher.getUpdatedAt()
             );
         }
     }

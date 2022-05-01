@@ -112,8 +112,8 @@ public class VoucherWebControllerTest {
             @DisplayName("바우처 리스트를 json형태로 반환한다.")
             void itReturnVouchersByJsonType() throws Exception {
 
-                FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
-                FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+                FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+                FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
 
                 List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
 

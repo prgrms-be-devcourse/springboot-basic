@@ -8,6 +8,7 @@ public abstract class Voucher {
     private final long discountValue;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     protected Voucher(long discountValue, VoucherType voucherType) {
 
@@ -15,14 +16,17 @@ public abstract class Voucher {
         this.discountValue = discountValue;
         this.voucherType = voucherType;
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    protected Voucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
+    protected Voucher(Long voucherId, long discountValue, VoucherType voucherType,
+                      LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Long getVoucherId() {
@@ -43,6 +47,11 @@ public abstract class Voucher {
     public LocalDateTime getCreatedAt() {
 
         return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+
+        return updatedAt;
     }
 
     abstract public long discount();

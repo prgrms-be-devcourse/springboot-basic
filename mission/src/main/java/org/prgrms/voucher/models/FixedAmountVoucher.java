@@ -11,9 +11,10 @@ public class FixedAmountVoucher extends Voucher {
         validate(amount);
     }
 
-    public FixedAmountVoucher(Long voucherId, long amount, VoucherType voucherType, LocalDateTime createdAt) {
+    public FixedAmountVoucher(Long voucherId, long amount, VoucherType voucherType,
+                              LocalDateTime createdAt, LocalDateTime updatedAt) {
 
-        super(voucherId, amount, voucherType, createdAt);
+        super(voucherId, amount, voucherType, createdAt, updatedAt);
     }
 
     @Override

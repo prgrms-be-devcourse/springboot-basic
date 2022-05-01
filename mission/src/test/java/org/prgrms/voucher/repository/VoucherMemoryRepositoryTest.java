@@ -41,7 +41,7 @@ public class VoucherMemoryRepositoryTest {
         @DisplayName("save 기능을 테스트 할 때 바우처 객체를 인자로 받으면")
         class ContextReceiveNullVoucherType {
 
-            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
 
             @Test
             @DisplayName("해시맵 저장소에 저장하고 저장한 바우처를 반환한다.")
@@ -79,8 +79,8 @@ public class VoucherMemoryRepositoryTest {
                 try {
                     Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);
 
-                    Voucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
-                    Voucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+                    Voucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+                    Voucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
 
                     map.put(firstVoucher.getVoucherId(), firstVoucher);
                     map.put(secondVoucher.getVoucherId(), secondVoucher);
