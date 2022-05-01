@@ -66,7 +66,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         return fixvouchers;
     }
 
-
     public List<Voucher> findAllPercentVouchers() {
         List<Voucher> percentvouchers = jdbcTemplate.query(
                 "SELECT * FROM percent_voucher",
@@ -82,7 +81,8 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                     fixVoucherRowMapper,
                     voucherId.toString().getBytes()));
             return fixVoucher;
-        } catch (EmptyResultDataAccessException e) {}
+        } catch (EmptyResultDataAccessException e) {
+        }
 
         try {
             Optional<Voucher> percentVoucher = Optional.of(jdbcTemplate.queryForObject(
@@ -162,5 +162,18 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM fixed_voucher");
         jdbcTemplate.update("DELETE FROM percent_voucher");
+    }
+
+    public void deleteById(UUID uuid) {
+        var delete = jdbcTemplate.update("DELETE FROM fixed_voucher WHERE voucher_id = UUID_TO_BIN(?)",
+                uuid.toString().getBytes());
+        if (delete == 1)
+            return;
+        delete = jdbcTemplate.update("DELETE FROM percent_voucher WHERE voucher_id = UUID_TO_BIN(?)",
+                uuid.toString().getBytes());
+
+        if (delete != 1) {
+            throw new IllegalArgumentException("Nothing was deleted");
+        }
     }
 }

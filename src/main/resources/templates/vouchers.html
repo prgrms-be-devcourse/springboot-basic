@@ -18,6 +18,7 @@
         <th scope="col">Type</th>
         <th scope="col">Amount</th>
         <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -27,6 +28,9 @@
         <td th:text="${voucher.amount}"></td>
         <td>
             <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
+        </td>
+        <td>
+            <a th:href="@{/vouchers/delete/{uuid}(uuid = ${voucher.voucherId})}" >삭제</a>
         </td>
     </tr>
     </tbody>
@@ -39,6 +43,7 @@
         <th scope="col">Type</th>
         <th scope="col">Percent</th>
         <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -48,6 +53,9 @@
         <td th:text="${voucher.percent}"></td>
         <td>
             <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
+        </td>
+        <td>
+            <a th:href="@{/vouchers/delete/{uuid}(uuid = ${voucher.voucherId})}" >삭제</a>
         </td>
     </tr>
     </tbody>

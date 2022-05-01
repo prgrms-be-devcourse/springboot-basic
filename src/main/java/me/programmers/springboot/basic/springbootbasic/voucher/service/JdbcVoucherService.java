@@ -46,4 +46,8 @@ public class JdbcVoucherService {
     public void delete() {
         voucherRepository.deleteAll();
     }
+
+    public void deleteById(UUID uuid) {
+        voucherRepository.deleteById(uuid);
+    }
 }

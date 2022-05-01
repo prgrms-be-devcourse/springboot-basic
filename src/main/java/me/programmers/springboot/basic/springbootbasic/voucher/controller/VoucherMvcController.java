@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -65,6 +66,12 @@ public class VoucherMvcController {
         Voucher voucher = voucherService.getVoucherById(uuid);
         voucher.update(requestDto);
         voucherService.update(voucher);
+        return "redirect:/vouchers";
+    }
+
+    @RequestMapping("/vouchers/delete/{uuid}")
+    public String deleteVoucher(@PathVariable UUID uuid) {
+        voucherService.deleteById(uuid);
         return "redirect:/vouchers";
     }
 
