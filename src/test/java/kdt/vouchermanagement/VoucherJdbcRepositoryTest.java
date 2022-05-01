@@ -21,6 +21,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -75,7 +76,7 @@ public class VoucherJdbcRepositoryTest {
     EmbeddedMysql embeddedMysql;
 
 
-    Voucher voucherEntity = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
+    Voucher voucherEntity = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
 
     @BeforeAll
     void setup() {
