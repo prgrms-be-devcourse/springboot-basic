@@ -118,24 +118,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public boolean deleteAll() {
-		jdbcTemplate.update("DELETE FROM customers");
-
-		return true;
+	public long deleteAll() {
+		return jdbcTemplate.update("DELETE FROM customers");
 	}
 
 	@Override
-	public boolean deleteById(UUID customerId) {
-		try {
-			jdbcTemplate.update("DELETE FROM customers WHERE id = UUID_TO_BIN(?)",
-				customerId.toString().getBytes());
-		} catch (DataAccessException e) {
-			logger.info("delete by id {} 실패", customerId, e);
-
-			return false;
-		}
-		return true;
-
+	public long deleteById(UUID customerId) {
+		return jdbcTemplate.update("DELETE FROM customers WHERE id = UUID_TO_BIN(?)",
+			customerId.toString().getBytes());
 	}
 
 	static UUID toUUID(byte[] bytes) {

@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanagement.voucher.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.prgrms.vouchermanagement.commons.exception.NotExistException;
 import com.prgrms.vouchermanagement.commons.exception.UpdateFailException;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
@@ -22,14 +22,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return storage.values()
-			.stream()
-			.collect(Collectors.toList());
+		return new ArrayList<>(storage.values());
 	}
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		if(storage.containsKey(voucher.getVoucherId())){
+		if (storage.containsKey(voucher.getVoucherId())) {
 			logger.info("Voucher {} insert fail", voucher);
 
 			throw new UpdateFailException();
@@ -46,21 +44,24 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public boolean deleteById(UUID id) {
+	public long deleteById(UUID id) {
 		if (id == null) {
 			throw new IllegalArgumentException("id 는 null 이 아니어야 합니다");
 		}
 
-		Optional.ofNullable(storage.remove(id))
-			.orElseThrow(() -> new NotExistException());
-
-		return true;
+		if (storage.remove(id) == null) {
+			return 0;
+		} else {
+			return 1;
+		}
 	}
 
 	@Override
-	public boolean deleteAll() {
+	public long deleteAll() {
+		long deletedCount = storage.size();
+
 		storage.clear();
 
-		return true;
+		return deletedCount;
 	}
 }

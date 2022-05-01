@@ -83,8 +83,8 @@ public class CustomerService {
 			.orElseThrow(NotExistException::new);
 	}
 
-	public boolean resignById(UUID id) {
-		return customerRepository.deleteById(id);
+	public void resignById(UUID id) {
+		customerRepository.deleteById(id);
 	}
 
 }

@@ -81,27 +81,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public boolean deleteById(UUID voucherId) {
-		try {
-			jdbcTemplate.update("DELETE FROM vouchers where id = UUID_TO_BIN(?)",
-				voucherId.toString().getBytes());
-		} catch (DataAccessException e) {
-			logger.info("delete by id {} 실패", voucherId, e);
-
-			return false;
-		}
-		return true;
+	public long deleteById(UUID voucherId) {
+		return jdbcTemplate.update("DELETE FROM vouchers where id = UUID_TO_BIN(?)",
+			voucherId.toString().getBytes());
 	}
 
 	@Override
-	public boolean deleteAll() {
-		try {
-			jdbcTemplate.update("DELETE FROM vouchers");
-		} catch (DataAccessException e) {
-			logger.info("deleteAll 실패", e);
-
-			return false;
-		}
-		return true;
+	public long deleteAll() {
+		return jdbcTemplate.update("DELETE FROM vouchers");
 	}
 }

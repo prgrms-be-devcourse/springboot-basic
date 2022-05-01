@@ -76,7 +76,10 @@ class VoucherRepositoryTest {
 		assertThat(voucherOptional.isPresent(), is(true));
 		assertThat(voucherOptional.get().getVoucherId(), is(voucher.getVoucherId()));
 
-		voucherRepository.deleteById(id);
+		long deleted = voucherRepository.deleteById(id);
+
+		assertThat(deleted, is(1L));
+
 		Optional<Voucher> deletedVoucher = voucherRepository.findById(id);
 
 		assertThat(deletedVoucher.isPresent(), is(false));

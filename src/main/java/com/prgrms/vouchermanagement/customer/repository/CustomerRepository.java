@@ -19,8 +19,8 @@ public interface CustomerRepository {
 
 	Optional<Customer> findByEmail(String email);
 
-	boolean deleteById(UUID customerId);
+	long deleteById(UUID customerId);
 
-	boolean deleteAll();
+	long deleteAll();
 
 }
