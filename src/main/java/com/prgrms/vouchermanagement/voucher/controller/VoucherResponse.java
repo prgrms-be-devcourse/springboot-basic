@@ -8,31 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class VoucherDto {
+public class VoucherResponse {
     private UUID voucherId;
     private long amount;
     private VoucherType voucherType;
     private LocalDateTime createdAt;
 
-    private VoucherDto() {
-
-    }
-
-    public VoucherDto(UUID voucherId, long amount, VoucherType voucherType, LocalDateTime createdAt) {
+    public VoucherResponse(UUID voucherId, long amount, VoucherType voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherType = voucherType;
         this.createdAt = createdAt;
     }
 
-    public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), voucher.getAmount(), VoucherType.getVoucherType(voucher), voucher.getCreatedAt());
+    public static VoucherResponse from(Voucher voucher) {
+        return new VoucherResponse(voucher.getVoucherId(), voucher.getAmount(), VoucherType.getVoucherType(voucher), voucher.getCreatedAt());
     }
 
-    public static List<VoucherDto> fromList(List<Voucher> vouchers) {
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> voucherDtos.add(VoucherDto.from(voucher)));
-        return voucherDtos;
+    public static List<VoucherResponse> fromList(List<Voucher> vouchers) {
+        List<VoucherResponse> voucherResponses = new ArrayList<>();
+        vouchers.forEach(voucher -> voucherResponses.add(VoucherResponse.from(voucher)));
+        return voucherResponses;
     }
 
     public UUID getVoucherId() {
@@ -49,9 +45,5 @@ public class VoucherDto {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
-    }
-
-    public static VoucherDto getEmptyVoucherDto() {
-        return new VoucherDto();
     }
 }

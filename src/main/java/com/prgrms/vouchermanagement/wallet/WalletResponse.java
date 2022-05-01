@@ -10,12 +10,8 @@ public class WalletResponse {
     private UUID walletId;
     private UUID voucherId;
     private UUID customerId;
-
     private LocalDateTime createdAt;
 
-    private WalletResponse() {
-
-    }
 
     public WalletResponse(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
         this.walletId = walletId;
@@ -26,10 +22,6 @@ public class WalletResponse {
 
     public static WalletResponse from(Wallet wallet) {
         return new WalletResponse(wallet.getWalletId(), wallet.getCustomerId(), wallet.getVoucherId(), wallet.getCreatedAt());
-    }
-
-    public static WalletResponse getEmptyWalletDto() {
-        return new WalletResponse();
     }
 
     public static List<WalletResponse> fromList(List<Wallet> wallets) {

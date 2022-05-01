@@ -1,7 +1,7 @@
 package com.prgrms.vouchermanagement.voucher.controller;
 
 import com.prgrms.vouchermanagement.customer.Customer;
-import com.prgrms.vouchermanagement.customer.CustomerDto;
+import com.prgrms.vouchermanagement.customer.CustomerResponse;
 import com.prgrms.vouchermanagement.customer.CustomerService;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
@@ -27,14 +27,14 @@ public class VoucherController {
         this.customerService = customerService;
     }
 
-    @GetMapping
+    @GetMapping(value = "")
     public String vouchers(Model model) {
         List<Voucher> vouchers = voucherService.findAllVouchers();
-        model.addAttribute("vouchers", VoucherDto.fromList(vouchers));
+        model.addAttribute("vouchers", VoucherResponse.fromList(vouchers));
         return "voucher/vouchers";
     }
 
-    @GetMapping("/{voucherId}")
+    @GetMapping(value = "/{voucherId}")
     public String findVoucher(@PathVariable UUID voucherId, Model model) {
         Optional<Voucher> findVoucher = voucherService.findVoucherById(voucherId);
         List<Customer> customers = customerService.findCustomerByVoucher(voucherId);
@@ -43,29 +43,29 @@ public class VoucherController {
             return "error/404";
         }
 
-        VoucherDto voucherDto = VoucherDto.from(findVoucher.get());
+        VoucherResponse voucherResponse = VoucherResponse.from(findVoucher.get());
         model.addAttribute("voucherTypes", VoucherType.values());
-        model.addAttribute("voucher", voucherDto);
-        model.addAttribute("customers", CustomerDto.fromList(customers));
+        model.addAttribute("voucher", voucherResponse);
+        model.addAttribute("customers", CustomerResponse.fromList(customers));
         return "voucher/voucher";
     }
 
-    @GetMapping("/add")
+    @GetMapping(value = "/add")
     public String addForm(Model model) {
-        model.addAttribute("voucher", VoucherDto.getEmptyVoucherDto());
+        model.addAttribute("voucher", new CreateVoucherRequest());
         model.addAttribute("voucherTypes", VoucherType.values());
         return "voucher/addForm";
     }
 
-    @PostMapping("/add")
-    public String addVoucher(@ModelAttribute VoucherDto voucherDto, RedirectAttributes redirectAttributes) {
-        UUID voucherId = voucherService.addVoucher(voucherDto.getVoucherType(), voucherDto.getAmount());
+    @PostMapping(value = "/add")
+    public String addVoucher(@ModelAttribute VoucherResponse voucherResponse, RedirectAttributes redirectAttributes) {
+        UUID voucherId = voucherService.addVoucher(voucherResponse.getVoucherType(), voucherResponse.getAmount());
         redirectAttributes.addAttribute("voucherId", voucherId);
         redirectAttributes.addAttribute("isSave", true);
         return "redirect:/vouchers/{voucherId}";
     }
 
-    @PostMapping("/{voucherId}/remove")
+    @PostMapping(value = "/{voucherId}/remove")
     public String removeVoucher(@PathVariable UUID voucherId) {
         if (validateRegisteredVoucher(voucherId)) {
             return "error/404";

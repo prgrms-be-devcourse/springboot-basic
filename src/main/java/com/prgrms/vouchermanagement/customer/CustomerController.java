@@ -1,7 +1,7 @@
 package com.prgrms.vouchermanagement.customer;
 
 import com.prgrms.vouchermanagement.voucher.Voucher;
-import com.prgrms.vouchermanagement.voucher.controller.VoucherDto;
+import com.prgrms.vouchermanagement.voucher.controller.VoucherResponse;
 import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,14 +24,14 @@ public class CustomerController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping
+    @GetMapping(value = "")
     public String findAll(Model model) {
         List<Customer> customers = customerService.findAll();
-        model.addAttribute("customers", CustomerDto.fromList(customers));
+        model.addAttribute("customers", CustomerResponse.fromList(customers));
         return "customer/customers";
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping(value = "/{customerId}")
     public String findById(@PathVariable UUID customerId, Model model) {
         Optional<Customer> optionalCustomer = customerService.findById(customerId);
 
@@ -42,26 +42,25 @@ public class CustomerController {
         Customer findCustomer = optionalCustomer.get();
         List<Voucher> vouchers = voucherService.findVoucherByCustomer(findCustomer.getCustomerId());
 
-        model.addAttribute("customer", CustomerDto.from(findCustomer));
-        model.addAttribute("vouchers", VoucherDto.fromList(vouchers));
+        model.addAttribute("customer", CustomerResponse.from(findCustomer));
+        model.addAttribute("vouchers", VoucherResponse.fromList(vouchers));
 
         return "customer/customer";
     }
 
-    @GetMapping("/add")
-    public String addForm(Model model) {
-        model.addAttribute("customer", CustomerDto.getEmptyCustomerDto());
+    @GetMapping(value = "/add")
+    public String addForm() {
         return "customer/addForm";
     }
 
-    @PostMapping("/add")
-    public String addCustomer(@ModelAttribute CustomerDto customerDto, RedirectAttributes redirectAttributes) {
-        UUID customerId = customerService.addCustomer(customerDto.getName(), customerDto.getEmail());
+    @PostMapping(value = "/add")
+    public String addCustomer(@ModelAttribute CreateCustomerRequest customerRequest, RedirectAttributes redirectAttributes) {
+        UUID customerId = customerService.addCustomer(customerRequest.getName(), customerRequest.getEmail());
         redirectAttributes.addAttribute("customerId", customerId);
         return "redirect:/customers/{customerId}";
     }
 
-    @PostMapping("/{customerId}/remove")
+    @PostMapping(value = "/{customerId}/remove")
     public String removeCustomer(@PathVariable UUID customerId) {
         if (validateRegisteredCustomer(customerId)) {
             return "error/404";

@@ -17,14 +17,14 @@
 <div class="container">
     <h1>Add customer</h1>
     <a th:href="@{/customers}">GO to main</a>
-    <form th:action method="post" th:object="${customer}">
+    <form th:action method="post" >
         <div class="mb-3">
             <label th:for="name" class="form-label" th:text="Name"></label>
-            <input th:field="*{name}" th:class="form-control" required>
+            <input id="name" name="name" th:class="form-control" required>
         </div>
         <div class="mb-3">
             <label th:for="email" class="form-label" th:text="Email"></label>
-            <input type="email" th:field="*{email}" th:class="form-control" required>
+            <input type="email" id="email" name="email" th:class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

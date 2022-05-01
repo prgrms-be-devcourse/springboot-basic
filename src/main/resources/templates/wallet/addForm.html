@@ -16,14 +16,14 @@
 <body>
 <div class="container">
     <h1>Add voucher in wallet</h1>
-    <form th:action method="post" th:object="${wallet}">
+    <form th:action method="post">
         <div class="mb-3">
             <label th:for="customerId" class="form-label" th:text="'Customer ID'"></label>
-            <input th:field="*{customerId}" th:class="form-control" required>
+            <input id="customerId" name="customerId" th:class="form-control" required>
         </div>
         <div class="mb-3">
             <label th:for="voucherId" class="form-label" th:text="'Voucher ID'"></label>
-            <input th:field="*{voucherId}" th:class="form-control" required>
+            <input id="voucherId" name="voucherId" th:class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>

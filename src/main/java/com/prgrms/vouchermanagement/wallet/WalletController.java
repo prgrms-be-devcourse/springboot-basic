@@ -31,8 +31,7 @@ public class WalletController {
     }
 
     @GetMapping("/add")
-    public String addForm(Model model) {
-        model.addAttribute("wallet", WalletResponse.getEmptyWalletDto());
+    public String addForm() {
         return "wallet/addForm";
     }
 
