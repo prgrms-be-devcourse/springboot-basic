@@ -3,7 +3,7 @@ package org.programmers.springbootbasic.voucher.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.exception.NoIdException;
+import org.programmers.springbootbasic.exception.NotUpdateException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
@@ -23,7 +23,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-
 @DisplayName("VoucherService 클래스")
 class VoucherServiceTest {
     VoucherRepository voucherRepositoryMock = mock(JdbcVoucherRepository.class);
@@ -129,25 +128,6 @@ class VoucherServiceTest {
     class Get_UpdateVoucher_of {
 
         @Nested
-        @DisplayName("바우처가 존재할 때")
-        class Context_with_exist_voucher {
-
-            @Test
-            @DisplayName("바우처를 반환합니다.")
-            void it_returns_a_voucher() {
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-                Voucher updatedVoucher = new FixedAmountVoucher(fixedAmountVoucher.getVoucherId(), 1000, fixedAmountVoucher.getCreatedAt());
-                given(voucherRepositoryMock.insert(fixedAmountVoucher)).willReturn(fixedAmountVoucher);
-                given(voucherService.getVoucher(fixedAmountVoucher.getVoucherId())).willReturn(Optional.of(fixedAmountVoucher));
-                given(voucherRepositoryMock.update(fixedAmountVoucher)).willReturn(updatedVoucher);
-
-                voucherService.updateVoucher(fixedAmountVoucher.getVoucherId(), 1000);
-
-                then(voucherRepositoryMock).should(times(1)).update(updatedVoucher);
-            }
-        }
-
-        @Nested
         @DisplayName("바우처가 존재하지 않을 때")
         class ContextWithFail {
 
@@ -155,7 +135,7 @@ class VoucherServiceTest {
             @DisplayName("예외를 던집니다.")
             void it_returns_a_throw() {
                 assertThatThrownBy(() -> voucherService.updateVoucher(UUID.randomUUID(), 1000))
-                        .isInstanceOf(NoIdException.class);
+                        .isInstanceOf(NotUpdateException.class);
             }
         }
     }

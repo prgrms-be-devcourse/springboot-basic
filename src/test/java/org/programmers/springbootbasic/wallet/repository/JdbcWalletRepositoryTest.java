@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.voucher.repository;
+package org.programmers.springbootbasic.wallet.repository;
 
 import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.config.DBConfig;
@@ -8,8 +8,8 @@ import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springbootbasic.wallet.domain.Wallet;
-import org.programmers.springbootbasic.wallet.repository.JdbcWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

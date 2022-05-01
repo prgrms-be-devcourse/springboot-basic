@@ -2,7 +2,6 @@ package org.programmers.springbootbasic.voucher.repository;
 
 import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.config.DBConfig;
-import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.programmers.springbootbasic.config.DBConfig.dbSetup;
 
 @SpringJUnitConfig
@@ -48,20 +46,6 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(retrievedVoucher).isPresent().get().isEqualTo(fixedAmountVoucher);
-    }
-
-    @Test
-    @DisplayName("중복되는 바우처를 추가 할 수 없다.")
-    void testDuplicateVoucher() {
-        //given
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
-
-        //when
-        jdbcVoucherRepository.insert(fixedAmountVoucher);
-
-        //then
-        assertThatThrownBy(() ->jdbcVoucherRepository.insert(fixedAmountVoucher))
-                .isInstanceOf(DuplicateObjectKeyException.class);
     }
 
     @Test
@@ -167,5 +151,22 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(all).isEmpty();
+    }
+
+    @Test
+    @DisplayName("특정 바우처 아이디의 수를 조회 할 수 있다.")
+    void testCountByVoucherId() {
+        //given
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000, LocalDateTime.now());
+        var expectResult = 1;
+
+        //when
+        jdbcVoucherRepository.insert(fixedAmountVoucher);
+        var countVoucher = jdbcVoucherRepository.getCountByVoucherId(fixedAmountVoucher.getVoucherId());
+        var noVoucher = jdbcVoucherRepository.getCountByVoucherId(UUID.randomUUID());
+
+        //then
+        assertThat(countVoucher).isEqualTo(expectResult);
+        assertThat(noVoucher).isZero();
     }
 }

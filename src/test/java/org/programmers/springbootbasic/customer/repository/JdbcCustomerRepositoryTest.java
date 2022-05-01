@@ -42,10 +42,10 @@ class JdbcCustomerRepositoryTest {
 
         //when
         jdbcCustomerRepository.insert(customer);
-        var retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId());
+        var retrievedCustomer = jdbcCustomerRepository.findById(customer.getCustomerId()).orElseThrow();
 
         //then
-        assertThat(retrievedCustomer).isNotEmpty().contains(customer);
+        assertThat(retrievedCustomer).isEqualTo(customer);
     }
 
     @Test
@@ -73,7 +73,7 @@ class JdbcCustomerRepositoryTest {
         var customers = jdbcCustomerRepository.findAll();
 
         //then
-        assertThat(customers).hasSize(1);
+        assertThat(customers).hasSize(1).containsOnly(customer);
     }
 
     @Test
