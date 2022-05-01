@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/vouchers")
 @RestController
 public class VoucherRestController {
 	private final VoucherService voucherService;
@@ -18,7 +18,7 @@ public class VoucherRestController {
 	}
 
 	// 전체 조회 기능
-	@GetMapping("/vouchers")
+	@GetMapping
 	public ResponseEntity<?> findAll() {
 		return ResponseEntity.ok(voucherService.findAll()
 				                               .stream()
@@ -27,7 +27,7 @@ public class VoucherRestController {
 	}
 
 	// 추가 기능
-	@PostMapping("/vouchers")
+	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid VoucherRequest voucherRequest) {
 		return ResponseEntity.ok(VoucherResponse.from(
 					voucherService.save(voucherRequest.getVoucherType(), voucherRequest.getDiscountAmount())));
