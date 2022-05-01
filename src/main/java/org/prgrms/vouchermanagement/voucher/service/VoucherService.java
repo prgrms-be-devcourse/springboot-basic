@@ -48,6 +48,11 @@ public class VoucherService {
     return newVoucher;
   }
 
+  public UUID deleteVoucher(UUID voucherId) {
+    voucherRepository.deleteById(voucherId);
+    return voucherId;
+  }
+
   public List<Voucher> getVoucherList() {
     return voucherRepository.findAll();
   }

@@ -51,4 +51,10 @@ public class VoucherController {
     voucherService.updateVoucher(updatedVoucher);
     return "redirect:/vouchers";
   }
+
+  @PostMapping("/delete-voucher")
+  public String deleteVoucher(@RequestParam("voucherId") UUID voucherId) {
+    voucherService.deleteVoucher(voucherId);
+    return "redirect:/vouchers";
+  }
 }

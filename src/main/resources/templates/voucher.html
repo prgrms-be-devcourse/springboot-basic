@@ -17,7 +17,7 @@
 
 <hr />
 
-<form th:action="@{/update-voucher}" method="post">
+<form id="update-form" th:action="@{/update-voucher}" method="post">
     <div class="form-group">
         <label for="voucherId">Voucher Id</label>
         <input type="text" readonly class="form-control" id="voucherId" name="voucherId" th:value="${voucher.voucherId}" />
@@ -31,7 +31,14 @@
         <input type="text" readonly class="form-control" id="createdAt" name="createdAt" th:value="${voucher.createdAt}" />
     </div>
     <br />
-    <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+<button type="submit" form="update-form" class="btn btn-primary">Submit</button>
+<button type="submit" form="delete-form" class="btn btn-danger">Delete</button>
+
+<form id="delete-form" th:action="@{/delete-voucher}" method="post">
+    <input name="voucherId" readonly hidden th:value="${voucher.voucherId}" />
+</form>
+
 </body>
 </html>
