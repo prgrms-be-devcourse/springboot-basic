@@ -64,14 +64,14 @@ public class FrontControllerTests {
             @DisplayName("생성한 데이터를 반환한다")
             void it_return_enum() {
                 final var requestVoucherDto = new RequestVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
-                final var responseVoucherDto = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
+                final var responseVoucherDto = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000);
                 final var response = new Response<>(responseVoucherDto, ResponseStatus.OK);
 
                 when(messageConverter.convert(any(PostRequest.class))).thenReturn(requestVoucherDto);
                 when(voucherController.voucherAdd(any(RequestVoucherDto.class))).thenReturn(response);
 
                 String result = frontController.request(requestMessage);
-                assertThat(result, is("ResponseVoucherDto[type=FIXED_AMOUNT, value=1000]"));
+                assertThat(result, is(responseVoucherDto.toString()));
             }
         }
 
@@ -83,8 +83,8 @@ public class FrontControllerTests {
             @Test
             @DisplayName("모든 바우처에 대한 정보를 반환한다")
             void it_return_enum() {
-                final var voucherDto1 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 1000);
-                final var voucherDto2 = new ResponseVoucherDto(VoucherType.FIXED_AMOUNT, 2000);
+                final var voucherDto1 = new ResponseVoucherDto(1L, VoucherType.FIXED_AMOUNT, 1000);
+                final var voucherDto2 = new ResponseVoucherDto(2L, VoucherType.FIXED_AMOUNT, 2000);
 
                 final List<ResponseVoucherDto> voucherDtoList = new ArrayList<>(
                         Arrays.asList(voucherDto1, voucherDto2)
@@ -95,8 +95,7 @@ public class FrontControllerTests {
                 when(voucherController.voucherList()).thenReturn(response);
 
                 String result = frontController.request(requestMessage);
-                String expectedResult = "ResponseVoucherDto[type=FIXED_AMOUNT, value=1000]\nResponseVoucherDto[type=FIXED_AMOUNT, value=2000]";
-                assertThat(result, is(expectedResult));
+                assertThat(result, is(voucherDto1 + "\n" + voucherDto2));
             }
         }
     }
