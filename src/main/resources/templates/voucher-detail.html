@@ -23,7 +23,7 @@
         <div class="centerItem bold">
             AMOUNT: <div class="item" th:text="*{amount}"></div>
         </div>
-        <form th:action="@{/vouchers/{voucherId}(voucherId = *{voucherId})}" method="post">
+        <form th:action="@{/vouchers/{voucherId}/delete(voucherId = *{voucherId})}" method="post">
             <button type="submit" class="btn">Delete</button>
         </form>
     </div>

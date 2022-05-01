@@ -1,12 +1,7 @@
 package org.prgrms.voucherapp.engine.voucher.controller;
-
-import org.prgrms.voucherapp.engine.voucher.controller.api.VoucherRestController;
 import org.prgrms.voucherapp.engine.voucher.dto.VoucherCreateDto;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
-import org.prgrms.voucherapp.global.enums.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +15,6 @@ import java.util.UUID;
 public class VoucherController {
 
     private final VoucherService voucherService;
-    private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
@@ -38,7 +32,7 @@ public class VoucherController {
         return "new-voucher";
     }
 
-    @PostMapping("/vouchers")
+    @PostMapping("/vouchers/create")
     public String createVoucher(VoucherCreateDto createDto){
         voucherService.createVoucher(
                 createDto.type(), UUID.randomUUID(), createDto.amount()
@@ -53,7 +47,7 @@ public class VoucherController {
         return "voucher-detail";
     }
 
-    @PostMapping("/vouchers/{voucherId}")
+    @PostMapping("/vouchers/{voucherId}/delete")
     public String deleteVoucher(@PathVariable UUID voucherId){
         voucherService.removeVoucher(voucherId);
         return "redirect:/vouchers";

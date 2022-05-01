@@ -16,6 +16,8 @@ public interface WalletRepository {
 
     Optional<CustomerVoucherDto> findById(UUID walletId);
 
+    Optional<CustomerVoucherDto> findByBothId(UUID voucherId, UUID customerId);
+
     List<Voucher> findVouchersByCustomerId(UUID customerId);
 
     List<Customer> findCustomersByVoucherId(UUID voucherId);
@@ -25,4 +27,6 @@ public interface WalletRepository {
     void deleteByVoucherId(UUID voucherId);
 
     void deleteByWalletId(UUID walletId);
+
+    void deleteByBothId(UUID voucherId, UUID customerId);
 }
