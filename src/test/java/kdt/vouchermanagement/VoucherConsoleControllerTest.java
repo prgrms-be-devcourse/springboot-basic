@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -111,8 +112,8 @@ public class VoucherConsoleControllerTest {
     @DisplayName("바우처 목록 조회 요청에 대한 반환값인 바우처 리스트를 response 객체에 담아 반환_성공")
     void responseFindVouchers() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
-        Voucher voucher2 = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200);
+        Voucher voucher1 = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher voucher2 = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200, LocalDateTime.now(), LocalDateTime.now());
         List<Voucher> vouchers = List.of(voucher1, voucher2);
         Response response = Response.of(200, vouchers);
 

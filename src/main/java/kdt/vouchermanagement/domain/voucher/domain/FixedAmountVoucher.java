@@ -1,5 +1,7 @@
 package kdt.vouchermanagement.domain.voucher.domain;
 
+import java.time.LocalDateTime;
+
 public class FixedAmountVoucher extends Voucher {
     private final int MIN_VALUE = 0;
 
@@ -7,8 +9,8 @@ public class FixedAmountVoucher extends Voucher {
         super(voucherType, discountValue);
     }
 
-    public FixedAmountVoucher(Long voucherId, VoucherType voucherType, int discountValue) {
-        super(voucherId, voucherType, discountValue);
+    public FixedAmountVoucher(Long voucherId, VoucherType voucherType, int discountValue, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        super(voucherId, voucherType, discountValue, createdAt, updatedAt);
     }
 
     @Override

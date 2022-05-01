@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +37,7 @@ public class ConsoleOutputTest {
     @Test
     void printVoucherResponse() {
         // given
-        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 10);
+        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 10, LocalDateTime.now(), LocalDateTime.now());
         Response response = Response.of(200, voucher);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
@@ -51,7 +52,7 @@ public class ConsoleOutputTest {
     @Test
     void printVoucherListResponse() {
         // given
-        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 10);
+        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 10, LocalDateTime.now(), LocalDateTime.now());
         Response response = Response.of(200, List.of(voucher));
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));

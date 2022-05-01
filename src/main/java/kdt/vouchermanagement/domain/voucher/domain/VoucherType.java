@@ -1,5 +1,6 @@
 package kdt.vouchermanagement.domain.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public enum VoucherType {
@@ -10,9 +11,11 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createEntity(Long voucherId, int discountValue) {
+        public Voucher createEntity(Long voucherId, int discountValue, LocalDateTime createdAt, LocalDateTime updatedAt) {
             return null;
         }
+
+
     },
     FIXED_AMOUNT(1) {
         @Override
@@ -21,8 +24,8 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createEntity(Long voucherId, int discountValue) {
-            return new FixedAmountVoucher(voucherId, VoucherType.FIXED_AMOUNT, discountValue);
+        public Voucher createEntity(Long voucherId, int discountValue, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            return new FixedAmountVoucher(voucherId, VoucherType.FIXED_AMOUNT, discountValue, createdAt, updatedAt);
         }
     },
     PERCENT_DISCOUNT(2) {
@@ -32,8 +35,8 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createEntity(Long voucherId, int discountValue) {
-            return new PercentDiscountVoucher(voucherId, VoucherType.PERCENT_DISCOUNT, discountValue);
+        public Voucher createEntity(Long voucherId, int discountValue, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            return new PercentDiscountVoucher(voucherId, VoucherType.PERCENT_DISCOUNT, discountValue, createdAt, updatedAt);
         }
     };
 
@@ -53,5 +56,5 @@ public enum VoucherType {
 
     public abstract Voucher create(int discountValue);
 
-    public abstract Voucher createEntity(Long voucherId, int discountValue);
+    public abstract Voucher createEntity(Long voucherId, int discountValue, LocalDateTime createdAt, LocalDateTime updatedAt);
 }

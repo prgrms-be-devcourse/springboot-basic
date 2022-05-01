@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.Map;
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final String SAVE_SQL = "INSERT INTO voucher(voucher_id, voucher_type, discount_value) VALUES(:voucherId, :voucherType, :discountValue)";
+    private final String SAVE_SQL = "INSERT INTO voucher(voucher_type, discount_value) VALUES(:voucherType, :discountValue)";
     private final String FIND_ALL_SQL = "SELECT * FROM voucher";
-    private final String SELECT_LAST_VOUCHER_ID_SQL = "SELECT voucher_id FROM voucher ORDER BY voucher.voucher_id DESC LIMIT 1;";
+    private final String SELECT_LAST_INSERT_VOUCHER_SQL = "SELECT * FROM voucher ORDER BY voucher.voucher_id DESC LIMIT 1;";
     private final String UPDATE_SQL = "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id";
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -32,8 +33,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher.getVoucherId() == null) {
             executeInsertVoucherQuery(voucher);
-            Long voucherId = executeSelectLastVoucherIdQuery();
-            Voucher voucherEntity = voucher.getVoucherType().createEntity(voucherId, voucher.getDiscountValue());
+            Voucher voucherEntity = executeSelectLastVoucherQuery();
             return voucherEntity;
         }
 
@@ -48,7 +48,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", voucher.getVoucherId());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
         paramMap.put("discountValue", voucher.getDiscountValue());
         return paramMap;
@@ -58,7 +57,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         Long voucherId = resultSet.getLong("voucher_id");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         int discountValue = resultSet.getInt("discount_value");
-        return voucherType.createEntity(voucherId, discountValue);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
+        return voucherType.createEntity(voucherId, discountValue, createdAt, updatedAt);
     };
 
     private void executeInsertVoucherQuery(Voucher voucher) {
@@ -68,9 +69,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
     }
 
-    private Long executeSelectLastVoucherIdQuery() {
-        Long id = jdbcTemplate.queryForObject(SELECT_LAST_VOUCHER_ID_SQL, Collections.emptyMap(), Long.class);
-        return id;
+    private Voucher executeSelectLastVoucherQuery() {
+        Voucher voucherEntity = jdbcTemplate.queryForObject(SELECT_LAST_INSERT_VOUCHER_SQL, Collections.emptyMap(), voucherRowMapper);
+        return voucherEntity;
     }
 
     private void executeUpdateQuery(Voucher voucher) {

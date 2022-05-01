@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -119,7 +120,7 @@ public class VoucherApiControllerTest {
     void responseFindVouchers() throws Exception {
         //given
         String url = "/api/v1/vouchers";
-        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
+        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
         List<Voucher> vouchers = new ArrayList<>();
         vouchers.add(voucher);
 
