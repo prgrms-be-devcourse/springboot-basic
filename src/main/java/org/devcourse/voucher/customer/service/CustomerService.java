@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CustomerService {
-    Customer createCustomer(UUID customerId, String name, Email email);
+    Customer createCustomer(String name, Email email);
 
     List<Customer> recallAllCustomer();
 }

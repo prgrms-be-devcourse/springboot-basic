@@ -11,3 +11,481 @@
 00:02:53.716 [main] INFO  o.d.v.c.service.BlacklistServiceImpl - Service : Blacklist Inquiry
 00:02:53.724 [main] INFO  o.d.v.c.r.CsvBlacklistRepository - Repository : Blacklist File Inquiry
 00:02:57.792 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:23:13.940 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2164 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:23:13.943 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:23:14.272 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'consoleVoucherManager' defined in file [/Users/yongckim/devCourse/voucher/target/classes/org/devcourse/voucher/ConsoleVoucherManager.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'consoleVoucherController' defined in file [/Users/yongckim/devCourse/voucher/target/classes/org/devcourse/voucher/controller/ConsoleVoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'blacklistServiceImpl' defined in file [/Users/yongckim/devCourse/voucher/target/classes/org/devcourse/voucher/customer/service/BlacklistServiceImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.devcourse.voucher.customer.repository.BlacklistRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+22:23:14.276 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+22:23:14.283 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.devcourse.voucher.customer.service.BlacklistServiceImpl required a bean of type 'org.devcourse.voucher.customer.repository.BlacklistRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.devcourse.voucher.customer.repository.BlacklistRepository' in your configuration.
+
+22:23:53.181 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2227 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:23:53.182 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:23:53.461 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.441 seconds (JVM running for 0.72)
+22:24:03.794 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:24:04.846 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$f5e8e665.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:89)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:120)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:949)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:819)
+	... 34 common frames omitted
+Caused by: java.net.ConnectException: Connection refused
+	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
+	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
+	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:549)
+	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:597)
+	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
+	at java.base/java.net.Socket.connect(Socket.java:633)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:156)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:63)
+	... 37 common frames omitted
+22:29:25.718 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2641 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:29:25.719 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:29:26.186 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.795 seconds (JVM running for 1.278)
+22:29:34.668 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:29:35.893 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'voucher'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$f5e8e665.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+22:32:03.965 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2766 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:32:03.966 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:32:04.253 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.423 seconds (JVM running for 0.731)
+22:32:12.290 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:32:13.483 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'voucher'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$934c59c7.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+22:34:03.289 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2796 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:34:03.291 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:34:03.615 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.506 seconds (JVM running for 0.862)
+22:34:11.719 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:34:11.899 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:34:11.944 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:34:11.947 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:36:01.829 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2824 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:36:01.834 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:36:02.217 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.633 seconds (JVM running for 1.023)
+22:36:22.086 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:36:29.934 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:36:30.109 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:36:30.158 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:36:30.164 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:37:20.086 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2842 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:37:20.088 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:37:20.338 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.385 seconds (JVM running for 0.646)
+22:37:28.250 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:37:29.391 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'vouchers'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$62973ae5.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+22:37:39.846 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 2847 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:37:39.847 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:37:40.107 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.383 seconds (JVM running for 0.641)
+22:39:07.844 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:39:09.042 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'voucher'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$45c5297e.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+22:41:33.188 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3152 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:41:33.189 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:41:33.478 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.448 seconds (JVM running for 0.735)
+22:41:42.803 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:41:42.973 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:41:43.017 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:41:43.021 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:44:13.859 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3220 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:44:13.860 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:44:14.122 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.388 seconds (JVM running for 0.649)
+22:44:26.979 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:44:27.149 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:44:27.193 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:44:27.196 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:47:20.265 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3346 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:47:20.266 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:47:20.528 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.415 seconds (JVM running for 0.711)
+22:47:23.303 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:47:29.077 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:47:29.246 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:47:29.297 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:47:29.302 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:52:16.025 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3407 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:52:16.026 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:52:16.299 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.417 seconds (JVM running for 0.733)
+22:52:19.352 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:52:19.353 [main] WARN  o.devcourse.voucher.view.OutputView - Invalid command entered.
+22:52:30.758 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:52:30.944 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:52:30.999 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:52:31.003 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:54:20.757 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3426 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:54:20.758 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:54:21.039 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.407 seconds (JVM running for 0.714)
+22:54:29.156 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:54:29.329 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:54:29.379 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:54:29.384 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:54:57.683 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3444 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:54:57.684 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:54:57.948 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.396 seconds (JVM running for 0.698)
+22:55:08.763 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:55:08.907 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:55:08.957 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:55:08.961 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:56:12.815 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3466 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:56:12.816 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:56:13.070 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.385 seconds (JVM running for 0.667)
+22:56:15.936 [main] INFO  o.devcourse.voucher.view.OutputView - exit
+22:57:05.594 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3475 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:57:05.595 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:57:05.853 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.41 seconds (JVM running for 0.659)
+22:57:11.890 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:57:12.067 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+22:57:12.109 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+22:57:12.113 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+22:58:01.188 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3482 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+22:58:01.189 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+22:58:01.443 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.386 seconds (JVM running for 0.669)
+22:58:09.686 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+22:58:10.848 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'voucher'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$94314f43.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+23:00:55.959 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3502 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:00:55.960 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:00:56.215 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.378 seconds (JVM running for 0.644)
+23:01:05.872 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:01:07.027 [main] ERROR com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLSyntaxErrorException: Unknown database 'voucher'
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:120)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:829)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:449)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:242)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:198)
+	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:364)
+	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:206)
+	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:476)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:561)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+	at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:159)
+	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:117)
+	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:80)
+	at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:646)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:960)
+	at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:981)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:328)
+	at org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate.update(NamedParameterJdbcTemplate.java:333)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository.insert(JdbcCustomerRepository.java:45)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$FastClassBySpringCGLIB$$3a18f99f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.devcourse.voucher.customer.repository.JdbcCustomerRepository$$EnhancerBySpringCGLIB$$929e930f.insert(<generated>)
+	at org.devcourse.voucher.customer.service.CustomerServiceImpl.createCustomer(CustomerServiceImpl.java:24)
+	at org.devcourse.voucher.customer.controller.CustomerControllerImpl.createCustomerMapper(CustomerControllerImpl.java:18)
+	at org.devcourse.voucher.ConsoleVoucherManager.selectCustomer(ConsoleVoucherManager.java:60)
+	at org.devcourse.voucher.ConsoleVoucherManager.run(ConsoleVoucherManager.java:42)
+	at org.devcourse.voucher.VoucherApplication.main(VoucherApplication.java:13)
+23:01:27.821 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3543 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:01:27.822 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:01:28.089 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.405 seconds (JVM running for 0.677)
+23:01:35.736 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:01:35.900 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:01:35.943 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:01:35.946 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:02:50.619 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3589 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:02:50.620 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:02:50.919 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.452 seconds (JVM running for 0.778)
+23:02:56.628 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:02:56.809 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:02:56.853 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:02:56.858 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:05:25.871 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3650 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:05:25.872 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:05:26.136 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.388 seconds (JVM running for 0.763)
+23:05:33.820 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:05:33.981 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:05:34.023 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:05:34.027 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:05:50.258 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3657 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:05:50.259 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:05:50.515 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.38 seconds (JVM running for 0.641)
+23:06:02.804 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:06:02.968 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:06:03.016 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:06:03.022 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:07:00.543 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3668 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:07:00.544 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:07:00.830 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.412 seconds (JVM running for 0.677)
+23:07:07.641 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:07:07.807 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:07:07.860 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:07:07.862 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:10:51.907 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 3716 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:10:51.908 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:10:52.178 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.398 seconds (JVM running for 0.667)
+23:11:12.044 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:11:12.216 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:11:12.262 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:11:12.265 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:49:21.791 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 4028 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:49:21.792 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:49:22.087 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.481 seconds (JVM running for 0.892)
+23:49:32.145 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:49:32.381 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:49:32.431 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:49:32.435 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+23:52:59.012 [main] INFO  o.d.voucher.VoucherApplication - Starting VoucherApplication using Java 17.0.2 on gim-yongcheol-ui-MacBookAir.local with PID 4110 (/Users/yongckim/devCourse/voucher/target/classes started by yongckim in /Users/yongckim/devCourse/voucher)
+23:52:59.013 [main] INFO  o.d.voucher.VoucherApplication - The following 1 profile is active: "prod"
+23:52:59.355 [main] INFO  o.d.voucher.VoucherApplication - Started VoucherApplication in 0.524 seconds (JVM running for 0.919)
+23:53:07.636 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+23:53:07.837 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+23:53:07.908 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+23:53:07.912 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

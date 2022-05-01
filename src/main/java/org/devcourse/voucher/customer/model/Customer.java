@@ -6,12 +6,11 @@ public class Customer {
     private final UUID customerId;
     private String name;
     private Email email;
-    private boolean ban;
 
-    public Customer(UUID customerId, String name) {
+    public Customer(UUID customerId, String name, Email email) {
         this.customerId = customerId;
         this.name = name;
-        this.ban = false;
+        this.email = email;
     }
 
     public Email getEmail() {
@@ -28,14 +27,6 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public boolean isBan() {
-        return ban;
-    }
-
-    public void setBan(boolean ban) {
-        this.ban = ban;
     }
 
     @Override

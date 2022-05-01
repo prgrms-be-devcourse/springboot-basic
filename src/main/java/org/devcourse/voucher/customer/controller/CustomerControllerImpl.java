@@ -3,9 +3,9 @@ package org.devcourse.voucher.customer.controller;
 import org.devcourse.voucher.customer.model.Customer;
 import org.devcourse.voucher.customer.model.Email;
 import org.devcourse.voucher.customer.service.CustomerService;
+import org.springframework.stereotype.Controller;
 
-import java.util.UUID;
-
+@Controller
 public class CustomerControllerImpl implements CustomerController {
     private final CustomerService customerService;
 
@@ -15,6 +15,6 @@ public class CustomerControllerImpl implements CustomerController {
 
     @Override
     public Customer createCustomerMapper(String name, String email) {
-        return customerService.createCustomer(UUID.randomUUID(), name, new Email(email));
+        return customerService.createCustomer(name, new Email(email));
     }
 }
