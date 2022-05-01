@@ -122,7 +122,6 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         logger.info("start server~!");
-        System.out.println("start server");
         var applicationContext = new AnnotationConfigWebApplicationContext();
         applicationContext.register(ServletConfig.class);
 
