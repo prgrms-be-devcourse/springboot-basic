@@ -18,9 +18,8 @@ public class CreateCommand implements Command {
     public boolean execute(Console console, VoucherService voucherService) {
         try {
             long value = Long.parseLong(console.input("Type value"));
-            int voucherNumber = Integer.parseInt(console.input("Type Voucher number\n 1. FixedAmountVoucher\n 2. PercentDiscountVoucher"));
-            VoucherType voucherType = VoucherType.findByNumber(voucherNumber);
-            voucherService.createVoucher(voucherType, UUID.randomUUID(), value, LocalDateTime.now());
+            String voucherType = (console.input("Choose Voucher type\n FIXED\n PERCENT"));
+            voucherService.createVoucher(VoucherType.valueOf(voucherType), UUID.randomUUID(), value, LocalDateTime.now());
             console.printSuccessMessage();
         } catch (NumberFormatException e) {
             logger.error("NumberFormat Exception 입니다", e);
@@ -33,4 +32,5 @@ public class CreateCommand implements Command {
         }
         return true;
     }
+
 }
