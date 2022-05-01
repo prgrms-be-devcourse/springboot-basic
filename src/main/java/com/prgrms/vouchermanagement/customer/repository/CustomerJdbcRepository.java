@@ -27,7 +27,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
 		var customerName = resultSet.getString("name");
 		var email = resultSet.getString("email");
-		var customerId = toUUID(resultSet.getBytes("customer_id"));
+		var customerId = toUUID(resultSet.getBytes("id"));
 		var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
 			resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
 		var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -43,7 +43,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public Customer insert(Customer customer) {
 		try {
 			jdbcTemplate.update(
-				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+				"INSERT INTO customers(id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
 				customer.getCustomerId().toString().getBytes(),
 				customer.getName(),
 				customer.getEmail(),
@@ -60,7 +60,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public Customer update(Customer customer) {
 		var update = jdbcTemplate.update(
-			"UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+			"UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE id = UUID_TO_BIN(?)",
 			customer.getName(),
 			customer.getEmail(),
 			customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
@@ -81,7 +81,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public Optional<Customer> findById(UUID customerId) {
 		try {
 			return Optional.ofNullable(
-				jdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(?)",
+				jdbcTemplate.queryForObject("select * from customers WHERE id = UUID_TO_BIN(?)",
 					customerRowMapper,
 					customerId.toString().getBytes()));
 		} catch (EmptyResultDataAccessException e) {
@@ -127,7 +127,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public boolean deleteById(UUID customerId) {
 		try {
-			jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+			jdbcTemplate.update("DELETE FROM customers WHERE id = UUID_TO_BIN(?)",
 				customerId.toString().getBytes());
 		} catch (DataAccessException e) {
 			logger.info("delete by id {} 실패", customerId, e);
