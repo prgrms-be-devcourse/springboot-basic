@@ -31,6 +31,13 @@ dependencies {
     //Wix-Embedded-Mysql
     testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.2'
 
+    //Web
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.6.7'
+
+    //Web-Validation
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
+
+
 }
 
 tasks.named('test') {

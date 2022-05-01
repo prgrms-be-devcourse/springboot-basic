@@ -1,6 +1,6 @@
 package org.prgrms.voucher;
 
-import org.prgrms.voucher.controller.VoucherController;
+import org.prgrms.voucher.controller.console.VoucherController;
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.io.Input;
 import org.prgrms.voucher.io.Output;
@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
 
-@SpringBootApplication
+@Component
 public class CommandLineApplication implements ApplicationRunner {
 
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);

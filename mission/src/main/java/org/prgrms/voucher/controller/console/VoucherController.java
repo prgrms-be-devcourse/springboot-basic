@@ -1,4 +1,4 @@
-package org.prgrms.voucher.controller;
+package org.prgrms.voucher.controller.console;
 
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.Voucher;
