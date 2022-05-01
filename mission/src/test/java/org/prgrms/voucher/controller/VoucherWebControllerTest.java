@@ -3,6 +3,7 @@ package org.prgrms.voucher.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.prgrms.voucher.controller.web.VoucherWebController;
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;

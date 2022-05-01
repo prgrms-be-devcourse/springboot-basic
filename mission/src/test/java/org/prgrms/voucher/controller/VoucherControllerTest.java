@@ -8,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgrms.voucher.controller.console.VoucherController;
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.FixedAmountVoucher;
 import org.prgrms.voucher.models.Voucher;

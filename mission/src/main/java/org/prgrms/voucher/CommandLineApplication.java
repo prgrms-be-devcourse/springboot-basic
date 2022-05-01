@@ -1,6 +1,6 @@
 package org.prgrms.voucher;
 
-import org.prgrms.voucher.controller.VoucherController;
+import org.prgrms.voucher.controller.console.VoucherController;
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.io.Input;
 import org.prgrms.voucher.io.Output;
