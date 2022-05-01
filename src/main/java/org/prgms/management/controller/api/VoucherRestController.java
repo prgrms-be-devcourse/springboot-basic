@@ -35,20 +35,20 @@ public class VoucherRestController {
         return voucherService.getByCreatedAt(createdAt);
     }
 
-    @GetMapping(value = "/api/v1/voucher/id",
+    @GetMapping(value = "/api/v1/voucher/voucherId",
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public Voucher getVoucherById(@RequestParam UUID voucherId) {
         return voucherService.getById(voucherId);
     }
 
-    @GetMapping("/api/v1/voucher/create")
+    @PutMapping("/api/v1/voucher")
     public Voucher createVoucher(@RequestParam String voucherName,
                                  @RequestParam String voucherType,
                                  @RequestParam int discountNum) {
         return voucherService.create(voucherName, voucherType, discountNum);
     }
 
-    @GetMapping("/api/v1/voucher/delete")
+    @DeleteMapping("/api/v1/voucher/delete")
     public Voucher deleteVoucher(@RequestParam UUID voucherId) {
         return voucherService.delete(voucherId);
     }
