@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link type="text/css" th:href="@{/voucher-detail.css}" rel="stylesheet">
+    <title>Voucher Application</title>
+</head>
+<div id="showScroll" class="container">
+    <div class="receipt" th:object="${voucher}">
+        <h1 class="logo">Voucher Detail Info</h1>
+        <div class="centerItem bold">
+            ID: <div class="item" th:text="*{voucherId}"></div>
+        </div>
+        <div class="centerItem bold">
+            TYPE: <div class="item" th:text="*{type}"></div>
+        </div>
+        <div class="centerItem bold">
+            AMOUNT: <div class="item" th:text="*{amount}"></div>
+        </div>
+        <form th:action="@{/vouchers/{voucherId}(voucherId = *{voucherId})}" method="post">
+            <button type="submit" class="btn">Delete</button>
+        </form>
+    </div>
+</div>

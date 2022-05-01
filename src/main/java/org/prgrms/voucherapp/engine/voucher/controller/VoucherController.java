@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -42,6 +43,19 @@ public class VoucherController {
         voucherService.createVoucher(
                 createDto.type(), UUID.randomUUID(), createDto.amount()
         );
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping("/vouchers/{voucherId}")
+    public String voucherDetailView(@PathVariable UUID voucherId, Model model){
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "voucher-detail";
+    }
+
+    @PostMapping("/vouchers/{voucherId}")
+    public String deleteVoucher(@PathVariable UUID voucherId){
+        voucherService.removeVoucher(voucherId);
         return "redirect:/vouchers";
     }
 

@@ -21,6 +21,7 @@
         <th scope="col">type</th>
         <th scope="col">amount</th>
         <th scope="col">created_at</th>
+        <th scope="col">action</th>
     </tr>
     </thead>
     <tbody>
@@ -29,6 +30,7 @@
         <td th:text="*{type}"></td>
         <td th:text="*{amount}"></td>
         <td th:text="*{createdAt}"></td>
+        <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:text="Detail"  class="btn btn-primary" type="button"></a></td>
     </tr>
     </tbody>
 </table>
