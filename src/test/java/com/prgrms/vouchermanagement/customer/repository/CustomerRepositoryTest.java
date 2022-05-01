@@ -66,18 +66,19 @@ class CustomerRepositoryTest {
 	@Test
 	@DisplayName("데이터를 저장하고 ID 를 사용해서 찾아온 후 ID를 사용해 데이터를 삭제할 수 있다")
 	void given_repositoryAndData_When_saveData_thenFindingThatDataSuccess() {
-		// given
 		UUID id = UUID.randomUUID();
 		Customer customer = new Customer(id, "hello", "abc@naver.com", LocalDateTime.now());
 
 		customerRepository.insert(customer);
+
 		Optional<Customer> customerOptional = customerRepository.findById(id);
 
 		assertThat(customerOptional.isPresent(), is(true));
 		assertThat(customerOptional.get().getCustomerId(), is(customer.getCustomerId()));
 
-		boolean removeSuccess = customerRepository.deleteById(id);
-		assertThat(removeSuccess, is(true));
+		long deleted = customerRepository.deleteById(id);
+
+		assertThat(deleted, is(1L));
 
 		Optional<Customer> deletedCustomer = customerRepository.findById(id);
 
