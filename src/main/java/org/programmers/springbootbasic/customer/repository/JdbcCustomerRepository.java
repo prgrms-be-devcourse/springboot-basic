@@ -24,19 +24,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-
-        return new Customer(customerId, name, createdAt);
-    };
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public Customer insert(Customer customer) {
         Map<String, ?> parameterMap = Map.of(
@@ -93,5 +80,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+    }
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var name = resultSet.getString("name");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+        return new Customer(customerId, name, createdAt);
+    };
+
+    private static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
