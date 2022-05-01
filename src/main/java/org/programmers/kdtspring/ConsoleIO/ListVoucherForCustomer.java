@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class ListVoucherForCustomer implements CommandStrategy {
 
-
     private final CustomerService customerService;
     private final Input input;
     private final Output output;
@@ -27,7 +26,7 @@ public class ListVoucherForCustomer implements CommandStrategy {
     @Override
     public void runCommand() {
         String email = input.inputEmail();
-        Optional<Customer> customer = customerService.getCustomer(email);
+        Optional<Customer> customer = customerService.getCustomerByEmail(email);
 
         output.vouchersBelongToCustomer(customer.get().getCustomerId());
     }

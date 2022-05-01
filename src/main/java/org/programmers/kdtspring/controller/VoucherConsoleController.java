@@ -1,8 +1,6 @@
 package org.programmers.kdtspring.controller;
 
 import org.programmers.kdtspring.ConsoleIO.*;
-import org.programmers.kdtspring.repository.user.CustomerRepository;
-import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.programmers.kdtspring.service.CustomerService;
 import org.programmers.kdtspring.service.VoucherService;
 import org.slf4j.Logger;
@@ -14,16 +12,16 @@ import java.util.*;
 import static org.programmers.kdtspring.ConsoleIO.CommandType.*;
 
 @Component
-public class VoucherController implements Runnable {
+public class VoucherConsoleController implements Runnable {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleController.class);
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private Map<CommandType, CommandStrategy> commandStrategy = new HashMap<>();
 
-    public VoucherController(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
+    public VoucherConsoleController(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
