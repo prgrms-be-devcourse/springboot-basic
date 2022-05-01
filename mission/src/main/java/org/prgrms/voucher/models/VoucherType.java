@@ -14,8 +14,7 @@ public enum VoucherType {
 
         @Override
         public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType,
-                                     LocalDateTime createdAt, LocalDateTime updatedAt)
-        {
+                                     LocalDateTime createdAt, LocalDateTime updatedAt) {
 
             return new FixedAmountVoucher(voucherId, discountValue, voucherType, createdAt, updatedAt);
         }
