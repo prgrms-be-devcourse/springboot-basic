@@ -29,7 +29,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getTypeName() {
+    public String getType() {
         return type;
     }
 

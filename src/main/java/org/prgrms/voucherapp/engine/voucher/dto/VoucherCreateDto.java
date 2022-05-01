@@ -7,7 +7,6 @@ import org.prgrms.voucherapp.global.enums.VoucherType;
 import java.util.UUID;
 
 public record VoucherCreateDto(
-        UUID voucherId,
         VoucherType type,
         long amount
 ) {

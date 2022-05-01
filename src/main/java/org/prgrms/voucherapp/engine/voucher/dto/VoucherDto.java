@@ -1,13 +1,10 @@
 package org.prgrms.voucherapp.engine.voucher.dto;
 
-import org.prgrms.voucherapp.engine.voucher.entity.FixedAmountVoucher;
-import org.prgrms.voucherapp.engine.voucher.entity.PercentDiscountVoucher;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.exception.UnknownVoucherTypeException;
 import org.prgrms.voucherapp.global.enums.VoucherType;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 public record VoucherDto(
@@ -19,7 +16,7 @@ public record VoucherDto(
     public static VoucherDto of(Voucher voucher){
         return new VoucherDto(
                 voucher.getVoucherId(),
-                voucher.getTypeName(),
+                voucher.getType(),
                 voucher.getAmount(),
                 voucher.getCreatedAt()
         );

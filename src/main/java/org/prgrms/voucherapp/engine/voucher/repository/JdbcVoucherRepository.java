@@ -1,6 +1,5 @@
 package org.prgrms.voucherapp.engine.voucher.repository;
 
-import org.prgrms.voucherapp.engine.voucher.controller.api.VoucherRestController;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.exception.SqlStatementFailException;
 import org.prgrms.voucherapp.exception.WrongSqlValueException;
@@ -36,7 +35,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("amount", voucher.getAmount());
-            put("type", voucher.getTypeName());
+            put("type", voucher.getType());
         }};
     }
 

@@ -37,7 +37,6 @@ public class VoucherRestController {
                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> after,
                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> before){
 
-        logger.info("parameter : {}, {}, {}",voucherType, after, before);
         Optional<VoucherType> paramVoucherType = voucherType.isPresent() ? VoucherType.getType(voucherType.get()) : Optional.empty();
         List<Voucher> voucherList = voucherService.getVouchersByFilter(paramVoucherType, after, before);
         List<VoucherDto> voucherDtos = voucherList.stream().map(VoucherDto::of).toList();
@@ -52,7 +51,7 @@ public class VoucherRestController {
 
     @PostMapping
     public ResponseEntity<ResponseFormat> createVoucher(@RequestBody VoucherCreateDto createDto){
-        Voucher voucher = voucherService.createVoucher(createDto.type(), createDto.voucherId(), createDto.amount());
+        Voucher voucher = voucherService.createVoucher(createDto.type(), UUID.randomUUID(), createDto.amount());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 생성 성공", VoucherDto.of(voucher)));
     }
 

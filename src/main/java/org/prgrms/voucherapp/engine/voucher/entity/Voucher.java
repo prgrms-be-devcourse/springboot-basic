@@ -9,7 +9,7 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    String getTypeName();
+    String getType();
 
     LocalDateTime getCreatedAt();
 

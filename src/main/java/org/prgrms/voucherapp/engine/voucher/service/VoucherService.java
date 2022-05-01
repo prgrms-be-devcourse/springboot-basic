@@ -30,6 +30,10 @@ public class VoucherService {
         return voucherRepository.findByFilter(voucherType, before, after);
     }
 
+    public List<Voucher> getAllVouchers(){
+        return voucherRepository.findAll();
+    }
+
     public Voucher getVoucher(UUID voucherId){
         return voucherRepository
                 .findById(voucherId)

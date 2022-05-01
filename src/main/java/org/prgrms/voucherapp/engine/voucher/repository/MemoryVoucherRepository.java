@@ -48,7 +48,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before) {
         List<Voucher> voucherList = this.findAll();
         if(voucherType.isPresent()){
-            voucherList = voucherList.stream().filter(v -> v.getTypeName().equals(voucherType.get().toString())).toList();
+            voucherList = voucherList.stream().filter(v -> v.getType().equals(voucherType.get().toString())).toList();
         }
         if(after.isPresent()){
             voucherList = voucherList.stream().filter(v -> v.getCreatedAt().isAfter(after.get())).toList();

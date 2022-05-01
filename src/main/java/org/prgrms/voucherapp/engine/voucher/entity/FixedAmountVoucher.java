@@ -31,7 +31,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getTypeName() {
+    public String getType() {
         return type;
     }
 
