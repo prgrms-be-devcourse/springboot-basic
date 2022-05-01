@@ -31,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	private static RowMapper<Voucher> voucherRowMapper = (rs, i) -> {
-		UUID voucher_id = toUUID(rs.getBytes("id"));
+		UUID voucher_id = toUUID(rs.getBytes("voucher_id"));
 		long discount_info = rs.getLong("discount_info");
 		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 		VoucherType type = VoucherType.of(rs.getInt("type"));
@@ -53,7 +53,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	public Voucher insert(Voucher voucher) {
 		try {
 			jdbcTemplate.update(
-				"INSERT INTO vouchers(id, type, discount_info, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+				"INSERT INTO vouchers(voucher_id, type, discount_info, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
 				voucher.getVoucherId().toString().getBytes(),
 				voucher.getType().getMappingCode(),
 				voucher.getDiscountInfo(),
@@ -71,7 +71,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	public Optional<Voucher> findById(UUID voucherId) {
 		try {
 			return Optional.ofNullable(
-				jdbcTemplate.queryForObject("select * from vouchers WHERE id = UUID_TO_BIN(?)",
+				jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(?)",
 					voucherRowMapper, voucherId.toString().getBytes()));
 		} catch (EmptyResultDataAccessException e) {
 			logger.info("id {} 을 가진 Voucher 가 존재하지 않습니다", voucherId);
@@ -82,7 +82,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public long deleteById(UUID voucherId) {
-		return jdbcTemplate.update("DELETE FROM vouchers where id = UUID_TO_BIN(?)",
+		return jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(?)",
 			voucherId.toString().getBytes());
 	}
 
