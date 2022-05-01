@@ -21,11 +21,14 @@ public enum CommandType {
         this.commandSupplier = commandSupplier;
     }
 
-    public static boolean execute(String input, Console console, VoucherService voucherService) {
-        CommandType commandType =  Arrays.stream(CommandType.values())
+    public static CommandType getCreate(String input) {
+        return Arrays.stream(CommandType.values())
                 .filter(type -> type.command.equals(input))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 커맨드 타입입니다."));
+    }
+
+    public static boolean execute(CommandType commandType, Console console, VoucherService voucherService) {
         return commandType.commandSupplier.get()
                 .execute(console, voucherService);
     }
