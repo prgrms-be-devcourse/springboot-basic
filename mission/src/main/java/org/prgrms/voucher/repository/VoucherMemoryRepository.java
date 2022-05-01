@@ -43,7 +43,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
         voucher = voucher.getVoucherType().createVoucher(
                 IdGenerator.idGenerate(),
                 voucher.getDiscountValue(),
-                voucher.getVoucherType()
+                voucher.getVoucherType(),
+                voucher.getCreatedAt()
         );
 
         return voucher;

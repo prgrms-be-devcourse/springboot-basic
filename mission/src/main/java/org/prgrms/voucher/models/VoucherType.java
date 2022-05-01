@@ -1,5 +1,6 @@
 package org.prgrms.voucher.models;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 public enum VoucherType {
@@ -12,9 +13,9 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType) {
+        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
 
-            return new FixedAmountVoucher(voucherId, discountValue, voucherType);
+            return new FixedAmountVoucher(voucherId, discountValue, voucherType, createdAt);
         }
     },
     PERCENT_DISCOUNT("2") {
@@ -25,9 +26,9 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType) {
+        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
 
-            return new PercentDiscountVoucher(voucherId, discountValue, voucherType);
+            return new PercentDiscountVoucher(voucherId, discountValue, voucherType, createdAt);
         }
     };
 
@@ -48,5 +49,5 @@ public enum VoucherType {
 
     public abstract Voucher createVoucher(long discountValue, VoucherType voucherType);
 
-    public abstract Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType);
+    public abstract Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt);
 }

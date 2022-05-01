@@ -3,6 +3,8 @@ package org.prgrms.voucher.dto;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 
+import java.time.LocalDateTime;
+
 public class VoucherDto {
 
     public record VoucherRequest(
@@ -19,7 +21,8 @@ public class VoucherDto {
     public record VoucherResponse(
             Long voucherId,
             long discountValue,
-            VoucherType voucherType
+            VoucherType voucherType,
+            LocalDateTime createdAt
             ) {
 
         public static VoucherResponse from(Voucher voucher) {
@@ -27,7 +30,8 @@ public class VoucherDto {
             return new VoucherResponse(
                     voucher.getVoucherId(),
                     voucher.getDiscountValue(),
-                    voucher.getVoucherType()
+                    voucher.getVoucherType(),
+                    voucher.getCreatedAt()
             );
         }
     }

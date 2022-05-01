@@ -16,6 +16,7 @@ import org.prgrms.voucher.response.Response;
 import org.prgrms.voucher.response.ResponseState;
 import org.prgrms.voucher.service.VoucherService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -38,7 +39,7 @@ public class VoucherControllerTest {
 
             VoucherDto.VoucherRequest requestDto = new VoucherDto.VoucherRequest(100, VoucherType.FIXED_AMOUNT);
 
-            Voucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
 
             @Test
             @DisplayName("Service 의 create 메서드에 파라미터를 넘겨주며 호출한다.")
@@ -111,8 +112,8 @@ public class VoucherControllerTest {
             @DisplayName("바우처 리스트 정보를응답 객체에 담아 반환한다.")
             void itReturnVoucherList() {
 
-                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
-                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT);
+                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
 
                 List<Voucher> list = List.of(voucher1, voucher2);
 
