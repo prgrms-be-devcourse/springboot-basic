@@ -96,6 +96,12 @@ public class JdbcWalletRepository implements WalletRepository {
         jdbcTemplate.update("DELETE FROM wallets", Collections.emptyMap());
     }
 
+    @Override
+    public int getCountByWalletId(UUID walletId) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM wallets WHERE wallet_id = UUID_TO_BIN(:walletId)",
+                Collections.singletonMap("walletId", walletId.toString().getBytes()), Integer.class);
+    }
+
     private final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         UUID walletId = toUUID(resultSet.getBytes("wallet_id"));
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));

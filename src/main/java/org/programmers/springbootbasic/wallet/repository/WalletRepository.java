@@ -19,4 +19,6 @@ public interface WalletRepository {
     Wallet insert(Wallet wallet);
 
     void deleteById(UUID walletId);
+
+    int getCountByWalletId(UUID voucherId);
 }
