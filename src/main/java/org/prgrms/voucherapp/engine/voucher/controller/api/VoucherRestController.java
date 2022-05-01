@@ -1,6 +1,7 @@
 package org.prgrms.voucherapp.engine.voucher.controller.api;
 
 import org.prgrms.voucherapp.Navigator;
+import org.prgrms.voucherapp.engine.voucher.dto.VoucherCreateDto;
 import org.prgrms.voucherapp.engine.voucher.dto.VoucherDto;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
@@ -10,14 +11,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
@@ -40,6 +39,17 @@ public class VoucherRestController {
         Optional<VoucherType> paramVoucherType = voucherType.isPresent() ? VoucherType.getType(voucherType.get()) : Optional.empty();
         List<Voucher> voucherList = voucherService.getVouchersByFilter(paramVoucherType, after, before);
         return ResponseEntity.status(HttpStatus.OK).body(voucherList.stream().map(VoucherDto::of).toList());
+    }
+
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<VoucherDto> getVoucher(@PathVariable UUID voucherId){
+        return ResponseEntity.status(HttpStatus.OK).body(VoucherDto.of(voucherService.getVoucher(voucherId)));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<VoucherDto> createVoucher(@RequestBody VoucherCreateDto createDto){
+        Voucher voucher = voucherService.createVoucher(createDto.type(), createDto.voucherId(), createDto.amount());
+        return ResponseEntity.status(HttpStatus.OK).body(VoucherDto.of(voucher));
     }
 
 }
