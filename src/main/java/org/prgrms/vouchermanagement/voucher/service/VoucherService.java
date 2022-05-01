@@ -7,6 +7,7 @@ import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
+import org.prgrms.vouchermanagement.voucher.voucher.dto.UpdatedVoucher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,6 +35,11 @@ public class VoucherService {
       return true;
     }
     return false;
+  }
+
+  public UpdatedVoucher updateVoucher(UpdatedVoucher updatedVoucher) {
+    voucherRepository.updateById(updatedVoucher.getVoucherId(), updatedVoucher.getReduction());
+    return updatedVoucher;
   }
 
   public Voucher createVoucher(VoucherType voucherType, long reduction, LocalDateTime createdAt) {

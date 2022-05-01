@@ -2,14 +2,15 @@ package org.prgrms.vouchermanagement.controller;
 
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.voucher.dto.UpdatedVoucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,12 +38,17 @@ public class VoucherController {
 
   @GetMapping("/voucher")
   public String voucherPage(@RequestParam("id") UUID voucherId, Model model) {
-    log.info("voucherId={}", voucherId);
     Optional<Voucher> found = voucherService.getVoucherById(voucherId);
     if(found.isPresent()) {
       model.addAttribute("voucher", found.get());
       return "voucher";
     }
     return "redirect:/voucher-list";
+  }
+
+  @PostMapping("/update-voucher")
+  public String updateVoucher(UpdatedVoucher updatedVoucher) {
+    voucherService.updateVoucher(updatedVoucher);
+    return "redirect:/vouchers";
   }
 }

@@ -14,9 +14,24 @@
 <body class="container-fluid">
 
 <h1>Voucher 상세 조회</h1>
+
 <hr />
-<span th:text="${voucher.voucherId}"></span>
-<span th:text="${voucher.reduction}"></span>
-<span th:text="${voucher.createdAt}"></span>
+
+<form th:action="@{/update-voucher}" method="post">
+    <div class="form-group">
+        <label for="voucherId">Voucher Id</label>
+        <input type="text" readonly class="form-control" id="voucherId" name="voucherId" th:value="${voucher.voucherId}" />
+    </div>
+    <div class="form-group">
+        <label for="reduction">Reduction</label>
+        <input type="number" class="form-control" id="reduction" name="reduction" th:value="${voucher.reduction}" />
+    </div>
+    <div class="form-group">
+        <label for="createdAt">Created At</label>
+        <input type="text" readonly class="form-control" id="createdAt" name="createdAt" th:value="${voucher.createdAt}" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 </body>
 </html>
