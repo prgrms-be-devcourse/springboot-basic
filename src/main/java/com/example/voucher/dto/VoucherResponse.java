@@ -20,15 +20,6 @@ public class VoucherResponse {
         return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscountAmount(), voucher.getCreatedAt());
     }
 
-    @Override
-    public String toString() {
-        return "VoucherResponse{" +
-                "voucherId=" + voucherId +
-                ", discountAmount=" + discountAmount +
-                ", createdAt= " + createdAt +
-                '}';
-    }
-
     public Long getVoucherId() {
         return voucherId;
     }
@@ -42,15 +33,24 @@ public class VoucherResponse {
     }
 
     @Override
+    public String toString() {
+        return "VoucherResponse{" +
+                "voucherId=" + voucherId +
+                ", discountAmount=" + discountAmount +
+                ", createdAt= " + createdAt +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         VoucherResponse that = (VoucherResponse) o;
-        return Objects.equals(voucherId, that.voucherId);
+        return discountAmount == that.discountAmount && Objects.equals(voucherId, that.voucherId) && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voucherId);
+        return Objects.hash(voucherId, discountAmount, createdAt);
     }
 }
