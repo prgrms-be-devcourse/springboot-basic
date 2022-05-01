@@ -22,10 +22,11 @@ CREATE TABLE vouchers
 
 CREATE TABLE customer_has_vouchers
 (
-    id          BINARY(16) PRIMARY KEY,
+    id          BINARY(16) ,
     customer_id BINARY(16) NOT NULL,
     voucher_id  BINARY(16) NOT NULL,
     created_at  datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
-    FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id)
+    FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id) ON DELETE CASCADE,
+    PRIMARY KEY(id, customer_id, voucher_id)
 );

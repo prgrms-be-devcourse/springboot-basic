@@ -6,5 +6,5 @@ INSERT INTO vouchers(voucher_id,type,discount_info,created_at) VALUES (UUID_TO_B
 INSERT INTO vouchers(voucher_id,type,discount_info,created_at) VALUES (UUID_TO_BIN('b981ec04-c5e8-11ec-8ac0-86fc60ea758b'),2,50,CURRENT_TIMESTAMP);
 INSERT INTO vouchers(voucher_id,type,discount_info,created_at) VALUES (UUID_TO_BIN('c35a0720-c5e8-11ec-8ac0-86fc60ea758b'),2,10,CURRENT_TIMESTAMP);
 
-INSERT INTO customer_has_vouchers(id,customer_id, voucher_id,created_at) VALUES (UUID_TO_BIN('b5820e44-a47c-47d6-b450-0d4390980f83'),UUID_TO_BIN('acb8ea46-c64b-11ec-8ac0-86fc60ea758b'), UUID_TO_BIN('a3a65384-c5e8-11ec-8ac0-86fc60ea758b'), CURRENT_TIMESTAMP);
-INSERT INTO customer_has_vouchers(id,customer_id, voucher_id,created_at) VALUES (UUID_TO_BIN('df0e8ea8-9477-47cf-8351-93dca9868cc7'),UUID_TO_BIN('acb8ea46-c64b-11ec-8ac0-86fc60ea758b'), UUID_TO_BIN('b981ec04-c5e8-11ec-8ac0-86fc60ea758b'), CURRENT_TIMESTAMP);
+INSERT INTO customer_has_vouchers(id,customer_id, voucher_id,created_at) VALUES (UUID_TO_BIN(UUID()),UUID_TO_BIN('acb8ea46-c64b-11ec-8ac0-86fc60ea758b'), UUID_TO_BIN('a3a65384-c5e8-11ec-8ac0-86fc60ea758b'), CURRENT_TIMESTAMP);
+INSERT INTO customer_has_vouchers(id,customer_id, voucher_id,created_at) VALUES (UUID_TO_BIN(UUID()),UUID_TO_BIN('acb8ea46-c64b-11ec-8ac0-86fc60ea758b'), UUID_TO_BIN('b981ec04-c5e8-11ec-8ac0-86fc60ea758b'), CURRENT_TIMESTAMP);
