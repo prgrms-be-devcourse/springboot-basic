@@ -34,7 +34,7 @@ public class VoucherController {
     }
 
     @GetMapping("/new-voucher")
-    public String createVoucherView(Model model){
+    public String createVoucherView(){
         return "new-voucher";
     }
 

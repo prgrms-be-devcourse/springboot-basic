@@ -11,8 +11,8 @@
     <title>Voucher Application</title>
 </head>
 <body class="container-fluid">
-<h1>Voucher Management</h1>
-<h2>Create Voucher</h2>
+<h1>바우처 관리</h1>
+<h2>바우처 생성하기</h2>
 <form th:action="@{/vouchers}" method="post">
     <div class="mb-3">
         <label for="type" class="form-label">Type</label>
@@ -26,7 +26,7 @@
         <label for="amount" class="form-label">Amount</label>
         <input type="number" class="form-control" id="amount" name="amount">
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">생성하기</button>
 </form>
 
 </body>
