@@ -49,7 +49,7 @@ public class VoucherRestControllerTests {
         final String url = "/api/v1/vouchers";
 
         @Nested
-        @DisplayName("바우처 타입이 헤더에 없으면")
+        @DisplayName("바우처 타입이 바디에 없으면")
         class Context_without_voucherType {
 
             @Test
@@ -74,7 +74,7 @@ public class VoucherRestControllerTests {
         }
 
         @Nested
-        @DisplayName("바우처 값이 헤더에 없으면")
+        @DisplayName("바우처 값이 바디에 없으면")
         class Context_without_value {
 
             @Test
