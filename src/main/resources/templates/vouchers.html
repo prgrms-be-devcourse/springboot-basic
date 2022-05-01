@@ -21,7 +21,8 @@
         <th scope="col">type</th>
         <th scope="col">amount</th>
         <th scope="col">created_at</th>
-        <th scope="col">action</th>
+        <th scope="col">detail</th>
+        <th scope="col">wallet</th>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +32,7 @@
         <td th:text="*{amount}"></td>
         <td th:text="*{createdAt}"></td>
         <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:text="상세보기"  class="btn btn-primary" type="button"></a></td>
+        <td><a th:href="@{/wallets/{voucherId}(voucherId=*{voucherId})}" th:text="지갑보기"  class="btn btn-success" type="button"></a></td>
     </tr>
     </tbody>
 </table>

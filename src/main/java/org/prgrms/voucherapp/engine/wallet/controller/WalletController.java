@@ -2,6 +2,7 @@ package org.prgrms.voucherapp.engine.wallet.controller;
 
 import org.prgrms.voucherapp.engine.customer.entity.Customer;
 import org.prgrms.voucherapp.engine.customer.service.CustomerService;
+import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
 import org.prgrms.voucherapp.engine.wallet.dto.WalletDto;
 import org.prgrms.voucherapp.engine.wallet.service.WalletService;
@@ -30,8 +31,17 @@ public class WalletController {
     @GetMapping("/wallets/{voucherId}")
     public String walletsViewByVoucher(@PathVariable UUID voucherId, Model model){
         List<Customer> customers = walletService.getCustomersOfVoucherById(voucherId);
+        Voucher voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("customers", customers);
+        model.addAttribute("voucher", voucher);
         return "wallets-by-voucher";
+    }
+
+    @GetMapping("/wallets/{voucherId}/new")
+    public String createWalletView(@PathVariable UUID voucherId, Model model){
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "new-wallet";
     }
 
     @PostMapping("/wallets/delete")

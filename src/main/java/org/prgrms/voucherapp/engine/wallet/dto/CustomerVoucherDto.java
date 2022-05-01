@@ -1,12 +1,6 @@
 package org.prgrms.voucherapp.engine.wallet.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.UUID;
 
-@AllArgsConstructor
-@Getter
 public record CustomerVoucherDto(UUID customerId, UUID voucherId, String name,
                                  String status, String voucherType, long discountAmount) {
     @Override

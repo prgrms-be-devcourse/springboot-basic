@@ -8,6 +8,7 @@ import org.prgrms.voucherapp.engine.wallet.dto.CustomerVoucherDto;
 import org.prgrms.voucherapp.engine.wallet.repository.WalletRepository;
 import org.prgrms.voucherapp.engine.wallet.vo.Wallet;
 import org.prgrms.voucherapp.exception.AlreadyExistException;
+import org.prgrms.voucherapp.exception.NullCustomerException;
 import org.prgrms.voucherapp.exception.NullVoucherException;
 import org.prgrms.voucherapp.exception.NullWalletException;
 import org.slf4j.Logger;
@@ -24,16 +25,20 @@ import static org.slf4j.LoggerFactory.*;
 // TODO: Id 검증 service 내에서 하는 것으로 바꾸기
 public class WalletService {
     private final WalletRepository walletRepository;
+    private final CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
     private final static Logger logger = getLogger(WalletService.class);
 
-    public WalletService(WalletRepository walletRepository) {
+    public WalletService(WalletRepository walletRepository, CustomerRepository customerRepository, VoucherRepository voucherRepository) {
         this.walletRepository = walletRepository;
+        this.customerRepository = customerRepository;
+        this.voucherRepository = voucherRepository;
     }
 
     public CustomerVoucherDto getWallet(UUID walletId){
         return walletRepository
                 .findById(walletId)
-                .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 지갑 id입니다.", walletId)));
+                .orElseThrow(() -> new NullWalletException(MessageFormat.format("{0}는 존재하지 않는 지갑 id입니다.", walletId)));
     }
 
     @Transactional
@@ -41,7 +46,10 @@ public class WalletService {
         while (walletRepository.findById(walletId).isPresent()) {
             walletId = UUID.randomUUID();
         }
+        if(voucherRepository.findById(voucherId).isEmpty()) throw new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId));
+        if(customerRepository.findById(customerId).isEmpty()) throw new NullCustomerException(MessageFormat.format("{0}는 존재하지 않는 고객 id입니다.", customerId));
         if(walletRepository.findByBothId(voucherId, customerId).isPresent()) throw new AlreadyExistException("해당 바우처와 고객은 이미 연결되었습니다.");
+
         return walletRepository.insert( new Wallet(walletId, customerId, voucherId));
     }
 

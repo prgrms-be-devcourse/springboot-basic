@@ -11,9 +11,7 @@
 </head>
 <body class="container-fluid">
 <h1>바우처 지갑 관리</h1>
-<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/new-wallet}" class="btn btn-primary me-md-2" type="button">고객 할당하기</a>
-</div>
+<h2>바우처 정보</h2>
 <table class="table table-hover table-striped">
     <thead>
     <tr>
@@ -21,16 +19,36 @@
         <th scope="col">type</th>
         <th scope="col">amount</th>
         <th scope="col">created_at</th>
-        <th scope="col">action</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+    <tr th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
         <td th:text="*{type}"></td>
         <td th:text="*{amount}"></td>
         <td th:text="*{createdAt}"></td>
-        <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:text="상세보기"  class="btn btn-primary" type="button"></a></td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/wallets/{voucherId}/new(voucherId = ${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">고객 할당하기</a>
+</div>
+<h2>바우처 보유 고객</h2>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">customer_id</th>
+        <th scope="col">name</th>
+        <th scope="col">email</th>
+        <th scope="col">status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer: ${customers}" th:object="${customer}">
+        <td th:text="*{customerId}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{status}"></td>
     </tr>
     </tbody>
 </table>
