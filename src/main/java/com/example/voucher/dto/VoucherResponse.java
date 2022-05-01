@@ -25,6 +25,14 @@ public class VoucherResponse {
                 '}';
     }
 
+    public Long getVoucherId() {
+        return voucherId;
+    }
+
+    public int getDiscountAmount() {
+        return discountAmount;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
