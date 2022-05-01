@@ -1,10 +1,12 @@
 package org.prgrms.voucherapp.engine.voucher.controller.api;
 
+import org.apache.coyote.Response;
 import org.prgrms.voucherapp.Navigator;
 import org.prgrms.voucherapp.engine.voucher.dto.VoucherCreateDto;
 import org.prgrms.voucherapp.engine.voucher.dto.VoucherDto;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
+import org.prgrms.voucherapp.global.ResponseFormat;
 import org.prgrms.voucherapp.global.enums.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,25 +33,33 @@ public class VoucherRestController {
 
     // TODO : ModelAttribute 사용하여 리팩토링
     @GetMapping
-    public ResponseEntity<List<VoucherDto>> getVouchers(@RequestParam(value = "type") Optional<String> voucherType,
-                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> after,
-                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> before){
+    public ResponseEntity<ResponseFormat> getVouchers(@RequestParam(value = "type") Optional<String> voucherType,
+                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> after,
+                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> before){
 
         logger.info("parameter : {}, {}, {}",voucherType, after, before);
         Optional<VoucherType> paramVoucherType = voucherType.isPresent() ? VoucherType.getType(voucherType.get()) : Optional.empty();
         List<Voucher> voucherList = voucherService.getVouchersByFilter(paramVoucherType, after, before);
-        return ResponseEntity.status(HttpStatus.OK).body(voucherList.stream().map(VoucherDto::of).toList());
+        List<VoucherDto> voucherDtos = voucherList.stream().map(VoucherDto::of).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 조회 성공", voucherDtos));
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<VoucherDto> getVoucher(@PathVariable UUID voucherId){
-        return ResponseEntity.status(HttpStatus.OK).body(VoucherDto.of(voucherService.getVoucher(voucherId)));
+    public ResponseEntity<ResponseFormat> getVoucher(@PathVariable UUID voucherId){
+        VoucherDto resDto = VoucherDto.of(voucherService.getVoucher(voucherId));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 조회 성공", resDto));
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<VoucherDto> createVoucher(@RequestBody VoucherCreateDto createDto){
+    @PostMapping
+    public ResponseEntity<ResponseFormat> createVoucher(@RequestBody VoucherCreateDto createDto){
         Voucher voucher = voucherService.createVoucher(createDto.type(), createDto.voucherId(), createDto.amount());
-        return ResponseEntity.status(HttpStatus.OK).body(VoucherDto.of(voucher));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 생성 성공", VoucherDto.of(voucher)));
+    }
+
+    @DeleteMapping("/{voucherId}")
+    public ResponseEntity<ResponseFormat> deleteVoucher(@PathVariable UUID voucherId){
+        voucherService.removeVoucher(voucherId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 삭제 성공 : "+voucherId, null));
     }
 
 }

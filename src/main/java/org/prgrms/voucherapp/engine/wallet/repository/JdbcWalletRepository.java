@@ -100,8 +100,8 @@ public class JdbcWalletRepository implements  WalletRepository{
 
     @Override
     public void deleteByVoucherId(UUID voucherId) {
-        int delete = jdbcTemplate.update("delete from voucher_wallets where voucher_id = UUID_TO_BIN(:voucherId)",Collections.singletonMap("customerId", voucherId.toString().getBytes()));
-        if (delete <= 0) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
+        int delete = jdbcTemplate.update("delete from voucher_wallets where voucher_id = UUID_TO_BIN(:voucherId)",Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (delete < 0) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");
     }
 
     @Override
