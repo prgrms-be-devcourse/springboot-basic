@@ -11,9 +11,7 @@ public class VoucherMapper {
     public static final int indexId = 0;
     public static final int indexType = 1;
     public static final int indexAmount = 2;
-    public static final String ERROR_MESSAGE_FILE_CONVERT = "FILE 데이터 변환에 실패하였습니다.";
-    public static final String ERROR_MESSAGE_FOR_FILE_CONVERT1 = ERROR_MESSAGE_FILE_CONVERT;
-    public static final String ERROR_MESSAGE_FOR_FILE_CONVERT = ERROR_MESSAGE_FOR_FILE_CONVERT1;
+    public static final String ERROR_MESSAGE_FOR_FILE_CONVERT = "FILE 데이터 변환에 실패하였습니다.";
 
     public static Voucher getDomain(Long id, VoucherType type, VoucherAmount amount) {
         switch (type) {
@@ -89,6 +87,7 @@ public class VoucherMapper {
         if (fileFormatValues == null || fileFormatValues.length != 3) {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
+        //TODO: try ~ catch 구문 관련 refacting 때 처리
         try {
             Long id = Long.valueOf(fileFormatValues[indexId]);
             VoucherType type = VoucherType.from(fileFormatValues[indexType]);
