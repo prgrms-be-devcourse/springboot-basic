@@ -177,8 +177,8 @@ public class VoucherServiceTest {
             @DisplayName("바우처를 담은 리스트를 반환한다.")
             void itReturnVoucherList() {
 
-                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
-                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+                Voucher voucher1 = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+                Voucher voucher2 = new FixedAmountVoucher(2L, 101, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
 
                 List<Voucher> list = List.of(voucher1, voucher2);
 

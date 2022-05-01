@@ -31,8 +31,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         if (voucher.getVoucherId() == null) {
-            int update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, discount_value, voucher_type, created_at)" +
-                    " VALUES(:voucherId, :discountValue, :voucherType, :createdAt)", toParamMap(voucher));
+            int update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, discount_value, voucher_type, created_at, updated_at)" +
+                    " VALUES(:voucherId, :discountValue, :voucherType, :createdAt, :updatedAt)", toParamMap(voucher));
 
             if (update != 1) {
                 throw new RuntimeException("Nothing was inserted");
@@ -56,8 +56,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         long discountValue = resultSet.getLong("discount_value");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
+        LocalDateTime updatedAt = toLocalDateTime(resultSet.getTimestamp("updated_at"));
 
-        return voucherType.createVoucher(voucherId, discountValue, voucherType, createdAt);
+        return voucherType.createVoucher(voucherId, discountValue, voucherType, createdAt, updatedAt);
     };
 
     private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
@@ -72,6 +73,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         paramMap.put("discountValue", voucher.getDiscountValue());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
         paramMap.put("createdAt", voucher.getCreatedAt());
+        paramMap.put("updatedAt", voucher.getUpdatedAt());
 
         return paramMap;
     }

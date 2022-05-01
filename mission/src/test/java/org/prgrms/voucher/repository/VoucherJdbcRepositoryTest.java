@@ -80,7 +80,7 @@ class VoucherJdbcRepositoryTest {
         @DisplayName("save 기능을 테스트 할 때 알 수 없는 ID의 바우처 객체를 인자로 받으면")
         class ContextReceiveWrongVoucher {
 
-            Voucher wrongVoucher = new FixedAmountVoucher(2L, 120, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+            Voucher wrongVoucher = new FixedAmountVoucher(2L, 120, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
 
             @Test
             @DisplayName("잘못된 바우처 예외를 반환한다.")

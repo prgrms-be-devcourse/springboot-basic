@@ -37,7 +37,8 @@ public class VoucherFileRepository implements VoucherRepository {
             String saveFile = voucherEntity.getVoucherId() + ", "
                     + voucherEntity.getDiscountValue() + ", "
                     + voucherEntity.getVoucherType() + ", "
-                    + voucherEntity.getCreatedAt();
+                    + voucherEntity.getCreatedAt() + ", "
+                    + voucherEntity.getUpdatedAt();
             FileUtils.saveEntity(saveFile, voucherFilePath);
             FileUtils.saveIdSequence(voucherEntity.getVoucherId(), idSequencePath);
 
@@ -58,7 +59,8 @@ public class VoucherFileRepository implements VoucherRepository {
                                 Long.parseLong(v[0]),
                                 Long.parseLong(v[1]),
                                 VoucherType.valueOf(v[2]),
-                                LocalDateTime.parse(v[3])
+                                LocalDateTime.parse(v[3]),
+                                LocalDateTime.parse(v[4])
                         )
                 )
                 .toList();
@@ -72,7 +74,8 @@ public class VoucherFileRepository implements VoucherRepository {
                 IdGenerator.fileIdGenerate(lastId),
                 voucher.getDiscountValue(),
                 voucher.getVoucherType(),
-                voucher.getCreatedAt()
+                voucher.getCreatedAt(),
+                voucher.getUpdatedAt()
         );
     }
 }

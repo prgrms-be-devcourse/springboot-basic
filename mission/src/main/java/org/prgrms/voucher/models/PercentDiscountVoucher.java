@@ -11,9 +11,10 @@ public class PercentDiscountVoucher extends Voucher{
         validate(percent);
     }
 
-    protected PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType, LocalDateTime createdAt) {
+    protected PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType,
+                                     LocalDateTime createdAt, LocalDateTime updatedAt) {
 
-        super(voucherId, percent, voucherType, createdAt);
+        super(voucherId, percent, voucherType, createdAt, updatedAt);
     }
 
     @Override

@@ -44,7 +44,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
                 IdGenerator.idGenerate(),
                 voucher.getDiscountValue(),
                 voucher.getVoucherType(),
-                voucher.getCreatedAt()
+                voucher.getCreatedAt(),
+                voucher.getUpdatedAt()
         );
 
         return voucher;

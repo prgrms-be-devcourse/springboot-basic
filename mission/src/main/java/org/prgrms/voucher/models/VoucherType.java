@@ -13,9 +13,10 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
+        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType,
+                                     LocalDateTime createdAt, LocalDateTime updatedAt) {
 
-            return new FixedAmountVoucher(voucherId, discountValue, voucherType, createdAt);
+            return new FixedAmountVoucher(voucherId, discountValue, voucherType, createdAt, updatedAt);
         }
     },
     PERCENT_DISCOUNT("2") {
@@ -26,9 +27,10 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
+        public Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType,
+                                     LocalDateTime createdAt, LocalDateTime updatedAt) {
 
-            return new PercentDiscountVoucher(voucherId, discountValue, voucherType, createdAt);
+            return new PercentDiscountVoucher(voucherId, discountValue, voucherType, createdAt, updatedAt);
         }
     };
 
@@ -49,5 +51,6 @@ public enum VoucherType {
 
     public abstract Voucher createVoucher(long discountValue, VoucherType voucherType);
 
-    public abstract Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt);
+    public abstract Voucher createVoucher(Long voucherId, long discountValue, VoucherType voucherType,
+                                          LocalDateTime createdAt, LocalDateTime updatedAt);
 }
