@@ -1,6 +1,7 @@
 package com.waterfogsw.voucher.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,10 @@ public class FileUtils {
     private static final String FILE_EXIST = "File already exist";
     private static final String DIRECTORY_ERROR = "Error Occurred While Initialize Directory";
     private static final String PATH_VALIDATION_REGEX = "^(((\\.|\\.\\.).)|\\/)(((\\w*|(\\.\\.\\/))+\\/)*)(\\w+|\\/)$";
+
+    static {
+        mapper.registerModule(new JavaTimeModule());
+    }
 
     private FileUtils() {
     }

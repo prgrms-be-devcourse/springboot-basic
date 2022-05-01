@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.time.LocalDateTime;
+
 @JsonTypeName("PERCENT_DISCOUNT")
 public class PercentDiscountVoucher extends Voucher {
 
@@ -19,11 +21,18 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
+    public PercentDiscountVoucher(Long id, int percent, LocalDateTime createdAt) {
+        super(id, VoucherType.PERCENT_DISCOUNT, createdAt);
+        validate(percent);
+        this.percent = percent;
+    }
+
     @JsonCreator
     public PercentDiscountVoucher(@JsonProperty("id") Long id,
                                   @JsonProperty("type") VoucherType type,
-                                  @JsonProperty("value") int percent) {
-        super(id, type);
+                                  @JsonProperty("value") int percent,
+                                  @JsonProperty("createdAt") LocalDateTime createdAt) {
+        super(id, type, createdAt);
         validate(percent);
         this.percent = percent;
     }

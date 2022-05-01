@@ -4,6 +4,8 @@ package com.waterfogsw.voucher.voucher.domain;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
+import java.time.LocalDateTime;
+
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
@@ -17,10 +19,18 @@ public abstract class Voucher {
 
     private final Long id;
     private final VoucherType type;
+    private final LocalDateTime createdAt;
 
     protected Voucher(Long id, VoucherType type) {
         this.id = id;
         this.type = type;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Voucher(Long id, VoucherType type, LocalDateTime createdAt) {
+        this.id = id;
+        this.type = type;
+        this.createdAt = createdAt;
     }
 
     public Long getId() {
@@ -29,6 +39,13 @@ public abstract class Voucher {
 
     public VoucherType getType() {
         return type;
+    }
+
+    public static Voucher of(Long id, VoucherType type, int value, LocalDateTime createdAt) {
+        return switch (type) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(id, value, createdAt);
+            case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, value, createdAt);
+        };
     }
 
     public abstract int getValue();
@@ -42,6 +59,10 @@ public abstract class Voucher {
             case FIXED_AMOUNT -> new FixedAmountVoucher(value);
             case PERCENT_DISCOUNT -> new PercentDiscountVoucher(value);
         };
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public static Voucher toEntity(Long id, Voucher domain) {

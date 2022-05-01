@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         final var id = resultSet.getLong("voucher_id");
         final var type = VoucherType.valueOf(resultSet.getString("voucher_type"));
         final var value = resultSet.getInt("value");
-        return Voucher.toEntity(id, Voucher.of(type, value));
+        final var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Voucher.of(id, type, value, createdAt);
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -33,6 +35,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("id", voucher.getId());
             put("type", voucher.getType().name());
             put("value", voucher.getValue());
+            put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
         }};
     }
 
@@ -44,7 +47,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher.getId() == null) {
             final var updatedNum = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_type, value) VALUES (:type, :value)",
+                    "INSERT INTO vouchers(voucher_type, value, created_at) VALUES (:type, :value, :createdAt)",
                     toParamMap(voucher)
             );
             if (updatedNum != 1) {
