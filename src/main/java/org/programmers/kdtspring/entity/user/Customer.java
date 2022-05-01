@@ -12,7 +12,7 @@ public class Customer {
     private Name name;
     private LocalDateTime lastLoginAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = new Name(name);
         this.email = new Email(email);

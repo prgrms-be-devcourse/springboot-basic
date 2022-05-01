@@ -20,6 +20,7 @@ import java.util.UUID;
 public class VoucherService {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 
@@ -28,16 +29,28 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
-    public Optional<Voucher> createVoucher(VoucherType voucherType, int amount, int percent) {
+    public List<Voucher> getVouchers() {
+        return voucherRepository.findAll();
+    }
+
+    public List<Voucher> getVouchersByType(String voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public Optional<Voucher> getVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
+
+    public Optional<Voucher> createVoucher(String voucherType, int discount) {
         logger.info("[VoucherService] createFixedAmountVoucher(long amount) called");
         UUID uuid = UUID.randomUUID();
-        if (voucherType.equals(VoucherType.FixedAmountVoucher)) {
-            voucherRepository.insert(new FixedAmountVoucher(uuid, amount, String.valueOf(voucherType)));
+        if (voucherType.equals(VoucherType.FixedAmountVoucher.toString())) {
+            voucherRepository.insert(new FixedAmountVoucher(uuid, discount, voucherType));
             return voucherRepository.findById(uuid);
         }
 
-        if (voucherType.equals(VoucherType.PercentDiscountVoucher)) {
-            voucherRepository.insert(new PercentDiscountVoucher(uuid, percent, String.valueOf(voucherType)));
+        if (voucherType.equals(VoucherType.PercentDiscountVoucher.toString())) {
+            voucherRepository.insert(new PercentDiscountVoucher(uuid, discount, voucherType));
             return voucherRepository.findById(uuid);
         }
         logger.info("voucher created");
@@ -64,7 +77,12 @@ public class VoucherService {
         return voucherRepository.findByCustomer(customer);
     }
 
-    public List<Voucher> showAll() {
-        return voucherRepository.findAll();
+    public void removeVoucher(UUID voucherId) {
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+        voucherRepository.deleteOne(voucher.get());
+    }
+
+    public void removeAllVoucher() {
+        voucherRepository.deleteAll();
     }
 }

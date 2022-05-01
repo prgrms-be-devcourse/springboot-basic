@@ -23,4 +23,6 @@ public interface VoucherRepository {
     void deleteOne(Voucher voucher);
 
     void deleteAll();
+
+    List<Voucher> findByType(String voucherType);
 }

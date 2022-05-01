@@ -22,6 +22,7 @@ import java.util.UUID;
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
     private final String fileName = "voucherList.txt";
     private final FileWriter fw = new FileWriter(fileName, true);
     private final BufferedWriter bf = new BufferedWriter(fw);
@@ -77,6 +78,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomer(Customer customer) {
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
         throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 

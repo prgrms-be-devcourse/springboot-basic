@@ -105,6 +105,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE type = ?;", mapToVoucher, voucherType);
+    }
+
+    @Override
     public List<Voucher> findAll() {
         log.info("[voucherJdbcRepository] findAll() called");
         return jdbcTemplate.query("SELECT * FROM vouchers", mapToVoucher);

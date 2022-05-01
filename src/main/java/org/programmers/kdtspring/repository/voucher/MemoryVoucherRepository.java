@@ -59,6 +59,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(String voucherType) {
+        throw new NotAvailableMethod("이 메서드는 지원하지 않습니다.");
+    }
+
+    @Override
     public void deleteOne(Voucher voucher) {
         storage.remove(voucher.getVoucherId());
     }

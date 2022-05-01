@@ -19,7 +19,7 @@ public class ListCommandStrategy implements CommandStrategy {
     @Override
     public void runCommand() {
 
-        List<Voucher> vouchers = voucherService.showAll();
+        List<Voucher> vouchers = voucherService.getVouchers();
 
         if (vouchers.isEmpty()) {
             System.out.println("저장된 바우처가 없습니다.");

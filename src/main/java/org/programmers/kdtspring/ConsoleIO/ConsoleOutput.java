@@ -25,7 +25,7 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void showAllVoucher() {
-        voucherService.showAll().forEach(System.out::println);
+        voucherService.getVouchers().forEach(System.out::println);
     }
 
     @Override
