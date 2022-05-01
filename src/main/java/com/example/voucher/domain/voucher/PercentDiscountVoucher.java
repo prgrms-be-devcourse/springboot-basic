@@ -8,7 +8,7 @@ import static java.time.LocalDateTime.now;
 public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(Long voucherId, int discountAmount) {
-		super(PERCENT_DISCOUNT_VOUCHER, voucherId, discountAmount, now(), now());
+		super(PERCENT_DISCOUNT_VOUCHER, voucherId, discountAmount, now(), null);
 
 		validateDiscountAmount(discountAmount);
 	}

@@ -9,7 +9,7 @@ import static java.time.LocalDateTime.now;
 public class FixedAmountVoucher extends Voucher {
 
 	public FixedAmountVoucher(Long voucherId, int discountAmount) {
-		super(FIXED_AMOUNT_VOUCHER, voucherId, discountAmount, now(), now());
+		super(FIXED_AMOUNT_VOUCHER, voucherId, discountAmount, now(), null);
 		validateDiscountAmount(discountAmount);
 	}
 
