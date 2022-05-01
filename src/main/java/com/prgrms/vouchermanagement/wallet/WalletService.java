@@ -68,7 +68,7 @@ public class WalletService {
 		checkEmpty(voucherId);
 
 		checkCustomerNotHavingThisVoucher(customerId, voucherId);
-		voucherService.findById(voucherId)
+		voucherService.getById(voucherId)
 			.orElseThrow(NotExistException::new);
 
 		walletRepository.insertRecord(customerId, voucherId);

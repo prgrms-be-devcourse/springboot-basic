@@ -24,7 +24,7 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public List<Voucher> findAll() {
+	public List<Voucher> getAll() {
 		return voucherRepository.findAll();
 	}
 
@@ -53,7 +53,7 @@ public class VoucherService {
 	}
 
 	@Transactional
-	public Optional<Voucher> findById(UUID id) {
+	public Optional<Voucher> getById(UUID id) {
 		checkNull(id, "id 는 null 이 올 수 없습니다");
 		checkDuplicatedId(id);
 
@@ -75,7 +75,7 @@ public class VoucherService {
 	}
 
 	@Transactional
-	public void deleteById(UUID voucherId) {
+	public void removeById(UUID voucherId) {
 		checkNull(voucherId, "id 는 null 이 올 수 없습니다");
 		checkDuplicatedId(voucherId);
 

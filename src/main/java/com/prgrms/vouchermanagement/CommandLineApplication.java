@@ -65,7 +65,7 @@ public class CommandLineApplication {
 
 	private void showAllVouchers() {
 		outputView.showAll(voucherService
-			.findAll());
+			.getAll());
 	}
 
 	private void createVoucher() {
