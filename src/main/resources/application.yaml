@@ -11,3 +11,14 @@ spring:
       on-profile: file
 voucher:
   path: src/main/resources/voucher
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: db
+  datasource:
+    url: jdbc:mysql://localhost:3307/voucher_management
+    username: root
+    password: root1234!
