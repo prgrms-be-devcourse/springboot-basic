@@ -45,13 +45,13 @@ public class JdbcVoucherRepository {
         return new SqlVoucher(voucherId, voucherType, discountAmount, voucherOwner, isIssued, createdAt, issuedAt);
     };
 
-    private Map<String, Object> toParamMap (SqlVoucher voucher) {
-        return new HashMap<>(){{
+    private Map<String, Object> toParamMap(SqlVoucher voucher) {
+        return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("voucherType", voucher.getVoucherType());
             put("discountAmount", voucher.getDiscountAmount());
             put("voucherOwner", voucher.getVoucherOwner() != null ? voucher.getVoucherOwner().toString().getBytes() : null);
-            put("isIssued",  voucher.isIssued());
+            put("isIssued", voucher.isIssued());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
             put("issuedAt", voucher.getVoucherOwner() != null ? Timestamp.valueOf(voucher.getIssuedAt()) : null);
         }};
@@ -73,6 +73,42 @@ public class JdbcVoucherRepository {
 
     public List<SqlVoucher> findAll() {
         return jdbcTemplate.query(SELECT_ALL_SQL, sqlVoucherRowMapper);
+    }
+
+    public List<SqlVoucher> findByCondition(Optional<LocalDateTime> startDateTime,
+                                            Optional<LocalDateTime> endDateTime,
+                                            Optional<String> voucherType) {
+        int count = 0;
+        Map paramMap = new HashMap<>();
+        String query = "SELECT * FROM vouchers";
+        if (startDateTime.isPresent() || endDateTime.isPresent() || voucherType.isPresent()) {
+            query += " WHERE";
+        }
+        if (startDateTime.isPresent()) {
+            query += " DATE(created_at) >= :start";
+            count++;
+            paramMap.put("start", startDateTime.get());
+        }
+        if (endDateTime.isPresent()) {
+            if (count > 0) {
+                query += " AND";
+            }
+            query += " DATE(created_at) <= :end";
+            paramMap.put("end", endDateTime.get());
+        }
+        if (voucherType.isPresent()) {
+            if (count > 0) {
+                query += " AND";
+            }
+            query += " voucher_type = :type";
+            paramMap.put("type", voucherType.get());
+        }
+
+        return jdbcTemplate.query(
+                query,
+                paramMap,
+                sqlVoucherRowMapper);
+
     }
 
     public Optional<SqlVoucher> findById(UUID voucherId) {
