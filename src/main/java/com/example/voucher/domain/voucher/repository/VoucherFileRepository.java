@@ -39,7 +39,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		}
 
 		if (voucher.getVoucherId() == null) {
-			Voucher createdVoucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+			Voucher createdVoucher = Voucher.create(voucherType, VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
 			FileUtils.writeFile(path, createdVoucher+"\n");
 			return createdVoucher;
 		}
@@ -68,7 +68,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		try {
 			Long convertedVoucherId = Long.valueOf(voucherId);
 			int convertedDiscountAmount = Integer.valueOf(discountAmount);
-			return voucherType.create(convertedVoucherId, convertedDiscountAmount);
+			return Voucher.create(voucherType, convertedVoucherId, convertedDiscountAmount);
 		} catch (NumberFormatException e) {
 			// TODO: 로그 남기기
 			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());

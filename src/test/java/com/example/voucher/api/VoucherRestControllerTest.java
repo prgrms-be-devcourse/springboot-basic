@@ -114,7 +114,7 @@ public class VoucherRestControllerTest {
 
 			Voucher createdVoucher = new FixedAmountVoucher(1L, 1000);
 			String requestJsonString = objectToJsonString(new VoucherRequest(createdVoucher.getVoucherType(), createdVoucher.getDiscountAmount()));
-			String responseJsonString = objectToJsonString(new VoucherResponse(createdVoucher.getVoucherId(), createdVoucher.getDiscountAmount()));
+			String responseJsonString = objectToJsonString(new VoucherResponse(createdVoucher.getVoucherId(), createdVoucher.getDiscountAmount(), createdVoucher.getCreatedAt()));
 			given(voucherService.save(any(VoucherType.class), anyInt()))
 					.willReturn(createdVoucher);
 
