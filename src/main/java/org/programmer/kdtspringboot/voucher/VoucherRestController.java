@@ -56,7 +56,7 @@ public class VoucherRestController {
     @GetMapping("/time")
     public List<Voucher> findByCreatedAt(
             @DateTimeFormat(pattern = "yyyy-MM-dd")
-            @RequestParam(value = "time", required = false) LocalDate createdAt
+            @RequestParam(value = "date", required = false) LocalDate createdAt
     ) {
         return voucherService.findByCreatedAt(createdAt);
     }
