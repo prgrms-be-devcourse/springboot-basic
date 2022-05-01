@@ -20,11 +20,9 @@ public class VoucherWebController {
     }
 
     @PostMapping
-    public ResponseState createVoucher(@RequestBody @Valid VoucherDto.VoucherRequest request) {
+    public void createVoucher(@RequestBody @Valid VoucherDto.VoucherRequest request) {
 
         voucherService.create(request);
-
-        return ResponseState.SUCCESS;
     }
 
     @GetMapping
