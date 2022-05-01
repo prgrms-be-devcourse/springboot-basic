@@ -45,22 +45,17 @@ public class VoucherWebControllerTest {
         class ContextReceiveWrongDiscountValue {
 
             RequestBuilder request = MockMvcRequestBuilders
-                    .post("/api/v1/voucher/new")
+                    .post("/api/v1/vouchers")
                     .accept(MediaType.APPLICATION_JSON)
                     .content("{\"discountValue\":-1, \"voucherType\":\"FIXED_AMOUNT\"}")
                     .contentType(MediaType.APPLICATION_JSON);
 
             @Test
             @DisplayName("잘못된 요청 응답을 반환한다.")
-            void itReturnBadRequest() {
+            void itReturnBadRequest() throws Exception {
 
-                try {
-                    mockMvc.perform(request)
-                            .andExpect(status().isBadRequest());
-
-                } catch (Exception exception) {
-                    throw new RuntimeException();
-                }
+                mockMvc.perform(request)
+                        .andExpect(status().isBadRequest());
             }
         }
 
@@ -69,22 +64,17 @@ public class VoucherWebControllerTest {
         class ContextReceiveWrongVoucherType {
 
             RequestBuilder request = MockMvcRequestBuilders
-                    .post("/api/v1/voucher/new")
+                    .post("/api/v1/vouchers")
                     .accept(MediaType.APPLICATION_JSON)
                     .content("{\"discountValue\":1, \"voucherType\":\"null\"}")
                     .contentType(MediaType.APPLICATION_JSON);
 
             @Test
             @DisplayName("잘못된 요청 응답을 반환한다.")
-            void itReturnBadRequest() {
+            void itReturnBadRequest() throws Exception {
 
-                try {
-                    mockMvc.perform(request)
-                            .andExpect(status().isBadRequest());
-
-                } catch (Exception exception) {
-                    throw new RuntimeException();
-                }
+                mockMvc.perform(request)
+                        .andExpect(status().isBadRequest());
             }
         }
 
@@ -93,22 +83,17 @@ public class VoucherWebControllerTest {
         class ContextPostRequestMapping {
 
             RequestBuilder request = MockMvcRequestBuilders
-                    .post("/api/v1/voucher/new")
+                    .post("/api/v1/vouchers")
                     .accept(MediaType.APPLICATION_JSON)
                     .content("{\"discountValue\":1, \"voucherType\":\"FIXED_AMOUNT\"}")
                     .contentType(MediaType.APPLICATION_JSON);
 
             @Test
             @DisplayName("서비스의 create() 메서드를 호출하고 Success를 반환한다.")
-            void itSaveVoucherReturnSuccessResponse() {
+            void itSaveVoucherReturnSuccessResponse() throws Exception {
 
-                try {
                     mockMvc.perform(request)
                             .andExpect(status().isOk());
-
-                } catch (Exception exception) {
-                    throw new RuntimeException();
-                }
 
                 verify(voucherService).create(any(VoucherDto.VoucherRequest.class));
             }
@@ -125,7 +110,7 @@ public class VoucherWebControllerTest {
 
             @Test
             @DisplayName("바우처 리스트를 json형태로 반환한다.")
-            void itReturnVouchersByJsonType() {
+            void itReturnVouchersByJsonType() throws Exception {
 
                 FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
                 FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
@@ -134,20 +119,16 @@ public class VoucherWebControllerTest {
 
                 when(voucherService.list()).thenReturn(vouchers);
 
-                try {
-                    mockMvc.perform(get("/api/v1/vouchers"))
-                            .andExpect(status().isOk())
-                            .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                            .andExpect(jsonPath("$[0].voucherId").value("1"))
-                            .andExpect(jsonPath("$[0].discountValue").value("100"))
-                            .andExpect(jsonPath("$[0].voucherType").value("FIXED_AMOUNT"))
-                            .andExpect(jsonPath("$[1].voucherId").value("2"))
-                            .andExpect(jsonPath("$[1].discountValue").value("100"))
-                            .andExpect(jsonPath("$[1].voucherType").value("FIXED_AMOUNT"));
+                mockMvc.perform(get("/api/v1/vouchers"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$[0].voucherId").value("1"))
+                        .andExpect(jsonPath("$[0].discountValue").value("100"))
+                        .andExpect(jsonPath("$[0].voucherType").value("FIXED_AMOUNT"))
+                        .andExpect(jsonPath("$[1].voucherId").value("2"))
+                        .andExpect(jsonPath("$[1].discountValue").value("100"))
+                        .andExpect(jsonPath("$[1].voucherType").value("FIXED_AMOUNT"));
 
-                } catch (Exception exception) {
-                    throw new RuntimeException();
-                }
             }
         }
     }

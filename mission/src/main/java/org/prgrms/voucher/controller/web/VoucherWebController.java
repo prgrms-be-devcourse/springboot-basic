@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/vouchers")
 public class VoucherWebController {
 
     private final VoucherService voucherService;
@@ -18,7 +19,7 @@ public class VoucherWebController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/api/v1/voucher/new")
+    @PostMapping
     public ResponseState createVoucher(@RequestBody @Valid VoucherDto.VoucherRequest request) {
 
         voucherService.create(request);
@@ -26,7 +27,7 @@ public class VoucherWebController {
         return ResponseState.SUCCESS;
     }
 
-    @GetMapping("/api/v1/vouchers")
+    @GetMapping
     public List<VoucherDto.VoucherResponse> findVouchers() {
 
         return voucherService.list().stream()
