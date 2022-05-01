@@ -2,10 +2,14 @@ package org.prgrms.vouchermanagement.controller.api;
 
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class VoucherRestController {
@@ -22,8 +26,19 @@ public class VoucherRestController {
     this.voucherService = voucherService;
   }
 
+  /**
+   * @return 모든 Voucher 목록
+   */
   @GetMapping("/api/v1/vouchers")
   public List<Voucher> getAllVouchers() {
     return voucherService.getVoucherList();
+  }
+
+  @GetMapping("/api/v1/voucher")
+  public ResponseEntity<Voucher> getVoucherByVoucherId(@RequestParam("id") String id) {
+    var voucherId = UUID.fromString(id);
+    System.out.println(id);
+    var voucher = voucherService.getVoucherById(voucherId);
+    return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 }
