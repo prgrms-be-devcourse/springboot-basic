@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,10 +26,10 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = VoucherRestController.class,
@@ -59,20 +60,22 @@ public class VoucherRestControllerTest {
 			List<Voucher> vouchers = Arrays.asList(new FixedAmountVoucher(1L, 10000),
 					new FixedAmountVoucher(2L, 2000));
 			List<VoucherResponse> voucherResponses = vouchers.stream()
-					.map((v) -> VoucherResponse.from(v))
-					.collect(Collectors.toList());
+												.map((v) -> VoucherResponse.from(v))
+												.collect(Collectors.toList());
 			String responseJsonString = objectToJsonString(voucherResponses);
 			given(voucherService.findAll())
 					.willReturn(vouchers);
 
-
+			MvcResult mvcResult;
 			try {
-				mockMvc.perform(get("/api/v1/vouchers"))
-						.andExpect(status().isOk())
-						.andExpect(content().json(responseJsonString));
+				mvcResult = mockMvc.perform(get("/api/v1/vouchers"))
+						.andReturn();
 			} catch (Exception e) {
 				throw new RuntimeException(e.getMessage());
 			}
+			
+			assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
+			assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
 		}
 
 		@Nested
@@ -87,13 +90,16 @@ public class VoucherRestControllerTest {
 				given(voucherService.findAll())
 						.willReturn(Collections.EMPTY_LIST);
 
+				MvcResult mvcResult;
 				try {
-					mockMvc.perform(get("/api/v1/vouchers"))
-							.andExpect(status().isOk())
-							.andExpect(content().json(responseJsonString));
+					mvcResult = mockMvc.perform(get("/api/v1/vouchers"))
+							.andReturn();
 				} catch (Exception e) {
 					throw new RuntimeException(e.getMessage());
 				}
+				
+				assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
+				assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
 			}
 		}
 	}
@@ -112,15 +118,18 @@ public class VoucherRestControllerTest {
 			given(voucherService.save(any(VoucherType.class), anyInt()))
 					.willReturn(createdVoucher);
 
+			MvcResult mvcResult;
 			try {
-				mockMvc.perform(post("/api/v1/vouchers")
-								.content(requestJsonString)
-								.contentType(APPLICATION_JSON))
-						.andExpect(status().isOk())
-						.andExpect(content().json(responseJsonString));
+				mvcResult = mockMvc.perform(post("/api/v1/vouchers")
+							   .content(requestJsonString)
+							   .contentType(APPLICATION_JSON))
+							   .andReturn();
 			} catch (Exception e) {
 				throw new RuntimeException(e.getMessage());
 			}
+			
+			assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
+			assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
 		}
 
 		@Nested
@@ -138,11 +147,11 @@ public class VoucherRestControllerTest {
 					mvcResult = mockMvc.perform(post("/api/v1/vouchers")
 							.content(requestJsonString)
 							.contentType(APPLICATION_JSON))
-							.andExpect(status().isBadRequest())
 							.andReturn();
 				} catch (Exception e) {
 					throw new RuntimeException(e.getMessage());
 				}
+				assertThat(getStatus(mvcResult)).isEqualTo(BAD_REQUEST.value());
 				assertThat(mvcResult.getResolvedException().getMessage()).contains("바우처 타입이 null이 될 수 없습니다");
 			}
 		}
@@ -154,5 +163,17 @@ public class VoucherRestControllerTest {
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e.getMessage());
 		}
+	}
+	
+	private String getResponseString(MvcResult mvcResult) {
+		try {
+			return mvcResult.getResponse().getContentAsString();
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	private int getStatus(MvcResult mvcResult) {
+		return mvcResult.getResponse().getStatus();
 	}
 }
