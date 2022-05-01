@@ -31,7 +31,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 		}
 
 		if (voucher.getVoucherId() == null) {
-			Voucher createdVoucher = voucherType.create(VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
+			Voucher createdVoucher = Voucher.create(voucherType, VoucherIdGenerator.generateVoucherId(), voucher.getDiscountAmount());
 			store.put(createdVoucher.getVoucherId(), createdVoucher);
 			return createdVoucher;
 		}
