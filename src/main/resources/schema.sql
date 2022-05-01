@@ -17,5 +17,5 @@ CREATE TABLE vouchers
     is_issued BOOLEAN DEFAULT FALSE,
     created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     issued_at datetime(6) DEFAULT NULL,
-    CONSTRAINT fk_customers foreign key (voucher_owner) references customers (customer_id)
+    CONSTRAINT fk_customers foreign key (voucher_owner) references customers (customer_id) ON DELETE CASCADE
 );
