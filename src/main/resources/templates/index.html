@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Voucher Management</title>
+</head>
+<body>
+<h1>Hello, world!</h1>
+
+<!-- Tab -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" aria-current="page" th:href="@{/}">이용 방법</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/customers}">고객 관리</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/vouchers}">바우처 관리</a>
+    </li>
+</ul>
+
+</br>
+
+<h3>1. 고객 관리</h3>
+<h5>(1) 고객 생성하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;고객 생성하기 버튼 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 이름 입력</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 이메일 주소 입력</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> submit 버튼 클릭</br>
+</br>
+
+<h5>(2) 고객 상세페이지 확인하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;표에서 확인하고 싶은 고객의 행을 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 고객 정보와 바우처 지갑(고객이 보유한 바우처) 확인 가능</br>
+</br>
+
+<h5>(3) 고객 삭제하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;표에서 삭제하고 싶은 고객의 행을 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 고객 상세페이지로 이동</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 고객 삭제하기 버튼 클릭</br>
+</br>
+
+<h5>(4) 바우처 지갑 삭제하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;표에서 삭제하고 싶은 고객의 행을 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 고객 상세페이지로 이동</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 바우처 전체 삭제하기 버튼 클릭</br>
+</br>
+
+</br>
+<h3>2. 바우처 관리</h3>
+<h5>(1) 바우처 생성하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;바우처 생성하기 버튼 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 바우처 타입 선택</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 할인액/할인율 입력</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> submit 버튼 클릭</br>
+</br>
+
+<h5>(2) 바우처 발급하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;바우처 발급하기 버튼 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 발급할 바우처 선택</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 발급 대상 입력</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> submit 버튼 클릭</br>
+</br>
+
+<h5>(3) 바우처 상세페이지 확인하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;표에서 확인하고 싶은 바우처의 행을 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 바우처 정보와 해당 바우처를 발급받은 고객 정보 확인 가능</br>
+</br>
+
+<h5>(4) 바우처 삭제하기</h5>
+&nbsp;&nbsp;&nbsp;&nbsp;표에서 삭제하고 싶은 바우처의 행을 클릭</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 바우처 상세페이지로 이동</br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;> 바우처 삭제하기 버튼 클릭</br>
+
+</body>
+</html>
