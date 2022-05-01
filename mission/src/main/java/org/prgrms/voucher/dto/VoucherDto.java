@@ -3,12 +3,16 @@ package org.prgrms.voucher.dto;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class VoucherDto {
 
     public record VoucherRequest(
+            @Min(0)
             long discountValue,
+            @NotNull
             VoucherType voucherType
             ) {
 
