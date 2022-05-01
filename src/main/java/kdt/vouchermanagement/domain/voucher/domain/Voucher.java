@@ -31,5 +31,13 @@ public abstract class Voucher implements Serializable {
         return discountValue;
     }
 
+    @Override
+    public String toString() {
+        return "{voucherId=" + voucherId +
+                ", voucherType=" + voucherType +
+                ", discountValue=" + discountValue +
+                '}';
+    }
+
     public abstract void validateValueRange();
 }
