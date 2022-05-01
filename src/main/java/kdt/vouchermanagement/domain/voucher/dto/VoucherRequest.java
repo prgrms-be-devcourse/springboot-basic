@@ -5,8 +5,11 @@ import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 
 public class VoucherRequest {
 
-    private final VoucherType voucherType;
-    private final int discountValue;
+    private VoucherType voucherType;
+    private int discountValue;
+
+    public VoucherRequest() {
+    }
 
     public VoucherRequest(VoucherType voucherType, int discountValue) {
         this.voucherType = voucherType;
