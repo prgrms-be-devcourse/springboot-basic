@@ -57,6 +57,7 @@ public class VoucherService {
         voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
         voucherRepository.updateCustomerId(voucherId, customerId);
+        logger.info("Update voucher's customerId, voucher id: {}", voucherId);
     }
 
     @Transactional
@@ -66,7 +67,7 @@ public class VoucherService {
         LocalDateTime now = LocalDateTime.now();
         Voucher voucher = new Voucher(voucherId, voucherType, discountValue, now, now);
         voucherRepository.update(voucher);
-        logger.info("Update Voucher id: {}", voucher.getVoucherId());
+        logger.info("Update voucher, voucher id: {}", voucher.getVoucherId());
     }
 
     @Transactional
@@ -74,6 +75,6 @@ public class VoucherService {
         voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
         voucherRepository.deleteById(voucherId);
-        logger.info("Delete Voucher id: {}", voucherId);
+        logger.info("Delete voucher, voucher id: {}", voucherId);
     }
 }
