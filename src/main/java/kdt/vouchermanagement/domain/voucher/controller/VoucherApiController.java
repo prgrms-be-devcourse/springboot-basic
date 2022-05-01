@@ -22,7 +22,7 @@ public class VoucherApiController {
     @PostMapping
     public ResponseEntity<Voucher> createVoucher(@RequestBody VoucherRequest request) {
         Voucher savedVoucher = voucherService.createVoucher(request.toDomain());
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedVoucher);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
