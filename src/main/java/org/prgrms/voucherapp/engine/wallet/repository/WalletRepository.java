@@ -22,6 +22,8 @@ public interface WalletRepository {
 
     List<Customer> findCustomersByVoucherId(UUID voucherId);
 
+    List<Customer> findAvailableCustomersByVoucherId(UUID voucherId);
+
     void deleteByCustomerId(UUID customerId);
 
     void deleteByVoucherId(UUID voucherId);

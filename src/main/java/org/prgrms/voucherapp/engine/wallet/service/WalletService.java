@@ -41,6 +41,10 @@ public class WalletService {
                 .orElseThrow(() -> new NullWalletException(MessageFormat.format("{0}는 존재하지 않는 지갑 id입니다.", walletId)));
     }
 
+    public List<Customer> getAvailableCustomers(UUID voucherId){
+        return walletRepository.findAvailableCustomersByVoucherId(voucherId);
+    }
+
     @Transactional
     public Wallet assignVoucherToCustomer(UUID walletId, UUID customerId, UUID voucherId) {
         while (walletRepository.findById(walletId).isPresent()) {

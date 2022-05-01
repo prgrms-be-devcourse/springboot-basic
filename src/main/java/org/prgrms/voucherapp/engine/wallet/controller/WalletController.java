@@ -37,7 +37,9 @@ public class WalletController {
     @GetMapping("/wallets/{voucherId}/new")
     public String createWalletView(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(voucherId);
+        List<Customer> customers = walletService.getAvailableCustomers(voucherId);
         model.addAttribute("voucher", voucher);
+        model.addAttribute("customers", customers);
         return "new-wallet";
     }
 

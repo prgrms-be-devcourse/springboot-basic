@@ -104,6 +104,13 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
+    public List<Customer> findAvailableCustomersByVoucherId(UUID voucherId){
+        return jdbcTemplate.query("select c.* from customers c where c.customer_id not in (select w.customer_id from voucher_wallets w where voucher_id = UUID_TO_BIN(:voucherId))",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                JdbcCustomerRepository.getCustomerRowMapper());
+    }
+
+    @Override
     public void deleteByCustomerId(UUID customerId) {
         int delete = jdbcTemplate.update("delete from voucher_wallets where customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap("customerId", customerId.toString().getBytes()));
         if (delete < 0) throw new SqlStatementFailException("정상적으로 삭제되지 않았습니다.");

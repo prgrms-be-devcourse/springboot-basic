@@ -3,7 +3,6 @@ package org.prgrms.voucherapp.engine.customer.service;
 import org.prgrms.voucherapp.engine.customer.entity.Customer;
 import org.prgrms.voucherapp.engine.customer.repository.CustomerRepository;
 import org.prgrms.voucherapp.engine.wallet.repository.WalletRepository;
-import org.prgrms.voucherapp.engine.wallet.service.WalletService;
 import org.prgrms.voucherapp.exception.NullCustomerException;
 
 import org.prgrms.voucherapp.global.enums.CustomerStatus;
