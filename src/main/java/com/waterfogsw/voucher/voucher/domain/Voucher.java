@@ -22,12 +22,10 @@ public abstract class Voucher {
     private final LocalDateTime createdAt;
 
     protected Voucher(Long id, VoucherType type) {
-        this.id = id;
-        this.type = type;
-        this.createdAt = LocalDateTime.now();
+        this(id, type, LocalDateTime.now());
     }
 
-    public Voucher(Long id, VoucherType type, LocalDateTime createdAt) {
+    protected Voucher(Long id, VoucherType type, LocalDateTime createdAt) {
         this.id = id;
         this.type = type;
         this.createdAt = createdAt;
