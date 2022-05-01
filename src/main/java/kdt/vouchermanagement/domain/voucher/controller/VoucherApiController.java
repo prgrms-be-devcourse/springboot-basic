@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/voucher")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherApiController {
 
     private final VoucherService voucherService;
