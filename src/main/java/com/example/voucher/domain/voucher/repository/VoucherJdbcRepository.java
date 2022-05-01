@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
 
@@ -29,14 +31,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
 			throw new IllegalArgumentException(SERVER_ERROR.name());
 		}
 		Long voucherId = insertAction.executeAndReturnKey(toVoucherParamMap(voucher)).longValue();
-		return voucher.getVoucherType()
-					  .create(voucherId, voucher.getDiscountAmount());
+		return Voucher.create(voucher.getVoucherType(), voucherId, voucher.getDiscountAmount(), voucher.getCreatedAt(), voucher.getUpdatedAt());
 	}
 
 	@Override
 	public List<Voucher> findAll() {
 		return namedParameterJdbcTemplate.query(
-				"SELECT * FROM vouchers", Collections.emptyMap(), voucherRowMapper);
+				"SELECT * FROM vouchers", voucherRowMapper);
 	}
 
 	@Override
@@ -48,6 +49,8 @@ public class VoucherJdbcRepository implements VoucherRepository{
 		var paramMap = new HashMap<String, Object>();
 		paramMap.put("voucher_type", voucher.getVoucherType().getTypeString());
 		paramMap.put("discount_amount", voucher.getDiscountAmount());
+		paramMap.put("created_at", voucher.getCreatedAt());
+		paramMap.put("updated_at", voucher.getUpdatedAt());
 		return paramMap;
 	}
 
@@ -55,6 +58,12 @@ public class VoucherJdbcRepository implements VoucherRepository{
 		Long voucherId = resultSet.getLong("voucher_id");
 		VoucherType voucherType = VoucherType.of(resultSet.getString("voucher_type"));
 		int discountAmount = resultSet.getInt("discount_amount");
-		return voucherType.create(voucherId, discountAmount);
+		LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
+		LocalDateTime updatedAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
+		return Voucher.create(voucherType, voucherId, discountAmount, createdAt, updatedAt);
 	};
+
+	private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
+		return timestamp != null ? timestamp.toLocalDateTime() : null;
+	}
 }

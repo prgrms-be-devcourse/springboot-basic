@@ -7,19 +7,18 @@ import com.example.voucher.domain.voucher.repository.VoucherMemoryRepository;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
+import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("VoucherMemoryRepository 클래스의")
@@ -86,8 +85,8 @@ public class VoucherMemoryRepositoryTest {
 			private Voucher createdVoucher;
 
 			private class VoucherStub extends Voucher{
-				public VoucherStub(VoucherType voucherType, Long voucherId, int discountAmount) {
-					super(voucherType, voucherId, discountAmount);
+				public VoucherStub(VoucherType voucherType, Long voucherId, int discountAmount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+					super(voucherType, voucherId, discountAmount, createdAt, updatedAt);
 				}
 				@Override
 				public int discount(int beforeDiscount) {
@@ -97,7 +96,7 @@ public class VoucherMemoryRepositoryTest {
 
 			@BeforeEach
 			void 바우처_생성() {
-				createdVoucher = new VoucherStub(EMPTY, null, 1000);
+				createdVoucher = new VoucherStub(EMPTY, null, 1000, now(), now());
 			}
 			@Test
 			@DisplayName("IllegalArgumentException 예외를 던진다")
