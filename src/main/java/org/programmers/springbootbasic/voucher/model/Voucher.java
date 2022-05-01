@@ -15,5 +15,5 @@ public interface Voucher {
 
     LocalDateTime getCreatedAt();
 
-    void changeValue(long value);
+    Voucher changeValue(long value);
 }

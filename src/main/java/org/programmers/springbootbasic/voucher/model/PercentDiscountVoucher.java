@@ -53,8 +53,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void changeValue(long value) {
-        this.percent = value;
+    public Voucher changeValue(long value) {
+        return new PercentDiscountVoucher(this.voucherId, value, this.createdAt);
     }
 
     @Override

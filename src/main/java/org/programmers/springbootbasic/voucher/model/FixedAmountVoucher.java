@@ -55,8 +55,8 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public void changeValue(long value) {
-        this.amount = value;
+    public Voucher changeValue(long value) {
+        return new FixedAmountVoucher(this.voucherId, value, this.createdAt);
     }
 
     @Override
