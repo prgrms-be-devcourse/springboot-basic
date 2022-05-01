@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
-        property = "type"
+        property = "type",
+        include = JsonTypeInfo.As.EXISTING_PROPERTY
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FixedAmountVoucher.class, name = "FIXED_AMOUNT"),
