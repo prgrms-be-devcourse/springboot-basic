@@ -1,21 +1,37 @@
-spring.config.activate.on-profile: local
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+      url: jdbc:mysql://localhost/voucher_program
+      username: root
+      password: root1234!
+
 
 ---
 
-spring.config.activate.on-profile: file
+spring:
+  config:
+    activate:
+      on-profile: dataBase
+  datasource:
+      url: jdbc:mysql://localhost/voucher_program
+      username: root
+      password: root1234!
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: file
+  datasource:
+      url: jdbc:mysql://localhost/voucher_program
+      username: root
+      password: root1234!
 
 voucher:
   path: src/main/resources/voucherFileRepository.txt
-
 sequence:
   path : src/main/resources/voucherIdSequence
 
----
-
-spring.config.activate.on-profile: dataBase
-
-spring:
-  datasource:
-    url: jdbc:mysql://localhost/voucher_program
-    username: root
-    password: root1234!

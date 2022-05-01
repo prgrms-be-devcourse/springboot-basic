@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -29,8 +31,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
 
         if (voucher.getVoucherId() == null) {
-            int update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, discount_value, voucher_type)" +
-                    " VALUES(:voucherId, :discountValue, :voucherType)", toParamMap(voucher));
+            int update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, discount_value, voucher_type, created_at)" +
+                    " VALUES(:voucherId, :discountValue, :voucherType, :createdAt)", toParamMap(voucher));
 
             if (update != 1) {
                 throw new RuntimeException("Nothing was inserted");
@@ -53,9 +55,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
         long voucherId = resultSet.getLong("voucher_id");
         long discountValue = resultSet.getLong("discount_value");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
 
-        return voucherType.createVoucher(voucherId, discountValue, voucherType);
+        return voucherType.createVoucher(voucherId, discountValue, voucherType, createdAt);
     };
+
+    private static LocalDateTime toLocalDateTime(Timestamp timestamp) {
+
+        return timestamp != null ? timestamp.toLocalDateTime() : null;
+    }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
 
@@ -63,6 +71,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.getVoucherId());
         paramMap.put("discountValue", voucher.getDiscountValue());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
+        paramMap.put("createdAt", voucher.getCreatedAt());
 
         return paramMap;
     }

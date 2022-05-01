@@ -9,6 +9,7 @@ import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +41,7 @@ public class VoucherMemoryRepositoryTest {
         @DisplayName("save 기능을 테스트 할 때 바우처 객체를 인자로 받으면")
         class ContextReceiveNullVoucherType {
 
-            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT);
+            Voucher voucher = new FixedAmountVoucher(1L,100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
 
             @Test
             @DisplayName("해시맵 저장소에 저장하고 저장한 바우처를 반환한다.")
@@ -78,8 +79,8 @@ public class VoucherMemoryRepositoryTest {
                 try {
                     Map<Long, Voucher> map = (Map<Long, Voucher>) store.get(voucherRepository);
 
-                    Voucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT);
-                    Voucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT);
+                    Voucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
+                    Voucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now());
 
                     map.put(firstVoucher.getVoucherId(), firstVoucher);
                     map.put(secondVoucher.getVoucherId(), secondVoucher);

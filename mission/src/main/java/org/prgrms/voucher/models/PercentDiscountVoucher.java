@@ -1,5 +1,7 @@
 package org.prgrms.voucher.models;
 
+import java.time.LocalDateTime;
+
 public class PercentDiscountVoucher extends Voucher{
 
 
@@ -9,9 +11,9 @@ public class PercentDiscountVoucher extends Voucher{
         validate(percent);
     }
 
-    protected PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType) {
+    protected PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType, LocalDateTime createdAt) {
 
-        super(voucherId, percent, voucherType);
+        super(voucherId, percent, voucherType, createdAt);
     }
 
     @Override

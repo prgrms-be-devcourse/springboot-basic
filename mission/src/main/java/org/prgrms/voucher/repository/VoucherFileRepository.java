@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -35,7 +36,8 @@ public class VoucherFileRepository implements VoucherRepository {
 
             String saveFile = voucherEntity.getVoucherId() + ", "
                     + voucherEntity.getDiscountValue() + ", "
-                    + voucherEntity.getVoucherType();
+                    + voucherEntity.getVoucherType() + ", "
+                    + voucherEntity.getCreatedAt();
             FileUtils.saveEntity(saveFile, voucherFilePath);
             FileUtils.saveIdSequence(voucherEntity.getVoucherId(), idSequencePath);
 
@@ -55,7 +57,8 @@ public class VoucherFileRepository implements VoucherRepository {
                         .createVoucher(
                                 Long.parseLong(v[0]),
                                 Long.parseLong(v[1]),
-                                VoucherType.valueOf(v[2])
+                                VoucherType.valueOf(v[2]),
+                                LocalDateTime.parse(v[3])
                         )
                 )
                 .toList();
@@ -68,7 +71,8 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher.getVoucherType().createVoucher(
                 IdGenerator.fileIdGenerate(lastId),
                 voucher.getDiscountValue(),
-                voucher.getVoucherType()
+                voucher.getVoucherType(),
+                voucher.getCreatedAt()
         );
     }
 }
