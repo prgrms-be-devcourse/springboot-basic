@@ -5,6 +5,7 @@ import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,7 +42,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     private Voucher createVoucherEntity(VoucherType voucherType, int discountValue) {
         Long voucherId = VoucherIdGenerator.idGenerate();
-        Voucher voucherEntity = voucherType.createEntity(voucherId, discountValue);
+        Voucher voucherEntity = voucherType.createEntity(voucherId, discountValue, LocalDateTime.now(), LocalDateTime.now());
         return voucherEntity;
     }
 }

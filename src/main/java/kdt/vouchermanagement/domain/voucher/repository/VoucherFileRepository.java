@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -83,7 +84,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private Voucher createEntity(VoucherType voucherType, int discountValue) {
         Long voucherId = VoucherIdGenerator.idGenerate();
-        Voucher entity = voucherType.createEntity(voucherId, discountValue);
+        Voucher entity = voucherType.createEntity(voucherId, discountValue, LocalDateTime.now(), LocalDateTime.now());
         return entity;
     }
 
