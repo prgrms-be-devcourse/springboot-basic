@@ -28,20 +28,21 @@ public enum VoucherType {
     public Voucher createVoucher(UUID uuid, long amount) {
         return this.createInstance.apply(uuid, amount, Util.NOW());
     }
+
     public Voucher createVoucher(UUID uuid, long amount, LocalDateTime createdAt) {
         return this.createInstance.apply(uuid, amount, createdAt);
     }
 
     public static Optional<VoucherType> getType(int option) {
         return Arrays.stream(values())
-                .filter(o -> o.ordinal() == option-1)
+                .filter(o -> o.ordinal() == option - 1)
                 .findFirst();
     }
 
     public static Optional<VoucherType> getType(String typeName) {
-        try{
+        try {
             return Optional.of(VoucherType.valueOf(typeName.toUpperCase()));
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }

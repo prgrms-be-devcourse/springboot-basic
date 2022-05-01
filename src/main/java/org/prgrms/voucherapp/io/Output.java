@@ -2,10 +2,6 @@ package org.prgrms.voucherapp.io;
 
 import org.prgrms.voucherapp.global.enums.ModuleCommand;
 
-/*
-* Output : 출력 인터페이스
-* 출력 인터페이스 또한 입력 인터페이스와 같은 고민입니다.
-* */
 public interface Output {
     void informModuleMenu();
 

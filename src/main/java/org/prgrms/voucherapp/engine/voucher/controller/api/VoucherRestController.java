@@ -34,8 +34,8 @@ public class VoucherRestController {
     // TODO : ModelAttribute 사용하여 리팩토링
     @GetMapping
     public ResponseEntity<ResponseFormat> getVouchers(@RequestParam(value = "type") Optional<String> voucherType,
-                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> after,
-                                                       @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> before){
+                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> after,
+                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> before) {
 
         Optional<VoucherType> paramVoucherType = voucherType.isPresent() ? VoucherType.getType(voucherType.get()) : Optional.empty();
         List<Voucher> voucherList = voucherService.getVouchersByFilter(paramVoucherType, after, before);
@@ -44,21 +44,21 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<ResponseFormat> getVoucher(@PathVariable UUID voucherId){
+    public ResponseEntity<ResponseFormat> getVoucher(@PathVariable UUID voucherId) {
         VoucherDto resDto = VoucherDto.of(voucherService.getVoucher(voucherId));
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 조회 성공", resDto));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseFormat> createVoucher(@RequestBody VoucherCreateDto createDto){
+    public ResponseEntity<ResponseFormat> createVoucher(@RequestBody VoucherCreateDto createDto) {
         Voucher voucher = voucherService.createVoucher(createDto.type(), UUID.randomUUID(), createDto.amount());
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 생성 성공", VoucherDto.of(voucher)));
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<ResponseFormat> deleteVoucher(@PathVariable UUID voucherId){
+    public ResponseEntity<ResponseFormat> deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.removeVoucher(voucherId);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 삭제 성공 : "+voucherId, null));
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseFormat(true, HttpStatus.OK.value(), "바우처 삭제 성공 : " + voucherId, null));
     }
 
 }

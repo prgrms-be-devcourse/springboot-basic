@@ -1,8 +1,8 @@
 package org.prgrms.voucherapp.engine.voucher.entity;
 
 import org.prgrms.voucherapp.global.enums.VoucherType;
+
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {

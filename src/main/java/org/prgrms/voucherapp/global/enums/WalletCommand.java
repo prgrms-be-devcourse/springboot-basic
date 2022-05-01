@@ -23,7 +23,7 @@ public enum WalletCommand {
 
     public static Optional<WalletCommand> getMenu(int option) {
         return Arrays.stream(values())
-                .filter(w -> w.ordinal()+1 == option)
+                .filter(w -> w.ordinal() + 1 == option)
                 .findFirst();
     }
 }

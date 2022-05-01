@@ -3,8 +3,8 @@ package org.prgrms.voucherapp.global.enums;
 import java.util.Optional;
 
 /*
-* Command : 커맨드를 enum으로 관리합니다.
-* */
+ * Command : 커맨드를 enum으로 관리합니다.
+ * */
 public enum CrudCommand {
     CANCEL("cancel"),
     CREATE("create"),
@@ -25,7 +25,7 @@ public enum CrudCommand {
     public static Optional<CrudCommand> getMenu(String command) {
         try {
             return Optional.of(CrudCommand.valueOf(command.toUpperCase()));
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }

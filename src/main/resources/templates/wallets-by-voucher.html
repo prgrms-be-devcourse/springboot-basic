@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Voucher Application</title>
 </head>
 <body class="container-fluid">
@@ -31,7 +32,9 @@
     </tbody>
 </table>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/wallets/{voucherId}/new(voucherId = ${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">고객 할당하기</a>
+    <a th:href="@{/vouchers}" class="btn btn-primary me-md-2" type="button">바우처 홈</a>
+    <a th:href="@{/wallets/{voucherId}/new(voucherId = ${voucher.voucherId})}" class="btn btn-primary me-md-2"
+       type="button">고객 할당하기</a>
 </div>
 <h2>바우처 보유 고객</h2>
 <table class="table table-hover table-striped">
@@ -41,6 +44,7 @@
         <th scope="col">name</th>
         <th scope="col">email</th>
         <th scope="col">status</th>
+        <th scope="col">action</th>
     </tr>
     </thead>
     <tbody>
@@ -49,6 +53,13 @@
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
         <td th:text="*{status}"></td>
+        <td>
+            <form th:action="@{/wallets/delete}" method="post">
+                <input type="hidden" id="voucherId" name="voucherId" th:value="${voucher.voucherId}">
+                <input type="hidden" id="customerId" name="customerId" th:value="*{customerId}">
+                <button type="submit" class="btn btn-danger">삭제하기</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

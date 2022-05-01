@@ -26,15 +26,15 @@ public class VoucherService {
         this.walletRepository = walletRepository;
     }
 
-    public List<Voucher> getVouchersByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before){
+    public List<Voucher> getVouchersByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before) {
         return voucherRepository.findByFilter(voucherType, before, after);
     }
 
-    public List<Voucher> getAllVouchers(){
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 
-    public Voucher getVoucher(UUID voucherId){
+    public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId)));
@@ -73,8 +73,8 @@ public class VoucherService {
 
     @Transactional
     // TODO : 타입이 기존 바우처와 같은 경우 change 메소드로 속성 변경, 타입이 다른 경우에만 바우처 생성.
-    public void updateVoucher(UUID voucherId, VoucherType newVoucherType, long newDiscountAmount){
-        Voucher oldVoucher =  this.getVoucher(voucherId);
+    public void updateVoucher(UUID voucherId, VoucherType newVoucherType, long newDiscountAmount) {
+        Voucher oldVoucher = this.getVoucher(voucherId);
         Voucher newVoucher = voucherRepository.update(newVoucherType.createVoucher(voucherId, newDiscountAmount));
         logger.info("--- 수정된 바우처 정보 ---\n변경 전 : %s\n변경 후 : %s".formatted(oldVoucher, newVoucher));
     }

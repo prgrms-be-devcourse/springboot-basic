@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Voucher Application</title>
 </head>
 <body class="container-fluid">
@@ -31,8 +32,10 @@
         <td th:text="*{type}"></td>
         <td th:text="*{amount}"></td>
         <td th:text="*{createdAt}"></td>
-        <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:text="상세보기"  class="btn btn-primary" type="button"></a></td>
-        <td><a th:href="@{/wallets/{voucherId}(voucherId=*{voucherId})}" th:text="지갑보기"  class="btn btn-success" type="button"></a></td>
+        <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:text="상세보기" class="btn btn-primary"
+               type="button"></a></td>
+        <td><a th:href="@{/wallets/{voucherId}(voucherId=*{voucherId})}" th:text="지갑보기" class="btn btn-success"
+               type="button"></a></td>
     </tr>
     </tbody>
 </table>

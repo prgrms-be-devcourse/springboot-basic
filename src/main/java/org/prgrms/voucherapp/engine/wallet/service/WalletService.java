@@ -35,25 +35,28 @@ public class WalletService {
         this.voucherRepository = voucherRepository;
     }
 
-    public CustomerVoucherDto getWallet(UUID walletId){
+    public CustomerVoucherDto getWallet(UUID walletId) {
         return walletRepository
                 .findById(walletId)
                 .orElseThrow(() -> new NullWalletException(MessageFormat.format("{0}는 존재하지 않는 지갑 id입니다.", walletId)));
     }
 
     @Transactional
-    public Wallet assignVoucherToCustomer(UUID walletId, UUID customerId, UUID voucherId){
+    public Wallet assignVoucherToCustomer(UUID walletId, UUID customerId, UUID voucherId) {
         while (walletRepository.findById(walletId).isPresent()) {
             walletId = UUID.randomUUID();
         }
-        if(voucherRepository.findById(voucherId).isEmpty()) throw new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId));
-        if(customerRepository.findById(customerId).isEmpty()) throw new NullCustomerException(MessageFormat.format("{0}는 존재하지 않는 고객 id입니다.", customerId));
-        if(walletRepository.findByBothId(voucherId, customerId).isPresent()) throw new AlreadyExistException("해당 바우처와 고객은 이미 연결되었습니다.");
+        if (voucherRepository.findById(voucherId).isEmpty())
+            throw new NullVoucherException(MessageFormat.format("{0}는 존재하지 않는 바우처 id입니다.", voucherId));
+        if (customerRepository.findById(customerId).isEmpty())
+            throw new NullCustomerException(MessageFormat.format("{0}는 존재하지 않는 고객 id입니다.", customerId));
+        if (walletRepository.findByBothId(voucherId, customerId).isPresent())
+            throw new AlreadyExistException("해당 바우처와 고객은 이미 연결되었습니다.");
 
-        return walletRepository.insert( new Wallet(walletId, customerId, voucherId));
+        return walletRepository.insert(new Wallet(walletId, customerId, voucherId));
     }
 
-    public String getVouchersOfCustomerByStr(Customer customer){
+    public String getVouchersOfCustomerByStr(Customer customer) {
         StringBuilder sb = new StringBuilder();
         sb.append("--- (id : %s)%s님이 보유한 바우처 ---\n".formatted(customer.getCustomerId(), customer.getName()));
         for (Voucher voucher : walletRepository.findVouchersByCustomerId(customer.getCustomerId())) {
@@ -64,23 +67,24 @@ public class WalletService {
         return sb.toString();
     }
 
-    public List<Customer> getCustomersOfVoucherById(UUID voucherId){
+    public List<Customer> getCustomersOfVoucherById(UUID voucherId) {
         return walletRepository.findCustomersByVoucherId(voucherId);
     }
 
     @Transactional
-    public void removeByWalletId(UUID walletId){
+    public void removeByWalletId(UUID walletId) {
         CustomerVoucherDto oldWallet = this.getWallet(walletId);
         walletRepository.deleteByWalletId(walletId);
         logger.info("--- 삭제된 지갑 정보 --- \n%s".formatted(oldWallet));
     }
 
-    public void removeByBothId(UUID voucherId, UUID customerId){
-        if(walletRepository.findByBothId(voucherId, customerId).isEmpty()) throw new NullWalletException("존재하지 않는 지갑 id입니다.");
+    public void removeByBothId(UUID voucherId, UUID customerId) {
+        if (walletRepository.findByBothId(voucherId, customerId).isEmpty())
+            throw new NullWalletException("존재하지 않는 지갑 id입니다.");
         walletRepository.deleteByBothId(voucherId, customerId);
     }
 
-    public String getCustomersOfVoucherByStr(Voucher voucher){
+    public String getCustomersOfVoucherByStr(Voucher voucher) {
         StringBuilder sb = new StringBuilder();
         sb.append("--- %s 바우처가 보유한 고객들 ---\n".formatted(voucher.toString()));
         for (Customer customer : walletRepository.findCustomersByVoucherId(voucher.getVoucherId())) {
@@ -91,7 +95,7 @@ public class WalletService {
         return sb.toString();
     }
 
-    public String getWalletListByStr(){
+    public String getWalletListByStr() {
         StringBuilder sb = new StringBuilder();
         for (CustomerVoucherDto wallet : walletRepository.findAll()) {
             sb.append(wallet.toString()).append("\n");

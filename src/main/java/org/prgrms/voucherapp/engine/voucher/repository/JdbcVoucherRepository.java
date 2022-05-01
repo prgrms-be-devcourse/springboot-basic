@@ -106,7 +106,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
             if (!isFirstFilter) {
                 queryBuilder.append("and ");
             }
-            isFirstFilter = false;
             queryBuilder.append("created_at <= str_to_date(:before, \"%Y-%m-%dT%H:%i:%s\") ");
             paramMap.put("before", before.get().toString());
         }

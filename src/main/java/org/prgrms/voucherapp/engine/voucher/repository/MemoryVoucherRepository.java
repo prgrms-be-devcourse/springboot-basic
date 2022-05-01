@@ -47,13 +47,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByFilter(Optional<VoucherType> voucherType, Optional<LocalDateTime> after, Optional<LocalDateTime> before) {
         List<Voucher> voucherList = this.findAll();
-        if(voucherType.isPresent()){
+        if (voucherType.isPresent()) {
             voucherList = voucherList.stream().filter(v -> v.getType().equals(voucherType.get().toString())).toList();
         }
-        if(after.isPresent()){
+        if (after.isPresent()) {
             voucherList = voucherList.stream().filter(v -> v.getCreatedAt().isAfter(after.get())).toList();
         }
-        if(before.isPresent()){
+        if (before.isPresent()) {
             voucherList = voucherList.stream().filter(v -> v.getCreatedAt().isBefore(before.get())).toList();
         }
         return voucherList;

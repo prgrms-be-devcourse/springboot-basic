@@ -19,9 +19,9 @@ public enum ModuleCommand {
     }
 
     public static Optional<ModuleCommand> getMenu(String command) {
-        try{
+        try {
             return Optional.of(ModuleCommand.valueOf(command.toUpperCase()));
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }

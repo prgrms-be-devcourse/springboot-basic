@@ -1,4 +1,5 @@
 package org.prgrms.voucherapp.engine.voucher.controller;
+
 import org.prgrms.voucherapp.engine.voucher.dto.VoucherCreateDto;
 import org.prgrms.voucherapp.engine.voucher.entity.Voucher;
 import org.prgrms.voucherapp.engine.voucher.service.VoucherService;
@@ -21,19 +22,19 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers")
-    public String vouchersView(Model model){
+    public String vouchersView(Model model) {
         List<Voucher> vouchers = voucherService.getAllVouchers();
         model.addAttribute("vouchers", vouchers);
         return "vouchers";
     }
 
     @GetMapping("/new-voucher")
-    public String createVoucherView(){
+    public String createVoucherView() {
         return "new-voucher";
     }
 
     @PostMapping("/vouchers/create")
-    public String createVoucher(VoucherCreateDto createDto){
+    public String createVoucher(VoucherCreateDto createDto) {
         voucherService.createVoucher(
                 createDto.type(), UUID.randomUUID(), createDto.amount()
         );
@@ -41,14 +42,14 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/{voucherId}")
-    public String voucherDetailView(@PathVariable UUID voucherId, Model model){
+    public String voucherDetailView(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
     }
 
     @PostMapping("/vouchers/{voucherId}/delete")
-    public String deleteVoucher(@PathVariable UUID voucherId){
+    public String deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.removeVoucher(voucherId);
         return "redirect:/vouchers";
     }

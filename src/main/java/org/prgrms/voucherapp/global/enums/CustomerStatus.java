@@ -12,15 +12,15 @@ public enum CustomerStatus {
 
     public static Optional<CustomerStatus> getStatus(int option) {
         return Arrays.stream(values())
-                .filter(o -> o.ordinal() == option-1)
+                .filter(o -> o.ordinal() == option - 1)
                 .findFirst();
     }
 
     public static Optional<CustomerStatus> getStatus(String command) {
-        try{
-            if(command == null) return Optional.empty();
+        try {
+            if (command == null) return Optional.empty();
             return Optional.of(CustomerStatus.valueOf(command.toUpperCase()));
-        } catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }
