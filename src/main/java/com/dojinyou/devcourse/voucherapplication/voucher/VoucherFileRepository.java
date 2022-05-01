@@ -31,6 +31,9 @@ public class VoucherFileRepository implements VoucherRepository {
         if (!Files.exists(FILE_PATH)) {
             throw new IllegalArgumentException(ERROR_MESSAGE_NO_SUCH_FILE);
         }
+        // TODO: refactoring 필요
+        // ID값 초기화
+        initializeId();
     }
 
     @Override
@@ -38,25 +41,19 @@ public class VoucherFileRepository implements VoucherRepository {
         if (voucher == null) {
             throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
         }
-        // File을 읽어와서 셋팅을 했는 지 체크한다.
-        if (!isInitId) {
-            try {
-                String[] readData = CsvFileUtils.readLine(FILE_PATH, -1);
-                int lastId = Integer.parseInt(readData[VoucherMapper.indexId]);
-                idInit(lastId);
-            } catch (Exception e) {
-                idInit(0);
-            }
-            isInitId = true;
-        }
         long id = idGenerator.incrementAndGet();
         VoucherEntity voucherEntity = VoucherMapper.domainToEntity(id, voucher);
         return save(voucherEntity);
     }
 
-    private void idInit(int size) {
-        idGenerator.set(size);
-        isInitId = true;
+    private void initializeId() {
+        try {
+            String[] readData = CsvFileUtils.readLine(FILE_PATH, -1);
+            int lastId = Integer.parseInt(readData[VoucherMapper.indexId]);
+            idGenerator.set(lastId);
+        } catch (Exception e) {
+            idGenerator.set(0);
+        }
     }
 
     @Override
