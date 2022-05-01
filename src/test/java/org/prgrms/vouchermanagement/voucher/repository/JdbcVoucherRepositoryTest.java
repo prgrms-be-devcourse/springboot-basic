@@ -171,10 +171,10 @@ class JdbcVoucherRepositoryTest {
   @Test
   @DisplayName("ID로 존재 유무를 알 수 있다")
   void testCheckExistenceById() {
-    var result1 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    var result1 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherId());
     assertThat(result1, is(false));
     jdbcVoucherRepository.insert(fixedAmountVoucher1);
-    var result2 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherID());
+    var result2 = jdbcVoucherRepository.checkExistenceById(fixedAmountVoucher1.getVoucherId());
     assertThat(result2, is(true));
   }
 }
