@@ -58,7 +58,7 @@ public class VoucherApiControllerTest {
     @DisplayName("바우처 생성시 잘못된 파라미터로 인하여 BAD_REQUEST ResponseEntity를 반환_실패")
     void responseBAD_REQUEST(final VoucherType type, final int discountValue) throws Exception {
         //given
-        String url = "/api/v1/voucher";
+        String url = "/api/v1/vouchers";
         VoucherRequest request = new VoucherRequest(type, discountValue);
         when(voucherService.createVoucher(any())).thenThrow(new IllegalArgumentException());
 
@@ -77,7 +77,7 @@ public class VoucherApiControllerTest {
     @DisplayName("바우처 생성시 쿼리 실행 오류로 인하여 INTERNAL_SERVER_ERROR ResponseEntity를 반환_실패")
     void responseINTERNAL_SERVER_ERROR() throws Exception {
         //given
-        String url = "/api/v1/voucher";
+        String url = "/api/v1/vouchers";
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
         when(voucherService.createVoucher(any())).thenThrow(new IllegalStateException());
 
@@ -96,7 +96,7 @@ public class VoucherApiControllerTest {
     @DisplayName("바우처 생성 요청에 대한 ResponseEntity 반환_성공")
     void responseCreateVoucher() throws Exception {
         //given
-        String url = "/api/v1/voucher";
+        String url = "/api/v1/vouchers";
         VoucherRequest request = new VoucherRequest(VoucherType.FIXED_AMOUNT, 100);
         Voucher voucher = request.toDomain();
 
@@ -118,7 +118,7 @@ public class VoucherApiControllerTest {
     @DisplayName("바우처 목록 조회 요청에 대한 ResponseEntity 반환_성공")
     void responseFindVouchers() throws Exception {
         //given
-        String url = "/api/v1/voucher";
+        String url = "/api/v1/vouchers";
         Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100);
         List<Voucher> vouchers = new ArrayList<>();
         vouchers.add(voucher);
