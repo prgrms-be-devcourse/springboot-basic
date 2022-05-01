@@ -34,8 +34,9 @@ public class JdbcVoucherService {
         return voucher.get();
     }
 
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherRepository.save(voucher);
+        return voucher;
     }
 
     public void update(Voucher voucher) {

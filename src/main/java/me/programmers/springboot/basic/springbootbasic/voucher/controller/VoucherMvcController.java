@@ -1,11 +1,16 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.controller;
 
+import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreateRequestDto;
+import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
+import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,4 +40,22 @@ public class VoucherMvcController {
         return "detail";
     }
 
+    @GetMapping("/vouchers/new")
+    public String createVoucher() {
+        return "input";
+    }
+
+    @PostMapping("/vouchers/new")
+    public String createVoucher(@ModelAttribute VoucherCreateRequestDto requestDto) {
+        Voucher voucher = null;
+        if (requestDto.getType().equals("fixed")) {
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(requestDto.getDiscountPrice()));
+        } else if (requestDto.getType().equals("percent")) {
+            voucher = new PercentAmountVoucher(UUID.randomUUID(), Long.parseLong(requestDto.getDiscountPercent()));
+        }
+
+        voucherService.save(voucher);
+
+        return "redirect:/vouchers";
+    }
 }
