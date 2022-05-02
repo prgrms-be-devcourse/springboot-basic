@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class VoucherMenuTypeTest {
+
     @DisplayName("해당하는 메인메뉴를 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"create,CREATE", "list,LIST", "exit,EXIT", "update,UPDATE", "delete,DELETE", "wallet,WALLET"})

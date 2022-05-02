@@ -2,18 +2,19 @@ package org.prgms.voucherProgram.console.program;
 
 import java.util.UUID;
 
+import org.prgms.voucherProgram.console.exception.WrongCommandException;
 import org.prgms.voucherProgram.console.menu.VoucherMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
-import org.prgms.voucherProgram.domain.voucher.VoucherType;
-import org.prgms.voucherProgram.dto.VoucherRequest;
-import org.prgms.voucherProgram.dto.WalletRequest;
-import org.prgms.voucherProgram.exception.VoucherIsNotExistsException;
-import org.prgms.voucherProgram.exception.WrongCommandException;
-import org.prgms.voucherProgram.exception.WrongDiscountValueException;
-import org.prgms.voucherProgram.exception.WrongEmailException;
-import org.prgms.voucherProgram.service.VoucherService;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.exception.WrongEmailException;
+import org.prgms.voucherProgram.voucher.domain.VoucherType;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.voucher.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.voucher.exception.WrongDiscountValueException;
+import org.prgms.voucherProgram.voucher.service.VoucherService;
+import org.prgms.voucherProgram.wallet.dto.WalletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -84,7 +85,7 @@ public class VoucherProgram {
         VoucherRequest voucherRequest = inputView.inputVoucherInformation(voucherType.getNumber());
         while (true) {
             try {
-                outputView.printVoucher(voucherService.update(voucherId, voucherRequest));
+                outputView.printVoucher(voucherService.modify(voucherId, voucherRequest));
                 return;
             } catch (WrongDiscountValueException e) {
                 outputView.printError(e.getMessage());
@@ -163,7 +164,7 @@ public class VoucherProgram {
         String email = inputView.inputCustomerEmail();
         while (true) {
             try {
-                outputView.printVouchers(voucherService.findAssignVouchers(email));
+                outputView.printVouchers(voucherService.findAssignVouchers(new Email(email)));
                 return;
             } catch (WrongEmailException e) {
                 outputView.printError(e.getMessage());

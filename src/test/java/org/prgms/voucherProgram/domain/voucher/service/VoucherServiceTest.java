@@ -1,0 +1,574 @@
+package org.prgms.voucherProgram.domain.voucher.service;
+
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.BDDMockito.*;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgms.voucherProgram.customer.domain.Customer;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.customer.service.CustomerService;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.dto.VoucherFindRequest;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.voucher.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.voucher.repository.VoucherRepository;
+import org.prgms.voucherProgram.voucher.service.VoucherService;
+import org.prgms.voucherProgram.wallet.dto.WalletRequest;
+import org.prgms.voucherProgram.wallet.exception.AlreadyAssignException;
+import org.prgms.voucherProgram.wallet.exception.NotFoundVoucherException;
+
+@ExtendWith(MockitoExtension.class)
+class VoucherServiceTest {
+
+    @Mock
+    VoucherRepository voucherRepository;
+
+    @Mock
+    CustomerService customerService;
+
+    @InjectMocks
+    VoucherService voucherService;
+
+    private VoucherRequest voucherRequest() {
+        return new VoucherRequest(1, 10L);
+    }
+
+    private WalletRequest walletRequest() {
+        return new WalletRequest("hwan@gmail.com", UUID.randomUUID());
+    }
+
+    private FixedAmountVoucher voucher() {
+        return new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+    }
+
+    private List<Voucher> vouchers() {
+        return List.of(new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now()),
+            new PercentDiscountVoucher(UUID.randomUUID(), UUID.randomUUID(), 20L, LocalDateTime.now()));
+    }
+
+    private Customer customer() {
+        return new Customer(UUID.randomUUID(), "hwan", "hwan@gmail.com", LocalDateTime.now());
+    }
+
+    @Nested
+    @DisplayName("create 메서드는")
+    class Describe_create {
+
+        @Nested
+        @DisplayName("바우처 정보가 주어지면")
+        class Context_with_voucher {
+            final VoucherRequest voucherRequest = voucherRequest();
+            final Voucher voucher = voucher();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.save(any(Voucher.class))).willReturn(voucher);
+            }
+
+            @Test
+            @DisplayName("바우처를 만들어 저장하고 저장된 바우처를 리턴한다.")
+            void it_makes_voucher_and_returns_saved_voucher() {
+                Voucher newVoucher = voucherService.create(voucherRequest);
+
+                assertThat(newVoucher).usingRecursiveComparison()
+                    .isEqualTo(voucher);
+                then(voucherRepository).should(times(1)).save(any(Voucher.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findAll 메서드는")
+    class Describe_findAll {
+        @Nested
+        @DisplayName("저장된 바우처들이 있다면")
+        class Context_with_saved_vouchers {
+            final List<Voucher> vouchers = vouchers();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findAll()).willReturn(vouchers);
+            }
+
+            @Test
+            @DisplayName("모든 바우처를 리턴한다.")
+            void it_returns_all_voucher() {
+                List<Voucher> findVouchers = voucherService.findAllVoucher();
+
+                assertThat(findVouchers).hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .containsAll(vouchers);
+                then(voucherRepository).should(times(1)).findAll();
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findVouchers 메서드는")
+    class Describe_findVouchers {
+
+        @Nested
+        @DisplayName("조건에 맞는 바우처들이 있다면")
+        class Context_with_saved_vouchers {
+            final VoucherFindRequest voucherFindRequest = new VoucherFindRequest(1, LocalDateTime.now(),
+                LocalDateTime.now());
+            final List<Voucher> vouchers = vouchers();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findByTypeAndDate(any(Integer.class), any(LocalDateTime.class),
+                    any(LocalDateTime.class))).willReturn(vouchers);
+            }
+
+            @Test
+            @DisplayName("해당 하는 바우처들을 리턴한다.")
+            void it_returns_vouchers() {
+                List<Voucher> findVouchers = voucherService.findVouchers(voucherFindRequest);
+
+                assertThat(findVouchers).hasSize(2)
+                    .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
+                    .isEqualTo(vouchers);
+                then(voucherRepository).should(times(1))
+                    .findByTypeAndDate(any(Integer.class), any(LocalDateTime.class), any(LocalDateTime.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findById 메서드는")
+    class Describe_findById {
+        @Nested
+        @DisplayName("해당 아이디로 저장된 바우처가 있다면")
+        class Context_with_saved_voucher {
+            final Voucher voucher = voucher();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+            }
+
+            @Test
+            @DisplayName("해당하는 바우처를 리턴한다.")
+            void it_returns_voucher() {
+                Voucher findVoucher = voucherService.findVoucher(voucher.getVoucherId());
+
+                assertThat(findVoucher).isEqualTo(voucher);
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 아이디로 저장된 바우처가 없다면")
+        class Context_with_not_saved_voucher {
+            final UUID notSavedId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.findVoucher(notSavedId))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("modify 메서드는")
+    class Describe_modify {
+
+        @Nested
+        @DisplayName("해당 아이디를 가진 바우처가 있다면")
+        class Context_with_saved_voucher_id {
+            final VoucherRequest voucherRequest = voucherRequest();
+            final Voucher voucher = voucher();
+            final UUID voucherId = voucher.getVoucherId();
+            final Voucher updateVoucher = new FixedAmountVoucher(voucherId, voucherRequest.getDiscountValue(),
+                LocalDateTime.now());
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(voucherId)).willReturn(Optional.of(voucher));
+                given(voucherRepository.update(any(Voucher.class))).willReturn(updateVoucher);
+            }
+
+            @Test
+            @DisplayName("바우처를 수정한다.")
+            void it_update_voucher() {
+                Voucher updated = voucherService.modify(voucherId, voucherRequest);
+
+                assertThat(updateVoucher).usingRecursiveComparison()
+                    .isEqualTo(updated);
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(voucherRepository).should(times(1)).update(any(Voucher.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 아이디를 가진 바우처가 없다면")
+        class Context_with_not_saved_voucher_id {
+            final VoucherRequest voucherRequest = voucherRequest();
+            UUID voucherId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(voucherId)).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_returns_exception() {
+                assertThatThrownBy(() -> voucherService.modify(voucherId, voucherRequest))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(voucherRepository).should(times(0)).update(any(Voucher.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("delete 메서드는")
+    class Describe_delete {
+
+        @Nested
+        @DisplayName("해당 아이디를 가진 바우처가 있다면")
+        class Context_with_saved_voucher_id {
+            final UUID voucherId = UUID.randomUUID();
+            final Voucher voucher = new FixedAmountVoucher(voucherId, 10L, LocalDateTime.now());
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(voucherId)).willReturn(Optional.of(voucher));
+            }
+
+            @Test
+            @DisplayName("바우처를 삭제한다.")
+            void it_delete_voucher() {
+                voucherService.delete(voucherId);
+
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(voucherRepository).should(times(1)).deleteById(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 아이디를 가진 바우처가 없다면")
+        class Context_with_not_saved_voucher_id {
+            final UUID voucherId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(voucherId)).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.delete(voucherId))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(voucherRepository).should(times(0)).deleteById(any(UUID.class));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("assignVoucher 메서드는")
+    class Describe_assignVoucher {
+        @Nested
+        @DisplayName("정상적인 고객과 바우처가 주어진다면")
+        class Context_with_customer_and_voucher {
+            final Voucher voucher = voucher();
+            final Customer customer = customer();
+            final WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+                given(voucherRepository.assignCustomer(any(Voucher.class))).willReturn(
+                    new FixedAmountVoucher(voucher.getVoucherId(), customer.getCustomerId(),
+                        voucher.getDiscountValue(), LocalDateTime.now()));
+            }
+
+            @Test
+            @DisplayName("고객에게 바우처를 할당하고 할당된 바우처를 리턴한다.")
+            void it_assign_voucher_to_customer_and_returns_assigned_voucher() {
+                Voucher assignVoucher = voucherService.assignVoucher(walletRequest);
+
+                assertThat(assignVoucher).extracting("customerId")
+                    .isEqualTo(customer.getCustomerId());
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(voucherRepository).should(times(1)).assignCustomer(any(Voucher.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("주어진 고객 이메일이 존재하지 않는다면")
+        class Context_with_not_saved_customer {
+            final Voucher voucher = voucher();
+            final WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_returns_exception() {
+                assertThatThrownBy(() -> voucherService.assignVoucher(walletRequest))
+                    .isInstanceOf(CustomerIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+            }
+        }
+
+        @Nested
+        @DisplayName("주어진 바우처 아이디가 존재하지 않는다면")
+        class Context_with_not_saved_voucher {
+            final WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_excpetion() {
+                assertThatThrownBy(() -> voucherService.assignVoucher(walletRequest))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+            }
+        }
+
+        @Nested
+        @DisplayName("이미 할당된 바우처라면")
+        class Context_with_already_assign_voucher {
+            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 10L, LocalDateTime.now());
+            WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_returns_exception() {
+                assertThatThrownBy(() -> voucherService.assignVoucher(walletRequest))
+                    .isInstanceOf(AlreadyAssignException.class)
+                    .hasMessage("[ERROR] 해당 바우처는 이미 할당되었습니다.");
+            }
+        }
+
+    }
+
+    @Nested
+    @DisplayName("findAssginVouchers 메서드는")
+    class Describe_findAssginVouchers {
+
+        @Nested
+        @DisplayName("고객에게 할당된 바우처들이 있다면")
+        class Context_with_customer_has_vouchers {
+            final Customer customer = customer();
+            final List<Voucher> vouchers = vouchers();
+            final Email email = new Email(customer.getEmail());
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
+                given(voucherRepository.findByCustomerEmail(any(String.class))).willReturn(vouchers);
+            }
+
+            @Test
+            @DisplayName("고객에게 할당된 바우처들을 반환한다.")
+            void it_returns_assigned_vouchers() {
+                List<Voucher> vouchers = voucherService.findAssignVouchers(email);
+
+                assertThat(vouchers).hasSize(2);
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
+                then(voucherRepository).should(times(1)).findByCustomerEmail(any(String.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("해당 이메일로 저장된 고객이 없다면")
+        class Context_with_not_saved_email_customer {
+            Email email = new Email("hwan@gmail.com");
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_excpetion() {
+                assertThatThrownBy(() -> voucherService.findAssignVouchers(email))
+                    .isInstanceOf(CustomerIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findCustomer 메서드는")
+    class Describe_findCustomer {
+        @Nested
+        @DisplayName("특정 바우처를 가진 고객이 있다면")
+        class Context_with_customer_has_voucher {
+            final Customer customer = customer();
+            final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), customer.getCustomerId(), 10L,
+                LocalDateTime.now());
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+                given(customerService.findByVoucherId(any(UUID.class))).willReturn(customer);
+            }
+
+            @Test
+            @DisplayName("해당 고객을 찾아 고객을 리턴한다.")
+            void it_find_customer_and_returns_customer() {
+                Customer findCustomer = voucherService.findCustomer(voucher.getVoucherId());
+
+                assertThat(findCustomer).extracting("customerId").isEqualTo(customer.getCustomerId());
+                then(voucherRepository).should(times(1)).findById(any(UUID.class));
+                then(customerService).should(times(1)).findByVoucherId(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("특정 바우처가 존재하지 않는다면")
+        class Context_with_not_saved_voucher {
+            final UUID voucherId = UUID.randomUUID();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.empty());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.findCustomer(voucherId))
+                    .isInstanceOf(VoucherIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 아이디로 저장된 바우처가 없습니다.");
+            }
+        }
+
+        @Nested
+        @DisplayName("특정 바우처가 아직 할당전이라면")
+        class Context_with_not_assign_voucher {
+            final Voucher voucher = voucher();
+
+            @BeforeEach
+            void prepare() {
+                given(voucherRepository.findById(any(UUID.class))).willReturn(Optional.of(voucher));
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.findCustomer(voucher.getVoucherId()))
+                    .isInstanceOf(CustomerIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 바우처는 아직 할당전 입니다.");
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteAssignVoucher 메서드는")
+    class Describe_deleteAssignVoucher {
+        @Nested
+        @DisplayName("정상적인 바우처와 고객이 주어진다면")
+        class Context_with_voucher_and_customer {
+            final Voucher voucher = voucher();
+            final Customer customer = customer();
+            final WalletRequest walletRequest = new WalletRequest(customer.getEmail(), voucher.getVoucherId());
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
+                given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(List.of(voucher));
+            }
+
+            @Test
+            @DisplayName("고객이 보유한 바우처를 삭제한다.")
+            void it_delete_assign_voucher() {
+                voucherService.deleteAssignVoucher(walletRequest);
+
+                then(customerService).should(times(1)).findByEmail(any(Email.class));
+                then(voucherRepository).should(times(1)).findByCustomerId(any(UUID.class));
+                then(voucherRepository).should(times(1)).deleteById(any(UUID.class));
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하지 않는 고객이라면")
+        class Context_with_not_saved_customer {
+            final WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willThrow(new CustomerIsNotExistsException());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.deleteAssignVoucher(walletRequest))
+                    .isInstanceOf(CustomerIsNotExistsException.class)
+                    .hasMessage("[ERROR] 해당 이메일로 저장된 고객이 없습니다.");
+            }
+        }
+
+        @Nested
+        @DisplayName("고객은 존재하지만 고객에게 할당된 바우처가 없다면")
+        class Context_with_saved_customer_and_not_saved_voucher {
+            final Customer customer = customer();
+            final WalletRequest walletRequest = walletRequest();
+
+            @BeforeEach
+            void prepare() {
+                given(customerService.findByEmail(any(Email.class))).willReturn(customer);
+                given(voucherRepository.findByCustomerId(any(UUID.class))).willReturn(Collections.emptyList());
+            }
+
+            @Test
+            @DisplayName("예외를 발생한다.")
+            void it_throws_exception() {
+                assertThatThrownBy(() -> voucherService.deleteAssignVoucher(walletRequest))
+                    .isInstanceOf(NotFoundVoucherException.class)
+                    .hasMessage("[ERROR] 고객이 가진 바우처들에서 해당 아이디를 가진 바우처를 찾을 수 없습니다.");
+            }
+        }
+
+    }
+}

@@ -4,14 +4,14 @@ import org.prgms.voucherProgram.console.menu.CustomerMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
-import org.prgms.voucherProgram.domain.customer.Email;
-import org.prgms.voucherProgram.dto.CustomerRequest;
-import org.prgms.voucherProgram.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.exception.DuplicateEmailException;
-import org.prgms.voucherProgram.exception.WrongEmailException;
-import org.prgms.voucherProgram.exception.WrongFileException;
-import org.prgms.voucherProgram.exception.WrongNameException;
-import org.prgms.voucherProgram.service.CustomerService;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.customer.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.customer.exception.DuplicateEmailException;
+import org.prgms.voucherProgram.customer.exception.WrongEmailException;
+import org.prgms.voucherProgram.customer.exception.WrongFileException;
+import org.prgms.voucherProgram.customer.exception.WrongNameException;
+import org.prgms.voucherProgram.customer.service.CustomerService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,7 +55,7 @@ public class CustomerProgram {
         CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.save(customerRequest));
+                outputView.printCustomer(customerService.join(customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());
@@ -106,7 +106,7 @@ public class CustomerProgram {
         CustomerRequest customerRequest = inputView.inputCustomerInformation();
         while (true) {
             try {
-                outputView.printCustomer(customerService.update(email, customerRequest));
+                outputView.printCustomer(customerService.modify(email, customerRequest));
                 return;
             } catch (WrongNameException e) {
                 outputView.printError(e.getMessage());

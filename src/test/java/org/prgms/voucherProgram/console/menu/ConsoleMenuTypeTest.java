@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class ConsoleMenuTypeTest {
+
     @DisplayName("해당하는 메뉴를 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"exit,EXIT", "customer,CUSTOMER", "voucher,VOUCHER"})
