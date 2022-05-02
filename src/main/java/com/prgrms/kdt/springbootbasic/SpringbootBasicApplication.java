@@ -86,7 +86,10 @@ public class SpringbootBasicApplication {
 		}
 
 		public static CommandEnum getCommandEnum(String command){
-			return Arrays.stream(CommandEnum.values()).filter(c -> c.command.equals(command)).collect(Collectors.toList()).get(0);
+			return Arrays.stream(CommandEnum.values())
+					.filter(c -> c.command.equals(command))
+					.findAny()
+					.orElseThrow(() -> new NotSupportedCommandException("제공하지 않는 명령어입니다. : {}", command));
 		}
 
 		public void createVoucher() throws IOException {
