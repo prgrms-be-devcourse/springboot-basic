@@ -19,5 +19,5 @@ public interface Voucher {
 
     void changeAmount(Long amount);
 
-    void assignVoucherToCustomer(Customer customer);
+    void assignVoucherToCustomer(UUID customerId);
 }

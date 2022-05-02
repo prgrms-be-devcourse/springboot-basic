@@ -63,8 +63,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void assignVoucherToCustomer(Customer customer) {
-        this.customerId = customer.getCustomerId();
+    public void assignVoucherToCustomer(UUID customerId) {
+        this.customerId = customerId;
     }
 
 
@@ -78,13 +78,9 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void validateCreateVoucher(Long percent) {
-        try {
-            if (percent <= ZERO)
-                throw new IllegalArgumentException("Percent should be over zero");
-            if (percent > MAX_VOUCHER_PERCENT)
-                throw new IllegalArgumentException("Percent should not be over %d".formatted(MAX_VOUCHER_PERCENT));
-        } catch (IllegalArgumentException exception) {
-            System.out.println("정확하지 않은 percent를 입력했습니다.");
-        }
+        if (percent <= ZERO)
+            throw new IllegalArgumentException("Percent should be over zero");
+        if (percent > MAX_VOUCHER_PERCENT)
+            throw new IllegalArgumentException("Percent should not be over %d".formatted(MAX_VOUCHER_PERCENT));
     }
 }

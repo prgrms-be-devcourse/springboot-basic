@@ -64,8 +64,8 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public void assignVoucherToCustomer(Customer customer) {
-        this.customerId = customer.getCustomerId();
+    public void assignVoucherToCustomer(UUID customerId) {
+        this.customerId = customerId;
     }
 
 
@@ -79,14 +79,9 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     private void validateCreateVoucher(Long amount) {
-        try {
-            if (amount > MAX_VOUCHER_AMOUNT)
-                throw new IllegalArgumentException("Amount should be under %d".formatted(MAX_VOUCHER_AMOUNT));
-            if (amount < MIN_VOUCHER_AMOUNT)
-                throw new IllegalArgumentException("Amount should be over %d".formatted(MIN_VOUCHER_AMOUNT));
-
-        } catch (IllegalArgumentException exception) {
-            System.out.println("정확하지 않은 amount를 입력했습니다.");
-        }
+        if (amount > MAX_VOUCHER_AMOUNT)
+            throw new IllegalArgumentException("Amount should be under %d".formatted(MAX_VOUCHER_AMOUNT));
+        if (amount < MIN_VOUCHER_AMOUNT)
+            throw new IllegalArgumentException("Amount should be over %d".formatted(MIN_VOUCHER_AMOUNT));
     }
 }
