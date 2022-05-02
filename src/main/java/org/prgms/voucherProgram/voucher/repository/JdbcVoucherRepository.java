@@ -50,8 +50,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM voucher", DatabaseUtils.voucherRowMapper);
+    public List<Voucher> findAll(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE created_at BETWEEN ?  AND  ?",
+            DatabaseUtils.voucherRowMapper,
+            startDateTime == null ? Timestamp.valueOf(LocalDateTime.MIN) : Timestamp.valueOf(startDateTime),
+            endDateTime == null ? Timestamp.valueOf(LocalDateTime.now()) : Timestamp.valueOf(endDateTime));
     }
 
     @Override
@@ -66,9 +69,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(int type, LocalDateTime startTime, LocalDateTime endTime) {
+    public List<Voucher> findByType(int type) {
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE type = ?",
+            DatabaseUtils.voucherRowMapper,
+            type);
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(int type, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         return jdbcTemplate.query("SELECT * FROM voucher WHERE type = ? AND created_at BETWEEN ?  AND  ?",
-            DatabaseUtils.voucherRowMapper, type, Timestamp.valueOf(startTime), Timestamp.valueOf(endTime));
+            DatabaseUtils.voucherRowMapper,
+            type,
+            startDateTime == null ? Timestamp.valueOf(LocalDateTime.MIN) : Timestamp.valueOf(startDateTime),
+            endDateTime == null ? Timestamp.valueOf(LocalDateTime.now()) : Timestamp.valueOf(endDateTime));
     }
 
     @Override

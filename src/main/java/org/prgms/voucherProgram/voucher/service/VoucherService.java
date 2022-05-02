@@ -56,7 +56,13 @@ public class VoucherService {
     }
 
     public List<Voucher> findVouchers(VoucherFindRequest findRequest) {
-        return voucherRepository.findByTypeAndDate(findRequest.getType(), findRequest.getStartDateTime(),
+        if (findRequest.isTypeNull()) {
+            return voucherRepository.findAll(findRequest.getStartDateTime(), findRequest.getEndDateTime());
+        }
+
+        return voucherRepository.findByTypeAndDate(
+            findRequest.getType(),
+            findRequest.getStartDateTime(),
             findRequest.getEndDateTime());
     }
 

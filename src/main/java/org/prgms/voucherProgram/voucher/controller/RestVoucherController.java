@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.prgms.voucherProgram.global.error.ExceptionControllerAdvice;
+import org.prgms.voucherProgram.global.error.ExceptionResponse;
+import org.prgms.voucherProgram.global.error.exception.EntityNotFoundException;
 import org.prgms.voucherProgram.voucher.domain.Voucher;
 import org.prgms.voucherProgram.voucher.dto.SimpleResponse;
 import org.prgms.voucherProgram.voucher.dto.VoucherDto;
 import org.prgms.voucherProgram.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.voucher.service.VoucherService;
-import org.prgms.voucherProgram.global.error.ExceptionControllerAdvice;
-import org.prgms.voucherProgram.global.error.ExceptionResponse;
-import org.prgms.voucherProgram.global.error.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,18 +44,10 @@ public class RestVoucherController {
 
     @GetMapping
     public ResponseEntity<List<VoucherDto>> getVouchers(@RequestParam Map<String, String> params) {
-        List<VoucherDto> vouchers = findVouchers(params).stream()
+        List<VoucherDto> vouchers = voucherService.findVouchers(VoucherFindRequest.of(params)).stream()
             .map(VoucherDto::from)
             .collect(toList());
         return ResponseEntity.ok(vouchers);
-    }
-
-    private List<Voucher> findVouchers(Map<String, String> params) {
-        if (params.isEmpty()) {
-            return voucherService.findAllVoucher();
-        }
-
-        return voucherService.findVouchers(VoucherFindRequest.of(params));
     }
 
     @PostMapping

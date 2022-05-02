@@ -12,7 +12,13 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    List<Voucher> findAll();
+    default List<Voucher> findAll() {
+        throw new AssertionError();
+    }
+
+    default List<Voucher> findAll(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        throw new AssertionError();
+    }
 
     Optional<Voucher> findById(UUID voucherId);
 
@@ -31,4 +37,8 @@ public interface VoucherRepository {
     List<Voucher> findNotAssign();
 
     List<Voucher> findAssigned();
+
+    default List<Voucher> findByType(int type) {
+        throw new AssertionError();
+    }
 }
