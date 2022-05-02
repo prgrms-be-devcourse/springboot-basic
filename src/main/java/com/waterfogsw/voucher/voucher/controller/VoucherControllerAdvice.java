@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class VoucherControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException e) {
+    public ResponseEntity<ErrorResponse> handleValidationException(IllegalArgumentException e) {
         final var errorResponse = new ErrorResponse(e.getMessage());
         return ResponseEntity.badRequest().body(errorResponse);
     }
