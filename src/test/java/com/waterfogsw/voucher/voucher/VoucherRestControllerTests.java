@@ -174,7 +174,7 @@ public class VoucherRestControllerTests {
 
     @Nested
     @DisplayName("voucherFindBy 메서드는")
-    class Describe_voucherFindByPeriod {
+    class Describe_voucherFindBy {
 
         @Nested
         @DisplayName("시작날짜가 끝날짜보다 늦으면")
@@ -192,7 +192,7 @@ public class VoucherRestControllerTests {
                     final var resultActions = mockMvc.perform(request);
                     resultActions.andExpect(status().isBadRequest());
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new RuntimeException(e.getMessage());
                 }
             }
         }
@@ -230,7 +230,7 @@ public class VoucherRestControllerTests {
                     assertThat(resultContent, is(expectedContent));
 
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new RuntimeException(e.getMessage());
                 }
             }
         }
@@ -249,7 +249,7 @@ public class VoucherRestControllerTests {
                     final var resultActions = mockMvc.perform(request);
                     resultActions.andExpect(status().isBadRequest());
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new RuntimeException(e.getMessage());
                 }
             }
         }
@@ -282,7 +282,7 @@ public class VoucherRestControllerTests {
                     assertThat(resultContent, is(expectedContent));
 
                 } catch (Exception e) {
-                    throw new RuntimeException();
+                    throw new RuntimeException(e.getMessage());
                 }
             }
         }
