@@ -1,11 +1,11 @@
 package com.waterfogsw.voucher.voucher.service;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFound;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VoucherManageService implements VoucherService {
@@ -30,7 +30,11 @@ public class VoucherManageService implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> findById(long voucherId) {
-        return voucherRepository.findById(voucherId);
+    public Voucher findById(long voucherId) {
+        final var voucher = voucherRepository.findById(voucherId);
+        if (voucher.isEmpty()) {
+            throw new ResourceNotFound();
+        }
+        return voucher.get();
     }
 }

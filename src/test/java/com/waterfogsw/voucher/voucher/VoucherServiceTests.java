@@ -2,6 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFound;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import com.waterfogsw.voucher.voucher.service.VoucherManageService;
 import org.junit.jupiter.api.DisplayName;
@@ -108,8 +109,7 @@ public class VoucherServiceTests {
                 when(voucherRepository.findById(anyLong())).thenReturn(Optional.of(voucher));
 
                 final var findVoucher = voucherService.findById(1L);
-                assertThat(findVoucher.isPresent(), is(true));
-                assertThat(findVoucher.get(), samePropertyValuesAs(voucher));
+                assertThat(findVoucher, samePropertyValuesAs(voucher));
             }
         }
 
@@ -122,8 +122,7 @@ public class VoucherServiceTests {
             void it_throw_IllegalArgumentException() {
                 when(voucherRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-                final var findVoucher = voucherService.findById(1L);
-                assertThat(findVoucher.isPresent(), is(false));
+                assertThrows(ResourceNotFound.class, () -> voucherService.findById(1L));
             }
         }
     }
