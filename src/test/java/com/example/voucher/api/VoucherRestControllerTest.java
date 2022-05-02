@@ -189,7 +189,7 @@ public class VoucherRestControllerTest {
 			} catch (Exception e) {
 				throw new RuntimeException(e.getMessage());
 			}
-			
+
 			assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
 			assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
 		}
@@ -230,7 +230,7 @@ public class VoucherRestControllerTest {
 			doNothing().when(voucherService).deleteById(anyLong());
 
 
-			mockMvc.perform(delete("/api/v1/vouchers")
+			mockMvc.perform(delete("/api/v1/vouchers/" + voucherId)
 						.content(String.valueOf(voucherId))
 						.contentType(APPLICATION_JSON))
 						.andExpect(status().isOk());
@@ -244,7 +244,7 @@ public class VoucherRestControllerTest {
 			@DisplayName("예외 응답을 반환한다")
 			void 예외_응답을_반환한다() throws Exception {
 
-				mockMvc.perform(delete("/api/v1/vouchers"))
+				mockMvc.perform(delete("/api/v1/vouchers/null"))
 						.andExpect(status().isBadRequest());
 			}
 		}

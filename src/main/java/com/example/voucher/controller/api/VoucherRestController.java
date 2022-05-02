@@ -56,8 +56,8 @@ public class VoucherRestController {
 	}
 
 	// 삭제 기능
-	@DeleteMapping
-	public void deleteById(@RequestBody @NonNull Long voucherId) {
+	@DeleteMapping("/{voucherId}")
+	public void deleteById(@PathVariable @NonNull Long voucherId) {
 		voucherService.deleteById(voucherId);
 	}
 
