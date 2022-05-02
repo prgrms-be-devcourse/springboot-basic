@@ -71,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         var insert = jdbcTemplate.update(INSERT_SQL,
             customer.getCustomerId().toString().getBytes(UTF_8),
-            customer.getName().showName(),
+            customer.getName().getName(),
             customer.getEmail().getEmail());
         if (insert != 1) {
             throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
@@ -91,7 +91,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         logger.info("changeName() called");
 
         var update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
-            customer.getName().showName(),
+            customer.getName().getName(),
             customer.getCustomerId().toString().getBytes(UTF_8));
         if (update != 1) {
             throw new RuntimeException(GOT_EMPTY_RESULT_MSG);

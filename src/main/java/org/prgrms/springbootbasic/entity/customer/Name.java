@@ -1,16 +1,21 @@
 package org.prgrms.springbootbasic.entity.customer;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_NAME_FORMAT_EXP_MSG;
+
 import java.util.Objects;
+import org.prgrms.springbootbasic.exception.InvalidNameFormatException;
 
 public class Name {
 
     private String name;
 
     public Name(String name) {
+        validateNameFormat(name);
+
         this.name = name;
     }
 
-    public String showName() {
+    public String getName() {
         return name;
     }
 
@@ -29,5 +34,11 @@ public class Name {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    private void validateNameFormat(String name) {
+        if (name.length() >= 10) {
+            throw new InvalidNameFormatException(INVALID_NAME_FORMAT_EXP_MSG);
+        }
     }
 }

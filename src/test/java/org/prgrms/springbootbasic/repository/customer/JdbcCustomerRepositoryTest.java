@@ -172,7 +172,7 @@ class JdbcCustomerRepositoryTest {
 
         //then
         var customers = jdbcCustomerRepository.findById(customer.getCustomerId());
-        assertThat(customers.get().getName().showName())
+        assertThat(customers.get().getName().getName())
             .isEqualTo(newName);
     }
 

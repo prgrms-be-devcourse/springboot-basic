@@ -144,7 +144,7 @@ public class ScannerView implements View {
         customers.forEach(customer -> System.out.println(
             MessageFormat.format(CUSTOMER_LIST_PATTERN,
                 customer.getCustomerId(),
-                customer.getName().showName(),
+                customer.getName().getName(),
                 customer.getEmail().getEmail())));
         System.out.println();
     }
