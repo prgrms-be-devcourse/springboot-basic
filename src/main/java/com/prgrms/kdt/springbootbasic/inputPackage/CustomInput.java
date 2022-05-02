@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public interface CustomInput {
 
-    public String getCommand() throws IOException;
+    String getCommand() throws IOException;
 
     VoucherInfo getNewVoucherInfo() throws IOException;
 }
