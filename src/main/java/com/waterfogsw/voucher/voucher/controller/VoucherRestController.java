@@ -26,15 +26,7 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public List<ResponseVoucherDto> voucherList() {
-        return voucherService.findAllVoucher()
-                .stream()
-                .map(ResponseVoucherDto::of)
-                .toList();
-    }
-
-    @GetMapping("/search")
-    public List<ResponseVoucherDto> voucherFindBy(PeriodDto periodDto, VoucherType voucherType) {
+    public List<ResponseVoucherDto> voucherList(PeriodDto periodDto, VoucherType voucherType) {
         return voucherService.findAllVoucher()
                 .stream()
                 .filter((v) -> periodDto == null || periodDto.isBetween(v.getCreatedAt()))

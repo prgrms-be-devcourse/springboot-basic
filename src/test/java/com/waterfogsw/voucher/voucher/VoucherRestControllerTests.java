@@ -171,11 +171,6 @@ public class VoucherRestControllerTests {
                 }
             }
         }
-    }
-
-    @Nested
-    @DisplayName("voucherFindBy 메서드는")
-    class Describe_voucherFindBy {
 
         @Nested
         @DisplayName("시작날짜가 끝날짜보다 늦으면")
@@ -186,7 +181,7 @@ public class VoucherRestControllerTests {
             void it_return_list() {
                 final var fromDate = LocalDate.of(2022, 5, 1);
                 final var toDate = LocalDate.of(2022, 4, 29);
-                final var url = MessageFormat.format("/api/v1/vouchers/search?fromDate={0}&toDate={1}", fromDate, toDate);
+                final var url = MessageFormat.format("/api/v1/vouchers?fromDate={0}&toDate={1}", fromDate, toDate);
 
                 try {
                     final var request = get(url);
@@ -200,14 +195,14 @@ public class VoucherRestControllerTests {
 
         @Nested
         @DisplayName("유효한 날짜가 입력되면")
-        class Context_with_call {
+        class Context_with_valid_period {
 
             @Test
             @DisplayName("해당 기간의 모든 바우처를 리턴한다")
             void it_return_list() {
                 final var fromDate = LocalDate.of(2022, 5, 1);
                 final var toDate = LocalDate.of(2022, 5, 11);
-                final var url = MessageFormat.format("/api/v1/vouchers/search?fromDate={0}&toDate={1}", fromDate, toDate);
+                final var url = MessageFormat.format("/api/v1/vouchers?fromDate={0}&toDate={1}", fromDate, toDate);
 
                 final var createdTime1 = LocalDateTime.of(LocalDate.of(2022, 5, 1), LocalTime.now());
                 final var createdTime2 = LocalDateTime.of(LocalDate.of(2022, 4, 29), LocalTime.now());
@@ -243,7 +238,7 @@ public class VoucherRestControllerTests {
             @Test
             @DisplayName("BadRequest 를 응답한다")
             void it_return_list() {
-                final var url = "/api/v1/vouchers/search?voucherType=Hello";
+                final var url = "/api/v1/vouchers?voucherType=Hello";
 
                 try {
                     final var request = get(url);
@@ -262,7 +257,7 @@ public class VoucherRestControllerTests {
             @Test
             @DisplayName("해당 타입의 모든 바우처를 리턴한다")
             void it_return_list() {
-                final var url = "/api/v1/vouchers/search?voucherType=FIXED_AMOUNT";
+                final var url = "/api/v1/vouchers?voucherType=FIXED_AMOUNT";
 
                 final var voucher1 = new FixedAmountVoucher(0L, 1000);
                 final var voucher2 = new PercentDiscountVoucher(0L, 10);
