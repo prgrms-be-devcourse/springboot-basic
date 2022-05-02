@@ -155,7 +155,7 @@ public class VoucherJdbcRepositoryTest {
 			int count = voucherJdbcRepository.deleteById(createdVoucher.getVoucherId());
 
 			// then
-			assertThat(count).isEqualTo(0);
+			assertThat(count).isEqualTo(1);
 		}
 	}
 
