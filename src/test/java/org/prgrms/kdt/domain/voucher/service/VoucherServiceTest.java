@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.domain.voucher.request.VoucherSearchRequest;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -71,7 +72,7 @@ class VoucherServiceTest {
                 new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
         when(voucherRepository.findAll()).thenReturn(savedVouchers);
-        List<Voucher> vouchers = voucherService.getAllVouchers();
+        List<Voucher> vouchers = voucherService.getAllVouchers(new VoucherSearchRequest());
         //then
         assertThat(vouchers.size()).isEqualTo(2);
     }
@@ -115,7 +116,7 @@ class VoucherServiceTest {
                 new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10000L, now, now),
                 new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
-        when(voucherRepository.findByTypeAndDate(any(), any())).thenReturn(savedVouchers);
+        when(voucherRepository.findByVoucherTypeAndCreatedDate(any(), any())).thenReturn(savedVouchers);
         List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(VoucherType.FIXED_AMOUNT, now.toLocalDate());
         //then
         assertThat(vouchers.size()).isEqualTo(2);

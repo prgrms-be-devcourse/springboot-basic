@@ -103,7 +103,17 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date) {
+    public List<Voucher> findByVoucherTypeAndCreatedDate(VoucherType voucherType, LocalDate date) {
+        throw new VoucherDataException(NOT_SUPPORTED);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedDate(LocalDate createdDate) {
+        throw new VoucherDataException(NOT_SUPPORTED);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
         throw new VoucherDataException(NOT_SUPPORTED);
     }
 

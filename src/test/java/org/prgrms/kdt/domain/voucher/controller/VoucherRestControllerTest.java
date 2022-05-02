@@ -67,7 +67,7 @@ class VoucherRestControllerTest {
                 new Voucher(firstVoucherId, FIXED_AMOUNT, 10000L, now, now),
                 new Voucher(secondVoucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now));
         //when
-        when(voucherService.getAllVouchers()).thenReturn(savedVouchers);
+        when(voucherService.getAllVouchers(any())).thenReturn(savedVouchers);
         //then
         mockMvc.perform(get("/api/v1/vouchers"))
                 .andExpect(status().isOk())
@@ -85,9 +85,9 @@ class VoucherRestControllerTest {
         List<Voucher> savedVouchers = List.of(
                 new Voucher(voucherId, FIXED_AMOUNT, 10000L, now, now));
         //when
-        when(voucherService.getVoucherByTypeAndDate(any(), any())).thenReturn(savedVouchers);
+        when(voucherService.getAllVouchers(any())).thenReturn(savedVouchers);
         //then
-        mockMvc.perform(get("/api/v1/vouchers/search")
+        mockMvc.perform(get("/api/v1/vouchers/")
                         .param("voucherType", FIXED_AMOUNT.toString())
                         .param("date", now.toLocalDate().toString()))
                 .andExpect(status().isOk())

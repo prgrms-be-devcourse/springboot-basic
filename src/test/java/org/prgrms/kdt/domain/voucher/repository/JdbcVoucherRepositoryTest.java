@@ -131,7 +131,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
         voucherRepository.save(voucher);
         //when
-        List<Voucher> findVouchers = voucherRepository.findByTypeAndDate(VoucherType.PERCENT_DISCOUNT, now.toLocalDate());
+        List<Voucher> findVouchers = voucherRepository.findByVoucherTypeAndCreatedDate(VoucherType.PERCENT_DISCOUNT, now.toLocalDate());
         //then
         assertThat(findVouchers.size()).isEqualTo(1);
         assertThat(findVouchers.get(0)).usingRecursiveComparison().isEqualTo(voucher);
@@ -153,22 +153,6 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("잘못된 ID를 입력해 업데이트된 컬럼이 없을경우 예외가 발생한다.")
-    void updateById_exception() {
-        //given
-        LocalDateTime now = LocalDateTime.now().withNano(0);
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new Voucher(voucherId, VoucherType.PERCENT_DISCOUNT, 10L, now, now);
-        voucherRepository.save(voucher);
-        Voucher updateVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 20000L, now, now);
-        //when
-        //then
-        assertThatThrownBy(() -> voucherRepository.update(updateVoucher))
-                .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
-    }
-
-    @Test
     @DisplayName("입력받은 고객 ID를 통해 바우처를 고객에게 할당할 수 있다.")
     void updateCustomerId() {
         //given
@@ -185,19 +169,6 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("입력된 ID를 통해 업데이트 된 컬럼이 존재하지 않을 경우 예외가 발생한다.")
-    void updateCustomerId_exception() {
-        //given
-        UUID customerId = UUID.randomUUID();
-        UUID voucherId = UUID.randomUUID();
-        //when
-        //then
-        assertThatThrownBy(() -> voucherRepository.updateCustomerId(voucherId, customerId))
-                .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
-    }
-
-    @Test
     @DisplayName("바우처 ID를 통해 바우처를 삭제할 수 있다.")
     void deleteById() {
         //given
@@ -209,18 +180,6 @@ class JdbcVoucherRepositoryTest {
         int deletedRows = voucherRepository.deleteById(voucherId);
         //then
         assertThat(deletedRows).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("등록되지 않은 바우처 ID를 삭제할 경우 예외가 발생한다.")
-    void deleteById_exception() {
-        //given
-        UUID voucherId = UUID.randomUUID();
-        //when
-        //then
-        assertThatThrownBy(() -> voucherRepository.deleteById(voucherId))
-                .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
@@ -253,16 +212,4 @@ class JdbcVoucherRepositoryTest {
         assertThat(deletedRows).isEqualTo(1);
     }
 
-    @Test
-    @DisplayName("존재하지 않는 고객 ID를 통해 삭제할 경우 예외가 발생한다.")
-    void deleteByCustomerId_exception() {
-        //given
-
-        UUID customerId = UUID.randomUUID();
-        //when
-        //then
-        assertThatThrownBy(() -> voucherRepository.deleteByCustomerId(customerId))
-                .isInstanceOf(VoucherDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
-    }
 }

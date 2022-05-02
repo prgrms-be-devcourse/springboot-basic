@@ -1,8 +1,11 @@
 package org.prgrms.kdt.domain.voucher.controller;
 
+import org.prgrms.kdt.domain.common.model.PageResponse;
+import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherSearchRequest;
 import org.prgrms.kdt.domain.voucher.request.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.response.VoucherResponse;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
@@ -17,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -31,41 +35,30 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<Result<List<VoucherResponse>>> voucherList() {
-        List<Voucher> vouchers = voucherService.getAllVouchers();
+    public ResponseEntity<PageResponse<List<VoucherResponse>>> getAllVouchers(VoucherSearchRequest searchRequest) {
+        List<Voucher> vouchers = voucherService.getAllVouchers(searchRequest);
         List<VoucherResponse> voucherResponseList = vouchers.stream()
                 .map(VoucherResponse::new).toList();
         return ResponseEntity.ok()
-                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Result<List<VoucherResponse>>> VoucherSearch(
-            @RequestParam("voucherType") VoucherType voucherType,
-            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdDate) {
-        List<Voucher> vouchers = voucherService.getVoucherByTypeAndDate(voucherType, createdDate);
-        List<VoucherResponse> voucherResponseList = vouchers.stream()
-                .map(VoucherResponse::new).toList();
-        return ResponseEntity.ok()
-                .body(new Result<>(voucherResponseList, voucherResponseList.size()));
+                .body(new PageResponse<>(voucherResponseList, voucherResponseList.size()));
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> voucherCreate(@Valid @RequestBody VoucherCreateRequest createRequest) {
+    public ResponseEntity<HttpStatus> createVoucher(@Valid @RequestBody VoucherCreateRequest createRequest) {
         Voucher voucher = createRequest.toEntity();
         voucherService.save(voucher);
         return new ResponseEntity<>(CREATED);
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<Voucher> voucherDetails(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<Voucher> getVoucher(@PathVariable("voucherId") UUID voucherId) {
         Optional<Voucher> voucher = voucherService.getVoucherById(voucherId);
         return voucher.map(value -> ResponseEntity.ok().body(value))
-                .orElseGet(() -> ResponseEntity.ok().body(null));
+                .orElseThrow(() -> new VoucherDataException(NOT_SAVED));
     }
 
     @PutMapping("/{voucherId}")
-    public ResponseEntity<HttpStatus> voucherModify(
+    public ResponseEntity<HttpStatus> modifyVoucher(
             @Valid @RequestBody VoucherUpdateRequest updateRequest,
             @PathVariable("voucherId") UUID voucherId) {
         voucherService.update(voucherId,
@@ -75,26 +68,8 @@ public class VoucherRestController {
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<HttpStatus> voucherRemove(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<HttpStatus> removeVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.remove(voucherId);
         return new ResponseEntity<>(OK);
-    }
-
-    static class Result<T> {
-        private T data;
-        private int count;
-
-        public Result(T data, int count) {
-            this.data = data;
-            this.count = count;
-        }
-
-        public T getData() {
-            return data;
-        }
-
-        public int getCount() {
-            return count;
-        }
     }
 }

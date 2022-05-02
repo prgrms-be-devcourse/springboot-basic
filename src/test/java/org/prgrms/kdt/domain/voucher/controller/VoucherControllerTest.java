@@ -10,6 +10,7 @@ import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
+import org.prgrms.kdt.domain.voucher.request.VoucherSearchRequest;
 import org.prgrms.kdt.domain.voucher.service.VoucherService;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -62,7 +63,7 @@ class VoucherControllerTest {
                 new Voucher(UUID.randomUUID(), FIXED_AMOUNT, 10000L, now, now),
                 new Voucher(UUID.randomUUID(), PERCENT_DISCOUNT, 10L, now, now));
         //when
-        when(voucherService.getAllVouchers()).thenReturn(savedVouchers);
+        when(voucherService.getAllVouchers(any())).thenReturn(savedVouchers);
         //then
         mockMvc.perform(get("/vouchers"))
                 .andExpect(status().isOk())

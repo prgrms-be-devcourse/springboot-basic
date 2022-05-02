@@ -71,14 +71,30 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date) {
+    public List<Voucher> findByVoucherTypeAndCreatedDate(VoucherType voucherType, LocalDate createdDate) {
         Map<String, Object> paramMap = new HashMap<>() {{
             put("voucherType", voucherType.getType());
-            put("createdDate", date.toString());
+            put("createdDate", createdDate.toString());
         }};
         return jdbcTemplate.query("SELECT * FROM voucher " +
                         "WHERE voucher_type = :voucherType AND DATE(created_date) = :createdDate",
                 paramMap,
+                voucherRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByCreatedDate(LocalDate createdDate) {
+        return jdbcTemplate.query("SELECT * FROM voucher " +
+                        "WHERE DATE(created_date) = :createdDate",
+                Collections.singletonMap("createdDate", createdDate.toString()),
+                voucherRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("SELECT * FROM voucher " +
+                        "WHERE voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.getType()),
                 voucherRowMapper());
     }
 

@@ -4,6 +4,7 @@ import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.service.CustomerService;
 import org.prgrms.kdt.domain.voucher.request.VoucherAssignRequest;
 import org.prgrms.kdt.domain.voucher.request.VoucherCreateRequest;
+import org.prgrms.kdt.domain.voucher.request.VoucherSearchRequest;
 import org.prgrms.kdt.domain.voucher.request.VoucherUpdateRequest;
 import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
@@ -35,7 +36,7 @@ public class VoucherController {
 
     @GetMapping
     public String voucherList(Model model) {
-        List<Voucher> vouchers = voucherService.getAllVouchers();
+        List<Voucher> vouchers = voucherService.getAllVouchers(new VoucherSearchRequest());
         model.addAttribute("vouchers", vouchers);
         return "vouchers/list";
     }

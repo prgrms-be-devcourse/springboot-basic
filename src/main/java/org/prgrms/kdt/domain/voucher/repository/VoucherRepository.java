@@ -17,7 +17,11 @@ public interface VoucherRepository {
 
     List<Voucher> findByCustomerIdIsNull();
 
-    List<Voucher> findByTypeAndDate(VoucherType voucherType, LocalDate date);
+    List<Voucher> findByVoucherTypeAndCreatedDate(VoucherType voucherType, LocalDate date);
+
+    List<Voucher> findByCreatedDate(LocalDate createdDate);
+
+    List<Voucher> findByVoucherType(VoucherType voucherType);
 
     List<Voucher> findAll();
 

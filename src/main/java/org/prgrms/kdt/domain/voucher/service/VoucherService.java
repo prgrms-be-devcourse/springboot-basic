@@ -4,6 +4,7 @@ import org.prgrms.kdt.domain.voucher.exception.VoucherDataException;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
 import org.prgrms.kdt.domain.voucher.model.VoucherType;
 import org.prgrms.kdt.domain.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.domain.voucher.request.VoucherSearchRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
@@ -36,8 +35,23 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public List<Voucher> getAllVouchers() {
-        return voucherRepository.findAll();
+    public List<Voucher> getAllVouchers(VoucherSearchRequest request) {
+        LocalDate createdDate = request.getCreatedDate();
+        VoucherType voucherType = request.getVoucherType();
+        List<Voucher> vouchers = new ArrayList<>();
+        if (voucherType == null && createdDate == null) {
+            vouchers = voucherRepository.findAll();
+        }
+        if(voucherType == null && createdDate != null) {
+            vouchers = voucherRepository.findByCreatedDate(createdDate);
+        }
+        if(voucherType != null && createdDate == null) {
+            vouchers = voucherRepository.findByVoucherType(voucherType);
+        }
+        if(voucherType != null && createdDate != null){
+            vouchers = voucherRepository.findByVoucherTypeAndCreatedDate(voucherType, createdDate);
+        }
+        return vouchers;
     }
 
     public List<Voucher> getVouchersByCustomerId(UUID customerId) {
@@ -49,7 +63,7 @@ public class VoucherService {
     }
 
     public List<Voucher> getVoucherByTypeAndDate(VoucherType voucherType, LocalDate date) {
-        return voucherRepository.findByTypeAndDate(voucherType, date);
+        return voucherRepository.findByVoucherTypeAndCreatedDate(voucherType, date);
     }
 
     @Transactional
