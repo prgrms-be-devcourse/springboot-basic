@@ -30,10 +30,7 @@ public class VoucherManageService implements VoucherService {
     }
 
     @Override
-    public Optional<Voucher> findById(Long voucherId) {
-        if (voucherId == null) {
-            throw new IllegalArgumentException();
-        }
+    public Optional<Voucher> findById(long voucherId) {
         return voucherRepository.findById(voucherId);
     }
 }

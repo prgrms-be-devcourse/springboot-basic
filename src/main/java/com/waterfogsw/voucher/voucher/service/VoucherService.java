@@ -10,5 +10,5 @@ public interface VoucherService {
 
     List<Voucher> findAllVoucher();
 
-    Optional<Voucher> findById(Long voucherId);
+    Optional<Voucher> findById(long voucherId);
 }

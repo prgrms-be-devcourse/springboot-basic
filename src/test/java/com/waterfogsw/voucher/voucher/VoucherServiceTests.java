@@ -98,17 +98,6 @@ public class VoucherServiceTests {
     class Describe_findById {
 
         @Nested
-        @DisplayName("id 값이 null 이면")
-        class Context_with_null_id {
-
-            @Test
-            @DisplayName("IllegalArgumentException 에러를 던진다")
-            void it_throw_IllegalArgumentException() {
-                assertThrows(IllegalArgumentException.class, () -> voucherService.findById(null));
-            }
-        }
-
-        @Nested
         @DisplayName("id 값이 존재하면")
         class Context_with_exist_id {
 
