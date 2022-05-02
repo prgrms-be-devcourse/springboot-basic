@@ -43,10 +43,10 @@ public class VoucherRestController {
                 .toList();
     }
 
-    @GetMapping("/{voucherId}")
-    public ResponseEntity<ResponseVoucherDto> voucherFindById(@PathVariable("voucherId") Long voucherId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseVoucherDto> voucherFindById(@PathVariable("id") Long id) {
         final var voucher = voucherService
-                .findById(voucherId)
+                .findById(id)
                 .map(ResponseVoucherDto::of);
 
         return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
