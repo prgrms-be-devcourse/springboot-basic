@@ -38,6 +38,7 @@ public class VoucherRestController {
 			vouchers = voucherService.findByCreatedAt(voucherSearchRequest.getCreatedAt());
 		}
 
+		// 바우처 타입 조회
 		else if (voucherSearchRequest.getVoucherType() != null) {
 			vouchers = voucherService.findByVoucherType(voucherSearchRequest.getVoucherType());
 		}

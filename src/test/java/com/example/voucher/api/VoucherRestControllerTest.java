@@ -24,9 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 import static java.time.LocalDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -248,7 +246,6 @@ public class VoucherRestControllerTest {
 
 				mockMvc.perform(delete("/api/v1/vouchers"))
 						.andExpect(status().isBadRequest());
-
 			}
 		}
 	}
@@ -260,6 +257,7 @@ public class VoucherRestControllerTest {
 		@Test
 		@DisplayName("바우처 아이디로 바우처를 조회한다")
 		void 바우처_아이디로_바우처를_조회한다() throws Exception {
+
 			Long voucherId = 1L;
 			Voucher voucher = new FixedAmountVoucher(voucherId, 1000);
 			String responseJsonString = objectToJsonString(voucher);

@@ -6,7 +6,9 @@ import com.example.voucher.util.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.*;
@@ -77,5 +79,25 @@ public class VoucherFileRepository implements VoucherRepository {
 
 	@Override
 	public void deleteAll() {
+	}
+
+	@Override
+	public int deleteById(Long voucherId) {
+		return 0;
+	}
+
+	@Override
+	public Optional<Voucher> findById(Long voucherId) {
+		return Optional.empty();
+	}
+
+	@Override
+	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByVoucherType(VoucherType voucherType) {
+		return null;
 	}
 }

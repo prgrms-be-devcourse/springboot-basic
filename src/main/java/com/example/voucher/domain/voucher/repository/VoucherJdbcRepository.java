@@ -2,6 +2,7 @@ package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -43,6 +44,35 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	@Override
 	public void deleteAll() {
 
+	}
+
+	@Override
+	public int deleteById(Long voucherId) {
+		return namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
+	}
+
+	@Override
+	public Optional<Voucher> findById(Long voucherId) {
+		try {
+			return Optional.of(
+					namedParameterJdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
+							Collections.singletonMap("voucherId", voucherId), voucherRowMapper)
+			);
+		} catch (EmptyResultDataAccessException e) {
+			return Optional.empty();
+		}
+	}
+
+	@Override
+	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+		return namedParameterJdbcTemplate.query(
+				"SELECT * FROM vouchers WHERE created_at = :createdAt", Collections.singletonMap("createdAt", createdAt), voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByVoucherType(VoucherType voucherType) {
+		return namedParameterJdbcTemplate.query(
+				"SELECT * FROM vouchers WHERE voucher_type = :voucherType", Collections.singletonMap("voucherType", voucherType.getTypeString()), voucherRowMapper);
 	}
 
 	private Map<String, Object> toVoucherParamMap(Voucher voucher) {
