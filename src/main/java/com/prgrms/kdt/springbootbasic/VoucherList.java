@@ -42,7 +42,10 @@ public enum VoucherList {
     public String getClassName(){ return className;}
 
     public static VoucherList getVoucherType(String className){
-        return Arrays.stream(VoucherList.values()).filter(v -> v.className.equals(className)).collect(Collectors.toList()).get(0);
+        return Arrays.stream(VoucherList.values())
+		        .filter(v -> v.className.equals(className))
+		        .findAny()
+		        .orElseThrow(CustomException::new);
     }
 
     public static Voucher makeVoucherByType(String voucherType, UUID voucherId, long amount, LocalDateTime createdAt) {
