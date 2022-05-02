@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -158,5 +159,42 @@ public class VoucherServiceTest {
         //then
         verify(voucherRepository, times(1)).save(any());
         assertThat(createdVoucher).usingRecursiveComparison().isEqualTo(voucher);
+    }
+
+    @Test
+    @DisplayName("바우처 삭제시 바우처가 존재하지 않으면 IllegalArgumentException이 발생한다.")
+    void notExistVoucherWhenDeleteVoucher() {
+        //given
+        Long voucherId = 1L;
+        doReturn(Optional.empty()).when(voucherRepository).findById(any());
+
+        //when, then
+        assertThrows(IllegalArgumentException.class, () -> voucherService.deleteVoucher(voucherId));
+    }
+
+    @Test
+    @DisplayName("바우처 삭제시 바우처가 존재하면 repository에게 바우처 삭제를 요청한다.")
+    void requestDeleteVoucher() {
+        //given
+        Long voucherId = 1L;
+        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 10, LocalDateTime.now(), LocalDateTime.now());
+        doReturn(Optional.of(voucher)).when(voucherRepository).findById(any());
+
+        //when
+        voucherService.deleteVoucher(voucherId);
+
+        //then
+        verify(voucherRepository, times(1)).deleteById(any());
+    }
+
+    @Test
+    @DisplayName("바우처 id 값으로 조회시 바우처가 존재하지 않으면 IllegalArgumentException이 발생한다.")
+    void notExistVoucherWhenFindVoucherById() {
+        //given
+        Long voucherId = 1L;
+        doReturn(Optional.empty()).when(voucherRepository).findById(any());
+
+        //when, then
+        assertThrows(IllegalArgumentException.class, () -> voucherService.findVoucher(voucherId));
     }
 }

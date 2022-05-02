@@ -23,6 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
@@ -134,5 +135,44 @@ public class VoucherJdbcRepositoryTest {
 
         //then
         assertThat(foundVouchers.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("바우처 id 값으로 조회시 조회가 되지 않았을 때 Optional.empty() 반환")
+    void returnOptionalEmptyFindById() {
+        //given
+        Long voucherId = 100L;
+
+        //when
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(foundVoucher).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("바우처 id 값으로 조회시 Optional로 감싼 바우처 반환")
+    void returnOptionalVoucherFindById() {
+        //given
+        Long voucherId = 1L;
+
+        //when
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(foundVoucher.isPresent()).isTrue();
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("바우처 id 값으로 바우처 삭제")
+    void deleteVoucherById() {
+        //given
+        Long voucherId = 1L;
+
+        //when, then
+        voucherRepository.deleteById(voucherId);
     }
 }

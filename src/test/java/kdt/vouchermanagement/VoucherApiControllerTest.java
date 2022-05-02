@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -138,6 +139,115 @@ public class VoucherApiControllerTest {
                 .getContentAsString(StandardCharsets.UTF_8), List.class);
 
         assertThat(responseVouchers.size()).isEqualTo(vouchers.size());
+    }
+
+    @Test
+    @DisplayName("바우처 삭제시 바우처가 존재하지 않아서 BAD_REQUEST ResponseEntity를 반환_실패")
+    void responseBadRequestWhenDeleteVoucher() {
+        //given
+        String url = "/api/v1/vouchers/1";
+        doThrow(new IllegalArgumentException()).when(voucherService).deleteVoucher(any());
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete(url));
+
+            //then
+            resultActions.andExpect(status().isBadRequest());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 요청_성공")
+    void requestDeleteVoucher() {
+        //given
+        String url = "/api/v1/vouchers/1";
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.delete(url));
+
+            //then
+            verify(voucherService, times(1)).deleteVoucher(any());
+            resultActions.andExpect(status().isNoContent());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 조회시 바우처가 존재하지 않아서 BAD_REQUEST ResponseEntity를 반환_실패")
+    void responseBadRequestWhenFindVoucherById() {
+        //given
+        String url = "/api/v1/vouchers/1";
+        doThrow(new IllegalArgumentException()).when(voucherService).findVoucher(any());
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(url));
+
+            //then
+            resultActions.andExpect(status().isBadRequest());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 조회 요청_성공")
+    void requestWhenFindVoucherById() {
+        //given
+        String url = "/api/v1/vouchers/1";
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(url));
+
+            //then
+            verify(voucherService, times(1)).findVoucher(any());
+            resultActions.andExpect(status().isOk());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"FIXED_AMOUNT", "PERCENT_DISCOUNT"})
+    @DisplayName("바우처 할인타입별 조회 요청_성공")
+    void requestWhenFindVoucherByType(String type) {
+        //given
+        String url = "/api/v1/vouchers/category?type=";
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(url + type));
+
+            //then
+            verify(voucherService, times(1)).findVouchers();
+            resultActions.andExpect(status().isOk());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
+    }
+
+    @Test
+    @DisplayName("바우처 생성날짜별 조회 요청_성공")
+    void requestWhenFindVoucherByDate() {
+        //given
+        String url = "/api/v1/vouchers/date?date=2022-05-01";
+
+        try {
+            //when
+            ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get(url));
+
+            //then
+            verify(voucherService, times(1)).findVouchers();
+            resultActions.andExpect(status().isOk());
+        } catch (Exception e) {
+            new RuntimeException();
+        }
     }
 
     private static Stream<Arguments> invalidVoucherCreateParameter() {
