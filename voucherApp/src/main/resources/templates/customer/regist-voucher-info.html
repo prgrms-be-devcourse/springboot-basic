@@ -19,7 +19,7 @@
             <select id="customerId" name="customerId" class="form-select" aria-label="Default select example">
                 <option th:each="customer : ${customers}" th:object="${customer}"
                         th:value="*{customerId}"
-                        th:text="*{email}">등록된 고객이 없음
+                        th:text="*{email.getAddress()}">등록된 고객이 없음
                 </option>
             </select>
         </div>

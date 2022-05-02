@@ -1,7 +1,7 @@
 package com.mountain.voucherApp.blacklist;
 
-import com.mountain.voucherApp.adapter.out.file.BlackListFileFormat;
-import com.mountain.voucherApp.adapter.out.file.BlackListRepository;
+import com.mountain.voucherApp.dao.blackList.BlackListFileFormat;
+import com.mountain.voucherApp.dao.blackList.DefaultBlackListRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Description;
@@ -10,7 +10,7 @@ import java.util.List;
 
 class BlackListServiceTest {
 
-    BlackListRepository blackListRepository = new BlackListRepository();
+    DefaultBlackListRepository blackListRepository = new DefaultBlackListRepository();
 
     @Description("csv파일_읽기_테스트")
     @Test
