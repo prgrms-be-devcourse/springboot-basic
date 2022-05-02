@@ -61,7 +61,7 @@ public class VoucherApiController {
 
     @PostMapping("/v1/vouchers/new")
     public ResponseEntity<VoucherResponse> createVoucher(@RequestBody VoucherRequest voucherRequest) {
-        var newVoucher = voucherRequest.getVoucherType().createVoucher(voucherRequest.getDiscountInfo());
+        var newVoucher = voucherRequest.voucherType().createVoucher(voucherRequest.discountInfo());
         var savedVoucher = voucherService.createVoucher(newVoucher);
         var voucherResponse = VoucherResponse.of(savedVoucher);
 

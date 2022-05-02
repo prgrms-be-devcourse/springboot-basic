@@ -2,15 +2,14 @@ package org.prgrms.springbasic.service.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.controller.view.dto.CustomerDto;
+import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.repository.customer.CustomerRepository;
 import org.prgrms.springbasic.utils.exception.DuplicatedDataException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.springbasic.utils.enumm.message.ErrorMessage.DUPLICATED_CUSTOMER;

@@ -1,17 +1,7 @@
 package org.prgrms.springbasic.controller.api.request;
 
-import lombok.Getter;
 import org.prgrms.springbasic.domain.voucher.VoucherType;
 
-@Getter
-public class VoucherRequest {
+public record VoucherRequest(VoucherType voucherType, long discountInfo) {
 
-    private final VoucherType voucherType;
-
-    private final long discountInfo;
-
-    public VoucherRequest(VoucherType voucherType, long discountInfo) {
-        this.voucherType = voucherType;
-        this.discountInfo = discountInfo;
-    }
 }

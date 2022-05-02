@@ -39,6 +39,7 @@ public class CustomerController {
     @GetMapping("/new")
     public String registerCustomer(Model model) {
         model.addAttribute("newCustomerDto", new CustomerDto());
+
         return "/customer/customerAddForm";
     }
 
@@ -55,6 +56,7 @@ public class CustomerController {
     @GetMapping("/{customerId}/renewal")
     public String modifyCustomer(@PathVariable UUID customerId, Model model)  {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
+
         model.addAttribute("updateCustomerDto", updateCustomerDtoFrom(retrievedCustomer));
 
         return "/customer/customerModifyForm";
@@ -63,6 +65,7 @@ public class CustomerController {
     @PostMapping("/{customerId}/renewal")
     public String modifyCustomer(@PathVariable UUID customerId, @ModelAttribute CustomerDto updateCustomerDto) {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
+
         customerService.modifyCustomer(retrievedCustomer, updateCustomerDto);
 
 
@@ -73,6 +76,7 @@ public class CustomerController {
     @PostMapping("/{customerId}/removal")
     public String removeCustomer(@PathVariable UUID customerId) {
         customerService.removeCustomerById(customerId);
+
         return "redirect:/customers";
     }
 

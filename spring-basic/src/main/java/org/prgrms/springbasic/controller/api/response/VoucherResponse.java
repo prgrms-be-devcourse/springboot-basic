@@ -11,15 +11,10 @@ import java.util.UUID;
 public class VoucherResponse {
 
     private final UUID voucherId;
-
     private final VoucherType voucherType;
-
     private final long discountInfo;
-
     private final LocalDateTime createdAt;
-
     private final LocalDateTime modifiedAt;
-
     private final UUID customerId;
 
     private VoucherResponse(Voucher voucher) {

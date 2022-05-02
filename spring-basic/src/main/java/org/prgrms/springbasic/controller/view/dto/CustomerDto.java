@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.customer.CustomerType;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -13,9 +12,7 @@ import java.util.UUID;
 public class CustomerDto {
 
     private UUID customerId;
-
     private CustomerType customerType;
-
     private String name;
 
     public CustomerDto() {}
