@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.prgms.voucherProgram.domain.customer.domain.Customer;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
 import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
-import org.prgms.voucherProgram.global.exception.NothingChangeException;
+import org.prgms.voucherProgram.global.error.exception.NothingChangeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;

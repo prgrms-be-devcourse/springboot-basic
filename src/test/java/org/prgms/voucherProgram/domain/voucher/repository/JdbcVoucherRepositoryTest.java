@@ -30,7 +30,7 @@ import org.prgms.voucherProgram.domain.customer.repository.JdbcCustomerRepositor
 import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
 import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
-import org.prgms.voucherProgram.global.exception.NothingChangeException;
+import org.prgms.voucherProgram.global.error.exception.NothingChangeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

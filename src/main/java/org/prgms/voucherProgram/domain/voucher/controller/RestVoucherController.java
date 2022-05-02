@@ -13,8 +13,9 @@ import org.prgms.voucherProgram.domain.voucher.dto.VoucherDto;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
 import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
 import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
-import org.prgms.voucherProgram.global.exception.ExceptionControllerAdvice;
-import org.prgms.voucherProgram.global.exception.ExceptionResponse;
+import org.prgms.voucherProgram.global.error.ExceptionControllerAdvice;
+import org.prgms.voucherProgram.global.error.ExceptionResponse;
+import org.prgms.voucherProgram.global.error.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,21 +40,6 @@ public class RestVoucherController {
 
     public RestVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleCustomException(Exception e) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
-            e.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllException(Exception e) {
-        logger.error(e.getMessage());
-        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
-            e.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping
@@ -88,5 +74,27 @@ public class RestVoucherController {
     public ResponseEntity<SimpleResponse> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
         return ResponseEntity.ok(new SimpleResponse("Success"));
+    }
+
+    @ExceptionHandler({EntityNotFoundException.class})
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
+            e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleCustomException(Exception e) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
+            e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllException(Exception e) {
+        logger.error(e.getMessage());
+        ExceptionResponse exceptionResponse = new ExceptionResponse(HttpStatus.BAD_REQUEST.value(), new Date(),
+            e.getMessage());
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 }

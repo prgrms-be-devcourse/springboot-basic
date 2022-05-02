@@ -1,4 +1,4 @@
-package org.prgms.voucherProgram.global.exception;
+package org.prgms.voucherProgram.global.error;
 
 import java.util.Date;
 
