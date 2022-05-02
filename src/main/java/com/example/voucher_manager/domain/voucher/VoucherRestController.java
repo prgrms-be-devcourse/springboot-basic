@@ -54,7 +54,7 @@ public class VoucherRestController {
                 LocalDateTime.parse(params.get(VoucherRequestParams.END.getKey()), formatter));
     }
 
-    @GetMapping("/api/v1/vouchers/{voucherId}")
+    @GetMapping("/api/v1/voucher/{voucherId}")
     @ResponseBody
     public ResponseEntity<VoucherDto> findVoucher(@PathVariable("voucherId") UUID voucherId) {
         var voucher = voucherService.findVoucher(voucherId);
@@ -65,7 +65,7 @@ public class VoucherRestController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/api/v1/vouchers")
+    @PostMapping("/api/v1/voucher")
     @ResponseBody
     public ResponseEntity<VoucherDto> createVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
         var voucher = voucherService.createVoucher(
@@ -75,7 +75,7 @@ public class VoucherRestController {
         return ResponseEntity.ok(VoucherDto.from(voucher));
     }
 
-    @DeleteMapping("/api/v1/vouchers/{voucherId}")
+    @DeleteMapping("/api/v1/voucher/{voucherId}")
     @ResponseBody
     public ResponseEntity<Status> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         var response = voucherService.deleteVoucher(voucherId);
