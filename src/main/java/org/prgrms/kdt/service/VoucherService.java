@@ -2,7 +2,7 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.CustomerJdbcRepository;
@@ -47,7 +47,7 @@ public class VoucherService {
                 });
     }
 
-    public VoucherList getOwnableVoucherList() {
+    public Vouchers getOwnableVoucherList() {
         return voucherRepository.getVoucherListOwnerIdIsEmpty();
     }
 
@@ -69,10 +69,10 @@ public class VoucherService {
         voucherRepository.deleteVoucherById(voucherId);
     }
 
-    public VoucherList getVoucherListByVoucherType(int voucherType) {
+    public Vouchers getVoucherListByVoucherType(int voucherType) {
         return voucherRepository.getVoucherListByVoucherType(voucherType);
     }
-    public VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
+    public Vouchers getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
         return voucherRepository.getVoucherListByCreatedFromToDate(fromDate, toDate);
     }
 

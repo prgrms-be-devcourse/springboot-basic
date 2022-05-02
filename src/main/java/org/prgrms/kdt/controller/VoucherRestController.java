@@ -1,7 +1,7 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -50,14 +50,14 @@ public class VoucherRestController {
     @GetMapping("/api/v1/vouchers/voucherType/{voucherType}")
     @ResponseBody
     public List<Voucher> getVouchersByVoucherType(@PathVariable int voucherType) {
-        VoucherList voucherList = voucherService.getVoucherListByVoucherType(voucherType);
-        return voucherList.getVouchers();
+        Vouchers vouchers = voucherService.getVoucherListByVoucherType(voucherType);
+        return vouchers.getVouchers();
     }
 
     @GetMapping("/api/v1/voucher/date/{fromDate}/{toDate}")
     @ResponseBody
     public List<Voucher> createVoucher(@PathVariable String fromDate, @PathVariable String toDate){
-        VoucherList voucherList = voucherService.getVoucherListByCreatedFromToDate(fromDate, toDate);
-        return voucherList.getVouchers();
+        Vouchers vouchers = voucherService.getVoucherListByCreatedFromToDate(fromDate, toDate);
+        return vouchers.getVouchers();
     }
 }

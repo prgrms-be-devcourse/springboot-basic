@@ -3,13 +3,11 @@ package org.prgrms.kdt.model.voucher;
 import org.prgrms.kdt.io.OutputConsole;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
-public class VoucherList {
+public class Vouchers {
     private final List<Voucher> vouchers;
 
-    public VoucherList(List<Voucher> vouchers) {
+    public Vouchers(List<Voucher> vouchers) {
         this.vouchers = vouchers;
     }
 

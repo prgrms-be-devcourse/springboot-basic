@@ -2,7 +2,7 @@ package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerList;
+import org.prgrms.kdt.model.customer.Customers;
 import org.prgrms.kdt.util.IntUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +56,9 @@ public class CustomerJdbcRepository {
         }
     }
 
-    public CustomerList findAllCustomer() {
+    public Customers findAllCustomer() {
         List<Customer> customers = jdbcTemplate.query("SELECT * FROM customers", customerRowMapper);
-        return new CustomerList(customers);
+        return new Customers(customers);
     }
 
     public Optional<Customer> findCustomerById(UUID customerId) {

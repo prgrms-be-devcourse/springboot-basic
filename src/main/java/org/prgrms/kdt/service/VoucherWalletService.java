@@ -1,7 +1,7 @@
 package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.repository.JdbcWalletRepository;
 import org.springframework.stereotype.Service;
@@ -26,9 +26,9 @@ public class VoucherWalletService {
         return voucherMap;
     }
 
-    public VoucherList getVoucherWalletList() {
+    public Vouchers getVoucherWalletList() {
         List<Voucher> voucherWalletList = jdbcWalletRepository.getVoucherWalletList();
-        return new VoucherList(voucherWalletList);
+        return new Vouchers(voucherWalletList);
     }
 
     public Optional<Voucher> getVoucherWalletById (UUID voucherId) {

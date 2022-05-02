@@ -1,12 +1,10 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public interface VoucherRepository {
@@ -18,7 +16,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> getByVoucherId(UUID voucherId);
 
-    VoucherList getVoucherListOwnerIdIsEmpty();
+    Vouchers getVoucherListOwnerIdIsEmpty();
 
     Optional<Voucher> updateVoucherOwner(UUID voucherId, UUID customerId);
 
@@ -26,7 +24,7 @@ public interface VoucherRepository {
 
     void deleteAllVouchers();
 
-    VoucherList getVoucherListByVoucherType(int voucherType);
+    Vouchers getVoucherListByVoucherType(int voucherType);
 
-    VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate);
+    Vouchers getVoucherListByCreatedFromToDate(String fromDate, String toDate);
 }

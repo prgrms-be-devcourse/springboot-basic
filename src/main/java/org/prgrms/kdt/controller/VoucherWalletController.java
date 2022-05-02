@@ -1,9 +1,9 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerList;
+import org.prgrms.kdt.model.customer.Customers;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.service.CustomerService;
 import org.prgrms.kdt.service.VoucherService;
 import org.prgrms.kdt.service.VoucherWalletService;
@@ -34,7 +34,7 @@ public class VoucherWalletController {
 
     @GetMapping("/voucherWallet")
     public String showVoucherList(Model model) {
-        VoucherList voucherWalletList = voucherWalletService.getVoucherWalletList();
+        Vouchers voucherWalletList = voucherWalletService.getVoucherWalletList();
         List<Voucher> voucherWallet = voucherWalletList.getVouchers();
         model.addAttribute("voucherWallet", voucherWallet);
         return "voucherWallet/voucherWalletList";
@@ -42,8 +42,8 @@ public class VoucherWalletController {
 
     @GetMapping("/voucherWallet/ownableList")
     public String showOwnableVoucherList(Model model) {
-        VoucherList ownableVoucherList = voucherService.getOwnableVoucherList();
-        List<Voucher> vouchers = ownableVoucherList.getVouchers();
+        Vouchers ownableVouchers = voucherService.getOwnableVoucherList();
+        List<Voucher> vouchers = ownableVouchers.getVouchers();
         model.addAttribute("vouchers", vouchers);
         return "voucherWallet/ownableVoucherList";
     }
@@ -67,7 +67,7 @@ public class VoucherWalletController {
 
     @GetMapping("/voucherWallet/provideForm/{voucherId}")
     public String voucherProvideForm(Model model, @PathVariable String voucherId){
-        CustomerList customerList = customerService.getAllCustomers();
+        Customers customerList = customerService.getAllCustomers();
         List<Customer> customers = customerList.getCustomers();
 
         model.addAttribute("customers", customers);

@@ -1,7 +1,7 @@
 package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +32,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherList getVoucherListOwnerIdIsEmpty() {
+    public Vouchers getVoucherListOwnerIdIsEmpty() {
         return null;
     }
 
@@ -52,12 +52,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherList getVoucherListByVoucherType(int voucherType) {
+    public Vouchers getVoucherListByVoucherType(int voucherType) {
         return null;
     }
 
     @Override
-    public VoucherList getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
+    public Vouchers getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
         return null;
     }
 }
