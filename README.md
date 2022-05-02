@@ -166,3 +166,6 @@
 - [X] Voucher 클래서 isFixed, isPercent 추상 메서드가 맞다는 생각이 든다.
 - [X] Voucher getCustomerId Optional이 필요한지 생각하기. (null 체크만 하기 때문에 굳이 필요 없음)
 - [X] VO는 불편이 중요하다 (**기본**)
+
+### 3차 피드백
+- [X] text-io 외부 라이브러리 완전 제거하기

@@ -18,13 +18,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.view.TextIoView;
+import org.prgrms.springbootbasic.view.View;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherControllerTest {
 
     @Mock
-    TextIoView view;
+    View view;
 
     @Mock
     VoucherService voucherService;
