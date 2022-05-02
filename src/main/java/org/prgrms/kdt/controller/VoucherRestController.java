@@ -1,10 +1,10 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
+import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.service.VoucherService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,8 +43,8 @@ public class VoucherRestController {
 
     @GetMapping("/api/v1/voucher/new/{voucherType}/{discountAmount}")
     @ResponseBody
-    public Voucher createVoucher(@PathVariable long discountAmount, @PathVariable int voucherType){
-        return voucherService.createVoucher(UUID.randomUUID(), voucherType, discountAmount);
+    public Voucher createVoucher(@PathVariable long discountAmount, @PathVariable VoucherType voucherType){
+        return voucherService.createVoucher(UUID.randomUUID(), voucherType.getTypeNumber(), discountAmount);
     }
 
     @GetMapping("/api/v1/vouchers/voucherType/{voucherType}")
