@@ -21,53 +21,48 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public String customerList(Model model) {
+    public String showCustomers(Model model) {
         var customers = customerService.findCustomers();
-
         model.addAttribute("customers", customers);
 
         return "/customer/customers";
     }
 
     @GetMapping("/{customerId}/detail")
-    public String customerDetails(@PathVariable UUID customerId, Model model) {
+    public String searchById(@PathVariable UUID customerId, Model model) {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
-
         model.addAttribute("customer", retrievedCustomer);
 
         return "/customer/customerDetail";
     }
 
     @GetMapping("/new")
-    public String customerAdd(Model model) {
+    public String registerCustomer(Model model) {
         model.addAttribute("newCustomerDto", new CustomerDto());
-
         return "/customer/customerAddForm";
     }
 
     @PostMapping("/new")
-    public String customerAdd(@ModelAttribute CustomerDto customerDto) {
+    public String registerCustomer(@ModelAttribute CustomerDto customerDto) {
         var customerType = customerDto.getCustomerType();
         var customer = customerType.createCustomer(randomUUID(), customerDto.getName());
 
-        customerService.addCustomer(customer);
+        customerService.registerCustomer(customer);
 
         return "redirect:/customers";
     }
 
     @GetMapping("/{customerId}/renewal")
-    public String customerModify(@PathVariable UUID customerId, Model model)  {
+    public String modifyCustomer(@PathVariable UUID customerId, Model model)  {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
-
         model.addAttribute("updateCustomerDto", updateCustomerDtoFrom(retrievedCustomer));
 
         return "/customer/customerModifyForm";
     }
 
     @PostMapping("/{customerId}/renewal")
-    public String customerModify(@PathVariable UUID customerId, @ModelAttribute CustomerDto updateCustomerDto) {
+    public String modifyCustomer(@PathVariable UUID customerId, @ModelAttribute CustomerDto updateCustomerDto) {
         Customer retrievedCustomer = customerService.findCustomerByCustomerId(customerId);
-
         customerService.modifyCustomer(retrievedCustomer, updateCustomerDto);
 
 
@@ -76,14 +71,13 @@ public class CustomerController {
 
 
     @PostMapping("/{customerId}/removal")
-    public String customerRemove(@PathVariable UUID customerId) {
+    public String removeCustomer(@PathVariable UUID customerId) {
         customerService.removeCustomerById(customerId);
-
         return "redirect:/customers";
     }
 
     @PostMapping("/removal")
-    public String customerRemoveAll() {
+    public String removeCustomers() {
         customerService.removeCustomers();
 
         return "redirect:/customers";

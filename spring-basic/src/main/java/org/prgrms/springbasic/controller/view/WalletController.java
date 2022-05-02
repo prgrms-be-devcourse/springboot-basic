@@ -15,9 +15,8 @@ public class WalletController {
     private final WalletService walletService;
 
     @GetMapping
-    public String walletList(Model model) {
+    public String showWallets(Model model) {
         var wallets = walletService.findWallets();
-
         model.addAttribute("wallets", wallets);
 
         return "/wallet/wallets";

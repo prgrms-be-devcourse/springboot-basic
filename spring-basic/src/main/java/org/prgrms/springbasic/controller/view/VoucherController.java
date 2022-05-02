@@ -21,95 +21,86 @@ public class VoucherController {
     private final VoucherService voucherService;
 
     @GetMapping
-    public String voucherList(Model model) {
+    public String showVouchers(Model model) {
         var vouchers = voucherService.findVouchers();
-
         model.addAttribute("vouchers", vouchers);
 
         return "/voucher/vouchers";
     }
 
     @GetMapping("/{customerId}/voucher")
-    public String customerVoucherList(@PathVariable UUID customerId, Model model) {
+    public String searchByCustomerId(@PathVariable UUID customerId, Model model) {
         var vouchers = voucherService.findVouchersByCustomerId(customerId);
-
         model.addAttribute("vouchers", vouchers);
 
         return "/voucher/customerVouchers";
     }
 
     @GetMapping("/{voucherId}/detail")
-    public String voucherDetails(@PathVariable UUID voucherId, Model model) {
+    public String searchByVoucherId(@PathVariable UUID voucherId, Model model) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
-
         model.addAttribute("voucher", retrievedVoucher);
 
         return "/voucher/voucherDetail";
     }
 
     @GetMapping("/new")
-    public String voucherAdd(Model model) {
+    public String createVoucher(Model model) {
         model.addAttribute("newVoucherDto", new VoucherDto());
 
         return "/voucher/voucherAddForm";
     }
 
     @PostMapping("/new")
-    public String voucherAdd(@ModelAttribute VoucherDto voucherDto) {
+    public String createVoucher(@ModelAttribute VoucherDto voucherDto) {
         var voucherType = voucherDto.getVoucherType();
-
         var voucher = voucherType.createVoucher(voucherDto.getDiscountInfo());
-
-        voucherService.addVoucher(voucher);
+        voucherService.createVoucher(voucher);
 
         return "redirect:/vouchers";
     }
 
     @GetMapping("/{voucherId}/renewal")
-    public String voucherModify(@PathVariable UUID voucherId, Model model) {
+    public String modifyVoucher(@PathVariable UUID voucherId, Model model) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
-
         model.addAttribute("updateVoucherDto", updateVoucherDtoFrom(retrievedVoucher));
 
         return "/voucher/voucherModifyForm";
     }
 
     @PostMapping("/{voucherId}/renewal")
-    public String voucherModify(@PathVariable UUID voucherId, @ModelAttribute VoucherDto updateVoucherDto) {
+    public String modifyVoucher(@PathVariable UUID voucherId, @ModelAttribute VoucherDto updateVoucherDto) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
-
         voucherService.modifyVoucher(retrievedVoucher, updateVoucherDto);
 
         return "redirect:/vouchers";
     }
 
     @GetMapping("/{voucherId}/assignment")
-    public String voucherAssign(@PathVariable UUID voucherId, Model model) {
+    public String assignVoucher(@PathVariable UUID voucherId, Model model) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
-
         model.addAttribute("assignVoucherDto", assignVoucherDtoFrom(retrievedVoucher));
 
         return "/voucher/voucherAssignForm";
     }
 
     @PostMapping("/{voucherId}/assignment")
-    public String voucherAssign(@PathVariable UUID voucherId, @ModelAttribute VoucherDto assignVoucherDto) {
+    public String assignVoucher(@PathVariable UUID voucherId, @ModelAttribute VoucherDto assignVoucherDto) {
         Voucher retrievedVoucher = voucherService.findVoucherByVoucherId(voucherId);
-
         voucherService.assignToCustomer(retrievedVoucher, assignVoucherDto.getCustomerId());
 
         return "redirect:/vouchers";
     }
 
     @PostMapping("/{voucherId}/removal")
-    public String voucherRemove(@PathVariable UUID voucherId) {
+    public String removeVoucher(@PathVariable UUID voucherId) {
         voucherService.removeVoucherById(voucherId);
 
         return "redirect:/vouchers";
     }
 
     @PostMapping("/removal")
-    public String voucherRemoveAll() {
+    public String removeVouchers() {
         voucherService.removeVouchers();
 
         return "redirect:/vouchers";

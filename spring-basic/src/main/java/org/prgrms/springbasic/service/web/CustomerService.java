@@ -32,7 +32,7 @@ public class CustomerService {
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_CUSTOMER.getMessage()));
     }
 
-    public void addCustomer(Customer customer) {
+    public void registerCustomer(Customer customer) {
         validateDuplicatedCustomer(customer.getCustomerId());
 
         customerRepository.save(customer);

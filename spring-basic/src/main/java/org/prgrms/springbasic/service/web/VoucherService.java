@@ -48,14 +48,14 @@ public class VoucherService {
     }
 
     public List<Voucher> findVoucherByPeriod(String from, String to) {
-        var period = PeriodConverter.of(from, to);
+        var period = PeriodConverter.convertToPeriod(List.of(from, to));
 
         var retrievedVoucher = voucherRepository.findByCreatedPeriod(period.get(0), period.get(1));
 
         return validateVouchers(retrievedVoucher);
     }
 
-    public Voucher addVoucher(Voucher voucher) throws DuplicatedDataException {
+    public Voucher createVoucher(Voucher voucher) throws DuplicatedDataException {
         validateDuplicatedVoucher(voucher.getVoucherId());
 
         return voucherRepository.save(voucher);

@@ -26,29 +26,35 @@ public class VoucherApiController {
     private final VoucherService voucherService;
 
     @GetMapping("/v1/vouchers")
-    public ResponseEntity<List<VoucherResponse>> findVouchers() {
-        var voucherResponses = voucherService.findVouchers()
-                .stream()
-                .map(VoucherResponse::of)
-                .toList();
+    public ResponseEntity<List<VoucherResponse>> showVouchers() {
+        var voucherResponses =
+                voucherService
+                    .findVouchers()
+                    .stream()
+                    .map(VoucherResponse::of)
+                    .toList();
 
         return ResponseEntity.ok(voucherResponses);
     }
 
     @GetMapping("/v1/vouchers/period")
     public ResponseEntity<List<VoucherResponse>> searchByPeriod(@RequestParam String from, @RequestParam String to) {
-        var voucherResponses = voucherService.findVoucherByPeriod(from, to)
-                .stream()
-                .map(VoucherResponse::of)
-                .toList();
+        var voucherResponses =
+                voucherService
+                    .findVoucherByPeriod(from, to)
+                    .stream()
+                    .map(VoucherResponse::of)
+                    .toList();
 
         return ResponseEntity.ok(voucherResponses);
     }
 
     @GetMapping("/v1/{voucherType}/vouchers")
     public ResponseEntity<List<VoucherResponse>> searchByType(@PathVariable String voucherType) {
-        var voucherResponses = voucherService.findVoucherByVoucherType(valueOf(voucherType.toUpperCase())).stream()
-                .map(VoucherResponse::of).toList();
+        var voucherResponses =
+                voucherService
+                    .findVoucherByVoucherType(valueOf(voucherType.toUpperCase())).stream()
+                    .map(VoucherResponse::of).toList();
 
         return ResponseEntity.ok(voucherResponses);
     }
@@ -56,7 +62,7 @@ public class VoucherApiController {
     @PostMapping("/v1/vouchers/new")
     public ResponseEntity<VoucherResponse> createVoucher(@RequestBody VoucherRequest voucherRequest) {
         var newVoucher = voucherRequest.getVoucherType().createVoucher(voucherRequest.getDiscountInfo());
-        var savedVoucher = voucherService.addVoucher(newVoucher);
+        var savedVoucher = voucherService.createVoucher(newVoucher);
         var voucherResponse = VoucherResponse.of(savedVoucher);
 
         return ResponseEntity.ok(voucherResponse);
@@ -64,7 +70,6 @@ public class VoucherApiController {
 
     @DeleteMapping("/v1/{voucherId}/vouchers")
     public ResponseEntity<Boolean> removeVoucher(@PathVariable UUID voucherId) {
-        System.out.println(voucherId);
         var isDeleted = voucherService.removeVoucherById(voucherId);
 
         if (!isDeleted) {
