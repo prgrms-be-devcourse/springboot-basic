@@ -2,16 +2,7 @@ package com.example.voucher_manager.domain.customer;
 
 import java.util.UUID;
 
-public class CustomerDto {
-    private final UUID customerId;
-    private final String name;
-    private final String email;
-
-    private CustomerDto(UUID customerId, String name, String email) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-    }
+public record CustomerDto(UUID customerId, String name, String email) {
 
     public static CustomerDto from(Customer customer) {
         return new CustomerDto(customer.getCustomerId(), customer.getName(), customer.getEmail());
