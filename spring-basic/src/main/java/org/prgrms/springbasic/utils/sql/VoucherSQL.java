@@ -3,13 +3,17 @@ package org.prgrms.springbasic.utils.sql;
 public enum VoucherSQL {
 
     CREATE_VOUCHER(
-            "insert into " +
-                    "vouchers(voucher_id, voucher_type, discount_info, created_at, modified_at, customer_id) " +
-                    "values(UUID_TO_BIN(:voucherId), :voucherType, :discountInfo, :createdAt, :modifiedAt, UUID_TO_BIN(:customerId))"
+            """
+                    insert into
+                     vouchers(voucher_id, voucher_type, discount_info, created_at, modified_at, customer_id)
+                     values(UUID_TO_BIN(:voucherId), :voucherType, :discountInfo, :createdAt, :modifiedAt, UUID_TO_BIN(:customerId))
+                    """
     ),
     SELECT_BY_VOUCHER_ID(
-            "select * from vouchers " +
-                    "where voucher_id = UUID_TO_BIN(:voucherId)"
+            """
+                    select * from vouchers
+                     where voucher_id = UUID_TO_BIN(:voucherId)
+                    """
     ),
     SELECT_BY_CUSTOMER_ID(
             "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)"
@@ -18,7 +22,11 @@ public enum VoucherSQL {
             "select * from vouchers where voucher_type = :voucherType"
     ),
     SELECT_BY_DATETIME(
-            "select * from vouchers where created_at >= :from and created_at < :to order by created_at desc"
+            """
+                    select * from vouchers
+                     where created_at >= :from and created_at < :to
+                     order by created_at desc
+                    """
     ),
     SELECT_VOUCHERS(
             "select * from vouchers order by created_at"
@@ -30,20 +38,26 @@ public enum VoucherSQL {
             "select count(*) from vouchers"
     ),
     UPDATE_VOUCHER(
-            "update vouchers set " +
-                    "voucher_type = :voucherType, " +
-                    "discount_info = :discountInfo, " +
-                    "modified_at = :modifiedAt, " +
-                    "customer_id = UUID_TO_BIN(:customerId) " +
-                    "where voucher_id = UUID_TO_BIN(:voucherId)"
+            """
+                    update vouchers set
+                     voucher_type = :voucherType,
+                     discount_info = :discountInfo,
+                     modified_at = :modifiedAt,
+                     customer_id = UUID_TO_BIN(:customerId)
+                     where voucher_id = UUID_TO_BIN(:voucherId)
+                    """
     ),
     DELETE_BY_VOUCHER_ID(
-            "delete from vouchers" +
-                    " where voucher_id = UUID_TO_BIN(:voucherId)"
+            """
+                    delete from vouchers
+                     where voucher_id = UUID_TO_BIN(:voucherId)
+                    """
     ),
     DELETE_BY_CUSTOMER_ID(
-            "delete from vouchers" +
-                    " where customer_id = UUID_TO_BIN(:customerId)"
+            """
+                    delete from vouchers
+                     where customer_id = UUID_TO_BIN(:customerId)
+                    """
     ),
     DELETE_VOUCHERS(
             "delete from vouchers"
