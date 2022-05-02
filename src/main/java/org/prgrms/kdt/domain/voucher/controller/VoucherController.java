@@ -35,14 +35,14 @@ public class VoucherController {
     }
 
     @GetMapping
-    public String voucherList(Model model) {
+    public String getAllVouchers(Model model) {
         List<Voucher> vouchers = voucherService.getAllVouchers(new VoucherSearchRequest());
         model.addAttribute("vouchers", vouchers);
         return "vouchers/list";
     }
 
     @GetMapping("/search")
-    public String VoucherListOwnCustomer(Model model, @RequestParam String email) {
+    public String getVouchersOwnCustomer(Model model, @RequestParam String email) {
         Optional<Customer> customer = customerService.getCustomerByEmail(email);
         customer.ifPresent(value -> {
             List<Voucher> vouchers = voucherService
@@ -53,7 +53,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{voucherId}")
-    public String voucherDetails(Model model, @PathVariable("voucherId") UUID voucherId) {
+    public String getVoucher(Model model, @PathVariable("voucherId") UUID voucherId) {
         Optional<Voucher> voucher = voucherService.getVoucherById(voucherId);
         voucher.ifPresent(value -> model.addAttribute("voucher", value));
         model.addAttribute("voucherType", VoucherType.values());
@@ -61,20 +61,20 @@ public class VoucherController {
     }
 
     @GetMapping("/new")
-    public String voucherCreatePage(Model model) {
+    public String moveVoucherCreatePage(Model model) {
         model.addAttribute("voucherType", VoucherType.values());
         return "vouchers/create";
     }
 
     @PostMapping("/new")
-    public String voucherCreate(@Valid VoucherCreateRequest createRequest) {
+    public String createVoucher(@Valid VoucherCreateRequest createRequest) {
         Voucher voucher = createRequest.toEntity();
         voucherService.save(voucher);
         return "redirect:/vouchers";
     }
 
     @PutMapping("/{voucherId}")
-    public String voucherModify(@Valid VoucherUpdateRequest updateRequest,
+    public String modifyVoucher(@Valid VoucherUpdateRequest updateRequest,
                                 @PathVariable("voucherId") UUID voucherId) {
         voucherService.update(voucherId,
                 updateRequest.getVoucherType(),
@@ -83,13 +83,13 @@ public class VoucherController {
     }
 
     @DeleteMapping("/{voucherId}")
-    public String voucherRemove(@PathVariable("voucherId") UUID voucherId) {
+    public String removeVoucher(@PathVariable("voucherId") UUID voucherId) {
         voucherService.remove(voucherId);
         return "redirect:/vouchers";
     }
 
     @GetMapping("/assign")
-    public String voucherAssignPage(Model model) {
+    public String moveVoucherAssignPage(Model model) {
         List<Voucher> vouchers = voucherService.getVouchersNotAssignedToCustomer();
         model.addAttribute("vouchers", vouchers);
         model.addAttribute("assignForm", new VoucherAssignRequest());
@@ -97,7 +97,7 @@ public class VoucherController {
     }
 
     @PostMapping("/assign")
-    public String voucherAssign(
+    public String assignVoucher(
             @ModelAttribute("assignForm") @Valid VoucherAssignRequest assignRequest,
             BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()) {
