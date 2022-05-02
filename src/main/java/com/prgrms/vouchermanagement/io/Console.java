@@ -3,9 +3,11 @@ package com.prgrms.vouchermanagement.io;
 import com.prgrms.vouchermanagement.util.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class Console implements Input, Output{
@@ -33,11 +35,29 @@ public class Console implements Input, Output{
     }
 
     /**
-     * FixedDiscount 인 경우 할인 금액, PercentDiscount 인 경우 할인율을 입력 받는다.
+     * @throws IllegalArgumentException : 입력받은 문자열이 UUID 형식이 아닌 경우 던져진다.
      */
     @Override
-    public int inputDiscount() throws InputMismatchException {
-        System.out.print("input discount: ");
+    public UUID inputUUID(String title) throws InputMismatchException {
+        System.out.print(MessageFormat.format("input {0}: ", title));
+        String input = sc.nextLine();
+
+        if (!StringUtils.isUUID(input)) {
+            throw new InputMismatchException("UUID 형식의 문자열이 아닙니다.");
+        }
+
+        return UUID.fromString(input);
+    }
+
+    @Override
+    public String inputString(String title) {
+        System.out.print(MessageFormat.format("input {0} : ", title));
+        return sc.nextLine();
+    }
+
+    @Override
+    public int inputNumber(String title) throws InputMismatchException {
+        System.out.print(MessageFormat.format("input {0}: ", title));
         String input = sc.nextLine();
 
         // 숫자가 아닌 문자가 입력되면 예외를 던진다.
@@ -57,10 +77,23 @@ public class Console implements Input, Output{
     @Override
     public void printMenu() {
         System.out.println("=== Voucher Program ===");
-        System.out.println("Type exit to exit the program.");
-        System.out.println("Type create to create a new voucher.");
-        System.out.println("Type list to list all vouchers.");
-        System.out.println("Type blacklist to list all black lists");
+        System.out.println("input menu");
+        System.out.println("- exit : exit the program.");
+        System.out.println("- voucher : create a new voucher.");
+        System.out.println("- customer : create a new customer.");
+        System.out.println("- list : list all vouchers.");
+        System.out.println("- blacklist : list all black lists");
+        System.out.println("- wallet : go to wallet menu");
+    }
+
+    @Override
+    public void printWalletMenu() {
+        System.out.println("=== Wallet ===");
+        System.out.println("input menu number");
+        System.out.println("1. Add voucher to customer wallet");
+        System.out.println("2. Find voucher in wallet");
+        System.out.println("3. Remove voucher in wallet");
+        System.out.println("4. Find customer who has specific voucher");
     }
 
     @Override

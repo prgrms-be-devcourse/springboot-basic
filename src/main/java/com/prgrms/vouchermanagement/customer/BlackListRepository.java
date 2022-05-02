@@ -31,7 +31,7 @@ public class BlackListRepository {
         try (BufferedReader br = new BufferedReader(new FileReader(blackListFilePath))) {
             String name = null;
             while ((name = br.readLine()) != null) {
-                blackList.add(new Customer(name));
+                blackList.add(Customer.of(null, name,null ,null, null));
             }
             log.info("init blackList. size={}", blackList.size());
         } catch (IOException e) {

@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanagement.voucher;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -8,21 +9,19 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
 
     private UUID voucherId;
     private long discountPercentage;
+    private LocalDateTime createdAt;
 
-    private PercentDiscountVoucher(UUID voucherId, long discountPercentage) {
+    public PercentDiscountVoucher(UUID voucherId, long discountPercentage, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.discountPercentage = discountPercentage;
+        this.createdAt = createdAt;
     }
 
-    public static Voucher of(long discountPercentage) throws IllegalArgumentException {
-        return of(UUID.randomUUID(), discountPercentage);
-    }
-
-    public static Voucher of(UUID voucherId, long discountPercentage) throws IllegalArgumentException {
+    public static Voucher of(UUID voucherId, long discountPercentage, LocalDateTime createdAt) throws IllegalArgumentException {
         if (discountPercentage < 0 || discountPercentage > 100) {
             throw new IllegalArgumentException("Percent discount 는 0 ~ 100% 범위의 값을 입력해주세요.");
         }
-        return new PercentDiscountVoucher(voucherId, discountPercentage);
+        return new PercentDiscountVoucher(voucherId, discountPercentage, createdAt);
     }
 
     @Override
@@ -31,13 +30,23 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getId() {
+    public UUID getVoucherId() {
         return voucherId;
     }
 
     @Override
+    public long getAmount() {
+        return discountPercentage;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
     public String toString() {
-        return "Id=" + getId() + ", Type=PercentDiscount, discountPercent=" + discountPercentage + "%";
+        return "Id=" + getVoucherId() + ", Type=PercentDiscount, discountPercent=" + discountPercentage + "%";
     }
 
     @Override

@@ -9,4 +9,5 @@ public final class Messages {
     public static final String VOUCHER_LIST_EMPTY = "There is no voucher. Please create to voucher";
     public static final String SAVE_VOUCHER = "Voucher is saved";
     public static final String BLACK_LIST_EMPTY = "black list is empty";
+    public static final String DB_ERROR_MESSAGE = "There was a problem. Please try again later";
 }
