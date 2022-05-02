@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+</head>
+<body class="container-fluid">
+<h1>Customer 조회 페이지</h1>
+
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Type</th>
+        <th scope="col">CreatedAt</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer:${customers}" th:object="${customer}" >
+        <td>
+            <a th:href="@{|/customer/*{customerId}|}" th:text="*{customerId}"></a>
+        </td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{customerType}"></td>
+        <td th:text="*{createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-block">
+    <a th:href="@{/customer}" class="btn btn-primary" type="button">돌아가기</a>
+</div>
+</body>
+</html>
