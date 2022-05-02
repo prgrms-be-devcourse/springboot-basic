@@ -56,6 +56,7 @@ public class VoucherJdbcRepositoryTest {
 			// when
 			Voucher savedVoucher = voucherJdbcRepository.save(createdVoucher);
 
+			// then
 			assertThat(savedVoucher.getVoucherType()).isEqualTo(createdVoucher.getVoucherType());
 			assertThat(savedVoucher.getCreatedAt()).isEqualTo(createdVoucher.getCreatedAt());
 			assertThat(savedVoucher.getDiscountAmount()).isEqualTo(createdVoucher.getDiscountAmount());
