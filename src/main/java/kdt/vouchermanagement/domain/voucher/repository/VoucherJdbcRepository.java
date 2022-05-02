@@ -2,15 +2,13 @@ package kdt.vouchermanagement.domain.voucher.repository;
 
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
 import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -20,6 +18,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final String FIND_ALL_SQL = "SELECT * FROM voucher";
     private final String SELECT_LAST_INSERT_VOUCHER_SQL = "SELECT * FROM voucher ORDER BY voucher.voucher_id DESC LIMIT 1;";
     private final String UPDATE_SQL = "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id";
+    private final String SELECT_BY_ID = "SELECT * FROM voucher WHERE voucher_id = :voucherId";
+    private final String DELETE_SQL = "DELETE FROM voucher WHERE voucher_id = :voucherId";
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -44,6 +44,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query(FIND_ALL_SQL, voucherRowMapper);
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
+        int deleteNum = jdbcTemplate.update(DELETE_SQL, Collections.singletonMap("voucherId", voucherId));
+        if (deleteNum != 1) {
+            throw new IllegalStateException("Voucher delete query가 실패하였습니다.");
+        }
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {

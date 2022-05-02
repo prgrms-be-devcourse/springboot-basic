@@ -9,4 +9,8 @@ public interface VoucherService {
     Voucher createVoucher(Voucher voucher);
 
     List<Voucher> findVouchers();
+
+    void deleteVoucher(Long voucherId);
+
+    Voucher findVoucher(Long voucherId);
 }

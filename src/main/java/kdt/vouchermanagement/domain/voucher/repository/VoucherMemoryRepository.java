@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -38,6 +39,15 @@ public class VoucherMemoryRepository implements VoucherRepository {
         return storage.values()
                 .stream()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
     }
 
     private Voucher createVoucherEntity(VoucherType voucherType, int discountValue) {

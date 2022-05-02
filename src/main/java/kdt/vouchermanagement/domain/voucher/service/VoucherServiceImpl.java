@@ -5,6 +5,7 @@ import kdt.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
@@ -28,5 +29,17 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public List<Voucher> findVouchers() {
         return voucherRepository.findAll();
+    }
+
+    @Override
+    public void deleteVoucher(Long voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new IllegalArgumentException("바우처가 존재하지 않습니다."));
+        voucherRepository.deleteById(voucherId);
+    }
+
+    @Override
+    public Voucher findVoucher(Long voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new IllegalArgumentException("바우처가 존재하지 않습니다."));
+        return voucher;
     }
 }
