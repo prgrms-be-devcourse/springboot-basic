@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class CommandLineApplication implements Runnable{
+public class CommandLineApplication{
 
     private final Input input;
     private final Output output;
@@ -36,7 +36,6 @@ public class CommandLineApplication implements Runnable{
         this.walletService = walletService;
     }
 
-    @Override
     public void run() {
         while (true) {
             output.printCommandTypeInputPrompt();
