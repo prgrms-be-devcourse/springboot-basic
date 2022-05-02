@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class InvalidNameFormatException extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public InvalidNameFormatException(String errorMsg) {
+    public InvalidNameFormatException(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }

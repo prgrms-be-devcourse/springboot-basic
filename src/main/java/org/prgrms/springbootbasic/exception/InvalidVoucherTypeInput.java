@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class InvalidVoucherTypeInput extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public InvalidVoucherTypeInput(String errorMsg) {
+    public InvalidVoucherTypeInput(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }

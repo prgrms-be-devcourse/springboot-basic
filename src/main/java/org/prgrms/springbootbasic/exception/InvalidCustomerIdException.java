@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class InvalidCustomerIdException extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public InvalidCustomerIdException(String errorMsg) {
+    public InvalidCustomerIdException(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }

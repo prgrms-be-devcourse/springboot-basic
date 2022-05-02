@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class AmountRangeMaxException extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public AmountRangeMaxException(String errorMsg) {
+    public AmountRangeMaxException(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }

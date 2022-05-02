@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class InvalidVoucherIdException extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public InvalidVoucherIdException(String errorMsg) {
+    public InvalidVoucherIdException(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }

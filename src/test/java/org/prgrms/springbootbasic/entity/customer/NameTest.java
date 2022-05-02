@@ -33,6 +33,6 @@ class NameTest {
         //then
         assertThatThrownBy(() -> new Name(stringName))
             .isInstanceOf(InvalidNameFormatException.class)
-            .hasMessageContaining(INVALID_NAME_FORMAT_EXP_MSG);
+            .hasMessageContaining(INVALID_NAME_FORMAT_EXP_MSG.getMessage());
     }
 }

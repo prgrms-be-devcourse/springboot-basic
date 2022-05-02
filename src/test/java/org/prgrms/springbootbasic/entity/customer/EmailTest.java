@@ -37,6 +37,6 @@ class EmailTest {
         //then
         assertThatThrownBy(() -> new Email(stringEmail))
             .isInstanceOf(InvalidEmailFormatException.class)
-            .hasMessageContaining(INVALID_EMAIL_FORMAT_EXP_MSG);
+            .hasMessageContaining(INVALID_EMAIL_FORMAT_EXP_MSG.getMessage());
     }
 }

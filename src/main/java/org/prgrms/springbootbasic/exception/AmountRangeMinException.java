@@ -2,14 +2,14 @@ package org.prgrms.springbootbasic.exception;
 
 public class AmountRangeMinException extends ServiceException {
 
-    private final String errorMsg;
+    private final ServiceExceptionMessage errorMsg;
 
-    public AmountRangeMinException(String errorMsg) {
+    public AmountRangeMinException(ServiceExceptionMessage errorMsg) {
         this.errorMsg = errorMsg;
     }
 
     @Override
     public String getMessage() {
-        return errorMsg;
+        return errorMsg.getMessage();
     }
 }
