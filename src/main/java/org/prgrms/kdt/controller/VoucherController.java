@@ -40,15 +40,6 @@ public class VoucherController {
         return "home";
     }
 
-    @GetMapping("/")
-    public String home(Model model) {
-        ArrayList<String> functionNames = new ArrayList<>();
-        Arrays.stream(VoucherProgramFunctions.values())
-                .forEach(c -> functionNames.add(c.name()));
-        model.addAttribute(functionNames);
-        return "home";
-    }
-
     @GetMapping("/vouchers/voucherCreateForm")
     public String createVoucherForm() {
         return "vouchers/voucherCreateForm";

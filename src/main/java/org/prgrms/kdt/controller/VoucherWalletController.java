@@ -40,11 +40,6 @@ public class VoucherWalletController {
         return "voucherWallet/voucherWalletList";
     }
 
-    @GetMapping("/walletHome")
-    public String walletHome() {
-        return "voucherWallet/walletHome";
-    }
-
     @GetMapping("/voucherWallet/ownableList")
     public String showOwnableVoucherList(Model model) {
         VoucherList ownableVoucherList = voucherService.getOwnableVoucherList();
