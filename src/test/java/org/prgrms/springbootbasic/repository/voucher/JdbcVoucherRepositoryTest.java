@@ -213,7 +213,7 @@ class JdbcVoucherRepositoryTest {
         assertThatThrownBy(() -> jdbcVoucherRepository.deleteVoucher(
             new FixedAmountVoucher(UUID.randomUUID(), 20)))
             .isInstanceOf(RuntimeException.class)
-            .hasMessageContaining(NOTHING_WAS_DELETED_EXP_MSG);
+            .hasMessageContaining(NOTHING_WAS_DELETED_EXP_MSG.getMessage());
     }
 
     @Configuration

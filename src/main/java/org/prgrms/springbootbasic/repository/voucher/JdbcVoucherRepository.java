@@ -82,7 +82,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 ((FixedAmountVoucher) voucher).getAmount(),
                 null);
             if (insert != 1) {
-                throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
+                throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG.getMessage());
             }
             return;
         }
@@ -94,7 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 null,
                 ((PercentDiscountVoucher) voucher).getPercent());
             if (insert != 1) {
-                throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
+                throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG.getMessage());
             }
         }
     }
@@ -116,7 +116,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 mapToVoucher,
                 id.toString().getBytes(UTF_8)));
         } catch (EmptyResultDataAccessException e) {
-            logger.info(GOT_EMPTY_RESULT_MSG);
+            logger.info(GOT_EMPTY_RESULT_MSG.getMessage());
             return Optional.empty();
         }
     }
@@ -137,7 +137,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             voucher.getCustomerId().toString().getBytes(UTF_8),
             voucher.getVoucherId().toString().getBytes(UTF_8));
         if (update != 1) {
-            throw new RuntimeException(NOTING_WAS_UPDATED_EXP_MSG);
+            throw new RuntimeException(NOTING_WAS_UPDATED_EXP_MSG.getMessage());
         }
         return voucher;
     }
@@ -157,7 +157,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         var delete = jdbcTemplate.update(DELETE_BY_VOUCHER_ID_SQL,
             voucher.getVoucherId().toString().getBytes(UTF_8));
         if (delete != 1) {
-            throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG);
+            throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG.getMessage());
         }
     }
 }

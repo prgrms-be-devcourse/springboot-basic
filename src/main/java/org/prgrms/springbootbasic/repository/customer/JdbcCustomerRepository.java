@@ -74,7 +74,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             customer.getName().getName(),
             customer.getEmail().getEmail());
         if (insert != 1) {
-            throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
+            throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG.getMessage());
         }
         return customer.getCustomerId();
     }
@@ -94,7 +94,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             customer.getName().getName(),
             customer.getCustomerId().toString().getBytes(UTF_8));
         if (update != 1) {
-            throw new RuntimeException(GOT_EMPTY_RESULT_MSG);
+            throw new RuntimeException(GOT_EMPTY_RESULT_MSG.getMessage());
         }
         return customer.getCustomerId();
     }
