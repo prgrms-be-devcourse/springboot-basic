@@ -45,7 +45,9 @@
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a th:href="@{/customers}" class="btn btn-primary me-md-2" type="button">Back to List</a>
     <a th:href="@{/customers/{id}/edit(id=${customer.customerId})}" class="btn btn-outline-primary me-md-2" type="button">Update</a>
-    <a th:href="@{/customers/{id}/delete(id=${customer.customerId})}" class="btn btn-outline-danger" type="button">Delete</a>
+    <form th:action="@{/customers/{id}/delete(id=${customer.customerId})}" method="post">
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+    </form>
 </div>
 </body>
 </html>

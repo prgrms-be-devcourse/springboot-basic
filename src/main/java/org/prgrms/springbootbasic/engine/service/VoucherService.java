@@ -37,7 +37,7 @@ public class VoucherService {
 
     @Transactional
     public List<Voucher> getVouchersByCustomer(Customer customer) {
-        return voucherRepository.findByCustomer(customer);
+        return voucherRepository.findByCustomerId(customer.getCustomerId());
     }
 
     @Transactional

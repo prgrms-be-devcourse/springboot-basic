@@ -5,17 +5,15 @@ import org.prgrms.springbootbasic.exception.VoucherException;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUID;
+
 public class CustomerUpdateRequestDto {
     private final UUID customerId;
     private final String name;
 
     public CustomerUpdateRequestDto(String customerId, String name) {
         this.name = name;
-        try {
-            this.customerId = UUID.fromString(customerId);
-        } catch (IllegalArgumentException ex) {
-            throw new VoucherException("Invalid Id format.");
-        }
+        this.customerId = convertStringToUUID(customerId);
     }
 
     public UUID getCustomerId() {

@@ -49,7 +49,7 @@ public class VoucherRestController {
         return new VoucherResponseDto(voucher);
     }
 
-    @GetMapping("/api/v1/vouchers/{voucherId}/delete")
+    @DeleteMapping("/api/v1/vouchers/{voucherId}/delete")
     public String deleteVoucherById(@PathVariable String voucherId) {
         UUID id = convertStringToUUID(voucherId);
         voucherService.removeVoucherById(id);

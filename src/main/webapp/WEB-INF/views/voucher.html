@@ -38,7 +38,9 @@
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a th:href="@{/vouchers}" class="btn btn-primary me-md-2" type="button">Back to List</a>
     <a th:href="@{/vouchers/{id}/edit(id=${voucher.voucherId})}" class="btn btn-outline-primary me-md-2" type="button">Update</a>
-    <a th:href="@{/vouchers/{id}/delete(id=${voucher.voucherId})}" class="btn btn-outline-danger" type="button">Delete</a>
+    <form th:action="@{/vouchers/{id}/delete(id=${voucher.voucherId})}" method="post">
+        <button type="submit" class="btn btn-outline-danger">Delete</button>
+    </form>
 </div>
 </body>
 </html>

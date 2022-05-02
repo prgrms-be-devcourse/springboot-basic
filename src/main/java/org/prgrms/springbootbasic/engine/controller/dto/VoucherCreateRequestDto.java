@@ -21,7 +21,6 @@ public class VoucherCreateRequestDto {
             Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), value, LocalDateTime.now().withNano(0));
             if (this.customerId.isPresent()) {
                 voucher.changeOwnerById(customerId.get());
-                System.out.println(customerId.get());
             }
             return voucher;
         } catch (IllegalArgumentException ex) {

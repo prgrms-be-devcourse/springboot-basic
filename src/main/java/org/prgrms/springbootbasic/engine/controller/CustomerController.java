@@ -36,7 +36,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customers/new")
-    public String viewCustomerCreatePage(Model model) {
+    public String viewCustomerCreatePage() {
         return "views/new-customer";
     }
 
@@ -56,7 +56,7 @@ public class CustomerController {
         return "views/customer";
     }
 
-    @GetMapping("/customers/{customerId}/delete")
+    @PostMapping("/customers/{customerId}/delete")
     public String deleteCustomer(@PathVariable String customerId) {
         UUID id = convertStringToUUID(customerId);
         Customer customer = customerService.getCustomerById(id);

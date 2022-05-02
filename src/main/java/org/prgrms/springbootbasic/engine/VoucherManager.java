@@ -8,6 +8,7 @@ import org.prgrms.springbootbasic.io.Input;
 import org.prgrms.springbootbasic.io.Output;
 import org.slf4j.Logger;
 
+import java.util.Locale;
 import java.util.Optional;
 
 public class VoucherManager implements Runnable{
@@ -32,12 +33,14 @@ public class VoucherManager implements Runnable{
         while (true) {
             try {
                 String selection = selectMainMenu();
-                Optional<VoucherMenu> menu = VoucherMenu.findMatchingMenu(selection);
-                if (menu.isEmpty()) {
+                VoucherMenu menu;
+                try {
+                    menu = VoucherMenu.valueOf(selection.toUpperCase());
+                } catch (IllegalArgumentException ex) {
                     logger.debug("User type invalid command.");
                     throw new VoucherException("Please type valid command");
                 }
-                if (menu.get().runMethod(voucherFunction)) {
+                if (menu.runMethod(voucherFunction)) {
                     logger.debug("User select exit.");
                     logger.debug("Voucher Program Off");
                     break;

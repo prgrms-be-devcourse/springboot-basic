@@ -92,7 +92,7 @@ public class VoucherController {
         return "redirect:/vouchers/" + voucher.getVoucherId();
     }
 
-    @GetMapping("/vouchers/{voucherId}/delete")
+    @PostMapping("/vouchers/{voucherId}/delete")
     public String deleteVoucher(@PathVariable String voucherId) {
         UUID id = convertStringToUUID(voucherId);
         voucherService.removeVoucherById(id);

@@ -6,41 +6,41 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum VoucherMenu {
-    EXIT("exit") {
+    EXIT {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             return true;
         }
     },
-    CREATE("create") {
+    CREATE {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             voucherFunction.showCreateMenu();
             return false;
         }
     },
-    LIST("list") {
+    LIST {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             voucherFunction.showListMenu();
             return false;
         }
     },
-    ALLOCATE("allocate") {
+    ALLOCATE {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             voucherFunction.allocateVoucherToCustomer();
             return false;
         }
     },
-    DEALLOCATE("deallocate") {
+    DEALLOCATE {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             voucherFunction.deallocateVoucherFromCustomer();
             return false;
         }
     },
-    SEARCH("search") {
+    SEARCH {
         @Override
         public Boolean runMethod(VoucherFunction voucherFunction) {
             voucherFunction.showSearchMenu();
@@ -48,20 +48,6 @@ public enum VoucherMenu {
         }
     };
 
-    private final String string;
-
-
-    VoucherMenu(String string) {
-        this.string = string;
-    }
-
-    public String getString() {
-        return string;
-    }
-
     public abstract Boolean runMethod(VoucherFunction voucherFunction);
 
-    public static Optional<VoucherMenu> findMatchingMenu(String input) {
-        return Optional.ofNullable(Arrays.stream(values()).filter(vm -> vm.string.equals(input)).findFirst().orElse(null));
-    }
 }

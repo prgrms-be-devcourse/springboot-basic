@@ -24,7 +24,7 @@ public interface VoucherRepository {
         throw new VoucherException("미완성 기능입니다.");
     }
 
-    default List<Voucher> findByCustomer(Customer customer) {
+    default List<Voucher> findByCustomerId(UUID customerId) {
         throw new VoucherException("미완성 기능입니다.");
     }
 
