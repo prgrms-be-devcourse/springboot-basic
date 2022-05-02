@@ -1,9 +1,12 @@
 package com.example.voucher_manager.web.Util;
 
-public class Status {
+public enum Status {
+    SUCCESS("success"),
+    ERROR("error");
+
     private final String status;
 
-    public Status(String status) {
+    private Status(String status) {
         this.status = status;
     }
 
