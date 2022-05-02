@@ -14,10 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
 @Component
 public class CommandLineApplication{
 
@@ -49,24 +45,23 @@ public class CommandLineApplication{
 
                 case BLACK -> customerService.showBlackList(CustomerType.BLACKLIST);
 
-                case CREATE -> {
-                    output.printVoucherTypeInputPrompt();
-                    VoucherType voucherType = input.inputVoucherType();
-                    if (voucherType == null) continue;
+                case CREATE -> runCreateVoucherForCommandLine();
 
-                    output.outputAmountOrPercentPrompt(voucherType);
-                    Long amountOrPercent = input.inputDiscountAmountOrPercent();
-                    voucherService.createVoucher(voucherType, amountOrPercent);
-                }
-                case CUSTOMER -> {
-                    String name = input.inputCustomerName();
-                    String email = input.inputCustomerEmail();
-                    CustomerType customerType = input.inputCustomerType();
-                    customerService.createCustomer(name, email, customerType);
-                }
+                case CUSTOMER -> customerService.createCustomer(input.inputCustomerName(), input.inputCustomerEmail(), input.inputCustomerType());
+
                 case WALLET -> runWalletService();
             }
         }
+    }
+
+    private void runCreateVoucherForCommandLine() {
+        output.printVoucherTypeInputPrompt();
+        VoucherType voucherType = input.inputVoucherType();
+        if (voucherType == null) return;
+
+        output.outputAmountOrPercentPrompt(voucherType);
+        Long amountOrPercent = input.inputDiscountAmountOrPercent();
+        voucherService.createVoucher(voucherType, amountOrPercent);
     }
 
     private void runWalletService() {
