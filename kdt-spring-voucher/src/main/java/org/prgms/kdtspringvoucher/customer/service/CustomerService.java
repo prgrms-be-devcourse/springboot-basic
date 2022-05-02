@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,10 +27,9 @@ public class CustomerService {
         return customerRepository.update(updateCustomer);
     }
 
-    public List<Customer> showAllCustomer(){
+    public void showAllCustomer(){
         List<Customer> customers = customerRepository.findAll();
         customers.forEach(customer -> System.out.println((customers.indexOf(customer) + 1) + ". " + customer));
-        return customers;
     }
 
     public void showBlackList(CustomerType customerType){

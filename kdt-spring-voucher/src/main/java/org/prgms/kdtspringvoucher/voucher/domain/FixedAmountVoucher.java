@@ -1,7 +1,5 @@
 package org.prgms.kdtspringvoucher.voucher.domain;
 
-import org.prgms.kdtspringvoucher.customer.domain.Customer;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 

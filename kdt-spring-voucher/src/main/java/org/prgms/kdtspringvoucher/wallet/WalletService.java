@@ -1,13 +1,8 @@
 package org.prgms.kdtspringvoucher.wallet;
 
 import org.prgms.kdtspringvoucher.customer.domain.Customer;
-import org.prgms.kdtspringvoucher.customer.repository.CustomerRepository;
 import org.prgms.kdtspringvoucher.customer.service.CustomerService;
-import org.prgms.kdtspringvoucher.voucher.domain.FixedAmountVoucher;
-import org.prgms.kdtspringvoucher.voucher.domain.PercentDiscountVoucher;
 import org.prgms.kdtspringvoucher.voucher.domain.Voucher;
-import org.prgms.kdtspringvoucher.voucher.dto.AssignVoucherRequest;
-import org.prgms.kdtspringvoucher.voucher.repository.VoucherRepository;
 import org.prgms.kdtspringvoucher.voucher.service.VoucherService;
 import org.springframework.stereotype.Service;
 

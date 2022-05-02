@@ -10,8 +10,6 @@ import org.prgms.kdtspringvoucher.voucher.domain.VoucherType;
 import org.prgms.kdtspringvoucher.voucher.service.VoucherService;
 import org.prgms.kdtspringvoucher.wallet.WalletCommandType;
 import org.prgms.kdtspringvoucher.wallet.WalletService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +20,6 @@ public class CommandLineApplication{
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final WalletService walletService;
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public CommandLineApplication(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService) {
         this.input = input;
@@ -81,10 +78,10 @@ public class CommandLineApplication{
     }
 
     private Customer chooseCustomer() {
-        return customerService.showAllCustomer().get(input.inputCustomerNumber() - 1);
+        return customerService.getCustomers().get(input.inputCustomerNumber() - 1);
     }
 
     private Voucher chooseVoucher(){
-        return voucherService.showAllVoucher().get(input.inputVoucherNumber() - 1);
+        return voucherService.getVouchers().get(input.inputVoucherNumber() - 1);
     }
 }

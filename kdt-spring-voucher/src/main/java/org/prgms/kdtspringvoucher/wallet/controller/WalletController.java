@@ -1,14 +1,12 @@
 package org.prgms.kdtspringvoucher.wallet.controller;
 
 import org.prgms.kdtspringvoucher.customer.domain.Customer;
-import org.prgms.kdtspringvoucher.voucher.dto.AssignVoucherRequest;
 import org.prgms.kdtspringvoucher.voucher.domain.Voucher;
 import org.prgms.kdtspringvoucher.wallet.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;

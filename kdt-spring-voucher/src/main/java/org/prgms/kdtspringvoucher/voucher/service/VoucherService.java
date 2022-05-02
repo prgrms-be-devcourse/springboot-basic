@@ -18,14 +18,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public List<Voucher> showAllVoucher() {
+    public void showAllVoucher() {
         List<Voucher> vouchers = voucherRepository.findAll();
         if (vouchers.isEmpty())
             System.out.println("No vouchers.....\n");
         else {
             vouchers.forEach(voucher -> System.out.println((vouchers.indexOf(voucher) + 1) + ". " + voucher));
         }
-        return vouchers;
     }
 
     public Voucher createVoucher(VoucherType voucherType,Long amount) {

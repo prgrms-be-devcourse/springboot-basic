@@ -1,6 +1,5 @@
 package org.prgms.kdtspringvoucher.voucher.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -44,7 +42,7 @@ class VoucherServiceTest {
                 new FixedAmountVoucher(UUID.randomUUID(), UUID.randomUUID(), 300L, VoucherType.FIXED, LocalDateTime.now())
         ));
         //when
-        List<Voucher> vouchers = voucherService.showAllVoucher();
+        List<Voucher> vouchers = voucherService.getVouchers();
         //then
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers.size(), is(3));

@@ -2,8 +2,6 @@ package org.prgms.kdtspringvoucher.customer.dto;
 
 import org.prgms.kdtspringvoucher.customer.domain.CustomerType;
 
-import java.time.LocalDateTime;
-
 public class UpdateCustomerRequest {
     private String name;
     private CustomerType customerType;
