@@ -10,8 +10,6 @@ public class KdtSpringVoucherApplication {
     public static void main(String[] args) {
         SpringApplication springApplication = new SpringApplication(KdtSpringVoucherApplication.class);
         springApplication.setAdditionalProfiles("dev");
-        ApplicationContext applicationContext = springApplication.run(args);
-
-        applicationContext.getBean(CommandLineApplication.class).run();
+        springApplication.run(args);
     }
 }

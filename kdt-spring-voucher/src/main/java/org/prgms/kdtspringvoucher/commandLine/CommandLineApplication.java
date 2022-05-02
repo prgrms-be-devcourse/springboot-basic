@@ -80,7 +80,7 @@ public class CommandLineApplication implements Runnable{
 
             case CUSTOMER -> walletService.showVouchersAssignedToCustomer(chooseCustomer());
 
-            case DELETE -> walletService.deleteVoucherAssignedToCustomer(chooseCustomer());
+            case DELETE -> walletService.deleteVoucherAssignedToCustomer(chooseCustomer().getCustomerId());
 
             case VOUCHER -> walletService.showCustomerByVoucherId(chooseVoucher());
         }
