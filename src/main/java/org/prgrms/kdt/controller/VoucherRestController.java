@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-@Controller
+@RestController
 public class VoucherRestController {
     private final VoucherService voucherService;
 
