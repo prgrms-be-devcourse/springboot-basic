@@ -270,7 +270,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 3L, VoucherType.PERCENT, twoDaysAgo));
         voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 4L, VoucherType.PERCENT, threeDaysAgo));
 
-        List<Voucher> all = voucherRepository.findAll();
+        List<Voucher> all = voucherRepository.findByParam(null, null, null);
         List<Voucher> vouchersByType = voucherRepository.findByParam(VoucherType.FIXED, null, null);
         List<Voucher> fromOneDayAgoVouchers = voucherRepository.findByParam(null, oneDayAgo, null);
         List<Voucher> toOneDayAgoVouchers = voucherRepository.findByParam(null, null, oneDayAgo);

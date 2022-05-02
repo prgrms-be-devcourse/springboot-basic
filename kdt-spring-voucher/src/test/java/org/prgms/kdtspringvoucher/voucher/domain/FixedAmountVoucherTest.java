@@ -35,7 +35,7 @@ class FixedAmountVoucherTest {
     @ParameterizedTest
     @DisplayName("할인가를 확인할 수 있다.")
     @ValueSource(
-            longs = {1L,28L,99999L}
+            longs = {0L,1L,28L,99999L,100000L}
     )
     void testFixedAmountVoucher(Long amount){
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, VoucherType.FIXED, LocalDateTime.now());
