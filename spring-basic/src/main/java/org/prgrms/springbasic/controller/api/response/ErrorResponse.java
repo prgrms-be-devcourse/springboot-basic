@@ -1,23 +1,23 @@
 package org.prgrms.springbasic.controller.api.response;
 
 import lombok.Builder;
+import org.prgrms.springbasic.controller.api.ErrorCode;
 
 import java.time.LocalDateTime;
 
-public record ErrorResponse(LocalDateTime timestamp, int statusCode, String path, String error, String errorMessage) {
+public record ErrorResponse(LocalDateTime timestamp, int statusCode, String error, String errorMessage) {
 
     @Builder
     public ErrorResponse {
 
     }
 
-    public static ErrorResponse responseOf(LocalDateTime timestamp, int statusCode, String path, Exception e) {
+    public static ErrorResponse responseOf(LocalDateTime timestamp, ErrorCode errorCode, String error) {
         return ErrorResponse.builder()
                 .timestamp(timestamp)
-                .statusCode(statusCode)
-                .path(path)
-                .error(e.getCause().getClass().getSimpleName())
-                .errorMessage(e.getCause().getMessage())
+                .statusCode(errorCode.getStatusCode())
+                .error(error)
+                .errorMessage(errorCode.getErrorMessage())
                 .build();
     }
 }
