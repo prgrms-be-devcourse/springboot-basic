@@ -1,6 +1,6 @@
 package org.prgrms.springbootbasic.view;
 
-import static org.prgrms.springbootbasic.view.ConstantString.CUSTOMER_BLACK_LIST;
+import static org.prgrms.springbootbasic.view.ViewText.CUSTOMER_BLACK_LIST;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,9 +26,9 @@ public class CustomerBlackList {
         BufferedReader br;
         try {
             br = new BufferedReader(new FileReader(customerBlackList));
-            String line = "";
+            String line;
 
-            System.out.println(CUSTOMER_BLACK_LIST);
+            System.out.println(CUSTOMER_BLACK_LIST.getText());
             while ((line = br.readLine()) != null) {
                 System.out.println(line);
             }
