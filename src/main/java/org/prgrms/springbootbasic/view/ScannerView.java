@@ -145,7 +145,7 @@ public class ScannerView implements View {
             MessageFormat.format(CUSTOMER_LIST_PATTERN,
                 customer.getCustomerId(),
                 customer.getName().showName(),
-                customer.getEmail().showEmail())));
+                customer.getEmail().getEmail())));
         System.out.println();
     }
 

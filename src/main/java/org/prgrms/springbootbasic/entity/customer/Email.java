@@ -1,16 +1,31 @@
 package org.prgrms.springbootbasic.entity.customer;
 
+import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_EMAIL_FORMAT_EXP_MSG;
+
 import java.util.Objects;
+import java.util.regex.Pattern;
+import org.prgrms.springbootbasic.exception.InvalidEmailFormatException;
 
 public class Email {
+
+    private static final Pattern emailPattern = Pattern.compile(
+        "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b");
 
     private final String email;
 
     public Email(String email) {
+        validateEmailFormat(email);
+
         this.email = email;
     }
 
-    public String showEmail() {
+    private void validateEmailFormat(String email) {
+        if (!emailPattern.matcher(email).matches()) {
+            throw new InvalidEmailFormatException(INVALID_EMAIL_FORMAT_EXP_MSG);
+        }
+    }
+
+    public String getEmail() {
         return email;
     }
 

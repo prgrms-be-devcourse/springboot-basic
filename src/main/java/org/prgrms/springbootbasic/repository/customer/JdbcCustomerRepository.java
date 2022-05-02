@@ -70,7 +70,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var insert = jdbcTemplate.update(INSERT_SQL,
             customer.getCustomerId().toString().getBytes(UTF_8),
             customer.getName().showName(),
-            customer.getEmail().showEmail());
+            customer.getEmail().getEmail());
         if (insert != 1) {
             throw new RuntimeException(NOTHING_WAS_INSERTED_EXP_MSG);
         }
