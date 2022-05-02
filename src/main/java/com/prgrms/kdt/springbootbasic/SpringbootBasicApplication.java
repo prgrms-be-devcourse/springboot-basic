@@ -43,7 +43,7 @@ public class SpringbootBasicApplication {
 			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] Start New Process");
 			customOutput.informCommandWithConsole();
 			command = customInput.getCommand();
-			logger.info(MessageFormat.format("[SpringbootBasicApplication : runVoucherProgramInOrder] Command : {0}", command));
+			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] Command : {}", command);
 			handleCommand(command);
 			customOutput.informProcessEnd();
 			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] End New Process");
