@@ -17,7 +17,7 @@ public record ResponseVoucherDto(
         validate(type, value);
     }
 
-    public static ResponseVoucherDto of(Voucher voucher) {
+    public static ResponseVoucherDto from(Voucher voucher) {
         return new ResponseVoucherDto(voucher.getId(),
                 voucher.getType(),
                 voucher.getValue(),

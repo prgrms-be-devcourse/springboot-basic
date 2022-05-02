@@ -25,7 +25,7 @@ public class VoucherController {
 
         try {
             Voucher savedVoucher = voucherService.saveVoucher(request.toDomain());
-            return Response.ok(ResponseVoucherDto.of(savedVoucher));
+            return Response.ok(ResponseVoucherDto.from(savedVoucher));
         } catch (IllegalArgumentException e) {
             return Response.error(ResponseStatus.BAD_REQUEST);
         } catch (IllegalStateException e) {
@@ -38,7 +38,7 @@ public class VoucherController {
 
         List<ResponseVoucherDto> requestVoucherDtoList = voucherList
                 .stream()
-                .map(ResponseVoucherDto::of)
+                .map(ResponseVoucherDto::from)
                 .toList();
 
         return Response.ok(requestVoucherDtoList);

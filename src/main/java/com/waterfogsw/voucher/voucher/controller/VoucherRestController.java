@@ -5,7 +5,6 @@ import com.waterfogsw.voucher.voucher.dto.PeriodDto;
 import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.ResponseVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class VoucherRestController {
     @PostMapping
     public ResponseVoucherDto voucherAdd(@RequestBody RequestVoucherDto request) {
         final var savedVoucher = voucherService.saveVoucher(request.toDomain());
-        return ResponseVoucherDto.of(savedVoucher);
+        return ResponseVoucherDto.from(savedVoucher);
     }
 
     @GetMapping
@@ -31,16 +30,13 @@ public class VoucherRestController {
                 .stream()
                 .filter((v) -> periodDto == null || periodDto.isBetween(v.getCreatedAt()))
                 .filter((v) -> voucherType == null || (v.getType() == voucherType))
-                .map(ResponseVoucherDto::of)
+                .map(ResponseVoucherDto::from)
                 .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseVoucherDto> voucherFindById(@PathVariable("id") Long id) {
-        final var voucher = voucherService
-                .findById(id)
-                .map(ResponseVoucherDto::of);
-
-        return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseVoucherDto voucherFindById(@PathVariable("id") Long id) {
+        final var voucher = voucherService.findById(id);
+        return ResponseVoucherDto.from(voucher);
     }
 }
