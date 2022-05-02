@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.prgrms.springbootbasic.entity.customer.Customer;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -133,7 +135,8 @@ class JdbcVoucherRepositoryTest {
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.save(voucher);
 
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         jdbcCustomerRepository.save(customer);
 
         voucher.assignCustomer(customer);
@@ -154,7 +157,8 @@ class JdbcVoucherRepositoryTest {
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.save(voucher);
 
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         jdbcCustomerRepository.save(customer);
 
         voucher.assignCustomer(customer);
@@ -175,7 +179,8 @@ class JdbcVoucherRepositoryTest {
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.save(voucher);
 
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         jdbcCustomerRepository.save(customer);
 
         //when

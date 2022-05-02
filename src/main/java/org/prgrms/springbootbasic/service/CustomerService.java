@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.exception.DuplicateCustomerEmailException;
 import org.prgrms.springbootbasic.exception.InvalidCustomerIdException;
 import org.prgrms.springbootbasic.exception.InvalidVoucherIdException;
@@ -34,10 +36,10 @@ public class CustomerService {
     }
 
     @Transactional
-    public UUID createCustomer(String name, String email) {
+    public UUID createCustomer(Name name, Email email) {
         logger.info("createCustomer() called");
 
-        validateDuplicateEmail(email);
+        validateDuplicateEmail(email.getEmail());
 
         return customerRepository.save(new Customer(UUID.randomUUID(), name, email));
     }

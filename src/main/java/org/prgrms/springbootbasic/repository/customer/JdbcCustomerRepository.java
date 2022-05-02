@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -44,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         var customerId = toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID));
         var name = resultSet.getString(COLUMN_NAME);
         var email = resultSet.getString(COLUMN_EMAIL);
-        return new Customer(customerId, name, email);
+        return new Customer(customerId, new Name(name), new Email(email));
     };
 
     public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {

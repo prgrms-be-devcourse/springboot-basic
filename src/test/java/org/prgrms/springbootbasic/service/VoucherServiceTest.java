@@ -20,6 +20,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -115,7 +117,8 @@ class VoucherServiceTest {
     void assignVoucherToCustomer() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
 
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(
@@ -167,7 +170,8 @@ class VoucherServiceTest {
     void assignVoucherToCustomerAlreadyAssignedVoucher() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         voucher.assignCustomer(customer);
 
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
@@ -184,7 +188,8 @@ class VoucherServiceTest {
     @Test
     void findCustomerVoucher() {
         //given
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(
             Optional.of(customer));
 

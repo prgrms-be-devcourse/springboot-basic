@@ -1,5 +1,7 @@
 package org.prgrms.springbootbasic.controller;
 
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.exception.ServiceException;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
@@ -83,7 +85,7 @@ public class VoucherController {
 
         var name = view.selectName();
         var email = view.selectEmail();
-        customerService.createCustomer(name, email);
+        customerService.createCustomer(new Name(name), new Email(email));
     }
 
     public void printAllCustomers() {

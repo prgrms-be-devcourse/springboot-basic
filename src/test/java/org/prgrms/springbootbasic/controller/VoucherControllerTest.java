@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.service.CustomerService;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.View;
@@ -124,8 +125,8 @@ class VoucherControllerTest {
     void createCustomer() {
         //given
         when(view.inputMenu()).thenReturn(Menu.CREATECUSTOMER);
-        when(view.selectName()).thenReturn("");
-        when(view.selectEmail()).thenReturn("");
+        when(view.selectName()).thenReturn("test");
+        when(view.selectEmail()).thenReturn("test@gmail.com");
 
         //when
         voucherController.process();
@@ -135,7 +136,7 @@ class VoucherControllerTest {
         inOrder.verify(view).inputMenu();
         inOrder.verify(view).selectName();
         inOrder.verify(view).selectEmail();
-        inOrder.verify(customerService).createCustomer(anyString(), anyString());
+        inOrder.verify(customerService).createCustomer(any(Name.class), any(Email.class));
     }
 
     @DisplayName("assignVoucher 테스트 - 정상")

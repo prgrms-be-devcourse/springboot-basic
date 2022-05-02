@@ -21,6 +21,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
+import org.prgrms.springbootbasic.entity.customer.Email;
+import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.exception.DuplicateCustomerEmailException;
@@ -50,15 +52,16 @@ class CustomerServiceTest {
     @Test
     void creatCustomer() {
         //given
-        String email = "test@gmail.com";
-        when(customerRepository.findByEmail(email)).thenReturn(Optional.empty());
+        Name name = new Name("test");
+        Email email = new Email("test@gmail.com");
+        when(customerRepository.findByEmail(email.getEmail())).thenReturn(Optional.empty());
 
         //when
-        customerService.createCustomer("test", email);
+        customerService.createCustomer(name, email);
 
         //then
         var inOrder = inOrder(customerRepository);
-        inOrder.verify(customerRepository).findByEmail(email);
+        inOrder.verify(customerRepository).findByEmail(email.getEmail());
         inOrder.verify(customerRepository).save(any(Customer.class));
     }
 
@@ -66,13 +69,13 @@ class CustomerServiceTest {
     @Test
     void createCustomerException() {
         //given
-        String email = "test@gmail.com";
-        when(customerRepository.findByEmail(email))
-            .thenReturn(Optional.of(new Customer(UUID.randomUUID(), "a", email)));
+        Email email = new Email("test@gmail.com");
+        when(customerRepository.findByEmail(email.getEmail()))
+            .thenReturn(Optional.of(new Customer(UUID.randomUUID(), new Name("hello"), email)));
 
         //when
         //then
-        assertThatThrownBy(() -> customerService.createCustomer("test", email))
+        assertThatThrownBy(() -> customerService.createCustomer(new Name("test"), email))
             .isInstanceOf(DuplicateCustomerEmailException.class);
     }
 
@@ -80,8 +83,10 @@ class CustomerServiceTest {
     @Test
     void findAllCustomers() {
         //given
-        var customer1 = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
-        var customer2 = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com");
+        var customer1 = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
+        var customer2 = new Customer(UUID.randomUUID(), new Name("test01"),
+            new Email("test01@gmail.com"));
 
         List<Customer> customers = List.of(customer1, customer2);
         when(customerRepository.findAll()).thenReturn(customers);
@@ -98,7 +103,8 @@ class CustomerServiceTest {
     @Test
     void deleteVoucher() {
         //given
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(
             Optional.of(customer));
 
@@ -133,7 +139,8 @@ class CustomerServiceTest {
     @Test
     void deleteVoucherInvalidVoucherId() {
         //given
-        var customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        var customer = new Customer(UUID.randomUUID(), new Name("test"),
+            new Email("test@gmail.com"));
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(
             Optional.of(customer));
         when(voucherRepository.findByCustomer(customer)).thenReturn(Collections.emptyList());

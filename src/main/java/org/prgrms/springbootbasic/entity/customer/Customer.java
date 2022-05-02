@@ -9,10 +9,10 @@ public class Customer {
     private final Email email;
     private Name name;
 
-    public Customer(UUID customerId, String name, String email) {
+    public Customer(UUID customerId, Name name, Email email) {
         this.customerId = customerId;
-        this.name = new Name(name);
-        this.email = new Email(email);
+        this.name = name;
+        this.email = email;
     }
 
     public UUID getCustomerId() {
