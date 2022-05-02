@@ -1,6 +1,6 @@
 package com.example.voucher_manager.domain.voucher;
 
-import com.example.voucher_manager.web.Util.Status;
+import com.example.voucher_manager.web.Util.ResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class VoucherRestController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherViewController.class);
 
-    private final Status RESPONSE_SUCCESS = Status.SUCCESS;
+    private final ResponseStatus RESPONSE_SUCCESS = ResponseStatus.SUCCESS;
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
@@ -77,7 +77,7 @@ public class VoucherRestController {
 
     @DeleteMapping("/api/v1/voucher/{voucherId}")
     @ResponseBody
-    public ResponseEntity<Status> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<ResponseStatus> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         var response = voucherService.deleteVoucher(voucherId);
         return response ? ResponseEntity.ok(RESPONSE_SUCCESS) : ResponseEntity.internalServerError().build();
     }
