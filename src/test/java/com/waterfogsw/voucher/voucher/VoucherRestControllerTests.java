@@ -2,6 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.waterfogsw.voucher.voucher.controller.VoucherControllerAdvice;
 import com.waterfogsw.voucher.voucher.controller.VoucherRestController;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
@@ -18,12 +19,16 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.MessageFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,6 +51,7 @@ public class VoucherRestControllerTests {
     @BeforeEach
     public void beforeEach() {
         mockMvc = MockMvcBuilders.standaloneSetup(voucherRestController)
+                .setControllerAdvice(VoucherControllerAdvice.class)
                 .build();
     }
 
@@ -161,6 +167,122 @@ public class VoucherRestControllerTests {
                     assertThat(expected, is(content));
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("voucherFindBy 메서드는")
+    class Describe_voucherFindByPeriod {
+
+        @Nested
+        @DisplayName("시작날짜가 끝날짜보다 늦으면")
+        class Context_with_invalidPeriod {
+
+            @Test
+            @DisplayName("BadRequest 를 반환한다")
+            void it_return_list() {
+                final var fromDate = LocalDate.of(2022, 5, 1);
+                final var toDate = LocalDate.of(2022, 4, 29);
+                final var url = MessageFormat.format("/api/v1/vouchers/search?fromDate={0}&toDate={1}", fromDate, toDate);
+
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+                    resultActions.andExpect(status().isBadRequest());
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("유효한 날짜가 입력되면")
+        class Context_with_call {
+
+            @Test
+            @DisplayName("해당 기간의 모든 바우처를 리턴한다")
+            void it_return_list() {
+                final var fromDate = LocalDate.of(2022, 5, 1);
+                final var toDate = LocalDate.of(2022, 5, 11);
+                final var url = MessageFormat.format("/api/v1/vouchers/search?fromDate={0}&toDate={1}", fromDate, toDate);
+
+                final var createdTime1 = LocalDateTime.of(LocalDate.of(2022, 5, 1), LocalTime.now());
+                final var createdTime2 = LocalDateTime.of(LocalDate.of(2022, 4, 29), LocalTime.now());
+
+                final var voucher1 = new FixedAmountVoucher(0L, 1000, createdTime1, createdTime1);
+                final var voucher2 = new FixedAmountVoucher(0L, 1000, createdTime2, createdTime2);
+
+                final List<Voucher> vouchers = new ArrayList<>();
+                vouchers.add(voucher1);
+                vouchers.add(voucher2);
+
+                when(voucherService.findAllVoucher()).thenReturn(vouchers);
+
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+                    resultActions.andExpect(status().isOk());
+                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                    final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
+
+                    assertThat(resultContent, is(expectedContent));
+
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("알수없는 타입이 입력되면")
+        class Context_with_invalid_type {
+
+            @Test
+            @DisplayName("BadRequest 를 응답한다")
+            void it_return_list() {
+                final var url = "/api/v1/vouchers/search?voucherType=Hello";
+
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+                    resultActions.andExpect(status().isBadRequest());
+                } catch (Exception e) {
+                    throw new RuntimeException();
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("유효한 타입이 입력되면")
+        class Context_with_valid_type {
+
+            @Test
+            @DisplayName("해당 타입의 모든 바우처를 리턴한다")
+            void it_return_list() {
+                final var url = "/api/v1/vouchers/search?voucherType=FIXED_AMOUNT";
+
+                final var voucher1 = new FixedAmountVoucher(0L, 1000);
+                final var voucher2 = new PercentDiscountVoucher(0L, 10);
+
+                final List<Voucher> vouchers = new ArrayList<>();
+                vouchers.add(voucher1);
+                vouchers.add(voucher2);
+
+                when(voucherService.findAllVoucher()).thenReturn(vouchers);
+
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+                    resultActions.andExpect(status().isOk());
+                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                    final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
+
+                    assertThat(resultContent, is(expectedContent));
+
+                } catch (Exception e) {
+                    throw new RuntimeException();
                 }
             }
         }
