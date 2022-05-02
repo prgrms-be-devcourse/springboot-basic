@@ -43,7 +43,7 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Transactional
     public Customer update(Customer customer) {
         int update = jdbcTemplate.update(
-                "update customers set name = :name, email = :email, customer_type = :customerType, last_login_at = :lastLoginAt where UUID_TO_BIN(:customerId)",
+                "update customers set name = :name, customer_type = :customerType, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)",
                 toCustomerParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
@@ -81,7 +81,9 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findByCustomerType(CustomerType customerType) {
-        return jdbcTemplate.query("select * from customers where customer_type = :customerType",getCustomerRowMapper());
+        return jdbcTemplate.query("select * from customers where customer_type = :customerType",
+                Collections.singletonMap("customerType", customerType.toString()),
+                getCustomerRowMapper());
     }
 
     @Override
@@ -93,6 +95,13 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Transactional
     public void deleteAll() {
         jdbcTemplate.update("delete from customers", Collections.emptyMap());
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update("delete from customers where customer_id = UUID_TO_BIN(:customerId)",
+                Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     private Map<String, Object> toCustomerParamMap(Customer customer) {

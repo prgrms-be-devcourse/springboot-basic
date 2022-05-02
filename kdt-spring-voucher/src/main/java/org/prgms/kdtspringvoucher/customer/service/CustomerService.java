@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,5 +40,24 @@ public class CustomerService {
 
     public void deleteAllCustomer() {
         customerRepository.deleteAll();
+    }
+
+    public List<Customer> getCustomers() {
+        return customerRepository.findAll();
+    }
+
+    public Customer getCustomerById(UUID customerId) {
+        return customerRepository.findById(customerId).orElse(null);
+    }
+
+    public Customer updateCustomerById(UUID customerId, String name, CustomerType customerType) {
+        Customer customer = customerRepository.findById(customerId).orElse(null);
+        customer.changeName(name);
+        customer.changeCustomerType(customerType);
+        return customerRepository.update(customer);
+    }
+
+    public void deleteCustomerById(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 }

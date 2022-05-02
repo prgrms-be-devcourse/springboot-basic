@@ -52,10 +52,6 @@ public class Customer {
         return lastLoginAt;
     }
 
-    public void changeCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-    }
-
     @Override
     public String toString() {
         return "customerId=" + customerId +
@@ -64,5 +60,13 @@ public class Customer {
                 ", customerType=" + customerType +
                 ", lastLoginAt=" + lastLoginAt +
                 ", createdAt=" + createdAt;
+    }
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changeCustomerType(CustomerType customerType) {
+        this.customerType = customerType;
     }
 }
