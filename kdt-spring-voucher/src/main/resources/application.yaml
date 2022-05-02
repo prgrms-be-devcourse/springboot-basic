@@ -5,9 +5,8 @@ black-list:
 spring:
   datasource:
     url: jdbc:mysql://localhost/kdt_voucher
-    username: root
-    password: a123456789
-    type: com.zaxxer.hikari.HikariDataSource
+    username:
+    password:
 
 ---
 
@@ -21,13 +20,3 @@ voucher:
 
 
 ---
-
-spring:
-  config:
-    activate:
-      on-profile: dev
-  datasource:
-    url: jdbc:mysql://localhost/kdt_voucher
-    username: root
-    password: a123456789
-    type: com.zaxxer.hikari.HikariDataSource
