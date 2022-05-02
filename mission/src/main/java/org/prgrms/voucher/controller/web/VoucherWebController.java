@@ -31,8 +31,8 @@ public class VoucherWebController {
 
     @GetMapping
     public List<VoucherDto.VoucherResponse> findVouchers(@RequestParam("voucherType") Optional<String> voucherType,
-                                                         @RequestParam(value = "after") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> after,
-                                                         @RequestParam(value = "before") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  Optional<LocalDate> before
+                                                         @RequestParam("after") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> after,
+                                                         @RequestParam("before") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  Optional<LocalDate> before
     ) {
 
         List<Voucher> vouchers = voucherService.list();
