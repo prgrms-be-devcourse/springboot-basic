@@ -21,6 +21,10 @@ public class VoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
+    private final Status RESPONSE_SUCCESS = Status.SUCCESS;
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
@@ -43,14 +47,13 @@ public class VoucherController {
     }
 
     private List<Voucher> findByQueryParams(Map<String, String> params) {
-        if (params.containsKey("type")){
-            return voucherService.findSameTypeVoucher(VoucherType.of(params.get("type")));
+        if (params.containsKey(VoucherRequestParams.TYPE.getKey())){
+            return voucherService.findSameTypeVoucher(VoucherType.of(params.get(VoucherRequestParams.TYPE.getKey())));
         }
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
         return voucherService.findVouchersByPeriods(
-                LocalDateTime.parse(params.get("start"), formatter),
-                LocalDateTime.parse(params.get("end"), formatter));
+                LocalDateTime.parse(params.get(VoucherRequestParams.START.getKey()), formatter),
+                LocalDateTime.parse(params.get(VoucherRequestParams.END.getKey()), formatter));
     }
 
     @GetMapping("/api/v1/vouchers/{voucherId}")
@@ -78,8 +81,7 @@ public class VoucherController {
     @ResponseBody
     public ResponseEntity<Status> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
         var response = voucherService.deleteVoucher(voucherId);
-        Status status = new Status("Success");
-        return response ? ResponseEntity.ok(status) : ResponseEntity.internalServerError().build();
+        return response ? ResponseEntity.ok(RESPONSE_SUCCESS) : ResponseEntity.internalServerError().build();
     }
 
     // ===== VIEWS =====
