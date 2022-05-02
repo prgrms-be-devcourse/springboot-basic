@@ -69,22 +69,18 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("BadRequest 를 응답한다")
-            void it_response_BadRequest() {
+            void it_response_BadRequest() throws Exception {
                 Map<String, String> postRequest = new HashMap<>();
                 postRequest.put("type", "");
                 postRequest.put("value", "1000");
 
-                try {
-                    final String content = objectMapper.writeValueAsString(postRequest);
-                    final var request = post(url)
-                            .content(content)
-                            .contentType(MediaType.APPLICATION_JSON);
+                final String content = objectMapper.writeValueAsString(postRequest);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
 
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isBadRequest());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
 
@@ -94,22 +90,18 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("BadRequest 를 응답한다")
-            void it_response_BadRequest() {
+            void it_response_BadRequest() throws Exception {
                 Map<String, String> postRequest = new HashMap<>();
                 postRequest.put("type", "FIXED_AMOUNT");
                 postRequest.put("value", "");
 
-                try {
-                    final String content = objectMapper.writeValueAsString(postRequest);
-                    final var request = post(url)
-                            .content(content)
-                            .contentType(MediaType.APPLICATION_JSON);
+                final String content = objectMapper.writeValueAsString(postRequest);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
 
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isBadRequest());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
 
@@ -119,21 +111,17 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("200 을 응답한다")
-            void it_response_BadRequest() {
+            void it_response_BadRequest() throws Exception {
                 final Voucher voucher = new FixedAmountVoucher(1L, 2000);
                 when(voucherService.saveVoucher(any(Voucher.class))).thenReturn(voucher);
 
-                try {
-                    final String content = objectMapper.writeValueAsString(voucher);
-                    final var request = post(url)
-                            .content(content)
-                            .contentType(MediaType.APPLICATION_JSON);
+                final String content = objectMapper.writeValueAsString(voucher);
+                final var request = post(url)
+                        .content(content)
+                        .contentType(MediaType.APPLICATION_JSON);
 
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isOk());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
             }
         }
     }
@@ -150,7 +138,7 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("저장된 모든 바우처 리스트를 반환한다")
-            void it_return_list() {
+            void it_return_list() throws Exception {
                 final Voucher voucher1 = new FixedAmountVoucher(1L, 2000);
                 final Voucher voucher2 = new PercentDiscountVoucher(2L, 10);
                 final List<Voucher> vouchers = new ArrayList<>(Arrays.asList(voucher1, voucher2));
@@ -158,18 +146,14 @@ public class VoucherRestControllerTests {
 
                 final var request = MockMvcRequestBuilders.get(url);
 
-                try {
-                    final var resultActions = mockMvc.perform(request);
-                    final var content = resultActions.andReturn().getResponse().getContentAsString();
+                final var resultActions = mockMvc.perform(request);
+                final var content = resultActions.andReturn().getResponse().getContentAsString();
 
-                    String expected = MessageFormat.format("[{0},{1}]",
-                            objectMapper.writeValueAsString(voucher1),
-                            objectMapper.writeValueAsString(voucher2));
+                String expected = MessageFormat.format("[{0},{1}]",
+                        objectMapper.writeValueAsString(voucher1),
+                        objectMapper.writeValueAsString(voucher2));
 
-                    assertThat(expected, is(content));
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                assertThat(expected, is(content));
             }
         }
 
@@ -179,18 +163,14 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("BadRequest 를 반환한다")
-            void it_return_list() {
+            void it_return_list() throws Exception {
                 final var fromDate = LocalDate.of(2022, 5, 1);
                 final var toDate = LocalDate.of(2022, 4, 29);
                 final var url = MessageFormat.format("/api/v1/vouchers?fromDate={0}&toDate={1}", fromDate, toDate);
 
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isBadRequest());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
 
@@ -200,7 +180,7 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("해당 기간의 모든 바우처를 리턴한다")
-            void it_return_list() {
+            void it_return_list() throws Exception {
                 final var fromDate = LocalDate.of(2022, 5, 1);
                 final var toDate = LocalDate.of(2022, 5, 11);
                 final var url = MessageFormat.format("/api/v1/vouchers?fromDate={0}&toDate={1}", fromDate, toDate);
@@ -217,18 +197,13 @@ public class VoucherRestControllerTests {
 
                 when(voucherService.findAllVoucher()).thenReturn(vouchers);
 
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isOk());
-                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
-                    final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+                final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
 
-                    assertThat(resultContent, is(expectedContent));
-
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                assertThat(resultContent, is(expectedContent));
             }
         }
 
@@ -238,16 +213,12 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("BadRequest 를 응답한다")
-            void it_return_list() {
+            void it_return_list() throws Exception {
                 final var url = "/api/v1/vouchers?voucherType=Hello";
 
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isBadRequest());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isBadRequest());
             }
         }
 
@@ -257,7 +228,7 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("해당 타입의 모든 바우처를 리턴한다")
-            void it_return_list() {
+            void it_return_list() throws Exception {
                 final var url = "/api/v1/vouchers?voucherType=FIXED_AMOUNT";
 
                 final var voucher1 = new FixedAmountVoucher(0L, 1000);
@@ -269,18 +240,13 @@ public class VoucherRestControllerTests {
 
                 when(voucherService.findAllVoucher()).thenReturn(vouchers);
 
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
-                    resultActions.andExpect(status().isOk());
-                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
-                    final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+                resultActions.andExpect(status().isOk());
+                final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
 
-                    assertThat(resultContent, is(expectedContent));
-
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                assertThat(resultContent, is(expectedContent));
             }
         }
     }
@@ -295,23 +261,20 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("해당 id 값의 바우처 정보를 반환한다")
-            void it_return_voucher_info() {
+            void it_return_voucher_info() throws Exception {
+
                 final var voucher = new FixedAmountVoucher(1L, 1000, LocalDateTime.now(), LocalDateTime.now());
                 when(voucherService.findById(anyLong())).thenReturn(voucher);
 
                 final var url = "/api/v1/vouchers/1";
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
 
-                    resultActions.andExpect(status().isOk());
-                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
-                    final var expectedContent = objectMapper.writeValueAsString(voucher);
+                resultActions.andExpect(status().isOk());
+                final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                final var expectedContent = objectMapper.writeValueAsString(voucher);
 
-                    assertThat(resultContent, is(expectedContent));
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                assertThat(resultContent, is(expectedContent));
             }
         }
 
@@ -321,18 +284,16 @@ public class VoucherRestControllerTests {
 
             @Test
             @DisplayName("not found 를 반환한다")
-            void it_return_voucher_info() {
+            void it_return_voucher_info() throws Exception {
                 when(voucherService.findById(anyLong())).thenThrow(new ResourceNotFound());
 
                 final var url = "/api/v1/vouchers/1";
-                try {
-                    final var request = get(url);
-                    final var resultActions = mockMvc.perform(request);
 
-                    resultActions.andExpect(status().isNotFound());
-                } catch (Exception e) {
-                    throw new RuntimeException(e.getMessage());
-                }
+                final var request = get(url);
+                final var resultActions = mockMvc.perform(request);
+
+                resultActions.andExpect(status().isNotFound());
+
             }
         }
     }
