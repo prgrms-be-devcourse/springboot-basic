@@ -123,7 +123,10 @@ class VoucherControllerTest {
                     fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
                 }
 
-                VoucherResponse expectedResponseDto = new VoucherResponse(id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
+                VoucherResponse expectedResponseDto = new VoucherResponse(id,
+                                                                          voucherRequest.getVoucherType(),
+                                                                          voucherRequest.getVoucherAmount(),
+                                                                          voucherRequest.getCreatedAt());
 
                 // when
                 Response<VoucherResponse> response = voucherController.create(voucherRequest);
@@ -136,6 +139,7 @@ class VoucherControllerTest {
                 assertThat(responseDto.getVoucherId()).isEqualTo(expectedResponseDto.getVoucherId());
                 assertThat(responseDto.getVoucherType()).isEqualTo(expectedResponseDto.getVoucherType());
                 assertThat(responseDto.getVoucherAmount()).isEqualTo(expectedResponseDto.getVoucherAmount());
+                assertThat(responseDto.getCreatedAt()).isEqualTo(expectedResponseDto.getCreatedAt());
             }
         }
     }

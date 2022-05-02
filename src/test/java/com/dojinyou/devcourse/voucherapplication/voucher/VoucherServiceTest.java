@@ -71,15 +71,11 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                try {
-                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                    getDomainMethod.setAccessible(true);
-                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
-
-                    when(voucherRepository.create(any())).thenReturn(voucherWithId);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
-                }
+                Voucher voucherWithId = VoucherMapper.getDomain(id,
+                                                                voucherWithNull.getVoucherType(),
+                                                                voucherWithNull.getVoucherAmount(),
+                                                                voucherWithNull.getCreatedAt());
+                when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
                 // when
                 voucherService.create(voucherWithNull);
@@ -100,14 +96,10 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                Voucher voucherWithId = null;
-                try {
-                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                    getDomainMethod.setAccessible(true);
-                    voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherWithNull.getVoucherType(), voucherWithNull.getVoucherAmount());
-                } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
-                }
+                Voucher voucherWithId = VoucherMapper.getDomain(id,
+                                                                voucherWithNull.getVoucherType(),
+                                                                voucherWithNull.getVoucherAmount(),
+                                                                voucherWithNull.getCreatedAt());
 
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
