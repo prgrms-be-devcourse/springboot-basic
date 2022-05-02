@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        ArrayList<String> functionNames = new ArrayList<>();
+        List<String> functionNames = new ArrayList<>();
         Arrays.stream(VoucherProgramFunctions.values())
                 .forEach(c -> functionNames.add(c.name()));
         model.addAttribute(functionNames);
