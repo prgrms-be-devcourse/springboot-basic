@@ -5,6 +5,7 @@ import com.waterfogsw.voucher.voucher.dto.PeriodDto;
 import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.ResponseVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +41,14 @@ public class VoucherRestController {
                 .filter((v) -> voucherType == null || (v.getType() == voucherType))
                 .map(ResponseVoucherDto::of)
                 .toList();
+    }
+
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<ResponseVoucherDto> voucherFindById(@PathVariable("voucherId") Long voucherId) {
+        final var voucher = voucherService
+                .findById(voucherId)
+                .map(ResponseVoucherDto::of);
+
+        return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 }

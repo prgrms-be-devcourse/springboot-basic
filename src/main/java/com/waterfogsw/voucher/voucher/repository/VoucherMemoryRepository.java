@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Profile({"dev"})
@@ -35,6 +36,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
         return voucherStore.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long id) {
+        return Optional.ofNullable(voucherStore.get(id));
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {

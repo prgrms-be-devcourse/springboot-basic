@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.List;
+import java.util.Optional;
 
 @Profile({"default"})
 @Repository
@@ -53,6 +54,11 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return FileUtils.readAll(repositoryPath, Voucher.class);
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long id) {
+        return Optional.empty();
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {
