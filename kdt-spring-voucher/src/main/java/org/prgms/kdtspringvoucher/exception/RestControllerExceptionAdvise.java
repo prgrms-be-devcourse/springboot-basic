@@ -11,14 +11,15 @@ public class RestControllerExceptionAdvise {
     private final Logger log = LoggerFactory.getLogger(GlobalControllerExceptionAdvise.class);
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public String illegalArgException(IllegalArgumentException exception) {
+    public Exception illegalArgException(IllegalArgumentException exception) {
         log.error("error message = {}", exception.getMessage());
-        return "index";
+        return exception;
     }
 
+
     @ExceptionHandler(Exception.class)
-    public String AllException(Exception exception) {
+    public Exception AllException(Exception exception) {
         log.error("error message = {}", exception.getMessage());
-        return "index";
+        return exception;
     }
 }
