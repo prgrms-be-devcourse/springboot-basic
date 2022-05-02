@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<div class="d-grid gap-3" style="width: 700px; margin: 0 auto;">
+    <h2 style="text-align: center">바우처 서비스</h2>
+    <a th:href="@{/vouchers}" class="btn btn-outline-primary" type="button">바우처 목록 조회</a>
+    <a th:href="@{/customers}" class="btn btn-outline-secondary" type="button">고객 목록 조회</a>
+    <a th:href="@{/vouchers/assign}" class="btn btn-outline-success" type="button">바우처 할당하기</a>
+</div>
+</body>
+</html>

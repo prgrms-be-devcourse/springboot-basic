@@ -1,0 +1,52 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en">
+<head th:replace="fragments/header :: header"></head>
+<body class="container-fluid">
+<h5><b>고객이 보유한 바우처 조회</b></h5>
+<form th:action="@{/vouchers/search}" method="get" style="width: 800px; margin-bottom: 25px">
+    <div class="input-group mb-3">
+        <input type="text" id="email" name="email" class="form-control" placeholder="조회하고 싶은 고객의 이메일을 입력해주세요"
+               aria-label="Recipient's username" aria-describedby="button-addon2"/>
+        <button class="btn btn-outline-secondary"
+           type="submit" id="button-addon2">조회하기</button>
+    </div>
+</form>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">바우처 아이디</th>
+        <th scope="col">바우처 타입</th>
+        <th scope="col">할인 값</th>
+        <th scope="col">고객 아이디</th>
+        <th scope="col">생성 날짜</th>
+        <th scope="col">수정 날짜</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType.getType()}"></td>
+        <td th:text="*{discountValue}"></td>
+        <td th:text="*{customerId}"></td>
+        <td th:text="*{#temporals.format(createdDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="*{#temporals.format(modifiedDateTime, 'yyyy-MM-dd HH:mm')}"></td>
+        <td><a th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId})}"
+               class="btn btn-outline-primary" type="button">상세 정보</a></td>
+        <td>
+            <form th:action="@{/vouchers/{voucherId}(voucherId=*{voucherId})}" th:method="DELETE">
+            <input name="_method" type="hidden" value="DELETE" />
+                <button class="btn btn-outline-danger" type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers}" class="btn btn-primary m2-md-2" type="button">전체 조회</a>
+    <a th:href="@{/vouchers/new}" class="btn btn-primary" type="button">바우처 생성</a>
+</div>
+</body>
+</html>
