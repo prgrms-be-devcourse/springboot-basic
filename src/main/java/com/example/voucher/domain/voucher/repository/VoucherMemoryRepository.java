@@ -4,8 +4,10 @@ import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -50,5 +52,25 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	@Override
 	public void deleteAll() {
 		store.clear();
+	}
+
+	@Override
+	public int deleteById(Long voucherId) {
+		return 0;
+	}
+
+	@Override
+	public Optional<Voucher> findById(Long voucherId) {
+		return Optional.empty();
+	}
+
+	@Override
+	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByVoucherType(VoucherType voucherType) {
+		return null;
 	}
 }
