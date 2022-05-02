@@ -5,7 +5,6 @@ import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.TestConfig;
-import org.prgrms.kdt.domain.customer.exception.CustomerDataException;
 import org.prgrms.kdt.domain.customer.model.Customer;
 import org.prgrms.kdt.domain.customer.model.CustomerType;
 import org.prgrms.kdt.domain.voucher.model.Voucher;
@@ -24,8 +23,6 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.prgrms.kdt.domain.common.exception.ExceptionType.NOT_SAVED;
 
 @SpringJUnitConfig(classes = TestConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -177,20 +174,6 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 고객을 업데이트 할 경우 예외가 발생한다.")
-    void updateById_exception() {
-        //given
-        UUID customerId = UUID.randomUUID();
-        Customer updateCustomer = new Customer(customerId, "kim",
-                "a@naver.com", CustomerType.NORMAL, LocalDateTime.now(), LocalDateTime.now());
-        //when
-        //then
-        assertThatThrownBy(() -> customerRepository.update(updateCustomer))
-                .isInstanceOf(CustomerDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
-    }
-
-    @Test
     @DisplayName("고객 ID를 통해 고객을 삭제할 수 있다.")
     void deleteById() {
         //given
@@ -203,18 +186,6 @@ class JdbcCustomerRepositoryTest {
         int deletedRows = customerRepository.deleteById(customerId);
         //then
         assertThat(deletedRows).isEqualTo(1);
-    }
-
-    @Test
-    @DisplayName("존재하지 않는 고객을 삭제할 경우 예외가 발생한다.")
-    void deleteById_exception() {
-        //given
-        UUID customerId = UUID.randomUUID();
-        //when
-        //then
-        assertThatThrownBy(() -> customerRepository.deleteById(customerId))
-                .isInstanceOf(CustomerDataException.class)
-                .hasMessage(NOT_SAVED.getMsg());
     }
 
     @Test
