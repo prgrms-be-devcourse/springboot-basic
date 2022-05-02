@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
@@ -140,6 +141,84 @@ class VoucherJdbcRepositoryTest {
 
                 Assertions.assertThat(list.isEmpty()).isFalse();
                 Assertions.assertThat(list.get(0).getVoucherId()).isEqualTo(1);
+            }
+        }
+    }
+
+    @Nested
+    @Order(3)
+    @DisplayName("Repository findById 메서드는")
+    class DescribeFindById {
+
+        @Nested
+        @DisplayName("존재하지 않는 ID를 인자로 받으면")
+        class ContextReceiveWrongId {
+
+            Long wrongId = 10L;
+
+            @Test
+            @DisplayName("비어있는 Optional객체를 반환한다.")
+            void itReturnEmptyOptional() {
+
+                Optional<Voucher> wrappingVoucher = voucherRepository.findById(wrongId);
+
+                Assertions.assertThat(wrappingVoucher).isEqualTo(Optional.empty());
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하는 ID를 인자로 받으면")
+        class ContextReceiveValidId {
+
+            Long validId = 1L;
+
+            @Test
+            @DisplayName("해당 바우처를 반환한다.")
+            void itReturnVoucher() {
+
+                Optional<Voucher> wrappingVoucher = voucherRepository.findById(validId);
+
+                Assertions.assertThat(wrappingVoucher.get().getVoucherId()).isEqualTo(1L);
+                Assertions.assertThat(wrappingVoucher.get().getVoucherType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+                Assertions.assertThat(wrappingVoucher.get().getDiscountValue()).isEqualTo(100);
+            }
+        }
+    }
+
+    @Nested
+    @Order(4)
+    @DisplayName("Repository deleteById 메서드는")
+    class DescribeDeleteById {
+
+        @Nested
+        @DisplayName("존재하지 않는 ID를 인자로 받으면")
+        class ContextReceiveWrongId {
+
+            Long wrongId = 10L;
+
+            @Test
+            @DisplayName("잘못된 상태 예외를 반환한다.")
+            void itThrowIllegalStateException() {
+
+                Assertions.assertThatThrownBy(() -> voucherRepository.deleteById(wrongId))
+                        .isInstanceOf(IllegalStateException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하는 ID를 인자로 받으면")
+        class ContextReceiveValidId {
+
+            Long validId = 1L;
+
+            @Test
+            @DisplayName("해당 바우처를 삭제한다.")
+            void itDeleteVoucher() {
+
+                voucherRepository.deleteById(validId);
+
+                Assertions.assertThatThrownBy(() -> voucherRepository.deleteById(validId))
+                        .isInstanceOf(IllegalStateException.class);
             }
         }
     }

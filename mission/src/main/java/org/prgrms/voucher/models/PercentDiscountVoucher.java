@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class PercentDiscountVoucher extends Voucher{
 
 
-    protected PercentDiscountVoucher(long percent, VoucherType voucherType) {
+    public PercentDiscountVoucher(long percent, VoucherType voucherType) {
 
         super(percent, voucherType);
         validate(percent);
     }
 
-    protected PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType,
+    public PercentDiscountVoucher(Long voucherId, long percent, VoucherType voucherType,
                                      LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         super(voucherId, percent, voucherType, createdAt, updatedAt);

@@ -3,7 +3,7 @@ package org.prgrms.voucher.repository;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -48,6 +48,28 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public List<Voucher> findAll() {
 
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = :voucherId",
+                    Collections.singletonMap("voucherId", voucherId.toString()), voucherRowMapper));
+
+        } catch (DataAccessException exception) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
+
+        int update = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId" , Collections.singletonMap("voucherId", voucherId.toString()));
+
+        if (update != 1) {
+            throw new IllegalStateException();
+        }
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {

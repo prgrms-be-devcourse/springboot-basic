@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.voucher.controller.web.VoucherWebController;
 import org.prgrms.voucher.dto.VoucherDto;
 import org.prgrms.voucher.models.FixedAmountVoucher;
+import org.prgrms.voucher.models.PercentDiscountVoucher;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 import org.prgrms.voucher.service.VoucherService;
@@ -22,8 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -128,7 +129,180 @@ public class VoucherWebControllerTest {
                         .andExpect(jsonPath("$[1].voucherId").value("2"))
                         .andExpect(jsonPath("$[1].discountValue").value("100"))
                         .andExpect(jsonPath("$[1].voucherType").value("FIXED_AMOUNT"));
+            }
+        }
 
+        @Nested
+        @DisplayName("get요청과 존재하지 않는 바우처 티입을 받으면")
+        class ContextGetRequestWithParamWrongVoucherType {
+
+            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+
+            @Test
+            @DisplayName("비어있는 리스트를 반환한다.")
+            void itReturnEmptyListByJsonType() throws Exception {
+
+                when(voucherService.list()).thenReturn(vouchers);
+
+                mockMvc.perform(get("/api/v1/vouchers?voucherType=HELLO"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.size()").value(0));
+            }
+        }
+
+        @Nested
+        @DisplayName("get요청과 PERCENT_DISCOUNT 바우처 티입을 받으면")
+        class ContextGetRequestWithParamVoucherType {
+
+            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            PercentDiscountVoucher thirdVoucher = new PercentDiscountVoucher(3L, 100,VoucherType.PERCENT_DISCOUNT, LocalDateTime.now(), LocalDateTime.now());
+
+            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher, thirdVoucher);
+
+            @Test
+            @DisplayName("해당 바우처타입의 바우처들을 json형태로 반환한다.")
+            void itReturnVouchersByJsonType() throws Exception {
+
+                when(voucherService.list()).thenReturn(vouchers);
+
+                mockMvc.perform(get("/api/v1/vouchers?voucherType=PERCENT_DISCOUNT"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$[0].voucherId").value("3"))
+                        .andExpect(jsonPath("$[0].discountValue").value("100"))
+                        .andExpect(jsonPath("$[0].voucherType").value("PERCENT_DISCOUNT"));
+            }
+        }
+
+        @Nested
+        @DisplayName("get요청과 해당하지 않는 날짜 1000/11/11 이전 범위를 받으면")
+        class ContextGetRequestWithParamWrongDateTime {
+
+            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+
+            @Test
+            @DisplayName("비어있는 리스트를 반환한다.")
+            void itReturnEmptyListByJsonType() throws Exception {
+
+                when(voucherService.list()).thenReturn(vouchers);
+
+                mockMvc.perform(get("/api/v1/vouchers?before=1000-11-11"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.size()").value(0));
+            }
+        }
+
+        @Nested
+        @DisplayName("get요청과 해당하는 날짜 2022-03-18 이후 범위를 받으면")
+        class ContextGetRequestWithParamDateTime {
+
+            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+
+            @Test
+            @DisplayName("해당하는 바우처들 리스트를 반환한다.")
+            void itReturnEmptyListByJsonType() throws Exception {
+
+                when(voucherService.list()).thenReturn(vouchers);
+
+                mockMvc.perform(get("/api/v1/vouchers?after=2022-03-18"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$[0].voucherId").value("1"))
+                        .andExpect(jsonPath("$[0].discountValue").value("100"))
+                        .andExpect(jsonPath("$[0].voucherType").value("FIXED_AMOUNT"))
+                        .andExpect(jsonPath("$[1].voucherId").value("2"))
+                        .andExpect(jsonPath("$[1].discountValue").value("100"))
+                        .andExpect(jsonPath("$[1].voucherType").value("FIXED_AMOUNT"));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findVoucherById 메서드는")
+    class DescribeFindById {
+
+        @Nested
+        @DisplayName("존재하지 않는 id가 인자로 들어왔을때")
+        class ContextReceiveNullId {
+
+            Long wrongId = 100L;
+
+            @Test
+            @DisplayName("잘못된 요청 응답을 반환한다.")
+            void itReturnBadRequestResponse() throws Exception {
+
+                when(voucherService.getVoucher(wrongId)).thenThrow(IllegalArgumentException.class);
+
+                mockMvc.perform(get("/api/v1/vouchers/100"))
+                        .andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("Id를 인자로 받으면")
+        class ContextReceiveParamVoucherId {
+
+            @Test
+            @DisplayName("해당 id의 바우처를 json 형태로 반환한다.")
+            void itReturnVoucherByJsonType() throws Exception {
+
+                FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+                Long paramId = 1L;
+
+                when(voucherService.getVoucher(paramId)).thenReturn(firstVoucher);
+
+                mockMvc.perform(get("/api/v1/vouchers/1"))
+                        .andExpect(status().isOk())
+                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.voucherId").value("1"))
+                        .andExpect(jsonPath("$.discountValue").value("100"))
+                        .andExpect(jsonPath("$.voucherType").value("FIXED_AMOUNT"));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteVoucherById 메서드는")
+    class DescribeDeleteById {
+
+        @Nested
+        @DisplayName("존재하지 않는 ID를 삭제 요청 받으면")
+        class ContextRequestWrongId {
+
+            Long wrongId = 100L;
+
+            @Test
+            @DisplayName("잘못된 요청 응답을 반환한다.")
+            void itReturnBadRequest() throws Exception {
+
+                doThrow(IllegalArgumentException.class).when(voucherService).deleteVoucherById(wrongId);
+
+                mockMvc.perform(delete("/api/v1/vouchers/100"))
+                        .andExpect(status().isBadRequest());
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하는 ID를 ")
+        class ContextRequestId {
+
+            @Test
+            @DisplayName("서비스의 deleteVoucherById메서드를 호출하고 성공 응답을 반환한다.")
+            void itDeleteVoucherAndReturnOk() throws Exception {
+
+                mockMvc.perform(delete("/api/v1/vouchers/1"))
+                        .andExpect(status().isOk());
+
+                verify(voucherService).deleteVoucherById(any());
             }
         }
     }

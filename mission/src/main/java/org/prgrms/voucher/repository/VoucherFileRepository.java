@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Profile("file")
@@ -64,6 +65,17 @@ public class VoucherFileRepository implements VoucherRepository {
                         )
                 )
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
+
     }
 
     private Voucher setIdVoucher(Voucher voucher) {
