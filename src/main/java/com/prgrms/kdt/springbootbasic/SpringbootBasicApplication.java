@@ -62,7 +62,7 @@ public class SpringbootBasicApplication {
 				try{
 					createVoucher();
 				}catch(IOException e){
-					logger.error("[SpringbootBasicApplication : handleCommand -> VoucherController.createVoucher] -> {}",e);
+					logger.error("[SpringbootBasicApplication : handleCommand -> VoucherController.createVoucher] -> {}",e.getMessage());
 				}
 			}
 		},
