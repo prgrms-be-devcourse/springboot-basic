@@ -24,8 +24,7 @@ public class WalletController {
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public WalletController(VoucherService voucherService,
-        CustomerService customerService) {
+    public WalletController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
     }

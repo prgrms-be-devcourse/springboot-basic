@@ -20,7 +20,9 @@ public class VoucherDto {
     }
 
     public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), VoucherType.findByNumber(voucher.getType()).toString(),
+        return new VoucherDto(
+            voucher.getVoucherId(),
+            VoucherType.findByNumber(voucher.getType()).toString(),
             voucher.getDiscountValue(),
             voucher.getCreatedDateTime());
     }
