@@ -7,10 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
     public static void main(String[] args) {
-//        var applicationContext =
-                SpringApplication.run(DemoApplication.class, args);
-//        FunctionOperator functionOperator = applicationContext.getBean(FunctionOperator.class);
-//
-//        new VoucherProgram(functionOperator).run();
+        SpringApplication.run(DemoApplication.class, args);
     }
 }
