@@ -1,11 +1,13 @@
 package org.prgms.kdtspringvoucher.voucher.repository;
 
 import org.prgms.kdtspringvoucher.voucher.domain.Voucher;
+import org.prgms.kdtspringvoucher.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -42,6 +44,11 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByParam(VoucherType voucherType, LocalDateTime from, LocalDateTime to) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Find All Saved vouchers");
         return store.values().stream().toList();
@@ -54,6 +61,11 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
+
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
 
     }
 }

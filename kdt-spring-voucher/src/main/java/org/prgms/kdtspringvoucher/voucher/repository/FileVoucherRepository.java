@@ -66,6 +66,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByParam(VoucherType voucherType, LocalDateTime from, LocalDateTime to) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         logger.info("Find All Saved vouchers");
@@ -79,6 +84,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteByCustomerId(UUID customerId) {
+
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
 
     }
 

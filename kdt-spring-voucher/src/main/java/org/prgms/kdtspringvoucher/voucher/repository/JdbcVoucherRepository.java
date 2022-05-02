@@ -23,16 +23,16 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository{
 
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.jdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
     @Transactional
     public Voucher save(Voucher voucher) {
-        int save = namedParameterJdbcTemplate.update(
+        int save = jdbcTemplate.update(
                 "insert into vouchers(voucher_id,customer_id, amount, voucher_type,created_at) values (UUID_TO_BIN(:voucherId),UUID_TO_BIN(:customerId),:amount,:voucherType,:createdAt)",
                 toVoucherParamMap(voucher));
         if (save != 1) {
@@ -44,7 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     @Transactional
     public Voucher update(Voucher voucher) {
-        int update = namedParameterJdbcTemplate.update(
+        int update = jdbcTemplate.update(
                 "update vouchers set customer_id = UUID_TO_BIN(:customerId), amount = :amount where voucher_id = UUID_TO_BIN(:voucherId)",
                 toVoucherParamMap(voucher));
         if (update != 1){
@@ -56,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     getVoucherRowMapper()));
@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
         try {
-            return namedParameterJdbcTemplate.query(
+            return jdbcTemplate.query(
                     "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)",
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     getVoucherRowMapper());
@@ -80,23 +80,73 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByParam(VoucherType voucherType, LocalDateTime from, LocalDateTime to) {
+        StringBuilder stringBuilder = new StringBuilder("select * from vouchers ");
+        boolean isPresent = false;
+        if (voucherType != null || from != null || to != null) {
+            stringBuilder.append("where ");
+            if (voucherType != null) {
+                stringBuilder.append("voucher_type = :voucherType ");
+                isPresent = true;
+            }
+            if (from != null) {
+                if (isPresent) {
+                    stringBuilder.append("and ");
+                }
+                stringBuilder.append("created_at >= :from ");
+                isPresent = true;
+            }
+            if (to != null) {
+                if (isPresent) {
+                    stringBuilder.append("and ");
+                }
+                stringBuilder.append("created_at <= :to ");
+            }
+        }
+        String sql = stringBuilder.toString();
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherType", voucherType != null ? voucherType.toString() : null);
+        paramMap.put("from", from != null ? from : null);
+        paramMap.put("to", to != null ? to : null);
+        logger.info("sql = {}", sql);
+        try {
+            return jdbcTemplate.query(
+                    sql,
+                    paramMap,
+                    getVoucherRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<Voucher> findAll() {
-        return namedParameterJdbcTemplate.query("select * from vouchers", getVoucherRowMapper());
+        return jdbcTemplate.query("select * from vouchers", getVoucherRowMapper());
     }
 
     @Override
     @Transactional
     public void deleteAll() {
-        namedParameterJdbcTemplate.update("delete from vouchers", Collections.emptyMap());
+        jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update(
+                "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
 
     @Override
     @Transactional
     public void deleteByCustomerId(UUID customerId) {
-        namedParameterJdbcTemplate.update(
+        jdbcTemplate.update(
                 "delete from vouchers where customer_id = UUID_TO_BIN(:customerId)",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
+
+
 
     private Map<String, Object> toVoucherParamMap(Voucher voucher) {
         Map<String, Object> voucherParamMap = new HashMap<>();
