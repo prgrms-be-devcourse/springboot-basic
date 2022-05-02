@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public String customerList(Model model) {
+    public String getAllCustomers(Model model) {
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
         model.addAttribute("voucherType", VoucherType.values());
@@ -37,7 +37,8 @@ public class CustomerController {
     }
 
     @GetMapping("/search")
-    public String CustomerListOwnSpecificVoucher(Model model,
+    public String getCustomersOwnSpecificVoucher(
+            Model model,
             @RequestParam("voucherType") VoucherType voucherType,
             @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         List<Customer> customers = customerService.getCustomersByVoucherTypeAndDate(voucherType, date);
@@ -47,7 +48,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public String customerDetails(Model model, @PathVariable UUID customerId) {
+    public String getCustomer(Model model, @PathVariable UUID customerId) {
         Optional<Customer> customer = customerService.getCustomerById(customerId);
         customer.ifPresent(value -> model.addAttribute("customer", value));
         model.addAttribute("customerType", CustomerType.values());
@@ -56,14 +57,14 @@ public class CustomerController {
     }
 
     @GetMapping("/new")
-    public String customerCreatePage(Model model) {
+    public String moveCustomerCreatePage(Model model) {
         model.addAttribute("customerType", CustomerType.values());
         model.addAttribute("createForm", new CustomerCreateRequest());
         return "customers/create";
     }
 
     @PostMapping("/new")
-    public String customerCreate(
+    public String createCustomer(
             @ModelAttribute("createForm") @Valid CustomerCreateRequest createRequest,
             BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
@@ -76,7 +77,7 @@ public class CustomerController {
     }
 
     @PutMapping("/{customerId}")
-    public String customerModify(@Valid CustomerUpdateRequest updateRequest,
+    public String modifyCustomer(@Valid CustomerUpdateRequest updateRequest,
                                  @PathVariable("customerId") UUID customerId) {
         customerService.update(customerId,
                 updateRequest.getName(),
@@ -86,7 +87,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public String customerRemove(@PathVariable("customerId") UUID customerId) {
+    public String removeCustomer(@PathVariable("customerId") UUID customerId) {
         customerService.remove(customerId);
         return "redirect:/customers";
     }
