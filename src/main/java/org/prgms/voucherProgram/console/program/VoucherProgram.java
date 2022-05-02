@@ -7,14 +7,14 @@ import org.prgms.voucherProgram.console.menu.VoucherMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
-import org.prgms.voucherProgram.domain.customer.domain.Email;
-import org.prgms.voucherProgram.domain.customer.exception.WrongEmailException;
-import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
-import org.prgms.voucherProgram.domain.voucher.exception.VoucherIsNotExistsException;
-import org.prgms.voucherProgram.domain.voucher.exception.WrongDiscountValueException;
-import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
-import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.exception.WrongEmailException;
+import org.prgms.voucherProgram.voucher.domain.VoucherType;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.voucher.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.voucher.exception.WrongDiscountValueException;
+import org.prgms.voucherProgram.voucher.service.VoucherService;
+import org.prgms.voucherProgram.wallet.dto.WalletRequest;
 import org.springframework.stereotype.Component;
 
 @Component

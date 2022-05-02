@@ -24,13 +24,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
-import org.prgms.voucherProgram.domain.customer.repository.BlackListRepository;
-import org.prgms.voucherProgram.domain.customer.repository.JdbcCustomerRepository;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.customer.domain.Customer;
+import org.prgms.voucherProgram.customer.repository.BlackListRepository;
+import org.prgms.voucherProgram.customer.repository.JdbcCustomerRepository;
 import org.prgms.voucherProgram.global.error.exception.NothingChangeException;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.repository.FileVoucherRepository;
+import org.prgms.voucherProgram.voucher.repository.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -94,8 +96,8 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgms.voucherProgram.domain.voucher.repository",
-        "org.prgms.voucherProgram.domain.customer.repository"},
+    @ComponentScan(basePackages = {"org.prgms.voucherProgram.voucher.repository",
+        "org.prgms.voucherProgram.customer.repository"},
         excludeFilters = @ComponentScan.Filter(
             type = FilterType.ASSIGNABLE_TYPE,
             value = {FileVoucherRepository.class, BlackListRepository.class}))
@@ -239,7 +241,7 @@ class JdbcVoucherRepositoryTest {
             void it_finds_and_returns_vouchers() {
                 List<Voucher> findVouchers = jdbcVoucherRepository.findByTypeAndDate(type, start, end);
                 assertThat(findVouchers).usingRecursiveFieldByFieldElementComparatorIgnoringFields()
-                    .isEqualTo(vouchers);
+                    .containsAll(vouchers);
             }
         }
     }
@@ -268,7 +270,7 @@ class JdbcVoucherRepositoryTest {
 
                 assertThat(findVouchers).hasSize(2)
                     .usingRecursiveFieldByFieldElementComparatorIgnoringFields()
-                    .isEqualTo(vouchers);
+                    .containsAll(vouchers);
             }
         }
     }
@@ -288,7 +290,7 @@ class JdbcVoucherRepositoryTest {
         class Context_with_update_voucher {
             final Voucher voucher = voucher();
             final Voucher update = new FixedAmountVoucher(voucher.getVoucherId(), voucher.getCustomerId(), 50L,
-                voucher.getCreatedTime());
+                voucher.getCreatedDateTime());
 
             @BeforeEach
             void prepare() {
@@ -380,7 +382,7 @@ class JdbcVoucherRepositoryTest {
             final Voucher voucher = voucher();
             UUID customerId = UUID.randomUUID();
             Voucher assignVoucher = new FixedAmountVoucher(voucher.getVoucherId(), customerId,
-                voucher.getDiscountValue(), voucher.getCreatedTime());
+                voucher.getDiscountValue(), voucher.getCreatedDateTime());
 
             @BeforeEach
             void prepare() {

@@ -5,10 +5,10 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
-import org.prgms.voucherProgram.domain.voucher.domain.VoucherType;
+import org.prgms.voucherProgram.customer.domain.Customer;
 import org.prgms.voucherProgram.global.error.exception.NothingChangeException;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,10 +18,10 @@ public class DatabaseUtils {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
-        LocalDateTime createdTime = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime createdDateTime = resultSet.getTimestamp("created_at").toLocalDateTime();
         LocalDateTime lastLoginTime = resultSet.getTimestamp("last_login_at") != null ?
             resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        return new Customer(customerId, name, email, createdTime, lastLoginTime);
+        return new Customer(customerId, name, email, createdDateTime, lastLoginTime);
     };
 
     public static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
@@ -29,8 +29,8 @@ public class DatabaseUtils {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         int voucherType = resultSet.getInt("type");
         Long discountValue = resultSet.getLong("discount");
-        LocalDateTime createdTime = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return VoucherType.findByNumber(voucherType).constructor(voucherId, customerId, discountValue, createdTime);
+        LocalDateTime createdDateTime = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return VoucherType.findByNumber(voucherType).constructor(voucherId, customerId, discountValue, createdDateTime);
     };
 
     private static final Logger logger = LoggerFactory.getLogger(DatabaseUtils.class);

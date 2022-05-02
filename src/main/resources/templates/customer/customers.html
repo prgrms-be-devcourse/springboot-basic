@@ -32,8 +32,8 @@
         </td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
-        <td th:text="*{createdTime}"></td>
-        <td th:text="*{updatedTime}"></td>
+        <td th:text="*{createdDateTime}"></td>
+        <td th:text="*{updatedDateTime}"></td>
         <td>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <a class="btn btn-primary" th:href="@{/customers/delete/{email}(email=${customer.email})}"

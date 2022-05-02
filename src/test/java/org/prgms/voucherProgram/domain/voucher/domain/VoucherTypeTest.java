@@ -10,9 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.VoucherType;
 
 class VoucherTypeTest {
-    
+
     @DisplayName("command를 통해 해당하는 VoucherType을 반환한다.")
     @ParameterizedTest
     @CsvSource(value = {"1,FIXED_AMOUNT", "2,PERCENT_DISCOUNT"})

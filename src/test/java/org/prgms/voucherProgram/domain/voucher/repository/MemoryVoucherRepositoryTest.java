@@ -7,9 +7,11 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.repository.MemoryVoucherRepository;
+import org.prgms.voucherProgram.voucher.repository.VoucherRepository;
 
 class MemoryVoucherRepositoryTest {
 

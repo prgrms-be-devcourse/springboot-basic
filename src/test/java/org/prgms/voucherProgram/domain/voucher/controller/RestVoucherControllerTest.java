@@ -13,13 +13,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherDto;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
-import org.prgms.voucherProgram.domain.voucher.service.VoucherService;
+import org.prgms.voucherProgram.voucher.controller.RestVoucherController;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.dto.VoucherDto;
+import org.prgms.voucherProgram.voucher.dto.VoucherFindRequest;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.voucher.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -66,7 +67,7 @@ class RestVoucherControllerTest {
             .andExpect(jsonPath("voucherId", voucherDto.getVoucherId()).exists())
             .andExpect(jsonPath("type", voucherDto.getType()).exists())
             .andExpect(jsonPath("discountValue", voucherDto.getDiscountValue()).exists())
-            .andExpect(jsonPath("createdTime", voucherDto.getCreatedTime()).exists());
+            .andExpect(jsonPath("createdDateTime", voucherDto.getCreatedDateTime()).exists());
     }
 
     @DisplayName("ID를 통해 바우처를 조회한다.")
@@ -89,7 +90,7 @@ class RestVoucherControllerTest {
             .andExpect(jsonPath("voucherId", voucherDto.getVoucherId()).exists())
             .andExpect(jsonPath("type", voucherDto.getType()).exists())
             .andExpect(jsonPath("discountValue", voucherDto.getDiscountValue()).exists())
-            .andExpect(jsonPath("createdTime", voucherDto.getCreatedTime()).exists());
+            .andExpect(jsonPath("createdDateTime", voucherDto.getCreatedDateTime()).exists());
     }
 
     @DisplayName("모든 바우처 목록을 조회한다.")

@@ -16,12 +16,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
-import org.prgms.voucherProgram.domain.customer.domain.Email;
-import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
-import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.domain.customer.repository.BlackListRepository;
-import org.prgms.voucherProgram.domain.customer.repository.CustomerRepository;
+import org.prgms.voucherProgram.customer.domain.Customer;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.customer.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.customer.repository.BlackListRepository;
+import org.prgms.voucherProgram.customer.repository.CustomerRepository;
+import org.prgms.voucherProgram.customer.service.CustomerService;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {

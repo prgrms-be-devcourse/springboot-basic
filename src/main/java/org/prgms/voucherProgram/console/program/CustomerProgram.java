@@ -4,14 +4,14 @@ import org.prgms.voucherProgram.console.menu.CustomerMenuType;
 import org.prgms.voucherProgram.console.view.Console;
 import org.prgms.voucherProgram.console.view.InputView;
 import org.prgms.voucherProgram.console.view.OutputView;
-import org.prgms.voucherProgram.domain.customer.domain.Email;
-import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
-import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.domain.customer.exception.DuplicateEmailException;
-import org.prgms.voucherProgram.domain.customer.exception.WrongEmailException;
-import org.prgms.voucherProgram.domain.customer.exception.WrongFileException;
-import org.prgms.voucherProgram.domain.customer.exception.WrongNameException;
-import org.prgms.voucherProgram.domain.customer.service.CustomerService;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.customer.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.customer.exception.DuplicateEmailException;
+import org.prgms.voucherProgram.customer.exception.WrongEmailException;
+import org.prgms.voucherProgram.customer.exception.WrongFileException;
+import org.prgms.voucherProgram.customer.exception.WrongNameException;
+import org.prgms.voucherProgram.customer.service.CustomerService;
 import org.springframework.stereotype.Component;
 
 @Component

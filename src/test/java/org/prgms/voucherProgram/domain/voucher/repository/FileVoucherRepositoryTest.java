@@ -10,10 +10,12 @@ import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucherProgram.domain.customer.exception.WrongFileException;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
+import org.prgms.voucherProgram.customer.exception.WrongFileException;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.repository.FileVoucherRepository;
+import org.prgms.voucherProgram.voucher.repository.VoucherRepository;
 
 class FileVoucherRepositoryTest {
 

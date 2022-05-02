@@ -28,14 +28,14 @@
                type="email">
     </div>
     <div class="mb-3">
-        <label class="form-label" for="createdTime">CreatedAt</label>
-        <input class="form-control" id="createdTime" name="createdTime" th:field="${customer.createdTime}"
+        <label class="form-label" for="createdDateTime">CreatedAt</label>
+        <input class="form-control" id="createdDateTime" name="createdDateTime" th:field="${customer.createdDateTime}"
                th:readonly="true"
                type="text">
     </div>
     <div class="mb-3">
         <label class="form-label" for="lastLoginTime">UpdatedAt</label>
-        <input class="form-control" id="lastLoginTime" name="lastLoginTime" th:field="${customer.updatedTime}"
+        <input class="form-control" id="lastLoginTime" name="lastLoginTime" th:field="${customer.updatedDateTime}"
                th:readonly="true"
                type="text">
     </div>

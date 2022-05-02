@@ -2,9 +2,9 @@ package org.prgms.voucherProgram.console.view;
 
 import java.util.UUID;
 
-import org.prgms.voucherProgram.domain.customer.dto.CustomerRequest;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
-import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
+import org.prgms.voucherProgram.customer.dto.CustomerRequest;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.wallet.dto.WalletRequest;
 
 public interface InputView {
 

@@ -20,12 +20,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
-import org.prgms.voucherProgram.domain.voucher.repository.JdbcVoucherRepository;
-import org.prgms.voucherProgram.domain.voucher.repository.VoucherRepository;
+import org.prgms.voucherProgram.customer.domain.Customer;
+import org.prgms.voucherProgram.customer.repository.CustomerRepository;
+import org.prgms.voucherProgram.customer.repository.JdbcCustomerRepository;
 import org.prgms.voucherProgram.global.error.exception.NothingChangeException;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.repository.JdbcVoucherRepository;
+import org.prgms.voucherProgram.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -86,8 +88,8 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgms.voucherProgram.domain.voucher.repository",
-        "org.prgms.voucherProgram.domain.customer.repository"},
+    @ComponentScan(basePackages = {"org.prgms.voucherProgram.voucher.repository",
+        "org.prgms.voucherProgram.customer.repository"},
         includeFilters = @ComponentScan.Filter(
             type = FilterType.ASSIGNABLE_TYPE,
             value = {JdbcCustomerRepository.class, JdbcVoucherRepository.class}), useDefaultFilters = false)
@@ -291,7 +293,7 @@ class JdbcCustomerRepositoryTest {
         class Context_with_update_customer {
             final Customer customer = customer();
             final Customer update = new Customer(customer.getCustomerId(), "aramand", "aramand@gmail.com",
-                customer.getCreatedTime());
+                customer.getCreatedDateTime());
 
             @BeforeEach
             void prepare() {

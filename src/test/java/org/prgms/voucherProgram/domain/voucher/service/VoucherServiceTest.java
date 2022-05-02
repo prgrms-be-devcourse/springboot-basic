@@ -17,20 +17,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgms.voucherProgram.domain.customer.domain.Customer;
-import org.prgms.voucherProgram.domain.customer.domain.Email;
-import org.prgms.voucherProgram.domain.customer.exception.CustomerIsNotExistsException;
-import org.prgms.voucherProgram.domain.customer.service.CustomerService;
-import org.prgms.voucherProgram.domain.voucher.domain.FixedAmountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.PercentDiscountVoucher;
-import org.prgms.voucherProgram.domain.voucher.domain.Voucher;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherFindRequest;
-import org.prgms.voucherProgram.domain.voucher.dto.VoucherRequest;
-import org.prgms.voucherProgram.domain.voucher.exception.VoucherIsNotExistsException;
-import org.prgms.voucherProgram.domain.voucher.repository.VoucherRepository;
-import org.prgms.voucherProgram.domain.wallet.dto.WalletRequest;
-import org.prgms.voucherProgram.domain.wallet.exception.AlreadyAssignException;
-import org.prgms.voucherProgram.domain.wallet.exception.NotFoundVoucherException;
+import org.prgms.voucherProgram.customer.domain.Customer;
+import org.prgms.voucherProgram.customer.domain.Email;
+import org.prgms.voucherProgram.customer.exception.CustomerIsNotExistsException;
+import org.prgms.voucherProgram.customer.service.CustomerService;
+import org.prgms.voucherProgram.voucher.domain.FixedAmountVoucher;
+import org.prgms.voucherProgram.voucher.domain.PercentDiscountVoucher;
+import org.prgms.voucherProgram.voucher.domain.Voucher;
+import org.prgms.voucherProgram.voucher.dto.VoucherFindRequest;
+import org.prgms.voucherProgram.voucher.dto.VoucherRequest;
+import org.prgms.voucherProgram.voucher.exception.VoucherIsNotExistsException;
+import org.prgms.voucherProgram.voucher.repository.VoucherRepository;
+import org.prgms.voucherProgram.voucher.service.VoucherService;
+import org.prgms.voucherProgram.wallet.dto.WalletRequest;
+import org.prgms.voucherProgram.wallet.exception.AlreadyAssignException;
+import org.prgms.voucherProgram.wallet.exception.NotFoundVoucherException;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
