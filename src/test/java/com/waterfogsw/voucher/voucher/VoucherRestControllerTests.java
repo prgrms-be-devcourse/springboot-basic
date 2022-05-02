@@ -27,6 +27,7 @@ import java.util.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -281,6 +282,58 @@ public class VoucherRestControllerTests {
 
                     assertThat(resultContent, is(expectedContent));
 
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findById 메서드는")
+    class Describe_findById {
+
+        @Nested
+        @DisplayName("존재하는 id 값이 조회되면")
+        class Context_with_existing {
+
+            @Test
+            @DisplayName("해당 id 값의 바우처 정보를 반환한다")
+            void it_return_voucher_info() {
+                final var voucher = new FixedAmountVoucher(1L, 1000, LocalDateTime.now(), LocalDateTime.now());
+                when(voucherService.findById(anyLong())).thenReturn(Optional.of(voucher));
+
+                final var url = "/api/v1/vouchers/1";
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+
+                    resultActions.andExpect(status().isOk());
+                    final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
+                    final var expectedContent = objectMapper.writeValueAsString(voucher);
+
+                    assertThat(resultContent, is(expectedContent));
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            }
+        }
+
+        @Nested
+        @DisplayName("존재하지 않는 id 값이 조회되면")
+        class Context_with_not_existing {
+
+            @Test
+            @DisplayName("not found 를 반환한다")
+            void it_return_voucher_info() {
+                when(voucherService.findById(anyLong())).thenReturn(Optional.empty());
+
+                final var url = "/api/v1/vouchers/1";
+                try {
+                    final var request = get(url);
+                    final var resultActions = mockMvc.perform(request);
+
+                    resultActions.andExpect(status().isNotFound());
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
                 }

@@ -3,15 +3,13 @@ package com.waterfogsw.voucher.voucher.repository;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Profile({"jdbc"})
 @Repository
@@ -76,5 +74,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long id) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from vouchers where voucher_id = :voucherId",
+                            Collections.singletonMap("voucherId", id.toString()),
+                            voucherRowMapper)
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

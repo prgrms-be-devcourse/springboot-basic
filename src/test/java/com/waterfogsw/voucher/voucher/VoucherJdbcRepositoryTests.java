@@ -169,4 +169,29 @@ public class VoucherJdbcRepositoryTests {
             }
         }
     }
+
+    @Nested
+    @DisplayName("findById 메소드는")
+    class Describe_findById {
+
+        @Nested
+        @DisplayName("존재하는 id 값이 조회되면")
+        class Context_with_call {
+
+            @Test
+            @Order(6)
+            @Transactional
+            @DisplayName("해당 바우처를 리턴한다")
+            void it_return_saved_voucherList() {
+                final var voucher = new FixedAmountVoucher(0L, 1000);
+                voucherRepository.save(voucher);
+
+                final var findVoucher = voucherRepository.findById(0L);
+                assertThat(findVoucher.isPresent(), is(true));
+                assertThat(findVoucher.get().getId(), is(voucher.getId()));
+                assertThat(findVoucher.get().getType(), is(voucher.getType()));
+                assertThat(findVoucher.get().getValue(), is(voucher.getValue()));
+            }
+        }
+    }
 }
