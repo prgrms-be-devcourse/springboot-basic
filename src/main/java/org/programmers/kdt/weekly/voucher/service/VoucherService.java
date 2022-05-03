@@ -1,7 +1,9 @@
 package org.programmers.kdt.weekly.voucher.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.programmers.kdt.weekly.voucher.VoucherDto;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
@@ -26,5 +28,25 @@ public class VoucherService {
 
     public List<Voucher> getVouchers() {
         return this.voucherRepository.findAll();
+    }
+
+    public Optional<Voucher> findById(UUID id) {
+        return voucherRepository.findById(id);
+    }
+
+    public boolean deleteById(UUID id) {
+        return voucherRepository.deleteById(id);
+    }
+
+    public void update(Voucher voucher) {
+        voucherRepository.update(voucher);
+    }
+
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public List<Voucher> getVoucherByCreatedAt(LocalDate begin, LocalDate end) {
+        return voucherRepository.findByCreatedAt(begin, end);
     }
 }

@@ -1,9 +1,11 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
+import org.programmers.kdt.weekly.voucher.model.VoucherType;
 
 public interface VoucherRepository {
 
@@ -15,7 +17,13 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
-    void deleteById(UUID voucherId);
+    boolean deleteById(UUID voucherId);
 
     void deleteAll();
+
+    List<Voucher> findByType(VoucherType voucherType);
+
+    int count(UUID voucherId);
+
+    List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end);
 }

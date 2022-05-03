@@ -8,55 +8,72 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private long percent;
+    private long value;
     private final LocalDateTime createdAt;
-    private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
+    private final VoucherType voucherType;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent <= 0 || percent >= 100) {
+    public PercentDiscountVoucher(UUID voucherId, long value) {
+        if (value <= 0 || value >= 100) {
             throw new IllegalArgumentException();
         }
 
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.value = value;
         this.createdAt = LocalDateTime.now().withNano(0);
+        voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
-        if (percent <= 0 || percent >= 100) {
+    public PercentDiscountVoucher(UUID voucherId, long value, LocalDateTime createdAt) {
+        if (value <= 0 || value >= 100) {
             throw new IllegalArgumentException();
         }
 
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.value = value;
         this.createdAt = createdAt;
+        voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (value / 100);
     }
 
     @Override
     public long getValue() {
-        return percent;
+        return value;
     }
 
     @Override
-    public void changeValue(int value) {
-        this.percent = value;
+    public void changeValue(long value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
             ", voucherId: " + voucherId +
-            ", percent: " + percent + "%, createdAt: " + createdAt;
+            ", percent: " + value + "%, createdAt: " + createdAt;
+    }
+
+    @Override
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public String getVoucherType() {
+        return "PercentDiscountVoucher";
     }
 
     @Override
     public String serializeVoucher() {
-        return voucherId + "," + voucherType + "," + percent + "," + createdAt;
+        return voucherId + "," + voucherType + "," + value + "," + createdAt;
     }
 
     @Override
@@ -64,15 +81,15 @@ public class PercentDiscountVoucher implements Voucher {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof PercentDiscountVoucher)) {
             return false;
         }
         PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-        return Objects.equals(voucherId, that.voucherId);
+        return Objects.equals(getVoucherId(), that.getVoucherId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voucherId);
+        return Objects.hash(getVoucherId());
     }
 }

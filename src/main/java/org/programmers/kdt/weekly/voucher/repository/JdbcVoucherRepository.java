@@ -1,5 +1,6 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -66,10 +67,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
         var update = jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
-        if (update == 0) {
-            throw new RuntimeException("Nothing was updated");
-        }
-
         return voucher;
     }
 
@@ -84,7 +81,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         String selectByIdSql = "SELECT * FROM voucher "
             + "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
-
         try {
             var voucher = jdbcTemplate.queryForObject(selectByIdSql,
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
@@ -99,15 +95,29 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String findByTypeSql = "SELECT * FROM voucher WHERE type = :voucherType";
+        var vouchers = jdbcTemplate.query(findByTypeSql,
+            Collections.singletonMap("voucherType", voucherType.toString()),
+            voucherRowMapper);
+
+        return vouchers;
+    }
+
+    @Override
+    public boolean deleteById(UUID voucherId) {
         String deleteByIdSql = "DELETE FROM voucher " +
             "WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
 
         try {
             jdbcTemplate.update(deleteByIdSql,
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+
+            return true;
         } catch (EmptyResultDataAccessException e) {
             logger.error("voucher deleteById empty result ", e);
+
+            return false;
         }
     }
 
@@ -115,5 +125,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         String deleteSql = "DELETE FROM voucher";
         jdbcTemplate.update(deleteSql, Collections.emptyMap());
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end) {
+        String findByCreatedAtSql = "SELECT * FROM voucher WHERE DATE(created_at) between :begin and :end";
+
+        return jdbcTemplate.query(findByCreatedAtSql, Map.of("begin", begin, "end", end),
+            voucherRowMapper);
+    }
+
+    public int count(UUID voucherId) {
+        String countSql = "SELECT COUNT(*) FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', '')";
+
+        return jdbcTemplate.queryForObject(
+            countSql,
+            Collections.singletonMap("voucherId", voucherId.toString().getBytes()), Integer.class);
     }
 }

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StartCommandLine {
+public class StartCommandLine implements Runnable{
 
     private static final Logger logger = LoggerFactory.getLogger(StartCommandLine.class);
 
@@ -27,6 +27,7 @@ public class StartCommandLine {
         this.voucherCommandLine = voucherCommandLine;
     }
 
+    @Override
     public void run() {
         StartCommandType startCommandType = StartCommandType.DEFAULT;
 
