@@ -5,6 +5,8 @@ import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.service.VoucherService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,41 +25,43 @@ public class VoucherRestController {
 
     @GetMapping("/api/v1/vouchers")
     @ResponseBody
-    public Map<UUID, Voucher> getVoucherList() {
+    public ResponseEntity<Map<UUID, Voucher>> getVoucherList() {
         VoucherMap voucherList = voucherService.getVoucherList();
-        return voucherList.getVouchers();
+        return ResponseEntity.ok().body(voucherList.getVouchers());
     }
 
     @GetMapping("/api/v1/voucher/id/{voucherId}")
     @ResponseBody
-    public Optional<Voucher> getVoucherByID(@PathVariable String voucherId) {
-        return voucherService.getVoucherById(UUID.fromString(voucherId));
+    public ResponseEntity<Voucher> getVoucherByID(@PathVariable String voucherId) {
+        Optional<Voucher> voucher = voucherService.getVoucherById(UUID.fromString(voucherId));
+        return ResponseEntity.of(voucher);
     }
 
     @DeleteMapping("/api/v1/voucher/id/{voucherId}")
     @ResponseBody
-    public String deleteVoucherById(@PathVariable String voucherId) {
+    public ResponseEntity<Void> deleteVoucherById(@PathVariable String voucherId) {
         voucherService.deleteVoucherById(UUID.fromString(voucherId));
-        return "delete";
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/api/v1/voucher/new/{voucherType}/{discountAmount}")
     @ResponseBody
-    public Voucher createVoucher(@PathVariable long discountAmount, @PathVariable VoucherType voucherType){
-        return voucherService.createVoucher(UUID.randomUUID(), voucherType.getTypeNumber(), discountAmount);
+    public ResponseEntity<Voucher> createVoucher(@PathVariable long discountAmount, @PathVariable VoucherType voucherType) {
+        Voucher newVoucher = voucherService.createVoucher(UUID.randomUUID(), voucherType.getTypeNumber(), discountAmount);
+        return ResponseEntity.ok().body(newVoucher);
     }
 
     @GetMapping("/api/v1/vouchers/voucherType/{voucherType}")
     @ResponseBody
-    public List<Voucher> getVouchersByVoucherType(@PathVariable int voucherType) {
+    public ResponseEntity<List<Voucher>> getVouchersByVoucherType(@PathVariable int voucherType) {
         Vouchers vouchers = voucherService.getVoucherListByVoucherType(voucherType);
-        return vouchers.getVouchers();
+        return ResponseEntity.ok().body(vouchers.getVouchers());
     }
 
     @GetMapping("/api/v1/voucher/date/{fromDate}/{toDate}")
     @ResponseBody
-    public List<Voucher> createVoucher(@PathVariable String fromDate, @PathVariable String toDate){
+    public ResponseEntity<List<Voucher>> createVoucher(@PathVariable String fromDate, @PathVariable String toDate) {
         Vouchers vouchers = voucherService.getVoucherListByCreatedFromToDate(fromDate, toDate);
-        return vouchers.getVouchers();
+        return ResponseEntity.ok().body(vouchers.getVouchers());
     }
 }
