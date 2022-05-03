@@ -19,61 +19,20 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.BadSqlGrammarException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
+import com.programmers.order.config.TestConfig;
 import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.repository.customer.CustomerJdbcRepository;
-import com.programmers.order.repository.customer.CustomerRepository;
 
-@SpringJUnitConfig
+@SpringJUnitConfig(TestConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CustomerRepositoryTest {
 
 	private final static boolean NOT_EMPTY = false;
-
-	@Configuration
-	@ComponentScan(basePackages = {"com.programmers.order"})
-	static class Config {
-
-		@Bean
-	public NamedParameterJdbcTemplate jdbcTemplate(JdbcTemplate jdbcTemplate) {
-		return new NamedParameterJdbcTemplate(jdbcTemplate);
-	}
-
-	@Bean
-	public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-		return new JdbcTemplate(dataSource);
-	}
-
-	@Bean
-	public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-		return new DataSourceTransactionManager(dataSource);
-	}
-
-	@Bean
-	public TransactionTemplate transactionTemplate(PlatformTransactionManager platformTransactionManager) {
-		return new TransactionTemplate(platformTransactionManager);
-	}
-
-	@Bean
-	public CustomerRepository customerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
-			NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-		return new CustomerJdbcRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate);
-	}
-
-}
-
 	@Autowired
 	private ApplicationContext applicationContext;
 
@@ -85,8 +44,6 @@ public class CustomerRepositoryTest {
 
 	private Customer newCustomer;
 
-	// private EmbeddedMysql embeddedMysql;
-
 	@DisplayName("최초 딱 한번 실행 메소드")
 	@BeforeAll
 	void init() {
@@ -94,12 +51,12 @@ public class CustomerRepositoryTest {
 				, "test-user"
 				, "test@programmers.co.kr"
 				, LocalDateTime.now());
-
 	}
+
 	@Order(1)
 	@Test
 	@DisplayName("application context loading test")
-	public void ContextLoadingTest() {
+	void ContextLoadingTest() {
 		// given
 		// when
 		// then
@@ -109,7 +66,7 @@ public class CustomerRepositoryTest {
 	@Order(2)
 	@Test
 	@DisplayName("hikari connect test")
-	public void connectHikariTest() {
+	void connectHikariTest() {
 		//given
 		//when
 		//then
@@ -120,7 +77,7 @@ public class CustomerRepositoryTest {
 	@Order(3)
 	@Test
 	@DisplayName("all delete")
-	public void DeleteAllTest() {
+	void DeleteAllTest() {
 		//given
 		//when
 		customerRepository.deleteAll();
@@ -133,7 +90,7 @@ public class CustomerRepositoryTest {
 	@Order(4)
 	@Test
 	@DisplayName("insert test")
-	public void insertTest() {
+	void insertTest() {
 		try {
 			// given
 			// when
@@ -174,7 +131,7 @@ public class CustomerRepositoryTest {
 	@Order(6)
 	@Test
 	@DisplayName("findAll test")
-	public void findAllTest() {
+	void findAllTest() {
 		//given
 
 		//when
@@ -189,7 +146,7 @@ public class CustomerRepositoryTest {
 	@Order(7)
 	@Test
 	@DisplayName("count query test")
-	public void countQueryTest() {
+	void countQueryTest() {
 		//given
 
 		//when
