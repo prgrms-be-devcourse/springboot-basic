@@ -14,4 +14,8 @@ public interface CustomOutput {
     void printError(String error);
 
     void informProcessEnd();
+
+    void wrongInput();
+
+    void errorOccurred();
 }

@@ -65,5 +65,14 @@ public class ConsoleOutput implements CustomOutput{
         System.out.println("\n****************************************\n");
     }
 
+    @Override
+    public void wrongInput() {
+        System.out.println("Wrong Input");
+    }
+
+    @Override
+    public void errorOccurred() {
+        System.out.println("Error Occured");
+    }
 
 }
