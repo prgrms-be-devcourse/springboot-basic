@@ -50,11 +50,7 @@
 컨트롤러에서도 최대한 노출을 적게 하고 싶어 thymeleaf에 넘겨주는 것을 다 DTO로 해야한다 생각해 List<Customer>의 모든 값들을 List<customerDto>로 다 전달해 넘겨주었습니다.  
 이런 방식으로 getter를 쓰지 않고 해결하는 방법이 맞는지 궁금합니다.. 분명 더 좋은 방법이 있을 것 같고 컨트롤러에서 이런 작업들을 하는 것이 틀린것 같아서 질문드립니다..!
 
-##### 2. 패키지..
-퍼사드패턴이나 커스텀 예외 같은 것들은 어떤 패키지에 넣어서 관리를 해야할지 궁금합니다..  
-검색을 해봤지만 잘 나오지 않고 어떤 식으로 검색을 해야할지도 감이 잡히지 않아 질문드립니다!!
-
-##### 3. url
+##### 2. url
 
 REST API이나 thymeleaf 에서 url을 설정하는 과정에서 vouchers나 customers을 구분하기 위해 일단 /vouchers , /customers 로 시작을 하고  
 voucher에 관련된 내용은 vouchers/{voucherId} 나 vouchers/add 이런식으로 사용했습니다.  
