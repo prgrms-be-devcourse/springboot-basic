@@ -36,5 +36,6 @@ mvnw
 mvnw.cmd
 spring-basic.iml
 logs/
-src/main/resources/
-src/test/resources/
+lib/
+out/
+

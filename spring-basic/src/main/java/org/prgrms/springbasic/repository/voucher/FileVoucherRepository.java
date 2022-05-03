@@ -2,6 +2,7 @@ package org.prgrms.springbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.domain.wallet.Wallet;
 import org.prgrms.springbasic.utils.io.converter.FileManager;
 import org.springframework.context.annotation.Profile;
@@ -36,9 +37,20 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCustomerId(UUID customerId) {
+    public List<Voucher> findByCustomerId(UUID customerId) {
         //JDBC만 구현
-        return Optional.empty();
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        //JDBC만 구현
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedPeriod(String from, String to) {
+        return null;
     }
 
     @Override
@@ -64,13 +76,15 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteByVoucherId(UUID voucherId) {
+    public boolean deleteByVoucherId(UUID voucherId) {
         //JDBC만 구현
+        return true;
     }
 
     @Override
-    public void deleteByCustomerId(UUID customerId) {
+    public boolean deleteByCustomerId(UUID customerId) {
         //JDBC만 구현
+        return true;
     }
 
     @Override

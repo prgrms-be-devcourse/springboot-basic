@@ -1,18 +1,15 @@
 package org.prgrms.springbasic.domain.voucher;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static java.time.LocalDateTime.now;
 import static org.prgrms.springbasic.domain.voucher.VoucherType.FIXED;
 import static org.prgrms.springbasic.domain.voucher.VoucherType.PERCENT;
 
 @Getter
-@JsonAutoDetect(fieldVisibility = ANY)
 public class Voucher {
     private final UUID voucherId;
     private VoucherType voucherType;

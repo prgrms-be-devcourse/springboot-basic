@@ -1,19 +1,16 @@
 package org.prgrms.springbasic.domain.customer;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Getter;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static java.time.LocalDateTime.now;
 import static org.prgrms.springbasic.domain.customer.CustomerType.BLACK;
 import static org.prgrms.springbasic.domain.customer.CustomerType.NORMAL;
 
 @Getter
-@JsonAutoDetect(fieldVisibility = ANY)
 public class Customer {
 
     private final UUID customerId;

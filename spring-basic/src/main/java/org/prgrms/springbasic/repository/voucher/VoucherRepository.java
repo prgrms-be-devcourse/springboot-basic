@@ -1,6 +1,7 @@
 package org.prgrms.springbasic.repository.voucher;
 
 import org.prgrms.springbasic.domain.voucher.Voucher;
+import org.prgrms.springbasic.domain.voucher.VoucherType;
 import org.prgrms.springbasic.domain.wallet.Wallet;
 
 import java.util.List;
@@ -13,7 +14,11 @@ public interface VoucherRepository {
 
     Optional<Voucher> findByVoucherId(UUID voucherId);
 
-    Optional<Voucher> findByCustomerId(UUID customerId);
+    List<Voucher> findByCustomerId(UUID customerId);
+
+    List<Voucher> findByVoucherType(VoucherType voucherType);
+
+    List<Voucher> findByCreatedPeriod(String from, String to);
 
     List<Voucher> findVouchers();
 
@@ -23,9 +28,9 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    void deleteByVoucherId(UUID voucherId);
+    boolean deleteByVoucherId(UUID voucherId);
 
-    void deleteByCustomerId(UUID customerId);
+    boolean deleteByCustomerId(UUID customerId);
 
     void deleteVouchers();
 }

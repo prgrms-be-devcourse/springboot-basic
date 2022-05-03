@@ -2,7 +2,6 @@ package org.prgrms.springbasic.repository.customer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springbasic.domain.customer.Customer;
 import org.prgrms.springbasic.domain.voucher.Voucher;

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer</title>
+</head>
+<body>
+<div class="container">
+  <form role="form" th:action="@{/customers/{customerId}/renewal (customerId = ${updateCustomerDto.customerId})}" th:object="${updateCustomerDto}" method="post">
+    <div>
+      <label th:for="customerType">Type
+        <select th:field="*{customerType}">
+          <option
+                  th:each="type : ${T(org.prgrms.springbasic.domain.customer.CustomerType).values()}"
+                  th:value="${type}"
+                  th:text="${type}">
+          </option>
+        </select>
+      </label>
+    </div>
+
+    <div>
+      <label th:for="name">Name
+        <input type="text" th:field="*{name}" placeholder="For name">
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">SUBMIT</button>
+    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/customers}'|">CANCEL</button>
+  </form>
+</div>
+</body>
+</html>
