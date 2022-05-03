@@ -1,11 +1,13 @@
 package org.prgrms.kdt.command;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.UUID;
+import org.prgrms.kdt.dto.VoucherDto;
 import org.prgrms.kdt.io.Input;
 import org.prgrms.kdt.io.Output;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.type.ErrorType;
 import org.prgrms.kdt.type.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,19 +34,14 @@ public class CreateVoucherCommand implements Command {
   @Override
   public String execute() {
     output.printLine(messageSource.getMessage("menu.create", null, Locale.ROOT));
-
-    try {
-      var voucherType = VoucherType.of(input.readInt());
-      output.printLine(
-          MessageFormat.format("Type discount {0} size", voucherType.getMeasurement()));
-      voucherService.create(voucherType, input.readLong());
-      return MessageFormat.format("{0} voucher created", voucherType.name().toLowerCase());
-    } catch (NumberFormatException e) {
-      log.error("Error: Invalid Input Error", e);
-      return ErrorType.INVALID_INPUT.getErrorMessage();
-    } catch (IllegalArgumentException e) {
-      log.error("Error: Invalid Discount Error", e);
-      return ErrorType.INVALID_DISCOUNT.getErrorMessage(e.getMessage());
-    }
+    var voucherTypeCode = input.readInt();
+    var voucherType = VoucherType.of(voucherTypeCode);
+    output.printLine(
+        MessageFormat.format("Type discount {0} size", voucherType.getMeasurement()));
+    var amount = input.readLong();
+    var voucherDto = new VoucherDto(UUID.randomUUID(), null, amount, voucherType,
+        LocalDateTime.now());
+    voucherService.create(voucherDto);
+    return MessageFormat.format("{0} voucher created", voucherType.name().toLowerCase());
   }
 }

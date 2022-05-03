@@ -1,6 +1,7 @@
 package org.prgrms.kdt.domain;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.prgrms.kdt.dto.VoucherDto;
 import org.prgrms.kdt.type.VoucherType;
@@ -9,8 +10,8 @@ public class FixedAmountVoucher extends Voucher {
 
   private final Long amount;
 
-  public FixedAmountVoucher(UUID voucherId, UUID customerId, Long amount) {
-    super(voucherId, customerId);
+  public FixedAmountVoucher(UUID voucherId, UUID customerId, Long amount, LocalDateTime createdAt) {
+    super(voucherId, customerId, createdAt);
     if (amount <= 0) {
       throw new IllegalArgumentException("Amount must be greater than zero");
     }
@@ -18,7 +19,10 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   public FixedAmountVoucher(VoucherDto voucherDto) {
-    this(voucherDto.voucherId(), voucherDto.customerId(), voucherDto.amount());
+    this(voucherDto.voucherId(),
+        voucherDto.customerId(),
+        voucherDto.amount(),
+        voucherDto.createdAt());
   }
 
   public long discount(long beforeDiscount) {
@@ -36,8 +40,8 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   @Override
-  public int getType() {
-    return VoucherType.FIXED.getCode();
+  public VoucherType getType() {
+    return VoucherType.FIXED;
   }
 
   @Override
