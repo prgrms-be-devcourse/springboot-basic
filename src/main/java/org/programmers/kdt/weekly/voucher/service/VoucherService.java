@@ -23,13 +23,13 @@ public class VoucherService {
     public Voucher create(UUID voucherId, VoucherType voucherType, long value) {
         VoucherDto voucherDto = new VoucherDto(voucherId, value, LocalDateTime.now());
 
-        return voucherRepository.insert(voucherType.create(voucherDto));
+        return this.voucherRepository.insert(voucherType.create(voucherDto));
     }
 
     public Voucher create(VoucherType voucherType, long value) {
         VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), value, LocalDateTime.now());
 
-        return voucherRepository.insert(voucherType.create(voucherDto));
+        return this.voucherRepository.insert(voucherType.create(voucherDto));
     }
 
     public List<Voucher> getVouchers() {
@@ -37,22 +37,22 @@ public class VoucherService {
     }
 
     public Optional<Voucher> findById(UUID id) {
-        return voucherRepository.findById(id);
+        return this.voucherRepository.findById(id);
     }
 
     public boolean deleteById(UUID id) {
-        return voucherRepository.deleteById(id);
+        return this.voucherRepository.deleteById(id);
     }
 
     public void update(Voucher voucher) {
-        voucherRepository.update(voucher);
+        this.voucherRepository.update(voucher);
     }
 
     public List<Voucher> findByType(VoucherType voucherType) {
-        return voucherRepository.findByType(voucherType);
+        return this.voucherRepository.findByType(voucherType);
     }
 
     public List<Voucher> getVoucherByCreatedAt(LocalDate begin, LocalDate end) {
-        return voucherRepository.findByCreatedAt(begin, end);
+        return this.voucherRepository.findByCreatedAt(begin, end);
     }
 }

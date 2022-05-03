@@ -29,7 +29,7 @@ public class RestVoucherController {
     @PostMapping("/api/v1/new-voucher")
     public Voucher create(@RequestBody CreateVoucherRequest createVoucherRequest) {
 
-        return voucherService.create(
+        return this.voucherService.create(
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getValue());
     }
@@ -37,13 +37,13 @@ public class RestVoucherController {
     @GetMapping("/api/v1/vouchers")
     public List<Voucher> list() {
 
-        return voucherService.getVouchers();
+        return this.voucherService.getVouchers();
     }
 
     @GetMapping("/api/v1/vouchers/{type}")
     public List<Voucher> voucherTypeList(@PathVariable VoucherType type) {
 
-        return voucherService.findByType(type);
+        return this.voucherService.findByType(type);
     }
 
     @GetMapping(value = "/api/v1/vouchers/period/{begin}/{end}")
@@ -51,12 +51,12 @@ public class RestVoucherController {
         @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate begin,
         @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end) {
 
-        return voucherService.getVoucherByCreatedAt(begin, end);
+        return this.voucherService.getVoucherByCreatedAt(begin, end);
     }
 
     @DeleteMapping(value = "/api/v1/vouchers/delete/{id}")
     public ResponseEntity<UUID> delete(@PathVariable UUID id) {
-        var isRemoved = voucherService.deleteById(id);
+        var isRemoved = this.voucherService.deleteById(id);
 
         if (!isRemoved) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

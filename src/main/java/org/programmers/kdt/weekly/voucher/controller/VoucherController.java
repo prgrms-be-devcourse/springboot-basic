@@ -26,7 +26,7 @@ public class VoucherController {
 
     @PostMapping("/new-voucher")
     public String create(CreateVoucherRequest createVoucherRequest) {
-        voucherService.create(
+        this.voucherService.create(
             createVoucherRequest.getVoucherType(), createVoucherRequest.getValue());
 
         return "redirect:/";
@@ -34,7 +34,7 @@ public class VoucherController {
 
     @GetMapping("/vouchers")
     public String list(Model model) {
-        var vouchers = voucherService.getVouchers();
+        var vouchers = this.voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
 
         return "voucher-list";
@@ -42,7 +42,7 @@ public class VoucherController {
 
     @GetMapping("/voucher/{voucherId}")
     public String detail(@PathVariable("voucherId") UUID voucherId, Model model) {
-        var voucher = voucherService.findById(voucherId);
+        var voucher = this.voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher.get());
 
         return "voucher-detail";
@@ -50,7 +50,7 @@ public class VoucherController {
 
     @DeleteMapping("/voucher/{voucherId}")
     public String delete(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.deleteById(voucherId);
+        this.voucherService.deleteById(voucherId);
 
         return "redirect:/voucher";
     }
@@ -58,9 +58,9 @@ public class VoucherController {
     @PostMapping("/voucher/{voucherId}")
     public String update(@PathVariable("voucherId") UUID voucherId,
         CreateVoucherRequest createVoucherRequest) {
-        var voucher = voucherService.findById(voucherId).get();
+        var voucher = this.voucherService.findById(voucherId).get();
         voucher.changeValue(createVoucherRequest.getValue());
-        voucherService.update(voucher);
+        this.voucherService.update(voucher);
 
         return "redirect:/voucher";
     }
