@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <title>Voucher</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Create</h1>
+<form th:action="@{/new-voucher}" method="post">
+  <div class="mb-3">
+    <label for="voucherType" class="form-label">type</label>
+    <select id="voucherType" name="voucherType" class="form-select">
+      <option selected>Open this select menu</option>
+      <option th:each="type : ${voucherType}" th:value="${type}" th:text="${type}"></option>
+    </select>
+    </div>
+    <label for="value" class="form-label">value</label>
+    <input type="number" class="form-control" id="value" name="value">
+  </div>
+  <br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<a th:href="@{/}" type="button" class="btn btn-secondary">홈</a>
+</body>
+</html>

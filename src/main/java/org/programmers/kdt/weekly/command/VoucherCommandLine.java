@@ -40,6 +40,7 @@ public class VoucherCommandLine {
                 switch (voucherCommandType) {
                     case VOUCHER_CREATE -> this.createVoucher();
                     case VOUCHER_LIST -> this.showVoucherList();
+                    case EXIT -> this.console.printInfoMessage(InfoMessageType.INVALID);
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("voucherCommandLine error -> {}", e);

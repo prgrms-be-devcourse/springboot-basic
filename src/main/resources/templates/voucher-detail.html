@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+        crossorigin="anonymous">
+
+  <title>Voucher Detail</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Detail</h1>
+<div>
+  <form th:action="@{'/voucher/'+ ${voucherId}}" method="post">
+    <div th:object="${voucher}">
+      <div>
+        <label>voucherId</label>
+        <tr th:text="' : '+ *{voucherId}"></tr>
+      </div>
+      <div>
+        <label>type</label>
+        <tr th:text="' : '+*{voucherType}"></tr>
+      </div>
+      <div>
+        <label>created At</label>
+        <tr th:text="' : '+*{createdAt}"></tr>
+      </div>
+      <div>
+        <label>value</label>
+        <tr th:text="' : '+*{value}"></tr>
+        <input type="number" value="수정" id="value" name="value">
+        <button type="submit" class="btn btn-primary">수정</button>
+      </div>
+    </div>
+  </form>
+</div>
+<form th:action="@{/voucher/} + *{voucherId}" th:method="delete">
+  <input type="submit" class="btn btn-primary" value="Delete"/>
+  <a th:href="@{/}" type="button" class="btn btn-secondary">홈</a>
+</form>
+</body>
+</html>
