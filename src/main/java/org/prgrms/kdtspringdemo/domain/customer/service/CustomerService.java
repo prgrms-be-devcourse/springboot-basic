@@ -20,6 +20,11 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    public List<Customer> findAllCustomer(){
+        List<Customer> customers = customerRepository.findAll();
+        return customers;
+    }
+
     public void findAll() {
         AtomicInteger index = new AtomicInteger(1);
         customerRepository.findAll().stream()
@@ -44,5 +49,9 @@ public class CustomerService {
     public Optional<Customer> findById(UUID id){
         Optional<Customer> customer = customerRepository.findById(id);
         return customer;
+    }
+
+    public void insert(Customer customer){
+        customerRepository.insert(customer);
     }
 }

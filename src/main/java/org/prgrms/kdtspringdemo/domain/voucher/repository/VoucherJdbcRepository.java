@@ -111,6 +111,21 @@ public class VoucherJdbcRepository implements VoucherRepository{
         }
     }
 
+
+    @Override
+    public List<Voucher> findByFixedType() {
+        final String findByFixed = "select * from vouchers WHERE type = FIXED";
+
+        return Optional.of(jdbcTemplate.query(findByFixed, voucherRowMapper)).orElse(Collections.emptyList());
+    }
+
+    @Override
+    public List<Voucher> findByPercentType() {
+        final String findByPercent = "select * from vouchers WHERE type = PERCENT";
+
+        return Optional.of(jdbcTemplate.query(findByPercent, voucherRowMapper)).orElse(Collections.emptyList());
+    }
+
     @Override
     public void deleteAll() {
         final String deleteAllQuery = "DELETE FROM vouchers";

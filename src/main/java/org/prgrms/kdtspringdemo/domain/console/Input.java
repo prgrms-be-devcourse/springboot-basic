@@ -3,9 +3,10 @@ package org.prgrms.kdtspringdemo.domain.console;
 
 import org.prgrms.kdtspringdemo.domain.customer.type.CustomerDMLType;
 import org.prgrms.kdtspringdemo.domain.mapping.type.MappingType;
-import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherDMLType;
+import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherDMLMenuType;
 import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherType;
 
+import java.util.Arrays;
 import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Component;
 public class Input {
     private static final Logger logger = LoggerFactory.getLogger(Input.class);
     private Scanner scanner = new Scanner(System.in);
-
 
     // Menu 입력을 받는다
     public Menu inputMenu() {
@@ -55,9 +55,9 @@ public class Input {
     }
 
     // VoucherManagement 관리 type 입력
-    public VoucherDMLType inputVoucherManagementDMLType() {
+    public VoucherDMLMenuType inputVoucherManagementDMLType() {
         String inputCustomerDMLType = scanner.nextLine();
-        return VoucherDMLType.of(inputCustomerDMLType);
+        return VoucherDMLMenuType.of(inputCustomerDMLType);
     }
 
     public int inputNumber() {

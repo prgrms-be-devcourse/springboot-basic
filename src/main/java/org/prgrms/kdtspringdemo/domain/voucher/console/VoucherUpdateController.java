@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.domain.voucher.controller;
+package org.prgrms.kdtspringdemo.domain.voucher.console;
 
 import org.prgrms.kdtspringdemo.domain.console.Input;
 import org.prgrms.kdtspringdemo.domain.console.Output;
@@ -8,8 +8,6 @@ import org.prgrms.kdtspringdemo.domain.voucher.type.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
-import java.util.List;
 
 @Controller
 public class VoucherUpdateController {

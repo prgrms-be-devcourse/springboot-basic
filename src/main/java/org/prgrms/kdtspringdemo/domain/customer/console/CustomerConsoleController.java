@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.domain.customer;
+package org.prgrms.kdtspringdemo.domain.customer.console;
 
 import org.prgrms.kdtspringdemo.domain.console.Input;
 import org.prgrms.kdtspringdemo.domain.console.Output;
@@ -10,14 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class CustomerController {
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+public class CustomerConsoleController {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerConsoleController.class);
     private final Output output;
     private final Input input;
     private final CustomerService customerService;
     private final CustomerFileService customerFileService;
 
-    public CustomerController(Output output, Input input, CustomerService customerStorage, CustomerFileService customerFileService) {
+    public CustomerConsoleController(Output output, Input input, CustomerService customerStorage, CustomerFileService customerFileService) {
         this.output = output;
         this.input = input;
         this.customerService = customerStorage;
