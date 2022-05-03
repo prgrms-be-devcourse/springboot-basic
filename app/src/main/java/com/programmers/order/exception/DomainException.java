@@ -19,4 +19,10 @@ public class DomainException {
 			super(message.toString());
 		}
 	}
+
+	public static class NotEmptyField extends RuntimeException {
+		public NotEmptyField(ErrorMessage message) {
+			super(message.toString());
+		}
+	}
 }

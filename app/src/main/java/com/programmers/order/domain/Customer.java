@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.programmers.order.dto.CustomerDto;
+import com.programmers.order.exception.DomainException;
+import com.programmers.order.message.ErrorMessage;
 
 public class Customer {
 	private final UUID customerId;
@@ -32,10 +34,6 @@ public class Customer {
 		this.name = updateCustomer.getNameToChange();
 	}
 
-	public void changeLoginAt(LocalDateTime localDateTime) {
-		this.lastLoginAt = localDateTime;
-	}
-
 	public UUID getCustomerId() {
 		return customerId;
 	}
@@ -58,7 +56,7 @@ public class Customer {
 
 	private void validateName(String name) {
 		if (name.isBlank()) {
-			throw new RuntimeException("name should not empty!");
+			throw new DomainException.NotEmptyField(ErrorMessage.CLIENT_ERROR);
 		}
 	}
 
