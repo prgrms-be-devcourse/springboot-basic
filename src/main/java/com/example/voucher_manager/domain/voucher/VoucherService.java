@@ -3,7 +3,9 @@ package com.example.voucher_manager.domain.voucher;
 import com.example.voucher_manager.domain.customer.Customer;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +29,26 @@ public class VoucherService {
 
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public Optional<Voucher> findVoucher(UUID voucherId){
+        return voucherRepository.findById(voucherId);
+    }
+
+    public List<Voucher> findSameTypeVoucher(VoucherType voucherType) {
+        return voucherRepository.findVoucherListByType(voucherType);
+    }
+
+    public List<Voucher> findVouchersByPeriods(LocalDateTime start, LocalDateTime end){
+        return voucherRepository.findVoucherListByPeriods(start, end);
+    }
+
+    public Voucher updateVoucher(Voucher voucher) {
+        return voucherRepository.update(voucher);
+    }
+
+    public boolean deleteVoucher(UUID voucherId) {
+        return voucherRepository.deleteVoucherById(voucherId);
     }
 
     public Voucher provideVoucherToCustomer(Voucher voucher, Customer customer){

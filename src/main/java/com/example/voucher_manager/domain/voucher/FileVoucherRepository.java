@@ -10,6 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -37,6 +38,16 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findVoucherListByCustomer(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByPeriods(LocalDateTime start, LocalDateTime end) {
         return null;
     }
 
@@ -95,5 +106,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteVoucherByCustomer(Voucher voucher, Customer customer) {
 
+    }
+
+    @Override
+    public boolean deleteVoucherById(UUID voucherId) {
+        return false;
     }
 }

@@ -30,6 +30,9 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher_management?useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: xkakak142
+  thymeleaf:
+    view-names: "views/*"
+    prefix: "/WEB-INF/"
 
 file:
   path:

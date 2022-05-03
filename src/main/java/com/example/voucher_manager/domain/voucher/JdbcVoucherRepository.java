@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -24,11 +25,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
         var voucherType = resultSet.getString("voucher_type");
         var ownerId = resultSet.getBytes("owner_id") != null ?
                 toUUID(resultSet.getBytes("owner_id")) : null;
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         if (VoucherType.of(voucherType).equals(VoucherType.FIXED)){
-            return FixedAmountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
+            return FixedAmountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId, createdAt);
         }
-        return PercentDiscountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId);
+        return PercentDiscountVoucher.of(voucherId, discountInformation, VoucherType.of(voucherType), ownerId, createdAt);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -38,6 +40,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
             put("voucherType", voucher.getVoucherType().getType());
             put("ownerId", voucher.getOwnerId() != null ?
                     voucher.getOwnerId().toString().getBytes() : null);
+            put("createdAt", voucher.getCreatedAt() != null ?
+                    voucher.getCreatedAt() : null);
         }};
     }
 
@@ -58,6 +62,21 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findVoucherListByType(VoucherType voucherType) {
+        return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.getType()),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findVoucherListByPeriods(LocalDateTime start, LocalDateTime end) {
+        return jdbcTemplate.query("select * from vouchers where created_at BETWEEN :start AND :end",
+                Map.of("start", start,
+                        "end", end),
+                voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
@@ -71,7 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher update(Voucher voucher) {
-        var update = jdbcTemplate.update("UPDATE vouchers SET discount_information = :discountInformation WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+        var update = jdbcTemplate.update("UPDATE vouchers SET discount_information = :discountInformation, owner_id = UUID_TO_BIN(:ownerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 toParamMap(voucher));
         if (update != 1) {
             logger.error("Noting was updated");
@@ -111,6 +130,17 @@ public class JdbcVoucherRepository implements VoucherRepository{
         if (delete != 1){
             logger.error("Noting was deleted");
         }
+    }
+
+    @Override
+    public boolean deleteVoucherById(UUID voucherId) {
+        var delete = jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                Map.of("voucherId", voucherId.toString().getBytes()));
+        if (delete != 1){
+            logger.error("Noting was deleted");
+            return false;
+        }
+        return true;
     }
 
     static UUID toUUID(byte[] bytes) {
