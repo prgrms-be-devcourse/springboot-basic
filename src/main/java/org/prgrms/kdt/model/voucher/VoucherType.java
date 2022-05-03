@@ -8,13 +8,13 @@ import java.util.UUID;
 public enum VoucherType {
     FIXED_AMOUNT(1) {
         @Override
-        public Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt) {
+        public Voucher createNewVoucher(UUID voucherId, long discountAmount, LocalDateTime createdAt) {
             return new FixedAmountVoucher(voucherId, discountAmount, createdAt);
         }
     },
     PERCENT_DISCOUNT(2) {
         @Override
-        public Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt) {
+        public Voucher createNewVoucher(UUID voucherId, long discountAmount, LocalDateTime createdAt) {
             return new PercentDiscountVoucher(voucherId, discountAmount, createdAt);
         }
     };
@@ -29,7 +29,7 @@ public enum VoucherType {
         return typeNumber;
     }
 
-    public abstract Voucher createNewVoucher(UUID voucherId, int discountAmount, LocalDateTime createdAt);
+    public abstract Voucher createNewVoucher(UUID voucherId, long discountAmount, LocalDateTime createdAt);
 
     public static Optional<VoucherType> getVoucherTypeByNumber(int voucherTypeNumber) {
         return Arrays.stream(VoucherType.values())

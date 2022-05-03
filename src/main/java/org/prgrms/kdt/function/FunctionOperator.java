@@ -3,9 +3,9 @@ package org.prgrms.kdt.function;
 import org.prgrms.kdt.io.InputConsole;
 import org.prgrms.kdt.io.OutputConsole;
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.model.customer.CustomerList;
+import org.prgrms.kdt.model.customer.Customers;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherList;
+import org.prgrms.kdt.model.voucher.Vouchers;
 import org.prgrms.kdt.model.voucher.VoucherMap;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.CustomerService;
@@ -81,19 +81,19 @@ public class FunctionOperator {
     }
 
     private void provideVoucherToCustomer() {
-        VoucherList voucherList = voucherService.getOwnableVoucherList();
-        CustomerList customerList = customerService.getAllCustomers();
-        if (voucherList.isEmptyList() || customerList.isEmptyList()) {
+        Vouchers vouchers = voucherService.getOwnableVoucherList();
+        Customers customers = customerService.getAllCustomers();
+        if (vouchers.isEmptyList() || customers.isEmptyList()) {
             return;
         }
-        voucherList.printList();
+        vouchers.printList();
         String voucherId = inputConsole.inputString();
-        customerList.printList();
+        customers.printList();
         String customerId = inputConsole.inputString();
 
         Optional<Voucher> voucher = voucherService.provideVoucherToCustomer(voucherId, customerId);
         voucher.ifPresent(value ->
-                OutputConsole.printMessage(MessageFormat.format("{} is provided", value.getVoucherId())));
+                OutputConsole.printMessage(MessageFormat.format("{0} is provided", value.getVoucherId())));
     }
 
     private void printCustomerVoucherList() {

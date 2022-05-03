@@ -26,4 +26,8 @@ public class VoucherMap {
     public int size() {
         return vouchers.size();
     }
+
+    public Map<UUID, Voucher> getVouchers() {
+        return Map.copyOf(vouchers);
+    }
 }

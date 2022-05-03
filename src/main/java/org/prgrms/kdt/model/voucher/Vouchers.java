@@ -4,10 +4,10 @@ import org.prgrms.kdt.io.OutputConsole;
 
 import java.util.List;
 
-public class VoucherList {
+public class Vouchers {
     private final List<Voucher> vouchers;
 
-    public VoucherList(List<Voucher> vouchers) {
+    public Vouchers(List<Voucher> vouchers) {
         this.vouchers = vouchers;
     }
 
@@ -19,5 +19,9 @@ public class VoucherList {
         vouchers.forEach(voucher -> {
             OutputConsole.printMessage(voucher.getVoucherId().toString());
         });
+    }
+
+    public List<Voucher> getVouchers() {
+        return List.copyOf(vouchers);
     }
 }

@@ -53,6 +53,10 @@ public abstract class Voucher {
         return voucherType;
     }
 
+    public LocalDateTime getOwnedAt() {
+        return ownedAt;
+    }
+
     @Override
     public String toString() {
         return "Voucher{" +

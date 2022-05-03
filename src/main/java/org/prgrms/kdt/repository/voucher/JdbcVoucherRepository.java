@@ -86,9 +86,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherList getVoucherListOwnerIdIsEmpty() {
+    public Vouchers getVoucherListByVoucherType(int voucherType) {
+        var paramMap = new HashMap<String, Object>() {{
+            put("voucherType", voucherType);
+        }};
+        var receivedVoucherList = jdbcTemplate.query("SELECT * FROM vouchers " +
+                "WHERE voucher_type = :voucherType", paramMap, voucherRowMapper);
+        return new Vouchers(receivedVoucherList);
+    }
+
+    @Override
+    public Vouchers getVoucherListByCreatedFromToDate(String fromDate, String toDate) {
+        var paramMap = new HashMap<String, Object>() {{
+            put("fromDate", fromDate);
+            put("toDate", toDate);
+        }};
+        var receivedVoucherList = jdbcTemplate.query("SELECT * FROM vouchers " +
+                "WHERE (created_at BETWEEN :fromDate AND  :toDate)", paramMap, voucherRowMapper);
+        return new Vouchers(receivedVoucherList);
+    }
+
+    @Override
+    public Vouchers getVoucherListOwnerIdIsEmpty() {
         List<Voucher> vouchers= jdbcTemplate.query("SELECT * FROM vouchers WHERE owner_id IS NULL", voucherRowMapper);
-        VoucherList voucherList = new VoucherList(vouchers);
+        Vouchers voucherList = new Vouchers(vouchers);
         return voucherList;
     }
 
@@ -102,7 +123,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int returnInt = jdbcTemplate.update("UPDATE vouchers SET owner_id = UUID_TO_BIN(:customerId), " +
                 "owned_time = :ownedAt WHERE voucher_id = UUID_TO_BIN(:voucherId)", paramMap);
         if (returnInt > 0) {
-            return jdbcWalletRepository.selectJoinVoucherCustomer(voucherId);
+            return jdbcWalletRepository.selectJoinVoucherCustomerByVoucherId(voucherId);
         }
         return Optional.empty();
     }

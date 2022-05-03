@@ -4,10 +4,10 @@ import org.prgrms.kdt.io.OutputConsole;
 
 import java.util.List;
 
-public class CustomerList {
+public class Customers {
     private final List<Customer> customers;
 
-    public CustomerList(List<Customer> customers) {
+    public Customers(List<Customer> customers) {
         this.customers = customers;
     }
     public boolean isEmptyList() {
@@ -21,5 +21,9 @@ public class CustomerList {
         customers.forEach(customer -> {
             OutputConsole.printMessage(customer.getCustomerId().toString());
         });
+    }
+
+    public List<Customer> getCustomers() {
+        return List.copyOf(customers);
     }
 }
