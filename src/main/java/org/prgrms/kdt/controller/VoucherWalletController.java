@@ -1,5 +1,6 @@
 package org.prgrms.kdt.controller;
 
+import lombok.AllArgsConstructor;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.customer.Customers;
 import org.prgrms.kdt.model.voucher.Voucher;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Controller
+@AllArgsConstructor
 public class VoucherWalletController {
 
     private final VoucherWalletService voucherWalletService;
@@ -25,12 +27,6 @@ public class VoucherWalletController {
     private final VoucherService voucherService;
 
     private final CustomerService customerService;
-
-    public VoucherWalletController(VoucherWalletService voucherWalletService, VoucherService voucherService, CustomerService customerService) {
-        this.voucherWalletService = voucherWalletService;
-        this.voucherService = voucherService;
-        this.customerService = customerService;
-    }
 
     @GetMapping("/voucherWallet")
     public String showVoucherList(Model model) {
