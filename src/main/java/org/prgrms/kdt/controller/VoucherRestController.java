@@ -53,8 +53,8 @@ public class VoucherRestController {
 
     @GetMapping("/api/v1/vouchers/voucherType/{voucherType}")
     @ResponseBody
-    public ResponseEntity<List<Voucher>> getVouchersByVoucherType(@PathVariable int voucherType) {
-        Vouchers vouchers = voucherService.getVoucherListByVoucherType(voucherType);
+    public ResponseEntity<List<Voucher>> getVouchersByVoucherType(@PathVariable VoucherType voucherType) {
+        Vouchers vouchers = voucherService.getVoucherListByVoucherType(voucherType.getTypeNumber());
         return ResponseEntity.ok().body(vouchers.getVouchers());
     }
 
