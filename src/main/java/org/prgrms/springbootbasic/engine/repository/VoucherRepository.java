@@ -5,6 +5,7 @@ import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
 import org.prgrms.springbootbasic.exception.VoucherException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +28,8 @@ public interface VoucherRepository {
     default List<Voucher> findByCustomerId(UUID customerId) {
         throw new VoucherException("미완성 기능입니다.");
     }
+
+    default List<Voucher> findMany(Optional<String> voucherType, Optional<LocalDateTime> beforeCreatedAt, Optional<LocalDateTime> afterCreatedAt) {throw new VoucherException("미완성 기능입니다.");};
 
     default Voucher insert(Voucher voucher) {
         throw new VoucherException("미완성 기능입니다.");

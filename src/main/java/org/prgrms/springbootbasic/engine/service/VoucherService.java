@@ -1,17 +1,23 @@
 package org.prgrms.springbootbasic.engine.service;
 
+import org.prgrms.springbootbasic.engine.controller.dto.VoucherResponseDto;
 import org.prgrms.springbootbasic.engine.domain.Customer;
 import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
+import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
 import org.prgrms.springbootbasic.engine.repository.VoucherRepository;
 import org.prgrms.springbootbasic.exception.RecordNotFoundException;
 import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.prgrms.springbootbasic.engine.util.GlobalUtil.convertStringToVoucherType;
+import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUID;
 
 @Service
 public class VoucherService {
@@ -33,6 +39,15 @@ public class VoucherService {
             throw new RecordNotFoundException("Invalid VoucherId.", ErrorCode.VOUCHER_NOT_FOUND);
         }
         return voucher.get();
+    }
+
+    @Transactional
+    public List<Voucher> getVouchersByConditions(Optional<String> voucherType, Optional<LocalDateTime> afterCreatedAt, Optional<LocalDateTime> beforeCreatedAt) {
+        if (voucherType.isEmpty() && afterCreatedAt.isEmpty() && beforeCreatedAt.isEmpty()) {
+            return voucherRepository.findAll();
+        } else {
+            return voucherRepository.findMany(voucherType, afterCreatedAt, beforeCreatedAt);
+        }
     }
 
     @Transactional

@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static org.prgrms.springbootbasic.engine.util.UUIDUtil.convertStringToUUID;
 
-@RestController()
+@RestController
 public class VoucherRestController {
     private final VoucherService voucherService;
 
@@ -24,17 +24,7 @@ public class VoucherRestController {
 
     @GetMapping("/api/v1/vouchers")
     public List<VoucherResponseDto> showAllVouchers(@RequestParam Optional<String> voucherType, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> afterCreatedAt, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Optional<LocalDateTime> beforeCreatedAt) {
-        List<Voucher> vouchers = voucherService.getAllVouchers();
-        if (voucherType.isPresent()) {
-            vouchers = vouchers.stream().filter(v -> v.getVoucherType().toString().equals(voucherType.get())).toList();
-        }
-        if (afterCreatedAt.isPresent()) {
-            vouchers = vouchers.stream().filter(v -> v.getCreatedAt().isAfter(afterCreatedAt.get())).toList();
-        }
-        if (beforeCreatedAt.isPresent()) {
-            vouchers = vouchers.stream().filter(v -> v.getCreatedAt().isBefore(beforeCreatedAt.get())).toList();
-        }
-        return vouchers.stream().map(VoucherResponseDto::new).toList();
+        return voucherService.getVouchersByConditions(voucherType, afterCreatedAt, beforeCreatedAt).stream().map(VoucherResponseDto::new).toList();
     }
 
     @PostMapping("/api/v1/vouchers/new")
@@ -44,8 +34,9 @@ public class VoucherRestController {
     }
 
     @GetMapping("/api/v1/vouchers/{voucherId}")
-    public VoucherResponseDto showVoucherById(@PathVariable UUID voucherId) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
+    public VoucherResponseDto showVoucherById(@PathVariable String voucherId) {
+        UUID id = convertStringToUUID(voucherId);
+        Voucher voucher = voucherService.getVoucher(id);
         return new VoucherResponseDto(voucher);
     }
 

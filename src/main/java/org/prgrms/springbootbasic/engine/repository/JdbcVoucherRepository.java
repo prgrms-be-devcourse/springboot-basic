@@ -5,6 +5,7 @@ import org.prgrms.springbootbasic.engine.domain.Voucher;
 import org.prgrms.springbootbasic.engine.enumtype.ErrorCode;
 import org.prgrms.springbootbasic.engine.enumtype.VoucherType;
 import org.prgrms.springbootbasic.exception.RecordNotUpdatedException;
+import org.prgrms.springbootbasic.exception.VoucherException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -77,6 +78,36 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public List<Voucher> findByCustomerId(UUID customerId) {
         return jdbcTemplate.query("select * from vouchers where customer_id = UNHEX(REPLACE(:customerId, '-', ''));", Collections.singletonMap("customerId", customerId.toString().getBytes()),voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findMany(Optional<String> voucherType, Optional<LocalDateTime> afterCreatedAt, Optional<LocalDateTime> beforeCreatedAt) {
+        if (voucherType.isEmpty() && afterCreatedAt.isEmpty() && beforeCreatedAt.isEmpty()) {
+            throw new RuntimeException("internal Error");
+        }
+
+        String query = "select * from vouchers where ";
+        Map<String, Object> paramMap = new HashMap<>();
+
+        if (voucherType.isPresent()) {
+            query += "voucher_type = :voucherType and ";
+            System.out.println(voucherType.get());
+            paramMap.put("voucherType", voucherType.get());
+        }
+
+        if (afterCreatedAt.isPresent()) {
+            query += "created_at >= :afterCreatedAt and ";
+            System.out.println(afterCreatedAt.get());
+            paramMap.put("afterCreatedAt", Timestamp.valueOf(afterCreatedAt.get()));
+        }
+
+        if (beforeCreatedAt.isPresent()) {
+            query += "created_at <= :beforeCreatedAt and ";
+            System.out.println(beforeCreatedAt.get());
+            paramMap.put("beforeCreatedAt", Timestamp.valueOf(beforeCreatedAt.get()));
+        }
+
+        return jdbcTemplate.query(query.substring(0, query.length() - 5), paramMap ,voucherRowMapper);
     }
 
     @Override
