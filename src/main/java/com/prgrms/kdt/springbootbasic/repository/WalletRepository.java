@@ -68,6 +68,16 @@ public class WalletRepository {
         }
     }
 
+    public Optional<Wallet> findWalletById(UUID walletId){
+        try {
+            Wallet foundWallet = jdbcTemplate.queryForObject("Select * from wallet where wallet_id = UNHEX(REPLACE( :wallet_id, '-', ''))",
+                    Collections.singletonMap("wallet_id",walletId.toString().getBytes()),walletRowMapper);
+            return Optional.of(foundWallet);
+        }catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
+
     public List<Wallet> findWalletByVoucherId(UUID voucherId){
         return jdbcTemplate.query("Select * from wallet where voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))",
                 Collections.singletonMap("voucher_id",voucherId.toString().getBytes()),walletRowMapper);
@@ -90,5 +100,12 @@ public class WalletRepository {
 
     public List<Wallet> getAllWallets(){
         return jdbcTemplate.query("Select * from wallet",Collections.emptyMap(),walletRowMapper);
+    }
+
+    public boolean deleteWallets(Wallet wallet){
+        var deleteResult = jdbcTemplate.update("delete from wallet where wallet_id = UNHEX(REPLACE( :wallet_id, '-', ''))",toParamMap(wallet));
+        if(deleteResult!=1)
+            return false;
+        return true;
     }
 }

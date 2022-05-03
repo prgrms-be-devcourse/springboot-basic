@@ -3,14 +3,14 @@ package com.prgrms.kdt.springbootbasic.service;
 import com.prgrms.kdt.springbootbasic.entity.Customer;
 import com.prgrms.kdt.springbootbasic.entity.Wallet;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
+import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
 import com.prgrms.kdt.springbootbasic.repository.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,16 +22,18 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    public Wallet createWallet(Customer customer, Voucher voucher){
-        return new Wallet(UUID.randomUUID(),customer.getCustomerId(),voucher.getVoucherId());
-    }
 
-    public Optional<Wallet> saveWallet(Wallet wallet){
+    public Wallet saveWallet(UUID customerId, UUID voucherId){
+        Wallet wallet = new Wallet(UUID.randomUUID(), customerId, voucherId);
         if(checkWalletDuplication(wallet)){
-            return Optional.empty();
+            throw new ResourceDuplication("동일한 Wallet이 이미 존재합니다");
         }
 
-        return walletRepository.saveWallet(wallet);
+        var saveResult = walletRepository.saveWallet(wallet);
+        if (saveResult.isEmpty())
+            throw new JdbcQueryFail("Customer 저장이 실패하였습니다");
+
+        return saveResult.get();
     }
 
     public boolean checkWalletDuplication(Wallet wallet){
@@ -60,5 +62,14 @@ public class WalletService {
 
     public List<Wallet> getAllWallets(){
         return walletRepository.getAllWallets();
+    }
+
+    public boolean deleteWallet(Wallet wallet){
+        var findWallet = walletRepository.findWalletById(wallet.getWalletId());
+
+        if (findWallet.isEmpty())
+            return true;
+
+        return walletRepository.deleteWallets(wallet);
     }
 }

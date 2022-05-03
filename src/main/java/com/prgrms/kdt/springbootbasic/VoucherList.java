@@ -3,6 +3,7 @@ package com.prgrms.kdt.springbootbasic;
 import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
 import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.exception.NoSuchVoucherType;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -45,7 +46,7 @@ public enum VoucherList {
         return Arrays.stream(VoucherList.values())
 		        .filter(v -> v.className.equals(className))
 		        .findAny()
-		        .orElseThrow(CustomException::new);
+		        .orElseThrow(NoSuchVoucherType::new);
     }
 
     public static Voucher makeVoucherByType(String voucherType, UUID voucherId, long amount, LocalDateTime createdAt) {

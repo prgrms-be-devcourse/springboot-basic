@@ -69,6 +69,13 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public Optional<Voucher> findByTypeAndAmount(String voucherType, long amount) {
+        return Optional.ofNullable(voucherStorage.values().stream()
+                .filter(voucher -> voucher.getVoucherType().equals(voucherType) && voucher.getDiscountAmount() == amount)
+                .collect(Collectors.toList()).get(0));
+    }
+
+    @Override
     public Optional<Voucher> saveVoucher(Voucher voucher) {
         FileWriter fileWriter = null;
         try {

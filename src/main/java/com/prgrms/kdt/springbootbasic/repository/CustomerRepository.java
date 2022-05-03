@@ -9,19 +9,16 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
 public class CustomerRepository {
     private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
-    private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CustomerRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public CustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

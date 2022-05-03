@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -20,11 +19,9 @@ import java.util.*;
 @Profile("!jdbc")
 public class JdbcVoucherRepository implements VoucherRepository{
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
-    private final DataSource dataSource;
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherRepository(DataSource dataSource, NamedParameterJdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -51,6 +48,21 @@ public class JdbcVoucherRepository implements VoucherRepository{
         try {
             Voucher findVoucher = jdbcTemplate.queryForObject("SELECT * FROM vouchers where voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))",
                     Collections.singletonMap("voucher_id", voucherId.toString().getBytes()), voucherRowMapper);
+            return Optional.of(findVoucher);
+        }catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Voucher> findByTypeAndAmount(String voucherType, long amount) {
+        try {
+            Map<String, Object> paramMap = new HashMap<>();
+            paramMap.put("voucher_type", voucherType);
+            paramMap.put("amount", amount);
+
+            Voucher findVoucher = jdbcTemplate.queryForObject("SELECT * FROM vouchers where voucher_type = :voucher_type and amount = :amount",
+                    Collections.synchronizedMap(paramMap), voucherRowMapper);
             return Optional.of(findVoucher);
         }catch (EmptyResultDataAccessException e){
             return Optional.empty();

@@ -69,6 +69,13 @@ class WalletRepositoryTest {
     }
 
     @Test
+    public void findWalletById(){
+        var findResult = walletRepository.findWalletById(wallet.getWalletId());
+
+        assertThat(findResult.get()).as("Wallet").isEqualToComparingFieldByField(wallet);
+    }
+
+    @Test
     public void findWalletByVoucherId(){
         //Given
         List<Wallet> walletList = new ArrayList<>();
@@ -166,5 +173,12 @@ class WalletRepositoryTest {
         assertThat(findWalletList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(walletList);
+    }
+
+    @Test
+    public void deleteWallet(){
+        var deleteResult = walletRepository.deleteWallets(wallet);
+
+        assertThat(deleteResult).isTrue();
     }
 }

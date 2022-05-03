@@ -49,7 +49,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    public void saveVoucher(){
+    void saveVoucher(){
         var newFixed = new FixedAmountVoucher(UUID.randomUUID(),90);
         var newPercent = new PercentDiscountVoucher(UUID.randomUUID(),9);
         var insertFixed = jdbcVoucherRepository.saveVoucher(newFixed);
@@ -61,7 +61,7 @@ class JdbcVoucherRepositoryTest {
 
 
     @Test
-    public void findById(){
+    void findById(){
         var findFixed = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
         var findPercent = jdbcVoucherRepository.findById(percentAmountVoucher.getVoucherId());
 
@@ -70,14 +70,14 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    public void findByIdNotExist(){
+    void findByIdNotExist(){
         var findVoucher = jdbcVoucherRepository.findById(UUID.randomUUID());
 
         assertThat(findVoucher.isEmpty()).isTrue();
     }
 
     @Test
-    public void getAllVouchers(){
+    void getAllVouchers(){
         List<Voucher> assertList = new ArrayList<>();
         assertList.add(fixedAmountVoucher);
         assertList.add(percentAmountVoucher);
@@ -88,7 +88,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    public void updateVoucherAmount(){
+    void updateVoucherAmount(){
         fixedAmountVoucher.setAmount(40);
 
         var updatedVoucher = jdbcVoucherRepository.updateVoucherAmount(fixedAmountVoucher);
@@ -96,12 +96,19 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    public void deleteVoucher(){
+    void deleteVoucher(){
         var deletedResult = jdbcVoucherRepository.deleteVoucher(fixedAmountVoucher);
         assertThat(deletedResult).isTrue();
 
         var findResult = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(findResult.isEmpty()).isTrue();
+    }
+
+    @Test
+    void findByTypeAndAmount(){
+        var foundResult = jdbcVoucherRepository.findByTypeAndAmount(fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getDiscountAmount());
+        assertThat(foundResult.isEmpty()).isFalse();
+        assertThat(foundResult.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
     }
 
 }

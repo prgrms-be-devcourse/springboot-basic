@@ -10,6 +10,8 @@ public interface VoucherRepository {
 
     public Optional<Voucher> findById(UUID voucherId);
 
+    public Optional<Voucher> findByTypeAndAmount(String voucherType, long amount);
+
     public Optional<Voucher> saveVoucher(Voucher voucher);
 
     public List<Voucher> getAllVouchers();

@@ -25,8 +25,8 @@ public class VoucherController {
 
 
     public boolean saveVoucher(String voucherType, UUID voucherId, long discountAmount){
-        Voucher voucher = voucherService.createVoucher(voucherType,voucherId, discountAmount);
-        return voucherService.saveVoucher(voucher).isPresent();
+        Voucher voucher = voucherService.saveVoucher(voucherType,discountAmount);
+        return true;
     }
 
 }

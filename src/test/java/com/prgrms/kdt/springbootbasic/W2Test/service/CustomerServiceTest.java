@@ -1,6 +1,9 @@
 package com.prgrms.kdt.springbootbasic.W2Test.service;
 
 import com.prgrms.kdt.springbootbasic.entity.Customer;
+import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
+import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
+import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
 import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
 import com.prgrms.kdt.springbootbasic.service.CustomerService;
 import org.junit.jupiter.api.Test;
@@ -11,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 class CustomerServiceTest {
@@ -21,12 +25,6 @@ class CustomerServiceTest {
 
     Customer customer = new Customer(UUID.randomUUID(), "tester","tester@gmail.com");
 
-    @Test
-    void createCustomer() {
-        var createdCustomer = customerService.createCustomer(customer.getName(),customer.getEmail());
-
-        assertThat(createdCustomer).as("Customer").isEqualToIgnoringGivenFields(customer,"customerId");
-    }
 
     @Test
     void checkDuplicationExist(){
@@ -56,16 +54,15 @@ class CustomerServiceTest {
     @Test
     void saveCustomerNotDuplicated() {
         //Given
-        var newCustomer = new Customer(UUID.randomUUID(),"tester","tester@email.com");
+        var newCustomer = new Customer(UUID.randomUUID(),"tester2","tester2@email.com");
         when(customerRepository.findCustomerByEmail(newCustomer.getEmail())).thenReturn(Optional.empty());
-        when(customerRepository.saveCustomer(newCustomer)).thenReturn(Optional.of(newCustomer));
+        when(customerRepository.saveCustomer(any())).thenReturn(Optional.of(newCustomer));
 
         //When
-        var savedCustomer = customerService.saveCustomer(newCustomer);
+        var savedCustomer = customerService.saveCustomer(newCustomer.getName(), newCustomer.getEmail());
 
         //Then
-        verify(customerRepository).saveCustomer(newCustomer);
-        assertThat(savedCustomer.get()).as("Customer").isEqualToComparingFieldByField(newCustomer);
+        assertThat(savedCustomer).as("Customer").isEqualToComparingFieldByField(newCustomer);
     }
 
     @Test
@@ -73,11 +70,20 @@ class CustomerServiceTest {
         //Given
         when(customerRepository.findCustomerByEmail(customer.getEmail())).thenReturn(Optional.of(customer));
 
-        //When
-        var savedCustomer = customerService.saveCustomer(customer);
+        assertThatThrownBy(() -> {
+            customerService.saveCustomer(customer.getName(), customer.getEmail());
+        }).isInstanceOf(ResourceDuplication.class);
+    }
 
-        //Then
-        assertThat(savedCustomer.isEmpty()).isTrue();
+    @Test
+    void saveCustomerWithJdbcFail(){
+        var newCustomer = new Customer(UUID.randomUUID(),"tester2","tester2@email.com");
+        when(customerRepository.findCustomerByEmail(newCustomer.getEmail())).thenReturn(Optional.empty());
+        when(customerRepository.saveCustomer(any())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> {
+            customerService.saveCustomer(newCustomer.getName(), newCustomer.getEmail());
+        }).isInstanceOf(JdbcQueryFail.class);
     }
 
     @Test
@@ -89,7 +95,7 @@ class CustomerServiceTest {
         var foundCustomer = customerService.findCustomerById(customer.getCustomerId());
 
         //Then
-        assertThat(foundCustomer.get()).as("Customer").isEqualToComparingFieldByField(customer);
+        assertThat(foundCustomer).as("Customer").isEqualToComparingFieldByField(customer);
     }
 
     @Test
@@ -120,7 +126,7 @@ class CustomerServiceTest {
         var updatedResult = customerService.updateCustomer(newCustomer);
 
         //Then
-        assertThat(updatedResult.get()).as("Customer").isEqualToComparingFieldByField(newCustomer);
+        assertThat(updatedResult).as("Customer").isEqualToComparingFieldByField(newCustomer);
     }
 
     @Test
@@ -129,11 +135,9 @@ class CustomerServiceTest {
         Customer newCustomer = new Customer(UUID.randomUUID(), "newCustomer", "newCustomer@gmail.com");
         when(customerRepository.findCustomerById(newCustomer.getCustomerId())).thenReturn(Optional.empty());
 
-        //When
-        var updatedResult = customerService.updateCustomer(newCustomer);
-
-        //Then
-        assertThat(updatedResult.isEmpty()).isTrue();
+        assertThatThrownBy(() -> {
+            customerService.updateCustomer(newCustomer);
+        }).isInstanceOf(NoSuchResource.class);
     }
 
     @Test
@@ -159,6 +163,6 @@ class CustomerServiceTest {
         var deletedResult = customerService.deleteCustomer(newCustomer);
 
         //Then
-        assertThat(deletedResult).isFalse();
+        assertThat(deletedResult).isTrue();
     }
 }

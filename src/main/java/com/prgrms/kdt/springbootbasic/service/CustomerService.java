@@ -1,9 +1,10 @@
 package com.prgrms.kdt.springbootbasic.service;
 
 import com.prgrms.kdt.springbootbasic.entity.Customer;
+import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
+import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
+import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
 import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,51 +13,57 @@ import java.util.UUID;
 
 @Service
 public class CustomerService {
-    private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
+//    private final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(String name, String email){
-        return new Customer(UUID.randomUUID(), name, email);
-    }
-
-    public Optional<Customer> saveCustomer(Customer customer){
+    public Customer saveCustomer(String name, String email){
+        Customer customer = new Customer(UUID.randomUUID(), name, email);
         if (checkDuplication(customer)){
-            return Optional.empty();
+            throw new ResourceDuplication("동일한 Customer가 이미 존재합니다");
         }
-        return customerRepository.saveCustomer(customer);
+
+        Optional<Customer> saveResult =  customerRepository.saveCustomer(customer);
+        if (saveResult.isEmpty())
+            throw new JdbcQueryFail("Customer 저장이 실패하였습니다");
+
+        return saveResult.get();
     }
 
     public boolean checkDuplication(Customer customer){
         return customerRepository.findCustomerByEmail(customer.getEmail()).isPresent();
     }
 
-    public Optional<Customer> findCustomerById(UUID customerId){
-        return customerRepository.findCustomerById(customerId);
+    public Customer findCustomerById(UUID customerId){
+        Optional<Customer> findResult = customerRepository.findCustomerById(customerId);
+        if (findResult.isEmpty())
+            throw new NoSuchResource("일치하는 Customer가 없습니다");
+
+        return findResult.get();
     }
 
     public List<Customer> getAllCustomers(){return customerRepository.getAllCustomers();}
 
-    public Optional<Customer> updateCustomer(Customer customer){
-        Optional<Customer> foundCustomer = findCustomerById(customer.getCustomerId());
-        if (foundCustomer.isEmpty())
-            return Optional.empty();
+    public Customer updateCustomer(Customer customer){
+        Customer foundCustomer = findCustomerById(customer.getCustomerId());
 
-        //수정될 내용이 없으면 empty return
-        if (customer.getName().equals(foundCustomer.get().getName()))
-            return Optional.empty();
+        var updateResult = customerRepository.updateCustomer(customer);
 
-        return customerRepository.updateCustomer(customer);
+        if (updateResult.isEmpty())
+            throw new JdbcQueryFail("Customer Update가 실패하였습니다");
+
+        return updateResult.get();
     }
 
     public boolean deleteCustomer(Customer customer){
-        Optional<Customer> foundCustomer = findCustomerById(customer.getCustomerId());
-        if (foundCustomer.isEmpty())
-            return false;
-
-        return customerRepository.deleteCustomer(customer);
+        try {
+            Customer foundCustomer = findCustomerById(customer.getCustomerId());
+            return customerRepository.deleteCustomer(foundCustomer);
+        }catch (NoSuchResource e){
+            return true;
+        }
     }
 }

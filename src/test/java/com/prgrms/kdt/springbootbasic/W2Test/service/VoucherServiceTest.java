@@ -3,10 +3,17 @@ package com.prgrms.kdt.springbootbasic.W2Test.service;
 import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
 import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.repository.JdbcVoucherRepository;
+import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
+import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
+import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
 import com.prgrms.kdt.springbootbasic.repository.VoucherRepository;
 import com.prgrms.kdt.springbootbasic.service.VoucherService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,27 +21,25 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
 
-    VoucherRepository voucherRepository = mock(JdbcVoucherRepository.class);
+    @InjectMocks
+    VoucherService voucherService;
 
-    VoucherService voucherService = new VoucherService(voucherRepository);
+    @Mock
+    VoucherRepository voucherRepository;
 
     Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-    @Test
-    void createVoucher(){
-        var createdVoucher = voucherService.createVoucher(voucher.getVoucherType(),voucher.getVoucherId(),voucher.getDiscountAmount());
-
-        assertThat(createdVoucher).as("Voucher").isEqualToIgnoringGivenFields(voucher,"createdAt");
-    }
 
     @Test
     void checkDuplicationExist(){
         //Given
-        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+        when(voucherRepository.findByTypeAndAmount(voucher.getVoucherType(),voucher.getDiscountAmount())).thenReturn(Optional.of(voucher));
 
         //When
         var duplicationResult = voucherService.checkDuplication(voucher);
@@ -47,7 +52,7 @@ class VoucherServiceTest {
     void checkDuplicationNotExist(){
         //Given
         var newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
-        when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
+        when(voucherRepository.findByTypeAndAmount(newVoucher.getVoucherType(), newVoucher.getDiscountAmount())).thenReturn(Optional.empty());
 
         //When
         var duplicationResult = voucherService.checkDuplication(newVoucher);
@@ -59,28 +64,39 @@ class VoucherServiceTest {
     @Test
     void saveVoucherDuplicated(){
         //Given
-        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
-        when(voucherRepository.saveVoucher(voucher)).thenReturn(Optional.empty());
-
-        //When
-        var savedVoucher = voucherService.saveVoucher(voucher);
+        when(voucherRepository.findByTypeAndAmount(voucher.getVoucherType(),voucher.getDiscountAmount())).thenReturn(Optional.of(voucher));
 
         //Then
-        assertThat(savedVoucher.isEmpty()).isTrue();
+        assertThatThrownBy(() -> {
+            voucherService.saveVoucher(voucher.getVoucherType(),voucher.getDiscountAmount());
+        }).isInstanceOf(ResourceDuplication.class);
     }
 
     @Test
     void saveVoucherNotDuplicated(){
         //Given
         var newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
-        when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
-        when(voucherRepository.saveVoucher(newVoucher)).thenReturn(Optional.of(newVoucher));
+        when(voucherRepository.findByTypeAndAmount(newVoucher.getVoucherType(), newVoucher.getDiscountAmount())).thenReturn(Optional.empty());
+        when(voucherRepository.saveVoucher(any())).thenReturn(Optional.of(newVoucher));
 
         //When
-        var savedVoucher = voucherService.saveVoucher(newVoucher);
+        var savedVoucher = voucherService.saveVoucher(newVoucher.getVoucherType(), newVoucher.getDiscountAmount());
 
         //Then
-        assertThat(savedVoucher.get()).as("Voucher").isEqualToComparingFieldByFieldRecursively(newVoucher);
+        assertThat(savedVoucher).as("Voucher").isEqualToComparingFieldByFieldRecursively(newVoucher);
+    }
+
+    @Test
+    void saveVoucherWithJdbcFail(){
+        //Given
+        var newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),10);
+        when(voucherRepository.findByTypeAndAmount(newVoucher.getVoucherType(), newVoucher.getDiscountAmount())).thenReturn(Optional.empty());
+        when(voucherRepository.saveVoucher(any())).thenReturn(Optional.empty());
+
+        //Then
+        assertThatThrownBy(() -> {
+            voucherService.saveVoucher(newVoucher.getVoucherType(), newVoucher.getDiscountAmount());
+        }).isInstanceOf(JdbcQueryFail.class);
     }
 
     @Test
@@ -111,7 +127,7 @@ class VoucherServiceTest {
         var updateResult = voucherService.updateVoucher(updatedVoucher);
 
         //Then
-        assertThat(updateResult.get()).as("Voucher").isEqualToComparingFieldByFieldRecursively(updatedVoucher);
+        assertThat(updateResult).as("Voucher").isEqualToComparingFieldByFieldRecursively(updatedVoucher);
     }
 
     @Test
@@ -120,11 +136,39 @@ class VoucherServiceTest {
         Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(),20);
         when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
 
+        assertThatThrownBy(() -> {
+            voucherService.updateVoucher(newVoucher);
+        }).isInstanceOf(NoSuchResource.class);
+
+    }
+
+    @Test
+    @DisplayName("수정할 내용이 없어서 updateVoucher이 스킵됨")
+    void updateVoucherSkipped(){
+        //Given
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+
         //When
-        var updatedResult = voucherService.updateVoucher(newVoucher);
+        var updateResult = voucherService.updateVoucher(voucher);
 
         //Then
-        assertThat(updatedResult.isEmpty()).isTrue();
+        verify(voucherRepository, never()).updateVoucherAmount(voucher);
+        assertThat(updateResult).as("Voucher").isEqualToComparingFieldByFieldRecursively(voucher);
+    }
+
+    @Test
+    @DisplayName("Jdbc 저장시에 오류 발생함")
+    void updateVoucherWithJdbcQueryFail(){
+        //Given
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+        Voucher updatedVoucher = new FixedAmountVoucher(voucher.getVoucherId(), 40);
+        when(voucherRepository.updateVoucherAmount(any())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> {
+            voucherService.updateVoucher(updatedVoucher);
+        }).isInstanceOf(JdbcQueryFail.class);
+
     }
 
     @Test
@@ -150,6 +194,6 @@ class VoucherServiceTest {
         var deletedResult = voucherService.deleteVoucher(newVoucher);
 
         //Then
-        assertThat(deletedResult).isFalse();
+        assertThat(deletedResult).isTrue();
     }
 }

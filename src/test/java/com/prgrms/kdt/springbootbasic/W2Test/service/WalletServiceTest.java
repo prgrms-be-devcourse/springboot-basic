@@ -4,6 +4,8 @@ import com.prgrms.kdt.springbootbasic.entity.Customer;
 import com.prgrms.kdt.springbootbasic.entity.Wallet;
 import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
+import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
 import com.prgrms.kdt.springbootbasic.repository.WalletRepository;
 import com.prgrms.kdt.springbootbasic.service.WalletService;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,13 +31,6 @@ class WalletServiceTest {
     Customer customer = new Customer(UUID.randomUUID(),"tester", "tester@gmail.com");
     Wallet wallet = new Wallet(UUID.randomUUID(),customer.getCustomerId(),voucher.getVoucherId());
 
-    @Test
-    void createWallet() {
-        var createdWallet = walletService.createWallet(customer,voucher);
-
-        assertThat(createdWallet).as("Wallet").isEqualToIgnoringGivenFields(wallet,"walletId");
-
-    }
 
     @Test
     void checkWalletDuplicationExist(){
@@ -63,13 +60,11 @@ class WalletServiceTest {
     @Test
     void saveWalletDuplicated() {
         //Given
-        when(walletRepository.saveWallet(wallet)).thenReturn(Optional.empty());
+        when(walletRepository.getWalletWithCustomerAndVoucher(wallet.getCustomerId(),wallet.getVoucherId())).thenReturn(Optional.of(wallet));
 
-        //When
-        var savedWallet = walletService.saveWallet(wallet);
-
-        //Then
-        assertThat(savedWallet.isEmpty()).isTrue();
+        assertThatThrownBy(() -> {
+            walletService.saveWallet(wallet.getCustomerId(),wallet.getVoucherId());
+        }).isInstanceOf(ResourceDuplication.class);
     }
 
     @Test
@@ -77,13 +72,25 @@ class WalletServiceTest {
         //Given
         var newWallet = new Wallet(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID());
         when(walletRepository.getWalletWithCustomerAndVoucher(newWallet.getCustomerId(),newWallet.getVoucherId())).thenReturn(Optional.empty());
-        when(walletRepository.saveWallet(newWallet)).thenReturn(Optional.of(newWallet));
+        when(walletRepository.saveWallet(any())).thenReturn(Optional.of(newWallet));
 
         //When
-        var savedWallet = walletService.saveWallet(newWallet);
+        var savedWallet = walletService.saveWallet(newWallet.getCustomerId(),newWallet.getVoucherId());
 
         //Then
-        assertThat(savedWallet.get()).as("Wallet").isEqualToComparingFieldByField(newWallet);
+        assertThat(savedWallet).as("Wallet").isEqualToComparingFieldByField(newWallet);
+    }
+
+    @Test
+    void saveWalletWithJdbcFail(){
+        //Given
+        var newWallet = new Wallet(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID());
+        when(walletRepository.getWalletWithCustomerAndVoucher(newWallet.getCustomerId(),newWallet.getVoucherId())).thenReturn(Optional.empty());
+        when(walletRepository.saveWallet(any())).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> {
+            walletService.saveWallet(newWallet.getCustomerId(),newWallet.getVoucherId());
+        }).isInstanceOf(JdbcQueryFail.class);
     }
 
     @Test
@@ -164,5 +171,18 @@ class WalletServiceTest {
         assertThat(returnWalletList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(walletList);
+    }
+
+    @Test
+    void deleteWallet(){
+        //Given
+        when(walletRepository.findWalletById(wallet.getWalletId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.deleteWallets(wallet)).thenReturn(true);
+
+        //When
+        var deleteResult = walletService.deleteWallet(wallet);
+
+        //Then
+        assertThat(deleteResult).isTrue();
     }
 }

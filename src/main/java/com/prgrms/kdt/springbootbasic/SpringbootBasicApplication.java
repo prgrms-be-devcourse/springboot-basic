@@ -2,6 +2,7 @@ package com.prgrms.kdt.springbootbasic;
 
 import com.prgrms.kdt.springbootbasic.controller.VoucherController;
 import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.exception.NotSupportedCommandException;
 import com.prgrms.kdt.springbootbasic.inputPackage.CustomInput;
 import com.prgrms.kdt.springbootbasic.outputPackage.CustomOutput;
 import com.prgrms.kdt.springbootbasic.returnFormats.VoucherInfo;
@@ -11,11 +12,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 public class SpringbootBasicApplication {
@@ -37,13 +36,19 @@ public class SpringbootBasicApplication {
 	public void runVoucherProgramInOrder() throws IOException {
 		String command = "";
 
-		//일단 종료 상황을 명시는 했는데, handle Command 안에서 처리를 하고 싶어서 그렇게 해서 사용은 되지 않습니다....
-		//이게 맞을까요? 의미는 없지만 명시를 하는게...?
 		while(!command.equals("exit")) {
 			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] Start New Process");
 			customOutput.informCommandWithConsole();
-			command = customInput.getCommand();
+			var inputCommand = customInput.getCommand();
+			if (inputCommand.isEmpty()){
+				customOutput.wrongInput();
+				continue;
+			}
+			command = inputCommand.get();
 			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] Command : {}", command);
+			if (command.equals("exit")){
+				break;
+			}
 			handleCommand(command);
 			customOutput.informProcessEnd();
 			logger.info("[SpringbootBasicApplication : runVoucherProgramInOrder] End New Process");
@@ -51,7 +56,9 @@ public class SpringbootBasicApplication {
 	}
 
 	public void handleCommand(String command){
-		CommandEnum.getCommandEnum(command).runCommand();
+		var commandObject = CommandEnum.getCommandEnum(command);
+		if (commandObject != null)
+			commandObject.runCommand();
 	}
 
 
@@ -94,7 +101,12 @@ public class SpringbootBasicApplication {
 
 		public void createVoucher() throws IOException {
 			customOutput.informNewVoucherInfo();
-			VoucherInfo voucherInfo = customInput.getNewVoucherInfo();
+			var newVoucherInfo = customInput.getNewVoucherInfo();
+			if (newVoucherInfo.isEmpty()){
+				customOutput.errorOccurred();
+				return;
+			}
+			VoucherInfo voucherInfo = newVoucherInfo.get();
 			String voucherType = voucherInfo.getVoucherType();
 			long discountAmount= voucherInfo.getDiscountAmount();
 
