@@ -14,6 +14,7 @@ import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.type.VoucherType;
 
 @Component
@@ -34,19 +35,19 @@ public class FixVoucherManager implements VoucherManager {
 
 	@Override
 	public Voucher create() {
-		boolean isReEnter = true;
+		boolean isRunnable = true;
 		String fixPrice = NOT_DECISION;
 
-		while (isReEnter) {
+		while (isRunnable) {
 			fixPrice = input.read(BasicMessage.Voucher.FIX_VOUCHER_SELECT_MESSAGE);
 
 			if (!this.isValidPrice(fixPrice)) {
-				log.info("error : {}", ErrorMessage.CLIENT_ERROR);
+				log.info(LogMessage.InfoLogMessage.getPrefix(), LogMessage.InfoLogMessage.NOT_VALID_INPUT);
 				output.write(ErrorMessage.CLIENT_ERROR);
 				continue;
 			}
 
-			isReEnter = false;
+			isRunnable = false;
 		}
 
 		return FixedAmountVoucher.create(Long.parseLong(fixPrice));

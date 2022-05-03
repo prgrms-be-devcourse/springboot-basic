@@ -32,7 +32,8 @@ public class LogMessage {
 		INFO_PREFIX("info : {}"),
 		DUPLICATE_VOUCHER_REGISTER("쿠폰 등록을 재시도 하였습니다."),
 		POSSIBLE_REGISTER("쿠폰 등록이 가능한 회원 입니다."),
-		CUSTOMER_NOT_EXIST_EMAIL("회원이 존재하지 않습니다.");
+		CUSTOMER_NOT_EXIST_EMAIL("회원이 존재하지 않습니다."),
+		NOT_VALID_INPUT("유효성 검증 실패");
 
 		private final String message;
 

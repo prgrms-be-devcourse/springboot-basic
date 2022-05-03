@@ -45,7 +45,7 @@ public class CustomerController implements Controller {
 	public void run() {
 		CustomerMenuType menuType = CustomerMenuType.NONE;
 
-		while (menuType.isReEnter()) {
+		while (menuType.isRunnable()) {
 			String menu = input.read(BasicMessage.Customer.CUSTOMER_INIT);
 			menuType = CustomerMenuType.of(menu);
 
@@ -76,13 +76,13 @@ public class CustomerController implements Controller {
 	}
 
 	private void unMappingVoucher() {
-		boolean isRenter = true;
+		boolean isRunnable = true;
 		String email = EMPTY_STRING;
 
 		do {
 			email = input.read(BasicMessage.Customer.CUSTOMER_UN_MAPPING_EMAIL);
-			isRenter = customerService.notExistByEmail(email);
-		} while (isRenter);
+			isRunnable = customerService.notExistByEmail(email);
+		} while (isRunnable);
 
 		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
 		String voucherBundles = responses
@@ -101,45 +101,45 @@ public class CustomerController implements Controller {
 		do {
 			voucher = input.read(BasicMessage.Customer.CUSTOMER_UN_MAPPING_VOUCHER);
 			voucherIdentity = TranslatorUtils.toUUID(voucher.getBytes());
-			isRenter = !validVoucherIds.contains(voucherIdentity);
-		} while (isRenter);
+			isRunnable = !validVoucherIds.contains(voucherIdentity);
+		} while (isRunnable);
 
 		customerService.unMappingVoucher(email, voucherIdentity);
 
 	}
 
 	private void registerVoucher() {
-		boolean isRenter = true;
+		boolean isRunnable = true;
 
 		do {
 			String[] informationBundles = input.read(BasicMessage.Customer.CUSTOMER_REGISTER_COUPON).split(DEFAULT_DELIMITER);
 			CustomerDto.RegisterVoucherDto registerVoucherDto = getCustomerDtoConverter().convert(informationBundles);
 			Optional<UUID> customerVoucherDto = customerService.registerVoucher(registerVoucherDto);
 
-			isRenter = customerVoucherDto.isEmpty();
+			isRunnable = customerVoucherDto.isEmpty();
 
-			if (isRenter) {
+			if (isRunnable) {
 				output.write(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 				continue;
 			}
-		} while (isRenter);
+		} while (isRunnable);
 
 		output.write(BasicMessage.Customer.CUSTOMER_REGISTER_COMPLETE);
 	}
 
 	private void listUpWithVoucher() {
-		boolean isRenter = true;
+		boolean isRunnable = true;
 		String email = EMPTY_STRING;
 
 		do {
 			email = input.read(BasicMessage.Customer.CUSTOMER_LIST_UP_WITH_VOUCHER);
-			isRenter = customerService.notExistByEmail(email);
+			isRunnable = customerService.notExistByEmail(email);
 
-			if (isRenter) {
+			if (isRunnable) {
 				output.write(BasicMessage.Customer.CUSTOMER_NOT_EXIST_EMAIL);
 			}
 
-		} while (isRenter);
+		} while (isRunnable);
 
 		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(email);
 
@@ -158,20 +158,20 @@ public class CustomerController implements Controller {
 
 	//todo : validation check
 	private void create() {
-		boolean isRenter = true;
+		boolean isRunnable = true;
 
 		do {
 			String customerInformation = input.read(BasicMessage.Customer.CUSTOMER_CREATE);
 			String[] informationBundles = customerInformation.split(DEFAULT_DELIMITER);
 			CustomerDto.SaveRequestDto requestDto = getSaveRequestDtoConverter().convert(informationBundles);
 			Optional<Customer> savedCustomer = customerService.save(requestDto);
-			isRenter = savedCustomer.isEmpty();
+			isRunnable = savedCustomer.isEmpty();
 
-			if (isRenter) {
+			if (isRunnable) {
 				output.write(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 			}
 
-		} while (isRenter);
+		} while (isRunnable);
 	}
 
 	private Converter<String[], CustomerDto.SaveRequestDto> getSaveRequestDtoConverter() {

@@ -33,7 +33,7 @@ public class DomainMenu {
 					.orElseGet(() -> NONE);
 		}
 
-		public boolean isReEnter() {
+		public boolean isRunnable() {
 			return this != EXIT;
 		}
 
