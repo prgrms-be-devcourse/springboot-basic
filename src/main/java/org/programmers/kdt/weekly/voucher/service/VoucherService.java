@@ -26,6 +26,12 @@ public class VoucherService {
         return voucherRepository.insert(voucherType.create(voucherDto));
     }
 
+    public Voucher create(VoucherType voucherType, long value) {
+        VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), value, LocalDateTime.now());
+
+        return voucherRepository.insert(voucherType.create(voucherDto));
+    }
+
     public List<Voucher> getVouchers() {
         return this.voucherRepository.findAll();
     }

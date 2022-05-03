@@ -26,13 +26,13 @@ public class VoucherController {
 
     @PostMapping("/new-voucher")
     public String create(CreateVoucherRequest createVoucherRequest) {
-        voucherService.create(createVoucherRequest.getVoucherId(),
+        voucherService.create(
             createVoucherRequest.getVoucherType(), createVoucherRequest.getValue());
 
         return "redirect:/";
     }
 
-    @GetMapping("/voucher")
+    @GetMapping("/vouchers")
     public String list(Model model) {
         var vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);

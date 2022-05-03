@@ -29,7 +29,7 @@ public class RestVoucherController {
     @PostMapping("/api/v1/new-voucher")
     public Voucher create(@RequestBody CreateVoucherRequest createVoucherRequest) {
 
-        return voucherService.create(createVoucherRequest.getVoucherId(),
+        return voucherService.create(
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getValue());
     }
