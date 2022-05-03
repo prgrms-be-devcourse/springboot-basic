@@ -8,11 +8,11 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +69,7 @@ public class VoucherMvcController {
         return "redirect:/vouchers";
     }
 
-    @RequestMapping("/vouchers/delete/{uuid}")
+    @DeleteMapping("/vouchers/{uuid}")
     public String deleteVoucher(@PathVariable UUID uuid) {
         voucherService.deleteById(uuid);
         return "redirect:/vouchers";

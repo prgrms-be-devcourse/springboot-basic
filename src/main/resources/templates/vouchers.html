@@ -23,14 +23,17 @@
     </thead>
     <tbody>
     <tr th:each="voucher: ${fixVouchers}" th:object="${fixVouchers}">
-        <td th:text="${voucher.voucherId}" th:href="@{/vouchers/(uuid=${voucher.voucherId})}"></td>
+        <td th:text="${voucher.voucherId}"></td>
         <td>Fixed Voucher</td>
         <td th:text="${voucher.amount}"></td>
         <td>
             <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
         </td>
         <td>
-            <a th:href="@{/vouchers/delete/{uuid}(uuid = ${voucher.voucherId})}" >삭제</a>
+            <form th:action="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}" method="POST" >
+                <input type="hidden" name="_method" value="DELETE"/>
+                <input type="submit" value="삭제">
+            </form>
         </td>
     </tr>
     </tbody>
@@ -55,7 +58,10 @@
             <a th:href="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}">디테일 페이지 이동</a>
         </td>
         <td>
-            <a th:href="@{/vouchers/delete/{uuid}(uuid = ${voucher.voucherId})}" >삭제</a>
+            <form th:action="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}" method="POST" >
+                <input type="hidden" name="_method" value="DELETE"/>
+                <input type="submit" value="삭제">
+            </form>
         </td>
     </tr>
     </tbody>
