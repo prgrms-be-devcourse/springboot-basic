@@ -44,7 +44,8 @@
 
 <h3>Update Voucher</h3>
 
-<form th:action="@{/vouchers/update/{uuid}(uuid = ${voucher.voucherId})}" method="post">
+<form th:action="@{/vouchers/{uuid}(uuid = ${voucher.voucherId})}" method="post">
+    <input type="hidden" name="_method" value="PUT"/>
     <table class="table table-striped table-hover">
         <thead>
         <tr>
