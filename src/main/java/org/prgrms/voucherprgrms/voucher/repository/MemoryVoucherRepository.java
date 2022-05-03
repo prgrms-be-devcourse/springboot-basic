@@ -4,6 +4,7 @@ import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,6 +28,21 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return new ArrayList(storage.values());
+    }
+
+    @Override
+    public List<Voucher> findByCreated(LocalDateTime date) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(String DTYPE) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
     }
 
     @Override
