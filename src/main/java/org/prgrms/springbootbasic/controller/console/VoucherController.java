@@ -1,5 +1,7 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.controller.console;
 
+import org.prgrms.springbootbasic.controller.Menu;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Email;
 import org.prgrms.springbootbasic.entity.customer.Name;
 import org.prgrms.springbootbasic.exception.ServiceException;
@@ -8,9 +10,11 @@ import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 @Controller
+@Profile("console")
 public class VoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
@@ -71,7 +75,7 @@ public class VoucherController {
     public void printList() {
         logger.info("printList() called");
 
-        view.printList(voucherService.findAll());
+        view.printList((voucherService.findAll()));
     }
 
     public void printBlackList() {

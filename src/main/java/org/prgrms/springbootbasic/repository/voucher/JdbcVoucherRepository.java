@@ -9,9 +9,12 @@ import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSER
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTING_WAS_UPDATED_EXP_MSG;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentDiscountVoucher;
@@ -34,10 +37,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_BY_CUSTOMER_SQL = "SELECT * FROM vouchers WHERE customer_id = uuid_to_bin(?)";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = uuid_to_bin(?)";
+    private static final String SELECT_BY_TYPE = "SELECT * FROM vouchers WHERE type = ?";
+    private static final String SELECT_BY_CREATEDAT = "SELECT * FROM vouchers where date(created_at) BETWEEN ? AND ?";
     private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, type, amount, percent) VALUES (uuid_to_bin(?), ?, ?, ?)";
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_VOUCHER_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = uuid_to_bin(?)";
     private static final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = uuid_to_bin(?) WHERE voucher_id = uuid_to_bin(?)";
+    
 
     //Column
     private static final String COLUMN_TYPE = "type";
@@ -46,20 +52,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String COLUMN_PERCENT = "percent";
     private static final String COLUMN_CUSTOMER_ID = "customer_id";
 
+
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
-        var type = resultSet.getString(COLUMN_TYPE);
-        var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
-        var customerId = resultSet.getBytes(COLUMN_CUSTOMER_ID) != null ?
-            toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID)) : null;
-        if (type.equals(FIXED.toString())) {
-            var amount = resultSet.getInt(COLUMN_AMOUNT);
-            return new FixedAmountVoucher(voucherId, customerId, amount);
-        } else {
-            var percent = resultSet.getInt(COLUMN_PERCENT);
-            return new PercentDiscountVoucher(voucherId, customerId, percent);
-        }
-    };
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -160,4 +154,36 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG.getMessage());
         }
     }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        logger.info("findByType() called");
+
+        return jdbcTemplate.query(SELECT_BY_TYPE,
+            mapToVoucher,
+            voucherType.toString());
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startTime, LocalDateTime endTime) {
+        return jdbcTemplate.query(
+            SELECT_BY_CREATEDAT,
+            mapToVoucher,
+            startTime.format(DateTimeFormatter.ISO_LOCAL_DATE),
+            endTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
+    }
+
+    private final RowMapper<Voucher> mapToVoucher = (resultSet, i) -> {
+        var type = resultSet.getString(COLUMN_TYPE);
+        var voucherId = toUUID(resultSet.getBytes(COLUMN_VOUCHER_ID));
+        var customerId = resultSet.getBytes(COLUMN_CUSTOMER_ID) != null ?
+            toUUID(resultSet.getBytes(COLUMN_CUSTOMER_ID)) : null;
+        if (type.equals(FIXED.toString())) {
+            var amount = resultSet.getInt(COLUMN_AMOUNT);
+            return new FixedAmountVoucher(voucherId, customerId, amount);
+        } else {
+            var percent = resultSet.getInt(COLUMN_PERCENT);
+            return new PercentDiscountVoucher(voucherId, customerId, percent);
+        }
+    };
 }

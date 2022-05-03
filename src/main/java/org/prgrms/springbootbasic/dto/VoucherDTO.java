@@ -10,12 +10,15 @@ public class VoucherDTO implements Serializable {
     private final VoucherType voucherType;
     private final int amount;
     private final int percent;
+    private final UUID customerId;
 
-    public VoucherDTO(UUID voucherId, VoucherType voucherType, int amount, int percent) {
+    public VoucherDTO(UUID voucherId, VoucherType voucherType, int amount, int percent,
+        UUID customerId) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.amount = amount;
         this.percent = percent;
+        this.customerId = customerId;
     }
 
     public UUID getVoucherId() {
@@ -32,5 +35,9 @@ public class VoucherDTO implements Serializable {
 
     public int getPercent() {
         return percent;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
     }
 }

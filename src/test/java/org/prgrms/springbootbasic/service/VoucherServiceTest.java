@@ -109,7 +109,9 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherList)
-            .containsExactlyInAnyOrder(fixedAmountVoucher, percentDiscountVoucher);
+            .extracting(Voucher::getVoucherId)
+            .containsExactlyInAnyOrder(fixedAmountVoucher.getVoucherId(),
+                percentDiscountVoucher.getVoucherId());
     }
 
     @DisplayName("voucher를 customer에게 할당 기능 - 정상 상황")
@@ -213,5 +215,62 @@ class VoucherServiceTest {
         //then
         assertThatThrownBy(() -> voucherService.findCustomerVoucher(customerId))
             .isInstanceOf(InvalidCustomerIdException.class);
+    }
+
+    @DisplayName("voucherId로 voucher 조회 - 정상 상황")
+    @Test
+    void findVoucher() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        //when
+        var foundVoucher = voucherService.findVoucher(voucher.getVoucherId());
+
+        //then
+        assertThat(foundVoucher).isEqualTo(voucher);
+    }
+
+    @DisplayName("voucherId로 voucher 조회 - 정상 상황")
+    @Test
+    void findVoucherException() {
+        //given
+        var voucherId = UUID.randomUUID();
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.findVoucher(voucherId))
+            .isInstanceOf(InvalidVoucherIdException.class);
+    }
+
+    @DisplayName("voucher 삭제 - 정상 케이스")
+    @Test
+    void deleteVoucher() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        //when
+        var deletedVoucherId = voucherService.deleteVoucher(voucher.getVoucherId());
+
+        //then
+        var inOrder = inOrder(voucherRepository);
+        inOrder.verify(voucherRepository).findById(voucher.getVoucherId());
+        inOrder.verify(voucherRepository).deleteVoucher(voucher);
+        assertThat(deletedVoucherId).isEqualTo(voucher.getVoucherId());
+    }
+
+    @DisplayName("voucher 삭제 - 존재하지 않는 voucher 삭제")
+    @Test
+    void deleteVoucherException() {
+        //given
+        var invalidUUID = UUID.randomUUID();
+        when(voucherRepository.findById(invalidUUID)).thenReturn(Optional.empty());
+
+        //when
+        //then
+        assertThatThrownBy(() -> voucherService.deleteVoucher(invalidUUID))
+            .isInstanceOf(InvalidVoucherIdException.class);
     }
 }

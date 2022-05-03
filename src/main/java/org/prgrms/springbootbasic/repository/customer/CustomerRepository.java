@@ -21,4 +21,6 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     List<Customer> findByVoucherType(VoucherType type);
+
+    UUID deleteById(UUID customerId);
 }

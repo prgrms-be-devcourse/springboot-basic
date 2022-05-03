@@ -18,14 +18,16 @@ public class FileConverter {
                 voucher.getVoucherId(),
                 VoucherType.FIXED,
                 ((FixedAmountVoucher) voucher).getAmount(),
-                0
+                0,
+                voucher.getCustomerId()
             );
         } else {
             return new VoucherDTO(
                 voucher.getVoucherId(),
                 VoucherType.PERCENT,
                 0,
-                ((PercentDiscountVoucher) voucher).getPercent()
+                ((PercentDiscountVoucher) voucher).getPercent(),
+                voucher.getCustomerId()
             );
         }
     }

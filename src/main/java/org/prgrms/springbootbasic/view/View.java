@@ -35,5 +35,5 @@ public interface View {
 
     UUID selectCustomerId();
 
-    void printCustomerVouchers(List<Voucher> customerVoucher);
+    void printCustomerVouchers(List<Voucher> customerVouchers);
 }

@@ -71,6 +71,17 @@ public class CustomerService {
         return customerRepository.findByVoucherType(voucherType);
     }
 
+    public Customer findCustomer(UUID customerId) {
+        return customerRepository.findById(customerId)
+            .orElseThrow(() -> new InvalidCustomerIdException(INVALID_CUSTOMER_ID_EXP_MSG));
+    }
+
+    @Transactional
+    public UUID deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+        return customerId;
+    }
+
     private void validateDuplicateEmail(String email) {
         logger.info("validateDuplicateEmail() called");
 

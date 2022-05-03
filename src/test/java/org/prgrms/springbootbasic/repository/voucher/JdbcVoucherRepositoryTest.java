@@ -11,6 +11,7 @@ import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELET
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.zaxxer.hikari.HikariDataSource;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.AfterAll;
@@ -20,6 +21,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.entity.customer.Customer;
 import org.prgrms.springbootbasic.entity.customer.Email;
 import org.prgrms.springbootbasic.entity.customer.Name;
@@ -214,6 +216,61 @@ class JdbcVoucherRepositoryTest {
             new FixedAmountVoucher(UUID.randomUUID(), 20)))
             .isInstanceOf(RuntimeException.class)
             .hasMessageContaining(NOTHING_WAS_DELETED_EXP_MSG.getMessage());
+    }
+
+    @DisplayName("바우처 fixed 타입으로 바우처 조회")
+    @Test
+    void findByFixType() {
+        //given
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+
+        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByType(VoucherType.FIXED);
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher, voucher2);
+    }
+
+    @DisplayName("바우처 percnet 타입으로 바우처 조회")
+    @Test
+    void findByPercentPercent() {
+        //given
+        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByType(VoucherType.PERCENT);
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher, voucher2);
+    }
+
+    @Test
+    @DisplayName("생성일(날짜) 기준 바우처 조회")
+    void findByCreatedAt() {
+        //given
+        var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+
+        jdbcVoucherRepository.save(voucher1);
+        jdbcVoucherRepository.save(voucher2);
+
+        //when
+        var vouchers = jdbcVoucherRepository.findByCreatedAt(
+            LocalDateTime.now(), LocalDateTime.now());
+
+        //then
+        assertThat(vouchers)
+            .containsExactlyInAnyOrder(voucher1, voucher2);
     }
 
     @Configuration

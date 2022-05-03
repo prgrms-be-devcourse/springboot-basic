@@ -2,6 +2,7 @@ package org.prgrms.springbootbasic.repository.customer;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.GOT_EMPTY_RESULT_MSG;
+import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_DELETED_EXP_MSG;
 import static org.prgrms.springbootbasic.repository.DBErrorMsg.NOTHING_WAS_INSERTED_EXP_MSG;
 
 import java.nio.ByteBuffer;
@@ -34,7 +35,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
             + " WHERE v.type = ?";
     private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email) VALUES (UUID_TO_BIN(?), ?, ?)";
     private static final String DELETE_ALL_SQL = "DELETE FROM customers";
+    private static final String DELETE_BY_ID = "DELETE FROM customers WHERE customer_id = uuid_to_bin(?)";
     private static final String UPDATE_BY_ID_SQL = "UPDATE customers SET name = ? WHERE customer_id = UUID_TO_BIN(?)";
+
 
     //Column
     private static final String COLUMN_CUSTOMER_ID = "customer_id";
@@ -135,5 +138,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query(SELECT_BY_VOUCHER_TYPE_SQL,
             mapToCustomer,
             type.name());
+    }
+
+    @Override
+    public UUID deleteById(UUID customerId) {
+        logger.info("deleteById() called");
+
+        var delete = jdbcTemplate.update(DELETE_BY_ID,
+            customerId.toString().getBytes());
+        if (delete != 1) {
+            throw new RuntimeException(NOTHING_WAS_DELETED_EXP_MSG.getMessage());
+        }
+        return customerId;
     }
 }
