@@ -46,8 +46,6 @@ class JdbcTemplateVoucherRepositoryTest {
                     .password("programmers")
                     .type(HikariDataSource.class)
                     .build();
-            datasource.setMaximumPoolSize(1000);
-            datasource.setMinimumIdle(100);
             return datasource;
         }
 
