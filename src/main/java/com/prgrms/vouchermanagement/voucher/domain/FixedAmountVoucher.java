@@ -5,19 +5,15 @@ import java.util.UUID;
 
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 
-public class FixedAmountVoucher implements Voucher {
-	private final VoucherType type = VoucherType.FIXED;
-	private final UUID voucherId;
+public class FixedAmountVoucher extends Voucher {
 	private final long amount;
-	private final LocalDateTime createdAt;
 
 	public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+		super(VoucherType.FIXED, voucherId, createdAt);
 		if (amount <= 0) {
 			throw new IllegalArgumentException("FixedAmountVoucher - Amount should be positive");
 		}
-		this.voucherId = voucherId;
 		this.amount = amount;
-		this.createdAt = createdAt;
 	}
 
 	@Override
@@ -26,20 +22,6 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public VoucherType getType() {
-		return type;
-	}
-
-	@Override
-	public UUID getVoucherId() {
-		return this.voucherId;
-	}
-
-	@Override
-	public LocalDateTime getCreatedTime() {
-		return createdAt;
-	}
-
 	public long discount(long beforeDiscount) {
 		long discountedAmount = beforeDiscount - amount;
 
