@@ -47,4 +47,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
 		throw new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR);
 	}
+
+	@Override
+	public int exsitsByVocuher(UUID voucherId) {
+		return memory.contains(voucherId) ? 1 : -1;
+	}
 }

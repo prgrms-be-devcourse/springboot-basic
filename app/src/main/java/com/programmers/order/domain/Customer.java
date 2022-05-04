@@ -29,9 +29,10 @@ public class Customer {
 		this.createdAt = createdAt;
 	}
 
-	public void changeName(CustomerDto.UpdateCustomer updateCustomer) {
+	public Customer changeName(CustomerDto.UpdateCustomer updateCustomer) {
 		validateName(updateCustomer.getNameToChange());
 		this.name = updateCustomer.getNameToChange();
+		return this;
 	}
 
 	public UUID getCustomerId() {

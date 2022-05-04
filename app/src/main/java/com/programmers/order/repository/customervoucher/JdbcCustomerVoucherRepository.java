@@ -1,5 +1,6 @@
 package com.programmers.order.repository.customervoucher;
 
+import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -131,27 +132,27 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	}
 
 	@Override
-	public List<Voucher> joinVouchers(UUID customerId) {
+	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
 		return namedParameterJdbcTemplate.query(
 				"select v.* from customer_voucher cv join vouchers v on v.voucher_id = cv.voucher_id where cv.customer_id = uuid_to_bin(:customerId)",
-				Collections.singletonMap("customerId", customerId),
+				Collections.singletonMap("customerId", customerId.toString().getBytes()),
 				(rs, rowNum) -> getVoucherMapper(rs));
 	}
 
 	@Override
-	public List<Customer> joinCustomers(String voucherId) {
+	public List<Customer> joinCustomers(UUID voucherId) {
 		return namedParameterJdbcTemplate.query(
 				"select c.* from customer_voucher cv join customers c on c.customer_id = cv.customer_id where cv.voucher_id = uuid_to_bin(:voucherId)",
-				Collections.singletonMap("voucherId", voucherId),
+				Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
 				CUSTOMER_ROW_MAPPER);
 	}
 
 	@Override
 	public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
 		namedParameterJdbcTemplate.update(
-				"DELETE FROM customers where customer_id = :customerId and voucher_id= :voucherId", Map.ofEntries(
-						Map.entry("voucherId", voucherId),
-						Map.entry("customerId", customerId)
+				"DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId) and voucher_id= UUID_TO_BIN(:voucherId)", Map.ofEntries(
+						Map.entry("voucherId", voucherId.toString().getBytes()),
+						Map.entry("customerId", customerId.toString().getBytes())
 				));
 
 	}

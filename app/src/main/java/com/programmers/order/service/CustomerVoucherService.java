@@ -50,18 +50,19 @@ public class CustomerVoucherService {
 	}
 
 	public List<Voucher> getVouchersForCustomer(UUID customerId) {
-		return customerVoucherRepository.joinVouchers(customerId);
+		return customerVoucherRepository.findVouchersByCustomerId(customerId);
 	}
 
-	public List<Customer> getCustomerForVoucher(String voucherId) {
+	public List<Customer> getCustomerForVoucher(UUID voucherId) {
 		return customerVoucherRepository.joinCustomers(voucherId);
 	}
 
-	public Optional<Voucher> findById(UUID voucherId) {
+	public Optional<Voucher> findVoucherById(UUID voucherId) {
 		return customerVoucherRepository.findVoucherByVoucherId(voucherId);
 	}
 
+	@Transactional
 	public void deleteByCustomerIdAndVoucherId(UUID customerIdentity, UUID voucherIdentity) {
-		customerVoucherRepository.deleteByCustomerIdAndVoucherId(customerIdentity,voucherIdentity);
+		customerVoucherRepository.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
 	}
 }

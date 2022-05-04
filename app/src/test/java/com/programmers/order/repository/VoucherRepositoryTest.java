@@ -1,6 +1,8 @@
 package com.programmers.order.repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hamcrest.MatcherAssert;
@@ -67,24 +69,27 @@ class VoucherRepositoryTest {
 		List<Voucher> vouchers = getVouchers();
 
 		//when
-		AtomicInteger index = new AtomicInteger();
 		List<Voucher> insertedVouchers = voucherRepository.findAll();
 
 		//then
 		MatcherAssert.assertThat(vouchers.size(), Matchers.is(2));
-
 	}
 
 	@Test
 	@DisplayName("voucher id 조회")
-	void testFindById() {
+	void testHasVoucher() {
 		//given
+		String voucherId = "c068b0a3-a80d-449c-af93-d96924c6d2af";
 		//when
-
+		UUID uuid = UUID.fromString(voucherId);
+		Optional<Voucher> findingVoucher = voucherRepository.findById(uuid);
 		//then
+
+		Assertions.assertNotNull(findingVoucher);
+		System.out.println("findingVoucher = " + findingVoucher.get());
 	}
 
-	public List<Voucher> getVouchers() {
+	private List<Voucher> getVouchers() {
 		return List.of(FixedAmountVoucher.create(1000), PercentDiscountVoucher.create(10));
 	}
 

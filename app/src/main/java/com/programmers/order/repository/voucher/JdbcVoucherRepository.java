@@ -41,15 +41,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		this.namedParameterJdbcTemplate = namedJdbcTemplate;
 	}
 
-	private Map<String, Object> toParameters(Voucher voucher) {
-		return new HashMap<>() {{
-			put("voucherId", voucher.getVoucherId().toString().getBytes());
-			put("voucherType", voucher.getVoucherType());
-			put("discountValue", voucher.getDiscountValue());
-			put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
-		}};
-	}
-
 	@Override
 	public Voucher insert(Voucher voucher) {
 		int update = namedParameterJdbcTemplate.update(
@@ -90,6 +81,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
 				"DELETE FROM customers where customer_id = :customerId",
 				Collections.singletonMap("voucher_id", voucherId.toString().getBytes())
 		);
+	}
+
+	@Override
+	public int exsitsByVocuher(UUID voucherId) {
+		return namedParameterJdbcTemplate.queryForObject(
+				"select count(*) from vouchers where voucher_id UUID_TO_BIN(:voucherId)",
+				Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+				Integer.class
+		);
+	}
+
+	private Map<String, Object> toParameters(Voucher voucher) {
+		return new HashMap<>() {{
+			put("voucherId", voucher.getVoucherId().toString().getBytes());
+			put("voucherType", voucher.getVoucherType());
+			put("discountValue", voucher.getDiscountValue());
+			put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+		}};
 	}
 
 	private RowMapper<Voucher> getVoucherRowMapper() {

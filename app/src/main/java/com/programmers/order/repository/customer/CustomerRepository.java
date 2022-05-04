@@ -22,5 +22,7 @@ public interface CustomerRepository {
 
 	int count();
 
+	int countByEmail(String email);
+
 	void deleteAll();
 }

@@ -18,7 +18,6 @@ import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.message.LogMessage;
 import com.programmers.order.repository.customer.CustomerRepository;
-import com.programmers.order.utils.TranslatorUtils;
 
 @Service
 @Transactional(readOnly = true)
@@ -76,14 +75,15 @@ public class CustomerService {
 	}
 
 	public Optional<Customer> findById(String uuid) {
-		return customerRepository.findById(TranslatorUtils.toUUID(uuid.getBytes()));
+		UUID id = UUID.fromString(uuid);
+		return customerRepository.findById(id);
 	}
 
 	@Transactional
 	public Optional<UUID> registerVoucher(CustomerDto.RegisterVoucherDto registerVoucherDto) {
 
 		try {
-			Voucher voucher = customerVoucherService.findById(registerVoucherDto.getVoucherId())
+			Voucher voucher = customerVoucherService.findVoucherById(registerVoucherDto.getVoucherId())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 			Customer customer = this.findByEmail(registerVoucherDto.getEmail())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
@@ -114,12 +114,13 @@ public class CustomerService {
 							voucher.getCreatedAt()
 					)).toList();
 		} catch (DomainException.NotFoundResource e) {
-			log.info(LogMessage.InfoLogMessage.getPrefix(),LogMessage.InfoLogMessage.CUSTOMER_NOT_EXIST_EMAIL);
+			log.info(LogMessage.InfoLogMessage.getPrefix(), LogMessage.InfoLogMessage.CUSTOMER_NOT_EXIST_EMAIL);
 		}
 
 		return List.of();
 	}
 
+	@Transactional
 	public void unMappingVoucher(String email, UUID voucherIdentity) {
 		Customer customer = customerRepository.findByEmail(email)
 				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.INTERNAL_PROGRAM_ERROR));

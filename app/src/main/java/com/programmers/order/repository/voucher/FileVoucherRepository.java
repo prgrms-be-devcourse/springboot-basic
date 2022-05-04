@@ -87,6 +87,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	}
 
+	@Override
+	public int exsitsByVocuher(UUID voucherId) {
+		return 0;
+	}
+
 	private ObjectWriter getWriter() {
 		File csvFile = this.getCsvFile();
 

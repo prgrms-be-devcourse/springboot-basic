@@ -18,6 +18,8 @@ import com.programmers.order.utils.TranslatorUtils;
 @Service
 public class VoucherService {
 
+	public static final int NOT_EXIST = -1;
+	public static final int EXIST = 1;
 	private final CustomerVoucherService customerVoucherService;
 	private final VoucherRepository voucherRepository;
 
@@ -35,11 +37,17 @@ public class VoucherService {
 		return voucherRepository.findAll();
 	}
 
-	public boolean isNotExist(String voucherId) {
-		UUID uuid = UUID.fromString(voucherId);
-		Optional<Voucher> voucher = voucherRepository.findById(uuid);
+	public boolean hasNotVoucher(String voucherId) {
+		UUID id = UUID.fromString(voucherId);
+		Optional<Voucher> voucher = voucherRepository.findById(id);
 
-		return voucher.isEmpty();
+		return voucherRepository.exsitsByVocuher(id) == NOT_EXIST;
+	}
+
+	public boolean hasVoucher(String voucherId) {
+		UUID id = UUID.fromString(voucherId);
+		boolean isExist = true;
+		return voucherRepository.exsitsByVocuher(id) == EXIST;
 	}
 
 	public Optional<Voucher> findById(UUID voucherId) {
@@ -47,7 +55,7 @@ public class VoucherService {
 	}
 
 	public List<CustomerDto.ResponseDto> lookUpForCustomer(String voucherId) {
-		return customerVoucherService.getCustomerForVoucher(voucherId)
+		return customerVoucherService.getCustomerForVoucher(UUID.fromString(voucherId))
 				.stream()
 				.map(customer -> new CustomerDto.ResponseDto(customer.getEmail(), customer.getName()))
 				.toList();

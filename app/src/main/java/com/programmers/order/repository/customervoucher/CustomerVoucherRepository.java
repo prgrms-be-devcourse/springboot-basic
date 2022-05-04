@@ -18,9 +18,9 @@ public interface CustomerVoucherRepository {
 
 	boolean isDuplicatePublish(UUID customerId, UUID voucherId);
 
-	List<Voucher> joinVouchers(UUID customerId);
+	List<Voucher> findVouchersByCustomerId(UUID customerId);
 
-	List<Customer> joinCustomers(String voucherId);
+	List<Customer> joinCustomers(UUID voucherId);
 
 	void deleteByCustomerIdAndVoucherId(UUID customerIdentity, UUID voucherIdentity);
 }

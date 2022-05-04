@@ -135,7 +135,7 @@ public class VoucherController implements Controller {
 
 		do {
 			voucherId = input.read(BasicMessage.Voucher.VOUCHER_LIST_UP_WITH_CUSTOMER);
-			isReEnter = voucherService.isNotExist(voucherId);
+			isReEnter = voucherService.hasNotVoucher(voucherId);
 		} while (isReEnter);
 
 		String value = voucherService.lookUpForCustomer(voucherId)

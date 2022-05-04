@@ -73,6 +73,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
+	public int countByEmail(String email) {
+		return namedParameterJdbcTemplate.queryForObject("select count(*) from customers where email=:email",
+				Collections.singletonMap("email", email),
+				Integer.class);
+	}
+
+	@Override
 	public Customer insert(Customer customer) {
 		int update = namedParameterJdbcTemplate.update(
 				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name , :email, :createdAt)",
