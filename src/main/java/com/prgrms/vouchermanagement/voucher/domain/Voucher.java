@@ -12,7 +12,7 @@ public abstract class Voucher {
 	private final Discountable discounter;
 	private final long discountInfo;
 
-	public Voucher(VoucherType type, UUID voucherId, LocalDateTime createdAt, Discountable discounter,
+	protected Voucher(VoucherType type, UUID voucherId, LocalDateTime createdAt, Discountable discounter,
 		long discountInfo) {
 		checkNull(type, "Voucher : type 은 null 일 수 없습니다");
 		checkNull(voucherId, "Voucher : ID는 null 일 수 없습니다");
