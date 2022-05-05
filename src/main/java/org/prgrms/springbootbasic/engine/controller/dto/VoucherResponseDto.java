@@ -7,11 +7,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VoucherResponseDto {
-    private UUID voucherId;
-    private Integer value;
-    private VoucherType voucherType;
-    private LocalDateTime createdAt;
-    private UUID customerId;
+    private final UUID voucherId;
+    private final Integer value;
+    private final VoucherType voucherType;
+    private final LocalDateTime createdAt;
+    private final UUID customerId;
 
     public VoucherResponseDto(Voucher entity) {
         this.voucherId = entity.getVoucherId();

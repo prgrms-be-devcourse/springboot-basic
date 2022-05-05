@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class CustomerResponseDto {
-    private UUID customerId;
-    private String name;
-    private String email;
-    private LocalDateTime lastLoginAt;
-    private LocalDateTime createdAt;
-    private List<UUID> ownedVouchers = new ArrayList<>();
+    private final UUID customerId;
+    private final String name;
+    private final String email;
+    private final LocalDateTime lastLoginAt;
+    private final LocalDateTime createdAt;
+    private final List<UUID> ownedVouchers = new ArrayList<>();
 
     public CustomerResponseDto(Customer entity) {
         this.customerId = entity.getCustomerId();

@@ -8,9 +8,10 @@ import java.util.UUID;
 public class VoucherUpdateRequestDto {
     private final UUID voucherId;
     private final Integer value;
-    private Optional<UUID> customerId;
+    private final Optional<UUID> customerId;
 
     public VoucherUpdateRequestDto(String voucherId, Integer value, String customerId) {
+        UUID id = null;
         this.value = value;
         try {
             this.voucherId = UUID.fromString(voucherId);
@@ -18,10 +19,10 @@ public class VoucherUpdateRequestDto {
             throw new VoucherException("Invalid Id format.");
         }
         try {
-            this.customerId = Optional.of(UUID.fromString(customerId));
-        } catch (IllegalArgumentException ex) {
-            this.customerId = Optional.empty();
+            id = UUID.fromString(customerId);
+        } catch (IllegalArgumentException ignored) {
         }
+        this.customerId = Optional.ofNullable(id);
     }
 
     public UUID getVoucherId() {

@@ -1,8 +1,8 @@
 package org.prgrms.springbootbasic.engine.controller.dto;
 
 public class CustomerCreateRequestDto {
-    private String name;
-    private String email;
+    private final String name;
+    private final String email;
 
     public CustomerCreateRequestDto(String name, String email) {
         this.name = name;
