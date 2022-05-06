@@ -26,11 +26,10 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer createCustomer(String email, String name) {
+    public void createCustomer(String email, String name) {
         log.info("[CustomerService] createCustomer() called");
 
-        var customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
-        return customerRepository.insert(customer);
+        customerRepository.insert(new Customer(UUID.randomUUID(), name, email, LocalDateTime.now()));
     }
 
     @Transactional(readOnly = true)

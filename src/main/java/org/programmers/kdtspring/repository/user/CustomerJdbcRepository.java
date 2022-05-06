@@ -1,6 +1,8 @@
 package org.programmers.kdtspring.repository.user;
 
 import org.programmers.kdtspring.entity.user.Customer;
+import org.programmers.kdtspring.entity.user.Email;
+import org.programmers.kdtspring.entity.user.Name;
 import org.programmers.kdtspring.exception.CustomerInsertFailed;
 import org.programmers.kdtspring.exception.CustomerUpdateFailed;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+        return new Customer(customerId, customerName, email, createdAt);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -43,8 +45,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
+            put("name", customer.getName().getName());
+            put("email", customer.getEmail().getEmail());
             put("cratedAt", Timestamp.valueOf(customer.getCreatedAt()));
             put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
         }};
@@ -52,7 +54,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
+        var update = jdbcTemplate.update(
+                "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :cratedAt)",
                 toParamMap(customer));
         if (update != 1) {
             throw new CustomerInsertFailed("Noting was inserted");
