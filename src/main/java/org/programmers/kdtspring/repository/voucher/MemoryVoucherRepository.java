@@ -38,8 +38,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateCustomerId(Voucher voucher) {
-        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
+    public void updateCustomerId(Voucher voucher) {
+        throw new NotAvailableMethod("이 메서드는 지원하지 않습니다.");
     }
 
     @Override

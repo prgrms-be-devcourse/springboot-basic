@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -116,17 +117,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateCustomerId(Voucher voucher) {
+    public void updateCustomerId(Voucher voucher) {
         log.info("[VoucherService] updateCustomerId called()");
 
         int update = jdbcTemplate.update(
                 "UPDATE vouchers SET customer_id = UUID_TO_BIN(?) WHERE voucher_id = uuid_to_bin(?)",
-                voucher.getCustomerId().toString().getBytes(),
+                voucher.getVoucherId().toString().getBytes(),
                 voucher.getVoucherId().toString().getBytes());
         if (update != 1) {
             throw new VoucherUpdateFailed("Nothing was updated");
         }
-        return voucher;
     }
 
     @Override

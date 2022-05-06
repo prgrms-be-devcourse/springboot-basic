@@ -87,7 +87,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateCustomerId(Voucher voucher) {
+    public void updateCustomerId(Voucher voucher) {
         throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 
