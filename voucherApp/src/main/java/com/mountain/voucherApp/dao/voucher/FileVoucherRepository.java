@@ -96,7 +96,6 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-
     @Override
     public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
         return storage.stream()

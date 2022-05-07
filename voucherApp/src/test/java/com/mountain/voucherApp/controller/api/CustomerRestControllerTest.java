@@ -46,7 +46,6 @@ class CustomerRestControllerTest {
                 .andExpect(jsonPath("$.[0].createdAt").exists())
         ;
     }
-
     @Test
     @DisplayName("등록된 고객을 조회할 수 있다 - JSON.")
     void testCustomersAPI() throws Exception {

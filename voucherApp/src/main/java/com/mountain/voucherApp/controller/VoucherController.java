@@ -58,7 +58,7 @@ public class VoucherController {
         return "/voucher/voucher-list";
     }
 
-    @GetMapping("select-vouchers")
+    @GetMapping("/select-vouchers")
     public String selectVouchersPage(Model model) {
         model.addAttribute("vouchers", voucherService.findAll());
         return "/voucher/voucher-list-select";
