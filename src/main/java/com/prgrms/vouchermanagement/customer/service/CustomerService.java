@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
+import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.commons.exception.NotExistException;
 import com.prgrms.vouchermanagement.customer.domain.Customer;
 import com.prgrms.vouchermanagement.customer.repository.CustomerRepository;
@@ -19,7 +20,7 @@ public class CustomerService {
 	}
 
 	@Transactional
-	public Customer join(String name, String email) {
+	public Customer join(String name, String email) throws CreationFailException, AlreadyExistException {
 		checkBlankString(name, "name 에는 빈 칸이 올 수 없습니다");
 		checkBlankString(email, "email 에는 빈 칸이 올 수 없습니다");
 		checkDuplicatedEmail(email);
@@ -28,9 +29,16 @@ public class CustomerService {
 
 		checkDuplicatedId(id);
 
-		Customer customer = new Customer(id, name, email);
+		return customerRepository
+			.insert(createCustomer(id, name, email));
+	}
 
-		return customerRepository.insert(customer);
+	private Customer createCustomer(UUID id, String name, String email) {
+		try {
+			return new Customer(id, name, email);
+		} catch (IllegalArgumentException e) {
+			throw new CreationFailException(e);
+		}
 	}
 
 	@Transactional(readOnly = true)
