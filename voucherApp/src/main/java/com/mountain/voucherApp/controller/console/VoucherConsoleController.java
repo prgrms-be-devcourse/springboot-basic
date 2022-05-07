@@ -29,17 +29,21 @@ public class VoucherConsoleController {
         this.voucherAppService = voucherAppService;
     }
 
-    public void create() throws IllegalArgumentException {
+    public void create() {
         outputConsole.choiceDiscountPolicy();
-        int policyOrdinal = Integer.valueOf(inputConsole.input());
-        DiscountPolicy discountPolicy = DiscountPolicy.find(policyOrdinal);
-        if (discountPolicy == null)
-            throw new IllegalArgumentException(WRONG_VALUE.getMessage());
-        outputConsole.printMessage(PLEASE_AMOUNT);
-        long discountAmount = Long.valueOf(inputConsole.input());
-        Voucher voucher = discountPolicy.getVoucher();
-        if (voucher.validate(discountAmount)) {
-            voucherAppService.create(new VoucherCreateDto(discountPolicy, discountAmount));
+        try {
+            int policyOrdinal = Integer.valueOf(inputConsole.input());
+            DiscountPolicy discountPolicy = DiscountPolicy.find(policyOrdinal);
+            if (discountPolicy == null)
+                throw new IllegalArgumentException(WRONG_VALUE.getMessage());
+            outputConsole.printMessage(PLEASE_AMOUNT);
+            long discountAmount = Long.valueOf(inputConsole.input());
+            Voucher voucher = discountPolicy.getVoucher();
+            if (voucher.validate(discountAmount)) {
+                voucherAppService.create(new VoucherCreateDto(discountPolicy, discountAmount));
+            }
+        } catch (NumberFormatException numberFormatException) {
+            throw numberFormatException;
         }
     }
 
