@@ -67,7 +67,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     public CustomerDto update(CustomerDto customerDto) {
         Map paramMap = toParamMap(customerDto);
         int executeUpdate = jdbcTemplate.update(
-                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId), name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = UUID_TO_BIN(:customerId)",
+                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId), name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
@@ -84,7 +84,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
         }};
         int executeUpdate = jdbcTemplate.update(
-                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId) where customer_id = UUID_TO_BIN(:customerId)",
+                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId) WHERE customer_id = UUID_TO_BIN(:customerId)",
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
@@ -95,7 +95,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public int count() {
         return jdbcTemplate.queryForObject(
-                "select count(*) from customers",
+                "SELECT count(*) FROM customers",
                 Collections.emptyMap(),
                 Integer.class
         );
@@ -103,7 +103,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public List<CustomerDto> findAll() {
-        return jdbcTemplate.query("select * from customers", customerRowMapper)
+        return jdbcTemplate.query("SELECT * FROM customers", customerRowMapper)
                 .stream()
                 .map((customerEntity) -> customerMapper.mapToDomainEntity(customerEntity))
                 .collect(Collectors.toList());
@@ -115,7 +115,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(
                     customerMapper.mapToDomainEntity(
                             jdbcTemplate.queryForObject(
-                                    "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                                    "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
                                     Collections.singletonMap(CUSTOMER_ID_CAMEL.getValue(), customerId.toString().getBytes()),
                                     customerRowMapper
                             )
@@ -132,7 +132,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
         }};
         return jdbcTemplate.query(
-                "select * from customers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                "SELECT * FROM customers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap,
                 customerRowMapper
         ).stream()
@@ -144,7 +144,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     public Optional<CustomerDto> findByName(String name) {
         try {
             return Optional.ofNullable(customerMapper.mapToDomainEntity(jdbcTemplate.queryForObject(
-                    "select * from customers WHERE name = :name",
+                    "SELECT * FROM customers WHERE name = :name",
                     Collections.singletonMap(NAME.getValue(), name),
                     customerRowMapper
             )));
@@ -158,7 +158,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     public Optional<CustomerDto> findByEmail(String email) {
         try {
             return Optional.ofNullable(customerMapper.mapToDomainEntity(jdbcTemplate.queryForObject(
-                    "select * from customers WHERE email = :email",
+                    "SELECT * FROM customers WHERE email = :email",
                     Collections.singletonMap(EMAIL.getValue(), email),
                     customerRowMapper
             )));
@@ -175,7 +175,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public List<CustomerDto> findByVoucherIdNotNull() {
-        return jdbcTemplate.query("select * from customers where voucher_id is not null", customerRowMapper)
+        return jdbcTemplate.query("SELECT * FROM customers WHERE voucher_id IS NOT NULL", customerRowMapper)
                 .stream()
                 .map(customerEntity -> customerMapper.mapToDomainEntity(customerEntity))
                 .collect(Collectors.toList());
@@ -183,7 +183,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void removeByCustomerId(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap(CUSTOMER_ID_CAMEL.getValue(),
+        jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)", Collections.singletonMap(CUSTOMER_ID_CAMEL.getValue(),
                 customerId.toString().getBytes(StandardCharsets.UTF_8)));
     }
 
@@ -193,7 +193,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
         }};
         jdbcTemplate.update(
-                "UPDATE customers SET voucher_id = null where voucher_id = UUID_TO_BIN(:voucherId)",
+                "UPDATE customers SET voucher_id = null WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap
         );
     }

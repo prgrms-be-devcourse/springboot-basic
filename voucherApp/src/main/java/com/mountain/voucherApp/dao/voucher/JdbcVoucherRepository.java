@@ -35,7 +35,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<VoucherEntity> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes()),
                     voucherEntityRowMapper
             ));
@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<VoucherEntity> findAll() {
-        return jdbcTemplate.query("select * from vouchers", voucherEntityRowMapper);
+        return jdbcTemplate.query("SELECT * FROM vouchers", voucherEntityRowMapper);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public VoucherEntity update(VoucherEntity voucherEntity) {
         Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
-                "UPDATE vouchers SET discount_policy = :discountPolicy, discount_amount = :discountAmount where voucher_id = UUID_TO_BIN(:voucherId)",
+                "UPDATE vouchers SET discount_policy = :discountPolicy, discount_amount = :discountAmount WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap
         );
         if (executeUpdate != 1) {
@@ -83,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }};
         try {
             Optional<VoucherEntity> voucherEntity = Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select * from vouchers WHERE discount_policy = :discountPolicy and discount_amount = :discountAmount",
+                    "SELECT * FROM vouchers WHERE discount_policy = :discountPolicy AND discount_amount = :discountAmount",
                     paramMap,
                     voucherEntityRowMapper
             ));
@@ -99,8 +99,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Map<String, Object> paramMap = new HashMap<>() {{
             put(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes(StandardCharsets.UTF_8));
         }};
-        jdbcTemplate.update("DELETE from vouchers where voucher_id = UUID_TO_BIN(:voucherId)"
-                ,paramMap
+        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)"
+                , paramMap
         );
     }
 
