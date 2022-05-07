@@ -11,9 +11,18 @@ public class VoucherEntity {
     private Long discountAmount;
 
     public VoucherEntity(UUID voucherId, DiscountPolicy discountPolicy, Long discountAmount) {
+        validate(discountPolicy, discountAmount);
         this.voucherId = voucherId;
         this.discountPolicy = discountPolicy;
         this.discountAmount = discountAmount;
+    }
+
+    private void validate(DiscountPolicy discountPolicy, Long discountAmount) {
+        try {
+            discountPolicy.getVoucher().validate(discountAmount);
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
     }
 
     public UUID getVoucherId() {

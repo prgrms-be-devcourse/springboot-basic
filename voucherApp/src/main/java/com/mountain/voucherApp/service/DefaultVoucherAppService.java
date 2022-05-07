@@ -42,10 +42,14 @@ public class DefaultVoucherAppService implements VoucherAppService {
                 voucherCreateDto.getDiscountAmount()
         );
         if (!findEntity.isPresent()) {
-            VoucherEntity newVoucherEntity = new VoucherEntity(UUID.randomUUID(),
-                    voucherCreateDto.getDiscountPolicy(),
-                    voucherCreateDto.getDiscountAmount());
-            voucherRepository.insert(newVoucherEntity);
+            try {
+                VoucherEntity newVoucherEntity = new VoucherEntity(UUID.randomUUID(),
+                        voucherCreateDto.getDiscountPolicy(),
+                        voucherCreateDto.getDiscountAmount());
+                voucherRepository.insert(newVoucherEntity);
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
             log.info(CREATE_NEW_VOUCHER);
             return true;
         }
