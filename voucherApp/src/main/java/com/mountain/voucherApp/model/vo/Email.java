@@ -15,10 +15,14 @@ public class Email {
     private static final int MAX = 50;
 
     public Email(String address) {
+        validate(address);
+        this.address = address;
+    }
+
+    private void validate(String address) {
         Assert.notNull(address, NOT_BLANK.getMessage());
         Assert.isTrue(address.length() >= MIN && address.length() <= MAX, EMAIL_OUT_OF_RANGE.getMessage());
         Assert.isTrue(RegExp.EMAIL.validate(address), RegExp.EMAIL.getErrorMsg());
-        this.address = address;
     }
 
     public String getAddress() {

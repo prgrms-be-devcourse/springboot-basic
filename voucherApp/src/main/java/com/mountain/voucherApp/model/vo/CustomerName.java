@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.model.vo;
 
+import java.security.InvalidParameterException;
 import java.util.Objects;
 
 import static com.mountain.voucherApp.common.constants.ErrorMessage.NOT_BLANK;
@@ -9,10 +10,14 @@ public class CustomerName {
     private final String name;
 
     public CustomerName(String name) {
-        if (name.isBlank()) {
-            throw new RuntimeException(NOT_BLANK.getMessage());
-        }
+        validate(name);
         this.name = name;
+    }
+
+    private void validate(String name) {
+        if (name.isBlank()) {
+            throw new InvalidParameterException(NOT_BLANK.getMessage());
+        }
     }
 
     public String getName() {
