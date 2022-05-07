@@ -72,4 +72,10 @@ public class VoucherController {
         voucherService.allocateVoucher(voucher.get().getVoucherId(), updateVoucherRequest.getCustomerId());
         return "redirct:/vouchers";
     }
+
+    @PostMapping("/{voucherId}/delete")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.removeVoucher(voucherId);
+        return "redirect:/vouchers";
+    }
 }
