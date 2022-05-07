@@ -16,6 +16,7 @@ import static com.mountain.voucherApp.common.utils.MenuUtil.isExit;
 @Controller
 public class ConsoleMainController {
     private static final Logger log = LoggerFactory.getLogger(ConsoleMainController.class);
+
     private final InputConsole inputConsole;
     private final OutputConsole outputConsole;
     private final VoucherConsoleController voucherConsoleController;
