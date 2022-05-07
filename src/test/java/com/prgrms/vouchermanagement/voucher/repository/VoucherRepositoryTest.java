@@ -14,9 +14,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.prgrms.vouchermanagement.commons.exception.UpdateFailException;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
@@ -44,11 +44,11 @@ class VoucherRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("중복 ID 를 갖는 voucher 를 새로 저장하려고 할 경우 UpdateFailException 을 던진다")
+	@DisplayName("중복 ID 를 갖는 voucher 를 새로 저장하려고 할 경우 DuplicateKeyException 을 던진다")
 	void given_id_when_findVoucher_thenSuccess() {
 		Voucher voucher = VoucherType.FIXED.getVoucher(existingId, 100, LocalDateTime.now());
 
-		Assertions.assertThrows(UpdateFailException.class, () -> voucherRepository.insert(voucher));
+		Assertions.assertThrows(DuplicateKeyException.class, () -> voucherRepository.insert(voucher));
 	}
 
 	@Test
@@ -66,7 +66,6 @@ class VoucherRepositoryTest {
 	@Test
 	@DisplayName("데이터를 저장하고 ID 를 사용해서 찾아온 후 ID를 사용해 삭제할 수 있어야 한다")
 	void given_repositoryAndData_When_saveData_thenFindingThatDataSuccess() {
-		// given
 		UUID id = UUID.randomUUID();
 		Voucher voucher = VoucherType.FIXED.getVoucher(id, 1000L, LocalDateTime.now());
 

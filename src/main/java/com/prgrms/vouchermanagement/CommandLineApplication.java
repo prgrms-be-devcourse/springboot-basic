@@ -73,13 +73,9 @@ public class CommandLineApplication {
 
 		long voucherDiscountInfo = getVoucherInfo();
 
-		voucherService.create(voucherType, voucherDiscountInfo)
-			.ifPresentOrElse(voucher ->
-				outputView.printVoucher(VoucherInfo
-					.fromEntity(voucher)), () ->
-				outputView.printErrorMessage(ErrorMessage.CREATION_FAIL
-					.getInfoMessage())
-			);
+		outputView.printVoucher(VoucherInfo.fromEntity(
+			voucherService.create(voucherType, voucherDiscountInfo)
+		));
 	}
 
 	private long getVoucherInfo() {

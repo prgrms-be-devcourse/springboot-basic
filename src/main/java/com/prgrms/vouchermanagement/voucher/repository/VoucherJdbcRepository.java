@@ -10,13 +10,11 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.prgrms.vouchermanagement.commons.exception.UpdateFailException;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
@@ -51,18 +49,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		try {
-			jdbcTemplate.update(
-				"INSERT INTO vouchers(voucher_id, type, discount_info, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
-				voucher.getVoucherId().toString().getBytes(),
-				voucher.getType().getMappingCode(),
-				voucher.getDiscountInfo(),
-				Timestamp.valueOf(voucher.getCreatedTime()));
-		} catch (DataAccessException e) {
-			logger.info("Voucher {} insert fail", voucher, e);
-
-			throw new UpdateFailException(e);
-		}
+		jdbcTemplate.update(
+			"INSERT INTO vouchers(voucher_id, type, discount_info, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+			voucher.getVoucherId().toString().getBytes(),
+			voucher.getType().getMappingCode(),
+			voucher.getDiscountInfo(),
+			Timestamp.valueOf(voucher.getCreatedTime()));
 
 		return voucher;
 	}
