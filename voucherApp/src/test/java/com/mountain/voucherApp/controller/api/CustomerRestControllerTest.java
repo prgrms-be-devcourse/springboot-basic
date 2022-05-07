@@ -67,25 +67,6 @@ class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("등록된 고객을 조회할 수 있다 - XML.")
-    void testCustomersXmlAPI() throws Exception {
-        List<CustomerDto> customers = List.of(
-                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("name"), new Email("name@email.com"), LocalDateTime.now(), LocalDateTime.now()),
-                new CustomerDto(UUID.randomUUID(), UUID.randomUUID(), new CustomerName("name2"), new Email("name2@email.com"), LocalDateTime.now(), LocalDateTime.now())
-        );
-        given(customerService.findAll()).willReturn(customers);
-
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/customers")
-                .accept(MediaType.APPLICATION_XML)
-        );
-        resultActions
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML.toString()))
-                .andExpect(status().isOk())
-                .andDo(print())
-        ;
-    }
-
-    @Test
     @DisplayName("VoucherID별로 고객리스트를 조회할 수 있다. - JSON")
     void testCustomersByVoucherIdAPI() throws Exception {
         UUID voucherId = UUID.randomUUID();

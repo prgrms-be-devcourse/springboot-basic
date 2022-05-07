@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,25 +65,6 @@ class VoucherRestControllerTest {
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString()))
                 .andExpect(status().isOk())
                 .andDo(print());
-    }
-
-    @Test
-    @Description("모든 바우처를 조회할 수 있다 - XML")
-    void testVouchersXmlAPI() throws Exception {
-        List<VoucherEntity> vouchers = List.of(
-                new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L),
-                new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 2000L)
-        );
-        given(voucherService.findAll()).willReturn(vouchers);
-
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/vouchers")
-                .accept(MediaType.APPLICATION_XML)
-        );
-        resultActions
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_XML.toString()))
-                .andExpect(status().isOk())
-                .andDo(print())
-        ;
     }
 
     @Test
