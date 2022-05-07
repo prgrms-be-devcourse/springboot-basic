@@ -46,7 +46,9 @@ public class VoucherRestController {
 
     @PostMapping
     public ResponseEntity<Voucher> createVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
-        Optional<Voucher> voucher = voucherService.createVoucher(createVoucherRequest.voucherType(), createVoucherRequest.discount());
+        Optional<Voucher> voucher = createVoucherRequest.getVoucherType().toString().equalsIgnoreCase("FixedAmountVoucher") ?
+                voucherService.createVoucher(createVoucherRequest.getVoucherType().toString(), createVoucherRequest.getAmount()) :
+                voucherService.createVoucher(createVoucherRequest.getVoucherType().toString(), createVoucherRequest.getPercent());
         return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 

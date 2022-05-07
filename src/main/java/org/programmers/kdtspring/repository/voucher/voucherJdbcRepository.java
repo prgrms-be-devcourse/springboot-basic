@@ -58,10 +58,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher instanceof FixedAmountVoucher) {
             int insert = jdbcTemplate.update(
-                    "INSERT INTO VOUCHERS(VOUCHER_ID, TYPE, AMOUNT, PERCENT, CUSTOMER_ID) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
+                    "INSERT INTO VOUCHERS(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
                     voucher.getVoucherId().toString().getBytes(),
                     VoucherType.FixedAmountVoucher.toString(),
                     voucher.getDiscount(),
+                    null,
                     null);
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
@@ -71,11 +72,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher instanceof PercentDiscountVoucher) {
             int insert = jdbcTemplate.update(
-                    "INSERT INTO vouchers(VOUCHER_ID, TYPE, AMOUNT, PERCENT, CUSTOMER_ID) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
-                    voucher.getVoucherId(),
+                    "INSERT INTO vouchers(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
+                    voucher.getVoucherId().toString().getBytes(),
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,
-                    voucher.getDiscount());
+                    voucher.getDiscount(),
+                    null);
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
             }
