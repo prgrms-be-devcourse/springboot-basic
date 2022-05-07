@@ -29,7 +29,7 @@ public class VoucherService {
 	}
 
 	@Transactional
-	public Optional<Voucher> create(VoucherType voucherType, long voucherDiscountInfo) {
+	public Voucher create(VoucherType voucherType, long voucherDiscountInfo) throws CreationFailException, AlreadyExistException {
 		checkNull(voucherType, "voucherType 는 null 이 올 수 없습니다");
 		checkNull(voucherDiscountInfo, "voucherDiscountInfo 는 null 이 올 수 없습니다");
 
@@ -37,19 +37,12 @@ public class VoucherService {
 
 		checkDuplicatedId(id);
 
-		Voucher voucher = null;
+		Voucher voucher = voucherType.getVoucher(id, voucherDiscountInfo, LocalDateTime.now());
 
-		try {
-			voucher = voucherType.getVoucher(id, voucherDiscountInfo, LocalDateTime.now());
+		voucherRepository.insert(voucher);
+		logger.info("VoucherService Publish new Voucher : {}", voucher);
 
-			voucherRepository.insert(voucher);
-
-			logger.info("Publish new Voucher : {}", voucher);
-		} catch (CreationFailException e) {
-			logger.error("{}", e.getMessage(), e);
-		}
-
-		return Optional.ofNullable(voucher);
+		return voucher;
 	}
 
 	@Transactional
@@ -67,9 +60,9 @@ public class VoucherService {
 	}
 
 	@Transactional(readOnly = true)
-	protected void checkDuplicatedId(UUID id) {
-		if(voucherRepository.findById(id)
-			.isPresent()){
+	void checkDuplicatedId(UUID id) {
+		if (voucherRepository.findById(id)
+			.isPresent()) {
 			throw new AlreadyExistException();
 		}
 	}
