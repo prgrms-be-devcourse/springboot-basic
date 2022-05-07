@@ -14,9 +14,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ActiveProfiles;
 
-import com.prgrms.vouchermanagement.commons.exception.UpdateFailException;
 import com.prgrms.vouchermanagement.customer.domain.Customer;
 
 @SpringBootTest
@@ -44,11 +44,11 @@ class CustomerRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("중복 ID 를 갖는 고객을 새로 저장하려고 할 경우 UpdateFailException 을 던진다")
+	@DisplayName("중복 ID 를 갖는 고객을 새로 저장하려고 할 경우 DuplicatedKeyException 을 던진다")
 	void given_id_when_findVoucher_thenSuccess() {
 		Customer customer = new Customer(existingId, "hello", "abc@naver.com", LocalDateTime.now());
 
-		Assertions.assertThrows(UpdateFailException.class, () -> customerRepository.insert(customer));
+		Assertions.assertThrows(DuplicateKeyException.class, () -> customerRepository.insert(customer));
 	}
 
 	@Test
