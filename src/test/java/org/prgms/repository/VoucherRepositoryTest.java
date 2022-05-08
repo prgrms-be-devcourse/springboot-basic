@@ -7,9 +7,6 @@ import org.prgms.domain.FixedAmountVoucher;
 import org.prgms.domain.PercentDiscountVoucher;
 import org.prgms.domain.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,10 +16,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@ActiveProfiles("test")
-class VoucherRepositoryTest {
+class VoucherRepositoryTest extends RepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
@@ -91,10 +85,9 @@ class VoucherRepositoryTest {
     @DisplayName("바우처 id로 삭제 테스트")
     void deleteByIdTest() {
         int deleteRow = voucherRepository.deleteById(voucher.getVoucherId());
-        List<Voucher> vouchers = voucherRepository.findAll();
+        Optional<Voucher> maybeVoucher = voucherRepository.findById(voucher.getVoucherId());
 
-        assertThat(deleteRow).isEqualTo(1);
-        assertThat(vouchers).containsExactlyInAnyOrder(voucher2);
+        assertThat(maybeVoucher.isEmpty()).isTrue();
     }
 
     @Test

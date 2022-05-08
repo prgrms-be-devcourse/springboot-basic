@@ -39,10 +39,8 @@ public class VoucherRestController {
     }
 
     @PostMapping("/voucher")
-    public ResponseEntity<Voucher> createVoucher(@RequestBody CreateVoucherRequest voucherRequest) {
-        Voucher voucher = voucherService.createVoucher(voucherRequest.voucherKind(), voucherRequest.discountAmount());
-
-        return new ResponseEntity<>(voucher, HttpStatus.OK);
+    public Voucher createVoucher(@RequestBody CreateVoucherRequest voucherRequest) {
+        return voucherService.createVoucher(voucherRequest.voucherKind(), voucherRequest.discountAmount());
     }
 
     @DeleteMapping("/voucher/{voucherId}")
