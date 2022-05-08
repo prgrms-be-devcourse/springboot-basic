@@ -7,6 +7,7 @@ import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
+import org.prgrms.vouchermanagement.voucher.voucher.dto.NewVoucher;
 import org.prgrms.vouchermanagement.voucher.voucher.dto.UpdatedVoucher;
 import org.springframework.stereotype.Service;
 
@@ -46,6 +47,12 @@ public class VoucherService {
     var newVoucher = VoucherFactory.createVoucher(voucherType, reduction, createdAt);
     voucherRepository.insert(newVoucher);
     return newVoucher;
+  }
+
+  public Voucher createVoucher(NewVoucher newVoucher) {
+    var voucher = VoucherFactory.createVoucher(newVoucher.getVoucherType(), newVoucher.getReduction(), LocalDateTime.now());
+    voucherRepository.insert(voucher);
+    return voucher;
   }
 
   public UUID deleteVoucher(UUID voucherId) {
