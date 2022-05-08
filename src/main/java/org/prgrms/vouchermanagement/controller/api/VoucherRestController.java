@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement.controller.api;
 
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,5 +39,10 @@ public class VoucherRestController {
   public ResponseEntity<Voucher> getVoucherByVoucherId(@RequestParam("voucherId") UUID voucherId) {
     var voucher = voucherService.getVoucherById(voucherId);
     return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/api/v1/vouchertype/{voucherType}")
+  public List<Voucher> getVouchersByVoucherType(@RequestParam("type") VoucherType voucherType) {
+    return voucherService.getVoucherByVoucherType(voucherType);
   }
 }

@@ -64,4 +64,8 @@ public class VoucherService {
   public Optional<Voucher> getVoucherById(UUID voucherId) {
     return voucherRepository.findById(voucherId);
   }
+
+  public List<Voucher> getVoucherByVoucherType(VoucherType voucherType) {
+    return voucherRepository.findByVoucherType(voucherType);
+  }
 }
