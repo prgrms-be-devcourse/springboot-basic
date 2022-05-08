@@ -1,5 +1,6 @@
 package org.prgms.controller;
 
+import org.prgms.controller.dto.CreateVoucherRequest;
 import org.prgms.domain.Voucher;
 import org.prgms.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,13 +23,13 @@ public class VoucherController {
 
     @GetMapping("/vouchers")
     public String vouchers(Model model) {
-        model.addAttribute("vouchers", voucherService.listVoucher());
+        model.addAttribute("vouchers", voucherService.getVouchers());
 
         return "vouchers";
     }
 
     @GetMapping("/vouchers/{voucherId}")
-    public String vouchers(@PathVariable UUID voucherId, Model model, HttpServletResponse httpServletResponse) {
+    public String vouchers(@PathVariable UUID voucherId, Model model) {
         Optional<Voucher> voucherOptional = voucherService.getVoucher(voucherId);
 
         if (voucherOptional.isEmpty()) {
@@ -42,9 +42,7 @@ public class VoucherController {
 
     @PostMapping("/new-voucher")
     public String createNewVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = createVoucherRequest.toVoucher();
-
-        voucherService.createVoucher(voucher);
+        voucherService.createVoucher(createVoucherRequest.voucherKind(), createVoucherRequest.discountAmount());
 
         return "redirect:/vouchers";
     }

@@ -26,7 +26,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String filename = String.format("./objects/%s.obj", voucher.getVoucherId().toString());
 
         try (FileOutputStream fos = new FileOutputStream(filename);
@@ -37,6 +37,7 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new RuntimeException(MessageFormat.format("해당하는 파일이 존재하지 않습니다. msg : {0}", e.getMessage()));
         }
+        return voucher;
     }
 
     @Override

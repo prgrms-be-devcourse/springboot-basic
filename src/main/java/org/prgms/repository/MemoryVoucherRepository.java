@@ -13,8 +13,9 @@ import java.util.UUID;
 public class MemoryVoucherRepository implements VoucherRepository {
     private final List<Voucher> db = new ArrayList<>();
 
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         db.add(voucher);
+        return voucher;
     }
 
     public List<Voucher> findAll() {
@@ -34,9 +35,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
+    public int deleteById(UUID voucherId) {
         Optional<Voucher> voucher = db.stream().filter(v -> v.getVoucherId() == voucherId).findFirst();
 
-        voucher.ifPresent(db::remove);
+        if (voucher.isEmpty()) {
+            return 0;
+        }
+
+        db.remove(voucher.get());
+        return 1;
     }
 }

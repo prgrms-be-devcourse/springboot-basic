@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
 
         VoucherType voucherType = getVoucherType(voucher);
 
@@ -39,11 +40,23 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getDiscountAmount(),
                 voucherType.name(),
                 LocalDateTime.now());
+
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers;", this::mapToVoucher);
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_kind= ?;", this::mapToVoucher, voucherType);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE DATE(created_at) between ? and ?", this::mapToVoucher, begin, end);
     }
 
     @Override
@@ -66,8 +79,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", UuidUtils.uuidToBytes(voucherId));
+    public int deleteById(UUID voucherId) {
+        return jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", UuidUtils.uuidToBytes(voucherId));
     }
 
     private Voucher mapToVoucher(ResultSet rs, int rowNum) throws SQLException {

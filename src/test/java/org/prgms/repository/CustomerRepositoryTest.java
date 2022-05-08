@@ -5,8 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +12,8 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class CustomerRepositoryTest {
+
+class CustomerRepositoryTest extends RepositoryTest {
 
     @Autowired
     private CustomerRepository jdbcCustomerRepository;
