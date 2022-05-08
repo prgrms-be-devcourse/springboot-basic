@@ -4,10 +4,7 @@ import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,10 +13,10 @@ import java.util.UUID;
 public class VoucherRestController {
   /**
    * - [*]  전체 조회기능
-   * - [ ]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+   * - [*]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
    * - [ ]  바우처 추가기능
    * - [ ]  바우처 삭제기능
-   * - [ ]  바우처 아이디로 조회 기능
+   * - [*]  바우처 아이디로 조회 기능
    */
   private final VoucherService voucherService;
 
@@ -44,5 +41,10 @@ public class VoucherRestController {
   @GetMapping("/api/v1/vouchertype/{voucherType}")
   public List<Voucher> getVouchersByVoucherType(@RequestParam("type") VoucherType voucherType) {
     return voucherService.getVoucherByVoucherType(voucherType);
+  }
+
+  @DeleteMapping("/api/v1/voucher/{voucherId}")
+  public void deleteVoucherByVoucherId(@RequestParam("voucherId") UUID voucherId) {
+    voucherService.deleteVoucher(voucherId);
   }
 }
