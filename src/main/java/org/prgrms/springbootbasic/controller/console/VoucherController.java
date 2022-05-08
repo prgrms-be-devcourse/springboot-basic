@@ -46,7 +46,7 @@ public class VoucherController {
             Menu menu = view.inputMenu();
             return menu.apply(this);
         } catch (ServiceException exception) {
-            logger.info("Got service exception");
+            logger.warn("Got service exception");
 
             view.printError(exception.getMessage());
             return true;
