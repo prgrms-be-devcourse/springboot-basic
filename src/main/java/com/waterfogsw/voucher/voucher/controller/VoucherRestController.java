@@ -35,8 +35,13 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseVoucherDto findVoucherById(@PathVariable("id") Long id) {
-        final var voucher = voucherService.findById(id);
+    public ResponseVoucherDto findVoucherById(@PathVariable("id") long id) {
+        final var voucher = voucherService.findVoucherById(id);
         return ResponseVoucherDto.from(voucher);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteVoucherById(@PathVariable("id") long id) {
+        voucherService.deleteVoucherById(id);
     }
 }

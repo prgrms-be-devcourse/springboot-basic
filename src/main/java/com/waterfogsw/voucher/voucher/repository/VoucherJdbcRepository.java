@@ -2,6 +2,7 @@ package com.waterfogsw.voucher.voucher.repository;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -76,8 +77,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(Long id) {
+    public Optional<Voucher> findById(long id) {
         return jdbcTemplate.query("select * from vouchers where voucher_id = :voucherId",
-                Collections.singletonMap("voucherId", id.toString()), voucherRowMapper).stream().findAny();
+                Collections.singletonMap("voucherId", String.valueOf(id)), voucherRowMapper).stream().findAny();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        final var deleteSql = "delete from vouchers where voucher_id = :id";
+        final var affectedRow = jdbcTemplate.update(deleteSql, Collections.singletonMap("id", String.valueOf(id)));
+
+        if (affectedRow != 1) {
+            throw new ResourceNotFoundException();
+        }
     }
 }

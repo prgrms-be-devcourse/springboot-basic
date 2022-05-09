@@ -3,6 +3,7 @@ package com.waterfogsw.voucher.voucher;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import com.waterfogsw.voucher.voucher.repository.VoucherJdbcRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
@@ -206,6 +207,47 @@ public class VoucherJdbcRepositoryTests {
                     final var found = voucherRepository.findById(-1L);
 
                     assertThat(found.isEmpty(), is(true));
+                }
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("deleteById 메서드는")
+    class Describe_deleteById {
+
+        @Nested
+        @DisplayName("존재하는 id 값이면")
+        class Context_with_call {
+
+            @Test
+            @Order(7)
+            @Transactional
+            @DisplayName("해당 바우처를 삭제한다")
+            void it_delete_voucher() {
+                final var voucher = new FixedAmountVoucher(0L, 1000);
+                voucherRepository.save(voucher);
+
+                final var findVoucher = voucherRepository.findById(0L);
+                assertThat(findVoucher.isPresent(), is(true));
+
+                voucherRepository.deleteById(0L);
+                final var findVoucherAfterDeleted = voucherRepository.findById(0);
+                assertThat(findVoucherAfterDeleted.isEmpty(), is(true));
+            }
+
+
+            @Nested
+            @DisplayName("존재하지 않는 id 값이면")
+            class Context_with_not_existing_id {
+
+                @Test
+                @Order(7)
+                @Transactional
+                @DisplayName("ResourceNotFoundException을 발생시킨다")
+                void it_return_saved_voucherList() {
+                    assertThrows(ResourceNotFoundException.class, () -> voucherRepository.deleteById(-1));
+
                 }
             }
         }

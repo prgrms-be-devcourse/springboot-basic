@@ -39,8 +39,13 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(Long id) {
+    public Optional<Voucher> findById(long id) {
         return Optional.ofNullable(voucherStore.get(id));
+    }
+
+    @Override
+    public void deleteById(long id) {
+
     }
 
     private Voucher createVoucherEntity(Voucher voucher) {

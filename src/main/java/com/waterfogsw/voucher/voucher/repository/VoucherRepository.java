@@ -10,5 +10,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findById(Long id);
+    Optional<Voucher> findById(long id);
+
+    void deleteById(long id);
 }

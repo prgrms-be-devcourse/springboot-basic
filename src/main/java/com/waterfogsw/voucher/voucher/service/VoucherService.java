@@ -9,5 +9,7 @@ public interface VoucherService {
 
     List<Voucher> findAllVoucher();
 
-    Voucher findById(long voucherId);
+    Voucher findVoucherById(long id);
+
+    void deleteVoucherById(long id);
 }

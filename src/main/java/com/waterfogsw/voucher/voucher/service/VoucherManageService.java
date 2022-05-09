@@ -30,11 +30,16 @@ public class VoucherManageService implements VoucherService {
     }
 
     @Override
-    public Voucher findById(long voucherId) {
-        final var voucher = voucherRepository.findById(voucherId);
+    public Voucher findVoucherById(long id) {
+        final var voucher = voucherRepository.findById(id);
         if (voucher.isEmpty()) {
             throw new ResourceNotFoundException();
         }
         return voucher.get();
+    }
+
+    @Override
+    public void deleteVoucherById(long id) {
+        voucherRepository.deleteById(id);
     }
 }

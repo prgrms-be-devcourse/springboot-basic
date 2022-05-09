@@ -108,7 +108,7 @@ public class VoucherServiceTests {
                 final var voucher = new FixedAmountVoucher(1L, 1000, LocalDateTime.now(), LocalDateTime.now());
                 when(voucherRepository.findById(anyLong())).thenReturn(Optional.of(voucher));
 
-                final var findVoucher = voucherService.findById(1L);
+                final var findVoucher = voucherService.findVoucherById(1L);
                 assertThat(findVoucher, samePropertyValuesAs(voucher));
             }
         }
@@ -122,7 +122,7 @@ public class VoucherServiceTests {
             void it_throw_IllegalArgumentException() {
                 when(voucherRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-                assertThrows(ResourceNotFoundException.class, () -> voucherService.findById(1L));
+                assertThrows(ResourceNotFoundException.class, () -> voucherService.findVoucherById(1L));
             }
         }
     }
