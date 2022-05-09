@@ -6,6 +6,7 @@ import org.prgrms.voucherprgrms.voucher.model.VoucherForm;
 import org.prgrms.voucherprgrms.voucher.model.VoucherSearchParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,17 @@ public class VoucherRestController {
 
     @PostMapping(value = "/api/v1/vouchers/new")
     @ResponseBody
-    public VoucherDTO createVoucher(@ModelAttribute VoucherForm voucherForm) {
-        return VoucherDTO.toVoucherDTO(voucherService.createVoucher(voucherForm));
+    public ResponseEntity<String> createVoucher(@ModelAttribute VoucherForm voucherForm) {
+        try {
+            voucherService.createVoucher(voucherForm);
+        } catch (IllegalArgumentException e) {
+            logger.error("CREATE VOUCHER ERROR(Illegal Argu)", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (DuplicateKeyException e) {
+            logger.error("CREATE VOUCHER ERROR(Duplicate Key)", e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>("생성 성공", HttpStatus.OK);
     }
 
     //voucher 조회

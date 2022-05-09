@@ -25,7 +25,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
 
-    public VoucherService(@Qualifier("named") VoucherRepository voucherRepository, VoucherCreator voucherCreator) {
+    public VoucherService(@Qualifier("namedParam") VoucherRepository voucherRepository, VoucherCreator voucherCreator) {
         this.voucherRepository = voucherRepository;
         this.voucherCreator = voucherCreator;
     }

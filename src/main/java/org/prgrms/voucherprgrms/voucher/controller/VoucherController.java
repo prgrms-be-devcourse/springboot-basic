@@ -44,7 +44,11 @@ public class VoucherController {
 
     @PostMapping("/vouchers/new")
     public String createVoucher(@ModelAttribute VoucherForm voucherForm) {
-        voucherService.createVoucher(voucherForm);
+        try {
+            voucherService.createVoucher(voucherForm);
+        }catch (RuntimeException e){
+            logger.error("CREATE VOUCHER ERROR", e);
+        }
         return "redirect:/vouchers";
     }
 
