@@ -8,13 +8,10 @@ import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +23,8 @@ public class RestVoucherController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/api/v1/new-voucher")
-    public Voucher create(@RequestBody CreateVoucherRequest createVoucherRequest) {
+    @PostMapping("/api/v1/voucher")
+    public Voucher create(CreateVoucherRequest createVoucherRequest) {
 
         return this.voucherService.create(
             createVoucherRequest.getVoucherType(),
@@ -54,14 +51,9 @@ public class RestVoucherController {
         return this.voucherService.getVoucherByCreatedAt(begin, end);
     }
 
-    @DeleteMapping(value = "/api/v1/vouchers/delete/{id}")
-    public ResponseEntity<UUID> delete(@PathVariable UUID id) {
-        var isRemoved = this.voucherService.deleteById(id);
+    @DeleteMapping("/api/v1/vouchers/{id}")
+    public boolean delete(@PathVariable UUID id) {
 
-        if (!isRemoved) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return this.voucherService.deleteById(id);
     }
 }
