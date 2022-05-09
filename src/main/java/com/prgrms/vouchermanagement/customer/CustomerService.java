@@ -40,8 +40,12 @@ public class CustomerService {
         return customerRepository.findById(customerId);
     }
 
-    public void removeCustomer(Long customerId) {
+    public boolean removeCustomer(Long customerId) {
+        if (!isRegisteredCustomer(customerId)) {
+            return false;
+        }
         customerRepository.remove(customerId);
+        return true;
     }
 
     /**

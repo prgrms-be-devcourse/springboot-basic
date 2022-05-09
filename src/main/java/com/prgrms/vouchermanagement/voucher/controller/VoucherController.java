@@ -65,15 +65,10 @@ public class VoucherController {
 
     @PostMapping(value = "/{voucherId}/remove")
     public String removeVoucher(@PathVariable Long voucherId) {
-        if (validateRegisteredVoucher(voucherId)) {
-            return "error/404";
+        if (voucherService.removeVoucher(voucherId)) {
+            return "redirect:/vouchers";
         }
 
-        voucherService.removeVoucher(voucherId);
-        return "redirect:/vouchers";
-    }
-
-    private boolean validateRegisteredVoucher(Long voucherId) {
-        return !voucherService.isRegisteredVoucher(voucherId);
+        return "error/404";
     }
 }

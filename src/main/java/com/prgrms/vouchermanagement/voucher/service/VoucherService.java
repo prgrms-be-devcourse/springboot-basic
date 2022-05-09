@@ -57,8 +57,11 @@ public class VoucherService {
         return voucherRepository.findVoucherByCustomer(customerId);
     }
 
-    public void removeVoucher(Long voucherId) {
+    public boolean removeVoucher(Long voucherId) {
+        if (!isRegisteredVoucher(voucherId)) {
+            return false;
+        }
         voucherRepository.remove(voucherId);
+        return true;
     }
-
 }

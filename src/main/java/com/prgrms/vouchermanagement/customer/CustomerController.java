@@ -61,15 +61,10 @@ public class CustomerController {
 
     @PostMapping(value = "/{customerId}/remove")
     public String removeCustomer(@PathVariable Long customerId) {
-        if (validateRegisteredCustomer(customerId)) {
-            return "error/404";
+        if (customerService.removeCustomer(customerId)) {
+            return "redirect:/customers";
         }
 
-        customerService.removeCustomer(customerId);
-        return "redirect:/customers";
-    }
-
-    private boolean validateRegisteredCustomer(Long customerId) {
-        return !customerService.isRegisteredCustomer(customerId);
+        return "error/404";
     }
 }
