@@ -19,13 +19,13 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public ResponseVoucherDto voucherAdd(@RequestBody RequestVoucherDto request) {
+    public ResponseVoucherDto addVoucher(@RequestBody RequestVoucherDto request) {
         final var savedVoucher = voucherService.saveVoucher(request.toDomain());
         return ResponseVoucherDto.from(savedVoucher);
     }
 
     @GetMapping
-    public List<ResponseVoucherDto> voucherList(PeriodDto periodDto, VoucherType voucherType) {
+    public List<ResponseVoucherDto> findVoucherAll(PeriodDto periodDto, VoucherType voucherType) {
         return voucherService.findAllVoucher()
                 .stream()
                 .filter((v) -> periodDto == null || periodDto.isBetween(v.getCreatedAt()))
@@ -35,7 +35,7 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseVoucherDto voucherFindById(@PathVariable("id") Long id) {
+    public ResponseVoucherDto findVoucherById(@PathVariable("id") Long id) {
         final var voucher = voucherService.findById(id);
         return ResponseVoucherDto.from(voucher);
     }
