@@ -15,17 +15,17 @@ import com.programmers.order.domain.Wallet;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.LogMessage;
-import com.programmers.order.repository.customervoucher.CustomerVoucherRepository;
+import com.programmers.order.repository.wallet.WalletRepository;
 
 @Transactional(readOnly = true)
 @Service
 public class WalletService {
 	private static final Logger log = LoggerFactory.getLogger(WalletService.class);
 
-	private final CustomerVoucherRepository customerVoucherRepository;
+	private final WalletRepository walletRepository;
 
-	public WalletService(CustomerVoucherRepository customerVoucherRepository) {
-		this.customerVoucherRepository = customerVoucherRepository;
+	public WalletService(WalletRepository walletRepository) {
+		this.walletRepository = walletRepository;
 	}
 
 	@Transactional
@@ -34,7 +34,7 @@ public class WalletService {
 				voucherId, LocalDateTime.now());
 
 		try {
-			customerVoucherRepository.insert(wallet);
+			walletRepository.insert(wallet);
 
 			return Optional.ofNullable(wallet.getWalletId());
 		} catch (JdbcException.NotExecuteQuery e) {
@@ -46,23 +46,23 @@ public class WalletService {
 	}
 
 	public boolean isDuplicatePublish(UUID customerId, UUID voucherId) {
-		return customerVoucherRepository.isDuplicatePublish(customerId, voucherId);
+		return walletRepository.isDuplicatePublish(customerId, voucherId);
 	}
 
 	public List<Voucher> getVouchersForCustomer(UUID customerId) {
-		return customerVoucherRepository.findVouchersByCustomerId(customerId);
+		return walletRepository.findVouchersByCustomerId(customerId);
 	}
 
 	public List<Customer> getCustomerForVoucher(UUID voucherId) {
-		return customerVoucherRepository.joinCustomers(voucherId);
+		return walletRepository.joinCustomers(voucherId);
 	}
 
 	public Optional<Voucher> findVoucherById(UUID voucherId) {
-		return customerVoucherRepository.findVoucherByVoucherId(voucherId);
+		return walletRepository.findVoucherByVoucherId(voucherId);
 	}
 
 	@Transactional
 	public void deleteByCustomerIdAndVoucherId(UUID customerIdentity, UUID voucherIdentity) {
-		customerVoucherRepository.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
+		walletRepository.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
 	}
 }

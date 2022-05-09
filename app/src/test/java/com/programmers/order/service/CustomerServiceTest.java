@@ -60,10 +60,10 @@ class CustomerServiceTest {
 		);
 		BDDMockito.given(customerRepository.insert(Mockito.any())).willReturn(demoCustomer);
 		// when
-		Optional<Customer> savedCustomer = customerService.save(saveRequestDto);
+		Customer savedCustomer = customerService.save(saveRequestDto);
 		// then
 		Assertions.assertNotNull(savedCustomer);
-		MatcherAssert.assertThat(savedCustomer.get(), is(demoCustomer));
+		MatcherAssert.assertThat(savedCustomer, is(demoCustomer));
 
 	}
 
@@ -87,10 +87,10 @@ class CustomerServiceTest {
 		BDDMockito.given(customerRepository.update(givenCustomer))
 				.willReturn(givenCustomer.changeName(givenUpdateCustomerDto));
 
-		Optional<Customer> expectedCustomer = customerService.update(givenUpdateCustomerDto);
+		Customer expectedCustomer = customerService.update(givenUpdateCustomerDto);
 
 		Assertions.assertNotNull(expectedCustomer);
-		MatcherAssert.assertThat(expectedCustomer.get(), samePropertyValuesAs(givenCustomer));
+		MatcherAssert.assertThat(expectedCustomer, samePropertyValuesAs(givenCustomer));
 	}
 
 	@DisplayName("고객 다건 조회")
@@ -162,7 +162,7 @@ class CustomerServiceTest {
 						demoCustomer.getEmail(), demoVoucher.getVoucherId().toString()
 				)
 		);
-		Optional<UUID> uuid = customerService.registerVoucher(registerVoucherDto);
+		Optional<UUID> uuid = customerService.register(registerVoucherDto);
 
 		Assertions.assertNotNull(uuid);
 		Assertions.assertEquals(uuid.get(), wallet.getWalletId());

@@ -33,33 +33,20 @@ public class CustomerService {
 	}
 
 	@Transactional
-	public Optional<Customer> save(CustomerDto.SaveRequestDto saveRequestDto) {
+	public Customer save(CustomerDto.SaveRequestDto saveRequestDto) {
 		Customer customer = saveRequestDto.toCustomer();
 
-		try {
-			return Optional.of(customerRepository.insert(customer));
-		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
-
-			return Optional.empty();
-		}
+		return customerRepository.insert(customer);
 	}
 
 	@Transactional
-	public Optional<Customer> update(CustomerDto.UpdateCustomer updateCustomer) {
+	public Customer update(CustomerDto.UpdateCustomer updateCustomer) {
 		String email = updateCustomer.getEmail();
+		Customer customer = customerRepository.findByEmail(email)
+				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
+		customer.changeName(updateCustomer);
 
-		try {
-			Customer customer = customerRepository.findByEmail(email)
-					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
-			customer.changeName(updateCustomer);
-
-			return Optional.of(customerRepository.update(customer));
-		} catch (JdbcException.NotExecuteQuery e) {
-			log.info(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
-
-			return Optional.empty();
-		}
+		return customerRepository.update(customer);
 	}
 
 	public List<Customer> findAll() {
@@ -80,7 +67,7 @@ public class CustomerService {
 	}
 
 	@Transactional
-	public Optional<UUID> registerVoucher(CustomerDto.RegisterVoucherDto registerVoucherDto) {
+	public Optional<UUID> register(CustomerDto.RegisterVoucherDto registerVoucherDto) {
 
 		try {
 			Voucher voucher = walletService.findVoucherById(registerVoucherDto.getVoucherId())

@@ -15,10 +15,12 @@ import org.springframework.stereotype.Component;
 import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.dto.VoucherDto;
+import com.programmers.order.exception.JdbcException;
 import com.programmers.order.io.Input;
 import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.service.CustomerService;
 import com.programmers.order.type.DomainMenu.CustomerMenuType;
 import com.programmers.order.type.ProgramType;
@@ -65,14 +67,13 @@ public class CustomerController implements Controller {
 				case NONE -> {
 					output.write(ErrorMessage.CLIENT_ERROR);
 					log.error("error : {}", ErrorMessage.CLIENT_ERROR);
-					continue;
+				}
+				case EXIT -> {
+					output.write(BasicMessage.CommonMessage.EXIT);
 				}
 			}
 
-			output.write(BasicMessage.CommonMessage.NEW_LINE);
 		}
-
-		output.write(BasicMessage.CommonMessage.EXIT);
 	}
 
 	private void unMappingVoucher() {
@@ -112,9 +113,10 @@ public class CustomerController implements Controller {
 		boolean isRunnable = true;
 
 		do {
-			String[] informationBundles = input.read(BasicMessage.Customer.CUSTOMER_REGISTER_COUPON).split(DEFAULT_DELIMITER);
+			String[] informationBundles = input.read(BasicMessage.Customer.CUSTOMER_REGISTER_COUPON)
+					.split(DEFAULT_DELIMITER);
 			CustomerDto.RegisterVoucherDto registerVoucherDto = getCustomerDtoConverter().convert(informationBundles);
-			Optional<UUID> customerVoucherDto = customerService.registerVoucher(registerVoucherDto);
+			Optional<UUID> customerVoucherDto = customerService.register(registerVoucherDto);
 
 			isRunnable = customerVoucherDto.isEmpty();
 
@@ -163,14 +165,16 @@ public class CustomerController implements Controller {
 			String customerInformation = input.read(BasicMessage.Customer.CUSTOMER_CREATE);
 			String[] informationBundles = customerInformation.split(DEFAULT_DELIMITER);
 			CustomerDto.SaveRequestDto requestDto = getSaveRequestDtoConverter().convert(informationBundles);
-			Optional<Customer> savedCustomer = customerService.save(requestDto);
-			isRunnable = savedCustomer.isEmpty();
-
-			if (isRunnable) {
+			try {
+				Customer savedCustomer = customerService.save(requestDto);
+				isRunnable = false;
+			} catch (JdbcException.NotExecuteQuery e) {
+				log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 				output.write(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 			}
 
 		} while (isRunnable);
+
 	}
 
 	private Converter<String[], CustomerDto.SaveRequestDto> getSaveRequestDtoConverter() {

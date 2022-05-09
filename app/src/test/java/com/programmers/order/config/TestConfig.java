@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import com.programmers.order.factory.VoucherManagerFactory;
@@ -23,8 +22,8 @@ import com.programmers.order.manager.PercentVoucherManager;
 import com.programmers.order.manager.VoucherManager;
 import com.programmers.order.repository.customer.CustomerJdbcRepository;
 import com.programmers.order.repository.customer.CustomerRepository;
-import com.programmers.order.repository.customervoucher.CustomerVoucherRepository;
-import com.programmers.order.repository.customervoucher.JdbcCustomerVoucherRepository;
+import com.programmers.order.repository.wallet.WalletRepository;
+import com.programmers.order.repository.wallet.WalletJdbcRepository;
 import com.programmers.order.repository.voucher.JdbcVoucherRepository;
 import com.programmers.order.repository.voucher.VoucherRepository;
 import com.zaxxer.hikari.HikariDataSource;
@@ -97,9 +96,9 @@ public class TestConfig {
 	}
 
 	@Bean
-	public CustomerVoucherRepository customerVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate
+	public WalletRepository customerVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate
 			, NamedParameterJdbcTemplate namedParameterJdbcTemplate, VoucherManagerFactory voucherManagerFactory) {
-		return new JdbcCustomerVoucherRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate,
+		return new WalletJdbcRepository(dataSource, jdbcTemplate, namedParameterJdbcTemplate,
 				voucherManagerFactory);
 	}
 
