@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<h2 th:text="#{page.voucher.detail}">바우처 세부 정보</h2>
+<form action="editVoucher.html" th:action th:object="${voucher}" method="post">
+    <div>
+        <div>
+            <label th:for="voucherId" th:text="#{label.voucher.voucherId}">바우처 id</label>
+            <input type="text" th:field="*{voucherId}" readonly>
+        </div>
+        <div th:text="#{label.voucher.type}">바우처 종류</div>
+        <div th:each="voucherType : ${voucherTypes}">
+            <label th:for="type" th:text="${voucherType.getName}">바우처 종류 이름</label>
+            <input type="radio" th:field="*{type}" th:value="${voucherType}">
+            <span th:text="${voucherType.getDescription}">바우처 종류 설명</span>
+        </div>
+        <div>
+            <label th:for="amount" th:text="#{label.voucher.amount}">할인 양</label>
+            <input type="text" th:field="*{amount}" placeholder="할인 양을 입력하세요">
+        </div>
+        <div>
+            <label th:for="registeredAt" th:text="#{label.voucher.registeredAt}">생성된 시점</label>
+            <input type="text" th:field="*{registeredAt}" readonly>
+        </div>
+    </div>
+    <button type="submit" th:text="#{button.modify}">바우처 편집</button>
+</form>
+<form action="editVoucher.html" th:action="@{|/vouchers/${voucher.voucherId}/delete|}" th:object="${voucher}"
+      th:method="post">
+    <input type="hidden" name="_method" value="delete"/>
+    <button type="submit" th:text="#{button.delete}">바우처 삭제</button>
+</form>
+<button type="button" th:text="#{button.list}" th:onclick="|location.href='@{/vouchers}'|">바우처 목록</button>
+<button type="button" th:text="#{button.home}" th:onclick="|location.href='@{/}'|">메인 메뉴</button>
+</body>
+</html>
