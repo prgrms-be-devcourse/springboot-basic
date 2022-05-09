@@ -7,6 +7,7 @@ import org.junit.jupiter.api.*;
 import org.prgrms.voucherprgrms.voucher.model.FixedAmountVoucher;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -34,14 +36,15 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"org.prgrms.voucherprgrms"}
+            basePackages = {"org.prgrms.voucherprgrms.voucher"}
     )
     static class AppConfig {
+
         @Bean
         public DataSource dataSource() {
 
             var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2210/test-voucher_prgrms")
+                    .url("jdbc:mysql://localhost:2215/test-voucher_prgrms")
                     .username("test")
                     .password("test123")
                     .type(HikariDataSource.class)
@@ -59,13 +62,17 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
             return new NamedParameterJdbcTemplate(dataSource);
         }
+
+        @Bean
+        public VoucherNamedJdbcRepository voucherNamedJdbcRepository(NamedParameterJdbcTemplate template){
+            return new VoucherNamedJdbcRepository(template);
+        }
     }
 
     @Autowired
-    VoucherNamedJdbcRepository voucherNamedJdbcRepository;
-
-    @Autowired
     DataSource dataSource;
+    @Autowired
+    VoucherNamedJdbcRepository voucherNamedJdbcRepository;
 
     Voucher newVoucher;
     EmbeddedMysql embeddedMysql;
@@ -92,14 +99,6 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
 
     @Test
     @Order(1)
-    @Disabled
-    @DisplayName("Connection check")
-    void testHikariConnectionPool() {
-        assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
-    }
-
-    @Test
-    @Order(2)
     @DisplayName("INSERT 쿼리 테스트")
     void voucherInsertTest() {
         voucherNamedJdbcRepository.insert(newVoucher);
@@ -111,6 +110,20 @@ public class EmbeddedVoucherNamedJdbcRepositoryTest {
     }
 
     @Test
+    @Order(2)
+    @DisplayName("생성 날짜에 대한 검색 테스트")
+    void voucherFindByCreatedAtTest(){
+
+        //given
+        var findList = voucherNamedJdbcRepository.findByCreated(LocalDateTime.now().minusDays(2), LocalDateTime.now());
+
+        assertThat(findList, is(hasSize(1)));
+        assertThat(findList.get(0), samePropertyValuesAs(newVoucher));
+
+    }
+
+    @Test
+    @Order(3)
     @DisplayName("DELETE ALL 테스트")
     void deleteAllTest() {
         voucherNamedJdbcRepository.deleteAll();
