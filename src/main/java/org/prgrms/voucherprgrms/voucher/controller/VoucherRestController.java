@@ -46,13 +46,15 @@ public class VoucherRestController {
 
     @GetMapping("/api/v1/vouchers/search")
     @ResponseBody
-    public List<VoucherDTO> findVoucher(@RequestParam("searchType") String searchType, @RequestParam("searchKeyword") String searchKeyword) {
-        VoucherSearchParam searchParam = new VoucherSearchParam(searchType, searchKeyword);
+    public List<VoucherDTO> findVoucher(@RequestParam("searchType") String searchType,
+                                        @RequestParam(value = "searchKeyword", required = false) String searchKeyword,
+                                        @RequestParam(value = "startDate", required = false) String startDate, @RequestParam(value = "endDate", required = false) String endDate) {
+        VoucherSearchParam searchParam = new VoucherSearchParam(searchType, searchKeyword, startDate, endDate);
         return voucherService.search(searchParam).stream().map(VoucherDTO::toVoucherDTO).collect(Collectors.toList());
     }
 
     @DeleteMapping("/api/v1/vouchers/{voucherId}")
-    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherId") String voucherId){
+    public ResponseEntity<String> deleteVoucher(@PathVariable("voucherId") String voucherId) {
         try {
             voucherService.deleteVoucher(voucherId);
         } catch (IllegalArgumentException e) {

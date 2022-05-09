@@ -15,7 +15,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    List<Voucher> findByCreated(LocalDateTime date);
+    List<Voucher> findByCreated(LocalDateTime start, LocalDateTime end);
     List<Voucher> findByVoucherType(String DTYPE);
 
     void deleteById(UUID voucherId);

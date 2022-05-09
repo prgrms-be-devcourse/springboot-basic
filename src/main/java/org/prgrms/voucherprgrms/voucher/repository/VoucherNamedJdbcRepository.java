@@ -93,13 +93,13 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from VOUCHERS where DTYPE = :DTYPE", paramMap, voucherRowMapper);
     }
 
-    public List<Voucher> findByCreated(LocalDateTime date) {
-
+    public List<Voucher> findByCreated(LocalDateTime start, LocalDateTime end) {
         Map<String, Object> paramMap = new HashMap<>() {{
-            put("date", Timestamp.valueOf(date));
+            put("start", Timestamp.valueOf(start));
+            put("end", Timestamp.valueOf(end.plusDays(1)));
         }};
 
-        return jdbcTemplate.query("select * from VOUCHERS where date(created_at) = date(:date)", paramMap, voucherRowMapper);
+        return jdbcTemplate.query("select * from VOUCHERS where created_at between date(:start) and date(:end)", paramMap, voucherRowMapper);
     }
 
     @Override

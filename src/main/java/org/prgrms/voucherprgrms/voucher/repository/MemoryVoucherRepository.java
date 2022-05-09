@@ -31,18 +31,35 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByCreated(LocalDateTime date) {
-        return null;
+    public List<Voucher> findByCreated(LocalDateTime start, LocalDateTime end) {
+        var findList = new ArrayList<Voucher>();
+        for (Voucher voucher : storage.values()) {
+            if (voucher.getCreatedAt().isAfter(start) && voucher.getCreatedAt().isBefore(end.plusDays(1))
+            || voucher.getCreatedAt().isEqual(start)) {
+                findList.add(voucher);
+            }
+        }
+        return findList;
     }
 
     @Override
     public List<Voucher> findByVoucherType(String DTYPE) {
-        return null;
+        var findList = new ArrayList<Voucher>();
+        for (Voucher voucher : storage.values()) {
+            if (voucher.getDTYPE() == DTYPE) {
+                findList.add(voucher);
+            }
+        }
+        return findList;
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-
+        if (storage.containsKey(voucherId)) {
+            storage.remove(voucherId);
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override

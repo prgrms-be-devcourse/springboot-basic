@@ -11,6 +11,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -53,8 +54,8 @@ public class VoucherService {
         return voucherRepository.findByVoucherType(voucherType);
     }
 
-    public List<Voucher> findByCreatedAt(LocalDateTime time) {
-        return voucherRepository.findByCreated(time);
+    public List<Voucher> findByCreatedAt(LocalDateTime start, LocalDateTime end) {
+        return voucherRepository.findByCreated(start, end);
     }
 
     @Transactional
@@ -68,8 +69,11 @@ public class VoucherService {
             case "VoucherType":
                 return findByType(searchParam.getSearchKeyword());
             case "CreatedAt":
-                LocalDateTime time = LocalDateTime.parse(searchParam.getSearchKeyword(), DateTimeFormatter.ISO_DATE);
-                return findByCreatedAt(time);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDateTime start = LocalDate.parse(searchParam.getStartDate(), formatter).atStartOfDay();
+                LocalDateTime end = LocalDate.parse(searchParam.getEndDate(), formatter).atStartOfDay();
+
+                return findByCreatedAt(start, end);
             default:
                 throw new IllegalArgumentException("SearchType error");
         }

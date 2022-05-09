@@ -4,9 +4,11 @@ create table vouchers
     voucher_id binary(16)  not null
         primary key,
     value      bigint      not null,
+    created_at datetime(6) not null,
     DTYPE      varchar(30) not null
 );
 
+-- auto-generated definition
 create table customers
 (
     customer_id binary(16)                         not null
