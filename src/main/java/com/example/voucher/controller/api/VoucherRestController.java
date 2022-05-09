@@ -23,22 +23,18 @@ public class VoucherRestController {
 		this.voucherService = voucherService;
 	}
 
-	// 조회 기능
 	@GetMapping
 	public ResponseEntity<?> findAll(@RequestBody @Nullable VoucherSearchRequest voucherSearchRequest) {
 		List<Voucher> vouchers = new ArrayList<>();
 
-		// 전체 조회
 		if (voucherSearchRequest == null || (voucherSearchRequest.getCreatedAt() == null && voucherSearchRequest.getVoucherType() == null)) {
 			vouchers = voucherService.findAll();
 		}
 
-		// 생성 기간 조회
 		else if (voucherSearchRequest.getCreatedAt() != null) {
 			vouchers = voucherService.findByCreatedAt(voucherSearchRequest.getCreatedAt());
 		}
 
-		// 바우처 타입 조회
 		else if (voucherSearchRequest.getVoucherType() != null) {
 			vouchers = voucherService.findByVoucherType(voucherSearchRequest.getVoucherType());
 		}
@@ -48,20 +44,17 @@ public class VoucherRestController {
 		                                 .collect(Collectors.toList()));
 	}
 
-	// 추가 기능
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody @Valid VoucherRequest voucherRequest) {
 		return ResponseEntity.ok(VoucherResponse.from(
 					voucherService.save(voucherRequest.getVoucherType(), voucherRequest.getDiscountAmount())));
 	}
 
-	// 삭제 기능
 	@DeleteMapping("/{voucherId}")
 	public void deleteById(@PathVariable @NonNull Long voucherId) {
 		voucherService.deleteById(voucherId);
 	}
 
-	// 아이디로 조회 기능
 	@GetMapping("/{voucherId}")
 	public ResponseEntity<?> findById(@PathVariable @NonNull Long voucherId) {
 		return ResponseEntity.ok(voucherService.findById(voucherId));
