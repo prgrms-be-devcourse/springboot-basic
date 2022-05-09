@@ -7,7 +7,7 @@ import com.waterfogsw.voucher.voucher.controller.VoucherRestController;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
-import com.waterfogsw.voucher.voucher.exception.ResourceNotFound;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -285,7 +285,7 @@ public class VoucherRestControllerTests {
             @Test
             @DisplayName("not found 를 반환한다")
             void it_return_voucher_info() throws Exception {
-                when(voucherService.findById(anyLong())).thenThrow(new ResourceNotFound());
+                when(voucherService.findById(anyLong())).thenThrow(new ResourceNotFoundException());
 
                 final var url = "/api/v1/vouchers/1";
 

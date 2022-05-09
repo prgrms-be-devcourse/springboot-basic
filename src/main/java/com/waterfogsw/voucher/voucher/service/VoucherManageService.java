@@ -1,7 +1,7 @@
 package com.waterfogsw.voucher.voucher.service;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
-import com.waterfogsw.voucher.voucher.exception.ResourceNotFound;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,7 @@ public class VoucherManageService implements VoucherService {
     public Voucher findById(long voucherId) {
         final var voucher = voucherRepository.findById(voucherId);
         if (voucher.isEmpty()) {
-            throw new ResourceNotFound();
+            throw new ResourceNotFoundException();
         }
         return voucher.get();
     }
