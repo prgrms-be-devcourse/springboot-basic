@@ -34,7 +34,7 @@ public class Customer {
     private void validateName(String name) {
         if (name.isBlank()) {
             logger.error("Name should not be a blank");
-            throw new RuntimeException("Name should not be blank");
+            throw new IllegalArgumentException("Name should not be blank");
         }
     }
 
