@@ -26,13 +26,9 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/")
-    public String test() {
-        return "views/test";
-    }
 
     @GetMapping("/vouchers")
-    public String voucherList(Model model) {
+    public String viewVoucherListPage(Model model) {
         List<VoucherDTO> vouchers = voucherService.findAllVoucher().stream().map(VoucherDTO::toVoucherDTO).collect(Collectors.toList());
         model.addAttribute("vouchers", vouchers);
 
@@ -63,7 +59,7 @@ public class VoucherController {
         try {
             voucherService.deleteVoucher(voucherId);
         } catch (IllegalArgumentException e) {
-            logger.error("Delete {} failed. {} ", voucherId, e.getStackTrace());
+            logger.error("Delete {} failed.", voucherId, e);
             return "views/404";
         }
         return "redirect:/vouchers";

@@ -79,7 +79,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result by UUID : {}", voucherId);
+            logger.error("Got empty result by UUID : {}", voucherId, e);
             return Optional.empty();
         }
     }

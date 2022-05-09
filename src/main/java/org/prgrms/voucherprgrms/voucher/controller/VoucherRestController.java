@@ -25,7 +25,6 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    //json
     @PostMapping(value = "/api/v1/vouchers/new")
     @ResponseBody
     public VoucherDTO createVoucher(@ModelAttribute VoucherForm voucherForm) {
@@ -57,7 +56,7 @@ public class VoucherRestController {
         try {
             voucherService.deleteVoucher(voucherId);
         } catch (IllegalArgumentException e) {
-            logger.error("Delete {} failed. {} ", voucherId, e.getStackTrace());
+            logger.error("Delete {} failed.", voucherId, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new String("삭제 성공".getBytes(), StandardCharsets.UTF_8), HttpStatus.OK);
