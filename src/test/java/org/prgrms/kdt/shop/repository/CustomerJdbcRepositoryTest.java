@@ -2,11 +2,13 @@ package org.prgrms.kdt.shop.repository;
 
 import com.wix.mysql.EmbeddedMysql;
 import org.junit.jupiter.api.*;
+import org.prgrms.kdt.shop.CommandLineApplication;
 import org.prgrms.kdt.shop.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,8 @@ import static org.junit.jupiter.api.Assertions.fail;
 class CustomerJdbcRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
-
+    @MockBean
+    CommandLineApplication commandLineApplication;
     EmbeddedMysql embeddedMysql;
 
     @TestConfiguration

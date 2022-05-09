@@ -17,6 +17,7 @@ import java.util.UUID;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -24,7 +25,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
         var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ? resultSet.getTimestamp(
+            "last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
@@ -41,10 +43,11 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         String sql = "insert into customers(customer_id, name, email, created_at) values(UUID_TO_BIN(?),?,?,?)";
-        var insert = jdbcTemplate.update(sql, customer.getCustomerId().toString().getBytes(), customer.getName(), customer.getEmail(), Timestamp.valueOf(customer.getCreateAt()));
+        var insert = jdbcTemplate.update(sql, customer.getCustomerId().toString().getBytes(),
+            customer.getName(), customer.getEmail(), Timestamp.valueOf(customer.getCreateAt()));
         if (insert != 1) {
             logger.error("Nothing was inserted.");
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalArgumentException("Nothing was inserted");
         }
         return customer;
     }
@@ -52,22 +55,24 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         String sql = "update customers set name = ?, email = ? ,last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)";
-        var update = jdbcTemplate.update(sql, customer.getName(), customer.getEmail(), customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null, customer.getCustomerId().toString().getBytes());
+        var update = jdbcTemplate.update(sql, customer.getName(), customer.getEmail(),
+            customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
+            customer.getCustomerId().toString().getBytes());
         if (update != 1) {
             logger.error("Nothing was updated");
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalArgumentException("Nothing was inserted");
         }
         return customer;
     }
 
     @Override
-    public int count( ) {
+    public int count() {
         String sql = "select count(*) from customers";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     @Override
-    public List<Customer> findAll( ) {
+    public List<Customer> findAll() {
         String sql = "select * from customers";
         return jdbcTemplate.query(sql, customerRowMapper);
     }
@@ -76,7 +81,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         String sql = "select * from customers WHERE customer_id = UUID_TO_BIN(?)";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, customerRowMapper, customerId.toString().getBytes()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, customerRowMapper,
+                customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
         }
@@ -117,7 +123,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteAll( ) {
+    public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
     }
 }
