@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.devcourse.voucher.EmbeddedDatabaseTestModule;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
+import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
 import org.springframework.dao.DataAccessException;
 
@@ -43,6 +44,18 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
   }
 
   @Test
+  @DisplayName("특정 타입을 가진 바우처만 가져와야 한다.")
+  void get_all_vouchers_by_type() {
+
+    // Given
+    voucherFixtures.forEach(voucher -> repository.save(voucher));
+    // When
+    var fixedAmountTypeId = VoucherType.FIXED_AMOUNT.getTypeId();
+    // Then
+    assertThat(repository.getVouchersByType(fixedAmountTypeId)).hasSize(1);
+  }
+
+  @Test
   @DisplayName("save를 호출하면 voucher가 정확히 저장되어야 한다.")
   void save_proper_voucher() throws VoucherException {
     loadVouchersToTestDatabase();
@@ -55,7 +68,8 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
     loadVouchersToTestDatabase();
     assertThat(repository.getAllVouchers()).containsAll(voucherFixtures);
     voucherFixtures.forEach(voucher -> {
-      assertThat(repository.getVoucherById(voucher.getVoucherId())).isNotEmpty().get().isEqualTo(voucher);
+      assertThat(repository.getVoucherById(voucher.getVoucherId())).isNotEmpty().get()
+          .isEqualTo(voucher);
     });
   }
 
@@ -75,7 +89,8 @@ class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
   void transaction_test() {
     assertThatThrownBy(() ->
         repository.runTransaction(() -> {
-          repository.save(FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()));
+          repository.save(
+              FixedAmountVoucher.factory.create(UUID.randomUUID(), 10000L, LocalDateTime.now()));
           repository.save(voucherFixtures.get(0));
           repository.save(voucherFixtures.get(0));
           repository.save(voucherFixtures.get(0));

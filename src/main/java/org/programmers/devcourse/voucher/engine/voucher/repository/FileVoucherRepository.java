@@ -46,11 +46,13 @@ public class FileVoucherRepository implements VoucherRepository {
     Arrays.stream(fileChannel.readAllLines()).forEach(line -> {
       var fields = line.split(DELIMITER_REGEX);
       var voucherId = UUID.fromString(fields[0]);
-      var voucherType = VoucherType.from(fields[1]).orElseThrow(() -> new VoucherException("Invalid Voucher Type"));
+      var voucherType = VoucherType.from(fields[1])
+          .orElseThrow(() -> new VoucherException("Invalid Voucher Type"));
       var discountDegree = Long.parseLong(fields[2].replace(",", ""));
       var createdAt = LocalDateTime.ofEpochSecond(Long.parseLong(fields[3]), 0, ZoneOffset.UTC);
       try {
-        memoryStorage.put(voucherId, voucherType.createVoucher(voucherId, discountDegree, createdAt));
+        memoryStorage.put(voucherId,
+            voucherType.createVoucher(voucherId, discountDegree, createdAt));
       } catch (VoucherDiscountDegreeOutOfRangeException e) {
         logger.error(MessageFormat.format("{0} : Not valid voucher", voucherId));
       }
@@ -63,8 +65,9 @@ public class FileVoucherRepository implements VoucherRepository {
     try {
       fileChannel.save(voucher, serializer);
     } catch (IOException e) {
-      throw new VoucherException(MessageFormat.format("Saving Voucher({0}) failed because of IOException",
-          voucher.getVoucherId()));
+      throw new VoucherException(
+          MessageFormat.format("Saving Voucher({0}) failed because of IOException",
+              voucher.getVoucherId()));
     }
     memoryStorage.put(voucher.getVoucherId(), voucher);
     return voucher.getVoucherId();
@@ -78,6 +81,12 @@ public class FileVoucherRepository implements VoucherRepository {
   @Override
   public List<Voucher> getAllVouchers() {
     return List.copyOf(memoryStorage.values());
+  }
+
+  @Override
+  public List<Voucher> getVouchersByType(String type) {
+    // TODO: 시간 남을 때 구현
+    return null;
   }
 
   @Override
@@ -97,6 +106,5 @@ public class FileVoucherRepository implements VoucherRepository {
   public void delete(UUID voucherId) {
     // TODO : 시간 남을 때 구현하기
   }
-
 
 }

@@ -2,22 +2,23 @@ package org.programmers.devcourse.voucher.engine.voucher.controller;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
+import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
-import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/v1/voucher")
 public class VoucherRestController {
 
   private final VoucherService voucherService;
@@ -26,7 +27,7 @@ public class VoucherRestController {
     this.voucherService = voucherService;
   }
 
-  @GetMapping("")
+  @GetMapping("/api/v1/vouchers")
   public List<VoucherDto> getAllVouchers() {
     return voucherService.getAllVouchers()
         .stream()
@@ -34,40 +35,43 @@ public class VoucherRestController {
         .collect(Collectors.toList());
   }
 
-  @GetMapping("/type/{type}")
+  @GetMapping("/api/v1/vouchers/type/{type}")
   public List<VoucherDto> getAllVouchersByType(@PathVariable String type) {
-    // TODO : PR Point 4
-    return voucherService.getAllVouchers()
-        .stream()
-        .filter(voucher -> VoucherType.mapToTypeId(voucher).equals(type))
-        .map(VoucherDto::from)
-        .collect(Collectors.toList());
+    return voucherService.getVouchersByType(type).stream().map(VoucherDto::from)
+        .collect(Collectors.toUnmodifiableList());
   }
 
-  @GetMapping("/created-at/{createdAt}")
-  public List<VoucherDto> getAllVouchersByTypes(@PathVariable("createdAt") String dateString) {
-    var parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyyMMdd")).atStartOfDay();
-    return voucherService.getAllVouchers()
-        .stream()
-        .filter(voucher -> voucher.getCreatedAt().isAfter(parsedDate))
-        .map(VoucherDto::from)
-        .collect(Collectors.toList());
+  @GetMapping("/api/v1/vouchers/created-at/{createdAt}")
+  public List<VoucherDto> getAllVouchersByCreatedAt(@PathVariable("createdAt") String dateString) {
+    try {
+      var parsedDate = LocalDate.parse(dateString, DateTimeFormatter.ofPattern("yyyyMMdd"))
+          .atStartOfDay();
+      return voucherService.getVouchersByCreatedAt(parsedDate)
+          .stream()
+          .map(VoucherDto::from)
+          .collect(Collectors.toList());
+
+    } catch (DateTimeParseException exception) {
+      log.error("Parsing Date Time Failed", exception);
+      throw new VoucherException("날짜 입력이 잘못되었습니다.", exception);
+    }
   }
 
-  @GetMapping("/id/{voucherId}")
+  @GetMapping("/api/v1/vouchers/id/{voucherId}")
   public VoucherDto getVoucherById(@PathVariable UUID voucherId) {
     return VoucherDto.from(voucherService.getVoucherById(voucherId));
   }
 
-  @PostMapping("")
+  @PostMapping("/api/v1/vouchers")
   public VoucherDto registerVoucher(@RequestBody VoucherRegistrationDto voucherRegistrationDto) {
-    var voucher = voucherService.create(voucherRegistrationDto.getVoucherType(), voucherRegistrationDto.getDiscountDegree());
+    var voucher = voucherService.create(voucherRegistrationDto.getVoucherType(),
+        voucherRegistrationDto.getDiscountDegree());
     return VoucherDto.from(voucher);
   }
 
-  @DeleteMapping("/{voucherId}")
+  @DeleteMapping("/api/v1/vouchers/{voucherId}")
   public Map<String, UUID> deleteVoucher(@PathVariable UUID voucherId) {
     voucherService.remove(voucherId);
-    return Map.of("RemovedVoucherId", voucherId);
+    return Map.of("id", voucherId);
   }
 }

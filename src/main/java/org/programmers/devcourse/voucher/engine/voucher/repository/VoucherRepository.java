@@ -14,6 +14,8 @@ public interface VoucherRepository {
 
   List<Voucher> getAllVouchers();
 
+  List<Voucher> getVouchersByType(String type);
+
   int deleteAll();
 
   void delete(UUID voucherId);

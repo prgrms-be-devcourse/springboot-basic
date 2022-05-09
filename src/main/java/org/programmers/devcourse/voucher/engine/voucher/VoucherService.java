@@ -1,43 +1,25 @@
 package org.programmers.devcourse.voucher.engine.voucher;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.programmers.devcourse.voucher.engine.exception.VoucherException;
 import org.programmers.devcourse.voucher.engine.voucher.entity.Voucher;
-import org.programmers.devcourse.voucher.engine.voucher.repository.VoucherRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class VoucherService {
+public interface VoucherService {
 
-  private final VoucherRepository voucherRepository;
+  Voucher create(String voucherTypeId, long voucherDiscountData) throws VoucherException;
 
-  public VoucherService(VoucherRepository voucherRepository) {
-    this.voucherRepository = voucherRepository;
-  }
+  List<Voucher> getAllVouchers();
 
-  public Voucher create(String voucherTypeId, long voucherDiscountData) throws VoucherException {
-    var voucherType = VoucherType.from(voucherTypeId).orElseThrow(() -> new VoucherException("Invalid Voucher Type Id"));
-    var voucher = voucherType.createVoucher(UUID.randomUUID(), voucherDiscountData, LocalDateTime.now());
-    voucherRepository.save(voucher);
-    return voucher;
-  }
+  Optional<VoucherType> mapTypeToMapper(String type);
 
-  public Collection<Voucher> getAllVouchers() {
-    return voucherRepository.getAllVouchers();
-  }
+  void remove(UUID voucherId);
 
-  public Optional<VoucherType> mapTypeToMapper(String type) {
-    return VoucherType.from(type);
-  }
+  Voucher getVoucherById(UUID voucherId);
 
-  public void remove(UUID voucherId) {
-    voucherRepository.delete(voucherId);
-  }
+  List<Voucher> getVouchersByType(String type);
 
-  public Voucher getVoucherById(UUID voucherId) {
-    return voucherRepository.getVoucherById(voucherId).orElseThrow(() -> new VoucherException("No Voucher Available"));
-  }
+  List<Voucher> getVouchersByCreatedAt(LocalDateTime date);
 }

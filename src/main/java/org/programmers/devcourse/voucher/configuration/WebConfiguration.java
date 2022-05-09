@@ -2,7 +2,6 @@ package org.programmers.devcourse.voucher.configuration;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @Profile("web")
 @Slf4j
-@ComponentScan(basePackages = "org.programmers.devcourse.voucher.engine")
 public class WebConfiguration implements WebMvcConfigurer {
 
   @Override

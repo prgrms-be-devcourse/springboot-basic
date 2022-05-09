@@ -1,6 +1,5 @@
 package org.programmers.devcourse.voucher.engine.customer;
 
-
 import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.CREATED_AT;
 import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.CUSTOMER_ID;
 import static org.programmers.devcourse.voucher.engine.customer.JdbcCustomerRepository.CustomerParam.EMAIL;
@@ -43,7 +42,8 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
   private final RowMapper<Customer> mapToCustomer = (resultSet, index) -> {
     UUID customerId = null;
     try {
-      customerId = UUIDMapper.fromBytes(resultSet.getBinaryStream(CUSTOMER_ID.dbColumnLabel).readAllBytes());
+      customerId = UUIDMapper.fromBytes(
+          resultSet.getBinaryStream(CUSTOMER_ID.dbColumnLabel).readAllBytes());
     } catch (IOException e) {
       throw new SQLException("Getting UUID from binaryStream failed");
     }
@@ -92,7 +92,8 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
 
   private Map<String, Object> mapToParameter(Customer customer) {
     var map = new HashMap<String, Object>();
-    map.put(CUSTOMER_ID.toString(), customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+    map.put(CUSTOMER_ID.toString(),
+        customer.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
     map.put(NAME.toString(), customer.getName());
     map.put(EMAIL.toString(), customer.getEmail());
     map.put(CREATED_AT.toString(), Timestamp.valueOf(customer.getCreatedAt()));
@@ -199,6 +200,5 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
       return value;
     }
   }
-
 
 }

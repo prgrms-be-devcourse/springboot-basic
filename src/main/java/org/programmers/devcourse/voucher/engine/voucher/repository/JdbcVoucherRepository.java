@@ -36,7 +36,8 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
     var discountDegree = resultSet.getInt("discount_degree");
     var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-    return VoucherType.from(type).orElseThrow(SQLException::new).createVoucher(voucherId, discountDegree, createdAt);
+    return VoucherType.from(type).orElseThrow(SQLException::new)
+        .createVoucher(voucherId, discountDegree, createdAt);
   };
 
   public JdbcVoucherRepository(DataSource dataSource) {
@@ -46,7 +47,8 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
 
   private Map<String, Object> mapToParam(Voucher voucher) {
     var map = new HashMap<String, Object>();
-    map.put(SqlMapperKeys.VOUCHER_ID, voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+    map.put(SqlMapperKeys.VOUCHER_ID,
+        voucher.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
     map.put(SqlMapperKeys.TYPE, VoucherType.mapToTypeId(voucher));
     map.put(SqlMapperKeys.DISCOUNT_DEGREE, voucher.getDiscountDegree());
     return map;
@@ -80,13 +82,21 @@ public class JdbcVoucherRepository implements VoucherRepository, Transactional {
   }
 
   @Override
+  public List<Voucher> getVouchersByType(String type) {
+    return namedParameterJdbcTemplate.query(
+        "SELECT voucher_id, type, discount_degree,created_at FROM vouchers WHERE type=:type",
+        Map.of("type", type), voucherRowMapper);
+  }
+
+  @Override
   public int deleteAll() {
     return namedParameterJdbcTemplate.update("DELETE FROM vouchers", Map.of());
   }
 
   @Override
   public void delete(UUID voucherId) {
-    int result = namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+    int result = namedParameterJdbcTemplate.update(
+        "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         Map.of(SqlMapperKeys.VOUCHER_ID, UUIDMapper.toBytes(voucherId)));
     if (result != 1) {
       throw new EmptyResultDataAccessException(1);

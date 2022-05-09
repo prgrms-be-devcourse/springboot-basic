@@ -33,6 +33,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
   }
 
   @Override
+  public List<Voucher> getVouchersByType(String type) {
+    // TODO: 시간 남을 때 구현
+    return null;
+  }
+
+  @Override
   public int deleteAll() {
     var removedSize = storage.size();
     storage.clear();

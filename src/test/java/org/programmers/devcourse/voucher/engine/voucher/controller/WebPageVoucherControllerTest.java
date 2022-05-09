@@ -16,28 +16,21 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.programmers.devcourse.voucher.engine.customer.CustomerRepository;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherService;
 import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
-import org.programmers.devcourse.voucher.engine.voucher.repository.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest()
+@WebMvcTest(controllers = {WebPageVoucherController.class})
 class WebPageVoucherControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
-  // TODO : PR Point 2
   @MockBean
   private VoucherService voucherService;
-  @MockBean
-  private CustomerRepository customerRepository;
-  @MockBean
-  private JdbcVoucherRepository voucherRepository;
 
   @Test
   void show_all_vouchers() throws Exception {
@@ -50,7 +43,6 @@ class WebPageVoucherControllerTest {
   void show_voucher_by_id() throws Exception {
     var voucher = voucherFixtures.get(0);
     when(voucherService.getVoucherById(voucher.getVoucherId())).thenReturn(voucher);
-    // TODO : PR Point 1
     mockMvc.perform(get("/voucher/" + voucher.getVoucherId())).andDo(
         result -> {
           var modelAndView = result.getModelAndView();

@@ -18,21 +18,17 @@ public enum VoucherType {
   PERCENT_DISCOUNT("2", "%", PercentDiscountVoucher.factory);
 
   private static final Map<String, VoucherType> idToMapperStorage = Collections.unmodifiableMap(
-      Stream.of(VoucherType.values()).collect(Collectors.toMap(value -> value.typeId, value -> value)));
+      Stream.of(VoucherType.values())
+          .collect(Collectors.toMap(value -> value.typeId, value -> value)));
 
   private final String typeId;
   private final String unit;
   private final VoucherFactory factory;
 
-  VoucherType(String typeId, String unit,
-      VoucherFactory factory) {
+  VoucherType(String typeId, String unit, VoucherFactory factory) {
     this.typeId = typeId;
     this.unit = unit;
     this.factory = factory;
-  }
-
-  public Voucher createVoucher(UUID id, long discountDegree, @Nullable LocalDateTime createdAt) {
-    return this.factory.create(id, discountDegree, createdAt);
   }
 
   public static Optional<VoucherType> from(String typeId) {
@@ -59,8 +55,15 @@ public enum VoucherType {
     throw new VoucherException("No corresponding voucher type");
   }
 
+  public Voucher createVoucher(UUID id, long discountDegree, @Nullable LocalDateTime createdAt) {
+    return this.factory.create(id, discountDegree, createdAt);
+  }
+
   public String getUnit() {
     return unit;
   }
 
+  public String getTypeId() {
+    return typeId;
+  }
 }
