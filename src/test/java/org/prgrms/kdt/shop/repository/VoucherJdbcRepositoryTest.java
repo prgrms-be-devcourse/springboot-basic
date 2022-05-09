@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,6 +34,7 @@ import static org.hamcrest.Matchers.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class VoucherJdbcRepositoryTest {
+
     @Autowired
     VoucherRepository voucherRepository;
     @MockBean
@@ -41,43 +43,49 @@ class VoucherJdbcRepositoryTest {
 
     @TestConfiguration
     static class TestConfig {
+
         @Bean
-        public DataSource dataSource( ) {
-            return DataSourceBuilder.create().url("jdbc:mysql://localhost:2215/order_mgmt").username("test").password("test1234!").build();
+        public DataSource dataSource() {
+            return DataSourceBuilder.create().url("jdbc:mysql://localhost:2215/order_mgmt")
+                .username("test").password("test1234!").build();
         }
 
         @Bean
-        VoucherRepository voucherRepository( ) {
+        VoucherRepository voucherRepository() {
             return new VoucherJdbcRepository(dataSource());
         }
     }
 
     @BeforeAll
-    void setup( ) {
-        var mysqlConfig = aMysqldConfig(v8_0_11).withCharset(UTF8).withPort(2215).withUser("test", "test1234!").withTimeZone("Asia/Seoul").build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig).addSchema("order_mgmt", classPathScript("schema.sql")).start();
+    void setup() {
+        var mysqlConfig = aMysqldConfig(v8_0_11).withCharset(UTF8).withPort(2215)
+            .withUser("test", "test1234!").withTimeZone("Asia/Seoul").build();
+        embeddedMysql = anEmbeddedMysql(mysqlConfig).addSchema("order_mgmt",
+            classPathScript("schema.sql")).start();
     }
 
     @AfterAll
-    void cleanup( ) {
+    void cleanup() {
         embeddedMysql.stop();
     }
 
     @Test
     @DisplayName("입력 테스트")
-    void insert( ) {
+    void insert() {
         //given
         //when
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherRepository.insert(
+            new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()));
         //then
         assertThat(voucherRepository.findAll().isEmpty(), is(false));
     }
 
     @Test
     @DisplayName("모든 항목 검색 테스트")
-    void findAll( ) {
+    void findAll() {
         //given
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 2000));
+        voucherRepository.insert(
+            new PercentDiscountVoucher(UUID.randomUUID(), 2000, LocalDateTime.now()));
         //when
         var findList = voucherRepository.findAll();
         //then
@@ -86,11 +94,12 @@ class VoucherJdbcRepositoryTest {
 
     @Test
     @DisplayName("ID를 이용한 검색 테스트")
-    void findById( ) {
+    void findById() {
         //given
         UUID uuid = UUID.randomUUID();
         //when
-        var insertVoucher = voucherRepository.insert(new PercentDiscountVoucher(uuid, 1500));
+        var insertVoucher = voucherRepository.insert(
+            new PercentDiscountVoucher(uuid, 1500, LocalDateTime.now()));
         var findVoucher = voucherRepository.findById(uuid);
         //then
         assertThat(findVoucher.get().getVoucherId(), is(insertVoucher.getVoucherId()));
@@ -104,25 +113,11 @@ class VoucherJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("수정 테스트")
-    void update( ) {
-        //given
-        var uuid = UUID.randomUUID();
-        var insertVoucher = voucherRepository.insert(new FixedAmountVoucher(uuid, 2300));
-        var updateVoucher = new PercentDiscountVoucher(uuid, 160);
-        //when
-        voucherRepository.update(updateVoucher);
-        //then
-        assertThat(updateVoucher.getVoucherType(), is(voucherRepository.findById(insertVoucher.getVoucherId()).get().getVoucherType()));
-        assertThat(updateVoucher.getAmount(), is(voucherRepository.findById(insertVoucher.getVoucherId()).get().getAmount()));
-    }
-
-    @Test
     @DisplayName("특정 항목 삭제 테스트")
-    void deleteTest( ) {
+    void deleteTest() {
         //given
         var uuid = UUID.randomUUID();
-        voucherRepository.insert(new FixedAmountVoucher(uuid, 1000));
+        voucherRepository.insert(new FixedAmountVoucher(uuid, 1000, LocalDateTime.now()));
         //when
         voucherRepository.delete(uuid);
         //then
@@ -132,9 +127,10 @@ class VoucherJdbcRepositoryTest {
 
     @Test
     @DisplayName("모든 항목 삭제 테스트")
-    void deleteAll( ) {
+    void deleteAll() {
         //given
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherRepository.insert(
+            new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()));
         //when
         voucherRepository.deleteAll();
         //then
@@ -143,10 +139,12 @@ class VoucherJdbcRepositoryTest {
 
     @Test
     @DisplayName("바우처 타입으로 찾기 테스트")
-    void findByType( ) {
+    void findByType() {
         //given
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        voucherRepository.insert(
+            new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()));
+        voucherRepository.insert(
+            new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now()));
         //when
         List<Voucher> voucherList = voucherRepository.findByType(VoucherType.FIXED_AMOUNT);
         //then

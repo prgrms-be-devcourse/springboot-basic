@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -36,6 +37,7 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MemoryVoucherRepositoryTest {
+
     @Autowired
     VoucherRepository voucherRepository;
     @MockBean
@@ -43,28 +45,31 @@ class MemoryVoucherRepositoryTest {
 
     @TestConfiguration
     static class TestConfig {
+
         @Bean
-        VoucherRepository voucherRepository( ) {
+        VoucherRepository voucherRepository() {
             return new MemoryVoucherRepository();
         }
     }
 
     @Test
     @DisplayName("입력 테스트")
-    void insert( ) {
+    void insert() {
         //given
         voucherRepository.deleteAll();
         //when
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherRepository.insert(
+            new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()));
         //then
         assertThat(voucherRepository.findAll().isEmpty(), is(false));
     }
 
     @Test
     @DisplayName("모든 항목 검색 테스트")
-    void findAll( ) {
+    void findAll() {
         //given
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 2000));
+        voucherRepository.insert(
+            new PercentDiscountVoucher(UUID.randomUUID(), 2000, LocalDateTime.now()));
         //when
         var findList = voucherRepository.findAll();
         //then
@@ -73,11 +78,12 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("ID를 이용한 검색 테스트")
-    void findById( ) {
+    void findById() {
         //given
         UUID uuid = UUID.randomUUID();
         //when
-        var insertVoucher = voucherRepository.insert(new PercentDiscountVoucher(uuid, 1500));
+        var insertVoucher = voucherRepository.insert(
+            new PercentDiscountVoucher(uuid, 1500, LocalDateTime.now()));
         var findVoucher = voucherRepository.findById(uuid);
         //then
         assertThat(findVoucher.get().getVoucherId(), is(insertVoucher.getVoucherId()));
@@ -91,27 +97,12 @@ class MemoryVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("수정 테스트")
-    void update( ) {
-        //given
-        voucherRepository.deleteAll();
-        var uuid = UUID.randomUUID();
-        var insertVoucher = voucherRepository.insert(new FixedAmountVoucher(uuid, 2300));
-        var updateVoucher = new PercentDiscountVoucher(uuid, 160);
-        //when
-        voucherRepository.update(updateVoucher);
-        //then
-        assertThat(updateVoucher.getVoucherType(), is(voucherRepository.findById(insertVoucher.getVoucherId()).get().getVoucherType()));
-        assertThat(updateVoucher.getAmount(), is(voucherRepository.findById(insertVoucher.getVoucherId()).get().getAmount()));
-    }
-
-    @Test
     @DisplayName("특정 항목 삭제 테스트")
-    void deleteTest( ) {
+    void deleteTest() {
         //given
         deleteAll();
         var uuid = UUID.randomUUID();
-        voucherRepository.insert(new FixedAmountVoucher(uuid, 1000));
+        voucherRepository.insert(new FixedAmountVoucher(uuid, 1000, LocalDateTime.now()));
         //when
         voucherRepository.delete(uuid);
         //then
@@ -121,7 +112,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 항목 삭제 테스트")
-    void deleteAll( ) {
+    void deleteAll() {
         //when
         voucherRepository.deleteAll();
         //then
@@ -130,10 +121,12 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 타입으로 찾기 테스트")
-    void findByType( ) {
+    void findByType() {
         //given
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        voucherRepository.insert(
+            new FixedAmountVoucher(UUID.randomUUID(), 1000, LocalDateTime.now()));
+        voucherRepository.insert(
+            new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now()));
         //when
         List<Voucher> voucherList = voucherRepository.findByType(VoucherType.FIXED_AMOUNT);
         //then

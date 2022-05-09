@@ -3,6 +3,7 @@ package org.prgrms.kdt.shop.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -13,7 +14,7 @@ class FixedAmountVoucherTest {
     @DisplayName("FixedAmountVoucher 할인 테스트")
     void discount( ) {
         //given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
         long money = 10000;
         //when
         long afterMoney = fixedAmountVoucher.discount(money);
