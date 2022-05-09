@@ -38,33 +38,25 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처 생성 테스트")
     void testVoucherCreation() {
-        try {
-            // when
-            Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
-            when(voucherRepository.create(any(Voucher.class))).thenReturn(voucher);
+        // when
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+        when(voucherRepository.create(any(Voucher.class))).thenReturn(voucher);
 
-            // given
-            voucherService.createVoucher(new VoucherReqDto(FIXED_AMOUNT, 10L));
+        // given
+        voucherService.createVoucher(new VoucherReqDto(FIXED_AMOUNT, 10L));
 
-            // then
-            verify(voucherRepository).create(any());
-        }catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        // then
+        verify(voucherRepository).create(any());
     }
 
     @Test
     @DisplayName("바우처 조회 테스트")
     void testGetVouchers() {
-        try {
-            when(voucherRepository.findAll()).thenReturn(new ArrayList<Voucher>());
+        when(voucherRepository.findAll()).thenReturn(new ArrayList<Voucher>());
 
-            voucherService.getVouchers();
+        voucherService.getVouchers();
 
-            verify(voucherRepository).findAll();
-        }catch(IOException e) {
-            System.out.println(e.getMessage());
-        }
+        verify(voucherRepository).findAll();
     }
 
     @Test

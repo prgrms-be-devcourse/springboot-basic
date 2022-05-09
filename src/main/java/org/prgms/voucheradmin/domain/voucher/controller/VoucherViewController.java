@@ -31,13 +31,13 @@ public class VoucherViewController {
     }
 
     @PostMapping("/vouchers/new")
-    public String addNewVoucher(VoucherReqDto voucherReqDto) throws IOException{
+    public String addNewVoucher(VoucherReqDto voucherReqDto) {
         voucherService.createVoucher(voucherReqDto);
         return "redirect:/vouchers";
     }
 
     @GetMapping("/vouchers")
-    public String viewVouchersPage(Model model) throws IOException {
+    public String viewVouchersPage(Model model) {
         List<Voucher> allVouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", allVouchers);
         return "views/voucher/vouchers";
@@ -50,14 +50,14 @@ public class VoucherViewController {
     }
 
     @GetMapping("/vouchers/{voucherId}")
-    public String viewVoucherPage(@PathVariable UUID voucherId, Model model) throws IOException {
+    public String viewVoucherPage(@PathVariable UUID voucherId, Model model)  {
         Voucher voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "views/voucher/voucher";
     }
 
     @GetMapping("/vouchers/{voucherId}/update")
-    public String viewVoucherUpdatePage(@PathVariable UUID voucherId, Model model) throws IOException {
+    public String viewVoucherUpdatePage(@PathVariable UUID voucherId, Model model)  {
         Voucher voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         model.addAttribute("voucherTypes", VoucherType.values());

@@ -24,7 +24,7 @@ public class VoucherController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseDto> addVoucher(@RequestBody VoucherReqDto voucherReqDto) throws IOException {
+    public ResponseEntity<ResponseDto> addVoucher(@RequestBody VoucherReqDto voucherReqDto) {
         Voucher voucher = voucherService.createVoucher(voucherReqDto);
 
         ResponseDto responseDto = new ResponseDto(HttpStatus.CREATED.value(), "create voucher successfully", voucher);
@@ -35,7 +35,7 @@ public class VoucherController {
     }
 
     @GetMapping
-    public ResponseEntity<ResponseDto> getVouchers(@ModelAttribute VoucherCondition voucherCondition) throws IOException {
+    public ResponseEntity<ResponseDto> getVouchers(@ModelAttribute VoucherCondition voucherCondition) {
         List<Voucher> allVouchers = (voucherCondition.hasVoucherType() || voucherCondition.hasVoucherDateRage()) ?
                 voucherService.getVouchersWithCondition(voucherCondition) :
                 voucherService.getVouchers();
@@ -50,7 +50,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<ResponseDto> getVouchers(@PathVariable UUID voucherId) throws IOException {
+    public ResponseEntity<ResponseDto> getVouchers(@PathVariable UUID voucherId) {
         Voucher voucher = voucherService.getVoucher(voucherId);
 
         ResponseDto<VouchersResDto> responseDto = new ResponseDto(HttpStatus.OK.value(), "get voucher successfully", voucher);

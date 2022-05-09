@@ -1,9 +1,7 @@
 package org.prgms.voucheradmin.domain.voucher.service;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.prgms.voucheradmin.domain.voucher.dto.VoucherCondition;
@@ -16,7 +14,6 @@ import org.prgms.voucheradmin.domain.voucher.dao.VoucherRepository;
 import org.prgms.voucheradmin.global.exception.customexception.VoucherNotFoundException;
 import org.prgms.voucheradmin.global.exception.customexception.WrongInputException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
 * 바우처의 생성과 바우처 조회 로직을 담당하는 클래스 입니다.
@@ -32,7 +29,7 @@ public class VoucherService {
     /**
      * 바우처의 생성을 담당하는 메서드입니다.
     */
-    public Voucher createVoucher(VoucherReqDto voucherReqDto) throws IOException {
+    public Voucher createVoucher(VoucherReqDto voucherReqDto) {
         Voucher voucher = getVoucherInstance(UUID.randomUUID(), voucherReqDto.getVoucherType(), voucherReqDto.getAmount(), LocalDateTime.now());
 
         return voucherRepository.create(voucher);
@@ -40,7 +37,7 @@ public class VoucherService {
     /**
      * 바우처 목록을 조회하는 메서드 입니다.
      **/
-    public List<Voucher> getVouchers() throws IOException{
+    public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
     }
 

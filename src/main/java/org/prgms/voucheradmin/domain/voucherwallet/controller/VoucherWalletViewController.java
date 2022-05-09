@@ -47,7 +47,7 @@ public class VoucherWalletViewController {
     }
 
     @GetMapping("/voucher-wallets")
-    public String viewVoucherWalletMainPage(Model model) throws IOException {
+    public String viewVoucherWalletMainPage(Model model) {
         List<Customer> allCustomers = customerService.getCustomers();
         model.addAttribute("customers", allCustomers);
 
@@ -67,7 +67,7 @@ public class VoucherWalletViewController {
     }
 
     @GetMapping("/voucher-wallets/customers/{customerId}/new")
-    public String viewNewVoucherWalletPage(@PathVariable UUID customerId, Model model) throws IOException {
+    public String viewNewVoucherWalletPage(@PathVariable UUID customerId, Model model) {
         Customer customer = customerService.getCustomer(customerId);
         model.addAttribute("customer", customer);
 

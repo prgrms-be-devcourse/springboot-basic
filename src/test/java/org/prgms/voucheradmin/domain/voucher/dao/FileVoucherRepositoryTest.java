@@ -35,16 +35,12 @@ class FileVoucherRepositoryTest {
         Voucher newVoucher = new PercentageDiscountVoucher(voucherId, 10, LocalDateTime.now());
         when(voucherAdminProperties.getVoucherFilePath()).thenReturn("src/main/java/org/prgms/voucheradmin/global/filedata/voucher.txt");
 
-        try {
-            fileVoucherRepository.create(newVoucher);
+        fileVoucherRepository.create(newVoucher);
 
-            List<Voucher> vouchers = fileVoucherRepository.findAll().stream()
-                    .filter(voucher -> voucher.getVoucherId().equals(voucherId))
-                    .collect(Collectors.toList());
+        List<Voucher> vouchers = fileVoucherRepository.findAll().stream()
+                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
+                .collect(Collectors.toList());
 
-            assertThat(vouchers.size(), is(1));
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        assertThat(vouchers.size(), is(1));
     }
 }
