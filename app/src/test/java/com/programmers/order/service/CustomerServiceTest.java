@@ -22,7 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.github.javafaker.Faker;
 import com.programmers.order.domain.Customer;
-import com.programmers.order.domain.CustomerVoucher;
+import com.programmers.order.domain.Wallet;
 import com.programmers.order.domain.FixedAmountVoucher;
 import com.programmers.order.domain.PercentDiscountVoucher;
 import com.programmers.order.domain.Voucher;
@@ -37,7 +37,7 @@ class CustomerServiceTest {
 
 	private CustomerRepository customerRepository;
 
-	private CustomerVoucherService customerVoucherService;
+	private WalletService walletService;
 
 	private Customer demoCustomer;
 	private Voucher demoVoucher;
@@ -45,8 +45,8 @@ class CustomerServiceTest {
 	@BeforeEach
 	void init() {
 		customerRepository = Mockito.mock(CustomerRepository.class);
-		customerVoucherService = Mockito.mock(CustomerVoucherService.class);
-		customerService = new CustomerService(customerRepository, customerVoucherService);
+		walletService = Mockito.mock(WalletService.class);
+		customerService = new CustomerService(customerRepository, walletService);
 		demoCustomer = new Customer(UUID.randomUUID(), "Museok", "MM@programmers.co.kr", LocalDateTime.now());
 		demoVoucher = FixedAmountVoucher.create(1000);
 	}
@@ -146,16 +146,16 @@ class CustomerServiceTest {
 	@DisplayName("특정 고객 나만의 바우처 등록")
 	@Test
 	void testRegisterVoucher() {
-		CustomerVoucher customerVoucher = new CustomerVoucher(UUID.randomUUID(), demoCustomer.getCustomerId(),
+		Wallet wallet = new Wallet(UUID.randomUUID(), demoCustomer.getCustomerId(),
 				demoVoucher.getVoucherId(), LocalDateTime.now());
-		BDDMockito.given(customerVoucherService.findVoucherById(demoVoucher.getVoucherId()))
+		BDDMockito.given(walletService.findVoucherById(demoVoucher.getVoucherId()))
 				.willReturn(Optional.of(demoVoucher));
 		BDDMockito.given(customerRepository.findByEmail(demoCustomer.getEmail())).willReturn(Optional.of(demoCustomer));
 		BDDMockito.given(
-						customerVoucherService.isDuplicatePublish(demoCustomer.getCustomerId(), demoVoucher.getVoucherId()))
+						walletService.isDuplicatePublish(demoCustomer.getCustomerId(), demoVoucher.getVoucherId()))
 				.willReturn(false);
-		BDDMockito.given(customerVoucherService.save(demoCustomer.getCustomerId(), demoVoucher.getVoucherId()))
-				.willReturn(Optional.of(customerVoucher.getId()));
+		BDDMockito.given(walletService.save(demoCustomer.getCustomerId(), demoVoucher.getVoucherId()))
+				.willReturn(Optional.of(wallet.getWalletId()));
 
 		CustomerDto.RegisterVoucherDto registerVoucherDto = new CustomerDto.RegisterVoucherDto(
 				List.of(
@@ -165,7 +165,7 @@ class CustomerServiceTest {
 		Optional<UUID> uuid = customerService.registerVoucher(registerVoucherDto);
 
 		Assertions.assertNotNull(uuid);
-		Assertions.assertEquals(uuid.get(), customerVoucher.getId());
+		Assertions.assertEquals(uuid.get(), wallet.getWalletId());
 
 	}
 
@@ -180,7 +180,7 @@ class CustomerServiceTest {
 		}).limit(5).toList();
 
 		BDDMockito.given(customerRepository.findByEmail(demoCustomer.getEmail())).willReturn(Optional.of(demoCustomer));
-		BDDMockito.given(customerVoucherService.getVouchersForCustomer(demoCustomer.getCustomerId()))
+		BDDMockito.given(walletService.getVouchersForCustomer(demoCustomer.getCustomerId()))
 				.willReturn(vouchers);
 
 		List<VoucherDto.Response> responses = customerService.lookUpWithVouchers(demoCustomer.getEmail());

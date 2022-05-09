@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -27,10 +28,11 @@ import com.programmers.order.domain.Customer;
 import com.programmers.order.dto.CustomerDto;
 import com.programmers.order.repository.customer.CustomerJdbcRepository;
 
+
 @SpringJUnitConfig(TestConfig.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CustomerRepositoryTest {
+class CustomerRepositoryTest {
 
 	private final static boolean NOT_EMPTY = false;
 	@Autowired

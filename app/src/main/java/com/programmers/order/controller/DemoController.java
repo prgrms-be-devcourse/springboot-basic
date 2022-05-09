@@ -6,7 +6,7 @@ import com.programmers.order.io.Output;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.ProgramType;
 
-@Component("Demo")
+@Component
 public class DemoController implements Controller {
 
 	private final Output output;

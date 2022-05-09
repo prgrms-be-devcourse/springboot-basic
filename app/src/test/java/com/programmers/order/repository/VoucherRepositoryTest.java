@@ -3,7 +3,6 @@ package com.programmers.order.repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

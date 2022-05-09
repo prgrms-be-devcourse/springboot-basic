@@ -23,7 +23,7 @@ import com.programmers.order.type.DomainMenu.MenuType;
 import com.programmers.order.type.ProgramType;
 import com.programmers.order.type.VoucherType;
 
-@Component("Voucher")
+@Component
 public class VoucherController implements Controller {
 	private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 	private static final String EMPTY_STRING = "";

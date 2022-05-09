@@ -24,7 +24,7 @@ import com.programmers.order.type.DomainMenu.CustomerMenuType;
 import com.programmers.order.type.ProgramType;
 import com.programmers.order.utils.TranslatorUtils;
 
-@Component("Customer")
+@Component
 public class CustomerController implements Controller {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
@@ -156,7 +156,6 @@ public class CustomerController implements Controller {
 
 	}
 
-	//todo : validation check
 	private void create() {
 		boolean isRunnable = true;
 

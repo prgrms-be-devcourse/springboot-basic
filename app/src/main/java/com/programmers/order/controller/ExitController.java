@@ -6,7 +6,7 @@ import com.programmers.order.io.Output;
 import com.programmers.order.message.BasicMessage;
 import com.programmers.order.type.ProgramType;
 
-@Component("Exit")
+@Component
 public class ExitController implements Controller {
 
 	private final Output output;

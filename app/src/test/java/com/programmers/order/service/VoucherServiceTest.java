@@ -30,14 +30,14 @@ public class VoucherServiceTest {
 	public static final int EXIST = 1;
 	private VoucherService voucherService;
 	private VoucherRepository voucherRepository;
-	private CustomerVoucherService customerVoucherService;
+	private WalletService walletService;
 	private Voucher givenVoucher;
 
 	@BeforeEach
 	void init() {
 		voucherRepository = Mockito.mock(VoucherRepository.class);
-		customerVoucherService = Mockito.mock(CustomerVoucherService.class);
-		voucherService = new VoucherService(customerVoucherService, voucherRepository);
+		walletService = Mockito.mock(WalletService.class);
+		voucherService = new VoucherService(walletService, voucherRepository);
 		givenVoucher = FixedAmountVoucher.create(1000L);
 	}
 
@@ -48,7 +48,7 @@ public class VoucherServiceTest {
 		BDDMockito.given(voucherRepository.insert(givenVoucher)).willReturn(givenVoucher);
 
 		// when
-		VoucherService voucherService = new VoucherService(customerVoucherService, voucherRepository);
+		VoucherService voucherService = new VoucherService(walletService, voucherRepository);
 		Voucher savedVoucher = voucherService.save(givenVoucher);
 
 		// then
@@ -127,7 +127,7 @@ public class VoucherServiceTest {
 		List<CustomerDto.ResponseDto> expectedCustomerDto = customerByVoucherId.stream()
 				.map(customer -> new CustomerDto.ResponseDto(customer.getEmail(), customer.getName()))
 				.toList();
-		BDDMockito.given(customerVoucherService.getCustomerForVoucher(givenVoucher.getVoucherId())).willReturn(customerByVoucherId);
+		BDDMockito.given(walletService.getCustomerForVoucher(givenVoucher.getVoucherId())).willReturn(customerByVoucherId);
 		//when
 		List<CustomerDto.ResponseDto> results = voucherService.lookUpForCustomer(voucherId);
 		//then
