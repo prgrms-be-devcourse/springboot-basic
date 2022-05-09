@@ -93,12 +93,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	private Map<String, Object> toParameters(Voucher voucher) {
-		return new HashMap<>() {{
-			put("voucherId", voucher.getVoucherId().toString().getBytes());
-			put("voucherType", voucher.getVoucherType());
-			put("discountValue", voucher.getDiscountValue());
-			put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
-		}};
+		Map<String,Object> vouchers=new HashMap<>();
+
+		vouchers.put("voucherId", voucher.getVoucherId().toString().getBytes());
+		vouchers.put("voucherType", voucher.getVoucherType());
+		vouchers.put("discountValue", voucher.getDiscountValue());
+		vouchers.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+
+		return vouchers;
 	}
 
 	private RowMapper<Voucher> getVoucherRowMapper() {

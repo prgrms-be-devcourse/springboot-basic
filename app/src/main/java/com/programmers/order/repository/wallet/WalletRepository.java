@@ -1,4 +1,4 @@
-package com.programmers.order.repository.customervoucher;
+package com.programmers.order.repository.wallet;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,7 @@ import com.programmers.order.domain.Customer;
 import com.programmers.order.domain.Wallet;
 import com.programmers.order.domain.Voucher;
 
-public interface CustomerVoucherRepository {
+public interface WalletRepository {
 	Wallet insert(Wallet wallet);
 
 	Optional<Wallet> findByVoucherId(UUID voucherId);

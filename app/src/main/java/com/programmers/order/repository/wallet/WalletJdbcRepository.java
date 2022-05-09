@@ -1,4 +1,4 @@
-package com.programmers.order.repository.customervoucher;
+package com.programmers.order.repository.wallet;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,8 +35,8 @@ import com.programmers.order.utils.TranslatorUtils;
 
 @Profile("jdbc")
 @Repository
-public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository {
-	private static final Logger log = LoggerFactory.getLogger(JdbcCustomerVoucherRepository.class);
+public class WalletJdbcRepository implements WalletRepository {
+	private static final Logger log = LoggerFactory.getLogger(WalletJdbcRepository.class);
 
 	private final DataSource dataSource;
 	private final JdbcTemplate jdbcTemplate;
@@ -44,7 +44,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 
 	private final VoucherManagerFactory voucherManagerFactory;
 
-	public JdbcCustomerVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
+	public WalletJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate,
 			NamedParameterJdbcTemplate namedParameterJdbcTemplate, VoucherManagerFactory voucherManagerFactory) {
 		this.dataSource = dataSource;
 		this.jdbcTemplate = jdbcTemplate;

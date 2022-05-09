@@ -40,10 +40,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		UUID id = TranslatorUtils.toUUID(rs.getBytes("customer_id"));
 		String name = rs.getString("name");
 		String email = rs.getString("email");
-		LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at")
-				== null ? null : rs.getTimestamp("last_login_at")
-				.toLocalDateTime();
-		LocalDateTime createdAt = rs.getTimestamp(("created_at")).toLocalDateTime();
+		LocalDateTime lastLoginAt = TranslatorUtils.toLocalDateTIme(rs.getTimestamp("last_login_at"));
+		LocalDateTime createdAt = TranslatorUtils.toLocalDateTIme(rs.getTimestamp(("created_at")));
 
 		return new Customer(id, name, email, lastLoginAt, createdAt);
 	};
@@ -56,13 +54,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	private Map<String, Object> toParameters(Customer customer) {
-		return new HashMap<>() {{
-			put("customerId", customer.getCustomerId().toString().getBytes());
-			put("name", customer.getName());
-			put("email", customer.getEmail());
-			put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-			put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-		}};
+		HashMap<String, Object> customers = new HashMap<>();
+
+		customers.put("customerId", customer.getCustomerId().toString().getBytes());
+		customers.put("name", customer.getName());
+		customers.put("email", customer.getEmail());
+		customers.put("createdAt", (customer.getCreatedAt()));
+		customers.put("lastLoginAt", customer.getLastLoginAt());
+
+		return customers;
 	}
 
 	@Override
