@@ -1,7 +1,6 @@
 package org.prgrms.kdt.shop;
 
-import org.prgrms.kdt.shop.domain.FixedAmountVoucher;
-import org.prgrms.kdt.shop.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.shop.dto.VoucherCreateServiceDto;
 import org.prgrms.kdt.shop.enums.MenuStatus;
 import org.prgrms.kdt.shop.enums.VoucherType;
 import org.prgrms.kdt.shop.io.Input;
@@ -13,9 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CommandLineApplication implements ApplicationRunner {
+
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
@@ -47,7 +48,7 @@ public class CommandLineApplication implements ApplicationRunner {
         System.exit(0);
     }
 
-    private void inputVoucherMenu( ) {
+    private void inputVoucherMenu() {
         VoucherType voucherStatus = inputVoucher();
         switch (voucherStatus) {
             case FIXED_AMOUNT:
@@ -59,25 +60,28 @@ public class CommandLineApplication implements ApplicationRunner {
         }
     }
 
-    private String inputFixedAmount( ) {
+    private String inputFixedAmount() {
         try {
             output.printDiscountInput();
             String inputDiscount = input.getInput();
-            voucherService.addVoucher(new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(inputDiscount)));
+            voucherService.addVoucher(
+                new VoucherCreateServiceDto(UUID.randomUUID(), Long.parseLong(inputDiscount), "1",
+                    LocalDateTime.now()));
             return inputDiscount;
         } catch (Exception e) {
-
             output.printInputError();
             logger.error("할인 입력 에러", e);
         }
         return inputFixedAmount();
     }
 
-    private String inputPercentDiscount( ) {
+    private String inputPercentDiscount() {
         try {
             output.printDiscountInput();
             String inputDiscount = input.getInput();
-            voucherService.addVoucher(new PercentDiscountVoucher(UUID.randomUUID(), Long.parseLong(inputDiscount)));
+            voucherService.addVoucher(
+                new VoucherCreateServiceDto(UUID.randomUUID(), Long.parseLong(inputDiscount), "2",
+                    LocalDateTime.now()));
             return inputDiscount;
         } catch (Exception e) {
             output.printInputError();
@@ -86,7 +90,7 @@ public class CommandLineApplication implements ApplicationRunner {
         return inputPercentDiscount();
     }
 
-    private VoucherType inputVoucher( ) {
+    private VoucherType inputVoucher() {
         try {
             output.printVoucherSelector();
             String inputVoucher = input.getInput();
@@ -98,7 +102,7 @@ public class CommandLineApplication implements ApplicationRunner {
         return inputVoucher();
     }
 
-    private MenuStatus inputMenu( ) {
+    private MenuStatus inputMenu() {
         try {
             output.printMenuSelector();
             String inputMenu = input.getInput();
