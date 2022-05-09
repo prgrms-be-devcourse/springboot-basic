@@ -44,7 +44,7 @@ public class EmbeddedCustomerNamedJdbcRepositoryTest {
         public DataSource dataSource() {
 
             var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2210/test-voucher_prgrms")
+                    .url("jdbc:mysql://localhost:2215/test-voucher_prgrms")
                     .username("test")
                     .password("test123")
                     .type(HikariDataSource.class)

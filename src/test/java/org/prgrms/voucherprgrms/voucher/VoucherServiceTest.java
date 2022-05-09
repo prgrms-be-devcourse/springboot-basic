@@ -3,15 +3,24 @@ package org.prgrms.voucherprgrms.voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.voucherprgrms.voucher.model.FixedAmountVoucher;
+import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.prgrms.voucherprgrms.voucher.model.VoucherForm;
+import org.prgrms.voucherprgrms.voucher.model.VoucherSearchParam;
 import org.prgrms.voucherprgrms.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.UUID;
+
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.*;
 
 
 @SpringJUnitConfig
@@ -22,15 +31,13 @@ class VoucherServiceTest {
     static class Config {
     }
 
-    @Autowired
-    VoucherService voucherService;
 
-    @Autowired
-    VoucherRepository voucherRepository;
+    VoucherCreator voucherCreator = mock(VoucherCreator.class);
+    VoucherRepository voucherRepository = mock(VoucherRepository.class);
+    VoucherService voucherService = new VoucherService(voucherRepository, voucherCreator);
 
     @BeforeEach
     void init() {
-        voucherRepository.deleteAll();
     }
 
     @Test
@@ -38,33 +45,37 @@ class VoucherServiceTest {
     void createVoucherTest() {
 
         //given
-        VoucherForm voucherForm = new VoucherForm("FixedAmountVoucher", 1000);
-        voucherService.createVoucher(voucherForm);
+        var voucherForm = new VoucherForm("FixedAmountVoucher", 1000);
+        var expectedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
-        var allVouchers = voucherService.findAllVoucher();
-
-        assertThat(allVouchers.isEmpty(), is(false));
-        assertThat(allVouchers.get(0).toString(), is(equalTo(voucherForm.getVoucherType())));
-        assertThat(allVouchers.get(0).getValue(), is(equalTo(voucherForm.getValue())));
-    }
-
-
-    @Test
-    @DisplayName("voucher list creation")
-    void listCreationTest() {
-        //given
-        voucherService.createVoucher(new VoucherForm("FixedAmountVoucher", 1000));
-        voucherService.createVoucher(new VoucherForm("PercentDiscountVoucher", 10));
-        voucherService.createVoucher(new VoucherForm("PercentDiscountVoucher", 20));
-        voucherService.createVoucher(new VoucherForm("FixedAmountVoucher", 10));
-        voucherService.createVoucher(new VoucherForm("PercentDiscountVoucher", 70));
+        when(voucherCreator.create(voucherForm)).thenReturn(expectedVoucher);
 
         //when
-        var allVouchers = voucherService.findAllVoucher();
+        var voucher = voucherService.createVoucher(voucherForm);
+
+        verify(voucherRepository).insert(expectedVoucher);
+
+    }
+
+    @Test
+    @DisplayName("Voucher 검색 테스트")
+    void searchVoucherTest() {
+
+        //given
+        var searchParam = new VoucherSearchParam("CreatedAt", "", "2022-05-09", "2022-05-10");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime start = LocalDate.parse(searchParam.getStartDate(), formatter).atStartOfDay();
+        LocalDateTime end = LocalDate.parse(searchParam.getEndDate(), formatter).atStartOfDay();
+        List<Voucher> expectedList = List.of(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+
+        //when
+        when(voucherRepository.findByCreated(start,end))
+                .thenReturn(expectedList);
 
         //then
-        assertThat(allVouchers.isEmpty(), is(false));
-        assertThat(allVouchers, hasSize(5));
+        var voucherList = voucherService.search(searchParam);
+        assertThat(voucherList, hasSize(1));
+        assertThat(voucherList, samePropertyValuesAs(expectedList));
     }
 
 }

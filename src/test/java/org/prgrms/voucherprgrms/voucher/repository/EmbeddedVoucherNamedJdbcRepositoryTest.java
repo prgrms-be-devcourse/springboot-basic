@@ -8,7 +8,6 @@ import org.prgrms.voucherprgrms.voucher.model.FixedAmountVoucher;
 import org.prgrms.voucherprgrms.voucher.model.PercentDiscountVoucher;
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
