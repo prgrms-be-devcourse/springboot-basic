@@ -77,15 +77,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "select * from vouchers where voucher_id = :voucherId",
-                            Collections.singletonMap("voucherId", id.toString()),
-                            voucherRowMapper)
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        return jdbcTemplate.query("select * from vouchers where voucher_id = :voucherId",
+                Collections.singletonMap("voucherId", id.toString()), voucherRowMapper).stream().findAny();
     }
 }
