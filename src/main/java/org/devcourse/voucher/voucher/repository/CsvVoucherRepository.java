@@ -51,6 +51,12 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        logger.warn("Repository : The update function of the csv repository is not implemented.");
+        return voucher;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Repository : Record a voucher read");
         List<Voucher> vouchers = new ArrayList<>();
@@ -73,6 +79,11 @@ public class CsvVoucherRepository implements VoucherRepository {
             logger.error("Failed to read data from file -> {}", e.getMessage());
         }
         return vouchers;
+    }
+
+    @Override
+    public void deleteAll() {
+        logger.warn("Repository : The delete function of the csv repository is not implemented.");
     }
 
 }

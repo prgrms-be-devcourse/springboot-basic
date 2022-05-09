@@ -23,11 +23,24 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        logger.info("Repository : Record a voucher update");
+        store.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         logger.info("Repository : Record a voucher read");
         List<Voucher> vouchers = new ArrayList<>();
         store.forEach(((uuid, voucher) -> vouchers.add(voucher)));
         return vouchers;
+    }
+
+    @Override
+    public void deleteAll() {
+        logger.info("Repository : Record a voucher delete");
+        store.clear();
     }
 
 }
