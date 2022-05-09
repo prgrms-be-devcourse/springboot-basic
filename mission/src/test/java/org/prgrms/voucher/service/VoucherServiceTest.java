@@ -206,7 +206,7 @@ public class VoucherServiceTest {
         @DisplayName("인자로 받은 ID가 존재하지 않으면")
         class ContextReceiveWrongId {
 
-            Long wrongId = 100L;
+            Long wrongId = -1L;
             Optional<Voucher> emptyVoucher = Optional.empty();
 
             @Test
@@ -215,7 +215,7 @@ public class VoucherServiceTest {
 
                 when(voucherRepositoryMock.findById(wrongId)).thenReturn(emptyVoucher);
 
-                Assertions.assertThatThrownBy(() -> voucherService.getVoucher(wrongId))
+                Assertions.assertThatThrownBy(() -> voucherService.getVoucherById(wrongId))
                         .isInstanceOf(IllegalArgumentException.class);
             }
         }
@@ -234,7 +234,7 @@ public class VoucherServiceTest {
 
                 when(voucherRepositoryMock.findById(validId)).thenReturn(wrappingVoucher);
 
-                Voucher voucherCheck = voucherService.getVoucher(validId);
+                Voucher voucherCheck = voucherService.getVoucherById(validId);
 
                 Assertions.assertThat(voucher).isEqualTo(voucherCheck);
             }
@@ -255,7 +255,7 @@ public class VoucherServiceTest {
         @DisplayName("인자로 받은 ID가 존재하지 않으면")
         class ContextReceiveWrongId {
 
-            Long wrongId = 100L;
+            Long wrongId = -1L;
             Optional<Voucher> emptyVoucher = Optional.empty();
 
             @Test

@@ -141,15 +141,13 @@ public class VoucherWebControllerTest {
             List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
 
             @Test
-            @DisplayName("비어있는 리스트를 반환한다.")
+            @DisplayName("잘못된 인자 예외를 반환한다.")
             void itReturnEmptyListByJsonType() throws Exception {
 
                 when(voucherService.list()).thenReturn(vouchers);
 
                 mockMvc.perform(get("/api/v1/vouchers?voucherType=HELLO"))
-                        .andExpect(status().isOk())
-                        .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                        .andExpect(jsonPath("$.size()").value(0));
+                        .andExpect(status().isBadRequest());
             }
         }
 
@@ -234,15 +232,15 @@ public class VoucherWebControllerTest {
         @DisplayName("존재하지 않는 id가 인자로 들어왔을때")
         class ContextReceiveNullId {
 
-            Long wrongId = 100L;
+            Long wrongId = -1L;
 
             @Test
             @DisplayName("잘못된 요청 응답을 반환한다.")
             void itReturnBadRequestResponse() throws Exception {
 
-                when(voucherService.getVoucher(wrongId)).thenThrow(IllegalArgumentException.class);
+                when(voucherService.getVoucherById(wrongId)).thenThrow(IllegalArgumentException.class);
 
-                mockMvc.perform(get("/api/v1/vouchers/100"))
+                mockMvc.perform(get("/api/v1/vouchers/-1"))
                         .andExpect(status().isBadRequest());
             }
         }
@@ -258,7 +256,7 @@ public class VoucherWebControllerTest {
                 FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
                 Long paramId = 1L;
 
-                when(voucherService.getVoucher(paramId)).thenReturn(firstVoucher);
+                when(voucherService.getVoucherById(paramId)).thenReturn(firstVoucher);
 
                 mockMvc.perform(get("/api/v1/vouchers/1"))
                         .andExpect(status().isOk())
@@ -278,7 +276,7 @@ public class VoucherWebControllerTest {
         @DisplayName("존재하지 않는 ID를 삭제 요청 받으면")
         class ContextRequestWrongId {
 
-            Long wrongId = 100L;
+            Long wrongId = -1L;
 
             @Test
             @DisplayName("잘못된 요청 응답을 반환한다.")
@@ -286,7 +284,7 @@ public class VoucherWebControllerTest {
 
                 doThrow(IllegalArgumentException.class).when(voucherService).deleteVoucherById(wrongId);
 
-                mockMvc.perform(delete("/api/v1/vouchers/100"))
+                mockMvc.perform(delete("/api/v1/vouchers/-1"))
                         .andExpect(status().isBadRequest());
             }
         }

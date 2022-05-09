@@ -33,14 +33,14 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher getVoucher(Long voucherId) {
+    public Voucher getVoucherById(Long voucherId) {
 
         return voucherRepository.findById(voucherId).orElseThrow(IllegalArgumentException::new);
     }
 
     public void deleteVoucherById(Long voucherId) {
 
-        voucherRepository.findById(voucherId).orElseThrow(IllegalArgumentException::new);
-        voucherRepository.deleteById(voucherId);
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(IllegalArgumentException::new);
+        voucherRepository.deleteById(voucher.getVoucherId());
     }
 }
