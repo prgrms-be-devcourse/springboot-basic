@@ -24,7 +24,6 @@ public class FixedAmountVoucher extends AbstractVoucher {
       throw new VoucherDiscountDegreeOutOfRangeException(
           "discount amount must have positive value");
     }
-
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;
   }

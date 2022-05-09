@@ -88,7 +88,6 @@ class FileVoucherRepositoryTest {
     assertThat(storedVouchers).isEmpty();
   }
 
-
   @ParameterizedTest
   @DisplayName("voucherId로 원하는 voucher를 가져올 수 있어야 한다.")
   @MethodSource("voucherSource")
@@ -119,7 +118,8 @@ class FileVoucherRepositoryTest {
 
     //given
     var fileChannelMock = mock(FileChannel.class);
-    var serializedVouchers = incomingVouchers.stream().map(FileVoucherRepository.serializer).toArray(String[]::new);
+    var serializedVouchers = incomingVouchers.stream().map(FileVoucherRepository.serializer)
+        .toArray(String[]::new);
     when(fileChannelMock.readAllLines()).thenReturn(serializedVouchers);
     var repository = new FileVoucherRepository(fileChannelMock);
     var initialSize = repository.getAllVouchers().size();

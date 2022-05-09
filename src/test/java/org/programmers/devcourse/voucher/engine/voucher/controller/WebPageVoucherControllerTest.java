@@ -5,11 +5,13 @@ import static org.mockito.Mockito.when;
 import static org.programmers.devcourse.voucher.engine.voucher.VoucherTestUtil.voucherFixtures;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.UUID;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,6 +23,7 @@ import org.programmers.devcourse.voucher.engine.voucher.repository.JdbcVoucherRe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest()
@@ -69,20 +72,24 @@ class WebPageVoucherControllerTest {
   @Test
   @DisplayName("등록 폼 형식이 일치할 경우 등록 요청을 마치고 redirect 응답을 보 내야 한다.")
   void register_voucher_with_correct_parameter() throws Exception {
-    VoucherRegistrationDto dto = new VoucherRegistrationDto(String.valueOf(VoucherType.FIXED_AMOUNT.ordinal() + 1), 10000);
-    mockMvc.perform(post("/voucher/register").param("voucherType", "1").param("discountDegree", "10000"))
+    VoucherRegistrationDto dto = new VoucherRegistrationDto(
+        String.valueOf(VoucherType.FIXED_AMOUNT.ordinal() + 1), 10000);
+    mockMvc.perform(
+            post("/voucher/register").param("voucherType", "1").param("discountDegree", "10000"))
         .andExpect(status().is3xxRedirection())
         .andExpect(redirectedUrl("/voucher"));
   }
 
   @ParameterizedTest
   @CsvSource({"voucherTypesf,4444,discountDegree,10000", "voucherType,2424,discountDegreeff,10000"})
-  @DisplayName("등록폼 형식이 일치하지 않을 경우 400 응답을 보내야 한다.")
-  void register_voucher_with_wrong_parameter(String voucherType, String voucherTypeValue, String discountDegree, String discountDegreeValue) throws Exception {
+  @DisplayName("등록폼 형식이 일치하지 않을 경우 400 응답과, 오류 웹 페이지로 보내야 한다.")
+  void register_voucher_with_wrong_parameter(String voucherType, String voucherTypeValue,
+      String discountDegree, String discountDegreeValue) throws Exception {
     mockMvc.perform(post("/voucher/register")
             .param(voucherType, voucherTypeValue)
             .param(discountDegree, discountDegreeValue))
-        .andExpect(status().is4xxClientError());
+        .andExpect(status().is4xxClientError()).andExpect(view().name("web-error.html"))
+        .andExpect(content().string(Matchers.containsString(HttpStatus.BAD_REQUEST.toString())));
   }
 
   @Test
@@ -96,7 +103,8 @@ class WebPageVoucherControllerTest {
   @ParameterizedTest
   @CsvSource({"voucherId,sdffasdfxcvf", "wrongparamname,2a8b9a0c-1fa7-4349-af90-5e5e6a03fd17"})
   @DisplayName("삭제 요청을 한 ID의 형식이 유효하지 않으면 client error 응답을 보내야 한다.")
-  void delete_voucher_with_wrong_param_should_send_4xx_client_error(String voucherIdKey, String voucherIdLiteral) throws Exception {
+  void delete_voucher_with_wrong_param_should_send_4xx_client_error(String voucherIdKey,
+      String voucherIdLiteral) throws Exception {
     mockMvc.perform(post("/voucher/delete").param(voucherIdKey, voucherIdLiteral))
         .andExpect(status().is4xxClientError());
   }
