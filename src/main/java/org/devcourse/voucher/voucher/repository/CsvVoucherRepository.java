@@ -19,7 +19,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 @Repository
-@Profile("prod")
+@Profile("file")
 public class CsvVoucherRepository implements VoucherRepository {
 
     private final FilePathProperties filePath;
