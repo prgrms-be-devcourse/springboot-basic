@@ -192,6 +192,22 @@ public class VoucherJdbcRepositoryTests {
                 assertThat(findVoucher.get().getType(), is(voucher.getType()));
                 assertThat(findVoucher.get().getValue(), is(voucher.getValue()));
             }
+
+
+            @Nested
+            @DisplayName("존재하지 않는 id 값이 조회되면")
+            class Context_with_not_existing_id {
+
+                @Test
+                @Order(7)
+                @Transactional
+                @DisplayName("빈 값을 반환한다")
+                void it_return_saved_voucherList() {
+                    final var found = voucherRepository.findById(-1L);
+
+                    assertThat(found.isEmpty(), is(true));
+                }
+            }
         }
     }
 }
