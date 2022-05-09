@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 public class CustomerService {
 
-    private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
     public CustomerService(@Qualifier("namedParam") CustomerRepository customerRepository) {
@@ -26,7 +26,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public void createCustomer(CustomerDTO customerDTO){
+    public void createCustomer(CustomerDTO customerDTO) {
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent()) {
             logger.error("Email 중복 input : {}", customerDTO.getEmail());
             throw new RuntimeException();
@@ -65,9 +65,7 @@ public class CustomerService {
     private Customer toCustomer(CustomerDTO customerDTO) {
         UUID customerId = UUID.randomUUID();
         LocalDateTime createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        Customer customer = new Customer(customerId, customerDTO.getName(), customerDTO.getEmail(), createdAt);
-        return customer;
+        return new Customer(customerId, customerDTO.getName(), customerDTO.getEmail(), createdAt);
     }
-
 
 }

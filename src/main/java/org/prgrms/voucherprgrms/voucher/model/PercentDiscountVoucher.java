@@ -8,7 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
-    private final String DTYPE = "PercentDiscountVoucher";
+    private static final String DTYPE = "PercentDiscountVoucher";
 
     private final LocalDateTime createdAt;
 

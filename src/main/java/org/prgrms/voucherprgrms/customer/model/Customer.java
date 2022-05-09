@@ -57,4 +57,8 @@ public class Customer {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

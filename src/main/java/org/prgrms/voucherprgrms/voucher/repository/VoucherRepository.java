@@ -1,7 +1,6 @@
 package org.prgrms.voucherprgrms.voucher.repository;
 
 import org.prgrms.voucherprgrms.voucher.model.Voucher;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;

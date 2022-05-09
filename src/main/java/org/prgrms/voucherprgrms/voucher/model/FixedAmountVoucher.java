@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
-    private final String DTYPE = "FixedAmountVoucher";
+    private static final String DTYPE = "FixedAmountVoucher";
 
     private final LocalDateTime createdAt;
 

@@ -46,7 +46,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByVoucherType(String DTYPE) {
         var findList = new ArrayList<Voucher>();
         for (Voucher voucher : storage.values()) {
-            if (voucher.getDTYPE() == DTYPE) {
+            if (voucher.getDTYPE().equals(DTYPE)) {
                 findList.add(voucher);
             }
         }
