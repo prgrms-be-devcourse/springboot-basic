@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.UUID;
 
 import static com.prgrms.vouchermanagement.command.WalletCommand.*;
 import static com.prgrms.vouchermanagement.util.Messages.*;
@@ -123,9 +122,9 @@ class VoucherManagementTest {
     void voucherListTest() {
         // given
         when(console.inputCommand()).thenReturn("list", "exit");
-        Voucher voucher1 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 2000, LocalDateTime.now());
-        Voucher voucher2 = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher voucher3 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 20000, LocalDateTime.now());
+        Voucher voucher1 = FIXED_DISCOUNT.constructor(2000, LocalDateTime.now());
+        Voucher voucher2 = PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher voucher3 = FIXED_DISCOUNT.constructor(20000, LocalDateTime.now());
         List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3);
         when(voucherService.findAllVouchers()).thenReturn(vouchers);
 
@@ -158,9 +157,9 @@ class VoucherManagementTest {
     void blackListTest() {
         // given
         when(console.inputCommand()).thenReturn("blacklist", "exit");
-        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aaa@gamil.com", LocalDateTime.now());
-        Customer customer2 = Customer.of(UUID.randomUUID(), "bbb", "bbb@gamil.com", LocalDateTime.now());
-        Customer customer3 = Customer.of(UUID.randomUUID(), "ccc", "ccc@gamil.com", LocalDateTime.now());
+        Customer customer1 = Customer.of("aaa", "aaa@gamil.com");
+        Customer customer2 = Customer.of("bbb", "bbb@gamil.com");
+        Customer customer3 = Customer.of("ccc", "ccc@gamil.com");
         List<Customer> blackList = List.of(customer1, customer2, customer3);
         when(blackListRepository.findAll()).thenReturn(blackList);
 
@@ -244,15 +243,15 @@ class VoucherManagementTest {
     @DisplayName("customer의 wallet에 voucher를 추가한다.")
     void addVoucherToCustomerWalletTest() {
         // given
-        UUID customerId = UUID.randomUUID();
-        UUID voucherId = UUID.randomUUID();
+        Long customerId = 1234L;
+        Long voucherId = 5678L;
 
         //메뉴 입력
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(ADD_VOUCHER.getOrder());
 
         //customerId와 voucherId 입력
-        when(console.inputUUID(anyString())).thenReturn(customerId, voucherId);
+        when(console.inputId(anyString())).thenReturn(customerId, voucherId);
 
         // when
         runApplication();
@@ -263,36 +262,17 @@ class VoucherManagementTest {
     }
 
     @Test
-    @DisplayName("Customer에 Voucher를 추가할 때 customer, voucher의 ID가 UUID 형식이 아닌 다른 값이 들어오면 에러 메시지 출력")
-    void addVoucherToCustomerWalletTypeMismatchTest() {
-        // given
-
-        //메뉴 입력
-        when(console.inputCommand()).thenReturn("wallet", "exit");
-        when(console.inputNumber(anyString())).thenReturn(ADD_VOUCHER.getOrder());
-
-        //UUID 형식이 아닌 값이 입력되면 InputMismatchException이 던져진다.
-        doThrow(InputMismatchException.class).when(console).inputUUID(anyString());
-
-        // when
-        runApplication();
-
-        // then
-        verify(console).printMessage("Please input in UUID format");
-    }
-
-    @Test
     @DisplayName("Customer의 Wallet에 Voucher를 추가할 때, 존재하지 않는 VoucherId, CustomerId가 입력되면 에러 메시지를 출력한다.")
     void addVoucherToCustomerWalletNotExistsVoucherTest() {
         // given
-        UUID notExistsCustomerId = UUID.randomUUID();
-        UUID notExistsVoucherId = UUID.randomUUID();
+        Long notExistsCustomerId = -1L;
+        Long notExistsVoucherId = -1L;
 
         //메뉴 입력
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(ADD_VOUCHER.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(notExistsCustomerId, notExistsVoucherId);
+        when(console.inputId(anyString())).thenReturn(notExistsCustomerId, notExistsVoucherId);
         doThrow(IllegalArgumentException.class).when(voucherWalletService).addVoucherToWallet(notExistsCustomerId, notExistsVoucherId);
 
         // when
@@ -303,17 +283,17 @@ class VoucherManagementTest {
     }
 
     @Test
-    @DisplayName("Customer의 Wallet에 Voucher를 추가할 때, 존재하지 않는 가 입력되면 에러 메시지를 출력한다.")
+    @DisplayName("Customer의 Wallet에 Voucher를 추가할 때, 존재하지 않는 CustomerId가 입력되면 에러 메시지를 출력한다.")
     void addVoucherToCustomerWalletNotExistsCustomerTest() {
         // given
-        UUID notExistsCustomerId = UUID.randomUUID();
-        UUID existsVoucherId = UUID.randomUUID();
+        Long notExistsCustomerId = -1L;
+        Long existsVoucherId = 1234L;
 
         //메뉴 입력
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(ADD_VOUCHER.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(notExistsCustomerId, existsVoucherId);
+        when(console.inputId(anyString())).thenReturn(notExistsCustomerId, existsVoucherId);
         doThrow(IllegalArgumentException.class).when(voucherWalletService).addVoucherToWallet(notExistsCustomerId, existsVoucherId);
 
         // when
@@ -327,17 +307,17 @@ class VoucherManagementTest {
     @DisplayName("Customer가 가지고있는 Voucher를 조회한다.")
     void findVoucherByCustomerTest() {
         // given
-        UUID customerId = UUID.randomUUID();
-        Voucher voucher1 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 2000, LocalDateTime.now());
-        Voucher voucher2 = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher voucher3 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 20000, LocalDateTime.now());
+        Long customerId = 1234L;
+        Voucher voucher1 = FIXED_DISCOUNT.constructor(2000, LocalDateTime.now());
+        Voucher voucher2 = PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher voucher3 = FIXED_DISCOUNT.constructor(20000, LocalDateTime.now());
         List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3);
 
         //메뉴 선택
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(customerId);
+        when(console.inputId(anyString())).thenReturn(customerId);
         when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
         when(voucherService.findVoucherByCustomer(customerId)).thenReturn(vouchers);
 
@@ -364,7 +344,7 @@ class VoucherManagementTest {
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
         //UUID 형식이 입력되지 않으면 InputMismatchException 발생
-        when(console.inputUUID(anyString())).thenThrow(InputMismatchException.class);
+        when(console.inputId(anyString())).thenThrow(InputMismatchException.class);
 
         // when
         runApplication();
@@ -380,13 +360,13 @@ class VoucherManagementTest {
     @DisplayName("Customer가 가지고 있는 voucher를 조회하는데 입력된 customerId가 존재하지 않는 id이면 에러 메시지를 출력한다.")
     void findVoucherByCustomerNotExistsIdTest() {
         // given
-        UUID notExistsCustomerId = UUID.randomUUID();
+        Long notExistsCustomerId = -1L;
 
         //메뉴 선택
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(notExistsCustomerId);
+        when(console.inputId(anyString())).thenReturn(notExistsCustomerId);
         when(customerService.isRegisteredCustomer(notExistsCustomerId)).thenReturn(false);
 
         // when
@@ -401,13 +381,13 @@ class VoucherManagementTest {
     void findVoucherCustomerNoVoucherTest() {
         // given
         List<Voucher> emptyVoucher = Collections.emptyList();
-        UUID customerId = UUID.randomUUID();
+        Long customerId = 1234L;
 
         //메뉴 선택
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_VOUCHERS.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(customerId);
+        when(console.inputId(anyString())).thenReturn(customerId);
         when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
         when(voucherService.findVoucherByCustomer(customerId)).thenReturn(emptyVoucher);
 
@@ -428,13 +408,13 @@ class VoucherManagementTest {
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_CUSTOMER.getOrder());
 
-        UUID voucherId = UUID.randomUUID();
-        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
-        Customer customer2 = Customer.of(UUID.randomUUID(), "aaa", "bbb@gmail.com", LocalDateTime.now());
-        Customer customer3 = Customer.of(UUID.randomUUID(), "aaa", "ccc@gmail.com", LocalDateTime.now());
+        Long voucherId = 1234L;
+        Customer customer1 = Customer.of("aaa", "aaa@gmail.com");
+        Customer customer2 = Customer.of("aaa", "bbb@gmail.com");
+        Customer customer3 = Customer.of("aaa", "ccc@gmail.com");
         List<Customer> customers = List.of(customer1, customer2, customer3);
 
-        when(console.inputUUID(anyString())).thenReturn(voucherId);
+        when(console.inputId(anyString())).thenReturn(voucherId);
         when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
         when(customerService.findCustomerByVoucher(voucherId)).thenReturn(customers);
 
@@ -446,28 +426,6 @@ class VoucherManagementTest {
     }
 
     @Test
-    @DisplayName("특정 Voucher를 가지고 있는 모든 Customer를 조회하는데 입력된 voucherId가 UUID 형식이 아니면 에러 메시지를 출력한다")
-    void findCustomerByVoucherNotUUIDTest() {
-        // given
-
-        //메뉴 선택
-        when(console.inputCommand()).thenReturn("wallet", "exit");
-        when(console.inputNumber(anyString())).thenReturn(FIND_CUSTOMER.getOrder());
-
-        //UUID 형식이 입력되지 않으면 InputMismatchException 발생
-        when(console.inputUUID(anyString())).thenThrow(InputMismatchException.class);
-
-        // when
-        runApplication();
-
-        // then
-        verify(console).printMessage("Please input in UUID format");
-
-        //정상 로직은 호출되지 않는다.
-        verify(voucherService, times(0)).findVoucherByCustomer(any());
-    }
-
-    @Test
     @DisplayName("특정 Voucher를 가지고 있는 모든 Customer를 조회하는데 입력된 voucherId 존재하지 않는 id이면 에러 메시지를 출력한다.")
     void findCustomerByVoucherNotExistsIdTest() {
         // given
@@ -476,8 +434,8 @@ class VoucherManagementTest {
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_CUSTOMER.getOrder());
 
-        UUID notExistsVoucherId = UUID.randomUUID();
-        when(console.inputUUID(anyString())).thenReturn(notExistsVoucherId);
+        Long notExistsVoucherId = -1L;
+        when(console.inputId(anyString())).thenReturn(notExistsVoucherId);
         when(voucherService.isRegisteredVoucher(notExistsVoucherId)).thenReturn(false);
 
         // when
@@ -492,13 +450,13 @@ class VoucherManagementTest {
     void findCustomerByVoucherEmptyTest() {
         // given
         List<Customer> emptyCustomer = Collections.emptyList();
-        UUID voucherId = UUID.randomUUID();
+        Long voucherId = 1234L;
 
         //메뉴 선택
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(FIND_CUSTOMER.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(voucherId);
+        when(console.inputId(anyString())).thenReturn(voucherId);
         when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
         when(customerService.findCustomerByVoucher(voucherId)).thenReturn(emptyCustomer);
 
@@ -518,9 +476,9 @@ class VoucherManagementTest {
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(REMOVE_VOUCHER.getOrder());
 
-        UUID walletId = UUID.randomUUID();
+        Long walletId = 1234L;
 
-        when(console.inputUUID(anyString())).thenReturn(walletId);
+        when(console.inputId(anyString())).thenReturn(walletId);
 
         // when
         runApplication();
@@ -528,28 +486,6 @@ class VoucherManagementTest {
         // then
         verify(voucherWalletService).removeVoucherInWallet(walletId);
         verify(console).printMessage("Voucher in this wallet is removed");
-    }
-
-    @Test
-    @DisplayName("Wallet을 삭제하는데 walletId가 UUID 형식이 아닌 경우 에러 메시지를 출력한다.")
-    void removeWalletNotUUIDTest() {
-        // given
-
-        //메뉴 선택
-        when(console.inputCommand()).thenReturn("wallet", "exit");
-        when(console.inputNumber(anyString())).thenReturn(REMOVE_VOUCHER.getOrder());
-
-        //UUID 형식이 입력되지 않으면 InputMismatchException 발생
-        when(console.inputUUID(anyString())).thenThrow(InputMismatchException.class);
-
-        // when
-        runApplication();
-
-        // then
-        verify(console).printMessage("Please input in UUID format");
-
-        //삭제 로직은 호출되지 않는다.
-        verify(voucherWalletService, times(0)).removeVoucherInWallet(any(UUID.class));
     }
 
     @Test
@@ -561,8 +497,8 @@ class VoucherManagementTest {
         when(console.inputCommand()).thenReturn("wallet", "exit");
         when(console.inputNumber(anyString())).thenReturn(REMOVE_VOUCHER.getOrder());
 
-        when(console.inputUUID(anyString())).thenReturn(UUID.randomUUID());
-        doThrow(IllegalArgumentException.class).when(voucherWalletService).removeVoucherInWallet(any(UUID.class));
+        when(console.inputId(anyString())).thenReturn(-1L);
+        doThrow(IllegalArgumentException.class).when(voucherWalletService).removeVoucherInWallet(anyLong());
 
         // when
         runApplication();

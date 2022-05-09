@@ -1,13 +1,10 @@
 package com.prgrms.vouchermanagement.customer;
 
-import com.prgrms.vouchermanagement.util.FilePathProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -15,8 +12,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -25,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CustomerServiceTest {
 
     @Configuration
-    @ComponentScan
-    @EnableConfigurationProperties(FilePathProperties.class)
     static class TestConfig {
 
         @Bean
@@ -50,7 +43,7 @@ class CustomerServiceTest {
         }
 
         @Bean
-        CustomerService customerService(CustomerRepository customerRepository) {
+        CustomerService customerService(CustomerNamedJdbcRepository customerRepository) {
             return new CustomerService(customerRepository);
         }
     }
@@ -87,7 +80,7 @@ class CustomerServiceTest {
     void addCustomerDuplicateEmailTest() {
         // given
         String duplicateEmail = "duplicate@gmail.com";
-        customerRepository.save(Customer.of(UUID.randomUUID(), "aaa", duplicateEmail, LocalDateTime.now()));
+        customerRepository.save(Customer.of("aaa", duplicateEmail));
 
         // then
         assertThatThrownBy(() -> {
@@ -103,7 +96,7 @@ class CustomerServiceTest {
     void isRegisteredCustomerByEmailTest() {
         // given
         String email = "aaa@gmail.com";
-        customerRepository.save(Customer.of(UUID.randomUUID(), "aaa", email, LocalDateTime.now()));
+        customerRepository.save(Customer.of("aaa", email));
 
         // when
         boolean registeredCustomer = customerService.isRegisteredCustomer(email);
@@ -117,7 +110,7 @@ class CustomerServiceTest {
     void isRegisteredCustomerNotExistsEmailTest() {
         // given
         String email = "aaa@gmail.com";
-        customerRepository.save(Customer.of(UUID.randomUUID(), "aaa", email, LocalDateTime.now()));
+        customerRepository.save(Customer.of("aaa", email));
 
         // when
         boolean registeredCustomer = customerService.isRegisteredCustomer("notExists@gmail.com");
@@ -130,8 +123,7 @@ class CustomerServiceTest {
     @DisplayName("Id를 입력받아 등록된 Customer인지 확인한다.")
     void isRegisteredCustomerByIdTest() {
         // given
-        UUID customerId = UUID.randomUUID();
-        customerRepository.save(Customer.of(customerId, "aaa", "aaa@gmail.com", LocalDateTime.now()));
+        Long customerId = customerRepository.save(Customer.of("aaa", "aaa@gmail.com"));
 
         // when
         boolean registeredCustomer = customerService.isRegisteredCustomer(customerId);
@@ -144,8 +136,8 @@ class CustomerServiceTest {
     @DisplayName("등록되지 않은 Id로 isRegisteredCustomer를 호출하면 false가 반환된다.")
     void isRegisteredCustomerNotExistsIdTest() {
         // given
-        UUID notExistsCustomerId = UUID.randomUUID();
-        customerRepository.save(Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now()));
+        Long notExistsCustomerId = -1L;
+        customerRepository.save(Customer.of("aaa", "aaa@gmail.com"));
 
         // when
         boolean registeredCustomer = customerService.isRegisteredCustomer(notExistsCustomerId);

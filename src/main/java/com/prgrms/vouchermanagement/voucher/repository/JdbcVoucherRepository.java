@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -16,7 +19,7 @@ import java.util.*;
 @Profile("database")
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    public static final String INSERT_SQL = "INSERT INTO voucher(voucher_id, voucher_type, amount, created_at) VALUES (:voucherId, :voucherType, :amount, :createdAt)";
+    public static final String INSERT_SQL = "INSERT INTO voucher(voucher_type, amount, created_at) VALUES (:voucherType, :amount, :createdAt)";
     public static final String SELECT_SQL = "SELECT * FROM voucher";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE voucher_id=:voucherId";
     public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";
@@ -31,8 +34,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) throws DataAccessException {
-        jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
+    public Long save(Voucher voucher) throws DataAccessException {
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(INSERT_SQL, toParameterSource(voucher), keyHolder, new String[]{"voucher_id"});
+        return keyHolder.getKey().longValue();
     }
 
     @Override
@@ -41,9 +46,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) throws DataAccessException {
+    public Optional<Voucher> findById(Long voucherId) throws DataAccessException {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId.toString()), voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -63,20 +68,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findVoucherByCustomer(UUID customerId) throws DataAccessException {
+    public List<Voucher> findVoucherByCustomer(Long customerId) throws DataAccessException {
         return jdbcTemplate.query(FIND_VOUCHER_BY_CUSTOMER_SQL,
-                Collections.singletonMap("customerId", customerId.toString()),
+                Collections.singletonMap("customerId", customerId),
                 voucherRowMapper);
     }
 
     @Override
     public void update(Voucher voucher) throws DataAccessException {
-        jdbcTemplate.update(UPDATE_SQL, toParamMap(voucher));
+        jdbcTemplate.update(UPDATE_SQL, toParameterSource(voucher));
     }
 
     @Override
-    public void remove(UUID voucherId) throws DataAccessException {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id=:voucherId", Collections.singletonMap("voucherId", voucherId.toString()));
+    public void remove(Long voucherId) throws DataAccessException {
+        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
     }
 
     /**
@@ -86,21 +91,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
     }
 
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", voucher.getVoucherId().toString());
-        paramMap.put("voucherType", VoucherType.getVoucherType(voucher).toString());
-        paramMap.put("amount", voucher.getAmount());
-        paramMap.put("createdAt", voucher.getCreatedAt());
-        return paramMap;
+    private SqlParameterSource toParameterSource(Voucher voucher) {
+        return new MapSqlParameterSource()
+                .addValue("voucherId", voucher.getVoucherId())
+                .addValue("voucherType", VoucherType.getVoucherType(voucher).toString())
+                .addValue("amount", voucher.getAmount())
+                .addValue("createdAt", voucher.getCreatedAt());
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
+        Long voucherId = rs.getLong("voucher_id");
         VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
-        UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         int amount = rs.getInt("amount");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
-
         return voucherType.constructor(voucherId, amount, createdAt);
     };
 }

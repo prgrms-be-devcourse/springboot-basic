@@ -2,15 +2,14 @@ package com.prgrms.vouchermanagement.wallet;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherWalletRepository {
 
-    void save(Wallet wallet);
+    Long save(Wallet wallet);
 
-    void removeWallet(UUID walletId);
+    void removeWallet(Long walletId);
 
-    Optional<Wallet> findWallet(UUID walletId);
+    Optional<Wallet> findWallet(Long walletId);
 
     List<Wallet> findAll();
 }

@@ -1,9 +1,9 @@
 CREATE TABLE if not exists customer
 (
-    customer_id    varchar(36) PRIMARY KEY,
-    name           varchar(20) NOT NULL,
-    email          varchar(50) NOT NULL,
-    last_login_at  datetime             DEFAULT NULL,
-    created_at     datetime    NOT NULL DEFAULT now(),
-    CONSTRAINT unq_user_email UNIQUE (email)
+    customer_id    bigint primary key auto_increment,
+    name           varchar(20) not null,
+    email          varchar(50) not null,
+    last_login_at  datetime             default null,
+    created_at     datetime    not null default now(),
+    constraint unq_user_email unique (email)
 );

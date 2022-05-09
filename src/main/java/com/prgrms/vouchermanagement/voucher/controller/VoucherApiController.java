@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-import static org.springframework.http.MediaType.*;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.http.MediaType.APPLICATION_XML_VALUE;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
@@ -51,18 +51,18 @@ public class VoucherApiController {
 
     @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE}, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
     public ResponseEntity<Object> addVoucher(@RequestBody CreateVoucherRequest customerRequest) {
-        UUID voucherId = voucherService.addVoucher(customerRequest.getVoucherType(), customerRequest.getAmount());
+        Long voucherId = voucherService.addVoucher(customerRequest.getVoucherType(), customerRequest.getAmount());
         return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucherId)).build();
     }
 
     @DeleteMapping(value = "/{voucherId}")
-    public ResponseEntity<Object> removeVoucher(@PathVariable UUID voucherId) {
+    public ResponseEntity<Object> removeVoucher(@PathVariable Long voucherId) {
         voucherService.removeVoucher(voucherId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/{voucherId}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<VoucherResponse> findById(@PathVariable UUID voucherId) {
+    public ResponseEntity<VoucherResponse> findById(@PathVariable Long voucherId) {
         Optional<Voucher> optionalVoucher = voucherService.findVoucherById(voucherId);
 
         if (optionalVoucher.isEmpty()) {

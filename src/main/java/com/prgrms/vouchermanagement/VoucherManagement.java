@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.UUID;
 
 import static com.prgrms.vouchermanagement.util.Messages.*;
 
@@ -143,7 +142,7 @@ public class VoucherManagement {
 
     private void removeVoucherInWallet() {
         try {
-            UUID walletId = input.inputUUID("walletId");
+            Long walletId = input.inputId("walletId");
 
             walletService.removeVoucherInWallet(walletId);
             output.printMessage("Voucher in this wallet is removed");
@@ -157,10 +156,8 @@ public class VoucherManagement {
     }
 
     private void findCustomerByVoucher() {
-        UUID voucherId = null;
-
         try {
-            voucherId = input.inputUUID("voucherId");
+            Long voucherId = input.inputId("voucherId");
 
             if (!voucherService.isRegisteredVoucher(voucherId)) {
                 output.printMessage("This voucher is not registered");
@@ -184,7 +181,7 @@ public class VoucherManagement {
 
     private void findVoucherByCustomer() {
         try {
-            UUID customerId = input.inputUUID("customerId");
+            Long customerId = input.inputId("customerId");
 
             if (!customerService.isRegisteredCustomer(customerId)) {
                 output.printMessage("This customer is not registered");
@@ -209,8 +206,8 @@ public class VoucherManagement {
 
     private void addVoucherToCustomerWallet() {
         try {
-            UUID customerId = input.inputUUID("customerId");
-            UUID voucherId = input.inputUUID("voucherId");
+            Long customerId = input.inputId("customerId");
+            Long voucherId = input.inputId("voucherId");
 
             walletService.addVoucherToWallet(customerId, voucherId);
             output.printMessage(MessageFormat.format("{0} is Saved to {1}''s wallet", voucherId, customerId));

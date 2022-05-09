@@ -44,8 +44,8 @@ class VoucherTypeTest {
     @DisplayName("voucher가 어떤 VoucherType인지 반환해준다.")
     void getVoucherTypeByVoucherTest() {
         // given
-        Voucher fixedVoucher = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 500, LocalDateTime.now());
-        Voucher percentVoucher = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
+        Voucher fixedVoucher = FIXED_DISCOUNT.constructor(500, LocalDateTime.now());
+        Voucher percentVoucher = PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
 
         // when
         VoucherType fixedVoucherType = getVoucherType(fixedVoucher);
@@ -60,15 +60,13 @@ class VoucherTypeTest {
     @DisplayName("FixedAmountVoucher를 생성한다.")
     void createFixedAmountVoucherTest() {
         // given
-        UUID voucherId = UUID.randomUUID();
         int amount = 500;
         LocalDateTime createdAt = LocalDateTime.now();
 
         // when
-        Voucher voucher = FIXED_DISCOUNT.constructor(voucherId, amount, createdAt);
+        Voucher voucher = FIXED_DISCOUNT.constructor(amount, createdAt);
 
         // then
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
         assertThat(voucher.getAmount()).isEqualTo(amount);
         assertThat(voucher.getCreatedAt()).isEqualTo(createdAt);
     }
@@ -79,7 +77,7 @@ class VoucherTypeTest {
     void createFixedAmountVoucherFailTest(int wrongAmount) {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Voucher voucher = FIXED_DISCOUNT.constructor(UUID.randomUUID(), wrongAmount, LocalDateTime.now());
+            Voucher voucher = FIXED_DISCOUNT.constructor(wrongAmount, LocalDateTime.now());
         });
     }
 
@@ -92,10 +90,9 @@ class VoucherTypeTest {
         LocalDateTime createdAt = LocalDateTime.now();
 
         // when
-        Voucher voucher = PERCENT_DISCOUNT.constructor(voucherId, amount, createdAt);
+        Voucher voucher = PERCENT_DISCOUNT.constructor(amount, createdAt);
 
         // then
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
         assertThat(voucher.getAmount()).isEqualTo(amount);
         assertThat(voucher.getCreatedAt()).isEqualTo(createdAt);
     }
@@ -105,7 +102,7 @@ class VoucherTypeTest {
     @DisplayName("0~100을 벗어나는 작은 할인율로 PercentVoucher를 생성하면 IllegalArgumentException이 발생한다.")
     void createPercentDiscountVoucherFailTest(int wrongAmount) {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Voucher voucher = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), wrongAmount, LocalDateTime.now());
+            Voucher voucher = PERCENT_DISCOUNT.constructor(wrongAmount, LocalDateTime.now());
         });
     }
 }

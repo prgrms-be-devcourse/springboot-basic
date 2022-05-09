@@ -3,25 +3,28 @@ package com.prgrms.vouchermanagement.voucher;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher, Serializable {
 
-    private UUID voucherId;
+    private Long voucherId;
     private long discountPercentage;
     private LocalDateTime createdAt;
 
-    public PercentDiscountVoucher(UUID voucherId, long discountPercentage, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(Long voucherId, long discountPercentage, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.discountPercentage = discountPercentage;
         this.createdAt = createdAt;
     }
 
-    public static Voucher of(UUID voucherId, long discountPercentage, LocalDateTime createdAt) throws IllegalArgumentException {
+    public static Voucher of(Long voucherId, long discountPercentage, LocalDateTime createdAt) throws IllegalArgumentException {
         if (discountPercentage < 0 || discountPercentage > 100) {
             throw new IllegalArgumentException("Percent discount 는 0 ~ 100% 범위의 값을 입력해주세요.");
         }
         return new PercentDiscountVoucher(voucherId, discountPercentage, createdAt);
+    }
+
+    public static Voucher of(long discountPercentage, LocalDateTime createdAt) throws IllegalArgumentException {
+        return PercentDiscountVoucher.of(null, discountPercentage, createdAt);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 

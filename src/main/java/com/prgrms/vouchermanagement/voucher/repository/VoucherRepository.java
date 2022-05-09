@@ -6,11 +6,10 @@ import com.prgrms.vouchermanagement.voucher.VoucherType;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    Long save(Voucher voucher);
 
     List<Voucher> findAll();
 
@@ -18,11 +17,11 @@ public interface VoucherRepository {
 
     List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime end);
 
-    List<Voucher> findVoucherByCustomer(UUID customerId);
+    List<Voucher> findVoucherByCustomer(Long customerId);
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findById(Long voucherId);
 
     void update(Voucher voucher);
 
-    void remove(UUID voucherId);
+    void remove(Long voucherId);
 }

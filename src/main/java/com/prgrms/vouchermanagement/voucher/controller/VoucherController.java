@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/vouchers")
@@ -35,7 +34,7 @@ public class VoucherController {
     }
 
     @GetMapping(value = "/{voucherId}")
-    public String findVoucher(@PathVariable UUID voucherId, Model model) {
+    public String findVoucher(@PathVariable Long voucherId, Model model) {
         Optional<Voucher> findVoucher = voucherService.findVoucherById(voucherId);
         List<Customer> customers = customerService.findCustomerByVoucher(voucherId);
 
@@ -59,14 +58,13 @@ public class VoucherController {
 
     @PostMapping(value = "/add")
     public String addVoucher(@ModelAttribute VoucherResponse voucherResponse, RedirectAttributes redirectAttributes) {
-        UUID voucherId = voucherService.addVoucher(voucherResponse.getVoucherType(), voucherResponse.getAmount());
+        Long voucherId = voucherService.addVoucher(voucherResponse.getVoucherType(), voucherResponse.getAmount());
         redirectAttributes.addAttribute("voucherId", voucherId);
-        redirectAttributes.addAttribute("isSave", true);
         return "redirect:/vouchers/{voucherId}";
     }
 
     @PostMapping(value = "/{voucherId}/remove")
-    public String removeVoucher(@PathVariable UUID voucherId) {
+    public String removeVoucher(@PathVariable Long voucherId) {
         if (validateRegisteredVoucher(voucherId)) {
             return "error/404";
         }
@@ -75,7 +73,7 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-    private boolean validateRegisteredVoucher(UUID voucherId) {
+    private boolean validateRegisteredVoucher(Long voucherId) {
         return !voucherService.isRegisteredVoucher(voucherId);
     }
 }

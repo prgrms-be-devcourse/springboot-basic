@@ -2,18 +2,17 @@ package com.prgrms.vouchermanagement.wallet;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class WalletResponse {
 
-    private UUID walletId;
-    private UUID voucherId;
-    private UUID customerId;
+    private Long walletId;
+    private Long voucherId;
+    private Long customerId;
     private LocalDateTime createdAt;
 
 
-    public WalletResponse(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
+    public WalletResponse(Long walletId, Long voucherId, Long customerId, LocalDateTime createdAt) {
         this.walletId = walletId;
         this.voucherId = voucherId;
         this.customerId = customerId;
@@ -28,15 +27,15 @@ public class WalletResponse {
         return wallets.stream().map(WalletResponse::from).collect(Collectors.toList());
     }
 
-    public UUID getWalletId() {
+    public Long getWalletId() {
         return walletId;
     }
 
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 

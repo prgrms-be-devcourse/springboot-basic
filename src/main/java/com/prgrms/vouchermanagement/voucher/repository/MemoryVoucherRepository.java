@@ -12,14 +12,17 @@ import java.util.*;
 @Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> store = new HashMap<>();
+    private final Map<Long, Voucher> store = new HashMap<>();
+    private long sequence = 0L;
 
     @Override
-    public void save(Voucher voucher) {
+    public Long save(Voucher voucher) {
         if (voucher == null) {
-            return;
+            return -1L;
         }
-        store.put(voucher.getVoucherId(), voucher);
+        Long voucherId = ++sequence;
+        store.put(voucherId, voucher);
+        return voucherId;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         return Optional.ofNullable(store.get(voucherId));
     }
 
@@ -44,7 +47,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void remove(UUID voucherId) {
+    public void remove(Long voucherId) {
         if (voucherId == null) {
             return;
         }
@@ -62,7 +65,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findVoucherByCustomer(UUID customerId) {
+    public List<Voucher> findVoucherByCustomer(Long customerId) {
         return null;
     }
 }

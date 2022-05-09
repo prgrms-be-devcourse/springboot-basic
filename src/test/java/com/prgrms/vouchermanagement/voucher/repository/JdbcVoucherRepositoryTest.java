@@ -18,7 +18,6 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,51 +61,52 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 저장한다.")
     void saveTest() {
         // given
-        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50000, LocalDateTime.now());
+        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(50000, LocalDateTime.now());
 
         // when
-        voucherRepository.save(percentVoucher);
-        voucherRepository.save(fixedVoucher);
+        Long percentVoucherId = voucherRepository.save(percentVoucher);
+        Long fixedVoucherId = voucherRepository.save(fixedVoucher);
 
         // then
-        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getVoucherId()).get();
-        assertThat(findPercentVoucher).usingRecursiveComparison().isEqualTo(percentVoucher);
+        Voucher findPercentVoucher = voucherRepository.findById(percentVoucherId).get();
+        assertThat(findPercentVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(percentVoucher);
 
-        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
-        assertThat(findFixedVoucher).usingRecursiveComparison().isEqualTo(fixedVoucher);
+        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucherId).get();
+        assertThat(findFixedVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(fixedVoucher);
     }
 
     @Test
     @DisplayName("voucherId로 Voucher를 조회한다.")
     void findByIdTest() {
         // given
-        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50000, LocalDateTime.now());
-        voucherRepository.save(percentVoucher);
-        voucherRepository.save(fixedVoucher);
+        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(50000, LocalDateTime.now());
+        Long percentVoucherId = voucherRepository.save(percentVoucher);
+        Long fixedVoucherId = voucherRepository.save(fixedVoucher);
 
         // when
-        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getVoucherId()).get();
-        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher findPercentVoucher = voucherRepository.findById(percentVoucherId).get();
+        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucherId).get();
 
 
         // then
-        assertThat(findPercentVoucher).usingRecursiveComparison().isEqualTo(percentVoucher);
-        assertThat(findFixedVoucher).usingRecursiveComparison().isEqualTo(fixedVoucher);
+        assertThat(findPercentVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(percentVoucher);
+        assertThat(findFixedVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(fixedVoucher);
     }
 
     @Test
     @DisplayName("존재하지 않는 voucherId로 Voucher를 조회하면 Optional.empty()를 반환한다.")
     void findByNotExistsIdTest() {
         // given
-        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50000, LocalDateTime.now());
+        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(50000, LocalDateTime.now());
         voucherRepository.save(percentVoucher);
         voucherRepository.save(fixedVoucher);
+        Long wrongVoucherId = -1L;
 
         // when
-        Optional<Voucher> findVoucher = voucherRepository.findById(UUID.randomUUID());
+        Optional<Voucher> findVoucher = voucherRepository.findById(wrongVoucherId);
 
         // then
         assertThat(findVoucher).isEmpty();
@@ -116,49 +116,49 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 update한다.")
     void updateTest() {
         // given
-        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50000, LocalDateTime.now());
-        voucherRepository.save(percentVoucher);
-        voucherRepository.save(fixedVoucher);
+        Voucher percentVoucher =  VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(50000, LocalDateTime.now());
+        Long percentVoucherId = voucherRepository.save(percentVoucher);
+        Long fixedVoucherId = voucherRepository.save(fixedVoucher);
 
         // when
-        Voucher updatePercentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(percentVoucher.getVoucherId(), 70, percentVoucher.getCreatedAt());
-        Voucher updateFixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(fixedVoucher.getVoucherId(), 70000, fixedVoucher.getCreatedAt());
+        Voucher updatePercentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(percentVoucherId, 70, percentVoucher.getCreatedAt());
+        Voucher updateFixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(fixedVoucherId, 70000, fixedVoucher.getCreatedAt());
 
         voucherRepository.update(updatePercentVoucher);
         voucherRepository.update(updateFixedVoucher);
 
         // then
-        Voucher findPercentVoucher = voucherRepository.findById(percentVoucher.getVoucherId()).get();
-        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher findPercentVoucher = voucherRepository.findById(percentVoucherId).get();
+        Voucher findFixedVoucher = voucherRepository.findById(fixedVoucherId).get();
 
-        assertThat(updatePercentVoucher).usingRecursiveComparison().isEqualTo(findPercentVoucher);
-        assertThat(updateFixedVoucher).usingRecursiveComparison().isEqualTo(findFixedVoucher);
+        assertThat(updatePercentVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(findPercentVoucher);
+        assertThat(updateFixedVoucher).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(findFixedVoucher);
     }
 
     @Test
     @DisplayName("Voucher를 삭제한다.")
     void removeTest() {
         // given
-        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        voucherRepository.save(voucher);
+        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(50, LocalDateTime.now());
+        Long voucherId = voucherRepository.save(voucher);
 
         // when
-        voucherRepository.remove(voucher.getVoucherId());
+        voucherRepository.remove(voucherId);
 
         // then
-        assertThat(voucherRepository.findById(voucher.getVoucherId())).isEmpty();
+        assertThat(voucherRepository.findById(voucherId)).isEmpty();
     }
 
     @Test
     @DisplayName("전체 Voucher를 조회한다.")
     void findAllTest() {
         // given
-        Voucher voucher1 =  VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher voucher2 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 50000, LocalDateTime.now());
-        Voucher voucher3 = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 10, LocalDateTime.now());
-        Voucher voucher4 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 3000, LocalDateTime.now());
-        Voucher voucher5 = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 30, LocalDateTime.now());
+        Voucher voucher1 =  VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher voucher2 = VoucherType.FIXED_DISCOUNT.constructor(50000, LocalDateTime.now());
+        Voucher voucher3 = VoucherType.PERCENT_DISCOUNT.constructor(10, LocalDateTime.now());
+        Voucher voucher4 = VoucherType.FIXED_DISCOUNT.constructor(3000, LocalDateTime.now());
+        Voucher voucher5 = VoucherType.PERCENT_DISCOUNT.constructor(30, LocalDateTime.now());
 
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -171,7 +171,7 @@ class JdbcVoucherRepositoryTest {
 
         // then
         assertThat(allVouchers.size()).isEqualTo(5);
-        assertThat(allVouchers).usingRecursiveFieldByFieldElementComparator().contains(voucher1, voucher2, voucher3, voucher4, voucher5);
+        assertThat(allVouchers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("voucherId").contains(voucher1, voucher2, voucher3, voucher4, voucher5);
     }
 
     @Test

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -23,28 +22,26 @@ public class VoucherService {
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public UUID addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
-        Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
-        voucherRepository.save(newVoucher);
-        return newVoucher.getVoucherId();
+    public Long addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
+        Voucher newVoucher = voucherType.constructor(amount, LocalDateTime.now());
+        return voucherRepository.save(newVoucher);
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
     public List<Voucher> findAllVouchers() throws DataAccessException {
-        List<Voucher> allVouchers = voucherRepository.findAll();
-        return allVouchers;
+        return voucherRepository.findAll();
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public boolean isRegisteredVoucher(UUID voucherId) throws DataAccessException {
+    public boolean isRegisteredVoucher(Long voucherId) throws DataAccessException {
         return voucherRepository.findById(voucherId).isPresent();
     }
 
-    public Optional<Voucher> findVoucherById(UUID voucherId) {
+    public Optional<Voucher> findVoucherById(Long voucherId) {
         return voucherRepository.findById(voucherId);
     }
 
@@ -56,11 +53,11 @@ public class VoucherService {
         return voucherRepository.findByPeriod(from, end);
     }
 
-    public List<Voucher> findVoucherByCustomer(UUID customerId) throws IllegalArgumentException, DataAccessException {
+    public List<Voucher> findVoucherByCustomer(Long customerId) throws IllegalArgumentException, DataAccessException {
         return voucherRepository.findVoucherByCustomer(customerId);
     }
 
-    public void removeVoucher(UUID voucherId) {
+    public void removeVoucher(Long voucherId) {
         voucherRepository.remove(voucherId);
     }
 

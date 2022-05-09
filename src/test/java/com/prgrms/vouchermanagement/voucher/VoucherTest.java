@@ -22,9 +22,8 @@ class VoucherTest {
         int amount = 50;
         LocalDateTime createdAt = LocalDateTime.now();
 
-        Voucher voucher = PERCENT_DISCOUNT.constructor(voucherId, amount, createdAt);
+        Voucher voucher = PERCENT_DISCOUNT.constructor(amount, createdAt);
 
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
         assertThat(voucher.getAmount()).isEqualTo(amount);
         assertThat(voucher.getCreatedAt()).isEqualTo(createdAt);
     }
@@ -33,13 +32,13 @@ class VoucherTest {
     @ValueSource(ints = {999, -100})
     @DisplayName("PercentVoucher 를 생성할 때 0~100 범위가 아닌 amount 값을 입력하면 예외 발생")
     void percentVoucherDiscountText(int amount) {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PERCENT_DISCOUNT.constructor(UUID.randomUUID(), amount, LocalDateTime.now()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PERCENT_DISCOUNT.constructor( amount, LocalDateTime.now()));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-200, -100})
     @DisplayName("FixedVoucher 를 생성할 때 0보다 작은 amount 값을 입력하면 예외 발생")
     void fixedVoucherDiscountText(int amount) {
-        Assertions.assertThrows(IllegalArgumentException.class, () -> FIXED_DISCOUNT.constructor(UUID.randomUUID(), amount, LocalDateTime.now()));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> FIXED_DISCOUNT.constructor(amount, LocalDateTime.now()));
     }
 }

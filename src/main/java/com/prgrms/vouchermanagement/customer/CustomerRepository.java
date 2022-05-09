@@ -2,23 +2,22 @@ package com.prgrms.vouchermanagement.customer;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface CustomerRepository {
 
-    void save(Customer customer);
+    Long save(Customer customer);
 
     void update(Customer customer);
 
-    void remove(UUID customerId);
+    void remove(Long customerId);
 
     List<Customer> findAll();
 
-    Optional<Customer> findById(UUID customerID);
+    Optional<Customer> findById(Long customerID);
 
     List<Customer> findByName(String name);
 
     Optional<Customer> findByEmail(String email);
 
-    List<Customer> findCustomerByVoucher(UUID voucherId);
+    List<Customer> findCustomerByVoucher(Long voucherId);
 }

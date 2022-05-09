@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/customers")
@@ -32,7 +31,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{customerId}")
-    public String findById(@PathVariable UUID customerId, Model model) {
+    public String findById(@PathVariable Long customerId, Model model) {
         Optional<Customer> optionalCustomer = customerService.findById(customerId);
 
         if (optionalCustomer.isEmpty()) {
@@ -55,13 +54,13 @@ public class CustomerController {
 
     @PostMapping(value = "/add")
     public String addCustomer(@ModelAttribute CreateCustomerRequest customerRequest, RedirectAttributes redirectAttributes) {
-        UUID customerId = customerService.addCustomer(customerRequest.getName(), customerRequest.getEmail());
+        Long customerId = customerService.addCustomer(customerRequest.getName(), customerRequest.getEmail());
         redirectAttributes.addAttribute("customerId", customerId);
         return "redirect:/customers/{customerId}";
     }
 
     @PostMapping(value = "/{customerId}/remove")
-    public String removeCustomer(@PathVariable UUID customerId) {
+    public String removeCustomer(@PathVariable Long customerId) {
         if (validateRegisteredCustomer(customerId)) {
             return "error/404";
         }
@@ -70,7 +69,7 @@ public class CustomerController {
         return "redirect:/customers";
     }
 
-    private boolean validateRegisteredCustomer(UUID customerId) {
+    private boolean validateRegisteredCustomer(Long customerId) {
         return !customerService.isRegisteredCustomer(customerId);
     }
 }

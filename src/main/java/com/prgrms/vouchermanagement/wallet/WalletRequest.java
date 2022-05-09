@@ -1,22 +1,20 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import java.util.UUID;
-
 public class WalletRequest {
 
-    private UUID customerId;
-    private UUID voucherId;
+    private Long customerId;
+    private Long voucherId;
 
-    public WalletRequest(UUID customerId, UUID voucherId) {
+    public WalletRequest(Long customerId, Long voucherId) {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 }

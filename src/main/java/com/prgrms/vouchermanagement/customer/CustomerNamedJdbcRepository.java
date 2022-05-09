@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -24,10 +26,11 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void save(Customer customer)  throws DataAccessException {
-        Map<String, Object> paramMap = customerToMap(customer);
+    public Long save(Customer customer)  throws DataAccessException {
         try {
-            jdbcTemplate.update(INSERT_SQL, paramMap);
+            GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+            jdbcTemplate.update(INSERT_SQL, getCustomerParameterSource(customer), keyHolder, new String[]{"customer_id"});
+            return keyHolder.getKey().longValue();
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
             throw e;
@@ -36,9 +39,8 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) throws DataAccessException {
-        Map<String, Object> paramMap = customerToMap(customer);
         try {
-            jdbcTemplate.update(UPDATE_SQL, paramMap);
+            jdbcTemplate.update(UPDATE_SQL, getCustomerParameterSource(customer));
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
             throw e;
@@ -56,10 +58,10 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerID) throws DataAccessException {
+    public Optional<Customer> findById(Long customerID) throws DataAccessException {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID,
-                    Collections.singletonMap("customerId", customerID.toString()), customerRowMapper));
+                    Collections.singletonMap("customerId", customerID), customerRowMapper));
         } catch (EmptyResultDataAccessException e) { //조회 결과가 0개인 경우
             return Optional.empty();
         } catch (DataAccessException e) {
@@ -91,9 +93,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findCustomerByVoucher(UUID voucherId) throws DataAccessException {
+    public List<Customer> findCustomerByVoucher(Long voucherId) throws DataAccessException {
         try {
-            return jdbcTemplate.query(FIND_CUSTOMER_BY_VOUCHER_SQL, Collections.singletonMap("voucherId", voucherId.toString()), customerRowMapper);
+            return jdbcTemplate.query(FIND_CUSTOMER_BY_VOUCHER_SQL, Collections.singletonMap("voucherId", voucherId), customerRowMapper);
         } catch (DataAccessException e) {
             log.error("fail to execute query", e);
             throw e;
@@ -101,8 +103,8 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public void remove(UUID customerId) throws DataAccessException {
-        jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId.toString()));
+    public void remove(Long customerId) throws DataAccessException {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId));
     }
 
     public void clear() {
@@ -110,7 +112,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     private final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> {
-        UUID customerId = UUID.fromString((rs.getString("customer_id")));
+        long customerId = rs.getLong("customer_id");
         String name = rs.getString("name");
         String email = rs.getString("email");
         LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at") != null ? rs.getTimestamp("last_login_at").toLocalDateTime() : null;
@@ -118,14 +120,13 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         return Customer.of(customerId, name, email, lastLoginAt, createdAt);
     };
 
-    private Map<String, Object> customerToMap(Customer customer) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString());
-        paramMap.put("name", customer.getName());
-        paramMap.put("email", customer.getEmail());
-        paramMap.put("lastLoginAt", customer.getLastLoginAt());
-        paramMap.put("createdAt", customer.getCreatedAt());
-        return paramMap;
+    private MapSqlParameterSource getCustomerParameterSource(Customer customer) {
+        return new MapSqlParameterSource()
+                .addValue("customerId", customer.getCustomerId())
+                .addValue("name", customer.getName())
+                .addValue("email", customer.getEmail())
+                .addValue("lastLoginAt", customer.getLastLoginAt())
+                .addValue("createdAt", customer.getCreatedAt());
     }
 
 }

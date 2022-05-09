@@ -6,15 +6,14 @@ import com.prgrms.vouchermanagement.voucher.VoucherType;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class VoucherResponse {
-    private UUID voucherId;
+    private Long voucherId;
     private long amount;
     private VoucherType voucherType;
     private LocalDateTime createdAt;
 
-    public VoucherResponse(UUID voucherId, long amount, VoucherType voucherType, LocalDateTime createdAt) {
+    public VoucherResponse(Long voucherId, long amount, VoucherType voucherType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.voucherType = voucherType;
@@ -31,7 +30,7 @@ public class VoucherResponse {
         return voucherResponses;
     }
 
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 

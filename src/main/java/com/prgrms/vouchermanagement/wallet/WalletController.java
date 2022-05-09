@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/wallets")
@@ -25,7 +24,7 @@ public class WalletController {
     }
 
     @PostMapping("/{walletId}/remove")
-    public String remove(@PathVariable UUID walletId) {
+    public String remove(@PathVariable Long walletId) {
         walletService.removeVoucherInWallet(walletId);
         return "redirect:/wallets";
     }
