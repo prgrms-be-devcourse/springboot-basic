@@ -13,12 +13,14 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
     private final JdbcTemplate jdbcTemplate;
 
@@ -31,15 +33,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
         var voucherAmount = resultSet.getInt("voucher_amount");
         var voucherType = resultSet.getString("voucher_type");
         if (VoucherType.find(voucherType).equals(VoucherType.FIXED_AMOUNT)) {
-            return new FixedAmountVoucher(voucherId, voucherAmount);
+            return new FixedAmountVoucher(voucherId, voucherAmount, LocalDateTime.now());
         } else if (VoucherType.find(voucherType).equals(VoucherType.PERCENT_DISCOUNT)) {
-            return new PercentDiscountVoucher(voucherId, voucherAmount);
+            return new PercentDiscountVoucher(voucherId, voucherAmount, LocalDateTime.now());
         }
         return null;
     };
 
     @Override
-    public List<Voucher> findAll( ) {
+    public List<Voucher> findAll() {
         String sql = "select * from vouchers";
         return jdbcTemplate.query(sql, voucherRowMapper);
     }
@@ -48,7 +50,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         String sql = "select * from vouchers WHERE voucher_id = UUID_TO_BIN(?)";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, voucherRowMapper, voucherId.toString().getBytes()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, voucherRowMapper,
+                voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
         }
@@ -57,36 +60,27 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "insert into vouchers(voucher_id, voucher_amount, voucher_type) values(UUID_TO_BIN(?),?,?)";
-        var insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString().getBytes(), voucher.getAmount(), voucher.getVoucherType().getInputVoucher());
+        String sql = "insert into vouchers(voucher_id, voucher_amount, voucher_type, created_at) values(UUID_TO_BIN(?),?,?,?)";
+        var insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString().getBytes(),
+            voucher.getAmount(), voucher.getVoucherType().getInputVoucher(),
+            voucher.getCreatedAt());
         if (insert != 1) {
             logger.error("Nothing was inserted");
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalArgumentException("Nothing was inserted");
         }
         return voucher;
     }
 
     @Override
-    public void deleteAll( ) {
+    public void deleteAll() {
         jdbcTemplate.update("delete from vouchers");
-    }
-
-    @Override
-    public Voucher update(Voucher voucher) {
-        String sql = "update vouchers set voucher_amount = ? , voucher_type = ? where voucher_id = UUID_TO_BIN(?)";
-        var update = jdbcTemplate.update(sql, voucher.getAmount(), voucher.getVoucherType().getInputVoucher(), voucher.getVoucherId().toString().getBytes());
-        if (update != 1) {
-            logger.error("Nothing was updated");
-            throw new RuntimeException("Nothing was updated");
-        }
-        return voucher;
     }
 
     @Override
     public void delete(UUID voucherId) {
         String sql = "delete from vouchers where voucher_id = UUID_TO_BIN(?)";
         try {
-            Optional.ofNullable(jdbcTemplate.update(sql, voucherId.toString().getBytes()));
+            jdbcTemplate.update(sql, voucherId.toString().getBytes());
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
         }

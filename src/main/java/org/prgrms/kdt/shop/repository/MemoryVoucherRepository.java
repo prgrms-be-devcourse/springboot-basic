@@ -7,10 +7,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository {
+
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public List<Voucher> findAll( ) {
+    public List<Voucher> findAll() {
         Iterator<UUID> keys = storage.keySet().iterator();
         List<Voucher> voucherList = new ArrayList<>();
         while (keys.hasNext()) {
@@ -31,14 +32,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll( ) {
+    public void deleteAll() {
         storage.clear();
-    }
-
-    @Override
-    public Voucher update(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
-        return voucher;
     }
 
     @Override
