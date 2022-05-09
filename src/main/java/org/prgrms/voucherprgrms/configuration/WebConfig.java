@@ -17,8 +17,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
-@ComponentScan(basePackages = "org.prgrms.voucherprgrms.voucher")
 public class WebConfig implements WebMvcConfigurer {
 
     //xml to Object mapping

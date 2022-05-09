@@ -21,7 +21,7 @@ import java.util.*;
 
 @Repository
 @Primary
-@Qualifier("named")
+@Qualifier("namedParam")
 public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepository.class);

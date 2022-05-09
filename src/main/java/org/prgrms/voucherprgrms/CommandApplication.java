@@ -59,10 +59,10 @@ public class CommandApplication implements ApplicationRunner {
                         outputConsole.commandErrorMessage();
                 }
             } catch (IllegalArgumentException e) {
-                logger.error("IllegalArgumentException, Message from : {}", e.getStackTrace());
+                logger.error("Command App ERROR (Illegal Argu)", e);
                 outputConsole.commandErrorMessage();
             } catch (DuplicateKeyException e) {
-                logger.error("DuplicateKeyException, Message from : {}", e.getStackTrace());
+                logger.error("Command App ERROR (Duplicate Key)", e);
                 outputConsole.sqlErrorMessage();
             }
         }
