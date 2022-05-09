@@ -17,12 +17,12 @@ public class CustomerCreateReqDto {
             throw new WrongInputException("wrong name input");
         }
 
-        if(!isValidEmail(email)) {
+        if(isValidEmail(email)) {
+            this.name = name;
+            this.email = email;
+        }else{
             throw new WrongInputException("wrong email input");
         }
-
-        this.name = name;
-        this.email = email;
     }
 
     public String getName() {

@@ -51,7 +51,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 
     /**
-     * 바우처르 소유하고 있는 고객 목록 조회 메서드
+     * 바우처를 소유하고 있는 고객 목록 조회 메서드
      **/
     @Override
     public List<Customer> findVoucherOwners(UUID voucherId) {
