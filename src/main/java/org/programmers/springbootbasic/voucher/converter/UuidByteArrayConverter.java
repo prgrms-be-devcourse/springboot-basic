@@ -1,12 +1,12 @@
 package org.programmers.springbootbasic.voucher.converter;
 
+import lombok.experimental.UtilityClass;
+
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+@UtilityClass
 public final class UuidByteArrayConverter {
-
-    private UuidByteArrayConverter() {
-    }
 
     public static byte[] uuidToBytes(UUID id) {
         String uuidToHexString = id.toString().replace("-", "");

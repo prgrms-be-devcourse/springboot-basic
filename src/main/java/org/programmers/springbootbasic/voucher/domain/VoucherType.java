@@ -1,16 +1,14 @@
 package org.programmers.springbootbasic.voucher.domain;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
 public enum VoucherType {
 
-    FIXED("정량 할인 바우처", discountUnit.AMOUNT.getName(), "정해진 만큼의 금액을 깎아주는 바우처입니다."),
-    RATE("비율 할인 바우처", discountUnit.PERCENT.getName(), "정해진 비율만큼의 금액을 깎아주는 바우처입니다.");
+    FIXED("정량 할인 바우처", "할인액", "정해진 만큼의 금액을 깎아주는 바우처입니다."),
+    RATE("비율 할인 바우처", "할인율", "정해진 비율만큼의 금액을 깎아주는 바우처입니다.");
 
     private final String name;
     private final String discountUnitMessage;
@@ -31,7 +29,6 @@ public enum VoucherType {
                 return voucherType;
             }
         }
-        log.error("Illegal ordinal value. No corresponding voucherType found. ordinal={}", ordinal);
         throw new IllegalArgumentException(
                 "Illegal ordinal value. No corresponding voucherType found. ordinal=" + ordinal);
     }
@@ -70,13 +67,5 @@ public enum VoucherType {
         stringBuilder.append("\n    ");
 
         return stringBuilder.toString();
-    }
-
-    @RequiredArgsConstructor
-    @Getter(AccessLevel.PRIVATE)
-    private enum discountUnit {
-        AMOUNT("할인액"), PERCENT("할인율");
-
-        private final String name;
     }
 }

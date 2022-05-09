@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
 @ControllerAdvice(annotations = Controller.class)
-//TODO: PR 포인트4
 public class HtmlViewControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

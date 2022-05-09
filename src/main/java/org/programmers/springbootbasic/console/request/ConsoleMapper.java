@@ -33,7 +33,6 @@ public class ConsoleMapper {
                 return handler;
             }
         }
-        log.error("No handler handling command {} exist.", command);
         throw new IllegalStateException(
                 "해당하는 핸들러 없습니다. 어떤 명령어도 해당되지 않을 경우 기본적으로 HELP 명령어로 전환되기에," +
                         "기본 핸들러 설정을 다시 살펴보십시오.");

@@ -71,7 +71,6 @@ public class VoucherHandler implements Handler {
         if (command == LIST_VOUCHER) {
             return list(request);
         }
-        log.error("No controller handling command {} exist.", command);
         throw new IllegalStateException(
                 "컨트롤러가 해당 커맨드를 처리하지 못 합니다. 컨트롤러 매핑이 잘못되었는지 확인해주세요.");
     }

@@ -11,8 +11,6 @@ public interface VoucherService {
 
     Voucher createVoucher(int amount, VoucherType voucherType);
 
-    void registerVouchersOwner(UUID voucherId, Long memberId);
-
     Voucher getVoucher(UUID voucherId);
 
     long applyVoucher(long beforeDiscount, Voucher voucher);

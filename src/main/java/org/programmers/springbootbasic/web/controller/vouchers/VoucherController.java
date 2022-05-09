@@ -2,8 +2,6 @@ package org.programmers.springbootbasic.web.controller.vouchers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.programmers.springbootbasic.voucher.domain.FixedDiscountVoucher;
-import org.programmers.springbootbasic.voucher.domain.RateDiscountVoucher;
 import org.programmers.springbootbasic.voucher.domain.VoucherProperty;
 import org.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
@@ -17,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +25,6 @@ import static org.programmers.springbootbasic.voucher.domain.VoucherType.*;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-//TODO: PR 포인트 1
 public class VoucherController {
 
     private final VoucherRepository voucherRepository;
@@ -43,27 +38,6 @@ public class VoucherController {
         return VOUCHER_TYPES;
     }
 
-    @PostMapping("/test-data")
-    public String sampleData() {
-        var voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 3000, null,
-                Timestamp.valueOf(LocalDateTime.of(2022, 4, 25, 2, 40)));
-        var voucher2 = new FixedDiscountVoucher(UUID.randomUUID(), 8000, null,
-                Timestamp.valueOf(LocalDateTime.of(2022, 3, 15, 14, 15)));
-        var voucher3 = new FixedDiscountVoucher(UUID.randomUUID(), 12000, null,
-                Timestamp.valueOf(LocalDateTime.of(2021, 1, 22, 10, 30)));
-        var voucher4 = new RateDiscountVoucher(UUID.randomUUID(), 15, null,
-                Timestamp.valueOf(LocalDateTime.of(2022, 1, 22, 10, 30)));
-        var voucher5 = new RateDiscountVoucher(UUID.randomUUID(), 30, null,
-                Timestamp.valueOf(LocalDateTime.of(2022, 3, 22, 10, 30)));
-        voucherRepository.insert(voucher1);
-        voucherRepository.insert(voucher2);
-        voucherRepository.insert(voucher3);
-        voucherRepository.insert(voucher4);
-        voucherRepository.insert(voucher5);
-
-        return "redirect:/vouchers";
-    }
-
     @GetMapping("voucher")
     public String createForm(Model model) {
         var voucher = new VoucherCreateForm();
@@ -71,7 +45,6 @@ public class VoucherController {
         return "vouchers/createVoucher";
     }
 
-    //TODO: PR 포인트2
     @PostMapping("voucher")
     public String createVoucher(@Valid @ModelAttribute("voucher") VoucherCreateForm form,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
@@ -122,22 +95,34 @@ public class VoucherController {
         return "redirect:/vouchers";
     }
 
-    //TODO: PR 포인트3
     @GetMapping("vouchers")
     public String voucherList(Model model, @RequestParam(required = false) VoucherType type,
                               @RequestParam(required = false) Date startingDate, @RequestParam(required = false) Date endingDate) {
+
         model.addAttribute("startingDate", startingDate);
         model.addAttribute("endingDate", endingDate);
-        if (type != null) {
-            if (startingDate != null && endingDate != null) {
-                return voucherListByTypeAndDate(model, type, startingDate, endingDate);
-            }
-            return voucherListByType(model, type);
+
+        if (type != null && isSearchDateValid(startingDate, endingDate)) {
+            return (startingDate != null && endingDate != null) ?
+                    voucherListByTypeAndDate(model, type, startingDate, endingDate)
+                    : voucherListByType(model, type);
         }
         if (startingDate != null && endingDate != null) {
             return voucherListByDate(model, startingDate, endingDate);
         }
 
+        if (!isSearchDateValid(startingDate, endingDate)) {
+            model.addAttribute("dateParameterError", true);
+        }
+
+        return voucherListWithoutConditional(model);
+    }
+
+    private boolean isSearchDateValid(Date startingDate, Date endingDate) {
+        return !(startingDate != null && endingDate != null && startingDate.after(endingDate));
+    }
+
+    private String voucherListWithoutConditional(Model model) {
         List<VoucherDto> vouchers = new ArrayList<>();
         voucherService.getAllVouchers().forEach(voucher -> vouchers.add(VoucherDto.from(voucher)));
         model.addAttribute("vouchers", vouchers);

@@ -21,13 +21,11 @@ public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherProperty voucherProperty;
 
-    @Transactional
     @Override
     public Voucher createVoucher(int amount, VoucherType voucherType) {
         if (isValidAmount(amount, voucherType)) {
             return voucherRepository.insert(Voucher.create(amount, voucherType));
         }
-        log.error("바우처의 할인 수치가 잘못되었습니다.={}", amount);
         throw new IllegalArgumentException("바우처의 할인 수치가 잘못되었습니다." + amount);
     }
 
@@ -58,13 +56,6 @@ public class VoucherServiceImpl implements VoucherService {
         return voucherRepository.findAll();
     }
 
-    @Transactional
-    @Override
-    public void registerVouchersOwner(UUID voucherId, Long memberId) {
-        voucherRepository.updateVoucherOwner(voucherId, memberId);
-    }
-
-    @Transactional
     @Override
     public void deleteVoucher(UUID voucherId) {
         voucherRepository.remove(voucherId);
@@ -90,7 +81,6 @@ public class VoucherServiceImpl implements VoucherService {
                 maximum = voucherProperty.getRate().maximumAmount();
             }
             default -> {
-                log.error("Invalid voucherType={}", voucherType);
                 throw new IllegalArgumentException("Invalid voucherType=" + voucherType);
             }
         }

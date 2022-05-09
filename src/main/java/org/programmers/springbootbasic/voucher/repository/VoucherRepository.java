@@ -18,7 +18,6 @@ public interface VoucherRepository {
 
     List<Voucher> findByType(VoucherType type);
 
-
     List<Voucher> findByDate(java.util.Date startingDate, Date endingDate);
 
     List<Voucher> findByTypeAndDate(VoucherType type, Date startingDate, Date endingDate);

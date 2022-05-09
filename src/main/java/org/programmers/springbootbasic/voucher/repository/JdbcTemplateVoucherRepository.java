@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.voucher.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springbootbasic.voucher.domain.*;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -59,7 +60,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         int updatedRow = jdbcTemplate.update(INSERT_SQL, toParamMap(voucher));
         if (1 != updatedRow) {
-            log.error("바우처가 정상적으로 저장되지 않았습니다. updatedRow={}", updatedRow);
             throw new IncorrectResultSizeDataAccessException(updatedRow);
         }
         return voucher;
@@ -84,7 +84,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         int updatedRow = jdbcTemplate.update(UPDATE_MEMBER_FK_SQL, paramSource);
 
         if (1 != updatedRow) {
-            log.error("Voucher 테이블에 member_id 외래키가 정상적으로 저장되지 않았습니다. updatedRow={}", updatedRow);
             throw new IncorrectResultSizeDataAccessException(updatedRow);
         }
     }
@@ -92,15 +91,10 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         var paramSource = new MapSqlParameterSource(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));
-        List<Voucher> result = jdbcTemplate.query(FIND_BY_ID_SQL, paramSource, voucherRowMapper());
-        switch (result.size()) {
-            case 0:
-                return Optional.empty();
-            case 1:
-                return Optional.of(result.get(0));
-            default:
-                log.error("동일 id에 2개 이상의 결과가 조회되었습니다. 해당 voucherId={}, 조회 결과 수={}", voucherId, result.size());
-                throw new IncorrectResultSizeDataAccessException(result.size());
+        try {
+            return Optional.of(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, paramSource, voucherRowMapper()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
         }
     }
 
@@ -140,8 +134,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             } else if (RATE.toString().equals(type)) {
                 return new RateDiscountVoucher(voucherId, amount, memberId, registered_at);
             }
-            log.error("잘못된 바우처 타입입니다. type={}", type);
-            throw new IllegalVoucherTypeException("잘못된 바우처 타입입니다.");
+            throw new IllegalVoucherTypeException("잘못된 바우처 타입입니다. type=" + type);
         };
     }
 
@@ -155,8 +148,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         var paramSource = new MapSqlParameterSource(PARAM_KEY_VOUCHER_ID, uuidToBytes(voucherId));
         int deletedRow = jdbcTemplate.update(REMOVE_SQL, paramSource);
         if (deletedRow != 1) {
-            log.error("바우처가 정상적으로 삭제되지 않았습니다. deletedRow={}", deletedRow);
-            throw new IllegalStateException("바우처가 정상적으로 삭제되지 않았습니다.");
+            throw new IllegalStateException("바우처가 정상적으로 삭제되지 않았습니다. deletedRow=" + deletedRow);
         }
     }
 }

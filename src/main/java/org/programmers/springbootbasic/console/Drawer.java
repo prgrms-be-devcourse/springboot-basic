@@ -66,7 +66,6 @@ public class Drawer {
             File viewTemplate = resource.getFile();
             fileToString = Files.readString(viewTemplate.toPath());
         } catch (IOException e) {
-            log.error("IOException thrown while reading {}{}{}", BASIC_RESOURCE_PATH, view, BASIC_RESOURCE_TYPE);
             throw e;
         }
         return fileToString;
