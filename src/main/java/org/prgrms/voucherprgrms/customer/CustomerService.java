@@ -21,12 +21,12 @@ public class CustomerService {
     private final static Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
-    public CustomerService(@Qualifier("named") CustomerRepository customerRepository) {
+    public CustomerService(@Qualifier("namedParam") CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
     @Transactional
-    public void createCustomer(CustomerDTO customerDTO) throws RuntimeException {
+    public void createCustomer(CustomerDTO customerDTO){
         if (customerRepository.findByEmail(customerDTO.getEmail()).isPresent()) {
             logger.error("Email 중복 input : {}", customerDTO.getEmail());
             throw new RuntimeException();

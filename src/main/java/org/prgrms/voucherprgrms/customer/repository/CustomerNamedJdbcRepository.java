@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import java.util.*;
 
 @Repository
 @Primary
-@Qualifier("named")
+@Qualifier("namedParam")
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
@@ -62,15 +63,25 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from CUSTOMERS where email=:email",
-                Collections.singletonMap("email", email),
-                customerRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from CUSTOMERS where email=:email",
+                    Collections.singletonMap("email", email),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result by email : {}", email, e);
+            return Optional.empty();
+        }
     }
 
     public Optional<Customer> findByVoucher(Voucher voucher) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from CUSTOMERS where voucher_id = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", voucher.getVoucherId().toString().getBytes()),
-                customerRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from CUSTOMERS where voucher_id = UUID_TO_BIN(:voucherId)",
+                    Collections.singletonMap("voucherId", voucher.getVoucherId().toString().getBytes()),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result by voucher UUID : {}", voucher.getVoucherId(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
