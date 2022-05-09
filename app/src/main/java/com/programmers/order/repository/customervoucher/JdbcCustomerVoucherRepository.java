@@ -1,6 +1,5 @@
 package com.programmers.order.repository.customervoucher;
 
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
@@ -23,7 +22,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.order.domain.Customer;
-import com.programmers.order.domain.CustomerVoucher;
+import com.programmers.order.domain.Wallet;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.JdbcException;
@@ -54,27 +53,27 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	}
 
 	@Override
-	public CustomerVoucher insert(CustomerVoucher customerVoucher) {
+	public Wallet insert(Wallet wallet) {
 		int update = namedParameterJdbcTemplate.update(
-				"INSERT INTO customer_voucher(id,customer_id,voucher_id,created_at) values (UUID_TO_BIN(:id) ,UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :createdAt)",
-				toParameters(customerVoucher));
+				"INSERT INTO wallets(wallet_id,customer_id,voucher_id,created_at) values (UUID_TO_BIN(:walletId) ,UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :createdAt)",
+				toParameters(wallet));
 
 		if (update != 1) {
 			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);
 			throw new JdbcException.NotExecuteQuery(ErrorMessage.INTERNAL_PROGRAM_ERROR);
 		}
 
-		return customerVoucher;
+		return wallet;
 	}
 
 	@Override
-	public Optional<CustomerVoucher> findByVoucherId(UUID voucherId) {
+	public Optional<Wallet> findByVoucherId(UUID voucherId) {
 		try {
 			return Optional.ofNullable(
 					namedParameterJdbcTemplate.queryForObject(
-							"select * from customer_voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+							"select * from wallets where voucher_id = UUID_TO_BIN(:voucherId)",
 							Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-							CUSTOMER_VOUCHER_ROW_MAPPER)
+							WALLETS_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
 			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
@@ -98,13 +97,13 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	}
 
 	@Override
-	public Optional<CustomerVoucher> findByCustomerId(UUID customerId) {
+	public Optional<Wallet> findByCustomerId(UUID customerId) {
 		try {
 			return Optional.ofNullable(
 					namedParameterJdbcTemplate.queryForObject(
-							"select * from customer_voucher where customer_id = UUID_TO_BIN(:customerId)",
+							"select * from wallets where customer_id = UUID_TO_BIN(:customerId)",
 							Collections.singletonMap("customerId", customerId.toString().getBytes()),
-							CUSTOMER_VOUCHER_ROW_MAPPER)
+							WALLETS_ROW_MAPPER)
 			);
 		} catch (EmptyResultDataAccessException e) {
 			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
@@ -118,7 +117,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 		try {
 			return Optional.ofNullable(
 					namedParameterJdbcTemplate.queryForObject(
-							"SELECT id FROM customer_voucher WHERE customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId);",
+							"SELECT id FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId);",
 							Map.ofEntries(
 									Map.entry("voucherId", voucherId.toString().getBytes()),
 									Map.entry("customerId", customerId.toString().getBytes())
@@ -134,7 +133,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	@Override
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
 		return namedParameterJdbcTemplate.query(
-				"select v.* from customer_voucher cv join vouchers v on v.voucher_id = cv.voucher_id where cv.customer_id = uuid_to_bin(:customerId)",
+				"select v.* from wallets cv join vouchers v on v.voucher_id = cv.voucher_id where cv.customer_id = uuid_to_bin(:customerId)",
 				Collections.singletonMap("customerId", customerId.toString().getBytes()),
 				(rs, rowNum) -> getVoucherMapper(rs));
 	}
@@ -142,7 +141,7 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	@Override
 	public List<Customer> joinCustomers(UUID voucherId) {
 		return namedParameterJdbcTemplate.query(
-				"select c.* from customer_voucher cv join customers c on c.customer_id = cv.customer_id where cv.voucher_id = uuid_to_bin(:voucherId)",
+				"select c.* from wallets cv join customers c on c.customer_id = cv.customer_id where cv.voucher_id = uuid_to_bin(:voucherId)",
 				Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
 				CUSTOMER_ROW_MAPPER);
 	}
@@ -150,37 +149,37 @@ public class JdbcCustomerVoucherRepository implements CustomerVoucherRepository 
 	@Override
 	public void deleteByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
 		namedParameterJdbcTemplate.update(
-				"DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId) and voucher_id= UUID_TO_BIN(:voucherId)", Map.ofEntries(
+				"DELETE FROM customers where customer_id = UUID_TO_BIN(:customerId) and voucher_id= UUID_TO_BIN(:voucherId)",
+				Map.ofEntries(
 						Map.entry("voucherId", voucherId.toString().getBytes()),
 						Map.entry("customerId", customerId.toString().getBytes())
 				));
 
 	}
 
-	private Map<String, Object> toParameters(CustomerVoucher customerVoucher) {
-		return new HashMap<>() {{
-			put("id", customerVoucher.getId().toString().getBytes());
-			put("customerId", customerVoucher.getCustomerId().toString().getBytes());
-			put("voucherId", customerVoucher.getVoucherId().toString().getBytes());
-			put("createdAt", customerVoucher.getCreatedAt().toString().getBytes());
-		}};
+	private Map<String, Object> toParameters(Wallet wallet) {
+		HashMap<String, Object> params = new HashMap<>();
+		params.put("walletId", wallet.getWalletId().toString().getBytes());
+		params.put("customerId", wallet.getCustomerId().toString().getBytes());
+		params.put("voucherId", wallet.getVoucherId().toString().getBytes());
+		params.put("createdAt", wallet.getCreatedAt().toString().getBytes());
+
+		return params;
 	}
 
-	private static final RowMapper<CustomerVoucher> CUSTOMER_VOUCHER_ROW_MAPPER = (rs, rowNum) -> {
-		UUID id = TranslatorUtils.toUUID(rs.getBytes("id"));
+	private static final RowMapper<Wallet> WALLETS_ROW_MAPPER = (rs, rowNum) -> {
+		UUID walletId = TranslatorUtils.toUUID(rs.getBytes("id"));
 		UUID voucherId = TranslatorUtils.toUUID(rs.getBytes("voucher_id"));
 		UUID customerId = TranslatorUtils.toUUID(rs.getBytes("customer_id"));
 		LocalDateTime createdAt = rs.getTimestamp(("created_at")).toLocalDateTime();
 
-		return new CustomerVoucher(id, customerId, voucherId, createdAt);
+		return new Wallet(walletId, customerId, voucherId, createdAt);
 	};
 	private static final RowMapper<Customer> CUSTOMER_ROW_MAPPER = (rs, rowNum) -> {
 		UUID id = TranslatorUtils.toUUID(rs.getBytes("customer_id"));
 		String name = rs.getString("name");
 		String email = rs.getString("email");
-		LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at")
-				== null ? null : rs.getTimestamp("last_login_at")
-				.toLocalDateTime();
+		LocalDateTime lastLoginAt = TranslatorUtils.toLocalDateTIme(rs.getTimestamp("last_login_at"));
 		LocalDateTime createdAt = rs.getTimestamp(("created_at")).toLocalDateTime();
 
 		return new Customer(id, name, email, lastLoginAt, createdAt);

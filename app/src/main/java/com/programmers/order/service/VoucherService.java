@@ -20,11 +20,11 @@ public class VoucherService {
 
 	public static final int NOT_EXIST = -1;
 	public static final int EXIST = 1;
-	private final CustomerVoucherService customerVoucherService;
+	private final WalletService walletService;
 	private final VoucherRepository voucherRepository;
 
-	public VoucherService(CustomerVoucherService customerVoucherService, VoucherRepository voucherRepository) {
-		this.customerVoucherService = customerVoucherService;
+	public VoucherService(WalletService walletService, VoucherRepository voucherRepository) {
+		this.walletService = walletService;
 		this.voucherRepository = voucherRepository;
 	}
 
@@ -55,7 +55,7 @@ public class VoucherService {
 	}
 
 	public List<CustomerDto.ResponseDto> lookUpForCustomer(String voucherId) {
-		return customerVoucherService.getCustomerForVoucher(UUID.fromString(voucherId))
+		return walletService.getCustomerForVoucher(UUID.fromString(voucherId))
 				.stream()
 				.map(customer -> new CustomerDto.ResponseDto(customer.getEmail(), customer.getName()))
 				.toList();

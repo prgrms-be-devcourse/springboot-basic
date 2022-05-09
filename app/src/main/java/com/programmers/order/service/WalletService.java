@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.order.domain.Customer;
-import com.programmers.order.domain.CustomerVoucher;
+import com.programmers.order.domain.Wallet;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.exception.JdbcException;
 import com.programmers.order.message.LogMessage;
@@ -19,24 +19,24 @@ import com.programmers.order.repository.customervoucher.CustomerVoucherRepositor
 
 @Transactional(readOnly = true)
 @Service
-public class CustomerVoucherService {
-	private static final Logger log = LoggerFactory.getLogger(CustomerVoucherService.class);
+public class WalletService {
+	private static final Logger log = LoggerFactory.getLogger(WalletService.class);
 
 	private final CustomerVoucherRepository customerVoucherRepository;
 
-	public CustomerVoucherService(CustomerVoucherRepository customerVoucherRepository) {
+	public WalletService(CustomerVoucherRepository customerVoucherRepository) {
 		this.customerVoucherRepository = customerVoucherRepository;
 	}
 
 	@Transactional
 	public Optional<UUID> save(UUID customerId, UUID voucherId) {
-		CustomerVoucher customerVoucher = new CustomerVoucher(UUID.randomUUID(), customerId,
+		Wallet wallet = new Wallet(UUID.randomUUID(), customerId,
 				voucherId, LocalDateTime.now());
 
 		try {
-			customerVoucherRepository.insert(customerVoucher);
+			customerVoucherRepository.insert(wallet);
 
-			return Optional.ofNullable(customerVoucher.getId());
+			return Optional.ofNullable(wallet.getWalletId());
 		} catch (JdbcException.NotExecuteQuery e) {
 			e.printStackTrace();
 			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_EXECUTE_QUERY);

@@ -25,11 +25,11 @@ public class CustomerService {
 
 	private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 	private final CustomerRepository customerRepository;
-	private final CustomerVoucherService customerVoucherService;
+	private final WalletService walletService;
 
-	public CustomerService(CustomerRepository customerRepository, CustomerVoucherService customerVoucherService) {
+	public CustomerService(CustomerRepository customerRepository, WalletService walletService) {
 		this.customerRepository = customerRepository;
-		this.customerVoucherService = customerVoucherService;
+		this.walletService = walletService;
 	}
 
 	@Transactional
@@ -83,17 +83,17 @@ public class CustomerService {
 	public Optional<UUID> registerVoucher(CustomerDto.RegisterVoucherDto registerVoucherDto) {
 
 		try {
-			Voucher voucher = customerVoucherService.findVoucherById(registerVoucherDto.getVoucherId())
+			Voucher voucher = walletService.findVoucherById(registerVoucherDto.getVoucherId())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 			Customer customer = this.findByEmail(registerVoucherDto.getEmail())
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 
-			if (customerVoucherService.isDuplicatePublish(customer.getCustomerId(), voucher.getVoucherId())) {
+			if (walletService.isDuplicatePublish(customer.getCustomerId(), voucher.getVoucherId())) {
 				log.info(LogMessage.InfoLogMessage.getPrefix(), LogMessage.InfoLogMessage.DUPLICATE_VOUCHER_REGISTER);
 				return Optional.empty();
 			}
 
-			return customerVoucherService.save(customer.getCustomerId(), voucher.getVoucherId());
+			return walletService.save(customer.getCustomerId(), voucher.getVoucherId());
 		} catch (DomainException.NotFoundResource e) {
 			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_RESOURCE);
 		}
@@ -106,7 +106,7 @@ public class CustomerService {
 			Customer customer = this.findByEmail(email)
 					.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.CLIENT_ERROR));
 
-			return customerVoucherService.getVouchersForCustomer(customer.getCustomerId())
+			return walletService.getVouchersForCustomer(customer.getCustomerId())
 					.stream()
 					.map(voucher -> new VoucherDto.Response(
 							voucher.getVoucherId(),
@@ -125,6 +125,6 @@ public class CustomerService {
 		Customer customer = customerRepository.findByEmail(email)
 				.orElseThrow(() -> new DomainException.NotFoundResource(ErrorMessage.INTERNAL_PROGRAM_ERROR));
 		UUID customerIdentity = customer.getCustomerId();
-		customerVoucherService.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
+		walletService.deleteByCustomerIdAndVoucherId(customerIdentity, voucherIdentity);
 	}
 }

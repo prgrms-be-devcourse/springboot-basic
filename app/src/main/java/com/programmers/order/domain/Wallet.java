@@ -3,21 +3,21 @@ package com.programmers.order.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class CustomerVoucher {
-	private final UUID id;
+public class Wallet {
+	private final UUID walletId;
 	private final UUID customerId;
 	private final UUID voucherId;
 	private final LocalDateTime createdAt;
 
-	public CustomerVoucher(UUID id, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
-		this.id = id;
+	public Wallet(UUID walletId, UUID customerId, UUID voucherId, LocalDateTime createdAt) {
+		this.walletId = walletId;
 		this.customerId = customerId;
 		this.voucherId = voucherId;
 		this.createdAt = createdAt;
 	}
 
-	public UUID getId() {
-		return id;
+	public UUID getWalletId() {
+		return walletId;
 	}
 
 	public UUID getCustomerId() {
