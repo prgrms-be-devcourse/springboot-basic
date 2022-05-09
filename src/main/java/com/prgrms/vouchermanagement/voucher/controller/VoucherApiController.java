@@ -50,9 +50,9 @@ public class VoucherApiController {
     }
 
     @PostMapping(value = "", consumes = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE}, produces = {APPLICATION_JSON_VALUE, APPLICATION_XML_VALUE})
-    public ResponseEntity<Object> addVoucher(@RequestBody CreateVoucherRequest customerRequest) {
+    public ResponseEntity<Long> addVoucher(@RequestBody CreateVoucherRequest customerRequest) {
         Long voucherId = voucherService.addVoucher(customerRequest.getVoucherType(), customerRequest.getAmount());
-        return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucherId)).build();
+        return new ResponseEntity<>(voucherId, HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{voucherId}")
