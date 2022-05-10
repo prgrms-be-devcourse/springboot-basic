@@ -48,11 +48,11 @@ public class CsvBlacklistRepository implements BlacklistRepository {
                         new Email(record[EMAIL])));
             }
         }  catch (FileNotFoundException e) {
-            logger.error(MessageFormat.format("File not found -> {0}", e.getMessage()));
+            logger.error("File not found -> {}", e.getMessage());
         } catch (CsvValidationException e) {
-            logger.error(MessageFormat.format("This is not a valid format CSV file -> {0}", e.getMessage()));
+            logger.error("This is not a valid format CSV file -> {}", e.getMessage());
         } catch (IOException e) {
-            logger.error(MessageFormat.format("Failed to read data from file -> {0}", e.getMessage()));
+            logger.error("Failed to read data from file -> {}", e.getMessage());
         }
         return customers;
     }

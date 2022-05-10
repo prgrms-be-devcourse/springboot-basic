@@ -7,7 +7,7 @@ import static org.devcourse.voucher.error.ErrorType.INPUT_NEGATIVE_NUMBERS;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         this.voucherId = voucherId;
@@ -20,6 +20,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public void setDiscount(long percent) {
+        this.percent = percent;
     }
 
     @Override

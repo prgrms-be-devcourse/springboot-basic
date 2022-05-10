@@ -6,7 +6,7 @@ import static org.devcourse.voucher.error.ErrorType.INPUT_NEGATIVE_NUMBERS;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -16,6 +16,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public void setDiscount(long amount) {
+        this.amount = amount;
     }
 
     @Override

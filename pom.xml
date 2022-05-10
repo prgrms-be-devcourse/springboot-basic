@@ -50,6 +50,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.wix</groupId>
+            <artifactId>wix-embedded-mysql</artifactId>
+            <version>4.6.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

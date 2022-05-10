@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Profile("prod")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -28,7 +27,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = JdbcUtils.toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
-        Email email = resultSet.getObject("email", Email.class);
+        Email email = new Email(resultSet.getString("email"));
         return new Customer(customerId, name, email);
     };
 
@@ -61,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         logger.info("Repository : Record a voucher update");
         int updated = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email " +
-                "WHERE customer_id = UUID_TO_BIN(:customer_id)", toParamMap(customer));
+                "WHERE customer_id = UUID_TO_BIN(:customerId)", toParamMap(customer));
         if (updated != 1) {
             throw new DataUpdateFailException("Nothing was updated");
         }

@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
-@Profile("prod")
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
