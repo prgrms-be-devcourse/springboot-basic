@@ -1,10 +1,9 @@
-package com.example.voucher.service;
+package com.example.voucher.service.voucher;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
-import com.example.voucher.service.voucher.VoucherServiceImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
