@@ -2,7 +2,10 @@ package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -125,8 +128,7 @@ class VoucherControllerTest {
 
                 VoucherResponse expectedResponseDto = new VoucherResponse(id,
                                                                           voucherRequest.getVoucherType(),
-                                                                          voucherRequest.getVoucherAmount(),
-                                                                          voucherRequest.getCreatedAt());
+                                                                          voucherRequest.getVoucherAmount());
 
                 // when
                 Response<VoucherResponse> response = voucherController.create(voucherRequest);
@@ -139,7 +141,6 @@ class VoucherControllerTest {
                 assertThat(responseDto.getVoucherId()).isEqualTo(expectedResponseDto.getVoucherId());
                 assertThat(responseDto.getVoucherType()).isEqualTo(expectedResponseDto.getVoucherType());
                 assertThat(responseDto.getVoucherAmount()).isEqualTo(expectedResponseDto.getVoucherAmount());
-                assertThat(responseDto.getCreatedAt()).isEqualTo(expectedResponseDto.getCreatedAt());
             }
         }
     }

@@ -73,8 +73,7 @@ class VoucherServiceTest {
                 Long id = 999_999_999L;
                 Voucher voucherWithId = VoucherMapper.getDomain(id,
                                                                 voucherWithNull.getVoucherType(),
-                                                                voucherWithNull.getVoucherAmount(),
-                                                                voucherWithNull.getCreatedAt());
+                                                                voucherWithNull.getVoucherAmount());
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
                 // when
@@ -98,8 +97,7 @@ class VoucherServiceTest {
                 Long id = 999_999_999L;
                 Voucher voucherWithId = VoucherMapper.getDomain(id,
                                                                 voucherWithNull.getVoucherType(),
-                                                                voucherWithNull.getVoucherAmount(),
-                                                                voucherWithNull.getCreatedAt());
+                                                                voucherWithNull.getVoucherAmount());
 
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
