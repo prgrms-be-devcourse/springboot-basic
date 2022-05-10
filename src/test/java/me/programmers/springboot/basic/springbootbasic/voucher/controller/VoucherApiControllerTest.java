@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -86,6 +87,22 @@ class VoucherApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void deleteByIdTest() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
+        given(voucherService.getVoucherById(uuid)).willReturn(fixVoucher);
+
+        mockMvc.perform(delete("/api/vouchers/" + uuid))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteByIdTestFail() throws Exception {
+        mockMvc.perform(delete("/api/vouchers/ddewqcxzds"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

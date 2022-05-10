@@ -7,6 +7,7 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +48,17 @@ public class VoucherApiController {
         }
 
         return new ResponseEntity<>(voucherService.getVoucherById(voucherId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/vouchers/{voucherId}")
+    public ResponseEntity<UUID> deleteById(@PathVariable UUID voucherId) {
+        if (voucherService.getVoucherById(voucherId) == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        voucherService.deleteById(voucherId);
+
+        return new ResponseEntity<>(voucherId, HttpStatus.OK);
     }
 
     @PostMapping("/api/vouchers")
