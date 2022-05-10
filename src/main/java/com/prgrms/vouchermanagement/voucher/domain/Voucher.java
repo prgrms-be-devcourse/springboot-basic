@@ -32,23 +32,23 @@ public abstract class Voucher {
 		}
 	}
 
-	public UUID getVoucherId() {
+	public final UUID getVoucherId() {
 		return this.voucherId;
 	}
 
-	public VoucherType getType() {
+	public final VoucherType getType() {
 		return this.type;
 	}
 
-	public LocalDateTime getCreatedTime() {
+	public final LocalDateTime getCreatedTime() {
 		return this.createdAt;
 	}
 
-	public long getDiscountInfo() {
+	public final long getDiscountInfo() {
 		return this.discountInfo;
 	}
 
-	public long discount(long beforeDiscount) {
+	public final long discount(long beforeDiscount) {
 		return discounter.evaluate(discountInfo, beforeDiscount);
 	}
 }
