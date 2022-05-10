@@ -7,7 +7,7 @@
     <div class="container">
         <div class="py-5 text-center">
             <h2>고객 정보 수정</h2> </div>
-        <form action="customer.html" th:action method="post">
+        <form action="customer.html" th:action th:method="post">
             <div>
                 <label for="customerId">고객 ID</label>
                 <input type="text" id="customerId" name="customerId" class="form-control" value="1" th:value="${customer.customerId}" readonly>

@@ -27,7 +27,7 @@
                             <td th:text="${voucher.value}">value</td>
                             <td>
                                 <button class="w-100 btn btn-secondary btn-lg"
-                                        th:onclick="|'@{/customers/{customerId}/vouchers/delete/(customerId=${customerId})}'|"
+                                        th:onclick="|'@{/customers/{customerId}/delete/vouchers/(customerId=${customerId})}'|"
                                         type="submit">삭제</button>
                             </td>
                         </form>

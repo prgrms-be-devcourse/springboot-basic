@@ -36,10 +36,11 @@
                         onclick="location.href='updateVoucher.html'" type="button">바우처 정보 수정
                 </button>
             </div>
-            <div class="col">
+            <div class="col" th:method="delete">
                 <button class="w-100 btn btn-primary btn-lg"
-                        th:onclick="|location.href='@{/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
-                        onclick="location.href='vouchers.html'" type="button">바우처 삭제
+                        th:onclick="|location.href='@{/vouchers/{voucherId}/delete/(voucherId=${voucher.voucherId})}'|"
+                        onclick="location.href='vouchers.html'"
+                        type="button">바우처 삭제
                 </button>
             </div>
             <div class="col">

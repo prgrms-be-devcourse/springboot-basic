@@ -58,12 +58,14 @@
             <div class="col">
                 <button class="w-100 btn btn-primary btn-lg"
                         th:onclick="|location.href='@{/customers/{customerId}/delete(customerId=${customer.customerId})}'|"
-                        onclick="location.href='customers.html'" type="button">고객 삭제</button>
+                        onclick="location.href='customers.html'"
+                        type="button">고객 삭제</button>
             </div>
             <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        th:onclick="|location.href='@{/customers}'|"
-                        onclick="location.href='customers.html'" type="button">고객 목록으로</button>
+                    <button class="w-100 btn btn-secondary btn-lg"
+                            th:onclick="|location.href='@{/customers}'|"
+                            onclick="location.href='customers.html'"
+                            type="submit">고객 목록으로</button>
             </div>
         </div>
 
