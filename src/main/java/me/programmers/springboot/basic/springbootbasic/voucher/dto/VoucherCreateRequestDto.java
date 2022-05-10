@@ -4,9 +4,15 @@ public class VoucherCreateRequestDto {
 
     private String type;
 
-    private String discountPrice;
+    private long discountPrice;
 
-    private String discountPercent;
+    private long discountPercent;
+
+    public VoucherCreateRequestDto(String type, long discountPrice, long discountPercent) {
+        this.type = type;
+        this.discountPrice = discountPrice;
+        this.discountPercent = discountPercent;
+    }
 
     public String getType() {
         return type;
@@ -16,19 +22,19 @@ public class VoucherCreateRequestDto {
         this.type = type;
     }
 
-    public String getDiscountPrice() {
+    public long getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(String discountPrice) {
+    public void setDiscountPrice(long discountPrice) {
         this.discountPrice = discountPrice;
     }
 
-    public String getDiscountPercent() {
+    public long getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(String discountPercent) {
+    public void setDiscountPercent(long discountPercent) {
         this.discountPercent = discountPercent;
     }
 
