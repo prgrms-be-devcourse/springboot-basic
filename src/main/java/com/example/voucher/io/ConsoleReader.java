@@ -22,7 +22,7 @@ public class ConsoleReader implements Input {
 		try {
 			return Integer.parseInt(sc.nextLine());
 		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException(INVALID_INPUT.name());
+			throw new IllegalArgumentException(INVALID_INPUT.getMessage());
 		}
 	}
 }
