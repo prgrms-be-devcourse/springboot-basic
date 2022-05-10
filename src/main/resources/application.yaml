@@ -3,4 +3,3 @@ spring:
     url: jdbc:mysql://localhost/voucher_mgmt?useUnicode=true&serverTimezone=Asia/Seoul
     username: test
     password: test
-

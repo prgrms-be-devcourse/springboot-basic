@@ -14,7 +14,6 @@ public class CustomerVoucherConsoleApp implements ConsoleApp {
 
     private final StandardInput input = new ConsoleInput();
     private final StandardOutput output = new ConsoleOutputFormatPrinter();
-    private boolean on = true;
 
     public CustomerVoucherConsoleApp(CustomerManager customerManager, VoucherManager voucherManager) {
         this.customerManager = customerManager;
@@ -23,6 +22,8 @@ public class CustomerVoucherConsoleApp implements ConsoleApp {
 
     @Override
     public void run() {
+        boolean on = true;
+
         while(on) {
             showMainMenu();
 

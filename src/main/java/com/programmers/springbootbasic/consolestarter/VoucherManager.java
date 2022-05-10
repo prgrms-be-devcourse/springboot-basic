@@ -81,7 +81,7 @@ public class VoucherManager {
     }
 
     public void searchAvailableVouchers() {
-        List<Voucher> availableVouchers = voucherService.findAvailableVouchers();
+        List<Voucher> availableVouchers = voucherService.getAvailableVouchers();
 
         output.printAvailableVouchers(availableVouchers);
     }
