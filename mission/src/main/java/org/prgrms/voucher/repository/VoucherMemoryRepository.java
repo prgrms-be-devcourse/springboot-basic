@@ -1,11 +1,14 @@
 package org.prgrms.voucher.repository;
 
 import org.prgrms.voucher.models.Voucher;
+import org.prgrms.voucher.models.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -36,6 +39,32 @@ public class VoucherMemoryRepository implements VoucherRepository {
         return store.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndTerm(VoucherType voucherType, LocalDate after, LocalDate before) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTerm(LocalDate after, LocalDate before) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
+
     }
 
     private Voucher newVoucher(Voucher voucher){

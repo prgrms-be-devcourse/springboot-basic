@@ -3,12 +3,13 @@ package org.prgrms.voucher.repository;
 import org.prgrms.voucher.models.Voucher;
 import org.prgrms.voucher.models.VoucherType;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -50,6 +51,41 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
 
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE voucher_id = :voucherId",
+                    Collections.singletonMap("voucherId", voucherId.toString()), voucherRowMapper).stream().findAny();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndTerm(VoucherType voucherType, LocalDate after, LocalDate before) {
+
+        return jdbcTemplate.query("select * from voucher WHERE voucherType = :voucherType AND DATE(created_at) BETWEEN :after AND :before", toParamMapByFilter(voucherType, after, before), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByTerm(LocalDate after, LocalDate before) {
+
+        return jdbcTemplate.query("select * from voucher WHERE DATE(created_at) BETWEEN :after AND :before", toParamMapByTerm(after, before), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+
+        return jdbcTemplate.query("select * from voucher WHERE voucherType = :voucherType",Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
+
+        int update = jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId" , Collections.singletonMap("voucherId", voucherId.toString()));
+
+        if (update != 1) {
+            throw new IllegalStateException();
+        }
+    }
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
 
         long voucherId = resultSet.getLong("voucher_id");
@@ -77,4 +113,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         return paramMap;
     }
+
+    private Map<String, Object> toParamMapByFilter(VoucherType voucherType, LocalDate after, LocalDate before) {
+
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("voucherType", voucherType.toString());
+        paramMap.put("after", after);
+        paramMap.put("before", before);
+
+        return paramMap;
+    }
+
+    private Map<String, Object> toParamMapByTerm(LocalDate after, LocalDate before) {
+
+        var paramMap = new HashMap<String, Object>();
+        paramMap.put("after", after);
+        paramMap.put("before", before);
+
+        return paramMap;
+    }
+
+
 }

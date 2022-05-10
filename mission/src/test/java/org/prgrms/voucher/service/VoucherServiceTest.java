@@ -16,6 +16,7 @@ import org.prgrms.voucher.repository.VoucherRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -187,6 +188,104 @@ public class VoucherServiceTest {
                 List<Voucher> listCheck = voucherService.list();
 
                 Assertions.assertThat(list).isEqualTo(listCheck);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Service getVoucher 메서드는")
+    class DescribeGetVoucher {
+
+        @Mock
+        VoucherRepository voucherRepositoryMock;
+
+        @InjectMocks
+        VoucherService voucherService;
+
+        @Nested
+        @DisplayName("인자로 받은 ID가 존재하지 않으면")
+        class ContextReceiveWrongId {
+
+            Long wrongId = -1L;
+            Optional<Voucher> emptyVoucher = Optional.empty();
+
+            @Test
+            @DisplayName("잘못된 인자 예외를 던진다.")
+            void itThrowIllegalArgumentException() {
+
+                when(voucherRepositoryMock.findById(wrongId)).thenReturn(emptyVoucher);
+
+                Assertions.assertThatThrownBy(() -> voucherService.getVoucherById(wrongId))
+                        .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("인자로 받은 ID가 존재하면")
+        class ContextReceiveValidId {
+
+            Long validId = 1L;
+            FixedAmountVoucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            Optional<Voucher> wrappingVoucher = Optional.of(voucher);
+
+            @Test
+            @DisplayName("해당 바우처를 반환한다..")
+            void itReturnVoucher() {
+
+                when(voucherRepositoryMock.findById(validId)).thenReturn(wrappingVoucher);
+
+                Voucher voucherCheck = voucherService.getVoucherById(validId);
+
+                Assertions.assertThat(voucher).isEqualTo(voucherCheck);
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("Service deleteVoucherById 메서드는")
+    class DescribeDeleteById {
+
+        @Mock
+        VoucherRepository voucherRepositoryMock;
+
+        @InjectMocks
+        VoucherService voucherService;
+
+        @Nested
+        @DisplayName("인자로 받은 ID가 존재하지 않으면")
+        class ContextReceiveWrongId {
+
+            Long wrongId = -1L;
+            Optional<Voucher> emptyVoucher = Optional.empty();
+
+            @Test
+            @DisplayName("잘못된 인자 예외를 던진다.")
+            void itThrowIllegalArgumentException() {
+
+                when(voucherRepositoryMock.findById(wrongId)).thenReturn(emptyVoucher);
+
+                Assertions.assertThatThrownBy(() -> voucherService.deleteVoucherById(wrongId))
+                        .isInstanceOf(IllegalArgumentException.class);
+            }
+        }
+
+        @Nested
+        @DisplayName("인자로 받은 ID가 존재하면")
+        class ContextReceiveValidId {
+
+            Long validId = 1L;
+            FixedAmountVoucher voucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
+            Optional<Voucher> wrappingVoucher = Optional.of(voucher);
+
+            @Test
+            @DisplayName("해당 바우처를 삭제한다..")
+            void itDeleteVoucher() {
+
+                when(voucherRepositoryMock.findById(validId)).thenReturn(wrappingVoucher);
+
+                voucherService.deleteVoucherById(validId);
+
+                verify(voucherRepositoryMock).deleteById(validId);
             }
         }
     }
