@@ -8,4 +8,8 @@ public interface CustomerRepository {
     Customer insert(Customer customer);
 
     List<Customer> findAll();
+
+    Customer update(Customer customer);
+
+    void deleteAll();
 }
