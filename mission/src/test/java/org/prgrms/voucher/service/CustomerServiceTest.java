@@ -127,7 +127,7 @@ public class CustomerServiceTest {
 
                 when(customerRepository.findById(wrongId)).thenReturn(emptyCustomer);
 
-                Assertions.assertThatThrownBy(() -> customerService.getCustomer(wrongId))
+                Assertions.assertThatThrownBy(() -> customerService.getCustomerById(wrongId))
                         .isInstanceOf(IllegalArgumentException.class);
             }
         }
@@ -148,7 +148,7 @@ public class CustomerServiceTest {
 
                 when(customerRepository.findById(validId)).thenReturn(expectedCustomer);
 
-                Customer actualCustomer = customerService.getCustomer(validId);
+                Customer actualCustomer = customerService.getCustomerById(validId);
 
                 Assertions.assertThat(expectedCustomer.get()).isEqualTo(actualCustomer);
             }

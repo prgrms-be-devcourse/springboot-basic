@@ -170,7 +170,7 @@ public class CustomerWebControllerTest {
             @DisplayName("잘못된 요청 응답을 반환한다.")
             void itReturnBadRequestResponse() throws Exception {
 
-                when(customerService.getCustomer(wrongId)).thenThrow(IllegalArgumentException.class);
+                when(customerService.getCustomerById(wrongId)).thenThrow(IllegalArgumentException.class);
 
                 mockMvc.perform(get("/api/v1/customers/-1"))
                         .andExpect(status().isBadRequest());
@@ -188,7 +188,7 @@ public class CustomerWebControllerTest {
                 Customer firstCustomer = new Customer(1L, "jack", LocalDateTime.now(), LocalDateTime.now());
                 Long paramId = 1L;
 
-                when(customerService.getCustomer(paramId)).thenReturn(firstCustomer);
+                when(customerService.getCustomerById(paramId)).thenReturn(firstCustomer);
 
                 mockMvc.perform(get("/api/v1/customers/1"))
                         .andExpect(status().isOk())

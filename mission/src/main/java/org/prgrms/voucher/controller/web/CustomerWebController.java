@@ -50,7 +50,7 @@ public class CustomerWebController {
     @GetMapping("/{customerId}")
     public CustomerResponseDto findCustomerById(@PathVariable("customerId") Long customerId) {
 
-        return CustomerResponseDto.from(customerService.getCustomer(customerId));
+        return CustomerResponseDto.from(customerService.getCustomerById(customerId));
     }
 
     @DeleteMapping("/{customerId}")

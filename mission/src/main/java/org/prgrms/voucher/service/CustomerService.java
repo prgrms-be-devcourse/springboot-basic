@@ -37,7 +37,7 @@ public class CustomerService {
         return customerRepository.findByTerm(after, before);
     }
 
-    public Customer getCustomer(Long customerId) {
+    public Customer getCustomerById(Long customerId) {
 
         return customerRepository.findById(customerId).orElseThrow(IllegalArgumentException::new);
     }
