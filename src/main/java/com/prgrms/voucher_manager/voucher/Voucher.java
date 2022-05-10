@@ -3,6 +3,7 @@ package com.prgrms.voucher_manager.voucher;
 import com.prgrms.voucher_manager.customer.controller.CustomerDto;
 import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ public interface Voucher {
     UUID getVoucherId();
 
     void validateValue(Long value);
+
+    boolean isValidDate(LocalDate start, LocalDate end);
 
     boolean validateType(String type);
 

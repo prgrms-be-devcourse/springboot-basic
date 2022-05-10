@@ -1,9 +1,11 @@
 package com.prgrms.voucher_manager.io;
 
 import com.prgrms.voucher_manager.customer.Customer;
+import com.prgrms.voucher_manager.customer.controller.CustomerDto;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
 import com.prgrms.voucher_manager.infra.facade.VoucherServiceFacade;
 import com.prgrms.voucher_manager.voucher.Voucher;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
 import com.prgrms.voucher_manager.wallet.service.WalletService;
 import org.slf4j.Logger;
@@ -108,10 +110,10 @@ public class VoucherManagerConsole {
                         customerService.createCustomer(name, email);
                         break;
                     case VOUCHER:
-                        List<Customer> customers = customerService.findAllCustomer();
+                        List<CustomerDto> customers = customerService.findAllCustomer();
                         int customerIndex = Integer.parseInt(input.input("바우처를 관리할 고객을 골라주세요."));
-                        Customer customer = customers.get(customerIndex);
-                        customerService.updateCustomer(customer);
+                        CustomerDto customer = customers.get(customerIndex);
+//                        customerService.updateCustomer(customer.getCustomerId());
                         walletMenu(customer.getCustomerId());
                         break;
                     case LIST:
@@ -140,7 +142,7 @@ public class VoucherManagerConsole {
                 Command command = Command.getCommand(select);
                 switch (command) {
                     case INSERT:
-                        List<Voucher> findAllVoucher = voucherService.getFindAllVoucher();
+                        List<VoucherDto> findAllVoucher = voucherService.getFindAllVoucher();
                         int voucherIndex = Integer.parseInt(input.input("할당할 바우처를 골라주세요 (번호 입력) : "));
                         UUID voucherId = findAllVoucher.get(voucherIndex).getVoucherId();
                         walletService.createWallet(customerId, voucherId);
@@ -149,7 +151,7 @@ public class VoucherManagerConsole {
                         voucherServiceFacade.findVoucherByCustomerId(customerId);
                         break;
                     case DELETE:
-                        List<Voucher> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
+                        List<VoucherDto> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
                         int index = Integer.parseInt(input.input("지갑에서 삭제할 바우처를 골라주세요 (번호 입력) : "));
                         walletService.deleteWallet(customerId, vouchers.get(index).getVoucherId());
                         break;

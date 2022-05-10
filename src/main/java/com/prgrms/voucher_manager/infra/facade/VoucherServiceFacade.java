@@ -1,8 +1,10 @@
 package com.prgrms.voucher_manager.infra.facade;
 
 import com.prgrms.voucher_manager.customer.Customer;
+import com.prgrms.voucher_manager.customer.controller.CustomerDto;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
 import com.prgrms.voucher_manager.voucher.Voucher;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
 import com.prgrms.voucher_manager.wallet.Wallet;
 import com.prgrms.voucher_manager.wallet.service.WalletService;
@@ -30,18 +32,18 @@ public class VoucherServiceFacade {
         this.customerService = customerService;
         this.walletService = walletService;
     }
-    public List<Customer> findCustomerByVoucherType(String voucherType) {
-        List<Voucher> findByType = voucherService.findByType(voucherType);
-        List<UUID> walletIds = walletService.getWalletIdByVoucherType(findByType);
+    public List<CustomerDto> findCustomerByVoucherType(String voucherType) {
+        List<VoucherDto> vouchers = voucherService.findByType(voucherType);
+        List<UUID> walletIds = walletService.getWalletIdByVoucherType(vouchers);
         return customerService.findCustomerByWallet(walletIds);
     }
 
-    public List<Voucher> findVoucherByCustomerId(UUID customerId) {
+    public List<VoucherDto> findVoucherByCustomerId(UUID customerId) {
         List<Wallet> wallets = walletService.findAllWallet(customerId);
-        List<Voucher> vouchers = new ArrayList<>();
+        List<VoucherDto> vouchers = new ArrayList<>();
         AtomicInteger i = new AtomicInteger();
         wallets.forEach(e -> {
-            Voucher voucher = voucherService.findById(e.getVoucherId());
+            VoucherDto voucher = voucherService.findById(e.getVoucherId());
             vouchers.add(voucher);
             logger.info(i.getAndIncrement() + " : " + voucher.toString());
         });
