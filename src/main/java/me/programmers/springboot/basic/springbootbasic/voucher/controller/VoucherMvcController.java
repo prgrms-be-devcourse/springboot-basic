@@ -52,9 +52,9 @@ public class VoucherMvcController {
     public String createVoucher(@ModelAttribute VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
         if (requestDto.getType().equals("fixed")) {
-            voucher = new FixedAmountVoucher(UUID.randomUUID(), Long.parseLong(requestDto.getDiscountPrice()));
+            voucher = new FixedAmountVoucher(UUID.randomUUID(), requestDto.getDiscountPrice());
         } else if (requestDto.getType().equals("percent")) {
-            voucher = new PercentAmountVoucher(UUID.randomUUID(), Long.parseLong(requestDto.getDiscountPercent()));
+            voucher = new PercentAmountVoucher(UUID.randomUUID(), requestDto.getDiscountPercent());
         }
 
         voucherService.save(voucher);
