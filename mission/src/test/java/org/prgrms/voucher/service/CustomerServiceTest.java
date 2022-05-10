@@ -143,7 +143,7 @@ public class CustomerServiceTest {
             Optional<Customer> expectedCustomer = Optional.of(customer);
 
             @Test
-            @DisplayName("해당 바우처를 반환한다..")
+            @DisplayName("해당 고객을 반환한다.")
             void itReturnCustomer() {
 
                 when(customerRepository.findById(validId)).thenReturn(expectedCustomer);
@@ -189,7 +189,7 @@ public class CustomerServiceTest {
             Optional<Customer> expectedCustomer = Optional.of(customer);
 
             @Test
-            @DisplayName("해당 바우처를 삭제한다..")
+            @DisplayName("해당 고객을 삭제한다..")
             void itDeleteCustomer() {
 
                 when(customerRepository.findById(validId)).thenReturn(expectedCustomer);

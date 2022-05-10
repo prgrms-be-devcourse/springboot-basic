@@ -182,7 +182,7 @@ public class CustomerWebControllerTest {
         class ContextReceiveParamVoucherId {
 
             @Test
-            @DisplayName("해당 id의 바우처를 json 형태로 반환한다.")
+            @DisplayName("해당 id의 고객을 json 형태로 반환한다.")
             void itReturnCustomerByJsonType() throws Exception {
 
                 Customer firstCustomer = new Customer(1L, "jack", LocalDateTime.now(), LocalDateTime.now());
@@ -225,7 +225,7 @@ public class CustomerWebControllerTest {
         class ContextRequestId {
 
             @Test
-            @DisplayName("서비스의 deleteVoucherById메서드를 호출하고 성공 응답을 반환한다.")
+            @DisplayName("서비스의 deleteCustomerById메서드를 호출하고 성공 응답을 반환한다.")
             void itDeleteCustomerAndReturnOk() throws Exception {
 
                 mockMvc.perform(delete("/api/v1/customers/1"))
