@@ -1,7 +1,6 @@
 package com.example.voucher.dto;
 
 import com.example.voucher.domain.voucher.Voucher;
-
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -18,18 +17,6 @@ public class VoucherResponse {
 
     public static VoucherResponse from(Voucher voucher) {
         return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscountAmount(), voucher.getCreatedAt());
-    }
-
-    public Long getVoucherId() {
-        return voucherId;
-    }
-
-    public int getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     @Override
