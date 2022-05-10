@@ -2,7 +2,10 @@ package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.Response;
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.voucher.domain.*;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherRequest;
 import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherResponse;
 import org.junit.jupiter.api.DisplayName;
@@ -123,7 +126,9 @@ class VoucherControllerTest {
                     fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
                 }
 
-                VoucherResponse expectedResponseDto = new VoucherResponse(id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
+                VoucherResponse expectedResponseDto = new VoucherResponse(id,
+                                                                          voucherRequest.getVoucherType(),
+                                                                          voucherRequest.getVoucherAmount());
 
                 // when
                 Response<VoucherResponse> response = voucherController.create(voucherRequest);
