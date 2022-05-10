@@ -17,7 +17,7 @@ public class FixedAmount extends VoucherAmount {
         }
 
         FixedAmount otherVoucherAmount = (FixedAmount) other;
-        if (this == other || this.getAmount() == otherVoucherAmount.getAmount()) {
+        if (this == other || this.getValue() == otherVoucherAmount.getValue()) {
             return true;
         }
         return false;

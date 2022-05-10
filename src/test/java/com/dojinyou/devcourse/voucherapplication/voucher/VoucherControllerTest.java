@@ -22,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
@@ -92,7 +93,7 @@ class VoucherControllerTest {
                 try {
                     Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
                     getDomainMethod.setAccessible(true);
-                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
+                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequest.getType(), voucherRequest.getAmount());
 
                     when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
                 } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
@@ -112,23 +113,23 @@ class VoucherControllerTest {
             @DisplayName("ResponseDto를 가진 Response를 return한다.")
             void it_throws_Exception(VoucherType voucherType) {
                 // given
-                int voucherAmount = 50;
-                VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
-
                 Long id = 999_999_999L;
-                try {
-                    Method getDomainMethod = VoucherMapper.class.getDeclaredMethod("getDomain", Long.class, VoucherType.class, VoucherAmount.class);
-                    getDomainMethod.setAccessible(true);
-                    Voucher voucherWithId = (Voucher) getDomainMethod.invoke(null, id, voucherRequest.getVoucherType(), voucherRequest.getVoucherAmount());
+                int voucherAmount = 50;
+                LocalDateTime testTime = LocalDateTime.of(2022, 5, 17,
+                                                          0,17,0, 0);
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType, VoucherAmount.of(voucherType, voucherAmount));
+                Voucher voucherWithId = Voucher.of(id,
+                                                   voucherRequest.getType(),
+                                                   voucherRequest.getAmount(),
+                                                   testTime, testTime);
 
-                    when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    fail(ERROR_MESSAGE_ABOUT_REFLEXTION + e.getMessage());
-                }
+                when(voucherService.create(any(Voucher.class))).thenReturn(voucherWithId);
 
                 VoucherResponse expectedResponseDto = new VoucherResponse(id,
-                                                                          voucherRequest.getVoucherType(),
-                                                                          voucherRequest.getVoucherAmount());
+                                                                          voucherWithId.getType(),
+                                                                          voucherWithId.getAmount(),
+                                                                          voucherWithId.getCreatedAt(),
+                                                                          voucherWithId.getUpdatedAt());
 
                 // when
                 Response<VoucherResponse> response = voucherController.create(voucherRequest);
@@ -138,9 +139,9 @@ class VoucherControllerTest {
                 assertThat(response).isNotNull();
                 assertThat(response.getState()).isEqualTo(Response.State.SUCCESS);
                 assertThat(responseDto).isNotNull();
-                assertThat(responseDto.getVoucherId()).isEqualTo(expectedResponseDto.getVoucherId());
-                assertThat(responseDto.getVoucherType()).isEqualTo(expectedResponseDto.getVoucherType());
-                assertThat(responseDto.getVoucherAmount()).isEqualTo(expectedResponseDto.getVoucherAmount());
+                assertThat(responseDto.getId()).isEqualTo(expectedResponseDto.getId());
+                assertThat(responseDto.getType()).isEqualTo(expectedResponseDto.getType());
+                assertThat(responseDto.getAmount()).isEqualTo(expectedResponseDto.getAmount());
             }
         }
     }

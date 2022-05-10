@@ -15,8 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,9 +69,8 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                Voucher voucherWithId = VoucherMapper.getDomain(id,
-                                                                voucherWithNull.getVoucherType(),
-                                                                voucherWithNull.getVoucherAmount());
+                Voucher voucherWithId = Voucher.of(id, voucherWithNull.getType(),
+                                                   voucherWithNull.getAmount(), null, null);
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
                 // when
@@ -95,9 +92,8 @@ class VoucherServiceTest {
                 Voucher voucherWithNull = VoucherMapper.requestDtoToDomain(voucherRequest);
 
                 Long id = 999_999_999L;
-                Voucher voucherWithId = VoucherMapper.getDomain(id,
-                                                                voucherWithNull.getVoucherType(),
-                                                                voucherWithNull.getVoucherAmount());
+                Voucher voucherWithId = Voucher.of(id,voucherWithNull.getType(),
+                                                   voucherWithNull.getAmount(), null, null);
 
                 when(voucherRepository.create(any())).thenReturn(voucherWithId);
 
@@ -106,9 +102,9 @@ class VoucherServiceTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(voucherWithId.getVoucherId());
-                assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherWithId.getVoucherType());
-                assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherWithId.getVoucherAmount());
+                assertThat(savedVoucher.getId()).isEqualTo(voucherWithId.getId());
+                assertThat(savedVoucher.getType()).isEqualTo(voucherWithId.getType());
+                assertThat(savedVoucher.getAmount()).isEqualTo(voucherWithId.getAmount());
                 verify(voucherRepository, atLeastOnce()).create(any());
             }
         }

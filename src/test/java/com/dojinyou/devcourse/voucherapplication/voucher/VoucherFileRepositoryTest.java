@@ -18,7 +18,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -102,9 +101,9 @@ class VoucherFileRepositoryTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(lastId + 1);
-                assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
-                assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
+                assertThat(savedVoucher.getId()).isEqualTo(lastId + 1);
+                assertThat(savedVoucher.getType()).isEqualTo(voucherType);
+                assertThat(savedVoucher.getAmount()).isEqualTo(voucherAmount);
             }
         }
     }

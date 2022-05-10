@@ -97,8 +97,8 @@ class VoucherJdbcRepositoryTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
-                assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
+                assertThat(savedVoucher.getType()).isEqualTo(voucherType);
+                assertThat(savedVoucher.getAmount()).isEqualTo(voucherAmount);
             }
         }
     }

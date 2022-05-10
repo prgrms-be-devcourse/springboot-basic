@@ -17,6 +17,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String ERROR_MESSAGE_FOR_NULL = "잘못된 입력입니다.";
     private static final String SELECT_ALL_SQL = "SELECT * FROM voucher";
     private static final String INSERT_SQL = "INSERT INTO voucher(type,amount) VALUES(:type,:amount)";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE id = :id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -36,13 +37,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
         SqlParameterSource parameterSource = getParameterSource(voucher);
 
         jdbcTemplate.update(INSERT_SQL, parameterSource, keyHolder);
+
         if (keyHolder.getKey() == null) {
             throw new RuntimeException("Not Insert Voucher");
         }
 
-        return VoucherMapper.getDomain(keyHolder.getKey().longValue(),
-                                       voucher.getVoucherType(),
-                                       voucher.getVoucherAmount());
+        List<Voucher> vouchers = jdbcTemplate.query(SELECT_BY_ID_SQL,
+                                                    new MapSqlParameterSource().addValue("id", keyHolder.getKey()),
+                                                    voucherRowMapper);
+        if (vouchers.size() != 1) {
+            throw new RuntimeException();
+        }
+        return vouchers.get(0);
     }
 
     @Override
@@ -51,8 +57,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     private SqlParameterSource getParameterSource(Voucher voucher) {
-        return new MapSqlParameterSource().addValue("type", voucher.getVoucherType().toString())
-                                          .addValue("amount", voucher.getAmount());
+        return new MapSqlParameterSource().addValue("type", voucher.getType().toString())
+                                          .addValue("amount", voucher.getAmountValue());
     }
 }
 ;

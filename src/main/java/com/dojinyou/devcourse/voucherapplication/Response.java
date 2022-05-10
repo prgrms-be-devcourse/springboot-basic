@@ -17,7 +17,6 @@ public class Response<T> {
         sb.append("응답 결과(" + this.state + "): ");
         if (data instanceof List) {
             ((List<T>) data).stream()
-                            .map(T::toString)
                             .map(sb::append);
         } else {
             sb.append(data.toString());
