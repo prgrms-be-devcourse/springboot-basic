@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,8 +19,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("Voucher를 메모리에 저장한다.")
     void saveTest() {
         // given
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 5000, LocalDateTime.now());
-        Voucher percentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(5000, LocalDateTime.now());
+        Voucher percentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
 
         // when
         repository.save(fixedVoucher);
@@ -35,24 +34,24 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("Voucher를 update한다.")
     void updateTest() {
         // given
-        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 5000, LocalDateTime.now());
-        Voucher percentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
+        Voucher fixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(5000, LocalDateTime.now());
+        Voucher percentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
 
-        repository.save(fixedVoucher);
-        repository.save(percentVoucher);
+        Long fixedVoucherId = repository.save(fixedVoucher);
+        Long percentVoucherId = repository.save(percentVoucher);
 
         // when
-        Voucher updateFixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(fixedVoucher.getVoucherId(), 7000, LocalDateTime.now());
-        Voucher updatePercentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(percentVoucher.getVoucherId(), 70, LocalDateTime.now());
+        Voucher updateFixedVoucher = VoucherType.FIXED_DISCOUNT.constructor(fixedVoucherId, 7000, LocalDateTime.now());
+        Voucher updatePercentVoucher = VoucherType.PERCENT_DISCOUNT.constructor(percentVoucherId, 70, LocalDateTime.now());
 
         repository.update(updateFixedVoucher);
         repository.update(updatePercentVoucher);
 
         // then
-        Voucher findFixedVoucher = repository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher findFixedVoucher = repository.findById(fixedVoucherId).get();
         assertThat(findFixedVoucher.getAmount()).isEqualTo(7000);
 
-        Voucher findPercentVoucher = repository.findById(percentVoucher.getVoucherId()).get();
+        Voucher findPercentVoucher = repository.findById(percentVoucherId).get();
         assertThat(findPercentVoucher.getAmount()).isEqualTo(70);
     }
 
@@ -60,31 +59,33 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("Vouhcer를 voucherId로 조회한다.")
     void findByIdTest() {
         // given
-        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
-        repository.save(voucher);
+        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
+        Long voucherId = repository.save(voucher);
 
         // when
-        Optional<Voucher> findVoucher = repository.findById(voucher.getVoucherId());
+        Optional<Voucher> findVoucher = repository.findById(voucherId);
 
         // then
         assertThat(findVoucher).isNotEmpty();
-        assertThat(findVoucher.get()).usingRecursiveComparison().isEqualTo(voucher);
+        assertThat(findVoucher.get()).usingRecursiveComparison().ignoringFields("voucherId").isEqualTo(voucher);
     }
 
     @Test
     @DisplayName("존재하지 않는 Id로 Voucher를 조회하면 Optional.empty()가 반환된다.")
     void findByNotExistsIdTest() {
         // given
-        Voucher voucher1 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
-        Voucher voucher2 = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 10, LocalDateTime.now());
-        Voucher voucher3 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
+        Voucher voucher1 = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
+        Voucher voucher2 = VoucherType.PERCENT_DISCOUNT.constructor(10, LocalDateTime.now());
+        Voucher voucher3 = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
 
         repository.save(voucher1);
         repository.save(voucher2);
         repository.save(voucher3);
 
+        Long wrongVoucherId = -1L;
+
         // when
-        Optional<Voucher> findVoucher = repository.findById(UUID.randomUUID());
+        Optional<Voucher> findVoucher = repository.findById(wrongVoucherId);
 
         // then
         assertThat(findVoucher).isEmpty();
@@ -94,14 +95,14 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("Voucher를 삭제한다.")
     void removeTest() {
         // given
-        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
-        repository.save(voucher);
+        Voucher voucher = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
+        Long voucherId = repository.save(voucher);
 
         // when
-        repository.remove(voucher);
+        repository.remove(voucherId);
 
         // then
-        Optional<Voucher> findVoucher = repository.findById(voucher.getVoucherId());
+        Optional<Voucher> findVoucher = repository.findById(voucherId);
         assertThat(findVoucher).isEmpty();
     }
 
@@ -109,9 +110,9 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("모든 Voucher를 조회한다.")
     void findAllTest() {
         // given
-        Voucher voucher1 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
-        Voucher voucher2 = VoucherType.PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 10, LocalDateTime.now());
-        Voucher voucher3 = VoucherType.FIXED_DISCOUNT.constructor(UUID.randomUUID(), 100000, LocalDateTime.now());
+        Voucher voucher1 = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
+        Voucher voucher2 = VoucherType.PERCENT_DISCOUNT.constructor(10, LocalDateTime.now());
+        Voucher voucher3 = VoucherType.FIXED_DISCOUNT.constructor(100000, LocalDateTime.now());
 
         repository.save(voucher1);
         repository.save(voucher2);
@@ -122,7 +123,7 @@ class MemoryVoucherRepositoryTest {
 
         // then
         assertThat(allVouchers.size()).isEqualTo(3);
-        assertThat(allVouchers).usingRecursiveFieldByFieldElementComparator().contains(voucher1, voucher2, voucher3);
+        assertThat(allVouchers).usingRecursiveFieldByFieldElementComparatorIgnoringFields("voucherId").contains(voucher1, voucher2, voucher3);
     }
 
     @Test

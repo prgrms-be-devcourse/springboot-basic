@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static com.prgrms.vouchermanagement.voucher.VoucherType.FIXED_DISCOUNT;
 import static com.prgrms.vouchermanagement.voucher.VoucherType.PERCENT_DISCOUNT;
@@ -38,14 +37,14 @@ class VoucherWalletServiceTest {
     @DisplayName("Customer 지갑에 Voucher를 추가한다.")
     void addVoucherToWalletTest() {
         // given
+        Long sampleCustomerId = 1L;
+        Long sampleVoucherId = 2L;
         VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID voucherId = UUID.randomUUID();
-        UUID customerId = UUID.randomUUID();
-        when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
-        when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
+        when(customerService.isRegisteredCustomer(anyLong())).thenReturn(true);
+        when(voucherService.isRegisteredVoucher(anyLong())).thenReturn(true);
 
         // when
-        voucherWalletService.addVoucherToWallet(customerId, voucherId);
+        voucherWalletService.addVoucherToWallet(sampleCustomerId, sampleVoucherId);
 
         // then
         verify(voucherWalletRepository).save(any());
@@ -56,8 +55,8 @@ class VoucherWalletServiceTest {
     void addVoucherWalletNotExistsCustomerTest() {
         // given
         VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID voucherId = UUID.randomUUID();
-        UUID wrongCustomerId = UUID.randomUUID();
+        Long voucherId = 1L;
+        Long wrongCustomerId = -1L;
         when(customerService.isRegisteredCustomer(wrongCustomerId)).thenReturn(false);
         when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
 
@@ -77,8 +76,8 @@ class VoucherWalletServiceTest {
     void addVoucherWalletNotExistsVoucherTest() {
         // given
         VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID wrongVoucherId = UUID.randomUUID();
-        UUID customerId = UUID.randomUUID();
+        Long wrongVoucherId = -1L;
+        Long customerId = 1L;
         when(voucherService.isRegisteredVoucher(wrongVoucherId)).thenReturn(false);
 
         // then
@@ -92,15 +91,16 @@ class VoucherWalletServiceTest {
         verify(voucherWalletRepository, times(0)).save(any());
     }
 
+    // TODO
     @Test
     @DisplayName("wallet에 있는 voucher를 삭제한다.")
     void removeVoucherInWalletTest() {
         // given
         VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID walletId = UUID.randomUUID();
-        UUID customerId = UUID.randomUUID();
-        UUID voucherId = UUID.randomUUID();
-        Wallet wallet = Wallet.of(walletId, customerId, voucherId);
+        Long walletId = 1234L;
+        Long customerId = 5678L;
+        Long voucherId = 4756L;
+        Wallet wallet = Wallet.of(customerId, voucherId);
         when(voucherWalletRepository.findWallet(walletId)).thenReturn(Optional.of(wallet));
 
         // when
@@ -115,7 +115,7 @@ class VoucherWalletServiceTest {
     void removeVoucherInWalletWrongWalletIdTest() {
         // given
         VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID wrongWalletId = UUID.randomUUID();
+        Long wrongWalletId = -1L;
         when(voucherWalletRepository.findWallet(wrongWalletId)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> {
@@ -130,16 +130,14 @@ class VoucherWalletServiceTest {
     @DisplayName("특정 Customer가 가지고 있는 Voucher를 조회한다.")
     void findVoucherByCustomerTest() {
         // given
-        VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID customerId = UUID.randomUUID();
-        Voucher voucher1 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 5000, LocalDateTime.now());
-        Voucher voucher2 = PERCENT_DISCOUNT.constructor(UUID.randomUUID(), 50, LocalDateTime.now());
-        Voucher voucher3 = FIXED_DISCOUNT.constructor(UUID.randomUUID(), 55000, LocalDateTime.now());
-        when(customerService.isRegisteredCustomer(customerId)).thenReturn(true);
-        when(voucherWalletRepository.findVoucherByCustomer(customerId)).thenReturn(List.of(voucher1, voucher2, voucher3));
+        Long customerId = 1234L;
+        Voucher voucher1 = FIXED_DISCOUNT.constructor(5000, LocalDateTime.now());
+        Voucher voucher2 = PERCENT_DISCOUNT.constructor(50, LocalDateTime.now());
+        Voucher voucher3 = FIXED_DISCOUNT.constructor(55000, LocalDateTime.now());
+        when(voucherService.findVoucherByCustomer(customerId)).thenReturn(List.of(voucher1, voucher2, voucher3));
 
         // when
-        List<Voucher> vouchers = voucherWalletService.findVoucherByCustomer(customerId);
+        List<Voucher> vouchers = voucherService.findVoucherByCustomer(customerId);
 
         // then
         assertThat(vouchers.size()).isEqualTo(3);
@@ -147,60 +145,20 @@ class VoucherWalletServiceTest {
     }
 
     @Test
-    @DisplayName("Customer가 가지고 있는 Voucher를 조회하는데 존재하지 않는 customerId로 조회하면 예외가 발생한다. ")
-    void findVoucherByCustomerWrongCustomerIdTest() {
-        // given
-        VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID wrongCustomerId = UUID.randomUUID();
-        when(customerService.isRegisteredCustomer(wrongCustomerId)).thenReturn(false);
-
-        // then
-        assertThatThrownBy(() -> {
-            // when
-            List<Voucher> vouchers = voucherWalletService.findVoucherByCustomer(wrongCustomerId);
-        })
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("등록되지 않은 Customer입니다.");
-
-        verify(voucherWalletRepository, times(0)).findVoucherByCustomer(wrongCustomerId);
-    }
-
-    @Test
     @DisplayName("특정 Voucher를 가지고 있는 Customer를 조회한다.")
     void findCustomerByVoucherTest() {
         // given
-        VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        Customer customer1 = Customer.of(UUID.randomUUID(), "aaa", "aaa@gmail.com", LocalDateTime.now());
-        Customer customer2 = Customer.of(UUID.randomUUID(), "bbb", "bbb@gmail.com", LocalDateTime.now());
-        Customer customer3 = Customer.of(UUID.randomUUID(), "ccc", "ccc@gmail.com", LocalDateTime.now());
-        UUID voucherId = UUID.randomUUID();
-        when(voucherService.isRegisteredVoucher(voucherId)).thenReturn(true);
-        when(voucherWalletRepository.findCustomerByVoucher(voucherId)).thenReturn(List.of(customer1, customer2, customer3));
+        Customer customer1 = Customer.of("aaa", "aaa@gmail.com");
+        Customer customer2 = Customer.of("bbb", "bbb@gmail.com");
+        Customer customer3 = Customer.of("ccc", "ccc@gmail.com");
+        Long voucherId = 1234L;
+        when(customerService.findCustomerByVoucher(voucherId)).thenReturn(List.of(customer1, customer2, customer3));
 
         // when
-        List<Customer> customers = voucherWalletService.findCustomerByVoucher(voucherId);
+        List<Customer> customers = customerService.findCustomerByVoucher(voucherId);
 
         // then
         assertThat(customers.size()).isEqualTo(3);
         assertThat(customers).contains(customer1, customer2, customer3);
-    }
-
-    @Test
-    @DisplayName("특정 Voucher를 가지고 있는 Customer를 조회하는데 존재하지 않는 voucherId로 조회하면 예외가 발생한다. ")
-    void findCustomerByVoucherWrongVoucherIdTest() {
-        // given
-        VoucherWalletService voucherWalletService = new VoucherWalletService(voucherWalletRepository, voucherService, customerService);
-        UUID wrongVoucherId = UUID.randomUUID();
-        when(voucherService.isRegisteredVoucher(wrongVoucherId)).thenReturn(false);
-
-        // then
-        assertThatThrownBy(() -> {
-            // when
-            List<Customer> customers = voucherWalletService.findCustomerByVoucher(wrongVoucherId);
-        })
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("등록되지 않은 Voucher입니다.");
-
-        verify(voucherWalletRepository, times(0)).findCustomerByVoucher(wrongVoucherId);
     }
 }

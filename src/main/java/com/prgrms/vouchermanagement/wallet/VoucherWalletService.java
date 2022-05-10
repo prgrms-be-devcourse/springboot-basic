@@ -1,14 +1,11 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import com.prgrms.vouchermanagement.customer.Customer;
 import com.prgrms.vouchermanagement.customer.CustomerService;
-import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherWalletService {
@@ -26,51 +23,38 @@ public class VoucherWalletService {
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public UUID addVoucherToWallet(UUID customerId, UUID voucherId) throws IllegalArgumentException, DataAccessException {
+    public Long addVoucherToWallet(Long customerId, Long voucherId) throws IllegalArgumentException, DataAccessException {
         validateVoucherId(voucherId);
         validateCustomerId(customerId);
-        Wallet wallet = Wallet.of(UUID.randomUUID(), customerId, voucherId);
-        walletRepository.save(wallet);
-        return wallet.getWalletId();
+        Wallet wallet = Wallet.of(customerId, voucherId);
+        return walletRepository.save(wallet);
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public void removeVoucherInWallet(UUID walletId) throws IllegalArgumentException, DataAccessException {
+    public void removeVoucherInWallet(Long walletId) throws IllegalArgumentException, DataAccessException {
         validateWalletId(walletId);
         walletRepository.removeWallet(walletId);
     }
 
-    /**
-     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
-     */
-    public List<Voucher> findVoucherByCustomer(UUID customerId) throws IllegalArgumentException, DataAccessException {
-        validateCustomerId(customerId);
-        return walletRepository.findVoucherByCustomer(customerId);
+    public List<Wallet> findAll() {
+        return walletRepository.findAll();
     }
 
-    /**
-     * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
-     */
-    public List<Customer> findCustomerByVoucher(UUID voucherId) throws IllegalArgumentException, DataAccessException {
-        validateVoucherId(voucherId);
-        return walletRepository.findCustomerByVoucher(voucherId);
-    }
-
-    private void validateCustomerId(UUID customerId) throws IllegalArgumentException {
+    private void validateCustomerId(Long customerId) throws IllegalArgumentException {
         if (!customerService.isRegisteredCustomer(customerId)) {
             throw new IllegalArgumentException("등록되지 않은 Customer입니다.");
         }
     }
 
-    private void validateVoucherId(UUID voucherId) throws IllegalArgumentException {
+    private void validateVoucherId(Long voucherId) throws IllegalArgumentException {
         if (!voucherService.isRegisteredVoucher(voucherId)) {
             throw new IllegalArgumentException("등록되지 않은 Voucher입니다.");
         }
     }
 
-    private void validateWalletId(UUID walletId) throws IllegalArgumentException {
+    private void validateWalletId(Long walletId) throws IllegalArgumentException {
         if (walletRepository.findWallet(walletId).isEmpty()) {
             throw new IllegalArgumentException("등록되지 않은 Wallet입니다.");
         }

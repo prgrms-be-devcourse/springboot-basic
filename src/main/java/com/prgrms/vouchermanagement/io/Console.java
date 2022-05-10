@@ -7,7 +7,6 @@ import java.text.MessageFormat;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
 public class Console implements Input, Output{
@@ -34,30 +33,15 @@ public class Console implements Input, Output{
         return Integer.parseInt(input);
     }
 
-    /**
-     * @throws IllegalArgumentException : 입력받은 문자열이 UUID 형식이 아닌 경우 던져진다.
-     */
-    @Override
-    public UUID inputUUID(String title) throws InputMismatchException {
-        System.out.print(MessageFormat.format("input {0}: ", title));
-        String input = sc.nextLine();
-
-        if (!StringUtils.isUUID(input)) {
-            throw new InputMismatchException("UUID 형식의 문자열이 아닙니다.");
-        }
-
-        return UUID.fromString(input);
-    }
-
     @Override
     public String inputString(String title) {
-        System.out.print(MessageFormat.format("input {0} : ", title));
+        showTitle(title);
         return sc.nextLine();
     }
 
     @Override
     public int inputNumber(String title) throws InputMismatchException {
-        System.out.print(MessageFormat.format("input {0}: ", title));
+        showTitle(title);
         String input = sc.nextLine();
 
         // 숫자가 아닌 문자가 입력되면 예외를 던진다.
@@ -69,8 +53,21 @@ public class Console implements Input, Output{
     }
 
     @Override
+    public Long inputId(String title) throws InputMismatchException {
+        showTitle(title);
+        String input = sc.nextLine();
+
+        // 숫자가 아닌 문자가 입력되면 예외를 던진다.
+        if (!StringUtils.isNumber(input)) {
+            throw new InputMismatchException();
+        }
+
+        return Long.parseLong(input);
+    }
+
+    @Override
     public String inputCommand() {
-        System.out.print("input: ");
+        showTitle("command");
         return sc.nextLine();
     }
 
@@ -112,5 +109,9 @@ public class Console implements Input, Output{
         System.out.println();
         System.out.println(message);
         System.out.println();
+    }
+
+    private void showTitle(String title) {
+        System.out.print(MessageFormat.format("input {0}: ", title));
     }
 }

@@ -2,15 +2,16 @@ package com.prgrms.vouchermanagement.voucher;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_DISCOUNT(1), PERCENT_DISCOUNT(2);
+    FIXED_DISCOUNT(1, "fixed"), PERCENT_DISCOUNT(2, "percent");
 
     private final int order;
+    private final String description;
 
-    VoucherType(int order) {
+    VoucherType(int order, String description) {
         this.order = order;
+        this.description = description;
     }
 
     /**
@@ -36,7 +37,7 @@ public enum VoucherType {
     /**
      * @throws IllegalArgumentException : amount 값이 유효한 범위의 값이 아닌 경우 of 메서드에서 던져진다.
      */
-    public Voucher constructor(UUID voucherId, long amount, LocalDateTime createdAt) {
+    public Voucher constructor(Long voucherId, long amount, LocalDateTime createdAt) {
         switch (this) {
             case FIXED_DISCOUNT:
                 return FixedAmountVoucher.of(voucherId, amount, createdAt);
@@ -45,5 +46,13 @@ public enum VoucherType {
             default:
                 throw new IllegalArgumentException("일치하는 VoucherType이 없습니다");
         }
+    }
+
+    public Voucher constructor(long amount, LocalDateTime createdAt) {
+        return constructor(null, amount, createdAt);
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -1,31 +1,42 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 public class Wallet {
-    private UUID walletId;
-    private UUID customerId;
-    private UUID voucherId;
+    private final Long walletId;
+    private final Long customerId;
+    private final Long voucherId;
 
-    private Wallet(UUID walletId, UUID customerId, UUID voucherId) {
+    private final LocalDateTime  createdAt;
+
+    public Wallet(Long walletId, Long customerId, Long voucherId, LocalDateTime createdAt) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
+        this.createdAt = createdAt;
     }
 
-    public static Wallet of(UUID walletId, UUID customerId, UUID voucherId) {
-        return new Wallet(walletId, customerId, voucherId);
+    public static Wallet of(Long customerId, Long voucherId) {
+        return new Wallet(null, customerId, voucherId, LocalDateTime.now());
     }
 
-    public UUID getWalletId() {
+    public static Wallet of(Long walletId, Long customerId, Long voucherId, LocalDateTime createdAt) {
+        return new Wallet(walletId, customerId, voucherId, createdAt);
+    }
+
+    public Long getWalletId() {
         return walletId;
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

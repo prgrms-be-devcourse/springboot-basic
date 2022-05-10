@@ -3,25 +3,28 @@ package com.prgrms.vouchermanagement.voucher;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher, Serializable {
 
-    private final UUID voucherId;
+    private final Long voucherId;
     private final long discountPrice;
     private final LocalDateTime createdAt;
 
-    public FixedAmountVoucher(UUID voucherId, long discountPrice, LocalDateTime createdAt) {
+    public FixedAmountVoucher(Long voucherId, long discountPrice, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.discountPrice = discountPrice;
         this.createdAt = createdAt;
     }
 
-    public static Voucher of(UUID voucherId, long discountPrice, LocalDateTime createdAt) throws IllegalArgumentException {
+    public static Voucher of(Long voucherId, long discountPrice, LocalDateTime createdAt) throws IllegalArgumentException {
         if (discountPrice < 0){
             throw new IllegalArgumentException("0보다 작은 값은 입력할 수 없습니다.");
         }
         return new FixedAmountVoucher(voucherId, discountPrice, createdAt);
+    }
+
+    public static Voucher of(long discountPrice, LocalDateTime createdAt) throws IllegalArgumentException {
+        return FixedAmountVoucher.of(null, discountPrice, createdAt);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 

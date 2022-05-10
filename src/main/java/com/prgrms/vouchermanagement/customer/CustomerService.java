@@ -3,8 +3,8 @@ package com.prgrms.vouchermanagement.customer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -18,14 +18,34 @@ public class CustomerService {
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public void addCustomer(String name, String email) throws DataAccessException, IllegalArgumentException {
+    public Long addCustomer(String name, String email) throws DataAccessException, IllegalArgumentException {
         if (isRegisteredCustomer(email)) {
             throw new IllegalArgumentException("중복된 email입니다.");
         }
 
-        Customer newCustomer = Customer.of(UUID.randomUUID(), name, email, LocalDateTime.now());
+        Customer newCustomer = Customer.of(name, email);
 
-        customerRepository.save(newCustomer);
+        return customerRepository.save(newCustomer);
+    }
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
+    public List<Customer> findCustomerByVoucher(Long voucherId) throws DataAccessException {
+        return customerRepository.findCustomerByVoucher(voucherId);
+    }
+
+    public Optional<Customer> findById(Long customerId) {
+        return customerRepository.findById(customerId);
+    }
+
+    public boolean removeCustomer(Long customerId) {
+        if (!isRegisteredCustomer(customerId)) {
+            return false;
+        }
+        customerRepository.remove(customerId);
+        return true;
     }
 
     /**
@@ -38,7 +58,7 @@ public class CustomerService {
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public boolean isRegisteredCustomer(UUID customerId) throws DataAccessException {
+    public boolean isRegisteredCustomer(Long customerId) throws DataAccessException {
         return customerId != null && customerRepository.findById(customerId).isPresent();
     }
 }

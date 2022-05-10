@@ -13,15 +13,21 @@ public class FilePathProperties {
     private final String vouchersFilePath;
     private final String blackListFilePath;
     private final String baseDirectory;
+    private final String sequenceStorePath;
 
-    public FilePathProperties(String vouchersFilePath, String blackListFilePath, String baseDirectory) {
+    public FilePathProperties(String vouchersFilePath, String blackListFilePath, String baseDirectory, String sequenceStorePath) {
         this.vouchersFilePath = vouchersFilePath;
         this.blackListFilePath = blackListFilePath;
         this.baseDirectory = baseDirectory;
+        this.sequenceStorePath = sequenceStorePath;
     }
 
     public String getVouchersFilePath() {
         return getFilePath(vouchersFilePath);
+    }
+
+    public String getSequenceStorePath() {
+        return getFilePath(sequenceStorePath);
     }
 
     public String getBlackListFilePath() {

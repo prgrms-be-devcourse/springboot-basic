@@ -1,7 +1,6 @@
 package com.prgrms.vouchermanagement.io;
 
 import java.util.InputMismatchException;
-import java.util.UUID;
 
 public interface Input {
     String inputCommand();
@@ -10,7 +9,7 @@ public interface Input {
 
     String inputString(String title);
 
-    UUID inputUUID(String title) throws InputMismatchException;
+    Long inputId(String title) throws InputMismatchException;
 
     int inputNumber(String title) throws InputMismatchException;
 }

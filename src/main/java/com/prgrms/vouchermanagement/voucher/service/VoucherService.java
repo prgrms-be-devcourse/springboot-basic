@@ -3,48 +3,65 @@ package com.prgrms.vouchermanagement.voucher.service;
 import com.prgrms.vouchermanagement.voucher.Voucher;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class VoucherService {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
-    private final VoucherRepository repository;
+    private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository repository) {
-        this.repository = repository;
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public UUID addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
-        Voucher newVoucher = voucherType.constructor(UUID.randomUUID(), amount, LocalDateTime.now());
-        repository.save(newVoucher);
-        log.info("voucher is saved - {}", newVoucher);
-        return newVoucher.getVoucherId();
+    public Long addVoucher(VoucherType voucherType, long amount) throws IllegalArgumentException, DataAccessException {
+        Voucher newVoucher = voucherType.constructor(amount, LocalDateTime.now());
+        return voucherRepository.save(newVoucher);
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
     public List<Voucher> findAllVouchers() throws DataAccessException {
-        List<Voucher> allVouchers = repository.findAll();
-        log.info("find all vouchers. size={}", allVouchers.size());
-        return allVouchers;
+        return voucherRepository.findAll();
     }
 
     /**
      * @throws DataAccessException : Repository에서 쿼리 실행에 문제가 발생한 경우 던져진다.
      */
-    public boolean isRegisteredVoucher(UUID voucherId) throws DataAccessException {
-        return repository.findById(voucherId).isPresent();
+    public boolean isRegisteredVoucher(Long voucherId) throws DataAccessException {
+        return voucherRepository.findById(voucherId).isPresent();
+    }
+
+    public Optional<Voucher> findVoucherById(Long voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
+
+    public List<Voucher> findVoucherByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime end) {
+        return voucherRepository.findByPeriod(from, end);
+    }
+
+    public List<Voucher> findVoucherByCustomer(Long customerId) throws IllegalArgumentException, DataAccessException {
+        return voucherRepository.findVoucherByCustomer(customerId);
+    }
+
+    public boolean removeVoucher(Long voucherId) {
+        if (!isRegisteredVoucher(voucherId)) {
+            return false;
+        }
+        voucherRepository.remove(voucherId);
+        return true;
     }
 }

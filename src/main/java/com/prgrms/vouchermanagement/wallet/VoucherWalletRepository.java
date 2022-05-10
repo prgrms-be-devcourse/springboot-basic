@@ -1,21 +1,15 @@
 package com.prgrms.vouchermanagement.wallet;
 
-import com.prgrms.vouchermanagement.customer.Customer;
-import com.prgrms.vouchermanagement.voucher.Voucher;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherWalletRepository {
 
-    void save(Wallet wallet);
+    Long save(Wallet wallet);
 
-    List<Voucher> findVoucherByCustomer(UUID customerId);
+    void removeWallet(Long walletId);
 
-    void removeWallet(UUID walletId);
+    Optional<Wallet> findWallet(Long walletId);
 
-    List<Customer> findCustomerByVoucher(UUID voucherId);
-
-    Optional<Wallet> findWallet(UUID walletId);
+    List<Wallet> findAll();
 }

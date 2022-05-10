@@ -2,17 +2,16 @@ package com.prgrms.vouchermanagement.customer;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class Customer {
 
-    private UUID customerId;
+    private Long customerId;
     private String name;
     private String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
-    private Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    private Customer(Long customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
@@ -20,15 +19,15 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public static Customer of(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public static Customer of(Long customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         return new Customer(customerId, name, email, lastLoginAt, createdAt);
     }
 
-    public static Customer of(UUID customerId, String name, String email, LocalDateTime createdAt) {
-        return new Customer(customerId, name, email, null, createdAt);
+    public static Customer of(String name, String email) {
+        return new Customer(null, name, email, null, LocalDateTime.now());
     }
 
-    public UUID getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
