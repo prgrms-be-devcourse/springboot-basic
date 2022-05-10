@@ -68,7 +68,7 @@ public class VoucherRestControllerTest {
 
 			@Test
 			@DisplayName("저장된 바우처를 전체 조회하고 반환한다")
-			void 저장된_바우처를_전체_조회하고_반환한다() {
+			void 저장된_바우처를_전체_조회하고_반환한다() throws Exception {
 
 				List<Voucher> vouchers = Arrays.asList(new FixedAmountVoucher(1L, 10000),
 						new FixedAmountVoucher(2L, 2000));
@@ -79,13 +79,8 @@ public class VoucherRestControllerTest {
 				given(voucherService.findAll())
 						.willReturn(vouchers);
 
-				MvcResult mvcResult;
-				try {
-					mvcResult = mockMvc.perform(get("/api/v1/vouchers"))
-							.andReturn();
-				} catch (Exception e) {
-					throw new RuntimeException(e.getMessage());
-				}
+				MvcResult mvcResult = mockMvc.perform(get("/api/v1/vouchers"))
+						.andReturn();
 
 				assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
 				assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
@@ -164,7 +159,7 @@ public class VoucherRestControllerTest {
 
 		@Test
 		@DisplayName("바우처를 저장하고 저장된 바우처를 반환한다")
-		void 바우처를_저장하고_저장된_바우처를_반환한다() {
+		void 바우처를_저장하고_저장된_바우처를_반환한다() throws Exception {
 
 			Voucher createdVoucher = new FixedAmountVoucher(1L, 1000);
 			String requestJsonString = objectToJsonString(new VoucherRequest(createdVoucher.getVoucherType(), createdVoucher.getDiscountAmount()));
@@ -172,15 +167,10 @@ public class VoucherRestControllerTest {
 			given(voucherService.save(any(VoucherType.class), anyInt()))
 					.willReturn(createdVoucher);
 
-			MvcResult mvcResult;
-			try {
-				mvcResult = mockMvc.perform(post("/api/v1/vouchers")
-							   .content(requestJsonString)
-							   .contentType(APPLICATION_JSON))
-							   .andReturn();
-			} catch (Exception e) {
-				throw new RuntimeException(e.getMessage());
-			}
+			MvcResult mvcResult = mockMvc.perform(post("/api/v1/vouchers")
+							.content(requestJsonString)
+							.contentType(APPLICATION_JSON))
+							.andReturn();
 
 			assertThat(getStatus(mvcResult)).isEqualTo(OK.value());
 			assertThat(getResponseString(mvcResult)).isEqualTo(responseJsonString);
@@ -192,19 +182,16 @@ public class VoucherRestControllerTest {
 
 			@Test
 			@DisplayName("예외 응답을 반환한다")
-			void 예외_응답을_반환한다() {
+			void 예외_응답을_반환한다() throws Exception {
 
 				String requestJsonString = objectToJsonString(new VoucherRequest(null, 2000));
 
-				MvcResult mvcResult;
-				try {
-					mvcResult = mockMvc.perform(post("/api/v1/vouchers")
-							.content(requestJsonString)
-							.contentType(APPLICATION_JSON))
-							.andReturn();
-				} catch (Exception e) {
-					throw new RuntimeException(e.getMessage());
-				}
+
+				MvcResult mvcResult = mockMvc.perform(post("/api/v1/vouchers")
+								.content(requestJsonString)
+								.contentType(APPLICATION_JSON))
+								.andReturn();
+
 				assertThat(getStatus(mvcResult)).isEqualTo(BAD_REQUEST.value());
 				assertThat(mvcResult.getResolvedException().getMessage()).contains("바우처 타입이 null이 될 수 없습니다");
 			}
