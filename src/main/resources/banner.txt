@@ -1,0 +1,7 @@
+ _ _                     _
+| | | _     _||  _  _   / \  _  _ ||() _ _  || () _   _
+| V |/o\|U|//| \/o\/_| | o |/o\/o\||||///o\ | ]||/o\|/ \
+ \_/ \_/\_/\\Ln|\( L|  |_n_||_/|_/L|L|\\\_,]L| L|\_/L_n|
+                            L| L|
+${application.title} ${application.version}
+Powered by Spring Boot ${spring-boot.version}

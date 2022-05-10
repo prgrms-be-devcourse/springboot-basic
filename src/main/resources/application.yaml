@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: default
+  datasource:
+    url: jdbc:mysql://${MY_SQL_HOST}:${MY_SQL_PORT}/order_mgmt
+    username: ${MY_SQL_USER_ID}
+    password: ${MY_SQL_USER_PW}
+    driver-class-name: com.mysql.cj.jdbc.Driver
