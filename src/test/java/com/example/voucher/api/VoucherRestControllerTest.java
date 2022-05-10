@@ -132,6 +132,18 @@ public class VoucherRestControllerTest {
 								.andExpect(content().json(responseJsonString));
 			}
 		}
+
+		@Nested
+		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+		class 유효하지_않은_바우처_타입이_주어진다면 {
+
+			@Test
+			@DisplayName("예외 응답을 반환한다")
+			void 예외_응답을_반환한다() throws Exception {
+				mockMvc.perform(get("/api/v1/vouchers?voucherType="+"유효하지 않는 바우처 타입"))
+						.andExpect(status().isBadRequest());
+			}
+		}
 		@Nested
 		@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 		class 저장된_바우처가_없다면 {
