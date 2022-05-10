@@ -1,15 +1,17 @@
 package com.example.voucher.controller.api;
 
 import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.dto.VoucherRequest;
 import com.example.voucher.dto.VoucherResponse;
-import com.example.voucher.dto.VoucherSearchRequest;
 import com.example.voucher.service.voucher.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,22 +26,20 @@ public class VoucherRestController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll(@RequestBody @Nullable VoucherSearchRequest voucherSearchRequest) {
-		List<Voucher> vouchers = new ArrayList<>();
-
-		if (voucherSearchRequest == null || (voucherSearchRequest.getCreatedAt() == null && voucherSearchRequest.getVoucherType() == null)) {
-			vouchers = voucherService.findAll();
+	public ResponseEntity<?> findAll(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdAt, @RequestParam @Nullable VoucherType voucherType) {
+		if (createdAt != null) {
+			return ResponseEntity.ok(voucherService.findByCreatedAt(createdAt).stream()
+					.map((v) -> VoucherResponse.from(v))
+					.collect(Collectors.toList()));
 		}
 
-		else if (voucherSearchRequest.getCreatedAt() != null) {
-			vouchers = voucherService.findByCreatedAt(voucherSearchRequest.getCreatedAt());
+		if (voucherType != null) {
+			return ResponseEntity.ok(voucherService.findByVoucherType(voucherType).stream()
+					.map((v) -> VoucherResponse.from(v))
+					.collect(Collectors.toList()));
 		}
 
-		else if (voucherSearchRequest.getVoucherType() != null) {
-			vouchers = voucherService.findByVoucherType(voucherSearchRequest.getVoucherType());
-		}
-
-		return ResponseEntity.ok(vouchers.stream()
+		return ResponseEntity.ok(voucherService.findAll().stream()
 		                                 .map((v) -> VoucherResponse.from(v))
 		                                 .collect(Collectors.toList()));
 	}

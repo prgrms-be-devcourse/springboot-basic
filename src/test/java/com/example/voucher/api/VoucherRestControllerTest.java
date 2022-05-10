@@ -1,13 +1,13 @@
 package com.example.voucher.api;
 
 import com.example.voucher.VoucherApplication;
+import com.example.voucher.config.ServiceConfiguration;
 import com.example.voucher.controller.api.VoucherRestController;
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.dto.VoucherRequest;
 import com.example.voucher.dto.VoucherResponse;
-import com.example.voucher.dto.VoucherSearchRequest;
 import com.example.voucher.service.voucher.VoucherService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
@@ -39,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
+@ContextConfiguration(classes = {VoucherRestController.class, ServiceConfiguration.class})
 @WebMvcTest(controllers = VoucherRestController.class,
 	excludeAutoConfiguration = VoucherApplication.class)
 @DisplayName("VoucherRestController 클래스의")
@@ -97,9 +99,6 @@ public class VoucherRestControllerTest {
 			@Test
 			@DisplayName("생성기간으로 바우처를 조회하고 반환한다")
 			void 생성기간으로_바우처를_조회하고_반환한다() throws Exception {
-
-				VoucherSearchRequest voucherSearchRequest = new VoucherSearchRequest(null, now());
-				String requestJsonString = objectToJsonString(voucherSearchRequest);
 				List<Voucher> vouchers = Arrays.asList(new FixedAmountVoucher(1L, 10000),
 						new FixedAmountVoucher(2L, 2000));
 				List<VoucherResponse> voucherResponses = vouchers.stream()
@@ -109,9 +108,7 @@ public class VoucherRestControllerTest {
 				given(voucherService.findByCreatedAt(any(LocalDateTime.class)))
 						.willReturn(vouchers);
 
-				mockMvc.perform(get("/api/v1/vouchers")
-									.content(requestJsonString)
-									.contentType(APPLICATION_JSON))
+				mockMvc.perform(get("/api/v1/vouchers?createdAt="+ now()))
 									.andExpect(status().isOk())
 									.andExpect(content().json(responseJsonString));
 			}
@@ -125,8 +122,6 @@ public class VoucherRestControllerTest {
 			@DisplayName("바우터_타입으로_바우처를_조회하고 반환한다")
 			void 바우터_타입으로_바우처를_조회하고_반환한다() throws Exception {
 
-				VoucherSearchRequest voucherSearchRequest = new VoucherSearchRequest(FIXED_AMOUNT_VOUCHER, null);
-				String requestJsonString = objectToJsonString(voucherSearchRequest);
 				List<Voucher> vouchers = Arrays.asList(new FixedAmountVoucher(1L, 10000),
 						new FixedAmountVoucher(2L, 2000));
 				List<VoucherResponse> voucherResponses = vouchers.stream()
@@ -136,9 +131,7 @@ public class VoucherRestControllerTest {
 				given(voucherService.findByVoucherType(any(VoucherType.class)))
 						.willReturn(vouchers);
 
-				mockMvc.perform(get("/api/v1/vouchers")
-								.content(requestJsonString)
-								.contentType(APPLICATION_JSON))
+				mockMvc.perform(get("/api/v1/vouchers?voucherType="+FIXED_AMOUNT_VOUCHER))
 								.andExpect(status().isOk())
 								.andExpect(content().json(responseJsonString));
 			}
@@ -151,8 +144,7 @@ public class VoucherRestControllerTest {
 			@DisplayName("빈 리스트를 반환한다")
 			void 빈_리스트를_반환한다() throws Exception {
 
-				VoucherSearchRequest voucherSearchRequest = new VoucherSearchRequest(FIXED_AMOUNT_VOUCHER, null);
-				String requestJsonString = objectToJsonString(voucherSearchRequest);
+				String requestJsonString = objectToJsonString(FIXED_AMOUNT_VOUCHER);
 				String responseJsonString = objectToJsonString(Collections.EMPTY_LIST);
 				given(voucherService.findAll())
 						.willReturn(Collections.EMPTY_LIST);
