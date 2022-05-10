@@ -1,17 +1,17 @@
 package org.devcourse.voucher;
 
-import org.devcourse.voucher.controller.VoucherController;
+import org.devcourse.voucher.voucher.controller.VoucherController;
 import org.devcourse.voucher.customer.controller.CustomerController;
-import org.devcourse.voucher.model.menu.CreateMenuType;
-import org.devcourse.voucher.model.menu.MainMenuType;
-import org.devcourse.voucher.model.menu.ListMenuType;
+import org.devcourse.voucher.menu.model.CreateMenuType;
+import org.devcourse.voucher.menu.model.MainMenuType;
+import org.devcourse.voucher.menu.model.ListMenuType;
 import org.devcourse.voucher.view.Input;
 import org.devcourse.voucher.view.Output;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
 import static org.devcourse.voucher.error.ErrorType.*;
-import static org.devcourse.voucher.model.menu.MainMenuType.*;
+import static org.devcourse.voucher.menu.model.MainMenuType.*;
 
 
 @Component

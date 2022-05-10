@@ -1,7 +1,5 @@
 package org.devcourse.voucher.voucher.model;
 
-import org.devcourse.voucher.model.menu.CreateMenuType;
-
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.BiFunction;

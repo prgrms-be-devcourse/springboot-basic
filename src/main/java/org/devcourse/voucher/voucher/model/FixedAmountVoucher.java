@@ -2,6 +2,8 @@ package org.devcourse.voucher.voucher.model;
 
 import java.util.UUID;
 
+import static org.devcourse.voucher.error.ErrorType.INPUT_NEGATIVE_NUMBERS;
+
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
@@ -18,7 +20,11 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        if (beforeDiscount < 0) {
+            throw new IllegalArgumentException(INPUT_NEGATIVE_NUMBERS.message());
+        }
+        long afterMoney = beforeDiscount - amount;
+        return afterMoney > 0 ? afterMoney : 0;
     }
 
     @Override

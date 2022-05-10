@@ -1,4 +1,4 @@
-package org.devcourse.voucher.model.menu;
+package org.devcourse.voucher.menu.model;
 
 import java.util.Arrays;
 
