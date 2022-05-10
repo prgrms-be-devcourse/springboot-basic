@@ -2,7 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.waterfogsw.voucher.voucher.controller.VoucherControllerAdvice;
+import com.waterfogsw.voucher.global.ControllerAdvice;
 import com.waterfogsw.voucher.voucher.controller.VoucherRestController;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
@@ -51,7 +51,7 @@ public class VoucherRestControllerTests {
     @BeforeEach
     public void beforeEach() {
         mockMvc = MockMvcBuilders.standaloneSetup(voucherRestController)
-                .setControllerAdvice(VoucherControllerAdvice.class)
+                .setControllerAdvice(ControllerAdvice.class)
                 .build();
     }
 
