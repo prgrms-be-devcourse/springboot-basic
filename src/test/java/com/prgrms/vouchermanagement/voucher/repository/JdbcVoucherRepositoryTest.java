@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,9 +53,12 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     JdbcVoucherRepository voucherRepository;
 
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+
     @AfterEach
     void afterEach() {
-        voucherRepository.clear();
+        jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
     }
 
     @Test

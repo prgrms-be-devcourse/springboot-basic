@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
+import java.util.Collections;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -54,9 +56,12 @@ class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+
     @AfterEach
     void afterEach() {
-        customerRepository.clear();
+        jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
     }
 
     @Test

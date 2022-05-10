@@ -114,13 +114,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return builder.toString();
     }
 
-    /**
-     * 테스트에서 사용
-     */
-    public void clear() {
-        jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
-    }
-
     private SqlParameterSource toParameterSource(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId())

@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,11 +83,14 @@ class JdbcVoucherWalletRepositoryTest {
     @Autowired
     CustomerService customerService;
 
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+
     @AfterEach
     void afterEach() {
-        voucherWalletRepository.clear();
-        customerRepository.clear();
-        voucherRepository.clear();
+        jdbcTemplate.update("DELETE FROM voucher_wallet", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
     }
 
     @Test

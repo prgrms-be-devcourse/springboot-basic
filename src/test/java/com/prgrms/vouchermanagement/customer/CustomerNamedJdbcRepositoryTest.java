@@ -12,6 +12,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.text.CollationElementIterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,9 +49,12 @@ class CustomerNamedJdbcRepositoryTest {
     @Autowired
     CustomerNamedJdbcRepository customerRepository;
 
+    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
+
     @BeforeEach
     void init() {
-        customerRepository.clear();
+        jdbcTemplate.update("DELETE FROM customer", Collections.emptyMap());
     }
 
     @Test

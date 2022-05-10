@@ -107,10 +107,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", customerId));
     }
 
-    public void clear() {
-        jdbcTemplate.update(DELETE_SQL, Collections.emptyMap());
-    }
-
     private final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> {
         long customerId = rs.getLong("customer_id");
         String name = rs.getString("name");

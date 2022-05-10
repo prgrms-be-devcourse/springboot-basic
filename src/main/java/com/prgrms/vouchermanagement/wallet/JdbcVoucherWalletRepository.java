@@ -73,13 +73,6 @@ public class JdbcVoucherWalletRepository  implements VoucherWalletRepository {
         }
     }
 
-    /**
-     * 테스트에서 사용
-     */
-    public void clear() {
-        jdbcTemplate.update("DELETE FROM voucher_wallet", Collections.emptyMap());
-    }
-
     private final RowMapper<Wallet> walletRowMapper = (rs, rowNum) -> {
         Long walletId = rs.getLong("wallet_id");
         Long voucherId = rs.getLong("voucher_id");
