@@ -37,7 +37,7 @@ public class CustomerVoucherLogService {
     }
 
     public CustomerVoucherLog createCustomerVoucherLog(String customerId, UUID voucherId) {
-        validateCustomerId(customerId);
+            validateCustomerId(customerId);
 
         if(getCustomerById(customerId).isEmpty()) {
             throw new IllegalArgumentException(NON_EXISTING_CUSTOMER_ID_EXCEPTION_MESSAGE);
@@ -58,6 +58,8 @@ public class CustomerVoucherLogService {
     }
 
     public List<CustomerVoucherLog> getCustomerVoucherLogByCustomerId(String customerId) {
+        validateCustomerId(customerId);
+
         return customerVoucherLogJdbcRepository.findByCustomerId(customerId);
     }
 
@@ -70,10 +72,14 @@ public class CustomerVoucherLogService {
     }
 
     public List<Voucher> getVouchersOfCustomer(String customerId) {
+        validateCustomerId(customerId);
+
         return customerVoucherLogJdbcRepository.findVouchersByCustomerId(customerId);
     }
 
     public Optional<Customer> getCustomerById(String customerId) {
+        validateCustomerId(customerId);
+
         return customerJdbcRepository.findById(customerId);
     }
 

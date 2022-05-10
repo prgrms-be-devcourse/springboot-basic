@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.controller.dto.Benefit;
 import com.programmers.springbootbasic.domain.Voucher;
 import com.programmers.springbootbasic.domain.VoucherType;
 import com.programmers.springbootbasic.repository.VoucherJdbcRepository;
@@ -26,11 +27,17 @@ public class VoucherService {
         return voucherJdbcRepository.insert(newVoucher);
     }
 
+    public Voucher createVoucher(Benefit benefit) {
+        Voucher newVoucher = VoucherType.createVoucher(benefit);
+
+        return voucherJdbcRepository.insert(newVoucher);
+    }
+
     public Optional<Voucher> getVoucherById(UUID voucherId) {
         return voucherJdbcRepository.findById(voucherId);
     }
 
-    public List<Voucher> findAvailableVouchers() {
+    public List<Voucher> getAvailableVouchers() {
         return voucherJdbcRepository.findAvailableVouchers();
     }
 
