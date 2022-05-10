@@ -54,7 +54,8 @@ public class VoucherRestController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> findById(@PathVariable @NonNull Long id) {
-		return ResponseEntity.ok(voucherService.findById(id));
+	public ResponseEntity<VoucherResponse> findById(@PathVariable @NonNull Long id) {
+		return ResponseEntity.ok(VoucherResponse.from(
+				voucherService.findById(id)));
 	}
 }
