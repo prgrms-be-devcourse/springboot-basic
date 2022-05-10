@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.6'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	implementation 'junit:junit:4.13.2'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	compileOnly 'org.projectlombok:lombok:1.18.22'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+	testCompileOnly 'org.projectlombok:lombok:1.18.22'
+	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+	compileOnly group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	implementation group: 'org.springframework', name: 'spring-oxm', version: '3.0.4.RELEASE'
+	implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.2'
+
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
