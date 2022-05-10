@@ -1,6 +1,5 @@
 package com.example.voucher.controller.api;
 
-import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.dto.VoucherRequest;
 import com.example.voucher.dto.VoucherResponse;
@@ -12,8 +11,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/api/v1/vouchers")
@@ -50,13 +47,13 @@ public class VoucherRestController {
 					voucherService.save(voucherRequest.getVoucherType(), voucherRequest.getDiscountAmount())));
 	}
 
-	@DeleteMapping("/{voucherId}")
-	public void deleteById(@PathVariable @NonNull Long voucherId) {
-		voucherService.deleteById(voucherId);
+	@DeleteMapping("/{id}")
+	public void deleteById(@PathVariable @NonNull Long id) {
+		voucherService.deleteById(id);
 	}
 
-	@GetMapping("/{voucherId}")
-	public ResponseEntity<?> findById(@PathVariable @NonNull Long voucherId) {
-		return ResponseEntity.ok(voucherService.findById(voucherId));
+	@GetMapping("/{id}")
+	public ResponseEntity<?> findById(@PathVariable @NonNull Long id) {
+		return ResponseEntity.ok(voucherService.findById(id));
 	}
 }
