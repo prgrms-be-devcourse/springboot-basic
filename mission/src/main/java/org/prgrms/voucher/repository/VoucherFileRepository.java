@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +71,21 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(Long voucherId) {
 
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndTerm(VoucherType voucherType, LocalDate after, LocalDate before) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTerm(LocalDate after, LocalDate before) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         return null;
     }
 

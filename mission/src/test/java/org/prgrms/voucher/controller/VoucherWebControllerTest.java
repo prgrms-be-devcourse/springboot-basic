@@ -144,7 +144,7 @@ public class VoucherWebControllerTest {
             @DisplayName("잘못된 인자 예외를 반환한다.")
             void itReturnEmptyListByJsonType() throws Exception {
 
-                when(voucherService.list()).thenReturn(vouchers);
+                when(voucherService.getVouchersByType(any())).thenThrow(IllegalArgumentException.class);
 
                 mockMvc.perform(get("/api/v1/vouchers?voucherType=HELLO"))
                         .andExpect(status().isBadRequest());
@@ -155,17 +155,15 @@ public class VoucherWebControllerTest {
         @DisplayName("get요청과 PERCENT_DISCOUNT 바우처 티입을 받으면")
         class ContextGetRequestWithParamVoucherType {
 
-            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
-            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
             PercentDiscountVoucher thirdVoucher = new PercentDiscountVoucher(3L, 100,VoucherType.PERCENT_DISCOUNT, LocalDateTime.now(), LocalDateTime.now());
 
-            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher, thirdVoucher);
+            List<Voucher> vouchers = List.of(thirdVoucher);
 
             @Test
             @DisplayName("해당 바우처타입의 바우처들을 json형태로 반환한다.")
             void itReturnVouchersByJsonType() throws Exception {
 
-                when(voucherService.list()).thenReturn(vouchers);
+                when(voucherService.getVouchersByType("PERCENT_DISCOUNT")).thenReturn(vouchers);
 
                 mockMvc.perform(get("/api/v1/vouchers?voucherType=PERCENT_DISCOUNT"))
                         .andExpect(status().isOk())
@@ -179,18 +177,15 @@ public class VoucherWebControllerTest {
         @Nested
         @DisplayName("get요청과 해당하지 않는 날짜 1000/11/11 이전 범위를 받으면")
         class ContextGetRequestWithParamWrongDateTime {
-
-            FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
-            FixedAmountVoucher secondVoucher = new FixedAmountVoucher(2L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
-            List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+            List<Voucher> vouchers = List.of();
 
             @Test
             @DisplayName("비어있는 리스트를 반환한다.")
             void itReturnEmptyListByJsonType() throws Exception {
 
-                when(voucherService.list()).thenReturn(vouchers);
+                when(voucherService.getVouchersByTerm(any(), any())).thenReturn(vouchers);
 
-                mockMvc.perform(get("/api/v1/vouchers?before=1000-11-11"))
+                mockMvc.perform(get("/api/v1/vouchers?before=1000-11-11&after=1000-10-10"))
                         .andExpect(status().isOk())
                         .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$.size()").value(0));
@@ -198,7 +193,7 @@ public class VoucherWebControllerTest {
         }
 
         @Nested
-        @DisplayName("get요청과 해당하는 날짜 2022-03-18 이후 범위를 받으면")
+        @DisplayName("get요청과 해당하는 날짜 2022-03-18 이후 범위와 9999-01-01 이전 범위를 받으면")
         class ContextGetRequestWithParamDateTime {
 
             FixedAmountVoucher firstVoucher = new FixedAmountVoucher(1L, 100, VoucherType.FIXED_AMOUNT, LocalDateTime.now(), LocalDateTime.now());
@@ -209,9 +204,9 @@ public class VoucherWebControllerTest {
             @DisplayName("해당하는 바우처들 리스트를 반환한다.")
             void itReturnEmptyListByJsonType() throws Exception {
 
-                when(voucherService.list()).thenReturn(vouchers);
+                when(voucherService.getVouchersByTerm(any(),any())).thenReturn(vouchers);
 
-                mockMvc.perform(get("/api/v1/vouchers?after=2022-03-18"))
+                mockMvc.perform(get("/api/v1/vouchers?after=2022-03-18&before=9999-01-01"))
                         .andExpect(status().isOk())
                         .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$[0].voucherId").value("1"))

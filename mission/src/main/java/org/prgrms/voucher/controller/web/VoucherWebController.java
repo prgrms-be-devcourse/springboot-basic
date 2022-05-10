@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -31,9 +32,9 @@ public class VoucherWebController {
     }
 
     @GetMapping
-    public List<VoucherDto.VoucherResponse> findVouchers(@RequestParam @Nullable String voucherType,
-                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate after,
-                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate before
+    public List<VoucherDto.VoucherResponse> findVouchers(@RequestParam("voucherType") @Nullable String voucherType,
+                                                         @RequestParam("after") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate after,
+                                                         @RequestParam("before") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate before
     ) {
         return filterVouchers(voucherType, before, after);
     }
@@ -54,53 +55,27 @@ public class VoucherWebController {
 
     private List<VoucherDto.VoucherResponse> filterVouchers(String voucherType, LocalDate before, LocalDate after) {
 
-        if (voucherType != null && after != null && before != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> VoucherType.findByUserInput(voucherType).equals(voucher.getVoucherType()))
-                    .filter(voucher -> voucher.getCreatedAt().toLocalDate().isAfter(after))
-                    .filter(voucher -> voucher.getUpdatedAt().toLocalDate().isBefore(before))
-                    .map(VoucherDto.VoucherResponse::from)
-                    .toList();
+        if ((after == null && before != null) || (after != null && before == null)) {
+            throw new IllegalArgumentException();
         }
+
         if (voucherType != null && after != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> VoucherType.findByUserInput(voucherType).equals(voucher.getVoucherType()))
-                    .filter(voucher -> voucher.getCreatedAt().toLocalDate().isAfter(after))
+            return voucherService.getVouchersByTypeAndTerm(voucherType, before, after).stream()
                     .map(VoucherDto.VoucherResponse::from)
                     .toList();
         }
-        if (voucherType != null && before != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> VoucherType.findByUserInput(voucherType).equals(voucher.getVoucherType()))
-                    .filter(voucher -> voucher.getUpdatedAt().toLocalDate().isBefore(before))
-                    .map(VoucherDto.VoucherResponse::from)
-                    .toList();
-        }
-        if (after != null && before != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> voucher.getCreatedAt().toLocalDate().isAfter(after))
-                    .filter(voucher -> voucher.getUpdatedAt().toLocalDate().isBefore(before))
+
+        if (after != null) {
+            return voucherService.getVouchersByTerm(after, before).stream()
                     .map(VoucherDto.VoucherResponse::from)
                     .toList();
         }
         if (voucherType != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> VoucherType.findByUserInput(voucherType).equals(voucher.getVoucherType()))
+            return voucherService.getVouchersByType(voucherType).stream()
                     .map(VoucherDto.VoucherResponse::from)
                     .toList();
         }
-        if (before != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> voucher.getUpdatedAt().toLocalDate().isBefore(before))
-                    .map(VoucherDto.VoucherResponse::from)
-                    .toList();
-        }
-        if (after != null) {
-            return voucherService.list().stream()
-                    .filter(voucher -> voucher.getCreatedAt().toLocalDate().isAfter(after))
-                    .map(VoucherDto.VoucherResponse::from)
-                    .toList();
-        }
+
         return voucherService.list().stream()
                 .map(VoucherDto.VoucherResponse::from)
                 .toList();
