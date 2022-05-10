@@ -25,7 +25,9 @@ public class VoucherResponse {
         return System.lineSeparator() +
                 "Voucher ID : " + id + System.lineSeparator() +
                 "Voucher Type : " + type + System.lineSeparator() +
-                "Voucher Amount : " + amount.getValue() + System.lineSeparator();
+                "Voucher Amount : " + amount.getValue() + System.lineSeparator() +
+                "Created At : " + createdAt + System.lineSeparator() +
+                "Updated At : " + updatedAt + System.lineSeparator();
     }
 
     public Long getId() {

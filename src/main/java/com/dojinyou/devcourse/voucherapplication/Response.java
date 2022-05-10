@@ -16,8 +16,7 @@ public class Response<T> {
         StringBuilder sb = new StringBuilder();
         sb.append("응답 결과(" + this.state + "): ");
         if (data instanceof List) {
-            ((List<T>) data).stream()
-                            .map(sb::append);
+            ((List<?>) data).forEach(sb::append);
         } else {
             sb.append(data.toString());
         }
