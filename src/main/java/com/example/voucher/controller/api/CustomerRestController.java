@@ -22,12 +22,12 @@ public class CustomerRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid CustomerRequest customerRequest) {
+	public ResponseEntity<CustomerResponse> save(@RequestBody @Valid CustomerRequest customerRequest) {
 		return ResponseEntity.ok(CustomerResponse.from(customerService.save(customerRequest.getName())));
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll() {
+	public ResponseEntity<List<CustomerResponse>> findAll() {
 		List<Customer> customers = customerService.findAll();
 		return ResponseEntity.ok(customers.stream()
 				.map(CustomerResponse::from)
