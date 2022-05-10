@@ -1,5 +1,6 @@
 package org.programmers.kdt.weekly;
 
+import org.programmers.kdt.weekly.command.StartCommandLine;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -8,7 +9,7 @@ public class SpringVoucherApplication {
 
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(SpringVoucherApplication.class, args);
-        var commandLineApplication = applicationContext.getBean(CommandLineApplication.class);
+        var commandLineApplication = applicationContext.getBean(StartCommandLine.class);
         commandLineApplication.run();
     }
 }

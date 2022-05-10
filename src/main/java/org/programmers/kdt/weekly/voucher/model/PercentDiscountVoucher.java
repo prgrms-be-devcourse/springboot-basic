@@ -1,43 +1,78 @@
 package org.programmers.kdt.weekly.voucher.model;
 
 
+import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
-import lombok.Getter;
 
-@Getter
-public final class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
+    private long percent;
+    private final LocalDateTime createdAt;
     private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
-    private final int value;
 
-    public PercentDiscountVoucher(UUID voucherId, int value) {
-        if (value <= 0 || value >= 100) {
-            throw new IllegalArgumentException("잘못된 입력입니다.");
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if (percent <= 0 || percent >= 100) {
+            throw new IllegalArgumentException();
         }
+
         this.voucherId = voucherId;
-        this.value = value;
+        this.percent = percent;
+        this.createdAt = LocalDateTime.now().withNano(0);
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+        if (percent <= 0 || percent >= 100) {
+            throw new IllegalArgumentException();
+        }
+
+        this.voucherId = voucherId;
+        this.percent = percent;
+        this.createdAt = createdAt;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (value / 100);
+        return beforeDiscount * (percent / 100);
     }
 
     @Override
-    public int getValue() {
-        return value;
+    public long getValue() {
+        return percent;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return VoucherType.PERCENT_DISCOUNT_VOUCHER;
+    public void changeValue(int value) {
+        this.percent = value;
     }
 
     @Override
     public String toString() {
         return "Voucher Type: " + voucherType +
             ", voucherId: " + voucherId +
-            ", percent: " + value + "%";
+            ", percent: " + percent + "%, createdAt: " + createdAt;
+    }
+
+    @Override
+    public String serializeVoucher() {
+        return voucherId + "," + voucherType + "," + percent + "," + createdAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId);
     }
 }

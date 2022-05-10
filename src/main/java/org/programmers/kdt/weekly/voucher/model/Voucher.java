@@ -1,15 +1,13 @@
 package org.programmers.kdt.weekly.voucher.model;
 
 
-import java.util.UUID;
-
 public interface Voucher {
 
     long discount(long beforeDiscount);
 
-    VoucherType getVoucherType();
+    long getValue();
 
-    int getValue();
+    void changeValue(int value);
 
-    UUID getVoucherId();
+    String serializeVoucher();
 }

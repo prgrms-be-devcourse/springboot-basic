@@ -1,7 +1,9 @@
 package org.programmers.kdt.weekly.voucher.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import org.programmers.kdt.weekly.voucher.VoucherDto;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.repository.VoucherRepository;
@@ -16,15 +18,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, int value) {
-        Voucher voucher = voucherType.create(UUID.randomUUID(), value);
-        this.voucherRepository.insert(voucher);
+    public Voucher create(UUID voucherId, VoucherType voucherType, long value) {
+        VoucherDto voucherDto = new VoucherDto(voucherId, value, LocalDateTime.now());
 
-        return voucher;
+        return voucherRepository.insert(voucherType.create(voucherDto));
     }
 
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> getVouchers() {
         return this.voucherRepository.findAll();
     }
-
 }
