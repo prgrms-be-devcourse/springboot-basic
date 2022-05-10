@@ -126,4 +126,20 @@ public class VoucherServiceTests {
             }
         }
     }
+
+    @Nested
+    @DisplayName("findByType 메서드는")
+    class Describe_findByType {
+
+        @Nested
+        @DisplayName("type이 null이면")
+        class Context_with_null_type {
+
+            @Test
+            @DisplayName("IllegalArgumentException 이 발생한다")
+            void It_throw_illegalArgumentException() {
+                assertThrows(IllegalArgumentException.class, () -> voucherService.findByType(null));
+            }
+        }
+    }
 }

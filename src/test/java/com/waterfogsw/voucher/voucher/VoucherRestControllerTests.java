@@ -5,7 +5,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.waterfogsw.voucher.voucher.controller.VoucherControllerAdvice;
 import com.waterfogsw.voucher.voucher.controller.VoucherRestController;
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
-import com.waterfogsw.voucher.voucher.domain.PercentDiscountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
@@ -22,15 +21,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -127,33 +125,23 @@ public class VoucherRestControllerTests {
     }
 
     @Nested
-    @DisplayName("voucherList 메서드는")
+    @DisplayName("findAllVoucher 메서드는")
     class Describe_voucherList {
 
         final String url = "/api/v1/vouchers";
 
         @Nested
-        @DisplayName("요청되면")
+        @DisplayName("인자 없이 요청되면")
         class Context_with_call {
 
             @Test
-            @DisplayName("저장된 모든 바우처 리스트를 반환한다")
+            @DisplayName("voucherService 의 findAllVoucher 메서드를 호출한다")
             void it_return_list() throws Exception {
-                final Voucher voucher1 = new FixedAmountVoucher(1L, 2000);
-                final Voucher voucher2 = new PercentDiscountVoucher(2L, 10);
-                final List<Voucher> vouchers = new ArrayList<>(Arrays.asList(voucher1, voucher2));
-                when(voucherService.findAllVoucher()).thenReturn(vouchers);
-
                 final var request = MockMvcRequestBuilders.get(url);
 
                 final var resultActions = mockMvc.perform(request);
-                final var content = resultActions.andReturn().getResponse().getContentAsString();
-
-                String expected = MessageFormat.format("[{0},{1}]",
-                        objectMapper.writeValueAsString(voucher1),
-                        objectMapper.writeValueAsString(voucher2));
-
-                assertThat(expected, is(content));
+                resultActions.andExpect(status().isOk());
+                verify(voucherService).findAllVoucher();
             }
         }
 
@@ -175,35 +163,21 @@ public class VoucherRestControllerTests {
         }
 
         @Nested
-        @DisplayName("유효한 날짜가 입력되면")
+        @DisplayName("날짜만 입력되면")
         class Context_with_valid_period {
 
             @Test
             @DisplayName("해당 기간의 모든 바우처를 리턴한다")
             void it_return_list() throws Exception {
-                final var fromDate = LocalDate.of(2022, 5, 1);
-                final var toDate = LocalDate.of(2022, 5, 11);
-                final var url = MessageFormat.format("/api/v1/vouchers?fromDate={0}&toDate={1}", fromDate, toDate);
+                final var fromDate = LocalDate.of(2022, 2, 22);
+                final var toDate = LocalDate.of(2022, 3, 22);
 
-                final var createdTime1 = LocalDateTime.of(LocalDate.of(2022, 5, 1), LocalTime.now());
-                final var createdTime2 = LocalDateTime.of(LocalDate.of(2022, 4, 29), LocalTime.now());
+                final var date = MessageFormat.format("?fromDate={0}&toDate={1}", fromDate, toDate);
 
-                final var voucher1 = new FixedAmountVoucher(0L, 1000, createdTime1, createdTime1);
-                final var voucher2 = new FixedAmountVoucher(0L, 1000, createdTime2, createdTime2);
-
-                final List<Voucher> vouchers = new ArrayList<>();
-                vouchers.add(voucher1);
-                vouchers.add(voucher2);
-
-                when(voucherService.findAllVoucher()).thenReturn(vouchers);
-
-                final var request = get(url);
+                final var request = get(url + date);
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isOk());
-                final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
-                final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
-
-                assertThat(resultContent, is(expectedContent));
+                verify(voucherService).findByDuration(any());
             }
         }
 
@@ -223,30 +197,18 @@ public class VoucherRestControllerTests {
         }
 
         @Nested
-        @DisplayName("유효한 타입이 입력되면")
+        @DisplayName("타입만 입력되면")
         class Context_with_valid_type {
 
             @Test
-            @DisplayName("해당 타입의 모든 바우처를 리턴한다")
+            @DisplayName("")
             void it_return_list() throws Exception {
                 final var url = "/api/v1/vouchers?voucherType=FIXED_AMOUNT";
-
-                final var voucher1 = new FixedAmountVoucher(0L, 1000);
-                final var voucher2 = new PercentDiscountVoucher(0L, 10);
-
-                final List<Voucher> vouchers = new ArrayList<>();
-                vouchers.add(voucher1);
-                vouchers.add(voucher2);
-
-                when(voucherService.findAllVoucher()).thenReturn(vouchers);
 
                 final var request = get(url);
                 final var resultActions = mockMvc.perform(request);
                 resultActions.andExpect(status().isOk());
-                final var resultContent = resultActions.andReturn().getResponse().getContentAsString();
-                final var expectedContent = MessageFormat.format("[{0}]", objectMapper.writeValueAsString(voucher1));
-
-                assertThat(resultContent, is(expectedContent));
+                verify(voucherService).findByType(any());
             }
         }
     }

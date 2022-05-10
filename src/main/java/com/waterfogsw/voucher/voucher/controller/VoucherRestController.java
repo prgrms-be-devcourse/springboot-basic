@@ -1,7 +1,7 @@
 package com.waterfogsw.voucher.voucher.controller;
 
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
-import com.waterfogsw.voucher.voucher.dto.PeriodDto;
+import com.waterfogsw.voucher.voucher.dto.Duration;
 import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.ResponseVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
@@ -25,11 +25,32 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public List<ResponseVoucherDto> findVoucherAll(PeriodDto periodDto, VoucherType voucherType) {
-        return voucherService.findAllVoucher()
+    public List<ResponseVoucherDto> findVoucherAll(Duration duration, VoucherType voucherType) {
+        System.out.println(duration);
+        System.out.println(voucherType);
+        if (duration.isNull() && voucherType == null) {
+            return voucherService.findAllVoucher()
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        if (duration.isNull()) {
+            return voucherService.findByType(voucherType)
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        if (voucherType == null) {
+            return voucherService.findByDuration(duration)
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        return voucherService.findByTypeDuration(voucherType, duration)
                 .stream()
-                .filter((v) -> periodDto == null || periodDto.isBetween(v.getCreatedAt()))
-                .filter((v) -> voucherType == null || (v.getType() == voucherType))
                 .map(ResponseVoucherDto::from)
                 .toList();
     }

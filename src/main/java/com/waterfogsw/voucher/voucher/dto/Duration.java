@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 
-public record PeriodDto(
+public record Duration(
         LocalDate fromDate,
         LocalDate toDate
 ) {
-    public PeriodDto(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
-                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {
+    public Duration(@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fromDate,
+                    @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate toDate) {
         if (fromDate != null && toDate != null) {
             validate(fromDate, toDate);
         }
@@ -23,6 +23,10 @@ public record PeriodDto(
         if (Period.between(fromDate, toDate).getDays() < 0) {
             throw new IllegalArgumentException("Invalid Period Input");
         }
+    }
+
+    public boolean isNull() {
+        return this.fromDate == null && this.toDate == null;
     }
 
     public boolean isBetween(LocalDateTime localDateTime) {
