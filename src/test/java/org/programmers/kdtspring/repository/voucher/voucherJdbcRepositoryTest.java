@@ -2,7 +2,9 @@ package org.programmers.kdtspring.repository.voucher;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;
@@ -17,11 +19,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringJUnitConfig
@@ -111,10 +112,3 @@ class voucherJdbcRepositoryTest {
     }
 
 }
-
-
-
-
-
-
-

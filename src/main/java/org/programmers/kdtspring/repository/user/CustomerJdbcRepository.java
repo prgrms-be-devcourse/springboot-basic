@@ -1,8 +1,6 @@
 package org.programmers.kdtspring.repository.user;
 
 import org.programmers.kdtspring.entity.user.Customer;
-import org.programmers.kdtspring.entity.user.Email;
-import org.programmers.kdtspring.entity.user.Name;
 import org.programmers.kdtspring.exception.CustomerInsertFailed;
 import org.programmers.kdtspring.exception.CustomerUpdateFailed;
 import org.slf4j.Logger;

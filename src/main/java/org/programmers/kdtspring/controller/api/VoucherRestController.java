@@ -1,14 +1,10 @@
 package org.programmers.kdtspring.controller.api;
 
-import org.apache.coyote.Response;
 import org.programmers.kdtspring.dto.CreateVoucherRequest;
 import org.programmers.kdtspring.entity.voucher.Voucher;
-import org.programmers.kdtspring.entity.voucher.VoucherType;
-import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.programmers.kdtspring.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

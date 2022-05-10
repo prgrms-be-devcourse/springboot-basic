@@ -3,7 +3,6 @@ package org.programmers.kdtspring.repository.voucher;
 import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.Voucher;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

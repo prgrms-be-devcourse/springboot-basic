@@ -1,6 +1,5 @@
 package org.programmers.kdtspring.service;
 
-import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.PercentDiscountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;

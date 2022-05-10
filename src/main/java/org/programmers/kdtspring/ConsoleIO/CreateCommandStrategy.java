@@ -1,8 +1,6 @@
 package org.programmers.kdtspring.ConsoleIO;
 
-import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.VoucherType;
-import org.programmers.kdtspring.repository.user.CustomerRepository;
 import org.programmers.kdtspring.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
