@@ -44,7 +44,7 @@ public class CustomerService {
 
     public void deleteCustomerById(Long customerId) {
 
-        customerRepository.findById(customerId).orElseThrow(IllegalArgumentException::new);
-        customerRepository.deleteById(customerId);
+        Customer customer = customerRepository.findById(customerId).orElseThrow(IllegalArgumentException::new);
+        customerRepository.deleteById(customer.getCustomerId());
     }
 }
