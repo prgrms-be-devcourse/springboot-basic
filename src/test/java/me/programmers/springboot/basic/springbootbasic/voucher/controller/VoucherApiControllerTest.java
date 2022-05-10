@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,6 +44,28 @@ class VoucherApiControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(1)));
+    }
+
+    @Test
+    void findByIdTest() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
+        given(voucherService.getVoucherById(uuid)).willReturn(fixVoucher);
+
+        mockMvc.perform(get("/api/vouchers/" + uuid))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.voucherId", is(fixVoucher.getVoucherId().toString())));
+    }
+
+    @Test
+    void findByIdTestFail() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
+        given(voucherService.getVoucherById(uuid)).willReturn(fixVoucher);
+
+        mockMvc.perform(get("/api/vouchers/" + uuid + "dd"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

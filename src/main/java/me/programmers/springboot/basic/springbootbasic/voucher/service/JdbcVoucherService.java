@@ -31,7 +31,7 @@ public class JdbcVoucherService {
 
     public Voucher getVoucherById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-        return voucher.get();
+        return voucher.orElse(null);
     }
 
     public Voucher save(Voucher voucher) {
