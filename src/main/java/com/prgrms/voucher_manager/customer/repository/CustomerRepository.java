@@ -16,6 +16,8 @@ public interface CustomerRepository {
 
     Customer update(Customer customer);
 
+    Customer delete(Customer customer);
+
     Optional<Customer> findById(UUID customerId);
 
 }

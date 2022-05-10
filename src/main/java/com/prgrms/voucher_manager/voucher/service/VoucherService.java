@@ -1,20 +1,20 @@
 package com.prgrms.voucher_manager.voucher.service;
 
-import com.prgrms.voucher_manager.exception.WrongVoucherValueException;
 import com.prgrms.voucher_manager.voucher.Voucher;
 import com.prgrms.voucher_manager.voucher.VoucherType;
-import com.prgrms.voucher_manager.voucher.repository.JdbcVoucherRepository;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import com.prgrms.voucher_manager.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -26,42 +26,72 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public List<Voucher> getFindAllVoucher() {
-        List<Voucher> vouchers = new ArrayList<>();
+    public List<VoucherDto> getFindAllVoucher() {
+        List<VoucherDto> voucherDtos = new ArrayList<>();
+        List<Voucher> vouchers = voucherRepository.findAll();
+        voucherDtos = vouchers.stream()
+                .map(VoucherDto::of)
+                .collect(Collectors.toList());
         try{
-            vouchers = voucherRepository.findAll();
             AtomicInteger i = new AtomicInteger();
             vouchers.forEach(v -> {
-                System.out.println(i.getAndIncrement() + " : " + v.toString());
+                logger.info(i.getAndIncrement() + " : " + v.toString());
             });
         } catch (RuntimeException e) {
             logger.info("JDBC voucher 가 비어있습니다. ");
         }
-        return vouchers;
+        return voucherDtos;
     }
 
-    public void createVoucher(String type, Long value) {
-        try{
-            VoucherType voucherType = VoucherType.getVoucherType(type);
-            Voucher voucher = voucherType.create(value);
-            voucherRepository.insert(voucher);
-        } catch (IllegalArgumentException e) {
-            logger.info("Voucher Type을 잘못 입력 했습니다 type : {}", type);
-        } catch (WrongVoucherValueException wrongVoucherValueException) {
-            logger.info("범위가 다릅니다. {}",wrongVoucherValueException.getMessage());
-        } catch (DataAccessException dataAccessException) {
-            logger.info("중복된 voucher가 이미 존재합니다. type : {}, value : {}", type, value);
-        }
-
+    public VoucherDto createVoucher(String type, Long value) {
+        VoucherType voucherType = VoucherType.getVoucherType(type);
+        Voucher voucher = voucherType.create(value);
+        voucherRepository.insert(voucher);
+        return VoucherDto.of(voucher);
     }
-    public List<Voucher> findByType(String type) {
-        return voucherRepository.findByType(type);
+    public List<VoucherDto> findByType(String type) {
+        List<Voucher> vouchers = voucherRepository.findByType(type);
+        return getVoucherDtoList(vouchers);
     }
 
-    public Voucher findById(UUID voucherId) {
-        return voucherRepository
+    public List<VoucherDto> findByDate(LocalDate start, LocalDate end) {
+        List<Voucher> vouchers = voucherRepository.findByDate(start, end);
+        return getVoucherDtoList(vouchers);
+    }
+
+    public List<VoucherDto> findByDateAndType(LocalDate start, LocalDate end, String type) {
+        List<Voucher> vouchers = voucherRepository.findByDateAndType(start, end, type);
+        return getVoucherDtoList(vouchers);
+    }
+
+
+    public VoucherDto deleteVoucher(UUID voucherId) {
+        Voucher deleteVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(RuntimeException::new);
+        voucherRepository.delete(deleteVoucher);
+        return VoucherDto.of(deleteVoucher);
+    }
+
+    public void updateVoucher(UUID voucherId, String type, long value) {
+        Voucher updateVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(RuntimeException::new);
+        updateVoucher.changeValue(value);
+
+        voucherRepository.update(updateVoucher);
+    }
+
+    public VoucherDto findById(UUID voucherId) {
+        Voucher voucher = voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(RuntimeException::new);
+        return VoucherDto.of(voucher);
     }
 
+    private List<VoucherDto> getVoucherDtoList(List<Voucher> vouchers) {
+        List<VoucherDto> voucherDtos = new ArrayList<>();
+        voucherDtos = vouchers.stream()
+                .map(VoucherDto::of)
+                .collect(Collectors.toList());
+        return voucherDtos;
+    }
 }

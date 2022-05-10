@@ -25,7 +25,7 @@ public class Wallet {
     }
 
     public void changeVoucher(Voucher voucher) {
-        this.voucherId = voucher.getVoucherID();
+        this.voucherId = voucher.getVoucherId();
     }
 
     @Override

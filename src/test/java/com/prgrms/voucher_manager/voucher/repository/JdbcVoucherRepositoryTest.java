@@ -13,11 +13,16 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,10 +34,10 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @SpringJUnitConfig()
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepositoryTest.class);
@@ -58,23 +63,20 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
-
+    JdbcVoucherRepository voucherRepository;
 
     @Autowired
     DataSource dataSource;
 
-    Voucher newFixedVoucher, newPercentVoucher , copyFixedVoucher, copyPercentVoucher;
+    Voucher newFixedVoucher, newPercentVoucher;
 
     EmbeddedMysql embeddedMysql;
 
-    @BeforeAll
+    @BeforeEach
     void setup() {
 
         newFixedVoucher =  new FixedAmountVoucher(UUID.randomUUID(), 10);
         newPercentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        copyFixedVoucher =  new FixedAmountVoucher(UUID.randomUUID(), 10);
-        copyPercentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
@@ -89,105 +91,160 @@ class JdbcVoucherRepositoryTest {
 
     }
 
-    @AfterAll
+    @AfterEach
     void cleanup() {
         embeddedMysql.stop();
     }
 
 
     @Test
-    @Order(1)
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
     @Test
-    @Order(2)
     @DisplayName("voucher insert 테스트")
     void testInsert() {
-        try {
-            jdbcVoucherRepository.insert(newFixedVoucher);
-            jdbcVoucherRepository.insert(newPercentVoucher);
-        } catch (BadSqlGrammarException e) {
-            logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
-        }
 
-        System.out.println("new Fix voucher : => " + newFixedVoucher.toString());
-        System.out.println("new Percent voucher : => " + newPercentVoucher.toString());
+        voucherRepository.insert(newFixedVoucher);
+        voucherRepository.insert(newPercentVoucher);
 
-        Optional<Voucher> retrieveFixVoucher = jdbcVoucherRepository.findById(newFixedVoucher.getVoucherID());
+        Optional<Voucher> retrieveFixVoucher = voucherRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrieveFixVoucher.isEmpty(), is(false));
         assertThat(retrieveFixVoucher.get(), samePropertyValuesAs(newFixedVoucher));
 
-        Optional<Voucher> retrievePercentVoucher = jdbcVoucherRepository.findById(newPercentVoucher.getVoucherID());
+        Optional<Voucher> retrievePercentVoucher = voucherRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(retrievePercentVoucher.isEmpty(), is(false));
         assertThat(retrievePercentVoucher.get(), samePropertyValuesAs(newPercentVoucher));
     }
 
     @Test
-    @Order(3)
-    @Disabled
-    @DisplayName("value와 type이 같은 voucher insert 테스트")
+    @DisplayName("value와 type이 같은 voucher가 이미 있는 경우 insert가 안된다")
     void testInsertDuplicateByEmail() {
-        try {
-            jdbcVoucherRepository.insert(copyFixedVoucher);
-//            jdbcVoucherRepository.insert(copyPercentVoucher);
-        } catch (BadSqlGrammarException e) {
-            logger.error("testInsert - BadSqlGrammarException -> {}",e.getSQLException().getErrorCode());
-        }
 
-        Optional<Voucher> retrieveCustomer = jdbcVoucherRepository.findById(copyFixedVoucher.getVoucherID());
-        assertThat(retrieveCustomer.isEmpty(), is(false));
-        assertThat(retrieveCustomer.get(), samePropertyValuesAs(copyFixedVoucher));
+        voucherRepository.insert(newFixedVoucher);
+        voucherRepository.insert(newPercentVoucher);
 
-    }
+        FixedAmountVoucher testVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        PercentDiscountVoucher testVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
-    @Test
-    @Order(4)
-    @DisplayName("JdbcVoucherRepository 에 들어있는 customer 수 조회 테스트")
-    void testCountJdbcCustomerRepository() {
-        System.out.println(jdbcVoucherRepository.count());
+        assertThrows(DataAccessException.class, () -> voucherRepository.insert(testVoucher1));
+        assertThrows(DataAccessException.class, () -> voucherRepository.insert(testVoucher2));
+
+        Optional<Voucher> retrieveVoucher = voucherRepository.findById(testVoucher1.getVoucherId());
+        assertThat(retrieveVoucher.isEmpty(), is(true));
+        retrieveVoucher = voucherRepository.findById(testVoucher2.getVoucherId());
+        assertThat(retrieveVoucher.isEmpty(), is(true));
+
     }
 
 
     @Test
-    @Order(4)
     @DisplayName("voucher 전체 조회 테스트")
     void testFindAll() {
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
-        vouchers.forEach(e -> {
-            System.out.println(e.toString());
-        });
-        assertThat(vouchers.isEmpty(), is(false));
+        List<Voucher> vouchers = voucherRepository.findAll();
+        assertThat(vouchers.isEmpty(), is(true));
 
+        voucherRepository.insert(newFixedVoucher);
+        vouchers = voucherRepository.findAll();
+        assertThat(vouchers.isEmpty(), is(false));
+        assertThat(vouchers, hasSize(1));
     }
 
     @Test
-    @Order(4)
     @DisplayName("voucher Id 를 이용해 조회 테스트")
     void testFindById() {
-        UUID fixVoucherId = newFixedVoucher.getVoucherID();
-        UUID percentVoucherId = newPercentVoucher.getVoucherID();
-        Optional<Voucher> voucher = jdbcVoucherRepository.findById(fixVoucherId);
-        assertThat(voucher.get(), samePropertyValuesAs(newFixedVoucher));
-        voucher = jdbcVoucherRepository.findById(percentVoucherId);
-        assertThat(voucher.get(), samePropertyValuesAs(newPercentVoucher));
+        UUID fixVoucherId = newFixedVoucher.getVoucherId();
+        Optional<Voucher> voucher = voucherRepository.findById(fixVoucherId);
+        assertThat(voucher.isEmpty(), is(true));
 
+        voucherRepository.insert(newFixedVoucher);
+        voucher = voucherRepository.findById(fixVoucherId);
+        assertThat(voucher.get(), samePropertyValuesAs(newFixedVoucher));
     }
 
     @Test
-    @Order(5)
-    @DisplayName("저장되어 있는 voucher 정보 수정 테스트")
+    @DisplayName("voucher type 를 이용해 조회 테스트")
+    void testFindByType() {
+
+        voucherRepository.insert(newFixedVoucher);
+        List<Voucher> fixType = voucherRepository.findByType("fix");
+
+        assertThat(fixType.isEmpty(), is(false));
+        assertThat(fixType.get(0), samePropertyValuesAs(newFixedVoucher));
+    }
+
+    @Test
+    @DisplayName("voucher 정보 수정 테스트")
     void testUpdateCustomer() {
+        voucherRepository.insert(newFixedVoucher);
         newFixedVoucher.changeValue(200L);
-        jdbcVoucherRepository.update(newFixedVoucher);
+        voucherRepository.update(newFixedVoucher);
 
-        List<Voucher> customers = jdbcVoucherRepository.findAll();
-        assertThat(customers, hasSize(3));
+        Optional<Voucher> retrievedCustomer = voucherRepository.findById(newFixedVoucher.getVoucherId());
 
-        Optional<Voucher> retrievedCustomer = jdbcVoucherRepository.findById(newFixedVoucher.getVoucherID());
         assertThat(retrievedCustomer.isEmpty(),is(false));
         assertThat(retrievedCustomer.get(),samePropertyValuesAs(newFixedVoucher));
+    }
+
+    @Test
+    @DisplayName("voucher 삭제 테스트")
+    void testDeleteCustomer() {
+        voucherRepository.insert(newFixedVoucher);
+        List<Voucher> customers = voucherRepository.findAll();
+        assertThat(customers, hasSize(1));
+
+        voucherRepository.delete(newFixedVoucher);
+        customers = voucherRepository.findAll();
+        assertThat(customers.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("특정 기간안에 만들어진 바우처 조회 테스트")
+    void testFindByDate() {
+        voucherRepository.insert(newFixedVoucher);
+
+        int year = LocalDate.now().getYear();
+        Month month = LocalDate.now().getMonth();
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+
+        FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000, LocalDate.of(year, month, dayOfMonth + 2));
+        PercentDiscountVoucher newVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDate.of(year, month, dayOfMonth - 1));
+        PercentDiscountVoucher newVoucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 70, LocalDate.of(year, month, dayOfMonth + 1));
+
+        voucherRepository.insert(newVoucher);
+        voucherRepository.insert(newVoucher2);
+        voucherRepository.insert(newVoucher3);
+
+        List<Voucher> byDate = voucherRepository.findByDate(LocalDate.of(year, month, dayOfMonth - 1), LocalDate.of(year, month, dayOfMonth + 1));
+        assertThat(byDate.isEmpty(), is(false));
+        assertThat(byDate, hasSize(3));
+    }
+
+    @Test
+    @DisplayName("특정 타입과 같고 특정 기간에 만들어진 바우처 조회 테스트")
+    void testFindByDateAndType() {
+        voucherRepository.insert(newFixedVoucher);
+
+        int year = LocalDate.now().getYear();
+        Month month = LocalDate.now().getMonth();
+        int dayOfMonth = LocalDate.now().getDayOfMonth();
+
+        PercentDiscountVoucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30, LocalDate.of(year, month, dayOfMonth + 2));
+        FixedAmountVoucher newVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 50, LocalDate.of(year, month, dayOfMonth - 1));
+        PercentDiscountVoucher newVoucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 70, LocalDate.of(year, month, dayOfMonth + 1));
+
+        voucherRepository.insert(newVoucher);
+        voucherRepository.insert(newVoucher2);
+        voucherRepository.insert(newVoucher3);
+
+        List<Voucher> byDate = voucherRepository.findByDateAndType(
+                LocalDate.of(year, month, dayOfMonth - 1),
+                LocalDate.of(year, month, dayOfMonth + 1),
+                "percent");
+        assertThat(byDate.isEmpty(), is(false));
+        assertThat(byDate, hasSize(1));
+        assertThat(byDate.get(0), samePropertyValuesAs(newVoucher3));
     }
 
 }

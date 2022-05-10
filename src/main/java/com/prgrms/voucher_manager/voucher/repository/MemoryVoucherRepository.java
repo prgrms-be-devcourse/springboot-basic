@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherID(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
         logger.info("MemoryVoucherRepository - save ");
         return voucher;
     }
@@ -32,29 +34,61 @@ public class MemoryVoucherRepository implements VoucherRepository {
         logger.info("MemoryVoucherRepository - findAll");
         storage.forEach(((uuid, voucher) -> {
             vouchers.add(voucher);
-            System.out.println(voucher.toString());
         }));
         return vouchers;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
     public List<Voucher> findByType(String type) {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.forEach((id, voucher) -> {
+            vouchers.add(voucher);
+        });
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate start, LocalDate end) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.forEach((id, voucher) -> {
+            if(voucher.isValidDate(start, end)) vouchers.add(voucher);
+        });
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByDateAndType(LocalDate start, LocalDate end, String type) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.forEach((id, voucher) -> {
+            LocalDate createdAt = (LocalDate) voucher.toMap().get("createdAt");
+            if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0 ) {
+                vouchers.add(voucher);
+            }
+            else if(createdAt.equals(start) || createdAt.equals(end)) vouchers.add(voucher);
+        });
+        return vouchers;
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        storage.replace(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public Voucher delete(Voucher voucher) {
+        storage.remove(voucher.getVoucherId());
+        return voucher;
     }
 
     @Override
     public int count() {
-        return 0;
+        return storage.size();
     }
 
 }
