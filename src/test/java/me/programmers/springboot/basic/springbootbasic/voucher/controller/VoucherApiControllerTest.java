@@ -56,6 +56,16 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    void findAllFixVouchersTestFail() throws Exception {
+        given(voucherService.getAllFixVouchers()).willReturn(List.of(new FixedAmountVoucher(UUID.randomUUID(), 1000)));
+
+        mockMvc.perform(get("/api/vouchers?type=fixedd"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
     void saveTest() throws Exception {
         VoucherCreateRequestDto createRequestDto = new VoucherCreateRequestDto("fixed", 1000L, 0L);
 

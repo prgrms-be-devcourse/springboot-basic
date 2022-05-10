@@ -34,7 +34,7 @@ public class VoucherApiController {
             return voucherService.getAllPercentVouchers();
         }
 
-        return null;
+        return List.of();
     }
 
     @PostMapping("/api/vouchers")
