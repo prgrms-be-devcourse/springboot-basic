@@ -58,13 +58,11 @@ public class VoucherWebController {
         if ((after == null && before != null) || (after != null && before == null)) {
             throw new IllegalArgumentException();
         }
-
         if (voucherType != null && after != null) {
             return voucherService.getVouchersByTypeAndTerm(voucherType, before, after).stream()
                     .map(VoucherDto.VoucherResponse::from)
                     .toList();
         }
-
         if (after != null) {
             return voucherService.getVouchersByTerm(after, before).stream()
                     .map(VoucherDto.VoucherResponse::from)
