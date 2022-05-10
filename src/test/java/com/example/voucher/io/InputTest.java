@@ -69,7 +69,7 @@ public class InputTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> input.getInt())
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}

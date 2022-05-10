@@ -21,7 +21,7 @@ public class PercentDiscountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(null, -10))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -34,7 +34,7 @@ public class PercentDiscountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(null, 101))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}

@@ -31,13 +31,13 @@ public class VoucherFileRepository implements VoucherRepository {
 	public Voucher save(Voucher voucher) {
 		if (voucher == null) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		VoucherType voucherType = voucher.getVoucherType();
 		if(voucherType == EMPTY) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		if (voucher.getVoucherId() == null) {
@@ -64,7 +64,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		VoucherType voucherType = VoucherType.of(voucherTypeString);
 		if (voucherType == EMPTY) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());
+			throw new IllegalArgumentException(FILE_CONTENT_ERROR.getMessage());
 		}
 
 		try {
@@ -73,7 +73,7 @@ public class VoucherFileRepository implements VoucherRepository {
 			return Voucher.create(voucherType, convertedVoucherId, convertedDiscountAmount);
 		} catch (NumberFormatException e) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());
+			throw new IllegalArgumentException(FILE_CONTENT_ERROR.getMessage());
 		}
 	}
 

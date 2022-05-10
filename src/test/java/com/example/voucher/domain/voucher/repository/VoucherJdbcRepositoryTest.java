@@ -70,7 +70,7 @@ public class VoucherJdbcRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherJdbcRepository.save(null))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 			}
 		}
 	}

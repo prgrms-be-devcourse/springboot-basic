@@ -51,7 +51,7 @@ public class OutputTest {
                 output.printMessage(unsupportedType);
 
                 String result = out.toString();
-                assertThat(result).isEqualTo(UNSUPPORTED_MESSAGE_TYPE.name()+"\n");
+                assertThat(result).isEqualTo(UNSUPPORTED_MESSAGE_TYPE.getMessage()+"\n");
 
             }
         }

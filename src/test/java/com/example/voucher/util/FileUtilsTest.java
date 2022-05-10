@@ -61,7 +61,7 @@ public class FileUtilsTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> FileUtils.readFile(path))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(FILE_READ_ERROR.name());
+						.hasMessage(FILE_READ_ERROR.getMessage());
 			}
 		}
 

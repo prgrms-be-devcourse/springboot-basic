@@ -21,13 +21,13 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
 		if (voucher == null) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		VoucherType voucherType = voucher.getVoucherType();
 		if(voucherType == EMPTY) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		if (voucher.getVoucherId() == null) {

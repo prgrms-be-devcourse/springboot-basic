@@ -68,7 +68,7 @@ public class VoucherServiceTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherService.save(FIXED_AMOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -81,7 +81,7 @@ public class VoucherServiceTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherService.save(PERCENT_DISCOUNT_VOUCHER, -10))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -94,7 +94,7 @@ public class VoucherServiceTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherService.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}

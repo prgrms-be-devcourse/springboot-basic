@@ -38,7 +38,7 @@ public class VoucherApplication implements ApplicationRunner {
 					VoucherType voucherType = getVoucherType();
 
 					if(voucherType == EMPTY) {
-						output.printMessage(INVALID_INPUT.name());
+						output.printMessage(INVALID_INPUT.getMessage());
 						continue;
 					}
 

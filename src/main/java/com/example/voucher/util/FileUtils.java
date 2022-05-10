@@ -16,7 +16,7 @@ public class FileUtils {
 			return Files.readAllLines(new File(path).toPath());
 		} catch (IOException e) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_READ_ERROR.name());
+			throw new IllegalArgumentException(FILE_READ_ERROR.getMessage());
 		}
 	}
 
@@ -26,7 +26,7 @@ public class FileUtils {
 			bw.write(string);
 		} catch (IOException e) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_WRITE_ERROR.name());
+			throw new IllegalArgumentException(FILE_WRITE_ERROR.getMessage());
 		}
 	}
 

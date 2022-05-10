@@ -69,7 +69,7 @@ public class VoucherMemoryRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherRepository.save(null))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 
 			}
 		}
@@ -99,7 +99,7 @@ public class VoucherMemoryRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherRepository.save(createdVoucher))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 			}
 		}
 	}

@@ -29,7 +29,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	@Override
 	public Voucher save(Voucher voucher) {
 		if (voucher == null) {
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 		Long voucherId = insertAction.executeAndReturnKey(toVoucherParamMap(voucher)).longValue();
 		return Voucher.create(voucher.getVoucherType(), voucherId, voucher.getDiscountAmount(), voucher.getCreatedAt(), voucher.getUpdatedAt());

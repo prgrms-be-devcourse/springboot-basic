@@ -21,7 +21,7 @@ public class FixedAmountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new FixedAmountVoucher(null, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}
