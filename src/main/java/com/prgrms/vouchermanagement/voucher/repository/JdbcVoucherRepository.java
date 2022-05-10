@@ -15,17 +15,15 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.prgrms.vouchermanagement.voucher.repository.SelectCondition.*;
+
 @Repository
 @Profile("database")
 public class JdbcVoucherRepository implements VoucherRepository {
 
     public static final String INSERT_SQL = "INSERT INTO voucher(voucher_type, amount, created_at) VALUES (:voucherType, :amount, :createdAt)";
-    public static final String SELECT_SQL = "SELECT * FROM voucher";
-    public static final String SELECT_BY_ID_SQL = "SELECT * FROM voucher WHERE voucher_id=:voucherId";
-    public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";
-    public static final String SELECT_BY_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type=:voucherType";
-    public static final String SELECT_BY_PERIOD_SQL = "SELECT * FROM voucher WHERE created_at BETWEEN :from AND :end";
-    public static final String FIND_VOUCHER_BY_CUSTOMER_SQL = "SELECT v.voucher_id, v.voucher_type ,v.amount, v.created_at FROM voucher_wallet w INNER JOIN voucher v ON v.voucher_id = w.voucher_id WHERE w.customer_id=:customerId";
+    public static final String UPDATE_SQL = "UPDATE voucher SET amount=:amount WHERE voucher_id=:voucherId";;
+    public static final String SELECT_BY_CUSTOMER = "SELECT v.voucher_id, v.voucher_type ,v.amount, v.created_at FROM voucher_wallet w INNER JOIN voucher v ON v.voucher_id = w.voucher_id WHERE w.customer_id=:customerId";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -42,13 +40,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() throws DataAccessException {
-        return jdbcTemplate.query(SELECT_SQL, voucherRowMapper);
+        return jdbcTemplate.query(selectQueryBuilder(), voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(Long voucherId) throws DataAccessException {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL, Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(selectQueryBuilder(ID), Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -56,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(VoucherType voucherType) throws DataAccessException {
-        return jdbcTemplate.query(SELECT_BY_TYPE_SQL, Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
+        return jdbcTemplate.query(selectQueryBuilder(TYPE), Collections.singletonMap("voucherType", voucherType.toString()), voucherRowMapper);
     }
 
     @Override
@@ -64,12 +62,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("from", from);
         paramMap.put("end", end);
-        return jdbcTemplate.query(SELECT_BY_PERIOD_SQL, paramMap, voucherRowMapper);
+        return jdbcTemplate.query(selectQueryBuilder(PERIOD), paramMap, voucherRowMapper);
     }
 
     @Override
     public List<Voucher> findVoucherByCustomer(Long customerId) throws DataAccessException {
-        return jdbcTemplate.query(FIND_VOUCHER_BY_CUSTOMER_SQL,
+        return jdbcTemplate.query(SELECT_BY_CUSTOMER,
                 Collections.singletonMap("customerId", customerId),
                 voucherRowMapper);
     }
@@ -82,6 +80,38 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void remove(Long voucherId) throws DataAccessException {
         jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
+    }
+
+    private String selectQueryBuilder(SelectCondition ...conditions) {
+        StringBuilder builder = new StringBuilder("SELECT * FROM voucher");
+
+        if (conditions.length == 0) {
+            return builder.toString();
+        }
+
+        builder.append(" WHERE ");
+
+        for (int i = 0; i < conditions.length; i++) {
+            SelectCondition condition = conditions[i];
+
+            switch (condition) {
+                case ID:
+                    builder.append("voucher_id = :voucherId");
+                    break;
+                case TYPE:
+                    builder.append(" WHERE voucher_type = :voucherType");
+                    break;
+                case PERIOD:
+                    builder.append(" WHERE created_at BETWEEN :from AND :end");
+                    break;
+            }
+
+            if (i < conditions.length-1) {
+                builder.append(" & ");
+            }
+        }
+
+        return builder.toString();
     }
 
     /**
