@@ -26,6 +26,6 @@ public class ConsoleWriter<T> implements Output<T> {
 		if (message instanceof List) {
 			return message.toString();
 		}
-		throw new IllegalArgumentException(UNSUPPORTED_MESSAGE_TYPE.name());
+		throw new IllegalArgumentException(UNSUPPORTED_MESSAGE_TYPE.getMessage());
 	}
 }
