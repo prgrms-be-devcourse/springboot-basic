@@ -3,6 +3,7 @@ package com.prgrms.voucher_manager.wallet.service;
 import com.prgrms.voucher_manager.customer.Customer;
 import com.prgrms.voucher_manager.customer.service.CustomerService;
 import com.prgrms.voucher_manager.voucher.Voucher;
+import com.prgrms.voucher_manager.voucher.controller.VoucherDto;
 import com.prgrms.voucher_manager.voucher.service.VoucherService;
 import com.prgrms.voucher_manager.wallet.Wallet;
 import com.prgrms.voucher_manager.wallet.repository.WalletRepository;
@@ -25,7 +26,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    public List<UUID> getWalletIdByVoucherType(List<Voucher> vouchers) {
+    public List<UUID> getWalletIdByVoucherType(List<VoucherDto> vouchers) {
         List<UUID> walletIds = new ArrayList<>();
         vouchers.forEach(v -> {
             List<Wallet> wallets = walletRepository.findByVoucherId(v.getVoucherId());

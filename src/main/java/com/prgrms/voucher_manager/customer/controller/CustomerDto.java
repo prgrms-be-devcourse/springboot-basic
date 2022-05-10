@@ -2,9 +2,12 @@ package com.prgrms.voucher_manager.customer.controller;
 
 import com.prgrms.voucher_manager.customer.Customer;
 import com.prgrms.voucher_manager.customer.SimpleCustomer;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static com.prgrms.voucher_manager.infra.Utils.createModelMapper;
 
 public class CustomerDto {
 
@@ -13,6 +16,9 @@ public class CustomerDto {
     private String email;
     private LocalDateTime lastLoginAt;
     private LocalDateTime createdAt;
+
+    private static final ModelMapper modelMapper = createModelMapper();
+
 
     public CustomerDto() {}
 
@@ -29,8 +35,8 @@ public class CustomerDto {
         this.email = email;
     }
 
-    static CustomerDto of(Customer customer) {
-        return customer.toCustomerDto();
+    public static CustomerDto of(Customer customer) {
+        return modelMapper.map(customer, CustomerDto.class);
     }
 
     public UUID getCustomerId() {

@@ -36,16 +36,15 @@ public class VoucherController {
 
     @GetMapping("")
     public String Vouchers(Model model) {
-        List<Voucher> vouchers = voucherService.getFindAllVoucher();
-        model.addAttribute("vouchers", getVoucherDtoList(vouchers));
+        List<VoucherDto> vouchers = voucherService.getFindAllVoucher();
+        model.addAttribute("vouchers", vouchers);
         return "voucher/vouchers";
     }
 
     @GetMapping("/{voucherId}")
     public String voucher(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = voucherService.findById(voucherId);
-        VoucherDto voucherDto = voucher.toVoucherDto();
-        model.addAttribute("voucher", voucherDto);
+        VoucherDto voucher = voucherService.findById(voucherId);
+        model.addAttribute("voucher", voucher);
         return "voucher/voucher";
     }
 
@@ -74,16 +73,15 @@ public class VoucherController {
                                            Model model) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        List<Voucher> vouchers = voucherService.findByDateAndType(startDate, endDate, type);
-        model.addAttribute("vouchers", getVoucherDtoList(vouchers));
+        List<VoucherDto> vouchers = voucherService.findByDateAndType(startDate, endDate, type);
+        model.addAttribute("vouchers", vouchers);
         return "voucher/findByDateAndType";
     }
 
     @GetMapping("/{voucherId}/update")
     public String updateVoucherForm(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = voucherService.findById(voucherId);
-        VoucherDto voucherDto = voucher.toVoucherDto();
-        model.addAttribute("voucher", voucherDto);
+        VoucherDto voucher = voucherService.findById(voucherId);
+        model.addAttribute("voucher", voucher);
         return "voucher/updateVoucher";
     }
 
@@ -92,43 +90,23 @@ public class VoucherController {
                                 @RequestParam String type,
                                  @RequestParam long value) {
 
-        Voucher updateVoucher = voucherService.findById(voucherId);
-        updateVoucher.changeValue(value);
-        voucherService.updateVoucher(updateVoucher);
+
+        voucherService.updateVoucher(voucherId, type, value);
 
         return "redirect:/vouchers/{voucherId}";
     }
 
     @GetMapping("/{voucherId}/delete")
     public String deleteVoucher(@PathVariable UUID voucherId) {
-        Voucher deleteVoucher = voucherService.findById(voucherId);
-        voucherService.deleteVoucher(deleteVoucher);
+        voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }
 
     @GetMapping("/{voucherType}/customer")
     public String findCustomerByVoucherType(@PathVariable String voucherType, Model model) {
-        List<Customer> customers = voucherServiceFacade.findCustomerByVoucherType(voucherType);
-        List<CustomerDto> customerDtos = new ArrayList<>();
-        customers.forEach(customer -> customerDtos.add(customer.toCustomerDto()));
-        if(customers.isEmpty()) {
-            logger.info("해당 바우처 타입을 가진 고객이 없습니다");
-            return "redirect:/vouchers";
-        }
-        else {
-            model.addAttribute("customers", customerDtos);
-            return "voucher/customers";
-        }
-
-    }
-
-
-    private List<VoucherDto> getVoucherDtoList(List<Voucher> vouchers) {
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> {
-            voucherDtos.add(voucher.toVoucherDto());
-        });
-        return voucherDtos;
+        List<CustomerDto> customers = voucherServiceFacade.findCustomerByVoucherType(voucherType);
+        model.addAttribute("customers", customers);
+        return "voucher/customers";
     }
 
 }

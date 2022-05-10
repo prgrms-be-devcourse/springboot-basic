@@ -13,8 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,33 +35,26 @@ public class RestCustomerController {
 
     @GetMapping("")
     public ResponseEntity customers() {
-        List<Customer> customers = customerService.findAllCustomer();
-        List<CustomerDto> customerDtos = new ArrayList<>();
-        customers.forEach(v -> customerDtos.add(entityToDto(v)));
+        List<CustomerDto> customers = customerService.findAllCustomer();
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
-                .body(customerDtos);
+                .body(customers);
     }
 
     @GetMapping("{customerId}")
     public ResponseEntity customer(@PathVariable UUID customerId) {
-        Optional<Customer> customer = customerService.findCustomerById(customerId);
-        if(customer.isPresent()) {
-            return ResponseEntity.ok()
-                    .headers(getHttpHeaders())
-                    .body(entityToDto(customer.get()));
-        }
-        return ResponseEntity.noContent().build();
+        CustomerDto customer = customerService.findCustomerById(customerId);
+        return ResponseEntity.ok()
+                .body(customer);
     }
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity restAddCustomer(@RequestBody CustomerDto customerDto) {
         logger.info("save Customer {}", customerDto);
         customerService.createCustomer(customerDto.getName(), customerDto.getEmail());
         return ResponseEntity.created(URI.create("/api/customers/add")).build();
     }
 
-    @PostMapping()
+    @PostMapping("/vouchers")
     public ResponseEntity restAddVoucher(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
         walletService.createWallet(customerId, voucherId);
         return ResponseEntity.created(URI.create("/api/customers/{customerId}/voucher/{voucherId}")).build();
@@ -71,20 +62,7 @@ public class RestCustomerController {
 
     @DeleteMapping("/{customerId}")
     public ResponseEntity restDeleteCustomer(@PathVariable UUID customerId) {
-        Optional<Customer> deleteCustomer = customerService.findCustomerById(customerId);
-        deleteCustomer.ifPresent(customerService::deleteCustomer);
+        customerService.deleteCustomer(customerId);
         return ResponseEntity.noContent().build();
     }
-
-    private static CustomerDto entityToDto(Customer customer) {
-        return customer.toCustomerDto();
-    }
-
-    private HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        MediaType mediaType = new MediaType("application", "json", StandardCharsets.UTF_8);
-        headers.setContentType(mediaType);
-        return headers;
-    }
-
 }

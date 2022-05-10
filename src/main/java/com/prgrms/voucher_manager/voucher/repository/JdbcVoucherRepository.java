@@ -42,14 +42,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
         if(type.equals("fix")) {
             return FixedAmountVoucher.builder()
                     .voucherId(voucherId)
-                    .amount(value)
+                    .value(value)
                     .createdAt(createdAt)
                     .build();
         }
         else {
             return PercentDiscountVoucher.builder()
                     .voucherId(voucherId)
-                    .percent(value)
+                    .value(value)
                     .createdAt(createdAt)
                     .build();
         }

@@ -14,8 +14,9 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher{
 
     private final UUID voucherId;
-    private long percent;
+    private long value;
     private final LocalDate createdAt;
+    private String type;
 
     private static final long MAX_PERCENT = 100L;
     private static final long MIN_PERCENT = 0L;
@@ -23,20 +24,29 @@ public class PercentDiscountVoucher implements Voucher{
     public PercentDiscountVoucher(UUID id, long percent, LocalDate createdAt) {
         validateValue(percent);
         this.voucherId = id;
-        this.percent = percent;
+        this.value = percent;
         this.createdAt = createdAt;
+        this.type = "PercentDiscountVoucher";
     }
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         validateValue(percent);
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.value = percent;
         createdAt = LocalDate.now();
+        this.type = "PercentDiscountVoucher";
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long value, LocalDate createdAt, String type) {
+        this.voucherId = voucherId;
+        this.value = value;
+        this.createdAt = createdAt;
+        this.type = "PercentDiscountVoucher";
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - (long) (beforeDiscount * ((double) percent / 100));
+        return beforeDiscount - (long) (beforeDiscount * ((double) value / 100));
     }
 
     @Override
@@ -51,6 +61,12 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
+    public boolean isValidDate(LocalDate start, LocalDate end) {
+        if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0) return true;
+        else return createdAt.equals(start) || createdAt.equals(end);
+    }
+
+    @Override
     public boolean validateType(String type) {
         VoucherType voucherType = VoucherType.getVoucherType(type);
         if(voucherType.toString().equals("PercentDiscountVoucher")) return true;
@@ -60,12 +76,12 @@ public class PercentDiscountVoucher implements Voucher{
     @Override
     public void changeValue(Long value) {
         validateValue(value);
-        this.percent = value;
+        this.value = value;
     }
 
     @Override
     public VoucherDto toVoucherDto() {
-        return new VoucherDto(voucherId, "PercentDiscountVoucher", percent, createdAt);
+        return new VoucherDto(voucherId, "PercentDiscountVoucher", value, createdAt);
     }
 
     @Override
@@ -73,7 +89,7 @@ public class PercentDiscountVoucher implements Voucher{
         Map<String, Object> hashMap = new HashMap<>() {{
             put("voucherId", voucherId.toString().getBytes());
             put("type", "percent");
-            put("value", percent);
+            put("value", value);
             put("createdAt", createdAt);
         }};
         System.out.println(hashMap.get("value"));
@@ -84,7 +100,7 @@ public class PercentDiscountVoucher implements Voucher{
     public String toString() {
         return "type=PercentDiscountVoucher" +
                 ",id=" + voucherId +
-                ",percent=" + percent +
+                ",percent=" + value +
                 ",createdAt=" + createdAt +
                 "\n";
     }

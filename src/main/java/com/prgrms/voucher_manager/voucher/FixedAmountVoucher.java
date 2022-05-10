@@ -13,29 +13,39 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private long amount;
+    private long value;
+    private String type;
     private final LocalDate createdAt;
 
     private static final long MAX_AMOUNT = 10000L;
     private static final long MIN_AMOUNT = 0L;
 
+    public FixedAmountVoucher(UUID voucherId, long value, String type, LocalDate createdAt) {
+        this.voucherId = voucherId;
+        this.value = value;
+        this.type = "FixedAmountVoucher";
+        this.createdAt = createdAt;
+    }
+
     public FixedAmountVoucher(UUID id, long amount, LocalDate createdAt) {
         validateValue(amount);
         this.voucherId = id;
-        this.amount = amount;
+        this.value = amount;
         this.createdAt = createdAt;
+        this.type = "FixedAmountVoucher";
     }
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         validateValue(amount);
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.value = amount;
         createdAt = LocalDate.now();
+        this.type = "FixedAmountVoucher";
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        var discountedAmount = beforeDiscount - amount;
+        var discountedAmount = beforeDiscount - value;
         return (discountedAmount < 0 ) ? 0 : discountedAmount;
     }
 
@@ -52,6 +62,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public boolean isValidDate(LocalDate start, LocalDate end) {
+        if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0) return true;
+        else return createdAt.equals(start) || createdAt.equals(end);
+    }
+
+    @Override
     public boolean validateType(String type) {
         VoucherType voucherType = VoucherType.getVoucherType(type);
         if(voucherType.toString().equals("FixedAmountVoucher")) return true;
@@ -61,12 +77,12 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public void changeValue(Long value) {
         validateValue(value);
-        this.amount = value;
+        this.value = value;
     }
 
     @Override
     public VoucherDto toVoucherDto() {
-        return new VoucherDto(voucherId, "FixedAmountVoucher", amount, createdAt);
+        return new VoucherDto(voucherId, "FixedAmountVoucher", value, createdAt);
     }
 
     @Override
@@ -74,7 +90,7 @@ public class FixedAmountVoucher implements Voucher {
         Map<String, Object> hashMap = new HashMap<>() {{
             put("voucherId", voucherId.toString().getBytes());
             put("type", "fix");
-            put("value", amount);
+            put("value", value);
             put("createdAt", createdAt);
         }};
         return hashMap;
@@ -84,7 +100,7 @@ public class FixedAmountVoucher implements Voucher {
     public String toString() {
         return "type=FixedAmountVoucher" +
                 ",id=" + voucherId +
-                ",amount=" + amount +
+                ",amount=" + value +
                 ",createdAt=" + createdAt +
                 "\n";
     }

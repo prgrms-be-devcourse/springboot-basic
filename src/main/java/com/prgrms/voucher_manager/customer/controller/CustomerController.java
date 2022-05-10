@@ -44,24 +44,18 @@ public class CustomerController {
 
     @GetMapping("")
     public String customers(Model model) {
-        List<Customer> customers = customerService.findAllCustomer();
-        List<CustomerDto> customerDtos = new ArrayList<>();
-        customers.forEach(customer -> customerDtos.add(customer.toCustomerDto()));
-        model.addAttribute("customers", customerDtos);
+        List<CustomerDto> customers = customerService.findAllCustomer();
+        model.addAttribute("customers", customers);
         return "customer/customers";
     }
 
     @GetMapping("/{customerId}")
     public String customer(@PathVariable UUID customerId, Model model) {
-        Optional<Customer> customer = customerService.findCustomerById(customerId);
+        CustomerDto customer = customerService.findCustomerById(customerId);
 
-        if(customer.isPresent()) {
-            model.addAttribute("customer", customer.get().toCustomerDto());
-            return "customer/customer";
-        } else {
-            logger.info("해당 고객 정보가 없습니다.");
-            return "redirect:/customer/customers";
-        }
+
+        model.addAttribute("customer", customer);
+        return "customer/customer";
     }
 
     @GetMapping("/add")
@@ -73,22 +67,19 @@ public class CustomerController {
     public String addCustomer(@RequestParam String name,
             @RequestParam String email,
             RedirectAttributes redirectAttributes) {
-        Customer customer = customerService.createCustomer(name, email);
+        CustomerDto customer = customerService.createCustomer(name, email);
         redirectAttributes.addAttribute("customerId", customer.getCustomerId());
         return "redirect:/customers/{customerId}";
     }
 
     @GetMapping("/{customerId}/update")
     public String updateCustomerForm(@PathVariable UUID customerId, Model model) {
-        Optional<Customer> customer = customerService.findCustomerById(customerId);
 
-        if (customer.isPresent()) {
-            model.addAttribute("customer", customer.get().toCustomerDto());
-            return "customer/updateCustomer";
-        } else {
-            logger.info("해당 고객 정보가 없습니다.");
-            return "redirect:/customers";
-        }
+        CustomerDto customer = customerService.findCustomerById(customerId);
+
+        model.addAttribute("customer", customer);
+        return "customer/updateCustomer";
+
     }
 
 
@@ -98,39 +89,26 @@ public class CustomerController {
                                  @RequestParam String name,
                                  @RequestParam String email) {
         Customer updatedCustomer = new SimpleCustomer(customerId, name, email, LocalDateTime.now());
-        customerService.updateCustomer(updatedCustomer);
+        customerService.updateCustomer(customerId, email, name);
         return "redirect:/customers/{customerId}";
     }
 
     @GetMapping("/{customerId}/delete")
     public String deleteCustomer(@PathVariable UUID customerId) {
-        Optional<Customer> deleteCustomer = customerService.findCustomerById(customerId);
-
-        if(deleteCustomer.isPresent()) {
-            customerService.deleteCustomer(deleteCustomer.get());
-            return "redirect:/customers";
-        } else {
-            logger.info("삭제할 고객 정보가 없습니다.");
-            return "redirect:/customers";
-        }
+        customerService.deleteCustomer(customerId);
+        return "redirect:/customers";
     }
 
     @GetMapping("/{customerId}/vouchers")
     public String findCustomerByVoucherType(@PathVariable UUID customerId, Model model) {
-        List<Voucher> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> voucherDtos.add(voucher.toVoucherDto()));
-        if(vouchers.isEmpty()) {
-            logger.info("해당 고객은 보유한 바우처가 없습니다.");
-            return "redirect:/customers/{customerId}";
-        }
-        else {
-            model.addAttribute("vouchers", voucherDtos);
-            return "customer/vouchers";
-        }
+        List<VoucherDto> vouchers = voucherServiceFacade.findVoucherByCustomerId(customerId);
+
+        model.addAttribute("vouchers", vouchers);
+        return "customer/vouchers";
+
     }
 
-    @PostMapping("/{customerId}/vouchers")
+    @GetMapping("/{customerId}/delete/vouchers/")
     public String deleteVoucher(@PathVariable UUID customerId, @RequestParam UUID voucherId) {
         walletService.deleteWallet(customerId, voucherId);
         return "redirect:/customers/{customerId}";
@@ -138,18 +116,11 @@ public class CustomerController {
 
     @GetMapping("/{customerId}/vouchers/add")
     public String addVoucherSelect(@PathVariable UUID customerId, Model model) {
-        List<Voucher> vouchers = voucherService.getFindAllVoucher();
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> voucherDtos.add(voucher.toVoucherDto()));
-        if(vouchers.isEmpty()) {
-            logger.info("등록된 바우처가 없습니다.");
-            return "redirect:/customers/{customerId}";
-        }
-        else {
-            model.addAttribute("vouchers", voucherDtos);
-            model.addAttribute("customerId", customerId);
-            return "customer/addVoucher";
-        }
+        List<VoucherDto> vouchers = voucherService.getFindAllVoucher();
+
+        model.addAttribute("vouchers", vouchers);
+        model.addAttribute("customerId", customerId);
+        return "customer/addVoucher";
     }
 
     @PostMapping("/{customerId}/vouchers/add")

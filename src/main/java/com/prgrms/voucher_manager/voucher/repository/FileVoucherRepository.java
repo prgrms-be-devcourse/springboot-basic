@@ -51,14 +51,14 @@ public class FileVoucherRepository implements VoucherRepository {
                 if(lineArr[1].equals(VoucherType.FixedAmountVoucher.toString())){
                     FixedAmountVoucher voucher = FixedAmountVoucher.builder()
                             .voucherId(UUID.fromString(lineArr[3]))
-                            .amount(Long.parseLong(lineArr[5]))
+                            .value(Long.parseLong(lineArr[5]))
                             .build();
                     System.out.println(voucher.toString());
                     vouchers.add(voucher);
                 }else{
                     PercentDiscountVoucher voucher = PercentDiscountVoucher.builder()
                             .voucherId(UUID.fromString(lineArr[3]))
-                            .percent(Long.parseLong(lineArr[5]))
+                            .value(Long.parseLong(lineArr[5]))
                             .build();
                     System.out.println(voucher.toString());
                     vouchers.add(voucher);
@@ -84,13 +84,13 @@ public class FileVoucherRepository implements VoucherRepository {
                     if(type.equals(VoucherType.FixedAmountVoucher.toString())) {
                         return Optional.of(FixedAmountVoucher.builder()
                                 .voucherId(UUID.fromString(id))
-                                .amount(Long.parseLong(lineArr[5]))
+                                .value(Long.parseLong(lineArr[5]))
                                 .build());
 
                     } else {
                         return  Optional.of(PercentDiscountVoucher.builder()
                                 .voucherId(UUID.fromString(id))
-                                .percent(Long.parseLong(lineArr[5]))
+                                .value(Long.parseLong(lineArr[5]))
                                 .build());
                     }
                 }
@@ -115,12 +115,12 @@ public class FileVoucherRepository implements VoucherRepository {
                 if(voucherType.equals(VoucherType.FixedAmountVoucher)) {
                     vouchers.add(FixedAmountVoucher.builder()
                                 .voucherId(UUID.fromString(lineArr[3]))
-                                .amount(Long.parseLong(lineArr[5]))
+                                .value(Long.parseLong(lineArr[5]))
                                 .build());
                 } else {
                     vouchers.add(PercentDiscountVoucher.builder()
                             .voucherId(UUID.fromString(lineArr[3]))
-                            .percent(Long.parseLong(lineArr[5]))
+                            .value(Long.parseLong(lineArr[5]))
                             .build());
                 }
             }

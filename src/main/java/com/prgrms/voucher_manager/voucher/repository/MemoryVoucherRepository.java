@@ -47,7 +47,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByType(String type) {
         List<Voucher> vouchers = new ArrayList<>();
         storage.forEach((id, voucher) -> {
-            if(voucher.validateType(type)) vouchers.add(voucher);
+            vouchers.add(voucher);
         });
         return vouchers;
     }
@@ -56,11 +56,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByDate(LocalDate start, LocalDate end) {
         List<Voucher> vouchers = new ArrayList<>();
         storage.forEach((id, voucher) -> {
-            LocalDate createdAt = (LocalDate) voucher.toMap().get("createdAt");
-            if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0 ) {
-                vouchers.add(voucher);
-            }
-            else if(createdAt.equals(start) || createdAt.equals(end)) vouchers.add(voucher);
+            if(voucher.isValidDate(start, end)) vouchers.add(voucher);
         });
         return vouchers;
     }
@@ -70,12 +66,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>();
         storage.forEach((id, voucher) -> {
             LocalDate createdAt = (LocalDate) voucher.toMap().get("createdAt");
-            if(voucher.validateType(type)) {
-                if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0 ) {
-                    vouchers.add(voucher);
-                }
-                else if(createdAt.equals(start) || createdAt.equals(end)) vouchers.add(voucher);
+            if(createdAt.compareTo(start) > 0 && createdAt.compareTo(end) < 0 ) {
+                vouchers.add(voucher);
             }
+            else if(createdAt.equals(start) || createdAt.equals(end)) vouchers.add(voucher);
         });
         return vouchers;
     }

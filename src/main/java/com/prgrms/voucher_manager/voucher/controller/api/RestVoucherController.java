@@ -22,6 +22,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController()
 @CrossOrigin(origins = "*")
@@ -40,39 +41,31 @@ public class RestVoucherController {
 
     @GetMapping("")
     public ResponseEntity vouchers() {
-        List<Voucher> vouchers = voucherService.getFindAllVoucher();
-        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        List<VoucherDto> vouchers = voucherService.getFindAllVoucher();
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
-                .body(voucherDtos);
+                .body(vouchers);
     }
 
 
     @GetMapping("/{voucherId}")
     public ResponseEntity voucherById(@PathVariable UUID voucherId) {
-        Voucher voucher = voucherService.findById(voucherId);
+        VoucherDto voucherDto = voucherService.findById(voucherId);
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
-                .body(entityToDto(voucher));
+                .body(voucherDto);
     }
 
     @GetMapping("/type/{type}")
     public ResponseEntity voucherByType(@PathVariable String type) {
-        List<Voucher> vouchers = voucherService.findByType(type);
-        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        List<VoucherDto> voucherDtos = voucherService.findByType(type);
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
                 .body(voucherDtos);
     }
 
-    @GetMapping("/customer/{type}")
+    @GetMapping("/{type}/customer")
     public ResponseEntity customerByVoucherType(@PathVariable String type) {
-        List<Customer> customers = voucherServiceFacade.findCustomerByVoucherType(type);
-        List<CustomerDto> customerDtos = new ArrayList<>();
-        customers.forEach(customer -> customerDtos.add(customer.toCustomerDto()));
+        List<CustomerDto> customers = voucherServiceFacade.findCustomerByVoucherType(type);
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
-                .body(customerDtos);
+                .body(customers);
     }
 
     @GetMapping("/date")
@@ -80,10 +73,8 @@ public class RestVoucherController {
                                         @RequestParam String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        List<Voucher> vouchers = voucherService.findByDate(startDate, endDate);
-        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        List<VoucherDto> voucherDtos = voucherService.findByDate(startDate, endDate);
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
                 .body(voucherDtos);
     }
 
@@ -94,15 +85,13 @@ public class RestVoucherController {
                                                 @RequestParam String type) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        List<Voucher> vouchers = voucherService.findByDateAndType(startDate, endDate, type);
-        List<VoucherDto> voucherDtos = getVoucherDtoList(vouchers);
+        List<VoucherDto> voucherDtos = voucherService.findByDateAndType(startDate, endDate, type);
         return ResponseEntity.ok()
-                .headers(getHttpHeaders())
                 .body(voucherDtos);
     }
 
 
-    @PostMapping("/add")
+    @PostMapping("")
     public ResponseEntity addVoucher(@RequestBody VoucherDto voucherDto) {
         logger.info("save Voucher {}", voucherDto);
         voucherService.createVoucher(voucherDto.getType(), voucherDto.getValue());
@@ -112,26 +101,11 @@ public class RestVoucherController {
 
     @DeleteMapping("/{voucherId}")
     public ResponseEntity deleteVoucher(@PathVariable UUID voucherId) {
-        Voucher deleteVoucher = voucherService.findById(voucherId);
-        voucherService.deleteVoucher(deleteVoucher);
+      voucherService.deleteVoucher(voucherId);
         return ResponseEntity.noContent().build();
     }
 
-    private VoucherDto entityToDto(Voucher voucher) {
-        return voucher.toVoucherDto();
-    }
 
-    private List<VoucherDto> getVoucherDtoList(List<Voucher> vouchers) {
-        List<VoucherDto> voucherDtos = new ArrayList<>();
-        vouchers.forEach(voucher -> voucherDtos.add(entityToDto(voucher)));
-        return voucherDtos;
-    }
 
-    private HttpHeaders getHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
-        MediaType mediaType = new MediaType("application", "json", StandardCharsets.UTF_8);
-        headers.setContentType(mediaType);
-        return headers;
-    }
 
 }
