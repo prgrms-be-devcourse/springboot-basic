@@ -39,7 +39,7 @@ public class CommandLineApplication {
         if (commandType == CommandType.EXIT)
             return true;
 
-        CommandStrategy commandStrategy = commandType.getCommandStrategy(context);
+        CommandStrategy commandStrategy = commandType.execute(context);
 
         Command command = new Command(commandStrategy);
         command.operateCommand();

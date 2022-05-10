@@ -10,85 +10,30 @@ import me.programmers.springboot.basic.springbootbasic.command.voucher.DeleteVou
 import me.programmers.springboot.basic.springbootbasic.command.voucher.ShowVoucherCommand;
 import me.programmers.springboot.basic.springbootbasic.command.voucher.UpdateVoucherCommand;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
-@Component
 public enum CommandType {
-    EXIT {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(ExitCommand.class);
-        }
-    },
-    CREATE {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CreateVoucherCommand.class);
-        }
-    },
-    LIST {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(ShowVoucherCommand.class);
-        }
-    },
-    UPDATE {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(UpdateVoucherCommand.class);
-        }
-    },
-    DELETE {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(DeleteVoucherCommand.class);
-        }
-    },
-    CUSTOMER_INSERT {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CustomerInsertCommand.class);
-        }
-    },
-    CUSTOMER_UPDATE {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CustomerUpdateCommand.class);
-        }
-    },
-    CUSTOMER_LIST {
+    EXIT (context ->  context.getBean(ExitCommand.class)),
+    CREATE (context -> context.getBean(CreateVoucherCommand.class)),
+    LIST (context -> context.getBean(ShowVoucherCommand.class)),
+    UPDATE  (context -> context.getBean(UpdateVoucherCommand.class)),
+    DELETE (context -> context.getBean(DeleteVoucherCommand.class)),
+    CUSTOMER_INSERT (context -> context.getBean(CustomerInsertCommand.class)),
+    CUSTOMER_UPDATE (context -> context.getBean(CustomerUpdateCommand.class)),
+    CUSTOMER_LIST (context -> context.getBean(CustomerFindAllCommand.class)),
+    CUSTOMER_FINDBY_EMAIL (context -> context.getBean(CustomerFindByEmailCommand.class)),
+    CUSTOMER_DELETE (context -> context.getBean(CustomerDeleteCommand.class));
 
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CustomerFindAllCommand.class);
-        }
-    },
-    CUSTOMER_FINDBY_ID {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return null;
-        }
-    },
-    CUSTOMER_FINDBY_NAME {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return null;
-        }
-    },
-    CUSTOMER_FINDBY_EMAIL {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CustomerFindByEmailCommand.class);
-        }
-    },
-    CUSTOMER_DELETE {
-        @Override
-        public CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context) {
-            return context.getBean(CustomerDeleteCommand.class);
-        }
-    };
+    private Function<AnnotationConfigApplicationContext, CommandStrategy> job;
+    CommandType(Function<AnnotationConfigApplicationContext, CommandStrategy> job) {
+        this.job = job;
+    }
+
+    public CommandStrategy execute(AnnotationConfigApplicationContext context) {
+        return job.apply(context);
+    }
 
     public static CommandType getCommandType(String menuCommand) {
         return Arrays.stream(CommandType.values())
@@ -97,5 +42,4 @@ public enum CommandType {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 메뉴 명령어 입력 " + menuCommand));
     }
 
-    public abstract CommandStrategy getCommandStrategy(AnnotationConfigApplicationContext context);
 }
