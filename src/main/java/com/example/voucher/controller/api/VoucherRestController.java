@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestMapping("/api/v1/vouchers")
@@ -23,7 +24,7 @@ public class VoucherRestController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> findAll(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdAt, @RequestParam @Nullable VoucherType voucherType) {
+	public ResponseEntity<List<VoucherResponse>> findAll(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdAt, @RequestParam @Nullable VoucherType voucherType) {
 		if (createdAt != null) {
 			return ResponseEntity.ok(voucherService.findByCreatedAt(createdAt).stream()
 					.map((v) -> VoucherResponse.from(v))
@@ -42,7 +43,7 @@ public class VoucherRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> save(@RequestBody @Valid VoucherRequest voucherRequest) {
+	public ResponseEntity<VoucherResponse> save(@RequestBody @Valid VoucherRequest voucherRequest) {
 		return ResponseEntity.ok(VoucherResponse.from(
 					voucherService.save(voucherRequest.getVoucherType(), voucherRequest.getDiscountAmount())));
 	}
