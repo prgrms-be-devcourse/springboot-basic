@@ -1,8 +1,7 @@
-package com.example.voucher.domain.repository;
+package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
-import com.example.voucher.domain.voucher.repository.VoucherJdbcRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -43,7 +42,7 @@ public class VoucherJdbcRepositoryTest {
 	private VoucherJdbcRepository voucherJdbcRepository;
 
 	@Nested
-	@Order(1)  
+	@Order(1) // findAll전에 save 먼저 테스트
 	@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 	class save메서드는 {
 
@@ -56,7 +55,6 @@ public class VoucherJdbcRepositoryTest {
 			// when
 			Voucher savedVoucher = voucherJdbcRepository.save(createdVoucher);
 
-			// then
 			assertThat(savedVoucher.getVoucherType()).isEqualTo(createdVoucher.getVoucherType());
 			assertThat(savedVoucher.getCreatedAt()).isEqualTo(createdVoucher.getCreatedAt());
 			assertThat(savedVoucher.getDiscountAmount()).isEqualTo(createdVoucher.getDiscountAmount());
@@ -155,7 +153,7 @@ public class VoucherJdbcRepositoryTest {
 			int count = voucherJdbcRepository.deleteById(createdVoucher.getVoucherId());
 
 			// then
-			assertThat(count).isEqualTo(1);
+			assertThat(count).isEqualTo(count);
 		}
 	}
 
