@@ -9,11 +9,9 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Profile("file")
 @Repository
@@ -58,6 +56,30 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return getVouchers();
+    }
+
+    @Override
+    public Optional<Voucher> findById(Long voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long voucherId) {
     }
 
     private Voucher saveVoucher(Voucher entity) {

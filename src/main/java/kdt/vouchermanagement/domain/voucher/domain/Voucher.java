@@ -38,6 +38,10 @@ public abstract class Voucher implements Serializable {
         return discountValue;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public String toString() {
         return "Voucher{" +

@@ -21,14 +21,17 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
@@ -134,5 +137,87 @@ public class VoucherJdbcRepositoryTest {
 
         //then
         assertThat(foundVouchers.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("바우처 id 값으로 조회시 조회가 되지 않았을 때 Optional.empty() 반환")
+    void returnOptionalEmptyFindById() {
+        //given
+        Long voucherId = 100L;
+
+        //when
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(foundVoucher).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("바우처 id 값으로 조회시 Optional로 감싼 바우처 반환")
+    void returnOptionalVoucherFindById() {
+        //given
+        Long voucherId = 1L;
+
+        //when
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(foundVoucher.isPresent()).isTrue();
+    }
+
+    @Test
+    @Order(6)
+    @DisplayName("저장된 바우처들 중 타입과 생성날짜가 일치한 바우처 리스트 반환")
+    void findByTypeAndDate() {
+        //given
+        VoucherType type = VoucherType.FIXED_AMOUNT;
+        LocalDate date = LocalDate.now();
+
+        //when
+        List<Voucher> foundVouchers = voucherRepository.findByTypeAndDate(type, date);
+
+        //then
+        assertThat(foundVouchers.size()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(7)
+    @DisplayName("저장된 바우처들 중 타입이 일치한 바우처 리스트 반환")
+    void findByType() {
+        //given
+        VoucherType type = VoucherType.FIXED_AMOUNT;
+
+        //when
+        List<Voucher> foundVouchers = voucherRepository.findByType(type);
+
+        //then
+        assertThat(foundVouchers.size()).isEqualTo(1);
+    }
+
+    @Test
+    @Order(8)
+    @DisplayName("저장된 바우처들 중 생성날짜가 일치한 바우처 리스트 반환")
+    void findByDate() {
+        //given
+        LocalDate date = LocalDate.now();
+
+        //when
+        List<Voucher> foundVouchers = voucherRepository.findByDate(date);
+
+        //then
+        assertThat(foundVouchers.size()).isEqualTo(2);
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("바우처 id 값으로 바우처 삭제")
+    void deleteVoucherById() {
+        //given
+        Long voucherId = 1L;
+
+        //when, then
+        assertDoesNotThrow(() -> voucherRepository.deleteById(voucherId));
     }
 }
