@@ -1,8 +1,0 @@
-spring:
-  datasource:
-    url: "jdbc:mysql://localhost:3306/voucher"
-    username: root
-    password: root1234!
-  sql:
-    init:
-      mode: always

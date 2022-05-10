@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Profile("prod")
 public class CsvBlacklistRepository implements BlacklistRepository {
 
     private final FilePathProperties filePath;
