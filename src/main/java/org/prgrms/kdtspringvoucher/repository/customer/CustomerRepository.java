@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringvoucher.customer.repository;
+package org.prgrms.kdtspringvoucher.repository.customer;
 
-import org.prgrms.kdtspringvoucher.customer.entity.Customer;
+import org.prgrms.kdtspringvoucher.entity.customer.Customer;
 
 import java.util.List;
 import java.util.Optional;

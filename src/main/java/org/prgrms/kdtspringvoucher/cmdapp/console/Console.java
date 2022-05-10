@@ -1,11 +1,11 @@
 package org.prgrms.kdtspringvoucher.cmdapp.console;
 
 import org.prgrms.kdtspringvoucher.cmdapp.ServiceType;
-import org.prgrms.kdtspringvoucher.customer.entity.Customer;
-import org.prgrms.kdtspringvoucher.customer.entity.CustomerType;
-import org.prgrms.kdtspringvoucher.voucher.entity.FixedAmountVoucher;
-import org.prgrms.kdtspringvoucher.voucher.entity.PercentDiscountVoucher;
-import org.prgrms.kdtspringvoucher.voucher.entity.Voucher;
+import org.prgrms.kdtspringvoucher.entity.customer.Customer;
+import org.prgrms.kdtspringvoucher.entity.customer.CustomerType;
+import org.prgrms.kdtspringvoucher.entity.voucher.FixedAmountVoucher;
+import org.prgrms.kdtspringvoucher.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.kdtspringvoucher.entity.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -17,8 +17,7 @@ import java.util.UUID;
 public class Console implements Input, Output {
     private final Scanner sc = new Scanner(System.in);
 
-    @Override
-    public ServiceType getServiceType() {
+    public void initialInput() {
         System.out.println();
         System.out.println("=== Voucher Program ===");
         System.out.println("exit> 프로그램 종료");
@@ -27,17 +26,26 @@ public class Console implements Input, Output {
         System.out.println("delete> voucher or customer 삭제");
         System.out.println("assign> voucher 할당");
         System.out.print("Enter a command: ");
+    }
+
+    public void listInput() {
+        System.out.println("1> 모든 바우처 조회");
+        System.out.println("2> 모든 고객 조회");
+        System.out.println("3> 특정 고객의 바우처 조회");
+        System.out.println("4> 특정 바우처를 가지고 있는 고객 조회");
+        System.out.println("5> black customer 조회");
+    }
+
+    @Override
+    public ServiceType getServiceType() {
+        initialInput();
         String command = sc.next();
 
         ServiceType serviceType;
 
         switch (command.toLowerCase()) {
             case "list" -> {
-                System.out.println("1> 모든 바우처 조회");
-                System.out.println("2> 모든 고객 조회");
-                System.out.println("3> 특정 고객의 바우처 조회");
-                System.out.println("4> 특정 바우처를 가지고 있는 고객 조회");
-                System.out.println("5> black customer 조회");
+                listInput();
                 int listCommand = sc.nextInt();
                 switch (listCommand) {
                     case 1 -> serviceType = ServiceType.LIST_OF_ALL_VOUCHERS;
@@ -60,6 +68,7 @@ public class Console implements Input, Output {
             }
             case "delete" -> serviceType = ServiceType.DELETE;
             case "assign" -> serviceType = ServiceType.ASSIGN;
+            case "exit" -> serviceType = ServiceType.EXIT;
             default -> serviceType = ServiceType.REPLAY;
         }
         return serviceType;
@@ -78,7 +87,7 @@ public class Console implements Input, Output {
             long amount = sc.nextLong();
             FixedAmountVoucher fixedAmountVoucher;
             try {
-                fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+                fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDateTime.now());
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 return null;
@@ -91,7 +100,7 @@ public class Console implements Input, Output {
 
             PercentDiscountVoucher percentDiscountVoucher;
             try {
-                percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+                percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent, LocalDateTime.now());
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 return null;
@@ -102,6 +111,18 @@ public class Console implements Input, Output {
             System.out.println("input 1 or 2");
             return null;
         }
+    }
+
+    @Override
+    public String inputCustomerId() {
+        System.out.println("고객 아이디 입력:");
+        return sc.next();
+    }
+
+    @Override
+    public String inputVoucherId() {
+        System.out.println("바우처 아이디 입력:");
+        return sc.next();
     }
 
     public Customer getCustomer() {
@@ -128,5 +149,10 @@ public class Console implements Input, Output {
         for (Object value : list) {
             System.out.println(value.toString());
         }
+    }
+
+    @Override
+    public void printMessage(String message) {
+        System.out.println(message);
     }
 }

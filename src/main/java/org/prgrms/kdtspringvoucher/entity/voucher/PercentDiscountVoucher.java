@@ -1,19 +1,23 @@
-package org.prgrms.kdtspringvoucher.voucher.entity;
+package org.prgrms.kdtspringvoucher.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private UUID voucherId;
     private final long amount;
-    private static final VoucherTypeNum voucherTypeNum = VoucherTypeNum.PERCENT;
+    private static final VoucherTypeNum voucherType = VoucherTypeNum.PERCENT;
+    private final LocalDateTime createdAt;
+
     private static final long MAX_PERCENT_VOUCHER_AMOUNT = 100;
 
-    public PercentDiscountVoucher(UUID voucherId, long amount) {
+    public PercentDiscountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         if (amount < 0) throw new IllegalArgumentException("Amount should be positive");
         if (amount == 0) throw new IllegalArgumentException("Amount should not be zero");
         if (amount > MAX_PERCENT_VOUCHER_AMOUNT) throw new IllegalArgumentException("Amount should be less than %d".formatted(MAX_PERCENT_VOUCHER_AMOUNT));
         this.voucherId = voucherId;
         this.amount = amount;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -33,7 +37,10 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public int getVoucherTypeNum() {
-        return voucherTypeNum.ordinal();
+        return voucherType.ordinal() + 1;
+    }
+    public VoucherTypeNum getVoucherType() {
+        return voucherType;
     }
 
     @Override
@@ -42,11 +49,16 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
     public String toString() {
         return "Percent Discount Voucher {" +
                 "voucherId=" + voucherId +
                 ", amount=" + amount +
-                ", voucher type=" + voucherTypeNum.toString() +
+                ", voucher type=" + voucherType.toString() +
                 "}";
     }
 }

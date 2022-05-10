@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <!-- Bootstrap CSS -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+
+  <title>Voucher Service</title>
+</head>
+<style>
+  .mainContainer {
+    text-align: center;
+  }
+
+  .contentContainer {
+    display: inline-block;
+    width: 85%;
+  }
+
+  @font-face {
+    font-family: 'ghanachoco';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ghanachoco.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'GowunBatang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  h1, h3, a, thead {
+    font-family: ghanachoco, serif;
+  }
+
+  tbody, td {
+    font-family: GowunDodum-Regular, serif;
+  }
+
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+</style>
+<body>
+<div class="mainContainer m-lg-3">
+  <div class="d-sm-flex m-lg-3 justify-content-md-first">
+    <a class="btn btn-dark me-3" th:href="@{/}" type="button">메인으로</a>
+    <a class="add btn btn-primary me-md-2" th:href="@{/vouchers}" type="button">바우처관리</a>
+  </div>
+  <div class="contentContainer">
+    <h1>Voucher Service</h1>
+    <h3>Voucher Management</h3>
+    <div class="d-xxl-grid gap-2 d-sm-flex m-lg-3 justify-content-md-end">
+      <a class="add btn btn-primary me-md-2" th:href="@{/new-voucher}" type="button">바우처 추가</a>
+    </div>
+
+    <table class="table table-hover table-striped">
+      <thead style="font-size: 20px">
+      <tr>
+        <th scope="col">바우처 아이디</th>
+        <th scope="col">바우처 생성날짜</th>
+        <th scope="col"></th>
+      </tr>
+      </thead>
+      <tbody style="align-content: center; font-size: 15px">
+      <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td>
+          <a class="btn btn-small btn-dark" style="font-family: GowunBatang-Bold,serif"
+             th:href="@{'/detail-voucher/' + *{voucherId}}"
+             type="button">상세보기</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</body>
+</html>

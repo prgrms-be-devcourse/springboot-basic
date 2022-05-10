@@ -1,12 +1,11 @@
-package org.prgrms.kdtspringvoucher.customer.entity;
+package org.prgrms.kdtspringvoucher.service.customer;
 
-import org.prgrms.kdtspringvoucher.customer.entity.Customer;
-import org.prgrms.kdtspringvoucher.customer.repository.CustomerJDBCRepository;
+import org.prgrms.kdtspringvoucher.entity.customer.Customer;
+import org.prgrms.kdtspringvoucher.repository.customer.CustomerJDBCRepository;
 import org.prgrms.kdtspringvoucher.utils.Util;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,11 +28,11 @@ public class CustomerService {
         return customerJDBCRepository.findCustomerByVoucher(UUID.fromString(voucherId));
     }
 
-    public Optional<Customer> createCustomer(Customer customer) {
-        return Optional.ofNullable(customerJDBCRepository.insert(customer));
+    public void createCustomer(Customer customer) {
+        customerJDBCRepository.insert(customer);
     }
 
-    public boolean validateCustomer(String customerId) {
+    public boolean isExistCustomer(String customerId) {
         if (Util.isValidUUID(customerId) == false) {
             return false;
         }

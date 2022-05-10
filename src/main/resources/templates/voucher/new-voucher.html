@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <!-- Bootstrap CSS -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" rel="stylesheet">
+
+  <title>Voucher Service</title>
+</head>
+<style>
+  .mainContainer {
+    text-align: center;
+  }
+
+  .contentContainer {
+    display: inline-block;
+    width: 85%;
+  }
+
+  @font-face {
+    font-family: 'ghanachoco';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ghanachoco.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'GowunBatang-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunBatang-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'GowunDodum-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/GowunDodum-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  h1, h3, button, label, a {
+    font-family: ghanachoco;
+  }
+
+  input, select {
+    font-family: GowunDodum-Regular;
+  }
+
+  label {
+    font-size: 20px;
+  }
+</style>
+<body>
+<div class="mainContainer m-lg-3">
+  <div class="d-sm-flex m-lg-3 justify-content-md-first">
+    <a class="btn btn-dark me-3" th:href="@{/}" type="button">메인으로</a>
+    <a class="add btn btn-primary me-md-2" th:href="@{/vouchers}" type="button">바우처관리</a>
+  </div>
+  <div class="contentContainer">
+    <h1>Voucher Service</h1>
+    <h3>Voucher Management</h3>
+    <div class="formContainer mt-5">
+      <form method="post" th:action="@{/voucher}">
+        <div class="mb-3">
+          <label class="form-label d-sm-flex m-2" for="voucherType">바우처 할인타입</label>
+          <select class="form-select" id="voucherType" name="voucherType">
+            <option selected>타입 선택</option>
+            <option value="FIXED">특정금액할인(FIXED)</option>
+            <option value="PERCENT">할인율(PERCENT)</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label d-sm-flex m-2" for="amount">할인금액/율</label>
+          <input class="form-control" id="amount" name="amount" type="number">
+        </div>
+        <button class="btn btn-primary d-sm-flex m-2" type="submit">생성하기</button>
+      </form>
+    </div>
+  </div>
+</div>
+</form>
+</body>
+</html>

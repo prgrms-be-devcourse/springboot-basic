@@ -1,7 +1,6 @@
-package org.prgrms.kdtspringvoucher.customer.entity;
+package org.prgrms.kdtspringvoucher.entity.customer;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 public class Customer {
@@ -71,7 +70,7 @@ public class Customer {
     }
 
     public int getCustomerType() {
-        return customerType.ordinal();
+        return customerType.ordinal() + 1;
     }
 
     @Override

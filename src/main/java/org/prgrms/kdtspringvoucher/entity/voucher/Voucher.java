@@ -1,5 +1,6 @@
-package org.prgrms.kdtspringvoucher.voucher.entity;
+package org.prgrms.kdtspringvoucher.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
@@ -8,4 +9,5 @@ public interface Voucher {
     long getAmount();
     int getVoucherTypeNum();
     String getStringForCSV();
+    LocalDateTime getCreatedAt();
 }
