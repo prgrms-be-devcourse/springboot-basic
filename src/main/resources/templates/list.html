@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            .container {
+                max-width: 560px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="py-5 text-center">
+                <h2>Voucher List</h2>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Voucher Id</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Discount Amount</th>
+                        <th scope="col">Use Voucher</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="voucherDto : ${voucherDtos}">
+                        <td><a th:text="${voucherDto.getVoucherId()}" th:href="@{/template/list/{id}(id=${voucherDto.getVoucherId()})}">1</a></td>
+                        <td><a th:text="${voucherDto.getVoucherType()}" th:href="@{/template/list-type(type=${voucherDto.getVoucherType()})}">2</a></td>
+                        <td th:text="${voucherDto.getAmount()}">3</td>
+                        <td>
+                            <form role="form" action="/template/order" th:object="${voucherDto}" method="post">
+                                <input type="hidden" th:name="voucherId" th:value="${voucherDto.getVoucherId}"/>
+                                <button type="submit" class="btn btn-primary">Use</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form role="form" action="/template/delete" th:object="${voucherDto}" method="post">
+                                <input type="hidden" th:name="voucherId" th:value="${voucherDto.getVoucherId()}"/>
+                                <input type="hidden" th:name="customerId" th:value="${voucherDto.getCustomerId()}"/>
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> <!-- /container -->
+    </body>
+</html>

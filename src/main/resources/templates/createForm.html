@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link th:href="@{/css/bootstrap.min.css}" href="css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            .container {
+                max-width: 560px;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <H2>Create Form</H2>
+        </div>
+        <div class="container">
+            <form role="form" action="/template/new" th:object="${voucherDto}" method="post">
+                <div th:each="type : ${voucherTypes}" class="form-check form-check-inline">
+                    <input type="radio" th:field="*{voucherType}" th:value="${type}" class="form-check-input">
+                    <label th:for="${voucherTypes}" th:text="${type}" class="form-check-label">
+                        Type
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label th:for="amount">Discount Amount</label>
+                    <input type="text" th:field="*{amount}" class="form-control"placeholder="Discount Amount를 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label th:for="customerId">Customer Id</label>
+                    <input type="text" th:field="*{customerId}" class="form-control" placeholder="Customer Id를 입력하세요">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    </body>
+</html>
