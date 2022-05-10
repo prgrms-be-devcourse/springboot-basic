@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -20,6 +21,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final String UPDATE_SQL = "UPDATE vouchers SET voucher_type = :type, value = :value WHERE voucher_id = :id";
     private final String SELECT_BY_ID = "SELECT * FROM voucher WHERE voucher_id = :voucherId";
     private final String DELETE_SQL = "DELETE FROM voucher WHERE voucher_id = :voucherId";
+    private final String FIND_BY_TYPE_DATE_SQL = "SELECT * FROM voucher WHERE voucher_type = :type and DATE(created_at) = :date";
+    private final String FIND_BY_TYPE_SQL = "SELECT * FROM voucher WHERE voucher_type = :type";
+    private final String FIND_BY_DATE_SQL = "SELECT * FROM voucher WHERE DATE(created_at) = :date";
+
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -48,11 +53,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(Long voucherId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
-        } catch (EmptyResultDataAccessException exception) {
-            return Optional.empty();
-        }
+        List<Voucher> foundVouchers = jdbcTemplate.query(SELECT_BY_ID, Map.of("voucherId", voucherId), voucherRowMapper);
+        return foundVouchers.isEmpty() ? Optional.empty() : Optional.of(foundVouchers.get(0));
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate date) {
+        return jdbcTemplate.query(FIND_BY_TYPE_DATE_SQL, Map.of("type", type.toString(), "date", date), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return jdbcTemplate.query(FIND_BY_TYPE_SQL, Map.of("type", type.toString()), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate date) {
+        return jdbcTemplate.query(FIND_BY_DATE_SQL, Map.of( "date", date), voucherRowMapper);
     }
 
     @Override
@@ -62,22 +79,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
             throw new IllegalStateException("Voucher delete query가 실패하였습니다.");
         }
     }
-
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        HashMap<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherType", voucher.getVoucherType().toString());
-        paramMap.put("discountValue", voucher.getDiscountValue());
-        return paramMap;
-    }
-
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        Long voucherId = resultSet.getLong("voucher_id");
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        int discountValue = resultSet.getInt("discount_value");
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
-        return voucherType.createEntity(voucherId, discountValue, createdAt, updatedAt);
-    };
 
     private void executeInsertVoucherQuery(Voucher voucher) {
         int insertNum = jdbcTemplate.update(SAVE_SQL, toParamMap(voucher));
@@ -97,4 +98,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
             throw new IllegalStateException("Vouvhcer update query가 실패하였습니다.");
         }
     }
+
+    private Map<String, Object> toParamMap(Voucher voucher) {
+        HashMap<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherType", voucher.getVoucherType().toString());
+        paramMap.put("discountValue", voucher.getDiscountValue());
+        return paramMap;
+    }
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        Long voucherId = resultSet.getLong("voucher_id");
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        int discountValue = resultSet.getInt("discount_value");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = resultSet.getTimestamp("updated_at").toLocalDateTime();
+        return voucherType.createEntity(voucherId, discountValue, createdAt, updatedAt);
+    };
 }

@@ -7,6 +7,7 @@ import kdt.vouchermanagement.domain.voucher.service.VoucherService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -29,12 +30,6 @@ public class VoucherApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
-    public ResponseEntity<List> findVouchers() {
-        List<Voucher> vouchers = voucherService.findVouchers();
-        return ResponseEntity.status(HttpStatus.OK).body(vouchers);
-    }
-
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<Void> deleteVoucher(@PathVariable Long voucherId) {
         voucherService.deleteVoucher(voucherId);
@@ -47,23 +42,23 @@ public class VoucherApiController {
         return ResponseEntity.status(HttpStatus.OK).body(voucher);
     }
 
-    @GetMapping("/category")
-    public ResponseEntity<List> findVoucherByType(@RequestParam VoucherType type) {
-        List<Voucher> vouchers = voucherService.findVouchers();
-        List<Voucher> foundVouchers = vouchers.stream()
-                .filter(v -> v.getVoucherType().equals(type))
-                .collect(Collectors.toList());
+    @GetMapping
+    public ResponseEntity<List> findVouchers(
+            @RequestParam @Nullable VoucherType type,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate date
+    ) {
+        if (type != null && date != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(voucherService.findVouchersByTypeAndDate(type, date));
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(foundVouchers);
-    }
+        if (type != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(voucherService.findVouchersByType(type));
+        }
 
-    @GetMapping("/date")
-    public ResponseEntity<List> findVoucherByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        List<Voucher> vouchers = voucherService.findVouchers();
-        List<Voucher> foundVouchers = vouchers.stream()
-                .filter(v -> LocalDate.from(v.getCreatedAt()).equals(date))
-                .collect(Collectors.toList());
+        if (date != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(voucherService.findVouchersByDate(date));
+        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(foundVouchers);
+        return ResponseEntity.status(HttpStatus.OK).body(voucherService.findVouchers());
     }
 }

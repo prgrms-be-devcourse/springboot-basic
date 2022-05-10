@@ -5,6 +5,7 @@ import kdt.vouchermanagement.domain.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +45,21 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(Long voucherId) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate date) {
+        return null;
     }
 
     @Override
