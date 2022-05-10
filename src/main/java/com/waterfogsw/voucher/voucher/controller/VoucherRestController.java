@@ -1,5 +1,7 @@
 package com.waterfogsw.voucher.voucher.controller;
 
+import com.waterfogsw.voucher.voucher.domain.VoucherType;
+import com.waterfogsw.voucher.voucher.dto.Duration;
 import com.waterfogsw.voucher.voucher.dto.RequestVoucherDto;
 import com.waterfogsw.voucher.voucher.dto.ResponseVoucherDto;
 import com.waterfogsw.voucher.voucher.service.VoucherService;
@@ -17,16 +19,50 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public ResponseVoucherDto voucherAdd(@RequestBody RequestVoucherDto request) {
+    public ResponseVoucherDto addVoucher(@RequestBody RequestVoucherDto request) {
         final var savedVoucher = voucherService.saveVoucher(request.toDomain());
-        return ResponseVoucherDto.of(savedVoucher);
+        return ResponseVoucherDto.from(savedVoucher);
     }
 
     @GetMapping
-    public List<ResponseVoucherDto> voucherList() {
-        return voucherService.findAllVoucher()
+    public List<ResponseVoucherDto> findVoucherAll(Duration duration, VoucherType voucherType) {
+        System.out.println(duration);
+        System.out.println(voucherType);
+        if (duration.isNull() && voucherType == null) {
+            return voucherService.findAllVoucher()
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        if (duration.isNull()) {
+            return voucherService.findByType(voucherType)
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        if (voucherType == null) {
+            return voucherService.findByDuration(duration)
+                    .stream()
+                    .map(ResponseVoucherDto::from)
+                    .toList();
+        }
+
+        return voucherService.findByTypeDuration(voucherType, duration)
                 .stream()
-                .map(ResponseVoucherDto::of)
+                .map(ResponseVoucherDto::from)
                 .toList();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseVoucherDto findVoucherById(@PathVariable("id") long id) {
+        final var voucher = voucherService.findVoucherById(id);
+        return ResponseVoucherDto.from(voucher);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteVoucherById(@PathVariable("id") long id) {
+        voucherService.deleteVoucherById(id);
     }
 }

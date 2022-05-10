@@ -2,6 +2,7 @@ package com.waterfogsw.voucher.voucher;
 
 import com.waterfogsw.voucher.voucher.domain.FixedAmountVoucher;
 import com.waterfogsw.voucher.voucher.domain.Voucher;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import com.waterfogsw.voucher.voucher.repository.VoucherRepository;
 import com.waterfogsw.voucher.voucher.service.VoucherManageService;
 import org.junit.jupiter.api.DisplayName;
@@ -12,13 +13,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -85,6 +90,55 @@ public class VoucherServiceTests {
                 var voucherLists = voucherService.findAllVoucher();
 
                 assertThat(voucherLists.size(), is(2));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findById 메소드는")
+    class Describe_findById {
+
+        @Nested
+        @DisplayName("id 값이 존재하면")
+        class Context_with_exist_id {
+
+            @Test
+            @DisplayName("해당 id의 바우처를 리턴한다")
+            void it_throw_IllegalArgumentException() {
+                final var voucher = new FixedAmountVoucher(1L, 1000, LocalDateTime.now(), LocalDateTime.now());
+                when(voucherRepository.findById(anyLong())).thenReturn(Optional.of(voucher));
+
+                final var findVoucher = voucherService.findVoucherById(1L);
+                assertThat(findVoucher, samePropertyValuesAs(voucher));
+            }
+        }
+
+        @Nested
+        @DisplayName("id 값이 존재하지 않으면")
+        class Context_with_not_exist_id {
+
+            @Test
+            @DisplayName("optional empty 를 리턴한다")
+            void it_throw_IllegalArgumentException() {
+                when(voucherRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+                assertThrows(ResourceNotFoundException.class, () -> voucherService.findVoucherById(1L));
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("findByType 메서드는")
+    class Describe_findByType {
+
+        @Nested
+        @DisplayName("type이 null이면")
+        class Context_with_null_type {
+
+            @Test
+            @DisplayName("IllegalArgumentException 이 발생한다")
+            void It_throw_illegalArgumentException() {
+                assertThrows(IllegalArgumentException.class, () -> voucherService.findByType(null));
             }
         }
     }

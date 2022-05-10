@@ -2,16 +2,15 @@ package com.waterfogsw.voucher.voucher.repository;
 
 import com.waterfogsw.voucher.voucher.domain.Voucher;
 import com.waterfogsw.voucher.voucher.domain.VoucherType;
+import com.waterfogsw.voucher.voucher.dto.Duration;
+import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Profile({"jdbc"})
 @Repository
@@ -77,4 +76,66 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return jdbcTemplate.query("select * from vouchers where voucher_id = :voucherId",
+                Collections.singletonMap("voucherId", String.valueOf(id)), voucherRowMapper).stream().findAny();
+    }
+
+    @Override
+    public void deleteById(long id) {
+        final var deleteSql = "delete from vouchers where voucher_id = :id";
+        final var affectedRow = jdbcTemplate.update(deleteSql, Collections.singletonMap("id", String.valueOf(id)));
+
+        if (affectedRow != 1) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        if (type == null) {
+            throw new IllegalArgumentException();
+        }
+
+        return jdbcTemplate.query("select * from vouchers where voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", type.name()), voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByDuration(Duration duration) {
+        if (duration == null) {
+            throw new IllegalArgumentException();
+        }
+
+        final Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("fromDate", duration.fromDate());
+        paramMap.put("toDate", duration.toDate());
+
+        return jdbcTemplate.query("select * from vouchers " +
+                        "where date(updated_at) >= :fromDate " +
+                        "and date(updated_at) <= :toDate",
+                paramMap, voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDuration(VoucherType type, Duration duration) {
+        if (duration == null || type == null) {
+            throw new IllegalArgumentException();
+        }
+
+        final Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("fromDate", duration.fromDate());
+        paramMap.put("toDate", duration.toDate());
+        paramMap.put("voucherType", type.name());
+
+        return jdbcTemplate.query("select * from vouchers " +
+                        "where date(updated_at) >= :fromDate " +
+                        "and date(updated_at) <= :toDate " +
+                        "and voucher_type = :voucherType",
+                paramMap, voucherRowMapper);
+    }
+
+
 }
