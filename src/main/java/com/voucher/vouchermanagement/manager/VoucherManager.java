@@ -1,13 +1,13 @@
 package com.voucher.vouchermanagement.manager;
 
+import com.voucher.vouchermanagement.dto.customer.CustomerDto;
+import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
 import com.voucher.vouchermanagement.manager.command.CommandType;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerInput;
 import com.voucher.vouchermanagement.manager.io.VoucherManagerOutput;
-import com.voucher.vouchermanagement.model.customer.Customer;
-import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
-import com.voucher.vouchermanagement.service.BlacklistService;
-import com.voucher.vouchermanagement.service.VoucherService;
+import com.voucher.vouchermanagement.service.blacklist.BlacklistService;
+import com.voucher.vouchermanagement.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -66,33 +66,33 @@ public class VoucherManager {
             VoucherType voucherType = VoucherType.getVoucherTypeByNumber(voucherTypeNumberInput);
             long voucherValue = Long.parseLong(this.input.input("Input voucher value : "));
 
-            this.voucherService.createVoucher(voucherType, voucherValue);
+            this.voucherService.create(voucherType, voucherValue);
             this.output.println("Voucher Creation Completed.");
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             logAndPrintException(e);
         }
     }
 
     private void printVouchers() {
         this.output.println("=== [Voucher List] ===");
-        List<Voucher> vouchers = this.voucherService.findAll();
+        List<VoucherDto> vouchers = this.voucherService.findAll();
 
-        for (Voucher voucher : vouchers) {
+        for (VoucherDto voucher : vouchers) {
             this.output.println(voucher.toString());
         }
     }
 
     private void printBlacklist() {
         this.output.println("===  [Blacklist]  ===");
-        List<Customer> blacklist = this.blackListService.findAll();
+        List<CustomerDto> blacklist = this.blackListService.findAll();
 
-        for (Customer user : blacklist) {
+        for (CustomerDto user : blacklist) {
             this.output.println(user.toString());
         }
     }
 
     private void logAndPrintException(Exception exception) {
-        this.logger.error(exception.getMessage());
+        logger.error(exception.getMessage());
         this.output.println(exception.getMessage());
     }
 }

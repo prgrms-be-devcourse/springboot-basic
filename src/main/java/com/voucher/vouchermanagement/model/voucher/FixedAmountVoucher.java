@@ -15,7 +15,7 @@ public class FixedAmountVoucher implements Voucher {
         validateValue(value);
         this.id = id;
         this.value = value;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.withNano(0);
     }
 
     @Override

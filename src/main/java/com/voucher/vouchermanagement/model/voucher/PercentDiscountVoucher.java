@@ -16,12 +16,12 @@ public class PercentDiscountVoucher implements Voucher {
         validateValue(value);
         this.id = id;
         this.value = value;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.withNano(0);
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (1 - (value / 100));
+        return (long)(beforeDiscount * (1 - (value / 100.0)));
     }
 
     @Override

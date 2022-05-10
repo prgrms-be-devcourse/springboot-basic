@@ -1,6 +1,5 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
-import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
 import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
 import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
 import com.voucher.vouchermanagement.model.voucher.Voucher;
@@ -11,10 +10,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -22,6 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -43,7 +43,7 @@ class VoucherRepositoryTest {
 
     @Configuration
     @ComponentScan(basePackages = {"com.voucher.vouchermanagement.repository.voucher"})
-    @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+    @AutoConfigureJdbc
     static class AppConfig {
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
@@ -60,7 +60,6 @@ class VoucherRepositoryTest {
                     .build();
 
         }
-
     }
 
     @BeforeAll
@@ -97,7 +96,6 @@ class VoucherRepositoryTest {
         List<Voucher> foundVouchers = voucherRepository.findAll();
 
         //then
-        assertThat(foundVouchers.get(0), is(voucher));
         assertThat(foundVouchers.size(), is(1));
         assertThat(foundVouchers.get(0).getClass().getSimpleName(), is(FixedAmountVoucher.class.getSimpleName()));
         assertThat(foundVouchers.get(0), samePropertyValuesAs(voucher));
@@ -140,6 +138,21 @@ class VoucherRepositoryTest {
                 samePropertyValuesAs(vouchers.get(2)),
                 samePropertyValuesAs(vouchers.get(3))
         ));
+    }
+
+    @Test
+    public void findByIdTest() {
+        //given
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+        voucherRepository.insert(voucher);
+
+        //when
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+
+        //then
+        assertThat(foundVoucher.isPresent(), is(true));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+
     }
 
 }

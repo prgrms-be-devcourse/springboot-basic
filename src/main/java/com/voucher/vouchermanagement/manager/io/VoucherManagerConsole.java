@@ -1,4 +1,4 @@
-package com.voucher.vouchermanagement.utils.io.manager;
+package com.voucher.vouchermanagement.manager.io;
 
 import com.voucher.vouchermanagement.manager.command.CommandType;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;

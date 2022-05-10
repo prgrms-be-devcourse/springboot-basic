@@ -1,13 +1,12 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
 import com.voucher.vouchermanagement.model.voucher.Voucher;
+
+import java.util.*;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -28,6 +27,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        store.clear();
+        this.store.clear();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.of(this.store.get(id));
     }
 }
