@@ -15,7 +15,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,22 +91,6 @@ public class VoucherServiceTest {
         //then
         verify(voucherRepository, times(1)).save(any());
         assertThat(createdVoucher).usingRecursiveComparison().isEqualTo(voucher);
-    }
-
-    @Test
-    @DisplayName("바우처 목록 조회 요청에 대한 반환값인 바우처 리스트 반환_성공")
-    void responseFindVouchers() {
-        //given
-        Voucher firstVoucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
-        Voucher secondVoucher = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200, LocalDateTime.now(), LocalDateTime.now());
-        List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
-
-        //when
-        doReturn(vouchers).when(voucherRepository).findAll();
-        List<Voucher> foundVouchers = voucherService.findVouchers();
-
-        //then
-        assertThat(foundVouchers).containsOnly(firstVoucher, secondVoucher);
     }
 
     @Test
@@ -196,5 +182,91 @@ public class VoucherServiceTest {
 
         //when, then
         assertThrows(IllegalArgumentException.class, () -> voucherService.findVoucher(voucherId));
+    }
+
+    @Test
+    @DisplayName("바우처 목록 조회 요청에 대한 반환값인 바우처 리스트 반환_성공")
+    void responseFindVouchers() {
+        //given
+        Voucher firstVoucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher secondVoucher = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200, LocalDateTime.now(), LocalDateTime.now());
+        List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+        doReturn(vouchers).when(voucherRepository).findAll();
+
+        //when
+        List<Voucher> foundVouchers = voucherService.findVouchers();
+
+        //then
+        assertThat(foundVouchers).containsOnly(firstVoucher, secondVoucher);
+    }
+
+    @Test
+    @DisplayName("모든 바우처 목록 조회 요청이 들어올 때 모든 바우처를 담은 리스트를 반환한다")
+    void returnVouchersWhenRequestAllVoucher() {
+        //given
+        Voucher firstVoucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher secondVoucher = new FixedAmountVoucher(2L, VoucherType.FIXED_AMOUNT, 200, LocalDateTime.now(), LocalDateTime.now());
+        List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+        doReturn(vouchers).when(voucherRepository).findAll();
+
+        //when
+        List<Voucher> foundVouchers = voucherService.findVouchers();
+
+        //then
+        assertThat(foundVouchers).containsOnly(firstVoucher, secondVoucher);
+    }
+
+    @Test
+    @DisplayName("바우처 타입과 생성날짜별 조회 요청이 들어올 때 필터링된 바우처 목록을 반환한다")
+    void returnVouchersWhenRequestVoucherByTypeAndDate() {
+        //given
+        VoucherType type = VoucherType.FIXED_AMOUNT;
+        LocalDate date = LocalDate.of(2022, 5, 9);
+        Voucher voucher = new FixedAmountVoucher(1L, type, 100, LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MIN));
+        List<Voucher> vouchers = List.of(voucher);
+        doReturn(vouchers).when(voucherRepository).findByTypeAndDate(any(VoucherType.class), any(LocalDate.class));
+
+        //when
+        List<Voucher> foundVouchers = voucherService.findVouchersByTypeAndDate(VoucherType.FIXED_AMOUNT, date);
+
+        //then
+        assertThat(foundVouchers).containsOnly(voucher);
+    }
+
+    @Test
+    @DisplayName("바우처 타입별 조회 요청이 들어올 때 필터링된 바우처 목록을 반환한다")
+    void returnVouchersWhenRequestVoucherByType() {
+        //given
+        VoucherType type = VoucherType.FIXED_AMOUNT;
+        Voucher voucher = new FixedAmountVoucher(
+                1L,
+                type,
+                100,
+                LocalDateTime.of(2022, 5, 9, 00, 00,00,0000),
+                LocalDateTime.of(2022, 5, 9, 00, 00,00,0000));
+        List<Voucher> vouchers = List.of(voucher);
+        doReturn(vouchers).when(voucherRepository).findByType(any(VoucherType.class));
+
+        //when
+        List<Voucher> foundVouchers = voucherService.findVouchersByType(type);
+
+        //then
+        assertThat(foundVouchers).containsOnly(voucher);
+    }
+
+    @Test
+    @DisplayName("바우처 생성날짜별 조회 요청이 들어올 때 필터링된 바우처 목록을 반환한다")
+    void returnVouchersWhenRequestVoucherByDate() {
+        //given
+        LocalDate date = LocalDate.of(2022, 5, 9);
+        Voucher voucher = new FixedAmountVoucher(1L, VoucherType.FIXED_AMOUNT, 100, LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MIN));
+        List<Voucher> vouchers = List.of(voucher);
+        doReturn(vouchers).when(voucherRepository).findByDate(any(LocalDate.class));
+
+        //when
+        List<Voucher> foundVouchers = voucherService.findVouchersByDate(date);
+
+        //then
+        assertThat(foundVouchers).containsOnly(voucher);
     }
 }
