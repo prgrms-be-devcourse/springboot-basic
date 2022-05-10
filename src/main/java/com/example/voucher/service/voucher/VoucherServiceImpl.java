@@ -4,6 +4,8 @@ import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class VoucherServiceImpl implements VoucherService {
 	}
 
 	@Override
-	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
 		return voucherRepository.findByCreatedAt(createdAt);
 	}
 

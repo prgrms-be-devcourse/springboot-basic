@@ -10,12 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static com.example.voucher.domain.voucher.VoucherType.FIXED_AMOUNT_VOUCHER;
 import static com.example.voucher.domain.voucher.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
@@ -211,14 +209,14 @@ public class VoucherServiceTest {
 			// given
 			List<Voucher> createdVouchers = Arrays.asList(new FixedAmountVoucher(1L, 1000),
 					new FixedAmountVoucher(2L, 2000));
-			given(voucherRepository.findByCreatedAt(any(LocalDateTime.class)))
+			given(voucherRepository.findByCreatedAt(any(LocalDate.class)))
 					.willReturn(createdVouchers);
 
 			// when
-			List<Voucher> vouchers = voucherService.findByCreatedAt(LocalDateTime.now());
+			List<Voucher> vouchers = voucherService.findByCreatedAt(LocalDate.now());
 
 			// then
-			verify(voucherRepository).findByCreatedAt(any(LocalDateTime.class));
+			verify(voucherRepository).findByCreatedAt(any(LocalDate.class));
 			assertThat(vouchers).isEqualTo(createdVouchers);
 		}
 	}

@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -170,7 +171,7 @@ public class VoucherJdbcRepositoryTest {
 			List<Voucher> createdVouchers = Arrays.asList(createdVoucher);
 
 			// when
-			List<Voucher> vouchers = voucherJdbcRepository.findByCreatedAt(createdVoucher.getCreatedAt());
+			List<Voucher> vouchers = voucherJdbcRepository.findByCreatedAt(createdVoucher.getCreatedAt().toLocalDate());
 
 			// then
 			assertThat(vouchers).isEqualTo(createdVouchers);
@@ -183,7 +184,7 @@ public class VoucherJdbcRepositoryTest {
 			@Test
 			@DisplayName("빈 리스트를 반환한다")
 			void 빈_리스트를_반환한다() {
-				List<Voucher> vouchers = voucherJdbcRepository.findByCreatedAt(LocalDateTime.now());
+				List<Voucher> vouchers = voucherJdbcRepository.findByCreatedAt(LocalDate.now());
 				assertThat(vouchers.size()).isEqualTo(0);
 			}
 		}

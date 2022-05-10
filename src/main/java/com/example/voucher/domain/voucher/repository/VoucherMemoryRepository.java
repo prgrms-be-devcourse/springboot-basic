@@ -3,14 +3,12 @@ package com.example.voucher.domain.voucher.repository;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
 import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
 
@@ -65,7 +63,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
 		return null;
 	}
 

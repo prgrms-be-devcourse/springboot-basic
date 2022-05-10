@@ -2,8 +2,7 @@ package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +12,6 @@ public interface VoucherRepository {
 	void deleteAll();
 	int deleteById(Long voucherId);
 	Optional<Voucher> findById(Long voucherId);
-	List<Voucher> findByCreatedAt(LocalDateTime createdAt);
+	List<Voucher> findByCreatedAt(LocalDate createdAt);
 	List<Voucher> findByVoucherType(VoucherType voucherType);
 }

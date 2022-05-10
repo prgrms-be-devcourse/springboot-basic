@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -100,10 +101,10 @@ public class VoucherRestControllerTest {
 						.map((v) -> VoucherResponse.from(v))
 						.collect(Collectors.toList());
 				String responseJsonString = objectToJsonString(voucherResponses);
-				given(voucherService.findByCreatedAt(any(LocalDateTime.class)))
+				given(voucherService.findByCreatedAt(any(LocalDate.class)))
 						.willReturn(vouchers);
 
-				mockMvc.perform(get("/api/v1/vouchers?createdAt="+ now()))
+				mockMvc.perform(get("/api/v1/vouchers?createdAt="+ LocalDate.now()))
 									.andExpect(status().isOk())
 									.andExpect(content().json(responseJsonString));
 			}
@@ -239,7 +240,7 @@ public class VoucherRestControllerTest {
 
 			Long voucherId = 1L;
 			Voucher voucher = new FixedAmountVoucher(voucherId, 1000);
-			String responseJsonString = objectToJsonString(voucher);
+			String responseJsonString = objectToJsonString(VoucherResponse.from(voucher));
 			given(voucherService.findById(anyLong()))
 					.willReturn(voucher);
 

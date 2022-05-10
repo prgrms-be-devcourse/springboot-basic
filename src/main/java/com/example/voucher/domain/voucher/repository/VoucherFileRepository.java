@@ -6,7 +6,7 @@ import com.example.voucher.util.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,13 +87,13 @@ public class VoucherFileRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<Voucher> findById(Long voucherId) {
-		return Optional.empty();
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+		return null;
 	}
 
 	@Override
-	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
-		return null;
+	public Optional<Voucher> findById(Long voucherId) {
+		return Optional.empty();
 	}
 
 	@Override

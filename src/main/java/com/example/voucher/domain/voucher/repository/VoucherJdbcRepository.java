@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
@@ -60,9 +61,9 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	}
 
 	@Override
-	public List<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
 		return namedParameterJdbcTemplate.query(
-				"SELECT * FROM vouchers WHERE created_at = :createdAt", Collections.singletonMap("createdAt", createdAt), voucherRowMapper);
+				"SELECT * FROM vouchers WHERE DATE(created_at) = :createdAt", Collections.singletonMap("createdAt", createdAt), voucherRowMapper);
 	}
 
 	@Override

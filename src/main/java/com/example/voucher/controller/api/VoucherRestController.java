@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +24,7 @@ public class VoucherRestController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<VoucherResponse>> findAll(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdAt, @RequestParam @Nullable VoucherType voucherType) {
+	public ResponseEntity<List<VoucherResponse>> findAll(@RequestParam @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdAt, @RequestParam @Nullable VoucherType voucherType) {
 		if (createdAt != null) {
 			return ResponseEntity.ok(voucherService.findByCreatedAt(createdAt).stream()
 					.map((v) -> VoucherResponse.from(v))
