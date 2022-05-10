@@ -30,15 +30,15 @@ public class VoucherApiController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @DeleteMapping("/{voucherId}")
-    public ResponseEntity<Void> deleteVoucher(@PathVariable Long voucherId) {
-        voucherService.deleteVoucher(voucherId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVoucher(@PathVariable Long id) {
+        voucherService.deleteVoucher(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{voucherId}")
-    public ResponseEntity<Voucher> findVoucher(@PathVariable Long voucherId) {
-        Voucher voucher = voucherService.findVoucher(voucherId);
+    @GetMapping("/{id}")
+    public ResponseEntity<Voucher> findVoucher(@PathVariable Long id) {
+        Voucher voucher = voucherService.findVoucher(id);
         return ResponseEntity.status(HttpStatus.OK).body(voucher);
     }
 
