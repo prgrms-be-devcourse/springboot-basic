@@ -1,9 +1,6 @@
-package com.example.voucher.domain;
+package com.example.voucher.domain.voucher;
 
-import com.example.voucher.domain.voucher.FixedAmountVoucher;
-import com.example.voucher.domain.voucher.Voucher;
 import org.junit.jupiter.api.*;
-
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

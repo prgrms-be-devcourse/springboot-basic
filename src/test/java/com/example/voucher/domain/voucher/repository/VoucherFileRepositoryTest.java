@@ -1,15 +1,12 @@
-package com.example.voucher.domain.repository;
+package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-import com.example.voucher.domain.voucher.repository.VoucherFileRepository;
-import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import com.example.voucher.util.FileUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.File;
 import java.time.LocalDateTime;

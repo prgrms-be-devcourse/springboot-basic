@@ -1,19 +1,15 @@
-package com.example.voucher.domain.repository;
+package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-import com.example.voucher.domain.voucher.repository.VoucherMemoryRepository;
-import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
 import static java.time.LocalDateTime.now;
