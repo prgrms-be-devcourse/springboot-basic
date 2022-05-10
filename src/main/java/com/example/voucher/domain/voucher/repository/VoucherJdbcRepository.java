@@ -2,7 +2,6 @@ package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -53,14 +52,11 @@ public class VoucherJdbcRepository implements VoucherRepository{
 
 	@Override
 	public Optional<Voucher> findById(Long voucherId) {
-		try {
-			return Optional.of(
-					namedParameterJdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
-							Collections.singletonMap("voucherId", voucherId), voucherRowMapper)
-			);
-		} catch (EmptyResultDataAccessException e) {
+		List<Voucher> vouchers = namedParameterJdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
+		if (vouchers.size() != 1) {
 			return Optional.empty();
 		}
+		return Optional.of(vouchers.get(0));
 	}
 
 	@Override
