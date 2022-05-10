@@ -6,6 +6,9 @@ import com.dojinyou.devcourse.voucherapplication.voucher.entity.FixedAmountVouch
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.PercentAmountVoucherEntity;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class VoucherMapper {
     public static final String ERROR_MESSAGE_FOR_NULL = "잘못된 입력입니다.";
     public static final int indexId = 0;
@@ -104,5 +107,18 @@ public class VoucherMapper {
                 throw new IllegalArgumentException(ERROR_MESSAGE_FOR_NULL);
             }
         }
+    }
+
+    public static Voucher resultSetToDomain(ResultSet rs) {
+        try {
+            Long id = rs.getLong(1);
+            VoucherType type = VoucherType.valueOf(rs.getString("type"));
+            VoucherAmount amount = VoucherAmount.of(type, rs.getInt("amount"));
+
+            return getDomain(id, type, amount);
+        } catch (SQLException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
+
     }
 }
