@@ -8,6 +8,7 @@ import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVouch
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,8 +24,17 @@ public class VoucherApiController {
     }
 
     @GetMapping("/api/vouchers")
-    public List<Voucher> getVouchers() {
-        return voucherService.getAllVouchers();
+    public List<Voucher> getVouchers(@RequestParam(required = false) String type) {
+        if (type == null)
+            return voucherService.getAllVouchers();
+
+        if (type.equals("fixed")) {
+            return voucherService.getAllFixVouchers();
+        } else if (type.equals("percent")) {
+            return voucherService.getAllPercentVouchers();
+        }
+
+        return null;
     }
 
     @PostMapping("/api/vouchers")
