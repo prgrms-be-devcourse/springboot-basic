@@ -1,19 +1,15 @@
-package com.example.voucher.domain.repository;
+package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-import com.example.voucher.domain.voucher.repository.VoucherMemoryRepository;
-import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
 import static java.time.LocalDateTime.now;
@@ -73,7 +69,7 @@ public class VoucherMemoryRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherRepository.save(null))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 
 			}
 		}
@@ -103,7 +99,7 @@ public class VoucherMemoryRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherRepository.save(createdVoucher))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 			}
 		}
 	}

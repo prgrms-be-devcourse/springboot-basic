@@ -21,7 +21,7 @@ public class FixedAmountVoucher extends Voucher {
 	private void validateDiscountAmount(int discountAmount) {
 		if (discountAmount < 0) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(INVALID_INPUT.name());
+			throw new IllegalArgumentException(INVALID_INPUT.getMessage());
 		}
 	}
 

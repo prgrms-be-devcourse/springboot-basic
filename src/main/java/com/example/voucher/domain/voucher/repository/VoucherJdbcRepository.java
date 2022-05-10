@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import static com.example.voucher.exception.ErrorMessage.SERVER_ERROR;
@@ -28,7 +29,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	@Override
 	public Voucher save(Voucher voucher) {
 		if (voucher == null) {
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 		Long voucherId = insertAction.executeAndReturnKey(toVoucherParamMap(voucher)).longValue();
 		return Voucher.create(voucher.getVoucherType(), voucherId, voucher.getDiscountAmount(), voucher.getCreatedAt(), voucher.getUpdatedAt());
@@ -43,6 +44,32 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	@Override
 	public void deleteAll() {
 
+	}
+
+	@Override
+	public int deleteById(Long voucherId) {
+		return namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
+	}
+
+	@Override
+	public Optional<Voucher> findById(Long voucherId) {
+		List<Voucher> vouchers = namedParameterJdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
+		if (vouchers.size() != 1) {
+			return Optional.empty();
+		}
+		return Optional.of(vouchers.get(0));
+	}
+
+	@Override
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+		return namedParameterJdbcTemplate.query(
+				"SELECT * FROM vouchers WHERE DATE(created_at) = :createdAt", Collections.singletonMap("createdAt", createdAt), voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByVoucherType(VoucherType voucherType) {
+		return namedParameterJdbcTemplate.query(
+				"SELECT * FROM vouchers WHERE voucher_type = :voucherType", Collections.singletonMap("voucherType", voucherType.getTypeString()), voucherRowMapper);
 	}
 
 	private Map<String, Object> toVoucherParamMap(Voucher voucher) {

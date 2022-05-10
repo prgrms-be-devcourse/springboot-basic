@@ -1,15 +1,12 @@
-package com.example.voucher.domain.repository;
+package com.example.voucher.domain.voucher.repository;
 
 import com.example.voucher.domain.voucher.FixedAmountVoucher;
 import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.domain.voucher.VoucherType;
-import com.example.voucher.domain.voucher.repository.VoucherFileRepository;
-import com.example.voucher.domain.voucher.repository.VoucherRepository;
 import com.example.voucher.util.FileUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.File;
 import java.time.LocalDateTime;
@@ -77,11 +74,11 @@ public class VoucherFileRepositoryTest {
 
 				try (MockedStatic<FileUtils> mockedStatic = mockStatic(FileUtils.class)) {
 					mockedStatic.when(() -> FileUtils.writeFile(anyString(), anyString()))
-							.thenThrow(new IllegalArgumentException(FILE_WRITE_ERROR.name()));
+							.thenThrow(new IllegalArgumentException(FILE_WRITE_ERROR.getMessage()));
 
 					assertThatThrownBy(() -> voucherRepository.save(new FixedAmountVoucher(null, 100)))
 							.isInstanceOf(IllegalArgumentException.class)
-							.hasMessage(FILE_WRITE_ERROR.name());
+							.hasMessage(FILE_WRITE_ERROR.getMessage());
 				}
 			}
 		}
@@ -95,7 +92,7 @@ public class VoucherFileRepositoryTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherRepository.save(null))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 			}
 		}
 
@@ -126,7 +123,7 @@ public class VoucherFileRepositoryTest {
 
 				assertThatThrownBy(() -> voucherRepository.save(createdVoucher))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(SERVER_ERROR.name());
+						.hasMessage(SERVER_ERROR.getMessage());
 			}
 		}
 	}
@@ -185,11 +182,11 @@ public class VoucherFileRepositoryTest {
 
 				try (MockedStatic<FileUtils> mockedStatic = mockStatic(FileUtils.class)) {
 					mockedStatic.when(() -> FileUtils.readFile(anyString()))
-							.thenThrow(new IllegalArgumentException(FILE_READ_ERROR.name()));
+							.thenThrow(new IllegalArgumentException(FILE_READ_ERROR.getMessage()));
 
 					assertThatThrownBy(() -> voucherRepository.findAll())
 							.isInstanceOf(IllegalArgumentException.class)
-							.hasMessage(FILE_READ_ERROR.name());
+							.hasMessage(FILE_READ_ERROR.getMessage());
 				}
 			}
 		}

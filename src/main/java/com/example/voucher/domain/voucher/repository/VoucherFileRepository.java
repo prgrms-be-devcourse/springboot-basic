@@ -6,7 +6,9 @@ import com.example.voucher.util.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import static com.example.voucher.domain.voucher.VoucherType.EMPTY;
 import static com.example.voucher.exception.ErrorMessage.*;
@@ -29,13 +31,13 @@ public class VoucherFileRepository implements VoucherRepository {
 	public Voucher save(Voucher voucher) {
 		if (voucher == null) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		VoucherType voucherType = voucher.getVoucherType();
 		if(voucherType == EMPTY) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(SERVER_ERROR.name());
+			throw new IllegalArgumentException(SERVER_ERROR.getMessage());
 		}
 
 		if (voucher.getVoucherId() == null) {
@@ -62,7 +64,7 @@ public class VoucherFileRepository implements VoucherRepository {
 		VoucherType voucherType = VoucherType.of(voucherTypeString);
 		if (voucherType == EMPTY) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());
+			throw new IllegalArgumentException(FILE_CONTENT_ERROR.getMessage());
 		}
 
 		try {
@@ -71,11 +73,31 @@ public class VoucherFileRepository implements VoucherRepository {
 			return Voucher.create(voucherType, convertedVoucherId, convertedDiscountAmount);
 		} catch (NumberFormatException e) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(FILE_CONTENT_ERROR.name());
+			throw new IllegalArgumentException(FILE_CONTENT_ERROR.getMessage());
 		}
 	}
 
 	@Override
 	public void deleteAll() {
+	}
+
+	@Override
+	public int deleteById(Long voucherId) {
+		return 0;
+	}
+
+	@Override
+	public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+		return null;
+	}
+
+	@Override
+	public Optional<Voucher> findById(Long voucherId) {
+		return Optional.empty();
+	}
+
+	@Override
+	public List<Voucher> findByVoucherType(VoucherType voucherType) {
+		return null;
 	}
 }

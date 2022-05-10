@@ -1,9 +1,6 @@
-package com.example.voucher.domain;
+package com.example.voucher.domain.voucher;
 
-import com.example.voucher.domain.voucher.FixedAmountVoucher;
-import com.example.voucher.domain.voucher.Voucher;
 import org.junit.jupiter.api.*;
-
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -24,7 +21,7 @@ public class FixedAmountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new FixedAmountVoucher(null, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}

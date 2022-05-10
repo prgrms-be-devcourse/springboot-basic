@@ -1,8 +1,6 @@
-package com.example.voucher.domain;
-import com.example.voucher.domain.voucher.PercentDiscountVoucher;
-import com.example.voucher.domain.voucher.Voucher;
-import org.junit.jupiter.api.*;
+package com.example.voucher.domain.voucher;
 
+import org.junit.jupiter.api.*;
 import static com.example.voucher.exception.ErrorMessage.INVALID_INPUT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,7 +21,7 @@ public class PercentDiscountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(null, -10))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -36,7 +34,7 @@ public class PercentDiscountVoucherTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> new PercentDiscountVoucher(null, 101))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}

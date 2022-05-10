@@ -20,7 +20,7 @@ public class VoucherController {
 	public void save(VoucherType voucherType, int discountAmount) {
 		if (voucherType == null) {
 			// TODO: 로그 남기기
-			throw new IllegalArgumentException(INVALID_INPUT.name());
+			throw new IllegalArgumentException(INVALID_INPUT.getMessage());
 		}
 		voucherService.save(voucherType, discountAmount);
 	}

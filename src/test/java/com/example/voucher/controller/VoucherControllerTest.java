@@ -55,7 +55,7 @@ public class VoucherControllerTest {
 			@BeforeEach
 			void 음수인_할인_값_설정() {
 				given(voucherService.save(any(VoucherType.class), anyInt()))
-						.willThrow(new IllegalArgumentException(INVALID_INPUT.name()));
+						.willThrow(new IllegalArgumentException(INVALID_INPUT.getMessage()));
 			}
 
 			@Test
@@ -63,7 +63,7 @@ public class VoucherControllerTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(FIXED_AMOUNT_VOUCHER, -1000))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -74,7 +74,7 @@ public class VoucherControllerTest {
 			@BeforeEach
 			void 음수인_할인_값_설정() {
 				given(voucherService.save(any(VoucherType.class), anyInt()))
-						.willThrow(new IllegalArgumentException(INVALID_INPUT.name()));
+						.willThrow(new IllegalArgumentException(INVALID_INPUT.getMessage()));
 			}
 
 			@Test
@@ -82,7 +82,7 @@ public class VoucherControllerTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, -10))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -93,7 +93,7 @@ public class VoucherControllerTest {
 			@BeforeEach
 			void 백이_넘는_할인_값_설정() {
 				given(voucherService.save(any(VoucherType.class), anyInt()))
-						.willThrow(new IllegalArgumentException(INVALID_INPUT.name()));
+						.willThrow(new IllegalArgumentException(INVALID_INPUT.getMessage()));
 			}
 
 			@Test
@@ -101,7 +101,7 @@ public class VoucherControllerTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(PERCENT_DISCOUNT_VOUCHER, 101))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 
@@ -114,7 +114,7 @@ public class VoucherControllerTest {
 			void IllegalArgumentException_예외를_던진다() {
 				assertThatThrownBy(() -> voucherController.save(null, 10000))
 						.isInstanceOf(IllegalArgumentException.class)
-						.hasMessage(INVALID_INPUT.name());
+						.hasMessage(INVALID_INPUT.getMessage());
 			}
 		}
 	}
