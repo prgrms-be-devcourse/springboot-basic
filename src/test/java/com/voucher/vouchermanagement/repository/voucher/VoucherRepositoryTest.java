@@ -58,7 +58,6 @@ class VoucherRepositoryTest {
                     .password("test1234!")
                     .type(HikariDataSource.class)
                     .build();
-
         }
     }
 
@@ -152,7 +151,5 @@ class VoucherRepositoryTest {
         //then
         assertThat(foundVoucher.isPresent(), is(true));
         assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
-
     }
-
 }
