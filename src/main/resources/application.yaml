@@ -1,28 +1,28 @@
 spring:
-  config:
-    activate:
-      on-profile: dev
-
----
-
-spring:
-  profiles:
-    group:
-      dev:
-        - console-logging
-        - file-logging
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/order_mgmt
     username: root
     password: root1234!
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
 
 ---
 
 spring:
-  profiles:
-    group:
-      prod:
+  config:
+    activate:
+      on-profile: dev
+        - console-logging
+        - file-logging
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
         - file-logging
 
 ---
