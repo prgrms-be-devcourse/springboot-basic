@@ -129,12 +129,12 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public boolean deleteVoucher(Voucher voucher) {
-        var foundVoucher = findById(voucher.getVoucherId());
+    public boolean deleteVoucher(UUID voucherId) {
+        var foundVoucher = findById(voucherId);
         if (foundVoucher.isEmpty())
             return false;
 
-        voucherStorage.remove(foundVoucher.get().getVoucherId());
+        voucherStorage.remove(voucherId);
         return true;
     }
 

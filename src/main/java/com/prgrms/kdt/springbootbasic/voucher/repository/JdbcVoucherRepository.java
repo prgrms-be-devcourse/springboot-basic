@@ -105,8 +105,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public boolean deleteVoucher(Voucher voucher){
-        var deleteResult = jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", Collections.singletonMap("voucher_id", voucher.getVoucherId().toString().getBytes()));
+    public boolean deleteVoucher(UUID voucherId){
+        var deleteResult = jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", Collections.singletonMap("voucher_id", voucherId.toString().getBytes()));
         if(deleteResult!=1)
             return false;
         return true;

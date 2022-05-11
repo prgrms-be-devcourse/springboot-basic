@@ -175,10 +175,10 @@ class VoucherServiceTest {
     void deleteVoucherExist(){
         //Given
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
-        when(voucherRepository.deleteVoucher(voucher)).thenReturn(true);
+        when(voucherRepository.deleteVoucher(voucher.getVoucherId())).thenReturn(true);
 
         //When
-        var deletedResult = voucherService.deleteVoucher(voucher);
+        var deletedResult = voucherService.deleteVoucher(voucher.getVoucherId());
 
         //Then
         assertThat(deletedResult).isTrue();
@@ -191,7 +191,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(newVoucher.getVoucherId())).thenReturn(Optional.empty());
 
         //When
-        var deletedResult = voucherService.deleteVoucher(newVoucher);
+        var deletedResult = voucherService.deleteVoucher(newVoucher.getVoucherId());
 
         //Then
         assertThat(deletedResult).isTrue();

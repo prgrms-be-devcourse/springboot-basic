@@ -100,7 +100,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void deleteVoucher(){
-        var deletedResult = voucherRepository.deleteVoucher(fixedAmountVoucher);
+        var deletedResult = voucherRepository.deleteVoucher(fixedAmountVoucher.getVoucherId());
         assertThat(deletedResult).isTrue();
 
         var findResult = voucherRepository.findById(fixedAmountVoucher.getVoucherId());

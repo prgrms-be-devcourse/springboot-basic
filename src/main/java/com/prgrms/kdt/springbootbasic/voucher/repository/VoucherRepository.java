@@ -22,5 +22,5 @@ public interface VoucherRepository {
 
     public Optional<Voucher> updateVoucherAmount(Voucher voucher);
 
-    public boolean deleteVoucher(Voucher voucher);
+    public boolean deleteVoucher(UUID voucherId);
 }

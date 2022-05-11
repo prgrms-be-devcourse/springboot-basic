@@ -67,11 +67,19 @@ public class VoucherService {
         return updateResult.get();
     }
 
-    public boolean deleteVoucher(Voucher voucher){
-        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+    public boolean deleteVoucher(UUID voucherId){
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         if (foundVoucher.isEmpty())
             return true;
-        return voucherRepository.deleteVoucher(voucher);
+        return voucherRepository.deleteVoucher(voucherId);
+    }
+
+    public List<Voucher> getVoucherByType(String voucherType){
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public List<Voucher> getVoucherOrderByCreatedAt(){
+        return voucherRepository.findOrderByCreatedAt();
     }
 
 }
