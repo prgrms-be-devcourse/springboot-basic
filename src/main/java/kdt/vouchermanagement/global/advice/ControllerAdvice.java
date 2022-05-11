@@ -1,8 +1,9 @@
-package kdt.vouchermanagement.domain.voucher.controller;
+package kdt.vouchermanagement.global.advice;
 
 import kdt.vouchermanagement.global.response.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -17,5 +18,10 @@ public class ControllerAdvice {
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Response<String>> IllegalStateExceptionHandler(final IllegalStateException exception) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Response.of(500, exception.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Response<String>> MethodArgumentNotValidExceptionHandler(final MethodArgumentNotValidException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Response.of(400, exception.getBindingResult().getFieldError().getDefaultMessage()));
     }
 }

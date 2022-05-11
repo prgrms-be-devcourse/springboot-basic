@@ -1,7 +1,7 @@
 package kdt.vouchermanagement;
 
 import com.google.gson.Gson;
-import kdt.vouchermanagement.domain.voucher.controller.ControllerAdvice;
+import kdt.vouchermanagement.global.advice.ControllerAdvice;
 import kdt.vouchermanagement.domain.voucher.controller.VoucherApiController;
 import kdt.vouchermanagement.domain.voucher.domain.FixedAmountVoucher;
 import kdt.vouchermanagement.domain.voucher.domain.Voucher;
