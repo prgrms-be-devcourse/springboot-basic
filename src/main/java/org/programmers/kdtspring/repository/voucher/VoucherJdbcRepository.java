@@ -62,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     VoucherType.FixedAmountVoucher.toString(),
                     voucher.getDiscount(),
                     null,
-                    null);
+                    voucher.getCustomerId().isEmpty() ? null : voucher.getCustomerId().get().toString().getBytes());
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
             }
@@ -76,7 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,
                     voucher.getDiscount(),
-                    null);
+                    voucher.getCustomerId().isEmpty() ? null : voucher.getCustomerId().get().toString().getBytes());
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
             }
