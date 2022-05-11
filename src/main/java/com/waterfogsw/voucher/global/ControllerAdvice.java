@@ -1,4 +1,4 @@
-package com.waterfogsw.voucher.voucher.controller;
+package com.waterfogsw.voucher.global;
 
 import com.waterfogsw.voucher.voucher.exception.ResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class VoucherControllerAdvice {
+public class ControllerAdvice {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleValidationException(IllegalArgumentException e) {
