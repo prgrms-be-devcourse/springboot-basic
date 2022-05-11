@@ -1,15 +1,17 @@
 package com.prgrms.kdt.springbootbasic.W2Test.repository;
 
+import com.prgrms.kdt.springbootbasic.VoucherList;
 import com.prgrms.kdt.springbootbasic.W2Test.Config;
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.repository.JdbcVoucherRepository;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -22,10 +24,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig(Config.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("jdbc")
 class JdbcVoucherRepositoryTest {
 
     @Autowired
-    JdbcVoucherRepository jdbcVoucherRepository;
+    VoucherRepository voucherRepository;
 
     @Autowired
     DataSource dataSource;
@@ -44,16 +47,16 @@ class JdbcVoucherRepositoryTest {
         jdbcTemplate.update("truncate vouchers;", Collections.emptyMap());
         jdbcTemplate.update("SET foreign_key_checks = 1;", Collections.emptyMap());
 
-        jdbcVoucherRepository.saveVoucher(fixedAmountVoucher);
-        jdbcVoucherRepository.saveVoucher(percentAmountVoucher);
+        voucherRepository.saveVoucher(fixedAmountVoucher);
+        voucherRepository.saveVoucher(percentAmountVoucher);
     }
 
     @Test
     void saveVoucher(){
         var newFixed = new FixedAmountVoucher(UUID.randomUUID(),90);
         var newPercent = new PercentDiscountVoucher(UUID.randomUUID(),9);
-        var insertFixed = jdbcVoucherRepository.saveVoucher(newFixed);
-        var insertPercent = jdbcVoucherRepository.saveVoucher(newPercent);
+        var insertFixed = voucherRepository.saveVoucher(newFixed);
+        var insertPercent = voucherRepository.saveVoucher(newPercent);
 
         assertThat(insertFixed.get()).as("Voucher").isEqualToComparingFieldByField(newFixed);
         assertThat(insertPercent.get()).as("Voucher").isEqualToComparingFieldByField(newPercent);
@@ -62,8 +65,8 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void findById(){
-        var findFixed = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
-        var findPercent = jdbcVoucherRepository.findById(percentAmountVoucher.getVoucherId());
+        var findFixed = voucherRepository.findById(fixedAmountVoucher.getVoucherId());
+        var findPercent = voucherRepository.findById(percentAmountVoucher.getVoucherId());
 
         assertThat(findFixed.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
         assertThat(findPercent.get()).as("Voucher").isEqualToComparingFieldByField(percentAmountVoucher);
@@ -71,7 +74,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     void findByIdNotExist(){
-        var findVoucher = jdbcVoucherRepository.findById(UUID.randomUUID());
+        var findVoucher = voucherRepository.findById(UUID.randomUUID());
 
         assertThat(findVoucher.isEmpty()).isTrue();
     }
@@ -82,7 +85,7 @@ class JdbcVoucherRepositoryTest {
         assertList.add(fixedAmountVoucher);
         assertList.add(percentAmountVoucher);
 
-        List<Voucher> foundList = jdbcVoucherRepository.getAllVouchers();
+        List<Voucher> foundList = voucherRepository.getAllVouchers();
         assertThat(foundList).usingRecursiveFieldByFieldElementComparator()
                 .hasSameElementsAs(assertList);
     }
@@ -91,24 +94,74 @@ class JdbcVoucherRepositoryTest {
     void updateVoucherAmount(){
         fixedAmountVoucher.setAmount(40);
 
-        var updatedVoucher = jdbcVoucherRepository.updateVoucherAmount(fixedAmountVoucher);
+        var updatedVoucher = voucherRepository.updateVoucherAmount(fixedAmountVoucher);
         assertThat(updatedVoucher.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
     }
 
     @Test
     void deleteVoucher(){
-        var deletedResult = jdbcVoucherRepository.deleteVoucher(fixedAmountVoucher);
+        var deletedResult = voucherRepository.deleteVoucher(fixedAmountVoucher);
         assertThat(deletedResult).isTrue();
 
-        var findResult = jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId());
+        var findResult = voucherRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(findResult.isEmpty()).isTrue();
     }
 
     @Test
     void findByTypeAndAmount(){
-        var foundResult = jdbcVoucherRepository.findByTypeAndAmount(fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getDiscountAmount());
+        var foundResult = voucherRepository.findByTypeAndAmount(fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getDiscountAmount());
         assertThat(foundResult.isEmpty()).isFalse();
         assertThat(foundResult.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
+    }
+
+    @Test
+    void findByType(){
+        List<Voucher> fixedList = new ArrayList<>();
+        fixedList.add(fixedAmountVoucher);
+        for(int i = 0; i<5; i++){
+            Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), i * 100);
+            fixedList.add(newVoucher);
+            voucherRepository.saveVoucher(newVoucher);
+        }
+
+        List<Voucher> percentList = new ArrayList<>();
+        percentList.add(percentAmountVoucher);
+        for(int i = 0; i<5; i++){
+            Voucher newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), i * 10);
+            percentList.add(newVoucher);
+            voucherRepository.saveVoucher(newVoucher);
+        }
+
+        List<Voucher> fixedFound = voucherRepository.findByType(VoucherList.FIXED_AMOUNT_VOUCHER.getClassName());
+        List<Voucher> percentFound = voucherRepository.findByType(VoucherList.PERCENT_DISCOUNT_VOUCHER.getClassName());
+
+        assertThat(fixedFound).usingRecursiveFieldByFieldElementComparator()
+                .hasSameElementsAs(fixedList);
+        assertThat(percentFound).usingRecursiveFieldByFieldElementComparator()
+                .hasSameElementsAs(percentList);
+    }
+
+    @Test
+    void findOrderByCreatedAt(){
+        List<Voucher> orderedList = new ArrayList<>();
+        orderedList.add(fixedAmountVoucher);
+        orderedList.add(percentAmountVoucher);
+
+        for(int i = 0; i<5; i++){
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), i * 100);
+            orderedList.add(newVoucher);
+            voucherRepository.saveVoucher(newVoucher);
+        }
+
+        List<Voucher> orderedFound = voucherRepository.findOrderByCreatedAt();
+
+        assertThat(orderedFound).usingRecursiveFieldByFieldElementComparator()
+                .hasSameElementsAs(orderedList);
     }
 
 }
