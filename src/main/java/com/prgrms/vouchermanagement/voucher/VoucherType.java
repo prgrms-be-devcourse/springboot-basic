@@ -42,21 +42,9 @@ public enum VoucherType implements CodeMappable {
 		this.code = code;
 	}
 
-	private static class Int2VoucherTypeMapper {
-		private static final Map<Integer, VoucherType> mapper;
-
-		static {
-			mapper = new HashMap<>();
-			mapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
-			mapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
-		}
-
-		private Int2VoucherTypeMapper() {
-		}
-
-		public static Optional<VoucherType> of(int code){
-			return Optional.ofNullable(mapper.get(code));
-		}
+	@Override
+	public int getMappingCode() {
+		return this.code;
 	}
 
 	public static VoucherType from(String type) {
@@ -70,15 +58,27 @@ public enum VoucherType implements CodeMappable {
 
 	public static VoucherType of(int code) {
 		return Int2VoucherTypeMapper.of(code)
-			.orElseThrow(()->
+			.orElseThrow(() ->
 				new NoMappingOneException(Integer.toString(code)));
-	}
-
-	@Override
-	public int getMappingCode() {
-		return this.code;
 	}
 
 	public abstract Voucher getVoucher(UUID voucherId, long percent, LocalDateTime createdAt) throws
 		CreationFailException;
+
+	private static class Int2VoucherTypeMapper {
+		private static final Map<Integer, VoucherType> mapper;
+
+		static {
+			mapper = new HashMap<>();
+			mapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
+			mapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
+		}
+
+		private Int2VoucherTypeMapper() {
+		}
+
+		public static Optional<VoucherType> of(int code) {
+			return Optional.ofNullable(mapper.get(code));
+		}
+	}
 }
