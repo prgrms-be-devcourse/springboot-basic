@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
@@ -52,6 +53,10 @@ public enum VoucherType implements CodeMappable {
 
 		private Int2VoucherTypeMapper() {
 		}
+
+		public static Optional<VoucherType> of(int code){
+			return Optional.ofNullable(mapper.get(code));
+		}
 	}
 
 	public static VoucherType from(String type) {
@@ -64,8 +69,9 @@ public enum VoucherType implements CodeMappable {
 	}
 
 	public static VoucherType of(int code) {
-		return Int2VoucherTypeMapper.mapper
-			.get(code);
+		return Int2VoucherTypeMapper.of(code)
+			.orElseThrow(()->
+				new NoMappingOneException(Integer.toString(code)));
 	}
 
 	@Override
