@@ -17,15 +17,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.programmers.devcourse.voucher.EmbeddedDatabaseTestModule;
 import org.springframework.dao.DataAccessException;
 
-
-class JdbcCustomerRepositoryTest extends EmbeddedDatabaseTestModule {
+class JdbcCustomerRepositoryTest {
 
   private static final List<UUID> uuids =
       List.of(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
   private static final List<Customer> customers = List.of(
       new Customer(uuids.get(0), "kms", "lol@gmail.com", LocalDateTime.now(), LocalDateTime.now()),
-      new Customer(uuids.get(1), "minsu", "minsu@gmail.com", LocalDateTime.now(), LocalDateTime.now().minusDays(4)),
-      new Customer(uuids.get(2), "faker", "faker@gmail.com", LocalDateTime.now(), LocalDateTime.now().minusDays(10)));
+      new Customer(uuids.get(1), "minsu", "minsu@gmail.com", LocalDateTime.now(),
+          LocalDateTime.now().minusDays(4)),
+      new Customer(uuids.get(2), "faker", "faker@gmail.com", LocalDateTime.now(),
+          LocalDateTime.now().minusDays(10)));
 
   private static JdbcCustomerRepository repository;
 
@@ -39,10 +40,7 @@ class JdbcCustomerRepositoryTest extends EmbeddedDatabaseTestModule {
 
   @BeforeAll
   static void setup() {
-    if (!mysql.isRunning()) {
-      mysql.start();
-    }
-    repository = new JdbcCustomerRepository(getTestDataSource());
+    repository = new JdbcCustomerRepository(EmbeddedDatabaseTestModule.DATA_SOURCE);
   }
 
   @BeforeEach
@@ -114,7 +112,8 @@ class JdbcCustomerRepositoryTest extends EmbeddedDatabaseTestModule {
     repository.update(updatedCustomer);
     var searchedCustomer = repository.getById(updatedCustomer.getCustomerId());
     assertThat(searchedCustomer).isNotEmpty().get().isEqualTo(updatedCustomer).matches(customer -> {
-      return customer.getEmail().equals(updatedCustomer.getEmail()) && customer.getName().equals(updatedCustomer.getName());
+      return customer.getEmail().equals(updatedCustomer.getEmail()) && customer.getName()
+          .equals(updatedCustomer.getName());
     });
   }
 

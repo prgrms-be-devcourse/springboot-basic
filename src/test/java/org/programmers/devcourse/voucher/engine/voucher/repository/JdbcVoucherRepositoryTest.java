@@ -16,16 +16,13 @@ import org.programmers.devcourse.voucher.engine.voucher.VoucherType;
 import org.programmers.devcourse.voucher.engine.voucher.entity.FixedAmountVoucher;
 import org.springframework.dao.DataAccessException;
 
-class JdbcVoucherRepositoryTest extends EmbeddedDatabaseTestModule {
+class JdbcVoucherRepositoryTest {
 
   private static JdbcVoucherRepository repository;
 
   @BeforeAll
   static void setup() {
-    if (!mysql.isRunning()) {
-      mysql.start();
-    }
-    repository = new JdbcVoucherRepository(getTestDataSource());
+    repository = new JdbcVoucherRepository(EmbeddedDatabaseTestModule.DATA_SOURCE);
   }
 
   private static void loadVouchersToTestDatabase() {
