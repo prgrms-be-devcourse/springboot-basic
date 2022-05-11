@@ -2,6 +2,8 @@ package com.prgrms.vouchermanagement.voucher;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
@@ -39,6 +41,19 @@ public enum VoucherType implements CodeMappable {
 		this.code = code;
 	}
 
+	private static class Int2VoucherTypeMapper {
+		private static final Map<Integer, VoucherType> mapper;
+
+		static {
+			mapper = new HashMap<>();
+			mapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
+			mapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
+		}
+
+		private Int2VoucherTypeMapper() {
+		}
+	}
+
 	public static VoucherType from(String type) {
 		return Arrays.stream(VoucherType.values())
 			.filter(constant ->
@@ -49,12 +64,8 @@ public enum VoucherType implements CodeMappable {
 	}
 
 	public static VoucherType of(int code) {
-		return Arrays.stream(VoucherType.values())
-			.filter(constant ->
-				constant.getMappingCode() == code)
-			.findFirst()
-			.orElseThrow(() ->
-				new NoMappingOneException(Integer.toString(code)));
+		return Int2VoucherTypeMapper.mapper
+			.get(code);
 	}
 
 	@Override
