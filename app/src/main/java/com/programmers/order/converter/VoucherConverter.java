@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.order.controller.dto.VoucherDto;
 import com.programmers.order.domain.Voucher;
-import com.programmers.order.domain.VoucherType;
 import com.programmers.order.provider.VoucherProvider;
 
 @Component

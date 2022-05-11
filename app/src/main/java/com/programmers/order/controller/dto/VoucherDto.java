@@ -3,7 +3,6 @@ package com.programmers.order.controller.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import com.programmers.order.domain.Voucher;
 import com.programmers.order.domain.VoucherType;
 
 import lombok.Builder;

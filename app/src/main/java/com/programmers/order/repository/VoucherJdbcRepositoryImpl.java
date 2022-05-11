@@ -1,5 +1,6 @@
 package com.programmers.order.repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,25 +26,25 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 		this.voucherProvider = voucherProvider;
 	}
 
-	private Map<String, Object> toParams(Voucher voucher) {
+	private Map<String, Object> toVoucherParams(Voucher voucher) {
 		Map<String, Object> params = new HashMap<>();
-		params.put("voucherId", voucher.getVoucherId());
-		params.put("voucherType", voucher.getVoucherId());
-		params.put("discountValue", voucher.getVoucherId());
-		params.put("quantity", voucher.getVoucherId());
-		params.put("expirationAt", voucher.getVoucherId());
-		params.put("createdAt", voucher.getVoucherId());
-		params.put("updatedAt", voucher.getVoucherId());
-		
-		return params;
+		params.put("voucherId", voucher.getVoucherId().toString().getBytes());
+		params.put("voucherType", voucher.getVoucherType().toString());
+		params.put("discountValue", voucher.getDiscountValue());
+		params.put("quantity", voucher.getQuantity());
+		params.put("expirationAt", voucher.getExpirationAt());
+		params.put("createdAt", voucher.getCreatedAt());
+		params.put("updatedAt", voucher.getUpdatedAt());
 
+		return params;
 	}
 
 	@Override
 	public Voucher insert(Voucher voucher) {
 		int insert = jdbcTemplate.update(
-				"insert into vouchers(voucher_id, voucher_type, discount_value,quantity, expiration_at, created_at, updated_at)",
-				toParams(voucher)
+				"INSERT INTO vouchers(voucher_id, voucher_type, discount_value,quantity, expiration_at, created_at, updated_at) "
+						+ "VALUES (UUID_TO_BIN(:voucherId),:voucherType,:discountValue,:quantity,:expirationAt,:createdAt,:updatedAt)",
+				toVoucherParams(voucher)
 		);
 
 		if (insert != 1) {
@@ -71,5 +72,13 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 	@Override
 	public void deleteByVoucherId(UUID voucherId) {
 
+	}
+
+	@Override
+	public void deleteAll() {
+		jdbcTemplate.update(
+				"delete from vouchers",
+				Collections.emptyMap()
+		);
 	}
 }
