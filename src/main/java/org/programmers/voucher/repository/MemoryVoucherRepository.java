@@ -1,6 +1,5 @@
 package org.programmers.voucher.repository;
 
-import org.programmers.voucher.controller.VoucherController;
 import org.programmers.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,5 +35,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
         logger.info("database add start");
         database.add(voucher);
         logger.info("database add success");
+    }
+
+    @Override
+    public void deleteAll() {
+        database.clear();
     }
 }

@@ -15,8 +15,11 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <logger name="org.programmers.voucher" level="error">
         <appender-ref ref="STDOUT" />
+    </logger>
+
+    <root level="debug">
         <appender-ref ref="FILE" />
     </root>
 </configuration>

@@ -6,22 +6,21 @@ import org.programmers.voucher.service.VoucherService;
 import org.programmers.voucher.util.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class VoucherController implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+@Component
+public class VoucherRunner {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
     private final VoucherService voucherService;
     private final Input input;
     private final Output output;
 
-    public VoucherController(VoucherService voucherService, Input input, Output output) {
+    public VoucherRunner(VoucherService voucherService, Input input, Output output) {
         this.voucherService = voucherService;
         this.input = input;
         this.output = output;
     }
 
-    @Override
     public void run() {
         output.startProgram();
         Command cmd = null;

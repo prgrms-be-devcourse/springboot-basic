@@ -14,9 +14,6 @@ public class VoucherService {
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
-    private long amount;
-    private long percent;
-
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
