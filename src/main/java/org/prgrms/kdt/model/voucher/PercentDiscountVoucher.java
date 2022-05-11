@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         checkArgument(voucherId != null, "voucherId must be provided.");
@@ -32,6 +32,13 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public void changeValue(long percent) {
+        checkArgument(percent > 0 && percent <= 100, "percent must be greater than 0 and less than or equal to 100");
+
+        this.percent = percent;
     }
 
     @Override

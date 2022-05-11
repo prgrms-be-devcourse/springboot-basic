@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import org.supercsv.exception.SuperCsvException;
 import org.supercsv.io.CsvMapReader;
@@ -23,23 +22,25 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
-@Primary
 @Qualifier("csv")
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 
-    private static final String CSV_FILENAME = "voucher.csv";
     private static final String[] CSV_HEADER = {"voucherId", "voucherValue", "voucherClassSimpleName"};
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
 
     @Value("${csv.file-path}")
     private String csvFilePath;
+
+    @Value("${csv.file-name.voucher}")
+    private String csvFileName;
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -52,9 +53,24 @@ public class CsvVoucherRepository implements VoucherRepository {
 
             beanWriter.write(map, CSV_HEADER);
         } catch (IOException | SuperCsvException e) {
-            logger.error("failed to save voucher : {}", e.getMessage(), e);
+            throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return voucher;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     @Override
@@ -72,14 +88,19 @@ public class CsvVoucherRepository implements VoucherRepository {
                 vouchers.add(voucher);
             }
         } catch (IOException e) {
-            logger.error("failed to get vouchers in csv-file : {}", e.getMessage(), e);
+            throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return vouchers;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.empty();
     }
 
     public String getPathCsvFile() {
         File file = new File(csvFilePath);
         String path = file.getParentFile().getPath();
-        return Path.of(path, CSV_FILENAME).toString();
+        return Path.of(path, csvFileName).toString();
     }
 }
