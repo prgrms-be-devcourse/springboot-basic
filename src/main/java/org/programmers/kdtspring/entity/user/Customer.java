@@ -10,7 +10,7 @@ public class Customer {
     private final Email email;
     private final LocalDateTime createdAt;
     private final Name name;
-    private LocalDateTime lastLoginAt;
+    private final LocalDateTime lastLoginAt;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;

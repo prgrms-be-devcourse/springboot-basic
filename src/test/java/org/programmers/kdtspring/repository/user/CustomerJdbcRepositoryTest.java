@@ -1,10 +1,7 @@
 package org.programmers.kdtspring.repository.user;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.programmers.kdtspring.entity.user.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -19,14 +16,77 @@ import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CustomerJdbcRepositoryTest {
+
+    @Autowired
+    DataSource dataSource;
+    @Autowired
+    CustomerJdbcRepository customerJdbcRepository;
+    Customer newCustomer;
+
+    @BeforeAll()
+    void setup() {
+        newCustomer = new Customer(UUID.randomUUID(), "test-user", "test1-user@naver.com", LocalDateTime.now());
+    }
+
+    @AfterEach
+    void test() {
+        customerJdbcRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("고객을 추가")
+    public void testInsert() {
+        customerJdbcRepository.insert(newCustomer);
+
+        Optional<Customer> findCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+        assertThat(findCustomer.isPresent()).isTrue();
+    }
+
+    @Test
+    @DisplayName("이름으로 고객을 조회")
+    public void testFindByName() {
+        customerJdbcRepository.insert(newCustomer);
+
+        Optional<Customer> customer = customerJdbcRepository.findByName(newCustomer.getName().getName());
+
+        assertThat(customer.isPresent()).isTrue();
+        assertThat(customer.get().getName().getName()).isEqualTo("test-user");
+    }
+
+    @Test
+    @DisplayName("이메일으로 고객을 조회")
+    public void testFindByEmail() {
+        customerJdbcRepository.insert(newCustomer);
+        Optional<Customer> customer = customerJdbcRepository.findByEmail(newCustomer.getEmail().getEmail());
+
+        assertThat(customer.isPresent()).isTrue();
+        assertThat(customer.get().getEmail().getEmail()).isEqualTo("test1-user@naver.com");
+    }
+
+    @Test
+    @DisplayName("전체 고객을 조회할 수 있다.")
+    public void testFindAll() {
+        customerJdbcRepository.insert(newCustomer);
+
+        List<Customer> customers = customerJdbcRepository.findAll();
+        assertThat(customers.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("Count() 테스트")
+    void countTest() {
+        customerJdbcRepository.insert(newCustomer);
+
+        assertThat(customerJdbcRepository.count()).isEqualTo(1);
+    }
 
     @Configuration
     @ComponentScan(basePackages = {"org.programmers.kdtspring"})
@@ -53,63 +113,5 @@ class CustomerJdbcRepositoryTest {
         NamedParameterJdbcTemplate NamedJdbcParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
-    }
-
-    @Autowired
-    DataSource dataSource;
-
-    @Autowired
-    CustomerJdbcRepository customerJdbcRepository;
-
-    Customer newCustomer;
-
-    @BeforeAll()
-    void setup() {
-        newCustomer = new Customer(1L, "test-user", "test1-user@naver.com", LocalDateTime.now());
-        customerJdbcRepository.deleteAll();
-    }
-
-    @Test
-    @DisplayName("고객을 추가")
-    public void testInsert() {
-
-        customerJdbcRepository.save(newCustomer);
-
-        Optional<Customer> findCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
-        assertThat(findCustomer.isEmpty(), is(false));
-        assertThat(findCustomer.get(), samePropertyValuesAs(newCustomer));
-    }
-
-    @Test
-    @DisplayName("이름으로 고객을 조회")
-    public void testFindByName() throws InterruptedException {
-        customerJdbcRepository.save(newCustomer);
-        Optional<Customer> customer = customerJdbcRepository.findByName(newCustomer.getName());
-        assertThat(customer.isEmpty(), is(false));
-
-        Optional<Customer> unknown = customerJdbcRepository.findByName("unknown-user");
-        assertThat(unknown.isEmpty(), is(true));
-
-    }
-
-    @Test
-    @DisplayName("이메일으로 고객을 조회")
-    public void testFindByEmail() throws InterruptedException {
-        customerJdbcRepository.save(newCustomer);
-        Optional<Customer> customer = customerJdbcRepository.findByEmail(newCustomer.getEmail());
-        assertThat(customer.isEmpty(), is(false));
-
-
-        Optional<Customer> unknwon = customerJdbcRepository.findByEmail("unknown-user");
-        assertThat(unknwon.isEmpty(), is(true));
-    }
-
-    @Test
-    @DisplayName("전체 고객을 조회할 수 있다.")
-    public void testFindAll() {
-        customerJdbcRepository.save(newCustomer);
-
-        List<Customer> customers = customerJdbcRepository.findAll();
-        assertThat(customers.isEmpty(), is(false));
     }
 }

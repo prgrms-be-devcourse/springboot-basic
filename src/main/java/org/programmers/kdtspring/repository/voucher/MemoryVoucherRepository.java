@@ -33,7 +33,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override

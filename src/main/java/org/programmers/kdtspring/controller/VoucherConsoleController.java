@@ -20,7 +20,7 @@ public class VoucherConsoleController implements Runnable {
     private final Output output;
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    private Map<CommandType, CommandStrategy> commandStrategy = new HashMap<>();
+    private final Map<CommandType, CommandStrategy> commandStrategy = new HashMap<>();
 
     public VoucherConsoleController(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
