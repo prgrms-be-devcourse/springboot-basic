@@ -1,4 +1,4 @@
-package com.prgrms.kdt.springbootbasic.inputPackage;
+package com.prgrms.kdt.springbootbasic.io.inputPackage;
 
 import com.prgrms.kdt.springbootbasic.VoucherList;
 import com.prgrms.kdt.springbootbasic.returnFormats.VoucherInfo;

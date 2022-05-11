@@ -1,4 +1,4 @@
-package com.prgrms.kdt.springbootbasic.entity.voucher;
+package com.prgrms.kdt.springbootbasic.voucher.entity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

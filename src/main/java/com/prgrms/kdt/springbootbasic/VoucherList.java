@@ -1,8 +1,8 @@
 package com.prgrms.kdt.springbootbasic;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import com.prgrms.kdt.springbootbasic.exception.NoSuchVoucherType;
 
 import java.time.LocalDateTime;

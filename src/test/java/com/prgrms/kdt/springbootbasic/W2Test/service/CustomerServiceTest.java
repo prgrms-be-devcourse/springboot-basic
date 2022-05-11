@@ -1,11 +1,11 @@
 package com.prgrms.kdt.springbootbasic.W2Test.service;
 
-import com.prgrms.kdt.springbootbasic.entity.Customer;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
 import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
 import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
 import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
-import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
-import com.prgrms.kdt.springbootbasic.service.CustomerService;
+import com.prgrms.kdt.springbootbasic.customer.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.customer.service.CustomerService;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

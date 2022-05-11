@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan(basePackages = {"com.prgrms.kdt.springbootbasic.repository"})
+@ComponentScan(basePackages = {"com.prgrms.kdt.springbootbasic.*.repository"})
 public class Config{
     @Bean
     public DataSource datasource(){

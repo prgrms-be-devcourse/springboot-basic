@@ -1,11 +1,11 @@
-package com.prgrms.kdt.springbootbasic.service;
+package com.prgrms.kdt.springbootbasic.voucher.service;
 
 import com.prgrms.kdt.springbootbasic.VoucherList;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
 import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
 import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
-import com.prgrms.kdt.springbootbasic.repository.VoucherRepository;
+import com.prgrms.kdt.springbootbasic.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -1,8 +1,10 @@
-package com.prgrms.kdt.springbootbasic.repository;
+package com.prgrms.kdt.springbootbasic.wallet.repository;
 
-import com.prgrms.kdt.springbootbasic.entity.Customer;
-import com.prgrms.kdt.springbootbasic.entity.Wallet;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
+import com.prgrms.kdt.springbootbasic.customer.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.wallet.entity.Wallet;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;

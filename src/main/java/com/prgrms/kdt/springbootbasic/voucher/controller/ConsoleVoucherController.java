@@ -1,21 +1,23 @@
-package com.prgrms.kdt.springbootbasic.controller;
+package com.prgrms.kdt.springbootbasic.voucher.controller;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.service.VoucherService;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+@Profile("local")
+public class ConsoleVoucherController {
     private final VoucherService voucherService;
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherController.class);
 
-    public VoucherController(VoucherService voucherService) {
+    public ConsoleVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

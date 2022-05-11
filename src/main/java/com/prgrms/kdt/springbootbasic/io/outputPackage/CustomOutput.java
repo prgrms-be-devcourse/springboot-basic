@@ -1,6 +1,6 @@
-package com.prgrms.kdt.springbootbasic.outputPackage;
+package com.prgrms.kdt.springbootbasic.io.outputPackage;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package com.prgrms.kdt.springbootbasic.repository;
+package com.prgrms.kdt.springbootbasic.customer.repository;
 
-import com.prgrms.kdt.springbootbasic.entity.Customer;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

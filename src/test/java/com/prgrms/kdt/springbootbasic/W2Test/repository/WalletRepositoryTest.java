@@ -1,14 +1,14 @@
 package com.prgrms.kdt.springbootbasic.W2Test.repository;
 
 import com.prgrms.kdt.springbootbasic.W2Test.Config;
-import com.prgrms.kdt.springbootbasic.entity.Customer;
-import com.prgrms.kdt.springbootbasic.entity.Wallet;
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
-import com.prgrms.kdt.springbootbasic.repository.JdbcVoucherRepository;
-import com.prgrms.kdt.springbootbasic.repository.WalletRepository;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
+import com.prgrms.kdt.springbootbasic.wallet.entity.Wallet;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.customer.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.voucher.repository.JdbcVoucherRepository;
+import com.prgrms.kdt.springbootbasic.wallet.repository.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;

@@ -1,4 +1,4 @@
-package com.prgrms.kdt.springbootbasic.entity;
+package com.prgrms.kdt.springbootbasic.wallet.entity;
 
 import java.util.UUID;
 

@@ -1,13 +1,13 @@
 package com.prgrms.kdt.springbootbasic.W2Test.service;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.PercentDiscountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
 import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
 import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
-import com.prgrms.kdt.springbootbasic.repository.VoucherRepository;
-import com.prgrms.kdt.springbootbasic.service.VoucherService;
+import com.prgrms.kdt.springbootbasic.voucher.repository.VoucherRepository;
+import com.prgrms.kdt.springbootbasic.voucher.service.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

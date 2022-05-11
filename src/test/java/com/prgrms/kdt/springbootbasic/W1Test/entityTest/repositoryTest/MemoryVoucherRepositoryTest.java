@@ -1,10 +1,12 @@
-package com.prgrms.kdt.springbootbasic.W1Test.entityTest;
+package com.prgrms.kdt.springbootbasic.W1Test.entityTest.repositoryTest;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
-import com.prgrms.kdt.springbootbasic.repository.VoucherRepository;
+import com.prgrms.kdt.springbootbasic.W2Test.Config;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.repository.MemoryVoucherRepository;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Map;
 import java.util.UUID;
@@ -13,13 +15,12 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 
-@SpringBootTest
+@SpringJUnitConfig(Config.class)
 public class MemoryVoucherRepositoryTest {
-    private final VoucherRepository voucherRepository;
 
-    public MemoryVoucherRepositoryTest(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
+    @Autowired
+    private MemoryVoucherRepository voucherRepository;
+
 
     @Test
     public void testSaveVoucher(){

@@ -1,10 +1,10 @@
-package com.prgrms.kdt.springbootbasic.service;
+package com.prgrms.kdt.springbootbasic.customer.service;
 
-import com.prgrms.kdt.springbootbasic.entity.Customer;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
 import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
 import com.prgrms.kdt.springbootbasic.exception.NoSuchResource;
 import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
-import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

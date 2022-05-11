@@ -1,13 +1,13 @@
 package com.prgrms.kdt.springbootbasic.W2Test.service;
 
-import com.prgrms.kdt.springbootbasic.entity.Customer;
-import com.prgrms.kdt.springbootbasic.entity.Wallet;
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
+import com.prgrms.kdt.springbootbasic.wallet.entity.Wallet;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import com.prgrms.kdt.springbootbasic.exception.JdbcQueryFail;
 import com.prgrms.kdt.springbootbasic.exception.ResourceDuplication;
-import com.prgrms.kdt.springbootbasic.repository.WalletRepository;
-import com.prgrms.kdt.springbootbasic.service.WalletService;
+import com.prgrms.kdt.springbootbasic.wallet.repository.WalletRepository;
+import com.prgrms.kdt.springbootbasic.wallet.service.WalletService;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

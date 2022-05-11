@@ -1,8 +1,8 @@
 package com.prgrms.kdt.springbootbasic.W2Test.repository;
 
 import com.prgrms.kdt.springbootbasic.W2Test.Config;
-import com.prgrms.kdt.springbootbasic.entity.Customer;
-import com.prgrms.kdt.springbootbasic.repository.CustomerRepository;
+import com.prgrms.kdt.springbootbasic.customer.entity.Customer;
+import com.prgrms.kdt.springbootbasic.customer.repository.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

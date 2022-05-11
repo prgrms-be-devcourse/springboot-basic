@@ -1,15 +1,16 @@
-package com.prgrms.kdt.springbootbasic.W1Test.entityTest;
+package com.prgrms.kdt.springbootbasic.W1Test.entityTest.repositoryTest;
 
-import com.prgrms.kdt.springbootbasic.entity.voucher.FixedAmountVoucher;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.W2Test.Config;
+import com.prgrms.kdt.springbootbasic.voucher.entity.FixedAmountVoucher;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.Assert.*;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
-@SpringBootTest
+import static org.junit.Assert.assertEquals;
+
+@SpringJUnitConfig(Config.class)
 public class FixedAmountVoucherTest {
 
     @Test

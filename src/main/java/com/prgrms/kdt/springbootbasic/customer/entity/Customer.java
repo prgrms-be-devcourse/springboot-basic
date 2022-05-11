@@ -1,4 +1,4 @@
-package com.prgrms.kdt.springbootbasic.entity;
+package com.prgrms.kdt.springbootbasic.customer.entity;
 
 import java.util.UUID;
 

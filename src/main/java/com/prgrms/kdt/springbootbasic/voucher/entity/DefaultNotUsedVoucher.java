@@ -1,4 +1,4 @@
-package com.prgrms.kdt.springbootbasic.entity.voucher;
+package com.prgrms.kdt.springbootbasic.voucher.entity;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

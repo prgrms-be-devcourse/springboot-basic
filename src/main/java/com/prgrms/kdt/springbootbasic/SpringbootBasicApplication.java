@@ -1,10 +1,10 @@
 package com.prgrms.kdt.springbootbasic;
 
-import com.prgrms.kdt.springbootbasic.controller.VoucherController;
-import com.prgrms.kdt.springbootbasic.entity.voucher.Voucher;
+import com.prgrms.kdt.springbootbasic.voucher.controller.ConsoleVoucherController;
+import com.prgrms.kdt.springbootbasic.voucher.entity.Voucher;
 import com.prgrms.kdt.springbootbasic.exception.NotSupportedCommandException;
-import com.prgrms.kdt.springbootbasic.inputPackage.CustomInput;
-import com.prgrms.kdt.springbootbasic.outputPackage.CustomOutput;
+import com.prgrms.kdt.springbootbasic.io.inputPackage.CustomInput;
+import com.prgrms.kdt.springbootbasic.io.outputPackage.CustomOutput;
 import com.prgrms.kdt.springbootbasic.returnFormats.VoucherInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,13 @@ import java.util.UUID;
 @SpringBootApplication
 public class SpringbootBasicApplication {
 	private static final Logger logger = LoggerFactory.getLogger(SpringbootBasicApplication.class);
-	private static VoucherController voucherController;
+	private static ConsoleVoucherController consoleVoucherController;
 	private static CustomOutput customOutput;
 	private static CustomInput customInput;
 
 	public static void main(String[] args) throws IOException {
 		var applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
-		voucherController = applicationContext.getBean(VoucherController.class);
+		consoleVoucherController = applicationContext.getBean(ConsoleVoucherController.class);
 		customOutput = applicationContext.getBean(CustomOutput.class);
 		customInput = applicationContext.getBean(CustomInput.class);
 		//모든 메소드를 static으로 만들기 싫어서 생성자를 사용했는데, 더 좋은 방법이 있을까요?
@@ -110,11 +110,11 @@ public class SpringbootBasicApplication {
 			String voucherType = voucherInfo.getVoucherType();
 			long discountAmount= voucherInfo.getDiscountAmount();
 
-			voucherController.saveVoucher(voucherType, UUID.randomUUID(),discountAmount);
+			consoleVoucherController.saveVoucher(voucherType, UUID.randomUUID(),discountAmount);
 		}
 
 		public void showVoucherList(){
-			List<Voucher> voucherList = voucherController.getVoucherList();
+			List<Voucher> voucherList = consoleVoucherController.getVoucherList();
 			customOutput.printVoucherList(voucherList);
 		}
 
