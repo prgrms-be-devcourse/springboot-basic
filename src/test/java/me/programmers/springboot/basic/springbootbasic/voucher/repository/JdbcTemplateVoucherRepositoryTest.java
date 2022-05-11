@@ -4,12 +4,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +28,6 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcTemplateVoucherRepositoryTest {
 
@@ -40,7 +38,7 @@ class JdbcTemplateVoucherRepositoryTest {
     static class Config {
         @Bean
         public DataSource dataSource() {
-            var datasource =  DataSourceBuilder.create()
+            var datasource = DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost/order_mgmt")
                     .username("programmers")
                     .password("programmers")
@@ -60,7 +58,6 @@ class JdbcTemplateVoucherRepositoryTest {
 
     @Autowired
     JdbcTemplateVoucherRepository jdbcRepository;
-
 
     FixedAmountVoucher fixVoucher;
     PercentAmountVoucher percentVoucher;
@@ -126,12 +123,14 @@ class JdbcTemplateVoucherRepositoryTest {
     @Test
     @DisplayName("FixVoucher 수정 성공")
     public void testFixVoucherUpdate() {
-        FixedAmountVoucher voucher = (FixedAmountVoucher) jdbcRepository.findById(UUID.fromString("13fc058b-5e0c-451b-9ca8-0e9da5f317a5")).get();
+        UUID uuid = UUID.randomUUID();
+        FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1500);
+        jdbcRepository.save(fixVoucher);
         fixVoucher.setAmount(3000);
-        jdbcRepository.update(voucher);
+        jdbcRepository.update(fixVoucher);
 
-        FixedAmountVoucher updatedVoucher = (FixedAmountVoucher) jdbcRepository.findById(UUID.fromString("13fc058b-5e0c-451b-9ca8-0e9da5f317a5")).get();
-        assertThat(voucher.getAmount(), is(updatedVoucher.getAmount()));
+        FixedAmountVoucher updatedVoucher = (FixedAmountVoucher) jdbcRepository.findById(uuid).get();
+        assertThat(fixVoucher.getAmount(), is(updatedVoucher.getAmount()));
     }
 
     @Test
@@ -143,6 +142,18 @@ class JdbcTemplateVoucherRepositoryTest {
         assertThrows(IllegalArgumentException.class, () -> {
             jdbcRepository.update(voucher);
         });
+    }
+
+    @Test
+    @DisplayName("Id로 삭제")
+    void testDeleteById() {
+        fixVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2500);
+        jdbcRepository.save(fixVoucher);
+
+        jdbcRepository.deleteById(fixVoucher.getVoucherId());
+        Optional<Voucher> foundVoucher = jdbcRepository.findById(fixVoucher.getVoucherId());
+
+        Assertions.assertThat(foundVoucher).isNotPresent();
     }
 
 }
