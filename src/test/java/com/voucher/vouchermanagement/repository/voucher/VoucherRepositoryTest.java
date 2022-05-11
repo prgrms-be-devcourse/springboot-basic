@@ -89,7 +89,7 @@ class VoucherRepositoryTest {
     @DisplayName("FixedAmountVoucher 생성 테스트")
     public void insertFixedAmountVoucherTest() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 20L, LocalDateTime.now().withNano(0));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 20L, LocalDateTime.now());
 
         //when
         voucherRepository.insert(voucher);

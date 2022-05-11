@@ -1,6 +1,7 @@
 package com.voucher.vouchermanagement.model.voucher;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -16,7 +17,7 @@ public class PercentDiscountVoucher implements Voucher {
         validateValue(value);
         this.id = id;
         this.value = value;
-        this.createdAt = createdAt.withNano(0);
+        this.createdAt = createdAt.truncatedTo(ChronoUnit.MICROS);
     }
 
     @Override
