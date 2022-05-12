@@ -47,7 +47,7 @@ class VoucherJdbcRepositoryTest {
                 .build();
 
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("spring-boot-mission", classPathScript("schema-test.sql"))
+                .addSchema("spring-boot-mission", classPathScript("schema.sql"))
                 .start();
     }
 

@@ -1,5 +1,6 @@
 package com.dojinyou.devcourse.voucherapplication.voucher.dto;
 
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 
@@ -18,6 +19,14 @@ public class VoucherResponse {
         this.amount = amount;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static VoucherResponse from(Voucher voucher) {
+        return new VoucherResponse(voucher.getId(),
+                                   voucher.getType(),
+                                   voucher.getAmount(),
+                                   voucher.getCreatedAt(),
+                                   voucher.getUpdatedAt());
     }
 
     @Override

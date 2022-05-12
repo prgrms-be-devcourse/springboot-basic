@@ -1,6 +1,8 @@
 package com.dojinyou.devcourse.voucherapplication.voucher.domain;
 
 
+import com.dojinyou.devcourse.voucherapplication.voucher.dto.VoucherCreateRequest;
+
 import java.time.LocalDateTime;
 
 public abstract class Voucher {
@@ -29,6 +31,10 @@ public abstract class Voucher {
                 return new PercentAmountVoucher(id, type, (PercentAmount) amount, createdAt, updatedAt);
         }
         throw new IllegalArgumentException();
+    }
+
+    public static Voucher from(VoucherCreateRequest createRequest) {
+        return of(createRequest.getType(), createRequest.getAmount());
     }
 
 
