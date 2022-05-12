@@ -17,7 +17,7 @@ public class Console implements OutputConsole, InputConsole {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public String commandInput() {
+    public String getCommand() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type **exit** to exit the program.");
         System.out.println("Type **create** to create a new voucher.");
@@ -57,7 +57,7 @@ public class Console implements OutputConsole, InputConsole {
     }
 
     @Override
-    public void voucherList(List<Voucher> voucherList) {
+    public void printVoucherList(List<Voucher> voucherList) {
         for (int i = 0; i < voucherList.size(); i++) {
             Voucher voucher = voucherList.get(i);
             //UUID, VoucherTypeName
@@ -67,7 +67,7 @@ public class Console implements OutputConsole, InputConsole {
     }
 
     @Override
-    public void customerList(List<Customer> customerList) {
+    public void printCustomerList(List<Customer> customerList) {
         for (int i = 0; i < customerList.size(); i++) {
             Customer customer = customerList.get(i);
             //UUID, CustomerName
@@ -77,17 +77,17 @@ public class Console implements OutputConsole, InputConsole {
     }
 
     @Override
-    public void commandErrorMessage() {
+    public void printCommandErrorMessage() {
         System.out.println("잘못된 입력입니다.");
     }
 
     @Override
-    public void sqlErrorMessage() {
+    public void printSqlErrorMessage() {
         System.out.println("");
     }
 
     @Override
-    public void failedAllocation() {
+    public void printFailedAllocation() {
         System.out.println("Can't allocate voucher to this customer");
     }
 }

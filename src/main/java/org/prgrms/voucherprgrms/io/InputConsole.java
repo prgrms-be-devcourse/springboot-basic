@@ -1,7 +1,7 @@
 package org.prgrms.voucherprgrms.io;
 
 public interface InputConsole {
-    String commandInput();
+    String getCommand();
 
     long getVoucherValue();
 

@@ -37,7 +37,7 @@ public class CommandApplication implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         boolean runnableFlag = true;
         while (runnableFlag) {
-            String input = inputConsole.commandInput();
+            String input = inputConsole.getCommand();
             try {
                 switch (input) {
                     case "exit":
@@ -56,14 +56,14 @@ public class CommandApplication implements ApplicationRunner {
                         removeVoucherFromCustomer();
                         break;
                     default:
-                        outputConsole.commandErrorMessage();
+                        outputConsole.printCommandErrorMessage();
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("Command App ERROR (Illegal Argu)", e);
-                outputConsole.commandErrorMessage();
+                outputConsole.printCommandErrorMessage();
             } catch (DuplicateKeyException e) {
                 logger.error("Command App ERROR (Duplicate Key)", e);
-                outputConsole.sqlErrorMessage();
+                outputConsole.printSqlErrorMessage();
             }
         }
     }
@@ -83,18 +83,18 @@ public class CommandApplication implements ApplicationRunner {
         Voucher selectedVoucher = voucherList.get(inputConsole.getSelect());
         //can't allocate
         if (!customerService.allocateVoucher(selectedCustomer, selectedVoucher))
-            outputConsole.failedAllocation();
+            outputConsole.printFailedAllocation();
     }
 
     private List<Customer> printCustomerList() {
         List<Customer> list = customerService.findAllCustomer();
-        outputConsole.customerList(list);
+        outputConsole.printCustomerList(list);
         return list;
     }
 
     private List<Voucher> printVoucherList() {
         List<Voucher> list = voucherService.findAllVoucher();
-        outputConsole.voucherList(list);
+        outputConsole.printVoucherList(list);
         return list;
     }
 

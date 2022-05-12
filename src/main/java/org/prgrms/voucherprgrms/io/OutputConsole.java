@@ -6,15 +6,15 @@ import org.prgrms.voucherprgrms.voucher.model.Voucher;
 import java.util.List;
 
 public interface OutputConsole {
-    void voucherList(List<Voucher> list);
+    void printVoucherList(List<Voucher> list);
 
-    void customerList(List<Customer> list);
+    void printCustomerList(List<Customer> list);
 
-    void commandErrorMessage();
+    void printCommandErrorMessage();
 
-    void sqlErrorMessage();
+    void printSqlErrorMessage();
 
-    void failedAllocation();
+    void printFailedAllocation();
 
 
 }
