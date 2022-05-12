@@ -59,7 +59,7 @@
 			<artifactId>spring-oxm</artifactId>
 			<version>5.3.19</version>
 		</dependency>
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

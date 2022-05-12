@@ -19,7 +19,7 @@ public class RestVoucherController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/api/v1/products")
+    @PostMapping("/api/v1/vouchers")
     public Voucher createVoucher(@RequestBody CreateVoucherRequest voucherRequest) {
         return voucherService.createVoucher(
                 VoucherType.valueOf(voucherRequest.voucherType()),
