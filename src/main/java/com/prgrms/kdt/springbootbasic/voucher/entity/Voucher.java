@@ -20,4 +20,12 @@ public abstract class Voucher {
     public abstract LocalDateTime getCreatedAt();
     public abstract String getVoucherType();
     public abstract long setAmount(long amount);
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setVoucherType(String voucherType) {
+        this.voucherType = voucherType;
+    }
 }
