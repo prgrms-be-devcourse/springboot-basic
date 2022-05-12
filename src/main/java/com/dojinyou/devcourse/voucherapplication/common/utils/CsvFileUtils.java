@@ -1,4 +1,4 @@
-package com.dojinyou.devcourse.voucherapplication.utils;
+package com.dojinyou.devcourse.voucherapplication.common.utils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
