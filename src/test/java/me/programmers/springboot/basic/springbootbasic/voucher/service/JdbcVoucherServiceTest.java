@@ -65,4 +65,21 @@ class JdbcVoucherServiceTest {
         assertThat(foundVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
+    @Test
+    void updateTest() {
+        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+
+        given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
+
+        FixedAmountVoucher update = new FixedAmountVoucher(voucher.getVoucherId(), 3000);
+        voucherService.update(update);
+
+        FixedAmountVoucher foundVoucher = (FixedAmountVoucher) voucherService.getVoucherById(voucher.getVoucherId());
+
+        assertAll(
+                () -> assertThat(foundVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId()),
+                () -> assertThat(foundVoucher.getAmount()).isEqualTo(voucher.getAmount())
+        );
+    }
+
 }
