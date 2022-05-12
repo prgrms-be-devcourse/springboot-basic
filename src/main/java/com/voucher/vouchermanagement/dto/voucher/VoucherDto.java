@@ -32,6 +32,10 @@ public class VoucherDto {
         return value;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public static VoucherDto of(Voucher voucher) {
         return new VoucherDto(
                 voucher.getVoucherId(),
