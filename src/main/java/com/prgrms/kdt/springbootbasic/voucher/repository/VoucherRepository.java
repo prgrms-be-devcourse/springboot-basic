@@ -20,7 +20,7 @@ public interface VoucherRepository {
 
     public List<Voucher> getAllVouchers();
 
-    public Optional<Voucher> updateVoucherAmount(Voucher voucher);
+    public Optional<Voucher> updateVoucher(Voucher voucher);
 
     public boolean deleteVoucher(UUID voucherId);
 }

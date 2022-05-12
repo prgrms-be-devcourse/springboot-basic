@@ -121,7 +121,7 @@ class VoucherServiceTest {
         //Given
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
         Voucher updatedVoucher = new FixedAmountVoucher(voucher.getVoucherId(), 40);
-        when(voucherRepository.updateVoucherAmount(updatedVoucher)).thenReturn(Optional.of(updatedVoucher));
+        when(voucherRepository.updateVoucher(updatedVoucher)).thenReturn(Optional.of(updatedVoucher));
 
         //When
         var updateResult = voucherService.updateVoucher(updatedVoucher);
@@ -153,7 +153,7 @@ class VoucherServiceTest {
         var updateResult = voucherService.updateVoucher(voucher);
 
         //Then
-        verify(voucherRepository, never()).updateVoucherAmount(voucher);
+        verify(voucherRepository, never()).updateVoucher(voucher);
         assertThat(updateResult).as("Voucher").isEqualToComparingFieldByFieldRecursively(voucher);
     }
 
@@ -163,7 +163,7 @@ class VoucherServiceTest {
         //Given
         when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
         Voucher updatedVoucher = new FixedAmountVoucher(voucher.getVoucherId(), 40);
-        when(voucherRepository.updateVoucherAmount(any())).thenReturn(Optional.empty());
+        when(voucherRepository.updateVoucher(any())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> {
             voucherService.updateVoucher(updatedVoucher);

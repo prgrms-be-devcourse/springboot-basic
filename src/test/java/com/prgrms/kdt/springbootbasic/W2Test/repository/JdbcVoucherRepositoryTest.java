@@ -94,7 +94,7 @@ class JdbcVoucherRepositoryTest {
     void updateVoucherAmount(){
         fixedAmountVoucher.setAmount(40);
 
-        var updatedVoucher = voucherRepository.updateVoucherAmount(fixedAmountVoucher);
+        var updatedVoucher = voucherRepository.updateVoucher(fixedAmountVoucher);
         assertThat(updatedVoucher.get()).as("Voucher").isEqualToComparingFieldByField(fixedAmountVoucher);
     }
 

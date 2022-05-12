@@ -41,12 +41,13 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> updateVoucherAmount(Voucher voucher) {
+    public Optional<Voucher> updateVoucher(Voucher voucher) {
         var foundVoucher = findById(voucher.getVoucherId());
         if (foundVoucher.isEmpty())
             return Optional.empty();
 
         foundVoucher.get().setAmount(voucher.getDiscountAmount());
+        foundVoucher.get().setVoucherType(voucher.getVoucherType());
         return Optional.of(foundVoucher.get());
     }
 

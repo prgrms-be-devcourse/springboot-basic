@@ -96,13 +96,14 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> updateVoucherAmount(Voucher voucher){
-        var updateResult = jdbcTemplate.update("UPDATE vouchers SET amount = :amount  WHERE voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", toParamMap(voucher));
+    public Optional<Voucher> updateVoucher(Voucher voucher){
+        var updateResult = jdbcTemplate.update("UPDATE vouchers SET amount = :amount, voucher_type = :voucher_type  WHERE voucher_id = UNHEX(REPLACE( :voucher_id, '-', ''))", toParamMap(voucher));
         if (updateResult != 1){
             return Optional.empty();
         }
         return Optional.of(voucher);
     }
+
 
     @Override
     public boolean deleteVoucher(UUID voucherId){

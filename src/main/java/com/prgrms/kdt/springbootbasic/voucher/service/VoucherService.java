@@ -60,7 +60,7 @@ public class VoucherService {
                 && foundVoucher.get().getVoucherType().equals(voucher.getVoucherType()))
             return voucher;
 
-        var updateResult = voucherRepository.updateVoucherAmount(voucher);
+        var updateResult = voucherRepository.updateVoucher(voucher);
         if (updateResult.isEmpty())
             throw new JdbcQueryFail("Voucher Update가 실패하였습니다");
 
@@ -80,6 +80,14 @@ public class VoucherService {
 
     public List<Voucher> getVoucherOrderByCreatedAt(){
         return voucherRepository.findOrderByCreatedAt();
+    }
+
+    public Voucher getVoucherById(UUID voucherId){
+        Optional<Voucher> foundResult = voucherRepository.findById(voucherId);
+        if (foundResult.isEmpty()){
+            throw new NoSuchResource("해당 ID를 가진 Voucher은 존재하지 않습니다.");
+        }
+        return foundResult.get();
     }
 
 }
