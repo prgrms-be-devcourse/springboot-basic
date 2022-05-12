@@ -2,12 +2,16 @@ package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
@@ -34,6 +38,31 @@ public class VoucherMemoryRepository implements VoucherRepository {
                     .stream()
                     .map(VoucherMapper::entityToDomain)
                     .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate fromDate, LocalDate toDate) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAllByDate(LocalDate fromDate, LocalDate toDate) {
+        return null;
     }
 
     private Voucher save(VoucherEntity voucherEntity) {
