@@ -62,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     VoucherType.FixedAmountVoucher.toString(),
                     voucher.getDiscount(),
                     null,
-                    voucher.getCustomerId().isEmpty() ? null : voucher.getCustomerId().get().toString().getBytes());
+                    voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString().getBytes());
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
             }
@@ -76,7 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,
                     voucher.getDiscount(),
-                    voucher.getCustomerId().isEmpty() ? null : voucher.getCustomerId().get().toString().getBytes());
+                    voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString().getBytes());
             if (insert != 1) {
                 throw new VoucherInsertFailed("Nothing was saved");
             }
@@ -119,12 +119,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void updateCustomerId(Voucher voucher) {
-        log.info("[VoucherService] updateCustomerId called()");
-
+        log.info("[VoucherJdbcRepository] updateCustomerId called()");
         int update = jdbcTemplate.update(
-                "UPDATE vouchers SET customer_id = UUID_TO_BIN(?) WHERE voucher_id = uuid_to_bin(?)",
-                voucher.getVoucherId().toString().getBytes(),
+                "UPDATE vouchers SET customer_id = UUID_TO_BIN(?) WHERE voucher_id = UUID_TO_BIN(?)",
+                voucher.getCustomerId().toString().getBytes(),
                 voucher.getVoucherId().toString().getBytes());
+        System.out.println(voucher.getCustomerId());
         if (update != 1) {
             throw new VoucherUpdateFailed("Nothing was updated");
         }

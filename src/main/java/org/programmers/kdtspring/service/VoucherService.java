@@ -1,6 +1,5 @@
 package org.programmers.kdtspring.service;
 
-import org.programmers.kdtspring.entity.user.Customer;
 import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.PercentDiscountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;
@@ -57,7 +56,7 @@ public class VoucherService {
         return Optional.empty();
     }
 
-    public void allocateVoucher(UUID voucherId, UUID customerId) {
+    public Voucher allocateVoucher(UUID voucherId, UUID customerId) {
         logger.info("[VoucherService] allocateVoucher() called");
 
         var voucher = voucherRepository.findById(voucherId).orElseThrow(
@@ -66,7 +65,12 @@ public class VoucherService {
                 NoSuchElementException::new);
 
         voucher.belongToCustomer(customer);
+        System.out.println(voucher.getCustomerId());
+
         voucherRepository.updateCustomerId(voucher);
+        System.out.println(voucher.getCustomerId());
+
+        return voucher;
     }
 
     public List<Voucher> findVoucherForCustomer(UUID customerId) {

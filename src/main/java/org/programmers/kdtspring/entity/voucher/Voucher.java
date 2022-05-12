@@ -2,7 +2,6 @@ package org.programmers.kdtspring.entity.voucher;
 
 import org.programmers.kdtspring.entity.user.Customer;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -23,8 +22,8 @@ public abstract class Voucher {
         return voucherId;
     }
 
-    public Optional<UUID> getCustomerId() {
-        return Optional.ofNullable(customerId);
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public void belongToCustomer(Customer customer) {
