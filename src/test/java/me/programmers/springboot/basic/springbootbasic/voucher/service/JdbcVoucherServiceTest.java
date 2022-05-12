@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,6 +52,17 @@ class JdbcVoucherServiceTest {
                 () -> assertThat(allVouchers).hasSize(2),
                 () -> assertThat(allVouchers.get(0).getVoucherId()).isEqualTo(fixVoucher.getVoucherId())
         );
+    }
+
+    @Test
+    void getVoucherByIdTest() {
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
+
+        given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
+
+        Voucher foundVoucher = voucherService.getVoucherById(voucher.getVoucherId());
+
+        assertThat(foundVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
 }
