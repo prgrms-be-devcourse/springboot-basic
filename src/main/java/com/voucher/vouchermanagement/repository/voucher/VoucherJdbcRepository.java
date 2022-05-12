@@ -52,10 +52,21 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		);
 	}
 
-    @Override
-    public void deleteAll() {
-        this.jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
-    }
+	@Override
+	public Voucher update(Voucher voucher) {
+		int update = jdbcTemplate.update("UPDATE vouchers SET value = :value WHERE id = UNHEX(REPLACE(:id, '-',''))",
+			toParamMap(voucher));
+		if (update != 1) {
+			throw new RuntimeException("수정되지 않았습니다.");
+		}
+
+		return voucher;
+	}
+
+	@Override
+	public void deleteAll() {
+		this.jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+	}
 
 	@Override
 	public void insert(Voucher voucher) {

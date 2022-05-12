@@ -58,4 +58,12 @@ public class VoucherController {
 	public String newVoucherPage() {
 		return "new-voucher";
 	}
+
+	@PostMapping("/vouchers/update")
+	public String update(UpdateVoucherRequest request) {
+		this.voucherService.update(request);
+
+		return "redirect:/vouchers";
+	}
+
 }

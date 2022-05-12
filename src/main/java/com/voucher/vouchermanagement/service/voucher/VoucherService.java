@@ -64,4 +64,9 @@ public class VoucherService {
 			.collect(Collectors.toList());
 	}
 
+	public VoucherDto update(UpdateVoucherRequest request) {
+		Voucher updatedVoucher = request.getType().create(request.getId(), request.getValue(), request.getCreatedAt());
+
+		return VoucherDto.of(voucherRepository.update(updatedVoucher));
+	}
 }
