@@ -57,7 +57,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher instanceof FixedAmountVoucher) {
             int insert = jdbcTemplate.update(
-                    "INSERT INTO VOUCHERS(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
+                    "INSERT INTO VOUCHERS(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))",
                     voucher.getVoucherId().toString().getBytes(),
                     VoucherType.FixedAmountVoucher.toString(),
                     voucher.getDiscount(),
@@ -71,7 +71,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         if (voucher instanceof PercentDiscountVoucher) {
             int insert = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, ?)",
+                    "INSERT INTO vouchers(voucher_id, type, amount, percent, customer_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))",
                     voucher.getVoucherId().toString().getBytes(),
                     VoucherType.PercentDiscountVoucher.toString(),
                     null,

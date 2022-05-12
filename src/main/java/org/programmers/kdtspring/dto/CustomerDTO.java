@@ -11,7 +11,6 @@ public record CustomerDTO(
         UUID customerId,
         Name name,
         Email email,
-        LocalDateTime lastLoginAt,
         LocalDateTime createdAt
 ) {
     static CustomerDTO of(Customer customer) {
@@ -19,7 +18,6 @@ public record CustomerDTO(
                 customer.getCustomerId(),
                 customer.getName(),
                 customer.getEmail(),
-                customer.getLastLoginAt(),
                 customer.getCreatedAt());
     }
 
