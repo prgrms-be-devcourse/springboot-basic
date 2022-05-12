@@ -17,20 +17,20 @@ import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
-public class SpringbootBasicApplication {
-	private static final Logger logger = LoggerFactory.getLogger(SpringbootBasicApplication.class);
+public class ConsoleApplication {
+	private static final Logger logger = LoggerFactory.getLogger(ConsoleApplication.class);
 	private static ConsoleVoucherController consoleVoucherController;
 	private static CustomOutput customOutput;
 	private static CustomInput customInput;
 
 	public static void main(String[] args) throws IOException {
-		var applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
+		var applicationContext = SpringApplication.run(ConsoleApplication.class, args);
 		consoleVoucherController = applicationContext.getBean(ConsoleVoucherController.class);
 		customOutput = applicationContext.getBean(CustomOutput.class);
 		customInput = applicationContext.getBean(CustomInput.class);
 		//모든 메소드를 static으로 만들기 싫어서 생성자를 사용했는데, 더 좋은 방법이 있을까요?
-		SpringbootBasicApplication springbootBasicApplication = new SpringbootBasicApplication();
-		springbootBasicApplication.runVoucherProgramInOrder();
+		ConsoleApplication consoleApplication = new ConsoleApplication();
+		consoleApplication.runVoucherProgramInOrder();
 	}
 
 	public void runVoucherProgramInOrder() throws IOException {
