@@ -107,8 +107,7 @@ public class JdbcCustomerRepository implements CustomerRepository, Transactional
     try {
       var customer = namedParameterJdbcTemplate.queryForObject(
           "SELECT customer_id, name, email, last_login_at, created_at FROM customers WHERE name=:name",
-          Map.of(NAME.value, name),
-          mapToCustomer);
+          Map.of(NAME.value, name), mapToCustomer);
       return Optional.ofNullable(customer);
     } catch (DataAccessException exception) {
       logger.error(exception.getClass().getSimpleName(), exception);

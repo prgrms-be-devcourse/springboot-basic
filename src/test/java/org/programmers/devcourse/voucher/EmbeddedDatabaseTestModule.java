@@ -3,12 +3,13 @@ package org.programmers.devcourse.voucher;
 import com.zaxxer.hikari.HikariDataSource;
 import javax.sql.DataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 public class EmbeddedDatabaseTestModule {
 
-  private final static MySQLContainer mysql = new MySQLContainer<>(
+  private final static JdbcDatabaseContainer databaseContainer = new MySQLContainer<>(
       DockerImageName
           .parse("mysql:8.0.28-debian"))
       .withDatabaseName("order_mgmt")
@@ -22,12 +23,12 @@ public class EmbeddedDatabaseTestModule {
   }
 
   private static DataSource getDataSource() {
-    mysql.start();
+    databaseContainer.start();
     return DataSourceBuilder.create()
         .type(HikariDataSource.class)
-        .username(mysql.getUsername())
-        .password(mysql.getPassword())
-        .url(mysql.getJdbcUrl())
+        .username(databaseContainer.getUsername())
+        .password(databaseContainer.getPassword())
+        .url(databaseContainer.getJdbcUrl())
         .build();
   }
 
