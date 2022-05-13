@@ -1,13 +1,25 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
-import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
-import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
-import com.voucher.vouchermanagement.model.voucher.Voucher;
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import static com.wix.mysql.EmbeddedMysql.*;
+import static com.wix.mysql.ScriptResolver.*;
+import static com.wix.mysql.config.MysqldConfig.*;
+import static com.wix.mysql.distribution.Version.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureJdbc;
@@ -18,18 +30,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v5_7_latest;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
+import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
+import com.voucher.vouchermanagement.model.voucher.Voucher;
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @SpringJUnitConfig
 @ActiveProfiles("prod")
@@ -152,4 +159,20 @@ class VoucherRepositoryTest {
         assertThat(foundVoucher.isPresent(), is(true));
         assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
     }
+
+    @Test
+    @DisplayName("ID로 바우처 삭제 테스트")
+    public void deleteByIdTest() {
+        //given
+        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+        voucherRepository.insert(voucher);
+
+        //when
+        voucherRepository.deleteById(voucher.getVoucherId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        //then
+        assertThat(foundVoucher.isEmpty(), is(true));
+    }
+
+   
 }

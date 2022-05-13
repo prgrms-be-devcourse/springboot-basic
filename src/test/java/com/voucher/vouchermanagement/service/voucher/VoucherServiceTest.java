@@ -1,20 +1,26 @@
 package com.voucher.vouchermanagement.service.voucher;
 
+import static com.wix.mysql.EmbeddedMysql.*;
+import static com.wix.mysql.ScriptResolver.*;
+import static com.wix.mysql.config.MysqldConfig.*;
+import static com.wix.mysql.distribution.Version.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
-import com.voucher.vouchermanagement.dto.voucher.CreateVoucherRequest;
-import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
-import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
-import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
-import com.voucher.vouchermanagement.model.voucher.VoucherType;
-import com.voucher.vouchermanagement.repository.voucher.VoucherJdbcRepository;
-import com.voucher.vouchermanagement.repository.voucher.VoucherRepository;
-import com.voucher.vouchermanagement.service.voucher.VoucherService;
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import javax.sql.DataSource;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -29,18 +35,19 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v5_7_latest;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
+import com.voucher.vouchermanagement.controller.api.v1.request.UpdateVoucherRequest;
+import com.voucher.vouchermanagement.dto.voucher.CreateVoucherRequest;
+import com.voucher.vouchermanagement.dto.voucher.VoucherDto;
+import com.voucher.vouchermanagement.model.voucher.FixedAmountVoucher;
+import com.voucher.vouchermanagement.model.voucher.PercentDiscountVoucher;
+import com.voucher.vouchermanagement.model.voucher.VoucherType;
+import com.voucher.vouchermanagement.repository.voucher.VoucherJdbcRepository;
+import com.voucher.vouchermanagement.repository.voucher.VoucherRepository;
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 @SpringJUnitConfig
 @ActiveProfiles("prod")
@@ -230,5 +237,13 @@ public class VoucherServiceTest {
         assertThat(voucherDto.getId(), is(uuid));
     }
 
+    @Test
+    @DisplayName("ID로 바우처 삭제 테스트")
+    public void deleteByIdTest() {
+        //given
+        UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
+
+        //when
+        voucherService.deleteById(voucherId);
 
 }
