@@ -66,8 +66,8 @@ public class WebVoucherController {
 
         voucherService.createVoucher(
             createVoucherRequest.getVoucherType(),
-            createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
-            createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
+            createVoucherRequest.getAmount(),
+            createVoucherRequest.getPercent());
         return "redirect:/vouchers";
     }
 
@@ -79,20 +79,20 @@ public class WebVoucherController {
 
     private void validatePercentVoucherInput(CreateVoucherRequest createVoucherRequest,
         BindingResult bindingResult) {
-        if (createVoucherRequest.getPercent() == null) {
+        if (createVoucherRequest.getPercent() == 0) {
             bindingResult.rejectValue("percent", "required");
         }
-        if (createVoucherRequest.getAmount() != null) {
+        if (createVoucherRequest.getAmount() != 0) {
             bindingResult.rejectValue("amount", "notRequired");
         }
     }
 
     private void validateFixedVoucherInput(CreateVoucherRequest createVoucherRequest,
         BindingResult bindingResult) {
-        if (createVoucherRequest.getAmount() == null) {
+        if (createVoucherRequest.getAmount() == 0) {
             bindingResult.rejectValue("amount", "required");
         }
-        if (createVoucherRequest.getPercent() != null) {
+        if (createVoucherRequest.getPercent() != 0) {
             bindingResult.rejectValue("percent", "notRequired");
         }
     }

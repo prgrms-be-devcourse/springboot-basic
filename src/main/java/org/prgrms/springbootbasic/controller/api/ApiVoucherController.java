@@ -53,11 +53,12 @@ public class ApiVoucherController {
 
     @PostMapping
     public ResponseEntity<Void> createVoucher(
-        @RequestBody CreateVoucherRequest createVoucherRequest) throws URISyntaxException {
+        @RequestBody CreateVoucherRequest createVoucherRequest)
+        throws URISyntaxException {
         var voucherId = voucherService.createVoucher(
             createVoucherRequest.getVoucherType(),
-            createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
-            createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
+            createVoucherRequest.getAmount(),
+            createVoucherRequest.getPercent());
         return ResponseEntity
             .created(new URI("/api/v1/vouchers/" + voucherId.toString()))
             .build();

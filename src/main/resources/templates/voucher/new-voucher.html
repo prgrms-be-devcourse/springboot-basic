@@ -25,14 +25,14 @@
   </div>
   <div class="mb-3">
     <label for="amount" class="form-label">AMOUNT</label>
-    <input type="number" th:field="*{amount}" class="form-control" id="amount" min="1" max="100000">
+    <input type="number" th:field="*{amount}" class="form-control" id="amount">
     <div class="field-error" th:errors="*{amount}">
       amount 오류
     </div>
   </div>
   <div class="mb-3">
     <label for="percent" class="form-label">PERCENT</label>
-    <input type="number" th:field="*{percent}" class="form-control" id="percent" min="1" max="100">
+    <input type="number" th:field="*{percent}" class="form-control" id="percent">
     <div class="field-error" th:errors="*{percent}">
       percent 오류
     </div>

@@ -87,7 +87,8 @@ class WebVoucherControllerTest {
         mockMvc.perform(post("/vouchers/new")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("voucherType", "fixed")
-                .param("amount", "1000"))
+                .param("amount", "1000")
+                .param("percent", "0"))
             .andExpect(redirectedUrl("/vouchers"));
     }
 

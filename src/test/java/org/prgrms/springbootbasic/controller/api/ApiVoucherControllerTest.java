@@ -111,7 +111,7 @@ class ApiVoucherControllerTest {
         given(voucherService.createVoucher(
             request.getVoucherType(),
             request.getAmount(),
-            0)).willReturn(voucherId);
+            request.getPercent())).willReturn(voucherId);
 
         //when
         //then
@@ -121,7 +121,7 @@ class ApiVoucherControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
             .andExpect(
-                header().string(HttpHeaders.LOCATION, "/api/v1/vouchers/" + voucherId.toString()));
+                header().string(HttpHeaders.LOCATION, "/api/v1/vouchers/" + voucherId));
     }
 
     @Test
