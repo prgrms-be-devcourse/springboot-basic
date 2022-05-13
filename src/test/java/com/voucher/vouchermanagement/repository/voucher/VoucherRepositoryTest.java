@@ -174,5 +174,20 @@ class VoucherRepositoryTest {
         assertThat(foundVoucher.isEmpty(), is(true));
     }
 
-   
+    @Test
+    @DisplayName("바우처 value 10에서 20으로 변경 테스트")
+    public void updateTest() {
+        //given
+        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+        voucherRepository.insert(voucher);
+
+        //when
+        voucher.setValue(20L);
+        voucherRepository.update(voucher);
+        Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+
+        //then
+        assertThat(foundVoucher.getVoucherId(), is(voucher.getVoucherId()));
+        assertThat(foundVoucher.getValue(), is(20L));
+    }
 }

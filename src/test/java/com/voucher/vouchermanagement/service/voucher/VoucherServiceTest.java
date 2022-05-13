@@ -246,4 +246,55 @@ public class VoucherServiceTest {
         //when
         voucherService.deleteById(voucherId);
 
+        //then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> voucherService.findById(voucherId));
+    }
+
+    @Test
+    @DisplayName("바우처 value 10에서 20으로 변경 테스트")
+    public void updateTest() {
+        //given
+        UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
+
+        //when
+        voucherService.update(new UpdateVoucherRequest(voucherId, 20L, VoucherType.Fixed, LocalDateTime.now()));
+        VoucherDto foundVoucher = voucherService.findById(voucherId);
+        //then
+        assertThat(foundVoucher.getId(), is(voucherId));
+        assertThat(foundVoucher.getValue(),is(20L));
+        assertThat(foundVoucher.getVoucherType(),is(VoucherType.Fixed));
+    }
+
+    @Test
+    @DisplayName("FIXED 바우처 value 10에서 0이하로의 변경은 실패 해야한다")
+    public void updateFixedAmountVoucherWithNotValidValueTest() {
+        //given
+        UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
+
+        //when then
+        assertThrows(IllegalArgumentException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Fixed, LocalDateTime.now())));
+    }
+
+    @Test
+    @DisplayName("PERCENT 바우처 value 101이상으로 변경은 실패 해야한다.")
+    public void updatePercentDiscountVoucherWithOverLimitValueTest() {
+        //given
+        UUID voucherId = voucherService.create(VoucherType.Percent, 10L);
+
+        //when then
+        assertThrows(IllegalArgumentException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 101L, VoucherType.Percent, LocalDateTime.now())));
+    }
+
+    @Test
+    @DisplayName("PERCENT 바우처 value 0이하로 변경은 실패 해야한다.")
+    public void updatePercentDiscountVoucherWithUnderLimitValueTest() {
+        //given
+        UUID voucherId = voucherService.create(VoucherType.Percent, 10L);
+
+        //when then
+        assertThrows(IllegalArgumentException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Percent, LocalDateTime.now())));
+    }
 }

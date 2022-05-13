@@ -42,6 +42,10 @@ public class FixedAmountVoucher implements Voucher {
         return createdAt;
     }
 
+    public void setValue(long value) {
+        this.value = value;
+    }
+
     @Override
     public String toString() {
         return "voucher id = " + id + ", amount = " + value + ", createdAt = " + createdAt;
