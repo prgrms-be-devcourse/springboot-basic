@@ -33,7 +33,7 @@ public class VoucherRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<UUID> create(CreateVoucherRequest request) {
+	public ResponseEntity<UUID> create(@RequestBody CreateVoucherRequest request) {
 		return ResponseEntity.ok(this.voucherService.create(request.getType(), request.getValue()));
 	}
 
