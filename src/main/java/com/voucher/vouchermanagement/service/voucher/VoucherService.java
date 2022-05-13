@@ -69,4 +69,28 @@ public class VoucherService {
 
 		return VoucherDto.of(voucherRepository.update(updatedVoucher));
 	}
+
+	@Transactional(readOnly = true)
+	public List<VoucherDto> findByType(VoucherType type) {
+		return voucherRepository.findByType(type)
+			.stream()
+			.map(VoucherDto::of)
+			.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public List<VoucherDto> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
+		return voucherRepository.findByDate(startAt, endAt)
+			.stream()
+			.map(VoucherDto::of)
+			.collect(Collectors.toList());
+	}
+
+	@Transactional(readOnly = true)
+	public List<VoucherDto> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
+		return voucherRepository.findByTypeAndDate(type, startAt, endAt)
+			.stream()
+			.map(VoucherDto::of)
+			.collect(Collectors.toList());
+	}
 }

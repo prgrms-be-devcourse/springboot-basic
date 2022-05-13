@@ -1,22 +1,30 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
-import com.voucher.vouchermanagement.model.voucher.Voucher;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.voucher.vouchermanagement.model.voucher.Voucher;
+import com.voucher.vouchermanagement.model.voucher.VoucherType;
+
 public interface VoucherRepository {
 
-    void insert(Voucher voucher);
+	void insert(Voucher voucher);
 
-    List<Voucher> findAll();
+	List<Voucher> findAll();
 
-    void deleteById(UUID id);
+	List<Voucher> findByType(VoucherType type);
 
-    void deleteAll();
+	List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt);
 
-    Optional<Voucher> findById(UUID id);
+    List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt);
 
-    Voucher update(Voucher voucher);
+	void deleteById(UUID id);
+
+	void deleteAll();
+
+	Optional<Voucher> findById(UUID id);
+
+	Voucher update(Voucher voucher);
 }

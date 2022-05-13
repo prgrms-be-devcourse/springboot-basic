@@ -12,15 +12,17 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.voucher.vouchermanagement.controller.api.v1.VoucherCriteria;
 import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 
 @Repository
-@Profile("prod")
+@Profile({"jdbc", "prod"})
 public class VoucherJdbcRepository implements VoucherRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -32,9 +34,33 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findAll() {
 		return this.jdbcTemplate.query(
-			"SELECT * FROM vouchers",
+			"SELECT * FROM vouchers ORDER BY created_at",
 			voucherRowMapper
 		);
+	}
+
+	@Override
+	public List<Voucher> findByType(VoucherType type) {
+		return jdbcTemplate.query(
+			"SELECT * FROM vouchers WHERE type = :type ORDER BY created_at",
+			toCriteriaParamMap(new VoucherCriteria(type, null, null)),
+			voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
+		return jdbcTemplate.query(
+			"SELECT * FROM vouchers WHERE type = :type AND created_at Between :startAt AND :endAt ORDER BY created_at",
+			toCriteriaParamMap(new VoucherCriteria(null, startAt, endAt)),
+			voucherRowMapper);
+	}
+
+	@Override
+	public List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
+		return jdbcTemplate.query(
+			"SELECT * FROM vouchers WHERE type = :type AND created_at Between :startAt AND :endAt ORDER BY created_at",
+			toCriteriaParamMap(new VoucherCriteria(type, startAt, endAt)),
+			voucherRowMapper);
 	}
 
 	@Override
@@ -45,11 +71,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public Optional<Voucher> findById(UUID id) {
-		return Optional.ofNullable(
-			this.jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE id = UNHEX(REPLACE(:id, '-','')) ",
-				Collections.singletonMap("id", id.toString().getBytes()),
-				voucherRowMapper)
-		);
+		try {
+			return Optional.ofNullable(
+				this.jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE id = UNHEX(REPLACE(:id, '-','')) ",
+					Collections.singletonMap("id", id.toString().getBytes()),
+					voucherRowMapper));
+		} catch (EmptyResultDataAccessException e) {
+			return Optional.empty();
+		}
 	}
 
 	@Override
@@ -95,6 +124,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		paramMap.put("value", voucher.getValue());
 		paramMap.put("type", voucher.getClass().getSimpleName());
 		paramMap.put("createdAt", voucher.getCreatedAt().toString());
+
+		return paramMap;
+	}
+
+	private Map<String, Object> toCriteriaParamMap(VoucherCriteria criteria) {
+		HashMap<String, Object> paramMap = new HashMap<>();
+
+		if (criteria.getType() != null)
+			paramMap.put("type", criteria.getType().getTypeName());
+		if (criteria.getStartAt() != null)
+			paramMap.put("startAt", criteria.getStartAt().toString());
+		if (criteria.getEndAt() != null)
+			paramMap.put("endAt", criteria.getEndAt().toString());
 
 		return paramMap;
 	}

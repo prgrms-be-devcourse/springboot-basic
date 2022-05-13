@@ -1,5 +1,6 @@
 package com.voucher.vouchermanagement.repository.voucher;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.voucher.vouchermanagement.model.voucher.Voucher;
+import com.voucher.vouchermanagement.model.voucher.VoucherType;
 
 @Repository
 @Profile("dev")
@@ -26,6 +28,21 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findAll() {
 		return new ArrayList<>(this.store.values());
+	}
+
+	@Override
+	public List<Voucher> findByType(VoucherType type) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
+		return null;
+	}
+
+	@Override
+	public List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
+		return null;
 	}
 
 	@Override
