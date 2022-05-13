@@ -53,5 +53,13 @@ public enum VoucherType {
         return typeNumber + ". " + typeName;
     }
 
+    public static VoucherType fromString(String name) {
+        try {
+            return VoucherType.valueOf(name);
+        } catch(IllegalArgumentException e) {
+            throw new NotValidEnumTypeException("바우처 타입을 확인하세요 (Fixed, Percent)", e);
+        }
+    }
+
     public abstract Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt);
 }
