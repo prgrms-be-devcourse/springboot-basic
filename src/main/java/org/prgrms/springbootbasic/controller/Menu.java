@@ -5,54 +5,51 @@ import org.prgrms.springbootbasic.controller.console.VoucherController;
 
 public enum Menu {
 
-    EXIT("exit", voucherController -> false),
-    CREATE("create", voucherController -> {
+    EXIT(voucherController -> false),
+    CREATE(voucherController -> {
         voucherController.createVoucher();
         return true;
     }),
-    LIST("list", voucherController -> {
+    LIST(voucherController -> {
         voucherController.printList();
         return true;
     }),
-    BLACKLIST("blacklist", voucherController -> {
+    BLACKLIST(voucherController -> {
         voucherController.printBlackList();
         return true;
     }),
-    CREATECUSTOMER("createCustomer", voucherController -> {
+    CREATE_CUSTOMER(voucherController -> {
         voucherController.createCustomer();
         return true;
     }),
-    LISTCUSTOMER("listCustomer", voucherController -> {
+    LIST_CUSTOMER(voucherController -> {
         voucherController.printAllCustomers();
         return true;
     }),
-    ASSIGNVOUCHER("assignVoucher", voucherController -> {
+    ASSIGN_VOUCHER(voucherController -> {
         voucherController.assignVoucher();
         return true;
     }),
-    LISTCUSTOMERVOUCHER("listCustomerVoucher", voucherController -> {
+    LIST_CUSTOMER_VOUCHER(voucherController -> {
         voucherController.listCustomerVoucher();
         return true;
     }),
-    DELETECUSTOMERVOUCHER("deleteCustomerVoucher", voucherController -> {
+    DELETE_CUSTOMER_VOUCHER(voucherController -> {
         voucherController.deleteCustomerVoucher();
         return true;
     }),
-    LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE("listCustomerHavingSpecificVoucherType",
-        voucherController -> {
-            voucherController.listCustomerHavingSpecificVoucherType();
-            return true;
-        });
+    LIST_CUSTOMER_HAVING_SPECIFIC_VOUCHER_TYPE(voucherController -> {
+        voucherController.listCustomerHavingSpecificVoucherType();
+        return true;
+    });
 
-    private final String textName;
-    private final Function<VoucherController, Boolean> function;
+    private final Function<VoucherController, Boolean> process;
 
-    Menu(final String textName, Function<VoucherController, Boolean> function) {
-        this.textName = textName;
-        this.function = function;
+    Menu(Function<VoucherController, Boolean> process) {
+        this.process = process;
     }
 
     public boolean apply(VoucherController voucherController) {
-        return function.apply(voucherController);
+        return process.apply(voucherController);
     }
 }

@@ -63,13 +63,13 @@ class ScannerViewTest {
             + "Type CREATE to create a new voucher.\n"
             + "Type LIST to list all vouchers.\n"
             + "Type BLACKLIST to list all customer black list.\n"
-            + "Type CREATECUSTOMER to create a new customer.\n"
-            + "Type LISTCUSTOMER to list all customers.\n"
-            + "Type ASSIGNVOUCHER to assign voucher to customer.\n"
-            + "Type LISTCUSTOMERVOUCHER to list customer's voucher.\n"
-            + "Type DELETECUSTOMERVOUCHER to delete customer's voucher.\n"
-            + "Type LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE to list customers having specific voucher type.\n\n";
-        assertThat(output.toString()).isEqualTo(format);
+            + "Type CREATE_CUSTOMER to create a new customer.\n"
+            + "Type LIST_CUSTOMER to list all customers.\n"
+            + "Type ASSIGN_VOUCHER to assign voucher to customer.\n"
+            + "Type LIST_CUSTOMER_VOUCHER to list customer's voucher.\n"
+            + "Type DELETE_CUSTOMER_VOUCHER to delete customer's voucher.\n"
+            + "Type LIST_CUSTOMER_HAVING_SPECIFIC_VOUCHER_TYPE to list customers having specific voucher type.\n\n";
+        assertThat(output.toString()).hasToString(format);
     }
 
     @DisplayName("메뉴 입력 테스트 - 정상")

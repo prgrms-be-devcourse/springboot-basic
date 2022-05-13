@@ -126,7 +126,7 @@ class VoucherControllerTest {
     @Test
     void createCustomer() {
         //given
-        when(view.inputMenu()).thenReturn(Menu.CREATECUSTOMER);
+        when(view.inputMenu()).thenReturn(Menu.CREATE_CUSTOMER);
         when(view.selectName()).thenReturn("test");
         when(view.selectEmail()).thenReturn("test@gmail.com");
 
@@ -145,7 +145,7 @@ class VoucherControllerTest {
     @Test
     void assignVoucher() {
         //given
-        when(view.inputMenu()).thenReturn(Menu.ASSIGNVOUCHER);
+        when(view.inputMenu()).thenReturn(Menu.ASSIGN_VOUCHER);
         when(view.selectVoucherId()).thenReturn(UUID.randomUUID());
         when(view.selectCustomerId()).thenReturn(UUID.randomUUID());
 
@@ -163,7 +163,7 @@ class VoucherControllerTest {
     @Test
     void listCustomerVoucher() {
         //given
-        when(view.inputMenu()).thenReturn(Menu.LISTCUSTOMERVOUCHER);
+        when(view.inputMenu()).thenReturn(Menu.LIST_CUSTOMER_VOUCHER);
         UUID customerId = UUID.randomUUID();
         when(view.selectCustomerId()).thenReturn(customerId);
         when(voucherService.findCustomerVoucher(customerId)).thenReturn(Collections.emptyList());
@@ -181,7 +181,7 @@ class VoucherControllerTest {
     @Test
     void deleteCustomerVoucher() {
         //given
-        when(view.inputMenu()).thenReturn(Menu.DELETECUSTOMERVOUCHER);
+        when(view.inputMenu()).thenReturn(Menu.DELETE_CUSTOMER_VOUCHER);
         when(view.selectCustomerId()).thenReturn(UUID.randomUUID());
         when(view.selectVoucherId()).thenReturn(UUID.randomUUID());
 
@@ -199,7 +199,7 @@ class VoucherControllerTest {
     @Test
     void listCustomerHavingSpecificVoucherType() {
         //given
-        when(view.inputMenu()).thenReturn(Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE);
+        when(view.inputMenu()).thenReturn(Menu.LIST_CUSTOMER_HAVING_SPECIFIC_VOUCHER_TYPE);
         when(view.selectVoucherType()).thenReturn(VoucherType.FIXED);
         when(customerService.findCustomerHavingSpecificVoucherType(VoucherType.FIXED))
             .thenReturn(Collections.emptyList());

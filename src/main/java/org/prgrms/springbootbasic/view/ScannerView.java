@@ -1,15 +1,15 @@
 package org.prgrms.springbootbasic.view;
 
-import static org.prgrms.springbootbasic.controller.Menu.ASSIGNVOUCHER;
+import static org.prgrms.springbootbasic.controller.Menu.ASSIGN_VOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.BLACKLIST;
 import static org.prgrms.springbootbasic.controller.Menu.CREATE;
-import static org.prgrms.springbootbasic.controller.Menu.CREATECUSTOMER;
-import static org.prgrms.springbootbasic.controller.Menu.DELETECUSTOMERVOUCHER;
+import static org.prgrms.springbootbasic.controller.Menu.CREATE_CUSTOMER;
+import static org.prgrms.springbootbasic.controller.Menu.DELETE_CUSTOMER_VOUCHER;
 import static org.prgrms.springbootbasic.controller.Menu.EXIT;
 import static org.prgrms.springbootbasic.controller.Menu.LIST;
-import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMER;
-import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE;
-import static org.prgrms.springbootbasic.controller.Menu.LISTCUSTOMERVOUCHER;
+import static org.prgrms.springbootbasic.controller.Menu.LIST_CUSTOMER;
+import static org.prgrms.springbootbasic.controller.Menu.LIST_CUSTOMER_HAVING_SPECIFIC_VOUCHER_TYPE;
+import static org.prgrms.springbootbasic.controller.Menu.LIST_CUSTOMER_VOUCHER;
 import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_MENU_EXP_MSG;
 import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_UUID_FORMAT_EXP_MSG;
 import static org.prgrms.springbootbasic.exception.ServiceExceptionMessage.INVALID_VOUCHER_TYPE_EXP_MSG;
@@ -72,14 +72,20 @@ public class ScannerView implements View {
         printLine(CREATE.name(), TO_CREATE_A_NEW_VOUCHER.getText());
         printLine(LIST.name(), TO_LIST_ALL_VOUCHERS.getText());
         printLine(BLACKLIST.name(), TO_LIST_ALL_CUSTOMER_BLACK_LIST.getText());
-        printLine(CREATECUSTOMER.name(), TO_CREATE_A_NEW_CUSTOMER.getText());
-        printLine(LISTCUSTOMER.name(), TO_LIST_ALL_CUSTOMERS.getText());
-        printLine(ASSIGNVOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER.getText());
-        printLine(LISTCUSTOMERVOUCHER.name(), TO_LIST_CUSTOMER_S_VOUCHER.getText());
-        printLine(DELETECUSTOMERVOUCHER.name(), TO_DELETE_CUSTOMER_S_VOUCHER.getText());
-        printLine(LISTCUSTOMERHAVINGSEPCIFICVOUCHERTYPE.name(),
+        printLine(CREATE_CUSTOMER.name(), TO_CREATE_A_NEW_CUSTOMER.getText());
+        printLine(LIST_CUSTOMER.name(), TO_LIST_ALL_CUSTOMERS.getText());
+        printLine(ASSIGN_VOUCHER.name(), TO_ASSIGN_VOUCHER_TO_CUSTOMER.getText());
+        printLine(LIST_CUSTOMER_VOUCHER.name(), TO_LIST_CUSTOMER_S_VOUCHER.getText());
+        printLine(DELETE_CUSTOMER_VOUCHER.name(), TO_DELETE_CUSTOMER_S_VOUCHER.getText());
+        printLine(LIST_CUSTOMER_HAVING_SPECIFIC_VOUCHER_TYPE.name(),
             TO_LIST_CUSTOMERS_HAVING_SPECIFIC_VOUCHER_TYPE.getText());
         System.out.println();
+    }
+
+    private void printLine(String menu, String explain) {
+        System.out.print(TYPE.getText());
+        System.out.print(menu);
+        System.out.println(explain);
     }
 
     @Override
@@ -184,12 +190,6 @@ public class ScannerView implements View {
 
         customerVoucher.forEach(this::printVoucher);
         System.out.println();
-    }
-
-    private void printLine(String menu, String explain) {
-        System.out.print(TYPE.getText());
-        System.out.print(menu);
-        System.out.println(explain);
     }
 
     private void printVoucher(Voucher voucher) {
