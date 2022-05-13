@@ -4,12 +4,15 @@ import com.voucher.vouchermanagement.model.voucher.Voucher;
 import com.voucher.vouchermanagement.model.voucher.VoucherType;
 
 public class CreateVoucherRequest {
-    private final VoucherType type;
-    private final Long value;
+    private VoucherType type;
+    private Long value;
 
     public CreateVoucherRequest(VoucherType type, Long value) {
         this.type = type;
         this.value = value;
+    }
+
+    protected CreateVoucherRequest() {
     }
 
     public VoucherType getType() {
