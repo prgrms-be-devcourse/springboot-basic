@@ -1,0 +1,5 @@
+db:
+  filename: voucher-db.txt
+spring:
+  main:
+    web-application-type: none
