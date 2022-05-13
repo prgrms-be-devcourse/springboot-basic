@@ -4,9 +4,15 @@ plugins {
     id 'java'
 }
 
-group = 'org.programmers'
+group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '16'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -16,15 +22,22 @@ repositories {
 dependencies {
     // boot starter
     implementation 'org.springframework.boot:spring-boot-starter'
-    // jdbc
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.7'
-    // mysql_Connect
-    implementation 'mysql:mysql-connector-java:8.0.28'
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    // validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation:2.5.2'
-    implementation 'org.projectlombok:lombok:1.18.24'
+    // dev-tool
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // db
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    // java faker
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    // spring validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.3'
+    // ssr
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.7'
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
