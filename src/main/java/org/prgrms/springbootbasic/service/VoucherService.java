@@ -37,15 +37,18 @@ public class VoucherService {
     }
 
     @Transactional
-    public void createVoucher(VoucherType voucherType, int amount, int percent) {
+    public UUID createVoucher(VoucherType voucherType, int amount, int percent) {
         logger.info("createVoucher() called");
 
         if (voucherType.isFixed()) {
-            voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
+            var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+            voucherRepository.save(fixedAmountVoucher);
+            return fixedAmountVoucher.getVoucherId();
         }
-        if (voucherType.isPercent()) {
-            voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), percent));
-        }
+
+        var percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
+        voucherRepository.save(percentDiscountVoucher);
+        return percentDiscountVoucher.getVoucherId();
     }
 
     public List<Voucher> findAll() {

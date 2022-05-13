@@ -230,3 +230,6 @@
   - 이 부분에 정답은 없지만, IDE의 기능을 최대한 사용하는 방법을 이용하면 된다.
 - [X] enum은 toString을 적절히 오버라이드 했다. 따라서 이를 활용할 수 있으면 활용하자.
 - [X] RestController에서 DTO를 바로 반환하는 것보다 ResponseEntity를 사용하는 것이 Response Http Message를 정교하게 제어할 수 있어서 좋다.
+- [X] RestController에서 RestAPI 반환 Http Method에서 Header 값들도 고민하기
+  - 단일 생성 요청 API -> Response Http Message에 단일 건 조회가능한 URI를 Location에 쓴다. 
+  - 삭제 요청 API -> Response Http Message에 204 no_content 사용한다.

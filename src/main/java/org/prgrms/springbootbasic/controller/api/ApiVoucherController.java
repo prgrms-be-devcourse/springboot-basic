@@ -15,7 +15,6 @@ import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.dto.VoucherListResponse;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.service.VoucherService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,19 +54,20 @@ public class ApiVoucherController {
     @PostMapping
     public ResponseEntity<Void> createVoucher(
         @RequestBody CreateVoucherRequest createVoucherRequest) throws URISyntaxException {
-        voucherService.createVoucher(
+        var voucherId = voucherService.createVoucher(
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getAmount() == null ? 0 : createVoucherRequest.getAmount(),
             createVoucherRequest.getPercent() == null ? 0 : createVoucherRequest.getPercent());
-        return ResponseEntity.created(new URI("/api/v1/vouchers"))
+        return ResponseEntity
+            .created(new URI("/api/v1/vouchers/" + voucherId.toString()))
             .build();
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<Void> deleteVoucher(@PathVariable("voucherId") UUID voucherId) {
+    public ResponseEntity<Void> deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
-        return ResponseEntity.ok()
-            .header(HttpHeaders.LOCATION, "/api/v1/vouchers")
+        return ResponseEntity
+            .noContent()
             .build();
     }
 

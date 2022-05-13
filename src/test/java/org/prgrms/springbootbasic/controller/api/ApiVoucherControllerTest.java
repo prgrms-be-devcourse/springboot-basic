@@ -107,6 +107,12 @@ class ApiVoucherControllerTest {
         request.setVoucherType(VoucherType.FIXED);
         request.setAmount(1000);
 
+        var voucherId = UUID.randomUUID();
+        given(voucherService.createVoucher(
+            request.getVoucherType(),
+            request.getAmount(),
+            0)).willReturn(voucherId);
+
         //when
         //then
         mockMvc.perform(post("/api/v1/vouchers")
@@ -114,7 +120,8 @@ class ApiVoucherControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isCreated())
-            .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/vouchers"));
+            .andExpect(
+                header().string(HttpHeaders.LOCATION, "/api/v1/vouchers/" + voucherId.toString()));
     }
 
     @Test
@@ -128,8 +135,7 @@ class ApiVoucherControllerTest {
         //then
         mockMvc.perform(delete("/api/v1/vouchers/" + voucherId.toString())
                 .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk())
-            .andExpect(header().string(HttpHeaders.LOCATION, "/api/v1/vouchers"));
+            .andExpect(status().isNoContent());
     }
 
     @Test
