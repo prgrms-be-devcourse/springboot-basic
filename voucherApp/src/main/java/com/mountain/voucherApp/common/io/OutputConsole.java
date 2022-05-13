@@ -12,16 +12,19 @@ import org.springframework.stereotype.Component;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static com.mountain.voucherApp.common.constants.ProgramMessage.MANUAL_TITLE;
-import static com.mountain.voucherApp.common.utils.MenuUtil.getMenuMap;
 
 @Component
 public class OutputConsole implements Output {
 
     public static final TextIO textIO = TextIoFactory.getTextIO();
     public static final TextTerminal<?> textTerminal = textIO.getTextTerminal();
+
+    private static final String COMMON_SEQ_FORMAT = "[{0}]. {1}";
+    private static final String VOUCHER_LIST_PRINT_FORMAT = "[{0}]. {1}: {2}{3}";
+    private static final String PRINT_CUSTOMER_VOUCHER_INFO_FORMAT = "[{0}]. email : {1}, voucherId : {2}";
+    private static final String PRINT_EXCEPTION_FORMAT = "[{0}]: {1}";
 
     @Override
     public void close() {
@@ -36,10 +39,9 @@ public class OutputConsole implements Output {
     @Override
     public void printManual() {
         textTerminal.println(MANUAL_TITLE);
-        Map<Integer, Menu> menuMap = getMenuMap();
-        for (Integer key : menuMap.keySet()) {
-            Menu menu = menuMap.get(key);
-            textTerminal.println(MessageFormat.format("[{0}]. {1}", menu.ordinal(), menu.getDescription()));
+        for (Integer key : Menu.menuMap.keySet()) {
+            Menu menu = Menu.find(key).get();
+            textTerminal.println(MessageFormat.format(COMMON_SEQ_FORMAT, menu.getSeq(), menu.getDescription()));
         }
     }
 
@@ -47,10 +49,10 @@ public class OutputConsole implements Output {
     public void choiceDiscountPolicy() {
         Arrays.stream(DiscountPolicy.values())
                 .forEach(
-                        (p) -> textTerminal.println(MessageFormat.format(
-                                "[{0}]. {1}",
-                                p.ordinal(),
-                                p.getDescription())
+                        (discountPolicy) -> textTerminal.println(MessageFormat.format(
+                                COMMON_SEQ_FORMAT,
+                                discountPolicy.getSeq(),
+                                discountPolicy.getDescription())
                         )
                 );
     }
@@ -59,7 +61,7 @@ public class OutputConsole implements Output {
     public void printVoucherList(List<VoucherEntity> voucherEntityList) {
         for (int i = 0; i < voucherEntityList.size(); i++) {
             VoucherEntity voucherEntity = voucherEntityList.get(i);
-            textTerminal.println(MessageFormat.format("[{0}]. {1}: {2}{3}",
+            textTerminal.println(MessageFormat.format(VOUCHER_LIST_PRINT_FORMAT,
                     i,
                     voucherEntity.getDiscountPolicy().getDescription(),
                     voucherEntity.getDiscountAmount(),
@@ -72,7 +74,7 @@ public class OutputConsole implements Output {
     public void printCustomerList(List<CustomerDto> customerDtos) {
         for (int i = 0; i < customerDtos.size(); i++) {
             CustomerDto customerDto = customerDtos.get(i);
-            textTerminal.println(MessageFormat.format("[{0}]. {1}",
+            textTerminal.println(MessageFormat.format(COMMON_SEQ_FORMAT,
                     i,
                     customerDto.getEmail()));
         }
@@ -82,7 +84,7 @@ public class OutputConsole implements Output {
     public void printCustomerVoucherInfo(List<CustomerDto> customerDtos) {
         for (int i = 0; i < customerDtos.size(); i++) {
             CustomerDto customerDto = customerDtos.get(i);
-            textTerminal.println(MessageFormat.format("[{0}]. email : {1}, voucherId : {2}",
+            textTerminal.println(MessageFormat.format(PRINT_CUSTOMER_VOUCHER_INFO_FORMAT,
                     i,
                     customerDto.getEmail(),
                     customerDto.getVoucherId()));
@@ -91,7 +93,7 @@ public class OutputConsole implements Output {
 
     @Override
     public void printException(Exception e) {
-        textTerminal.println(MessageFormat.format("[{0}]: {1}",
+        textTerminal.println(MessageFormat.format(PRINT_EXCEPTION_FORMAT,
                 e.getClass().getCanonicalName(),
                 e.getMessage()));
     }

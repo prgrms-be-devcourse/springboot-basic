@@ -14,14 +14,19 @@ import java.util.stream.Stream;
 import static com.mountain.voucherApp.common.constants.ProgramMessage.*;
 
 public enum DiscountPolicy {
-    FIXED(FIXED_DISCOUNT, FIXED_UINT, new FixedAmountVoucher()),
-    PERCENT(PERCENT_DISCOUNT, PERCENT_UNIT, new PercentDiscountVoucher());
+    FIXED(1, FIXED_DISCOUNT, FIXED_UINT, new FixedAmountVoucher()),
+    PERCENT(2, PERCENT_DISCOUNT, PERCENT_UNIT, new PercentDiscountVoucher());
 
+    public static final Map<Integer, DiscountPolicy> discountPolicies =
+            Collections.unmodifiableMap(Stream.of(values())
+                    .collect(Collectors.toConcurrentMap(DiscountPolicy::getSeq, Function.identity())));
     private final String description;
     private final String unit;
     private final Voucher voucher;
+    private final int seq;
 
-    DiscountPolicy(String description, String unit, Voucher voucher) {
+    DiscountPolicy(int seq, String description, String unit, Voucher voucher) {
+        this.seq = seq;
         this.description = description;
         this.unit = unit;
         this.voucher = voucher;
@@ -39,12 +44,12 @@ public enum DiscountPolicy {
         return voucher;
     }
 
-    public static final Map<Integer, DiscountPolicy> discountPolicies =
-            Collections.unmodifiableMap(Stream.of(values())
-                    .collect(Collectors.toConcurrentMap(DiscountPolicy::ordinal, Function.identity())));
+    public static Optional<DiscountPolicy> find(int seq) {
+        return Optional.ofNullable(discountPolicies.get(seq));
+    }
 
-    public static DiscountPolicy find(int ordinal) {
-        return Optional.ofNullable(discountPolicies.get(ordinal)).orElse(null);
+    public int getSeq() {
+        return seq;
     }
 }
 

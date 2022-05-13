@@ -9,6 +9,7 @@ import com.mountain.voucherApp.model.vo.voucher.Voucher;
 import com.mountain.voucherApp.service.VoucherAppService;
 import org.springframework.stereotype.Controller;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.mountain.voucherApp.common.constants.ErrorMessage.WRONG_VALUE;
@@ -33,9 +34,10 @@ public class VoucherConsoleController {
         outputConsole.choiceDiscountPolicy();
         try {
             int policyOrdinal = Integer.valueOf(inputConsole.input());
-            DiscountPolicy discountPolicy = DiscountPolicy.find(policyOrdinal);
-            if (discountPolicy == null)
+            Optional<DiscountPolicy> policyOptional = DiscountPolicy.find(policyOrdinal);
+            if (policyOptional.isEmpty())
                 throw new IllegalArgumentException(WRONG_VALUE.getMessage());
+            DiscountPolicy discountPolicy = policyOptional.get();
             outputConsole.printMessage(PLEASE_AMOUNT);
             long discountAmount = Long.valueOf(inputConsole.input());
             Voucher voucher = discountPolicy.getVoucher();

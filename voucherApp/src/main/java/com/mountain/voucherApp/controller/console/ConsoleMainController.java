@@ -9,9 +9,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Optional;
+
 import static com.mountain.voucherApp.common.constants.ProgramMessage.WRONG_INPUT;
-import static com.mountain.voucherApp.common.utils.MenuUtil.getMenuMap;
-import static com.mountain.voucherApp.common.utils.MenuUtil.isExit;
+import static com.mountain.voucherApp.model.enums.Menu.isExit;
 
 @Controller
 public class ConsoleMainController {
@@ -39,11 +40,12 @@ public class ConsoleMainController {
         while (true) {
             outputConsole.printManual();
             try {
-                int command = Integer.valueOf(inputConsole.input());
-                Menu menu = getMenuMap().getOrDefault(command, null);
-                if (menu != null) {
+                int seq = Integer.valueOf(inputConsole.input());
+                Optional<Menu> optionalMenu = Menu.find(seq);
+                if (optionalMenu.isPresent()) {
+                    Menu menu = optionalMenu.get();
                     menu.exec(voucherConsoleController);
-                    if (isExit(command))
+                    if (isExit(seq))
                         return "/consoleApp/exit";
                 } else {
                     log.error(WRONG_INPUT);
