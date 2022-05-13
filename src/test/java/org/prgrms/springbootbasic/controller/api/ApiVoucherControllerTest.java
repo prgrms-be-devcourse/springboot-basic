@@ -69,7 +69,7 @@ class ApiVoucherControllerTest {
 
         //when
         //then
-        mockMvc.perform(get("/api/v1/vouchers/search/fixed")
+        mockMvc.perform(get("/api/v1/vouchers?voucherType=fixed")
                 .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.voucherDtoList", hasSize(1)))
@@ -92,7 +92,7 @@ class ApiVoucherControllerTest {
         //when
         //then
         mockMvc.perform(
-                get("/api/v1/vouchers/search?start=" + date.toString() + "&end=" + date.toString())
+                get("/api/v1/vouchers?start=" + date.toString() + "&end=" + date.toString())
                     .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))

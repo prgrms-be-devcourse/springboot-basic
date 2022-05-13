@@ -6,13 +6,14 @@ import static org.prgrms.springbootbasic.util.DtoConverter.toVoucherDTOs;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
-import org.prgrms.springbootbasic.controller.VoucherType;
 import org.prgrms.springbootbasic.dto.CreateVoucherRequest;
+import org.prgrms.springbootbasic.dto.SearchCondition;
 import org.prgrms.springbootbasic.dto.VoucherDTO;
 import org.prgrms.springbootbasic.dto.VoucherListResponse;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,29 +39,19 @@ public class ApiVoucherController {
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public VoucherListResponse findAllVouchers() {
-        var vouchers = voucherService.findAll();
-        return new VoucherListResponse(toVoucherDTOs(vouchers));
-    }
+    public ResponseEntity<VoucherListResponse> findAllVouchers(SearchCondition searchCondition) {
+        List<Voucher> vouchers;
+        if (searchCondition.getVoucherType() != null) {
+            vouchers = voucherService.findVoucherUsingType(searchCondition.getVoucherType());
+        } else if ((searchCondition.getStart() != null && searchCondition.getEnd() != null)) {
+            vouchers = voucherService.findVoucherUsingCreatedAt(
+                LocalDate.parse(searchCondition.getStart(), formatter).atStartOfDay(),
+                LocalDate.parse(searchCondition.getEnd(), formatter).atStartOfDay());
+        } else {
+            vouchers = voucherService.findAll();
+        }
 
-    @GetMapping("/search/{voucherType}")
-    @ResponseStatus(HttpStatus.OK)
-    public VoucherListResponse findVoucherUsingType(
-        @PathVariable("voucherType") VoucherType voucherType) {
-        return new VoucherListResponse(
-            toVoucherDTOs(voucherService.findVoucherUsingType(voucherType)));
-    }
-
-    @GetMapping("/search")
-    @ResponseStatus(HttpStatus.OK)
-    public VoucherListResponse findVoucherUsingCreatedAt(
-        @RequestParam("start") String start, @RequestParam("end") String end) {
-        LocalDateTime startTime = LocalDate.parse(start, formatter).atStartOfDay();
-        LocalDateTime endTime = LocalDate.parse(end, formatter).atStartOfDay();
-
-        return new VoucherListResponse(
-            toVoucherDTOs(voucherService.findVoucherUsingCreatedAt(startTime, endTime)));
+        return ResponseEntity.ok(new VoucherListResponse(toVoucherDTOs(vouchers)));
     }
 
     @PostMapping
