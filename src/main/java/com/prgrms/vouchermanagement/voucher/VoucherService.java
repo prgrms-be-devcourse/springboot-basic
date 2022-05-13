@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
+import com.prgrms.vouchermanagement.commons.exception.DeletionFailException;
 import com.prgrms.vouchermanagement.commons.exception.NotExistException;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
@@ -56,11 +57,12 @@ public class VoucherService {
 	}
 
 	@Transactional
-	public void removeById(UUID voucherId) {
-		checkNull(voucherId, "id 는 null 이 올 수 없습니다");
-		checkDuplicatedId(voucherId);
+	public void removeById(UUID id) {
+		checkNull(id, "id 는 null 이 올 수 없습니다");
 
-		voucherRepository.deleteById(voucherId);
+		if (0 == voucherRepository.deleteById(id)) {
+			throw new DeletionFailException();
+		}
 	}
 
 	@Transactional(readOnly = true)
