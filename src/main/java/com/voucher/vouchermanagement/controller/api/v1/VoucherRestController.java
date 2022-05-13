@@ -38,7 +38,7 @@ public class VoucherRestController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<VoucherDto> findById(@PathVariable("id") UUID id) {
+	public ResponseEntity<VoucherDto> getById(@PathVariable("id") UUID id) {
 
 		return ResponseEntity.ok(this.voucherService.findById(id));
 	}
