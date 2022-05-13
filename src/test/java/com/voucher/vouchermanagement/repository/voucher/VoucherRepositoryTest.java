@@ -147,6 +147,7 @@ class VoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("ID로 바우처를 조회 테스트")
     public void findByIdTest() {
         //given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
