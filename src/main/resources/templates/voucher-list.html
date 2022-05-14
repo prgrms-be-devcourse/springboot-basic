@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<th:block th:replace="fragments/head :: headFragment('Voucher List')"></th:block>
+<body>
+<div th:replace="~{fragments/header :: headerFragment}"></div>
+<h2 class="title">Voucher List</h2>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">voucherId</th>
+        <th scope="col">voucherType</th>
+        <th scope="col">value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+        <th>
+            <a href="#" th:text="*{voucherId}"></a>
+        </th>
+        <th th:text="*{voucherType}"></th>
+        <th th:text="*{value}"></th>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
