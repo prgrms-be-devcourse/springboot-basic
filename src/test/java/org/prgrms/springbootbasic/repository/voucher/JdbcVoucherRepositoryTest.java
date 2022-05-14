@@ -77,8 +77,8 @@ class JdbcVoucherRepositoryTest {
     @Test
     void findAll() {
         //given
-        jdbcVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 100));
-        jdbcVoucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+        jdbcVoucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100));
+        jdbcVoucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 20));
 
         //when
         var vouchers = jdbcVoucherRepository.findAll();
@@ -105,7 +105,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
         //when
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         //then
         var foundVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
@@ -121,7 +121,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
 
         //when
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         //then
         var foundVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
@@ -135,11 +135,11 @@ class JdbcVoucherRepositoryTest {
     void updateCustomerId() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
 
@@ -157,11 +157,11 @@ class JdbcVoucherRepositoryTest {
     void findByCustomer() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
         jdbcVoucherRepository.updateCustomerId(voucher);
@@ -179,11 +179,11 @@ class JdbcVoucherRepositoryTest {
     void findByCustomerButEmpty() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         var vouchers = jdbcVoucherRepository.findByCustomer(customer);
@@ -197,7 +197,7 @@ class JdbcVoucherRepositoryTest {
     void deleteVoucher() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         //when
         jdbcVoucherRepository.deleteVoucher(voucher);
@@ -225,8 +225,8 @@ class JdbcVoucherRepositoryTest {
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         var voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
 
-        jdbcVoucherRepository.save(voucher);
-        jdbcVoucherRepository.save(voucher2);
+        jdbcVoucherRepository.insert(voucher);
+        jdbcVoucherRepository.insert(voucher2);
 
         //when
         var vouchers = jdbcVoucherRepository.findByType(VoucherType.FIXED);
@@ -243,8 +243,8 @@ class JdbcVoucherRepositoryTest {
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
-        jdbcVoucherRepository.save(voucher);
-        jdbcVoucherRepository.save(voucher2);
+        jdbcVoucherRepository.insert(voucher);
+        jdbcVoucherRepository.insert(voucher2);
 
         //when
         var vouchers = jdbcVoucherRepository.findByType(VoucherType.PERCENT);
@@ -261,8 +261,8 @@ class JdbcVoucherRepositoryTest {
         var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
-        jdbcVoucherRepository.save(voucher1);
-        jdbcVoucherRepository.save(voucher2);
+        jdbcVoucherRepository.insert(voucher1);
+        jdbcVoucherRepository.insert(voucher2);
 
         //when
         var vouchers = jdbcVoucherRepository.findByCreatedAt(

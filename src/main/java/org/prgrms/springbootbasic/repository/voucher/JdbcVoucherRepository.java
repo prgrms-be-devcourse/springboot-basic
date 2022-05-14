@@ -43,7 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_VOUCHER_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = uuid_to_bin(?)";
     private static final String UPDATE_CUSTOMER_ID_SQL = "UPDATE vouchers SET customer_id = uuid_to_bin(?) WHERE voucher_id = uuid_to_bin(?)";
-    
+
 
     //Column
     private static final String COLUMN_TYPE = "type";
@@ -65,7 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
         logger.info("save() called");
 
         if (voucher.isFixed()) {

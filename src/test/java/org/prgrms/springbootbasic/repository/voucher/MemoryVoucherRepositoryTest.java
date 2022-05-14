@@ -28,8 +28,8 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 10);
 
         //when
-        memoryVoucherRepository.save(voucher1);
-        memoryVoucherRepository.save(voucher2);
+        memoryVoucherRepository.insert(voucher1);
+        memoryVoucherRepository.insert(voucher2);
 
         //then
         assertThat(memoryVoucherRepository.findAll())
@@ -44,8 +44,8 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         //when
-        memoryVoucherRepository.save(voucher1);
-        memoryVoucherRepository.save(voucher2);
+        memoryVoucherRepository.insert(voucher1);
+        memoryVoucherRepository.insert(voucher2);
 
         //then
         assertThat(memoryVoucherRepository.findAll())
@@ -60,8 +60,8 @@ class MemoryVoucherRepositoryTest {
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         //when
-        memoryVoucherRepository.save(fixedAmountVoucher);
-        memoryVoucherRepository.save(percentDiscountVoucher);
+        memoryVoucherRepository.insert(fixedAmountVoucher);
+        memoryVoucherRepository.insert(percentDiscountVoucher);
 
         //then
         assertThat(memoryVoucherRepository.findAll())
@@ -73,9 +73,9 @@ class MemoryVoucherRepositoryTest {
     void findAll() {
         //given
         var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        memoryVoucherRepository.save(voucher1);
+        memoryVoucherRepository.insert(voucher1);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        memoryVoucherRepository.save(voucher2);
+        memoryVoucherRepository.insert(voucher2);
 
         //when
         List<Voucher> vouchers = memoryVoucherRepository.findAll();

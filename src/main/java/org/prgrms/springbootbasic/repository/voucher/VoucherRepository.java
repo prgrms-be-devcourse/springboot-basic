@@ -10,7 +10,7 @@ import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public interface VoucherRepository {
 
-    void save(Voucher voucher);
+    void insert(Voucher voucher);
 
     List<Voucher> findAll();
 

@@ -41,7 +41,7 @@ public class CustomerService {
 
         validateDuplicateEmail(email.getEmail());
 
-        return customerRepository.save(new Customer(UUID.randomUUID(), name, email));
+        return customerRepository.insert(new Customer(UUID.randomUUID(), name, email));
     }
 
     public List<Customer> findAllCustomers() {

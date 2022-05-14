@@ -37,8 +37,8 @@ class FileVoucherRepositoryTest {
         Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20);
 
         //when
-        fileVoucherRepository.save(voucher1);
-        fileVoucherRepository.save(voucher2);
+        fileVoucherRepository.insert(voucher1);
+        fileVoucherRepository.insert(voucher2);
 
         //then
         assertThat(fileVoucherRepository.findAll())
@@ -54,8 +54,8 @@ class FileVoucherRepositoryTest {
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         //when
-        fileVoucherRepository.save(voucher1);
-        fileVoucherRepository.save(voucher2);
+        fileVoucherRepository.insert(voucher1);
+        fileVoucherRepository.insert(voucher2);
 
         //then
         assertThat(fileVoucherRepository.findAll())
@@ -71,8 +71,8 @@ class FileVoucherRepositoryTest {
         Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
         //when
-        fileVoucherRepository.save(fixedAmountVoucher);
-        fileVoucherRepository.save(percentAmountVoucher);
+        fileVoucherRepository.insert(fixedAmountVoucher);
+        fileVoucherRepository.insert(percentAmountVoucher);
 
         //then
         assertThat(fileVoucherRepository.findAll())
@@ -88,8 +88,8 @@ class FileVoucherRepositoryTest {
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
-        fileVoucherRepository.save(fixedAmountVoucher);
-        fileVoucherRepository.save(percentAmountVoucher);
+        fileVoucherRepository.insert(fixedAmountVoucher);
+        fileVoucherRepository.insert(percentAmountVoucher);
 
         //when
         List<Voucher> vouchers = fileVoucherRepository.findAll();

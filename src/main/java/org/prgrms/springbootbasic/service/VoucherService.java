@@ -42,12 +42,12 @@ public class VoucherService {
 
         if (voucherType.isFixed()) {
             var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-            voucherRepository.save(fixedAmountVoucher);
+            voucherRepository.insert(fixedAmountVoucher);
             return fixedAmountVoucher.getVoucherId();
         }
 
         var percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
-        voucherRepository.save(percentDiscountVoucher);
+        voucherRepository.insert(percentDiscountVoucher);
         return percentDiscountVoucher.getVoucherId();
     }
 

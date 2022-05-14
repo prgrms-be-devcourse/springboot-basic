@@ -63,7 +63,7 @@ class CustomerServiceTest {
         //then
         var inOrder = inOrder(customerRepository);
         inOrder.verify(customerRepository).findByEmail(email.getEmail());
-        inOrder.verify(customerRepository).save(any(Customer.class));
+        inOrder.verify(customerRepository).insert(any(Customer.class));
     }
 
     @DisplayName("회원 생성 테스트 - 이메일 중복")

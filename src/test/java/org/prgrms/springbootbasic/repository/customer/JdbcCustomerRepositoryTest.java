@@ -77,11 +77,11 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findAll() {
         //given
-        jdbcCustomerRepository.save(
+        jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test00"), new Email("test00@gmail.com")));
-        jdbcCustomerRepository.save(
+        jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test01"), new Email("test01@gmail.com")));
-        jdbcCustomerRepository.save(
+        jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test02"), new Email("test02@gmail.com")));
 
         //when
@@ -110,7 +110,7 @@ class JdbcCustomerRepositoryTest {
             new Email("hyuk@gmail.com"));
 
         //when
-        var saveCustomerId = jdbcCustomerRepository.save(customer);
+        var saveCustomerId = jdbcCustomerRepository.insert(customer);
 
         //then
         assertThat(saveCustomerId).isEqualTo(customer.getCustomerId());
@@ -120,12 +120,12 @@ class JdbcCustomerRepositoryTest {
     @Test
     void saveFail() {
         //given
-        jdbcCustomerRepository.save(
+        jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test"), new Email("test@gmail.com")));
 
         //when
         //then
-        assertThatThrownBy(() -> jdbcCustomerRepository.save(
+        assertThatThrownBy(() -> jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test1"), new Email("test@gmail.com"))))
             .isInstanceOf(DataAccessException.class);
     }
@@ -136,7 +136,7 @@ class JdbcCustomerRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         jdbcCustomerRepository.removeAll();
@@ -162,7 +162,7 @@ class JdbcCustomerRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         String newName = "newTest";
         customer.changeName(newName);
@@ -183,7 +183,7 @@ class JdbcCustomerRepositoryTest {
         //given
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         var findCustomer = jdbcCustomerRepository.findByEmail(email);
@@ -197,11 +197,11 @@ class JdbcCustomerRepositoryTest {
     void findByVoucherTypeFixed() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
         jdbcVoucherRepository.updateCustomerId(voucher);
@@ -219,11 +219,11 @@ class JdbcCustomerRepositoryTest {
     void findByVoucherTypeFixedEmpty() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
         jdbcVoucherRepository.updateCustomerId(voucher);
@@ -240,11 +240,11 @@ class JdbcCustomerRepositoryTest {
     void findByVoucherTypePercent() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
         jdbcVoucherRepository.updateCustomerId(voucher);
@@ -262,11 +262,11 @@ class JdbcCustomerRepositoryTest {
     void findByVoucherTypePercentEmpty() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
-        jdbcVoucherRepository.save(voucher);
+        jdbcVoucherRepository.insert(voucher);
 
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         voucher.assignCustomer(customer);
         jdbcVoucherRepository.updateCustomerId(voucher);
@@ -284,7 +284,7 @@ class JdbcCustomerRepositoryTest {
         //given
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
-        jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.insert(customer);
 
         //when
         jdbcCustomerRepository.deleteById(customer.getCustomerId());

@@ -10,7 +10,7 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    UUID save(Customer customer);
+    UUID insert(Customer customer);
 
     void removeAll();
 

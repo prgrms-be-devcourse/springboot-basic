@@ -58,7 +58,7 @@ class VoucherServiceTest {
         voucherService.createVoucher(VoucherType.FIXED, amount, 0);
 
         //then
-        verify(voucherRepository).save(any(FixedAmountVoucher.class));
+        verify(voucherRepository).insert(any(FixedAmountVoucher.class));
     }
 
     @DisplayName("FixedAmountVoucher 만들기 실패")
@@ -80,7 +80,7 @@ class VoucherServiceTest {
         voucherService.createVoucher(VoucherType.PERCENT, 0, 20);
 
         //then
-        verify(voucherRepository).save(any(PercentDiscountVoucher.class));
+        verify(voucherRepository).insert(any(PercentDiscountVoucher.class));
     }
 
     @DisplayName("PercentAmountVoucher 만들기 실패")

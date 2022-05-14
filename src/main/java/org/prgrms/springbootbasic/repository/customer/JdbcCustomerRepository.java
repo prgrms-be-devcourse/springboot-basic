@@ -69,7 +69,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public UUID save(Customer customer) {
+    public UUID insert(Customer customer) {
         logger.info("save() called");
 
         var insert = jdbcTemplate.update(INSERT_SQL,

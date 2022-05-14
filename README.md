@@ -233,3 +233,5 @@
 - [X] RestController에서 RestAPI 반환 Http Method에서 Header 값들도 고민하기
   - 단일 생성 요청 API -> Response Http Message에 단일 건 조회가능한 URI를 Location에 쓴다. 
   - 삭제 요청 API -> Response Http Message에 204 no_content 사용한다.
+- [X] Persistence Layer에서 save의 의미는 insert와 update를 의미한다. 
+  - insert만 하는 메서드는 insert 네이밍이 적절하다. 

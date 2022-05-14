@@ -34,7 +34,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final File VoucherStorage = new File(VOUCHER_DB_SER);
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
         logger.info("save() called");
 
         try (ObjectOutputStream stream = new ObjectOutputStream(
