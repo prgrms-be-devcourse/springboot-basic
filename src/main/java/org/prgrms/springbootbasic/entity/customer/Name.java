@@ -7,6 +7,8 @@ import org.prgrms.springbootbasic.exception.InvalidNameFormatException;
 
 public class Name {
 
+    private static final int LIMIT_LEN = 10;
+
     private String name;
 
     public Name(String name) {
@@ -37,7 +39,7 @@ public class Name {
     }
 
     private void validateNameFormat(String name) {
-        if (name.length() >= 10) {
+        if (name.length() >= LIMIT_LEN) {
             throw new InvalidNameFormatException(INVALID_NAME_FORMAT_EXP_MSG);
         }
     }
