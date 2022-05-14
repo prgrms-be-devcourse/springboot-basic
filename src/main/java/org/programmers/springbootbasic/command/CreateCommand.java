@@ -3,23 +3,20 @@ package org.programmers.springbootbasic.command;
 import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.exception.NotInsertException;
 import org.programmers.springbootbasic.io.Console;
-import org.programmers.springbootbasic.voucher.model.VoucherType;
-import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.voucher.service.DefaultVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class CreateCommand implements Command {
     private static final Logger logger = LoggerFactory.getLogger(CreateCommand.class);
 
     @Override
-    public boolean execute(Console console, VoucherService voucherService) {
+    public boolean execute(Console console, DefaultVoucherService defaultVoucherService) {
         try {
             long value = Long.parseLong(console.input("Type value"));
             String voucherType = (console.input("Choose Voucher type\n FIXED\n PERCENT"));
-            voucherService.createVoucher(VoucherType.valueOf(voucherType), UUID.randomUUID(), value, LocalDateTime.now());
+            defaultVoucherService.createVoucher(new CreateVoucherRequest(value, voucherType));
             console.printSuccessMessage();
         } catch (NumberFormatException e) {
             logger.error("NumberFormat Exception 입니다", e);

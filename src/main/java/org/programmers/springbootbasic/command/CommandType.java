@@ -1,7 +1,7 @@
 package org.programmers.springbootbasic.command;
 
 import org.programmers.springbootbasic.io.Console;
-import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.voucher.service.DefaultVoucherService;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -28,9 +28,9 @@ public enum CommandType {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 커맨드 타입입니다."));
     }
 
-    public static boolean execute(CommandType commandType, Console console, VoucherService voucherService) {
+    public static boolean execute(CommandType commandType, Console console, DefaultVoucherService defaultVoucherService) {
         return commandType.commandSupplier.get()
-                .execute(console, voucherService);
+                .execute(console, defaultVoucherService);
     }
 
 }

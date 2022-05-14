@@ -29,6 +29,13 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> getVoucherListByVoucherType(VoucherType voucherType) {
+        return voucherRepository.findByVoucherType(voucherType);
+    }
+    public List<Voucher> getVoucherListOrderByCreatedAt() {
+        return voucherRepository.findByCreatedAt();
+    }
+
     public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long value, LocalDateTime createdAt) {
         if (checkVoucherExist(voucherId)) {
             throw new DuplicateObjectKeyException("이미 존재하는 바우처 입니다.");
