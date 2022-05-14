@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="fragments/head :: headFragment('Voucher Details')"></th:block>
+<body class="container-fluid">
+<form th:action="@{/voucher/update}" method="post">
+  <div th:replace="~{fragments/header :: headerFragment}"></div>
+  <h2>Voucher Details</h2>
+
+  <div class="mb-3">
+    <label for="voucherId" class="form-label">VoucherId</label>
+    <input type="text" th:value="${voucher.voucherId}" class="form-control" id="voucherId" name="voucherId" readonly>
+  </div>
+
+  <div class="mb-3">
+    <label for="voucherType" class="form-label">VoucherType</label>
+    <select id="voucherType" th:value="${voucher.voucherType}" name="voucherType" class="form-select" disabled>
+      <option th:selected="${voucher.voucherType} == 'FIXED_AMOUNT'" value="FIXED_AMOUNT">FIXED_AMOUNT</option>
+      <option th:selected="${voucher.voucherType} == 'PERCENT_DISCOUNT'" value="PERCENT_DISCOUNT">PERCENT_DISCOUNT</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="voucherValue" class="form-label">Price</label>
+    <input type="number" th:value="${voucher.value}" class="form-control" id="voucherValue" name="voucherValue" readonly>
+  </div>
+
+  <button type="button" class="btn btn-primary update-button">Modify</button>
+
+  <button type="submit" class="btn btn-primary submit-button">Submit</button>
+</form>
+
+<script>
+  const updateBtn = document.querySelector('.update-button');
+  const submitBtn = document.querySelector('.submit-button');
+  const valueInput = document.querySelector('#voucherValue');
+  submitBtn.style.visibility = 'hidden';
+
+  updateBtn.onclick = () => {
+    updateBtn.style.display = 'none';
+    submitBtn.style.visibility = 'visible';
+    valueInput.removeAttribute('readonly');
+  }
+</script>
+</body>
+</html>

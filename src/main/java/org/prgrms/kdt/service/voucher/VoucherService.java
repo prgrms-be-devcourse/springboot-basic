@@ -48,4 +48,11 @@ public class VoucherService {
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
+
+    public Voucher findById(UUID voucherId) {
+        checkArgument(voucherId != null, "voucherId must be provided.");
+
+        return voucherRepository.findById(voucherId)
+            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucherId));
+    }
 }

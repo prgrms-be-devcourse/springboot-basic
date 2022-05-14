@@ -5,6 +5,7 @@ import org.prgrms.kdt.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,6 +48,22 @@ public class VoucherController {
     public String deleteVoucher(@RequestParam UUID voucherId) {
         voucherService.delete(voucherId);
 
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping("/voucher/details/{voucherId}")
+    public String voucherDetailsPage(@PathVariable UUID voucherId, Model model) {
+        model.addAttribute("voucher",
+            new VoucherDto(
+                voucherService.findById(voucherId)
+            )
+        );
+        return "voucher-details";
+    }
+
+    @PostMapping("/voucher/update")
+    public String updateVoucher(UpdateVoucherRequest request) {
+        voucherService.update(request.getVoucherId(), request.getVoucherValue());
         return "redirect:/vouchers";
     }
 }
