@@ -3,22 +3,16 @@ package org.prgrms.vouchermanagement.controller.console;
 import java.util.function.Function;
 
 public enum ConsoleCommandV2 {
-  EXIT("exit", job -> {
-    return false;
-  }),
-  LIST("list", job -> {
+  LIST(job -> {
     job.processList();
     return true;
   }),
-  CREATE("create", job -> {
-    return true;
-  });
+  EXIT(job -> false),
+  CREATE(job -> true);
 
-  private final String command;
   private final Function<ConsoleController, Boolean> job;
 
-  ConsoleCommandV2(String command, Function<ConsoleController, Boolean> job) {
-    this.command = command;
+  ConsoleCommandV2(Function<ConsoleController, Boolean> job) {
     this.job = job;
   }
 
