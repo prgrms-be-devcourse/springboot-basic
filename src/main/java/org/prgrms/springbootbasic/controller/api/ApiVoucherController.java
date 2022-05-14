@@ -4,7 +4,6 @@ import static org.prgrms.springbootbasic.util.DtoConverter.toVoucherDTO;
 import static org.prgrms.springbootbasic.util.DtoConverter.toVoucherDTOs;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -53,14 +52,13 @@ public class ApiVoucherController {
 
     @PostMapping
     public ResponseEntity<Void> createVoucher(
-        @RequestBody CreateVoucherRequest createVoucherRequest)
-        throws URISyntaxException {
+        @RequestBody CreateVoucherRequest createVoucherRequest) {
         var voucherId = voucherService.createVoucher(
             createVoucherRequest.getVoucherType(),
             createVoucherRequest.getAmount(),
             createVoucherRequest.getPercent());
         return ResponseEntity
-            .created(new URI("/api/v1/vouchers/" + voucherId.toString()))
+            .created(URI.create("/api/v1/vouchers/" + voucherId.toString()))
             .build();
     }
 

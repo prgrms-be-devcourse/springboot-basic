@@ -237,3 +237,6 @@
   - insert만 하는 메서드는 insert 네이밍이 적절하다.
 - [X] simpleJdbcInsert를 이용하면 Insert 후 pk 값을 반환 받을 수 있다.
   - 내 코드의 경우 단순 Insert SQL이 아니라, Insert SQL에 UUID_TO_BIN 함수를 사용해, 오히려 복잡해짐.
+- [X] new URI vs URI.create()
+  - new URI는 외부에서 URI를 생성할 때 사용한다. (예외의 경우 URISyntaxException를 바로 던진다.)
+  - URI.create() 내부에서 URI에 오류가 없다고 생각하는 경우 사용한다. (예외의 경우 URISyntaxException를 IllegalArgumentException으로 바꿔준다.)
