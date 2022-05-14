@@ -36,10 +36,4 @@ public class ConsoleInput implements Input {
     printer.printListType();
     return reader.read();
   }
-
-  @Override
-  public Optional<String> readVoucherType() {
-    printer.printAvailableVoucherType();
-    return read();
-  }
 }

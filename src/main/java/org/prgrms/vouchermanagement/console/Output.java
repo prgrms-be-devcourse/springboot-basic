@@ -10,11 +10,5 @@ public interface Output {
 
   void printListType();
 
-  void printAvailableVoucherType();
-
-  void printIssueVoucher();
-
-  void printIssueCustomer();
-
   void printList(List list);
 }

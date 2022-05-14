@@ -54,16 +54,6 @@ public class ConsoleOutput implements Output {
   }
 
   @Override
-  public void printIssueVoucher() {
-    System.out.print(ISSUE_COMMAND_CUSTOMER);
-  }
-
-  @Override
-  public void printIssueCustomer() {
-    System.out.println(ISSUE_COMMAND_VOUCHER);
-  }
-
-  @Override
   public void printList(List list) {
     for(Object element: list) {
       System.out.println(element);
