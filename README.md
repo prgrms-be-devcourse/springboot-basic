@@ -240,3 +240,4 @@
 - [X] new URI vs URI.create()
   - new URI는 외부에서 URI를 생성할 때 사용한다. (예외의 경우 URISyntaxException를 바로 던진다.)
   - URI.create() 내부에서 URI에 오류가 없다고 생각하는 경우 사용한다. (예외의 경우 URISyntaxException를 IllegalArgumentException으로 바꿔준다.)
+- [X] 사용 후 닫아줘야 하는 리소스를 사용하면 try-finally 대신 try-with-resources를 사용하자.

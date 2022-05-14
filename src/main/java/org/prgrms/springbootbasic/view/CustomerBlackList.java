@@ -23,9 +23,9 @@ public class CustomerBlackList {
     }
 
     public void printCustomerBlackList() {
-        BufferedReader br;
-        try {
-            br = new BufferedReader(new FileReader(customerBlackList));
+        try (
+            var fileReader = new FileReader(customerBlackList);
+            var br = new BufferedReader(fileReader)) {
             String line;
 
             System.out.println(CUSTOMER_BLACK_LIST.getText());
@@ -36,6 +36,5 @@ public class CustomerBlackList {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
