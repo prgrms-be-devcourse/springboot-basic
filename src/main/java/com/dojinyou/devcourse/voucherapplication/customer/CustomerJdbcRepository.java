@@ -25,24 +25,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer create(Customer customer) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-
         int updateRow = jdbcTemplate.update("INSERT INTO customer(name) VALUES(:name)",
-                                            new MapSqlParameterSource().addValue("name", customer.getName()),
-                                            keyHolder);
+                                            new MapSqlParameterSource().addValue("name", customer.getName()));
         if (updateRow != 1) {
             throw new RuntimeException();
         }
 
-        var firstValue = keyHolder.getKeyList().get(0).values().stream().findFirst();
-        long newId = 0;
-        if (firstValue.isPresent() && firstValue.get() instanceof BigInteger) {
-            newId = ((BigInteger) firstValue.get()).longValue();
-        } else if (firstValue.isPresent() && firstValue.get() instanceof Long) {
-            newId = (long) firstValue.get();
-        } else {
-            throw new RuntimeException();
-        }
+        Long newId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", new MapSqlParameterSource(), Long.class);
 
         return findById(newId).orElseThrow(RuntimeException::new);
     }
