@@ -17,13 +17,11 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
-    boolean deleteById(UUID voucherId);
+    void deleteById(UUID voucherId);
 
     void deleteAll();
 
     List<Voucher> findByType(VoucherType voucherType);
-
-    int count(UUID voucherId);
 
     List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end);
 }
