@@ -1,9 +1,10 @@
 package org.programmers.kdt.weekly.voucher.controller;
 
 import java.util.UUID;
+
+import org.programmers.kdt.weekly.voucher.controller.restController.CreateVoucherRequest;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,54 +15,56 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class VoucherController {
 
-    @Autowired
-    private VoucherService voucherService;
+	private final VoucherService voucherService;
 
-    @GetMapping("/new-voucher")
-    public String createVoucherPage(Model model) {
-        model.addAttribute("voucherType", VoucherType.values());
+	public VoucherController(VoucherService voucherService) {
+		this.voucherService = voucherService;
+	}
 
-        return "new-voucher";
-    }
+	@GetMapping("/new-voucher")
+	public String createVoucherPage(Model model) {
+		model.addAttribute("voucherType", VoucherType.values());
 
-    @PostMapping("/new-voucher")
-    public String create(CreateVoucherRequest createVoucherRequest) {
-        this.voucherService.create(
-            createVoucherRequest.getVoucherType(), createVoucherRequest.getValue());
+		return "new-voucher";
+	}
 
-        return "redirect:/";
-    }
+	@PostMapping("/new-voucher")
+	public String create(CreateVoucherRequest createVoucherRequest) {
+		this.voucherService.save(createVoucherRequest.voucherType(), createVoucherRequest.value());
 
-    @GetMapping("/vouchers")
-    public String list(Model model) {
-        var vouchers = this.voucherService.getVouchers();
-        model.addAttribute("vouchers", vouchers);
+		return "redirect:/";
+	}
 
-        return "voucher-list";
-    }
+	@GetMapping("/vouchers")
+	public String list(Model model) {
+		var vouchers = this.voucherService.getVouchers();
+		model.addAttribute("vouchers", vouchers);
 
-    @GetMapping("/voucher/{voucherId}")
-    public String detail(@PathVariable("voucherId") UUID voucherId, Model model) {
-        var voucher = this.voucherService.findById(voucherId);
-        model.addAttribute("voucher", voucher.get());
+		return "voucher-list";
+	}
 
-        return "voucher-detail";
-    }
+	@GetMapping("/voucher/{voucherId}")
+	public String detail(@PathVariable("voucherId") UUID voucherId, Model model) {
+		var voucher = this.voucherService.findById(voucherId);
+		model.addAttribute("voucher", voucher.get());
 
-    @DeleteMapping("/voucher/{voucherId}")
-    public String delete(@PathVariable("voucherId") UUID voucherId) {
-        this.voucherService.deleteById(voucherId);
+		return "voucher-detail";
+	}
 
-        return "redirect:/voucher";
-    }
+	@DeleteMapping("/voucher/{voucherId}")
+	public String delete(@PathVariable("voucherId") UUID voucherId) {
+		this.voucherService.deleteById(voucherId);
 
-    @PostMapping("/voucher/{voucherId}")
-    public String update(@PathVariable("voucherId") UUID voucherId,
-        CreateVoucherRequest createVoucherRequest) {
-        var voucher = this.voucherService.findById(voucherId).get();
-        voucher.changeValue(createVoucherRequest.getValue());
-        this.voucherService.update(voucher);
+		return "redirect:/voucher";
+	}
 
-        return "redirect:/voucher";
-    }
+	@PostMapping("/voucher/{voucherId}")
+	public String update(@PathVariable("voucherId") UUID voucherId,
+		CreateVoucherRequest createVoucherRequest) {
+		var voucher = this.voucherService.findById(voucherId).get();
+		voucher.changeValue(createVoucherRequest.value());
+		this.voucherService.update(voucher);
+
+		return "redirect:/voucher";
+	}
 }

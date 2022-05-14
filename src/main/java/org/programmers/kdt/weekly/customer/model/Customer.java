@@ -6,72 +6,77 @@ import java.util.regex.Pattern;
 
 public class Customer {
 
-    private final UUID customerId;
-    private final String email;
-    private final String customerName;
-    private CustomerType customerType;
+	private final UUID customerId;
+	private final String email;
+	private final String customerName;
+	private CustomerType customerType;
 
-    public Customer(UUID customerId, String email, String customerName, CustomerType customerType) {
-        if (!validatedEmail(email) || !validatedName(customerName)) {
-            throw new IllegalArgumentException();
-        }
+	public Customer(UUID customerId, String email, String customerName, CustomerType customerType) {
+		if (!validatedEmail(email) || !validatedName(customerName)) {
+			throw new IllegalArgumentException();
+		}
 
-        this.customerId = customerId;
-        this.email = email;
-        this.customerName = customerName;
-        this.customerType = customerType;
-    }
+		this.customerId = customerId;
+		this.email = email;
+		this.customerName = customerName;
+		this.customerType = customerType;
+	}
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
+	public Customer changeCustomerType(CustomerType customerType) {
+		this.customerType = customerType;
+		return this;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public boolean validatedName(String name) {
+		return name.isBlank();
+	}
 
-    public Customer changeCustomerType(CustomerType customerType) {
-        this.customerType = customerType;
-        return this;
-    }
+	public boolean validatedEmail(String email) {
+		var regExp = "/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i";
 
-    @Override
-    public String toString() {
-        return
-            "customerId: " + customerId +
-                ", customerName: " + customerName +
-                ", customerEmail: " +email+
-                ", customerType: " + customerType;
-    }
+		return Pattern.matches(regExp, email);
+	}
 
-    public String serializeCustomer() {
-        return customerId + "," + email + "," + customerName + "," + customerType;
-    }
+	public UUID getCustomerId() {
+		return customerId;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Customer customer = (Customer) o;
-        return Objects.equals(customerId, customer.customerId);
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(customerId);
-    }
+	public String getCustomerName() {
+		return customerName;
+	}
 
-    public boolean validatedName(String name) {
-        return name.isBlank();
-    }
+	public CustomerType getCustomerType() {
+		return customerType;
+	}
 
-    public boolean validatedEmail(String email) {
-        var regExp = "/^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i";
+	@Override
+	public String toString() {
+		return
+			"customerId: " + customerId +
+				", customerName: " + customerName +
+				", customerEmail: " + email +
+				", customerType: " + customerType;
+	}
 
-        return Pattern.matches(regExp, email);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Customer customer = (Customer)o;
+		return Objects.equals(customerId, customer.customerId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(customerId);
+	}
+
 }

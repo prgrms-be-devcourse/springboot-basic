@@ -4,107 +4,110 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
 import org.programmers.kdt.weekly.command.io.Console;
 import org.programmers.kdt.weekly.command.io.InfoMessageType;
+import org.programmers.kdt.weekly.customer.model.Customer;
 import org.programmers.kdt.weekly.customer.model.CustomerType;
 import org.programmers.kdt.weekly.customer.service.CustomerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class CustomerCommandLine {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerCommandLine.class);
+	private final Console console;
+	private final CustomerService customerService;
 
-    private final Console console;
-    private final CustomerService customerService;
+	public CustomerCommandLine(Console console,
+		CustomerService customerService) {
+		this.console = console;
+		this.customerService = customerService;
+	}
 
-    public CustomerCommandLine(Console console,
-        CustomerService customerService) {
-        this.console = console;
-        this.customerService = customerService;
-    }
+	public void run() {
+		var commandType = CustomerCommandType.DEFAULT;
 
-    public void run() {
-        var commandType = CustomerCommandType.DEFAULT;
+		while (commandType.isRunnable()) {
+			this.console.printCommandDescription(getCommandDescription());
+			var userInput = this.console.getUserInput();
 
-        while (commandType.isRunnable()) {
-            this.console.printCommandDescription(getCommandDescription());
-            var userInput = this.console.getUserInput();
+			try {
+				commandType = CustomerCommandType.of(userInput);
 
-            try {
-                commandType = CustomerCommandType.of(userInput);
+				switch (commandType) {
+					case CUSTOMER_CREATE -> this.createCustomer();
+					case CUSTOMER_LIST -> this.showCustomerList(CustomerType.NORMAL);
+					case CUSTOMER_BLACK_LIST -> this.showCustomerList(CustomerType.BLACK);
+					case CUSTOMER_TYPE_CHANGE -> this.changeCustomerType();
+					case EXIT -> this.console.programExitMessage();
+				}
+			} catch (IllegalArgumentException e) {
+				log.error("customerCommandLine error -> {]", e);
+				this.console.printInfoMessage(InfoMessageType.INVALID);
+			}
+		}
+	}
 
-                switch (commandType) {
-                    case CUSTOMER_CREATE -> this.createCustomer();
-                    case CUSTOMER_LIST -> this.showCustomerList(CustomerType.NORMAL);
-                    case CUSTOMER_BLACK_LIST -> this.showCustomerList(CustomerType.BLACK);
-                    case CUSTOMER_TYPE_CHANGE -> this.changeCustomerType();
-                    case EXIT -> this.console.programExitMessage();
-                }
-            } catch (IllegalArgumentException e) {
-                logger.error("customerCommandLine error -> {]", e);
-                this.console.printInfoMessage(InfoMessageType.INVALID);
-            }
-        }
-    }
+	private void createCustomer() {
+		this.console.print("input name");
+		var userName = console.getUserInput();
+		this.console.print("input email");
+		var userEmail = console.getUserInput();
 
-    private void createCustomer() {
-        this.console.print("input name");
-        var userName = console.getUserInput();
-        this.console.print("input email");
-        var userEmail = console.getUserInput();
+		if (isDuplicateEmail(userEmail)) {
+			this.console.printInfoMessage(InfoMessageType.DUPLICATE_EMAIL);
 
-        if (isDuplicateEmail(userEmail)) {
-            this.console.printInfoMessage(InfoMessageType.DUPLICATE_EMAIL);
+			return;
+		}
 
-            return;
-        }
+		this.customerService.create(UUID.randomUUID(), userEmail, userName);
+		this.console.print("success !");
+	}
 
-        this.customerService.create(UUID.randomUUID(), userEmail, userName);
-        this.console.print("success !");
-    }
+	private void showCustomerList(CustomerType customerType) {
+		var customerList = this.customerService.findByCustomerType(customerType);
 
-    private void showCustomerList(CustomerType customerType) {
-        var customerList = this.customerService.findByCustomerType(customerType);
+		if (customerList.isEmpty()) {
+			this.console.printInfoMessage(InfoMessageType.CUSTOMER_EMPTY);
 
-        if (customerList.isEmpty()) {
-            this.console.printInfoMessage(InfoMessageType.CUSTOMER_EMPTY);
+			return;
+		}
 
-            return;
-        }
+		for (Customer customer : customerList) {
+			System.out.println(customer.toString());
+		}
+	}
 
-        customerList.forEach((customer) -> System.out.println(customer.toString()));
-    }
+	private void changeCustomerType() {
+		this.console.print("input customer email");
+		var customerEmail = this.console.getUserInput();
+		var maybeCustomer = customerService.findByEmail(customerEmail);
 
-    private void changeCustomerType() {
-        this.console.print("input customer email");
-        var customerEmail = this.console.getUserInput();
-        var maybeCustomer = customerService.findByEmail(customerEmail);
+		if (maybeCustomer.isEmpty()) {
+			this.console.printInfoMessage(InfoMessageType.INVALID);
 
-        if (maybeCustomer.isEmpty()) {
-            this.console.printInfoMessage(InfoMessageType.INVALID);
+			return;
+		}
 
-            return;
-        }
+		this.console.print("input type");
+		var changeType = this.console.getUserInput();
+		maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
+		this.customerService.changeBlackType(maybeCustomer.get());
+		this.console.print("success !");
+	}
 
-        this.console.print("input type");
-        var changeType = this.console.getUserInput();
-        maybeCustomer.get().changeCustomerType(CustomerType.valueOf(changeType));
-        this.customerService.changeBlackType(maybeCustomer.get());
-        this.console.print("success !");
-    }
+	private boolean isDuplicateEmail(String userInput) {
+		return this.customerService.findByEmail(userInput).isPresent();
+	}
 
-    private boolean isDuplicateEmail(String userInput) {
-        return this.customerService.findByEmail(userInput).isPresent();
-    }
+	private List<String> getCommandDescription() {
+		List<String> commandDescription = new ArrayList<>();
+		Arrays.stream(CustomerCommandType.values())
+			.forEach((v) -> commandDescription.add(v.getCommandMessage()));
 
-    private List<String> getCommandDescription() {
-        List<String> commandDescription = new ArrayList<>();
-        Arrays.stream(CustomerCommandType.values())
-            .forEach((v) -> commandDescription.add(v.getCommandMessage()));
-
-        return commandDescription;
-    }
+		return commandDescription;
+	}
 }

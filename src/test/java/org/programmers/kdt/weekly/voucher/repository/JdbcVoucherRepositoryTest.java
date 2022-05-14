@@ -7,13 +7,11 @@ import static org.assertj.core.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.ScriptResolver;
-import com.wix.mysql.config.Charset;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +25,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.ScriptResolver;
+import com.wix.mysql.config.Charset;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @SpringBootTest
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -78,10 +83,11 @@ class JdbcVoucherRepositoryTest {
     void findById() {
         //given
         //when
-        Optional<Voucher> findVoucher = jdbcTemplateVoucherRepository.findById(
+        Optional<Voucher> foundVoucher = jdbcTemplateVoucherRepository.findById(
             voucher.getVoucherId());
         //then
-        assertThat(voucher, samePropertyValuesAs(findVoucher.get()));
+        log.error(foundVoucher.get().toString());
+        assertThat(voucher, samePropertyValuesAs(foundVoucher.get()));
     }
 
     @Test
