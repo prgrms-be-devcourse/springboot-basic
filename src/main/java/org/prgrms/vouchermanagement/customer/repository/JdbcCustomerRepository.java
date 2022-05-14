@@ -128,13 +128,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
   };
 
   private Map<String, Object> toParamMap(Customer customer) {
-    return new HashMap<String, Object>(){{
-      put("customerId", customer.getCustomerId().toString().getBytes());
-      put("name", customer.getName());
-      put("email", customer.getEmail().getAddress());
-      put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-      put("lastLoginAt", customer.getLastLoginAt() != null? Timestamp.valueOf(customer.getLastLoginAt()): null);
-    }};
+    Map<String, Object> paramMap = new HashMap<>();
+    paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+    paramMap.put("name", customer.getName());
+    paramMap.put("email", customer.getEmail().getAddress());
+    paramMap.put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
+    paramMap.put("lastLoginAt", customer.getLastLoginAt() != null? Timestamp.valueOf(customer.getLastLoginAt()): null);
+    return paramMap;
   }
 
   static UUID toUUID(byte[] bytes) throws SQLException {
