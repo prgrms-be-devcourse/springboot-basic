@@ -7,7 +7,7 @@ public enum VoucherType {
   private int selectedNumber;
   private String simpleClassName;
 
-  private VoucherType(int selectedNumber, String simpleClassName) {
+  VoucherType(int selectedNumber, String simpleClassName) {
     this.selectedNumber = selectedNumber;
     this.simpleClassName = simpleClassName;
   }

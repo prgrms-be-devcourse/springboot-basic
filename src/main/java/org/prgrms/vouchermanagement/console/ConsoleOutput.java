@@ -1,5 +1,7 @@
 package org.prgrms.vouchermanagement.console;
 
+import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,16 +25,6 @@ public class ConsoleOutput implements Output {
 
   private static final String LIST_TYPE = "Which do you want customer or voucher? (customer OR voucher): ";
 
-  public static final String AVAILABLE_VOUCHERS = "Which type do you want?" +
-    System.lineSeparator() +
-    "1. FixedAmountVoucher(Fixed)" +
-    System.lineSeparator() +
-    "2. PercentDiscountVoucher(Percent)";
-
-  public static final String ISSUE_COMMAND_CUSTOMER = "Input the Customer ID: ";
-
-  public static final String ISSUE_COMMAND_VOUCHER = "Input the Voucher ID: ";
-
   @Override
   public void printCommandList() {
     System.out.println(AVAILABLE_COMMANDS);
@@ -49,14 +41,16 @@ public class ConsoleOutput implements Output {
   }
 
   @Override
-  public void printAvailableVoucherType() {
-    System.out.println(AVAILABLE_VOUCHERS);
+  public void printVoucherList(List<Voucher> list) {
+    for(Object voucher: list) {
+      System.out.println(voucher);
+    }
   }
 
   @Override
-  public void printList(List list) {
-    for(Object element: list) {
-      System.out.println(element);
+  public void printCustomerList(List<Customer> list) {
+    for(Customer customer: list) {
+      System.out.println(customer);
     }
   }
 }

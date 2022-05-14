@@ -41,10 +41,10 @@ public class ConsoleController {
   public void processList() {
     String listType = input.readListType().toLowerCase();
     if(listType.equals("customer")) {
-      output.printList(customerService.getCustomerList());
+      output.printCustomerList(customerService.getCustomerList());
     }
     else if(listType.equals("voucher")) {
-      output.printList(voucherService.getVoucherList());
+      output.printVoucherList(voucherService.getVoucherList());
     }
   }
 
