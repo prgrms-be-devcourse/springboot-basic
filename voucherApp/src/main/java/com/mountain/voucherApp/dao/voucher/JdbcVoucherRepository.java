@@ -4,7 +4,6 @@ import com.mountain.voucherApp.model.VoucherEntity;
 import com.mountain.voucherApp.model.enums.DiscountPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -27,7 +26,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger log = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    @Autowired
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -52,10 +50,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public VoucherEntity insert(VoucherEntity voucherEntity) {
-        Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
                 "INSERT INTO vouchers (voucher_id, discount_policy, discount_amount) VALUES (UUID_TO_BIN(:voucherId), :discountPolicy, :discountAmount)",
-                paramMap
+                toParamMap(voucherEntity)
         );
         if (executeUpdate != 1) {
             throw new RuntimeException(NOT_INSERTED.getMessage());
@@ -64,10 +61,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     public VoucherEntity update(VoucherEntity voucherEntity) {
-        Map paramMap = toParamMap(voucherEntity);
         int executeUpdate = jdbcTemplate.update(
                 "UPDATE vouchers SET discount_policy = :discountPolicy, discount_amount = :discountAmount WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                paramMap
+                toParamMap(voucherEntity)
         );
         if (executeUpdate != 1) {
             throw new RuntimeException(NOT_UPDATED.getMessage());
@@ -77,10 +73,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(DISCOUNT_POLICY_CAMEL.getValue(), discountPolicy.toString());
-            put(DISCOUNT_AMOUNT_CAMEL.getValue(), discountAmount);
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(DISCOUNT_POLICY_CAMEL.getValue(), discountPolicy.toString());
+        paramMap.put(DISCOUNT_AMOUNT_CAMEL.getValue(), discountAmount);
         try {
             Optional<VoucherEntity> voucherEntity = Optional.ofNullable(jdbcTemplate.queryForObject(
                     "SELECT * FROM vouchers WHERE discount_policy = :discountPolicy AND discount_amount = :discountAmount",
@@ -96,20 +91,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes(StandardCharsets.UTF_8));
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), voucherId.toString().getBytes(StandardCharsets.UTF_8));
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)"
                 , paramMap
         );
     }
 
     private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
-        return new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
-            put(DISCOUNT_POLICY_CAMEL.getValue(), voucherEntity.getDiscountPolicy().toString());
-            put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), voucherEntity.getVoucherId().toString().getBytes(StandardCharsets.UTF_8));
+        paramMap.put(DISCOUNT_POLICY_CAMEL.getValue(), voucherEntity.getDiscountPolicy().toString());
+        paramMap.put(DISCOUNT_AMOUNT_CAMEL.getValue(), voucherEntity.getDiscountAmount());
+        return paramMap;
     }
 
     private static RowMapper<VoucherEntity> voucherEntityRowMapper = new RowMapper<VoucherEntity>() {

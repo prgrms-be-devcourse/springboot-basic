@@ -5,7 +5,6 @@ import com.mountain.voucherApp.model.CustomerEntity;
 import com.mountain.voucherApp.model.vo.Email;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -31,31 +30,45 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerMapper customerMapper;
 
-    @Autowired
     public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate,
                                        CustomerMapper customerMapper) {
         this.jdbcTemplate = jdbcTemplate;
         this.customerMapper = customerMapper;
     }
 
+    private static RowMapper<CustomerEntity> customerRowMapper = new RowMapper<CustomerEntity>() {
+        @Override
+        public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
+            String customerName = rs.getString(NAME.getValue());
+            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
+            String address = rs.getString(EMAIL.getValue());
+            byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
+            LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
+                    rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
+            LocalDateTime createdAt = rs.getTimestamp(CREATED_AT.getValue()).toLocalDateTime();
+            UUID customerUUID = toUUID(customerId);
+            UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
+            lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;
+            return new CustomerEntity(customerUUID, voucherUUID, customerName, new Email(address), lastLoginAt, createdAt);
+        }
+    };
+
     private Map<String, Object> toParamMap(CustomerDto customerDto) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(CUSTOMER_ID_CAMEL.getValue(), customerDto.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
-            put(VOUCHER_ID_CAMEL.getValue(), customerDto.getVoucherId() != null ? customerDto.getVoucherId().toString().getBytes(StandardCharsets.UTF_8) : null);
-            put(NAME.getValue(), customerDto.getCustomerName());
-            put(EMAIL.getValue(), customerDto.getEmail().getAddress());
-            put(CREATED_AT_CAMEL.getValue(), Timestamp.valueOf(customerDto.getCreatedAt()));
-            put(LAST_LOGIN_AT_CAMEL.getValue(), customerDto.getLastLoginAt() != null ? Timestamp.valueOf(customerDto.getLastLoginAt()) : null);
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(CUSTOMER_ID_CAMEL.getValue(), customerDto.getCustomerId().toString().getBytes(StandardCharsets.UTF_8));
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), customerDto.getVoucherId() != null ? customerDto.getVoucherId().toString().getBytes(StandardCharsets.UTF_8) : null);
+        paramMap.put(NAME.getValue(), customerDto.getCustomerName());
+        paramMap.put(EMAIL.getValue(), customerDto.getEmail().getAddress());
+        paramMap.put(CREATED_AT_CAMEL.getValue(), Timestamp.valueOf(customerDto.getCreatedAt()));
+        paramMap.put(LAST_LOGIN_AT_CAMEL.getValue(), customerDto.getLastLoginAt() != null ? Timestamp.valueOf(customerDto.getLastLoginAt()) : null);
         return paramMap;
     }
 
     @Override
     public CustomerDto insert(CustomerDto customerDto) {
-        Map paramMap = toParamMap(customerDto);
         int executeUpdate = jdbcTemplate.update(
                 "INSERT INTO customers (customer_id, voucher_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :name, :email, :createdAt)",
-                paramMap
+                toParamMap(customerDto)
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
             throw new RuntimeException(NOT_INSERTED.getMessage());
@@ -65,31 +78,14 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public CustomerDto update(CustomerDto customerDto) {
-        Map paramMap = toParamMap(customerDto);
         int executeUpdate = jdbcTemplate.update(
                 "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId), name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
-                paramMap
+                toParamMap(customerDto)
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
             throw new RuntimeException(NOT_UPDATED.getMessage());
         }
         return customerDto;
-    }
-
-    @Override
-    public void updateVoucherId(UUID customerId, UUID voucherId) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(CUSTOMER_ID_CAMEL.getValue(), customerId.toString().getBytes(StandardCharsets.UTF_8));
-            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
-
-        }};
-        int executeUpdate = jdbcTemplate.update(
-                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId) WHERE customer_id = UUID_TO_BIN(:customerId)",
-                paramMap
-        );
-        if (executeUpdate != EXECUTE_SUCCESS) {
-            throw new RuntimeException(NOT_UPDATED.getMessage());
-        }
     }
 
     @Override
@@ -127,17 +123,17 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<CustomerDto> findByVoucherId(UUID voucherId) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
-        }};
-        return jdbcTemplate.query(
-                "SELECT * FROM customers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                paramMap,
-                customerRowMapper
-        ).stream()
-                .map((customerEntity) -> customerMapper.mapToDomainEntity(customerEntity))
-                .collect(Collectors.toList());
+    public void updateVoucherId(UUID customerId, UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(CUSTOMER_ID_CAMEL.getValue(), customerId.toString().getBytes(StandardCharsets.UTF_8));
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+        int executeUpdate = jdbcTemplate.update(
+                "UPDATE customers SET voucher_id = UUID_TO_BIN(:voucherId) WHERE customer_id = UUID_TO_BIN(:customerId)",
+                paramMap
+        );
+        if (executeUpdate != EXECUTE_SUCCESS) {
+            throw new RuntimeException(NOT_UPDATED.getMessage());
+        }
     }
 
     @Override
@@ -188,31 +184,26 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     }
 
     @Override
+    public List<CustomerDto> findByVoucherId(UUID voucherId) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
+        return jdbcTemplate.query(
+                "SELECT * FROM customers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                paramMap,
+                customerRowMapper
+        ).stream()
+                .map((customerEntity) -> customerMapper.mapToDomainEntity(customerEntity))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public void removeVoucherId(UUID voucherId) {
-        Map<String, Object> paramMap = new HashMap<>() {{
-            put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(VOUCHER_ID_CAMEL.getValue(), voucherId != null ? voucherId.toString().getBytes(StandardCharsets.UTF_8) : null);
         jdbcTemplate.update(
                 "UPDATE customers SET voucher_id = null WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 paramMap
         );
     }
-
-    private static RowMapper<CustomerEntity> customerRowMapper = new RowMapper<CustomerEntity>() {
-        @Override
-        public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            String customerName = rs.getString(NAME.getValue());
-            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
-             String address = rs.getString(EMAIL.getValue());
-            byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
-            LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
-                    rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
-            LocalDateTime createdAt = rs.getTimestamp(CREATED_AT.getValue()).toLocalDateTime();
-            UUID customerUUID = toUUID(customerId);
-            UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
-            lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;
-            return new CustomerEntity(customerUUID, voucherUUID, customerName, new Email(address), lastLoginAt, createdAt);
-        }
-    };
 
 }
