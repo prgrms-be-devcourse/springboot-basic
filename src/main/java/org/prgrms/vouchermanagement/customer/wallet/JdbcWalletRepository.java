@@ -73,10 +73,10 @@ public class JdbcWalletRepository implements WalletRepository {
   }
 
   private Map<String, Object> toParamMap(UUID customerId, UUID voucherId) {
-    return new HashMap<String, Object>(){{
-      put("customerId", customerId.toString().getBytes());
-      put("voucherId", voucherId.toString().getBytes());
-    }};
+    Map<String, Object> map = new HashMap<>();
+    map.put("customerId", customerId.toString().getBytes());
+    map.put("voucherId", voucherId.toString().getBytes());
+    return map;
   }
 
   static UUID toUUID(byte[] bytes) throws SQLException {
