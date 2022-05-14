@@ -31,14 +31,14 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String VOUCHER_DB_SER = "filedb/VoucherDB.ser";
 
-    private final File VoucherStorage = new File(VOUCHER_DB_SER);
+    private final File voucherStorage = new File(VOUCHER_DB_SER);
 
     @Override
     public void insert(Voucher voucher) {
         logger.info("save() called");
 
         try (ObjectOutputStream stream = new ObjectOutputStream(
-            new FileOutputStream(VoucherStorage, true))) {
+            new FileOutputStream(voucherStorage, true))) {
             stream.writeObject(mapToVoucherDTO(voucher));
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,9 +51,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
         List<VoucherDTO> voucherDTOs = new ArrayList<>();
 
-        try (FileInputStream VoucherFileStream = new FileInputStream(VoucherStorage)) {
+        try (FileInputStream voucherFileStream = new FileInputStream(voucherStorage)) {
             while (true) {
-                ObjectInputStream stream = new ObjectInputStream(VoucherFileStream);
+                ObjectInputStream stream = new ObjectInputStream(voucherFileStream);
                 VoucherDTO voucherDTO = (VoucherDTO) stream.readObject();
                 voucherDTOs.add(voucherDTO);
             }
@@ -71,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void removeAll() {
         try {
-            new FileOutputStream(VoucherStorage).close();
+            new FileOutputStream(voucherStorage).close();
         } catch (IOException e) {
             e.printStackTrace();
         }
