@@ -3,8 +3,6 @@ package org.prgrms.vouchermanagement.controller;
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
 import org.prgrms.vouchermanagement.voucher.voucher.dto.UpdatedVoucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +14,6 @@ import java.util.UUID;
 
 @Controller
 public class VoucherController {
-
-  private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 
   private final VoucherService voucherService;
 
