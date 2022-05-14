@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
-import org.prgrms.vouchermanagement.customer.Customer;
 import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.prgrms.vouchermanagement.customer.wallet.WalletRepository;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
@@ -62,10 +61,6 @@ public class VoucherService {
 
   public List<Voucher> getVoucherList() {
     return voucherRepository.findAll();
-  }
-
-  public List<Customer> getCustomerList() {
-    return customerRepository.findAll();
   }
 
   public Optional<Voucher> getVoucherById(UUID voucherId) {

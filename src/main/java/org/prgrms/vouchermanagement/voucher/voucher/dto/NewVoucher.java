@@ -22,8 +22,4 @@ public class NewVoucher {
   public VoucherType getVoucherType() {
     return voucherType;
   }
-
-  public void setVoucherType(VoucherType voucherType) {
-    this.voucherType = voucherType;
-  }
 }
