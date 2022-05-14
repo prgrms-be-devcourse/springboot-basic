@@ -1,10 +1,11 @@
 package com.dojinyou.devcourse.voucherapplication.customer.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class CustomerCreateRequest {
     private String name;
 
-    public CustomerCreateRequest() {}
-
+    @JsonCreator
     public CustomerCreateRequest(String name) {
         this.name = name;
     }
