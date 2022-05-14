@@ -21,7 +21,7 @@
     </thead>
     <tbody>
     <tr th:each="voucher:${vouchers}" th:object="${voucher}" th:href="@{/}">
-        <td><a th:text="*{voucherId}" th:href="@{'/customers/' + *{voucherId}}"></a></td>
+        <td><a th:href="@{'/customers/vouchers/' + *{voucherId}}" th:text="*{voucherId}"></a></td>
         <td th:text="*{discountPolicy.getDescription()}"></td>
         <td th:text="|*{discountAmount}*{discountPolicy.getUnit()}|"></td>
     </tr>
