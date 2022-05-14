@@ -76,7 +76,7 @@ class CustomerRestControllerTest {
         );
         given(voucherAppService.showByVoucher(voucherId)).willReturn(customers);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/customers/{voucherId}", voucherId.toString())
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/customers/vouchers/{voucherId}", voucherId.toString())
                 .accept(MediaType.APPLICATION_JSON)
         );
         validateCustomerDto(resultActions);
@@ -95,7 +95,7 @@ class CustomerRestControllerTest {
         );
         given(customerService.findAll()).willReturn(customers);
 
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/customers/{voucherId}", voucherId.toString())
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/customers/vouchers/{voucherId}", voucherId.toString())
                 .accept(MediaType.APPLICATION_XML)
 
         );

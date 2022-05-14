@@ -27,7 +27,7 @@ public class CustomerRestController {
         return ResponseEntity.ok(customerService.findAll());
     }
 
-    @GetMapping("/{voucherId}")
+    @GetMapping("/vouchers/{voucherId}")
     public ResponseEntity customersByVoucherId(@PathVariable String voucherId) {
         return ResponseEntity.ok(voucherAppService.showByVoucher(UUID.fromString(voucherId)));
     }
