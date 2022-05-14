@@ -1,10 +1,6 @@
 package org.prgrms.vouchermanagement.customer.wallet;
 
-import org.prgrms.vouchermanagement.customer.Customer;
 import org.prgrms.vouchermanagement.customer.repository.JdbcCustomerRepository;
-import org.prgrms.vouchermanagement.voucher.voucher.Voucher;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherFactory;
-import org.prgrms.vouchermanagement.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -27,13 +22,9 @@ public class JdbcWalletRepository implements WalletRepository {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  private static RowMapper<UUID> voucherIdRowMapper =  (resultSet, i) -> {
-    return toUUID(resultSet.getBytes("voucher_id"));
-  };
+  private static RowMapper<UUID> voucherIdRowMapper =  (resultSet, i) -> toUUID(resultSet.getBytes("voucher_id"));
 
-  private static RowMapper<UUID> customerIdRowMapper =  (resultSet, i) -> {
-    return toUUID(resultSet.getBytes("customer_id"));
-  };
+  private static RowMapper<UUID> customerIdRowMapper =  (resultSet, i) -> toUUID(resultSet.getBytes("customer_id"));
 
   @Override
   public List<UUID> findVouchersByCustomerId(UUID customerId) {
