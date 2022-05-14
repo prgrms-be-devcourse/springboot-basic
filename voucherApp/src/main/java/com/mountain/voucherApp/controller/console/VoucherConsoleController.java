@@ -33,13 +33,13 @@ public class VoucherConsoleController {
     public void create() {
         outputConsole.choiceDiscountPolicy();
         try {
-            int policyOrdinal = Integer.valueOf(inputConsole.input());
+            int policyOrdinal = Integer.parseInt(inputConsole.input());
             Optional<DiscountPolicy> policyOptional = DiscountPolicy.find(policyOrdinal);
             if (policyOptional.isEmpty())
                 throw new IllegalArgumentException(WRONG_VALUE.getMessage());
             DiscountPolicy discountPolicy = policyOptional.get();
             outputConsole.printMessage(PLEASE_AMOUNT);
-            long discountAmount = Long.valueOf(inputConsole.input());
+            long discountAmount = Long.parseLong(inputConsole.input());
             Voucher voucher = discountPolicy.getVoucher();
             if (voucher.validate(discountAmount)) {
                 voucherAppService.create(new VoucherCreateDto(discountPolicy, discountAmount));

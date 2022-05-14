@@ -40,7 +40,7 @@ public class ConsoleMainController {
         while (true) {
             outputConsole.printManual();
             try {
-                int seq = Integer.valueOf(inputConsole.input());
+                int seq = Integer.parseInt(inputConsole.input());
                 Optional<Menu> optionalMenu = Menu.find(seq);
                 if (optionalMenu.isPresent()) {
                     Menu menu = optionalMenu.get();
