@@ -75,7 +75,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("모든 바우처 조회 기능")
     @Test
-    void findAll() {
+    void testFindAll() {
         //given
         jdbcVoucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100));
         jdbcVoucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 20));
@@ -89,7 +89,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("모든 바우처 조회")
     @Test
-    void findAllEmpty() {
+    void testFindAllEmpty() {
         //given
         //when
         var vouchers = jdbcVoucherRepository.findAll();
@@ -100,7 +100,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("FixedAmountVoucher 저장 테스트")
     @Test
-    void save() {
+    void testInsert() {
         //given
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
@@ -116,7 +116,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("PercentAmountVoucher 저장 테스트")
     @Test
-    void savePercentAmountVoucher() {
+    void testInsertPercentAmountVoucher() {
         //given
         Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
 
@@ -132,7 +132,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("customer_id 수정 테스트")
     @Test
-    void updateCustomerId() {
+    void testUpdateCustomerId() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher);
@@ -154,7 +154,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("특정 customer의 바우처 조회 기능 - 바우처가 존재한는 경우")
     @Test
-    void findByCustomer() {
+    void testFindByCustomer() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher);
@@ -176,7 +176,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("특정 customer의 바우처 조회 기능 - 바우처가 존재하지 않는 경우")
     @Test
-    void findByCustomerButEmpty() {
+    void testFindByCustomerButEmpty() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher);
@@ -194,7 +194,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("특정 바우처 삭제")
     @Test
-    void deleteVoucher() {
+    void testDeleteVoucher() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         jdbcVoucherRepository.insert(voucher);
@@ -208,7 +208,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("특정 바우처 삭제 - 존재하지 않는 바우처 삭제")
     @Test
-    void deleteInvalidVoucher() {
+    void testDeleteInvalidVoucher() {
         //given
         //when
         //then
@@ -220,7 +220,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("바우처 fixed 타입으로 바우처 조회")
     @Test
-    void findByFixType() {
+    void testFindByFixType() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         var voucher2 = new FixedAmountVoucher(UUID.randomUUID(), 2000);
@@ -238,7 +238,7 @@ class JdbcVoucherRepositoryTest {
 
     @DisplayName("바우처 percnet 타입으로 바우처 조회")
     @Test
-    void findByPercentPercent() {
+    void testFindByPercentPercent() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
@@ -256,7 +256,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("생성일(날짜) 기준 바우처 조회")
-    void findByCreatedAt() {
+    void testFindByCreatedAt() {
         //given
         var voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         var voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
@@ -298,7 +298,8 @@ class JdbcVoucherRepositoryTest {
         }
 
         @Bean
-        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate,
+            DataSource dataSource) {
             return new JdbcCustomerRepository(jdbcTemplate);
         }
     }

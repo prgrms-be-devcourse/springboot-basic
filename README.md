@@ -234,4 +234,6 @@
   - 단일 생성 요청 API -> Response Http Message에 단일 건 조회가능한 URI를 Location에 쓴다. 
   - 삭제 요청 API -> Response Http Message에 204 no_content 사용한다.
 - [X] Persistence Layer에서 save의 의미는 insert와 update를 의미한다. 
-  - insert만 하는 메서드는 insert 네이밍이 적절하다. 
+  - insert만 하는 메서드는 insert 네이밍이 적절하다.
+- [X] simpleJdbcInsert를 이용하면 Insert 후 pk 값을 반환 받을 수 있다.
+  - 내 코드의 경우 단순 Insert SQL이 아니라, Insert SQL에 UUID_TO_BIN 함수를 사용해, 오히려 복잡해짐.

@@ -31,7 +31,6 @@ import org.prgrms.springbootbasic.repository.voucher.JdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -93,7 +92,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("모든 회원 조회 테스트 - 회원 존재하지 않는 경우")
     @Test
-    void findAllEmpty() {
+    void testFindAllEmpty() {
         //given
         //when
         var customers = jdbcCustomerRepository.findAll();
@@ -104,7 +103,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("회원 저장 기능 테스트 - 성공")
     @Test
-    void save() {
+    void testInsert() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), new Name("hyuk"),
             new Email("hyuk@gmail.com"));
@@ -118,7 +117,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("회원 저장 기능 테스트 - 실패(이메일 중복)")
     @Test
-    void saveFail() {
+    void testInsertFail() {
         //given
         jdbcCustomerRepository.insert(
             new Customer(UUID.randomUUID(), new Name("test"), new Email("test@gmail.com")));
@@ -132,7 +131,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("전체 회원 삭제 테스트 - 회원이 존재하는 경우")
     @Test
-    void removeAll() {
+    void testRemoveAll() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
@@ -147,7 +146,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("전체 회원 삭제 테스트 - 회원이 존재하지 않는 경우")
     @Test
-    void removeAllWhenEmpty() {
+    void testRemoveAllWhenEmpty() {
         //given
         //when
         jdbcCustomerRepository.removeAll();
@@ -158,7 +157,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("이름 변경 기능 테스트")
     @Test
-    void changeName() {
+    void testChangeName() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
@@ -179,7 +178,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("이메일로 회원 조회 테스트")
     @ParameterizedTest
     @CsvSource(value = {"test@gmail.com, true", "test2@gmail.com, false"})
-    void findByEmail(String email, boolean expected) {
+    void testFindByEmail(String email, boolean expected) {
         //given
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
@@ -194,7 +193,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("특정 바우처를 가진 회원 조회 - fixed, 손님이 존재하는 케이스")
     @Test
-    void findByVoucherTypeFixed() {
+    void testFindByVoucherTypeFixed() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher);
@@ -216,7 +215,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("특정 바우처를 가진 회원 조회 - fixed, 손님이 존재하지 않는 케이스")
     @Test
-    void findByVoucherTypeFixedEmpty() {
+    void testFindByVoucherTypeFixedEmpty() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         jdbcVoucherRepository.insert(voucher);
@@ -237,7 +236,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("특정 바우처를 가진 회원 조회 - percent, 손님이 존재하는 케이스")
     @Test
-    void findByVoucherTypePercent() {
+    void testFindByVoucherTypePercent() {
         //given
         var voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         jdbcVoucherRepository.insert(voucher);
@@ -259,7 +258,7 @@ class JdbcCustomerRepositoryTest {
 
     @DisplayName("특정 바우처를 가진 회원 조회 - percent, 손님이 존재하지 않는 케이스")
     @Test
-    void findByVoucherTypePercentEmpty() {
+    void testFindByVoucherTypePercentEmpty() {
         //given
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
         jdbcVoucherRepository.insert(voucher);
@@ -280,7 +279,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("특정 아이디를 가진 바우처 삭제")
-    void deleteById() {
+    void testDeleteById() {
         //given
         var customer = new Customer(UUID.randomUUID(), new Name("test"),
             new Email("test@gmail.com"));
@@ -295,9 +294,6 @@ class JdbcCustomerRepositoryTest {
 
 
     @Configuration
-    @ComponentScan(
-        basePackages = {"org.prgrms.springbootbasic.repository.customer"}
-    )
     static class Config {
 
         @Bean
@@ -318,6 +314,11 @@ class JdbcCustomerRepositoryTest {
         @Bean
         public JdbcVoucherRepository jdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
             return new JdbcVoucherRepository(jdbcTemplate);
+        }
+
+        @Bean
+        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+            return new JdbcCustomerRepository(jdbcTemplate);
         }
     }
 }
