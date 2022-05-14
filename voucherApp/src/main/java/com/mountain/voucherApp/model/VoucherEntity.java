@@ -38,6 +38,10 @@ public class VoucherEntity {
         this.discountAmount = discountAmount;
     }
 
+    public boolean sameDiscountPolicy(DiscountPolicy discountPolicy) {
+        return this.discountPolicy == discountPolicy;
+    }
+
     @Override
     public String toString() {
         return MessageFormat.format("{0},{1},{2}{3}",

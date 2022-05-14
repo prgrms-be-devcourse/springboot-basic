@@ -100,7 +100,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public Optional<VoucherEntity> findByDiscountPolicyAndAmount(DiscountPolicy discountPolicy, long discountAmount) {
         return storage.stream()
                 .filter((voucherEntity) -> (
-                        voucherEntity.getDiscountPolicy() == discountPolicy) &&
+                        voucherEntity.sameDiscountPolicy(discountPolicy)) &&
                         (voucherEntity.getDiscountAmount() == discountAmount))
                 .findFirst();
     }
