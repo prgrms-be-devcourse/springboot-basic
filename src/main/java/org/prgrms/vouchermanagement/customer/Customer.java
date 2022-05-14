@@ -39,16 +39,6 @@ public class Customer {
     return wallet;
   }
 
-  private void validateName(String name) {
-    if (name.isBlank()) {
-      throw new RuntimeException("Name should not be black");
-    }
-  }
-
-  public void login() {
-    this.lastLoginAt = LocalDateTime.now();
-  }
-
   public UUID getCustomerId() {
     return customerId;
   }
