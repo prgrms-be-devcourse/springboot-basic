@@ -77,11 +77,14 @@ public class FixedVoucher implements Voucher {
 
 	@Override
 	public Voucher update(Voucher voucher) {
+		VoucherType.PERCENT.checkConstraint(voucher.getDiscountValue());
+
 		this.voucherType = voucher.getVoucherType();
 		this.discountValue = voucher.getDiscountValue();
 		this.quantity = voucher.getQuantity();
 		this.expirationAt = voucher.getExpirationAt();
-		this.updatedAt=voucher.getUpdatedAt();
+		this.updatedAt = voucher.getUpdatedAt();
+
 		return this;
 	}
 }

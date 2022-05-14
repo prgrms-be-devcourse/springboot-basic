@@ -1,7 +1,5 @@
 package com.programmers.order.service;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +29,6 @@ public class VoucherService {
 				.orElseThrow(() -> new ServiceException.NotFoundResource("vocuher resouerce 가 존재하지 않습니다."));
 		Voucher updatedVoucher = voucher.update(requestUpdate);
 
-		return voucherRepository.update(voucher);
+		return voucherRepository.update(updatedVoucher);
 	}
 }

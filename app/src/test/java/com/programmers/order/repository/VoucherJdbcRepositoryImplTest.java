@@ -1,7 +1,5 @@
 package com.programmers.order.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,7 +7,6 @@ import org.assertj.core.api.Assertions;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -17,7 +14,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.order.config.TestJdbcConfig;
 import com.programmers.order.domain.FixedVoucher;
@@ -31,7 +27,7 @@ class VoucherJdbcRepositoryImplTest {
 
 	@Autowired
 	private VoucherRepository voucherRepository;
-	private FixedVoucher fixVoucher;
+	private FixedVoucher fix;
 
 	@AfterAll
 	void init() {
@@ -48,7 +44,7 @@ class VoucherJdbcRepositoryImplTest {
 	@Test
 	void testInsert() {
 		// given
-		fixVoucher = FixedVoucher.builder()
+		fix = FixedVoucher.builder()
 				.voucherId(UUID.randomUUID())
 				.voucherType(VoucherType.FIX)
 				.discountValue(1000)
@@ -59,22 +55,45 @@ class VoucherJdbcRepositoryImplTest {
 				.build();
 
 		// when
-		Voucher insertedVoucher = voucherRepository.insert(fixVoucher);
+		Voucher insertedVoucher = voucherRepository.insert(fix);
 
 		// then
 		Assertions.assertThat(insertedVoucher).isNotNull();
-		MatcherAssert.assertThat(insertedVoucher, Matchers.samePropertyValuesAs(fixVoucher));
+		MatcherAssert.assertThat(insertedVoucher, Matchers.samePropertyValuesAs(fix));
 
 	}
 
 	@Order(20)
 	@Test
-	void testUpdate() {
+	void testFindById() {
+		// given
+
+		// when
+		Voucher foundVoucher = voucherRepository.findById(fix.getVoucherId()).orElseThrow(RuntimeException::new);
+		// then
+		Assertions.assertThat(foundVoucher).isNotNull();
+		MatcherAssert.assertThat(fix, Matchers.samePropertyValuesAs(foundVoucher));
 	}
 
 	@Order(30)
 	@Test
-	void testFindById() {
+	void testUpdate() {
+		// given
+		FixedVoucher updatingVoucher = FixedVoucher.builder()
+				.voucherId(fix.getVoucherId())
+				.voucherType(VoucherType.FIX)
+				.discountValue(1000)
+				.quantity(100)
+				.expirationAt(LocalDateTime.now().plusDays(4))
+				.updatedAt(LocalDateTime.now())
+				.build();
+
+		// when
+		Voucher update = voucherRepository.update(updatingVoucher);
+
+		// then
+		Assertions.assertThat(update).isNotNull();
+		MatcherAssert.assertThat(update, Matchers.samePropertyValuesAs(updatingVoucher));
 	}
 
 	@Order(40)
