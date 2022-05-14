@@ -1,22 +1,20 @@
 package org.programmers.kdt.weekly.voucher.model;
 
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public interface Voucher {
 
-    long discount(long beforeDiscount);
+	int discount(int beforeDiscount);
 
-    long getValue();
+	int getValue();
 
-    void changeValue(long value);
+	void changeValue(int value);
 
-    LocalDateTime getCreatedAt();
+	LocalDateTime getCreatedAt();
 
-    UUID getVoucherId();
+	UUID getVoucherId();
 
-    String getVoucherType();
+	VoucherType getVoucherType();
 
-    String serializeVoucher();
 }

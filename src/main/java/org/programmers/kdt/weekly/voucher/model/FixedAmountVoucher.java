@@ -1,94 +1,99 @@
 package org.programmers.kdt.weekly.voucher.model;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 public class FixedAmountVoucher implements Voucher {
 
-    private final UUID voucherId;
-    private long value;
-    private final LocalDateTime createdAt;
-    private final VoucherType voucherType;
+	private final UUID voucherId;
+	private int value;
+	private final LocalDateTime createdAt;
+	private final VoucherType voucherType = VoucherType.FIXED;
 
-    public FixedAmountVoucher(UUID voucherId, long value) {
-        if (value <= 0) {
-            throw new IllegalArgumentException();
-        }
+	public FixedAmountVoucher(UUID voucherId, int value) {
+		validation(value);
+		this.voucherId = voucherId;
+		this.value = value;
+		this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+	}
 
-        this.voucherId = voucherId;
-        this.value = value;
-        this.createdAt = LocalDateTime.now().withNano(0);
-        this.voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
-    }
+	public FixedAmountVoucher(UUID voucherId, int value, LocalDateTime createdAt) {
+		validation(value);
+		this.voucherId = voucherId;
+		this.value = value;
+		this.createdAt = createdAt.truncatedTo(ChronoUnit.MICROS);
+	}
 
-    public FixedAmountVoucher(UUID voucherId, long value, LocalDateTime createdAt) {
-        if (value <= 0) {
-            throw new IllegalArgumentException();
-        }
+	private void validation(int value) {
+		if (value <= 0) {
+			throw new IllegalArgumentException("잘못된 입력입니다.");
+		}
+	}
 
-        this.voucherId = voucherId;
-        this.value = value;
-        this.createdAt = createdAt;
-        this.voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
-    }
+	@Override
+	public int discount(int beforeDiscount) {
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
-    }
+		if (beforeDiscount < value) {
+			return 0;
+		}
 
-    @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - value;
-    }
+		return beforeDiscount - value;
+	}
 
-    @Override
-    public long getValue() {
-        return value;
-    }
+	@Override
+	public UUID getVoucherId() {
+		return voucherId;
+	}
 
-    @Override
-    public void changeValue(long value) {
-        this.value = value;
-    }
+	@Override
+	public int getValue() {
+		return value;
+	}
 
-    @Override
-    public String getVoucherType() {
-        return "FixedAmountVoucher";
-    }
+	@Override
+	public void changeValue(int value) {
+		this.value = value;
+	}
 
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	@Override
+	public VoucherType getVoucherType() {
+		return voucherType;
+	}
 
-    @Override
-    public String toString() {
-        return "Voucher Type: " + voucherType +
-            ", voucherId: " + voucherId +
-            ", amount: " + value + ", createdAt: " + createdAt;
-    }
+	@Override
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    @Override
-    public String serializeVoucher() {
-        return voucherId + "," + voucherType + "," + value + "," + createdAt;
-    }
+	@Override
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+			.append("id", voucherId)
+			.append("type", voucherType)
+			.append("value", value + voucherType.getMeasure())
+			.append("createdAt", createdAt)
+			.toString();
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof FixedAmountVoucher)) {
-            return false;
-        }
-        FixedAmountVoucher that = (FixedAmountVoucher) o;
-        return Objects.equals(voucherId, that.voucherId);
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof FixedAmountVoucher)) {
+			return false;
+		}
+		FixedAmountVoucher that = (FixedAmountVoucher)o;
+		return Objects.equals(voucherId, that.voucherId);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(voucherId);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(voucherId);
+	}
 }

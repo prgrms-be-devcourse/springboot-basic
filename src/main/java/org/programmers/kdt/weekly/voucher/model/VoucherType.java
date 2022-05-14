@@ -1,39 +1,55 @@
 package org.programmers.kdt.weekly.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.function.Function;
-import org.programmers.kdt.weekly.voucher.VoucherDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.UUID;
 
 public enum VoucherType {
 
-    FIXED_AMOUNT_VOUCHER(1,
-        voucherDto -> new FixedAmountVoucher(voucherDto.getVoucherId(), voucherDto.getValue(),
-            voucherDto.getCreatedAt())),
-    PERCENT_DISCOUNT_VOUCHER(2,
-        (voucherDto) -> new PercentDiscountVoucher(voucherDto.getVoucherId(), voucherDto.getValue(),
-            voucherDto.getCreatedAt()));
+	FIXED(1, "원") {
+		@Override
+		public Voucher create(UUID id, int value) {
+			return new FixedAmountVoucher(id, value);
+		}
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
+		@Override
+		public Voucher create(UUID id, int value, LocalDateTime createdAt) {
+			return new FixedAmountVoucher(id, value, createdAt);
+		}
+	},
 
-    private final int number;
-    private final Function<VoucherDto, Voucher> createVoucher;
+	PERCENT(2, "%") {
+		@Override
+		public Voucher create(UUID id, int value) {
+			return new PercentDiscountVoucher(id, value);
+		}
 
-    VoucherType(int number,
-        Function<VoucherDto, Voucher> createVoucher) {
-        this.number = number;
-        this.createVoucher = createVoucher;
-    }
+		@Override
+		public Voucher create(UUID id, int value, LocalDateTime createdAt) {
+			return new PercentDiscountVoucher(id, value, createdAt);
+		}
+	};
 
-    public static VoucherType findByNumber(int number) {
-        return Arrays.stream(VoucherType.values())
-            .filter(voucher -> voucher.number == number)
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Invalid number."));
-    }
+	private final int number;
+	private final String measure;
 
-    public Voucher create(VoucherDto voucherDto) {
-        return createVoucher.apply(voucherDto);
-    }
+	VoucherType(int number, String measure) {
+		this.number = number;
+		this.measure = measure;
+	}
+
+	public String getMeasure() {
+		return measure;
+	}
+
+	public static VoucherType findByNumber(int number) {
+		return Arrays.stream(VoucherType.values())
+			.filter(voucher -> voucher.number == number)
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("Invalid number."));
+	}
+
+	public abstract Voucher create(UUID id, int value);
+
+	public abstract Voucher create(UUID id, int value, LocalDateTime createdAt);
 }
