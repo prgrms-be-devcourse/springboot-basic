@@ -7,4 +7,10 @@ public class ServiceException {
 			super(message);
 		}
 	}
+
+	public static class NotFoundResource extends RuntimeException {
+		public NotFoundResource(String message) {
+			super(message);
+		}
+	}
 }

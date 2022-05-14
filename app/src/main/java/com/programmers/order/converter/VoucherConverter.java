@@ -10,6 +10,8 @@ import com.programmers.order.controller.dto.VoucherDto;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.provider.VoucherProvider;
 
+import ch.qos.logback.classic.util.LevelToSyslogSeverity;
+
 @Component
 public class VoucherConverter {
 
@@ -21,7 +23,7 @@ public class VoucherConverter {
 
 	public Converter<VoucherDto.Create, Voucher> createDtoToDomain() {
 		return createDto -> voucherProvider.clientOf(createDto.voucherType())
-				.create(createDto.quantity(), createDto.discountValue(), createDto.expirationAt());
+				.create(createDto);
 	}
 
 	public Converter<Voucher, VoucherDto.Response> domainToResponseDto() {
@@ -35,5 +37,10 @@ public class VoucherConverter {
 				.createdAt(voucher.getCreatedAt())
 				.updatedAt(voucher.getUpdatedAt())
 				.build();
+	}
+
+	public Converter<VoucherDto.Update, Voucher> updateDtoToDomain() {
+		return updateDto -> voucherProvider.clientOf(updateDto.voucherType())
+				.update(updateDto);
 	}
 }

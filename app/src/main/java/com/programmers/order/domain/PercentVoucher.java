@@ -21,6 +21,7 @@ public class PercentVoucher implements Voucher {
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
 		this.voucherId = voucherId;
 		this.voucherType = voucherType;
+		VoucherType.PERCENT.checkConstraint(discountValue);
 		this.discountValue = discountValue;
 		this.quantity = quantity;
 		this.expirationAt = expirationAt;
@@ -66,6 +67,16 @@ public class PercentVoucher implements Voucher {
 	@Override
 	public long discount(long beforeDiscount) {
 		return (long)(beforeDiscount * (1 - (double)discountValue / 100));
+	}
+
+	@Override
+	public Voucher update(Voucher voucher) {
+		this.voucherType = voucher.getVoucherType();
+		this.discountValue = voucher.getDiscountValue();
+		this.quantity = voucher.getQuantity();
+		this.expirationAt = voucher.getExpirationAt();
+		this.updatedAt=voucher.getUpdatedAt();
+		return this;
 	}
 
 }

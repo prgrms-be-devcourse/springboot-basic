@@ -14,7 +14,7 @@ public enum VoucherType {
 		this.max = max;
 	}
 
-	public void isViolate(long discountValue) {
+	public void checkConstraint(long discountValue) {
 		if (this.max < discountValue || this.min > discountValue) {
 			throw new DomainException.ConstraintViolationException(this.name() + " voucher 객체 생성을 실패했습니다..");
 		}

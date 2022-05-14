@@ -1,6 +1,9 @@
 package com.programmers.order.controller.api;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +26,19 @@ public class VoucherRestController {
 	}
 
 	@PostMapping("")
-	public VoucherDto.Response create(@RequestBody VoucherDto.Create createDto) {
+	public VoucherDto.Response create(@Valid @RequestBody VoucherDto.Create createDto) {
 		Voucher convertDomain = converter.createDtoToDomain().convert(createDto);
-		Voucher voucher = voucherService.create(convertDomain);
-		return converter.domainToResponseDto().convert(voucher);
+		Voucher savedVoucher = voucherService.create(convertDomain);
+
+		return converter.domainToResponseDto().convert(savedVoucher);
 	}
+
+	@PutMapping("")
+	public VoucherDto.Response update(@Valid @RequestBody VoucherDto.Update updateDto) {
+		Voucher requestUpdate = converter.updateDtoToDomain().convert(updateDto);
+		Voucher updatedVoucher = voucherService.update(requestUpdate);
+
+		return converter.domainToResponseDto().convert(updatedVoucher);
+	}
+
 }

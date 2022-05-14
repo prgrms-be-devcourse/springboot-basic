@@ -20,4 +20,6 @@ public interface Voucher {
 	LocalDateTime getUpdatedAt();
 
 	long discount(long beforeDiscount);
+
+	Voucher update(Voucher voucher);
 }

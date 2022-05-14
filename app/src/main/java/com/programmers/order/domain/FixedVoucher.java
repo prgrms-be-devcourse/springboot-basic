@@ -18,8 +18,10 @@ public class FixedVoucher implements Voucher {
 	public FixedVoucher(UUID voucherId, VoucherType voucherType, long discountValue, long quantity,
 			LocalDateTime expirationAt,
 			LocalDateTime createdAt, LocalDateTime updatedAt) {
+
 		this.voucherId = voucherId;
 		this.voucherType = voucherType;
+		VoucherType.FIX.checkConstraint(discountValue);
 		this.discountValue = discountValue;
 		this.quantity = quantity;
 		this.expirationAt = expirationAt;
@@ -71,5 +73,15 @@ public class FixedVoucher implements Voucher {
 		}
 
 		return resultPrice;
+	}
+
+	@Override
+	public Voucher update(Voucher voucher) {
+		this.voucherType = voucher.getVoucherType();
+		this.discountValue = voucher.getDiscountValue();
+		this.quantity = voucher.getQuantity();
+		this.expirationAt = voucher.getExpirationAt();
+		this.updatedAt=voucher.getUpdatedAt();
+		return this;
 	}
 }
