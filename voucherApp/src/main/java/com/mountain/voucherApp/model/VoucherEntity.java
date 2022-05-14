@@ -18,11 +18,7 @@ public class VoucherEntity {
     }
 
     private void validate(DiscountPolicy discountPolicy, Long discountAmount) {
-        try {
-            discountPolicy.getVoucher().validate(discountAmount);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        }
+        discountPolicy.getVoucher().validate(discountAmount);
     }
 
     public UUID getVoucherId() {

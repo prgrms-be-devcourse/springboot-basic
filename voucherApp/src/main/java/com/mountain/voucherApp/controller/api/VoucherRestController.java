@@ -4,10 +4,11 @@ import com.mountain.voucherApp.dto.VoucherCreateDto;
 import com.mountain.voucherApp.model.VoucherEntity;
 import com.mountain.voucherApp.service.VoucherAppService;
 import com.mountain.voucherApp.service.voucher.VoucherService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,16 +30,18 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public ResponseEntity createVoucher(@RequestBody VoucherCreateDto voucherCreateDto) {
-        if (!voucherAppService.create(voucherCreateDto)) {
-            return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity<VoucherCreateDto> createVoucher(@RequestBody VoucherCreateDto voucherCreateDto)
+            throws URISyntaxException {
+        if (voucherAppService.create(voucherCreateDto)) {
+            URI uri = new URI("/new-voucher-success");
+            return ResponseEntity.created(uri).body(voucherCreateDto);
         }
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok(voucherCreateDto);
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity deleteByVoucherId(@PathVariable String voucherId) {
+    public ResponseEntity<Void> deleteByVoucherId(@PathVariable String voucherId) {
         voucherService.deleteById(UUID.fromString(voucherId));
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -6,20 +6,17 @@ import com.mountain.voucherApp.model.VoucherEntity;
 import com.mountain.voucherApp.model.enums.DiscountPolicy;
 import com.mountain.voucherApp.service.VoucherAppService;
 import com.mountain.voucherApp.service.voucher.VoucherService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,7 +46,7 @@ class VoucherRestControllerTest {
     }
 
     @Test
-    @Description("모든 바우처를 조회할 수 있다 - JSON")
+    @DisplayName("모든 바우처를 조회할 수 있다 - JSON")
     void testVouchersAPI() throws Exception {
         List<VoucherEntity> vouchers = List.of(
                 new VoucherEntity(UUID.randomUUID(), DiscountPolicy.FIXED, 1000L),
@@ -68,7 +65,7 @@ class VoucherRestControllerTest {
     }
 
     @Test
-    @Description("바우처를 생성할 수 있다. - 201")
+    @DisplayName("이미 존재하는 바우처는 200을 반환한다.")
     void testCreateVoucherAPI() throws Exception {
         VoucherCreateDto voucherCreateDto = new VoucherCreateDto(DiscountPolicy.FIXED, 1000L);
         given(voucherAppService.create(voucherCreateDto)).willReturn(false);
@@ -79,12 +76,12 @@ class VoucherRestControllerTest {
         );
 
         perform
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    @Description("이미 존재하는 바우처는 200을 반환한다")
+    @DisplayName("새롭게 생성된 경우에는 201코드  Location Header 응답한다.")
     void testCreateVoucherAPI_responseOK() throws Exception {
         VoucherCreateDto voucherCreateDto = new VoucherCreateDto(DiscountPolicy.FIXED, 1000L);
         given(voucherAppService.create(voucherCreateDto)).willReturn(true);
@@ -94,19 +91,35 @@ class VoucherRestControllerTest {
                 .content(objectMapper.writeValueAsString(voucherCreateDto))
         );
         perform
-                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.LOCATION.toString(), "/new-voucher-success"))
                 .andDo(print());
     }
 
     @Test
-    @Description("바우처 아이디로 삭제할 수 있다.")
+    @DisplayName("생성 중 예외가 발생하면 500에러를 반환한다.")
+    void testCreateIllegalException() throws Exception {
+        VoucherCreateDto voucherCreateDto = new VoucherCreateDto(DiscountPolicy.FIXED, 1000L);
+        given(voucherAppService.create(voucherCreateDto)).willThrow(IllegalArgumentException.class);
+
+        ResultActions perform = mockMvc.perform(post("/api/v1/vouchers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(voucherCreateDto))
+        );
+
+        perform
+                .andExpect(status().isInternalServerError())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("바우처 아이디로 삭제할 수 있다.")
     void testDeleteVoucher() throws Exception {
         UUID voucherId = UUID.randomUUID();
 
         ResultActions perform = mockMvc.perform(delete("/api/v1/vouchers/{voucherId}", voucherId.toString())
         );
         perform
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andDo(print());
     }
 }
