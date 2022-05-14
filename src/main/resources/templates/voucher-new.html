@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<th:block th:replace="fragments/head :: headFragment('New Voucher')"></th:block>
+<body class="container-fluid">
+<form th:action="@{/vouchers}" method="post">
+    <div th:replace="~{fragments/header :: headerFragment}"></div>
+    <h2 class="title">New Voucher</h2>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">VoucherType</label>
+        <select id="voucherType" name="voucherType" class="form-select">
+            <option selected>Open this select type</option>
+            <option value="FIXED_AMOUNT">FIXED_AMOUNT</option>
+            <option value="PERCENT_DISCOUNT">PERCENT_DISCOUNT</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="voucherValue" class="form-label">Price</label>
+        <input type="number" class="form-control" id="voucherValue" name="voucherValue">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</body>
+</html>
