@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +39,13 @@ public class VoucherController {
     @PostMapping("/vouchers")
     public String createVoucher(CreateVoucherRequest request) {
         voucherService.create(UUID.randomUUID(), request.getVoucherValue(), request.getVoucherType());
+
+        return "redirect:/vouchers";
+    }
+
+    @PostMapping("/voucher/delete")
+    public String deleteVoucher(@RequestParam UUID voucherId) {
+        voucherService.delete(voucherId);
 
         return "redirect:/vouchers";
     }

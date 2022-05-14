@@ -10,6 +10,7 @@
         <th scope="col">voucherId</th>
         <th scope="col">voucherType</th>
         <th scope="col">value</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -19,11 +20,31 @@
         </th>
         <th th:text="*{voucherType}"></th>
         <th th:text="*{value}"></th>
+        <th>
+            <img class="delete" th:name="*{voucherId}" th:src="@{/images/delete.png}" alt="delete"/>
+        </th>
     </tr>
     </tbody>
 </table>
 <div>
     <a class="btn btn-primary" th:href="@{/voucher/new}">New voucher</a>
 </div>
+
+<form class="delete-form" th:action="@{/voucher/delete}" method="post">
+    <input type="text" class="delete-input" name="voucherId" />
+    <button type="submit" class="delete-submit">Submit</button>
+</form>
+
+<script>
+    const deleteBtn = document.querySelector('.delete');
+    const deleteInput = document.querySelector('.delete-input');
+    const deleteSubmit = document.querySelector('.delete-submit');
+
+    deleteBtn.onclick = (event) => {
+        const voucherId = event.target.name;
+        deleteInput.setAttribute('value', voucherId);
+        deleteSubmit.click();
+    }
+</script>
 </body>
 </html>

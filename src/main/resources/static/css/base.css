@@ -5,4 +5,13 @@
 
 .delete {
     cursor: pointer;
+    transition: transform 250ms ease-in;
+}
+
+.delete:hover {
+    transform: scale(1.1);
+}
+
+.delete-form {
+    visibility: hidden;
 }
