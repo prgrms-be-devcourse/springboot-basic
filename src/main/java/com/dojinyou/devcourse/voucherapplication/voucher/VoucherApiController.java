@@ -26,7 +26,9 @@ public class VoucherApiController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public VoucherResponse create(@RequestBody VoucherCreateRequest createdRequest) {
-        return VoucherResponse.from(voucherService.create(Voucher.from(createdRequest)));
+        Voucher inputVoucher = Voucher.from(createdRequest);
+        Voucher respondVoucher = voucherService.create(inputVoucher);
+        return VoucherResponse.from(respondVoucher);
     }
 
     @GetMapping()
