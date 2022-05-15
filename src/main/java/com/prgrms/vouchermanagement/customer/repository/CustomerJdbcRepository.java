@@ -85,16 +85,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public Optional<Customer> findByName(String name) {
-		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE name = ?",
-				customerRowMapper,
-				name));
-		} catch (EmptyResultDataAccessException e) {
-			logger.info("name {} 을 가진 Customer 가 존재하지 않습니다", name);
-
-			return Optional.empty();
-		}
+	public List<Customer> findAllByName(String name) {
+		return jdbcTemplate.query("select * from customers WHERE name = ?",
+			customerRowMapper,
+			name);
 	}
 
 	@Override

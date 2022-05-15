@@ -1,9 +1,11 @@
 package com.prgrms.vouchermanagement.customer.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
@@ -21,8 +23,8 @@ public class CustomerService {
 
 	@Transactional
 	public Customer join(String name, String email) throws CreationFailException, AlreadyExistException {
-		checkBlankString(name, "name 에는 빈 칸이 올 수 없습니다");
-		checkBlankString(email, "email 에는 빈 칸이 올 수 없습니다");
+		Assert.hasText(name, "name 에는 빈 칸이 올 수 없습니다");
+		Assert.hasText(email, "email 에는 빈 칸이 올 수 없습니다");
 		checkDuplicatedEmail(email);
 
 		UUID id = UUID.randomUUID();
@@ -33,16 +35,42 @@ public class CustomerService {
 			.insert(createCustomer(id, name, email));
 	}
 
-	private Customer createCustomer(UUID id, String name, String email) {
-		try {
-			return new Customer(id, name, email);
-		} catch (IllegalArgumentException e) {
-			throw new CreationFailException(e);
-		}
+	@Transactional
+	public Customer updateName(UUID id, String name) {
+		Assert.hasText(name, "name 에는 빈 칸이 올 수 없습니다");
+
+		Customer customer = this.getById(id);
+
+		customer.changeName(name);
+		customerRepository.update(customer);
+
+		return customer;
+	}
+
+	@Transactional
+	public Customer getById(UUID id) {
+		return customerRepository.findById(id)
+			.orElseThrow(NotExistException::new);
+	}
+
+	@Transactional
+	public List<Customer> getAllByName(String name) {
+		return customerRepository.findAllByName(name);
+	}
+
+	@Transactional
+	public Customer getByEmail(String email) {
+		return customerRepository.findByEmail(email)
+			.orElseThrow(NotExistException::new);
+	}
+
+	@Transactional
+	public void resignById(UUID id) {
+		customerRepository.deleteById(id);
 	}
 
 	@Transactional(readOnly = true)
-	protected void checkDuplicatedEmail(String email) {
+	void checkDuplicatedEmail(String email) {
 		if (customerRepository.findByEmail(email)
 			.isPresent()) {
 			throw new AlreadyExistException();
@@ -50,7 +78,7 @@ public class CustomerService {
 	}
 
 	@Transactional(readOnly = true)
-	protected void checkDuplicatedId(UUID id) {
+	void checkDuplicatedId(UUID id) {
 		if (customerRepository.findById(id)
 			.isPresent()) {
 			throw new AlreadyExistException();
@@ -63,36 +91,12 @@ public class CustomerService {
 		}
 	}
 
-	@Transactional
-	public Customer updateName(UUID id, String name) {
-		checkBlankString(name, "name 에는 빈 칸이 올 수 없습니다");
-
-		Customer customer = customerRepository.findById(id)
-			.orElseThrow(NotExistException::new);
-
-		customer.changeName(name);
-		customerRepository.update(customer);
-
-		return customer;
-	}
-
-	public Customer getById(UUID id) {
-		return customerRepository.findById(id)
-			.orElseThrow(NotExistException::new);
-	}
-
-	public Customer getByName(String name) {
-		return customerRepository.findByName(name)
-			.orElseThrow(NotExistException::new);
-	}
-
-	public Customer getByEmail(String email) {
-		return customerRepository.findByEmail(email)
-			.orElseThrow(NotExistException::new);
-	}
-
-	public void resignById(UUID id) {
-		customerRepository.deleteById(id);
+	private Customer createCustomer(UUID id, String name, String email) {
+		try {
+			return new Customer(id, name, email);
+		} catch (IllegalArgumentException e) {
+			throw new CreationFailException(e);
+		}
 	}
 
 }
