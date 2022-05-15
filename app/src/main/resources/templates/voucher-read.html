@@ -11,19 +11,19 @@
 <div class="form" style="margin: 100px;" th:object="${voucher}">
     <h3>바우처 상세 페이지</h3><br/>
     <div class="mb-3">
-        <label for="voucherType" class="form-label">바우처 종류</label>
-        <select name="voucherOption" id="voucherType" th:value="${voucher.voucherType()}" disabled>
-            <option th:each="voucherOption : ${T(com.programmers.order.domain.VoucherType).values()}"
-                    th:value="${voucherOption}" th:text="${voucherOption}"></option>
-        </select>
+        <input type="hidden" class="form-control" id="voucherId" th:value="${voucher.voucherId()}"/>
     </div>
     <div class="mb-3">
-        <input type="hidden" class="form-control" id="voucherId" th:value="${voucher.voucherId()}"/>
+        <label for="voucherType" class="form-label">바우처 종류</label>
+        <select name="voucherOption" id="voucherType" disabled>
+            <option th:text="${voucher.voucherType()}" selected></option>
+        </select>
     </div>
     <div class="row">
         <div class="col">
             <label for="discountValue" class="form-label">할인율</label>
-            <input type="number" class="form-control" id="discountValue" th:value="${voucher.discountValue()}" readonly/>
+            <input type="number" class="form-control" id="discountValue" th:value="${voucher.discountValue()}"
+                   readonly/>
         </div>
         <div class="col">
             <label for="quantity" class="form-label">수량</label>
@@ -49,14 +49,34 @@
     </div>
 
     <button style="margin-top: 20px" type="submit" class="btn btn-primary" id="voucher-update-go">수정하러가기</button>
+    <button style="margin-top: 20px" type="submit" class="btn btn-danger" id="voucher-delete">삭제</button>
 </div>
 
 <script>
+    let voucherId = document.getElementById('voucherId').value;
+    console.log(voucherId);
     document.getElementById('voucher-update-go')
         .onclick = function () {
-        const voucherId = window.location.pathname.split('/')[3];
-        location.href="/voucher/update/"+voucherId;
+        location.href = "/voucher/update/" + voucherId;
     }
+
+    document.getElementById('voucher-delete')
+        .onclick = function () {
+        if (confirm('해당 바우처를 삭제하시겠습니까??')) {
+            console.log(voucherId);
+            fetch("/api/voucher/" + voucherId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then((response) => {
+                location.href = '/voucher';
+            }).catch((error) => {
+                alert("내부적으로 문제가 발생했습니다... 관리자에게 문의해주세요.");
+            })
+        }
+    }
+
 
 </script>
 

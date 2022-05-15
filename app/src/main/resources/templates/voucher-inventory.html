@@ -72,19 +72,23 @@
         let deleteInfo = '';
         let children = my.parentNode.parentNode.children;
 
-        for (let i = 0; i < children.length-1; i++) {
+        for (let i = 0; i < children.length - 1; i++) {
             deleteInfo += children[i].innerHTML + ', '
         }
 
-        if (confirm(deleteInfo+'해당 바우처를 삭제하시겠어요 ?')) {
+        if (confirm(deleteInfo + '해당 바우처를 삭제하시겠어요 ?')) {
             let voucherId = my.parentNode.parentNode.children[0].innerHTML;
-            fetch("api/voucher/"+voucherId,{
-                method: "DELETE",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-            })
 
+            fetch("/api/voucher/" + voucherId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then((response)=>{
+                location.href=window.location.pathname;
+            }).catch((error)=>{
+                alert("내부적으로 문제가 발생했습니다... 관리자에게 문의해주세요.");
+            })
         }
     }
 </script>
