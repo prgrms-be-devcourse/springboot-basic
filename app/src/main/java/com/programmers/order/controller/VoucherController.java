@@ -31,7 +31,8 @@ public class VoucherController {
 
 	@GetMapping("")
 	public ModelAndView getVouchers(@ModelAttribute PageDto.Request paging) {
-		Pageable pageable = paging.getPageable(Sort.by("voucher_id"));
+		// bug : sort by query 에 안먹힘;;;
+		Pageable pageable = paging.getPageable(Sort.by("created_at").descending());
 		Page<Voucher> vouchers = voucherService.lookUpVouchers(pageable);
 		PageDto.Response<VoucherDto.Response, Voucher> voucherResponses = converter.domainToResponseDtos()
 				.convert(vouchers);
@@ -47,9 +48,9 @@ public class VoucherController {
 		Voucher foundVoucher = voucherService.lookUpVoucher(voucherId);
 
 		VoucherDto.Response response = converter.domainToResponseDto().convert(foundVoucher);
-		ModelAndView modelAndView = new ModelAndView("voucher-read");
-		modelAndView.addObject("voucher", response);
-		return modelAndView;
+		ModelAndView readVoucherView = new ModelAndView("voucher-read");
+		readVoucherView.addObject("voucher", response);
+		return readVoucherView;
 	}
 
 	@GetMapping("/register")
