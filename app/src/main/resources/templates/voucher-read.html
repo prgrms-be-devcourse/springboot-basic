@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>voucher register</title>
+    <div th:replace="/fragments/header.html :: fargment-header"></div>
+
+</head>
+<body>
+<div th:replace="/fragments/navbar.html :: fragment-navbar"></div>
+<div class="form" style="margin: 100px;" th:object="${voucher}">
+    <h3>바우처 상세 페이지</h3><br/>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">바우처 종류</label>
+        <select name="voucherOption" id="voucherType" th:value="${voucher.voucherType()}" disabled>
+            <option th:each="voucherOption : ${T(com.programmers.order.domain.VoucherType).values()}"
+                    th:value="${voucherOption}" th:text="${voucherOption}"></option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <input type="hidden" class="form-control" id="voucherId" th:value="${voucher.voucherId()}"/>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="discountValue" class="form-label">할인율</label>
+            <input type="number" class="form-control" id="discountValue" th:value="${voucher.discountValue()}" readonly/>
+        </div>
+        <div class="col">
+            <label for="quantity" class="form-label">수량</label>
+            <input type="number" class="form-control" id="quantity" th:value="${voucher.quantity()}" readonly/>
+        </div>
+        <div class="col">
+            <label for="expiration" class="form-check-label">만료일자</label>
+            <input type="date" class="form-control" id="expiration"
+                   th:value="${#temporals.format(voucher.expirationAt(),'yyyy-MM-dd')}" readonly>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="created" class="form-check-label">생성일자</label>
+            <input type="text" class="form-control" id="created"
+                   th:value="${#temporals.format(voucher.createdAt(),'yyyy-MM-dd am HH:mm:ss')}" readonly>
+        </div>
+        <div class="col">
+            <label for="updated" class="form-check-label">수정일자</label>
+            <input type="text" class="form-control" id="updated"
+                   th:value="${#temporals.format(voucher.updatedAt(),'yyyy-MM-dd, HH:mm:ss')}" readonly>
+        </div>
+    </div>
+
+    <button style="margin-top: 20px" type="submit" class="btn btn-primary" id="voucher-update-go">수정하러가기</button>
+</div>
+
+<script>
+    document.getElementById('voucher-update-go')
+        .onclick = function () {
+        const voucherId = window.location.pathname.split('/')[3];
+        location.href="/voucher/update/"+voucherId;
+    }
+
+</script>
+
+
+</body>
+</html>
