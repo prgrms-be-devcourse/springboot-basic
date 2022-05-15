@@ -37,28 +37,16 @@ public class VoucherApiController {
                                                     @RequestParam("fromDate") @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
                                                     @RequestParam("toDate") @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
         if (type != null && (fromDate != null || toDate != null)) {
-            return voucherService.findAllByTypeAndDate(type, fromDate, toDate)
-                                 .stream()
-                                 .map(VoucherResponse::from)
-                                 .collect(Collectors.toList());
+            return toVoucherResponseList(voucherService.findAllByTypeAndDate(type, fromDate, toDate));
         }
         if (type != null) {
-            return voucherService.findAllByType(type)
-                                 .stream()
-                                 .map(VoucherResponse::from)
-                                 .collect(Collectors.toList());
+            return toVoucherResponseList(voucherService.findAllByType(type));
         }
         if (fromDate != null || toDate != null) {
-            return voucherService.findAllByDate(fromDate, toDate)
-                                 .stream()
-                                 .map(VoucherResponse::from)
-                                 .collect(Collectors.toList());
+            return toVoucherResponseList(voucherService.findAllByDate(fromDate, toDate));
         }
 
-        return voucherService.findAll()
-                             .stream()
-                             .map(VoucherResponse::from)
-                             .collect(Collectors.toList());
+        return toVoucherResponseList(voucherService.findAll());
     }
 
     @GetMapping("/{id}")
@@ -71,5 +59,11 @@ public class VoucherApiController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable("id") long id) {
         voucherService.deleteById(id);
+    }
+
+    private List<VoucherResponse> toVoucherResponseList(List<Voucher> vouchers) {
+        return vouchers.stream()
+                       .map(VoucherResponse::from)
+                       .collect(Collectors.toList());
     }
 }
