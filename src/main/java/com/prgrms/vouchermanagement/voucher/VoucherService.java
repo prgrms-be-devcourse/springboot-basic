@@ -33,9 +33,12 @@ public class VoucherService {
 	public Voucher create(VoucherType voucherType, long voucherDiscountInfo) throws
 		CreationFailException,
 		AlreadyExistException {
-		checkNull(voucherType, "voucherType 는 null 이 올 수 없습니다");
-		checkPositive(voucherDiscountInfo, "voucherDiscountInfo 는 0 보다 큰 정수여야 합니다");
-
+		try {
+			checkNull(voucherType, "voucherType 는 null 이 올 수 없습니다");
+			checkPositive(voucherDiscountInfo, "voucherDiscountInfo 는 0 보다 큰 정수여야 합니다");
+		} catch (IllegalArgumentException e) {
+			throw new CreationFailException(e);
+		}
 		UUID id = UUID.randomUUID();
 
 		checkDuplicatedId(id);
