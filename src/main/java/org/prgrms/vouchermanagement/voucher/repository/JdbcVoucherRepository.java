@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanagement.voucher.repository;
 
+import org.prgrms.vouchermanagement.exception.InsertException;
 import org.prgrms.vouchermanagement.voucher.voucher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
       "INSERT INTO vouchers(voucher_id, reduction, created_at, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :reduction, :createdAt, :voucherType)",
       toParamMap(voucher));
     if(update != 1) {
-      throw new RuntimeException("Nothing was inserted");
+      throw new InsertException();
     }
     return voucher;
   }
@@ -51,9 +52,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> findByVoucherType(VoucherType voucherType) {
-    Map<String, Object> paramMap = new HashMap<>() {{
-      put("voucherType", voucherType.toDbValue());
-    }};
     return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType ",
       Collections.singletonMap("voucherType", voucherType.toDbValue()),
       voucherRowMapper);
@@ -67,14 +65,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
         voucherRowMapper));
     } catch (EmptyResultDataAccessException e) {
-      log.error("Get empty result", e);
       return Optional.empty();
     }
   }
 
   @Override
   public boolean checkExistenceById(UUID voucherId) {
-    var found = jdbcTemplate.query("SELECT * FROM vouchers WHERE EXISTS(SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId))",
+    List<Voucher> found = jdbcTemplate.query("SELECT * FROM vouchers WHERE EXISTS(SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId))",
       Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
       voucherRowMapper);
     return !found.isEmpty();
@@ -96,7 +93,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
       jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
         Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     } catch (Exception e) {
-      log.error("No such voucherId", e);
+      throw new NoSuchElementException("존재하지 않는 Voucher 입니다");
     }
   }
 
@@ -128,7 +125,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   }
 
   public static UUID toUUID(byte[] bytes) {
-    var byteBuffer = ByteBuffer.wrap(bytes);
+    ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
     return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
   }
 }
