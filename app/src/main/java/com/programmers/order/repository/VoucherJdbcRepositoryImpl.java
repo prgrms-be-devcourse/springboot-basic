@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -88,14 +91,45 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 		}
 	}
 
+	public long count() {
+		return jdbcTemplate.queryForObject(
+				"select count(*) vouhers",
+				Collections.emptyMap()
+				, Long.class
+		);
+	}
+
 	@Override
-	public List<Voucher> findAll() {
-		return null;
+	public Page<Voucher> findAll(Pageable pageable) {
+		List<Voucher> vouchers = jdbcTemplate.query(
+				"select * from vouchers order by created_at desc limit :pageSize offSet :offSet",
+				toPagingParams(pageable),
+				VOUCHER_ROW_MAPPER
+		);
+
+		Long count = jdbcTemplate.queryForObject(
+				"select count(*) from vouchers",
+				Collections.emptyMap(),
+				Long.class
+		);
+
+		if (count == null) {
+			throw new JdbcException.NotExecuteQueryException("voucher 조회 중 count query 가 실행되지 않습니다.");
+		}
+
+		return new PageImpl<Voucher>(vouchers, pageable, count);
 	}
 
 	@Override
 	public void deleteByVoucherId(UUID voucherId) {
+		int delete = jdbcTemplate.update(
+				"delete from vouchers where voucher_id=UUID_TO_BIN(:voucherId)",
+				Collections.singletonMap("voucherId", voucherId.toString().getBytes())
+		);
 
+		if (delete != 1) {
+			throw new JdbcException.NotExecuteQueryException("delete query 정상적으로 동작하지 않았습니다..");
+		}
 	}
 
 	@Override
@@ -117,6 +151,19 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 		voucherProvider.internalOf(VoucherType.FIX)
 		;
 		return existence != EXIST_TRUE;
+	}
+
+	private Map<String, Object> toPagingParams(Pageable pageable) {
+		Map<String, Object> map = new HashMap<>();
+
+		// bug : 해당 부분이 내림차순으로 작동이 안됨 ...
+		String sort = pageable.getSort().toString().replace(":", " ");
+		map.put("sort", sort);
+		// bug...
+
+		map.put("offSet", pageable.getOffset());
+		map.put("pageSize", pageable.getPageSize());
+		return map;
 	}
 
 	private RowMapper<Voucher> VOUCHER_ROW_MAPPER = ((resultSet, rowNum) -> {

@@ -19,7 +19,7 @@ public class PercentVoucherManager implements VoucherClientManager, VoucherInter
 			LocalDateTime expirationAt, LocalDateTime createdAt, LocalDateTime updatedAt) {
 		return PercentVoucher.builder()
 				.voucherId(voucherId)
-				.voucherType(VoucherType.FIX)
+				.voucherType(VoucherType.PERCENT)
 				.discountValue(discountValue)
 				.quantity(quantity)
 				.expirationAt(expirationAt)
