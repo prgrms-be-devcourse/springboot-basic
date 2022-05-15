@@ -60,7 +60,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private void init() {
-        if (storage.size() == 0) {
+        if (storage.isEmpty()) {
             try {
                 BufferedReader inFile = new BufferedReader(new FileReader(getFullPath()));
                 String line = null;
