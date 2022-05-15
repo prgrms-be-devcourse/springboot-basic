@@ -15,9 +15,9 @@
     </div>
     <div class="mb-3">
         <label for="voucherType" class="form-label">바우처 종류</label>
-        <select name="voucherOption" id="voucherType" th:value="${voucher.voucherType()}">
-            <option th:each="voucherOption : ${T(com.programmers.order.domain.VoucherType).values()}"
-                    th:value="${voucherOption}" th:text="${voucherOption}"></option>
+        <select id="voucherType">
+            <option th:selected="${voucher.voucherType().name().equals('FIX')}" th:value="FIX">FIX</option>
+            <option th:selected="${voucher.voucherType().name().equals('PERCENT')}" th:value="PERCENT">PERCENT</option>
         </select>
     </div>
     <div class="row">
@@ -31,7 +31,7 @@
         </div>
         <div class="col">
             <label class="form-check-label" for="expiration">만료일자</label>
-            <input type="date" class="form-control" id="expiration"
+            <input type="date" class="form-control" id="expiration" min="2022-01-01"
                    th:value="${#temporals.format(voucher.expirationAt(),'yyyy-MM-dd')}"/>
         </div>
     </div>
@@ -40,6 +40,7 @@
 </div>
 
 <script>
+
     document.getElementById("voucher-update")
         .onclick = function () {
         fetch("/api/voucher", {
@@ -53,7 +54,7 @@
                     voucherType: document.getElementById('voucherType').value,
                     discountValue: document.getElementById('discountValue').value,
                     quantity: document.getElementById('quantity').value,
-                    expirationAt: document.getElementById('expiration').value+'T12:59:59'
+                    expirationAt: document.getElementById('expiration').value + 'T12:59:59'
                 }
             )
         }).then((response) => {
@@ -63,7 +64,7 @@
             }
             alert("voucher 등록 완료!");
             let pathname = window.location.pathname;
-            document.location.href = pathname.replace('update','read');
+            document.location.href = pathname.replace('update', 'read');
         }).catch(error => {
             alert("각 항목에 누락된것이 없는지 확인해주세요... ");
         })
