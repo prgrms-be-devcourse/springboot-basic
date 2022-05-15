@@ -32,10 +32,14 @@ public enum VoucherType {
 
   public static VoucherType fromInstance(Voucher voucher) {
     for(VoucherType type: values()) {
-      if(type.getSimpleClassName().equals(voucher.getClass().getSimpleName())) return type;
+      if(type.getSimpleClassName()
+        .equals(voucher.getClass().getSimpleName())) {
+        return type;
+      }
     }
     throw new RuntimeException("[VoucherTypeException] 존재하지 않는 클래스입니다");
   }
+
 
   public int toDbValue() {
     return selectedNumber;
