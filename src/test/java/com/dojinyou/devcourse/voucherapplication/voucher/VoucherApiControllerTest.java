@@ -12,20 +12,16 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.converter.JavaTimeConversionPattern;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -161,7 +157,7 @@ class VoucherApiControllerTest {
                                                       .filter(voucher -> (voucher.getCreatedAt().toLocalDate().isAfter(startDate)
                                                               && voucher.getCreatedAt().toLocalDate().isBefore(endDate)))
                                                       .collect(Collectors.toList());
-                when(voucherService.findAllByDate(startDate, endDate)).thenReturn(returnObject);
+                when(voucherService.findAllByCreatedDateBetween(startDate, endDate)).thenReturn(returnObject);
                 String jsonObject = toJson(returnObject.stream()
                                                        .map(VoucherResponse::from)
                                                        .collect(Collectors.toList()));
@@ -171,7 +167,7 @@ class VoucherApiControllerTest {
 
                 response.andExpect(status().isOk())
                         .andExpect(content().json(jsonObject));
-                verify(voucherService, atLeastOnce()).findAllByDate(startDate, endDate);
+                verify(voucherService, atLeastOnce()).findAllByCreatedDateBetween(startDate, endDate);
             }
 
             @Test
@@ -183,7 +179,7 @@ class VoucherApiControllerTest {
                                                       .filter(voucher -> (voucher.getCreatedAt().toLocalDate().isAfter(startDate)
                                                               && voucher.getCreatedAt().toLocalDate().isBefore(endDate)))
                                                       .collect(Collectors.toList());
-                when(voucherService.findAllByDate(startDate, endDate)).thenReturn(returnObject);
+                when(voucherService.findAllByCreatedDateBetween(startDate, endDate)).thenReturn(returnObject);
 
                 var response = mvc.perform(get(BASE_API_URL +
                                                        "?fromDate=" + startDate + "&toDate=" + endDate));

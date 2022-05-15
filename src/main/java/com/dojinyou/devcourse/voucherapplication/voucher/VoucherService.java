@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
@@ -48,33 +45,21 @@ public class VoucherService {
         voucherRepository.deleteById(id);
     }
 
-    public List<Voucher> findAllByTypeAndDate(VoucherType type, LocalDate fromDate, LocalDate toDate) {
-        if (fromDate == null) {
-            fromDate = LocalDate.of(0,1,1);
-        }
-        if (toDate == null) {
-            toDate = LocalDate.of(9999,12,31);
-        }
-        if (fromDate.isAfter(toDate)) {
+    public List<Voucher> findAllByTypeAndCreatedDateBetween(VoucherType type, LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException();
         }
-        return voucherRepository.findByTypeAndDate(type, fromDate, toDate);
+        return voucherRepository.findByTypeAndCreatedDateBetween(type, startDate, endDate);
     }
 
     public List<Voucher> findAllByType(VoucherType type) {
         return voucherRepository.findByType(type);
     }
 
-    public List<Voucher> findAllByDate(LocalDate fromDate, LocalDate toDate) {
-        if (fromDate == null) {
-            fromDate = LocalDate.of(0,1,1);
-        }
-        if (toDate == null) {
-            toDate = LocalDate.of(9999,12,31);
-        }
-        if (fromDate.isAfter(toDate)) {
+    public List<Voucher> findAllByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException();
         }
-        return voucherRepository.findAllByDate(fromDate, toDate);
+        return voucherRepository.findAllByCreatedDateBetween(startDate, endDate);
     }
 }

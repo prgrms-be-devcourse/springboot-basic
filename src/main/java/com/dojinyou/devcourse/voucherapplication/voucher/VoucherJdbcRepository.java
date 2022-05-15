@@ -22,9 +22,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE id = :id";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_ALL_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE type = :type";
-    private static final String SELECT_ALL_BY_TYPE_AND_DATE_SQL = "SELECT * FROM vouchers WHERE type = :type AND DATE(created_at) BETWEEN :fromDate AND :toDate";
-    private static final String SELECT_ALL_BY_DATE_SQL = "SELECT * FROM vouchers WHERE DATE(created_at) BETWEEN :fromDate AND :toDate";
-    public static final String SELECT_LAST_INSERT_ID_SQL = "SELECT LAST_INSERT_ID()";
+    private static final String SELECT_ALL_BY_TYPE_AND_DATE_SQL = "SELECT * FROM vouchers WHERE type = :type AND DATE(created_at) BETWEEN :startDate AND :endDate";
+    private static final String SELECT_ALL_BY_DATE_SQL = "SELECT * FROM vouchers WHERE DATE(created_at) BETWEEN :startDate AND :endDate";
+    private static final String SELECT_LAST_INSERT_ID_SQL = "SELECT LAST_INSERT_ID()";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -89,21 +89,21 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate fromDate, LocalDate toDate) {
+    public List<Voucher> findByTypeAndCreatedDateBetween(VoucherType type, LocalDate startDate, LocalDate endDate) {
         return jdbcTemplate.query(SELECT_ALL_BY_TYPE_AND_DATE_SQL,
                                   new MapSqlParameterSource().addValue("type", type.toString())
-                                                             .addValue("fromDate", fromDate)
-                                                             .addValue("toDate", toDate),
+                                                             .addValue("startDate", startDate)
+                                                             .addValue("endDate", endDate),
                                   voucherRowMapper);
     }
 
     @Override
-    public List<Voucher> findAllByDate(LocalDate fromDate, LocalDate toDate) {
-        System.out.println(fromDate);
-        System.out.println(toDate);
+    public List<Voucher> findAllByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
+        System.out.println(startDate);
+        System.out.println(endDate);
         return jdbcTemplate.query(SELECT_ALL_BY_DATE_SQL,
-                                  new MapSqlParameterSource().addValue("fromDate", fromDate)
-                                                             .addValue("toDate", toDate),
+                                  new MapSqlParameterSource().addValue("startDate", startDate)
+                                                             .addValue("endDate", endDate),
                                   voucherRowMapper);
     }
 

@@ -33,17 +33,30 @@ public class VoucherApiController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<VoucherResponse> findAllByCondition(@RequestParam("type") @Nullable VoucherType type,
-                                                    @RequestParam("fromDate") @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                                                    @RequestParam("toDate") @Nullable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
-        if (type != null && (fromDate != null || toDate != null)) {
-            return toVoucherResponseList(voucherService.findAllByTypeAndDate(type, fromDate, toDate));
+    public List<VoucherResponse> findAllByCondition(
+            @RequestParam("type")
+            @Nullable
+            VoucherType type,
+            @RequestParam("startDate")
+            @Nullable
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate startDate,
+            @RequestParam("endDate")
+            @Nullable
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate endDate
+   ) {
+        if ((startDate == null) ^ (endDate == null)) {
+            throw new IllegalArgumentException();
+        }
+        if (type != null && startDate != null) {
+            return toVoucherResponseList(voucherService.findAllByTypeAndCreatedDateBetween(type, startDate, endDate));
         }
         if (type != null) {
             return toVoucherResponseList(voucherService.findAllByType(type));
         }
-        if (fromDate != null || toDate != null) {
-            return toVoucherResponseList(voucherService.findAllByDate(fromDate, toDate));
+        if (startDate != null) {
+            return toVoucherResponseList(voucherService.findAllByCreatedDateBetween(startDate, endDate));
         }
 
         return toVoucherResponseList(voucherService.findAll());

@@ -87,12 +87,12 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByTypeAndDate(VoucherType type, LocalDate startDate, LocalDate endDate) {
+    public List<Voucher> findByTypeAndCreatedDateBetween(VoucherType type, LocalDate startDate, LocalDate endDate) {
         return null;
     }
 
     @Override
-    public List<Voucher> findAllByDate(LocalDate fromDate, LocalDate toDate) {
+    public List<Voucher> findAllByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
         return null;
     }
 
