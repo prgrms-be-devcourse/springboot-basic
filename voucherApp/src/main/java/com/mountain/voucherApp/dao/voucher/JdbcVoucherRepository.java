@@ -1,5 +1,6 @@
 package com.mountain.voucherApp.dao.voucher;
 
+import com.mountain.voucherApp.exception.JdbcUpdateNotExecuteException;
 import com.mountain.voucherApp.model.VoucherEntity;
 import com.mountain.voucherApp.model.enums.DiscountPolicy;
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucherEntity)
         );
         if (executeUpdate != 1) {
-            throw new RuntimeException(NOT_INSERTED.getMessage());
+            throw new JdbcUpdateNotExecuteException(NOT_INSERTED.getMessage());
         }
         return voucherEntity;
     }
@@ -66,7 +67,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucherEntity)
         );
         if (executeUpdate != 1) {
-            throw new RuntimeException(NOT_UPDATED.getMessage());
+            throw new JdbcUpdateNotExecuteException(NOT_UPDATED.getMessage());
         }
         return voucherEntity;
     }

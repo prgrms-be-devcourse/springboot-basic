@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ApiControllerAdvice {
     private static final String INTERNAL_SERVER_ERROR_BODY = "Internal Server Error";
 
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({IllegalArgumentException.class, JdbcUpdateNotExecuteException.class})
     public ResponseEntity<String> internalServerError() {
         return ResponseEntity.internalServerError().body(INTERNAL_SERVER_ERROR_BODY);
     }

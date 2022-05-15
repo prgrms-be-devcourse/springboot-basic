@@ -1,6 +1,7 @@
 package com.mountain.voucherApp.dao.customer;
 
 import com.mountain.voucherApp.dto.CustomerDto;
+import com.mountain.voucherApp.exception.JdbcUpdateNotExecuteException;
 import com.mountain.voucherApp.model.CustomerEntity;
 import com.mountain.voucherApp.model.vo.Email;
 import org.slf4j.Logger;
@@ -71,7 +72,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                 toParamMap(customerDto)
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
-            throw new RuntimeException(NOT_INSERTED.getMessage());
+            throw new JdbcUpdateNotExecuteException(NOT_INSERTED.getMessage());
         }
         return customerDto;
     }
@@ -83,7 +84,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                 toParamMap(customerDto)
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
-            throw new RuntimeException(NOT_UPDATED.getMessage());
+            throw new JdbcUpdateNotExecuteException(NOT_UPDATED.getMessage());
         }
         return customerDto;
     }
