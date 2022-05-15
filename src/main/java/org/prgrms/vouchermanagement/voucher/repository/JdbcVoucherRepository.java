@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.exception.InsertException;
+import org.prgrms.vouchermanagement.exception.UpdateException;
 import org.prgrms.vouchermanagement.voucher.voucher.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,7 +102,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   public void updateById(UUID voucherId, long reduction) {
     Optional<Voucher> voucher = findById(voucherId);
     if(voucher.isEmpty()) {
-      log.error("No such voucher");
+      throw new UpdateException();
     }
     Voucher oldVoucher = voucher.get();
 
