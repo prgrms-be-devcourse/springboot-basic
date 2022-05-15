@@ -52,7 +52,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public Customer update(Customer customer) {
+	public void update(Customer customer) {
 		int update = jdbcTemplate.update(
 			"UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
 			customer.getName(),
@@ -63,7 +63,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		if (update != 1) {
 			throw new UpdateFailException();
 		}
-		return customer;
 	}
 
 	@Override

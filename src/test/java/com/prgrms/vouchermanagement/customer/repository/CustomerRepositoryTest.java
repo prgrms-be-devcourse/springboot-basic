@@ -62,6 +62,15 @@ class CustomerRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("동일한 값으로 업데이트 요청시 UpdateFailEException 이 발생하지 않는다")
+	void given_alreadyCustomer_when_updateCustomer_then_success() {
+		Customer existingCustomer = customerRepository.findById(existingId).get();
+
+		Assertions.assertDoesNotThrow(() ->
+			customerRepository.update(existingCustomer));
+	}
+
+	@Test
 	@DisplayName("디비로부터 가져온 고객 정보를 사용하여 정상적으로 직렬화된 고객 객체를 생성한다")
 	void given_usingTestData_when_fetchingVoucherData_thenMakingVoucherFromDataSuccess() {
 		Optional<Customer> customerOptional = customerRepository.findById(existingId);

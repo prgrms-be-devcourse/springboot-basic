@@ -9,7 +9,7 @@ import com.prgrms.vouchermanagement.customer.domain.Customer;
 public interface CustomerRepository {
 	Customer insert(Customer customer);
 
-	Customer update(Customer customer);
+	void update(Customer customer);
 
 	List<Customer> findAll();
 
