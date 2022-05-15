@@ -81,9 +81,11 @@ public class VoucherService {
         return voucherRepository.findByCustomer(customer);
     }
 
-    public void removeVoucher(UUID voucherId) {
+    public UUID removeVoucher(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteOne(voucher.get());
+
+        return voucher.get().getVoucherId();
     }
 
     public void removeAllVoucher() {
