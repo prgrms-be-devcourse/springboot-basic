@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>voucher register</title>
+    <div th:replace="/fragments/header.html :: fargment-header"></div>
+
+</head>
+<body>
+<div th:replace="/fragments/navbar.html :: fragment-navbar"></div>
+<div class="form" style="margin: 100px;">
+    <h3>등록 페이지</h3><br/>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">바우처 종류</label>
+        <select name="voucherOption" id="voucherType">
+            <option th:each="voucherOption : ${T(com.programmers.order.domain.VoucherType).values()}"
+                    th:value="${voucherOption}" th:text="${voucherOption}"></option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="discountValue" class="form-label">할인율</label>
+            <input type="number" class="form-control" id="discountValue"/>
+        </div>
+        <div class="col">
+            <label for="quantity" class="form-label">수량</label>
+            <input type="number" class="form-control" id="quantity"/>
+        </div>
+        <div class="col">
+            <label class="form-check-label" for="expiration">만료일자</label>
+            <input type="date" class="form-control" id="expiration">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="voucher-register">바우처 등록</button>
+</div>
+
+<script>
+    document.getElementById("voucher-register")
+        .onclick = function () {
+        fetch("/api/voucher", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {
+                    voucherType: document.getElementById('voucherType').value,
+                    discountValue: document.getElementById('discountValue').value,
+                    quantity: document.getElementById('quantity').value,
+                    expirationAt: document.getElementById('expiration').value+'T12:59:59',
+                }
+            )
+        }).then((response) => {
+            // todo: 서버에서 보내준 메시지를 출력하고 싶은데 response 객체에 내가 만든 메시지가 없다...
+            if (!response.ok) {
+                throw new Error();
+            }
+            alert("voucher 등록 완료!");
+            document.location.href = '/voucher';
+        }).catch(error => {
+            alert("각 항목에 누락된것이 없는지 확인해주세요... ");
+        })
+    }
+</script>
+
+
+</body>
+</html>
