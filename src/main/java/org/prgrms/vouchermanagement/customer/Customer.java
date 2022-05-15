@@ -35,6 +35,10 @@ public class Customer {
     wallet = new ArrayList<>();
   }
 
+  public void changeName(String newName) {
+    name = new Name(newName);
+  }
+
   public List<Voucher> getWallet() {
     return wallet;
   }
@@ -86,9 +90,5 @@ public class Customer {
       ", lastLoginAt=" + lastLoginAt +
       ", createdAt=" + createdAt +
       '}';
-  }
-
-  public void changeName(String newName) {
-    name = new Name(newName);
   }
 }
