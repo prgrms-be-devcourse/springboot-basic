@@ -117,12 +117,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
   }
 
   private Map<String, Object> toParamMap(Voucher voucher) {
-    return new HashMap<String, Object>(){{
-      put("voucherId", voucher.getVoucherId().toString().getBytes());
-      put("reduction", voucher.getReduction());
-      put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
-      put("voucherType", VoucherType.toDbValue(voucher));
-    }};
+    Map<String, Object> paramMap = new HashMap<>();
+    paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
+    paramMap.put("reduction", voucher.getReduction());
+    paramMap.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+    paramMap.put("voucherType", VoucherType.toDbValue(voucher));
+    return paramMap;
   }
 
   public static UUID toUUID(byte[] bytes) {
