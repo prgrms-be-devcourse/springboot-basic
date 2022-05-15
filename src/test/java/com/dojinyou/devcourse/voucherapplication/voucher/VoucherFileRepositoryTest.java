@@ -1,7 +1,7 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
 import com.dojinyou.devcourse.voucherapplication.VoucherApplication;
-import com.dojinyou.devcourse.voucherapplication.utils.CsvFileUtils;
+import com.dojinyou.devcourse.voucherapplication.common.utils.CsvFileUtils;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherAmount;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;

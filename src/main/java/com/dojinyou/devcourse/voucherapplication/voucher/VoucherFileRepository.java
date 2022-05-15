@@ -1,17 +1,19 @@
 package com.dojinyou.devcourse.voucherapplication.voucher;
 
-import com.dojinyou.devcourse.voucherapplication.utils.CsvFileUtils;
+import com.dojinyou.devcourse.voucherapplication.common.utils.CsvFileUtils;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.Voucher;
 import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherMapper;
+import com.dojinyou.devcourse.voucherapplication.voucher.domain.VoucherType;
 import com.dojinyou.devcourse.voucherapplication.voucher.entity.VoucherEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
@@ -67,6 +69,31 @@ public class VoucherFileRepository implements VoucherRepository {
                                          .map(VoucherMapper::entityToDomain)
                                          .collect(Collectors.toList());
         return vouchers;
+    }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndCreatedDateBetween(VoucherType type, LocalDate startDate, LocalDate endDate) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedDateBetween(LocalDate startDate, LocalDate endDate) {
+        return null;
     }
 
     private Voucher save(VoucherEntity voucherEntity) {
