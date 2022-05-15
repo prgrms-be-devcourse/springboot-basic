@@ -13,7 +13,8 @@ public enum ErrorMessage {
     NOT_INSERTED("Insert가 수행되지 않았습니다."),
     NOT_UPDATED("Update가 수행되지 않았습니다."),
     EMPTY_RESULT("조회 결과가 존재하지 않습니다."),
-    EXIST_VOUCHER("존재하는 바우처 입니다.");
+    EXIST_VOUCHER("존재하는 바우처 입니다."),
+    NOT_IMPLEMENT("해당 함수는 미구현 상태입니다.");
 
     private final String message;
 

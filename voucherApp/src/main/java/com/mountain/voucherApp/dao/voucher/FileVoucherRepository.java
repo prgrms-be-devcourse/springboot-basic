@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
@@ -18,8 +19,7 @@ import java.util.UUID;
 
 import static com.mountain.voucherApp.common.constants.CommonCharacter.COMMA;
 import static com.mountain.voucherApp.common.constants.CommonCharacter.SLASH;
-import static com.mountain.voucherApp.common.constants.ErrorMessage.FILE_INSERT_ERROR;
-import static com.mountain.voucherApp.common.constants.ErrorMessage.FILE_READ_ERROR;
+import static com.mountain.voucherApp.common.constants.ErrorMessage.*;
 import static com.mountain.voucherApp.common.constants.ProgramMessage.CREATE_NEW_FILE;
 
 @Repository
@@ -112,6 +112,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
+        Assert.isNull("", NOT_IMPLEMENT.getMessage());
     }
 
     @PostConstruct

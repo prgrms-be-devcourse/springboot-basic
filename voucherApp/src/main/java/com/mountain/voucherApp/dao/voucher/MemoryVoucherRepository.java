@@ -4,6 +4,7 @@ import com.mountain.voucherApp.model.VoucherEntity;
 import com.mountain.voucherApp.model.enums.DiscountPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static com.mountain.voucherApp.common.constants.ErrorMessage.NOT_IMPLEMENT;
 
 @Repository
 @Profile("dev")
@@ -44,6 +47,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
+        Assert.isNull("", NOT_IMPLEMENT.getMessage());
     }
 
     public void clear() {
