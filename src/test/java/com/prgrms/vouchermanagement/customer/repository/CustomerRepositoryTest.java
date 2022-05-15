@@ -28,10 +28,12 @@ class CustomerRepositoryTest {
 	CustomerRepository customerRepository;
 
 	private UUID existingId;
+	private String existingEmail;
 
 	@BeforeEach
 	public void setup() {
 		existingId = UUID.fromString("98bcb05e-c64b-11ec-8ac0-86fc60ea758b");
+		existingEmail = "abc01@naver";
 	}
 
 	@Test
@@ -45,8 +47,16 @@ class CustomerRepositoryTest {
 
 	@Test
 	@DisplayName("중복 ID 를 갖는 고객을 새로 저장하려고 할 경우 DuplicatedKeyException 을 던진다")
-	void given_id_when_findVoucher_thenSuccess() {
+	void given_duplicatedId_when_insertCustomer_then_throwException() {
 		Customer customer = new Customer(existingId, "hello", "abc@naver.com", LocalDateTime.now());
+
+		Assertions.assertThrows(DuplicateKeyException.class, () -> customerRepository.insert(customer));
+	}
+
+	@Test
+	@DisplayName("중복 Email 을 갖는 고객을 새로 저장하려고 할 경우 DuplicatedKeyException 을 던진다")
+	void given_duplicatedEmail_when_insertCustomer_then_throwException() {
+		Customer customer = new Customer(UUID.randomUUID(), "hello", existingEmail, LocalDateTime.now());
 
 		Assertions.assertThrows(DuplicateKeyException.class, () -> customerRepository.insert(customer));
 	}
