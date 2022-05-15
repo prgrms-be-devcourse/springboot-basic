@@ -116,6 +116,12 @@ class VoucherJdbcRepositoryImplTest {
 
 	@Order(40)
 	@Test
+	void testDeleteByVoucherId() {
+		voucherRepository.deleteByVoucherId(fix.getVoucherId());
+	}
+
+	@Order(50)
+	@Test
 	void testFindAll() {
 		List<FixedVoucher> fixedVouchers = makeVouchers();
 		bulkInserts(fixedVouchers);
@@ -126,12 +132,7 @@ class VoucherJdbcRepositoryImplTest {
 		int totalPages = pages.getTotalPages();
 
 		Assertions.assertThat(vouchers.size()).isEqualTo(10);
-		Assertions.assertThat(totalPages).isEqualTo(13);
-	}
-
-	@Order(50)
-	@Test
-	void testDeleteByVoucherId() {
+		Assertions.assertThat(totalPages).isEqualTo(12);
 	}
 
 	public List<FixedVoucher> makeVouchers() {
