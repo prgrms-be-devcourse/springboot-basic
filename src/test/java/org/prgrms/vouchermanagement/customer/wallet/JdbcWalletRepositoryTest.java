@@ -43,13 +43,12 @@ class JdbcWalletRepositoryTest {
   static class Config {
     @Bean
     public DataSource dataSource() {
-      var dataSource = DataSourceBuilder.create()
+      return DataSourceBuilder.create()
         .url("jdbc:mysql://localhost:2215/test-voucher_mgmt")
         .username("test")
         .password("test1234!")
         .type(HikariDataSource.class)
         .build();
-      return dataSource;
     }
 
     @Bean
