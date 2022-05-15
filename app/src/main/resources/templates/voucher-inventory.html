@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>voucher-inventories</title>
+
+    <div th:replace="/fragments/header.html :: fargment-header"></div>
+</head>
+<body>
+<div th:replace="/fragments/navbar.html :: fragment-navbar"></div>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>식별자</th>
+            <th>종류</th>
+            <th>할인률</th>
+            <th>수량</th>
+            <th>만료일자</th>
+            <th>생성일자</th>
+            <th>수정일자</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers.responses}">
+            <td th:text="${voucher.voucherId()}" onclick="renderDetail(this)"></td>
+            <td th:text="${voucher.voucherType()}"></td>
+            <td th:text="${voucher.discountValue()}"></td>
+            <td th:text="${voucher.quantity()}"></td>
+            <td th:text="${#temporals.format(voucher.expirationAt(),'yyyy.MM.dd')}"></td>
+            <td th:text="${#temporals.format(voucher.createdAt(),'yyyy-MM-dd, HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(voucher.updatedAt(),'yyyy-MM-dd, HH:mm:ss')}"></td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="deleteVoucher(this)">delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<ul class="pagination h-100 justify-content-center align-items-center">
+
+    <li class="page-item " th:if="${vouchers.previous}">
+        <a class="page-link"
+           th:href="@{/voucher(page= ${vouchers.start -1},size=${10})}"
+           tabindex="-1">Previous</a>
+    </li>
+
+    <li th:class=" 'page-item ' + ${vouchers.page == page ? 'active':''} " th:each="page: ${vouchers.pageInventories}">
+        <a class="page-link"
+           th:href="@{/voucher(page = ${page},size=${10})}">
+            [[${page}]]
+        </a>
+    </li>
+
+    <li class="page-item" th:if="${vouchers.next}">
+        <a class="page-link" th:href="@{/voucher(page= ${vouchers.end + 1}
+                ,size=${10})}">
+            Next
+        </a>
+    </li>
+
+</ul>
+<script>
+    function renderDetail(my) {
+        let voucherId = my.innerText;
+        location.href = window.location.pathname + '/read/' + voucherId;
+    }
+
+    function deleteVoucher(my) {
+        let deleteInfo = '';
+        let children = my.parentNode.parentNode.children;
+
+        for (let i = 0; i < children.length-1; i++) {
+            deleteInfo += children[i].innerHTML + ', '
+        }
+
+        if (confirm(deleteInfo+'해당 바우처를 삭제하시겠어요 ?')) {
+            let voucherId = my.parentNode.parentNode.children[0].innerHTML;
+            fetch("api/voucher/"+voucherId,{
+                method: "DELETE",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+            })
+
+        }
+    }
+</script>
+</body>
+</html>
