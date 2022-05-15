@@ -38,8 +38,8 @@ public class FileVoucherRepository implements VoucherRepository {
         logger.info("[FileVoucherRepository] save(Voucher voucher) called");
 
         try {
-            String stringToWrite = voucher.getVoucherId() + ", " +
-                    voucher.getDiscount() + ", " + voucher.getVoucherType();
+            String stringToWrite = voucher.getVoucherId() + "," +
+                    voucher.getDiscount() + "," + voucher.getVoucherType();
             bf.write(stringToWrite);
             bf.newLine();
             bf.flush();
@@ -51,16 +51,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
-    }
-
-    @Override
     public List<Voucher> findAll() {
 
         logger.info("[FileVoucherRepository] findAll() called");
         List<Voucher> vouchers = new ArrayList<>();
-        String readLine = null;
+        String readLine;
         try {
             while ((readLine = br.readLine()) != null) {
                 String[] readLineSplit = readLine.split(",");
@@ -74,6 +69,12 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("{} error occurred", IOException.class);
         }
         return vouchers;
+    }
+
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new NotAvailableMethod("이 메서드는 사용할 수 없습니다.");
     }
 
     @Override

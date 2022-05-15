@@ -1,3 +1,3 @@
-73806236-93cb-41fa-b1db-dfc3e92d50c9, 10, PercentDiscountVoucher
-73806236-93cb-41fa-b1db-dfc3e92d50c9, 10, PercentDiscountVoucher
-66ecaf33-0566-45cc-ac99-7f22ab4d235f, 10, FixedAmountVoucher
+4661bbfe-1092-4b05-8585-dc4d1ba86b85,10000,FixedAmountVoucher
+3b6b8585-1c2f-45e7-8086-abe18e074165,10000,FixedAmountVoucher
+a80796c4-6992-41a3-a3e2-9d98c5eeeb30,10000,FixedAmountVoucher
