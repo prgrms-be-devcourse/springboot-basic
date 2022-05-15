@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanagement.voucher.repository;
 
-import static org.hamcrest.MatcherAssert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.time.LocalDateTime;
@@ -15,13 +16,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class VoucherRepositoryTest {
 	// TODO : test data 를 BeforeEach, BeforeAll 에서 save 하는 것으로 변경 후 afterEach 를 작성하여 동일 결과를 보장할 수 있도록 해야함
 
@@ -84,4 +83,13 @@ class VoucherRepositoryTest {
 		assertThat(deletedVoucher.isPresent(), is(false));
 	}
 
+	@Test
+	@DisplayName("존재하지 않는 id 로 바우처 삭제 시 0 이 리턴된다")
+	void given_notExistingId_when_deleteData_then() {
+		UUID id = UUID.randomUUID();
+
+		long deleted = voucherRepository.deleteById(id);
+
+		assertThat(deleted).isEqualTo(0L);
+	}
 }
