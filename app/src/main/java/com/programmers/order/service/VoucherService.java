@@ -1,5 +1,9 @@
 package com.programmers.order.service;
 
+import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +30,23 @@ public class VoucherService {
 	public Voucher update(Voucher requestUpdate) {
 
 		Voucher voucher = voucherRepository.findById(requestUpdate.getVoucherId())
-				.orElseThrow(() -> new ServiceException.NotFoundResource("vocuher resouerce 가 존재하지 않습니다."));
+				.orElseThrow(() -> new ServiceException.NotFoundResource("voucher resource 가 존재하지 않습니다."));
 		Voucher updatedVoucher = voucher.update(requestUpdate);
 
 		return voucherRepository.update(updatedVoucher);
+	}
+
+	public Page<Voucher> lookUpVouchers(Pageable pageable) {
+		return voucherRepository.findAll(pageable);
+	}
+
+	public Voucher lookUpVoucher(UUID voucherId) {
+		return voucherRepository.findById(voucherId)
+				.orElseThrow(() -> new ServiceException.NotFoundResource("voucher resource 가 존재하지 않습니다."));
+	}
+
+	@Transactional
+	public void deleteById(UUID voucherId) {
+		voucherRepository.deleteByVoucherId(voucherId);
 	}
 }

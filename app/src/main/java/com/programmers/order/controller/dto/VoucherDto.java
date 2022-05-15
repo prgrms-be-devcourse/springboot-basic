@@ -1,12 +1,10 @@
 package com.programmers.order.controller.dto;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;

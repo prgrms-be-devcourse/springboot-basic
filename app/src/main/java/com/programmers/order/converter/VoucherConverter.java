@@ -1,11 +1,16 @@
 package com.programmers.order.converter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import com.programmers.order.controller.dto.PageDto;
 import com.programmers.order.controller.dto.VoucherDto;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.provider.VoucherProvider;
@@ -42,5 +47,21 @@ public class VoucherConverter {
 	public Converter<VoucherDto.Update, Voucher> updateDtoToDomain() {
 		return updateDto -> voucherProvider.clientOf(updateDto.voucherType())
 				.update(updateDto);
+	}
+
+	public Converter<Page<Voucher>, PageDto.Response<VoucherDto.Response, Voucher>> domainToResponseDtos() {
+		return pagingVoucher -> {
+			Function<Voucher, VoucherDto.Response> toResponse = domain -> VoucherDto.Response.builder()
+					.voucherId(domain.getVoucherId())
+					.voucherType(domain.getVoucherType())
+					.discountValue(domain.getDiscountValue())
+					.quantity(domain.getQuantity())
+					.expirationAt(domain.getExpirationAt())
+					.createdAt(domain.getCreatedAt())
+					.updatedAt(domain.getUpdatedAt())
+					.build();
+
+			return new PageDto.Response<>(pagingVoucher, toResponse);
+		};
 	}
 }
