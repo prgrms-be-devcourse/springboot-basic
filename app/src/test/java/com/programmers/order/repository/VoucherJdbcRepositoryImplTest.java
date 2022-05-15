@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ class VoucherJdbcRepositoryImplTest {
 
 	private Faker faker = new Faker();
 
-	@AfterAll
+	@BeforeAll
 	void init() {
 		voucherRepository.deleteAll();
 	}
