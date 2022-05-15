@@ -1,5 +1,6 @@
 package com.mountain.voucherapp.controller.api;
 
+import com.mountain.voucherapp.dto.CustomerDto;
 import com.mountain.voucherapp.service.VoucherAppService;
 import com.mountain.voucherapp.service.customer.CustomerService;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,12 +25,12 @@ public class CustomerRestController {
     }
 
     @GetMapping
-    public ResponseEntity customers() {
+    public ResponseEntity<List<CustomerDto>> customers() {
         return ResponseEntity.ok(customerService.findAll());
     }
 
     @GetMapping("/vouchers/{voucherId}")
-    public ResponseEntity customersByVoucherId(@PathVariable String voucherId) {
+    public ResponseEntity<List<CustomerDto>> customersByVoucherId(@PathVariable String voucherId) {
         return ResponseEntity.ok(voucherAppService.showByVoucher(UUID.fromString(voucherId)));
     }
 }
