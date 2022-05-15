@@ -5,3 +5,16 @@ spring:
     username: root
     password:
 
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
+    org.springframework: INFO
+    org.springframework.web: DEBUG
+
+
+voucherDto:
+  discountValue:
+    range: ${validatedValue}은 사용할 수 없습니다. {min} ~ {max} 사이만 입력할 수 있습니다.
+  price:
+    range: ${validatedValue}은 사용할 수 없습니다. {min} ~ {max} 사이만 입력할 수 있습니다.
