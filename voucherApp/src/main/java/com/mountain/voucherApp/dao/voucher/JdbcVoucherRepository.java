@@ -12,8 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.*;
 
 import static com.mountain.voucherApp.common.constants.ErrorMessage.*;
@@ -107,15 +105,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return paramMap;
     }
 
-    private static RowMapper<VoucherEntity> voucherEntityRowMapper = new RowMapper<VoucherEntity>() {
-        @Override
-        public VoucherEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
-            UUID uuid = toUUID(voucherId);
-            long discountAmount = rs.getLong(DISCOUNT_AMOUNT.getValue());
-            DiscountPolicy discountPolicy = DiscountPolicy.valueOf(rs.getString(DISCOUNT_POLICY.getValue()));
-            return new VoucherEntity(uuid, discountPolicy, discountAmount);
-        }
+    private static RowMapper<VoucherEntity> voucherEntityRowMapper = (rs, rowNum) -> {
+        byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
+        UUID uuid = toUUID(voucherId);
+        long discountAmount = rs.getLong(DISCOUNT_AMOUNT.getValue());
+        DiscountPolicy discountPolicy = DiscountPolicy.valueOf(rs.getString(DISCOUNT_POLICY.getValue()));
+        return new VoucherEntity(uuid, discountPolicy, discountAmount);
     };
 
 }

@@ -12,8 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.charset.StandardCharsets;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -37,21 +35,18 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         this.customerMapper = customerMapper;
     }
 
-    private static RowMapper<CustomerEntity> customerRowMapper = new RowMapper<CustomerEntity>() {
-        @Override
-        public CustomerEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
-            String customerName = rs.getString(NAME.getValue());
-            byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
-            String address = rs.getString(EMAIL.getValue());
-            byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
-            LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
-                    rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
-            LocalDateTime createdAt = rs.getTimestamp(CREATED_AT.getValue()).toLocalDateTime();
-            UUID customerUUID = toUUID(customerId);
-            UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
-            lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;
-            return new CustomerEntity(customerUUID, voucherUUID, customerName, new Email(address), lastLoginAt, createdAt);
-        }
+    private static RowMapper<CustomerEntity> customerRowMapper = (rs, rowNum) -> {
+        String customerName = rs.getString(NAME.getValue());
+        byte[] voucherId = rs.getBytes(VOUCHER_ID.getValue());
+        String address = rs.getString(EMAIL.getValue());
+        byte[] customerId = rs.getBytes(CUSTOMER_ID.getValue());
+        LocalDateTime lastLoginAt = rs.getTimestamp(LAST_LOGIN_AT.getValue()) != null ?
+                rs.getTimestamp(LAST_LOGIN_AT.getValue()).toLocalDateTime() : null;
+        LocalDateTime createdAt = rs.getTimestamp(CREATED_AT.getValue()).toLocalDateTime();
+        UUID customerUUID = toUUID(customerId);
+        UUID voucherUUID = voucherId != null ? toUUID(voucherId) : null;
+        lastLoginAt = (lastLoginAt != null) ? lastLoginAt : null;
+        return new CustomerEntity(customerUUID, voucherUUID, customerName, new Email(address), lastLoginAt, createdAt);
     };
 
     private Map<String, Object> toParamMap(CustomerDto customerDto) {
@@ -102,7 +97,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     public List<CustomerDto> findAll() {
         return jdbcTemplate.query("SELECT * FROM customers", customerRowMapper)
                 .stream()
-                .map((customerEntity) -> customerMapper.mapToDomainEntity(customerEntity))
+                .map(customerMapper::mapToDomainEntity)
                 .collect(Collectors.toList());
     }
 
@@ -133,7 +128,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                 paramMap
         );
         if (executeUpdate != EXECUTE_SUCCESS) {
-            throw new RuntimeException(NOT_UPDATED.getMessage());
+            throw new JdbcUpdateNotExecuteException(NOT_UPDATED.getMessage());
         }
     }
 
