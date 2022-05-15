@@ -76,9 +76,9 @@ class VoucherMemoryRepositoryTest {
 
                 // then
                 assertThat(savedVoucher).isNotNull();
-                assertThat(savedVoucher.getVoucherId()).isEqualTo(initialId + 1);
-                assertThat(savedVoucher.getVoucherType()).isEqualTo(voucherType);
-                assertThat(savedVoucher.getVoucherAmount()).isEqualTo(voucherAmount);
+                assertThat(savedVoucher.getId()).isEqualTo(initialId + 1);
+                assertThat(savedVoucher.getType()).isEqualTo(voucherType);
+                assertThat(savedVoucher.getAmount()).isEqualTo(voucherAmount);
             }
         }
     }

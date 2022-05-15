@@ -24,7 +24,7 @@ public class PercentAmount extends VoucherAmount {
         }
 
         PercentAmount otherVoucherAmount = (PercentAmount) other;
-        if (this == other || this.getAmount() == otherVoucherAmount.getAmount()) {
+        if (this == other || this.getValue() == otherVoucherAmount.getValue()) {
             return true;
         }
         return false;
@@ -35,6 +35,6 @@ public class PercentAmount extends VoucherAmount {
     }
 
     private double getDiscountRate() {
-        return getAmount() / 100.0;
+        return getValue() / 100.0;
     }
 }
