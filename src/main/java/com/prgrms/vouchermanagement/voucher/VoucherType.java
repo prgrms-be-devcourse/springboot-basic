@@ -37,6 +37,14 @@ public enum VoucherType implements CodeMappable {
 	};
 
 	private final int code;
+	private static final Map<Integer, VoucherType> int2VoucherTypeMapper;
+
+	static {
+		int2VoucherTypeMapper = new HashMap<>();
+		int2VoucherTypeMapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
+		int2VoucherTypeMapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
+
+	}
 
 	VoucherType(int code) {
 		this.code = code;
@@ -57,28 +65,11 @@ public enum VoucherType implements CodeMappable {
 	}
 
 	public static VoucherType of(int code) {
-		return Int2VoucherTypeMapper.of(code)
+		return Optional.of(int2VoucherTypeMapper.get(code))
 			.orElseThrow(() ->
 				new NoMappingOneException(Integer.toString(code)));
 	}
 
 	public abstract Voucher getVoucher(UUID voucherId, long percent, LocalDateTime createdAt) throws
 		CreationFailException;
-
-	private static class Int2VoucherTypeMapper {
-		private static final Map<Integer, VoucherType> mapper;
-
-		static {
-			mapper = new HashMap<>();
-			mapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
-			mapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
-		}
-
-		private Int2VoucherTypeMapper() {
-		}
-
-		public static Optional<VoucherType> of(int code) {
-			return Optional.ofNullable(mapper.get(code));
-		}
-	}
 }
