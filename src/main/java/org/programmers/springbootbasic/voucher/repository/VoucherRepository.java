@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,9 @@ public interface VoucherRepository {
     Voucher update(Voucher voucher);
 
     void deleteById(UUID voucherId);
+
+    List<Voucher> findByVoucherType(VoucherType voucherType);
+    List<Voucher> findByCreatedAt();
 
     int getCountByVoucherId(UUID voucherId);
 }

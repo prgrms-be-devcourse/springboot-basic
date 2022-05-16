@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt() {
+        return null;
     }
 
     @Override

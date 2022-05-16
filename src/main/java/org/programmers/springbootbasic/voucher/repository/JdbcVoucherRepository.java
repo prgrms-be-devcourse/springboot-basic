@@ -51,6 +51,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("SELECT * FROM vouchers ORDER BY created_at", voucherRowMapper);
     }
 
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", voucherType.toString()),
+                voucherRowMapper);
+    }
+
     @Override
     public Voucher insert(Voucher voucher) throws DuplicateObjectKeyException {
         Map<String, ?> parameterMap = Map.of(

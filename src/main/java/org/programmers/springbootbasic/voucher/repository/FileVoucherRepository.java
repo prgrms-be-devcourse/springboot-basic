@@ -110,6 +110,16 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt() {
+        return null;
+    }
+
+    @Override
     public int getCountByVoucherId(UUID voucherId) {
         return 0;
     }
