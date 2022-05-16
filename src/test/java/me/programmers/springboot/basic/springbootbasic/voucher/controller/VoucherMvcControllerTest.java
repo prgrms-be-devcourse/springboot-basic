@@ -1,9 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreateRequestDto;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
-import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +29,6 @@ class VoucherMvcControllerTest {
     @MockBean
     JdbcVoucherService voucherService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @Test
     void showVoucherPageTest() throws Exception {
         String url = "/vouchers";
@@ -50,7 +45,16 @@ class VoucherMvcControllerTest {
                 .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
     }
 
+    @Test
+    void showDetailVoucherPageTest() throws Exception {
+        UUID uuid = UUID.randomUUID();
+        given(voucherService.getVoucherById(any(UUID.class))).willReturn(new FixedAmountVoucher(uuid, 2000));
 
+        String url = "/vouchers/" + uuid;
+        mockMvc.perform(get(url))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.valueOf("text/html;charset=UTF-8")));
+    }
 
     @Test
     void createVoucherTest() throws Exception {
