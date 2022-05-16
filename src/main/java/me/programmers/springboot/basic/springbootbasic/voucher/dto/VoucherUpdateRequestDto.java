@@ -1,23 +1,23 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.dto;
 
 public class VoucherUpdateRequestDto {
-    private String discountPrice;
+    private long discountPrice;
 
-    private String discountPercent;
+    private long discountPercent;
 
-    public String getDiscountPrice() {
+    public long getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(String discountPrice) {
+    public void setDiscountPrice(long discountPrice) {
         this.discountPrice = discountPrice;
     }
 
-    public String getDiscountPercent() {
+    public long getDiscountPercent() {
         return discountPercent;
     }
 
-    public void setDiscountPercent(String discountPercent) {
+    public void setDiscountPercent(long discountPercent) {
         this.discountPercent = discountPercent;
     }
 

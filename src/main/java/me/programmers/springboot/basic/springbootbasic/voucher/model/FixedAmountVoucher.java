@@ -40,7 +40,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public void update(VoucherUpdateRequestDto requestDto) {
-        this.amount = Long.parseLong(requestDto.getDiscountPrice());
+        this.amount = requestDto.getDiscountPrice();
     }
 
     @Override

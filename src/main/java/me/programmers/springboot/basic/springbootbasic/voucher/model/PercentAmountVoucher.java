@@ -42,7 +42,7 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public void update(VoucherUpdateRequestDto requestDto) {
-        this.percent = Long.parseLong(requestDto.getDiscountPercent());
+        this.percent = requestDto.getDiscountPercent();
     }
 
     @Override
