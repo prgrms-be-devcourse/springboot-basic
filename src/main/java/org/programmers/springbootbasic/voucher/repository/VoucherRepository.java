@@ -20,6 +20,7 @@ public interface VoucherRepository {
     void deleteById(UUID voucherId);
 
     List<Voucher> findByVoucherType(VoucherType voucherType);
+
     List<Voucher> findByCreatedAt();
 
     int getCountByVoucherId(UUID voucherId);

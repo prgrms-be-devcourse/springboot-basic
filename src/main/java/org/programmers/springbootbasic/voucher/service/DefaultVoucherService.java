@@ -30,6 +30,7 @@ public class DefaultVoucherService implements VoucherService {
                 .findById(voucherId)
                 .orElseThrow(() -> new NotFoundException("주문을 찾을 수 없습니다."));
     }
+
     public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
@@ -37,6 +38,7 @@ public class DefaultVoucherService implements VoucherService {
     public List<Voucher> getVoucherListByVoucherType(VoucherType voucherType) {
         return voucherRepository.findByVoucherType(voucherType);
     }
+
     public List<Voucher> getVoucherListOrderByCreatedAt() {
         return voucherRepository.findByCreatedAt();
     }
