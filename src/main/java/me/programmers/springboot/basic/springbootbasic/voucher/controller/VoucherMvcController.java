@@ -57,7 +57,11 @@ public class VoucherMvcController {
             voucher = new PercentAmountVoucher(UUID.randomUUID(), requestDto.getDiscountPercent());
         }
 
-        voucherService.save(voucher);
+        try {
+            voucherService.save(voucher);
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
 
         return "redirect:/vouchers";
     }
@@ -65,8 +69,12 @@ public class VoucherMvcController {
     @PutMapping("/vouchers/{uuid}")
     public String updateVoucher(@PathVariable UUID uuid, @ModelAttribute VoucherUpdateRequestDto requestDto) {
         Voucher voucher = voucherService.getVoucherById(uuid);
-        voucher.update(requestDto);
-        voucherService.update(voucher);
+        try {
+            voucher.update(requestDto);
+            voucherService.update(voucher);
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
         return "redirect:/vouchers";
     }
 

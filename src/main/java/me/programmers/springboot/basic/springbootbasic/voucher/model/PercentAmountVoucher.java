@@ -42,6 +42,7 @@ public class PercentAmountVoucher extends Voucher {
 
     @Override
     public void update(VoucherUpdateRequestDto requestDto) {
+        validate(requestDto.getDiscountPercent());
         this.percent = requestDto.getDiscountPercent();
     }
 
