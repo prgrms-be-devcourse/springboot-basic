@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:error.yaml", factory = YamlPropertiesFactory.class)
 @ConfigurationProperties(prefix = "error")
 public class ErrorProperties {
+
     private static String invalidCommand;
     private static String inputNegativeNumbers;
     private static String inputNotNumbers;

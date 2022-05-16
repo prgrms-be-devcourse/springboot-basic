@@ -1,4 +1,4 @@
-package org.devcourse.voucher.view;
+package org.devcourse.voucher.view.console;
 
 import org.springframework.stereotype.Component;
 

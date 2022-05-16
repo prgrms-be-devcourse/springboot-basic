@@ -14,7 +14,7 @@ public class CustomerControllerImpl implements CustomerController {
     }
 
     @Override
-    public Customer createCustomerMapper(String name, String email) {
+    public Customer postCreateCustomer(String name, String email) {
         return customerService.createCustomer(name, new Email(email));
     }
 }

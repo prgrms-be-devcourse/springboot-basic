@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface VoucherController {
 
-    Voucher createVoucherMapper(VoucherType voucher, long discount);
+    Voucher postCreateVoucher(VoucherType voucher, long discount);
 
-    List<?> findListMapper(ListMenuType listType);
+    List<Voucher> getVoucherList();
 }

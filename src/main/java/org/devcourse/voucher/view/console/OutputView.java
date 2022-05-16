@@ -1,4 +1,4 @@
-package org.devcourse.voucher.view;
+package org.devcourse.voucher.view.console;
 
 import org.devcourse.voucher.configuration.MenuProperties;
 import org.devcourse.voucher.error.ErrorType;

@@ -5,8 +5,8 @@ import org.devcourse.voucher.customer.controller.CustomerController;
 import org.devcourse.voucher.menu.model.CreateMenuType;
 import org.devcourse.voucher.menu.model.MainMenuType;
 import org.devcourse.voucher.menu.model.ListMenuType;
-import org.devcourse.voucher.view.Input;
-import org.devcourse.voucher.view.Output;
+import org.devcourse.voucher.view.console.Input;
+import org.devcourse.voucher.view.console.Output;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +45,7 @@ public class ConsoleVoucherManager {
                 }
                 case LIST -> {
                     ListMenuType listMenuType = selectList();
-                    output.printList(voucherController.findListMapper(listMenuType));
+                    output.printList(voucherController.getVoucherList());
                 }
                 default -> output.warn(INVALID_COMMAND);
             }
@@ -57,7 +57,7 @@ public class ConsoleVoucherManager {
         String name = input.nextLine();
         output.emailMenu();
         String email = input.nextLine();
-        customerController.createCustomerMapper(name, email);
+        customerController.postCreateCustomer(name, email);
     }
 
     private void selectVoucher() {
@@ -66,7 +66,7 @@ public class ConsoleVoucherManager {
         while (discount <= 0) {
             discount = inputDiscount();
         }
-        voucherController.createVoucherMapper(voucherType, discount);
+        voucherController.postCreateVoucher(voucherType, discount);
     }
 
     private CreateMenuType selectCreate() {

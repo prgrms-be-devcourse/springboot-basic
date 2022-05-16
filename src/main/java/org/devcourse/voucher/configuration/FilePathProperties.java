@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource(value = "classpath:path.yaml", factory = YamlPropertiesFactory.class)
 @ConfigurationProperties(prefix = "path")
 public class FilePathProperties {
+
     private String blacklist;
 
     private String voucher;
