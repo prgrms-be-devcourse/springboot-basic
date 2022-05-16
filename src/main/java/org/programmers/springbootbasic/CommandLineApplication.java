@@ -2,7 +2,7 @@ package org.programmers.springbootbasic;
 
 import org.programmers.springbootbasic.command.CommandType;
 import org.programmers.springbootbasic.io.Console;
-import org.programmers.springbootbasic.voucher.service.VoucherService;
+import org.programmers.springbootbasic.voucher.service.DefaultVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +20,7 @@ public class CommandLineApplication implements Runnable {
 
 	@Override
 	public void run() {
-		VoucherService voucherService = applicationContext.getBean(VoucherService.class);
+		DefaultVoucherService defaultVoucherService = applicationContext.getBean(DefaultVoucherService.class);
 		boolean runProgram = true;
 
 		while (runProgram) {
@@ -28,7 +28,7 @@ public class CommandLineApplication implements Runnable {
 				console.printMenu();
 				String choiceCommandType = console.input("");
 				runProgram = CommandType.execute(
-						CommandType.getCreate(choiceCommandType), console, voucherService);
+						CommandType.getCreate(choiceCommandType), console, defaultVoucherService);
 			} catch (IllegalArgumentException exception) {
 				logger.error("Invalid Command Type", exception);
 			}

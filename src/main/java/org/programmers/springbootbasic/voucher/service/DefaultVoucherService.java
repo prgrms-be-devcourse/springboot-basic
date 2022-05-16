@@ -1,30 +1,35 @@
 package org.programmers.springbootbasic.voucher.service;
 
+import javassist.NotFoundException;
 import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.exception.NotUpdateException;
+import org.programmers.springbootbasic.voucher.VoucherConverter;
+import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.voucher.controller.api.UpdateVoucherRequest;
 import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class VoucherService {
+public class DefaultVoucherService implements VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    private final VoucherConverter voucherConverter;
+
+    public DefaultVoucherService(VoucherRepository voucherRepository, VoucherConverter voucherConverter) {
         this.voucherRepository = voucherRepository;
+        this.voucherConverter = voucherConverter;
     }
 
-    public Optional<Voucher> getVoucher(UUID voucherId) {
+    public Voucher getVoucher(UUID voucherId) throws NotFoundException {
         return voucherRepository
-                .findById(voucherId);
+                .findById(voucherId)
+                .orElseThrow(() -> new NotFoundException("주문을 찾을 수 없습니다."));
     }
-
     public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
@@ -36,21 +41,23 @@ public class VoucherService {
         return voucherRepository.findByCreatedAt();
     }
 
-    public Voucher createVoucher(VoucherType voucherType, UUID voucherId, long value, LocalDateTime createdAt) {
+    public Voucher createVoucher(CreateVoucherRequest voucherRequest) {
+        UUID voucherId = UUID.randomUUID();
         if (checkVoucherExist(voucherId)) {
             throw new DuplicateObjectKeyException("이미 존재하는 바우처 입니다.");
         }
-        var voucher = VoucherType.findByType(String.valueOf(voucherType))
-                .create(voucherId, value, createdAt);
+        var voucher = voucherConverter.convertVoucher(voucherRequest);
+
         return voucherRepository.insert(voucher);
     }
 
-    public Voucher updateVoucher(UUID voucherId, long value) {
-        if (!checkVoucherExist(voucherId)) {
+    public Voucher updateVoucher(UpdateVoucherRequest updateVoucherRequest) throws NotFoundException {
+        if (!checkVoucherExist(updateVoucherRequest.voucherId())) {
             throw new NotUpdateException("업데이트 할 바우처가 없습니다.");
         }
-        Voucher voucher = getVoucher(voucherId).orElseThrow();
-        return voucherRepository.update(voucher.changeValue(value));
+        Voucher updateVoucher = getVoucher(updateVoucherRequest.voucherId())
+                .changeValue(updateVoucherRequest.value());
+        return voucherRepository.update(updateVoucher);
     }
 
     public void deleteVoucher(UUID voucherId) {
