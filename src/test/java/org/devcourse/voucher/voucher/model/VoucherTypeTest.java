@@ -14,10 +14,10 @@ class VoucherTypeTest {
     @DisplayName("옵션을 기준으로 원하는 타입이 생성되는지 테스트")
     void findOptionVoucherTest() {
         String[] stubs = {
-                "1", "2", "3"
+                "1", "2"
         };
         VoucherType[] want = {
-                FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER, NONE
+                FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER
         };
 
         for (int i = 0; i < stubs.length; i++) {
@@ -29,10 +29,10 @@ class VoucherTypeTest {
     @DisplayName("이름을 기준으로 원하는 타입이 생성되는지 테스트")
     void findNameVoucherTest() {
         String[] stubs = {
-                "FixedAmountVoucher", "PercentDiscountVoucher", "UnknownVoucher"
+                "FixedAmountVoucher", "PercentDiscountVoucher"
         };
         VoucherType[] want = {
-                FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER, NONE
+                FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER
         };
 
         for (int i = 0; i < stubs.length; i++) {

@@ -67,8 +67,10 @@ public class OutputView implements Output{
     }
 
     @Override
-    public void warn(ErrorType errorType) {
-        System.out.println(errorType.message());
-        logger.warn(errorType.message());
+    public void error(ErrorType errorType) {
+        String errorMessage = errorType.message();
+
+        System.out.println(errorMessage);
+        logger.error(errorMessage);
     }
 }

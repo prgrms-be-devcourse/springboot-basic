@@ -24,5 +24,6 @@ public interface Output {
 
     void emailMenu();
 
-    void warn(ErrorType errorType);
+    void error(ErrorType errorType);
+
 }

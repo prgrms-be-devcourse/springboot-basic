@@ -1,5 +1,6 @@
 package org.devcourse.voucher;
 
+import org.devcourse.voucher.error.ErrorType;
 import org.devcourse.voucher.voucher.controller.VoucherController;
 import org.devcourse.voucher.customer.controller.CustomerController;
 import org.devcourse.voucher.menu.model.CreateMenuType;
@@ -8,14 +9,17 @@ import org.devcourse.voucher.menu.model.ListMenuType;
 import org.devcourse.voucher.view.console.Input;
 import org.devcourse.voucher.view.console.Output;
 import org.devcourse.voucher.voucher.model.VoucherType;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import static org.devcourse.voucher.error.ErrorType.*;
-import static org.devcourse.voucher.menu.model.MainMenuType.*;
+import java.util.List;
 
 
 @Component
-public class ConsoleVoucherManager {
+public class ConsoleVoucherManager implements CommandLineRunner {
+    private static final int INVALID_COMMAND = -1;
+    private static final int MIN_PRICE = 0;
+
     private final VoucherController voucherController;
     private final CustomerController customerController;
     private final Input input;
@@ -28,28 +32,24 @@ public class ConsoleVoucherManager {
         this.output = output;
     }
 
-    public void run() {
-        MainMenuType command = NONE;
-        while (command != EXIT) {
+    @Override
+    public void run(String... args) throws Exception {
+        MainMenuType menu;
+
+        do {
             output.mainMenu();
-            command = discriminate(input.nextLine());
-            switch(command) {
-                case EXIT -> output.info("exit");
-                case CREATE -> {
-                    CreateMenuType createMenuType = selectCreate();
-                    switch (createMenuType) {
-                        case VOUCHER -> selectVoucher();
-                        case CUSTOMER -> selectCustomer();
-                        default -> output.warn(INVALID_COMMAND);
-                    }
-                }
-                case LIST -> {
-                    ListMenuType listMenuType = selectList();
-                    output.printList(voucherController.getVoucherList());
-                }
-                default -> output.warn(INVALID_COMMAND);
-            }
+            menu = mainMenu(MainMenuType.discriminate(input.nextLine()));
+        } while (menu != MainMenuType.EXIT);
+    }
+
+    MainMenuType mainMenu(MainMenuType command) {
+        switch (command) {
+            case EXIT -> output.info("exit");
+            case CREATE -> selectCreate();
+            case LIST -> selectList();
+            default -> output.error(ErrorType.INVALID_COMMAND);
         }
+        return command;
     }
 
     private void selectCustomer() {
@@ -69,28 +69,44 @@ public class ConsoleVoucherManager {
         voucherController.postCreateVoucher(voucherType, discount);
     }
 
-    private CreateMenuType selectCreate() {
-        CreateMenuType createMenuType = CreateMenuType.NONE;
-        while (createMenuType == CreateMenuType.NONE) {
+    private void selectCreate() {
+        CreateMenuType command;
+        boolean isSelected = false;
+        while (!isSelected) {
             output.createMenu();
-            createMenuType = CreateMenuType.discriminate(input.nextLine());
-            if (createMenuType == CreateMenuType.NONE) {
-                output.warn(INVALID_COMMAND);
+            try {
+                command = CreateMenuType.discriminate(input.nextLine());
+                switch (command) {
+                    case VOUCHER -> selectVoucher();
+                    case CUSTOMER -> selectCustomer();
+                    default -> output.error(ErrorType.INVALID_COMMAND);
+                }
+                isSelected = true;
+            } catch (IllegalArgumentException e) {
+                output.error(ErrorType.INVALID_COMMAND);
             }
         }
-        return createMenuType;
     }
 
-    private ListMenuType selectList() {
-        ListMenuType listMenuType = ListMenuType.NONE;
-        while (listMenuType == ListMenuType.NONE) {
+    private void selectList() {
+        ListMenuType command;
+        boolean isSelected = false;
+
+        while (!isSelected) {
             output.listMenu();
-            listMenuType = ListMenuType.discriminate(input.nextLine());
-            if (listMenuType == ListMenuType.NONE) {
-                output.warn(INVALID_COMMAND);
+            try {
+                command = ListMenuType.discriminate(input.nextLine());
+                switch (command) {
+                    case VOUCHER -> output.printList(voucherController.getVoucherList());
+                    case CUSTOMER -> output.printList(customerController.getCustomerList());
+                    case BLACKLIST -> output.printList(customerController.getBlackList());
+                    default -> output.error(ErrorType.INVALID_COMMAND);
+                }
+                isSelected = true;
+            } catch (IllegalArgumentException e) {
+                output.error(ErrorType.INVALID_COMMAND);
             }
         }
-        return listMenuType;
     }
 
     private long inputDiscount() {
@@ -99,26 +115,29 @@ public class ConsoleVoucherManager {
         long price;
         try {
             price = Long.parseLong(inputPrice);
-            if (price <= 0) {
-                output.warn(INPUT_NEGATIVE_NUMBERS);
+            if (price <= MIN_PRICE) {
+                output.error(ErrorType.INPUT_NEGATIVE_NUMBERS);
             }
         } catch (NumberFormatException numberFormatException) {
-            output.warn(INPUT_NOT_NUMBERS);
-            return -1;
+            output.error(ErrorType.INPUT_NOT_NUMBERS);
+            return INVALID_COMMAND;
         }
         return price;
     }
 
     private VoucherType selectVoucherType() {
-        VoucherType voucherType = VoucherType.NONE;
-        while (voucherType == VoucherType.NONE) {
+        VoucherType command = null;
+        boolean isSelected = false;
+
+        while (!isSelected) {
             output.voucherMenu();
-            voucherType = VoucherType.optionDiscriminate(input.nextLine());
-            if (voucherType == VoucherType.NONE) {
-                output.warn(INVALID_COMMAND);
+            try {
+                command = VoucherType.optionDiscriminate(input.nextLine());
+                isSelected = true;
+            } catch (IllegalArgumentException e) {
+                output.error(ErrorType.INVALID_TYPE);
             }
         }
-        return voucherType;
+        return command;
     }
-
 }

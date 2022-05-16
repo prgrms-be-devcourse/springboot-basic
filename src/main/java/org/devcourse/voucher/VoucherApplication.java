@@ -9,8 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class VoucherApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext ac = SpringApplication.run(VoucherApplication.class, args);
-        ac.getBean(ConsoleVoucherManager.class).run();
+        SpringApplication.run(VoucherApplication.class, args);
     }
 
 }
