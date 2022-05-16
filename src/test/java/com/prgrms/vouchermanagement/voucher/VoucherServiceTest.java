@@ -1,11 +1,10 @@
 package com.prgrms.vouchermanagement.voucher;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.core.Is.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -13,82 +12,88 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
-import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("VoucherService 클래스 ")
 public class VoucherServiceTest {
-
-	private VoucherType fixedType;
-	private VoucherType percentType;
-
 	@InjectMocks
 	private VoucherService voucherService;
 
 	@Mock
 	private VoucherRepository voucherRepository;
 
-	@BeforeEach
-	public void setup() {
-		fixedType = VoucherType.FIXED;
-		percentType = VoucherType.PERCENT;
-	}
+	private VoucherType fixedType = VoucherType.FIXED;
+	private VoucherType percentType = VoucherType.PERCENT;
 
-	@Test
-	@DisplayName("고정할인 금액이 양수인 바우처를 정상방급하여 null 이 아닌 Optional 반환")
-	public void Given_fixedAmount_When_createFixedAmountVoucher_thenCreationSuccess() {
-		long amount = 1000L;
+	@Nested
+	@DisplayName("create 메소드는")
+	class Describe_create {
+		long zeroAmount = 0L;
 
-		Voucher newVoucher = voucherService.create(fixedType, amount);
+		@Nested
+		@DisplayName("할인 정보가 100 보다 큰 양수라면")
+		class Context_with_biggerThan100Amount {
+			long biggerThan100Amount = 1000L;
 
-		assertThat(newVoucher.getDiscountInfo(), is(amount));
-		assertThat(newVoucher.getType(), is(VoucherType.FIXED));
-	}
+			@Test
+			@DisplayName(" 고정할인 금액 바우처를 정상 발급한다")
+			void it_returns_a_valid_FixedVoucher() {
+				Assertions.assertDoesNotThrow(() ->
+					voucherService.create(fixedType, biggerThan100Amount));
+			}
 
-	@Test
-	@DisplayName("할인 퍼센트가 음수인 바우처 생성을 시도 할 때 CreationFailException 이 발생")
-	public void Given_percentAmount_When_createPercentVoucher_thenCreationFail() {
-		long amount = -1000L;
+			@Test
+			@DisplayName(" 퍼센트 할인 바우처 생성에 실패한다")
+			void it_throws_creationException() {
+				assertThatThrownBy(() ->
+					voucherService.create(percentType, biggerThan100Amount))
+					.isInstanceOf(CreationFailException.class);
+			}
+		}
 
-		Assertions.assertThrows(CreationFailException.class, () ->
-			voucherService.create(percentType, amount));
-	}
+		@Nested
+		@DisplayName("할인 정보가 음수라면")
+		class Context_with_negativeAmount {
+			long negativeAmount = -10L;
 
-	@Test
-	@DisplayName("할인 퍼센트가 0원인 바우처 생성을 시도 할 때 CreationFailException 이 발생")
-	public void Given_percentAmountZero_When_createPercentVoucher_thenCreationFail() {
-		long amount = 0L;
+			@Test
+			@DisplayName(" 고정할인 금액 바우처 생성에 실패한다")
+			void it_returns_a_valid_FixedVoucher() {
+				assertThatThrownBy(() ->
+					voucherService.create(fixedType, negativeAmount))
+					.isInstanceOf(CreationFailException.class);
+			}
 
-		Assertions.assertThrows(CreationFailException.class, () ->
-			voucherService.create(percentType, amount));
-	}
+			@Test
+			@DisplayName("퍼센트 할인 바우처 생성에 실패한다")
+			void it_throws_creationException() {
+				assertThatThrownBy(() ->
+					voucherService.create(percentType, negativeAmount))
+					.isInstanceOf(CreationFailException.class);
+			}
+		}
 
-	@Test
-	@DisplayName("할인 퍼센트가 양수인 바우처 발급을 시도 할 때, 정상적으로 생성된다")
-	public void Given_percentAmount_When_createPercentVoucher_thenCreationSuccess() {
-		long amount = 10L;
+		@Nested
+		@DisplayName("할인 정보가 0 이라면")
+		class Context_with_zeroAmount {
+			long zeroAmount = 0L;
 
-		Voucher newVoucher = voucherService.create(percentType, amount);
+			@Test
+			@DisplayName(" 고정할인 금액 바우처 생성에 실패한다")
+			void it_throws_creationException_creatingFixed() {
+				assertThatThrownBy(() ->
+					voucherService.create(fixedType, zeroAmount))
+					.isInstanceOf(CreationFailException.class);
+			}
 
-		assertThat(newVoucher.getDiscountInfo(), is(amount));
-		assertThat(newVoucher.getType(), is(VoucherType.PERCENT));
-	}
-
-	@Test
-	@DisplayName("고정할인 금액이 음수인 바우처 생성을 시도 할 때 CreationFailException 이 발생")
-	public void Given_fixedAmount_When_createFixedAmountVoucher_thenCreationFail() {
-		long amount = -1000L;
-
-		Assertions.assertThrows(CreationFailException.class, () ->
-			voucherService.create(fixedType, amount));
-	}
-
-	@Test
-	@DisplayName("고정할인 금액이 0원인 바우처 생성을 시도 할 때 CreationFailException 이 발생")
-	public void Given_fixedAmountZero_When_createFixedAmountVoucher_thenCreationFail() {
-		long amount = 0L;
-
-		Assertions.assertThrows(CreationFailException.class, () ->
-			voucherService.create(fixedType, amount));
+			@Test
+			@DisplayName("퍼센트 할인 바우처 생성에 실패한다")
+			void it_throws_creationException_creatingPercent() {
+				assertThatThrownBy(() ->
+					voucherService.create(percentType, zeroAmount))
+					.isInstanceOf(CreationFailException.class);
+			}
+		}
 	}
 }
