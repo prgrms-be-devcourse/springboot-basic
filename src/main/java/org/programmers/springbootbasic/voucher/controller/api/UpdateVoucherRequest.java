@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.voucher.controller;
+package org.programmers.springbootbasic.voucher.controller.api;
 
 import java.util.UUID;
 
