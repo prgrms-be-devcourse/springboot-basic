@@ -1,13 +1,14 @@
 package org.programmers.springbootbasic.voucher.service;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import javassist.NotFoundException;
+import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.exception.NotUpdateException;
+import org.programmers.springbootbasic.voucher.VoucherConverter;
+import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.voucher.controller.api.UpdateVoucherRequest;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherType;
 import org.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
 
@@ -17,16 +18,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
+
 @DisplayName("VoucherService 클래스")
-class VoucherServiceTest {
+class DefaultVoucherServiceTest {
     VoucherRepository voucherRepositoryMock = mock(JdbcVoucherRepository.class);
-    VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+    VoucherConverter voucherConverterMock = mock(VoucherConverter.class);
+    DefaultVoucherService defaultVoucherService = new DefaultVoucherService(voucherRepositoryMock, voucherConverterMock);
 
     @Nested
     @DisplayName("getVoucher 메소드는")
@@ -38,14 +41,13 @@ class VoucherServiceTest {
 
             @Test
             @DisplayName("바우처를 반환합니다.")
-            void it_returns_a_voucher() {
+            void it_returns_a_voucher() throws NotFoundException {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-                given(voucherService.getVoucher(fixedAmountVoucher.getVoucherId())).willReturn(Optional.of(fixedAmountVoucher));
+                given(voucherRepositoryMock.findById(fixedAmountVoucher.getVoucherId())).willReturn(Optional.of(fixedAmountVoucher));
 
-                var voucher = voucherService.getVoucher(fixedAmountVoucher.getVoucherId());
+                defaultVoucherService.getVoucher(fixedAmountVoucher.getVoucherId());
 
                 then(voucherRepositoryMock).should(times(1)).findById(fixedAmountVoucher.getVoucherId());
-                assertThat(voucher.orElseThrow()).isEqualTo(fixedAmountVoucher);
             }
         }
 
@@ -54,15 +56,10 @@ class VoucherServiceTest {
         class Context_with_unValid_voucherId {
 
             @Test
-            @DisplayName("Optional.isEmpty를 반환합니다.")
+            @DisplayName("예외를 던집니다.")
             void it_returns_a_throw() {
-                Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-                given(voucherService.getVoucher(fixedAmountVoucher.getVoucherId())).willReturn(Optional.empty());
-
-                var voucher = voucherService.getVoucher(fixedAmountVoucher.getVoucherId());
-
-                then(voucherRepositoryMock).should(times(1)).findById(fixedAmountVoucher.getVoucherId());
-                assertThat(voucher).isEmpty();
+                assertThatThrownBy(() -> defaultVoucherService.getVoucher(UUID.randomUUID()))
+                        .isInstanceOf(NotFoundException.class);
             }
         }
     }
@@ -72,29 +69,34 @@ class VoucherServiceTest {
     class CreateVoucher_of {
 
         @Nested
-        @DisplayName("정상적인 바우처 입력값이 주어질 때")
-        class ContextWithSuccess {
+        @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+        class 정상적인_바우처_입력값이_주어질_때 {
 
             @Test
             @DisplayName("바우처를 반환합니다.")
             void it_returns_a_Voucher() {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+                var createVoucherRequest = new CreateVoucherRequest(100L, "FIXED");
                 given(voucherRepositoryMock.insert(fixedAmountVoucher)).willReturn(fixedAmountVoucher);
+                given(voucherConverterMock.convertVoucher(createVoucherRequest)).willReturn(fixedAmountVoucher);
 
-                voucherService.createVoucher(VoucherType.FIXED, fixedAmountVoucher.getVoucherId(), 100, fixedAmountVoucher.getCreatedAt());
+                defaultVoucherService.createVoucher(createVoucherRequest);
 
                 then(voucherRepositoryMock).should(times(1)).insert(fixedAmountVoucher);
             }
         }
 
         @Nested
-        @DisplayName("바우처 생성에 실패할 때")
+        @DisplayName("비정상적인 입력값이 주어질 때")
         class ContextWithFail {
 
             @Test
             @DisplayName("예외를 던집니다.")
             void it_returns_a_throw() {
-                assertThatThrownBy(() -> voucherService.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 1000, LocalDateTime.now()))
+                var createVoucherRequest = new CreateVoucherRequest(100000L, "FIXED");
+                given(voucherConverterMock.convertVoucher(createVoucherRequest)).willThrow(IllegalArgumentException.class);
+
+                assertThatThrownBy(() -> defaultVoucherService.createVoucher(createVoucherRequest))
                         .isInstanceOf(IllegalArgumentException.class);
             }
         }
@@ -116,7 +118,7 @@ class VoucherServiceTest {
                 voucherList.add(new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now()));
                 given(voucherRepositoryMock.findAll()).willReturn(voucherList);
 
-                voucherService.getVoucherList();
+                defaultVoucherService.getVoucherList();
 
                 then(voucherRepositoryMock).should(times(1)).findAll();
             }
@@ -134,7 +136,9 @@ class VoucherServiceTest {
             @Test
             @DisplayName("예외를 던집니다.")
             void it_returns_a_throw() {
-                assertThatThrownBy(() -> voucherService.updateVoucher(UUID.randomUUID(), 1000))
+                UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(UUID.randomUUID(), 1000L);
+
+                assertThatThrownBy(() -> defaultVoucherService.updateVoucher(updateVoucherRequest))
                         .isInstanceOf(NotUpdateException.class);
             }
         }
@@ -153,7 +157,7 @@ class VoucherServiceTest {
             void it_returns_void() {
                 Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
 
-                voucherService.deleteVoucher(fixedAmountVoucher.getVoucherId());
+                defaultVoucherService.deleteVoucher(fixedAmountVoucher.getVoucherId());
 
                 then(voucherRepositoryMock).should(times(1)).deleteById(fixedAmountVoucher.getVoucherId());
             }
