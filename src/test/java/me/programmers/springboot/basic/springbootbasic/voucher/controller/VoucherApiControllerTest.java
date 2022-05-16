@@ -3,7 +3,9 @@ package me.programmers.springboot.basic.springbootbasic.voucher.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreateRequestDto;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
+import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,6 +40,7 @@ class VoucherApiControllerTest {
     private JdbcVoucherService voucherService;
 
     @Test
+    @DisplayName("전체 조회")
     void findAllTest() throws Exception {
         given(voucherService.getAllVouchers()).willReturn(List.of(new FixedAmountVoucher(UUID.randomUUID(), 1000)));
 
@@ -48,6 +51,7 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("ID로 조회")
     void findByIdTest() throws Exception {
         UUID uuid = UUID.randomUUID();
         FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
@@ -60,6 +64,7 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("잘못된 ID로 조회")
     void findByIdTestFail() throws Exception {
         UUID uuid = UUID.randomUUID();
         FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
@@ -70,6 +75,7 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("모든 고정 할인 바우저 조회")
     void findAllFixVouchersTest() throws Exception {
         given(voucherService.getAllFixVouchers()).willReturn(List.of(new FixedAmountVoucher(UUID.randomUUID(), 1000)));
 
@@ -80,6 +86,7 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("type 값(request param)을 잘못 지정한 경우")
     void findAllFixVouchersTestFail() throws Exception {
         given(voucherService.getAllFixVouchers()).willReturn(List.of(new FixedAmountVoucher(UUID.randomUUID(), 1000)));
 
@@ -90,6 +97,7 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("ID로 삭제")
     void deleteByIdTest() throws Exception {
         UUID uuid = UUID.randomUUID();
         FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1000);
@@ -100,22 +108,24 @@ class VoucherApiControllerTest {
     }
 
     @Test
+    @DisplayName("잘못된 ID로 삭제 요청")
     void deleteByIdTestFail() throws Exception {
         mockMvc.perform(delete("/api/vouchers/ddewqcxzds"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @DisplayName("바우처 저장")
     void saveTest() throws Exception {
         VoucherCreateRequestDto createRequestDto = new VoucherCreateRequestDto("fixed", 1000L, 0L);
 
-        given(voucherService.save(any())).willReturn(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        given(voucherService.save(any(Voucher.class))).willReturn(new FixedAmountVoucher(UUID.randomUUID(), createRequestDto.getDiscountPrice()));
 
         mockMvc.perform(post("/api/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .contentType(objectMapper.writeValueAsString(createRequestDto)))
-                .andExpect(status().isCreated());
+                        .content(objectMapper.writeValueAsString(createRequestDto)))
+                .andExpect(status().isOk());
     }
 
 }
