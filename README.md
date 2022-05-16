@@ -8,8 +8,6 @@
 
 ## 🗒️ 요구사항
 
----
-
 - [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
 - [x]  바우처 관리 Command-line Application을 만들어본다.
     - 참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
@@ -40,7 +38,6 @@
 
 ## 📽️ 프로젝트 구조
 
----
 ![diagram](./img/voucher_diagram.png)
 
 CommandLineApplication을 통해 각각의 명령어를 실행 할 수 있으며,
@@ -49,11 +46,9 @@ VoucherService 및 CustomerService가 각각의 도메인으로 해야하는 동
 
 ## ✔️ 피드백 반영 사항
 
----
 
 ## ❓ PR 포인트 & 궁금한 점
 
----
 
 테스트 코드 작성 경험이 부족하여 이 부분을 공부하며 의문이 많이 생겼습니다.
 
@@ -61,9 +56,9 @@ VoucherService 및 CustomerService가 각각의 도메인으로 해야하는 동
 - throw 처리는 테스트 코드에서 어떤 방법으로 검증하는게 맞을까요?
 - 파일 입출력 데이터베이스(BlackCustomerRepository)는 어떤 방법으로 테스트 코드를 작성 해야할까요?
 
-냄새 안나는 코드를 짜려고 노력했는데 부족한 것 같습니다.
+클린 코드를 짜려고 노력했는데 부족한 것 같습니다.
 
-그 부분 중점적으로 리뷰 부탁 드립니다. 감사합니다 :)
+리뷰 부탁 드립니다. 감사합니다 :)
 
 </div>
 </details>
@@ -132,6 +127,48 @@ VoucherService 및 CustomerService가 각각의 도메인으로 해야하는 동
 <details>
 <summary>week 3 Mission</summary>
 <div markdown="1">
+## 🗒️ 요구사항
 
+**(기본) 바우처 서비스 관리페이지 개발하기**
+
+- Spring MVC를 적용해서 thymeleaf 템플릿을 설정해보세요.
+- 커맨드로 지원했던 기능을 thymeleaf를 이용해서 관리페이지를 만들고 다음 기능을 지원가능하게 해보세요
+   - [x]  조회페이지
+   - [x]  상세페이지
+   - [x]  입력페이지
+   - [x]  삭제기능
+
+**(기본) 바우처 서비스의 API 개발하기**
+
+- Spring MVC를 적용해서 JSON과 XML을 지원하는 REST API를 개발해보세요
+   - [x]  전체 조회기능
+   - [x]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+   - [x]  바우처 추가기능
+   - [x]  바우처 삭제기능
+   - [x]  바우처 아이디로 조회 기능
+
+**(보너스) 바우처 지갑용 관리페이지를 만들어보세요.**
+
+(진행하지 않음)
+
+## 📽️ 프로젝트 구조
+
+Controller Pacakge
+
+Test Controller Package
+
+resource의 templates 관련 의존성들이 추가 되었습니다.
+
+5/11 이후의 커밋들입니다.
+
+## ✔️ 피드백 반영 사항
+
+## ❓ PR 포인트 & 궁금한 점
+
+Controller 관련 테스트를 작성하며 mvcMock을 사용해서 테스트를 진행하였습니다.
+
+mockHttpServeletRequest는 정상적으로 받아지는데,  mockHttpServeletResponse가 정상적으로 리턴 되지 않아 테스트를 작성할 수 없었습니다.
+
+또 Controller 작성이나 mapping과 관련하여 주의해야거나 피해야할 패턴이 있는지 궁금합니다!
 </div>
 </details>
