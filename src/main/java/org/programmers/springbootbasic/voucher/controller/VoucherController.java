@@ -1,33 +1,43 @@
 package org.programmers.springbootbasic.voucher.controller;
 
-import org.programmers.springbootbasic.voucher.model.VoucherType;
-import org.programmers.springbootbasic.voucher.service.VoucherService;
+import javassist.NotFoundException;
+import org.programmers.springbootbasic.voucher.VoucherConverter;
+import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.voucher.controller.api.UpdateVoucherRequest;
+import org.programmers.springbootbasic.voucher.service.DefaultVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Controller
 public class VoucherController {
 
-    private final VoucherService voucherService;
+    private final DefaultVoucherService defaultVoucherService;
 
-    public VoucherController(VoucherService voucherService) {
-        this.voucherService = voucherService;
+    private final VoucherConverter voucherConverter;
+
+    public VoucherController(DefaultVoucherService defaultVoucherService, VoucherConverter voucherConverter) {
+        this.defaultVoucherService = defaultVoucherService;
+        this.voucherConverter = voucherConverter;
     }
 
     @GetMapping("/vouchers")
     public String viewVouchersPage(Model model) {
-        var allVouchers = voucherService.getVoucherList();
-        model.addAttribute("vouchers", allVouchers);
+        var voucherResponseList = defaultVoucherService
+                .getVoucherList().stream()
+                .map(voucherConverter::convertVoucherDto)
+                .toList();
+        model.addAttribute("vouchers", voucherResponseList);
         return "vouchers";
     }
 
     @GetMapping("/{voucherId}")
-    public String getVoucher(Model model, @PathVariable UUID voucherId) {
-        var voucher = voucherService.getVoucher(voucherId);
+    public String getVoucher(Model model, @PathVariable UUID voucherId) throws NotFoundException {
+        var getVoucher = defaultVoucherService.getVoucher(voucherId);
+        var voucher = voucherConverter.convertVoucherDto(getVoucher);
+
         model.addAttribute("voucher", voucher);
         return "/voucher-details";
     }
@@ -38,20 +48,20 @@ public class VoucherController {
     }
 
     @PutMapping("/vouchers/details/update")
-    public String updateVoucher(UpdateVoucherRequest updateVoucherRequest) {
-        voucherService.updateVoucher(updateVoucherRequest.voucherId(), updateVoucherRequest.value());
+    public String updateVoucher(UpdateVoucherRequest updateVoucherRequest) throws NotFoundException {
+        defaultVoucherService.updateVoucher(updateVoucherRequest);
         return "redirect:/vouchers";
     }
 
     @PostMapping("/vouchers/new")
     public String addNewVoucher(CreateVoucherRequest createVoucherRequest) {
-        voucherService.createVoucher(VoucherType.valueOf(createVoucherRequest.voucherType()), UUID.randomUUID(), createVoucherRequest.value(), LocalDateTime.now());
+        defaultVoucherService.createVoucher(createVoucherRequest);
         return "redirect:/vouchers";
     }
 
     @DeleteMapping("/vouchers/details/delete")
-    public String deleteVoucher(DeleteVoucherRequest deleteVoucherRequest) {
-        voucherService.deleteVoucher(deleteVoucherRequest.voucherId());
+    public String deleteVoucher(@RequestParam UUID voucherId) {
+        defaultVoucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }
 }
