@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.prgrms.vouchermanagement.commons.CodeMappable;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
@@ -48,8 +49,8 @@ public enum VoucherType implements CodeMappable {
 		int2VoucherTypeMapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
 		int2VoucherTypeMapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
 
-		str2VoucherTypeMapper.put(VoucherType.FIXED.toString(), VoucherType.FIXED);
-		str2VoucherTypeMapper.put(VoucherType.PERCENT.toString(), VoucherType.PERCENT);
+		str2VoucherTypeMapper.put(VoucherType.FIXED.name(), VoucherType.FIXED);
+		str2VoucherTypeMapper.put(VoucherType.PERCENT.name(), VoucherType.PERCENT);
 	}
 
 	VoucherType(int code) {
@@ -64,13 +65,13 @@ public enum VoucherType implements CodeMappable {
 	public static VoucherType from(String type) {
 		Assert.notNull(type, "type 은 null 이 올 수 없습니다");
 
-		return Optional.of(str2VoucherTypeMapper.get(type.toLowerCase()))
+		return Optional.ofNullable(str2VoucherTypeMapper.get(type.toUpperCase()))
 			.orElseThrow(() ->
 				new NoMappingOneException(type));
 	}
 
 	public static VoucherType of(int code) {
-		return Optional.of(int2VoucherTypeMapper.get(code))
+		return Optional.ofNullable(int2VoucherTypeMapper.get(code))
 			.orElseThrow(() ->
 				new NoMappingOneException(Integer.toString(code)));
 	}
