@@ -7,7 +7,8 @@ import java.util.function.Supplier;
 public enum ErrorType {
     INVALID_COMMAND(ErrorProperties::getInvalidCommand),
     INPUT_NEGATIVE_NUMBERS(ErrorProperties::getInputNegativeNumbers),
-    INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers);
+    INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),
+    INVALID_TYPE(ErrorProperties::getInvalidType);
 
 
     private Supplier<String> error;

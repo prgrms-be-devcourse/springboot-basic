@@ -1,12 +1,13 @@
 package org.devcourse.voucher.menu.model;
 
+import org.devcourse.voucher.error.ErrorType;
+
 import java.util.Arrays;
 
 public enum MainMenuType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list"),
-    NONE("");
+    LIST("list");
 
     private final String command;
 
@@ -22,6 +23,6 @@ public enum MainMenuType {
         return Arrays.stream(values())
                 .filter(type -> type.getCommand().equals(input))
                 .findFirst()
-                .orElse(NONE);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorType.INVALID_COMMAND.message()));
     }
 }

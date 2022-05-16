@@ -1,13 +1,14 @@
 package org.devcourse.voucher.voucher.model;
 
+import org.devcourse.voucher.error.ErrorType;
+
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("1", "FixedAmountVoucher", FixedAmountVoucher::new),
-    PERCENT_DISCOUNT_VOUCHER("2", "PercentDiscountVoucher", PercentDiscountVoucher::new),
-    NONE("", "", null);
+    PERCENT_DISCOUNT_VOUCHER("2", "PercentDiscountVoucher", PercentDiscountVoucher::new);
 
     private final String option;
     private final String name;
@@ -31,14 +32,14 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(type -> type.getOption().equals(input))
                 .findFirst()
-                .orElse(NONE);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorType.INVALID_TYPE.message()));
     }
 
     public static VoucherType nameDiscriminate(String input) {
         return Arrays.stream(values())
                 .filter(type -> type.getName().equals(input))
                 .findFirst()
-                .orElse(NONE);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorType.INVALID_TYPE.message()));
     }
 
     public Voucher voucherCreator(UUID voucherId, long discount) {

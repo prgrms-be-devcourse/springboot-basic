@@ -12,28 +12,37 @@ public class ErrorProperties {
     private static String invalidCommand;
     private static String inputNegativeNumbers;
     private static String inputNotNumbers;
+    private static String invalidType;
 
     public static String getInputNegativeNumbers() {
         return inputNegativeNumbers;
-    }
-
-    public void setInputNegativeNumbers(String inputNegativeNumbers) {
-        this.inputNegativeNumbers = inputNegativeNumbers;
     }
 
     public static String getInputNotNumbers() {
         return inputNotNumbers;
     }
 
-    public void setInputNotNumbers(String inputNotNumbers) {
-        this.inputNotNumbers = inputNotNumbers;
-    }
-
     public static String getInvalidCommand() {
         return invalidCommand;
     }
 
+    public static String getInvalidType() {
+        return invalidType;
+    }
+
+    public void setInputNegativeNumbers(String inputNegativeNumbers) {
+        this.inputNegativeNumbers = inputNegativeNumbers;
+    }
+
+    public void setInputNotNumbers(String inputNotNumbers) {
+        this.inputNotNumbers = inputNotNumbers;
+    }
+
     public void setInvalidCommand(String invalidCommand) {
         this.invalidCommand = invalidCommand;
+    }
+
+    public void setInvalidType(String invalidType) {
+        this.invalidType = invalidType;
     }
 }
