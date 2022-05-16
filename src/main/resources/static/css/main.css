@@ -1,0 +1,30 @@
+.my-h1 {
+    text-align: center;
+    margin: 2rem;
+}
+.container {
+    margin: 1rem;
+}
+
+.my-modal-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    opacity: 1;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    transition: opacity 0.3s ease;
+}
+.my-modal {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    width: 80%;
+    max-width: 100%;
+    text-align: center;
+}

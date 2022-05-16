@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="kor" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+    <link th:href="@{/css/main.css}" rel="stylesheet" />
+    <title>CUSTOMER-MAIN</title>
+</head>
+<body>
+
+<div class="container-fluid container-sm text-center">
+    <h1 class="text-dark my-h1 fw-bolder">고객 리스트</h1>
+
+    <div class="container d-grid gap-2 d-md-flex justify-content-md-end">
+        <a th:href="@{/customers/new}"><button class="btn btn-success me-md-2" type="button">새로운 고객</button></a>
+        <a th:href="@{/}"><button class="btn btn-primary me-md-2" type="button">처음으로</button></a>
+    </div>
+    <table class="table table-borderer table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th scope="col">회원 ID</th>
+            <th scope="col">이름</th>
+            <th scope="col">가입날짜</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="customer : ${customers}">
+                <th class="id" scope="row" th:text="${customer.customerId}"></th>
+                <td th:text="${customer.name}"></td>
+                <td th:text="${customer.registrationDate}"></td>
+                <td><a th:href="@{/customers/info/{id}(id = ${customer.customerId})}"><button class="btn btn btn-secondary me-md-2" type="button">보유 현황</button></a></td>
+                <td><a th:href="@{/customers/delete/{id}(id = ${customer.customerId})}"><button class="btn btn btn-danger me-md-2" type="button">삭제</button></a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
