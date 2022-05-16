@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import com.prgrms.vouchermanagement.commons.Pageable;
 import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.commons.exception.DeletionFailException;
@@ -23,6 +25,12 @@ public class VoucherService {
 
 	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
+	}
+
+	public List<Voucher> getAll(Pageable pageInfo) {
+		Assert.notNull(pageInfo, "페이징 정보는 null 이 올 수 없습니다");
+
+		return voucherRepository.findAll(pageInfo.offset(), pageInfo.limit());
 	}
 
 	public List<Voucher> getAll() {

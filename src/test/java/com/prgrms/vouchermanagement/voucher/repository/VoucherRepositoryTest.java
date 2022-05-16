@@ -9,14 +9,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
+import com.prgrms.vouchermanagement.commons.Pageable;
+import com.prgrms.vouchermanagement.commons.SimplePage;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 
@@ -91,5 +96,42 @@ class VoucherRepositoryTest {
 		long deleted = voucherRepository.deleteById(id);
 
 		assertThat(deleted).isEqualTo(0L);
+	}
+
+	@Test
+	@DisplayName("offset 이 1 이고 limit 이 2 인 경우 크기가 3 인 List 를 리턴한다")
+	void given_page_when_findAll_then() {
+		Pageable page = new SimplePage(1, 2);
+
+		List<Voucher> allVouchers = voucherRepository.findAll();
+		List<Voucher> pagedVouchers = voucherRepository.findAll(page.offset(), page.limit());
+
+		Condition<Integer> sizeCond = new Condition<>(
+			s -> s >= 3,
+			"전체 사이즈 크기가 3 이상인 경우"
+		);
+
+		assertThat(allVouchers.size()).is(sizeCond);
+		assertThat(pagedVouchers.size())
+			.isEqualTo(2);
+	}
+
+	@ParameterizedTest
+	@ValueSource(longs = {10,11,Integer.MAX_VALUE})
+	@DisplayName("offset 이 전체 데이터보다 큰 수가 주어진 경우 empty List 를 반환한다")
+	void given_offsetBiggerThanTotalSize_when_findAll_then(long offset) {
+		Pageable page = new SimplePage(offset, 2);
+
+		List<Voucher> allVouchers = voucherRepository.findAll();
+		List<Voucher> pagedVouchers = voucherRepository.findAll(page.offset(), page.limit());
+
+		Condition<Integer> sizeCond = new Condition<>(
+			s -> s < offset,
+			"전체 사이즈 크기가 " + offset + " 보다 작은 경우"
+		);
+
+		assertThat(allVouchers.size()).is(sizeCond);
+		assertThat(pagedVouchers.size())
+			.isEqualTo(0);
 	}
 }

@@ -43,6 +43,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
+	public List<Voucher> findAll(long offset, int limit) {
+		return jdbcTemplate.query("select * from vouchers v ORDER BY v.created_at DESC LIMIT ?,?",
+			voucherRowMapper,
+			offset,
+			limit);
+	}
+	@Override
 	public List<Voucher> findAll() {
 		return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
 	}
