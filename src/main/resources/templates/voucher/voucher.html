@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <title>Home</title>
+</head>
+<body class="container-fluid">
+  <h1>Voucher Application</h1>
+  <img th:src="@{/images/intro.jpeg}" class="img-fluid">
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+  </div>
+
+  <h2>상세 조회</h2>
+
+  <div>
+    <label for="voucherId">VOUCHER ID</label>
+    <input type="text" id="voucherId" name="voucherId" class="form-control" th:value="${voucherDTO.voucherId}" readonly>
+  </div>
+
+  <div th:if="${voucherDTO.voucherType.isFixed()}">
+    <label for="amount">AMOUNT</label>
+    <input type="text" id="amount" name="amount" class="form-control" th:value="${voucherDTO.amount}" readonly>
+  </div>
+
+  <div th:if="${voucherDTO.voucherType.isPercent()}">
+    <label for="percent">PERCENT</label>
+    <input type="text" id="percent" name="percent" class="form-control" th:value="${voucherDTO.percent}" readonly>
+  </div>
+
+  <div>
+    <label for="customerId">CUSTOMER ID</label>
+    <input type="text" id="customerId" name="customerId" class="form-control" th:value="${voucherDTO.customerId}?: 'X'" readonly>
+  </div>
+
+</body>
+</html>
