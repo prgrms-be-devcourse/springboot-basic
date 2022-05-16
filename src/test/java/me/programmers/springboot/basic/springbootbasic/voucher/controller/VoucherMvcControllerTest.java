@@ -1,6 +1,7 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.controller;
 
 import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreateRequestDto;
+import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherUpdateRequestDto;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,11 +68,33 @@ class VoucherMvcControllerTest {
         mockMvc.perform(post(url)
                         .contentType("application/x-www-form-urlencoded")
                         .accept("application/x-www-form-urlencoded")
-                        .param("type", "fixed")
-                        .param("discountPrice", "1000")
-                        .param("discountPercent", "0"))
+                        .param("type", createRequest.getType())
+                        .param("discountPrice", String.valueOf(createRequest.getDiscountPrice()))
+                        .param("discountPercent", String.valueOf(createRequest.getDiscountPercent())))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void updateVoucherTest() throws Exception {
+        UUID uuid = UUID.randomUUID();
+
+        FixedAmountVoucher voucher = new FixedAmountVoucher(uuid, 2000);
+        given(voucherService.getVoucherById(any(UUID.class))).willReturn(voucher);
+
+        VoucherUpdateRequestDto updateRequest = new VoucherUpdateRequestDto();
+        updateRequest.setDiscountPrice(4000);
+
+        String url = "/vouchers/" + uuid;
+        mockMvc.perform(put(url)
+                        .contentType("application/x-www-form-urlencoded")
+                        .accept("application/x-www-form-urlencoded")
+                        .param("discountPrice", String.valueOf(updateRequest.getDiscountPrice()))
+                        .param("discountPercent", String.valueOf(updateRequest.getDiscountPercent())))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection());
+
+        assertThat(voucher.getAmount()).isEqualTo(4000);
     }
 
 }
