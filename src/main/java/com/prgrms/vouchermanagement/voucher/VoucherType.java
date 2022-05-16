@@ -1,11 +1,12 @@
 package com.prgrms.vouchermanagement.voucher;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
+import org.springframework.util.Assert;
 
 import com.prgrms.vouchermanagement.commons.CodeMappable;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
@@ -38,12 +39,17 @@ public enum VoucherType implements CodeMappable {
 
 	private final int code;
 	private static final Map<Integer, VoucherType> int2VoucherTypeMapper;
+	private static final Map<String, VoucherType> str2VoucherTypeMapper;
 
 	static {
 		int2VoucherTypeMapper = new HashMap<>();
+		str2VoucherTypeMapper = new HashMap<>();
+
 		int2VoucherTypeMapper.put(VoucherType.FIXED.getMappingCode(), VoucherType.FIXED);
 		int2VoucherTypeMapper.put(VoucherType.PERCENT.getMappingCode(), VoucherType.PERCENT);
 
+		str2VoucherTypeMapper.put(VoucherType.FIXED.toString(), VoucherType.FIXED);
+		str2VoucherTypeMapper.put(VoucherType.PERCENT.toString(), VoucherType.PERCENT);
 	}
 
 	VoucherType(int code) {
@@ -56,10 +62,9 @@ public enum VoucherType implements CodeMappable {
 	}
 
 	public static VoucherType from(String type) {
-		return Arrays.stream(VoucherType.values())
-			.filter(constant ->
-				constant.name().equalsIgnoreCase(type))
-			.findFirst()
+		Assert.notNull(type, "type 은 null 이 올 수 없습니다");
+
+		return Optional.of(str2VoucherTypeMapper.get(type.toLowerCase()))
 			.orElseThrow(() ->
 				new NoMappingOneException(type));
 	}
