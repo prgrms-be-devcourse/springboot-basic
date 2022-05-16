@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import org.programmers.springbootbasic.config.DBConfig;
 import org.programmers.springbootbasic.customer.model.Customer;
 import org.programmers.springbootbasic.customer.repository.JdbcCustomerRepository;
-import org.programmers.springbootbasic.exception.DuplicateObjectKeyException;
 import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.voucher.model.Voucher;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.programmers.springbootbasic.config.DBConfig.dbSetup;
 
 @SpringJUnitConfig
@@ -64,24 +62,6 @@ class JdbcWalletRepositoryTest {
 
         //then
         assertThat(retrievedWallet).isPresent().get().isEqualTo(wallet);
-    }
-
-    @Test
-    @DisplayName("중복되는 월렛을 추가 할 수 없다.")
-    void testDuplicateWallet() {
-        //given
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L , LocalDateTime.now());
-        Customer customer = new Customer(UUID.randomUUID(), "new-customer", LocalDateTime.now());
-        Wallet wallet = new Wallet(UUID.randomUUID(), customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
-
-        //when
-        jdbcVoucherRepository.insert(fixedAmountVoucher);
-        jdbcCustomerRepository.insert(customer);
-        jdbcWalletRepository.insert(wallet);
-
-        //then
-        assertThatThrownBy(() ->jdbcVoucherRepository.insert(fixedAmountVoucher))
-                .isInstanceOf(DuplicateObjectKeyException.class);
     }
 
     @Test

@@ -8,9 +8,7 @@ import org.programmers.springbootbasic.voucher.model.Voucher;
 import org.programmers.springbootbasic.wallet.domain.Wallet;
 import org.programmers.springbootbasic.wallet.repository.WalletRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -25,8 +23,8 @@ class WalletServiceTest {
     @Test
     @DisplayName("고객이 가지고 있는 바우처를 불러올 수 있다.")
     void testGetVoucher() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L , LocalDateTime.now());
-        Customer customer = new Customer(UUID.randomUUID(), "new-customer", LocalDateTime.now());
+        Voucher fixedAmountVoucher = mock(FixedAmountVoucher.class);
+        Customer customer = mock(Customer.class);
         List<Voucher> voucherList = List.of(fixedAmountVoucher);
         given(walletService.getVouchers(customer.getCustomerId())).willReturn(voucherList);
 
@@ -38,8 +36,8 @@ class WalletServiceTest {
     @Test
     @DisplayName("바우처를 가지고 있는 고객을 불러올 수 있다.")
     void testGetCustomer() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100L , LocalDateTime.now());
-        Customer customer = new Customer(UUID.randomUUID(), "new-customer", LocalDateTime.now());
+        Voucher fixedAmountVoucher = mock(FixedAmountVoucher.class);
+        Customer customer = mock(Customer.class);
         List<Customer> customersList = List.of(customer);
         given(walletService.getCustomers(fixedAmountVoucher.getVoucherId())).willReturn(customersList);
 
@@ -51,7 +49,7 @@ class WalletServiceTest {
     @Test
     @DisplayName("월렛을 고객에게 할당할 수 있다.")
     void testAllocateWallet() {
-        Wallet wallet = new Wallet(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        Wallet wallet = mock(Wallet.class);
         given(walletRepositoryMock.insert(wallet)).willReturn(wallet);
 
         walletService.allocateVoucher(wallet);
@@ -62,7 +60,7 @@ class WalletServiceTest {
     @Test
     @DisplayName("월렛을 고객에게서 삭제할 수 있다.")
     void testDeleteWallet() {
-        Wallet wallet = new Wallet(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
+        Wallet wallet = mock(Wallet.class);
 
         walletService.deleteWallet(wallet.getWalletId());
 
