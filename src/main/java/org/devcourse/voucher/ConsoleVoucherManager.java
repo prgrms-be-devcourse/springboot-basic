@@ -12,8 +12,6 @@ import org.devcourse.voucher.voucher.model.VoucherType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 
 @Component
 public class ConsoleVoucherManager implements CommandLineRunner {
@@ -62,8 +60,8 @@ public class ConsoleVoucherManager implements CommandLineRunner {
 
     private void selectVoucher() {
         VoucherType voucherType = selectVoucherType();
-        long discount = 0;
-        while (discount <= 0) {
+        long discount = MIN_PRICE;
+        while (discount <= MIN_PRICE) {
             discount = inputDiscount();
         }
         voucherController.postCreateVoucher(voucherType, discount);
