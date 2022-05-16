@@ -4,6 +4,7 @@ import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherCreate
 import me.programmers.springboot.basic.springbootbasic.voucher.dto.VoucherUpdateRequestDto;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,6 +34,7 @@ class VoucherMvcControllerTest {
     JdbcVoucherService voucherService;
 
     @Test
+    @DisplayName("전체 바우처 조회 페이지 GET")
     void showVoucherPageTest() throws Exception {
         String url = "/vouchers";
         mockMvc.perform(get(url))
@@ -41,6 +43,7 @@ class VoucherMvcControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 생성 페이지 GET")
     void showCreateVoucherPageTest() throws Exception {
         String url = "/vouchers/new";
         mockMvc.perform(get(url))
@@ -49,6 +52,7 @@ class VoucherMvcControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 상세 페이지 GET")
     void showDetailVoucherPageTest() throws Exception {
         UUID uuid = UUID.randomUUID();
         given(voucherService.getVoucherById(any(UUID.class))).willReturn(new FixedAmountVoucher(uuid, 2000));
@@ -60,6 +64,7 @@ class VoucherMvcControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 생성 요청 POST")
     void createVoucherTest() throws Exception {
         String url = "/vouchers/new";
 
@@ -76,6 +81,7 @@ class VoucherMvcControllerTest {
     }
 
     @Test
+    @DisplayName("바우처 수정 요청 PUT")
     void updateVoucherTest() throws Exception {
         UUID uuid = UUID.randomUUID();
 

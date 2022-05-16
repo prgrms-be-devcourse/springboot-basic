@@ -4,6 +4,7 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmount
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.repository.JdbcTemplateVoucherRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,6 +30,7 @@ class JdbcVoucherServiceTest {
     JdbcTemplateVoucherRepository voucherRepository;
 
     @Test
+    @DisplayName("바우처 생성")
     void saveVoucherTest() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
         given(voucherRepository.save(any(Voucher.class))).willReturn(voucher);
@@ -39,6 +41,7 @@ class JdbcVoucherServiceTest {
     }
 
     @Test
+    @DisplayName("전체 바우처 조회")
     void getAllVouchersTest() {
         Voucher fixVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
         Voucher percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), 20);
@@ -55,6 +58,7 @@ class JdbcVoucherServiceTest {
     }
 
     @Test
+    @DisplayName("ID로 바우처 조회")
     void getVoucherByIdTest() {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
 
@@ -66,6 +70,7 @@ class JdbcVoucherServiceTest {
     }
 
     @Test
+    @DisplayName("바우처 업데이트")
     void updateTest() {
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
 
