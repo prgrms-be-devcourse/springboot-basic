@@ -19,11 +19,9 @@ import java.util.UUID;
 @Profile("default")
 public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -10,15 +10,12 @@ import javax.sql.DataSource;
 public class JdbcConfig {
     @Bean
     public DataSource dataSource() {
-
         var datasource =  DataSourceBuilder.create()
                 .url("jdbc:mysql://localhost/order_mgmt")
                 .username("programmers")
                 .password("programmers")
                 .type(HikariDataSource.class)
                 .build();
-        datasource.setMaximumPoolSize(1000);
-        datasource.setMinimumIdle(100);
         return datasource;
     }
 
