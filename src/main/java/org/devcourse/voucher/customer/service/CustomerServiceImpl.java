@@ -5,10 +5,12 @@ import org.devcourse.voucher.customer.model.Email;
 import org.devcourse.voucher.customer.repository.BlacklistRepository;
 import org.devcourse.voucher.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@Transactional
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
