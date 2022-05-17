@@ -59,10 +59,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
   @Override
   public boolean checkExistenceById(UUID customerId) {
-    var found = jdbcTemplate.query("SELECT * FROM customers WHERE EXISTS(SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId))",
+    return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT FROM customers WHERE email = UUID_TO_BIN(:customerId))",
       Collections.singletonMap("customerId", customerId.toString().getBytes()),
-      customerRowMapper);
-    return !found.isEmpty();
+      Boolean.class
+    );
   }
 
   @Override
