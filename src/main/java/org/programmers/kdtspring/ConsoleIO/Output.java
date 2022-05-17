@@ -1,15 +1,16 @@
 package org.programmers.kdtspring.ConsoleIO;
 
-import java.io.IOException;
+import java.util.UUID;
 
 public interface Output {
 
-    void voucherCreated() throws IOException;
+    void showAllVoucher();
 
-    void showAllVoucher() throws IOException;
+    void terminate();
+
+    void vouchersBelongToCustomer(UUID customerId);
+
+    void voucherCreated();
 
     void showBlackList();
-
-    void errorMessage();
-
 }

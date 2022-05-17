@@ -4,7 +4,9 @@ public interface Input {
 
     String showOption();
 
+    String inputEmail();
+
     String chooseVoucher();
 
-
+    int inputDiscount();
 }
