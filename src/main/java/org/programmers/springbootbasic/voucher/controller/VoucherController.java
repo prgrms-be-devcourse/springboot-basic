@@ -39,7 +39,7 @@ public class VoucherController {
         var voucher = voucherConverter.convertVoucherDto(getVoucher);
 
         model.addAttribute("voucher", voucher);
-        return "/voucher-details";
+        return "voucher-details";
     }
 
     @GetMapping("/vouchers/new")
