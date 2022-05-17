@@ -33,7 +33,7 @@ public class VoucherRestController {
     return voucherService.getVoucherList();
   }
 
-  @GetMapping("/api/v1/voucher/{voucherId}")
+  @GetMapping("/api/v1/vouchers/{voucherId}")
   public ResponseEntity<Voucher> getVoucherByVoucherId(@RequestParam("voucherId") UUID voucherId) {
     var voucher = voucherService.getVoucherById(voucherId);
     return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
@@ -49,7 +49,7 @@ public class VoucherRestController {
     voucherService.deleteVoucher(voucherId);
   }
 
-  @PostMapping("/api/v1/create-voucher")
+  @PostMapping("/api/v1/vouchers")
   public Voucher createVoucher(NewVoucher newVoucher) {
     Voucher voucher = voucherService.createVoucher(newVoucher);
     return voucher;
