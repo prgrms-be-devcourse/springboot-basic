@@ -1,15 +1,16 @@
 package org.programmers.kdtspring.dto;
 
-import java.util.UUID;
-
 public class UpdateVoucherRequest {
-    private final UUID customerId;
+    private String customerId;
 
-    public UpdateVoucherRequest(UUID customerId) {
+    public UpdateVoucherRequest() {
+    }
+
+    public UpdateVoucherRequest(String customerId) {
         this.customerId = customerId;
     }
 
-    public UUID getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 }

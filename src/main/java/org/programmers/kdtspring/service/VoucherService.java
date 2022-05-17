@@ -4,6 +4,7 @@ import org.programmers.kdtspring.entity.voucher.FixedAmountVoucher;
 import org.programmers.kdtspring.entity.voucher.PercentDiscountVoucher;
 import org.programmers.kdtspring.entity.voucher.Voucher;
 import org.programmers.kdtspring.entity.voucher.VoucherType;
+import org.programmers.kdtspring.exception.NoTypeOfVoucherException;
 import org.programmers.kdtspring.repository.user.CustomerRepository;
 import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
@@ -40,20 +41,20 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public Optional<Voucher> createVoucher(String voucherType, int discount) {
+    public UUID createVoucher(String voucherType, int discount) {
         logger.info("[VoucherService] createFixedAmountVoucher(long amount) called");
-        UUID uuid = UUID.randomUUID();
+        UUID voucherId = UUID.randomUUID();
         if (voucherType.equals(VoucherType.FixedAmountVoucher.toString())) {
-            voucherRepository.insert(new FixedAmountVoucher(uuid, discount, voucherType));
-            return voucherRepository.findById(uuid);
+            voucherRepository.insert(new FixedAmountVoucher(voucherId, discount, voucherType));
+            return voucherId;
         }
 
         if (voucherType.equals(VoucherType.PercentDiscountVoucher.toString())) {
-            voucherRepository.insert(new PercentDiscountVoucher(uuid, discount, voucherType));
-            return voucherRepository.findById(uuid);
+            voucherRepository.insert(new PercentDiscountVoucher(voucherId, discount, voucherType));
+            return voucherId;
         }
         logger.info("voucher created");
-        return Optional.empty();
+        throw new NoTypeOfVoucherException("바우처 종류가 존재하지 않습니다.");
     }
 
     public Voucher allocateVoucher(UUID voucherId, UUID customerId) {
@@ -65,11 +66,8 @@ public class VoucherService {
                 NoSuchElementException::new);
 
         voucher.belongToCustomer(customer);
-        System.out.println(voucher.getCustomerId());
 
         voucherRepository.updateCustomerId(voucher);
-        System.out.println(voucher.getCustomerId());
-
         return voucher;
     }
 

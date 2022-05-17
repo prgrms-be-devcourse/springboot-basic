@@ -47,9 +47,9 @@ class VoucherServiceTest {
         createVoucherRequest.setVoucherType(VoucherType.FixedAmountVoucher);
         createVoucherRequest.setAmount(10000);
 
-        Optional<Voucher> voucher = voucherService.createVoucher(createVoucherRequest.getVoucherType().name(), createVoucherRequest.getAmount());
+        UUID voucherId = voucherService.createVoucher(createVoucherRequest.getVoucherType().name(), createVoucherRequest.getAmount());
 
-        assertThat(voucher.isPresent()).isTrue();
+        assertThat(voucherId).isNotNull();
     }
 
     @Test

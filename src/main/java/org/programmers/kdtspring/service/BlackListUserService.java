@@ -1,7 +1,6 @@
 package org.programmers.kdtspring.service;
 
 import org.programmers.kdtspring.entity.user.BlackListedUser;
-import org.programmers.kdtspring.entity.user.User;
 import org.programmers.kdtspring.repository.user.BlackListUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

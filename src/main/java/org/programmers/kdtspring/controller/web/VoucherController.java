@@ -69,7 +69,7 @@ public class VoucherController {
     public String editVoucher(@PathVariable("voucherId") UUID voucherId,
                               @ModelAttribute UpdateVoucherRequest updateVoucherRequest) {
         Optional<Voucher> voucher = voucherService.getVoucher(voucherId);
-        voucherService.allocateVoucher(voucher.get().getVoucherId(), updateVoucherRequest.getCustomerId());
+        voucherService.allocateVoucher(voucher.get().getVoucherId(), UUID.fromString(updateVoucherRequest.getCustomerId()));
         return "redirct:/vouchers";
     }
 

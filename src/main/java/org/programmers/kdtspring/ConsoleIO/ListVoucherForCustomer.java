@@ -1,15 +1,9 @@
 package org.programmers.kdtspring.ConsoleIO;
 
 import org.programmers.kdtspring.entity.user.Customer;
-import org.programmers.kdtspring.entity.voucher.Voucher;
-import org.programmers.kdtspring.repository.user.CustomerRepository;
-import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.programmers.kdtspring.service.CustomerService;
-import org.programmers.kdtspring.service.VoucherService;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 public class ListVoucherForCustomer implements CommandStrategy {
 

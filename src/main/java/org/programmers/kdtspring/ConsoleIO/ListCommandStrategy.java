@@ -1,7 +1,6 @@
 package org.programmers.kdtspring.ConsoleIO;
 
 import org.programmers.kdtspring.entity.voucher.Voucher;
-import org.programmers.kdtspring.repository.voucher.VoucherRepository;
 import org.programmers.kdtspring.service.VoucherService;
 
 import java.util.List;

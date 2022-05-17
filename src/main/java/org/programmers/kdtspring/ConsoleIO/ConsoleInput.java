@@ -1,8 +1,5 @@
 package org.programmers.kdtspring.ConsoleIO;
 
-import org.programmers.kdtspring.service.BlackListUserService;
-import org.programmers.kdtspring.service.CustomerService;
-import org.programmers.kdtspring.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
