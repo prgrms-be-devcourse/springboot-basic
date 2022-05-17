@@ -28,4 +28,16 @@ public class VoucherInfo {
 	public static VoucherInfo fromEntity(Voucher voucher) {
 		return new VoucherInfo(voucher.getVoucherId(), voucher.getType(), voucher.getDiscountInfo());
 	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public VoucherType getType() {
+		return type;
+	}
+
+	public long getDiscountInfo() {
+		return discountInfo;
+	}
 }

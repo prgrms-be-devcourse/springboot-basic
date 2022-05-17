@@ -62,6 +62,7 @@ public enum VoucherType implements CodeMappable {
 		return this.code;
 	}
 
+	@JsonCreator
 	public static VoucherType from(String type) {
 		Assert.notNull(type, "type 은 null 이 올 수 없습니다");
 
