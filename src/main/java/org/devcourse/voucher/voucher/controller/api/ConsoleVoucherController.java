@@ -1,7 +1,5 @@
-package org.devcourse.voucher.voucher.controller;
+package org.devcourse.voucher.voucher.controller.api;
 
-import org.devcourse.voucher.customer.service.BlacklistService;
-import org.devcourse.voucher.menu.model.ListMenuType;
 import org.devcourse.voucher.voucher.model.Voucher;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.devcourse.voucher.voucher.service.VoucherService;

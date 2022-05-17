@@ -1,7 +1,7 @@
 package org.devcourse.voucher;
 
 import org.devcourse.voucher.error.ErrorType;
-import org.devcourse.voucher.voucher.controller.VoucherController;
+import org.devcourse.voucher.voucher.controller.api.VoucherController;
 import org.devcourse.voucher.customer.controller.CustomerController;
 import org.devcourse.voucher.menu.model.CreateMenuType;
 import org.devcourse.voucher.menu.model.MainMenuType;
@@ -9,12 +9,11 @@ import org.devcourse.voucher.menu.model.ListMenuType;
 import org.devcourse.voucher.view.console.Input;
 import org.devcourse.voucher.view.console.Output;
 import org.devcourse.voucher.voucher.model.VoucherType;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class ConsoleVoucherManager implements CommandLineRunner {
+public class ConsoleVoucherManager {
     private static final int INVALID_COMMAND = -1;
     private static final int MIN_PRICE = 0;
 
@@ -30,7 +29,7 @@ public class ConsoleVoucherManager implements CommandLineRunner {
         this.output = output;
     }
 
-    @Override
+//    @Override
     public void run(String... args) throws Exception {
         MainMenuType menu;
 
