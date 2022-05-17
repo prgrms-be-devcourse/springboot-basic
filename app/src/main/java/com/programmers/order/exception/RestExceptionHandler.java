@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.programmers.order.exception.JdbcException.JdbcException;
-
 @RestControllerAdvice
 public class RestExceptionHandler {
 
@@ -47,6 +45,13 @@ public class RestExceptionHandler {
 	@ExceptionHandler(JdbcException.NotExecuteQueryException.class)
 	public String handleNotExecuteQueryException(JdbcException.NotExecuteQueryException e) {
 		log.warn("쿼리를 실행 하는데 오류를 발생했습니다. : {} ", e.getMessage());
+		return ErrorMessage.SERVER_ERROR.getMessage();
+	}
+
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(DomainException.DomainIntegrityException.class)
+	public String handleDataIntegrityViolationException(DomainException.DomainIntegrityException e) {
+		log.warn("데이터 무결성 위반 : {}", e.getMessage());
 		return ErrorMessage.SERVER_ERROR.getMessage();
 	}
 
