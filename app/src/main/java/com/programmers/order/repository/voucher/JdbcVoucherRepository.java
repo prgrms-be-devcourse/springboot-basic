@@ -110,7 +110,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			long discountValue = rs.getLong("discount_value");
 			LocalDateTime createdAt = rs.getTimestamp(("created_at")).toLocalDateTime();
 
-			VoucherType type = VoucherType.MatchTheType(voucherType);
+			VoucherType type = VoucherType.matchTheType(voucherType);
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(type);
 			VoucherDto.Resolver resolver = new VoucherDto.Resolver(id, discountValue, createdAt);
 			return voucherManager.resolve(resolver);

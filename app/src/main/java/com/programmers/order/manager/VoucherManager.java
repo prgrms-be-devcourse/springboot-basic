@@ -6,7 +6,7 @@ import com.programmers.order.type.VoucherType;
 
 public interface VoucherManager {
 
-	Voucher create();
+	Voucher publishVoucher();
 
 	VoucherType getType();
 

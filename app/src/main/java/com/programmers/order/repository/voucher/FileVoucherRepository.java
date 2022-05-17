@@ -39,7 +39,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		File csvFile = this.getCsvFile();
 		ObjectWriter writer = this.getWriter();
-		log.info("path : {}", csvFile.getPath());
 		try (OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(csvFile, CONTINUE_WRITING));) {
 			writer.writeValues(output)
 					.write(voucher);

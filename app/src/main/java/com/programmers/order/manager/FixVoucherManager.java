@@ -34,7 +34,7 @@ public class FixVoucherManager implements VoucherManager {
 	}
 
 	@Override
-	public Voucher create() {
+	public Voucher publishVoucher() {
 		boolean isRunnable = true;
 		String fixPrice = NOT_DECISION;
 

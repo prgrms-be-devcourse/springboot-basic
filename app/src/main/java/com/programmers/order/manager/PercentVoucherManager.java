@@ -34,7 +34,7 @@ public class PercentVoucherManager implements VoucherManager {
 	}
 
 	@Override
-	public Voucher create() {
+	public Voucher publishVoucher() {
 		boolean isRunnable = true;
 		String percent = NOT_DECISION;
 

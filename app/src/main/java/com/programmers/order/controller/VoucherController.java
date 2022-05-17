@@ -102,7 +102,7 @@ public class VoucherController implements Controller {
 
 		try {
 			VoucherManager voucherManager = voucherManagerFactory.getVoucherManager(voucherType);
-			voucherService.save(voucherManager.create());
+			voucherService.save(voucherManager.publishVoucher());
 		} catch (ServiceException.NotSupportedException exception) {
 			output.write(ErrorMessage.CLIENT_ERROR);
 			log.error("error : {}", ErrorMessage.CLIENT_ERROR);
