@@ -1,4 +1,4 @@
-package com.programmers.order.exception.JdbcException;
+package com.programmers.order.exception;
 
 public class JdbcException {
 

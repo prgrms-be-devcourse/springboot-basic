@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.domain.VoucherType;
-import com.programmers.order.exception.JdbcException.JdbcException;
+import com.programmers.order.exception.JdbcException;
 import com.programmers.order.provider.VoucherProvider;
 import com.programmers.order.utils.TranslatorUtils;
 
