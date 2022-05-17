@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1")
 public class VoucherRestController {
   /**
    * - [*]  전체 조회기능
@@ -28,28 +29,28 @@ public class VoucherRestController {
   /**
    * @return 모든 Voucher 목록
    */
-  @GetMapping("/api/v1/vouchers")
+  @GetMapping("/vouchers")
   public List<Voucher> getAllVouchers() {
     return voucherService.getVoucherList();
   }
 
-  @GetMapping("/api/v1/vouchers/{voucherId}")
+  @GetMapping("/vouchers/{voucherId}")
   public ResponseEntity<Voucher> getVoucherByVoucherId(@RequestParam("voucherId") UUID voucherId) {
     var voucher = voucherService.getVoucherById(voucherId);
     return voucher.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
-  @GetMapping("/api/v1/vouchertype/{voucherType}")
+  @GetMapping("/vouchertype/{voucherType}")
   public List<Voucher> getVouchersByVoucherType(@RequestParam("type") VoucherType voucherType) {
     return voucherService.getVoucherByVoucherType(voucherType);
   }
 
-  @DeleteMapping("/api/v1/voucher/{voucherId}")
+  @DeleteMapping("/voucher/{voucherId}")
   public void deleteVoucherByVoucherId(@RequestParam("voucherId") UUID voucherId) {
     voucherService.deleteVoucher(voucherId);
   }
 
-  @PostMapping("/api/v1/vouchers")
+  @PostMapping("/vouchers")
   public Voucher createVoucher(NewVoucher newVoucher) {
     Voucher voucher = voucherService.createVoucher(newVoucher);
     return voucher;
