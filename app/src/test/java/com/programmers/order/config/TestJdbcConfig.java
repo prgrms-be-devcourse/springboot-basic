@@ -15,6 +15,8 @@ import com.programmers.order.manager.PercentVoucherManager;
 import com.programmers.order.manager.VoucherClientManager;
 import com.programmers.order.manager.VoucherInternalManager;
 import com.programmers.order.provider.VoucherProvider;
+import com.programmers.order.repository.CustomerJdbcRepository;
+import com.programmers.order.repository.CustomerRepository;
 import com.programmers.order.repository.VoucherJdbcRepositoryImpl;
 import com.programmers.order.repository.VoucherRepository;
 import com.zaxxer.hikari.HikariDataSource;
@@ -69,5 +71,10 @@ public class TestJdbcConfig {
 	@Bean
 	public VoucherRepository voucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
 		return new VoucherJdbcRepositoryImpl(jdbcTemplate, voucherProvider());
+	}
+
+	@Bean
+	public CustomerRepository customerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+		return new CustomerJdbcRepository(jdbcTemplate);
 	}
 }
