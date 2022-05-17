@@ -2,17 +2,20 @@ package org.devcourse.voucher.customer.controller;
 
 import org.devcourse.voucher.customer.model.Customer;
 import org.devcourse.voucher.customer.model.Email;
+import org.devcourse.voucher.customer.service.BlacklistService;
 import org.devcourse.voucher.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 @Controller
-public class CustomerControllerImpl implements CustomerController {
+public class ConsoleCustomerController implements CustomerController {
     private final CustomerService customerService;
+    private final BlacklistService blacklistService;
 
-    public CustomerControllerImpl(CustomerService customerService) {
+    public ConsoleCustomerController(CustomerService customerService, BlacklistService blacklistService) {
         this.customerService = customerService;
+        this.blacklistService = blacklistService;
     }
 
     @Override
@@ -22,11 +25,11 @@ public class CustomerControllerImpl implements CustomerController {
 
     @Override
     public List<Customer> getCustomerList() {
-        return null;
+        return customerService.recallAllCustomer();
     }
 
     @Override
     public List<Customer> getBlackList() {
-        return null;
+        return blacklistService.recallAllBlacklist();
     }
 }
