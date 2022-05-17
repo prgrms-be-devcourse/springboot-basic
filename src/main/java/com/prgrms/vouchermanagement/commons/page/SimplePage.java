@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement.commons;
+package com.prgrms.vouchermanagement.commons.page;
 
 public class SimplePage implements Pageable {
 	private final long offset;
