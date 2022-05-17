@@ -24,7 +24,7 @@ public enum VoucherType {
 				.orElse(NONE);
 	}
 
-	public static VoucherType MatchTheType(String input) {
+	public static VoucherType matchTheType(String input) {
 		return Arrays.stream(VoucherType.values())
 				.filter(voucherType -> voucherType.name().equalsIgnoreCase(input))
 				.findAny()
