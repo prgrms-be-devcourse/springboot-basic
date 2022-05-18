@@ -1,14 +1,13 @@
 package org.devcourse.voucher.voucher.controller.api;
 
-import org.devcourse.voucher.menu.model.ListMenuType;
+import org.devcourse.voucher.voucher.controller.dto.CreateVoucherRequest;
 import org.devcourse.voucher.voucher.model.Voucher;
-import org.devcourse.voucher.voucher.model.VoucherType;
 
 import java.util.List;
 
 public interface VoucherController {
 
-    Voucher postCreateVoucher(VoucherType voucher, long discount);
+    Voucher postCreateVoucher(CreateVoucherRequest createVoucherRequest);
 
     List<Voucher> getVoucherList();
 }

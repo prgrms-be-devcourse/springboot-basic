@@ -8,6 +8,7 @@ import org.devcourse.voucher.menu.model.MainMenuType;
 import org.devcourse.voucher.menu.model.ListMenuType;
 import org.devcourse.voucher.view.console.Input;
 import org.devcourse.voucher.view.console.Output;
+import org.devcourse.voucher.voucher.controller.dto.CreateVoucherRequest;
 import org.devcourse.voucher.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -63,7 +64,7 @@ public class ConsoleVoucherManager {
         while (discount <= MIN_PRICE) {
             discount = inputDiscount();
         }
-        voucherController.postCreateVoucher(voucherType, discount);
+        voucherController.postCreateVoucher(new CreateVoucherRequest(voucherType, discount));
     }
 
     private void selectCreate() {
