@@ -105,12 +105,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public long deleteAll() {
+	public int deleteAll() {
 		return jdbcTemplate.update("DELETE FROM customers");
 	}
 
 	@Override
-	public long deleteById(UUID customerId) {
+	public int deleteById(UUID customerId) {
 		return jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)",
 			customerId.toString().getBytes());
 	}

@@ -49,7 +49,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public long deleteById(UUID id) {
+	public int deleteById(UUID id) {
 		if (id == null) {
 			throw new IllegalArgumentException("id 는 null 이 아니어야 합니다");
 		}
@@ -62,8 +62,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public long deleteAll() {
-		long deletedCount = storage.size();
+	public int deleteAll() {
+		int deletedCount = storage.size();
 
 		storage.clear();
 

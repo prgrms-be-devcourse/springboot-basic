@@ -80,13 +80,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public long deleteById(UUID voucherId) {
+	public int deleteById(UUID voucherId) {
 		return jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(?)",
 			voucherId.toString().getBytes());
 	}
 
 	@Override
-	public long deleteAll() {
+	public int deleteAll() {
 		return jdbcTemplate.update("DELETE FROM vouchers");
 	}
 }

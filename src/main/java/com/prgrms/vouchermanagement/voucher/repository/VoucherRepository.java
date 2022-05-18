@@ -15,7 +15,7 @@ public interface VoucherRepository {
 
 	Optional<Voucher> findById(UUID id);
 
-	long deleteById(UUID id);
+	int deleteById(UUID id);
 
-	long deleteAll();
+	int deleteAll();
 }
