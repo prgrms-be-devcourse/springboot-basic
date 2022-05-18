@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.prgrms.vouchermanagement.commons.Pageable;
-import com.prgrms.vouchermanagement.commons.SimplePage;
+import com.prgrms.vouchermanagement.commons.page.Pageable;
+import com.prgrms.vouchermanagement.commons.page.SimplePage;
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 import com.prgrms.vouchermanagement.voucher.domain.Voucher;
 

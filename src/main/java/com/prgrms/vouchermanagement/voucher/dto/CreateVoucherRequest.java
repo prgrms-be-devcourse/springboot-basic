@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanagement.voucher.controller;
+package com.prgrms.vouchermanagement.voucher.dto;
 
 import com.prgrms.vouchermanagement.voucher.VoucherType;
 

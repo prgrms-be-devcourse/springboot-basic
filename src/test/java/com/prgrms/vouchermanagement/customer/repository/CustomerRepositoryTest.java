@@ -15,12 +15,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.test.context.ActiveProfiles;
 
 import com.prgrms.vouchermanagement.customer.domain.Customer;
 
 @SpringBootTest
-@ActiveProfiles("test")
 class CustomerRepositoryTest {
 	// TODO : test data 를 BeforeEach, BeforeAll 에서 save 하는 것으로 변경 후 afterEach 를 작성하여 동일 결과를 보장할 수 있도록 해야함
 

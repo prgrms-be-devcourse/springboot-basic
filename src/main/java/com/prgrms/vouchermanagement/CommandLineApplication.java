@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.prgrms.vouchermanagement.commons.ErrorMessage;
 import com.prgrms.vouchermanagement.commons.exception.NoMappingOneException;
 import com.prgrms.vouchermanagement.io.InputView;
 import com.prgrms.vouchermanagement.io.OutputView;

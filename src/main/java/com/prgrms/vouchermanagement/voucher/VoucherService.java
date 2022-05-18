@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.prgrms.vouchermanagement.commons.Pageable;
+import com.prgrms.vouchermanagement.commons.page.Pageable;
 import com.prgrms.vouchermanagement.commons.exception.AlreadyExistException;
 import com.prgrms.vouchermanagement.commons.exception.CreationFailException;
 import com.prgrms.vouchermanagement.commons.exception.DeletionFailException;
