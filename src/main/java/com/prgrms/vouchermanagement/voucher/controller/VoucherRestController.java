@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.prgrms.vouchermanagement.commons.page.Pageable;
 import com.prgrms.vouchermanagement.commons.api.ApiResult;
 import com.prgrms.vouchermanagement.voucher.VoucherService;
+import com.prgrms.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.prgrms.vouchermanagement.voucher.dto.VoucherInfo;
 
 @RestController
@@ -50,7 +51,7 @@ public class VoucherRestController {
 	}
 
 	@DeleteMapping("/vouchers/{voucherId}")
-	public ApiResult deleteVoucher(@PathVariable UUID voucherId) {
+	public ApiResult<Object> deleteVoucher(@PathVariable UUID voucherId) {
 		voucherService.removeById(voucherId);
 
 		return ApiResult.success(HttpStatus.NO_CONTENT, null);
