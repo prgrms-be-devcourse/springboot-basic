@@ -35,7 +35,5 @@ public class CustomerRestController {
     public ResponseEntity<List<CustomerDto>> findAll() {
         return ResponseEntity.ok(customerService.findAll());
     }
-
-
 }
 

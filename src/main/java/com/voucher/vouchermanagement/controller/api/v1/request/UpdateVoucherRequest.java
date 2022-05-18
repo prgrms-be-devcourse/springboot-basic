@@ -39,5 +39,4 @@ public class UpdateVoucherRequest {
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
 }

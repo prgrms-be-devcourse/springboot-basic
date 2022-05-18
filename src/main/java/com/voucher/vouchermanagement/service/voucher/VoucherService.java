@@ -38,8 +38,12 @@ public class VoucherService {
 	@Transactional
 	public void multiCreate(List<CreateVoucherRequest> vouchers) throws RuntimeException {
 		vouchers.stream()
-			.map(voucher -> VoucherType.getVoucherTypeByName(voucher.getType().getTypeName())
-				.create(UUID.randomUUID(), voucher.getValue(), LocalDateTime.now()))
+			.map(voucher -> VoucherType.getVoucherTypeByName
+					(
+						voucher.getType().getTypeName()
+					)
+				.create(UUID.randomUUID(), voucher.getValue(), LocalDateTime.now())
+			)
 			.forEach(voucherRepository::insert);
 	}
 
