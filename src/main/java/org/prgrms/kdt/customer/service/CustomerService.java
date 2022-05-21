@@ -21,8 +21,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer getCustomer(UUID customerId) {
-        return customerRepository.findById(customerId)
+    public Customer getCustomer(UUID id) {
+        return customerRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
     }
 
