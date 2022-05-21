@@ -5,12 +5,12 @@ import java.util.UUID;
 
 public class Customer {
 
-    private final UUID customerId;
+    private final UUID id;
     private final String name;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, LocalDateTime createdAt) {
-        this.customerId = customerId;
+    public Customer(UUID id, String name, LocalDateTime createdAt) {
+        this.id = id;
         this.name = name;
         this.createdAt = createdAt;
     }
@@ -18,14 +18,14 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-            "customerId=" + customerId +
+            "id=" + id +
             ", name='" + name + '\'' +
             ", createdAt=" + createdAt +
             '}';
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {
