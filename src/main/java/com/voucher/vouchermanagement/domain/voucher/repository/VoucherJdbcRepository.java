@@ -72,7 +72,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(UUID id) {
 		try {
-			return Optional.ofNullable(
+			return Optional.of(
 				this.jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE id = UNHEX(REPLACE(:id, '-','')) ",
 					Collections.singletonMap("id", id.toString().getBytes()),
 					voucherRowMapper));
