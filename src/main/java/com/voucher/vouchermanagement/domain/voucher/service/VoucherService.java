@@ -17,6 +17,7 @@ import com.voucher.vouchermanagement.domain.voucher.dto.VoucherDto;
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
 import com.voucher.vouchermanagement.domain.voucher.repository.VoucherRepository;
+import com.voucher.vouchermanagement.exception.DataNotFoundException;
 
 @Service
 @Transactional
@@ -30,14 +31,14 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public UUID create(VoucherType voucherType, Long value) throws RuntimeException {
+	public UUID create(VoucherType voucherType, Long value) {
 		Voucher voucher = voucherType.create(UUID.randomUUID(), value, LocalDateTime.now());
 		this.voucherRepository.insert(voucher);
 
 		return voucher.getVoucherId();
 	}
 
-	public void multiCreate(List<CreateVoucherRequest> vouchers) throws RuntimeException {
+	public void multiCreate(List<CreateVoucherRequest> vouchers) {
 		vouchers.stream()
 			.map(voucher -> VoucherType.getVoucherTypeByName
 					(
@@ -52,7 +53,7 @@ public class VoucherService {
 	public VoucherDto findById(UUID id) {
 		return VoucherDto.of(
 			this.voucherRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("Voucher 정보를 찾을 수 없습니다."))
+				.orElseThrow(() -> new DataNotFoundException("Voucher 정보를 찾을 수 없습니다."))
 		);
 	}
 

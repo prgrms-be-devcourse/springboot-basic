@@ -4,6 +4,8 @@ import com.voucher.vouchermanagement.domain.customer.dto.CustomerDto;
 import com.voucher.vouchermanagement.domain.customer.dto.CustomerJoinRequest;
 import com.voucher.vouchermanagement.domain.customer.model.Customer;
 import com.voucher.vouchermanagement.domain.customer.repository.CustomerRepository;
+import com.voucher.vouchermanagement.exception.DataNotFoundException;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,19 +55,19 @@ public class CustomerService {
 
     public CustomerDto findById(UUID id) {
         return CustomerDto.of(
-                this.customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
+                this.customerRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Customer를 찾을 수 없습니다."))
         );
     }
 
     public CustomerDto findByName(String name) {
         return CustomerDto.of(
-                this.customerRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
+                this.customerRepository.findByName(name).orElseThrow(() -> new DataNotFoundException("Customer를 찾을 수 없습니다."))
         );
     }
 
     public CustomerDto findByEmail(String email) {
         return CustomerDto.of(
-                this.customerRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Customer를 찾을 수 없습니다."))
+                this.customerRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("Customer를 찾을 수 없습니다."))
         );
     }
 }
