@@ -1,12 +1,11 @@
 package com.voucher.vouchermanagement.domain.voucher.repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
-import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
+import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 
 public interface VoucherRepository {
 
@@ -14,11 +13,7 @@ public interface VoucherRepository {
 
 	List<Voucher> findAll();
 
-	List<Voucher> findByType(VoucherType type);
-
-	List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt);
-
-    List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt);
+	List<Voucher> findByCriteria(VoucherCriteria criteria);
 
 	void deleteById(UUID id);
 

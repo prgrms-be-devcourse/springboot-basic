@@ -17,8 +17,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
+import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
 
 @Repository
@@ -39,27 +39,31 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		);
 	}
 
-	@Override
-	public List<Voucher> findByType(VoucherType type) {
-		return jdbcTemplate.query(
-			"SELECT * FROM vouchers WHERE type = :type ORDER BY created_at",
-			toCriteriaParamMap(new VoucherCriteria(type, null, null)),
-			voucherRowMapper);
-	}
+	public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+		String baseSql = "SELECT * FROM vouchers ";
+		String where = "WHERE ";
+		String and = "AND ";
+		String type = "type = :type ";
+		String between = "created_at BETWEEN :startAt AND :endAt ";
+		String orderBy = "ORDER BY created_at";
+		StringBuilder queryBuilder = new StringBuilder();
 
-	@Override
-	public List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
-		return jdbcTemplate.query(
-			"SELECT * FROM vouchers WHERE type = :type AND created_at Between :startAt AND :endAt ORDER BY created_at",
-			toCriteriaParamMap(new VoucherCriteria(null, startAt, endAt)),
-			voucherRowMapper);
-	}
+		if (criteria.getStartAt() == null && criteria.getEndAt() == null && criteria.getType() == null) {
+			queryBuilder.append(baseSql);
+		} else if (criteria.getType() != null && criteria.getStartAt() != null && criteria.getEndAt() != null) {
+			queryBuilder.append(baseSql).append(where).append(type).append(and).append(between);
+		} else if (criteria.getType() != null && criteria.getStartAt() == null && criteria.getEndAt() == null) {
+			queryBuilder.append(baseSql).append(where).append(type);
+		} else if (criteria.getType() == null && criteria.getStartAt() != null && criteria.getEndAt() != null) {
+			queryBuilder.append(baseSql).append(where).append(between);
+		} else {
+			throw new IllegalArgumentException("잘못된 쿼리 파라미터 입니다.");
+		}
+		queryBuilder.append(orderBy);
 
-	@Override
-	public List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
 		return jdbcTemplate.query(
-			"SELECT * FROM vouchers WHERE type = :type AND created_at Between :startAt AND :endAt ORDER BY created_at",
-			toCriteriaParamMap(new VoucherCriteria(type, startAt, endAt)),
+			queryBuilder.toString(),
+			toCriteriaParamMap(criteria),
 			voucherRowMapper);
 	}
 

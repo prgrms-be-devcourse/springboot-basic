@@ -15,6 +15,7 @@ import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.CreateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.VoucherDto;
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
+import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
 import com.voucher.vouchermanagement.domain.voucher.repository.VoucherRepository;
 import com.voucher.vouchermanagement.exception.DataNotFoundException;
@@ -25,7 +26,6 @@ import com.voucher.vouchermanagement.exception.DataNotFoundException;
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
-	private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
 	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
@@ -76,24 +76,8 @@ public class VoucherService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VoucherDto> findByType(VoucherType type) {
-		return voucherRepository.findByType(type)
-			.stream()
-			.map(VoucherDto::of)
-			.collect(Collectors.toList());
-	}
-
-	@Transactional(readOnly = true)
-	public List<VoucherDto> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
-		return voucherRepository.findByDate(startAt, endAt)
-			.stream()
-			.map(VoucherDto::of)
-			.collect(Collectors.toList());
-	}
-
-	@Transactional(readOnly = true)
-	public List<VoucherDto> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
-		return voucherRepository.findByTypeAndDate(type, startAt, endAt)
+	public List<VoucherDto> findByCriteria(VoucherCriteria criteria) {
+		return voucherRepository.findByCriteria(criteria)
 			.stream()
 			.map(VoucherDto::of)
 			.collect(Collectors.toList());

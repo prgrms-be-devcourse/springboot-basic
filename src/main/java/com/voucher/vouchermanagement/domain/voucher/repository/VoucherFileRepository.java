@@ -1,7 +1,6 @@
 package com.voucher.vouchermanagement.domain.voucher.repository;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +14,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
-import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
+import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.utils.deserializer.CsvMapper;
 import com.voucher.vouchermanagement.utils.deserializer.VoucherCsvMapper;
 import com.voucher.vouchermanagement.utils.file.FileIOUtils;
@@ -57,6 +56,11 @@ public class VoucherFileRepository implements VoucherRepository {
 	}
 
 	@Override
+	public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+		return null;
+	}
+
+	/*@Override
 	public List<Voucher> findByType(VoucherType type) {
 		return null;
 	}
@@ -69,7 +73,7 @@ public class VoucherFileRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
 		return null;
-	}
+	}*/
 
 	@Override
 	public void deleteById(UUID id) {
