@@ -1,20 +1,25 @@
 package org.prgrms.kdt.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long amount;
+    private final LocalDateTime createdAt;
     private final VoucherType type = VoucherType.FIXED;
 
-    private  FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.amount = amount;
+        this.createdAt = createdAt;
     }
 
-    public static FixedAmountVoucher create(long amount) {
-        return new FixedAmountVoucher(UUID.randomUUID(), amount);
+    public FixedAmountVoucher(long value) {
+        this.voucherId = UUID.randomUUID();
+        this.amount = value;
+        this.createdAt = LocalDateTime.now();
     }
 
     @Override
@@ -38,6 +43,16 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public VoucherType getVoucherType() {
         return this.type;
+    }
+
+    @Override
+    public long getValue() {
+        return this.amount;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 
 }

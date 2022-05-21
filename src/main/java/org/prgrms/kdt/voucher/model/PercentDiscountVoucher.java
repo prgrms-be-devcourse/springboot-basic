@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -9,19 +10,27 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long percent;
+    private final LocalDateTime createdAt;
     private final VoucherType type = VoucherType.PERCENT;
 
-    private PercentDiscountVoucher(UUID voucherId, long percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
         if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
             throw new IllegalArgumentException("퍼센트는 1~100 사이의 값을 입력해주세요.");
         }
 
         this.voucherId = voucherId;
         this.percent = percent;
+        this.createdAt = createdAt;
     }
 
-    public static PercentDiscountVoucher create(long percent) {
-        return new PercentDiscountVoucher(UUID.randomUUID(), percent);
+    public PercentDiscountVoucher(long percent) {
+        if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
+            throw new IllegalArgumentException("퍼센트는 1~100 사이의 값을 입력해주세요.");
+        }
+
+        this.voucherId = UUID.randomUUID();
+        this.percent = percent;
+        this.createdAt = LocalDateTime.now();
     }
 
     @Override
@@ -45,6 +54,16 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public VoucherType getVoucherType() {
         return this.type;
+    }
+
+    @Override
+    public long getValue() {
+        return this.percent;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 
 }

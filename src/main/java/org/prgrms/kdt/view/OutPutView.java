@@ -3,10 +3,8 @@ package org.prgrms.kdt.view;
 import static org.prgrms.kdt.error.ErrorMessage.RETRY_MENU;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import org.prgrms.kdt.customer.model.Customer;
-import org.prgrms.kdt.error.ErrorMessage;
 import org.prgrms.kdt.voucher.model.Voucher;
 
 public class OutPutView {
@@ -24,11 +22,11 @@ public class OutPutView {
         Arrays.stream(VoucherMenu.values()).forEach(v -> System.out.println(v.getMessage()));
     }
 
-    public static void show(Collection<Voucher> vouchers) {
+    public static void showVouchers(List<Voucher> vouchers) {
         vouchers.forEach(System.out::println);
     }
 
-    public static void show(List<Customer> customers) {
+    public static void showCustomers(List<Customer> customers) {
         customers.forEach(System.out::println);
     }
 

@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.prgrms.kdt.error.VoucherFileException;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.slf4j.Logger;
@@ -18,8 +19,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
-@Repository
-@Profile("dev")
+//@Repository
+//@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -40,8 +41,18 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
+    public List<Voucher> findAll() {
         return read();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID uuid) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
     private void write(Voucher voucher) {

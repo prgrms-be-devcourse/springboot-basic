@@ -1,8 +1,8 @@
 package org.prgrms.kdt.controller;
 
-import java.util.Collection;
 import java.util.List;
 import org.prgrms.kdt.customer.model.Customer;
+import org.prgrms.kdt.customer.repository.BlackListRepository;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.Command;
@@ -20,11 +20,13 @@ public class VoucherController {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private final BlackListRepository blackListRepository;
 
-    public VoucherController(VoucherService voucherService,
-        CustomerService customerService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService,
+        BlackListRepository blackListRepository) {
         this.voucherService = voucherService;
         this.customerService = customerService;
+        this.blackListRepository = blackListRepository;
     }
 
     public void run() {
@@ -52,12 +54,12 @@ public class VoucherController {
                     Long.parseLong(strings[VOUCHER_DISCOUNT_INDEX]));
                 break;
             case LIST:
-                Collection<Voucher> vouchers = voucherService.getVouchers();
-                OutPutView.show(vouchers);
+                List<Voucher> vouchers = voucherService.getVouchers();
+                OutPutView.showVouchers(vouchers);
                 break;
             case CUSTOMER:
-                List<Customer> customers = customerService.getAll();
-                OutPutView.show(customers);
+                List<Customer> customers = customerService.getCustomers();
+                OutPutView.showCustomers(customers);
                 break;
         }
     }

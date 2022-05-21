@@ -1,6 +1,10 @@
 spring:
   profiles:
-    active: dev
+    active: jdbc
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: asd1234!
 
 path:
   voucher: voucher.txt

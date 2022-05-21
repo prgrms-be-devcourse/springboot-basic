@@ -1,12 +1,24 @@
 package org.prgrms.kdt.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.function.Function;
 import org.prgrms.kdt.error.ErrorMessage;
 
 public enum VoucherType {
-    FIXED("fixed",  FixedAmountVoucher::create),
-    PERCENT("percent", PercentDiscountVoucher::create),;
+    FIXED("fixed", FixedAmountVoucher::new){
+        @Override
+        public Voucher convert(UUID voucherId, long value, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, value, createdAt);
+        }
+    },
+    PERCENT("percent", PercentDiscountVoucher::new){
+        @Override
+        public Voucher convert(UUID voucherId, long value, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, value, createdAt);
+        }
+    };
 
     private final String keyword;
     private final Function<Long, Voucher> factory;
@@ -30,5 +42,7 @@ public enum VoucherType {
     public Voucher create(long value) {
         return factory.apply(value);
     }
+
+    public abstract Voucher convert(UUID voucherId, long value, LocalDateTime createdAt);
 
 }
