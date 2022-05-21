@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.prgrms.kdt.config.TestConfig;
+import org.prgrms.kdt.error.VoucherNotFoundException;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
@@ -34,7 +35,6 @@ import org.springframework.test.context.ActiveProfiles;
 @WebMvcTest
 @Import(TestConfig.class)
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherServiceTest {
 
     private static final VoucherType VALID_VOUCHER_TYPE = VoucherType.FIXED;
@@ -67,7 +67,6 @@ class VoucherServiceTest {
     }
 
     @Test
-    @Order(1)
     @DisplayName("바우처를 만들 수 있다.")
     void makeTest() {
         // GIVEN
@@ -80,33 +79,31 @@ class VoucherServiceTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("아이디를 통해 바우처를 조회할 수 있다.")
     void findByIdTest() {
         // GIVEN
         Voucher newVoucher = voucherService.makeVoucher(VALID_VOUCHER_TYPE, VALID_VOUCHER_AMOUNT);
 
         // WHEN
-        Voucher findVoucher = voucherRepository.findById(newVoucher.getVoucherId()).get();
+        Voucher findVoucher = voucherRepository.findById(newVoucher.getId()).get();
 
         // THEN
         assertThat(newVoucher, samePropertyValuesAs(findVoucher));
     }
 
     @Test
-    @Order(3)
     @DisplayName("아이디에 해당하는 바우처가 없다면 예외를 발생시킨다.")
     void findByIdNotFoundTest() {
         // GIVEN
         // WHEN
+        voucherRepository.deleteAll();
         // THEN
-        assertThrows(NoSuchElementException.class, () -> {
+        assertThrows(VoucherNotFoundException.class, () -> {
             voucherService.getVoucher(UUID.randomUUID());
         });
     }
 
     @Test
-    @Order(4)
     @DisplayName("바우처를 전체조회 할 수 있다.")
     void getVouchersTest() {
         // GIVEN
@@ -118,7 +115,6 @@ class VoucherServiceTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("바우처를 전체 삭제할 수 있다.")
     void deleteAllTest() {
         // GIVEN

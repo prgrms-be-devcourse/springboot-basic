@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -34,7 +35,6 @@ import org.springframework.test.context.ActiveProfiles;
 @WebMvcTest
 @Import(TestConfig.class)
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class CustomerServiceTest {
 
     private static final UUID VALID_CUSTOMER_ID = UUID.randomUUID();
@@ -67,8 +67,12 @@ class CustomerServiceTest {
         embeddedMysql.stop();
     }
 
+    @AfterEach
+    void clean() {
+        customerRepository.deleteAll();
+    }
+
     @Test
-    @Order(1)
     @DisplayName("사용자를 만들 수 있다.")
     void makeCustomerTest() {
         // GIVEN
@@ -79,15 +83,17 @@ class CustomerServiceTest {
 
         // THEN
         assertThat(newCustomer, samePropertyValuesAs(customer));
-        assertThat(customer.getCustomerId(), is(VALID_CUSTOMER_ID));
+        assertThat(customer.getId(), is(VALID_CUSTOMER_ID));
         assertThat(customer.getName(), is(VALID_NAME));
     }
 
     @Test
-    @Order(2)
     @DisplayName("아이디를 통해 사용자를 조회할 수 있다.")
     void getCustomerTest() {
         // GIVEN
+        Customer customer = new Customer(VALID_CUSTOMER_ID, VALID_NAME, VALID_CREATED_AT);
+        Customer newCustomer = customerService.makeCustomer(customer);
+
         // WHEN
         Customer findCustomer = customerService.getCustomer(VALID_CUSTOMER_ID);
 
@@ -96,7 +102,6 @@ class CustomerServiceTest {
     }
 
     @Test
-    @Order(3)
     @DisplayName("아이디에 해당하는 사용자가 없다면 예외를 발생시킨다.")
     void getCustomerNotFoundTest() {
         // GIVEN
@@ -108,10 +113,12 @@ class CustomerServiceTest {
     }
 
     @Test
-    @Order(4)
     @DisplayName("사용자를 전체조회 할 수 있다.")
     void getCustomersTest() {
         // GIVEN
+        Customer customer = new Customer(VALID_CUSTOMER_ID, VALID_NAME, VALID_CREATED_AT);
+        Customer newCustomer = customerService.makeCustomer(customer);
+
         // WHEN
         List<Customer> customers = customerService.getCustomers();
 
@@ -120,7 +127,6 @@ class CustomerServiceTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("사용자를 전체 삭제할 수 있다.")
     void deleteCustomersTest() {
         // GIVEN
