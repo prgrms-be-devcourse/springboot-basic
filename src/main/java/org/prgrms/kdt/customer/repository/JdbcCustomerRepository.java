@@ -21,11 +21,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID id = toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
 
-        return new Customer(customerId, name, createdAt);
+        return new Customer(id, name, createdAt);
     };
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -36,7 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         int update = jdbcTemplate.update(
             "insert into customers(customer_id, name, created_at)"
-                + " values(UUID_TO_BIN(:customerId), :name, :createdAt)"
+                + " values(UUID_TO_BIN(:id), :name, :createdAt)"
             , toParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -51,12 +51,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findById(UUID id) {
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
-                    "select * from customers where customer_id = UUID_TO_BIN(:customerId)",
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                    "select * from customers where customer_id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap("id", id.toString().getBytes()),
                     customerRowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -71,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("id", customer.getId().toString().getBytes());
         paramMap.put("name", customer.getName());
         paramMap.put("createdAt", customer.getCreatedAt());
 
