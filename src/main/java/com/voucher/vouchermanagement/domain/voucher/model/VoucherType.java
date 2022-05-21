@@ -1,0 +1,67 @@
+package com.voucher.vouchermanagement.domain.voucher.model;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.UUID;
+
+import com.voucher.vouchermanagement.domain.voucher.exception.NotValidEnumTypeException;
+
+public enum VoucherType {
+    Fixed("FixedAmountVoucher", 1) {
+        @Override
+        public Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(voucherId, voucherValue, createdAt);
+        }
+    },
+    Percent("PercentDiscountVoucher", 2) {
+        @Override
+        public Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(voucherId, voucherValue, createdAt);
+        }
+    };
+
+    private final String typeName;
+    private final int typeNumber;
+
+    VoucherType(String typeName, int typeNumber) {
+        this.typeName = typeName;
+        this.typeNumber = typeNumber;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public int getTypeNumber() {
+        return typeNumber;
+    }
+
+    public static VoucherType getVoucherTypeByName(String typeNameInput) {
+        return Arrays.stream(VoucherType.values())
+                .filter((voucherType) -> voucherType.getTypeName().equals(typeNameInput))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+    }
+
+    public static VoucherType getVoucherTypeByNumber(int typeNumberInput) {
+        return Arrays.stream(VoucherType.values())
+                .filter(voucherType -> voucherType.getTypeNumber() == typeNumberInput)
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+    }
+
+    @Override
+    public String toString() {
+        return typeNumber + ". " + typeName;
+    }
+
+    public static VoucherType fromString(String name) {
+        try {
+            return VoucherType.valueOf(name);
+        } catch(IllegalArgumentException e) {
+            throw new NotValidEnumTypeException("바우처 타입을 확인하세요 (Fixed, Percent)", e);
+        }
+    }
+
+    public abstract Voucher create(UUID voucherId, long voucherValue, LocalDateTime createdAt);
+}

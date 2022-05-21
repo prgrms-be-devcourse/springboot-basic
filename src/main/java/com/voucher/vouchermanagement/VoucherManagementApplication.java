@@ -1,7 +1,5 @@
 package com.voucher.vouchermanagement;
 
-import com.voucher.vouchermanagement.manager.VoucherManager;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

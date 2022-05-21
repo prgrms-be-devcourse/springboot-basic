@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
-import com.voucher.vouchermanagement.model.customer.Customer;
+import com.voucher.vouchermanagement.domain.customer.model.Customer;
 
 public class CustomerCsvMapper implements CsvMapper<Customer> {
 	@Override

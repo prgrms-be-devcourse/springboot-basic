@@ -1,6 +1,6 @@
 package com.voucher.vouchermanagement.utils.deserializer;
 
-import com.voucher.vouchermanagement.model.customer.Customer;
+import com.voucher.vouchermanagement.domain.customer.model.Customer;
 
 import java.time.LocalDateTime;
 import java.util.StringTokenizer;
