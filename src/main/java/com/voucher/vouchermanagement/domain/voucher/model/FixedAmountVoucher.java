@@ -5,6 +5,8 @@ import static com.voucher.vouchermanagement.utils.datetime.LocalDateTimeUtils.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.voucher.vouchermanagement.exception.NotValidValueException;
+
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id;
@@ -54,7 +56,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private void validateValue(long value) {
         if (value < MIN_PERCENT) {
-            throw new IllegalArgumentException("할인 금액이 1원 미만일 수 없습니다.");
+            throw new NotValidValueException("할인 금액이 1원 미만일 수 없습니다.");
         }
     }
 }

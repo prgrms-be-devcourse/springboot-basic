@@ -36,15 +36,16 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.voucher.vouchermanagement.configuration.YamlPropertiesFactory;
-import com.voucher.vouchermanagement.domain.voucher.service.VoucherService;
-import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.CreateVoucherRequest;
+import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.VoucherDto;
 import com.voucher.vouchermanagement.domain.voucher.model.FixedAmountVoucher;
+import com.voucher.vouchermanagement.exception.NotValidValueException;
 import com.voucher.vouchermanagement.domain.voucher.model.PercentDiscountVoucher;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
 import com.voucher.vouchermanagement.domain.voucher.repository.VoucherJdbcRepository;
 import com.voucher.vouchermanagement.domain.voucher.repository.VoucherRepository;
+import com.voucher.vouchermanagement.exception.DataNotFoundException;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
@@ -150,13 +151,13 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("100% 초과 PercentDiscountVoucher 생성 불가 테스트 - 101%")
     public void createPercentDiscountVoucherByOverMaxLimitValueTest() {
-        assertThrows(IllegalArgumentException.class, () -> voucherService.create(VoucherType.Percent, 101L));
+        assertThrows(NotValidValueException.class, () -> voucherService.create(VoucherType.Percent, 101L));
     }
 
     @Test
     @DisplayName("1% 미만 PercentDiscountVoucher 생성 불가 테스트 - 0%")
     public void createPercentDiscountVoucherByUnderMaxLimitValueTest() {
-        assertThrows(IllegalArgumentException.class, () -> voucherService.create(VoucherType.Percent, 0L));
+        assertThrows(NotValidValueException.class, () -> voucherService.create(VoucherType.Percent, 0L));
     }
 
     @Test
@@ -207,7 +208,7 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("할인금액 1미만 FixedAmountVoucher 생성 불가 테스트 - 0")
     public void createFixedAmountVoucherByUnderMaxLimitValueTest() {
-        assertThrows(IllegalArgumentException.class, () -> voucherService.create(VoucherType.Fixed, 0L));
+        assertThrows(NotValidValueException.class, () -> voucherService.create(VoucherType.Fixed, 0L));
     }
 
     @Test
@@ -249,7 +250,7 @@ public class VoucherServiceTest {
         voucherService.deleteById(voucherId);
 
         //then
-        Assertions.assertThrows(IllegalArgumentException.class, () -> voucherService.findById(voucherId));
+        Assertions.assertThrows(DataNotFoundException.class, () -> voucherService.findById(voucherId));
     }
 
     @Test
@@ -257,7 +258,7 @@ public class VoucherServiceTest {
     public void updateTest() {
         //given
         UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
-        UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, 20L, VoucherType.Fixed,
+        UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, 20L, VoucherType.Fixed.name(),
             LocalDateTime.now());
 
         //when
@@ -276,8 +277,8 @@ public class VoucherServiceTest {
         UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
 
         //when then
-        assertThrows(IllegalArgumentException.class,
-            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Fixed, LocalDateTime.now())));
+        assertThrows(NotValidValueException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Fixed.name(), LocalDateTime.now())));
     }
 
     @Test
@@ -287,8 +288,8 @@ public class VoucherServiceTest {
         UUID voucherId = voucherService.create(VoucherType.Percent, 10L);
 
         //when then
-        assertThrows(IllegalArgumentException.class,
-            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 101L, VoucherType.Percent, LocalDateTime.now())));
+        assertThrows(NotValidValueException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 101L, VoucherType.Percent.name(), LocalDateTime.now())));
     }
 
     @Test
@@ -298,7 +299,7 @@ public class VoucherServiceTest {
         UUID voucherId = voucherService.create(VoucherType.Percent, 10L);
 
         //when then
-        assertThrows(IllegalArgumentException.class,
-            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Percent, LocalDateTime.now())));
+        assertThrows(NotValidValueException.class,
+            () -> voucherService.update(new UpdateVoucherRequest(voucherId, 0L, VoucherType.Percent.name(), LocalDateTime.now())));
     }
 }

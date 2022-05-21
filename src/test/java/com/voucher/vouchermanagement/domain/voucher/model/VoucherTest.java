@@ -1,18 +1,16 @@
 package com.voucher.vouchermanagement.domain.voucher.model;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
-import com.voucher.vouchermanagement.domain.voucher.model.FixedAmountVoucher;
-import com.voucher.vouchermanagement.domain.voucher.model.PercentDiscountVoucher;
-import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
+import com.voucher.vouchermanagement.exception.NotValidValueException;
 
 class VoucherTest {
 
@@ -45,7 +43,7 @@ class VoucherTest {
     @Test
     @DisplayName("FixedAmountVoucher는 바우처 할인액이 1원 미만일 수 없다.")
     public void fixedAmountCannotDiscountUnderMinTest() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(NotValidValueException.class,
                 () -> new FixedAmountVoucher(UUID.randomUUID(), 0L, LocalDateTime.now()));
     }
 
@@ -78,14 +76,14 @@ class VoucherTest {
     @Test
     @DisplayName("percentDiscountVoucher는 0% 할인은 안된다.")
     void percentDiscountVoucherCannotDiscountUnderMinTest() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(NotValidValueException.class,
                 () -> new PercentDiscountVoucher(UUID.randomUUID(), 0L, LocalDateTime.now()));
     }
 
     @Test
     @DisplayName("percentDiscountVoucher는 100% 초과 할인은 안된다.")
     void percentDiscountVoucherCannotDiscountOverMaxTest() {
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(NotValidValueException.class,
                 () -> new PercentDiscountVoucher(UUID.randomUUID(), 101L, LocalDateTime.now()));
     }
 }

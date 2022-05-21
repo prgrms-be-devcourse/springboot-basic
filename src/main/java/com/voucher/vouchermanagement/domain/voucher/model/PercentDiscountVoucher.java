@@ -5,6 +5,8 @@ import static com.voucher.vouchermanagement.utils.datetime.LocalDateTimeUtils.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.voucher.vouchermanagement.exception.NotValidValueException;
+
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID id;
@@ -48,8 +50,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     private void validateValue(long value) {
         if (value < MIN_PERCENT)
-            throw new IllegalArgumentException("1% 미만일 수 없습니다.");
+            throw new NotValidValueException("1% 미만일 수 없습니다.");
         if (value > MAX_PERCENT)
-            throw new IllegalArgumentException("100%를 초과할 수 없습니다.");
+            throw new NotValidValueException("100%를 초과할 수 없습니다.");
     }
 }
