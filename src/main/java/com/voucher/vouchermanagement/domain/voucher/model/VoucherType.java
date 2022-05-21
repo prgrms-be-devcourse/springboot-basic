@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.UUID;
 
-import com.voucher.vouchermanagement.domain.voucher.exception.NotValidEnumTypeException;
+import com.voucher.vouchermanagement.exception.NotValidEnumTypeException;
 
 public enum VoucherType {
     Fixed("FixedAmountVoucher", 1) {
@@ -40,14 +40,14 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter((voucherType) -> voucherType.getTypeName().equals(typeNameInput))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+                .orElseThrow(() -> new NotValidEnumTypeException("잘못된 바우처 타입 입니다."));
     }
 
     public static VoucherType getVoucherTypeByNumber(int typeNumberInput) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.getTypeNumber() == typeNumberInput)
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입 입니다."));
+                .orElseThrow(() -> new NotValidEnumTypeException("잘못된 바우처 타입 입니다."));
     }
 
     @Override

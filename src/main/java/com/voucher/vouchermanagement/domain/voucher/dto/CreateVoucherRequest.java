@@ -7,8 +7,8 @@ public class CreateVoucherRequest {
     private VoucherType type;
     private Long value;
 
-    public CreateVoucherRequest(VoucherType type, Long value) {
-        this.type = type;
+    public CreateVoucherRequest(String type, Long value) {
+        this.type = VoucherType.fromName(type);
         this.value = value;
     }
 
@@ -25,7 +25,7 @@ public class CreateVoucherRequest {
 
     public static CreateVoucherRequest of(Voucher voucher) {
         return new CreateVoucherRequest(
-                VoucherType.getVoucherTypeByName(voucher.getClass().getSimpleName()),
+                VoucherType.getVoucherTypeByName(voucher.getClass().getSimpleName()).name(),
                 voucher.getValue()
         );
     }

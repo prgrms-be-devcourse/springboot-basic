@@ -17,10 +17,10 @@ public class UpdateVoucherRequest {
 	protected UpdateVoucherRequest() {
 	}
 
-	public UpdateVoucherRequest(UUID id, long value, VoucherType type, LocalDateTime createdAt) {
+	public UpdateVoucherRequest(UUID id, long value, String type, LocalDateTime createdAt) {
 		this.id = id;
 		this.value = value;
-		this.type = type;
+		this.type = VoucherType.fromName(type);
 		this.createdAt = createdAt;
 	}
 
