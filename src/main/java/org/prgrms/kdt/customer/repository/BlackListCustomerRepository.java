@@ -24,6 +24,9 @@ import org.springframework.stereotype.Repository;
 public class BlackListCustomerRepository implements BlackListRepository {
 
     private static final Logger log = LoggerFactory.getLogger(BlackListCustomerRepository.class);
+    private static final int UUID_INDEX = 0;
+    private static final int NAME_INDEX = 1;
+    private static final int CREATED_AT_INDEX = 2;
 
     @Value("${path.blacklist}")
     private String fileName;
@@ -46,8 +49,9 @@ public class BlackListCustomerRepository implements BlackListRepository {
             new InputStreamReader(resource.getInputStream()));) {
             customers = br.lines()
                 .map(l -> l.split(","))
-                .map(s -> new Customer(UUID.fromString(s[0]), s[1],
-                    LocalDateTime.parse(s[2], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))))
+                .map(s -> new Customer(UUID.fromString(s[UUID_INDEX]), s[NAME_INDEX],
+                    LocalDateTime.parse(s[CREATED_AT_INDEX],
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))))
                 .collect(Collectors.toList());
         } catch (IOException e) {
             log.error("파일에 읽어오는데 문제가 생겼습니다.");
