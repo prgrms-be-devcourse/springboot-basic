@@ -5,4 +5,5 @@ import com.programmers.order.domain.Customer;
 public interface CustomerRepository {
 	Customer insert(Customer customer);
 
+	void deleteAll();
 }

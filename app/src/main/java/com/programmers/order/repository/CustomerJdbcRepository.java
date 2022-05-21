@@ -1,5 +1,6 @@
 package com.programmers.order.repository;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,17 +22,25 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public Customer insert(Customer customer) {
-		int update = jdbcTemplate.update(
+		int insert = jdbcTemplate.update(
 				"insert into customers(customer_id, email, name, created_at, updated_at) "
 						+ "values(UUID_TO_BIN(:customerId),:email, :name,:createdAt, :updatedAt)",
 				toParams(customer)
 		);
 
-		if (update != SUCCESS_EXECUTE_QUERY) {
+		if (insert != SUCCESS_EXECUTE_QUERY) {
 			throw new JdbcException.NotExecuteQueryException("customer insert query 가 정상적으로 실행되지 않았습니다..");
 		}
 
 		return customer;
+	}
+
+	@Override
+	public void deleteAll() {
+		jdbcTemplate.update(
+				"delete from customers "
+				, Collections.emptyMap()
+		);
 	}
 
 	private Map<String, Object> toParams(Customer customer) {
