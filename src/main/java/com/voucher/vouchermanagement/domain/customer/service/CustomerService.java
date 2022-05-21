@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -24,7 +25,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional
     public UUID join(String name, String email) {
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now(), LocalDateTime.now());
 
@@ -33,7 +33,6 @@ public class CustomerService {
         return customer.getId();
     }
 
-    @Transactional
     public List<UUID> multiJoin(List<CustomerJoinRequest> customerJoinRequests) {
         List<UUID> uuids = new ArrayList<>();
 

@@ -51,9 +51,9 @@ public class VoucherRestController {
 		if (startAt == null && endAt == null && voucherType == null) {
 			return ResponseEntity.ok(this.voucherService.findAll());
 		} else if (voucherType != null && startAt != null && endAt != null) {
-			return ResponseEntity.ok(this.voucherService.findByTypeAndDate(VoucherType.fromString(voucherType), startAt, endAt));
+			return ResponseEntity.ok(this.voucherService.findByTypeAndDate(VoucherType.fromName(voucherType), startAt, endAt));
 		} else if (voucherType != null && startAt == null && endAt == null) {
-			return ResponseEntity.ok(this.voucherService.findByType(VoucherType.fromString(voucherType)));
+			return ResponseEntity.ok(this.voucherService.findByType(VoucherType.fromName(voucherType)));
 		} else if (voucherType == null && startAt != null && endAt != null) {
 			return ResponseEntity.ok(this.voucherService.findByDate(startAt, endAt));
 		} else {

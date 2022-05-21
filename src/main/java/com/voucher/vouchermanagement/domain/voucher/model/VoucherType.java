@@ -55,7 +55,7 @@ public enum VoucherType {
         return typeNumber + ". " + typeName;
     }
 
-    public static VoucherType fromString(String name) {
+    public static VoucherType fromName(String name) {
         try {
             return VoucherType.valueOf(name);
         } catch(IllegalArgumentException e) {
