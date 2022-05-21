@@ -181,15 +181,17 @@ class VoucherRepositoryTest {
     public void updateTest() {
         //given
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L, LocalDateTime.now());
+        long updatedValue = 20L;
         voucherRepository.insert(voucher);
 
         //when
-        voucher.setValue(20L);
+        voucher.setValue(updatedValue);
         voucherRepository.update(voucher);
-        Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
         //then
-        assertThat(foundVoucher.getVoucherId(), is(voucher.getVoucherId()));
-        assertThat(foundVoucher.getValue(), is(20L));
+        assertThat(foundVoucher.isPresent(), is(true));
+        assertThat(foundVoucher.get().getVoucherId(), is(voucher.getVoucherId()));
+        assertThat(foundVoucher.get().getValue(), is(updatedValue));
     }
 }

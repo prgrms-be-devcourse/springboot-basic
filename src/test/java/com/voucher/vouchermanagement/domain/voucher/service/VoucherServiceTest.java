@@ -139,7 +139,7 @@ public class VoucherServiceTest {
         List<VoucherDto> foundVouchers = voucherService.findAll();
 
         //then
-        assertThat(foundVouchers.size(), is(4));
+        assertThat(foundVouchers.size(), is(vouchers.size()));
         assertThat(foundVouchers, containsInAnyOrder(samePropertyValuesAs(foundVouchers.get(0)),
                 samePropertyValuesAs(foundVouchers.get(1)),
                 samePropertyValuesAs(foundVouchers.get(2)),
@@ -214,14 +214,15 @@ public class VoucherServiceTest {
     @DisplayName("5000원 할인 FixedAmountVoucher 생성 테스트")
     public void createFixedAmountVoucherTest_5000() {
         //given
-        voucherService.create(VoucherType.Fixed, 5000L);
+        long voucherValue = 5000L;
+        voucherService.create(VoucherType.Fixed, voucherValue);
 
         //when
         List<VoucherDto> foundVoucher = voucherService.findAll();
 
         //then
         assertThat(foundVoucher.size(), is(1));
-        assertThat(foundVoucher.get(0).getValue(), is(5000L));
+        assertThat(foundVoucher.get(0).getValue(), is(voucherValue));
         assertThat(foundVoucher.get(0).getVoucherType().getTypeName(), is(FixedAmountVoucher.class.getSimpleName()));
     }
 
@@ -256,13 +257,15 @@ public class VoucherServiceTest {
     public void updateTest() {
         //given
         UUID voucherId = voucherService.create(VoucherType.Fixed, 10L);
+        UpdateVoucherRequest updateVoucherRequest = new UpdateVoucherRequest(voucherId, 20L, VoucherType.Fixed,
+            LocalDateTime.now());
 
         //when
-        voucherService.update(new UpdateVoucherRequest(voucherId, 20L, VoucherType.Fixed, LocalDateTime.now()));
+        voucherService.update(updateVoucherRequest);
         VoucherDto foundVoucher = voucherService.findById(voucherId);
         //then
         assertThat(foundVoucher.getId(), is(voucherId));
-        assertThat(foundVoucher.getValue(),is(20L));
+        assertThat(foundVoucher.getValue(),is(updateVoucherRequest.getValue()));
         assertThat(foundVoucher.getVoucherType(),is(VoucherType.Fixed));
     }
 

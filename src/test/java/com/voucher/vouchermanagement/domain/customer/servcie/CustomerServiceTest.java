@@ -140,7 +140,7 @@ public class CustomerServiceTest {
         List<CustomerDto> foundCustomers = customerService.findAll();
 
         //then
-        assertThat(foundCustomers.size(), is(3));
+        assertThat(foundCustomers.size(), is(customerJoinRequests.size()));
         assertThat(foundCustomers, containsInAnyOrder(samePropertyValuesAs(foundCustomers.get(0)),
                 samePropertyValuesAs(foundCustomers.get(1)),
                 samePropertyValuesAs(foundCustomers.get(2))
