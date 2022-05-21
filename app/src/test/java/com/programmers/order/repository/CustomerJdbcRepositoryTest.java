@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -28,21 +29,24 @@ class CustomerJdbcRepositoryTest {
 	@Autowired
 	private CustomerRepository customerRepository;
 
+	@Autowired
+	private NamedParameterJdbcTemplate jdbcTemplate;
+
 	private Faker faker = new Faker();
 	private Customer customer;
 
 	@BeforeAll
 	void init() {
+		customerRepository.deleteAll();
 		customer = Customer.builder()
 				.customerId(UUID.randomUUID())
 				.email(faker.name().username() + "@programmers.co.kr")
-				.name(faker.name().fullName()+"asdhasbdhabshdbjhasbdhjbahjsdbhj")
+				.name(faker.name().fullName())
 				.createdAt(LocalDateTime.now())
 				.updatedAt(LocalDateTime.now())
 				.build();
 	}
 
-	@Rollback(value = true)
 	@DisplayName("고객 insert query")
 	@Test
 	void insert() {
