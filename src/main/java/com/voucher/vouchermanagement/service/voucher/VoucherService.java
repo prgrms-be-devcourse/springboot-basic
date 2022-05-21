@@ -18,6 +18,7 @@ import com.voucher.vouchermanagement.model.voucher.VoucherType;
 import com.voucher.vouchermanagement.repository.voucher.VoucherRepository;
 
 @Service
+@Transactional
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
@@ -27,7 +28,6 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	@Transactional
 	public UUID create(VoucherType voucherType, Long value) throws RuntimeException {
 		Voucher voucher = voucherType.create(UUID.randomUUID(), value, LocalDateTime.now());
 		this.voucherRepository.insert(voucher);
@@ -35,7 +35,6 @@ public class VoucherService {
 		return voucher.getVoucherId();
 	}
 
-	@Transactional
 	public void multiCreate(List<CreateVoucherRequest> vouchers) throws RuntimeException {
 		vouchers.stream()
 			.map(voucher -> VoucherType.getVoucherTypeByName
@@ -47,7 +46,7 @@ public class VoucherService {
 			.forEach(voucherRepository::insert);
 	}
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = true)
 	public VoucherDto findById(UUID id) {
 		return VoucherDto.of(
 			this.voucherRepository.findById(id)
@@ -55,7 +54,6 @@ public class VoucherService {
 		);
 	}
 
-	@Transactional(readOnly = false)
 	public void deleteById(UUID id) {
 		this.voucherRepository.deleteById(id);
 	}
