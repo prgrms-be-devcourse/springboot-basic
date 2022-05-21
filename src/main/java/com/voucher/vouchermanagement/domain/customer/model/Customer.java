@@ -1,5 +1,7 @@
 package com.voucher.vouchermanagement.domain.customer.model;
 
+import static com.voucher.vouchermanagement.utils.datetime.LocalDateTimeUtils.*;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -16,8 +18,8 @@ public class Customer {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt.truncatedTo(ChronoUnit.MICROS);
-        this.createdAt = createdAt.truncatedTo(ChronoUnit.MICROS);
+        this.lastLoginAt = toMicrosLocalDateTime(lastLoginAt);
+        this.createdAt = toMicrosLocalDateTime(createdAt);
     }
 
     public UUID getId() {
@@ -41,7 +43,7 @@ public class Customer {
     }
 
     public void login() {
-        this.lastLoginAt = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
+        this.lastLoginAt = toMicrosLocalDateTime(LocalDateTime.now());
     }
 
     @Override
