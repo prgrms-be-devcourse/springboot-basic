@@ -51,7 +51,17 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void update(UUID id, long value) {
+
+    }
+
+    @Override
     public void deleteAll() {
+
+    }
+
+    @Override
+    public void deleteById(UUID id) {
 
     }
 

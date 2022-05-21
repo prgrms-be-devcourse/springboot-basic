@@ -13,6 +13,10 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID uuid);
 
+    void update(UUID id, long value);
+
     void deleteAll();
+
+    void deleteById(UUID id);
 
 }

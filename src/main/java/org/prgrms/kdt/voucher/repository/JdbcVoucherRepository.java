@@ -24,12 +24,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID id = toUUID(resultSet.getBytes("voucher_id"));
         long value = resultSet.getLong("value");
         VoucherType type = VoucherType.valueOf(resultSet.getString("type"));
         LocalDateTime createdAt = toLocalDateTime(resultSet.getTimestamp("created_at"));
 
-        return type.convert(voucherId, value, createdAt);
+        return type.convert(id, value, createdAt);
     };
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -40,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         int update = jdbcTemplate.update(
             "insert into vouchers(voucher_id, value, type, created_at)"
-                + " values(UUID_TO_BIN(:voucherId), :value, :type, :createdAt)"
+                + " values(UUID_TO_BIN(:id), :value, :type, :createdAt)"
             , toParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted"); // 커스텀 예외로 수정해보자
@@ -55,12 +55,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID id) {
         try {
             return Optional.ofNullable(
                 jdbcTemplate.queryForObject(
-                    "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    "select * from vouchers where voucher_id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap("id", id.toString().getBytes()),
                     voucherRowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -69,13 +69,28 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void update(UUID id, long value) {
+        jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
+            new HashMap<String,Object>(){{
+                put("id", id.toString().getBytes());
+                put("value", value);
+            }});
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
     }
 
+    @Override
+    public void deleteById(UUID id) {
+        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:id)",
+            Collections.singletonMap("id", id.toString().getBytes()));
+    }
+
     private Map<String, Object> toParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        paramMap.put("id", voucher.getId().toString().getBytes());
         paramMap.put("value", voucher.getValue());
         paramMap.put("type", voucher.getVoucherType().toString());
         paramMap.put("createdAt", voucher.getCreatedAt());
