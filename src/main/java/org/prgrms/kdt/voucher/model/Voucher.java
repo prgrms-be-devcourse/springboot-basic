@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface Voucher extends Serializable {
 
-    UUID getVoucherId();
+    UUID getId();
 
     long discount(long beforeDiscount);
 
