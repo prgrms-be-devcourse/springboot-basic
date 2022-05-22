@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -25,9 +24,10 @@ public class VoucherController {
     @GetMapping("/vouchers")
     public String voucherPage(Model model) {
         List<Voucher> vouchers = voucherService.findAll();
-        model.addAttribute("vouchers", vouchers.stream()
-            .map(VoucherDto::new)
-            .collect(Collectors.toList()));
+        List<VoucherDto> vouchersDto = vouchers.stream()
+            .map(VoucherDto::new).toList();
+
+        model.addAttribute("vouchers", vouchersDto);
 
         return "voucher-list";
     }
@@ -53,17 +53,18 @@ public class VoucherController {
 
     @GetMapping("/voucher/details/{voucherId}")
     public String voucherDetailsPage(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher",
-            new VoucherDto(
-                voucherService.findById(voucherId)
-            )
+            new VoucherDto(voucher)
         );
+
         return "voucher-details";
     }
 
     @PostMapping("/voucher/update")
     public String updateVoucher(UpdateVoucherRequest request) {
         voucherService.update(request.getVoucherId(), request.getVoucherValue());
+
         return "redirect:/vouchers";
     }
 }
