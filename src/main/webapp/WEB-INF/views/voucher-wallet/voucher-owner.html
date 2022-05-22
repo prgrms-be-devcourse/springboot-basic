@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link th:href="@{/static/style.css}" rel="stylesheet" />
+    <title>Voucher Admin</title>
+</head>
+<body>
+    <h1 class="header">Voucher Admin</h1>
+    <div class="container-fluid">
+        <h4 th:text="${voucherId+'를 소유하고 있는 고객'}"></h4>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer: ${customers}" th:object="${customer}" >
+                <td th:text="*{customerId}"></td>
+                <td th:text="*{name}"></td>
+                <td th:text="*{email}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="beforeBtnArea">
+            <a th:href="@{/voucher-wallets}" class="btn btn-secondary">이전으로</a>
+        </div>
+    </div>
+</body>
+</html>
