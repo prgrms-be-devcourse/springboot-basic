@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic;
 
-import org.programmers.springbootbasic.io.Console;
+import org.programmers.springbootbasic.core.CommandLineApplication;
+import org.programmers.springbootbasic.core.io.Console;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

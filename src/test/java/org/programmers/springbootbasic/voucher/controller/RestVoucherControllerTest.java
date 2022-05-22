@@ -3,15 +3,16 @@ package org.programmers.springbootbasic.voucher.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.voucher.VoucherConverter;
-import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
-import org.programmers.springbootbasic.voucher.controller.api.UpdateVoucherRequest;
-import org.programmers.springbootbasic.voucher.controller.api.VoucherResponse;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
-import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.model.VoucherType;
-import org.programmers.springbootbasic.voucher.service.DefaultVoucherService;
+import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
+import org.programmers.springbootbasic.application.voucher.controller.RestVoucherController;
+import org.programmers.springbootbasic.application.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.application.voucher.controller.api.UpdateVoucherRequest;
+import org.programmers.springbootbasic.application.voucher.controller.api.VoucherResponse;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.Voucher;
+import org.programmers.springbootbasic.application.voucher.model.VoucherType;
+import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,10 +36,11 @@ class RestVoucherControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    DefaultVoucherService defaultVoucherService;
+    private DefaultVoucherService defaultVoucherService;
 
     @MockBean
     private VoucherConverter voucherConverter;
+
     @Autowired
     private ObjectMapper objectMapper;
 

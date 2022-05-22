@@ -2,15 +2,16 @@ package org.programmers.springbootbasic.voucher.service;
 
 import javassist.NotFoundException;
 import org.junit.jupiter.api.*;
-import org.programmers.springbootbasic.exception.NotUpdateException;
-import org.programmers.springbootbasic.voucher.VoucherConverter;
-import org.programmers.springbootbasic.voucher.controller.api.CreateVoucherRequest;
-import org.programmers.springbootbasic.voucher.controller.api.UpdateVoucherRequest;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
-import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
-import org.programmers.springbootbasic.voucher.repository.VoucherRepository;
+import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
+import org.programmers.springbootbasic.core.exception.NotUpdateException;
+import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
+import org.programmers.springbootbasic.application.voucher.controller.api.CreateVoucherRequest;
+import org.programmers.springbootbasic.application.voucher.controller.api.UpdateVoucherRequest;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.Voucher;
+import org.programmers.springbootbasic.application.voucher.repository.JdbcVoucherRepository;
+import org.programmers.springbootbasic.application.voucher.repository.VoucherRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

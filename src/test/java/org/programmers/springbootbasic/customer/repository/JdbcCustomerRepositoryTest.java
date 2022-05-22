@@ -1,8 +1,9 @@
 package org.programmers.springbootbasic.customer.repository;
 
 import org.junit.jupiter.api.*;
+import org.programmers.springbootbasic.application.customer.repository.CustomerRepository;
 import org.programmers.springbootbasic.config.DBConfig;
-import org.programmers.springbootbasic.customer.model.Customer;
+import org.programmers.springbootbasic.application.customer.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ContextConfiguration;

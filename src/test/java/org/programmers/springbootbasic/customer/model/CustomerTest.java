@@ -3,7 +3,8 @@ package org.programmers.springbootbasic.customer.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.exception.CustomInvalidNameException;
+import org.programmers.springbootbasic.application.customer.model.Customer;
+import org.programmers.springbootbasic.core.exception.CustomInvalidNameException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -2,11 +2,12 @@ package org.programmers.springbootbasic.wallet.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.customer.model.Customer;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.Voucher;
-import org.programmers.springbootbasic.wallet.domain.Wallet;
-import org.programmers.springbootbasic.wallet.repository.WalletRepository;
+import org.programmers.springbootbasic.application.customer.model.Customer;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.Voucher;
+import org.programmers.springbootbasic.application.wallet.domain.Wallet;
+import org.programmers.springbootbasic.application.wallet.repository.WalletRepository;
+import org.programmers.springbootbasic.application.wallet.service.WalletService;
 
 import java.util.List;
 

@@ -1,10 +1,11 @@
 package org.programmers.springbootbasic.voucher.repository;
 
 import org.junit.jupiter.api.*;
+import org.programmers.springbootbasic.application.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springbootbasic.config.DBConfig;
-import org.programmers.springbootbasic.voucher.model.FixedAmountVoucher;
-import org.programmers.springbootbasic.voucher.model.PercentDiscountVoucher;
-import org.programmers.springbootbasic.voucher.model.Voucher;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.application.voucher.model.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

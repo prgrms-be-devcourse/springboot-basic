@@ -3,6 +3,7 @@ package org.programmers.springbootbasic.voucher.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
