@@ -4,6 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springbootbasic.application.voucher.controller.VoucherController;
 import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
+import org.programmers.springbootbasic.application.voucher.controller.api.VoucherResponse;
+import org.programmers.springbootbasic.application.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,8 +13,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -83,11 +87,21 @@ class VoucherControllerTest {
     @DisplayName("Voucher-detail page를 반환할 수 있다.")
     void getVoucher() throws Exception {
         UUID voucherId = UUID.randomUUID();
+        var voucher = new FixedAmountVoucher(voucherId, 3000L, LocalDateTime.now());
+        var response = new VoucherResponse(
+                voucher.getVoucherId(),
+                voucher.getValue(),
+                voucher.getCreatedAt(),
+                voucher.getVoucherType()
+        );
+
+        given(defaultVoucherService.getVoucher(voucherId)).willReturn(voucher);
+        given(voucherConverter.convertVoucherDto(voucher)).willReturn(response);
 
         mockMvc.perform(get("/{voucherId}", voucherId)
                         .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("voucher", defaultVoucherService.getVoucher(voucherId)))
-                .andExpect(view().name("/voucher-details"));
+                .andExpect(model().attribute("voucher", response))
+                .andExpect(view().name("voucher-details"));
     }
 }
