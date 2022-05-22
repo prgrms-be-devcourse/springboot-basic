@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.programmers.order.controller.dto.VoucherDto;
 import com.programmers.order.domain.Voucher;
+import com.programmers.order.domain.VoucherType;
 import com.programmers.order.exception.ServiceException;
 import com.programmers.order.repository.VoucherRepository;
 
@@ -36,8 +38,8 @@ public class VoucherService {
 		return voucherRepository.update(updatedVoucher);
 	}
 
-	public Page<Voucher> lookUpVouchers(Pageable pageable) {
-		return voucherRepository.findAll(pageable);
+	public Page<Voucher> lookUpVouchers(VoucherDto.Search searchDto, Pageable pageable) {
+		return voucherRepository.findAll(pageable, searchDto.buildCondition());
 	}
 
 	public Voucher lookUpVoucher(UUID voucherId) {

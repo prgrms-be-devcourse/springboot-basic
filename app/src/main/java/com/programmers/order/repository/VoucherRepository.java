@@ -1,6 +1,5 @@
 package com.programmers.order.repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,5 +23,5 @@ public interface VoucherRepository {
 
 	long count();
 
-	Page<Voucher> findAll(Pageable pageable);
+	Page<Voucher> findAll(Pageable pageable, String conditions);
 }

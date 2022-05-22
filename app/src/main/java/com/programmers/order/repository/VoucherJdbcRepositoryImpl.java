@@ -100,15 +100,21 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 	}
 
 	@Override
-	public Page<Voucher> findAll(Pageable pageable) {
+	public Page<Voucher> findAll(Pageable pageable, String conditions) {
+		String findResourceQuery = "select * from vouchers ";
+		String pagingConditions = "order by created_at desc limit :pageSize offSet :offSet";
+		String sql = findResourceQuery + conditions + pagingConditions;
+
 		List<Voucher> vouchers = jdbcTemplate.query(
-				"select * from vouchers order by created_at desc limit :pageSize offSet :offSet",
+				sql,
 				toPagingParams(pageable),
 				VOUCHER_ROW_MAPPER
 		);
 
+		String countResourceQuery = "select count(*) from vouchers ";
+		sql = countResourceQuery + conditions;
 		Long count = jdbcTemplate.queryForObject(
-				"select count(*) from vouchers",
+				sql,
 				Collections.emptyMap(),
 				Long.class
 		);
@@ -117,7 +123,7 @@ public class VoucherJdbcRepositoryImpl implements VoucherRepository {
 			throw new JdbcException.NotExecuteQueryException("voucher 조회 중 count query 가 실행되지 않습니다.");
 		}
 
-		return new PageImpl<Voucher>(vouchers, pageable, count);
+		return new PageImpl<>(vouchers, pageable, count);
 	}
 
 	@Override

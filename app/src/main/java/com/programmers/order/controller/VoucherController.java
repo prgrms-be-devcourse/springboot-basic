@@ -30,10 +30,11 @@ public class VoucherController {
 	}
 
 	@GetMapping("")
-	public ModelAndView getVouchers(@ModelAttribute PageDto.Request paging) {
+	public ModelAndView getVouchers(@ModelAttribute VoucherDto.Search searchDto,
+			@ModelAttribute PageDto.Request paging) {
 		// bug : sort by query 에 안먹힘;;;
 		Pageable pageable = paging.getPageable(Sort.by("created_at").descending());
-		Page<Voucher> vouchers = voucherService.lookUpVouchers(pageable);
+		Page<Voucher> vouchers = voucherService.lookUpVouchers(searchDto, pageable);
 		PageDto.Response<VoucherDto.Response, Voucher> voucherResponses = converter.domainToResponseDtos()
 				.convert(vouchers);
 
