@@ -30,7 +30,7 @@ public class VoucherController {
         ResponseDto responseDto = new ResponseDto(HttpStatus.CREATED.value(), "create voucher successfully", voucher);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .body(responseDto);
     }
 
@@ -50,7 +50,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<ResponseDto> getVouchers(@PathVariable UUID voucherId) {
+    public ResponseEntity<ResponseDto> getVoucher(@PathVariable UUID voucherId) {
         Voucher voucher = voucherService.getVoucher(voucherId);
 
         ResponseDto<VouchersResDto> responseDto = new ResponseDto(HttpStatus.OK.value(), "get voucher successfully", voucher);
