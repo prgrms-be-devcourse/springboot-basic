@@ -1,11 +1,11 @@
 package org.programmers.springbootbasic.application.voucher.service;
 
-import javassist.NotFoundException;
 import org.programmers.springbootbasic.application.voucher.controller.api.CreateVoucherRequest;
 import org.programmers.springbootbasic.application.voucher.controller.api.UpdateVoucherRequest;
 import org.programmers.springbootbasic.application.voucher.model.Voucher;
 import org.programmers.springbootbasic.application.voucher.repository.VoucherRepository;
 import org.programmers.springbootbasic.core.exception.DuplicateObjectKeyException;
+import org.programmers.springbootbasic.core.exception.NotFoundIdException;
 import org.programmers.springbootbasic.core.exception.NotUpdateException;
 import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
 import org.programmers.springbootbasic.application.voucher.model.VoucherType;
@@ -25,10 +25,10 @@ public class DefaultVoucherService implements VoucherService {
         this.voucherConverter = voucherConverter;
     }
 
-    public Voucher getVoucher(UUID voucherId) throws NotFoundException {
+    public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new NotFoundException("주문을 찾을 수 없습니다."));
+                .orElseThrow(() -> new NotFoundIdException("주문을 찾을 수 없습니다."));
     }
 
     public List<Voucher> getVoucherList() {
@@ -53,7 +53,7 @@ public class DefaultVoucherService implements VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public Voucher updateVoucher(UpdateVoucherRequest updateVoucherRequest) throws NotFoundException {
+    public Voucher updateVoucher(UpdateVoucherRequest updateVoucherRequest)  {
         if (!checkVoucherExist(updateVoucherRequest.voucherId())) {
             throw new NotUpdateException("업데이트 할 바우처가 없습니다.");
         }

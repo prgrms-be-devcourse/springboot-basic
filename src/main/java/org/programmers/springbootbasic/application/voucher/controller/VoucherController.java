@@ -1,6 +1,5 @@
 package org.programmers.springbootbasic.application.voucher.controller;
 
-import javassist.NotFoundException;
 import org.programmers.springbootbasic.application.voucher.controller.api.CreateVoucherRequest;
 import org.programmers.springbootbasic.application.voucher.controller.api.UpdateVoucherRequest;
 import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
@@ -33,7 +32,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{voucherId}")
-    public String getVoucher(Model model, @PathVariable UUID voucherId) throws NotFoundException {
+    public String getVoucher(Model model, @PathVariable UUID voucherId) {
         var getVoucher = defaultVoucherService.getVoucher(voucherId);
         var voucher = voucherConverter.convertVoucherDto(getVoucher);
 
@@ -47,7 +46,7 @@ public class VoucherController {
     }
 
     @PutMapping("/vouchers/details/update")
-    public String updateVoucher(UpdateVoucherRequest updateVoucherRequest) throws NotFoundException {
+    public String updateVoucher(UpdateVoucherRequest updateVoucherRequest) {
         defaultVoucherService.updateVoucher(updateVoucherRequest);
         return "redirect:/vouchers";
     }

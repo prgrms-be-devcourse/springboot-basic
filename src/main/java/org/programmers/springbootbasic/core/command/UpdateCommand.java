@@ -1,10 +1,10 @@
 package org.programmers.springbootbasic.core.command;
 
-import javassist.NotFoundException;
-import org.programmers.springbootbasic.core.exception.NotUpdateException;
-import org.programmers.springbootbasic.core.io.Console;
 import org.programmers.springbootbasic.application.voucher.controller.api.UpdateVoucherRequest;
 import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
+import org.programmers.springbootbasic.core.exception.NotFoundIdException;
+import org.programmers.springbootbasic.core.exception.NotUpdateException;
+import org.programmers.springbootbasic.core.io.Console;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class UpdateCommand implements Command{
             logger.error("잘못된 입력 입니다.", e);
         } catch (NotUpdateException e) {
             logger.error("업데이트에 실패하였습니다.", e);
-        } catch (NotFoundException e) {
+        } catch (NotFoundIdException e) {
             logger.error("존재하지 않는 값 입니다.");
         }
         return true;

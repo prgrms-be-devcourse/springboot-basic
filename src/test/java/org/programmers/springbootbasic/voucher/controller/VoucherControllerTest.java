@@ -2,8 +2,8 @@ package org.programmers.springbootbasic.voucher.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
 import org.programmers.springbootbasic.application.voucher.controller.VoucherController;
+import org.programmers.springbootbasic.application.voucher.controller.VoucherConverter;
 import org.programmers.springbootbasic.application.voucher.service.DefaultVoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -79,17 +79,15 @@ class VoucherControllerTest {
                 .andExpect(view().name("redirect:/vouchers"))
                 .andExpect(redirectedUrl("/vouchers"));
     }
+    @Test
+    @DisplayName("Voucher-detail page를 반환할 수 있다.")
+    void getVoucher() throws Exception {
+        UUID voucherId = UUID.randomUUID();
 
-    //    @Test
-//    @DisplayName("Voucher-detail page를 반환할 수 있다.")
-//    void getVoucher() throws Exception {
-//        UUID voucherId = UUID.randomUUID();
-//        var amountVoucher = new FixedAmountVoucher(voucherId, 3000L, LocalDateTime.now());
-//
-//        mockMvc.perform(get("/{voucherId}", String.valueOf(voucherId))
-//                        .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
-//                .andExpect(status().isOk())
-//                .andExpect(model().attribute("voucher", defaultVoucherService.getVoucherList()))
-//                .andExpect(view().name("/voucher-details"));
-//    }
+        mockMvc.perform(get("/{voucherId}", voucherId)
+                        .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("voucher", defaultVoucherService.getVoucher(voucherId)))
+                .andExpect(view().name("/voucher-details"));
+    }
 }
