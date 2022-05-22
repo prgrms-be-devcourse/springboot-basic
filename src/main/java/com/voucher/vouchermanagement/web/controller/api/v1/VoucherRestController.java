@@ -1,8 +1,9 @@
 package com.voucher.vouchermanagement.web.controller.api.v1;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,8 @@ public class VoucherRestController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<VoucherDto>> getByCriteria(VoucherCriteria criteria) {
-		return ResponseEntity.ok(voucherService.findByCriteria(criteria));
+	public ResponseEntity<Page<VoucherDto>> getByCriteria(VoucherCriteria criteria, Pageable pageable) {
+		return ResponseEntity.ok(this.voucherService.findByCriteria(criteria, pageable));
 	}
 
 	@DeleteMapping("/{id}")

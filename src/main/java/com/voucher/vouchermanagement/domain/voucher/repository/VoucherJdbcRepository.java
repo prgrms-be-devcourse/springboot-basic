@@ -13,6 +13,10 @@ import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -39,13 +43,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		);
 	}
 
-	public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+	public Page<Voucher> findByCriteria(VoucherCriteria criteria, Pageable pageable) {
 		String baseSql = "SELECT * FROM vouchers ";
 		String where = "WHERE ";
 		String and = "AND ";
 		String type = "type = :type ";
 		String between = "created_at BETWEEN :startAt AND :endAt ";
-		String orderBy = "ORDER BY created_at";
+
+		Order order = !pageable.getSort().isEmpty() ? pageable.getSort().toList().get(0) : Order.by("id");
 		StringBuilder queryBuilder = new StringBuilder();
 
 		if (criteria.getStartAt() == null && criteria.getEndAt() == null && criteria.getType() == null) {
@@ -59,12 +64,27 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		} else {
 			throw new IllegalArgumentException("잘못된 쿼리 파라미터 입니다.");
 		}
-		queryBuilder.append(orderBy);
+		queryBuilder.append("ORDER BY ")
+			.append(order.getProperty())
+			.append(" ")
+			.append(order.getDirection())
+			.append(" ");
+		queryBuilder.append("LIMIT ")
+			.append(pageable.getPageSize())
+			.append(" ");
+		queryBuilder.append("OFFSET ")
+			.append(pageable.getOffset());
 
-		return jdbcTemplate.query(
+		List<Voucher> vouchers = jdbcTemplate.query(
 			queryBuilder.toString(),
 			toCriteriaParamMap(criteria),
 			voucherRowMapper);
+
+		return new PageImpl<>(vouchers, pageable, count());
+	}
+
+	private int count() {
+		return this.jdbcTemplate.getJdbcTemplate().queryForObject("SELECT COUNT(*) FROM vouchers", Integer.class);
 	}
 
 	@Override

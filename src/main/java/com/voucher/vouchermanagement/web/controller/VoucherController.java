@@ -1,8 +1,9 @@
 package com.voucher.vouchermanagement.web.controller;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,9 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.CreateVoucherRequest;
+import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.VoucherDto;
+import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.domain.voucher.service.VoucherService;
 
 @Controller
@@ -25,8 +27,8 @@ public class VoucherController {
 	}
 
 	@GetMapping("/vouchers")
-	public String vouchersPage(Model model) {
-		List<VoucherDto> vouchers = this.voucherService.findAll();
+	public String vouchersPage(Model model, VoucherCriteria criteria, Pageable pageable) {
+		Page<VoucherDto> vouchers = this.voucherService.findByCriteria(criteria, pageable);
 		model.addAttribute("vouchers", vouchers);
 
 		return "vouchers";
@@ -65,5 +67,4 @@ public class VoucherController {
 
 		return "redirect:/vouchers";
 	}
-
 }

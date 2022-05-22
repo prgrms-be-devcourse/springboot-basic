@@ -8,6 +8,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
@@ -30,7 +32,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+	public Page<Voucher> findByCriteria(VoucherCriteria criteria, Pageable pageable) {
 		return null;
 	}
 

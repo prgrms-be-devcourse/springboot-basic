@@ -5,14 +5,15 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.CreateVoucherRequest;
+import com.voucher.vouchermanagement.domain.voucher.dto.UpdateVoucherRequest;
 import com.voucher.vouchermanagement.domain.voucher.dto.VoucherDto;
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
@@ -76,10 +77,13 @@ public class VoucherService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<VoucherDto> findByCriteria(VoucherCriteria criteria) {
-		return voucherRepository.findByCriteria(criteria)
+	public Page<VoucherDto> findByCriteria(VoucherCriteria criteria, Pageable pageable) {
+		Page<Voucher> vouchersByPagination = this.voucherRepository.findByCriteria(criteria, pageable);
+		List<VoucherDto> voucherDtos = vouchersByPagination.getContent()
 			.stream()
 			.map(VoucherDto::of)
 			.collect(Collectors.toList());
+
+		return new PageImpl<>(voucherDtos, pageable, vouchersByPagination.getTotalElements());
 	}
 }

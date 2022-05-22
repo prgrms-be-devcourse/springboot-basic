@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
@@ -56,24 +58,9 @@ public class VoucherFileRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+	public Page<Voucher> findByCriteria(VoucherCriteria criteria, Pageable pageable) {
 		return null;
 	}
-
-	/*@Override
-	public List<Voucher> findByType(VoucherType type) {
-		return null;
-	}
-
-	@Override
-	public List<Voucher> findByDate(LocalDateTime startAt, LocalDateTime endAt) {
-		return null;
-	}
-
-	@Override
-	public List<Voucher> findByTypeAndDate(VoucherType type, LocalDateTime startAt, LocalDateTime endAt) {
-		return null;
-	}*/
 
 	@Override
 	public void deleteById(UUID id) {
