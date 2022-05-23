@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
+import org.programmers.kdt.weekly.voucher.exception.InvalidVoucherValueException;
 
 public class FixedAmountVoucher implements Voucher {
 
@@ -31,7 +33,7 @@ public class FixedAmountVoucher implements Voucher {
 
 	private void validation(int value) {
 		if (value <= 0) {
-			throw new IllegalArgumentException("잘못된 입력입니다.");
+			throw new InvalidVoucherValueException("할인 금액은 0 보다 커야합니다. ", ErrorCode.INVALID_REQUEST_VALUE);
 		}
 	}
 

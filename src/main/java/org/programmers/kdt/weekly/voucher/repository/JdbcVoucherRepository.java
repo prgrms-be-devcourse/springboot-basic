@@ -1,5 +1,6 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
+import static java.lang.String.*;
 import static org.programmers.kdt.weekly.utils.UtilFunction.*;
 
 import java.time.LocalDate;
@@ -10,6 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
+import org.programmers.kdt.weekly.voucher.exception.FailedToExecuteSqlException;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.springframework.jdbc.core.RowMapper;
@@ -55,7 +58,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		var update = this.jdbcTemplate.update(insertSql, toParamMap(voucher));
 
 		if (update != SUCCESS) {
-			throw new RuntimeException("Failed to save voucher");
+			throw new FailedToExecuteSqlException(format("insert 실패 voucherId -> {}", voucher.getVoucherId()),
+				ErrorCode.FAILED_INSERT);
 		}
 
 		return voucher;
@@ -67,8 +71,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		var update = this.jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
 		if (update != SUCCESS) {
-			throw new RuntimeException("Failed to update voucher");
+			throw new FailedToExecuteSqlException(format("update 실패 voucherId -> {}", voucher.getVoucherId()),
+				ErrorCode.FAILED_UPDATE);
 		}
+
 		return voucher;
 	}
 

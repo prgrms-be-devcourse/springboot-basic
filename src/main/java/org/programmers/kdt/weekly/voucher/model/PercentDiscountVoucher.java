@@ -7,6 +7,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
+import org.programmers.kdt.weekly.voucher.exception.InvalidVoucherValueException;
 
 public class PercentDiscountVoucher implements Voucher {
 
@@ -33,7 +35,7 @@ public class PercentDiscountVoucher implements Voucher {
 
 	private void validation(int value) {
 		if (value <= 0 || value > 100) {
-			throw new IllegalArgumentException("잘못된 입력입니다.");
+			throw new InvalidVoucherValueException("할인율은 0%보다 크고 100% 이하만 가능합니다.", ErrorCode.INVALID_REQUEST_VALUE);
 		}
 	}
 
