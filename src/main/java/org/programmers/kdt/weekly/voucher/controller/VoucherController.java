@@ -2,7 +2,9 @@ package org.programmers.kdt.weekly.voucher.controller;
 
 import java.util.UUID;
 
-import org.programmers.kdt.weekly.voucher.controller.restController.CreateVoucherRequest;
+import org.programmers.kdt.weekly.voucher.controller.restController.VoucherDto.VoucherCreateRequest;
+import org.programmers.kdt.weekly.voucher.controller.restController.VoucherDto.VoucherUpdateRequest;
+import org.programmers.kdt.weekly.voucher.converter.VoucherConverter;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class VoucherController {
 
 	private final VoucherService voucherService;
+	private final VoucherConverter voucherConverter;
 
-	public VoucherController(VoucherService voucherService) {
+	public VoucherController(VoucherService voucherService,
+		VoucherConverter voucherConverter) {
 		this.voucherService = voucherService;
+		this.voucherConverter = voucherConverter;
 	}
 
 	@GetMapping("/new-voucher")
@@ -29,8 +34,8 @@ public class VoucherController {
 	}
 
 	@PostMapping("/new-voucher")
-	public String create(CreateVoucherRequest createVoucherRequest) {
-		this.voucherService.save(createVoucherRequest.voucherType(), createVoucherRequest.value());
+	public String create(VoucherCreateRequest voucherCreateRequest) {
+		this.voucherService.save(voucherCreateRequest.voucherType(), voucherCreateRequest.value());
 
 		return "redirect:/";
 	}
@@ -46,7 +51,7 @@ public class VoucherController {
 	@GetMapping("/voucher/{voucherId}")
 	public String detail(@PathVariable("voucherId") UUID voucherId, Model model) {
 		var voucher = this.voucherService.findById(voucherId);
-		model.addAttribute("voucher", voucher.get());
+		model.addAttribute("voucher", voucher);
 
 		return "voucher-detail";
 	}
@@ -60,9 +65,10 @@ public class VoucherController {
 
 	@PostMapping("/voucher/{voucherId}")
 	public String update(@PathVariable("voucherId") UUID voucherId,
-		CreateVoucherRequest createVoucherRequest) {
-		var voucher = this.voucherService.findById(voucherId).get();
-		voucher.changeValue(createVoucherRequest.value());
+		VoucherUpdateRequest voucherUpdateRequest) {
+		var voucherResponseDto = this.voucherService.findById(voucherId);
+		var voucher = voucherConverter.convertVoucher(voucherResponseDto);
+		voucher.changeValue(voucherUpdateRequest.value());
 		this.voucherService.update(voucher);
 
 		return "redirect:/voucher";

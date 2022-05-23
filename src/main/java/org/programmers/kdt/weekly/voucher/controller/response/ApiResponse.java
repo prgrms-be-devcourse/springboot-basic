@@ -1,33 +1,30 @@
-package org.programmers.kdt.weekly.voucher.controller.restController;
+package org.programmers.kdt.weekly.voucher.controller.response;
 
 import java.time.LocalDateTime;
+
+import org.springframework.http.HttpStatus;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ApiResponse<T> {
 
-	private int statusCode;
-	private T data;
+	private final T data;
+	private final HttpStatus httpStatus = HttpStatus.OK;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-	private LocalDateTime serverDatetime;
+	private final LocalDateTime serverDatetime;
 
-	public ApiResponse(int statusCode, T data) {
-		this.statusCode = statusCode;
+	public ApiResponse(T data) {
 		this.data = data;
 		this.serverDatetime = LocalDateTime.now();
 	}
 
 	public static <T> ApiResponse<T> ok(T data) {
-		return new ApiResponse<>(200, data);
+		return new ApiResponse<>(data);
 	}
 
-	public static <T> ApiResponse<T> fail(int statusCode, T data) {
-		return new ApiResponse<>(statusCode, data);
-	}
-
-	public int getStatusCode() {
-		return statusCode;
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
 	}
 
 	public T getData() {
