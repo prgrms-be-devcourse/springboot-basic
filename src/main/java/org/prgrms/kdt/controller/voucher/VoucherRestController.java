@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.controller.ApiResponse.OK;
+import static org.prgrms.kdt.controller.ApiResponse.ok;
 
 @RequestMapping("/api/v1/vouchers")
 @RestController
@@ -32,14 +32,14 @@ public class VoucherRestController {
         List<VoucherDto> vouchers = voucherService.findAll().stream()
             .map(VoucherDto::new).toList();
 
-        return OK(vouchers);
+        return ok(vouchers);
     }
 
     @GetMapping("/{id}")
     public ApiResponse<VoucherDto> findById(@PathVariable UUID id) {
         Voucher voucher = voucherService.findById(id);
 
-        return OK(new VoucherDto(voucher));
+        return ok(new VoucherDto(voucher));
     }
 
     @PostMapping
@@ -50,7 +50,7 @@ public class VoucherRestController {
             request.getVoucherType()
         );
 
-        return OK(new VoucherDto(voucher));
+        return ok(new VoucherDto(voucher));
     }
 
     @PatchMapping
@@ -60,7 +60,7 @@ public class VoucherRestController {
             request.getVoucherValue()
         );
 
-        return OK(new VoucherDto(voucher));
+        return ok(new VoucherDto(voucher));
     }
 
     @DeleteMapping("/{id}")

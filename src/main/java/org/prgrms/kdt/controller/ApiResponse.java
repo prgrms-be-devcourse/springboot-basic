@@ -16,11 +16,11 @@ public class ApiResponse<T> {
         this.error = error;
     }
 
-    public static <T> ApiResponse<T> OK(T response) {
+    public static <T> ApiResponse<T> ok(T response) {
         return new ApiResponse<>(true, response, null);
     }
 
-    public static ApiResponse<?> ERROR(Throwable throwable, HttpStatus status) {
+    public static ApiResponse<?> error(Throwable throwable, HttpStatus status) {
         return new ApiResponse<>(false, null, new ApiError(throwable, status));
     }
 

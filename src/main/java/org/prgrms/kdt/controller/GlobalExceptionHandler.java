@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import static org.prgrms.kdt.controller.ApiResponse.ERROR;
+import static org.prgrms.kdt.controller.ApiResponse.error;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     private ResponseEntity<ApiResponse<?>> newResponse(Throwable throwable, HttpStatus status) {
-        return new ResponseEntity<>(ERROR(throwable, status), status);
+        return new ResponseEntity<>(error(throwable, status), status);
     }
 
     @ExceptionHandler({InputException.class, IllegalArgumentException.class})
