@@ -1,0 +1,51 @@
+plugins {
+    id 'org.springframework.boot' version '2.6.6'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.programmers'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '16'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    // Use Maven Central for resolving dependencies.
+    mavenCentral()
+}
+
+dependencies {
+    // boot starter
+    implementation 'org.springframework.boot:spring-boot-starter'
+    // paging
+    implementation 'org.springframework.data:spring-data-commons'
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    // dev-tool
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    // db
+    runtimeOnly 'mysql:mysql-connector-java'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    // java faker
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+    // spring validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation:2.6.3'
+    // ssr
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.7'
+    // test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
