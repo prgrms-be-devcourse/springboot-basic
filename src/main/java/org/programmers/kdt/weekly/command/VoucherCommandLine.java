@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.programmers.kdt.weekly.command.io.Console;
 import org.programmers.kdt.weekly.command.io.InfoMessageType;
-import org.programmers.kdt.weekly.voucher.model.Voucher;
+import org.programmers.kdt.weekly.voucher.controller.restController.VoucherDto.VoucherResponse;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
@@ -60,7 +60,7 @@ public class VoucherCommandLine {
 	}
 
 	private void showVoucherList() {
-		List<Voucher> vouchers = voucherService.getVouchers();
+		List<VoucherResponse> vouchers = voucherService.getVouchers();
 
 		if (vouchers.size() <= 0) {
 			this.console.printInfoMessage(InfoMessageType.VOUCHER_EMPTY);
@@ -68,7 +68,7 @@ public class VoucherCommandLine {
 			return;
 		}
 
-		for (Voucher voucher : vouchers) {
+		for (VoucherResponse voucher : vouchers) {
 			System.out.println(voucher.toString());
 		}
 	}
