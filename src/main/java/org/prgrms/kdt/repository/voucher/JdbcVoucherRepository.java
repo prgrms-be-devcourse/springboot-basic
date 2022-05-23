@@ -9,6 +9,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +19,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.util.DateTimeUtils.localDateTimeOf;
+import static org.prgrms.kdt.util.DateTimeUtils.timestampOf;
 import static org.prgrms.kdt.util.UUIDUtils.toUUID;
 
 @Primary
@@ -66,6 +71,36 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAll(
+        Optional<LocalDate> startDate,
+        Optional<LocalDate> endDate,
+        Optional<VoucherType> type
+    ) {
+        Map<String, Object> params = new HashMap<>();
+        String sql = "SELECT * FROM vouchers";
+
+        if (startDate.isPresent()) {
+            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
+            sql += " created_at >= :startDate";
+            params.put("startDate", timestampOf(startDate.get().atStartOfDay()));
+        }
+
+        if (endDate.isPresent()) {
+            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
+            sql += " created_at <= :endDate";
+            params.put("endDate", timestampOf(endDate.get().atTime(LocalTime.MAX)));
+        }
+
+        if (type.isPresent()) {
+            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
+            sql += " voucher_type = :voucherType";
+            params.put("voucherType", type.get().toString());
+        }
+
+        return jdbcTemplate.query(sql, params, voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.of(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
@@ -81,8 +116,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         long value = resultSet.getLong("value");
         String typeName = resultSet.getString("voucher_type");
         VoucherType voucherType = VoucherType.valueOf(typeName);
+        LocalDateTime createdAt = localDateTimeOf(resultSet.getTimestamp("created_at"));
 
-        return voucherType.createVoucher(voucherId, value);
+        return voucherType.createVoucher(voucherId, value, createdAt);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -91,6 +127,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("value", voucher.getVoucherValue());
         VoucherType voucherType = VoucherType.getVoucherType(voucher.getClass());
         paramMap.put("voucherType", voucherType.toString());
+        paramMap.put("createdAt", timestampOf(voucher.getCreatedAt()));
 
         return paramMap;
     }

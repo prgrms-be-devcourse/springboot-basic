@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +92,11 @@ public class CsvVoucherRepository implements VoucherRepository {
             throw new RuntimeException("failed to get black-list in csv-file : " + e.getMessage());
         }
         return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findAll(Optional<LocalDate> startDate, Optional<LocalDate> endDate, Optional<VoucherType> type) {
+        return null;
     }
 
     @Override

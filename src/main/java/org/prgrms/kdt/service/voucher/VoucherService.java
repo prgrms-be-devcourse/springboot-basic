@@ -5,7 +5,9 @@ import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -47,6 +49,14 @@ public class VoucherService {
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> findAll(
+        Optional<LocalDate> startDate,
+        Optional<LocalDate> endDate,
+        Optional<VoucherType> type
+    ) {
+        return voucherRepository.findAll(startDate, endDate, type);
     }
 
     public Voucher findById(UUID voucherId) {

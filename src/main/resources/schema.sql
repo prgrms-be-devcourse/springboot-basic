@@ -4,9 +4,10 @@ DROP TABLE IF EXISTS customers CASCADE;
 -- 바우처 데이터 입니다.
 create table vouchers
 (
-    voucher_id   BINARY(16) PRIMARY KEY, -- 바우처 PK
-    value        DECIMAL     NOT NULL,   -- 바우처 값
-    voucher_type VARCHAR(50) NOT NULL    -- 바우처 타입
+    voucher_id   BINARY(16) PRIMARY KEY,                          -- 바우처 PK
+    value        DECIMAL     NOT NULL,                            -- 바우처 값
+    voucher_type VARCHAR(50) NOT NULL,                            -- 바우처 타입
+    created_at   DATETIME    NOT NULL DEFAULT CURRENT_TIMESTAMP() -- 바우처 생성일자
 );
 
 -- 고객 데이터 입니다.

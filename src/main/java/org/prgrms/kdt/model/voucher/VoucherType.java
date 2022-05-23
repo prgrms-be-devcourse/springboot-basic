@@ -1,7 +1,9 @@
 package org.prgrms.kdt.model.voucher;
 
+import org.apache.commons.lang3.function.TriFunction;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -21,13 +23,13 @@ public enum VoucherType {
     private final String voucherManual;
     private final String voucherValidationMessage;
     private final Class<?> voucherClass;
-    private final BiFunction<UUID, Long, Voucher> createVoucher;
+    private final TriFunction<UUID, Long, LocalDateTime, Voucher> createVoucher;
 
     VoucherType(String voucherType,
                 String voucherMenual,
                 String voucherValidationMessage,
                 Class<?> voucherClass,
-                BiFunction<UUID, Long, Voucher> createVoucher
+                TriFunction<UUID, Long, LocalDateTime, Voucher> createVoucher
     ) {
         this.voucherType = voucherType;
         this.voucherManual = voucherMenual;
@@ -73,6 +75,10 @@ public enum VoucherType {
     }
 
     public Voucher createVoucher(UUID voucherId, long value) {
-        return this.createVoucher.apply(voucherId, value);
+        return createVoucher(voucherId, value, null);
+    }
+
+    public Voucher createVoucher(UUID voucherId, long value, LocalDateTime createdAt) {
+        return this.createVoucher.apply(voucherId, value, createdAt);
     }
 }
