@@ -1,6 +1,7 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.error.InputException;
+import org.prgrms.kdt.error.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({InputException.class, IllegalArgumentException.class})
     private ResponseEntity<?> handleBadRequestException(Exception e) {
-        logger.warn("Bad request exception occurred: {}", e.getMessage(), e);
+        logger.debug("Bad request exception occurred: {}", e.getMessage(), e);
         return newResponse(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({NotFoundException.class})
+    public ResponseEntity<?> handleNotFoundException(Exception e) {
+        logger.warn("Not found exception occurred: {}", e.getMessage(), e);
+        return newResponse(e, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({Exception.class, RuntimeException.class})

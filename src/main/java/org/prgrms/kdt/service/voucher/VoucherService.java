@@ -1,5 +1,6 @@
 package org.prgrms.kdt.service.voucher;
 
+import org.prgrms.kdt.error.NotFoundException;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
@@ -34,7 +35,7 @@ public class VoucherService {
         checkArgument(voucherId != null, "voucherId must be provided.");
 
         Voucher voucher = voucherRepository.findById(voucherId)
-            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucherId));
+            .orElseThrow(() -> new NotFoundException("Could not found voucher with voucherId=" + voucherId));
 
         voucher.changeValue(voucherValue);
 
@@ -63,6 +64,6 @@ public class VoucherService {
         checkArgument(voucherId != null, "voucherId must be provided.");
 
         return voucherRepository.findById(voucherId)
-            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucherId));
+            .orElseThrow(() -> new NotFoundException("Could not found voucher with voucherId=" + voucherId));
     }
 }
