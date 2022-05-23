@@ -1,5 +1,7 @@
 package com.programmers.order.service;
 
+import static org.mockito.ArgumentMatchers.any;
+
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +29,7 @@ import com.programmers.order.repository.VoucherRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
 
@@ -40,6 +43,11 @@ class VoucherServiceTest {
 	private PercentVoucher percent;
 
 	@BeforeEach
+	void sync() {
+		voucherService = new VoucherService(voucherRepository);
+	}
+
+	@BeforeAll
 	void init() {
 		percent = PercentVoucher.builder()
 				.voucherId(UUID.randomUUID())
@@ -63,15 +71,15 @@ class VoucherServiceTest {
 	@Test
 	void testCreate() {
 		// given
-		BDDMockito.given(voucherRepository.insert(percent)).willReturn(percent);
+		BDDMockito.given(voucherRepository.insert(any())).willReturn(percent);
+
 
 		// when
 		Voucher createdVoucher = voucherService.create(percent);
 
-		log.info("testCreate -> voucherId : {}",percent.getVoucherId());
+		log.info("testCreate -> voucherId : {}", percent.getVoucherId());
 
 		// then
-
 		Assertions.assertThat(createdVoucher).isNotNull();
 		MatcherAssert.assertThat(percent, Matchers.samePropertyValuesAs(createdVoucher));
 	}
@@ -92,21 +100,20 @@ class VoucherServiceTest {
 				.updatedAt(LocalDateTime.now())
 				.build();
 
-		log.info("testUpdate -> voucherId : {}",percent.getVoucherId());
+		log.info("testUpdate -> voucherId : {}", percent.getVoucherId());
 
 		Voucher updated = percent.update(requestUpdate);
 
 		log.info("requestId : {}, id : {}", requestUpdate.getVoucherId(), percent.getVoucherId());
 
 		BDDMockito.given(voucherRepository.findById(requestUpdate.getVoucherId()))
-				.willReturn(Optional.ofNullable(percent));
+				.willReturn(Optional.ofNullable(percent)); // 다시 mocking을 하는데 별개의 repo이다. service.repo랑 여기 repo랑.
 		BDDMockito.given(voucherRepository.update(updated)).willReturn(updated);
 
 		// when
 		Voucher update = voucherService.update(requestUpdate);
 
 		// then
-
 		Assertions.assertThat(update).isNotNull();
 		MatcherAssert.assertThat(percent, Matchers.samePropertyValuesAs(requestUpdate));
 	}
