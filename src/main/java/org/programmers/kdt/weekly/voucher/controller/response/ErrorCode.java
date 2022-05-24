@@ -5,9 +5,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
 	INVALID_REQUEST_VALUE(HttpStatus.BAD_REQUEST),
-	FAILED_INSERT(HttpStatus.NOT_FOUND),
-	FAILED_UPDATE(HttpStatus.NOT_FOUND),
-	NOT_FOUND_BY_VOUCHER_ID(HttpStatus.BAD_REQUEST);
+	NOT_FOUND_VOUCHER_BY_ID(HttpStatus.BAD_REQUEST),
+	FAILED_EXECUTE_QUERY(HttpStatus.INTERNAL_SERVER_ERROR);
 
 	private final HttpStatus statusCode;
 

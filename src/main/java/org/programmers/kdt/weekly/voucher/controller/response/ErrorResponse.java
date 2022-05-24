@@ -2,8 +2,11 @@ package org.programmers.kdt.weekly.voucher.controller.response;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ErrorResponse {
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private final LocalDateTime timestamp = LocalDateTime.now();
 	private final int status;
 	private final String error;

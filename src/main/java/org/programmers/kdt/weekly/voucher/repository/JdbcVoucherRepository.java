@@ -1,6 +1,5 @@
 package org.programmers.kdt.weekly.voucher.repository;
 
-import static java.lang.String.*;
 import static org.programmers.kdt.weekly.utils.UtilFunction.*;
 
 import java.time.LocalDate;
@@ -11,10 +10,10 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
 import org.programmers.kdt.weekly.voucher.exception.FailedToExecuteSqlException;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -58,8 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		var update = this.jdbcTemplate.update(insertSql, toParamMap(voucher));
 
 		if (update != SUCCESS) {
-			throw new FailedToExecuteSqlException(format("insert 실패 voucherId -> {}", voucher.getVoucherId()),
-				ErrorCode.FAILED_INSERT);
+			throw new FailedToExecuteSqlException("insert 실패 voucherId -> " + voucher.getVoucherId());
 		}
 
 		return voucher;
@@ -71,8 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		var update = this.jdbcTemplate.update(updateValueSql, toParamMap(voucher));
 
 		if (update != SUCCESS) {
-			throw new FailedToExecuteSqlException(format("update 실패 voucherId -> {}", voucher.getVoucherId()),
-				ErrorCode.FAILED_UPDATE);
+			throw new FailedToExecuteSqlException("update 실패 voucherId -> " + voucher.getVoucherId());
 		}
 
 		return voucher;
@@ -88,21 +85,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(UUID voucherId) {
 		String selectByIdSql = "SELECT * FROM voucher WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))";
-		var voucher = this.jdbcTemplate.queryForObject(selectByIdSql,
-			Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-			voucherRowMapper);
+		var id = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
 
-		return Optional.ofNullable(voucher);
+		try {
+			return Optional.of(this.jdbcTemplate.queryForObject(selectByIdSql, id, voucherRowMapper));
+		} catch (EmptyResultDataAccessException e) {
+			return Optional.empty();
+		}
 	}
 
 	@Override
 	public List<Voucher> findByType(VoucherType voucherType) {
 		String findByTypeSql = "SELECT * FROM voucher WHERE type = :voucherType";
-		var vouchers = this.jdbcTemplate.query(findByTypeSql,
-			Collections.singletonMap("voucherType", voucherType.toString()),
-			voucherRowMapper);
+		var type = Collections.singletonMap("voucherType", voucherType.toString());
 
-		return vouchers;
+		return this.jdbcTemplate.query(findByTypeSql, type, voucherRowMapper);
 	}
 
 	@Override
@@ -121,8 +118,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findByCreatedAt(LocalDate begin, LocalDate end) {
 		String findByCreatedAtSql = "SELECT * FROM voucher WHERE DATE(created_at) between :begin and :end";
+		var date = Map.of("begin", begin, "end", end);
 
-		return this.jdbcTemplate.query(findByCreatedAtSql, Map.of("begin", begin, "end", end),
-			voucherRowMapper);
+		return this.jdbcTemplate.query(findByCreatedAtSql, date, voucherRowMapper);
 	}
 }

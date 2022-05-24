@@ -2,7 +2,7 @@ package org.programmers.kdt.weekly.voucher.exception;
 
 import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
 
-public class NotFoundEntityByIdException extends RuntimeException{
+public class NotFoundEntityByIdException extends RuntimeException {
 	private final ErrorCode errorCode;
 
 	public NotFoundEntityByIdException(String message, ErrorCode errorCode) {

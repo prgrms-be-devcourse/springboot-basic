@@ -3,11 +3,10 @@ package org.programmers.kdt.weekly.voucher.exception;
 import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
 
 public class FailedToExecuteSqlException extends RuntimeException {
-	private final ErrorCode errorCode;
+	private static final ErrorCode errorCode = ErrorCode.FAILED_EXECUTE_QUERY;
 
-	public FailedToExecuteSqlException(String message, ErrorCode errorCode) {
+	public FailedToExecuteSqlException(String message) {
 		super(message);
-		this.errorCode = errorCode;
 	}
 
 	public ErrorCode getErrorCode() {
