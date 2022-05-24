@@ -1,17 +1,13 @@
 package org.programmers.kdt.weekly.voucher.service;
 
-import static java.lang.String.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.programmers.kdt.weekly.voucher.controller.VoucherDto;
 import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
-import org.programmers.kdt.weekly.voucher.controller.restController.VoucherDto.VoucherResponse;
-import org.programmers.kdt.weekly.voucher.converter.VoucherConverter;
 import org.programmers.kdt.weekly.voucher.exception.NotFoundEntityByIdException;
-import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -22,37 +18,34 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
-	private final VoucherConverter voucherConverter;
 
-	public VoucherService(VoucherRepository voucherRepository,
-		VoucherConverter voucherConverter) {
+	public VoucherService(VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
-		this.voucherConverter = voucherConverter;
 	}
 
 	@Transactional
-	public VoucherResponse save(VoucherType type, int value) {
+	public VoucherDto.Response save(VoucherType type, int value) {
 		var voucher = type.create(UUID.randomUUID(), value);
 		var savedVoucher = this.voucherRepository.insert(voucher);
 
-		return voucherConverter.convertVoucherResponse(savedVoucher);
+		return VoucherDto.Response.from(savedVoucher);
 	}
 
-	public List<VoucherResponse> getVouchers() {
+	public List<VoucherDto.Response> getVouchers() {
 
 		return this.voucherRepository.findAll()
 			.stream()
-			.map(voucherConverter::convertVoucherResponse)
+			.map(VoucherDto.Response::from)
 			.collect(Collectors.toList());
 	}
 
-	public VoucherResponse findById(UUID id) {
+	public VoucherDto.Response getVoucherById(UUID id) {
 		var foundVoucher = this.voucherRepository.findById(id)
 			.orElseThrow(
-				() -> new NotFoundEntityByIdException(format("ID를 찾을 수 없습니다. -> {}", id),
-					ErrorCode.NOT_FOUND_BY_VOUCHER_ID));
+				() -> new NotFoundEntityByIdException("해당 voucher ID를 찾을 수 없습니다. -> " + id,
+					ErrorCode.NOT_FOUND_VOUCHER_BY_ID));
 
-		return voucherConverter.convertVoucherResponse(foundVoucher);
+		return VoucherDto.Response.from(foundVoucher);
 	}
 
 	@Transactional
@@ -61,23 +54,31 @@ public class VoucherService {
 	}
 
 	@Transactional
-	public VoucherResponse update(Voucher voucher) {
-		var updatedVoucher = this.voucherRepository.update(voucher);
+	public VoucherDto.Response update(UUID id, int value) {
+		var foundVoucher = this.voucherRepository.findById(id)
+			.orElseThrow(
+				() -> new NotFoundEntityByIdException("해당 voucher ID를 찾을 수 없습니다. -> " + id,
+					ErrorCode.NOT_FOUND_VOUCHER_BY_ID));
 
-		return voucherConverter.convertVoucherResponse(updatedVoucher);
+		foundVoucher.changeValue(value);
+		var updatedVoucher = voucherRepository.update(foundVoucher);
+
+		return VoucherDto.Response.from(updatedVoucher);
 	}
 
-	public List<VoucherResponse> findByType(VoucherType voucherType) {
+	public List<VoucherDto.Response> getVoucherByType(VoucherType voucherType) {
+
 		return this.voucherRepository.findByType(voucherType)
 			.stream()
-			.map(voucherConverter::convertVoucherResponse)
+			.map(VoucherDto.Response::from)
 			.collect(Collectors.toList());
 	}
 
-	public List<VoucherResponse> getVoucherByCreatedAt(LocalDate begin, LocalDate end) {
+	public List<VoucherDto.Response> getVoucherByCreatedAt(LocalDate begin, LocalDate end) {
+
 		return this.voucherRepository.findByCreatedAt(begin, end)
 			.stream()
-			.map(voucherConverter::convertVoucherResponse)
+			.map(VoucherDto.Response::from)
 			.collect(Collectors.toList());
 	}
 }
