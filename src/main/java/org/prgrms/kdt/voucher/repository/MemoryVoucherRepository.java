@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID id) {
 
+    }
+
+    @Override
+    public List<Voucher> searchVoucher(VoucherSearchCriteria criteria) {
+        return null;
     }
 
 }

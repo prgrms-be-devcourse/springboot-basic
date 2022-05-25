@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
 import org.prgrms.kdt.error.VoucherFileException;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.slf4j.Logger;
@@ -63,6 +64,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID id) {
 
+    }
+
+    @Override
+    public List<Voucher> searchVoucher(VoucherSearchCriteria criteria) {
+        return null;
     }
 
     private void write(Voucher voucher) {

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -42,7 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             "insert into vouchers(voucher_id, value, type, created_at)"
                 + " values(UUID_TO_BIN(:id), :value, :type, :createdAt)"
             , toParamMap(voucher));
-        if (update != 1) {
+        if (update == 0) {
             throw new RuntimeException("Noting was inserted"); // 커스텀 예외로 수정해보자
         }
 
@@ -52,6 +53,41 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> searchVoucher(VoucherSearchCriteria criteria) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("select * from vouchers");
+        Map<String, Object> paramMap = new HashMap<>();
+
+        if (criteria.getType() != null) {
+            sb.append(" where type=  :type");
+            paramMap.put("type", criteria.getType());
+            if (criteria.getStartDate() != null && criteria.getEndDate() != null) {
+                sb.append(" AND created_at between :startDate AND :endDate");
+                paramMap.put("startDate", criteria.getStartDate());
+                paramMap.put("endDate", criteria.getEndDate());
+            } else if (criteria.getStartDate() != null) {
+                sb.append(" AND created_at >= :startDate");
+                paramMap.put("startDate", criteria.getStartDate());
+            } else if (criteria.getEndDate() != null) {
+                sb.append(" AND created_at <= :endDate");
+                paramMap.put("endDate", criteria.getEndDate());
+            }
+        } else if (criteria.getStartDate() != null && criteria.getEndDate() != null) {
+            sb.append(" where created_at between :startDate AND :endDate");
+            paramMap.put("startDate", criteria.getStartDate());
+            paramMap.put("endDate", criteria.getEndDate());
+        } else if (criteria.getStartDate() != null) {
+            sb.append(" where created_at >= :startDate");
+            paramMap.put("startDate", criteria.getStartDate());
+        } else if (criteria.getEndDate() != null) {
+            sb.append(" where created_at <= :endDate");
+            paramMap.put("endDate", criteria.getEndDate());
+        }
+
+       return jdbcTemplate.query(sb.toString(), paramMap, voucherRowMapper);
     }
 
     @Override
@@ -70,11 +106,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(UUID id, long value) {
-        jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
-            new HashMap<String,Object>(){{
+        int update = jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
+            new HashMap<String, Object>() {{
                 put("id", id.toString().getBytes());
                 put("value", value);
             }});
+        if (update == 0) {
+            throw new RuntimeException("수정이 일어나지 않았습니다.");
+        }
     }
 
     @Override
