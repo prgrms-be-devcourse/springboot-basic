@@ -42,13 +42,13 @@ public class WebVoucherController {
 
     @PostMapping("/new")
     public String postCreateVoucher(VoucherRequest voucherRequest) {
-        voucherService.createVoucher(voucherRequest.voucherType(), voucherRequest.price());
+        voucherService.createVoucher(voucherRequest.voucherType(), voucherRequest.discount());
         return "redirect:";
     }
 
     @PutMapping("/{id}")
-    public String putUpdateVoucher(@PathVariable String id) {
-        // TODO update logic
+    public String putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
+        voucherService.updateVoucher(UUID.fromString(id), voucherRequest);
         return "redirect:";
     }
 

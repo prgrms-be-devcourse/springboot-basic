@@ -22,6 +22,7 @@ public class PercentDiscountVoucher implements Voucher {
         return voucherId;
     }
 
+    @Override
     public void setDiscount(long percent) {
         this.percent = percent;
     }

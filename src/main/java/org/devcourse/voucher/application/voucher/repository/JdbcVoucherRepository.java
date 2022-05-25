@@ -16,10 +16,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -39,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         );
     }
 
-    private static final Map<String, Object> toIdMap(UUID voucherId) {
+    private static Map<String, Object> toIdMap(UUID voucherId) {
         return Collections.singletonMap("orderId", voucherId.toString().getBytes(StandardCharsets.UTF_8));
     }
 
@@ -92,9 +89,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        return jdbcTemplate.queryForObject("select * from vouchers where voucher_id = :voucherId",
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = :voucherId",
                 toIdMap(voucherId),
-                voucherRowMapper);
+                voucherRowMapper));
     }
 }

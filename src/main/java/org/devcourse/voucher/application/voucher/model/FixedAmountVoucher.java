@@ -18,6 +18,7 @@ public class FixedAmountVoucher implements Voucher {
         return voucherId;
     }
 
+    @Override
     public void setDiscount(long amount) {
         this.amount = amount;
     }

@@ -2,6 +2,7 @@ package org.devcourse.voucher.application.voucher.controller.api;
 
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
 import org.devcourse.voucher.application.voucher.model.Voucher;
+import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.devcourse.voucher.application.voucher.service.VoucherService;
 import org.devcourse.voucher.core.utils.ApiResponse;
 import org.springframework.data.domain.Page;
@@ -37,10 +38,14 @@ public class RestVoucherController {
     @GetMapping("/{id}")
     public ApiResponse<Voucher> getVoucherById(@PathVariable String id) {
         Voucher voucher = voucherService.recallVoucherById(UUID.fromString(id));
+        return ApiResponse.ok(OK, voucher);
     }
 
     @PutMapping("/{id}")
-    public ApiResponse<Voucher> putUpdateVoucher(@PathVariable String id) {
-
+    public ApiResponse<Voucher> putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
+        Voucher voucher = voucherService.updateVoucher(
+                UUID.fromString(id), voucherRequest
+        );
+        return ApiResponse.ok(OK, voucher);
     }
 }

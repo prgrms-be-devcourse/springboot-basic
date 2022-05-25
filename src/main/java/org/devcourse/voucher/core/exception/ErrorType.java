@@ -8,7 +8,8 @@ public enum ErrorType {
     INVALID_COMMAND(ErrorProperties::getInvalidCommand),
     INPUT_NEGATIVE_NUMBERS(ErrorProperties::getInputNegativeNumbers),
     INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),
-    INVALID_TYPE(ErrorProperties::getInvalidType);
+    INVALID_TYPE(ErrorProperties::getInvalidType),
+    NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher);
 
 
     private Supplier<String> error;
