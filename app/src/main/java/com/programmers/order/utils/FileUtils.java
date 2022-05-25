@@ -11,7 +11,6 @@ public class FileUtils {
 	private static final String CSV_EXTENSION = ".csv";
 
 	private FileUtils() {
-
 	}
 
 	public static CsvMapper getCsvMapper() {

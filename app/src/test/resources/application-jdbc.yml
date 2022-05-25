@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mission_order?serverTimezone=Asia/Seoul
+    username: root
+    password:

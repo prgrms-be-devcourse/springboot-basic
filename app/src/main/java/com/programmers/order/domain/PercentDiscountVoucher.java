@@ -1,10 +1,11 @@
 package com.programmers.order.domain;
 
-import static com.programmers.order.domain.constraint.Voucher.*;
+import static com.programmers.order.domain.constraint.VoucherConstraint.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.programmers.order.dto.VoucherDto;
 import com.programmers.order.exception.DomainException;
 import com.programmers.order.message.ErrorMessage;
 import com.programmers.order.type.VoucherType;
@@ -14,13 +15,27 @@ public class PercentDiscountVoucher implements Voucher {
 	private final long percent;
 	private final LocalDateTime createdAt;
 
-	public PercentDiscountVoucher(UUID voucherId, long percent) {
+	private PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+		this.voucherId = voucherId;
+		this.percent = percent;
+		this.createdAt = createdAt;
+	}
+
+	private PercentDiscountVoucher(UUID voucherId, long percent) {
 		if (PERCENT_VOUCHER.isViolate(percent)) {
 			throw new DomainException.ConstraintException(ErrorMessage.CLIENT_ERROR);
 		}
 		this.voucherId = voucherId;
 		this.percent = percent;
 		this.createdAt = LocalDateTime.now();
+	}
+
+	public static PercentDiscountVoucher create(long percent) {
+		return new PercentDiscountVoucher(UUID.randomUUID(), percent);
+	}
+
+	public static PercentDiscountVoucher build(VoucherDto.Resolver resolver) {
+		return new PercentDiscountVoucher(resolver.getId(), resolver.getDiscountValue(), resolver.getCreatedAt());
 	}
 
 	@Override
@@ -45,12 +60,15 @@ public class PercentDiscountVoucher implements Voucher {
 
 	@Override
 	public String show() {
-		return "voucher type : " + getVoucherType() + ", percent : " + percent;
+		return "voucherId=" + voucherId +
+				", voucherType='" + this.getVoucherType() + '\'' +
+				", discountValue='" + this.percent + '\'' +
+				", createdAt=" + createdAt;
 	}
 
 	@Override
 	public long discount(long beforeDiscount) {
-		return beforeDiscount - (percent / 100) * 100;
+		return (long)(beforeDiscount * (1 - (double)percent / 100));
 	}
 
 	@Override

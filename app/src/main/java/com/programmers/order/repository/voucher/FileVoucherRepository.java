@@ -1,4 +1,4 @@
-package com.programmers.order.repository;
+package com.programmers.order.repository.voucher;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +21,8 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.programmers.order.domain.Voucher;
 import com.programmers.order.dto.VoucherForCsv;
 import com.programmers.order.exception.FileException;
-import com.programmers.order.message.ErrorLogMessage;
 import com.programmers.order.message.ErrorMessage;
+import com.programmers.order.message.LogMessage;
 import com.programmers.order.utils.FileUtils;
 
 @Profile("file")
@@ -33,20 +35,19 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final boolean CONTINUE_WRITING = true;
 
 	@Override
-	public Voucher saveVoucher(Voucher voucher) {
+	public Voucher insert(Voucher voucher) {
 
 		File csvFile = this.getCsvFile();
 		ObjectWriter writer = this.getWriter();
-		log.info("path : {}", csvFile.getPath());
 		try (OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(csvFile, CONTINUE_WRITING));) {
 			writer.writeValues(output)
 					.write(voucher);
 			output.flush();
 		} catch (FileNotFoundException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_FOUND_FILE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_FOUND_FILE);
 			e.printStackTrace();
 		} catch (IOException e) {
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.IO_EXCEPTION);
 			e.printStackTrace();
 		}
 
@@ -54,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> getVouchers() {
+	public List<Voucher> findAll() {
 		CsvMapper csvMapper = FileUtils.getCsvMapper();
 		CsvSchema schema = FileUtils.getSchemaWithHeader(VoucherForCsv.class);
 
@@ -69,10 +70,25 @@ public class FileVoucherRepository implements VoucherRepository {
 			return it.readAll();
 		} catch (IOException e) {
 			e.printStackTrace();
-			log.error("error : {}", ErrorLogMessage.IO_EXCEPTION);
+			log.error("error : {}", LogMessage.ErrorLogMessage.IO_EXCEPTION);
 		}
 
 		return List.of();
+	}
+
+	@Override
+	public Optional<Voucher> findById(UUID voucherId) {
+		return Optional.empty();
+	}
+
+	@Override
+	public void delete(UUID voucherId) {
+
+	}
+
+	@Override
+	public int exsitsByVocuher(UUID voucherId) {
+		return 0;
 	}
 
 	private ObjectWriter getWriter() {
@@ -105,10 +121,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
 		} catch (IOException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.IO_EXCEPTION);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.IO_EXCEPTION);
 		} catch (FileException.NotCreateFileException exception) {
 			exception.printStackTrace();
-			log.error(ErrorLogMessage.getLogPrefix(), ErrorLogMessage.NOT_CREATE_FILE);
+			log.error(LogMessage.ErrorLogMessage.getPrefix(), LogMessage.ErrorLogMessage.NOT_CREATE_FILE);
 		}
 	}
 

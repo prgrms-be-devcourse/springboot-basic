@@ -1,7 +1,7 @@
 package com.programmers.order.io;
 
-import com.programmers.order.message.BasicMessage;
+import com.programmers.order.message.Message;
 
-public interface Input {
-	String read(BasicMessage message);
+public interface Input{
+	String read(Message message);
 }

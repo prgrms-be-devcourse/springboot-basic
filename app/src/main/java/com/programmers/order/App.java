@@ -11,16 +11,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.programmers.order.controller.VoucherController;
+import com.programmers.order.controller.Controller;
+import com.programmers.order.controller.ControllerManager;
+import com.programmers.order.io.Input;
+import com.programmers.order.message.BasicMessage;
+import com.programmers.order.type.ProgramType;
 
 @SpringBootApplication
 public class App {
 	private static final Logger logger = LoggerFactory.getLogger(App.class);
 
-	private final VoucherController voucherController;
+	private final Input input;
+	private final ControllerManager controllerManager;
 
-	public App(VoucherController voucherController) {
-		this.voucherController = voucherController;
+	public App(Input input, ControllerManager controllerManager) {
+		this.input = input;
+		this.controllerManager = controllerManager;
 	}
 
 	public static void main(String[] args) {
@@ -31,7 +37,15 @@ public class App {
 	public CommandLineRunner commandLineRunner(ApplicationContext applicationContext) {
 		logger.info("voucher management system start !");
 		return args -> {
-			voucherController.run();
+			ProgramType program = ProgramType.NONE;
+			do {
+				String programType = input.read(BasicMessage.CommonMessage.PROGRAM_INIT);
+				program = ProgramType.of(programType);
+				Controller controller = controllerManager.of(program.getBeanName());
+
+				controller.run();
+			} while (program.isNotExit());
 		};
+
 	}
 }
