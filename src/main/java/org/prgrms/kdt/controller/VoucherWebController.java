@@ -27,12 +27,9 @@ public class VoucherWebController {
 
     @GetMapping
     public String vouchersPage(Model model) {
-        List<VouchersResponse> vouchers = voucherService.getVouchers().stream()
-            .map(voucher -> new VouchersResponse(
-                voucher.getId(),
-                voucher.getValue(),
-                voucher.getVoucherType(),
-                voucher.getCreatedAt()))
+        List<VouchersResponse> vouchers = voucherService.getVouchers()
+            .stream()
+            .map(VouchersResponse::of)
             .toList();
         model.addAttribute("vouchers", vouchers);
 
