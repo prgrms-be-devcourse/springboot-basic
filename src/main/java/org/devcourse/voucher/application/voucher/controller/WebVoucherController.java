@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/voucher")
@@ -46,13 +47,13 @@ public class WebVoucherController {
     }
 
     @PutMapping("/{id}")
-    public String putUpdateVoucher() {
+    public String putUpdateVoucher(@PathVariable String id) {
         // TODO update logic
         return "redirect:";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteRemoveVoucher() {
+    public String deleteRemoveVoucher(@PathVariable String id) {
         // TODO delete logic
         return "redirect:";
     }

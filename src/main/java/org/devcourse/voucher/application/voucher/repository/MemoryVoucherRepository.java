@@ -51,4 +51,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
         store.clear();
     }
 
+    @Override
+    public Voucher findById(UUID voucherId) {
+        if (!store.containsKey(voucherId)) {
+            throw new IllegalArgumentException("존재하지 않는 ID");
+        }
+        return store.get(voucherId);
+    }
+
 }

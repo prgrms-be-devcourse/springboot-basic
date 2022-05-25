@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -30,5 +32,15 @@ public class RestVoucherController {
     public ApiResponse<Page<Voucher>> getVoucherList(Pageable pageable) {
         Page<Voucher> vouchers = voucherService.recallAllVoucher(pageable);
         return ApiResponse.ok(OK, vouchers);
+    }
+
+    @GetMapping("/{id}")
+    public ApiResponse<Voucher> getVoucherById(@PathVariable String id) {
+        Voucher voucher = voucherService.recallVoucherById(UUID.fromString(id));
+    }
+
+    @PutMapping("/{id}")
+    public ApiResponse<Voucher> putUpdateVoucher(@PathVariable String id) {
+
     }
 }

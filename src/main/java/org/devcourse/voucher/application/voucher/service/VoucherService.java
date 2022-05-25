@@ -35,4 +35,7 @@ public class VoucherService {
         return voucherRepository.findAll(pageable);
     }
 
+    public Voucher recallVoucherById(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
 }
