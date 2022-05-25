@@ -3,6 +3,7 @@ package org.prgrms.kdt.controller.dto;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.prgrms.kdt.view.VoucherMenu;
+import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 
 public class VouchersResponse {
@@ -18,6 +19,15 @@ public class VouchersResponse {
         this.value = value;
         this.type = type;
         this.createdAt = createdAt;
+    }
+
+    public static VouchersResponse of(Voucher voucher) {
+        return new VouchersResponse(
+            voucher.getId(),
+            voucher.getValue(),
+            voucher.getVoucherType(),
+            voucher.getCreatedAt()
+        );
     }
 
     public UUID getId() {
