@@ -2,3 +2,5 @@ error:
   invalidCommand: "Invalid command entered."
   inputNegativeNumbers: "A value of 0 or less has been entered."
   inputNotNumbers: "You must enter only numbers."
+  invalidType: "Invalid Type entered."
+  notFoundVoucher: "해당 바우처를 찾을 수 없습니다"
