@@ -3,6 +3,8 @@ package org.prgrms.kdt.voucher.service;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
+import org.prgrms.kdt.controller.dto.VouchersResponse;
 import org.prgrms.kdt.error.VoucherNotFoundException;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
@@ -28,6 +30,7 @@ public class VoucherService {
         log.info("바우처를 생성합니다. => [타입 : {}] [값 : {}]", voucherMenu, discountValue);
         Voucher voucher = voucherMenu.create(discountValue);
         voucherRepository.save(voucher);
+
         return voucher;
     }
 
@@ -53,6 +56,10 @@ public class VoucherService {
     @Transactional
     public void deleteVouchers() {
         voucherRepository.deleteAll();
+    }
+
+    public List<Voucher> searchVouchers(VoucherSearchCriteria criteria) {
+        return voucherRepository.searchVoucher(criteria);
     }
 
 }
