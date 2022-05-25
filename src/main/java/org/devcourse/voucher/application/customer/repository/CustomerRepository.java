@@ -1,0 +1,15 @@
+package org.devcourse.voucher.application.customer.repository;
+
+import org.devcourse.voucher.application.customer.model.Customer;
+
+import java.util.List;
+
+public interface CustomerRepository {
+    Customer insert(Customer customer);
+
+    List<Customer> findAll();
+
+    Customer update(Customer customer);
+
+    void deleteAll();
+}

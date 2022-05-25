@@ -1,8 +1,9 @@
 package org.devcourse.voucher.customer.repository;
 
 import org.assertj.core.api.Assertions;
-import org.devcourse.voucher.customer.model.Customer;
-import org.devcourse.voucher.customer.model.Email;
+import org.devcourse.voucher.application.customer.model.Customer;
+import org.devcourse.voucher.application.customer.model.Email;
+import org.devcourse.voucher.application.customer.repository.BlacklistRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class CsvBlacklistRepositoryTest {

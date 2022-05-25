@@ -1,12 +1,14 @@
 package org.devcourse.voucher.voucher.model;
 
+import org.devcourse.voucher.application.voucher.model.FixedAmountVoucher;
+import org.devcourse.voucher.application.voucher.model.PercentDiscountVoucher;
+import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.devcourse.voucher.voucher.model.VoucherType.*;
 
 class VoucherTypeTest {
 

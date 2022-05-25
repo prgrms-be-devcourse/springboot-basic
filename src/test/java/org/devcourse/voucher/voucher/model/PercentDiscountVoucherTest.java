@@ -1,7 +1,6 @@
 package org.devcourse.voucher.voucher.model;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Disabled;
+import org.devcourse.voucher.application.voucher.model.PercentDiscountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

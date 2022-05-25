@@ -1,0 +1,32 @@
+package org.devcourse.voucher.application.customer.service;
+
+import org.devcourse.voucher.application.customer.model.Customer;
+import org.devcourse.voucher.application.customer.model.Email;
+import org.devcourse.voucher.application.customer.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.UUID;
+
+@Transactional
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+    private final CustomerRepository customerRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+    @Override
+    public Customer createCustomer(String name, Email email) {
+        Customer customer = new Customer(UUID.randomUUID(), name, email);
+        return customerRepository.insert(customer);
+    }
+
+    @Override
+    public List<Customer> recallAllCustomer() {
+        return customerRepository.findAll();
+    }
+}

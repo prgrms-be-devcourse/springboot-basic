@@ -1,15 +1,15 @@
 package org.devcourse.voucher;
 
-import org.devcourse.voucher.error.ErrorType;
-import org.devcourse.voucher.voucher.controller.api.VoucherController;
-import org.devcourse.voucher.customer.controller.CustomerController;
-import org.devcourse.voucher.menu.model.CreateMenuType;
-import org.devcourse.voucher.menu.model.MainMenuType;
-import org.devcourse.voucher.menu.model.ListMenuType;
-import org.devcourse.voucher.view.console.Input;
-import org.devcourse.voucher.view.console.Output;
-import org.devcourse.voucher.voucher.controller.dto.CreateVoucherRequest;
-import org.devcourse.voucher.voucher.model.VoucherType;
+import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
+import org.devcourse.voucher.core.exception.ErrorType;
+import org.devcourse.voucher.application.voucher.controller.api.VoucherController;
+import org.devcourse.voucher.application.customer.controller.api.CustomerController;
+import org.devcourse.voucher.core.menu.model.CreateMenuType;
+import org.devcourse.voucher.core.menu.model.MainMenuType;
+import org.devcourse.voucher.core.menu.model.ListMenuType;
+import org.devcourse.voucher.core.view.console.Input;
+import org.devcourse.voucher.core.view.console.Output;
+import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
 
@@ -64,7 +64,7 @@ public class ConsoleVoucherManager {
         while (discount <= MIN_PRICE) {
             discount = inputDiscount();
         }
-        voucherController.postCreateVoucher(new CreateVoucherRequest(voucherType, discount));
+        voucherController.postCreateVoucher(new VoucherRequest(voucherType, discount));
     }
 
     private void selectCreate() {

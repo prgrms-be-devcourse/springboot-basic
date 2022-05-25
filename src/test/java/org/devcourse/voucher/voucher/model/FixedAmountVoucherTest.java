@@ -1,6 +1,6 @@
 package org.devcourse.voucher.voucher.model;
 
-import org.assertj.core.api.Assertions;
+import org.devcourse.voucher.application.voucher.model.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
