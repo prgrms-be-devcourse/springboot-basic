@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.devcourse.voucher.application.voucher.model.VoucherType.FIXED_AMOUNT_VOUCHER;
+import static org.devcourse.voucher.application.voucher.model.VoucherType.PERCENT_DISCOUNT_VOUCHER;
 
 class VoucherTypeTest {
 

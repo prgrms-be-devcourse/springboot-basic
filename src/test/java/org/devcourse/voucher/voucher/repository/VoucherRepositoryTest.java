@@ -10,13 +10,13 @@ import org.devcourse.voucher.core.exception.DataUpdateFailException;
 import org.devcourse.voucher.application.voucher.model.FixedAmountVoucher;
 import org.devcourse.voucher.application.voucher.model.PercentDiscountVoucher;
 import org.devcourse.voucher.application.voucher.model.Voucher;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -36,6 +36,8 @@ class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    Pageable pageable;
+
     private final FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
 
     @BeforeAll
@@ -54,6 +56,11 @@ class VoucherRepositoryTest {
     @AfterAll
     static void cleanup() {
         embeddedMysql.stop();
+    }
+
+    @BeforeEach
+    void init() {
+        pageable = Pageable.ofSize(5);
     }
 
     private List<Voucher> vouchersStubCreate() {
@@ -77,12 +84,12 @@ class VoucherRepositoryTest {
 
     @Test
     @DisplayName("데이터베이스에 값이 잘 들어가는지 확인하는 테스트")
-    void customerInsertTest() {
+    void insertTest() {
         voucherRepository.insert(newVoucher);
 
-        Voucher customer = voucherRepository.findAll().get(0);
+        List<Voucher> vouchers = voucherRepository.findAll(pageable).getContent();
 
-        assertThat(customer).usingRecursiveComparison().isEqualTo(newVoucher);
+        assertThat(vouchers.get(0)).usingRecursiveComparison().isEqualTo(newVoucher);
     }
 
     @Test
@@ -101,7 +108,7 @@ class VoucherRepositoryTest {
         newVoucher.setDiscount(1000);
 
         voucherRepository.update(newVoucher);
-        Voucher customer = voucherRepository.findAll().get(0);
+        Voucher customer = voucherRepository.findAll(pageable).getContent().get(0);
 
         assertThat(customer.getDiscount()).isEqualTo(1000);
     }
@@ -122,7 +129,7 @@ class VoucherRepositoryTest {
         for (Voucher voucher : stubs) {
             voucherRepository.insert(voucher);
         }
-        List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll(pageable).getContent();
 
         assertThat(vouchers).usingRecursiveComparison().isEqualTo(stubs);
     }
@@ -137,6 +144,6 @@ class VoucherRepositoryTest {
         }
         voucherRepository.deleteAll();
 
-        assertThat(voucherRepository.findAll()).isEmpty();
+        assertThat(voucherRepository.findAll(pageable).getContent()).isEmpty();
     }
 }

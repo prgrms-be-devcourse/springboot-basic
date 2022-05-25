@@ -3,13 +3,16 @@ package org.devcourse.voucher.application.voucher.controller.api;
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.service.VoucherService;
+import org.devcourse.voucher.core.utils.ApiResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/voucher")
-public class RestVoucherController implements VoucherController {
+public class RestVoucherController {
 
     private final VoucherService voucherService;
 
@@ -17,15 +20,15 @@ public class RestVoucherController implements VoucherController {
         this.voucherService = voucherService;
     }
 
-    @Override
     @PostMapping("")
-    public Voucher postCreateVoucher(@RequestBody VoucherRequest voucherRequest) {
-        return voucherService.createVoucher(voucherRequest.getVoucherType(), voucherRequest.getPrice());
+    public ApiResponse<Voucher> postCreateVoucher(@RequestBody VoucherRequest voucherRequest) {
+        Voucher voucher = voucherService.createVoucher(voucherRequest.voucherType(), voucherRequest.price());
+        return ApiResponse.ok(OK, voucher);
     }
 
-    @Override
     @GetMapping("")
-    public List<Voucher> getVoucherList() {
-        return voucherService.recallAllVoucher();
+    public ApiResponse<Page<Voucher>> getVoucherList(Pageable pageable) {
+        Page<Voucher> vouchers = voucherService.recallAllVoucher(pageable);
+        return ApiResponse.ok(OK, vouchers);
     }
 }

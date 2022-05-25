@@ -9,13 +9,11 @@ import org.devcourse.voucher.application.customer.model.Customer;
 import org.devcourse.voucher.application.customer.model.Email;
 import org.devcourse.voucher.application.customer.repository.CustomerRepository;
 import org.devcourse.voucher.core.exception.DataUpdateFailException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +35,8 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private CustomerRepository customerRepository;
 
+    private Pageable pageable;
+
     @BeforeAll
     static void setup() {
         MysqldConfig config = MysqldConfig.aMysqldConfig(Version.v8_0_17)
@@ -53,6 +53,11 @@ class JdbcCustomerRepositoryTest {
     @AfterAll
     static void cleanup() {
         embeddedMysql.stop();
+    }
+
+    @BeforeEach
+    void init() {
+        pageable = Pageable.ofSize(5);
     }
 
     private final Customer newCustomer = new Customer(UUID.randomUUID(),
@@ -80,7 +85,7 @@ class JdbcCustomerRepositoryTest {
     void customerInsertTest() {
         customerRepository.insert(newCustomer);
 
-        Customer customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll(pageable).getContent().get(0);
 
         assertThat(customer).usingRecursiveComparison().isEqualTo(newCustomer);
     }
@@ -101,7 +106,7 @@ class JdbcCustomerRepositoryTest {
         newCustomer.setName("yongc");
 
         customerRepository.update(newCustomer);
-        Customer customer = customerRepository.findAll().get(0);
+        Customer customer = customerRepository.findAll(pageable).getContent().get(0);
 
         assertThat(customer.getName()).isEqualTo("yongc");
     }
@@ -122,7 +127,7 @@ class JdbcCustomerRepositoryTest {
         for (Customer customer : stubs) {
             customerRepository.insert(customer);
         }
-        List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll(pageable).getContent();
 
         assertThat(customers).usingRecursiveComparison().isEqualTo(stubs);
     }
@@ -137,6 +142,6 @@ class JdbcCustomerRepositoryTest {
         }
         customerRepository.deleteAll();
 
-        assertThat(customerRepository.findAll()).isEmpty();
+        assertThat(customerRepository.findAll(pageable).getContent()).isEmpty();
     }
 }

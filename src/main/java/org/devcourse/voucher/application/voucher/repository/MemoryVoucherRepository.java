@@ -4,6 +4,9 @@ import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -30,11 +33,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public Page<Voucher> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
         List<Voucher> vouchers = new ArrayList<>();
         store.forEach(((uuid, voucher) -> vouchers.add(voucher)));
-        return vouchers;
+        int st = (int) pageable.getOffset();
+        int ed = Math.min((st + pageable.getPageSize()), vouchers.size());
+
+        return new PageImpl<>(
+                vouchers.subList(st, ed), pageable, vouchers.size()
+        );
     }
 
     @Override

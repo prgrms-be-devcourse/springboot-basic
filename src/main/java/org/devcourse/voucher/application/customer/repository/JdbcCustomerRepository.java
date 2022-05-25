@@ -7,6 +7,9 @@ import org.devcourse.voucher.core.exception.DataUpdateFailException;
 import org.devcourse.voucher.core.utils.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,9 +53,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAll() {
+    public Page<Customer> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
-        return jdbcTemplate.query("select * from customers", customerRowMapper);
+        List<Customer> customers = jdbcTemplate.query("select * from customers", customerRowMapper);
+        int st = (int) pageable.getOffset();
+        int ed = Math.min((st + pageable.getPageSize()), customers.size());
+        return new PageImpl<>(
+                customers.subList(st, ed), pageable, customers.size()
+        );
     }
 
     @Override

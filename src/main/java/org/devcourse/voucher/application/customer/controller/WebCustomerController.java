@@ -4,6 +4,7 @@ import org.devcourse.voucher.application.customer.controller.dto.CreateCustomerR
 import org.devcourse.voucher.application.customer.model.Customer;
 import org.devcourse.voucher.application.customer.model.Email;
 import org.devcourse.voucher.application.customer.service.CustomerService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,8 @@ public class WebCustomerController {
     }
 
     @GetMapping("")
-    public String customerMainPage(Model model) {
-        List<Customer> customers = customerService.recallAllCustomer();
+    public String customerMainPage(Model model, Pageable pageable) {
+        List<Customer> customers = customerService.recallAllCustomer(pageable).getContent();
         model.addAttribute("customers", customers);
         return "customer/index";
     }

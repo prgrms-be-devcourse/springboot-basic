@@ -7,6 +7,10 @@ import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -64,9 +68,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public Page<Voucher> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
-        return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+
+        List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        int st = (int) pageable.getOffset();
+        int ed = Math.min((st + pageable.getPageSize()), vouchers.size());
+
+        return new PageImpl<>(
+                vouchers.subList(st, ed), pageable, vouchers.size()
+        );
     }
 
     @Override

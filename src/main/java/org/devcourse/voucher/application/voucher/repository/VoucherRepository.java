@@ -1,6 +1,8 @@
 package org.devcourse.voucher.application.voucher.repository;
 
 import org.devcourse.voucher.application.voucher.model.Voucher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -9,7 +11,7 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    List<Voucher> findAll();
+    Page<Voucher> findAll(Pageable pageable);
 
     void deleteAll();
 }
