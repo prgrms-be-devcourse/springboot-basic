@@ -63,11 +63,6 @@ public class SqlBuilder {
             return this;
         }
 
-        public Builder WHERE(String condition, String key, Optional<Object> value) {
-            value.ifPresent(o -> this.WHERE(condition, key, o));
-            return this;
-        }
-
         private void appendWhere(String condition, String key, Object value) {
             String prefix = " WHERE ";
             if (sql.indexOf("WHERE") >= 0) {
