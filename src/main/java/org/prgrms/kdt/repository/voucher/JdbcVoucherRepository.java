@@ -2,6 +2,7 @@ package org.prgrms.kdt.repository.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.repository.SqlBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -76,28 +77,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Optional<LocalDate> endDate,
         Optional<VoucherType> type
     ) {
-        Map<String, Object> params = new HashMap<>();
-        String sql = "SELECT * FROM vouchers";
+        SqlBuilder sqlBuilder = SqlBuilder.builder()
+            .SELECT()
+            .FROM("vouchers")
+            .WHERE("created_at >= :startDate", "startDate", startDate.map(date -> timestampOf(date.atStartOfDay())))
+            .WHERE("created_at <= :endDate", "endDate", endDate.map(date -> timestampOf(date.atTime(LocalTime.MAX))))
+            .WHERE("voucher_type = :voucherType", "voucherType", type.map(Enum::toString))
+            .build();
 
-        if (startDate.isPresent()) {
-            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
-            sql += " created_at >= :startDate";
-            params.put("startDate", timestampOf(startDate.get().atStartOfDay()));
-        }
-
-        if (endDate.isPresent()) {
-            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
-            sql += " created_at <= :endDate";
-            params.put("endDate", timestampOf(endDate.get().atTime(LocalTime.MAX)));
-        }
-
-        if (type.isPresent()) {
-            sql += (sql.indexOf("WHERE") == -1) ? " WHERE" : " AND";
-            sql += " voucher_type = :voucherType";
-            params.put("voucherType", type.get().toString());
-        }
-
-        return jdbcTemplate.query(sql, params, voucherRowMapper);
+        return jdbcTemplate.query(
+            sqlBuilder.getSql(),
+            sqlBuilder.getParams(),
+            voucherRowMapper
+        );
     }
 
     @Override
