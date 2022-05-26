@@ -18,20 +18,20 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomers() {
-        return customerRepository.findAll();
+        return this.customerRepository.findAll();
     }
 
     public Customer getCustomer(UUID id) {
-        return customerRepository.findById(id)
+        return this.customerRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
     }
 
     public Customer makeCustomer(Customer customer) {
-        return customerRepository.save(customer);
+        return this.customerRepository.save(customer);
     }
 
     public void deleteCustomers() {
-        customerRepository.deleteAll();
+        this.customerRepository.deleteAll();
     }
 
 }

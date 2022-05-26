@@ -39,7 +39,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update(
+        int update = this.jdbcTemplate.update(
             "insert into vouchers(voucher_id, value, type, created_at)"
                 + " values(UUID_TO_BIN(:id), :value, :type, :createdAt)"
             , toParamMap(voucher));
@@ -52,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        return this.jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
     @Override
@@ -87,14 +87,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             paramMap.put("endDate", criteria.getEndDate());
         }
 
-       return jdbcTemplate.query(sb.toString(), paramMap, voucherRowMapper);
+       return this.jdbcTemplate.query(sb.toString(), paramMap, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
             return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
+                this.jdbcTemplate.queryForObject(
                     "select * from vouchers where voucher_id = UUID_TO_BIN(:id)",
                     Collections.singletonMap("id", id.toString().getBytes()),
                     voucherRowMapper)
@@ -106,7 +106,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(UUID id, long value) {
-        int update = jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
+        int update = this.jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
             new HashMap<String, Object>() {{
                 put("id", id.toString().getBytes());
                 put("value", value);
@@ -118,12 +118,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
+        this.jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
     }
 
     @Override
     public void deleteById(UUID id) {
-        jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:id)",
+        this.jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:id)",
             Collections.singletonMap("id", id.toString().getBytes()));
     }
 

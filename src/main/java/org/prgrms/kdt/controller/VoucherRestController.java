@@ -33,18 +33,18 @@ public class VoucherRestController {
     @GetMapping
     public List<VouchersResponse> vouchers(VoucherSearchCriteria criteria) {
         if (criteria.getType() != null || criteria.getStartDate() != null || criteria.getEndDate() != null) {
-            return voucherService.searchVouchers(criteria)
+            return this.voucherService.searchVouchers(criteria)
                 .stream().map(VouchersResponse::of).toList();
         }
 
-        return voucherService.getVouchers().stream()
+        return this.voucherService.getVouchers().stream()
             .map(VouchersResponse::of)
             .toList();
     }
 
     @GetMapping("/{id}")
     public VoucherResponse voucherDetail(@PathVariable UUID id) {
-        Voucher findVoucher = voucherService.getVoucher(id);
+        Voucher findVoucher = this.voucherService.getVoucher(id);
 
         return new VoucherResponse(
             findVoucher.getId(),
@@ -57,18 +57,18 @@ public class VoucherRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UUID create(@RequestBody CreateVoucherRequest createVoucher) {
-        return voucherService.makeVoucher(VoucherType.of(createVoucher.getType()), createVoucher.getValue())
+        return this.voucherService.makeVoucher(VoucherType.of(createVoucher.getType()), createVoucher.getValue())
             .getId();
     }
 
     @PutMapping("{id}/update")
     public void updateVoucher(@PathVariable UUID id, long value) {
-        voucherService.updateVoucher(id, value);
+        this.voucherService.updateVoucher(id, value);
     }
 
     @DeleteMapping("{id}/delete")
     public void deleteVoucher(@PathVariable UUID id) {
-        voucherService.deleteVoucher(id);
+        this.voucherService.deleteVoucher(id);
     }
 
 }

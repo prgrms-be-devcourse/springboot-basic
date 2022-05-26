@@ -29,37 +29,37 @@ public class VoucherService {
     public Voucher makeVoucher(VoucherType voucherMenu, long discountValue) {
         log.info("바우처를 생성합니다. => [타입 : {}] [값 : {}]", voucherMenu, discountValue);
         Voucher voucher = voucherMenu.create(discountValue);
-        voucherRepository.save(voucher);
+        this.voucherRepository.save(voucher);
 
         return voucher;
     }
 
     @Transactional
     public void updateVoucher(UUID id, long value) {
-        voucherRepository.update(id, value);
+        this.voucherRepository.update(id, value);
     }
 
     public Voucher getVoucher(UUID id) {
-        return voucherRepository.findById(id)
+        return this.voucherRepository.findById(id)
             .orElseThrow(VoucherNotFoundException::new);
     }
 
     public List<Voucher> getVouchers() {
-        return voucherRepository.findAll();
+        return this.voucherRepository.findAll();
     }
 
     @Transactional
     public void deleteVoucher(UUID id) {
-        voucherRepository.deleteById(id);
+        this.voucherRepository.deleteById(id);
     }
 
     @Transactional
     public void deleteVouchers() {
-        voucherRepository.deleteAll();
+        this.voucherRepository.deleteAll();
     }
 
     public List<Voucher> searchVouchers(VoucherSearchCriteria criteria) {
-        return voucherRepository.searchVoucher(criteria);
+        return this.voucherRepository.searchVoucher(criteria);
     }
 
 }
