@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: root1234!
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+        - console-logging
+        - file-logging
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+        - file-logging
+
+---
+
+path:
+  voucher: voucher_file_database.csv
+  blacklist: customer_blacklist.csv
