@@ -3,11 +3,18 @@ package org.programmers.voucher.io;
 import org.programmers.voucher.domain.Voucher;
 import org.programmers.voucher.domain.VoucherType;
 import org.programmers.voucher.util.Command;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class ConsoleOutput implements Output{
+
+    @Override
+    public void startProgram() {
+        System.out.println("=== Voucher Program ===");
+    }
 
     @Override
     public void listCommand() {
@@ -25,6 +32,11 @@ public class ConsoleOutput implements Output{
 
     @Override
     public void listVoucherType() {
-        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.toString()));
+        Arrays.stream(VoucherType.values()).forEach(value -> System.out.println(value.getAlias() + " -> " + value.getDescription()));
+    }
+
+    @Override
+    public void printError(String error) {
+        System.out.println(error);
     }
 }

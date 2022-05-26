@@ -1,5 +1,0 @@
-Spring:
-    FixedAmountVoucher:
-        Amount: 1000
-    PercentDiscountVoucher:
-        Percent: 10
