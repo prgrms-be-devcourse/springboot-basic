@@ -32,8 +32,6 @@ public class VoucherRestController {
 
     @GetMapping
     public List<VouchersResponse> vouchers(VoucherSearchCriteria criteria) {
-        System.out.println(criteria.getType());
-        System.out.println(criteria.getStartDate());
         if (criteria.getType() != null || criteria.getStartDate() != null || criteria.getEndDate() != null) {
             return voucherService.searchVouchers(criteria)
                 .stream().map(VouchersResponse::of).toList();
