@@ -2,9 +2,7 @@ package org.prgrms.kdt.controller.voucher;
 
 import org.prgrms.kdt.controller.ApiResponse;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.service.voucher.VoucherService;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,12 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.kdt.controller.ApiResponse.ok;
@@ -33,12 +28,12 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ApiResponse<List<VoucherDto>> findAll(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> startDate,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> endDate,
-        @RequestParam(required = false) Optional<VoucherType> type
-    ) {
-        List<VoucherDto> vouchers = voucherService.findAll(startDate, endDate, type).stream()
+    public ApiResponse<List<VoucherDto>> findAll(VoucherSearch search) {
+        List<VoucherDto> vouchers = voucherService.findAll(
+                search.getStartDate(),
+                search.getEndDate(),
+                search.getType()
+            ).stream()
             .map(VoucherDto::new).toList();
 
         return ok(vouchers);
