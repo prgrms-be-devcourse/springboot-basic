@@ -4,11 +4,16 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.prgrms.kdt.model.voucher.VoucherType;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 public class CreateVoucherRequest {
     private long voucherValue;
     private VoucherType voucherType;
 
     public CreateVoucherRequest(long voucherValue, VoucherType voucherType) {
+        checkArgument(voucherValue > 0, "voucher-value must be greater than zero.");
+        checkArgument(voucherType != null, "voucher-type must be provided.");
+
         this.voucherValue = voucherValue;
         this.voucherType = voucherType;
     }
