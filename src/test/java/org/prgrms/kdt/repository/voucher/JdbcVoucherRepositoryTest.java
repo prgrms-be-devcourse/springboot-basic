@@ -68,8 +68,8 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.update(fixedVoucher);
 
         // then
-        Voucher updatedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId())
-            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + fixedVoucher.getVoucherId()));
+        Voucher updatedVoucher = voucherRepository.findById(fixedVoucher.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + fixedVoucher.getId()));
         assertThat(updatedVoucher, samePropertyValuesAs(fixedVoucher));
     }
 
@@ -80,10 +80,10 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.insert(fixedVoucher);
 
         // when
-        voucherRepository.delete(fixedVoucher.getVoucherId());
+        voucherRepository.delete(fixedVoucher.getId());
 
         // then
-        Optional<Voucher> deletedVoucher = voucherRepository.findById(fixedVoucher.getVoucherId());
+        Optional<Voucher> deletedVoucher = voucherRepository.findById(fixedVoucher.getId());
         assertThat(deletedVoucher.isEmpty(), is(true));
     }
 }

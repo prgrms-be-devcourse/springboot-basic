@@ -22,7 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
         return voucher;
     }
 

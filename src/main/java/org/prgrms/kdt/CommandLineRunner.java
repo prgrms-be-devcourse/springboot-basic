@@ -68,7 +68,7 @@ public class CommandLineRunner implements Runnable {
         output.printMessage("바우처 타입을 선택해주세요.\n" + VoucherType.getAllVoucherManual());
         VoucherType voucherType = VoucherType.getVoucherType(input.input());
 
-        output.printMessage("바우처 값을 입력해주세요.\n" + voucherType.getVoucherValidationMessage());
+        output.printMessage("바우처 값을 입력해주세요.\n" + voucherType.getValidationMessage());
         long voucherValue = input.inputLong();
 
         Voucher voucher = voucherService.create(UUID.randomUUID(), voucherValue, voucherType);

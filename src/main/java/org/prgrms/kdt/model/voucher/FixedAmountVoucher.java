@@ -11,30 +11,30 @@ import static java.time.LocalDateTime.now;
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
 public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
+    private final UUID id;
     private long amount;
     private LocalDateTime createdAt;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this(voucherId, amount, null);
+    public FixedAmountVoucher(UUID id, long amount) {
+        this(id, amount, null);
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
-        checkArgument(voucherId != null, "voucherId must be provided.");
+    public FixedAmountVoucher(UUID id, long amount, LocalDateTime createdAt) {
+        checkArgument(id != null, "voucherId must be provided.");
         checkArgument(amount > 0, "amount must be greater than 0");
 
-        this.voucherId = voucherId;
+        this.id = id;
         this.amount = amount;
         this.createdAt = defaultIfNull(createdAt, now());
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getId() {
+        return id;
     }
 
     @Override
-    public long getVoucherValue() {
+    public long getValue() {
         return amount;
     }
 
@@ -60,7 +60,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .append("voucherId", voucherId)
+            .append("voucherId", id)
             .append("amount", amount)
             .toString();
     }

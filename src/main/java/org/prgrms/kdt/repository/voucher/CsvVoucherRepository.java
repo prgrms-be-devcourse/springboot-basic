@@ -48,8 +48,8 @@ public class CsvVoucherRepository implements VoucherRepository {
         try (ICsvMapWriter beanWriter = new CsvMapWriter(new FileWriter(getPathCsvFile(), true), CsvPreference.STANDARD_PREFERENCE)) {
 
             Map<String, String> map = new ConcurrentHashMap<>();
-            map.put(CSV_HEADER[0], voucher.getVoucherId().toString());
-            map.put(CSV_HEADER[1], String.valueOf(voucher.getVoucherValue()));
+            map.put(CSV_HEADER[0], voucher.getId().toString());
+            map.put(CSV_HEADER[1], String.valueOf(voucher.getValue()));
             map.put(CSV_HEADER[2], VoucherType.getVoucherType(voucher.getClass()).toString());
 
             beanWriter.write(map, CSV_HEADER);

@@ -14,8 +14,8 @@ public class VoucherDto {
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     public VoucherDto(Voucher voucher) {
-        this.voucherId = voucher.getVoucherId();
-        this.value = voucher.getVoucherValue();
+        this.voucherId = voucher.getId();
+        this.value = voucher.getValue();
         this.createdAt = voucher.getCreatedAt();
         this.voucherType = VoucherType.getVoucherType(voucher.getClass());
     }
