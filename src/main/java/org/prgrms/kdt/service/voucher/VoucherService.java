@@ -1,11 +1,14 @@
 package org.prgrms.kdt.service.voucher;
 
+import org.prgrms.kdt.error.NotFoundException;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -32,7 +35,7 @@ public class VoucherService {
         checkArgument(voucherId != null, "voucherId must be provided.");
 
         Voucher voucher = voucherRepository.findById(voucherId)
-            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucherId));
+            .orElseThrow(() -> new NotFoundException("Could not found voucher with voucherId=" + voucherId));
 
         voucher.changeValue(voucherValue);
 
@@ -47,5 +50,20 @@ public class VoucherService {
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    public List<Voucher> findAll(
+        Optional<LocalDate> startDate,
+        Optional<LocalDate> endDate,
+        Optional<VoucherType> type
+    ) {
+        return voucherRepository.findAll(startDate, endDate, type);
+    }
+
+    public Voucher findById(UUID voucherId) {
+        checkArgument(voucherId != null, "voucherId must be provided.");
+
+        return voucherRepository.findById(voucherId)
+            .orElseThrow(() -> new NotFoundException("Could not found voucher with voucherId=" + voucherId));
     }
 }

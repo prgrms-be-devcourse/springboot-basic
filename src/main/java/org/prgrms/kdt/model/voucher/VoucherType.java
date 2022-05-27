@@ -1,7 +1,9 @@
 package org.prgrms.kdt.model.voucher;
 
+import org.apache.commons.lang3.function.TriFunction;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -17,62 +19,66 @@ public enum VoucherType {
         PercentDiscountVoucher.class,
         PercentDiscountVoucher::new);
 
-    private final String voucherType;
-    private final String voucherManual;
-    private final String voucherValidationMessage;
-    private final Class<?> voucherClass;
-    private final BiFunction<UUID, Long, Voucher> createVoucher;
+    private final String type;
+    private final String manual;
+    private final String validationMessage;
+    private final Class<?> classType;
+    private final TriFunction<UUID, Long, LocalDateTime, Voucher> createVoucher;
 
-    VoucherType(String voucherType,
-                String voucherMenual,
-                String voucherValidationMessage,
-                Class<?> voucherClass,
-                BiFunction<UUID, Long, Voucher> createVoucher
+    VoucherType(String type,
+                String manual,
+                String validationMessage,
+                Class<?> classType,
+                TriFunction<UUID, Long, LocalDateTime, Voucher> createVoucher
     ) {
-        this.voucherType = voucherType;
-        this.voucherManual = voucherMenual;
-        this.voucherValidationMessage = voucherValidationMessage;
-        this.voucherClass = voucherClass;
+        this.type = type;
+        this.manual = manual;
+        this.validationMessage = validationMessage;
+        this.classType = classType;
         this.createVoucher = createVoucher;
     }
 
-    public String getVoucherType() {
-        return voucherType;
+    public String getType() {
+        return type;
     }
 
-    public String getVoucherManual() {
-        return voucherManual;
+    public String getManual() {
+        return manual;
     }
 
-    public String getVoucherValidationMessage() {
-        return voucherValidationMessage;
+    public String getValidationMessage() {
+        return validationMessage;
     }
 
-    public Class<?> getVoucherClass() {
-        return voucherClass;
+    public Class<?> getClassType() {
+        return classType;
     }
 
     public static VoucherType getVoucherType(String voucherType) {
         return Stream.of(VoucherType.values())
-                .filter(type -> type.getVoucherType().equalsIgnoreCase(voucherType))
+                .filter(type -> type.getType().equalsIgnoreCase(voucherType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 바우처 타입입니다."));
     }
 
     public static VoucherType getVoucherType(Class<?> voucherClass) {
         return Stream.of(VoucherType.values())
-                .filter(type -> type.getVoucherClass() == voucherClass)
+                .filter(type -> type.getClassType() == voucherClass)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 바우처 타입입니다."));
     }
 
     public static String getAllVoucherManual() {
         return Stream.of(VoucherType.values())
-                .map(VoucherType::getVoucherManual)
+                .map(VoucherType::getManual)
                 .collect(Collectors.joining("\n"));
     }
 
     public Voucher createVoucher(UUID voucherId, long value) {
-        return this.createVoucher.apply(voucherId, value);
+        return createVoucher(voucherId, value, null);
+    }
+
+    public Voucher createVoucher(UUID voucherId, long value, LocalDateTime createdAt) {
+        return this.createVoucher.apply(voucherId, value, createdAt);
     }
 }

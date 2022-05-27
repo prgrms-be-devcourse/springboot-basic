@@ -56,7 +56,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처가 생성된다.")
     void testCreate() {
-        voucherService.create(newVoucher.getVoucherId(), newVoucher.getVoucherValue(), newVoucherType);
+        voucherService.create(newVoucher.getId(), newVoucher.getValue(), newVoucherType);
         List<Voucher> vouchers = voucherService.findAll();
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers.size(), is(1));
@@ -67,7 +67,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 생성에 실패한다.")
     void testError_Create() {
         assertThrows(IllegalArgumentException.class, () -> {
-            voucherService.create(null, newVoucher.getVoucherValue(), newVoucherType);
+            voucherService.create(null, newVoucher.getValue(), newVoucherType);
             voucherService.create(UUID.randomUUID(), 0, VoucherType.FIXED_AMOUNT);
             voucherService.create(UUID.randomUUID(), 0, VoucherType.PERCENT_DISCOUNT);
             voucherService.create(UUID.randomUUID(), 101, VoucherType.PERCENT_DISCOUNT);
@@ -82,30 +82,30 @@ class VoucherServiceTest {
         // given
         long updatedValue = 1L;
 
-        Voucher voucher = voucherService.create(newVoucher.getVoucherId(), newVoucher.getVoucherValue(), VoucherType.FIXED_AMOUNT);
+        Voucher voucher = voucherService.create(newVoucher.getId(), newVoucher.getValue(), VoucherType.FIXED_AMOUNT);
 
         // when
-        voucherService.update(newVoucher.getVoucherId(), updatedValue);
+        voucherService.update(newVoucher.getId(), updatedValue);
 
         // then
-        Voucher updatedVoucher = voucherRepository.findById(newVoucher.getVoucherId())
-            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucher.getVoucherId()));
+        Voucher updatedVoucher = voucherRepository.findById(newVoucher.getId())
+            .orElseThrow(() -> new IllegalArgumentException("Could not found voucher with voucherId=" + voucher.getId()));
 
-        assertThat(updatedVoucher.getVoucherValue(), is(updatedValue));
+        assertThat(updatedVoucher.getValue(), is(updatedValue));
     }
 
     @Test
     @DisplayName("바우처 수정에 실패한다.")
     void testError_Update() {
-        Voucher fixedVoucher = voucherService.create(newVoucher.getVoucherId(), newVoucher.getVoucherValue(), VoucherType.FIXED_AMOUNT);
+        Voucher fixedVoucher = voucherService.create(newVoucher.getId(), newVoucher.getValue(), VoucherType.FIXED_AMOUNT);
         Voucher percentVoucher = voucherService.create(UUID.randomUUID(), 1L, VoucherType.PERCENT_DISCOUNT);
 
         assertThrows(IllegalArgumentException.class, () -> {
             voucherService.update(null, 1L);
             voucherService.update(UUID.randomUUID(), 1L);
-            voucherService.update(fixedVoucher.getVoucherId(), 0L);
-            voucherService.update(percentVoucher.getVoucherId(), 0L);
-            voucherService.update(percentVoucher.getVoucherId(), 101L);
+            voucherService.update(fixedVoucher.getId(), 0L);
+            voucherService.update(percentVoucher.getId(), 0L);
+            voucherService.update(percentVoucher.getId(), 101L);
         });
     }
 
@@ -113,13 +113,13 @@ class VoucherServiceTest {
     @DisplayName("바우처가 삭제된다.")
     void testDelete() {
         // given
-        voucherService.create(newVoucher.getVoucherId(), newVoucher.getVoucherValue(), VoucherType.FIXED_AMOUNT);
+        voucherService.create(newVoucher.getId(), newVoucher.getValue(), VoucherType.FIXED_AMOUNT);
         List<Voucher> vouchers = voucherService.findAll();
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers.size(), is(1));
 
         // when
-        voucherService.delete(newVoucher.getVoucherId());
+        voucherService.delete(newVoucher.getId());
 
         // then
         List<Voucher> afterVouchers = voucherService.findAll();

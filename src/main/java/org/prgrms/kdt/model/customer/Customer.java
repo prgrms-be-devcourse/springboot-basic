@@ -11,37 +11,37 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.prgrms.kdt.model.customer.CustomerType.NORMAL;
 
 public class Customer {
-    private UUID customerId;
+    private UUID id;
     private String name;
-    private CustomerType customerType;
+    private CustomerType type;
 
-    public Customer(UUID customerId, String name, CustomerType customerType) {
-        checkArgument(customerId != null, "customerId must be provided.");
+    public Customer(UUID id, String name, CustomerType type) {
+        checkArgument(id != null, "customerId must be provided.");
         checkArgument(isNotEmpty(name), "customerName must be provided.");
 
-        this.customerId = customerId;
+        this.id = id;
         this.name = name;
-        this.customerType = defaultIfNull(customerType, NORMAL);
+        this.type = defaultIfNull(type, NORMAL);
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public CustomerType getCustomerType() {
-        return customerType;
+    public CustomerType getType() {
+        return type;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-            .append("customerId", customerId)
+            .append("customerId", id)
             .append("name", name)
-            .append("customerType", customerType)
+            .append("customerType", type)
             .toString();
     }
 }

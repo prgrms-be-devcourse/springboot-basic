@@ -65,9 +65,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        paramMap.put("customerId", customer.getId().toString().getBytes());
         paramMap.put("name", customer.getName());
-        paramMap.put("customerType", customer.getCustomerType().toString());
+        paramMap.put("customerType", customer.getType().toString());
         return paramMap;
     }
 }
