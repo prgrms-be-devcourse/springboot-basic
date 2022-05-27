@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.prgrms.kdt.controller.dto.CreateVoucherRequest;
 import org.prgrms.kdt.controller.dto.VoucherResponse;
 import org.prgrms.kdt.controller.dto.VouchersResponse;
@@ -56,9 +57,8 @@ public class VoucherWebController {
     }
 
     @PostMapping("/new-voucher")
-    public String newVoucher(CreateVoucherRequest voucherRequest) {
-        this.voucherService.makeVoucher(VoucherType.of(voucherRequest.getType()),
-            voucherRequest.getValue());
+    public String newVoucher(@Valid CreateVoucherRequest voucherRequest) {
+        this.voucherService.makeVoucher(voucherRequest.getType(), voucherRequest.getValue());
 
         return "redirect:/vouchers";
     }

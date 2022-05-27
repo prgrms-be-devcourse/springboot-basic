@@ -1,22 +1,27 @@
 package org.prgrms.kdt.controller.dto;
 
-import org.prgrms.kdt.view.VoucherMenu;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import org.prgrms.kdt.voucher.model.VoucherType;
 
 public class CreateVoucherRequest {
 
-    private long value;
-    private String type;
+    @Min(value = 0, message = "최솟값은 0이상이어야 합니다.")
+    private Long value;
+    @NotNull(message = "타입은 필수입니다.")
+    private VoucherType type;
 
-    public CreateVoucherRequest(long value, String type) {
+    public CreateVoucherRequest(Long value, VoucherType type) {
         this.value = value;
         this.type = type;
     }
 
-    public long getValue() {
+    public Long getValue() {
         return value;
     }
 
-    public String getType() {
+    public VoucherType getType() {
         return type;
     }
 

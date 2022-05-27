@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 import java.util.UUID;
+import javax.validation.Valid;
 import org.prgrms.kdt.controller.dto.CreateVoucherRequest;
 import org.prgrms.kdt.controller.dto.VoucherResponse;
 import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
@@ -10,6 +11,8 @@ import org.prgrms.kdt.voucher.model.Voucher;
 import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,8 +59,8 @@ public class VoucherRestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UUID create(@RequestBody CreateVoucherRequest createVoucher) {
-        return this.voucherService.makeVoucher(VoucherType.of(createVoucher.getType()), createVoucher.getValue())
+    public UUID create(@Valid @RequestBody CreateVoucherRequest createVoucher) {
+        return this.voucherService.makeVoucher(createVoucher.getType(), createVoucher.getValue())
             .getId();
     }
 
