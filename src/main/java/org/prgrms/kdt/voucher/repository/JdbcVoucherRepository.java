@@ -40,8 +40,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         int update = this.jdbcTemplate.update(
-            "insert into vouchers(voucher_id, value, type, created_at)"
-                + " values(UUID_TO_BIN(:id), :value, :type, :createdAt)"
+            "INSERT INTO vouchers(voucher_id, value, type, created_at)"
+                + " VALUES(UUID_TO_BIN(:id), :value, :type, :createdAt)"
             , toParamMap(voucher));
 
         if (update == 0) {
@@ -53,20 +53,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return this.jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        return this.jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
     }
 
     @Override
     public List<Voucher> searchVoucher(VoucherSearchCriteria criteria) {
         StringBuilder sb = new StringBuilder();
-        sb.append("select * from vouchers");
+        sb.append("SELECT * FROM vouchers");
         Map<String, Object> paramMap = new HashMap<>();
 
         if (criteria.getType() != null) {
-            sb.append(" where type=  :type");
+            sb.append(" WHERE type=  :type");
             paramMap.put("type", criteria.getType());
             if (criteria.getStartDate() != null && criteria.getEndDate() != null) {
-                sb.append(" AND created_at between :startDate AND :endDate");
+                sb.append(" AND created_at BETWEEN :startDate AND :endDate");
                 paramMap.put("startDate", criteria.getStartDate());
                 paramMap.put("endDate", criteria.getEndDate());
             } else if (criteria.getStartDate() != null) {
@@ -77,14 +77,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 paramMap.put("endDate", criteria.getEndDate());
             }
         } else if (criteria.getStartDate() != null && criteria.getEndDate() != null) {
-            sb.append(" where created_at between :startDate AND :endDate");
+            sb.append(" WHERE created_at BETWEEN :startDate AND :endDate");
             paramMap.put("startDate", criteria.getStartDate());
             paramMap.put("endDate", criteria.getEndDate());
         } else if (criteria.getStartDate() != null) {
-            sb.append(" where created_at >= :startDate");
+            sb.append(" WHERE created_at >= :startDate");
             paramMap.put("startDate", criteria.getStartDate());
         } else if (criteria.getEndDate() != null) {
-            sb.append(" where created_at <= :endDate");
+            sb.append(" WHERE created_at <= :endDate");
             paramMap.put("endDate", criteria.getEndDate());
         }
 
@@ -96,7 +96,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                 this.jdbcTemplate.queryForObject(
-                    "select * from vouchers where voucher_id = UUID_TO_BIN(:id)",
+                    "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:id)",
                     Collections.singletonMap("id", id.toString().getBytes()),
                     voucherRowMapper)
             );
@@ -107,7 +107,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(UUID id, long value) {
-        int update = this.jdbcTemplate.update("update vouchers set value = :value where voucher_id = UUID_TO_BIN(:id)",
+        int update = this.jdbcTemplate.update("UPDATE vouchers SET value = :value WHERE voucher_id = UUID_TO_BIN(:id)",
             new HashMap<String, Object>() {{
                 put("id", id.toString().getBytes());
                 put("value", value);
@@ -120,12 +120,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        this.jdbcTemplate.update("delete from vouchers", Collections.emptyMap());
+        this.jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
 
     @Override
     public void deleteById(UUID id) {
-        this.jdbcTemplate.update("delete from vouchers where voucher_id = UUID_TO_BIN(:id)",
+        this.jdbcTemplate.update("DELETE FROM vouchers where voucher_id = UUID_TO_BIN(:id)",
             Collections.singletonMap("id", id.toString().getBytes()));
     }
 
