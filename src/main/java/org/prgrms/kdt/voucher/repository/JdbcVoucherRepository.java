@@ -111,7 +111,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
             new HashMap<String, Object>() {{
                 put("id", id.toString().getBytes());
                 put("value", value);
-            }});
+            }}
+        );
 
         if (update == 0) {
             throw new RuntimeException("수정이 일어나지 않았습니다.");
