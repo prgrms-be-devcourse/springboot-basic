@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.prgrms.kdt.customer.model.Customer;
 import org.prgrms.kdt.customer.repository.CustomerRepository;
+import org.prgrms.kdt.error.CustomerNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class CustomerService {
 
     public Customer getCustomer(UUID id) {
         return this.customerRepository.findById(id)
-            .orElseThrow(NoSuchElementException::new);
+            .orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer makeCustomer(Customer customer) {
