@@ -43,6 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             "insert into vouchers(voucher_id, value, type, created_at)"
                 + " values(UUID_TO_BIN(:id), :value, :type, :createdAt)"
             , toParamMap(voucher));
+
         if (update == 0) {
             throw new RuntimeException("Noting was inserted"); // 커스텀 예외로 수정해보자
         }
@@ -111,6 +112,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 put("id", id.toString().getBytes());
                 put("value", value);
             }});
+
         if (update == 0) {
             throw new RuntimeException("수정이 일어나지 않았습니다.");
         }
