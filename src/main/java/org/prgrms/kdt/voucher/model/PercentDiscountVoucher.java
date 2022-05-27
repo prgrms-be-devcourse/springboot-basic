@@ -67,7 +67,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public VoucherType getType() {
-        return type;
+        return this.type;
     }
 
 }
