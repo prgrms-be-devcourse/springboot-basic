@@ -1,6 +1,7 @@
 package org.prgrms.kdt.controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.prgrms.kdt.controller.dto.CreateVoucherRequest;
@@ -8,11 +9,8 @@ import org.prgrms.kdt.controller.dto.VoucherResponse;
 import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
 import org.prgrms.kdt.controller.dto.VouchersResponse;
 import org.prgrms.kdt.voucher.model.Voucher;
-import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +33,7 @@ public class VoucherRestController {
 
     @GetMapping
     public List<VouchersResponse> vouchers(VoucherSearchCriteria criteria) {
-        if (criteria.getType() != null || criteria.getStartDate() != null || criteria.getEndDate() != null) {
+        if (isCriteriaCheck(criteria)) {
             return this.voucherService.searchVouchers(criteria)
                 .stream().map(VouchersResponse::of).toList();
         }
@@ -64,14 +62,20 @@ public class VoucherRestController {
             .getId();
     }
 
-    @PutMapping("{id}/update")
+    @PutMapping("/{id}")
     public void updateVoucher(@PathVariable UUID id, long value) {
         this.voucherService.updateVoucher(id, value);
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("/{id}")
     public void deleteVoucher(@PathVariable UUID id) {
         this.voucherService.deleteVoucher(id);
+    }
+
+    private boolean isCriteriaCheck(VoucherSearchCriteria criteria) {
+        return Objects.nonNull(criteria.getType()) ||
+            Objects.nonNull(criteria.getStartDate()) ||
+            Objects.nonNull(criteria.getEndDate());
     }
 
 }
