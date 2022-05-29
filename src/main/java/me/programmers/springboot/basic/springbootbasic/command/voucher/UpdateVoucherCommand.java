@@ -9,7 +9,6 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -20,11 +19,11 @@ public class UpdateVoucherCommand implements CommandStrategy {
 
     private final JdbcVoucherService voucherService;
 
-    @Autowired
-    private ConsoleInput consoleInput;
+    private final ConsoleInput consoleInput;
 
-    public UpdateVoucherCommand(JdbcVoucherService voucherService) {
+    public UpdateVoucherCommand(JdbcVoucherService voucherService, ConsoleInput consoleInput) {
         this.voucherService = voucherService;
+        this.consoleInput = consoleInput;
     }
 
     @Override

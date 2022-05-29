@@ -7,7 +7,6 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,12 +15,11 @@ public class CreateVoucherCommand implements CommandStrategy {
     private static final Logger logger = LoggerFactory.getLogger(CommandStrategy.class);
 
     private final JdbcVoucherService voucherService;
+    private final ConsoleInput console;
 
-    @Autowired
-    private ConsoleInput console;
-
-    public CreateVoucherCommand(JdbcVoucherService voucherService) {
+    public CreateVoucherCommand(JdbcVoucherService voucherService, ConsoleInput console) {
         this.voucherService = voucherService;
+        this.console = console;
     }
 
     @Override

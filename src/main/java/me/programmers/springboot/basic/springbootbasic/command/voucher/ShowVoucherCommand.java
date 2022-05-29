@@ -4,7 +4,6 @@ import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,11 +13,11 @@ public class ShowVoucherCommand implements CommandStrategy {
 
     private final JdbcVoucherService voucherService;
 
-    @Autowired
-    private ConsoleOutput console;
+    private final ConsoleOutput console;
 
-    public ShowVoucherCommand(JdbcVoucherService voucherService) {
+    public ShowVoucherCommand(JdbcVoucherService voucherService, ConsoleOutput console) {
         this.voucherService = voucherService;
+        this.console = console;
     }
 
     @Override

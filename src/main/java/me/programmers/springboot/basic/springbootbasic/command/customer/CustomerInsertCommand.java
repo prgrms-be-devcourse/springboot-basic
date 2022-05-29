@@ -5,7 +5,6 @@ import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
 import me.programmers.springboot.basic.springbootbasic.customer.model.CustomerInfo;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -15,12 +14,11 @@ import java.util.UUID;
 public class CustomerInsertCommand implements CommandStrategy {
 
     private final CustomerService customerService;
+    private final ConsoleInput consoleInput;
 
-    @Autowired
-    private ConsoleInput consoleInput;
-
-    public CustomerInsertCommand(CustomerService customerService) {
+    public CustomerInsertCommand(CustomerService customerService, ConsoleInput consoleInput) {
         this.customerService = customerService;
+        this.consoleInput = consoleInput;
     }
 
     @Override

@@ -4,7 +4,6 @@ import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,12 +12,11 @@ import java.util.List;
 public class CustomerFindAllCommand implements CommandStrategy {
 
     private final CustomerService customerService;
+    private final ConsoleOutput consoleOutput;
 
-    @Autowired
-    ConsoleOutput consoleOutput;
-
-    public CustomerFindAllCommand(CustomerService customerService) {
+    public CustomerFindAllCommand(CustomerService customerService, ConsoleOutput consoleOutput) {
         this.customerService = customerService;
+        this.consoleOutput = consoleOutput;
     }
 
     @Override

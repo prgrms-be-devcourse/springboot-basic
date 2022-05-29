@@ -3,7 +3,6 @@ package me.programmers.springboot.basic.springbootbasic.command.customer;
 import me.programmers.springboot.basic.springbootbasic.command.CommandStrategy;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -12,12 +11,11 @@ import java.util.UUID;
 public class CustomerUpdateCommand implements CommandStrategy {
 
     private final CustomerService customerService;
+    private final ConsoleInput consoleInput;
 
-    @Autowired
-    private ConsoleInput consoleInput;
-
-    public CustomerUpdateCommand(CustomerService customerService) {
+    public CustomerUpdateCommand(CustomerService customerService, ConsoleInput consoleInput) {
         this.customerService = customerService;
+        this.consoleInput = consoleInput;
     }
 
     @Override
