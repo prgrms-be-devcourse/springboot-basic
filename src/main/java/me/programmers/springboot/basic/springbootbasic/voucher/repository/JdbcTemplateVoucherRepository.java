@@ -126,32 +126,32 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         }
     }
 
-    public Voucher update(Voucher voucher) {
+    public Voucher update(UUID uuid, Voucher voucher) {
         if (voucher instanceof FixedAmountVoucher)
-            updateFixVoucher((FixedAmountVoucher) voucher);
+            updateFixVoucher(uuid, (FixedAmountVoucher) voucher);
         else if (voucher instanceof PercentAmountVoucher)
-            updatePercentVoucher((PercentAmountVoucher) voucher);
+            updatePercentVoucher(uuid, (PercentAmountVoucher) voucher);
 
         return voucher;
     }
 
-    private void updateFixVoucher(FixedAmountVoucher voucher) {
+    private void updateFixVoucher(UUID uuid, FixedAmountVoucher voucher) {
         var update = jdbcTemplate.update(
                 "UPDATE fixed_voucher SET amount = ? " +
                         "WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getAmount(),
-                voucher.getVoucherId().toString().getBytes());
+                uuid.toString().getBytes());
         if (update != 1) {
             throw new IllegalArgumentException("Nothing was inserted");
         }
     }
 
-    private void updatePercentVoucher(PercentAmountVoucher voucher) {
+    private void updatePercentVoucher(UUID uuid, PercentAmountVoucher voucher) {
         var update = jdbcTemplate.update(
                 "UPDATE percent_voucher SET percent = ? " +
                         "WHERE voucher_id = UUID_TO_BIN(?)",
                 voucher.getPercent(),
-                voucher.getVoucherId().toString().getBytes());
+                uuid.toString().getBytes());
         if (update != 1) {
             throw new IllegalArgumentException("Nothing was inserted");
         }

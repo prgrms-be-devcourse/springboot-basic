@@ -77,7 +77,7 @@ class JdbcVoucherServiceTest {
         given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
 
         FixedAmountVoucher update = new FixedAmountVoucher(voucher.getVoucherId(), 3000);
-        voucherService.update(update);
+        voucherService.update(voucher.getVoucherId(), update);
 
         FixedAmountVoucher foundVoucher = (FixedAmountVoucher) voucherService.getVoucherById(voucher.getVoucherId());
 

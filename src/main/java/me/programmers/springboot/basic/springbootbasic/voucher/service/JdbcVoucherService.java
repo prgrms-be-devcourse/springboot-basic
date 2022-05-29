@@ -39,8 +39,8 @@ public class JdbcVoucherService {
         return voucher;
     }
 
-    public void update(Voucher voucher) {
-        voucherRepository.update(voucher);
+    public void update(UUID uuid, Voucher voucher) {
+        voucherRepository.update(uuid, voucher);
     }
 
     public void delete() {

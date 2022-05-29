@@ -127,7 +127,7 @@ class JdbcTemplateVoucherRepositoryTest {
         FixedAmountVoucher fixVoucher = new FixedAmountVoucher(uuid, 1500);
         jdbcRepository.save(fixVoucher);
         fixVoucher.setAmount(3000);
-        jdbcRepository.update(fixVoucher);
+        jdbcRepository.update(uuid, fixVoucher);
 
         FixedAmountVoucher updatedVoucher = (FixedAmountVoucher) jdbcRepository.findById(uuid).get();
         assertThat(fixVoucher.getAmount(), is(updatedVoucher.getAmount()));
@@ -140,7 +140,7 @@ class JdbcTemplateVoucherRepositoryTest {
         voucher.setAmount(3000);
 
         assertThrows(IllegalArgumentException.class, () -> {
-            jdbcRepository.update(voucher);
+            jdbcRepository.update(voucher.getVoucherId(), voucher);
         });
     }
 

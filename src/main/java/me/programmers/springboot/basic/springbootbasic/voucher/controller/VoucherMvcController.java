@@ -71,7 +71,7 @@ public class VoucherMvcController {
         Voucher voucher = voucherService.getVoucherById(uuid);
         try {
             voucher.update(requestDto);
-            voucherService.update(voucher);
+            voucherService.update(uuid, voucher);
         } catch (Exception e) {
             return "redirect:/error";
         }
