@@ -7,13 +7,14 @@ import org.prgrms.kdt.controller.dto.CreateVoucherRequest;
 import org.prgrms.kdt.controller.dto.VoucherResponse;
 import org.prgrms.kdt.controller.dto.VouchersResponse;
 import org.prgrms.kdt.voucher.model.Voucher;
-import org.prgrms.kdt.voucher.model.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -70,14 +71,14 @@ public class VoucherWebController {
         return "update-voucher";
     }
 
-    @PostMapping("/{id}/update")
+    @PutMapping("/{id}/update")
     public String updateVoucher(@PathVariable UUID id, long value) {
         this.voucherService.updateVoucher(id, value);
 
         return "redirect:/vouchers/" + id;
     }
 
-    @PostMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public String deleteVoucher(@PathVariable UUID id) {
         this.voucherService.deleteVoucher(id);
 

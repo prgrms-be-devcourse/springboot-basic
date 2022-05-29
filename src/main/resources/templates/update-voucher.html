@@ -10,6 +10,7 @@
 <h1>바우처 수정 페이지</h1>
 
 <form th:action="@{/vouchers/{id}/update(id=${voucher.id})}" method="post">
+  <input type="hidden" name="_method" value="put">
   <div class="mb-3">
     <label for="value" class="form-label">가격</label>
     <input type="number" class="form-control" id="value"  name="value">
