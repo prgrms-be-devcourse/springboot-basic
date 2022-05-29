@@ -9,14 +9,14 @@ import org.prgrms.kdt.error.ErrorMessage;
 public enum VoucherType {
     FIXED("fixed", FixedAmountVoucher::new){
         @Override
-        public Voucher convert(UUID voucherId, long value, LocalDateTime createdAt) {
-            return new FixedAmountVoucher(voucherId, value, createdAt);
+        public Voucher convert(UUID id, long value, LocalDateTime createdAt) {
+            return new FixedAmountVoucher(id, value, createdAt);
         }
     },
     PERCENT("percent", PercentDiscountVoucher::new){
         @Override
-        public Voucher convert(UUID voucherId, long value, LocalDateTime createdAt) {
-            return new PercentDiscountVoucher(voucherId, value, createdAt);
+        public Voucher convert(UUID id, long value, LocalDateTime createdAt) {
+            return new PercentDiscountVoucher(id, value, createdAt);
         }
     };
 
@@ -43,6 +43,6 @@ public enum VoucherType {
         return factory.apply(value);
     }
 
-    public abstract Voucher convert(UUID voucherId, long value, LocalDateTime createdAt);
+    public abstract Voucher convert(UUID id, long value, LocalDateTime createdAt);
 
 }

@@ -50,15 +50,15 @@ public class VoucherController {
                 OutPutView.showsVoucherMenu();
                 String[] strings = InputView.inputTheVoucher();
                 VoucherType voucherMenu = VoucherType.of(strings[VOUCHER_KEYWORD_INDEX]);
-                voucherService.makeVoucher(voucherMenu,
+                this.voucherService.makeVoucher(voucherMenu,
                     Long.parseLong(strings[VOUCHER_DISCOUNT_INDEX]));
                 break;
             case LIST:
-                List<Voucher> vouchers = voucherService.getVouchers();
+                List<Voucher> vouchers = this.voucherService.getVouchers();
                 OutPutView.showVouchers(vouchers);
                 break;
             case CUSTOMER:
-                List<Customer> customers = customerService.getCustomers();
+                List<Customer> customers = this.customerService.getCustomers();
                 OutPutView.showCustomers(customers);
                 break;
         }

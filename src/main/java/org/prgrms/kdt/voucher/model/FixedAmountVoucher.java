@@ -5,39 +5,39 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
-    private final UUID voucherId;
-    private final long amount;
+    private final UUID id;
+    private long value;
     private final LocalDateTime createdAt;
     private final VoucherType type = VoucherType.FIXED;
 
-    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
-        this.voucherId = voucherId;
-        this.amount = amount;
+    public FixedAmountVoucher(UUID id, long value, LocalDateTime createdAt) {
+        this.id = id;
+        this.value = value;
         this.createdAt = createdAt;
     }
 
     public FixedAmountVoucher(long value) {
-        this.voucherId = UUID.randomUUID();
-        this.amount = value;
+        this.id = UUID.randomUUID();
+        this.value = value;
         this.createdAt = LocalDateTime.now();
     }
 
     @Override
     public String toString() {
         return "FixedAmountVoucher{" +
-            "voucherId=" + voucherId +
-            ", amount=" + amount +
+            "id=" + id +
+            ", amount=" + value +
             '}';
     }
 
     @Override
-    public UUID getVoucherId() {
-        return this.voucherId;
+    public UUID getId() {
+        return this.id;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - this.amount;
+        return beforeDiscount - this.value;
     }
 
     @Override
@@ -47,12 +47,16 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long getValue() {
-        return this.amount;
+        return this.value;
     }
 
     @Override
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
+    }
+
+    public VoucherType getType() {
+        return type;
     }
 
 }

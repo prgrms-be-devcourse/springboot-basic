@@ -15,7 +15,7 @@ public class BlackListCustomerService {
     }
 
     public List<Customer> getAll() {
-        return blackListRepository.findAll();
+        return this.blackListRepository.findAll();
     }
 
 }

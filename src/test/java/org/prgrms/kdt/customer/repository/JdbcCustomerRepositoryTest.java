@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -33,7 +34,6 @@ import org.springframework.test.context.ActiveProfiles;
 @WebMvcTest
 @Import(TestConfig.class)
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcCustomerRepositoryTest {
 
     private final int VALID_SIZE = 1;
@@ -59,13 +59,17 @@ class JdbcCustomerRepositoryTest {
         embeddedMysql.stop();
     }
 
+    @AfterEach
+    void clean() {
+        customerRepository.deleteAll();
+    }
+
     @Autowired
     CustomerRepository customerRepository;
 
     private static final Customer newCustomer = new Customer(UUID.randomUUID(), "김형욱", LocalDateTime.now());
 
     @Test
-    @Order(1)
     @DisplayName("사용자들 저장할 수 있다.")
     void saveTest() {
         customerRepository.save(newCustomer);
@@ -74,23 +78,22 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("사용자를 모두 조회할 수 있다.")
     void findAllTest() {
+        customerRepository.save(newCustomer);
         List<Customer> customers = customerRepository.findAll();
         assertThat(customers.size(), equalTo(VALID_SIZE));
     }
 
     @Test
-    @Order(3)
     @DisplayName("특정 사용자를 조회할 수 있다.")
     void findTest() {
-        Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
+        customerRepository.save(newCustomer);
+        Optional<Customer> customer = customerRepository.findById(newCustomer.getId());
         assertThat(customer.isEmpty(), Matchers.is(false));
     }
 
     @Test
-    @Order(4)
     @DisplayName("조회하려는 아이디의 사용자가 없다면 비어있는 옵셔널을 반환한다.")
     void findEmptyTest() {
         Optional<Customer> customer = customerRepository.findById(UUID.randomUUID());
@@ -98,7 +101,6 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("사용자를 삭제할 수 있다.")
     void deleteAllTest() {
         customerRepository.deleteAll();

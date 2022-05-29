@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.kdt.controller.dto.VoucherSearchCriteria;
 import org.prgrms.kdt.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -18,12 +19,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        return storage.put(voucher.getVoucherId(), voucher);
+        return storage.put(voucher.getId(), voucher);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return new ArrayList<>(storage.values());
+        return new ArrayList<>(this.storage.values());
     }
 
     @Override
@@ -32,8 +33,23 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void update(UUID id, long value) {
+
+    }
+
+    @Override
     public void deleteAll() {
 
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+
+    }
+
+    @Override
+    public List<Voucher> searchVoucher(VoucherSearchCriteria criteria) {
+        return null;
     }
 
 }

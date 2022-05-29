@@ -9,7 +9,7 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findById(UUID id);
 
     Customer save(Customer customer);
 

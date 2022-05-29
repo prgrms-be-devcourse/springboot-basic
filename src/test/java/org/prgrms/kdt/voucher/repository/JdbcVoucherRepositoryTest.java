@@ -19,7 +19,9 @@ import java.util.Optional;
 import java.util.UUID;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -37,7 +39,6 @@ import org.springframework.test.context.ActiveProfiles;
 @WebMvcTest
 @Import(TestConfig.class)
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JdbcVoucherRepositoryTest {
 
     private final int VALID_SIZE = 1;
@@ -63,13 +64,17 @@ class JdbcVoucherRepositoryTest {
         embeddedMysql.stop();
     }
 
+    @AfterEach
+    void clean() {
+        voucherRepository.deleteAll();
+    }
+
     @Autowired
     VoucherRepository voucherRepository;
 
     private static final Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L, LocalDateTime.now());
 
     @Test
-    @Order(1)
     @DisplayName("바우처를 저장할 수 있다.")
     void saveTest() {
         voucherRepository.save(newVoucher);
@@ -78,23 +83,22 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("바우처를 모두 조회할 수 있다.")
     void findAllTest() {
+        voucherRepository.save(newVoucher);
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers.size(), equalTo(VALID_SIZE));
     }
 
     @Test
-    @Order(3)
     @DisplayName("특정 바우처를 조회할 수 있다.")
     void findTest() {
-        Optional<Voucher> voucher = voucherRepository.findById(newVoucher.getVoucherId());
+        voucherRepository.save(newVoucher);
+        Optional<Voucher> voucher = voucherRepository.findById(newVoucher.getId());
         assertThat(voucher.isEmpty(), Matchers.is(false));
     }
 
     @Test
-    @Order(4)
     @DisplayName("조회하려는 아이디의 바우처가 없다면 비어있는 옵셔널을 반환한다.")
     void findEmptyTest() {
         Optional<Voucher> voucher = voucherRepository.findById(UUID.randomUUID());
@@ -102,11 +106,8 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @Order(5)
     @DisplayName("바우처를 삭제할 수 있다.")
     void deleteAllTest() {
-        voucherRepository.deleteAll();
-
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers.isEmpty(), Matchers.is(true));
     }
