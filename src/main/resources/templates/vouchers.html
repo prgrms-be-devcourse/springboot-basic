@@ -28,7 +28,7 @@
       <td th:text="*{type}"></td>
       <td th:text="*{createdAt}"></td>
       <td>
-        <form th:action="@{/vouchers/{id}/delete/(id=${voucher.id})}" method="post">
+        <form th:action="@{/vouchers/{id}/(id=${voucher.id})}" method="post">
           <input type="hidden" name="_method" value="delete">
           <button type="submit">바우처 삭제</button>
         </form>

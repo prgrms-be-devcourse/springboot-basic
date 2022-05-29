@@ -71,14 +71,14 @@ public class VoucherWebController {
         return "update-voucher";
     }
 
-    @PutMapping("/{id}/update")
+    @PutMapping("/{id}")
     public String updateVoucher(@PathVariable UUID id, long value) {
         this.voucherService.updateVoucher(id, value);
 
         return "redirect:/vouchers/" + id;
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public String deleteVoucher(@PathVariable UUID id) {
         this.voucherService.deleteVoucher(id);
 
