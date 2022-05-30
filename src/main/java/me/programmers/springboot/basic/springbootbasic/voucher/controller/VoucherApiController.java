@@ -44,21 +44,12 @@ public class VoucherApiController {
 
     @GetMapping("/{voucherId}")
     public ResponseEntity<Voucher> getVoucherById(@PathVariable UUID voucherId) {
-        if (voucherService.getVoucherById(voucherId) == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         return ResponseEntity.ok(voucherService.getVoucherById(voucherId));
     }
 
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<UUID> deleteById(@PathVariable UUID voucherId) {
-        if (voucherService.getVoucherById(voucherId) == null) {
-            return ResponseEntity.notFound().build();
-        }
-
         voucherService.deleteById(voucherId);
-
         return ResponseEntity.ok(voucherId);
     }
 
