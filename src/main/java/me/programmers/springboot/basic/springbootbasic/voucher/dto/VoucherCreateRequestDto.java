@@ -1,11 +1,20 @@
 package me.programmers.springboot.basic.springbootbasic.voucher.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
+
 public class VoucherCreateRequestDto {
 
+    @NotBlank
     private String type;
 
+    @PositiveOrZero
     private long discountPrice;
 
+    @Min(value = 0)
+    @Max(value = 99)
     private long discountPercent;
 
     public VoucherCreateRequestDto(String type, long discountPrice, long discountPercent) {
@@ -18,24 +27,12 @@ public class VoucherCreateRequestDto {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public long getDiscountPrice() {
         return discountPrice;
     }
 
-    public void setDiscountPrice(long discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
     public long getDiscountPercent() {
         return discountPercent;
-    }
-
-    public void setDiscountPercent(long discountPercent) {
-        this.discountPercent = discountPercent;
     }
 
     @Override
