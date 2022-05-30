@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplateVoucherRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+    public JdbcTemplateVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -111,7 +110,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getPercent());
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalArgumentException("Nothing was inserted");
         }
     }
 
@@ -122,7 +121,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getAmount());
         if (update != 1) {
-            throw new RuntimeException("Nothing was inserted");
+            throw new IllegalArgumentException("Nothing was inserted");
         }
     }
 
