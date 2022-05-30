@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateVoucherCommand implements CommandStrategy {
 
-    private static final Logger logger = LoggerFactory.getLogger(CommandStrategy.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreateVoucherCommand.class);
 
     private final JdbcVoucherService voucherService;
     private final ConsoleInput console;
