@@ -24,7 +24,8 @@ public class CustomerService {
     }
 
     public Customer findByEmail(String email) {
-        return jdbcTemplateCustomerRepository.findByEmail(email).get();
+        return jdbcTemplateCustomerRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("email을 찾을 수 없습니다!"));
     }
 
     public Customer update(UUID uuid, String name, String email) {

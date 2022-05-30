@@ -5,10 +5,14 @@ import me.programmers.springboot.basic.springbootbasic.customer.model.Customer;
 import me.programmers.springboot.basic.springbootbasic.customer.service.CustomerService;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleInput;
 import me.programmers.springboot.basic.springbootbasic.io.ConsoleOutput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerFindByEmailCommand implements CommandStrategy {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomerFindByEmailCommand.class);
 
     private final CustomerService customerService;
     private final ConsoleInput consoleInput;
@@ -23,7 +27,12 @@ public class CustomerFindByEmailCommand implements CommandStrategy {
     @Override
     public void operateCommand() {
         String email = consoleInput.inputCommand("email 입력 ");
-        Customer customer = customerService.findByEmail(email);
-        consoleOutput.output(customer.toString());
+
+        try {
+            Customer customer = customerService.findByEmail(email);
+            consoleOutput.output(customer.toString());
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+        }
     }
 }
