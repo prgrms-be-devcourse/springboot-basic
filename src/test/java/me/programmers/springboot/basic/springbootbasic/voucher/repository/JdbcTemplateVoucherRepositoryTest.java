@@ -114,7 +114,6 @@ class JdbcTemplateVoucherRepositoryTest {
     @Test
     @DisplayName("PercentVoucher 중복 저장시 예외 발생")
     public void testPercentVoucherSaveDuplicate() {
-        jdbcRepository.save(percentVoucher);
         assertThrows(DuplicateKeyException.class, () -> {
             jdbcRepository.save(percentVoucher);
         });

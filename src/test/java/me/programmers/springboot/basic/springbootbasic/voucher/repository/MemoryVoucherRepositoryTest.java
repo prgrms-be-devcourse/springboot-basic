@@ -3,6 +3,7 @@ package me.programmers.springboot.basic.springbootbasic.voucher.repository;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,11 +16,16 @@ import static org.hamcrest.Matchers.is;
 
 class MemoryVoucherRepositoryTest {
 
+    private MemoryVoucherRepository memoryVoucherRepository;
+
+    @BeforeEach
+    void clean() {
+        memoryVoucherRepository = new MemoryVoucherRepository();
+    }
+
     @Test
     @DisplayName("메모리에 저장된 전체 바우처 조회")
     void findAllTest() {
-        MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-
         memoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 1000));
         memoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 1000));
         memoryVoucherRepository.save(new PercentAmountVoucher(UUID.randomUUID(), 10));
@@ -33,8 +39,6 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 저장 성공")
     void saveTest() {
-        MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-
         Voucher fixVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         Voucher savedVoucher = memoryVoucherRepository.save(fixVoucher);
 
