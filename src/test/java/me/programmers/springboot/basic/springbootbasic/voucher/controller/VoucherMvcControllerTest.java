@@ -88,8 +88,7 @@ class VoucherMvcControllerTest {
         FixedAmountVoucher voucher = new FixedAmountVoucher(uuid, 2000);
         given(voucherService.getVoucherById(any(UUID.class))).willReturn(voucher);
 
-        VoucherUpdateRequestDto updateRequest = new VoucherUpdateRequestDto();
-        updateRequest.setDiscountPrice(4000);
+        VoucherUpdateRequestDto updateRequest = new VoucherUpdateRequestDto(4000, 0);
 
         String url = "/vouchers/" + uuid;
         mockMvc.perform(put(url)
