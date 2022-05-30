@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class CustomerInfo {
     private static final String EMAIL_REGEX = "^(.+)@(.+)$";
-    private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     private String name;
     private final String email;
@@ -27,7 +27,7 @@ public class CustomerInfo {
         if (email.isBlank()) {
             throw new IllegalArgumentException("Email should not be blank");
         }
-        Matcher matcher = pattern.matcher(email);
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
         if (!matcher.matches()) {
             throw new IllegalArgumentException("Email 형식에 맞지 않습니다.");
         }

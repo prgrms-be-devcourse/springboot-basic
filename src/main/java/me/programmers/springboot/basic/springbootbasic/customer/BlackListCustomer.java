@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class BlackListCustomer implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(BlackListCustomer.class);
-    private static final String csvFile = "file:customer_blacklist.csv";
+    private static final String CSV_FILE = "file:customer_blacklist.csv";
 
     private ApplicationContext context;
 
@@ -26,11 +26,11 @@ public class BlackListCustomer implements ApplicationContextAware {
 
     public void showBlackList() {
         try {
-            Resource resource = context.getResource(csvFile);
+            Resource resource = context.getResource(CSV_FILE);
             List<String> blackList = Files.readAllLines(resource.getFile().toPath());
             System.out.println("customer blacklist " + blackList.stream().reduce("", (a, b) -> a + "\n" + b));
         } catch (IOException e) {
-            logger.error("해당 파일을 찾을 수 없습니다. " + csvFile);
+            logger.error("해당 파일을 찾을 수 없습니다. " + CSV_FILE);
         }
     }
 
