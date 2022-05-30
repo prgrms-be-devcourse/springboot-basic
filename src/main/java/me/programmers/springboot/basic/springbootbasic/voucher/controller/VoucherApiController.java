@@ -5,7 +5,6 @@ import me.programmers.springboot.basic.springbootbasic.voucher.model.FixedAmount
 import me.programmers.springboot.basic.springbootbasic.voucher.model.PercentAmountVoucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.model.Voucher;
 import me.programmers.springboot.basic.springbootbasic.voucher.service.JdbcVoucherService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,17 +29,17 @@ public class VoucherApiController {
     }
 
     @GetMapping
-    public List<Voucher> getVouchers(@RequestParam(required = false) String type) {
+    public ResponseEntity<List<Voucher>> getVouchers(@RequestParam(required = false) String type) {
         if (type == null)
-            return voucherService.getAllVouchers();
+            return ResponseEntity.ok(voucherService.getAllVouchers());
 
         if (type.equals("fixed")) {
-            return voucherService.getAllFixVouchers();
+            return ResponseEntity.ok(voucherService.getAllFixVouchers());
         } else if (type.equals("percent")) {
-            return voucherService.getAllPercentVouchers();
+            return ResponseEntity.ok(voucherService.getAllPercentVouchers());
         }
 
-        return List.of();
+        return ResponseEntity.ok(List.of());
     }
 
     @GetMapping("/{voucherId}")
@@ -49,7 +48,7 @@ public class VoucherApiController {
             return ResponseEntity.notFound().build();
         }
 
-        return new ResponseEntity<>(voucherService.getVoucherById(voucherId), HttpStatus.OK);
+        return ResponseEntity.ok(voucherService.getVoucherById(voucherId));
     }
 
     @DeleteMapping("/{voucherId}")
@@ -60,11 +59,11 @@ public class VoucherApiController {
 
         voucherService.deleteById(voucherId);
 
-        return new ResponseEntity<>(voucherId, HttpStatus.OK);
+        return ResponseEntity.ok(voucherId);
     }
 
     @PostMapping
-    public Voucher createVouchers(@RequestBody VoucherCreateRequestDto requestDto) {
+    public ResponseEntity<UUID> createVouchers(@RequestBody VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
         if (requestDto.getType().equals("fixed")) {
             voucher = new FixedAmountVoucher(UUID.randomUUID(), requestDto.getDiscountPrice());
@@ -73,7 +72,7 @@ public class VoucherApiController {
         }
 
         voucherService.save(voucher);
-        return voucher;
+        return ResponseEntity.ok(voucher.getVoucherId());
     }
 
 }
