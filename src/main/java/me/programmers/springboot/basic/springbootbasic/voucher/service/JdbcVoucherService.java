@@ -31,7 +31,7 @@ public class JdbcVoucherService {
 
     public Voucher getVoucherById(UUID voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
-        return voucher.orElse(null);
+        return voucher.orElseThrow(() -> new IllegalArgumentException("ID로 조회되는 voucher 없음"));
     }
 
     public Voucher save(Voucher voucher) {
@@ -40,6 +40,8 @@ public class JdbcVoucherService {
     }
 
     public void update(UUID uuid, Voucher voucher) {
+        voucherRepository.findById(uuid)
+                        .orElseThrow(() -> new IllegalArgumentException("ID로 조회되는 voucher 없음"));
         voucherRepository.update(uuid, voucher);
     }
 
@@ -48,6 +50,8 @@ public class JdbcVoucherService {
     }
 
     public void deleteById(UUID uuid) {
+        voucherRepository.findById(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("ID로 조회되는 voucher 없음"));
         voucherRepository.deleteById(uuid);
     }
 }
