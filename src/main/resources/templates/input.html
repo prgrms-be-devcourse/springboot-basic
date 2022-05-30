@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Voucher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h2>Create Voucher</h2>
+
+<form th:action="@{/vouchers/new}" method="post">
+    <div class="mb-3">
+        <label for="type-select" class="form-label">Type</label>
+        <select class="form-select" aria-label="Default select example" id="type-select" name="type">
+            <option value="fixed">Fixed</option>
+            <option value="percent">Percent</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="discountPrice" class="form-label">할인 가격</label>
+        <input type="number" class="form-control" id="discountPrice" name="discountPrice">
+    </div>
+    <div class="mb-3">
+        <label for="discountPercent" class="form-label">할인 비율</label>
+        <input type="number" class="form-control" id="discountPercent" name="discountPercent" min="0" maxlength="100">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+</body>
+</html>
