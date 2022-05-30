@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.UUID;
 
+@RequestMapping("/vouchers")
 @Controller
 public class VoucherMvcController {
 
@@ -27,7 +29,7 @@ public class VoucherMvcController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping
     public String showVouchers(Model model) {
         List<Voucher> fixVouchers = voucherService.getAllFixVouchers();
         List<Voucher> percentVouchers = voucherService.getAllPercentVouchers();
@@ -36,19 +38,19 @@ public class VoucherMvcController {
         return "vouchers";
     }
 
-    @GetMapping("/vouchers/{uuid}")
+    @GetMapping("/{uuid}")
     public String showDetailVoucher(@PathVariable UUID uuid, Model model) {
         Voucher voucher = voucherService.getVoucherById(uuid);
         model.addAttribute("voucher", voucher);
         return "detail";
     }
 
-    @GetMapping("/vouchers/new")
+    @GetMapping("/new")
     public String createVoucher() {
         return "input";
     }
 
-    @PostMapping("/vouchers/new")
+    @PostMapping("/new")
     public String createVoucher(@ModelAttribute VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
         if (requestDto.getType().equals("fixed")) {
@@ -66,7 +68,7 @@ public class VoucherMvcController {
         return "redirect:/vouchers";
     }
 
-    @PutMapping("/vouchers/{uuid}")
+    @PutMapping("/{uuid}")
     public String updateVoucher(@PathVariable UUID uuid, @ModelAttribute VoucherUpdateRequestDto requestDto) {
         Voucher voucher = voucherService.getVoucherById(uuid);
         try {
@@ -78,7 +80,7 @@ public class VoucherMvcController {
         return "redirect:/vouchers";
     }
 
-    @DeleteMapping("/vouchers/{uuid}")
+    @DeleteMapping("/{uuid}")
     public String deleteVoucher(@PathVariable UUID uuid) {
         voucherService.deleteById(uuid);
         return "redirect:/vouchers";

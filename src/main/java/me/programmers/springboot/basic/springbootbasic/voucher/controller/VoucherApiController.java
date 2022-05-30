@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
 
+@RequestMapping("/api/vouchers")
 @RestController
 public class VoucherApiController {
 
@@ -27,7 +29,7 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/api/vouchers")
+    @GetMapping
     public List<Voucher> getVouchers(@RequestParam(required = false) String type) {
         if (type == null)
             return voucherService.getAllVouchers();
@@ -41,7 +43,7 @@ public class VoucherApiController {
         return List.of();
     }
 
-    @GetMapping("/api/vouchers/{voucherId}")
+    @GetMapping("/{voucherId}")
     public ResponseEntity<Voucher> getVoucherById(@PathVariable UUID voucherId) {
         if (voucherService.getVoucherById(voucherId) == null) {
             return ResponseEntity.notFound().build();
@@ -50,7 +52,7 @@ public class VoucherApiController {
         return new ResponseEntity<>(voucherService.getVoucherById(voucherId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/vouchers/{voucherId}")
+    @DeleteMapping("/{voucherId}")
     public ResponseEntity<UUID> deleteById(@PathVariable UUID voucherId) {
         if (voucherService.getVoucherById(voucherId) == null) {
             return ResponseEntity.notFound().build();
@@ -61,7 +63,7 @@ public class VoucherApiController {
         return new ResponseEntity<>(voucherId, HttpStatus.OK);
     }
 
-    @PostMapping("/api/vouchers")
+    @PostMapping
     public Voucher createVouchers(@RequestBody VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
         if (requestDto.getType().equals("fixed")) {
