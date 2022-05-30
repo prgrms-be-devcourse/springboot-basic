@@ -18,11 +18,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> voucherList = new ArrayList<>();
-        for (UUID uuid : vouchers.keySet()) {
-            voucherList.add(vouchers.get(uuid));
-        }
-        return voucherList;
+        return new ArrayList<>(vouchers.values());
     }
 
     @Override
