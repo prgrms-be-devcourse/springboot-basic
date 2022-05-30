@@ -12,7 +12,7 @@ public class CustomerInfo {
 
     public CustomerInfo(String name, String email) {
         validateName(name);
-        validateName(email);
+        validateEmail(email);
         this.name = name;
         this.email = email;
     }
