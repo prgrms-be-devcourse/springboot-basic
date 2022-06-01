@@ -24,6 +24,7 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -72,16 +73,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Page<Voucher> findAll(Pageable pageable) {
+    public List<Voucher> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
 
         List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers", voucherRowMapper);
         int st = (int) pageable.getOffset();
         int ed = Math.min((st + pageable.getPageSize()), vouchers.size());
-
-        return new PageImpl<>(
-                vouchers.subList(st, ed), pageable, vouchers.size()
-        );
+        return vouchers.subList(st, ed);
     }
 
     @Override

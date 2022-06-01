@@ -16,12 +16,14 @@
     <thead>
     <tr>
         <th scope="col">voucherId</th>
+        <th scope="col">voucherType</th>
         <th scope="col">discount</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType}"></td>
         <td th:text="*{discount}"></td>
     </tr>
     </tbody>

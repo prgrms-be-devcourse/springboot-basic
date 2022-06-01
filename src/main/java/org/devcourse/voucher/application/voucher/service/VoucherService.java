@@ -1,6 +1,7 @@
 package org.devcourse.voucher.application.voucher.service;
 
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
+import org.devcourse.voucher.application.voucher.controller.dto.VoucherResponse;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.devcourse.voucher.application.voucher.repository.VoucherRepository;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.devcourse.voucher.core.exception.ErrorType.NOT_FOUND_VOUCHER;
 
@@ -27,31 +30,35 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long discount) {
+    public VoucherResponse createVoucher(VoucherType voucherType, long discount) {
         logger.info("Service : Create Voucher");
         Voucher voucher = voucherType.voucherCreator(UUID.randomUUID(), discount);
-        return voucherRepository.insert(voucher);
+        return VoucherResponse.of(voucherRepository.insert(voucher));
     }
 
     @Transactional(readOnly = true)
-    public Page<Voucher> recallAllVoucher(Pageable pageable) {
+    public List<VoucherResponse> recallAllVoucher(Pageable pageable) {
         logger.info("Service : Voucher Inquiry");
-        return voucherRepository.findAll(pageable);
+        return voucherRepository.findAll(pageable)
+                .stream()
+                .map(VoucherResponse::of)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public Voucher recallVoucherById(UUID voucherId) {
+    public VoucherResponse recallVoucherById(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
+                .map(VoucherResponse::of)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VOUCHER, voucherId));
     }
 
-    public Voucher updateVoucher(UUID voucherId, long discount) {
+    public VoucherResponse updateVoucher(UUID voucherId, long discount) {
         Voucher voucher = voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VOUCHER, voucherId));
         voucher.setDiscount(discount);
-        return voucherRepository.update(voucher);
+        return VoucherResponse.of(voucherRepository.update(voucher));
     }
 
     public void deleteVoucher(UUID voucherId) {

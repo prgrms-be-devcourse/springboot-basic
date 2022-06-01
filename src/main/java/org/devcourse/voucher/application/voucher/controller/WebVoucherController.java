@@ -1,8 +1,11 @@
 package org.devcourse.voucher.application.voucher.controller;
 
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
+import org.devcourse.voucher.application.voucher.controller.dto.VoucherResponse;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -18,6 +21,7 @@ public class WebVoucherController {
 
     private final VoucherService voucherService;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
     public WebVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
@@ -25,7 +29,7 @@ public class WebVoucherController {
 
     @GetMapping("")
     public String voucherMainPage(Model model, Pageable pageable) {
-        Page<Voucher> vouchers = voucherService.recallAllVoucher(pageable);
+        List<VoucherResponse> vouchers = voucherService.recallAllVoucher(pageable);
         model.addAttribute("vouchers", vouchers);
         return "voucher/index";
     }
@@ -36,8 +40,8 @@ public class WebVoucherController {
     }
 
     @GetMapping("/{id}")
-    public String voucherUpdatePage() {
-        return "update/new";
+    public String voucherDetailPage() {
+        return "voucher/detail";
     }
 
     @PostMapping("/new")
