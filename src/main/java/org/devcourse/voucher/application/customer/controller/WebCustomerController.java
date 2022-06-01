@@ -37,7 +37,7 @@ public class WebCustomerController {
 
     @PostMapping("/new")
     public String postCreateCustomer(CreateCustomerRequest createCustomerRequest) {
-        customerService.createCustomer(createCustomerRequest.name(), new Email(createCustomerRequest.email()));
+        customerService.createCustomer(createCustomerRequest.getName(), new Email(createCustomerRequest.getEmail()));
         return "redirect:";
     }
 }

@@ -56,4 +56,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return Optional.of(store.get(voucherId));
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        store.remove(voucherId);
+    }
+
 }

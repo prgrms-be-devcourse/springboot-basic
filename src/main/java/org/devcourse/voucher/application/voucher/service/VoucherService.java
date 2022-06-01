@@ -46,11 +46,15 @@ public class VoucherService {
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VOUCHER, voucherId));
     }
 
-    public Voucher updateVoucher(UUID voucherId, VoucherRequest voucherRequest) {
+    public Voucher updateVoucher(UUID voucherId, long discount) {
         Voucher voucher = voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_VOUCHER, voucherId));
-        voucher.setDiscount(voucherRequest.discount());
+        voucher.setDiscount(discount);
         return voucherRepository.update(voucher);
+    }
+
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

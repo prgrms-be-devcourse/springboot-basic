@@ -42,19 +42,19 @@ public class WebVoucherController {
 
     @PostMapping("/new")
     public String postCreateVoucher(VoucherRequest voucherRequest) {
-        voucherService.createVoucher(voucherRequest.voucherType(), voucherRequest.discount());
+        voucherService.createVoucher(voucherRequest.getVoucherType(), voucherRequest.getDiscount());
         return "redirect:";
     }
 
     @PutMapping("/{id}")
     public String putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
-        voucherService.updateVoucher(UUID.fromString(id), voucherRequest);
+        voucherService.updateVoucher(UUID.fromString(id), voucherRequest.getDiscount());
         return "redirect:";
     }
 
     @DeleteMapping("/{id}")
     public String deleteRemoveVoucher(@PathVariable String id) {
-        // TODO delete logic
+        voucherService.deleteVoucher(UUID.fromString(id));
         return "redirect:";
     }
 

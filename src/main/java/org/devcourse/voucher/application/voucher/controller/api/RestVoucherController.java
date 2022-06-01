@@ -25,7 +25,7 @@ public class RestVoucherController {
 
     @PostMapping("")
     public ApiResponse<Voucher> postCreateVoucher(@RequestBody VoucherRequest voucherRequest) {
-        Voucher voucher = voucherService.createVoucher(voucherRequest.voucherType(), voucherRequest.price());
+        Voucher voucher = voucherService.createVoucher(voucherRequest.getVoucherType(), voucherRequest.getDiscount());
         return ApiResponse.ok(OK, voucher);
     }
 
@@ -44,7 +44,7 @@ public class RestVoucherController {
     @PutMapping("/{id}")
     public ApiResponse<Voucher> putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
         Voucher voucher = voucherService.updateVoucher(
-                UUID.fromString(id), voucherRequest
+                UUID.fromString(id), voucherRequest.getDiscount()
         );
         return ApiResponse.ok(OK, voucher);
     }

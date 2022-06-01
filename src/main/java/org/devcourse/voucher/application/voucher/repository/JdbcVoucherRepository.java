@@ -2,6 +2,8 @@ package org.devcourse.voucher.application.voucher.repository;
 
 import org.devcourse.voucher.core.exception.DataInsertFailException;
 import org.devcourse.voucher.core.exception.DataUpdateFailException;
+import org.devcourse.voucher.core.exception.ErrorType;
+import org.devcourse.voucher.core.exception.NotFoundException;
 import org.devcourse.voucher.core.utils.JdbcUtils;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
@@ -93,5 +95,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = :voucherId",
                 toIdMap(voucherId),
                 voucherRowMapper));
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        int delete = jdbcTemplate.update(
+                "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Map.of("voucherId", voucherId.toString().getBytes(StandardCharsets.UTF_8))
+        );
+        if (delete != 1) {
+            throw new NotFoundException(ErrorType.NOT_FOUND_VOUCHER, voucherId);
+        }
+
     }
 }
