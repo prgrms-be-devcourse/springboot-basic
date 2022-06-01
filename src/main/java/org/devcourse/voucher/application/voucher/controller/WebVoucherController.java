@@ -21,11 +21,9 @@ public class WebVoucherController {
 
     private final VoucherService voucherService;
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
     public WebVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
-
 
     @GetMapping("")
     public String voucherMainPage(Model model, Pageable pageable) {
@@ -40,8 +38,8 @@ public class WebVoucherController {
     }
 
     @GetMapping("/{id}")
-    public String voucherDetailPage() {
-        return "voucher/detail";
+    public String voucherUpdatePage() {
+        return "voucher/update";
     }
 
     @PostMapping("/new")
