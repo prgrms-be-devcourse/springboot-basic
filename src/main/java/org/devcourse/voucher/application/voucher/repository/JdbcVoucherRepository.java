@@ -40,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static Map<String, Object> toIdMap(UUID voucherId) {
-        return Collections.singletonMap("orderId", voucherId.toString().getBytes(StandardCharsets.UTF_8));
+        return Collections.singletonMap("voucherId", voucherId.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -90,7 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = :voucherId",
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
                 toIdMap(voucherId),
                 voucherRowMapper));
     }

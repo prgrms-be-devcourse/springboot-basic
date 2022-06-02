@@ -2,11 +2,7 @@ package org.devcourse.voucher.application.voucher.controller;
 
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherResponse;
-import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +34,9 @@ public class WebVoucherController {
     }
 
     @GetMapping("/{id}")
-    public String voucherUpdatePage() {
+    public String voucherUpdatePage(Model model, @PathVariable String id) {
+        VoucherResponse voucher = voucherService.recallVoucherById(UUID.fromString(id));
+        model.addAttribute("voucher", voucher);
         return "voucher/update";
     }
 
@@ -49,7 +47,7 @@ public class WebVoucherController {
     }
 
     @PutMapping("/{id}")
-    public String putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
+    public String putUpdateVoucher(@PathVariable String id, VoucherRequest voucherRequest) {
         voucherService.updateVoucher(UUID.fromString(id), voucherRequest.getDiscount());
         return "redirect:";
     }
