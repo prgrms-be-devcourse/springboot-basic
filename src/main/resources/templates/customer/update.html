@@ -23,11 +23,11 @@
         <input type="hidden" name="_method" value="put"/>
         <div class="mb-3">
             <label for="email" class="form-label">email</label>
-            <input type="text" class="form-control" id="email" name="email" th:value="${customer.email}" disabled>
+            <input type="text" class="form-control" id="email" name="email" th:value="${customer.email}"/>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">name</label>
-            <input type="number" class="form-control" id="name" name="name" th:value="${customer.name}"/>
+            <input type="text" class="form-control" id="name" name="name" th:value="${customer.name}"/>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="submit" class="btn btn-primary me-md-2">변경</button>

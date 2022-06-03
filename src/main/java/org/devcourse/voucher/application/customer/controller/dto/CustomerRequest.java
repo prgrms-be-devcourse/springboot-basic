@@ -1,11 +1,12 @@
 package org.devcourse.voucher.application.customer.controller.dto;
 
-public class CreateCustomerRequest {
+public class CustomerRequest {
+
     private final String name;
 
     private final String email;
 
-    public CreateCustomerRequest(String name, String email) {
+    public CustomerRequest(String name, String email) {
         this.name = name;
         this.email = email;
     }

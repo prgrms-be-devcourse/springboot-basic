@@ -99,7 +99,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         int delete = jdbcTemplate.update(
                 "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                Map.of("voucherId", voucherId.toString().getBytes(StandardCharsets.UTF_8))
+                toIdMap(voucherId)
         );
         if (delete != 1) {
             throw new NotFoundException(ErrorType.NOT_FOUND_VOUCHER, voucherId);

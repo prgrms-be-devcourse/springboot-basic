@@ -4,6 +4,8 @@ import org.devcourse.voucher.application.customer.model.Customer;
 import org.devcourse.voucher.application.customer.model.Email;
 import org.devcourse.voucher.core.exception.DataInsertFailException;
 import org.devcourse.voucher.core.exception.DataUpdateFailException;
+import org.devcourse.voucher.core.exception.ErrorType;
+import org.devcourse.voucher.core.exception.NotFoundException;
 import org.devcourse.voucher.core.utils.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Repository
@@ -32,6 +35,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Email email = new Email(resultSet.getString("email"));
         return new Customer(customerId, name, email);
     };
+
+    private static Map<String, Object> toIdMap(UUID customerId) {
+        return Collections.singletonMap("customerId", customerId.toString().getBytes(StandardCharsets.UTF_8));
+    }
 
     private static Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
@@ -64,6 +71,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(
+                jdbcTemplate.queryForObject(
+                        "select * from customers where customer_id = UUID_TO_BIN(:customerId)",
+                        toIdMap(customerId),
+                        customerRowMapper
+                )
+        );
+    }
+
+    @Override
     public Customer update(Customer customer) {
         logger.info("Repository : Record a voucher update");
         int updated = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email " +
@@ -78,5 +96,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         logger.info("Repository : Record a voucher delete");
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        int delete = jdbcTemplate.update(
+                "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                toIdMap(customerId)
+        );
+        if (delete != 1) {
+            throw new NotFoundException(ErrorType.NOT_FOUND_VOUCHER, customerId);
+        }
     }
 }

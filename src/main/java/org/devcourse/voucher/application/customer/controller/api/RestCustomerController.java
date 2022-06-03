@@ -28,7 +28,7 @@ public class RestCustomerController {
     }
 
     @GetMapping(name = "")
-    public ApiResponse<Page<Customer>> getCustomerList(Pageable pageable) {
+    public ApiResponse<List<Customer>> getCustomerList(Pageable pageable) {
         return null;
     }
 
