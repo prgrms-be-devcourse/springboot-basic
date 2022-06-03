@@ -3,3 +3,7 @@ spring:
     url: "jdbc:mysql://localhost/voucher"
     username: root
     password: root1234!
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

@@ -87,7 +87,7 @@ class VoucherRepositoryTest {
     void insertTest() {
         voucherRepository.insert(newVoucher);
 
-        List<Voucher> vouchers = voucherRepository.findAll(pageable).getContent();
+        List<Voucher> vouchers = voucherRepository.findAll(pageable);
 
         assertThat(vouchers.get(0)).usingRecursiveComparison().isEqualTo(newVoucher);
     }
@@ -108,7 +108,7 @@ class VoucherRepositoryTest {
         newVoucher.setDiscount(1000);
 
         voucherRepository.update(newVoucher);
-        Voucher customer = voucherRepository.findAll(pageable).getContent().get(0);
+        Voucher customer = voucherRepository.findAll(pageable).get(0);
 
         assertThat(customer.getDiscount()).isEqualTo(1000);
     }
@@ -129,7 +129,7 @@ class VoucherRepositoryTest {
         for (Voucher voucher : stubs) {
             voucherRepository.insert(voucher);
         }
-        List<Voucher> vouchers = voucherRepository.findAll(pageable).getContent();
+        List<Voucher> vouchers = voucherRepository.findAll(pageable);
 
         assertThat(vouchers).usingRecursiveComparison().isEqualTo(stubs);
     }
@@ -144,6 +144,6 @@ class VoucherRepositoryTest {
         }
         voucherRepository.deleteAll();
 
-        assertThat(voucherRepository.findAll(pageable).getContent()).isEmpty();
+        assertThat(voucherRepository.findAll(pageable)).isEmpty();
     }
 }

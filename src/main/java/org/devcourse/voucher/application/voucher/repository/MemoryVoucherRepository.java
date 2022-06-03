@@ -33,16 +33,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Page<Voucher> findAll(Pageable pageable) {
+    public List<Voucher> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
         List<Voucher> vouchers = new ArrayList<>();
         store.forEach(((uuid, voucher) -> vouchers.add(voucher)));
         int st = (int) pageable.getOffset();
         int ed = Math.min((st + pageable.getPageSize()), vouchers.size());
 
-        return new PageImpl<>(
-                vouchers.subList(st, ed), pageable, vouchers.size()
-        );
+        return vouchers.subList(st, ed);
     }
 
     @Override
@@ -54,6 +52,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.of(store.get(voucherId));
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        store.remove(voucherId);
     }
 
 }

@@ -13,9 +13,11 @@ public interface VoucherRepository {
 
     Voucher update(Voucher voucher);
 
-    Page<Voucher> findAll(Pageable pageable);
+    List<Voucher> findAll(Pageable pageable);
 
     void deleteAll();
 
     Optional<Voucher> findById(UUID voucherId);
+
+    void deleteById(UUID voucherId);
 }

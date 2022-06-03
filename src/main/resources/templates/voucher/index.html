@@ -11,18 +11,30 @@
 <h1>바우처 관리 페이지</h1>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
     <a th:href="@{/voucher/new}" class="btn btn-primary me-md-2" type="button">상품 추가</a>
+    <a th:href="@{/}" class="btn btn-primary me-md-2" type="button">메인 메뉴</a>
 </div>
 <table class="table table-hover table-striped">
     <thead>
     <tr>
         <th scope="col">voucherId</th>
+        <th scope="col">voucherType</th>
         <th scope="col">discount</th>
+        <th scope="col">update</th>
+        <th scope="col">delete</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType}"></td>
         <td th:text="*{discount}"></td>
+        <td><a th:href="@{/voucher/{id}(id=${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">추가</a></td>
+        <td>
+            <form th:action="@{/voucher/{id}(id=${voucher.voucherId})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" class="btn-close" aria-label="Close" th:method="delete"></button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

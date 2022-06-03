@@ -2,6 +2,8 @@ package org.devcourse.voucher.application.voucher.repository;
 
 import org.devcourse.voucher.core.exception.DataInsertFailException;
 import org.devcourse.voucher.core.exception.DataUpdateFailException;
+import org.devcourse.voucher.core.exception.ErrorType;
+import org.devcourse.voucher.core.exception.NotFoundException;
 import org.devcourse.voucher.core.utils.JdbcUtils;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
@@ -22,6 +24,7 @@ import java.util.*;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -37,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static Map<String, Object> toIdMap(UUID voucherId) {
-        return Collections.singletonMap("orderId", voucherId.toString().getBytes(StandardCharsets.UTF_8));
+        return Collections.singletonMap("voucherId", voucherId.toString().getBytes(StandardCharsets.UTF_8));
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -70,16 +73,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Page<Voucher> findAll(Pageable pageable) {
+    public List<Voucher> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
 
         List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers", voucherRowMapper);
         int st = (int) pageable.getOffset();
         int ed = Math.min((st + pageable.getPageSize()), vouchers.size());
-
-        return new PageImpl<>(
-                vouchers.subList(st, ed), pageable, vouchers.size()
-        );
+        return vouchers.subList(st, ed);
     }
 
     @Override
@@ -90,8 +90,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = :voucherId",
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
                 toIdMap(voucherId),
                 voucherRowMapper));
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        int delete = jdbcTemplate.update(
+                "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Map.of("voucherId", voucherId.toString().getBytes(StandardCharsets.UTF_8))
+        );
+        if (delete != 1) {
+            throw new NotFoundException(ErrorType.NOT_FOUND_VOUCHER, voucherId);
+        }
+
     }
 }
