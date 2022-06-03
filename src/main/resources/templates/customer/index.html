@@ -18,6 +18,8 @@
         <th scope="col">customerId</th>
         <th scope="col">name</th>
         <th scope="col">email</th>
+        <th scope="col">update</th>
+        <th scope="col">delete</th>
     </tr>
     </thead>
     <tbody>
@@ -25,7 +27,13 @@
         <td th:text="*{customerId}"></td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
-
+        <td><a th:href="@{/customer/{id}(id=${customer.customerId})}" class="btn btn-primary me-md-2" type="button">수정</a></td>
+        <td>
+            <form th:action="@{/customer/{id}(id=${customer.customerId})}" th:method="delete">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" class="btn-close" aria-label="Close" th:method="delete"></button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
