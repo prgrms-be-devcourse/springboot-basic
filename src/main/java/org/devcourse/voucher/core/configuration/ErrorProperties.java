@@ -15,6 +15,8 @@ public class ErrorProperties {
     private static String invalidType;
     private static String notFoundVoucher;
     private static String notFoundCustomer;
+    private static String nameNotValidRange;
+    private static String notFoundName;
 
     public static String getNotFoundVoucher() {
         return notFoundVoucher;
@@ -40,6 +42,14 @@ public class ErrorProperties {
         return notFoundCustomer;
     }
 
+    public static String getNameNotValidRange() {
+        return nameNotValidRange;
+    }
+
+    public static String getNotFoundName() {
+        return notFoundName;
+    }
+
     public void setInputNegativeNumbers(String inputNegativeNumbers) {
         this.inputNegativeNumbers = inputNegativeNumbers;
     }
@@ -59,4 +69,12 @@ public class ErrorProperties {
     public void setNotFoundVoucher(String notFoundVoucher) { this.notFoundVoucher = notFoundVoucher; }
 
     public void setNotFoundCustomer(String notFoundCustomer) {this.notFoundCustomer = notFoundCustomer ;}
+
+    public void setGetNameNotValidRange(String nameNotValidRange) {
+        this.nameNotValidRange = nameNotValidRange;
+    }
+
+    public void setNotFoundName(String notFoundName) {
+        this.notFoundName = notFoundName;
+    }
 }

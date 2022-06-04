@@ -10,7 +10,9 @@ public enum ErrorType {
     INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),
     INVALID_TYPE(ErrorProperties::getInvalidType),
     NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher),
-    NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer);
+    NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer),
+    NAME_NOT_VALID_RANGE(ErrorProperties::getNameNotValidRange),
+    NOT_FOUND_NAME(ErrorProperties::getNotFoundName);
 
     private Supplier<String> error;
 

@@ -1,5 +1,7 @@
 package org.devcourse.voucher.application.customer.controller.dto;
 
+import static org.devcourse.voucher.core.exception.ErrorType.*;
+
 public class CustomerRequest {
 
     private final String name;
@@ -18,4 +20,7 @@ public class CustomerRequest {
     public String getEmail() {
         return email;
     }
+
+
+
 }
