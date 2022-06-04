@@ -9,6 +9,7 @@ import org.devcourse.voucher.core.exception.NotFoundException;
 import org.devcourse.voucher.core.utils.JdbcUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -60,25 +61,27 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Page<Customer> findAll(Pageable pageable) {
+    public List<Customer> findAll(Pageable pageable) {
         logger.info("Repository : Record a voucher read");
         List<Customer> customers = jdbcTemplate.query("select * from customers", customerRowMapper);
         int st = (int) pageable.getOffset();
         int ed = Math.min((st + pageable.getPageSize()), customers.size());
-        return new PageImpl<>(
-                customers.subList(st, ed), pageable, customers.size()
-        );
+        return customers.subList(st, ed);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject(
-                        "select * from customers where customer_id = UUID_TO_BIN(:customerId)",
-                        toIdMap(customerId),
-                        customerRowMapper
-                )
-        );
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from customers where customer_id = UUID_TO_BIN(:customerId)",
+                            toIdMap(customerId),
+                            customerRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(ErrorType.NOT_FOUND_CUSTOMER, customerId);
+        }
     }
 
     @Override

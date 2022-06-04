@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface CustomerRepository {
     Customer insert(Customer customer);
 
-    Page<Customer> findAll(Pageable pageable);
+    List<Customer> findAll(Pageable pageable);
 
     Optional<Customer> findById(UUID customerId);
 
