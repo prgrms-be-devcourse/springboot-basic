@@ -12,7 +12,7 @@ public enum ErrorType {
     NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher),
     NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer),
     NAME_NOT_VALID_RANGE(ErrorProperties::getNameNotValidRange),
-    NOT_FOUND_NAME(ErrorProperties::getNotFoundName);
+    DATA_IS_NULL(ErrorProperties::getDataIsNull);
 
     private Supplier<String> error;
 

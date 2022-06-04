@@ -6,4 +6,4 @@ error:
   notFoundVoucher: "not found voucher id"
   notFoundCustomer: "not found customer id"
   nameNotValidRange: "Please enter a name within 1 to 25 characters"
-  notFoundName: "Name must be entered"
+  dataIsNull: "Data cannot be null"
