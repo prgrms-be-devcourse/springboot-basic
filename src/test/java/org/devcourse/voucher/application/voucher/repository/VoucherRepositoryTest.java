@@ -1,4 +1,4 @@
-package org.devcourse.voucher.voucher.repository;
+package org.devcourse.voucher.application.voucher.repository;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;

@@ -1,4 +1,4 @@
-package org.devcourse.voucher.voucher.model;
+package org.devcourse.voucher.application.voucher.model;
 
 import org.devcourse.voucher.application.voucher.model.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;

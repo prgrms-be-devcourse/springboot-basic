@@ -5,6 +5,7 @@ import org.devcourse.voucher.core.configuration.ErrorProperties;
 import java.util.function.Supplier;
 
 public enum ErrorType {
+
     INVALID_COMMAND(ErrorProperties::getInvalidCommand),
     INPUT_NEGATIVE_NUMBERS(ErrorProperties::getInputNegativeNumbers),
     INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),

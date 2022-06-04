@@ -70,7 +70,7 @@ public class ErrorProperties {
 
     public void setNotFoundCustomer(String notFoundCustomer) {this.notFoundCustomer = notFoundCustomer ;}
 
-    public void setGetNameNotValidRange(String nameNotValidRange) {
+    public void setNameNotValidRange(String nameNotValidRange) {
         this.nameNotValidRange = nameNotValidRange;
     }
 
