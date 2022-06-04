@@ -19,7 +19,7 @@
         <th scope="col">voucherId</th>
         <th scope="col">voucherType</th>
         <th scope="col">discount</th>
-        <th scope="col">update</th>
+        <th scope="col">detail</th>
         <th scope="col">delete</th>
     </tr>
     </thead>
@@ -28,7 +28,7 @@
         <td th:text="*{voucherId}"></td>
         <td th:text="*{voucherType}"></td>
         <td th:text="*{discount}"></td>
-        <td><a th:href="@{/voucher/{id}(id=${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">추가</a></td>
+        <td><a th:href="@{/voucher/{id}(id=${voucher.voucherId})}" class="btn btn-primary me-md-2" type="button">상세</a></td>
         <td>
             <form th:action="@{/voucher/{id}(id=${voucher.voucherId})}" th:method="delete">
                 <input type="hidden" name="_method" value="delete"/>

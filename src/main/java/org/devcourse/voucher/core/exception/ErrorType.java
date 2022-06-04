@@ -9,8 +9,8 @@ public enum ErrorType {
     INPUT_NEGATIVE_NUMBERS(ErrorProperties::getInputNegativeNumbers),
     INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),
     INVALID_TYPE(ErrorProperties::getInvalidType),
-    NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher);
-
+    NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher),
+    NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer);
 
     private Supplier<String> error;
 

@@ -22,8 +22,8 @@
         <label for="voucherType" class="form-label">voucherType</label>
         <input type="text" class="form-control" id="voucherType" name="voucherType" th:value="${voucher.voucherType}" disabled>
     </div>
-    <form th:action="@{/voucher/{id}(id=${voucher.voucherId})}" th:method="put">
-        <input type="hidden" name="_method" value="put"/>
+    <form th:action="@{/voucher/{id}(id=${voucher.voucherId})}" th:method="patch">
+        <input type="hidden" name="_method" value="patch"/>
         <div class="mb-3">
             <label for="discount" class="form-label">discount</label>
             <input type="number" class="form-control" id="discount" name="discount" th:value="${voucher.discount}"/>

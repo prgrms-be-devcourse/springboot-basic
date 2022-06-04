@@ -85,7 +85,7 @@ class JdbcCustomerRepositoryTest {
     void customerInsertTest() {
         customerRepository.insert(newCustomer);
 
-        Customer customer = customerRepository.findAll(pageable).getContent().get(0);
+        Customer customer = customerRepository.findAll(pageable).get(0);
 
         assertThat(customer).usingRecursiveComparison().isEqualTo(newCustomer);
     }
@@ -106,7 +106,7 @@ class JdbcCustomerRepositoryTest {
         newCustomer.setName("yongc");
 
         customerRepository.update(newCustomer);
-        Customer customer = customerRepository.findAll(pageable).getContent().get(0);
+        Customer customer = customerRepository.findAll(pageable).get(0);
 
         assertThat(customer.getName()).isEqualTo("yongc");
     }
@@ -127,7 +127,7 @@ class JdbcCustomerRepositoryTest {
         for (Customer customer : stubs) {
             customerRepository.insert(customer);
         }
-        List<Customer> customers = customerRepository.findAll(pageable).getContent();
+        List<Customer> customers = customerRepository.findAll(pageable);
 
         assertThat(customers).usingRecursiveComparison().isEqualTo(stubs);
     }
@@ -142,6 +142,6 @@ class JdbcCustomerRepositoryTest {
         }
         customerRepository.deleteAll();
 
-        assertThat(customerRepository.findAll(pageable).getContent()).isEmpty();
+        assertThat(customerRepository.findAll(pageable)).isEmpty();
     }
 }

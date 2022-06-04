@@ -46,8 +46,8 @@ public class WebVoucherController {
         return "redirect:";
     }
 
-    @PutMapping("/{id}")
-    public String putUpdateVoucher(@PathVariable String id, VoucherRequest voucherRequest) {
+    @PatchMapping("/{id}")
+    public String patchUpdateVoucher(@PathVariable String id, VoucherRequest voucherRequest) {
         voucherService.updateVoucher(UUID.fromString(id), voucherRequest.getDiscount());
         return "redirect:";
     }

@@ -1,17 +1,16 @@
 package org.devcourse.voucher.application.customer.controller;
 
-import org.devcourse.voucher.application.customer.controller.dto.CreateCustomerRequest;
-import org.devcourse.voucher.application.customer.model.Customer;
+import org.devcourse.voucher.application.customer.controller.dto.CustomerRequest;
+import org.devcourse.voucher.application.customer.controller.dto.CustomerResponse;
 import org.devcourse.voucher.application.customer.model.Email;
 import org.devcourse.voucher.application.customer.service.CustomerService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/customer")
@@ -25,7 +24,7 @@ public class WebCustomerController {
 
     @GetMapping("")
     public String customerMainPage(Model model, Pageable pageable) {
-        List<Customer> customers = customerService.recallAllCustomer(pageable).getContent();
+        List<CustomerResponse> customers = customerService.recallAllCustomer(pageable);
         model.addAttribute("customers", customers);
         return "customer/index";
     }
@@ -36,8 +35,34 @@ public class WebCustomerController {
     }
 
     @PostMapping("/new")
-    public String postCreateCustomer(CreateCustomerRequest createCustomerRequest) {
-        customerService.createCustomer(createCustomerRequest.getName(), new Email(createCustomerRequest.getEmail()));
+    public String postCreateCustomer(CustomerRequest customerRequest) {
+        customerService.createCustomer(
+                customerRequest.getName(),
+                new Email(customerRequest.getEmail())
+        );
+        return "redirect:";
+    }
+
+    @GetMapping("/{id}")
+    public String customerUpdatePage(Model model, @PathVariable String id) {
+        CustomerResponse customer = customerService.recallCustomerById(UUID.fromString(id));
+        model.addAttribute("customer", customer);
+        return "customer/update";
+    }
+
+    @PatchMapping("/{id}")
+    public String patchUpdateCustomer(@PathVariable String id, CustomerRequest customerRequest) {
+        customerService.updateCustomer(
+                UUID.fromString(id),
+                customerRequest.getName(),
+                new Email(customerRequest.getEmail())
+        );
+        return "redirect:";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteRemoveCustomer(@PathVariable String id) {
+        customerService.deleteCustomer(UUID.fromString(id));
         return "redirect:";
     }
 }

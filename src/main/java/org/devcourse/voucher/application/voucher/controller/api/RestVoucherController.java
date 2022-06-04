@@ -42,10 +42,11 @@ public class RestVoucherController {
         return ApiResponse.ok(OK, voucher);
     }
 
-    @PutMapping("/{id}")
-    public ApiResponse<VoucherResponse> putUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
+    @PatchMapping("/{id}")
+    public ApiResponse<VoucherResponse> patchUpdateVoucher(@PathVariable String id, @RequestBody VoucherRequest voucherRequest) {
         VoucherResponse voucher = voucherService.updateVoucher(
-                UUID.fromString(id), voucherRequest.getDiscount()
+                UUID.fromString(id),
+                voucherRequest.getDiscount()
         );
         return ApiResponse.ok(OK, voucher);
     }
