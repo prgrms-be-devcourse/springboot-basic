@@ -19,8 +19,8 @@
         <input type="text" class="form-control" id="customerId" name="customerId" th:value="${customer.customerId}" disabled>
     </div>
 
-    <form th:action="@{/customer/{id}(id=${customer.customerId})}" th:method="put">
-        <input type="hidden" name="_method" value="put"/>
+    <form th:action="@{/customer/{id}(id=${customer.customerId})}" th:method="patch">
+        <input type="hidden" name="_method" value="patch"/>
         <div class="mb-3">
             <label for="email" class="form-label">email</label>
             <input type="text" class="form-control" id="email" name="email" th:value="${customer.email}"/>

@@ -50,8 +50,8 @@ public class WebCustomerController {
         return "customer/update";
     }
 
-    @PutMapping("/{id}")
-    public String putUpdateCustomer(@PathVariable String id, CustomerRequest customerRequest) {
+    @PatchMapping("/{id}")
+    public String patchUpdateCustomer(@PathVariable String id, CustomerRequest customerRequest) {
         customerService.updateCustomer(
                 UUID.fromString(id),
                 customerRequest.getName(),
