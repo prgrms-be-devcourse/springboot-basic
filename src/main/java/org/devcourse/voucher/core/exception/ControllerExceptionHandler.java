@@ -17,6 +17,8 @@ public class ControllerExceptionHandler {
         return ApiResponse.fail(NOT_FOUND, e.getMessage());
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ApiResponse<String> internalServerError(Exception e) {
         return ApiResponse.fail(INTERNAL_SERVER_ERROR, e.getMessage());
     }
