@@ -1,51 +1,35 @@
 package com.voucher.vouchermanagement.domain.voucher.model;
 
-import java.time.LocalDateTime;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.validation.Valid;
 
 public class VoucherCriteria {
 
 	private VoucherType type;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-	private LocalDateTime startAt;
+	@Valid
+	private DateTimePeriod period;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
-	private LocalDateTime endAt;
-
-	public VoucherCriteria() {
+	protected VoucherCriteria() {
 	}
 
-	public VoucherCriteria(String type, LocalDateTime startAt, LocalDateTime endAt) {
-		if (type != null)
-			this.type = VoucherType.fromName(type);
-		this.startAt = startAt;
-		this.endAt = endAt;
+	public VoucherCriteria(VoucherType type, DateTimePeriod period) {
+		this.type = type;
+		this.period = period;
 	}
 
 	public VoucherType getType() {
 		return type;
 	}
 
-	public LocalDateTime getStartAt() {
-		return startAt;
+	public DateTimePeriod getPeriod() {
+		return period;
 	}
 
-	public LocalDateTime getEndAt() {
-		return endAt;
+	public void setType(VoucherType type) {
+		this.type = type;
 	}
 
-	public void setType(String type) {
-		if (type != null)
-			this.type = VoucherType.fromName(type);
-	}
-
-	public void setStartAt(LocalDateTime startAt) {
-		this.startAt = startAt;
-	}
-
-	public void setEndAt(LocalDateTime endAt) {
-		this.endAt = endAt;
+	public void setPeriod(DateTimePeriod period) {
+		this.period = period;
 	}
 }
