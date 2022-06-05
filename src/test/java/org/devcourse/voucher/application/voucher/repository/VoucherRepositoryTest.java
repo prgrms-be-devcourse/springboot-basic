@@ -14,10 +14,13 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,7 +30,8 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@DataJdbcTest
+@SpringBootTest
+@Transactional
 @ActiveProfiles("test")
 class VoucherRepositoryTest {
 
