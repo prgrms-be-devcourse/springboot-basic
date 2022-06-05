@@ -4,12 +4,7 @@ package com.voucher.vouchermanagement.domain.voucher.repository;
 import static com.voucher.vouchermanagement.domain.voucher.repository.JdbcUtils.*;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -24,6 +19,9 @@ import org.springframework.stereotype.Repository;
 import com.voucher.vouchermanagement.domain.voucher.model.Voucher;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherCriteria;
 import com.voucher.vouchermanagement.domain.voucher.model.VoucherType;
+import com.voucher.vouchermanagement.domain.voucher.repository.criteriaquerybuilder.NamedParameterJdbcTemplateQueryBuilder;
+import com.voucher.vouchermanagement.domain.voucher.repository.criteriaquerybuilder.builder.OrderByBuilder;
+import com.voucher.vouchermanagement.domain.voucher.repository.criteriaquerybuilder.builder.WhereBuilder;
 
 @Repository
 @Profile({"jdbc", "prod"})
@@ -43,40 +41,22 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		);
 	}
 
+	@Override
 	public Page<Voucher> findByCriteria(VoucherCriteria criteria, Pageable pageable) {
-		String baseSql = "SELECT * FROM vouchers ";
-		String where = "WHERE ";
-		String and = "AND ";
-		String type = "type = :type ";
-		String between = "created_at BETWEEN :startAt AND :endAt ";
-
 		Order order = !pageable.getSort().isEmpty() ? pageable.getSort().toList().get(0) : Order.by("id");
-		StringBuilder queryBuilder = new StringBuilder();
-
-		if (criteria.getStartAt() == null && criteria.getEndAt() == null && criteria.getType() == null) {
-			queryBuilder.append(baseSql);
-		} else if (criteria.getType() != null && criteria.getStartAt() != null && criteria.getEndAt() != null) {
-			queryBuilder.append(baseSql).append(where).append(type).append(and).append(between);
-		} else if (criteria.getType() != null && criteria.getStartAt() == null && criteria.getEndAt() == null) {
-			queryBuilder.append(baseSql).append(where).append(type);
-		} else if (criteria.getType() == null && criteria.getStartAt() != null && criteria.getEndAt() != null) {
-			queryBuilder.append(baseSql).append(where).append(between);
-		} else {
-			throw new IllegalArgumentException("잘못된 쿼리 파라미터 입니다.");
-		}
-		queryBuilder.append("ORDER BY ")
-			.append(order.getProperty())
-			.append(" ")
-			.append(order.getDirection())
-			.append(" ");
-		queryBuilder.append("LIMIT ")
-			.append(pageable.getPageSize())
-			.append(" ");
-		queryBuilder.append("OFFSET ")
-			.append(pageable.getOffset());
+		String query = NamedParameterJdbcTemplateQueryBuilder
+			.builder("*","vouchers")
+			.where(
+				criteria.getType() != null ? WhereBuilder.single("type", "type") : null,
+				criteria.getPeriod() != null ? WhereBuilder.between("created_at", "startAt", "endAt") : null
+			)
+			.orderBy(OrderByBuilder.orderBy(order.getProperty(), order.isAscending()))
+			.limit(pageable.getPageSize())
+			.offset(pageable.getOffset())
+			.build();
 
 		List<Voucher> vouchers = jdbcTemplate.query(
-			queryBuilder.toString(),
+			query,
 			toCriteriaParamMap(criteria),
 			voucherRowMapper);
 
@@ -157,10 +137,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 		if (criteria.getType() != null)
 			paramMap.put("type", criteria.getType().getTypeName());
-		if (criteria.getStartAt() != null)
-			paramMap.put("startAt", criteria.getStartAt().toString());
-		if (criteria.getEndAt() != null)
-			paramMap.put("endAt", criteria.getEndAt().toString());
+		if (criteria.getPeriod()!= null && criteria.getPeriod().getStartAt() != null)
+			paramMap.put("startAt", criteria.getPeriod().getStartAt().toString());
+		if (criteria.getPeriod()!= null && criteria.getPeriod().getEndAt() != null)
+			paramMap.put("endAt", criteria.getPeriod().getEndAt().toString());
 
 		return paramMap;
 	}
