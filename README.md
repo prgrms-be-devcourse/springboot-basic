@@ -3,13 +3,14 @@
 
 ## 프로그램 실행방법
 ``` shell
-git clone -b zxcv9203/week2 
+git clone https://github.com/prgrms-be-devcourse/springboot-basic -b zxcv9203/week3
+cd springboot-basic
 make run
 ```
-기본적으로 프로파일은 prod로 실행되며 dev로 변경하고 싶을 경우 다음과 같이 값을 지정하여 실행할 수 있습니다.
+
 
 ```shell
-make run PROFILE=dev
+make run
 ```
 
 ### Makefile 사용방법
@@ -27,3 +28,6 @@ make run PROFILE=dev
 
 - run : 바우처 관리 프로그램을 빌드 후 실행합니다.
 
+## 웹페이지 접속
+
+http://localhost:8080
