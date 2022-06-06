@@ -1,11 +1,12 @@
 package org.devcourse.voucher.application.voucher.service;
 
+import org.devcourse.voucher.application.voucher.controller.dto.VoucherRequest;
 import org.devcourse.voucher.application.voucher.controller.dto.VoucherResponse;
 import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.devcourse.voucher.application.voucher.repository.VoucherRepository;
 import org.devcourse.voucher.core.exception.NotFoundException;
-import org.devcourse.voucher.stub.VoucherStubs;
+import org.devcourse.voucher.core.exception.stub.VoucherStubs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,30 +76,36 @@ class VoucherServiceTest {
     @DisplayName("페이지를 이용한 바우처 조회 테스트")
     void recallAllVoucherTest() {
         // given
-        List<Voucher> want = VoucherStubs.voucherList();
+        List<Voucher> ret = VoucherStubs.voucherList();
+        List<VoucherResponse> want = VoucherStubs.voucherResponseList(ret);
 
         // when
-        when(voucherRepository.findAll(pageable))
-                .thenReturn(want);
+        doReturn(ret)
+                .when(voucherRepository)
+                .findAll(any(Pageable.class));
 
         // then
-        assertThat(voucherRepository.findAll(pageable)).usingRecursiveComparison().isEqualTo(want);
+        assertThat(voucherService.recallAllVoucher(pageable))
+                .usingRecursiveComparison()
+                .isEqualTo(want);
     }
 
     @Test
     @DisplayName("아이디로 바우처 조회 테스트")
     void recallVoucherByIdTest() {
         // given
-        Voucher want = VoucherStubs.fixedAmountVoucher(voucherId);
+        Voucher ret = VoucherStubs.fixedAmountVoucher(voucherId);
+        VoucherResponse want = VoucherStubs.voucherResponse(voucherId);
 
         // when
-        when(voucherRepository.findById(want.getVoucherId()))
-                .thenReturn(Optional.of(want));
-        Optional<Voucher> got = voucherRepository.findById(voucherId);
+        doReturn(Optional.of(ret))
+                .when(voucherRepository)
+                .findById(voucherId);
 
         // then
-        assertThat(got).isPresent();
-        assertThat(got.get()).usingRecursiveComparison().isEqualTo(want);
+        assertThat(voucherService.recallVoucherById(voucherId))
+                .usingRecursiveComparison()
+                .isEqualTo(want);
     }
 
     @Test

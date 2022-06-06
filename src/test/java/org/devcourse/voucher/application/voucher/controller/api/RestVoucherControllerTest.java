@@ -6,9 +6,8 @@ import org.devcourse.voucher.application.voucher.controller.dto.VoucherResponse;
 import org.devcourse.voucher.application.voucher.model.VoucherType;
 import org.devcourse.voucher.application.voucher.service.VoucherService;
 import org.devcourse.voucher.core.exception.ControllerExceptionHandler;
-import org.devcourse.voucher.core.exception.ErrorType;
 import org.devcourse.voucher.core.exception.NotFoundException;
-import org.devcourse.voucher.stub.VoucherStubs;
+import org.devcourse.voucher.core.exception.stub.VoucherStubs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -89,7 +87,7 @@ class RestVoucherControllerTest {
     @DisplayName("바우처 목록 가져오기 테스트")
     void getVoucherListTest() throws Exception {
         // given
-        List<VoucherResponse> response = VoucherStubs.voucherReseponseList();
+        List<VoucherResponse> response = VoucherStubs.voucherResponseList();
 
         // when
         doReturn(response)
