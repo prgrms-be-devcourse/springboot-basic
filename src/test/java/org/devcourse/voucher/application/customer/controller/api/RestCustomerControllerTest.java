@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.devcourse.voucher.core.exception.ErrorType.NOT_FOUND_CUSTOMER;
+import static org.devcourse.voucher.core.exception.ErrorType.NOT_FOUND_VOUCHER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -195,6 +195,48 @@ class RestCustomerControllerTest {
                 MockMvcRequestBuilders.patch(URL + "/" + requestId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(request))
+        );
+
+        // then
+        resultActions.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.statusCode").value(NOT_FOUND.value()))
+                .andExpect(jsonPath("$.data").value(notFoundException.getMessage()));
+    }
+
+    @Test
+    @DisplayName("고객 아이디를 기준으로 고객 삭제 테스트")
+    void deleteRemoveCustomerTest() throws Exception {
+        // given
+        UUID request = UUID.randomUUID();
+        String response = CustomerStubs.deleteMessage(request);
+
+        // when
+        doNothing()
+                .when(customerService)
+                .deleteCustomer(request);
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(URL + "/" + request)
+        );
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusCode").value(OK.value()))
+                .andExpect(jsonPath("$.data").value(response));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이디로 삭제 요청을 보냈을 경우 예외 발생 테스트")
+    void notValidDeleteRemoveCustomerTest() throws Exception {
+        // given
+        UUID request = UUID.randomUUID();
+        NotFoundException notFoundException = new NotFoundException(NOT_FOUND_CUSTOMER, request);
+
+        // when
+        doThrow(notFoundException)
+                .when(customerService)
+                .deleteCustomer(request);
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(URL + "/" + request)
         );
 
         // then

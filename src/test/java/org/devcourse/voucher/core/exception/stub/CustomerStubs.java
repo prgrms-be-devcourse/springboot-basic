@@ -59,4 +59,8 @@ public class CustomerStubs {
     public static CustomerRequest customerRequest() {
         return new CustomerRequest("test", "test@test.com");
     }
+
+    public static String deleteMessage(UUID request) {
+        return "Customer delete : " + request;
+    }
 }

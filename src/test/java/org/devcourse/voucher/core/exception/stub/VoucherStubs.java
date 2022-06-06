@@ -57,4 +57,8 @@ public class VoucherStubs {
                 new VoucherResponse(ret.get(4).getVoucherId(), PERCENT_DISCOUNT_VOUCHER, 99)
         );
     }
+
+    public static String deleteMessage(UUID request) {
+        return "Voucher delete : " + request;
+    }
 }

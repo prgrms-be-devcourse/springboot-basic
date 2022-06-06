@@ -29,8 +29,7 @@ import java.util.UUID;
 import static org.devcourse.voucher.core.exception.ErrorType.NOT_FOUND_VOUCHER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -193,6 +192,48 @@ class RestVoucherControllerTest {
                 MockMvcRequestBuilders.patch(URL + "/" + requestId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(request))
+        );
+
+        // then
+        resultActions.andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.statusCode").value(NOT_FOUND.value()))
+                .andExpect(jsonPath("$.data").value(notFoundException.getMessage()));
+    }
+
+    @Test
+    @DisplayName("아이디를 기준으로 바우처 삭제 테스트")
+    void deleteRemoveVoucherTest() throws Exception{
+        // given
+        UUID request = UUID.randomUUID();
+        String response = VoucherStubs.deleteMessage(request);
+
+        // when
+        doNothing()
+                .when(voucherService)
+                .deleteVoucher(request);
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(URL + "/" + request)
+        );
+
+        // then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.statusCode").value(OK.value()))
+                .andExpect(jsonPath("$.data").value(response));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이디로 삭제 요청을 보냈을 경우 예외 발생 테스트")
+    void notValidDeleteRemoveVoucherTest() throws Exception {
+        // given
+        UUID request = UUID.randomUUID();
+        NotFoundException notFoundException = new NotFoundException(NOT_FOUND_VOUCHER, request);
+
+        // when
+        doThrow(notFoundException)
+                .when(voucherService)
+                .deleteVoucher(request);
+        ResultActions resultActions = mockMvc.perform(
+                MockMvcRequestBuilders.delete(URL + "/" + request)
         );
 
         // then
