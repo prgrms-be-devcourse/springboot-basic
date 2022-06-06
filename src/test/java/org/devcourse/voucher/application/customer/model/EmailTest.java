@@ -1,4 +1,4 @@
-package org.devcourse.voucher.customer.model;
+package org.devcourse.voucher.application.customer.model;
 
 import org.devcourse.voucher.application.customer.model.Email;
 import org.junit.jupiter.api.DisplayName;

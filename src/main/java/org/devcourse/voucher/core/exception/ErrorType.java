@@ -5,12 +5,15 @@ import org.devcourse.voucher.core.configuration.ErrorProperties;
 import java.util.function.Supplier;
 
 public enum ErrorType {
+
     INVALID_COMMAND(ErrorProperties::getInvalidCommand),
     INPUT_NEGATIVE_NUMBERS(ErrorProperties::getInputNegativeNumbers),
     INPUT_NOT_NUMBERS(ErrorProperties::getInputNotNumbers),
     INVALID_TYPE(ErrorProperties::getInvalidType),
     NOT_FOUND_VOUCHER(ErrorProperties::getNotFoundVoucher),
-    NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer);
+    NOT_FOUND_CUSTOMER(ErrorProperties::getNotFoundCustomer),
+    NAME_NOT_VALID_RANGE(ErrorProperties::getNameNotValidRange),
+    DATA_IS_NULL(ErrorProperties::getDataIsNull);
 
     private Supplier<String> error;
 

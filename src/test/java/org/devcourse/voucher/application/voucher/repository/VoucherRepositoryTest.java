@@ -1,20 +1,25 @@
-package org.devcourse.voucher.customer.repository;
+package org.devcourse.voucher.application.voucher.repository;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.devcourse.voucher.application.customer.model.Customer;
-import org.devcourse.voucher.application.customer.model.Email;
-import org.devcourse.voucher.application.customer.repository.CustomerRepository;
+import org.devcourse.voucher.application.voucher.repository.VoucherRepository;
 import org.devcourse.voucher.core.exception.DataUpdateFailException;
+import org.devcourse.voucher.application.voucher.model.FixedAmountVoucher;
+import org.devcourse.voucher.application.voucher.model.PercentDiscountVoucher;
+import org.devcourse.voucher.application.voucher.model.Voucher;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -28,14 +33,16 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-class JdbcCustomerRepositoryTest {
+class VoucherRepositoryTest {
 
     private static EmbeddedMysql embeddedMysql;
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private VoucherRepository voucherRepository;
 
-    private Pageable pageable;
+    Pageable pageable;
+
+    private final FixedAmountVoucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
 
     @BeforeAll
     static void setup() {
@@ -60,55 +67,54 @@ class JdbcCustomerRepositoryTest {
         pageable = Pageable.ofSize(5);
     }
 
-    private final Customer newCustomer = new Customer(UUID.randomUUID(),
-            "yongcheol",
-            new Email("yongcheol@devcourse.com"));
-
-    private List<Customer> customerStubsCreate() {
-        ArrayList<Customer> customers = new ArrayList<>(List.of(
-                new Customer(UUID.randomUUID(), "test1", new Email("test1@test.com")),
-                new Customer(UUID.randomUUID(), "test2", new Email("test2@test.com")),
-                new Customer(UUID.randomUUID(), "test3", new Email("test3@test.com")),
-                new Customer(UUID.randomUUID(), "test4", new Email("test4@test.com"))
+    private List<Voucher> vouchersStubCreate() {
+        List<Voucher> vouchers = new ArrayList<>(List.of(
+                new FixedAmountVoucher(UUID.randomUUID(), 1000),
+                new PercentDiscountVoucher(UUID.randomUUID(), 35),
+                new FixedAmountVoucher(UUID.randomUUID(), 500),
+                new PercentDiscountVoucher(UUID.randomUUID(), 90),
+                new FixedAmountVoucher(UUID.randomUUID(), 4500)
         ));
-        customers.sort(new Comparator<Customer>() {
+
+        vouchers.sort(new Comparator<Voucher>() {
             @Override
-            public int compare(Customer c1, Customer c2) {
-                return c1.getCustomerId().toString().compareTo(c2.getCustomerId().toString());
+            public int compare(Voucher v1, Voucher v2) {
+                return v1.getVoucherId().toString().compareTo(v2.getVoucherId().toString());
             }
         });
-        return customers;
+
+        return vouchers;
     }
 
     @Test
     @DisplayName("데이터베이스에 값이 잘 들어가는지 확인하는 테스트")
-    void customerInsertTest() {
-        customerRepository.insert(newCustomer);
+    void insertTest() {
+        voucherRepository.insert(newVoucher);
 
-        Customer customer = customerRepository.findAll(pageable).get(0);
+        List<Voucher> vouchers = voucherRepository.findAll(pageable);
 
-        assertThat(customer).usingRecursiveComparison().isEqualTo(newCustomer);
+        assertThat(vouchers.get(0)).usingRecursiveComparison().isEqualTo(newVoucher);
     }
 
     @Test
     @DisplayName("중복된 데이터를 넣으려고 할 경우 예외가 발생하는지 테스트")
     void duplicateCustomerInsertTest() {
-        customerRepository.insert(newCustomer);
+        voucherRepository.insert(newVoucher);
 
         assertThatExceptionOfType(DuplicateKeyException.class)
-                .isThrownBy(() -> customerRepository.insert(newCustomer));
+                .isThrownBy(() -> voucherRepository.insert(newVoucher));
     }
 
     @Test
     @DisplayName("DB에 들어있는 데이터를 업데이트 했을 때 잘 업데이트가 되는지 테스트")
     void customerUpdateTest() {
-        customerRepository.insert(newCustomer);
-        newCustomer.setName("yongc");
+        voucherRepository.insert(newVoucher);
+        newVoucher.setDiscount(1000);
 
-        customerRepository.update(newCustomer);
-        Customer customer = customerRepository.findAll(pageable).get(0);
+        voucherRepository.update(newVoucher);
+        Voucher customer = voucherRepository.findAll(pageable).get(0);
 
-        assertThat(customer.getName()).isEqualTo("yongc");
+        assertThat(customer.getDiscount()).isEqualTo(1000);
     }
 
     @Test
@@ -116,32 +122,32 @@ class JdbcCustomerRepositoryTest {
     void notExistsCustomerUpdateTest() {
 
         assertThatExceptionOfType(DataUpdateFailException.class)
-                .isThrownBy(() -> customerRepository.update(newCustomer));
+                .isThrownBy(() -> voucherRepository.update(newVoucher));
     }
 
     @Test
     @DisplayName("DB에 존재하는 데이터가 잘 조회되는지 테스트")
     void customerFindAllTest() {
-        List<Customer> stubs = customerStubsCreate();
+        List<Voucher> stubs = vouchersStubCreate();
 
-        for (Customer customer : stubs) {
-            customerRepository.insert(customer);
+        for (Voucher voucher : stubs) {
+            voucherRepository.insert(voucher);
         }
-        List<Customer> customers = customerRepository.findAll(pageable);
+        List<Voucher> vouchers = voucherRepository.findAll(pageable);
 
-        assertThat(customers).usingRecursiveComparison().isEqualTo(stubs);
+        assertThat(vouchers).usingRecursiveComparison().isEqualTo(stubs);
     }
 
     @Test
     @DisplayName("DB에 존재하는 데이터가 전부 잘 삭제되는지 테스트")
     void customerDeleteAllTest() {
-        List<Customer> stubs = customerStubsCreate();
+        List<Voucher> stubs = vouchersStubCreate();
 
-        for (Customer customer : stubs) {
-            customerRepository.insert(customer);
+        for (Voucher voucher : stubs) {
+            voucherRepository.insert(voucher);
         }
-        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
 
-        assertThat(customerRepository.findAll(pageable)).isEmpty();
+        assertThat(voucherRepository.findAll(pageable)).isEmpty();
     }
 }

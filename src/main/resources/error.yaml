@@ -5,3 +5,5 @@ error:
   invalidType: "Invalid Type entered."
   notFoundVoucher: "not found voucher id"
   notFoundCustomer: "not found customer id"
+  nameNotValidRange: "Please enter a name within 1 to 25 characters"
+  dataIsNull: "Data cannot be null"
