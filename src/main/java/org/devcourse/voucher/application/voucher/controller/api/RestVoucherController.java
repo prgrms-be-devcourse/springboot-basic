@@ -51,4 +51,9 @@ public class RestVoucherController {
         return ApiResponse.ok(OK, voucher);
     }
 
+    @DeleteMapping("/{id}")
+    ApiResponse<String> deleteRemoveVoucher(@PathVariable String id) {
+        voucherService.deleteVoucher(UUID.fromString(id));
+        return ApiResponse.ok(OK, "Voucher delete : " + id);
+    }
 }

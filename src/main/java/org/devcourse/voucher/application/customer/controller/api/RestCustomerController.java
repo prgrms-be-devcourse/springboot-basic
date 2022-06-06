@@ -57,4 +57,10 @@ public class RestCustomerController {
         );
         return ApiResponse.ok(OK, customer);
     }
+
+    @DeleteMapping("/{id}")
+    ApiResponse<String> deleteRemoveCustomer(@PathVariable String id) {
+        customerService.deleteCustomer(UUID.fromString(id));
+        return ApiResponse.ok(OK, "Customer delete : " + id);
+    }
 }
