@@ -136,6 +136,7 @@ class RestVoucherControllerTest {
         // given
         UUID request = UUID.randomUUID();
         NotFoundException notFoundException = new NotFoundException(NOT_FOUND_VOUCHER, request);
+
         // when
         doThrow(notFoundException)
                 .when(voucherService)
@@ -143,6 +144,7 @@ class RestVoucherControllerTest {
         ResultActions resultActions = mockMvc.perform(
                 MockMvcRequestBuilders.get(URL + "/" + request)
         );
+
         // then
         resultActions.andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.statusCode").value(NOT_FOUND.value()))

@@ -17,7 +17,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
-@RequestMapping("/api/v1/customers")
+@RequestMapping("/api/v1/customer")
 public class RestCustomerController {
 
     private final CustomerService customerService;
@@ -27,6 +27,7 @@ public class RestCustomerController {
     }
 
     @PostMapping("")
+    @ResponseStatus(CREATED)
     public ApiResponse<CustomerResponse> postCreateCustomer(@RequestBody CustomerRequest customerRequest) {
         CustomerResponse customer = customerService.createCustomer(
                 customerRequest.getName(),

@@ -1,5 +1,7 @@
 package org.devcourse.voucher.application.customer.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import static org.devcourse.voucher.core.exception.ErrorType.*;
 
 public class CustomerRequest {
@@ -8,7 +10,7 @@ public class CustomerRequest {
 
     private final String email;
 
-    public CustomerRequest(String name, String email) {
+    public CustomerRequest(@JsonProperty("name") String name, @JsonProperty("email") String email) {
         this.name = name;
         this.email = email;
     }

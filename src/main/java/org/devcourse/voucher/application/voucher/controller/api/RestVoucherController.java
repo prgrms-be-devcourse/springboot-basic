@@ -50,4 +50,5 @@ public class RestVoucherController {
         );
         return ApiResponse.ok(OK, voucher);
     }
+
 }

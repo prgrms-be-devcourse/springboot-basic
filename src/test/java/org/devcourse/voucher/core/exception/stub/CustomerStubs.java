@@ -1,5 +1,6 @@
 package org.devcourse.voucher.core.exception.stub;
 
+import org.devcourse.voucher.application.customer.controller.dto.CustomerRequest;
 import org.devcourse.voucher.application.customer.controller.dto.CustomerResponse;
 import org.devcourse.voucher.application.customer.model.Customer;
 import org.devcourse.voucher.application.customer.model.Email;
@@ -32,6 +33,16 @@ public class CustomerStubs {
         );
     }
 
+    public static List<CustomerResponse> customerResponseList() {
+        return List.of(
+                new CustomerResponse(UUID.randomUUID(), "test1", "test1@test.com"),
+                new CustomerResponse(UUID.randomUUID(), "test2", "test2@test.com"),
+                new CustomerResponse(UUID.randomUUID(), "test3", "test3@test.com"),
+                new CustomerResponse(UUID.randomUUID(), "test4", "test4@test.com"),
+                new CustomerResponse(UUID.randomUUID(), "test5", "test5@test.com")
+        );
+    }
+
     public static Customer customer(UUID customerId) {
         return new Customer(customerId, "test", new Email("test@test.com"));
     }
@@ -43,5 +54,9 @@ public class CustomerStubs {
     public static CustomerResponse customerResponse(UUID customerId, String name, Email email) {
         return new CustomerResponse(customerId, name, email.getAddress());
 
+    }
+
+    public static CustomerRequest customerRequest() {
+        return new CustomerRequest("test", "test@test.com");
     }
 }
