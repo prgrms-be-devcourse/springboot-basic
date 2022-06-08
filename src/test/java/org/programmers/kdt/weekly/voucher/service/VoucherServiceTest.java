@@ -57,7 +57,7 @@ class VoucherServiceTest {
 		var vouchers = List.of(VOUCHER);
 		when(voucherRepository.findAll()).thenReturn(vouchers);
 		//when
-		var findVouchers = voucherService.getVouchers();
+		var findVouchers = voucherService.getAll();
 		//then
 		verify(voucherRepository, times(1)).findAll();
 		assertThat(findVouchers, equalTo(vouchers));

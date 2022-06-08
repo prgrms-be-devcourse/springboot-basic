@@ -9,7 +9,7 @@ public interface Voucher {
 
 	int getValue();
 
-	void changeValue(int value);
+	Voucher changeValue(int value);
 
 	LocalDateTime getCreatedAt();
 

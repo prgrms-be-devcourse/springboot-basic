@@ -18,7 +18,7 @@ public class PercentDiscountVoucher implements Voucher {
 	private final VoucherType voucherType = VoucherType.PERCENT;
 
 	public PercentDiscountVoucher(UUID voucherId, int value) {
-		validation(value);
+		verifyValue(value);
 
 		this.voucherId = voucherId;
 		this.value = value;
@@ -26,14 +26,14 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	public PercentDiscountVoucher(UUID voucherId, int value, LocalDateTime createdAt) {
-		validation(value);
+		verifyValue(value);
 
 		this.voucherId = voucherId;
 		this.value = value;
 		this.createdAt = createdAt.truncatedTo(ChronoUnit.MICROS);
 	}
 
-	private void validation(int value) {
+	private void verifyValue(int value) {
 		if (value <= 0 || value > 100) {
 			throw new InvalidVoucherValueException("할인율은 0%보다 크고 100% 이하만 가능합니다.", ErrorCode.INVALID_REQUEST_VALUE);
 		}
@@ -50,8 +50,10 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	@Override
-	public void changeValue(int value) {
+	public Voucher changeValue(int value) {
 		this.value = value;
+
+		return this;
 	}
 
 	@Override

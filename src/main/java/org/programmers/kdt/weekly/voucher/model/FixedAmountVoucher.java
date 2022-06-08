@@ -39,7 +39,6 @@ public class FixedAmountVoucher implements Voucher {
 
 	@Override
 	public int discount(int beforeDiscount) {
-
 		if (beforeDiscount < value) {
 			return 0;
 		}
@@ -58,8 +57,10 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public void changeValue(int value) {
+	public Voucher changeValue(int value) {
 		this.value = value;
+
+		return this;
 	}
 
 	@Override

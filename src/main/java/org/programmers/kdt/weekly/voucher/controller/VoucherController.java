@@ -2,6 +2,7 @@ package org.programmers.kdt.weekly.voucher.controller;
 
 import java.util.UUID;
 
+import org.programmers.kdt.weekly.voucher.controller.dto.VoucherDto;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class VoucherController {
 
 	@GetMapping("/vouchers")
 	public String list(Model model) {
-		var vouchers = this.voucherService.getVouchers();
+		var vouchers = this.voucherService.getAll();
 		model.addAttribute("vouchers", vouchers);
 
 		return "voucher-list";
@@ -44,7 +45,7 @@ public class VoucherController {
 
 	@GetMapping("/voucher/{voucherId}")
 	public String detail(@PathVariable("voucherId") UUID voucherId, Model model) {
-		var voucher = this.voucherService.getVoucherById(voucherId);
+		var voucher = this.voucherService.getById(voucherId);
 		model.addAttribute("voucher", voucher);
 
 		return "voucher-detail";

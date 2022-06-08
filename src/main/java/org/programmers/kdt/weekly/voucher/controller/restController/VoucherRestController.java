@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-import org.programmers.kdt.weekly.voucher.controller.VoucherDto;
+import org.programmers.kdt.weekly.voucher.controller.dto.DateRequestDto;
+import org.programmers.kdt.weekly.voucher.controller.dto.VoucherDto;
 import org.programmers.kdt.weekly.voucher.controller.response.ApiResponse;
-import org.programmers.kdt.weekly.voucher.exception.InvalidDateRequestException;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/voucher")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherRestController {
 
 	private final VoucherService voucherService;
@@ -31,38 +31,30 @@ public class VoucherRestController {
 	@PostMapping
 	public ApiResponse<VoucherDto.Response> create(
 		@RequestBody @Valid VoucherDto.CreateRequest createRequest) {
-
-		return ApiResponse.ok(this.voucherService.save(createRequest.voucherType(),
+		return ApiResponse.create(this.voucherService.save(createRequest.voucherType(),
 			createRequest.value()));
 	}
 
 	@GetMapping
 	public ApiResponse<List<VoucherDto.Response>> getVouchers() {
-
-		return ApiResponse.ok(this.voucherService.getVouchers());
+		return ApiResponse.ok(this.voucherService.getAll());
 	}
 
 	@GetMapping("/type/{type}")
 	public ApiResponse<List<VoucherDto.Response>> getVouchersByType(@PathVariable VoucherType type) {
-
-		return ApiResponse.ok(this.voucherService.getVoucherByType(type));
+		return ApiResponse.ok(this.voucherService.getByType(type));
 	}
 
-	@GetMapping(value = "/period")
+	@GetMapping("/created-at")
 	public ApiResponse<List<VoucherDto.Response>> getVouchersByCreatedTime(
-		@RequestBody @Valid VoucherDto.DateRequest dateRequest) {
+		@Valid DateRequestDto dateRequestDto) {
 
-		if (dateRequest.begin().isAfter(dateRequest.end())) {
-			throw new InvalidDateRequestException("종료 날짜가 시작 날짜 이전일 수 없습니다.");
-		}
-
-		return ApiResponse.ok(this.voucherService.getVoucherByCreatedAt(dateRequest.begin(), dateRequest.end()));
+		return ApiResponse.ok(this.voucherService.getByCreatedAt(dateRequestDto.begin(), dateRequestDto.end()));
 	}
 
 	@GetMapping("/{id}")
 	public ApiResponse<VoucherDto.Response> getVoucherById(@PathVariable UUID id) {
-
-		return ApiResponse.ok(this.voucherService.getVoucherById(id));
+		return ApiResponse.ok(this.voucherService.getById(id));
 	}
 
 	@DeleteMapping("/{id}")

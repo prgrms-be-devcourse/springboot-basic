@@ -3,9 +3,8 @@ package org.programmers.kdt.weekly.voucher.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-import org.programmers.kdt.weekly.voucher.controller.VoucherDto;
+import org.programmers.kdt.weekly.voucher.controller.dto.VoucherDto;
 import org.programmers.kdt.weekly.voucher.controller.response.ErrorCode;
 import org.programmers.kdt.weekly.voucher.exception.NotFoundEntityByIdException;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
@@ -31,15 +30,14 @@ public class VoucherService {
 		return VoucherDto.Response.from(savedVoucher);
 	}
 
-	public List<VoucherDto.Response> getVouchers() {
-
+	public List<VoucherDto.Response> getAll() {
 		return this.voucherRepository.findAll()
 			.stream()
 			.map(VoucherDto.Response::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
-	public VoucherDto.Response getVoucherById(UUID id) {
+	public VoucherDto.Response getById(UUID id) {
 		var foundVoucher = this.voucherRepository.findById(id)
 			.orElseThrow(
 				() -> new NotFoundEntityByIdException("해당 voucher ID를 찾을 수 없습니다. -> " + id,
@@ -58,27 +56,24 @@ public class VoucherService {
 		var foundVoucher = this.voucherRepository.findById(id)
 			.orElseThrow(
 				() -> new NotFoundEntityByIdException("해당 voucher ID를 찾을 수 없습니다. -> " + id,
-					ErrorCode.NOT_FOUND_VOUCHER_BY_ID));
-
-		foundVoucher.changeValue(value);
+					ErrorCode.NOT_FOUND_VOUCHER_BY_ID))
+			.changeValue(value);
 		var updatedVoucher = voucherRepository.update(foundVoucher);
 
 		return VoucherDto.Response.from(updatedVoucher);
 	}
 
-	public List<VoucherDto.Response> getVoucherByType(VoucherType voucherType) {
-
+	public List<VoucherDto.Response> getByType(VoucherType voucherType) {
 		return this.voucherRepository.findByType(voucherType)
 			.stream()
 			.map(VoucherDto.Response::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
-	public List<VoucherDto.Response> getVoucherByCreatedAt(LocalDate begin, LocalDate end) {
-
+	public List<VoucherDto.Response> getByCreatedAt(LocalDate begin, LocalDate end) {
 		return this.voucherRepository.findByCreatedAt(begin, end)
 			.stream()
 			.map(VoucherDto.Response::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 }

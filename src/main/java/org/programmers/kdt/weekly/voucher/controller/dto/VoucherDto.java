@@ -1,18 +1,17 @@
-package org.programmers.kdt.weekly.voucher.controller;
+package org.programmers.kdt.weekly.voucher.controller.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import org.programmers.kdt.weekly.voucher.annotation.DateCheck;
 import org.programmers.kdt.weekly.voucher.model.Voucher;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 
 public class VoucherDto {
 	public record UpdateRequest(
-		@NotNull
+		@NotNull @Size
 		int value) {
 	}
 
@@ -20,7 +19,7 @@ public class VoucherDto {
 		@NotNull
 		VoucherType voucherType,
 
-		@NotNull
+		@NotNull @Size
 		int value) {
 	}
 
@@ -36,21 +35,8 @@ public class VoucherDto {
 		}
 
 		public static Voucher to(Response response) {
-
 			return response.type()
 				.create(response.id(), response.value(), response.createdAt());
 		}
-	}
-
-	public record DateRequest(
-
-		@NotNull
-		@DateCheck(message = "시작일은 현재 날짜 이후일 수 없습니다.")
-		LocalDate begin,
-
-		@NotNull
-		@DateCheck(message = "종료일은 현재 날짜 이후일 수 없습니다.")
-		LocalDate end) {
-
 	}
 }

@@ -6,16 +6,17 @@ import java.util.List;
 
 import org.programmers.kdt.weekly.command.io.Console;
 import org.programmers.kdt.weekly.command.io.InfoMessageType;
-import org.programmers.kdt.weekly.voucher.controller.restController.VoucherDto.VoucherResponse;
+import org.programmers.kdt.weekly.voucher.controller.dto.VoucherDto;
 import org.programmers.kdt.weekly.voucher.model.VoucherType;
 import org.programmers.kdt.weekly.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @Component
 public class VoucherCommandLine {
+
+	private final Logger log = LoggerFactory.getLogger(VoucherCommandLine.class);
 
 	private final Console console;
 	private final VoucherService voucherService;
@@ -60,7 +61,7 @@ public class VoucherCommandLine {
 	}
 
 	private void showVoucherList() {
-		List<VoucherResponse> vouchers = voucherService.getVouchers();
+		List<VoucherDto.Response> vouchers = voucherService.getAll();
 
 		if (vouchers.size() <= 0) {
 			this.console.printInfoMessage(InfoMessageType.VOUCHER_EMPTY);
@@ -68,7 +69,7 @@ public class VoucherCommandLine {
 			return;
 		}
 
-		for (VoucherResponse voucher : vouchers) {
+		for (VoucherDto.Response voucher : vouchers) {
 			System.out.println(voucher.toString());
 		}
 	}
