@@ -1,42 +1,39 @@
 package org.programmers.kdt.weekly.voucher.controller.response;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.validation.BindingResult;
 
 public class ErrorResponse {
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private final LocalDateTime timestamp = LocalDateTime.now();
-	private final int status;
-	private final String error;
 	private final String code;
 	private final String message;
+	private final List<BindErrorField> errorFields;
 
 	public ErrorResponse(ErrorCode errorCodeMessage, String message) {
-		this.status = errorCodeMessage.getStatusCode().value();
-		this.error = errorCodeMessage.getStatusCode().name();
 		this.code = errorCodeMessage.name();
 		this.message = message;
+		this.errorFields = new ArrayList<>();
 	}
 
-	public LocalDateTime getTimestamp() {
-		return timestamp;
+	public ErrorResponse(ErrorCode errorCodeMessage, String message, List<BindErrorField> errorFields) {
+		this.code = errorCodeMessage.name();
+		this.message = message;
+		this.errorFields = errorFields;
 	}
 
-	public int getStatus() {
-		return status;
+	private record BindErrorField(String field, String value, String message) {
 	}
 
-	public String getError() {
-		return error;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public String getMessage() {
-		return message;
+	public static List<BindErrorField> bindErrorFields(BindingResult bindingResult) {
+		return bindingResult.getFieldErrors().stream()
+			.map(error -> new BindErrorField(error.getField(),
+				Objects.requireNonNull(error.getRejectedValue()).toString(),
+				error.getDefaultMessage()))
+			.toList();
 	}
 }
