@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/customer_voucher_management
+    username: root
+    password: jungki503\
