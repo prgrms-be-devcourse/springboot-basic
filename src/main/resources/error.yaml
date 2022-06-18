@@ -1,0 +1,9 @@
+error:
+  invalidCommand: "Invalid command entered."
+  inputNegativeNumbers: "A value of 0 or less has been entered."
+  inputNotNumbers: "You must enter only numbers."
+  invalidType: "Invalid Type entered."
+  notFoundVoucher: "not found voucher id"
+  notFoundCustomer: "not found customer id"
+  nameNotValidRange: "Please enter a name within 1 to 25 characters"
+  dataIsNull: "Data cannot be null"
