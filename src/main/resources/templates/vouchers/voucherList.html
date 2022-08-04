@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<h2 th:text="#{page.voucher.list}">바우처 목록</h2>
+<h3 th:if="${type!=null}" th:text="|${type.name}만 검색|"></h3>
+<div th:if="${dateParameterError}">
+    <p th:text="#{search.voucher.orderOfDate}"/>
+</div>
+<h3 th:if="${startingDate!=null && endingDate!=null}" th:text="|${startingDate} ~ ${endingDate} 사이 값|"></h3>
+<a th:if="${type!=null}" th:text="#{button.reset.conditional}" th:href="@{/vouchers}"></a>
+<form action="/vouchers" method="get">
+    <input type="hidden" name="type" th:value="${type}">
+    <div>
+        <label th:for="startingDate" th:text="#{label.search.conditional.startingDate}"></label>
+        <input type="date" name="startingDate">
+    </div>
+    <div>
+        <label th:for="endingDate" th:text="#{label.search.conditional.endingDate}"></label>
+        <input type="date" name="endingDate">
+    </div>
+    <button type="submit" th:text="#{button.search.date}">날짜로 검색하기</button>
+</form>
+<div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th th:text="#{label.voucher.voucherId}">바우처 일련번호</th>
+            <th th:text="#{label.voucher.type}">바우처 종류</th>
+            <th th:text="#{label.voucher.amount}">바우처 할인 수치</th>
+            <th th:text="#{label.voucher.registeredAt}">바우처가 생성된 시간</th>
+            <th th:text="#{label.voucher.memberId}">바우처 주인 ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers}">
+            <td><a th:href="@{|/vouchers/${voucher.voucherId}|}" th:text="${voucher.voucherId}">바우처 일련번호</a></td>
+            <td><a th:href="@{|/vouchers?type=${voucher.type}|}" th:text="${voucher.type.getName()}">바우처 종류</a>
+            </td>
+            <td th:text="${voucher.amount}">바우처 할인 수치</td>
+            <td th:text="${voucher.registeredAt}">바우처 생성된 시점</td>
+            <td th:text="${voucher.memberId}">바우처 주인 ID</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div>
+    <button type="button" th:text="#{button.home}" th:onclick="|location.href='@{/}'|">메인 메뉴</button>
+</div>
+</body>
+</html>

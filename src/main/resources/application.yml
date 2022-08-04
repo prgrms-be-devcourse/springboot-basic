@@ -1,0 +1,24 @@
+spring:
+  messages:
+    basename: messages, errors
+  datasource:
+    url: jdbc:h2:mem:kdt
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:h2/schema.sql
+console:
+  error:
+    detail: false
+voucher:
+  fixed:
+    minimumAmount: 100
+    maximumAmount: 100000
+  rate:
+    minimumAmount: 5
+    maximumAmount: 80

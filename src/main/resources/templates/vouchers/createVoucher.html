@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<h2 th:text="#{page.voucher.create}">바우처 생성</h2>
+<form action="item.html" th:action th:object="${voucher}" method="post">
+    <div>
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p th:each="error : ${#fields.globalErrors()}" th:text="${error}">에러 메시지</p>
+        </div>
+        <div th:text="#{label.voucher.type}">바우처 종류</div>
+        <div th:each="voucherType : ${voucherTypes}">
+            <label th:for="type" th:text="${voucherType.getName}"/>
+            <input type="radio" th:field="*{type}" th:value="${voucherType}">
+            <span th:text="${voucherType.getDescription}"/>
+            <span th:errors="*{type}">바우처 종류 오류</span>
+        </div>
+        <div>
+            <label th:for="amount" th:text="#{label.voucher.amount}">할인 양</label>
+            <input type="text" th:field="*{amount}" placeholder="할인 양을 입력하세요">
+            <span th:errors="*{amount}">할인액 오류</span>
+        </div>
+    </div>
+    <div>
+        <button type="submit" th:text="#{button.save}">바우처 등록</button>
+        <button type="button" th:text="#{button.home}" th:onclick="|location.href='@{/}'|">메인 메뉴</button>
+    </div>
+</form>
+</body>
+</html>
