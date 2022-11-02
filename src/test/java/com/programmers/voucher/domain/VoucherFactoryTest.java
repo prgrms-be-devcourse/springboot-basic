@@ -5,14 +5,16 @@ import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.config.AppConfig;
 import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 class VoucherFactoryTest {
 
-	AppConfig appConfig = new AppConfig();
-	VoucherFactory factory = appConfig.voucherFactory();
+	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+	VoucherFactory factory = applicationContext.getBean(VoucherFactory.class);
 
 	@Test
 	@DisplayName("원하는 타입으로 바우처 생성이 성공한다.")

@@ -3,6 +3,8 @@ package com.programmers.voucher.service;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.config.AppConfig;
 import com.programmers.voucher.domain.Voucher;
@@ -10,9 +12,9 @@ import com.programmers.voucher.repository.VoucherRepository;
 
 class VoucherServiceTest {
 
-	AppConfig appConfig = new AppConfig();
-	VoucherRepository repository = appConfig.voucherRepository();
-	VoucherService service = appConfig.voucherService();
+	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+	VoucherRepository repository = applicationContext.getBean(VoucherRepository.class);
+	VoucherService service = applicationContext.getBean(VoucherService.class);
 
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")

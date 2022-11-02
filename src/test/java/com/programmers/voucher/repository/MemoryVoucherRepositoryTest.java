@@ -7,6 +7,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.config.AppConfig;
 import com.programmers.voucher.domain.FixedDiscountVoucher;
@@ -15,8 +17,8 @@ import com.programmers.voucher.domain.Voucher;
 
 class MemoryVoucherRepositoryTest {
 
-	AppConfig appConfig = new AppConfig();
-	VoucherRepository repository = appConfig.voucherRepository();
+	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+	VoucherRepository repository = applicationContext.getBean(VoucherRepository.class);
 
 	@BeforeEach
 	public void beforeEach() {
