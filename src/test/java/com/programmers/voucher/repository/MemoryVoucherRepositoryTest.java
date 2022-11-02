@@ -8,13 +8,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.programmers.voucher.config.AppConfig;
 import com.programmers.voucher.domain.FixedDiscountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 
 class MemoryVoucherRepositoryTest {
 
-	VoucherRepository repository = new MemoryVoucherRepository();
+	AppConfig appConfig = new AppConfig();
+	VoucherRepository repository = appConfig.voucherRepository();
 
 	@BeforeEach
 	public void beforeEach() {

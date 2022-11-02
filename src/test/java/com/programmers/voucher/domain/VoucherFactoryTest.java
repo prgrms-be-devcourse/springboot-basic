@@ -11,7 +11,8 @@ import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 class VoucherFactoryTest {
 
-	VoucherFactory factory = new VoucherFactory();
+	AppConfig appConfig = new AppConfig();
+	VoucherFactory factory = appConfig.voucherFactory();
 
 	@Test
 	@DisplayName("원하는 타입으로 바우처 생성이 성공한다.")

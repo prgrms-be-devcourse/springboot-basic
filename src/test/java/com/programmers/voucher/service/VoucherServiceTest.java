@@ -4,16 +4,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.programmers.voucher.config.AppConfig;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherFactory;
-import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 
 class VoucherServiceTest {
 
-	VoucherRepository repository = new MemoryVoucherRepository();
-	VoucherFactory factory = new VoucherFactory();
-	VoucherService service = new VoucherService(repository, factory);
+	AppConfig appConfig = new AppConfig();
+	VoucherRepository repository = appConfig.voucherRepository();
+	VoucherService service = appConfig.voucherService();
 
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")
