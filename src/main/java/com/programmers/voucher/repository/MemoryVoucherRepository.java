@@ -5,8 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
 import com.programmers.voucher.domain.Voucher;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private static final HashMap<UUID, Voucher> repository = new HashMap<>();

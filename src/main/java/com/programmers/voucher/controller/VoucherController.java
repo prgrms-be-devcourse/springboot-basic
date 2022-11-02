@@ -2,17 +2,22 @@ package com.programmers.voucher.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;
 import com.programmers.voucher.service.VoucherService;
 
+@Controller
 public class VoucherController implements Runnable {
 
 	private Input input;
 	private Output output;
 	private VoucherService service;
 
+	@Autowired
 	public VoucherController(Input input, Output output, VoucherService service) {
 		this.input = input;
 		this.output = output;

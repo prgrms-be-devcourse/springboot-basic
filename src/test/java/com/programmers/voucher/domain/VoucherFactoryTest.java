@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.programmers.voucher.config.AppConfig;
+import com.programmers.voucher.AppConfig;
 import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 class VoucherFactoryTest {

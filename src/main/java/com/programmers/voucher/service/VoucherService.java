@@ -3,15 +3,20 @@ package com.programmers.voucher.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.domain.VoucherFactory;
 import com.programmers.voucher.repository.VoucherRepository;
 
+@Service
 public class VoucherService {
 
 	private VoucherRepository repository;
 	private VoucherFactory factory;
 
+	@Autowired
 	public VoucherService(VoucherRepository repository, VoucherFactory factory) {
 		this.repository = repository;
 		this.factory = factory;

@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.programmers.voucher.config.AppConfig;
+import com.programmers.voucher.AppConfig;
 import com.programmers.voucher.domain.FixedDiscountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
