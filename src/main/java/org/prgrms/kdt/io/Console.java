@@ -16,4 +16,8 @@ public class Console {
     public void printText(String text) {
         output.outputText(text);
     }
+
+    public String getInput() {
+        return input.inputText();
+    }
 }
