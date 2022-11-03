@@ -5,14 +5,13 @@ import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
 import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
 import org.programmers.springbootbasic.util.ConstantMessageUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
 @AllArgsConstructor
-public class VoucherExecutor {
+public class VoucherManagementExecutor {
 
     private final Input input;
     private final Output output;
