@@ -28,7 +28,7 @@ public enum CommandType {
     }
 
     public static CommandType findCommandType(String command) {
-        return Optional.ofNullable(commandMap.get(command))
+        return Optional.ofNullable(commandMap.get(command.toLowerCase()))
                 .orElse(UNKNOWN);
     }
 }
