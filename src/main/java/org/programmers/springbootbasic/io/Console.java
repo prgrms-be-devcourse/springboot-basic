@@ -1,12 +1,14 @@
 package org.programmers.springbootbasic.io;
 
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 
+@Component
 public class Console implements Input, Output{
 
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
