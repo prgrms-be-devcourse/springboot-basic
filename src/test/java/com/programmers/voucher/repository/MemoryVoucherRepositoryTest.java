@@ -7,18 +7,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import com.programmers.voucher.AppConfig;
 import com.programmers.voucher.domain.FixedDiscountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 
 class MemoryVoucherRepositoryTest {
 
-	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-	VoucherRepository repository = applicationContext.getBean(VoucherRepository.class);
+	VoucherRepository repository = new MemoryVoucherRepository();
 
 	@BeforeEach
 	public void beforeEach() {
@@ -43,10 +39,12 @@ class MemoryVoucherRepositoryTest {
 		Voucher voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 1000);
 		Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
+		List<Voucher> beforeSave = repository.findAll();
+		int beforeSize = beforeSave.size();
 		repository.save(voucher1);
 		repository.save(voucher2);
-		List<Voucher> vouchers = repository.findAll();
+		int afterSize = repository.findAll().size();
 
-		Assertions.assertThat(vouchers.size()).isEqualTo(2);
+		Assertions.assertThat(afterSize).isEqualTo(beforeSize + 2);
 	}
 }
