@@ -1,4 +1,4 @@
-package com.programmers.commandlind;
+package com.programmers.commandLine;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
