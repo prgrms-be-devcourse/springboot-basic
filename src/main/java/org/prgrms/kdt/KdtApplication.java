@@ -10,5 +10,4 @@ public class KdtApplication {
         SpringApplication.run(KdtApplication.class, args);
     }
 
-
 }

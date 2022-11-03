@@ -2,23 +2,24 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.io.IO;
 import org.prgrms.kdt.model.CommandType;
+import org.prgrms.kdt.utils.VoucherControllerManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import static org.prgrms.kdt.utils.Constant.COMMAND_ERROR_PROMPT;
-
 @Configuration
-public class VoucherManagementController implements CommandLineRunner {
+public class VoucherController implements CommandLineRunner {
+
     private final IO io;
+    private final VoucherControllerManager voucherManager;
 
-    public VoucherManagementController(IO io) {
+    public VoucherController(IO io, VoucherControllerManager voucherManager) {
         this.io = io;
+        this.voucherManager = voucherManager;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
-        while (true) {
+        while (voucherManager.isRunning()) {
             io.outputCommands();
 
             String userInput = io.getInput();
@@ -28,11 +29,10 @@ public class VoucherManagementController implements CommandLineRunner {
                 }
                 case LIST -> {
                 }
-                case EXIT -> {
-                    return;
+                case EXIT -> voucherManager.isRunning();
+                case UNKNOWN -> io.outputCommandError();
+                default -> {
                 }
-                case UNKNOWN -> io.doOutput(COMMAND_ERROR_PROMPT);
-                default -> {}
             }
         }
     }

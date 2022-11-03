@@ -3,7 +3,7 @@ package org.prgrms.kdt.io;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Console implements IO {
+public class Console extends IO {
     private final Input input;
     private final Output output;
 
