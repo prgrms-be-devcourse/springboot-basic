@@ -19,8 +19,8 @@ class VoucherServiceTest {
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")
 	void createVoucher() {
-		String fixedType = "fixed";
-		String percentType = "percent";
+		String fixedType = "FixedDiscountVoucher";
+		String percentType = "PercentDiscountVoucher";
 		int fixedAmount = 1000;
 		int percentAmount = 10;
 
@@ -29,7 +29,7 @@ class VoucherServiceTest {
 		Voucher findFixed = repository.findByUUID(fixedVoucher.getVoucherId());
 		Voucher findPercent = repository.findByUUID(percentVoucher.getVoucherId());
 
-		Assertions.assertThat(fixedVoucher).isEqualTo(findFixed);
-		Assertions.assertThat(percentVoucher).isEqualTo(findPercent);
+		Assertions.assertThat(fixedVoucher.toString()).isEqualTo(findFixed.toString());
+		Assertions.assertThat(percentVoucher.toString()).isEqualTo(findPercent.toString());
 	}
 }

@@ -19,8 +19,8 @@ class VoucherFactoryTest {
 	@Test
 	@DisplayName("원하는 타입으로 바우처 생성이 성공한다.")
 	void makeVoucher() {
-		String fixedType = "fixed";
-		String percentType = "percent";
+		String fixedType = "FixedDiscountVoucher";
+		String percentType = "PercentDiscountVoucher";
 		int fixedAmount = 1000;
 		int percentAmount = 10;
 

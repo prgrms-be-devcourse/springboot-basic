@@ -12,9 +12,9 @@ public class VoucherFactory {
 	public Voucher makeVoucher(String voucherType, UUID voucherId, int discountAmount) {
 
 		switch (voucherType) {
-			case "fixed":
+			case "FixedDiscountVoucher":
 				return new FixedDiscountVoucher(voucherId, discountAmount);
-			case "percent":
+			case "PercentDiscountVoucher":
 				return new PercentDiscountVoucher(voucherId, discountAmount);
 			default:
 				throw new WrongVoucherTypeException();
