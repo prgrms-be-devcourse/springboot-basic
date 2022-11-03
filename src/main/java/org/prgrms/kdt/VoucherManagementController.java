@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 import static org.prgrms.kdt.utils.Constant.COMMAND_ERROR_PROMPT;
-import static org.prgrms.kdt.utils.Constant.COMMAND_LIST_PROMPT;
 
 @Configuration
 public class VoucherManagementController implements CommandLineRunner {
@@ -20,7 +19,7 @@ public class VoucherManagementController implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         while (true) {
-            io.doOutput(COMMAND_LIST_PROMPT);
+            io.outputCommands();
 
             String userInput = io.getInput();
 
@@ -33,6 +32,7 @@ public class VoucherManagementController implements CommandLineRunner {
                     return;
                 }
                 case UNKNOWN -> io.doOutput(COMMAND_ERROR_PROMPT);
+                default -> {}
             }
         }
     }
