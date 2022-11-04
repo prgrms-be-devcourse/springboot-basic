@@ -1,12 +1,14 @@
 package org.prgrms.kdt.utils;
 
+import org.prgrms.kdt.exceptions.WrongSelectException;
+
 import java.util.Arrays;
+
 
 public enum SelectType {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list"),
-    NOTHING("");
+    LIST("list");
 
     private final String type;
 
@@ -21,6 +23,8 @@ public enum SelectType {
     public static SelectType findSelectType(String selection) {
         return Arrays.stream(SelectType.values())
                 .filter(selectType -> selectType.getType().equals(selection))
-                .findFirst().orElse(NOTHING);
+                .findFirst().orElseThrow(() -> {
+                    throw new WrongSelectException();
+                });
     }
 }
