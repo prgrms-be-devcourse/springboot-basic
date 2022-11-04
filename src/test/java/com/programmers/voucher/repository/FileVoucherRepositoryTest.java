@@ -15,7 +15,7 @@ import com.programmers.voucher.domain.Voucher;
 class FileVoucherRepositoryTest {
 
 	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-	VoucherRepository repository = applicationContext.getBean(VoucherRepository.class);
+	VoucherRepository repository = applicationContext.getBean(FileVoucherRepository.class);
 
 	@Test
 	@DisplayName("바우처를 파일에 저장하고 id를 통해 파일에서 바우처를 조회하면 성공한다.")
