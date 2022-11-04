@@ -1,11 +1,9 @@
 package prgms.vouchermanagementapp.controller;
 
-import prgms.vouchermanagementapp.io.ExceptionMessage;
 import prgms.vouchermanagementapp.io.MenuType;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
-
-import java.util.NoSuchElementException;
+import prgms.vouchermanagementapp.io.message.SystemMessage;
 
 public class VoucherManagementController implements Runnable{
     private final Reader reader;
@@ -21,7 +19,7 @@ public class VoucherManagementController implements Runnable{
     @Override
     public void run() {
         while(state.isRunning()){
-            writer.printLine(MenuType.getMessages());
+            writer.print(MenuType.getMessages());
 
             String menu = reader.readLine();
             runUserRequest(menu);
@@ -29,8 +27,11 @@ public class VoucherManagementController implements Runnable{
     }
 
     private void runUserRequest(String menu) {
-        if (!MenuType.isExist(menu)) {
-            throw new NoSuchElementException(ExceptionMessage.NO_MENU_EXISTS.toString());
+        MenuType menuType = MenuType.of(menu);
+
+        if (menuType.equals(MenuType.EXIT)) {
+            writer.print(SystemMessage.EXIT);
+            state.exit();
         }
     }
 }

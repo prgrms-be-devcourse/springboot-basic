@@ -23,9 +23,10 @@ public enum MenuType {
                 .collect(Collectors.toList());
     }
 
-    public static boolean isExist(String inputMenu) {
+    public static MenuType of(String menu) {
         return Arrays.stream(MenuType.values())
-                .map(menuType -> menuType.menu)
-                .anyMatch(menu -> menu.equals(inputMenu));
+                .filter(menuType -> menuType.menu.equals(menu))
+                .findFirst()
+                .orElseThrow(NoSuchFieldError::new);
     }
 }

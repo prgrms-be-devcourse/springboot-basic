@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.io;
+package prgms.vouchermanagementapp.io.message;
 
 public enum ExceptionMessage {
     NO_MENU_EXISTS("존재하지 않는 커맨드입니다.");
@@ -11,6 +11,6 @@ public enum ExceptionMessage {
 
     @Override
     public String toString() {
-        return message;
+        return this.message;
     }
 }
