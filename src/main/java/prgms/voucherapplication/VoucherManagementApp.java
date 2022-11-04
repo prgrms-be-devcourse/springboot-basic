@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-import prgms.voucherapplication.io.MenuType;
+import prgms.voucherapplication.controller.VoucherManagementController;
 import prgms.voucherapplication.io.Reader;
 import prgms.voucherapplication.io.Writer;
 
@@ -23,8 +23,10 @@ public class VoucherManagementApp implements CommandLineRunner {
 	public void run(String... args) {
 		Reader reader = new Reader(new BufferedReader(new InputStreamReader(System.in)));
 		Writer writer = new Writer();
+		VoucherManagementController controller = new VoucherManagementController(reader, writer);
 
-		writer.printLine(MenuType.getMessages());
-		String input = reader.readLine();
+		Thread voucherManagementApp = new Thread(controller);
+		voucherManagementApp.start();
+		voucherManagementApp.interrupt();
 	}
 }
