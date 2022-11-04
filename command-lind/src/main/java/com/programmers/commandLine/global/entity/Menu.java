@@ -12,7 +12,7 @@ public enum Menu {
     public static Menu selectMenu(String input) { // exit, create, list -> 123asfdewt
         String code = toCode(input);
         try {
-            return Menu.valueOf(input);
+            return Menu.valueOf(code);
         } catch (RuntimeException e) {
             return Menu.ERROR;
         }

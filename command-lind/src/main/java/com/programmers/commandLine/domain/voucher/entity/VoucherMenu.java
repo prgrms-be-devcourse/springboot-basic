@@ -1,4 +1,4 @@
-package com.programmers.commandLine.global.entity;
+package com.programmers.commandLine.domain.voucher.entity;
 
 import java.util.Arrays;
 
