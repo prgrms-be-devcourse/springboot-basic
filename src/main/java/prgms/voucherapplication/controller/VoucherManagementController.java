@@ -7,15 +7,17 @@ import prgms.voucherapplication.io.Writer;
 public class VoucherManagementController implements Runnable{
     private final Reader reader;
     private final Writer writer;
+    private final RunningState state;
 
-    public VoucherManagementController(Reader reader, Writer writer) {
+    public VoucherManagementController(Reader reader, Writer writer, RunningState state) {
         this.reader = reader;
         this.writer = writer;
+        this.state = state;
     }
 
     @Override
     public void run() {
-        while(true){
+        while(state.isRunning()){
             writer.printLine(MenuType.getMessages());
             String input = reader.readLine();
         }
