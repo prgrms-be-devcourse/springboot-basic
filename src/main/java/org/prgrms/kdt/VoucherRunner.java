@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherRunner implements CommandLineRunner {
 
-    private final VoucherController voucherAppManager;
+    private final VoucherController voucherController;
 
-    public VoucherRunner(VoucherController voucherAppManager) {
-        this.voucherAppManager = voucherAppManager;
+    public VoucherRunner(VoucherController voucherController) {
+        this.voucherController = voucherController;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        voucherAppManager.execute();
+        voucherController.execute();
     }
 }
 
