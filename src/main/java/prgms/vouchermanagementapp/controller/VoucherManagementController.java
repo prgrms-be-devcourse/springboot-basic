@@ -1,9 +1,9 @@
-package prgms.voucherapplication.controller;
+package prgms.vouchermanagementapp.controller;
 
-import prgms.voucherapplication.io.ExceptionMessage;
-import prgms.voucherapplication.io.MenuType;
-import prgms.voucherapplication.io.Reader;
-import prgms.voucherapplication.io.Writer;
+import prgms.vouchermanagementapp.io.ExceptionMessage;
+import prgms.vouchermanagementapp.io.MenuType;
+import prgms.vouchermanagementapp.io.Reader;
+import prgms.vouchermanagementapp.io.Writer;
 
 import java.util.NoSuchElementException;
 

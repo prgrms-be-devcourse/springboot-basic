@@ -1,13 +1,13 @@
-package prgms.voucherapplication;
+package prgms.vouchermanagementapp;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
-import prgms.voucherapplication.controller.RunningState;
-import prgms.voucherapplication.controller.VoucherManagementController;
-import prgms.voucherapplication.io.Reader;
-import prgms.voucherapplication.io.Writer;
+import prgms.vouchermanagementapp.controller.RunningState;
+import prgms.vouchermanagementapp.controller.VoucherManagementController;
+import prgms.vouchermanagementapp.io.Reader;
+import prgms.vouchermanagementapp.io.Writer;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

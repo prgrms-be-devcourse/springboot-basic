@@ -1,4 +1,4 @@
-package prgms.voucherapplication.io;
+package prgms.vouchermanagementapp.io;
 
 import java.util.Arrays;
 import java.util.List;
