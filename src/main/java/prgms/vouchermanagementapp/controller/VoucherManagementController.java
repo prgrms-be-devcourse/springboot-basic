@@ -26,7 +26,7 @@ public class VoucherManagementController implements Runnable{
         }
     }
 
-    private void runUserRequest(String menu) {
+    public void runUserRequest(String menu) {
         MenuType menuType = MenuType.of(menu);
 
         if (menuType.equals(MenuType.EXIT)) {
