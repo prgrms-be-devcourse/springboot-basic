@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.prgrms'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "14"
 
 repositories {
     mavenCentral()
@@ -20,3 +20,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_14
