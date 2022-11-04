@@ -40,7 +40,7 @@ public class Console {
                 """);
     }
 
-    public void printVoucher() {
+    public void printSelectVoucher() {
         System.out.println("""
                 1. FixedAmountVoucher Create
                 2. PercentDiscountVoucher Create

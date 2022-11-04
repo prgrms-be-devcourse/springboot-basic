@@ -1,15 +1,11 @@
 package com.programmers.commandLine.domain.voucher.application;
 
-import com.programmers.commandLine.domain.voucher.entity.FixedAmountVoucher;
-import com.programmers.commandLine.domain.voucher.entity.PercentDiscountVoucher;
-import com.programmers.commandLine.domain.voucher.repository.VoucherRepository;
+import com.programmers.commandLine.domain.voucher.service.VoucherService;
 import com.programmers.commandLine.global.entity.Menu;
 import com.programmers.commandLine.global.entity.Power;
 import com.programmers.commandLine.global.entity.VoucherMenu;
 import com.programmers.commandLine.global.io.Console;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 /**
  * VoucherApplication의 설명을 여기에 작성한다.
@@ -24,18 +20,20 @@ public class VoucherApplication {
 
     private final Power power;
     private final Console console;
-
-    VoucherApplication(Power power, Console console) {
+    private final VoucherService voucherService;
+    VoucherApplication(Power power, Console console, VoucherService voucherService) {
         this.power = power;
         this.console = console;
+        this.voucherService = voucherService;
     }
+
     public void run() {
         power.powerOn();
         while (power.isPower()) {
             console.printMenu();
 
-            String selectMenu123 = console.read();
-            Menu menu = Menu.selectMenu(selectMenu123);
+            String input = console.read();
+            Menu menu = Menu.selectMenu(input);
 
             String answer = execute(menu);
             console.print(answer);
@@ -57,16 +55,17 @@ public class VoucherApplication {
     }
 
     private String create() {
-//        console.printVoucher();
-//        VoucherMenu voucherMenu = VoucherMenu.selectVoucherMenu(console.read());
-//        return switch (voucherMenu) {
-//            case FIXEDAMOUNTVOUCHER -> "Create " + voucherRepository
-//                    .insert(new FixedAmountVoucher(UUID.randomUUID(), 10L)).getVoucherId().toString();
-//            case PERCENTDISCOUNTVOUCHER -> "Create " + voucherRepository
-//                    .insert(new PercentDiscountVoucher(UUID.randomUUID(), 10L)).getVoucherId().toString();
-//            case ERROR -> "잘못된 입력 입니다.";
-//        };
-        return "";
+        console.printSelectVoucher();
+        final String input = console.read();
+        VoucherMenu voucherMenu = VoucherMenu.selectVoucherMenu(input);
+
+        voucherService.create();
+
+        String answer = "";
+
+
+
+        return answer;
     }
 
     private String list() {
