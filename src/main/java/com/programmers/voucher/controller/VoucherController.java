@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.customer.Customer;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;
+import com.programmers.voucher.service.CustomerService;
 import com.programmers.voucher.service.VoucherService;
 
 @Controller
@@ -15,13 +17,16 @@ public class VoucherController implements Runnable {
 
 	private Input input;
 	private Output output;
-	private VoucherService service;
+	private VoucherService voucherService;
+	private CustomerService customerService;
 
 	@Autowired
-	public VoucherController(Input input, Output output, VoucherService service) {
+	public VoucherController(Input input, Output output, VoucherService voucherService,
+		CustomerService customerService) {
 		this.input = input;
 		this.output = output;
-		this.service = service;
+		this.voucherService = voucherService;
+		this.customerService = customerService;
 	}
 
 	@Override
@@ -34,6 +39,7 @@ public class VoucherController implements Runnable {
 				switch (chosenCommand) {
 					case CREATE -> createVoucher();
 					case LIST -> writeAllVoucher();
+					case BLACKLIST -> writeAllBlacklist();
 					case EXIT -> {
 						return;
 					}
@@ -49,12 +55,18 @@ public class VoucherController implements Runnable {
 		String chosenVoucher = input.read();
 		output.write(Message.DISCOUNT_OPTION.getMessage());
 		int discountAmount = Integer.parseInt(input.read());
-		service.createVoucher(chosenVoucher, discountAmount);
+		voucherService.createVoucher(chosenVoucher, discountAmount);
 	}
 
 	public void writeAllVoucher() {
-		List<Voucher> vouchers = service.getAllVoucher();
+		List<Voucher> vouchers = voucherService.getAllVoucher();
 		vouchers.stream()
+			.forEach(i -> output.write(i.toString()));
+	}
+
+	public void writeAllBlacklist() {
+		List<Customer> customers = customerService.getBlackList();
+		customers.stream()
 			.forEach(i -> output.write(i.toString()));
 	}
 }
