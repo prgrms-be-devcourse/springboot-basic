@@ -11,7 +11,7 @@ public class IOManager {
     }
 
     public String getInput() {
-        return console.selectInput();
+        return console.selectInput().toLowerCase().strip();
     }
 
     public void doOutput(OutputConstant outputConstant) {
