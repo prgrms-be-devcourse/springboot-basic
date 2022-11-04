@@ -1,4 +1,4 @@
-package prgms.kdt.io;
+package prgms.voucherapplication.io;
 
 import java.util.List;
 
