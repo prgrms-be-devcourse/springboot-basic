@@ -10,7 +10,7 @@ public class Console{
     Scanner sc = new Scanner(System.in);
 
     public String selectInput() {
-        return sc.nextLine().strip();
+        return sc.nextLine();
     }
 
     public void outputResult(String text) {
