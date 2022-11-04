@@ -10,7 +10,7 @@ public enum SelectType {
 
     private final String type;
 
-    SelectType(String type){
+    SelectType(String type) {
         this.type = type;
     }
 
@@ -18,7 +18,7 @@ public enum SelectType {
         return type;
     }
 
-    public static SelectType findSelectType(String selection){
+    public static SelectType findSelectType(String selection) {
         return Arrays.stream(SelectType.values())
                 .filter(selectType -> selectType.getType().equals(selection))
                 .findFirst().orElse(NOTHING);

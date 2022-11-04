@@ -10,7 +10,7 @@ public enum OutputConstant {
 
     private final String outputConstant;
 
-    OutputConstant(String printText){
+    OutputConstant(String printText) {
         this.outputConstant = printText;
     }
 
