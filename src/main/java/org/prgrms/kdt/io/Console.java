@@ -1,9 +1,12 @@
 package org.prgrms.kdt.io;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class Console extends IO {
+import static org.prgrms.kdt.utils.Constants.COMMAND_ERROR_PROMPT;
+import static org.prgrms.kdt.utils.Constants.COMMAND_LIST_PROMPT;
+
+@Service
+public class Console {
     private final Input input;
     private final Output output;
 
@@ -12,11 +15,18 @@ public class Console extends IO {
         this.output = output;
     }
 
-    public void doOutput(String text) {
-        output.printText(text);
+    public void printCommands() {
+        output.printText(COMMAND_LIST_PROMPT);
+    }
+
+    public void printCommandError() {
+        output.printText(COMMAND_ERROR_PROMPT);
     }
 
     public String getInput() {
         return input.inputText();
     }
+
+
+
 }
