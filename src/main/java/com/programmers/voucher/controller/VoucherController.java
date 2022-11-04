@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.domain.customer.Customer;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;

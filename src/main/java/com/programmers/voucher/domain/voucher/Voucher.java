@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain;
+package com.programmers.voucher.domain.voucher;
 
 import java.util.UUID;
 

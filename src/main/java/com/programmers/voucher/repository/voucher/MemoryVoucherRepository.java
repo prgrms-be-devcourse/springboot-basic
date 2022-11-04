@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.repository.voucher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.Voucher;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {

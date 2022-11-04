@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.repository.voucher;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,8 +12,8 @@ import java.util.UUID;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.domain.VoucherFactory;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherFactory;
 
 @Repository
 @Primary

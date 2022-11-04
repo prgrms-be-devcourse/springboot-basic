@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.repository.voucher;
 
 import java.util.UUID;
 
@@ -9,8 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.AppConfig;
-import com.programmers.voucher.domain.FixedDiscountVoucher;
-import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.repository.voucher.FileVoucherRepository;
+import com.programmers.voucher.repository.voucher.VoucherRepository;
 
 class FileVoucherRepositoryTest {
 

@@ -9,6 +9,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.AppConfig;
+import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
+import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherFactory;
 import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 class VoucherFactoryTest {
