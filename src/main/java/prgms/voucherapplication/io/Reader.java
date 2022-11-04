@@ -14,7 +14,7 @@ public class Reader {
         try {
             return bufferedReader.readLine();
         } catch (IOException exception) {
-            throw new RuntimeException(exception);
+            throw new IllegalArgumentException(exception);
         }
     }
 }

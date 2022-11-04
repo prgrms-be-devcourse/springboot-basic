@@ -19,12 +19,13 @@ public enum MenuType {
 
     public static List<String> getMessages() {
         return Arrays.stream(MenuType.values())
-                .map(MenuType::toString)
+                .map(menuType -> menuType.message)
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String toString() {
-        return this.message;
+    public static boolean isExist(String inputMenu) {
+        return Arrays.stream(MenuType.values())
+                .map(menuType -> menuType.menu)
+                .anyMatch(menu -> menu.equals(inputMenu));
     }
 }

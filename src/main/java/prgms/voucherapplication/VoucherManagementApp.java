@@ -27,8 +27,8 @@ public class VoucherManagementApp implements CommandLineRunner {
 		RunningState state = new RunningState();
 		VoucherManagementController controller = new VoucherManagementController(reader, writer, state);
 
-		Thread voucherManagementApp = new Thread(controller);
-		voucherManagementApp.start();
-		voucherManagementApp.interrupt();
+		Thread voucherManagementThread = new Thread(controller);
+		voucherManagementThread.start();
+		voucherManagementThread.interrupt();
 	}
 }

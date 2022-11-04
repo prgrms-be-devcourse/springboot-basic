@@ -1,8 +1,11 @@
 package prgms.voucherapplication.controller;
 
+import prgms.voucherapplication.io.ExceptionMessage;
 import prgms.voucherapplication.io.MenuType;
 import prgms.voucherapplication.io.Reader;
 import prgms.voucherapplication.io.Writer;
+
+import java.util.NoSuchElementException;
 
 public class VoucherManagementController implements Runnable{
     private final Reader reader;
@@ -19,7 +22,15 @@ public class VoucherManagementController implements Runnable{
     public void run() {
         while(state.isRunning()){
             writer.printLine(MenuType.getMessages());
-            String input = reader.readLine();
+
+            String menu = reader.readLine();
+            runUserRequest(menu);
+        }
+    }
+
+    private void runUserRequest(String menu) {
+        if (!MenuType.isExist(menu)) {
+            throw new NoSuchElementException(ExceptionMessage.NO_MENU_EXISTS.toString());
         }
     }
 }
