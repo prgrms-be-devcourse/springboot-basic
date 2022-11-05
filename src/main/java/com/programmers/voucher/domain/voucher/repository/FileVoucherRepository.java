@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher findByUUID(UUID voucherId) {
+	public Optional<Voucher> findByUUID(UUID voucherId) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
@@ -50,13 +51,13 @@ public class FileVoucherRepository implements VoucherRepository {
 					String[] voucherInfo = line.split(", |: |%");
 					String type = voucherInfo[3];
 					int discount = Integer.parseInt(voucherInfo[5]);
-					return factory.makeVoucher(type, voucherId, discount);
+					return Optional.of(factory.makeVoucher(type, voucherId, discount));
 				}
 			}
 		} catch (IOException e) {
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	@Override

@@ -28,7 +28,7 @@ class MemoryVoucherRepositoryTest {
 		Voucher fixedVoucher = new FixedDiscountVoucher(voucherId, 1000);
 
 		repository.save(fixedVoucher);
-		Voucher findVoucher = repository.findByUUID(voucherId);
+		Voucher findVoucher = repository.findByUUID(voucherId).get();
 
 		Assertions.assertThat(fixedVoucher).isEqualTo(findVoucher);
 	}

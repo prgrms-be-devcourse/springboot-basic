@@ -30,7 +30,7 @@ class FileVoucherRepositoryTest {
 		Voucher voucher = new FixedDiscountVoucher(voucherID, 1000);
 
 		repository.save(voucher);
-		Voucher findVoucher = repository.findByUUID(voucherID);
+		Voucher findVoucher = repository.findByUUID(voucherID).get();
 
 		Assertions.assertThat(voucher.getVoucherId()).isEqualTo(findVoucher.getVoucherId());
 	}

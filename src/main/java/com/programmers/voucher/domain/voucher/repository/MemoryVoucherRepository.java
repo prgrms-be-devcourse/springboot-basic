@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
@@ -22,8 +23,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher findByUUID(UUID voucherId) {
-		return repository.get(voucherId);
+	public Optional<Voucher> findByUUID(UUID voucherId) {
+		return Optional.ofNullable(repository.get(voucherId));
 	}
 
 	@Override
