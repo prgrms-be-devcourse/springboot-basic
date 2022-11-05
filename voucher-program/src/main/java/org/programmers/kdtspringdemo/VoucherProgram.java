@@ -57,27 +57,19 @@ public class VoucherProgram implements Runnable {
         Optional<VoucherType> voucherType = VoucherType.checkVoucherType(inputString);
 
         if (voucherType.isEmpty()) {
-            output.printErrorMessage();
-            return;
+            throw new RuntimeException("잘못된 입력값입니다. [ fixed, percent ] 중 하나를 입력해야 합니다.");
         }
 
-        boolean isNumber = true;
+        String voucherInfoDescription = "\n=== Voucher 의 할인 정보(할인액 또는 할인율)를 입력하세요. 단위 없이 숫자만 입력하세요. ===\n=>  ";
+        Optional<Long> voucherInfo = input.getVoucherInfo(voucherInfoDescription);
 
-        while (isNumber) {
-            String voucherInfoDescription = "\n=== Voucher 의 할인 정보(할인액 또는 할인율)를 입력하세요. 단위 없이 숫자만 입력하세요. ===\n=>  ";
-            Optional<Long> voucherInfo = input.getVoucherInfo(voucherInfoDescription);
+        if (voucherInfo.isEmpty()) {
+            throw new RuntimeException("잘못된 입력값입니다. 숫자를 입력하세요.");
+        }
 
-            if (voucherInfo.isEmpty()) {
-                output.printErrorMessage();
-                continue;
-            }
-
-            switch (voucherType.get()) {
-                case FIXED -> voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), voucherInfo.get()));
-                case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), voucherInfo.get()));
-            }
-
-            isNumber = false;
+        switch (voucherType.get()) {
+            case FIXED -> voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), voucherInfo.get()));
+            case PERCENT -> voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), voucherInfo.get()));
         }
     }
 }
