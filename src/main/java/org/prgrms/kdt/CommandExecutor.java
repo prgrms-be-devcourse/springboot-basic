@@ -1,8 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherManager;
-import org.prgrms.kdt.voucher.VoucherMetaData;
+import org.prgrms.kdt.voucher.*;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,6 +21,19 @@ public class CommandExecutor {
     }
 
     private Voucher toVoucher(VoucherMetaData voucherMetaData) {
+        new Voucher(
+                toVoucherType(voucherMetaData.getType()),
+                toVoucherAmount(voucherMetaData.getAmount())
+        );
+
         return null;
+    }
+
+    private VoucherAmount toVoucherAmount(String amount) {
+        return new VoucherAmount(amount);
+    }
+
+    private VoucherType toVoucherType(String type) {
+        return VoucherType.valueOf(type);
     }
 }

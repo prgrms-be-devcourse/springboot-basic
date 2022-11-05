@@ -30,6 +30,10 @@ public class VoucherController implements CommandLineRunner {
                 runCommand(userInput);
             } catch (InvalidParameterException exception) {
                 console.printCommandError();
+            } catch (NumberFormatException exception) {
+                console.printVoucherAmountError();
+            } catch (IllegalArgumentException exception) {
+                console.printVoucherTypeError();
             }
         }
     }

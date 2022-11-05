@@ -10,4 +10,11 @@ public class VoucherMetaData {
         this.amount = amount;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
 }

@@ -35,4 +35,12 @@ public class Console {
     public String getVoucherAmount() {
         return null;
     }
+
+    public void printVoucherTypeError() {
+
+    }
+
+    public void printVoucherAmountError() {
+
+    }
 }
