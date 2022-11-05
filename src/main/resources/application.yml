@@ -1,3 +1,7 @@
 kdt:
   voucher:
     save-path: ./sample.ini
+
+spring:
+  profiles:
+    active: dev

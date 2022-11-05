@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Profile("local")
+@Profile("test")
 @Repository
 public class HashMapVoucherRepository implements VoucherRepository {
     Map<UUID, Voucher> map = new HashMap<>();

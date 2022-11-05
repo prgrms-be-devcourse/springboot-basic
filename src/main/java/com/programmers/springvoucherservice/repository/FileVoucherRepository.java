@@ -4,6 +4,7 @@ import com.programmers.springvoucherservice.domain.voucher.Voucher;
 import com.programmers.springvoucherservice.domain.voucher.VoucherList;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+@Profile("dev")
 @Repository
 public class FileVoucherRepository implements VoucherRepository{
     private Wini wini;
@@ -71,6 +73,6 @@ public class FileVoucherRepository implements VoucherRepository{
         long value = wini.get(voucherId.toString(), VOUCHER_VALUE, long.class);
         Optional<VoucherList> voucherType = VoucherList.findVoucher(type);
 
-        return voucherType.map(voucher -> voucher.createVoucher(value));
+        return voucherType.map(voucher -> voucher.createVoucher(voucherId, value));
     }
 }
