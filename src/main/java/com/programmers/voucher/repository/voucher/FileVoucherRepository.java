@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -16,15 +17,17 @@ import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
 
 @Repository
-@Profile("dev")
+@Profile({"dev", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
-	private final String FILE_PATH = "src/main/resources/voucher.csv";
+	private final String filePath;
 	private final BufferedWriter writer;
 	private final VoucherFactory factory;
 
-	public FileVoucherRepository(VoucherFactory factory) throws IOException {
-		this.writer = new BufferedWriter(new FileWriter(FILE_PATH, true));
+	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath, VoucherFactory factory) throws
+		IOException {
+		this.filePath = filePath;
+		this.writer = new BufferedWriter(new FileWriter(filePath, true));
 		this.factory = factory;
 	}
 
@@ -40,7 +43,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	@Override
 	public Voucher findByUUID(UUID voucherId) {
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith(voucherId.toString(), 4)) {
@@ -61,7 +64,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		List<Voucher> vouchers = new ArrayList<>();
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] voucherInfo = line.split(", |: |%");
@@ -79,6 +82,10 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void clear() {
-
+		try {
+			BufferedWriter clearWriter = new BufferedWriter(new FileWriter(filePath, false));
+			clearWriter.close();
+		} catch (IOException e) {
+		}
 	}
 }

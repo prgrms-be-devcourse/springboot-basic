@@ -1,3 +1,14 @@
 spring:
   profiles:
     active: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+repository:
+  file:
+    voucher: "src/main/resources/voucher.csv"
+    blacklist: "src/main/resources/customer_blacklist.csv"
+---
