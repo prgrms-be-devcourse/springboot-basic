@@ -27,4 +27,12 @@ public class Console {
 
         return input.inputText();
     }
+
+    public String getType() {
+        return null;
+    }
+
+    public String getVoucherAmount() {
+        return null;
+    }
 }

@@ -3,6 +3,7 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.model.CommandType;
 import org.prgrms.kdt.utils.VoucherControllerManager;
+import org.prgrms.kdt.voucher.VoucherMetaData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
@@ -13,10 +14,12 @@ public class VoucherController implements CommandLineRunner {
 
     private final Console console;
     private final VoucherControllerManager voucherManager;
+    private final CommandExecutor commandExecutor;
 
-    public VoucherController(Console console, VoucherControllerManager voucherManager) {
+    public VoucherController(Console console, VoucherControllerManager voucherManager, CommandExecutor commandExecutor) {
         this.console = console;
         this.voucherManager = voucherManager;
+        this.commandExecutor = commandExecutor;
     }
 
     @Override
@@ -33,8 +36,12 @@ public class VoucherController implements CommandLineRunner {
 
     private void runCommand(String userInput) {
         switch (CommandType.findCommandType(userInput)) {
-            case CREATE -> {
-            }
+            case CREATE -> commandExecutor.create(
+                    new VoucherMetaData(
+                            console.getType(),
+                            console.getVoucherAmount()
+                    )
+            );
             case LIST -> {
             }
             case EXIT -> voucherManager.quitProgram();
