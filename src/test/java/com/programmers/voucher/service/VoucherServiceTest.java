@@ -1,6 +1,7 @@
 package com.programmers.voucher.service;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ class VoucherServiceTest {
 
 	@Autowired
 	VoucherRepository repository;
+
+	@AfterEach
+	void afterEach() {
+		repository.clear();
+	}
 
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")
