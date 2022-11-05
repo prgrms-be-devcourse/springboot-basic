@@ -8,5 +8,4 @@ class CommandLindApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

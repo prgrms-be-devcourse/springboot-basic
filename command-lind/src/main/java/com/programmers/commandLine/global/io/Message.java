@@ -19,7 +19,7 @@ public enum Message {
 
     MENU_ERROR("잘못된 메뉴를 입력하셨습니다."),
     VOUCHER_MENU_ERROR("잘못된 바우처를 입력하셨습니다."),
-    EXIT("프로그램을 종료합니다."),
+    EXIT("프로그램을 종료합니다.\n"),
     SELECT_VOUCHER("""
                 바우처를 선택하세요
                 1. FixedAmountVoucher Create

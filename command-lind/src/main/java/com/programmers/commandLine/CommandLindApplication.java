@@ -1,6 +1,7 @@
 package com.programmers.commandLine;
 
 import com.programmers.commandLine.domain.voucher.application.VoucherApplication;
+import com.programmers.commandLine.global.factory.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +21,10 @@ import org.springframework.context.ApplicationContext;
 public class CommandLindApplication {
 
 	public static void main(String[] args) {
+		LoggerFactory.getLogger().info("CommandLindApplication 실행");
 		ApplicationContext applicationContext = SpringApplication.run(CommandLindApplication.class);
 		applicationContext.getBean(VoucherApplication.class).run();
+		LoggerFactory.getLogger().info("CommandLindApplication 종료");
+
 	}
 }
