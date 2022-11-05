@@ -8,6 +8,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import com.programmers.voucher.AppConfig;
 import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherType;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 
 class VoucherServiceTest {
@@ -19,8 +20,8 @@ class VoucherServiceTest {
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")
 	void createVoucher() {
-		String fixedType = "FixedDiscountVoucher";
-		String percentType = "PercentDiscountVoucher";
+		String fixedType = VoucherType.FIXED.getType();
+		String percentType = VoucherType.PERCENT.getType();
 		int fixedAmount = 1000;
 		int percentAmount = 10;
 

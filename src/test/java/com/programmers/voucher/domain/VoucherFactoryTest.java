@@ -13,7 +13,7 @@ import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
-import com.programmers.voucher.exception.WrongVoucherTypeException;
+import com.programmers.voucher.domain.voucher.VoucherType;
 
 class VoucherFactoryTest {
 
@@ -23,8 +23,8 @@ class VoucherFactoryTest {
 	@Test
 	@DisplayName("원하는 타입으로 바우처 생성이 성공한다.")
 	void makeVoucher() {
-		String fixedType = "FixedDiscountVoucher";
-		String percentType = "PercentDiscountVoucher";
+		String fixedType = VoucherType.FIXED.getType();
+		String percentType = VoucherType.PERCENT.getType();
 		int fixedAmount = 1000;
 		int percentAmount = 10;
 
@@ -33,16 +33,5 @@ class VoucherFactoryTest {
 
 		Assertions.assertThat(fixedVoucher).isInstanceOf(FixedDiscountVoucher.class);
 		Assertions.assertThat(percentVoucher).isInstanceOf(PercentDiscountVoucher.class);
-	}
-
-	@Test
-	@DisplayName("잘못된 타입이 입력되면 바우처 생성이 실패한다.")
-	void failMakeVoucher() {
-		String wrongType = "fixedPercent";
-		int wrongAmount = 1000;
-
-		Assertions.assertThatExceptionOfType(WrongVoucherTypeException.class)
-			.isThrownBy(() -> factory.makeVoucher(wrongType, UUID.randomUUID(), wrongAmount))
-			.withMessageContaining("바우처 이름을 잘못 입력하셨습니다.");
 	}
 }
