@@ -7,4 +7,5 @@ public interface VoucherRepository {
     Optional<Voucher> getVoucherById(UUID id);
     Voucher insert(Voucher voucher);
     void clear();
+    void showAllVouchers();
 }

@@ -22,4 +22,10 @@ public class VoucherService {
     public long useVoucher(Voucher voucher, Long amount){
         return voucher.discount(amount);
     }
+
+    public Voucher createVoucher(VoucherType voucherType, Long discountAmount){
+        if(voucherType == VoucherType.FIXED)
+            return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), discountAmount));
+        return voucherRepository.insert(new PercentVoucher(UUID.randomUUID(), discountAmount));
+    }
 }

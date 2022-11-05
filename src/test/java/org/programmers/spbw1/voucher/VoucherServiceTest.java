@@ -39,10 +39,12 @@ class VoucherServiceTest {
     @Test
     @DisplayName("VoucherService discount Test")
     public void discountTest(){
-        assertThat(voucherService.useVoucher(voucherService.getVoucher(ids.get(0)), 100L))
-                .isEqualTo(90L);
-        assertThat(voucherService.useVoucher(voucherService.getVoucher(ids.get(1)), 100L))
-                .isEqualTo(90L);
+        voucherRepository.showAllVouchers();
+
+        assertThat(voucherService.useVoucher(voucherService.getVoucher(ids.get(0)), 200L))
+                .isEqualTo(190L);
+        assertThat(voucherService.useVoucher(voucherService.getVoucher(ids.get(1)), 200L))
+                .isEqualTo(180L);
     }
 
 }
