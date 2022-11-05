@@ -1,8 +1,10 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.model.CommandType;
+import org.prgrms.kdt.io.ConsoleIO;
+import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.utils.VoucherControllerManager;
+import org.prgrms.kdt.voucher.VoucherInfo;
+import org.prgrms.kdt.command.CommandExecutor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
@@ -11,25 +13,25 @@ import java.security.InvalidParameterException;
 @Controller
 public class VoucherController implements CommandLineRunner {
 
-    private final Console console;
-    private final VoucherControllerManager voucherManager;
+    private final ConsoleIO consoleIO;
+    private final VoucherControllerManager voucherControllerManager;
+    private final CommandExecutor commandExecutor;
 
-    public VoucherController(Console console, VoucherControllerManager voucherManager) {
-        this.console = console;
-        this.voucherManager = voucherManager;
+    public VoucherController(ConsoleIO consoleIO, VoucherControllerManager voucherControllerManager, CommandExecutor commandExecutor) {
+        this.consoleIO = consoleIO;
+        this.voucherControllerManager = voucherControllerManager;
+        this.commandExecutor = commandExecutor;
     }
 
     @Override
     public void run(String... args) {
-        while (voucherManager.isRunning()) {
-            console.printCommands();
-
-            String userInput = console.getInput();
+        while (voucherControllerManager.isRunning()) {
+            String command = consoleIO.getCommand();
 
             try {
-                runCommand(userInput);
+                runCommand(command);
             } catch (InvalidParameterException exception) {
-                console.printCommandError();
+                consoleIO.printCommandError();
             }
         }
     }
@@ -37,10 +39,14 @@ public class VoucherController implements CommandLineRunner {
     private void runCommand(String userInput) {
         switch (CommandType.findCommandType(userInput)) {
             case CREATE -> {
+                consoleIO.getVoucherType();
+                consoleIO.getVoucherAmount();
+
+                commandExecutor.createVoucher(new VoucherInfo());
             }
             case LIST -> {
             }
-            case EXIT -> voucherManager.quitProgram();
+            case EXIT -> voucherControllerManager.quitProgram();
             default -> throw new InvalidParameterException();
         }
     }
