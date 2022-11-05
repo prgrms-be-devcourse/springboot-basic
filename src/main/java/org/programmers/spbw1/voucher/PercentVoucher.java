@@ -1,17 +1,13 @@
 package org.programmers.spbw1.voucher;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Repository;
-
 import java.util.UUID;
 
 
-public class RatioDiscountVoucher implements Voucher{
+public class PercentVoucher implements Voucher{
     private final UUID Id;
     private final long percent;
 
-    public RatioDiscountVoucher(UUID id, long percent) {
+    public PercentVoucher(UUID id, long percent) {
         Id = id;
         this.percent = percent;
     }
@@ -23,6 +19,6 @@ public class RatioDiscountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (100 - percent) / 100;
     }
 }

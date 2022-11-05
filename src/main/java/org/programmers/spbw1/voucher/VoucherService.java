@@ -18,4 +18,8 @@ public class VoucherService {
                 .getVoucherById(id)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("No such Voucher, id :  {0}", id)));
     }
+
+    public long useVoucher(Voucher voucher, Long amount){
+        return voucher.discount(amount);
+    }
 }
