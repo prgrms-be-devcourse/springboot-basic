@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.repository.voucher.MemoryVoucherRepository;
-import com.programmers.voucher.repository.voucher.VoucherRepository;
 
 class MemoryVoucherRepositoryTest {
 

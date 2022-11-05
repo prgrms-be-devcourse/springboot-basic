@@ -38,7 +38,7 @@ class ValidatorTest {
 	void validateDiscountIsNumber() {
 		List<String> discounts = new ArrayList<>();
 		discounts.add("   ");
-		discounts.add( "이십");
+		discounts.add("이십");
 		discounts.add("twenty");
 		discounts.add("20.");
 
@@ -55,7 +55,7 @@ class ValidatorTest {
 	void validateDiscountPercentRange() {
 		List<String> discounts = new ArrayList<>();
 		discounts.add("120");
-		discounts.add( "-5");
+		discounts.add("-5");
 
 		Assertions.assertThatExceptionOfType(OutOfPercentRangeException.class)
 			.isThrownBy(() -> {
