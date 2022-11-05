@@ -3,14 +3,12 @@ package com.example.springbootbasic.repository;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private static final Map<Long, Voucher> storage = new HashMap<>();
-    private static Long sequence;
+    private static Long sequence = 0L;
 
     @Override
     public Long save(Long voucherId, Voucher voucher) {
@@ -22,8 +20,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findVoucherById(Long voucherId) {
-        return Optional.ofNullable(storage.get(voucherId));
+    public List<Voucher> findAllVouchers() {
+        return new ArrayList<>(
+                storage.values()
+                        .stream()
+                        .toList());
     }
 
     @Override
