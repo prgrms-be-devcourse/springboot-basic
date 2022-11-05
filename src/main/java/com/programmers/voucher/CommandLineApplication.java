@@ -1,6 +1,5 @@
 package com.programmers.voucher;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import com.programmers.voucher.controller.VoucherController;
@@ -8,7 +7,10 @@ import com.programmers.voucher.controller.VoucherController;
 public class CommandLineApplication {
 
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		applicationContext.getEnvironment().setActiveProfiles("dev");
+		applicationContext.register(AppConfig.class);
+		applicationContext.refresh();
 		applicationContext.getBean(VoucherController.class).run();
 	}
 }

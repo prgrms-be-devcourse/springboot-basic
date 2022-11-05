@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
 
 @Repository
-@Primary
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final String FILE_PATH = "src/main/resources/voucher.csv";
