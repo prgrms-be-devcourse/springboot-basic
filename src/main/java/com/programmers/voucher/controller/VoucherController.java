@@ -16,11 +16,11 @@ import com.programmers.voucher.io.Output;
 @Controller
 public class VoucherController implements Runnable {
 
-	private Input input;
-	private Output output;
-	private VoucherService voucherService;
-	private CustomerService customerService;
-	private Validator validator;
+	private final Input input;
+	private final Output output;
+	private final VoucherService voucherService;
+	private final CustomerService customerService;
+	private final Validator validator;
 
 	@Autowired
 	public VoucherController(Input input, Output output, VoucherService voucherService,
