@@ -2,7 +2,6 @@ package org.programmers.kdtspringdemo;
 
 import org.programmers.kdtspringdemo.config.AppConfiguration;
 import org.programmers.kdtspringdemo.io.Input;
-import org.programmers.kdtspringdemo.io.Output;
 import org.programmers.kdtspringdemo.type.OptionType;
 import org.programmers.kdtspringdemo.type.VoucherType;
 import org.programmers.kdtspringdemo.voucher.model.FixedAmountVoucher;
@@ -20,7 +19,6 @@ public class VoucherProgram implements Runnable {
     AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
     VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
     private final Input input = new Console();
-    private final Output output = new Console();
 
     private Boolean isRunnable = true;
 
