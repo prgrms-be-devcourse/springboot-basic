@@ -22,10 +22,7 @@ public class VoucherController implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (voucherManager.isRunning()) {
-            console.printCommands();
-
-            String userInput = console.getInput();
-
+            String userInput = console.getCommand();
             try {
                 runCommand(userInput);
             } catch (InvalidParameterException exception) {

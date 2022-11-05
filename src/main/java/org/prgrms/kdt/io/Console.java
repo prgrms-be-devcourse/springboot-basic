@@ -18,18 +18,13 @@ public class Console {
         this.output = output;
     }
 
-    public void printCommands() {
-        output.printText(COMMAND_LIST_PROMPT);
-    }
-
     public void printCommandError() {
         output.printText(COMMAND_ERROR_PROMPT);
     }
 
-    public String getInput() {
+    public String getCommand() {
+        output.printText(COMMAND_LIST_PROMPT);
+
         return input.inputText();
     }
-
-
-
 }
