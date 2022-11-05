@@ -1,6 +1,8 @@
 package org.programmers.kdtspringdemo.voucher.repository;
 
 import org.programmers.kdtspringdemo.voucher.model.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
