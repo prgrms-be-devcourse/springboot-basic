@@ -9,10 +9,12 @@ import org.programmers.kdtspringdemo.voucher.model.FixedAmountVoucher;
 import org.programmers.kdtspringdemo.voucher.model.PercentDiscountVoucher;
 import org.programmers.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class VoucherProgram implements Runnable {
 
     AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
@@ -31,8 +33,7 @@ public class VoucherProgram implements Runnable {
             Optional<OptionType> optionType = OptionType.checkType(inputString);
 
             if (optionType.isEmpty()) {
-                output.printErrorMessage();
-                continue;
+                throw new RuntimeException("잘못된 입력값입니다. [ exit, create, list ] 중 하나를 입력해야 합니다.");
             }
 
             switch (optionType.get()) {
