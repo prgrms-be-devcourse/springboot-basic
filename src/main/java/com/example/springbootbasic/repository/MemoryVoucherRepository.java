@@ -1,4 +1,4 @@
-package com.example.springbootbasic.domain.repository;
+package com.example.springbootbasic.repository;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;
@@ -13,13 +13,21 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private static Long sequence;
 
     @Override
-    public Long save(Voucher voucher) {
-        storage.put(sequence, voucher);
-        return sequence++;
+    public Long save(Long voucherId, Voucher voucher) {
+        if (storage.containsKey(voucherId)) {
+
+        }
+        storage.put(voucherId, voucher);
+        return voucherId;
     }
 
     @Override
     public Optional<Voucher> findVoucherById(Long voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public Long getSequence() {
+        return sequence++;
     }
 }
