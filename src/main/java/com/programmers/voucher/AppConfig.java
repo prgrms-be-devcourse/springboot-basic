@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.programmers.voucher.io.ConsoleInput;
@@ -15,7 +14,6 @@ import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;
 
 @Configuration
-@ComponentScan
 public class AppConfig {
 
 	@Bean
