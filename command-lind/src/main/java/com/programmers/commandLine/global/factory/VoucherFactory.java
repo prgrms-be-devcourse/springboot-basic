@@ -14,7 +14,7 @@ import java.util.UUID;
 public class VoucherFactory {
 
     public Voucher createVoucher(VoucherMenu voucherMenu, String discountInput) {
-        Integer discount = Verification.discountVerification(discountInput);
+        Integer discount = Verification.integerVerification(discountInput);
         Voucher voucher = switch (voucherMenu) {
             case FIXEDAMOUNTVOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), discount);
             case PERCENTDISCOUNTVOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), discount);

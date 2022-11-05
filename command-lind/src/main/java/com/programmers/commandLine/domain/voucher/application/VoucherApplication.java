@@ -75,14 +75,14 @@ public class VoucherApplication {
         String discount = console.read();
 
         try {
-            return voucherService.create(voucherMenu, discount).toString();
+            return voucherService.create(voucherMenu, discount).toString() + "\n\n";
         } catch (IllegalStateException e) {
             return e.getMessage();
         }
     }
 
     private String list() {
-        return voucherService.list();
+        return voucherService.list() + "\n\n";
     }
 }
 // 에프 멘토님 추천 도서
