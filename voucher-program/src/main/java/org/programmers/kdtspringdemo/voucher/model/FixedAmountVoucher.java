@@ -1,9 +1,10 @@
 package org.programmers.kdtspringdemo.voucher.model;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long amount;
 
@@ -18,12 +19,19 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherInfo() {
-        return MessageFormat.format("FixedAmountVoucher, amount: {0}", amount);
+    public long discount(long beforeDiscount) {
+        return beforeDiscount - amount;
+    }
+
+    public long getAmount() {
+        return amount;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                '}';
     }
 }
