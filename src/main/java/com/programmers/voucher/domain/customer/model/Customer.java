@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain.customer;
+package com.programmers.voucher.domain.customer.model;
 
 import java.util.UUID;
 

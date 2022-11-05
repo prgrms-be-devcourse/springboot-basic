@@ -1,12 +1,12 @@
-package com.programmers.voucher.service;
+package com.programmers.voucher.domain.customer.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.programmers.voucher.domain.customer.Customer;
-import com.programmers.voucher.repository.customer.CustomerRepository;
+import com.programmers.voucher.domain.customer.model.Customer;
+import com.programmers.voucher.domain.customer.repository.CustomerRepository;
 
 @Service
 public class CustomerService {

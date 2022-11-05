@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain;
+package com.programmers.voucher.domain.voucher.util;
 
 import java.util.UUID;
 
@@ -6,11 +6,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
-import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
-import com.programmers.voucher.domain.voucher.VoucherType;
+import com.programmers.voucher.domain.voucher.model.FixedDiscountVoucher;
+import com.programmers.voucher.domain.voucher.model.PercentDiscountVoucher;
+import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 
 class VoucherFactoryTest {
 

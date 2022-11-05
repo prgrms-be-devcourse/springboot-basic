@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.programmers.voucher.domain.customer.Customer;
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.customer.model.Customer;
+import com.programmers.voucher.domain.customer.service.CustomerService;
+import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.service.VoucherService;
+import com.programmers.voucher.domain.voucher.util.Validator;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;
-import com.programmers.voucher.io.Validator;
-import com.programmers.voucher.service.CustomerService;
-import com.programmers.voucher.service.VoucherService;
 
 @Controller
 public class VoucherController implements Runnable {

@@ -1,9 +1,9 @@
-package com.programmers.voucher.repository.voucher;
+package com.programmers.voucher.domain.voucher.repository;
 
 import java.util.List;
 import java.util.UUID;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.model.Voucher;
 
 public interface VoucherRepository {
 

@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.voucher.config;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

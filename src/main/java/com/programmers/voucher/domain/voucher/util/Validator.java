@@ -1,8 +1,8 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher.domain.voucher.util;
 
 import org.springframework.stereotype.Component;
 
-import com.programmers.voucher.domain.voucher.VoucherType;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.OutOfPercentRangeException;
 import com.programmers.voucher.exception.WrongDiscountTypeException;
 import com.programmers.voucher.exception.WrongVoucherTypeException;

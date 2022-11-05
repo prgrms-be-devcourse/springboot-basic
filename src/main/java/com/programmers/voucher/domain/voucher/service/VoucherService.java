@@ -1,4 +1,4 @@
-package com.programmers.voucher.service;
+package com.programmers.voucher.domain.voucher.service;
 
 import java.util.List;
 import java.util.UUID;
@@ -6,9 +6,9 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
-import com.programmers.voucher.repository.voucher.VoucherRepository;
+import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
+import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 
 @Service
 public class VoucherService {

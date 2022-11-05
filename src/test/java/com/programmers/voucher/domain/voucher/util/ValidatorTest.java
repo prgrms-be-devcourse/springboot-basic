@@ -1,4 +1,4 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher.domain.voucher.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.programmers.voucher.domain.voucher.VoucherType;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.OutOfPercentRangeException;
 import com.programmers.voucher.exception.WrongDiscountTypeException;
 import com.programmers.voucher.exception.WrongVoucherTypeException;

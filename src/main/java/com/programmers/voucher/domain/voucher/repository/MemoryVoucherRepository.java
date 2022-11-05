@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository.voucher;
+package com.programmers.voucher.domain.voucher.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.model.Voucher;
 
 @Repository
 @Profile("local")

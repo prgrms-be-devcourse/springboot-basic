@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository.voucher;
+package com.programmers.voucher.domain.voucher.repository;
 
 import java.util.UUID;
 
@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.programmers.voucher.domain.voucher.FixedDiscountVoucher;
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.model.FixedDiscountVoucher;
+import com.programmers.voucher.domain.voucher.model.Voucher;
 
 @SpringBootTest
 class FileVoucherRepositoryTest {

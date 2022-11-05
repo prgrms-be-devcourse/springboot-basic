@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository.voucher;
+package com.programmers.voucher.domain.voucher.repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherFactory;
+import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 
 @Repository
 @Profile({"dev", "test"})

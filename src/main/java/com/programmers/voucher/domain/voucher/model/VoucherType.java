@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain.voucher;
+package com.programmers.voucher.domain.voucher.model;
 
 public enum VoucherType {
 
