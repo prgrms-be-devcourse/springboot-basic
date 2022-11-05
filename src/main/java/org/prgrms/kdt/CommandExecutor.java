@@ -21,12 +21,10 @@ public class CommandExecutor {
     }
 
     private Voucher toVoucher(VoucherMetaData voucherMetaData) {
-        new Voucher(
+        return new Voucher(
                 toVoucherType(voucherMetaData.getType()),
                 toVoucherAmount(voucherMetaData.getAmount())
         );
-
-        return null;
     }
 
     private VoucherAmount toVoucherAmount(String amount) {

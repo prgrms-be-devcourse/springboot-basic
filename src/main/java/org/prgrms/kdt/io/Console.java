@@ -40,7 +40,11 @@ public class Console {
 
     }
 
-    public void printVoucherAmountError() {
+    public void printVoucherAmountNumericError() {
+
+    }
+
+    public void printVoucherAmountOutOfBoundError() {
 
     }
 }
