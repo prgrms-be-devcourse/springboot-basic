@@ -15,6 +15,10 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// https://mvnrepository.com/artifact/org.ini4j/ini4j
+	implementation 'org.ini4j:ini4j:0.5.4'
+
 }
 
 tasks.named('test') {
