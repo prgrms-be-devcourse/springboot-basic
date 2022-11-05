@@ -10,4 +10,24 @@ public class VoucherAmount {
     public Long getValue() {
         return value;
     }
+
+    public boolean isValidFixedVoucherAmount() {
+        return isGreaterThanEqual(0L) && isLessThanEqual(100L);
+    }
+
+    private boolean isGreaterThanEqual(Long value) {
+        return this.value >= value;
+    }
+
+    private boolean isLessThanEqual(Long value) {
+        return this.value <= value;
+    }
+
+    public boolean isValidPercentDiscountAmount() {
+        return isGreaterThan(0L);
+    }
+
+    private boolean isGreaterThan(long value) {
+        return this.value > value;
+    }
 }
