@@ -1,7 +1,8 @@
 package com.example.springbootbasic.domain.voucher;
 
-public class PercentDiscountVoucher implements Voucher {
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.*;
 
+public class PercentDiscountVoucher implements Voucher {
     private final Long voucherId;
     private final long percent;
 
@@ -11,12 +12,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public Long getVoucherId() {
-        return this.voucherId;
+    public VoucherEnum getVoucherEnum() {
+        return PERCENT_DISCOUNT_VOUCHER;
     }
 
     @Override
-    public long discount(long discountBefore) {
-        return discountBefore * (this.percent / 100);
+    public long getDiscountValue() {
+        return percent;
     }
 }
