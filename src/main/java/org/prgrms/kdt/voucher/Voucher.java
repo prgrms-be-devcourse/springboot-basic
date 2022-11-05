@@ -19,13 +19,13 @@ public class Voucher {
 
     private void validatePercentDiscount() {
         if (!amount.isValidFixedVoucherAmount()) {
-            throw new IllegalStateException();
+            throw new NumberFormatException();
         }
     }
 
     private void validateFixedAmount() {
-        if (amount.isValidPercentDiscountAmount()) {
-            throw new IllegalStateException();
+        if (!amount.isValidPercentDiscountAmount()) {
+            throw new NumberFormatException();
         }
     }
 }

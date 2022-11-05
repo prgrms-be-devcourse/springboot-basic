@@ -34,8 +34,6 @@ public class VoucherController implements CommandLineRunner {
                 console.printVoucherAmountNumericError();
             } catch (IllegalArgumentException exception) {
                 console.printVoucherTypeError();
-            } catch (IllegalStateException exception) {
-                console.printVoucherAmountOutOfBoundError();
             }
         }
     }

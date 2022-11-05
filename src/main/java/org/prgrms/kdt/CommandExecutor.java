@@ -32,6 +32,6 @@ public class CommandExecutor {
     }
 
     private VoucherType toVoucherType(String type) {
-        return VoucherType.valueOf(type);
+        return VoucherType.findVoucherType(type);
     }
 }
