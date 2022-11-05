@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.customer.model.Customer;
@@ -15,14 +16,18 @@ import com.programmers.voucher.domain.customer.model.CustomerType;
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 
-	private final String FILE_PATH = "src/main/resources/customer_blacklist.csv";
+	private final String filePath;
+
+	public FileCustomerRepository(@Value("${repository.file.blacklist}") String filePath) {
+		this.filePath = filePath;
+	}
 
 	@Override
 	public List<Customer> findAllBlacklist() {
 		List<Customer> customers = new ArrayList<>();
 
 		try {
-			BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH));
+			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] customerInfo = line.split(", |: ");

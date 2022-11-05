@@ -10,4 +10,5 @@ spring:
 repository:
   file:
     voucher: "src/main/resources/voucher_test.csv"
+    blacklist: "src/main/resources/customer_blacklist.csv"
 ---
