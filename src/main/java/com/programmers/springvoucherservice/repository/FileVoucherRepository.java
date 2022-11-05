@@ -9,13 +9,16 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.*;
 
 @Repository
 public class FileVoucherRepository implements VoucherRepository{
     private Wini wini;
-    private final String path = "./sample.ini";
+    private static final String VOUCHER_TYPE = "type";
+    private static final String VOUCHER_VALUE = "value";
+
+    @Value("${kdt.voucher.save-path}")
+    private String path;
 
     @PostConstruct
     public void setting() throws IOException {
@@ -29,13 +32,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String type = wini.get(voucherId.toString(), "type");
-        long value = wini.get(voucherId.toString(), "value", long.class);
-        Optional<VoucherList> voucherList = VoucherList.findVoucher(type);
-
-        System.out.println(MessageFormat.format("type =>{0}", type));
-        System.out.println(MessageFormat.format("value =>{0}", value));
-        return voucherList.map(voucher -> voucher.createVoucher(value));
+        return getVoucherFromFile(voucherId);
     }
 
     @Override
@@ -44,16 +41,10 @@ public class FileVoucherRepository implements VoucherRepository{
         Set<String> voucherIdSet = wini.keySet();
 
         for (String voucherId : voucherIdSet) {
-            String type = wini.get(voucherId, "type");
-            long value = wini.get(voucherId, "value", long.class);
-
-            Optional<VoucherList> voucherType = VoucherList.findVoucher(type);
-
-            Optional<Voucher> optionalVoucher = voucherType.map(voucher -> voucher.createVoucher(value));
-
+            Optional<Voucher> optionalVoucher = getVoucherFromFile(UUID.fromString(voucherId));
             optionalVoucher.ifPresent(opVoucher -> vouchers.add(opVoucher));
-
         }
+
         return vouchers;
     }
 
@@ -61,9 +52,10 @@ public class FileVoucherRepository implements VoucherRepository{
     public UUID registerVoucher(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         long voucherValue = voucher.getValue();
+        String voucherType = voucher.getClass().getSimpleName().replaceAll("Voucher", "");
 
-        wini.put(voucherId.toString(), "value", voucherValue);
-        wini.put(voucherId.toString(), "type", voucher.getClass().getSimpleName().replaceAll("Voucher", ""));
+        wini.put(voucherId.toString(), VOUCHER_VALUE, voucherValue);
+        wini.put(voucherId.toString(), VOUCHER_TYPE, voucherType);
 
         try{
             wini.store();
@@ -74,4 +66,11 @@ public class FileVoucherRepository implements VoucherRepository{
         return voucherId;
     }
 
+    private Optional<Voucher> getVoucherFromFile(UUID voucherId) {
+        String type = wini.get(voucherId.toString(), VOUCHER_TYPE);
+        long value = wini.get(voucherId.toString(), VOUCHER_VALUE, long.class);
+        Optional<VoucherList> voucherType = VoucherList.findVoucher(type);
+
+        return voucherType.map(voucher -> voucher.createVoucher(value));
+    }
 }
