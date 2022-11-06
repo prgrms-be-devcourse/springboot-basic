@@ -20,17 +20,20 @@ public class VoucherController implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         while (true) {
             console.printOutput(Message.INTRO_MESSAGE);
-            String inputMenu = console.getInput();
 
-            switch (MenuType.getMenuType(inputMenu)) {
-                case EXIT:
+            try {
+                String inputMenu = console.getInput();
 
-                case CREATE:
+                switch (MenuType.getMenuType(inputMenu)) {
+                    case EXIT:
 
-                case LIST:
+                    case CREATE:
 
-                default:
-                    console.printOutput(Message.WRONG_ORDER_MESSAGE);
+                    case LIST:
+
+                }
+            } catch (IllegalArgumentException e) {
+                console.printOutput(Message.WRONG_ORDER_MESSAGE);
             }
         }
     }
