@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.io;
 
+import prgms.vouchermanagementapp.io.message.ExceptionMessage;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +29,7 @@ public enum MenuType {
         return Arrays.stream(MenuType.values())
                 .filter(menuType -> menuType.menu.equals(menu))
                 .findFirst()
-                .orElseThrow(NoSuchFieldError::new);
+                .orElseThrow(() -> new NoSuchFieldError(ExceptionMessage.NO_MENU_EXISTS.getMessage()));
     }
 
     public boolean isExit() {

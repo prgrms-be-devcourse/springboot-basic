@@ -9,8 +9,7 @@ public enum SystemMessage {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
+    public String getMessage() {
         return this.message;
     }
 }
