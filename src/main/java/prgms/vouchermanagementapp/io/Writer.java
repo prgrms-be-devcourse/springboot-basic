@@ -10,11 +10,11 @@ public class Writer {
         list.forEach(System.out::println);
     }
 
-    public void print(String message) {
-        System.out.println(message);
-    }
-
     public void printExitMessage() {
         System.out.println(SystemMessage.EXIT.getMessage());
+    }
+
+    public void printCommandGuide() {
+        print(CommandType.getMessages());
     }
 }

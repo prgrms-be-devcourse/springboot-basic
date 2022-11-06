@@ -18,7 +18,7 @@ public class VoucherManagementController {
 
     public void run() {
         while (state.isRunning()) {
-            writer.print(CommandType.getMessages());
+            writer.printCommandGuide();
 
             String command = reader.readLine();
             runUserRequest(command);
