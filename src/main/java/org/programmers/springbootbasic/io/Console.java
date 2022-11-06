@@ -46,6 +46,8 @@ public class Console implements Input, Output{
 
     @Override
     public void printVouchers(List<Voucher> vouchers) {
-
+        for (Voucher voucher : vouchers) {
+            System.out.println(voucher);
+        }
     }
 }

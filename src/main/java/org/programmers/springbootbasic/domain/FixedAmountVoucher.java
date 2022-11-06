@@ -25,4 +25,9 @@ public class FixedAmountVoucher implements Voucher {
         if(originalPrice - amount < 0) throw new ArithmeticException("할인된 금액은 0원보다 작을 수 없습니다.");
         return originalPrice - amount;
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" + "voucherId=" + voucherId + ", amount=" + amount + '}';
+    }
 }

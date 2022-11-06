@@ -25,4 +25,9 @@ public class PercentDiscountVoucher implements Voucher {
         // 실세계에서 할인 시 소수 단위는 제거하므로 long type으로 정의
         return (long)(originalPrice - ((double)amount / (double)100));
     }
+
+    @Override
+    public String toString() {
+        return "PercentDiscountVoucher{" + "voucherId=" + voucherId + ", amount=" + amount + '}';
+    }
 }
