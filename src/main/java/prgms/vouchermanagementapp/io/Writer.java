@@ -6,11 +6,11 @@ import java.util.List;
 
 public class Writer {
 
-    public void print(List<?> list) {
+    public void print(List<String> list) {
         list.forEach(System.out::println);
     }
 
-    public void print(Object message) {
+    public void print(String message) {
         System.out.println(message);
     }
 
