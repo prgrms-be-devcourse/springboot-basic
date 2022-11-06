@@ -19,8 +19,6 @@ public class VoucherManagementApp implements CommandLineRunner {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherManagementController controller = applicationContext.getBean(VoucherManagementController.class);
 
-        Thread voucherManagementThread = new Thread(controller);
-        voucherManagementThread.start();
-        voucherManagementThread.interrupt();
+        controller.run();
     }
 }

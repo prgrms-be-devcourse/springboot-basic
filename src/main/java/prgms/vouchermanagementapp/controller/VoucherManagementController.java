@@ -5,7 +5,7 @@ import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
 import prgms.vouchermanagementapp.io.message.SystemMessage;
 
-public class VoucherManagementController implements Runnable {
+public class VoucherManagementController {
 
     private final Reader reader;
     private final Writer writer;
@@ -17,7 +17,6 @@ public class VoucherManagementController implements Runnable {
         this.state = state;
     }
 
-    @Override
     public void run() {
         while (state.isRunning()) {
             writer.print(MenuType.getMessages());
