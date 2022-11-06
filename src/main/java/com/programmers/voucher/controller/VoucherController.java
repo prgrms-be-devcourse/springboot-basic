@@ -2,6 +2,8 @@ package com.programmers.voucher.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -16,6 +18,7 @@ import com.programmers.voucher.io.Output;
 @Controller
 public class VoucherController implements Runnable {
 
+	private final Logger log = LoggerFactory.getLogger(VoucherController.class);
 	private final Input input;
 	private final Output output;
 	private final VoucherService voucherService;
@@ -49,6 +52,7 @@ public class VoucherController implements Runnable {
 				}
 			} catch (RuntimeException e) {
 				output.write(e.getMessage());
+				log.error(e.getMessage());
 			}
 		}
 	}

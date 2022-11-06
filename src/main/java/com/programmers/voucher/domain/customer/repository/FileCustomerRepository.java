@@ -7,15 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
+import com.programmers.voucher.exception.ExceptionMessage;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 
+	private Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
 	private final String filePath;
 
 	public FileCustomerRepository(@Value("${repository.file.blacklist}") String filePath) {
@@ -41,6 +45,7 @@ public class FileCustomerRepository implements CustomerRepository {
 				}
 			}
 		} catch (IOException e) {
+			log.error(ExceptionMessage.IO.getMessage());
 		}
 
 		return customers;
