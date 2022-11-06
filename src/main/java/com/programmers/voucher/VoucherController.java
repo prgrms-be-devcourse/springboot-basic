@@ -1,5 +1,6 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.io.MenuType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.io.Message;
 import org.springframework.boot.ApplicationArguments;
@@ -16,7 +17,21 @@ public class VoucherController implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) {
-        console.printOutput(Message.INTRO_MESSAGE);
+    public void run(ApplicationArguments args) throws Exception {
+        while (true) {
+            console.printOutput(Message.INTRO_MESSAGE);
+            String inputMenu = console.getInput();
+
+            switch (MenuType.getMenuType(inputMenu)) {
+                case EXIT:
+
+                case CREATE:
+
+                case LIST:
+
+                default:
+                    console.printOutput(Message.WRONG_ORDER_MESSAGE);
+            }
+        }
     }
 }
