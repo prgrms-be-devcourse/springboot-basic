@@ -29,17 +29,17 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public VoucherService voucherService(VoucherRepository voucherRepository) {
-        return new VoucherService(voucherRepository);
+    public VoucherService voucherService() {
+        return new VoucherService(voucherRepository());
     }
 
     @Bean
-    public VoucherController voucherController(VoucherService voucherService) {
-        return new VoucherController(voucherService);
+    public VoucherController voucherController() {
+        return new VoucherController(voucherService());
     }
 
     @Bean
-    public MainController mainController(ConsoleInput consoleInput, ConsoleOutput consoleOutput, VoucherController voucherController) {
-        return new MainController(consoleInput, consoleOutput, voucherController);
+    public MainController mainController() {
+        return new MainController(consoleInput(), consoleOutput(), voucherController());
     }
 }
