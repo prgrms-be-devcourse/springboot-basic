@@ -1,6 +1,6 @@
 package com.example.springbootbasic.domain.voucher;
 
-import static com.example.springbootbasic.domain.voucher.VoucherEnum.*;
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.PERCENT_DISCOUNT_VOUCHER;
 
 public class PercentDiscountVoucher implements Voucher {
     private final Long voucherId;

@@ -1,9 +1,9 @@
 package com.example.springbootbasic.service;
 
 import com.example.springbootbasic.VoucherConsoleApplication;
-import com.example.springbootbasic.repository.VoucherRepository;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
+import com.example.springbootbasic.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.example.springbootbasic.domain.voucher.VoucherEnum.*;
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.PERCENT_DISCOUNT_VOUCHER;
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.generateVoucher;
 import static com.example.springbootbasic.util.CharacterUnit.*;
 
 @Service

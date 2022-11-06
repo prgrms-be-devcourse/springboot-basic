@@ -13,7 +13,7 @@ public enum VoucherMessage {
             ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit())),
     CREATE(MessageFormat.format(
             "Type **fixed '{'number'}'** to create FixedAmountVoucher => ex) fixed 1000{0}" +
-                    "Type **percent '{'number'}'** to create PercentDiscountVoucher => ex) percent 1000{1}",
+                    "Type **percent '{'number'}'** to create PercentDiscountVoucher => ex) percent 10{1}",
             ENTER.getUnit(), ENTER.getUnit()));
 
     private final String message;
@@ -25,4 +25,4 @@ public enum VoucherMessage {
     public String getMessage() {
         return message;
     }
-    }
+}

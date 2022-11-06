@@ -1,5 +1,8 @@
 package com.example.springbootbasic.console.output;
 
+import com.example.springbootbasic.VoucherConsoleApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -12,6 +15,7 @@ import static com.example.springbootbasic.console.output.ResponseFailMessage.RES
 
 @Component
 public class ConsoleOutput {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
 
     private final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
@@ -28,7 +32,17 @@ public class ConsoleOutput {
             }
             bw.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            StackTraceElement[] tackTraceElement = e.getStackTrace();
+            String className = tackTraceElement[0].getClassName();
+            String methodName = tackTraceElement[0].getMethodName();
+            int lineNumber = tackTraceElement[0].getLineNumber();
+            String fileName = tackTraceElement[0].getFileName();
+
+            logger.error("[ConsoleOutput] className => {}, methodName => {}, lineNumber => {}, fileName => {}",
+                    className,
+                    methodName,
+                    lineNumber,
+                    fileName);
         }
     }
 }

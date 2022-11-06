@@ -1,9 +1,12 @@
 package com.example.springbootbasic.controller;
 
+import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.console.input.RequestBody;
 import com.example.springbootbasic.console.output.ResponseBody;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
 import com.example.springbootbasic.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +20,11 @@ import static com.example.springbootbasic.domain.voucher.VoucherMessage.CREATE;
 import static com.example.springbootbasic.domain.voucher.VoucherMessage.MENU;
 import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
-import static java.lang.Character.*;
+import static java.lang.Character.isDigit;
 
 @Component
 public class VoucherController {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_DISCOUNT_VALUE_INDEX = 1;
     private final VoucherService voucherService;
@@ -33,18 +37,31 @@ public class VoucherController {
     public ResponseBody selectVoucherMenu() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(MENU.getMessage());
+        logger.debug("[VoucherController] {} - selectVoucherMenu", responseBody.getStatus());
         return responseBody;
     }
 
     public ResponseBody selectHowToCreateVoucher() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(CREATE.getMessage());
+        logger.debug("[VoucherController] {} - selectHowToCreateVoucher", responseBody.getStatus());
         return responseBody;
     }
 
     public ResponseBody createVoucher(RequestBody request) {
         ResponseBody responseBody = new ResponseBody();
         handleCreateVoucher(request, responseBody);
+
+        if (request.getStatus() == FAIL) {
+            logger.warn("[VoucherController] {} - createVoucher request => '{}'",
+                    request.getStatus(),
+                    request.getBody());
+        }
+        if (responseBody.getStatus() == FAIL) {
+            logger.warn("[VoucherController] {} - createVoucher response => '{}'",
+                    responseBody.getStatus(),
+                    responseBody.getBody());
+        }
         return responseBody;
     }
 
@@ -73,8 +90,16 @@ public class VoucherController {
             }
         }
         if (responseBody.getStatus() == SUCCESS) {
+            responseBody.setBody(findVoucher.get().getVoucherType() + discountValue.toString());
             voucherService.saveVoucher(findVoucher.get(), discountValue);
         }
+
+        logger.debug("[VoucherController] {} - handleCreateVoucher request => '{}'",
+                request.getStatus(),
+                request.getBody());
+        logger.debug("[VoucherController] {} - handleCreateVoucher response => '{}'",
+                responseBody.getStatus(),
+                responseBody.getBody());
     }
 
     private static boolean validateVoucherInputForm(String[] voucherInputForm) {
@@ -98,12 +123,14 @@ public class VoucherController {
         if (findAllVouchers.isBlank()) {
             responseBody.setBody(VOUCHER_EMPTY_LIST_ERROR.getMessage());
         }
+        logger.debug("[VoucherController] {} - selectAllVouchers", responseBody.getStatus());
         return responseBody;
     }
 
     public ResponseBody shutdownVoucherApplication() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setStatus(END);
+        logger.debug("[VoucherController] {} - shutdownVoucherApplication", responseBody.getStatus());
         return responseBody;
     }
 }
