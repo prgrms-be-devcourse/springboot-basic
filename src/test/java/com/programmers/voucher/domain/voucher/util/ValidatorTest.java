@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import com.programmers.voucher.domain.voucher.model.VoucherType;
+import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.OutOfPercentRangeException;
 import com.programmers.voucher.exception.WrongDiscountTypeException;
 import com.programmers.voucher.exception.WrongVoucherTypeException;
@@ -30,7 +31,7 @@ class ValidatorTest {
 				types.stream()
 					.forEach(i -> validator.validateVoucherType(i));
 			})
-			.withMessageContaining("바우처 이름을 잘못 입력하셨습니다.");
+			.withMessageContaining(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());
 	}
 
 	@Test
@@ -47,7 +48,7 @@ class ValidatorTest {
 				discounts.stream()
 					.forEach(i -> validator.validateDiscount(VoucherType.FIXED.getType(), i));
 			})
-			.withMessageContaining("할인값을 숫자로 입력해주세요");
+			.withMessageContaining(ExceptionMessage.WRONG_DISCOUNT_TYPE.getMessage());
 	}
 
 	@Test
@@ -62,6 +63,6 @@ class ValidatorTest {
 				discounts.stream()
 					.forEach(i -> validator.validateDiscount(VoucherType.PERCENT.getType(), i));
 			})
-			.withMessageContaining("할인 비율은 0보다 크고 100이하여야 합니다.");
+			.withMessageContaining(ExceptionMessage.OUT_OF_PERCENT_RANGE.getMessage());
 	}
 }
