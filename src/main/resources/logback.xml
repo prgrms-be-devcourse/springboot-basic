@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.example.springbootbasic" level="debug">
+    <logger name="com.example.springbootbasic" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
