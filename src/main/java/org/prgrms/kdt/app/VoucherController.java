@@ -1,8 +1,8 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.app;
 
+import org.prgrms.kdt.command.CommandExecutor;
+import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.model.CommandType;
-import org.prgrms.kdt.utils.VoucherControllerManager;
 import org.prgrms.kdt.voucher.VoucherMetaData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;

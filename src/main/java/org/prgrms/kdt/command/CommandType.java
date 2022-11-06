@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model;
+package org.prgrms.kdt.command;
 
 import java.security.InvalidParameterException;
 import java.util.Collections;

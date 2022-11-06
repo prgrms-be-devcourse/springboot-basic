@@ -1,5 +1,9 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.voucher.utils.VoucherValidator;
+
+import java.util.Objects;
+
 public class Voucher {
 
     private VoucherType voucherType;
@@ -10,22 +14,28 @@ public class Voucher {
         this.amount = amount;
     }
 
-    public void validateAmount() {
-        switch (this.voucherType) {
-            case FIXED -> validateFixedAmount();
-            case PERCENT -> validatePercentDiscount();
-        }
+    public void validate(VoucherValidator voucherValidator) {
+        voucherValidator.validateAmount(voucherType, amount);
     }
 
-    private void validatePercentDiscount() {
-        if (!amount.isValidFixedVoucherAmount()) {
-            throw new NumberFormatException();
-        }
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
-    private void validateFixedAmount() {
-        if (!amount.isValidPercentDiscountAmount()) {
-            throw new NumberFormatException();
-        }
+    public VoucherAmount getAmount() {
+        return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Voucher)) return false;
+        Voucher voucher = (Voucher) o;
+        return voucherType == voucher.voucherType && amount.equals(voucher.amount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherType, amount);
     }
 }

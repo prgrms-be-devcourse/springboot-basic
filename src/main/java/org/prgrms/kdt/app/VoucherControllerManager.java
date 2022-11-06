@@ -1,4 +1,4 @@
-package org.prgrms.kdt.utils;
+package org.prgrms.kdt.app;
 
 import org.springframework.stereotype.Component;
 

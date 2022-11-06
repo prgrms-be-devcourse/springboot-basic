@@ -1,33 +1,37 @@
 package org.prgrms.kdt.voucher;
 
+import java.util.Objects;
+
 public class VoucherAmount {
+
     private Long value;
 
     public VoucherAmount(String amount) {
         this.value = Long.parseLong(amount);
     }
 
-    public Long getValue() {
-        return value;
-    }
-
-    public boolean isValidFixedVoucherAmount() {
-        return isGreaterThanEqual(0L) && isLessThanEqual(100L);
-    }
-
-    private boolean isGreaterThanEqual(Long value) {
+    public boolean isGreaterThanEqual(Long value) {
         return this.value >= value;
     }
 
-    private boolean isLessThanEqual(Long value) {
+    public boolean isLessThanEqual(Long value) {
         return this.value <= value;
     }
 
-    public boolean isValidPercentDiscountAmount() {
-        return isGreaterThan(0L);
+    public boolean isGreaterThan(long value) {
+        return this.value > value;
     }
 
-    private boolean isGreaterThan(long value) {
-        return this.value > value;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof VoucherAmount)) return false;
+        VoucherAmount that = (VoucherAmount) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }
