@@ -5,7 +5,8 @@ import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
 import prgms.vouchermanagementapp.io.message.SystemMessage;
 
-public class VoucherManagementController implements Runnable{
+public class VoucherManagementController implements Runnable {
+
     private final Reader reader;
     private final Writer writer;
     private final RunningState state;
@@ -18,7 +19,7 @@ public class VoucherManagementController implements Runnable{
 
     @Override
     public void run() {
-        while(state.isRunning()){
+        while (state.isRunning()) {
             writer.print(MenuType.getMessages());
 
             String menu = reader.readLine();

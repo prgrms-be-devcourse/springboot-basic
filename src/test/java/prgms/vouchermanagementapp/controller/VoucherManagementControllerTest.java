@@ -7,15 +7,13 @@ import prgms.vouchermanagementapp.config.AppConfig;
 import prgms.vouchermanagementapp.io.MenuType;
 
 class VoucherManagementControllerTest {
-    AnnotationConfigApplicationContext applicationContext
-            = new AnnotationConfigApplicationContext(AppConfig.class);
+
+    AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
     @Test
     void should_throw_exception_for_invalid_menuType() {
         String invalidInput = "INVALID";
 
-        Assertions.assertThrows(NoSuchFieldError.class, () -> {
-            MenuType.of(invalidInput);
-        });
+        Assertions.assertThrows(NoSuchFieldError.class, () -> MenuType.of(invalidInput));
     }
 }

@@ -1,6 +1,7 @@
 package prgms.vouchermanagementapp.controller;
 
 public class RunningState {
+
     private boolean state;
 
     public RunningState() {

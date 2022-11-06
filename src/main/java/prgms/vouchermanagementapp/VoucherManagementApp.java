@@ -16,8 +16,7 @@ public class VoucherManagementApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        AnnotationConfigApplicationContext applicationContext
-                = new AnnotationConfigApplicationContext(AppConfig.class);
+        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         VoucherManagementController controller = applicationContext.getBean(VoucherManagementController.class);
 
         Thread voucherManagementThread = new Thread(controller);
