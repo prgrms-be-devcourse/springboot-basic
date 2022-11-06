@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.controller;
 
-import prgms.vouchermanagementapp.io.MenuType;
+import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
 
@@ -18,17 +18,17 @@ public class VoucherManagementController {
 
     public void run() {
         while (state.isRunning()) {
-            writer.print(MenuType.getMessages());
+            writer.print(CommandType.getMessages());
 
-            String menu = reader.readLine();
-            runUserRequest(menu);
+            String command = reader.readLine();
+            runUserRequest(command);
         }
     }
 
-    public void runUserRequest(String menu) {
-        MenuType menuType = MenuType.of(menu);
+    public void runUserRequest(String command) {
+        CommandType commandType = CommandType.of(command);
 
-        if (menuType.isExit()) {
+        if (commandType.isExit()) {
             writer.printExitMessage();
             state.exit();
             return;
