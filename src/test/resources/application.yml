@@ -1,7 +1,12 @@
+spring:
+  profiles:
+    active: test
+
+
 kdt:
   voucher:
     save-path: ./test.ini
 
-spring:
-  profiles:
-    active: test
+  customer:
+    blacklist:
+      save-path: ./blacklist.csv
