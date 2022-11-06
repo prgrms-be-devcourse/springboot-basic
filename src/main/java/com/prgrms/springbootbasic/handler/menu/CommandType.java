@@ -1,5 +1,6 @@
 package com.prgrms.springbootbasic.handler.menu;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum CommandType {
@@ -25,6 +26,7 @@ public enum CommandType {
         return Arrays.stream(values())
                 .filter(commandType -> commandType.getCommand().equals(inputCommand))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid command. Please select again."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        MessageFormat.format("Input command {0} is invalid. Please select again.", inputCommand)));
     }
 }
