@@ -2,12 +2,12 @@ package org.prgrms.kdtspringdemo.commandline_application;
 
 
 
-public enum Command {
+public enum CommandType {
     EXIT, CREATE, LIST, ERROR;
 
-    public static Command getCommand(String string) {
+    public static CommandType getTypeByName(String string) {
         try {
-            return Command.valueOf(string.toUpperCase());
+            return CommandType.valueOf(string.toUpperCase());
         } catch (Exception e) {
             return ERROR;
         }
