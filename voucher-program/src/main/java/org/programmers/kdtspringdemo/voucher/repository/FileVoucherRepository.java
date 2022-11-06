@@ -1,6 +1,5 @@
 package org.programmers.kdtspringdemo.voucher.repository;
 
-import org.programmers.kdtspringdemo.voucher.model.FixedAmountVoucher;
 import org.programmers.kdtspringdemo.voucher.model.Voucher;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Primary
 public class FileVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
 
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -37,30 +36,25 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("voucher.ser"));
 
-        // voucher.ser -> storage
+            ArrayList<Voucher> voucherList;
+            while ((voucherList = (ArrayList<Voucher>) objectInputStream.readObject()) != null) {
+                voucherList.forEach((voucher -> storage.put(voucher.getVoucherId(), voucher)));
+            }
 
-        FileInputStream fileInputStream = new FileInputStream("voucher.ser");
-        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-
-        Voucher voucher = (Voucher) objectInputStream.readObject();
-
-        objectInputStream.close();
-
+            objectInputStream.close();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     @Override
     public void destroy() throws Exception {
-
-        // storage -> voucher.ser
-
-        FileOutputStream fileOutputStream = new FileOutputStream("voucher.ser");
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10L);
-        objectOutputStream.writeObject(voucher);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("voucher.ser"));
+        objectOutputStream.writeObject(new ArrayList<>(storage.values()));
         objectOutputStream.close();
-
     }
 }
