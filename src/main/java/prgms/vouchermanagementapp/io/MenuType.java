@@ -29,4 +29,16 @@ public enum MenuType {
                 .findFirst()
                 .orElseThrow(NoSuchFieldError::new);
     }
+
+    public boolean isExit() {
+        return this == EXIT;
+    }
+
+    public boolean isCreate() {
+        return this == CREATE;
+    }
+
+    public boolean isList() {
+        return this == LIST;
+    }
 }
