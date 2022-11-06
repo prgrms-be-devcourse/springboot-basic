@@ -1,6 +1,5 @@
 package com.example.springbootbasic.service;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
 import com.example.springbootbasic.repository.VoucherRepository;

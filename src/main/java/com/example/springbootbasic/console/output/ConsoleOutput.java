@@ -1,6 +1,5 @@
 package com.example.springbootbasic.console.output;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,5 @@
 package com.example.springbootbasic.domain.voucher;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,7 @@ public enum VoucherEnum {
     FIXED_AMOUNT_VOUCHER("fixed", FixedAmountVoucher::new),
     PERCENT_DISCOUNT_VOUCHER("percent", PercentDiscountVoucher::new);
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherEnum.class);
     private final String voucherType;
     private final BiFunction<Long, Long, Voucher> voucherGenerator;
 

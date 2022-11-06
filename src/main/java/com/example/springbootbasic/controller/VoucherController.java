@@ -7,7 +7,7 @@ import com.example.springbootbasic.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -21,7 +21,7 @@ import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 import static java.lang.Character.isDigit;
 
-@Component
+@Controller
 public class VoucherController {
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private static final int VOUCHER_TYPE_INDEX = 0;
