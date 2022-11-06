@@ -14,12 +14,11 @@ public class Console {
         this.printer = printer;
     }
 
-    public MenuInputResult printAndGetCommand(String message) {
-        printer.printMessage(message);
+    public MenuInputResult getCommand() {
         return new MenuInputResult(reader.read());
     }
 
-    public void printMessage(String message){
+    public void printMessage(String message) {
         printer.printMessage(message);
     }
 }

@@ -33,7 +33,8 @@ public class VoucherApplication {
     }
 
     private void getCommand() {
-        MenuInputResult inputResult = console.printAndGetCommand(MENU);
+        console.printMessage(MENU);
+        MenuInputResult inputResult = console.getCommand();
         try {
             CommandType commandType = CommandType.findByCommand(inputResult.getCommand());
             controlMenu(commandType);
