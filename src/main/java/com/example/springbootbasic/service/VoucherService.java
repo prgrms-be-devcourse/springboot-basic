@@ -29,7 +29,10 @@ public class VoucherService {
         Long newVoucherId = voucherRepository.getSequence();
         Voucher generatedVoucher = generateVoucher(newVoucherId, amount, voucherType);
         voucherRepository.save(newVoucherId, generatedVoucher);
-        logger.debug("[VoucherService] save VoucherType => '{}', DiscountValue => '{}'", voucherType.getVoucherType(), amount);
+        logger.debug("[{}] save VoucherType => '{}', DiscountValue => '{}'",
+                this.getClass().getName(),
+                voucherType.getVoucherType(),
+                amount);
         return newVoucherId;
     }
 

@@ -37,14 +37,20 @@ public class VoucherController {
     public ResponseBody selectVoucherMenu() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(MENU.getMessage());
-        logger.debug("[VoucherController] {} - selectVoucherMenu", responseBody.getStatus());
+
+        logger.debug("[{}] {} - selectVoucherMenu",
+                this.getClass().getName(),
+                responseBody.getStatus());
         return responseBody;
     }
 
     public ResponseBody selectHowToCreateVoucher() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(CREATE.getMessage());
-        logger.debug("[VoucherController] {} - selectHowToCreateVoucher", responseBody.getStatus());
+
+        logger.debug("[{}] {} - selectHowToCreateVoucher",
+                this.getClass().getName(),
+                responseBody.getStatus());
         return responseBody;
     }
 
@@ -53,12 +59,14 @@ public class VoucherController {
         handleCreateVoucher(request, responseBody);
 
         if (request.getStatus() == FAIL) {
-            logger.warn("[VoucherController] {} - createVoucher request => '{}'",
+            logger.warn("[{}] {} - createVoucher request => '{}'",
+                    this.getClass().getName(),
                     request.getStatus(),
                     request.getBody());
         }
         if (responseBody.getStatus() == FAIL) {
-            logger.warn("[VoucherController] {} - createVoucher response => '{}'",
+            logger.warn("[{}] {} - createVoucher response => '{}'",
+                    this.getClass().getName(),
                     responseBody.getStatus(),
                     responseBody.getBody());
         }
@@ -94,10 +102,12 @@ public class VoucherController {
             voucherService.saveVoucher(findVoucher.get(), discountValue);
         }
 
-        logger.debug("[VoucherController] {} - handleCreateVoucher request => '{}'",
+        logger.debug("[{}] {} - handleCreateVoucher request => '{}'",
+                this.getClass().getName(),
                 request.getStatus(),
                 request.getBody());
-        logger.debug("[VoucherController] {} - handleCreateVoucher response => '{}'",
+        logger.debug("[{}] {} - handleCreateVoucher response => '{}'",
+                this.getClass().getName(),
                 responseBody.getStatus(),
                 responseBody.getBody());
     }
@@ -123,14 +133,20 @@ public class VoucherController {
         if (findAllVouchers.isBlank()) {
             responseBody.setBody(VOUCHER_EMPTY_LIST_ERROR.getMessage());
         }
-        logger.debug("[VoucherController] {} - selectAllVouchers", responseBody.getStatus());
+
+        logger.debug("[{}] {} - selectAllVouchers",
+                this.getClass().getName(),
+                responseBody.getStatus());
         return responseBody;
     }
 
     public ResponseBody shutdownVoucherApplication() {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setStatus(END);
-        logger.debug("[VoucherController] {} - shutdownVoucherApplication", responseBody.getStatus());
+
+        logger.debug("[{}] {} - shutdownVoucherApplication",
+                this.getClass().getName(),
+                responseBody.getStatus());
         return responseBody;
     }
 }

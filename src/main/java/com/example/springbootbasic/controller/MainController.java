@@ -42,12 +42,14 @@ public class MainController {
             consoleMenuRequest.setStatus(FAIL);
             responseBody.setStatus(FAIL);
             consoleOutput.response(responseBody);
-            logger.warn("[MainController] {} - consoleMenuRequest request => '{}'",
+            logger.warn("[{}] {} - consoleMenuRequest request => '{}'",
+                    this.getClass().getName(),
                     consoleMenuRequest.getStatus(),
                     consoleMenuRequest.getBody());
             return responseBody;
         }
-        logger.debug("[MainController] {} - consoleMenuRequest request => '{}'",
+        logger.debug("[{}] {} - consoleMenuRequest request => '{}'",
+                this.getClass().getName(),
                 consoleMenuRequest.getStatus(),
                 consoleMenuRequest.getBody());
         return executeVoucherMenu(findMenu.get());
@@ -76,7 +78,7 @@ public class MainController {
         }
 
         consoleOutput.response(responseBody);
-        logger.debug("[MainController] {} - executeVoucherMenu", responseBody.getStatus());
+        logger.debug("[{}] {} - executeVoucherMenu", this.getClass().getName(), responseBody.getStatus());
         return responseBody;
     }
 }

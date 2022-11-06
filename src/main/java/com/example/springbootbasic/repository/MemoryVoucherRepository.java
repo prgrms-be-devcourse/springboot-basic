@@ -20,7 +20,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Long save(Long voucherId, Voucher voucher) {
         storage.put(voucherId, voucher);
-        logger.debug("[MemoryVoucherRepository] SAVE - voucherId => '{}', voucher => '{}'",
+        logger.debug("[{}] SAVE - voucherId => '{}', voucher => '{}'",
+                this.getClass().getName(),
                 voucherId,
                 voucher.getVoucherEnum());
         return voucherId;
