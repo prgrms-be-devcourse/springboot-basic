@@ -17,7 +17,7 @@ import static com.example.springbootbasic.util.CharacterUnit.*;
 
 @Service
 public class VoucherService {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
     @Autowired
@@ -29,8 +29,7 @@ public class VoucherService {
         Long newVoucherId = voucherRepository.getSequence();
         Voucher generatedVoucher = generateVoucher(newVoucherId, amount, voucherType);
         voucherRepository.save(newVoucherId, generatedVoucher);
-        logger.debug("[{}] save VoucherType => '{}', DiscountValue => '{}'",
-                this.getClass().getName(),
+        logger.debug("[SAVE] VoucherType => '{}', DiscountValue => '{}'",
                 voucherType.getVoucherType(),
                 amount);
         return newVoucherId;

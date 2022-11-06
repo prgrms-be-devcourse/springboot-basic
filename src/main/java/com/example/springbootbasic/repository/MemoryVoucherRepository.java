@@ -1,6 +1,5 @@
 package com.example.springbootbasic.repository;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,15 +12,14 @@ import java.util.Map;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
     private static final Map<Long, Voucher> storage = new HashMap<>();
     private static Long sequence = 0L;
 
     @Override
     public Long save(Long voucherId, Voucher voucher) {
         storage.put(voucherId, voucher);
-        logger.debug("[{}] SAVE - voucherId => '{}', voucher => '{}'",
-                this.getClass().getName(),
+        logger.debug("[SAVE] - voucherId => '{}', voucher => '{}'",
                 voucherId,
                 voucher.getVoucherEnum());
         return voucherId;

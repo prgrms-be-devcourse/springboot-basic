@@ -22,7 +22,7 @@ public enum VoucherEnum {
     }
 
     public static Voucher generateVoucher(Long voucherId, Long discountValue, VoucherEnum findVoucher) {
-        logger.debug("[VoucherEnum] voucherId => '{}', discountValue => '{}', findVoucher => '{}'",
+        logger.debug("[GENERATE] voucherId => '{}', discountValue => '{}', findVoucher => '{}'",
                 voucherId, discountValue, findVoucher);
         return findVoucher.voucherGenerator.apply(voucherId, discountValue);
     }

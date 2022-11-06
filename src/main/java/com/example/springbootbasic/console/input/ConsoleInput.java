@@ -1,6 +1,5 @@
 package com.example.springbootbasic.console.input;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import static com.example.springbootbasic.console.ConsoleStatus.FAIL;
 
 @Component
 public class ConsoleInput {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleInput.class);
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public RequestBody request() {
@@ -34,8 +33,12 @@ public class ConsoleInput {
             int lineNumber = tackTraceElement[0].getLineNumber();
             String fileName = tackTraceElement[0].getFileName();
 
-            logger.error("[ConsoleOutput] className => '{}', methodName => '{}', lineNumber => '{}', fileName => '{}'",
-                    className, methodName, lineNumber, fileName);
+            logger.error("[{}] className => '{}', methodName => '{}', lineNumber => '{}', fileName => '{}'",
+                    request.getStatus(),
+                    className,
+                    methodName,
+                    lineNumber,
+                    fileName);
         }
 
         return request;

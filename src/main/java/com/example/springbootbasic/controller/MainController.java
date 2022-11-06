@@ -1,6 +1,5 @@
 package com.example.springbootbasic.controller;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.console.ConsoleMenu;
 import com.example.springbootbasic.console.input.ConsoleInput;
 import com.example.springbootbasic.console.input.RequestBody;
@@ -18,7 +17,7 @@ import static com.example.springbootbasic.console.ConsoleStatus.FAIL;
 
 @Component
 public class MainController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final ConsoleInput consoleInput;
     private final ConsoleOutput consoleOutput;
     private final VoucherController voucherController;
@@ -42,14 +41,12 @@ public class MainController {
             consoleMenuRequest.setStatus(FAIL);
             responseBody.setStatus(FAIL);
             consoleOutput.response(responseBody);
-            logger.warn("[{}] {} - consoleMenuRequest request => '{}'",
-                    this.getClass().getName(),
+            logger.warn("[{}] - consoleMenuRequest request => '{}'",
                     consoleMenuRequest.getStatus(),
                     consoleMenuRequest.getBody());
             return responseBody;
         }
-        logger.debug("[{}] {} - consoleMenuRequest request => '{}'",
-                this.getClass().getName(),
+        logger.debug("[{}] - consoleMenuRequest request => '{}'",
                 consoleMenuRequest.getStatus(),
                 consoleMenuRequest.getBody());
         return executeVoucherMenu(findMenu.get());
@@ -78,7 +75,7 @@ public class MainController {
         }
 
         consoleOutput.response(responseBody);
-        logger.debug("[{}] {} - executeVoucherMenu", this.getClass().getName(), responseBody.getStatus());
+        logger.debug("[{}] - executeVoucherMenu", responseBody.getStatus());
         return responseBody;
     }
 }

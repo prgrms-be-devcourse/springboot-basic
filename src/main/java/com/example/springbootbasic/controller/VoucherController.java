@@ -1,6 +1,5 @@
 package com.example.springbootbasic.controller;
 
-import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.console.input.RequestBody;
 import com.example.springbootbasic.console.output.ResponseBody;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
@@ -24,7 +23,7 @@ import static java.lang.Character.isDigit;
 
 @Component
 public class VoucherController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_DISCOUNT_VALUE_INDEX = 1;
     private final VoucherService voucherService;
@@ -38,8 +37,7 @@ public class VoucherController {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(MENU.getMessage());
 
-        logger.debug("[{}] {} - selectVoucherMenu",
-                this.getClass().getName(),
+        logger.debug("[{}] - selectVoucherMenu",
                 responseBody.getStatus());
         return responseBody;
     }
@@ -48,8 +46,7 @@ public class VoucherController {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setBody(CREATE.getMessage());
 
-        logger.debug("[{}] {} - selectHowToCreateVoucher",
-                this.getClass().getName(),
+        logger.debug("[{}] - selectHowToCreateVoucher",
                 responseBody.getStatus());
         return responseBody;
     }
@@ -59,14 +56,12 @@ public class VoucherController {
         handleCreateVoucher(request, responseBody);
 
         if (request.getStatus() == FAIL) {
-            logger.warn("[{}] {} - createVoucher request => '{}'",
-                    this.getClass().getName(),
+            logger.warn("[{}] - createVoucher request => '{}'",
                     request.getStatus(),
                     request.getBody());
         }
         if (responseBody.getStatus() == FAIL) {
-            logger.warn("[{}] {} - createVoucher response => '{}'",
-                    this.getClass().getName(),
+            logger.warn("[{}] - createVoucher response => '{}'",
                     responseBody.getStatus(),
                     responseBody.getBody());
         }
@@ -102,12 +97,10 @@ public class VoucherController {
             voucherService.saveVoucher(findVoucher.get(), discountValue);
         }
 
-        logger.debug("[{}] {} - handleCreateVoucher request => '{}'",
-                this.getClass().getName(),
+        logger.debug("[{}] - handleCreateVoucher request => '{}'",
                 request.getStatus(),
                 request.getBody());
-        logger.debug("[{}] {} - handleCreateVoucher response => '{}'",
-                this.getClass().getName(),
+        logger.debug("[{}] - handleCreateVoucher response => '{}'",
                 responseBody.getStatus(),
                 responseBody.getBody());
     }
@@ -134,8 +127,7 @@ public class VoucherController {
             responseBody.setBody(VOUCHER_EMPTY_LIST_ERROR.getMessage());
         }
 
-        logger.debug("[{}] {} - selectAllVouchers",
-                this.getClass().getName(),
+        logger.debug("[{}] - selectAllVouchers",
                 responseBody.getStatus());
         return responseBody;
     }
@@ -144,8 +136,7 @@ public class VoucherController {
         ResponseBody responseBody = new ResponseBody();
         responseBody.setStatus(END);
 
-        logger.debug("[{}] {} - shutdownVoucherApplication",
-                this.getClass().getName(),
+        logger.debug("[{}] - shutdownVoucherApplication",
                 responseBody.getStatus());
         return responseBody;
     }

@@ -15,7 +15,7 @@ import static com.example.springbootbasic.console.output.ResponseFailMessage.RES
 
 @Component
 public class ConsoleOutput {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleOutput.class);
 
     private final BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
@@ -38,7 +38,8 @@ public class ConsoleOutput {
             int lineNumber = tackTraceElement[0].getLineNumber();
             String fileName = tackTraceElement[0].getFileName();
 
-            logger.error("[ConsoleOutput] className => {}, methodName => {}, lineNumber => {}, fileName => {}",
+            logger.error("[{}] className => {}, methodName => {}, lineNumber => {}, fileName => {}",
+                    responseBody.getStatus(),
                     className,
                     methodName,
                     lineNumber,
