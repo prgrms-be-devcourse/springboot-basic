@@ -7,7 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MenuHandler {
     private static final String COMMAND_NOT_SUPPORTER = "command not supported yet.";
-
+    private static final String MENU = "=== Voucher Program ===\n" +
+            "Type **exit** to exit the program.\n" +
+            "Type **create** to create a new voucher.\n" +
+            "Type **list** to list all vouchers.";
+    private static final String EXIT = "Exit program. Bye.";
     private final Console console;
 
     public MenuHandler(Console console) {
@@ -15,13 +19,13 @@ public class MenuHandler {
     }
 
     public boolean handleBeforeExit() {
-        MenuInputResult inputResult = console.getCommand();
+        MenuInputResult inputResult = console.printAndGetCommand(MENU);
         try {
             CommandType commandType = CommandType.findByCommand(inputResult.getCommand());
             handleMenu(commandType);
             return commandType.isExit();
         } catch (IllegalArgumentException e) {
-            console.printInvalidMessage(e.getMessage());
+            console.printMessage(e.getMessage());
             return false;
         }
     }
@@ -31,12 +35,12 @@ public class MenuHandler {
             case EXIT -> exit();
             case CREATE -> create();
             case LIST -> list();
-            default -> console.printInvalidMessage(COMMAND_NOT_SUPPORTER);
+            default -> console.printMessage(COMMAND_NOT_SUPPORTER);
         }
     }
 
     private void exit() {
-        console.printExitMessage();
+        console.printMessage(EXIT);
     }
 
     private void create() {
