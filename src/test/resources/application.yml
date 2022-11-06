@@ -1,3 +1,7 @@
+kdt:
+  voucher:
+    save-path: ./test.ini
+
 spring:
   profiles:
     active: test

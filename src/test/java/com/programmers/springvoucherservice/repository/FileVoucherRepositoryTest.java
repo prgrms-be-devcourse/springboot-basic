@@ -2,31 +2,43 @@ package com.programmers.springvoucherservice.repository;
 
 import com.programmers.springvoucherservice.VoucherFactory;
 import com.programmers.springvoucherservice.domain.voucher.Voucher;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.*;
+import static com.programmers.springvoucherservice.domain.voucher.VoucherList.FixedAmount;
+import static com.programmers.springvoucherservice.domain.voucher.VoucherList.PercentDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 class FileVoucherRepositoryTest {
 
-    @Autowired VoucherRepository repository;
+    @Autowired
+    FileVoucherRepository repository;
+
+    @BeforeEach
+    void setting() {
+        repository.deleteAll();
+    }
 
     @Test
     void 파일에서Id로검색() {
-        UUID id = UUID.fromString("2323394a-98d1-44f6-8bde-c54903e6357c");
+        UUID id = UUID.randomUUID();
+        Voucher voucher = VoucherFactory.createVoucher(id, PercentDiscount, 6);
+        repository.registerVoucher(voucher);
 
         Optional<Voucher> result = repository.findById(id);
-        Voucher voucher = result.get();
+        Voucher findOne = result.get();
 
-        assertThat(voucher.getVoucherId()).isEqualTo(id);
-        assertThat(voucher.getValue()).isEqualTo(2000L);
+        assertThat(findOne.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(findOne.getValue()).isEqualTo(voucher.getValue());
     }
 
     @Test
@@ -34,7 +46,7 @@ class FileVoucherRepositoryTest {
         UUID id = UUID.randomUUID();
         Voucher voucher = VoucherFactory.createVoucher(id, FixedAmount, 2000);
 
-        UUID saveId = repository.registerVoucher(voucher);
+        UUID saveId = repository.registerVoucher(voucher).getVoucherId();
 
         assertThat(id).isEqualTo(saveId);
     }

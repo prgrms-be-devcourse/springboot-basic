@@ -4,7 +4,6 @@ import com.programmers.springvoucherservice.VoucherFactory;
 import com.programmers.springvoucherservice.domain.voucher.Voucher;
 import com.programmers.springvoucherservice.domain.voucher.VoucherList;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 @SpringBootTest
 class HashMapVoucherRepositoryTest {
 
-    @Autowired HashMapVoucherRepository repository;
+    @Autowired
+    HashMapVoucherRepository repository;
     Map<UUID, Voucher> store;
 
     @BeforeEach
