@@ -27,8 +27,8 @@ public class VoucherManagementExecutor {
 
 
     public void run() throws IOException {
-
-        while(true) {
+        boolean running = true;
+        while(running) {
             output.printMenu(ConstantMessageUtil.VOUCHER_MAIN_MENU);
             VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput(ConstantMessageUtil.TYPE_USER_COMMAND);
             switch (menuInput) {
@@ -40,9 +40,7 @@ public class VoucherManagementExecutor {
                     output.printVouchers(vouchers);
                 }
                 case EXIT -> {
-                    /*
-                    return(?)
-                     */
+                    running = false;
                 }
                 default -> {
                     output.printError();
