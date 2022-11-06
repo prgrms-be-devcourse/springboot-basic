@@ -4,7 +4,7 @@
             conversionWord = 'clr'
             converterClass="org.springframework.boot.logging.logback.ColorConverter" />
 
-    <property name="LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){cyan} [%thread] %clr(%-5level){green} %logger{36} - %msg%n" />
+    <property name="LOG_PATTERN" value="%clr(%d{HH:mm:ss.SSS}){cyan} [%thread] %clr(%-5level) %logger{36} - %msg%n" />
 
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"></timestamp>
 
@@ -15,15 +15,6 @@
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-
-<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-<!--        <file>logs/CommandLindApplication_${bySecond}.log</file>-->
-<!--        <append>false</append>-->
-
-<!--        <encoder>-->
-<!--            <pattern>${LOG_PATTERN}</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

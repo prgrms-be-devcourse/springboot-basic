@@ -22,8 +22,10 @@ public class CommandLindApplication {
 
 	public static void main(String[] args) {
 		LoggerFactory.getLogger().info("CommandLindApplication 실행");
+
 		ApplicationContext applicationContext = SpringApplication.run(CommandLindApplication.class);
 		applicationContext.getBean(VoucherApplication.class).run();
+
 		LoggerFactory.getLogger().info("CommandLindApplication 종료");
 
 	}

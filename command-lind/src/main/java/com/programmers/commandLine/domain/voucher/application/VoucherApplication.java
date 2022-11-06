@@ -7,11 +7,11 @@ import com.programmers.commandLine.domain.voucher.service.VoucherService;
 import com.programmers.commandLine.global.entity.Menu;
 import com.programmers.commandLine.global.entity.Power;
 import com.programmers.commandLine.domain.voucher.entity.VoucherMenu;
+import com.programmers.commandLine.global.factory.LoggerFactory;
 import com.programmers.commandLine.global.io.Console;
 import com.programmers.commandLine.global.io.Message;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 /**
  * VoucherApplication의 설명을 여기에 작성한다.
@@ -35,6 +35,7 @@ public class VoucherApplication {
     }
 
     public void run() {
+        LoggerFactory.getLogger().info("VoucherApplication run 실행");
         power.powerOn();
         while (power.isPower()) {
             console.print(Message.SELECT_MENU.getMessage());
@@ -48,20 +49,25 @@ public class VoucherApplication {
     }
 
     private String execute(Menu menu) {
+        LoggerFactory.getLogger().info("VoucherApplication execute 실행");
         return switch (menu) {
             case EXIT -> exit();
             case CREATE -> create();
             case LIST -> list();
-            case ERROR -> Message.MENU_ERROR.getMessage();
+            case ERROR -> error();
         };
     }
 
     private String exit() {
+        LoggerFactory.getLogger().info("VoucherApplication exit 실행");
+
         power.powerOff();
         return Message.EXIT.getMessage();
     }
 
     private String create() {
+        LoggerFactory.getLogger().info("VoucherApplication create 실행");
+
         console.print(Message.SELECT_VOUCHER.getMessage());
         final String input = console.read();
         VoucherMenu voucherMenu = VoucherMenu.selectVoucherMenu(input);
@@ -82,8 +88,15 @@ public class VoucherApplication {
     }
 
     private String list() {
+        LoggerFactory.getLogger().info("VoucherApplication list 실행");
         return voucherService.list() + "\n\n";
     }
+
+    private String error(){
+        LoggerFactory.getLogger().error("Menu toCode 에러 발생");
+        return Message.MENU_ERROR.getMessage();
+    };
+
 }
 // 에프 멘토님 추천 도서
 // 객체지향 관련 서적

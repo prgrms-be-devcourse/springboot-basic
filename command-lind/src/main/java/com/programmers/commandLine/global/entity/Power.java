@@ -1,5 +1,6 @@
 package com.programmers.commandLine.global.entity;
 
+import com.programmers.commandLine.global.factory.LoggerFactory;
 import org.springframework.stereotype.Component;
 /**
  *
@@ -17,14 +18,17 @@ public class Power {
     private boolean power;
 
     public boolean isPower() {
+        LoggerFactory.getLogger().info("Power isPower 실행");
         return power;
     }
 
     public void powerOff() {
+        LoggerFactory.getLogger().info("Power powerOff 실행");
         this.power = false;
     }
 
     public void powerOn() {
+        LoggerFactory.getLogger().info("Power powerOn 실행");
         this.power = true;
     }
 }

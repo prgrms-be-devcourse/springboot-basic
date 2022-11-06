@@ -1,5 +1,7 @@
 package com.programmers.commandLine.domain.voucher.entity;
 
+import com.programmers.commandLine.global.factory.LoggerFactory;
+
 import java.util.Arrays;
 
 public enum VoucherMenu {
@@ -16,6 +18,8 @@ public enum VoucherMenu {
     }
 
     public static VoucherMenu selectVoucherMenu(String input) {
+        LoggerFactory.getLogger().info("VoucherMenu selectVoucherMenu 실행");
+
         int code = toCode(input);
         return Arrays.stream(VoucherMenu.values())
                 .filter(voucherMenu -> voucherMenu.code == code)
@@ -24,6 +28,8 @@ public enum VoucherMenu {
     }
 
     private static int toCode(String input) {
+        LoggerFactory.getLogger().info("VoucherMenu toCode 실행");
+
         try {
             return Integer.parseInt(input);
         } catch (RuntimeException e) {

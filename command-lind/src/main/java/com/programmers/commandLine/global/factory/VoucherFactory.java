@@ -14,12 +14,20 @@ import java.util.UUID;
 public class VoucherFactory {
 
     public Voucher createVoucher(VoucherMenu voucherMenu, String discountInput) {
+        LoggerFactory.getLogger().info("VoucherFactory createVoucher 실행");
+
         Integer discount = Verification.integerVerification(discountInput);
+
         Voucher voucher = switch (voucherMenu) {
             case FIXEDAMOUNTVOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), discount);
             case PERCENTDISCOUNTVOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), discount);
-            case ERROR -> throw new IllegalArgumentException(Message.VOUCHER_MENU_ERROR.getMessage());
+            case ERROR -> error();
         };
         return voucher;
+    }
+
+    private Voucher error() {
+        LoggerFactory.getLogger().error("VoucherMenu 오류발생");
+        throw new IllegalArgumentException(Message.VOUCHER_MENU_ERROR.getMessage());
     }
 }

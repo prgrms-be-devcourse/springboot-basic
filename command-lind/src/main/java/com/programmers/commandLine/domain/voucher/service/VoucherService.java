@@ -3,6 +3,7 @@ package com.programmers.commandLine.domain.voucher.service;
 import com.programmers.commandLine.domain.voucher.entity.Voucher;
 import com.programmers.commandLine.domain.voucher.entity.VoucherMenu;
 import com.programmers.commandLine.domain.voucher.repository.VoucherRepository;
+import com.programmers.commandLine.global.factory.LoggerFactory;
 import com.programmers.commandLine.global.factory.VoucherFactory;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,8 @@ public class VoucherService {
     }
 
     public UUID create(VoucherMenu voucherMenu, String discount) {
+        LoggerFactory.getLogger().info("VoucherService create 실행");
+
         Voucher voucher = voucherFactory.createVoucher(voucherMenu, discount);
         voucherRepository.save(voucher);
         return voucher.getVoucherId();
