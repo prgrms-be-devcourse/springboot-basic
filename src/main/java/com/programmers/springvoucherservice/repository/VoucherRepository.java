@@ -11,5 +11,5 @@ public interface VoucherRepository<T> {
 
     List<Voucher> findAllVouchers();
 
-    UUID registerVoucher(Voucher voucher);
+    Voucher registerVoucher(Voucher voucher);
 }

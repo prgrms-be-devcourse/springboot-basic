@@ -22,10 +22,10 @@ public class HashMapVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID registerVoucher(Voucher voucher) {
+    public Voucher registerVoucher(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         map.put(voucherId, voucher);
 
-        return voucherId;
+        return voucher;
     }
 }

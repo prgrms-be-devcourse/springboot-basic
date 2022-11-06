@@ -51,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public UUID registerVoucher(Voucher voucher) {
+    public Voucher registerVoucher(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         long voucherValue = voucher.getValue();
         String voucherType = voucher.getClass().getSimpleName().replaceAll("Voucher", "");
@@ -65,7 +65,7 @@ public class FileVoucherRepository implements VoucherRepository{
             e.printStackTrace();
         }
 
-        return voucherId;
+        return voucher;
     }
 
     private Optional<Voucher> getVoucherFromFile(UUID voucherId) {
@@ -74,5 +74,9 @@ public class FileVoucherRepository implements VoucherRepository{
         Optional<VoucherList> voucherType = VoucherList.findVoucher(type);
 
         return voucherType.map(voucher -> voucher.createVoucher(voucherId, value));
+    }
+
+    void deleteAll() {
+        wini.clear();
     }
 }
