@@ -6,7 +6,6 @@ import static com.example.springbootbasic.console.ConsoleStatus.SUCCESS;
 
 public class RequestBody {
     private ConsoleStatus status = SUCCESS;
-
     private String body;
 
     public ConsoleStatus getStatus() {

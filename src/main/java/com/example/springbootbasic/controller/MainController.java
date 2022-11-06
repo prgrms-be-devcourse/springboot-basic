@@ -1,7 +1,6 @@
 package com.example.springbootbasic.controller;
 
 import com.example.springbootbasic.console.ConsoleMenu;
-import com.example.springbootbasic.console.ConsoleStatus;
 import com.example.springbootbasic.console.input.ConsoleInput;
 import com.example.springbootbasic.console.input.RequestBody;
 import com.example.springbootbasic.console.output.ConsoleOutput;
@@ -27,7 +26,7 @@ public class MainController {
         this.voucherController = voucherController;
     }
 
-    public ConsoleStatus executeVoucherProgram() {
+    public ResponseBody executeVoucherProgram() {
         ResponseBody menuResponse = voucherController.selectVoucherMenu();
         consoleOutput.response(menuResponse);
 
@@ -39,7 +38,6 @@ public class MainController {
             responseBody.setStatus(FAIL);
             consoleOutput.response(responseBody);
         }
-
         return executeVoucherMenu(findMenu);
     }
 
@@ -48,7 +46,7 @@ public class MainController {
         return findMenu(consoleMenuName);
     }
 
-    private ConsoleStatus executeVoucherMenu(Optional<ConsoleMenu> findMenu) {
+    private ResponseBody executeVoucherMenu(Optional<ConsoleMenu> findMenu) {
         ResponseBody responseBody = new ResponseBody();
         ConsoleMenu menu = findMenu.get();
         if (menu == EXIT) {
@@ -66,6 +64,6 @@ public class MainController {
         }
 
         consoleOutput.response(responseBody);
-        return responseBody.getStatus();
+        return responseBody;
     }
 }

@@ -1,5 +1,9 @@
 package com.example.springbootbasic.domain.voucher;
 
+import com.example.springbootbasic.VoucherConsoleApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -8,6 +12,7 @@ public enum VoucherEnum {
     FIXED_AMOUNT_VOUCHER("fixed", FixedAmountVoucher::new),
     PERCENT_DISCOUNT_VOUCHER("percent", PercentDiscountVoucher::new);
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
     private final String voucherType;
     private final BiFunction<Long, Long, Voucher> voucherGenerator;
 
@@ -16,11 +21,13 @@ public enum VoucherEnum {
         this.voucherGenerator = voucherGenerator;
     }
 
-    public static Voucher generateVoucher(Long voucherId, Long discountValue, VoucherEnum findVoucherGenerator) {
-        return findVoucherGenerator.voucherGenerator.apply(voucherId, discountValue);
+    public static Voucher generateVoucher(Long voucherId, Long discountValue, VoucherEnum findVoucher) {
+        logger.debug("[VoucherEnum] voucherId => '{}', discountValue => '{}', findVoucher => '{}'",
+                voucherId, discountValue, findVoucher);
+        return findVoucher.voucherGenerator.apply(voucherId, discountValue);
     }
 
-    public static Optional<VoucherEnum> findVoucherGenerator(String findVoucherType) {
+    public static Optional<VoucherEnum> findVoucherBy(String findVoucherType) {
         return Arrays.stream(VoucherEnum.values())
                 .filter(voucherGenerator -> voucherGenerator.voucherType.equals(findVoucherType))
                 .findFirst();

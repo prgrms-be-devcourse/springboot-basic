@@ -7,14 +7,17 @@ import com.example.springbootbasic.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Optional;
 
-import static com.example.springbootbasic.console.ConsoleStatus.END;
-import static com.example.springbootbasic.console.ConsoleStatus.FAIL;
-import static com.example.springbootbasic.domain.voucher.VoucherEnum.findVoucherGenerator;
+import static com.example.springbootbasic.console.ConsoleStatus.*;
+import static com.example.springbootbasic.console.output.ResponseFailMessage.*;
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.findVoucherBy;
 import static com.example.springbootbasic.domain.voucher.VoucherMessage.CREATE;
 import static com.example.springbootbasic.domain.voucher.VoucherMessage.MENU;
+import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
+import static java.lang.Character.*;
 
 @Component
 public class VoucherController {
@@ -41,29 +44,60 @@ public class VoucherController {
 
     public ResponseBody createVoucher(RequestBody request) {
         ResponseBody responseBody = new ResponseBody();
-        String[] voucherInputForm = request.getBody().split(SPACE.getUnit());
-        String voucherType = voucherInputForm[VOUCHER_TYPE_INDEX];
-        Long discountValue = Long.parseLong(voucherInputForm[VOUCHER_DISCOUNT_VALUE_INDEX]);
-        Optional<VoucherEnum> findVoucherGenerator =
-                findVoucherGenerator(voucherType);
-
-        if (findVoucherGenerator.isEmpty()) {
-            responseBody.setStatus(FAIL);
-            return responseBody;
-        }
-        voucherService.saveVoucher(findVoucherGenerator.get(), discountValue);
+        handleCreateVoucher(request, responseBody);
         return responseBody;
+    }
+
+    private void handleCreateVoucher(RequestBody request, ResponseBody responseBody) {
+        String[] voucherInputForm;
+        String voucherType;
+        Long discountValue = null;
+        Optional<VoucherEnum> findVoucher = Optional.empty();
+        if (request.getStatus() == FAIL) {
+            responseBody.setBody(VOUCHER_REQUEST_FAIL_ERROR.getMessage());
+            responseBody.setStatus(FAIL);
+        }
+        voucherInputForm = request.getBody().split(SPACE.getUnit());
+        if (!validateVoucherInputForm(voucherInputForm)) {
+            request.setStatus(FAIL);
+            responseBody.setStatus(FAIL);
+            responseBody.setBody(VOUCHER_REQUEST_FAIL_ERROR.getMessage());
+        }
+        if (request.getStatus() == SUCCESS) {
+            voucherType = voucherInputForm[VOUCHER_TYPE_INDEX];
+            discountValue = Long.parseLong(voucherInputForm[VOUCHER_DISCOUNT_VALUE_INDEX]);
+            findVoucher = findVoucherBy(voucherType);
+            if (findVoucher.isEmpty()) {
+                responseBody.setBody(VOUCHER_FIND_EMPTY_ERROR.getMessage());
+                responseBody.setStatus(FAIL);
+            }
+        }
+        if (responseBody.getStatus() == SUCCESS) {
+            voucherService.saveVoucher(findVoucher.get(), discountValue);
+        }
+    }
+
+    private static boolean validateVoucherInputForm(String[] voucherInputForm) {
+        return !checkVoucherInputFormLengthNotOk(voucherInputForm) && !checkDiscountValueNotDigit(voucherInputForm);
+    }
+
+    private static boolean checkVoucherInputFormLengthNotOk(String[] voucherInputForm) {
+        return voucherInputForm.length != 2;
+    }
+
+    private static boolean checkDiscountValueNotDigit(String[] voucherInputForm) {
+        return Arrays.stream(voucherInputForm[VOUCHER_DISCOUNT_VALUE_INDEX].split(EMPTY.getUnit()))
+                .anyMatch(discountValuePiece -> !isDigit(discountValuePiece.charAt(0)));
     }
 
     public ResponseBody selectAllVouchers() {
         ResponseBody responseBody = new ResponseBody();
         String findAllVouchers = voucherService.findAllVouchers();
 
-        if (findAllVouchers.isBlank()) {
-            responseBody.setStatus(FAIL);
-            return responseBody;
-        }
         responseBody.setBody(findAllVouchers);
+        if (findAllVouchers.isBlank()) {
+            responseBody.setBody(VOUCHER_EMPTY_LIST_ERROR.getMessage());
+        }
         return responseBody;
     }
 

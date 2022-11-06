@@ -1,8 +1,11 @@
 package com.example.springbootbasic.service;
 
+import com.example.springbootbasic.VoucherConsoleApplication;
 import com.example.springbootbasic.repository.VoucherRepository;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,7 @@ import static com.example.springbootbasic.util.CharacterUnit.*;
 
 @Service
 public class VoucherService {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleApplication.class);
     private final VoucherRepository voucherRepository;
 
     @Autowired
@@ -24,6 +28,7 @@ public class VoucherService {
         Long newVoucherId = voucherRepository.getSequence();
         Voucher generatedVoucher = generateVoucher(newVoucherId, amount, voucherType);
         voucherRepository.save(newVoucherId, generatedVoucher);
+        logger.debug("[VoucherService] save VoucherType => '{}', DiscountValue => '{}'", voucherType.getVoucherType(), amount);
         return newVoucherId;
     }
 

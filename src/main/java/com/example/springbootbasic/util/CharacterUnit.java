@@ -3,7 +3,8 @@ package com.example.springbootbasic.util;
 public enum CharacterUnit {
     SPACE(" "),
     ENTER("\n"),
-    PERCENT("%");
+    PERCENT("%"),
+    EMPTY("");
 
     private final String unit;
 

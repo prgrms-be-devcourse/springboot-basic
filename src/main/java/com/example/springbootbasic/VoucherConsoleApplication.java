@@ -7,7 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
-import static com.example.springbootbasic.console.ConsoleStatus.*;
+import static com.example.springbootbasic.console.ConsoleStatus.END;
+import static com.example.springbootbasic.console.ConsoleStatus.SUCCESS;
 
 @ComponentScan
 public class VoucherConsoleApplication {
@@ -17,8 +18,8 @@ public class VoucherConsoleApplication {
         MainController mainController = ac.getBean(MainController.class);
 
         ConsoleStatus status = SUCCESS;
-        while (status == SUCCESS) {
-            status = mainController.executeVoucherProgram();
+        while (status != END) {
+            status = mainController.executeVoucherProgram().getStatus();
         }
     }
 }

@@ -12,9 +12,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Long save(Long voucherId, Voucher voucher) {
-        if (storage.containsKey(voucherId)) {
-
-        }
         storage.put(voucherId, voucher);
         return voucherId;
     }
