@@ -62,6 +62,6 @@ class ValidatorTest {
 				discounts.stream()
 					.forEach(i -> validator.validateDiscount(VoucherType.PERCENT.getType(), i));
 			})
-			.withMessageContaining("잘못된 할인 범위입니다.");
+			.withMessageContaining("할인 비율은 0보다 크고 100이하여야 합니다.");
 	}
 }
