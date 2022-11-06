@@ -1,4 +1,10 @@
 package com.programmers.voucher.io;
 
-public class Output {
+import org.springframework.stereotype.Component;
+
+@Component
+public class Output<T> {
+    public void printOutput(T message) {
+        System.out.println(message);
+    }
 }
