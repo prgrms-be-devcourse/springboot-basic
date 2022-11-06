@@ -29,9 +29,10 @@ public class VoucherManagementController implements Runnable{
     public void runUserRequest(String menu) {
         MenuType menuType = MenuType.of(menu);
 
-        if (menuType.equals(MenuType.EXIT)) {
+        if (menuType.isExit()) {
             writer.print(SystemMessage.EXIT);
             state.exit();
+            return;
         }
     }
 }
