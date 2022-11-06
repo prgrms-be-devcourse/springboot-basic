@@ -29,6 +29,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<String> getVoucherList() {
-        return storage.values().stream().map(Voucher::getVoucherInfo).toList();
+        return storage.values().stream().map(Voucher::toString).toList();
     }
 }
