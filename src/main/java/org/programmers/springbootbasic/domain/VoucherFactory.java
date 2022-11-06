@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.domain;
 
 import org.programmers.springbootbasic.data.VoucherType;
+import org.programmers.springbootbasic.exception.WrongInputException;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -10,10 +11,11 @@ import java.util.UUID;
  */
 @Component
 public class VoucherFactory{
-    public Voucher getVoucher(VoucherType type, long amount) {
+    public Voucher getVoucher(VoucherType type, long amount) throws WrongInputException {
         return switch (type) {
             case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), amount);
             case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), amount);
+            default -> throw new WrongInputException();
         };
     }
 }

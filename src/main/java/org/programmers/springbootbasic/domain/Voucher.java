@@ -6,4 +6,5 @@ public interface Voucher {
     UUID getVoucherId();
     long getAmount();
     long discount(long originalPrice);
+    
 }

@@ -2,12 +2,19 @@ package org.programmers.springbootbasic;
 
 import lombok.AllArgsConstructor;
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
+import org.programmers.springbootbasic.domain.Voucher;
+import org.programmers.springbootbasic.dto.VoucherDto;
+import org.programmers.springbootbasic.dto.VoucherDtoConverter;
+import org.programmers.springbootbasic.dto.VoucherInputDto;
+import org.programmers.springbootbasic.exception.WrongInputException;
 import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
+import org.programmers.springbootbasic.service.VoucherService;
 import org.programmers.springbootbasic.util.ConstantMessageUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @AllArgsConstructor
@@ -15,6 +22,8 @@ public class VoucherManagementExecutor {
 
     private final Input input;
     private final Output output;
+    private final VoucherDtoConverter voucherDtoConverter;
+    private final VoucherService voucherService;
 
 
     public void run() throws IOException {
@@ -24,14 +33,11 @@ public class VoucherManagementExecutor {
             VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput(ConstantMessageUtil.TYPE_USER_COMMAND);
             switch (menuInput) {
                 case CREATE -> {
-                    /*
-                    voucher service 의 createVoucher 실행
-                     */
+                    createVoucher();
                 }
                 case LIST -> {
-                    /*
-                    voucher service의 findAll
-                     */
+                    List<Voucher> vouchers = voucherService.lookupVoucher();
+                    output.printVouchers(vouchers)
                 }
                 case EXIT -> {
                     /*
@@ -44,6 +50,24 @@ public class VoucherManagementExecutor {
                      */
                 }
             }
+        }
+    }
+
+    private void createVoucher() {
+        boolean continueJob = true;
+        while(continueJob) {
+            try {
+                VoucherInputDto voucherInputDto = input.getVoucherCreateMenuInput(ConstantMessageUtil.TYPE_VOUCHER_INFO);
+                voucherInputDto.validateVoucher();
+                VoucherDto voucherDto = voucherDtoConverter.convertVoucherInput(voucherInputDto);
+                voucherService.createVoucher(voucherDto);
+            } catch(WrongInputException e) {
+                output.printError();
+                continue;
+            } catch (IOException e) {
+                output.printError();
+            }
+            continueJob = false;
         }
     }
 }
