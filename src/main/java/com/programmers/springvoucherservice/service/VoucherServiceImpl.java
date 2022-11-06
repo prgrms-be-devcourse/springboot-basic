@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class VoucherServiceImpl implements VoucherService{
+public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository repository;
 
     @Autowired

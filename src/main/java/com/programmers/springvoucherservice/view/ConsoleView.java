@@ -3,12 +3,11 @@ package com.programmers.springvoucherservice.view;
 import com.programmers.springvoucherservice.domain.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Scanner;
 
 
 @Component
-public class ConsoleView implements View{
+public class ConsoleView implements View {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
@@ -19,13 +18,25 @@ public class ConsoleView implements View{
         System.out.println("Type list to list all vouchers");
     }
 
-    @Override
-    public void showVoucherLists(List<Voucher> vouchers) {
-
-    }
 
     @Override
     public String getUserCommand() {
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public String inputText(String guideMessage) {
+        System.out.println(guideMessage);
+        return scanner.nextLine().trim();
+    }
+
+    @Override
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    @Override
+    public void printVoucher(Voucher voucher) {
+        System.out.println(voucher);
     }
 }

@@ -3,7 +3,7 @@ package com.programmers.springvoucherservice.domain.voucher;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percentage;
 

@@ -18,7 +18,7 @@ public enum VoucherList {
         }
     },
 
-    PercentDiscount("P"){
+    PercentDiscount("P") {
         public Voucher createVoucher(long value) {
             return VoucherFactory.createVoucher(PercentDiscount, value);
         }
@@ -27,10 +27,11 @@ public enum VoucherList {
         public Voucher createVoucher(UUID id, long value) {
             return VoucherFactory.createVoucher(id, PercentDiscount, value);
         }
-    };
+    },
+    ;
 
 
-    private String type;
+    private final String type;
 
     VoucherList(String type) {
         this.type = type;
@@ -42,6 +43,23 @@ public enum VoucherList {
                 .findFirst();
     }
 
+    public static VoucherList findVoucherList(String type) {
+        return Arrays.stream(VoucherList.values())
+                .filter(voucher -> voucher.type.equals(type))
+                .findFirst()
+                .get();
+    }
+
+    public static boolean isValidateVoucherType(String inputType) {
+        return Arrays.stream(VoucherList.values())
+                .anyMatch(voucher -> voucher.type.equals(inputType));
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public abstract Voucher createVoucher(long value);
+
     public abstract Voucher createVoucher(UUID id, long value);
 }

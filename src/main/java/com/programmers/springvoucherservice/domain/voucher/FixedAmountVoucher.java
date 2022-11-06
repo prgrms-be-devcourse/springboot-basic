@@ -2,7 +2,7 @@ package com.programmers.springvoucherservice.domain.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final long amount;
     private final UUID voucherId;
 

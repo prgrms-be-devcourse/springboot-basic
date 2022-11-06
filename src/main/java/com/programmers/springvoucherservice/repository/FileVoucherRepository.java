@@ -14,11 +14,10 @@ import java.util.*;
 
 @Profile("dev")
 @Repository
-public class FileVoucherRepository implements VoucherRepository{
-    private Wini wini;
+public class FileVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_TYPE = "type";
     private static final String VOUCHER_VALUE = "value";
-
+    private final Wini wini;
     @Value("${kdt.voucher.save-path}")
     private String path;
 
@@ -59,7 +58,7 @@ public class FileVoucherRepository implements VoucherRepository{
         wini.put(voucherId.toString(), VOUCHER_VALUE, voucherValue);
         wini.put(voucherId.toString(), VOUCHER_TYPE, voucherType);
 
-        try{
+        try {
             wini.store();
         } catch (IOException e) {
             e.printStackTrace();
