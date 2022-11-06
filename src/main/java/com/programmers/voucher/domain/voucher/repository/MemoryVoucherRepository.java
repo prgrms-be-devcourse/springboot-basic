@@ -6,16 +6,21 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.exception.ExceptionMessage;
+import com.programmers.voucher.exception.VoucherNotFoundException;
 
 @Repository
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private static final HashMap<UUID, Voucher> repository = new HashMap<>();
+	private final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	@Override
 	public void save(Voucher voucher) {
@@ -23,8 +28,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<Voucher> findByUUID(UUID voucherId) {
-		return Optional.ofNullable(repository.get(voucherId));
+	public Voucher findByUUID(UUID voucherId) {
+		return Optional.ofNullable(repository.get(voucherId))
+			.orElseThrow(() -> {
+				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+				throw new VoucherNotFoundException();
+			});
 	}
 
 	@Override
