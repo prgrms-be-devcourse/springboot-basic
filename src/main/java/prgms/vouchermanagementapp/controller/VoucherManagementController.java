@@ -3,7 +3,6 @@ package prgms.vouchermanagementapp.controller;
 import prgms.vouchermanagementapp.io.MenuType;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
-import prgms.vouchermanagementapp.io.message.SystemMessage;
 
 public class VoucherManagementController {
 
@@ -30,7 +29,7 @@ public class VoucherManagementController {
         MenuType menuType = MenuType.of(menu);
 
         if (menuType.isExit()) {
-            writer.print(SystemMessage.EXIT.getMessage());
+            writer.printExitMessage();
             state.exit();
             return;
         }
