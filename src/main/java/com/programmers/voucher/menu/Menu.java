@@ -1,4 +1,4 @@
-package com.programmers.springvoucherservice.menu;
+package com.programmers.voucher.menu;
 
 public enum Menu {
     EXIT("EXIT"),

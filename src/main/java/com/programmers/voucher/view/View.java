@@ -1,6 +1,6 @@
-package com.programmers.springvoucherservice.view;
+package com.programmers.voucher.view;
 
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.Voucher;
 
 public interface View {
     void showMenu();

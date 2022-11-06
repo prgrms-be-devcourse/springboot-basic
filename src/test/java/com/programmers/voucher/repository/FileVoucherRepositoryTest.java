@@ -1,7 +1,7 @@
-package com.programmers.springvoucherservice.repository;
+package com.programmers.voucher.repository;
 
-import com.programmers.springvoucherservice.VoucherFactory;
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
+import com.programmers.voucher.VoucherFactory;
+import com.programmers.voucher.domain.voucher.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.FixedAmount;
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.PercentDiscount;
+import static com.programmers.voucher.domain.voucher.VoucherList.FixedAmount;
+import static com.programmers.voucher.domain.voucher.VoucherList.PercentDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest

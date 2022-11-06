@@ -1,7 +1,7 @@
-package com.programmers.springvoucherservice.repository;
+package com.programmers.voucher.repository;
 
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
-import com.programmers.springvoucherservice.domain.voucher.VoucherList;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherList;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +17,8 @@ import java.util.*;
 public class FileVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_TYPE = "type";
     private static final String VOUCHER_VALUE = "value";
-    private final Wini wini;
+    private Wini wini;
+
     @Value("${kdt.voucher.save-path}")
     private String path;
 

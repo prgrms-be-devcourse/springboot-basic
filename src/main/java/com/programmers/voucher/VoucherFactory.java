@@ -1,9 +1,9 @@
-package com.programmers.springvoucherservice;
+package com.programmers.voucher;
 
-import com.programmers.springvoucherservice.domain.voucher.FixedAmountVoucher;
-import com.programmers.springvoucherservice.domain.voucher.PercentDiscountVoucher;
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
-import com.programmers.springvoucherservice.domain.voucher.VoucherList;
+import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
+import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherList;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

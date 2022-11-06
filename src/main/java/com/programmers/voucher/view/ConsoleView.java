@@ -1,6 +1,6 @@
-package com.programmers.springvoucherservice.view;
+package com.programmers.voucher.view;
 
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -21,12 +21,6 @@ public class ConsoleView implements View {
 
     @Override
     public String getUserCommand() {
-        return scanner.nextLine().trim();
-    }
-
-    @Override
-    public String inputText(String guideMessage) {
-        System.out.println(guideMessage);
         return scanner.nextLine().trim();
     }
 

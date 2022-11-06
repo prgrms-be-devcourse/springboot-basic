@@ -1,7 +1,7 @@
-package com.programmers.springvoucherservice.domain.voucher;
+package com.programmers.voucher.domain.voucher;
 
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.FixedAmount;
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.PercentDiscount;
+import static com.programmers.voucher.domain.voucher.VoucherList.FixedAmount;
+import static com.programmers.voucher.domain.voucher.VoucherList.PercentDiscount;
 
 public class VoucherValidator {
     public static final int MAX_DISCOUNT_COST = 200000;

@@ -1,8 +1,8 @@
-package com.programmers.springvoucherservice.repository;
+package com.programmers.voucher.repository;
 
-import com.programmers.springvoucherservice.VoucherFactory;
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
-import com.programmers.springvoucherservice.domain.voucher.VoucherList;
+import com.programmers.voucher.VoucherFactory;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

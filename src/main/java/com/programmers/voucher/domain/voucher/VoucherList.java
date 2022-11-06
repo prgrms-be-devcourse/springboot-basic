@@ -1,6 +1,6 @@
-package com.programmers.springvoucherservice.domain.voucher;
+package com.programmers.voucher.domain.voucher;
 
-import com.programmers.springvoucherservice.VoucherFactory;
+import com.programmers.voucher.VoucherFactory;
 
 import java.util.Arrays;
 import java.util.Optional;

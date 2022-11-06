@@ -1,16 +1,16 @@
-package com.programmers.springvoucherservice;
+package com.programmers.voucher;
 
-import com.programmers.springvoucherservice.domain.voucher.Voucher;
-import com.programmers.springvoucherservice.domain.voucher.VoucherList;
-import com.programmers.springvoucherservice.service.VoucherService;
-import com.programmers.springvoucherservice.view.View;
+import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.domain.voucher.VoucherList;
+import com.programmers.voucher.service.VoucherService;
+import com.programmers.voucher.view.View;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.programmers.springvoucherservice.domain.voucher.VoucherList.*;
-import static com.programmers.springvoucherservice.domain.voucher.VoucherValidator.isValidateValue;
-import static com.programmers.springvoucherservice.menu.Menu.*;
+import static com.programmers.voucher.domain.voucher.VoucherList.*;
+import static com.programmers.voucher.domain.voucher.VoucherValidator.isValidateValue;
+import static com.programmers.voucher.menu.Menu.*;
 
 public class CommandLineApplication implements Runnable {
     private final View view;
