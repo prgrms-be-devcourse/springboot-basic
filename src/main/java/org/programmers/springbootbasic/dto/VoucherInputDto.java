@@ -17,6 +17,6 @@ public class VoucherInputDto {
     }
 
     private boolean isWrongInput() {
-        return VoucherType.WRONG_INPUT.equals(VoucherType.valueOf(type));
+        return VoucherType.WRONG_INPUT.equals(VoucherType.valueOfType(type));
     }
 }

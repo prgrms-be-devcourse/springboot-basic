@@ -37,7 +37,7 @@ public class VoucherManagementExecutor {
                 }
                 case LIST -> {
                     List<Voucher> vouchers = voucherService.lookupVoucher();
-                    output.printVouchers(vouchers)
+                    output.printVouchers(vouchers);
                 }
                 case EXIT -> {
                     /*
@@ -45,9 +45,7 @@ public class VoucherManagementExecutor {
                      */
                 }
                 default -> {
-                    /*
-                    output의 error 출력
-                     */
+                    output.printError();
                 }
             }
         }
@@ -61,11 +59,9 @@ public class VoucherManagementExecutor {
                 voucherInputDto.validateVoucher();
                 VoucherDto voucherDto = voucherDtoConverter.convertVoucherInput(voucherInputDto);
                 voucherService.createVoucher(voucherDto);
-            } catch(WrongInputException e) {
+            } catch(WrongInputException | IOException | NumberFormatException e) {
                 output.printError();
                 continue;
-            } catch (IOException e) {
-                output.printError();
             }
             continueJob = false;
         }
