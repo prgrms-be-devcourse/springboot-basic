@@ -28,42 +28,26 @@ public class VoucherProgram implements Runnable {
             try {
                 in = input.input("");
                 Class<?> cls = Class.forName(obj.getClass().getName());
+                if(in.equals("exit")) {
+                    output.bye();
+                    break;
+                }
                 Method m = cls.getDeclaredMethod(in);
                 m.invoke(obj);
             } catch (IOException e) {
                 output.showExceptionTrace(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException(e);
+            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                     IllegalAccessException e) {
+                output.invalidInstruction(in);
+                // throw new RuntimeException(e);
             }
-//            if(in.equals("create"))
-//                create();
-//            else if(in.equals("list"))
-//                list();
-//            else if(in.equals("exit")) {
-//                output.bye();
-//                break;
-//            }
-//            else
-//                output.invalidInstruction(in);
         }
     }
-//    private void create(){
-//        System.out.println("create called");
-//    };
-//    private void list(){
-//        System.out.println("list called");
-//    };
     static class InstructionClass {
         private void create(){
             System.out.println("create called");
         };
-    private void list(){
+        private void list(){
             System.out.println("list called");
         };
     }
