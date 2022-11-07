@@ -35,3 +35,5 @@ Type black_consumer_list to list all blackConsumer.
 - [x] 고객 블랙 리스트 명단을 작성한다.
   - customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수 있고 블랙 리스트조회 할 수있다 (추가할 필요는 없어요. 블랙리스트는 파일로만 관리된다고 가정합니다.)
 - [x] YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해본다.
+
+# qqq
