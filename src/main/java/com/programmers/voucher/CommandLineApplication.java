@@ -1,5 +1,6 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.menu.Menu;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
@@ -11,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.programmers.voucher.menu.Menu.*;
+import static com.programmers.voucher.menu.Menu.EXIT;
+import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
 import static com.programmers.voucher.voucher.VoucherList.findVoucherList;
 import static com.programmers.voucher.voucher.VoucherList.isValidateVoucherType;
@@ -36,7 +38,8 @@ public class CommandLineApplication implements Runnable {
             userCommand = view.getUserCommand().toUpperCase();
 
             try {
-                executeUserCommand(userCommand);
+                Menu userMenu = findMenu(userCommand);
+                executeUserCommand(userMenu);
             } catch (RuntimeException e) {
                 logger.error("사용자 커맨드 입력값 오류", e);
                 view.printMessage(e.getMessage());
@@ -44,47 +47,58 @@ public class CommandLineApplication implements Runnable {
         }
     }
 
-    private void executeUserCommand(String userCommand) {
-        if (userCommand.equals(EXIT.getMenu())) {
-            return;
-        } else if (userCommand.equals(CREATE.getMenu())) {
-            view.printMessage(VOUCHER_TYPE_MESSAGE.getMessage());
-            String voucherTypeInput = view.getUserCommand();
+    private void executeUserCommand(Menu userMenu) {
+        switch (userMenu) {
+            case CREATE:
+                createVoucher();
+                break;
 
-            if (!isValidateVoucherType(voucherTypeInput)) {
-                throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
-            }
+            case LIST:
+                showVoucherList();
+                break;
 
-            String value = getVoucherValue();
-
-            if (!isValidateValue(voucherTypeInput, value)) {
-                throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
-            }
-
-            createVoucher(voucherTypeInput, value);
-            view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
-
-        } else if (userCommand.equals(LIST.getMenu())) {
-            List<Voucher> vouchers = voucherService.findAll();
-            showVoucherList(vouchers);
-        } else {
-            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
+            case EXIT:
+                return;
         }
     }
 
-    private void createVoucher(String voucherTypeInput, String value) {
+    private void createVoucher() {
+        view.printMessage(VOUCHER_TYPE_MESSAGE.getMessage());
+
+        String voucherTypeInput = getVoucherTypeInput();
+        String value = getVoucherValue(voucherTypeInput);
+
         VoucherList voucherList = findVoucherList(voucherTypeInput);
         Voucher voucher = VoucherFactory.createVoucher(voucherList, Long.parseLong(value));
         voucherService.register(voucher);
+
+        view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
     }
 
-    private String getVoucherValue() {
+    private String getVoucherTypeInput() {
+        String voucherTypeInput = view.getUserCommand();
+
+        if (!isValidateVoucherType(voucherTypeInput)) {
+            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
+        }
+        return voucherTypeInput;
+    }
+
+
+    private String getVoucherValue(String type) {
         view.printMessage(VOUCHER_VALUE_MESSAGE.getMessage());
-        return view.getUserCommand();
+        String value = view.getUserCommand();
+
+        if (!isValidateValue(type, value)) {
+            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
+        }
+
+        return value;
     }
 
 
-    private void showVoucherList(List<Voucher> vouchers) {
+    private void showVoucherList() {
+        List<Voucher> vouchers = voucherService.findAll();
         for (Voucher voucher : vouchers) {
             view.printVoucher(voucher);
         }
