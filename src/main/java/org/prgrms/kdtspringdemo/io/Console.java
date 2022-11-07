@@ -37,8 +37,9 @@ public class Console {
         return Long.parseLong(input.getInput());
     }
 
-    public void showError(Exception e) {
+    public Exception showError(Exception e) {
         output.printError(e);
+        return e;
     }
 
 }

@@ -11,6 +11,8 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
+
+//    private final VoucherValidator voucherValidator;
     @Autowired
     public VoucherService(VoucherRepository voucherRepository, VoucherCreator voucherCreator) {
         this.voucherRepository = voucherRepository;
@@ -23,8 +25,7 @@ public class VoucherService {
     }
 //    public void useVoucher(Voucher voucher) {
 //    }
-    public Voucher createVoucher(VoucherType voucherType,Long number){
-
+    public Voucher createVoucher(VoucherType voucherType,Long number) throws Exception{
         Voucher newVoucher= voucherCreator.createVoucher(voucherType,number);
         return voucherRepository.insert(newVoucher);
     }

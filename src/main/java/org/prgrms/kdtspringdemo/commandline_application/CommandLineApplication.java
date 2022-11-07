@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
 import org.prgrms.kdtspringdemo.io.Console;
+import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
 import org.prgrms.kdtspringdemo.voucher.VoucherType;
 import org.springframework.boot.ApplicationArguments;
@@ -12,13 +13,14 @@ public class CommandLineApplication implements ApplicationRunner {
     private boolean isRunning = true;
     private final Console console;
     private VoucherService voucherService;
+
     public CommandLineApplication(Console console) {
         this.console = console;
     }
 
     @Override
     public void run(ApplicationArguments args) {
-        while(isRunning){
+        while (isRunning) {
             //output 책임
             console.showMenu();
             String myString = console.getInputWithPrompt("");
@@ -27,8 +29,9 @@ public class CommandLineApplication implements ApplicationRunner {
     }
 
     //분기하는 책임
-    private void executeMenuByInput(String myString) {
-        switch (CommandType.getTypeByName(myString)) {
+    private CommandType executeMenuByInput(String myString) {
+        CommandType commandType = CommandType.getTypeByName(myString);
+        switch (commandType) {
             case EXIT -> {
                 //종료하는 책임
                 exitProgram();
@@ -46,23 +49,35 @@ public class CommandLineApplication implements ApplicationRunner {
                 showError();
             }
         }
+        return commandType;
     }
-    private void exitProgram(){
+
+    private void exitProgram() {
         System.out.println("종료하기");
         this.isRunning = false;
 
     }
-    private void createVoucher(){
-        System.out.println("create 로직");
-        VoucherType voucherType =console.selectVoucherTypeMenu();
-        Long value = console.getVoucherValue();
 
+    private Voucher createVoucher() {
+        while (true) {
+            try {
+                System.out.println("create 로직");
+                VoucherType voucherType = console.selectVoucherTypeMenu();
+                Long value = console.getVoucherValue();
+                return voucherService.createVoucher(voucherType, value);
+            } catch (Exception e) {
+                console.showError(e);
+                continue;
+            }
+        }
     }
-    private void showVoucherList(){
+
+    private void showVoucherList() {
         System.out.println("List 로직");
 
     }
-    private void showError(){
+
+    private void showError() {
         System.out.println("에러 처리 로직");
         console.showError(new Exception("잘못된 입력 입니다."));
     }
