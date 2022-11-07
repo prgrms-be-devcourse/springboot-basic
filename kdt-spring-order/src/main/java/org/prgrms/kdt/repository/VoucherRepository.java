@@ -1,7 +1,6 @@
 package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.voucher.Voucher;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
