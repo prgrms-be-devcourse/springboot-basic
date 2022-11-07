@@ -1,6 +1,5 @@
 package com.programmers.voucher;
 
-import com.programmers.voucher.menu.Message;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
@@ -14,7 +13,8 @@ import java.util.List;
 
 import static com.programmers.voucher.menu.Menu.*;
 import static com.programmers.voucher.menu.Message.*;
-import static com.programmers.voucher.voucher.VoucherList.*;
+import static com.programmers.voucher.voucher.VoucherList.findVoucherList;
+import static com.programmers.voucher.voucher.VoucherList.isValidateVoucherType;
 import static com.programmers.voucher.voucher.VoucherValidator.isValidateValue;
 
 public class CommandLineApplication implements Runnable {

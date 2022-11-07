@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class FileCustomerRepositoryTest {
     FileCustomerRepository repository = new FileCustomerRepository();

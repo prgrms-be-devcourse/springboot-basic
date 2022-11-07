@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static com.programmers.voucher.voucher.VoucherList.FixedAmount;
 import static com.programmers.voucher.voucher.VoucherList.PercentDiscount;
 import static com.programmers.voucher.voucher.VoucherValidator.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherValidatorTest {
     VoucherValidator validator = new VoucherValidator();
