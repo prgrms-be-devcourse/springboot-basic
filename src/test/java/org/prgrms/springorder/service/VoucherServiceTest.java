@@ -15,11 +15,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.mockito.MockedStatic;
 import org.prgrms.springorder.domain.FixedAmountVoucher;
 import org.prgrms.springorder.domain.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.Voucher;
@@ -30,9 +32,16 @@ import org.prgrms.springorder.request.VoucherCreateRequest;
 @TestInstance(Lifecycle.PER_CLASS)
 class VoucherServiceTest {
 
+    private MockedStatic<VoucherFactory> voucherFactoryMockedStatic;
+
     @BeforeAll
-    public void beforeClass() {
-        mockStatic(VoucherFactory.class);
+    public void beforeAll() {
+        voucherFactoryMockedStatic = mockStatic(VoucherFactory.class);
+    }
+
+    @AfterAll
+    public void afterAll() {
+        voucherFactoryMockedStatic.close();
     }
 
     @DisplayName("Voucher 생성 테스트 - Fixed 바우처가 정상적으로 생성된다. ")
