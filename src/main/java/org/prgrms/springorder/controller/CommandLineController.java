@@ -3,10 +3,14 @@ package org.prgrms.springorder.controller;
 import java.util.stream.Collectors;
 import org.prgrms.springorder.request.VoucherCreateRequest;
 import org.prgrms.springorder.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CommandLineController {
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineController.class);
 
     private final VoucherService voucherService;
 
@@ -33,6 +37,7 @@ public class CommandLineController {
 
                 execute(command);
             } catch (RuntimeException e) {
+                logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(), e.getMessage());
                 consoleOutput.showMessage(e.getMessage());
             }
         }

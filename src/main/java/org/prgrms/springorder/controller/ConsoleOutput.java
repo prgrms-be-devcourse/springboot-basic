@@ -4,8 +4,12 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConsoleOutput {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleOutput.class);
 
     private final BufferedWriter bufferedWriter;
 
@@ -20,6 +24,7 @@ public class ConsoleOutput {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } catch (IOException e) {
+                logger.error("showMessage write error", e);
                 throw new RuntimeException(e.getMessage(), e);
             }
         });
@@ -33,6 +38,7 @@ public class ConsoleOutput {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } catch (IOException e) {
+                logger.error("showMessages write error", e);
                 throw new RuntimeException(e.getMessage(), e);
             }
         }
@@ -43,6 +49,7 @@ public class ConsoleOutput {
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } catch (IOException e) {
+                logger.error("showMessage write error", e);
                 throw new RuntimeException(e.getMessage(), e);
             }
         });

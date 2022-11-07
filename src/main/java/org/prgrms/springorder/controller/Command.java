@@ -19,7 +19,7 @@ public enum Command {
         return Arrays.stream(values())
             .filter(e -> e.command.equals(inputCommand.toLowerCase()))
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다"));
+            .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다. input : " + inputCommand));
     }
 
 }

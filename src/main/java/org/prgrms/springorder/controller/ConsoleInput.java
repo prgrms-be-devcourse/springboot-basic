@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.request.VoucherCreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 public class ConsoleInput {
+
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleInput.class);
 
     private final BufferedReader bufferedReader;
 
@@ -20,6 +24,7 @@ public class ConsoleInput {
             validateEmptyInput(input);
             return input;
         } catch (IOException e) {
+            logger.error("inputString error", e);
             throw new IllegalArgumentException("잘못된 입력입니다.", e);
         }
     }
