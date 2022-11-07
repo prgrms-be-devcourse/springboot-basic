@@ -1,6 +1,7 @@
 package org.prgrms.kdt.utils;
 
 import org.prgrms.kdt.exceptions.WrongSelectException;
+import org.prgrms.kdt.io.MessageType;
 
 import java.util.Arrays;
 
@@ -23,8 +24,9 @@ public enum SelectType {
     public static SelectType findSelectType(String selection) {
         return Arrays.stream(SelectType.values())
                 .filter(selectType -> selectType.getType().equals(selection))
-                .findFirst().orElseThrow(() -> {
-                    throw new WrongSelectException();
+                .findFirst()
+                .orElseThrow(() -> {
+                    throw new WrongSelectException(MessageType.SELECT_WRONG.getMessage());
                 });
     }
 }
