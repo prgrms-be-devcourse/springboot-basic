@@ -7,9 +7,14 @@ import org.programmers.kdtspringdemo.type.VoucherType;
 import org.programmers.kdtspringdemo.voucher.model.FixedAmountVoucher;
 import org.programmers.kdtspringdemo.voucher.model.PercentDiscountVoucher;
 import org.programmers.kdtspringdemo.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,9 +26,14 @@ public class VoucherProgram implements Runnable {
     private final Input input = new Console();
 
     private Boolean isRunnable = true;
+    @Value("${kdt.blackListFilePath}")
+    private String blackListFilePath;
 
     @Override
     public void run() {
+
+        getAllBlackList();
+
 
         while (isRunnable) {
             String optionDescription = "\n=== Voucher Program ===\nType exit to exit the program.\nType create to create a new voucher.\nType list to list all vouchers.\n=> ";
@@ -41,6 +51,23 @@ public class VoucherProgram implements Runnable {
             }
         }
 
+    }
+
+    private void getAllBlackList() {
+        Resource resource = applicationContext.getResource(blackListFilePath);
+
+        try {
+            List<String> blackList = Files.readAllLines(resource.getFile().toPath());
+
+            System.out.println("=== Black List Customer ===");
+
+            blackList.forEach((line) -> {
+                String[] customerInfo = line.split(",");
+                System.out.println("id = " + customerInfo[0] + " name = " + customerInfo[1]);
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void getVoucherInfoList(VoucherRepository voucherRepository) {
