@@ -19,10 +19,14 @@ public class VoucherValidator {
 
     private static void validateDiscountAmount(String discountValue) {
         if (isNumeric(discountValue)) {
+            if (discountValue.contains(".")) {
+                throw new IllegalArgumentException("할인 금액이 정수가 아닙니다.");
+            }
+
             Long longDiscountValue = Long.parseLong(discountValue);
 
-            if (discountValue.contains(".") || longDiscountValue < 0) {
-                throw new IllegalArgumentException("할인 금액이 정수가 아니거나 음수입니다.");
+            if (longDiscountValue < 0) {
+                throw new IllegalArgumentException("할인 금액이 음수입니다.");
             }
         } else {
             throw new IllegalArgumentException("할인 금액이 숫자가 아닙니다.");
@@ -42,10 +46,10 @@ public class VoucherValidator {
     }
 
 
-    public static void validateVoucherStatusAndDiscountValue(String voucherType, String discountValue) {
-        VoucherStatus voucherStatus = VoucherStatus.of(voucherType);
+    public static void validateVoucherTypeAndDiscountValue(String voucherType, String discountValue) {
+        VoucherType voucherClassType = VoucherType.of(voucherType);
 
-        switch (voucherStatus) {
+        switch (voucherClassType) {
             case FIXED_AMOUNT:
                 validateDiscountAmount(discountValue);
                 break;
