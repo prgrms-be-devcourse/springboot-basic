@@ -1,6 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher;
-
-import org.prgrms.kdtspringdemo.commandline_application.CommandType;
+package org.prgrms.kdtspringdemo.voucher.model;
 
 public enum VoucherType {
     FIXED, PERCENT;

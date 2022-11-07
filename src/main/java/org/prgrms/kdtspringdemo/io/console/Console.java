@@ -1,7 +1,7 @@
-package org.prgrms.kdtspringdemo.io;
+package org.prgrms.kdtspringdemo.io.console;
 
-import org.prgrms.kdtspringdemo.voucher.Voucher;
-import org.prgrms.kdtspringdemo.voucher.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -56,7 +56,10 @@ public class Console {
 
             };
             return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
-        }).collect(Collectors.joining("\n","  ID  |  Amount  |  VoucherType  |\n","\n==========================="));
+        }).collect(Collectors.joining(
+                "\n"
+                ,"  ID  |  Amount  |  VoucherType  |\n"
+                ,"\n==========================="));
         output.printText(voucherListString);
         return voucherListString;
     }

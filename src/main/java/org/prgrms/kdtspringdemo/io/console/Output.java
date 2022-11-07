@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.io;
+package org.prgrms.kdtspringdemo.io.console;
 
 import org.springframework.stereotype.Component;
 

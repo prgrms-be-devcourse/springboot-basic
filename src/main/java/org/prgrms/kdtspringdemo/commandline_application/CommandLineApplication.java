@@ -1,9 +1,9 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
-import org.prgrms.kdtspringdemo.io.Console;
-import org.prgrms.kdtspringdemo.voucher.Voucher;
+import org.prgrms.kdtspringdemo.io.console.Console;
+import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.prgrms.kdtspringdemo.voucher.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

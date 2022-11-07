@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher;
+package org.prgrms.kdtspringdemo.voucher.model;
 
 import java.util.UUID;
 

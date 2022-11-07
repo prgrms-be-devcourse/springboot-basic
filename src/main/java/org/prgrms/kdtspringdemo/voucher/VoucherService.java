@@ -1,5 +1,8 @@
 package org.prgrms.kdtspringdemo.voucher;
 
+import org.prgrms.kdtspringdemo.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +28,7 @@ public class VoucherService {
     }
 //    public void useVoucher(Voucher voucher) {
 //    }
-    public Voucher createVoucher(VoucherType voucherType,Long number) throws Exception{
+    public Voucher createVoucher(VoucherType voucherType, Long number) throws Exception{
         Voucher newVoucher= voucherCreator.createVoucher(voucherType,number);
         return voucherRepository.insert(newVoucher);
     }
