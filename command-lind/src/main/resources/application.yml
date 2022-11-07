@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: prod
+    group:
+      development:
+        - local
+      production:
+        - prod
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod

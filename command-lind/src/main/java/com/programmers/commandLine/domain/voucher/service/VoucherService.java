@@ -31,7 +31,7 @@ public class VoucherService {
 
     public String list() {
         StringBuilder sb = new StringBuilder();
-        Map<UUID, Voucher> findAll = voucherRepository.findAll();
+        Map<String, Voucher> findAll = voucherRepository.findAll();
         findAll.forEach((uuid, voucher) ->{
             sb.append(
                     "ID: " + uuid + " Type: " + voucher.getType() + " discount: " + voucher.getDiscount()

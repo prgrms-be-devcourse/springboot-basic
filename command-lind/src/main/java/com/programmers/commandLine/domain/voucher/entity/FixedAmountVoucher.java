@@ -12,12 +12,11 @@ import java.util.UUID;
  *
 **/
 public class FixedAmountVoucher implements Voucher{
-    private final UUID voucherId;
-    private final Integer amount; // 할인
+    private final UUID voucherId = UUID.randomUUID();
+    private final String amount; // 할인
     private final String type = "fixedAmountVoucher";
 
-    public FixedAmountVoucher(UUID voucherId, Integer amount) {
-        this.voucherId = voucherId;
+    public FixedAmountVoucher(String amount) {
         this.amount = amount;
 
     }
@@ -29,7 +28,7 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public Integer discount(Integer beforeDiscount) {
-        return beforeDiscount - amount;
+        return beforeDiscount - Integer.parseInt(amount);
     }
 
     @Override

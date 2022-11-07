@@ -16,11 +16,11 @@ public class VoucherFactory {
     public Voucher createVoucher(VoucherMenu voucherMenu, String discountInput) {
         LoggerFactory.getLogger().info("VoucherFactory createVoucher 실행");
 
-        Integer discount = Verification.integerVerification(discountInput);
+        Verification.integerVerification(discountInput);
 
         Voucher voucher = switch (voucherMenu) {
-            case FIXEDAMOUNTVOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), discount);
-            case PERCENTDISCOUNTVOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), discount);
+            case FIXEDAMOUNTVOUCHER -> new FixedAmountVoucher(discountInput);
+            case PERCENTDISCOUNTVOUCHER -> new PercentDiscountVoucher(discountInput);
             case ERROR -> error();
         };
         return voucher;

@@ -89,7 +89,11 @@ public class VoucherApplication {
 
     private String list() {
         LoggerFactory.getLogger().info("VoucherApplication list 실행");
-        return voucherService.list() + "\n\n";
+        try {
+            return voucherService.list() + "\n\n";
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
     }
 
     private String error(){

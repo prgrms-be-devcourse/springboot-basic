@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
-    Map<UUID,Voucher> findAll();
+    Map<String,Voucher> findAll();
 }

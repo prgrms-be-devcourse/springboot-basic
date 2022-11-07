@@ -13,14 +13,13 @@ import java.util.UUID;
 **/
 public class PercentDiscountVoucher implements Voucher {
 
-    private final UUID voucherId;
-    private final Integer percent;
+    private final UUID voucherId = UUID.randomUUID();
+    private final String percent;
 
 
     private final String type = "percentDiscountVoucher";
 
-    public PercentDiscountVoucher(UUID voucherId, Integer percent) {
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher(String percent) {
         this.percent = percent;
     }
 
@@ -31,7 +30,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Integer discount(Integer beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * Integer.parseInt(percent) / 100;
     }
 
     @Override
