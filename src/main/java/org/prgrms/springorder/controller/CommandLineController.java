@@ -18,7 +18,8 @@ public class CommandLineController {
 
     private final ConsoleOutput consoleOutput;
 
-    public CommandLineController(VoucherService voucherService, ConsoleInput consoleinput,
+    public CommandLineController(VoucherService voucherService,
+        ConsoleInput consoleinput,
         ConsoleOutput consoleOutput) {
         this.voucherService = voucherService;
         this.consoleInput = consoleinput;
@@ -37,18 +38,21 @@ public class CommandLineController {
 
                 execute(command);
             } catch (RuntimeException e) {
-                logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(), e.getMessage());
+                logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(),
+                    e.getMessage());
                 consoleOutput.showMessage(e.getMessage());
             }
         }
     }
 
-    private void execute(Command command) {
+    public void execute(Command command) {
         switch (command) {
             case CREATE -> {
-                VoucherCreateRequest voucherCreateRequest = consoleInput.getVoucherCreateRequest(consoleOutput);
+                VoucherCreateRequest voucherCreateRequest = consoleInput.getVoucherCreateRequest(
+                    consoleOutput);
 
-                consoleOutput.showMessage("created Voucher. : " + voucherService.createVoucher(voucherCreateRequest));
+                consoleOutput.showMessage(
+                    "created Voucher. : " + voucherService.createVoucher(voucherCreateRequest));
             }
 
             case LIST -> consoleOutput.showMessages(voucherService.findAll().stream()
