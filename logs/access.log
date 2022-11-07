@@ -1,0 +1,17 @@
+21:24:21.291 [main] INFO  o.p.s.SpringOrderApplication - Starting SpringOrderApplication using Java 17.0.2 on MacBook-Pro-2.local with PID 66054 (/Users/ysk/study/devcourse/과제/springboot-basic/target/classes started by ysk in /Users/ysk/study/devcourse/과제/springboot-basic)
+21:24:21.292 [main] DEBUG o.p.s.SpringOrderApplication - Running with Spring Boot v2.7.5, Spring v5.3.23
+21:24:21.292 [main] INFO  o.p.s.SpringOrderApplication - No active profile set, falling back to 1 default profile: "default"
+21:24:21.704 [main] INFO  o.p.s.SpringOrderApplication - Started SpringOrderApplication in 0.575 seconds (JVM running for 0.97)
+21:24:25.343 [main] INFO  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:24:30.303 [main] INFO  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:24:31.351 [main] INFO  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:24:32.311 [main] INFO  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:24:35.122 [main] INFO  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 입력값은 숫자여야 합니다.
+21:25:31.891 [main] INFO  o.p.s.SpringOrderApplication - Starting SpringOrderApplication using Java 17.0.2 on MacBook-Pro-2.local with PID 66139 (/Users/ysk/study/devcourse/과제/springboot-basic/target/classes started by ysk in /Users/ysk/study/devcourse/과제/springboot-basic)
+21:25:31.893 [main] INFO  o.p.s.SpringOrderApplication - No active profile set, falling back to 1 default profile: "default"
+21:25:32.194 [main] INFO  o.p.s.SpringOrderApplication - Started SpringOrderApplication in 0.467 seconds (JVM running for 0.82)
+21:25:37.122 [main] WARN  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 입력값은 숫자여야 합니다.
+21:25:38.072 [main] WARN  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:25:38.996 [main] WARN  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:25:39.754 [main] WARN  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
+21:25:42.436 [main] WARN  o.p.s.c.CommandLineController - errorName : java.lang.IllegalArgumentException, errorMessage : 잘못된 명령어 입력입니다
