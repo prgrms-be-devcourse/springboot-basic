@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
@@ -59,8 +58,8 @@ class VoucherServiceTest {
         VoucherCreateRequest voucherCreateRequest =
             VoucherCreateRequest.of(fixedVoucherType, discountAmount);
 
-        given(VoucherFactory.create(voucherCreateRequest))
-            .willReturn(fixedAmountVoucher);
+        when(VoucherFactory.create(voucherCreateRequest))
+            .thenReturn(fixedAmountVoucher);
 
         when(voucherRepositoryMock.insert(any()))
             .thenReturn(fixedAmountVoucher);
@@ -96,8 +95,8 @@ class VoucherServiceTest {
         VoucherCreateRequest voucherCreateRequest =
             VoucherCreateRequest.of(percentVoucherType, discountAmount);
 
-        given(VoucherFactory.create(voucherCreateRequest))
-            .willReturn(percentDiscountVoucher);
+        when(VoucherFactory.create(voucherCreateRequest))
+            .thenReturn(percentDiscountVoucher);
 
         when(voucherRepositoryMock.insert(any()))
             .thenReturn(percentDiscountVoucher);
