@@ -23,11 +23,8 @@ public class VoucherFactory {
         switch (voucherType) {
             case FIXED:
                 return new FixedAmountVoucher(UUID.randomUUID(), request.getDiscountAmount());
+
             case PERCENT:
-                long discountAmount = request.getDiscountAmount();
-                if (discountAmount > 100) {
-                    throw new IllegalArgumentException("할인율은 100%를 넘을 수 없습니다.");
-                }
                 return new PercentDiscountVoucher(UUID.randomUUID(), request.getDiscountAmount());
 
             default:
