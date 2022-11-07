@@ -1,5 +1,8 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.entity.FixedAmountVoucher;
+import org.prgrms.kdt.entity.PercentDiscountVoucher;
+import org.prgrms.kdt.entity.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -25,7 +28,7 @@ public class VoucherFactory {
     }
 
     public Voucher createVoucher(String voucherType, String discountValue) {
-        String classNameString = VoucherStatus.getStringClassName(voucherType);
+        String classNameString = VoucherType.getStringClassName(voucherType);
 
         if (classNameString.equals("FixedAmountVoucher")) {
             return createFixedAmountVoucher(discountValue);

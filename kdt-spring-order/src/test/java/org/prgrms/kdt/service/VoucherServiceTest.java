@@ -2,10 +2,10 @@ package org.prgrms.kdt.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.entity.FixedAmountVoucher;
 import org.prgrms.kdt.entity.PercentDiscountVoucher;
 import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.repository.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.VoucherFactory;
 import org.springframework.stereotype.Component;
 
