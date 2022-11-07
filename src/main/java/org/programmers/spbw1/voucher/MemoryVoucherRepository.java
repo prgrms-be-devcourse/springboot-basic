@@ -29,6 +29,11 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public int getStoredVoucherNum() {
+        return storage.size();
+    }
+
+    @Override
     public void clear() {
         this.storage.clear();
     }

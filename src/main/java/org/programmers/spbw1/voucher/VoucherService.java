@@ -26,6 +26,6 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType voucherType, Long discountAmount){
         if(voucherType == VoucherType.FIXED)
             return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), discountAmount));
-        return voucherRepository.insert(new PercentVoucher(UUID.randomUUID(), discountAmount));
+        return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), discountAmount));
     }
 }

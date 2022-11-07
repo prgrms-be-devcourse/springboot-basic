@@ -19,7 +19,7 @@ class VoucherServiceTest {
             ids.add(UUID.randomUUID());
 
         voucherRepository.insert(new FixedAmountVoucher(ids.get(0), 10L));
-        voucherRepository.insert(new PercentVoucher(ids.get(1), 10L));
+        voucherRepository.insert(new PercentDiscountVoucher(ids.get(1), 10L));
     }
     @AfterEach
     public void cleanUp(){

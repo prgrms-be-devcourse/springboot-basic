@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
-//    private final Scanner scanner = new Scanner(System.in);
     private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
