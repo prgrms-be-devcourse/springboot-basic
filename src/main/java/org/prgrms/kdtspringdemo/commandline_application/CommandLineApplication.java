@@ -8,14 +8,17 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CommandLineApplication implements ApplicationRunner {
     private boolean isRunning = true;
     private final Console console;
-    private VoucherService voucherService;
+    private final VoucherService voucherService;
 
-    public CommandLineApplication(Console console) {
+    public CommandLineApplication(Console console, VoucherService voucherService) {
         this.console = console;
+        this.voucherService = voucherService;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class CommandLineApplication implements ApplicationRunner {
             }
             case ERROR -> {
                 //에러를 처리하는 책임
-                showError();
+                showWrongCommandError();
             }
         }
         return commandType;
@@ -65,7 +68,7 @@ public class CommandLineApplication implements ApplicationRunner {
                 VoucherType voucherType = console.selectVoucherTypeMenu();
                 Long value = console.getVoucherValue();
                 return voucherService.createVoucher(voucherType, value);
-            } catch (Exception e) {
+            }catch (Exception e){
                 console.showError(e);
                 continue;
             }
@@ -74,10 +77,11 @@ public class CommandLineApplication implements ApplicationRunner {
 
     private void showVoucherList() {
         System.out.println("List 로직");
-
+        List<Voucher> voucherList = voucherService.getAllVoucherList();
+        console.showList(voucherList);
     }
 
-    private void showError() {
+    private void showWrongCommandError() {
         System.out.println("에러 처리 로직");
         console.showError(new Exception("잘못된 입력 입니다."));
     }

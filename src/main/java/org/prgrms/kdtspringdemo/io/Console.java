@@ -1,7 +1,12 @@
 package org.prgrms.kdtspringdemo.io;
 
+import org.prgrms.kdtspringdemo.voucher.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherType;
 import org.springframework.stereotype.Component;
+
+import java.text.MessageFormat;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Console {
@@ -42,4 +47,17 @@ public class Console {
         return e;
     }
 
+    public String showList(List<Voucher> voucherList) {
+        String voucherListString =voucherList.stream().map((voucher) -> {
+            String[] argument = {
+                    voucher.getVoucherId().toString(),
+                    voucher.discountValue(),
+                    voucher.getVoucherType().name().toLowerCase()
+
+            };
+            return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
+        }).collect(Collectors.joining("\n","  ID  |  Amount  |  VoucherType  |\n","\n==========================="));
+        output.printText(voucherListString);
+        return voucherListString;
+    }
 }
