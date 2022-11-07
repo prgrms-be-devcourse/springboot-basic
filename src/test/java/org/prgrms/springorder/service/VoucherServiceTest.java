@@ -3,122 +3,155 @@ package org.prgrms.springorder.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.prgrms.springorder.domain.FixedAmountVoucher;
 import org.prgrms.springorder.domain.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.repository.VoucherRepository;
 import org.prgrms.springorder.request.VoucherCreateRequest;
-import org.prgrms.springorder.response.VoucherResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@TestInstance(Lifecycle.PER_CLASS)
 class VoucherServiceTest {
 
-    @Autowired
-    private VoucherService voucherService;
-
-    @Autowired
-    private VoucherRepository voucherRepository;
-
-    @BeforeEach
-    void beforeEach() {
-        voucherRepository.deleteAll();
+    @BeforeAll
+    public void beforeClass() {
+        mockStatic(VoucherFactory.class);
     }
 
-    @DisplayName("Voucher 생성 테스트 - Fixed 바우처가 정상적으로 생성되어 저장된다. ")
+    @DisplayName("Voucher 생성 테스트 - Fixed 바우처가 정상적으로 생성된다. ")
     @Test
     void createFixedVoucherTest() {
         //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
         long discountAmount = 100;
         VoucherType fixedVoucherType = VoucherType.FIXED;
+
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(),
+            discountAmount);
+
         VoucherCreateRequest voucherCreateRequest =
             VoucherCreateRequest.of(fixedVoucherType, discountAmount);
 
-        //when
-        UUID createdVoucherId = voucherService.createVoucher(voucherCreateRequest);
+        given(VoucherFactory.create(voucherCreateRequest))
+            .willReturn(fixedAmountVoucher);
 
-        Optional<Voucher> optionalVoucher = voucherRepository.findById(createdVoucherId);
+        when(voucherRepositoryMock.insert(any()))
+            .thenReturn(fixedAmountVoucher);
+
+        //when
+        Voucher createdVoucher = voucherService.createVoucher(voucherCreateRequest);
 
         //then
-        assertTrue(optionalVoucher.isPresent());
-        Voucher findFixedVoucher = optionalVoucher.get();
-        assertNotNull(createdVoucherId);
-        assertEquals(FixedAmountVoucher.class, findFixedVoucher.getClass());
-        assertEquals(fixedVoucherType, findFixedVoucher.getVoucherType());
-        assertEquals(FixedAmountVoucher.class, findFixedVoucher.getClass());
-        assertEquals(fixedVoucherType, findFixedVoucher.getVoucherType());
+        assertNotNull(createdVoucher);
+        assertEquals(fixedAmountVoucher.getVoucherId(), createdVoucher.getVoucherId());
 
+        assertEquals(fixedVoucherType, createdVoucher.getVoucherType());
+        assertEquals(FixedAmountVoucher.class, createdVoucher.getClass());
+        assertEquals(10, createdVoucher.discount(110));
+
+        verify(voucherRepositoryMock).insert(fixedAmountVoucher);
     }
 
-    @DisplayName("Voucher 생성 테스트 - Percent 바우처가 정상적으로 생성되어 저장된다. ")
+    @DisplayName("Voucher 생성 테스트 - Percent 바우처가 정상적으로 생성된다. ")
     @Test
     void createPercentVoucherTest() {
         //given
-        long discountAmount = 10;
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        long discountAmount = 50;
         VoucherType percentVoucherType = VoucherType.PERCENT;
+
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(
+            UUID.randomUUID(),
+            discountAmount);
+
         VoucherCreateRequest voucherCreateRequest =
             VoucherCreateRequest.of(percentVoucherType, discountAmount);
 
-        //when
-        UUID createdVoucherId = voucherService.createVoucher(voucherCreateRequest);
+        given(VoucherFactory.create(voucherCreateRequest))
+            .willReturn(percentDiscountVoucher);
 
-        Optional<Voucher> optionalVoucher = voucherRepository.findById(createdVoucherId);
+        when(voucherRepositoryMock.insert(any()))
+            .thenReturn(percentDiscountVoucher);
+
+        //when
+        Voucher createdVoucher = voucherService.createVoucher(voucherCreateRequest);
 
         //then
-        assertTrue(optionalVoucher.isPresent());
-        Voucher findPercentVoucher = optionalVoucher.get();
-        assertNotNull(createdVoucherId);
-        assertEquals(PercentDiscountVoucher.class, findPercentVoucher.getClass());
-        assertEquals(percentVoucherType, findPercentVoucher.getVoucherType());
-        assertEquals(PercentDiscountVoucher.class, findPercentVoucher.getClass());
-        assertEquals(percentVoucherType, findPercentVoucher.getVoucherType());
+        assertNotNull(createdVoucher);
+        assertEquals(percentDiscountVoucher.getVoucherId(), createdVoucher.getVoucherId());
+
+        assertEquals(percentVoucherType, createdVoucher.getVoucherType());
+        assertEquals(PercentDiscountVoucher.class, createdVoucher.getClass());
+        assertEquals(50, createdVoucher.discount(100));
+
+        verify(voucherRepositoryMock).insert(percentDiscountVoucher);
     }
 
     @Test
     @DisplayName("Voucher findAll() 테스트 - 비어있지 않으면, 저장된 모든 바우처 정보가 조회된다.")
     void findAllNotEmptyListTest() {
         //given
-        int saveCount = 5;
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+        int size = 5;
 
-        IntStream.range(0, saveCount).forEach(index -> {
-            Voucher voucher;
-
-            if (index % 2 == 0) {
-                voucher = new PercentDiscountVoucher(UUID.randomUUID(), index);
-            } else {
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), index);
-            }
-
-            voucherRepository.insert(voucher);
-        });
+        when(voucherRepositoryMock.findAll()).thenReturn(
+            IntStream.range(0, size)
+                .mapToObj(i -> i % 2 == 0
+                    ? new FixedAmountVoucher(UUID.randomUUID(), i)
+                    : new PercentDiscountVoucher(UUID.randomUUID(), i))
+                .collect(Collectors.toList())
+        );
 
         //when
-        List<VoucherResponse> vouchers = voucherService.findAll();
+        List<Voucher> vouchers = voucherService.findAll();
 
         //then
         assertNotNull(vouchers);
-        assertEquals(saveCount, vouchers.size());
+        assertEquals(size, vouchers.size());
+
+        verify(voucherRepositoryMock).findAll();
     }
 
     @Test
     @DisplayName("Voucher findAll() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
     void findAllReturnEmptyListTest() {
-        //given & when
-        List<VoucherResponse> vouchers = voucherService.findAll();
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        when(voucherRepositoryMock.findAll())
+            .thenReturn(new ArrayList<>());
+
+        //when
+        List<Voucher> vouchers = voucherService.findAll();
 
         //then
         assertNotNull(vouchers);
         assertTrue(vouchers.isEmpty());
+
+        verify(voucherRepositoryMock).findAll();
     }
+
 
 }
