@@ -1,6 +1,4 @@
-package com.programmers.voucher.domain.voucher;
-
-import com.programmers.voucher.VoucherFactory;
+package com.programmers.voucher.voucher;
 
 import java.util.Arrays;
 import java.util.Optional;

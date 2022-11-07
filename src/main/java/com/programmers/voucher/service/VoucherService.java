@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.voucher.Voucher;
 
 import java.util.List;
 import java.util.UUID;

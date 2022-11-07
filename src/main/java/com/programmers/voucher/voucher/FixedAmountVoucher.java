@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain.voucher;
+package com.programmers.voucher.voucher;
 
 import java.util.UUID;
 
@@ -17,7 +17,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        long discountedAmount = beforeDiscount - amount;
+        return (discountedAmount < 0) ? 0 : discountedAmount;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository;
 
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherList;
+import com.programmers.voucher.voucher.Voucher;
+import com.programmers.voucher.voucher.VoucherList;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

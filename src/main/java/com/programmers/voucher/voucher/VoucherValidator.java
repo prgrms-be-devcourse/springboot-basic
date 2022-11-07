@@ -1,7 +1,4 @@
-package com.programmers.voucher.domain.voucher;
-
-import static com.programmers.voucher.domain.voucher.VoucherList.FixedAmount;
-import static com.programmers.voucher.domain.voucher.VoucherList.PercentDiscount;
+package com.programmers.voucher.voucher;
 
 public class VoucherValidator {
     public static final int MAX_DISCOUNT_COST = 200000;
@@ -20,18 +17,18 @@ public class VoucherValidator {
         return isProperValue(type, value);
     }
 
-    private static boolean isNumeric(String value) {
+    public static boolean isNumeric(String value) {
         value = value.replaceAll(numberRegEx, "");
         return value.equals("");
     }
 
-    private static boolean isProperValue(String type, String s) {
+    public static boolean isProperValue(String type, String s) {
         int value = Integer.parseInt(s);
-        if (type.equals(PercentDiscount.getType())) {
+        if (type.equals(VoucherList.PercentDiscount.getType())) {
             return MIN_DISCOUNT_PERCENTAGE <= value && value <= MAX_DISCOUNT_PERCENTAGE;
         }
 
-        if (type.equals(FixedAmount.getType())) {
+        if (type.equals(VoucherList.FixedAmount.getType())) {
             return MIN_DISCOUNT_COST <= value && value <= MAX_DISCOUNT_COST;
         }
 

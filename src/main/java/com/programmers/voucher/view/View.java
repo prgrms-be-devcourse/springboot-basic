@@ -1,6 +1,6 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.voucher.Voucher;
 
 public interface View {
     void showMenu();

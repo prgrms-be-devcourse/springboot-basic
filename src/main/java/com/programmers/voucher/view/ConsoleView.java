@@ -1,6 +1,6 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -32,5 +32,6 @@ public class ConsoleView implements View {
     @Override
     public void printVoucher(Voucher voucher) {
         System.out.println(voucher);
+        System.out.println("============================");
     }
 }

@@ -1,17 +1,15 @@
-package com.programmers.voucher;
+package com.programmers.voucher.voucher;
 
-import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
-import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherList;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+import static com.programmers.voucher.voucher.VoucherList.FixedAmount;
+
 @Component
 public class VoucherFactory {
     public static Voucher createVoucher(UUID id, VoucherList type, long value) {
-        if (type == VoucherList.FixedAmount) {
+        if (type == FixedAmount) {
             return new FixedAmountVoucher(value, id);
         }
 

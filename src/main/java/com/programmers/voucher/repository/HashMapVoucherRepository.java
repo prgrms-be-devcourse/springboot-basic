@@ -1,6 +1,6 @@
 package com.programmers.voucher.repository;
 
-import com.programmers.voucher.domain.voucher.Voucher;
+import com.programmers.voucher.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

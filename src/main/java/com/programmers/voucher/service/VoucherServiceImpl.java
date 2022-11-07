@@ -1,7 +1,7 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.voucher.Voucher;
 import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.voucher.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,8 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public Voucher getVoucher(UUID voucherId) {
         Optional<Voucher> result = repository.findById(voucherId);
-        return result.orElseThrow(() -> new RuntimeException("존재하지 않는 바우처입니다."));
+        return result.orElseThrow(() ->
+                new RuntimeException("존재하지 않는 바우처입니다."));
     }
 
     @Override
