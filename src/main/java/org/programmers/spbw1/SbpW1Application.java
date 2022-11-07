@@ -5,6 +5,7 @@ import org.programmers.spbw1.io.Output;
 import org.programmers.spbw1.voucher.MemoryVoucherRepository;
 import org.programmers.spbw1.voucher.VoucherService;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Repository;
@@ -16,9 +17,7 @@ import java.util.Optional;
 
 @SpringBootApplication
 public class SbpW1Application {
-	static BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-	// static Logger logger = new LoggerFa
+	// static final Logger logger = LoggerFactory.getLogger(SbpW1Application.class);
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(SbpW1Application.class, args);

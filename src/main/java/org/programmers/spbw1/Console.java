@@ -15,13 +15,13 @@ public class Console implements Input, Output {
 
     @Override
     public String input(String prompt) throws IOException {
-        System.out.println(prompt);
+        System.out.print(prompt);
         return bufferedReader.readLine();
     }
 
     @Override
     public void initSelect() {
-        System.out.println("=== Voucher Program ===");
+        System.out.println("\n=== Voucher Program ===");
         System.out.println("Type **exit** to exit the program.");
         System.out.println("Type **create** to create a new voucher.");
         System.out.println("Type **list** to list all vouchers.");
