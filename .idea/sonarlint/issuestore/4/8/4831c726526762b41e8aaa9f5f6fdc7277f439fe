@@ -1,0 +1,6 @@
+
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Όƒ
+b
+java:S2095("LUse try-with-resources or close this "BufferedWriter" in a "finally" clause.(„»‡Ϋ
+<
+java:S1170"!Make this final field static too.(πρ«®ÿÿÿÿÿ
