@@ -1,5 +1,6 @@
 package com.programmers.voucher;
 
+import com.programmers.voucher.menu.Message;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.programmers.voucher.menu.Menu.*;
+import static com.programmers.voucher.menu.Message.*;
 import static com.programmers.voucher.voucher.VoucherList.*;
 import static com.programmers.voucher.voucher.VoucherValidator.isValidateValue;
 
@@ -30,7 +32,7 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         String userCommand = "";
         while (!userCommand.equals(EXIT.getMenu())) {
-            view.showMenu();
+            view.printMessage(GREETING_MESSAGE.getMessage());
             userCommand = view.getUserCommand().toUpperCase();
 
             try {
@@ -46,27 +48,27 @@ public class CommandLineApplication implements Runnable {
         if (userCommand.equals(EXIT.getMenu())) {
             return;
         } else if (userCommand.equals(CREATE.getMenu())) {
-            view.printMessage("고정할인 바우처는 F, 정률 할인 바우처는 P를 입력해주세요.");
+            view.printMessage(VOUCHER_TYPE_MESSAGE.getMessage());
             String voucherTypeInput = view.getUserCommand();
 
             if (!isValidateVoucherType(voucherTypeInput)) {
-                throw new RuntimeException("타입을 잘못 입력하셨습니다.");
+                throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
             }
 
-            String value = getVoucherValue(voucherTypeInput);
+            String value = getVoucherValue();
 
             if (!isValidateValue(voucherTypeInput, value)) {
-                throw new RuntimeException("바우처 금액을 잘못 입력하셨습니다.");
+                throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
             }
 
             createVoucher(voucherTypeInput, value);
-            view.printMessage("바우처 생성 성공");
+            view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
 
         } else if (userCommand.equals(LIST.getMenu())) {
             List<Voucher> vouchers = voucherService.findAll();
             showVoucherList(vouchers);
         } else {
-            throw new RuntimeException("잘못 입력하셨습니다.");
+            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
         }
     }
 
@@ -74,21 +76,13 @@ public class CommandLineApplication implements Runnable {
         VoucherList voucherList = findVoucherList(voucherTypeInput);
         Voucher voucher = VoucherFactory.createVoucher(voucherList, Long.parseLong(value));
         voucherService.register(voucher);
-        logger.info("사용자 바우처 생성 ={}", voucher);
     }
 
-    private String getVoucherValue(String voucherTypeInput) {
-        if (voucherTypeInput.equals(FixedAmount.getType())) {
-            view.printMessage("바우처의 금액을 입력해주세요.");
-            return view.getUserCommand();
-        }
-        if (voucherTypeInput.equals(PercentDiscount.getType())) {
-            view.printMessage("바우처의 할인율을 입력해주세요.");
-            return view.getUserCommand();
-        }
-
-        throw new RuntimeException("타입을 잘못 입력하셨습니다.");
+    private String getVoucherValue() {
+        view.printMessage(VOUCHER_VALUE_MESSAGE.getMessage());
+        return view.getUserCommand();
     }
+
 
     private void showVoucherList(List<Voucher> vouchers) {
         for (Voucher voucher : vouchers) {
