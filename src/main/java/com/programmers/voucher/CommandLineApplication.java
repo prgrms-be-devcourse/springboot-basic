@@ -96,7 +96,6 @@ public class CommandLineApplication implements Runnable {
         return value;
     }
 
-
     private void showVoucherList() {
         List<Voucher> vouchers = voucherService.findAll();
         for (Voucher voucher : vouchers) {
