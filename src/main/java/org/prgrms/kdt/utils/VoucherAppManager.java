@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherAppManager {
 
-    private Power power;
+    private final Power power;
 
     public VoucherAppManager() {
         this.power = new Power();
@@ -17,5 +17,16 @@ public class VoucherAppManager {
         return power.getIsRunning();
     }
 
+    public void execute(SelectType selectType) {
+        switch (selectType) {
+            case CREATE -> {
 
+            }
+            case LIST -> {
+
+            }
+            case EXIT -> power.stop();
+            default -> throw new WrongSelectException(MessageType.SELECT_WRONG.getMessage());
+        }
+    }
 }
