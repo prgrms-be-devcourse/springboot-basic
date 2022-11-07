@@ -1,8 +1,8 @@
 package com.programmers.voucher.repository;
 
-import com.programmers.voucher.VoucherFactory;
-import com.programmers.voucher.domain.voucher.Voucher;
-import com.programmers.voucher.domain.voucher.VoucherList;
+import com.programmers.voucher.voucher.VoucherFactory;
+import com.programmers.voucher.voucher.Voucher;
+import com.programmers.voucher.voucher.VoucherList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
