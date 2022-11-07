@@ -1,27 +1,40 @@
 package org.prgrms.kdt.repository;
 
 
-import org.prgrms.kdt.voucher.*;
-import org.springframework.context.annotation.Primary;
+import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.voucher.VoucherFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-@Primary
+@Profile({"dev", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final VoucherFactory voucherFactory;
-    private final String repository = "fileRepository.txt";
-    private final ClassPathResource resource = new ClassPathResource(repository);
 
-    public FileVoucherRepository(VoucherFactory voucherFactory) {
+    private final String filePath;
+    private final ClassPathResource resource;
+
+    public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${kdt.log-file}") String filePath) {
         this.voucherFactory = voucherFactory;
+        this.filePath = filePath;
+        this.resource = new ClassPathResource(filePath);
     }
 
 
@@ -42,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("{} {}", e.getMessage(), e.getStackTrace());
         }
         return Optional.empty();
     }
@@ -58,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
             bw.newLine();
             bw.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("{} {}", e.getMessage(), e.getStackTrace());
         }
     }
 
@@ -78,7 +91,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherList.add(voucher);
             }
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("{} {}", e.getMessage(), e.getStackTrace());
         }
         return voucherList;
     }
@@ -98,7 +111,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             new FileWriter(resource.getFile(), false).close();
         }catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error("{} {}", e.getMessage(), e.getStackTrace());
         }
     }
 }

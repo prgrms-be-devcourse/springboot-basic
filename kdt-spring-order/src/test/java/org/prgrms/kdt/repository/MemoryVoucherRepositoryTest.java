@@ -3,20 +3,16 @@ package org.prgrms.kdt.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherFactory;
+import org.prgrms.kdt.entity.FixedAmountVoucher;
+import org.prgrms.kdt.entity.Voucher;
 
-import java.io.IOException;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class MemoryVoucherRepositoryTest {
 
-    //VoucherRepository voucherRepository = new MemoryVoucherRepository();
-    VoucherRepository voucherRepository = new FileVoucherRepository(new VoucherFactory());
+    VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @BeforeEach
     void beforeEach() {
@@ -48,8 +44,6 @@ class MemoryVoucherRepositoryTest {
         // when
         voucherRepository.insert(voucher);
         int getVoucherCount = voucherRepository.getAllStoredVoucher().size();
-        System.out.println(getVoucherCount);
-        //System.out.println(new FixedAmountVoucher);
 
         // then
         assertThat(size).isEqualTo(getVoucherCount);
@@ -64,7 +58,6 @@ class MemoryVoucherRepositoryTest {
             voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000L*i));
         }
 
-        System.out.println(voucherRepository.getAllStoredVoucher());
         // when
         int getVoucherCount = voucherRepository.getAllStoredVoucher().size();
 

@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: dev
+kdt:
+  blacklist-file: "blacklist.csv"
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+kdt:
+  log-file: "fileRepository.txt"
