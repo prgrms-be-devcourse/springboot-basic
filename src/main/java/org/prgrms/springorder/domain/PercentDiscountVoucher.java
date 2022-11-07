@@ -11,8 +11,12 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     protected void validateAmount(long amount) {
-        if (amount < 0 ) {
+        if (amount < 0) {
             throw new IllegalArgumentException("할인율은 0보다 작을 수 없습니다.");
+        }
+
+        if (amount > 100) {
+            throw new IllegalArgumentException("할인율은 100보다 클 수 없습니다.");
         }
     }
 
