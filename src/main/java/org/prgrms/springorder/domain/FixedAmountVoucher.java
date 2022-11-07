@@ -46,11 +46,4 @@ public class FixedAmountVoucher extends Voucher {
         return Objects.hash(getVoucherId());
     }
 
-    @Override
-    public String toString() {
-        return "voucherType = " + getVoucherType()
-            + ", id = " + getVoucherId()
-            + ", amount = " + getAmount();
-    }
-
 }

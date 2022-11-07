@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public abstract class Voucher {
 
-    private UUID voucherId;
+    private final UUID voucherId;
 
-    private long amount;
+    private final long amount;
 
     public abstract VoucherType getVoucherType();
 
@@ -26,6 +26,13 @@ public abstract class Voucher {
 
     public long getAmount() {
         return amount;
+    }
+
+    @Override
+    public String toString() {
+        return "voucherType = " + getVoucherType()
+            + ", id = " + getVoucherId()
+            + ", amount = " + getAmount();
     }
 
 }
