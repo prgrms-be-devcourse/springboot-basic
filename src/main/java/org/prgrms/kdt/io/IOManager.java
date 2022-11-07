@@ -11,10 +11,18 @@ public class IOManager {
     }
 
     public String getInput() {
-        return console.selectInput().toLowerCase().strip();
+        return console.read().toLowerCase().strip();
     }
 
-    public void doOutput(OutputConstant outputConstant) {
-        console.outputResult(outputConstant.getOutputConstant());
+    public void doStartMessage(){
+        console.write(MessageType.CONSOLE_START.getMessage());
+    }
+
+    public void doErrorMessage(String message){
+        console.write(message);
+    }
+
+    public void doEndMessage(){
+        console.write(MessageType.CONSOLE_END.getMessage());
     }
 }
