@@ -1,20 +1,21 @@
 package org.prgrms.kdt.utils;
 
+import org.prgrms.kdt.exceptions.WrongSelectException;
+import org.prgrms.kdt.io.MessageType;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherAppManager {
-    private boolean appStatus;
+
+    private Power power;
 
     public VoucherAppManager() {
-        this.appStatus = true;
+        this.power = new Power();
     }
 
-    public boolean getAppStatus() {
-        return appStatus;
+    public boolean getPower() {
+        return power.getIsRunning();
     }
 
-    public void changeAppStatusToStop() {
-        appStatus = false;
-    }
+
 }
