@@ -1,0 +1,8 @@
+sbp:
+  version: "v1.0.0"
+  description: |-
+    week 1 hw
+    simple voucher system
+    with SpringBoot
+    without web
+    just console io

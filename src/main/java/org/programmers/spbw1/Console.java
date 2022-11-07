@@ -4,15 +4,19 @@ import org.programmers.spbw1.io.Input;
 import org.programmers.spbw1.io.Output;
 import org.programmers.spbw1.voucher.Voucher;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Console implements Input, Output {
-    private final Scanner scanner = new Scanner(System.in);
+//    private final Scanner scanner = new Scanner(System.in);
+    private final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
     @Override
-    public String input(String prompt) {
+    public String input(String prompt) throws IOException {
         System.out.println(prompt);
-        return scanner.nextLine();
+        return bufferedReader.readLine();
     }
 
     @Override
@@ -26,5 +30,20 @@ public class Console implements Input, Output {
     @Override
     public void showVoucherInfo(Voucher voucher) {
         System.out.println(voucher.toString());
+    }
+
+    @Override
+    public void showExceptionTrace(IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void invalidInstruction(String in) {
+        System.out.println("Invalid Instruction inserted!! : " + in);
+    }
+
+    @Override
+    public void bye() {
+        System.out.println("Bye!");
     }
 }
