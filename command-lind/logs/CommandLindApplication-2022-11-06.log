@@ -1,0 +1,44 @@
+01:55:08.173 [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 실행
+01:55:08.544 [main] INFO  c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79531 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+01:55:08.545 [main] INFO  c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+01:55:09.110 [main] INFO  c.p.c.CommandLindApplication - Started CommandLindApplication in 0.856 seconds (JVM running for 1.456)
+01:55:12.415 [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 종료
+[32m02:23:03.029[0;39m [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 실행
+[32m02:23:03.421[0;39m [main] INFO  c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79840 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[32m02:23:03.422[0;39m [main] INFO  c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[32m02:23:03.991[0;39m [main] INFO  c.p.c.CommandLindApplication - Started CommandLindApplication in 0.88 seconds (JVM running for 1.503)
+[2m02:23:48.063[0;39m [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 실행
+[2m02:23:48.435[0;39m [main] INFO  c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79854 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[2m02:23:48.436[0;39m [main] INFO  c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[2m02:23:49.007[0;39m [main] INFO  c.p.c.CommandLindApplication - Started CommandLindApplication in 0.864 seconds (JVM running for 1.45)
+[2m02:23:57.194[0;39m [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 종료
+[36m02:24:09.410[0;39m [main] INFO  c.p.c.CommandLindApplication - CommandLindApplication 실행
+[36m02:24:09.795[0;39m [main] INFO  c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79862 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[36m02:24:09.796[0;39m [main] INFO  c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[36m02:24:10.366[0;39m [main] INFO  c.p.c.CommandLindApplication - Started CommandLindApplication in 0.878 seconds (JVM running for 1.478)
+[36m02:24:34.731[0;39m [main] [33mINFO [0;39m c.p.c.CommandLindApplication - CommandLindApplication 실행
+[36m02:24:35.109[0;39m [main] [33mINFO [0;39m c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79878 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[36m02:24:35.110[0;39m [main] [33mINFO [0;39m c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[36m02:24:35.691[0;39m [main] [33mINFO [0;39m c.p.c.CommandLindApplication - Started CommandLindApplication in 0.876 seconds (JVM running for 1.511)
+[36m02:24:56.194[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - CommandLindApplication 실행
+[36m02:24:56.568[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 79891 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[36m02:24:56.569[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[36m02:24:57.130[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Started CommandLindApplication in 0.855 seconds (JVM running for 1.465)
+02:56:09.953 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Starting CommandLindApplicationTests using Java 17.0.2 on jangjuycBookPro with PID 80292 (started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+02:56:09.957 [Test worker] INFO  c.p.c.CommandLindApplicationTests - No active profile set, falling back to 1 default profile: "default"
+02:56:10.867 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Started CommandLindApplicationTests in 1.309 seconds (JVM running for 2.949)
+02:56:49.699 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Starting CommandLindApplicationTests using Java 17.0.2 on jangjuycBookPro with PID 80312 (started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+02:56:49.703 [Test worker] INFO  c.p.c.CommandLindApplicationTests - No active profile set, falling back to 1 default profile: "default"
+02:56:50.627 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Started CommandLindApplicationTests in 1.298 seconds (JVM running for 2.972)
+03:08:20.179 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Starting CommandLindApplicationTests using Java 17.0.2 on jangjuycBookPro with PID 80513 (started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+03:08:20.185 [Test worker] INFO  c.p.c.CommandLindApplicationTests - No active profile set, falling back to 1 default profile: "default"
+03:08:21.051 [Test worker] INFO  c.p.c.CommandLindApplicationTests - Started CommandLindApplicationTests in 1.274 seconds (JVM running for 2.973)
+[36m03:10:24.515[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - CommandLindApplication 실행
+[36m03:10:24.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 80968 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[36m03:10:24.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[36m03:10:25.585[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Started CommandLindApplication in 0.98 seconds (JVM running for 1.676)
+[36m03:14:57.271[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - CommandLindApplication 실행
+[36m03:14:58.004[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Starting CommandLindApplication using Java 17.0.2 on jangjuycBookPro with PID 81072 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind/build/libs/command-lind-0.0.1-SNAPSHOT.jar started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/command-lind)
+[36m03:14:58.005[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - No active profile set, falling back to 1 default profile: "default"
+[36m03:14:59.024[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - Started CommandLindApplication in 1.581 seconds (JVM running for 2.498)
+[36m03:17:33.146[0;39m [main] [32mINFO [0;39m c.p.c.CommandLindApplication - CommandLindApplication 실행
