@@ -7,9 +7,11 @@ import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
+import org.prgrms.kdt.voucher.VoucherFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Component
 class VoucherServiceTest {
 
-    private final VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
+    private final VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), new VoucherFactory());
 
     private final String FIXED_AMOUNT_VOUCHER = "1";
     private final String PERCENT_DISCOUNT_VOUCHER = "2";
@@ -27,7 +29,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 여러 개 만들었을 때, 반환 받는 바우처의 개수가 동일한지 검증")
-    void 반환되는_바우처_갯수확인() {
+    void 반환되는_바우처_갯수확인() throws IOException {
         // given
         voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 1000L));
         voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 2000L));
@@ -42,7 +44,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("생성한 바우처의 id 값과 저장된 바우처의 id 값이 같은 지 비교")
-    void 바우처_id비교() {
+    void 바우처_id비교() throws IOException {
         // given
         FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
 
