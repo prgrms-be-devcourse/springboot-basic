@@ -2,7 +2,6 @@ package org.programmers.spbw1.voucher;
 
 import org.programmers.spbw1.Console;
 import org.programmers.spbw1.io.Output;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.UUID;
 
 @Repository
 // @Profile("JDBC")
-public class JDBCVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final Output output = new Console();
 

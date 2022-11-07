@@ -1,11 +1,8 @@
 package org.programmers.spbw1;
 
-import org.springframework.expression.spel.ast.Operator;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,5 +24,11 @@ public enum Instruction {
 
     public String getName(){
         return name;
+    }
+
+    public Optional<Instruction> find(String name){
+        if(map.containsKey(name))
+            return Optional.of(map.get(name));
+        return Optional.empty();
     }
 }

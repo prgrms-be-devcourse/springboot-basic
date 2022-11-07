@@ -9,7 +9,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherServiceTest {
-    VoucherRepository voucherRepository = new JDBCVoucherRepository();
+    VoucherRepository voucherRepository = new MemoryVoucherRepository();
     VoucherService voucherService = new VoucherService(voucherRepository);
     List<UUID> ids = new ArrayList<>();
 
