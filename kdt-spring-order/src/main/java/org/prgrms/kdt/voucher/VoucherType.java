@@ -4,36 +4,36 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public enum VoucherStatus {
+public enum VoucherType {
     FIXED_AMOUNT("1", "FixedAmountVoucher"),
     PERCENT_DISCOUNT("2", "PercentDiscountVoucher");
 
-    private final String number;
+    private final String typeNumber;
     private final String expression;
 
-    VoucherStatus(String number, String expression) {
-        this.number = number;
+    VoucherType(String typeNumber, String expression) {
+        this.typeNumber = typeNumber;
         this.expression = expression;
     }
 
-    public static VoucherStatus of(String str) {
+    public static VoucherType of(String str) {
         return Stream.of(values())
-                .filter(type -> type.number.equals(str))
+                .filter(type -> type.typeNumber.equals(str))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("존재하지 Voucher 형식입니다."));
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 Voucher 형식입니다."));
     }
 
     public static String getStringClassName(String num) {
         return Stream.of(values())
-                .filter(type -> type.number.equals(num))
+                .filter(type -> type.typeNumber.equals(num))
                 .findFirst()
                 .map(type -> type.expression)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 Voucher 형식입니다."));
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 Voucher 형식입니다."));
     }
 
     public static String getAllVoucherExpression() {
         return Stream.of(values())
-                .map(cmdStat -> cmdStat.number + ". " + cmdStat.expression)
+                .map(cmdStat -> cmdStat.typeNumber + ". " + cmdStat.expression)
                 .collect(Collectors.joining("\n"));
     }
 }

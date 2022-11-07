@@ -1,11 +1,11 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.entity;
 
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
 
-    private UUID voucherId;
-    private long discountAmount;
+    private final UUID voucherId;
+    private final long discountAmount;
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         this.voucherId = voucherId;
