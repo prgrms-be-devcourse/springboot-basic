@@ -5,16 +5,18 @@ import org.springframework.stereotype.Component;
 public enum Message {
     SELECT_MENU("""                
             === 바우처 프로그램 ===
-            프로그램을 종료하려면 exit를 입력하세요!
-            create를 입력하여 새 바우처를 만듭니다.
-            모든 바우처를 나열하려면 list를 입력하십시오.
+            프로그램을 종료하려면 exit를 입력하십시오.
+            voucher_create를 입력하여 새 바우처를 만드십시오.
+            모든 바우처를 나열하려면 voucher_list를 입력하십시오.
+            모든 악덕 소비자를 나열하려면 black_consumer_list를 입력하십시오.
                             
             === Voucher Program ===
             Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            
-            입력 예시 : exit, create, list
+            Type voucher_create to create a new voucher.
+            Type voucher_list to list all vouchers.
+            Type black_consumer_list to list all blackConsumer.
+
+            입력 예시 : exit, voucher_create, voucher_list, black_consumer_list
             입력: """),
 
     MENU_ERROR("잘못된 메뉴를 입력하셨습니다."),

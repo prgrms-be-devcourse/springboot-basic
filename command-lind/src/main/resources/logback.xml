@@ -30,9 +30,4 @@
         <appender-ref ref="ROLLING_FILE" />
     </logger>
 
-    <root level="info">
-        <appender-ref ref="STDOUT" />
-<!--        <appender-ref ref="FILE" />-->
-<!--        <appender-ref ref="ROLLING_FILE" />-->
-    </root>
 </configuration>

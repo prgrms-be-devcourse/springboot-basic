@@ -6,13 +6,11 @@ import com.programmers.commandLine.domain.voucher.entity.Voucher;
 import com.programmers.commandLine.domain.voucher.repository.VoucherRepository;
 import com.programmers.commandLine.global.factory.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 /**
  *
  *  FileVoucherRepository의 설명을 여기에 작성한다.
@@ -28,8 +26,8 @@ import java.util.UUID;
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final String fileName = "voucherResources";
-    private final File file = new File("voucherResources");
+    private final String filePath = "./src/main/resources/voucherResources";
+    private final File file = new File(filePath);
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -39,7 +37,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         try {
             System.out.println("file.getPath() : " + file.getPath());
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileName, file.exists()));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, file.exists()));
 
             bufferedWriter.write("Id: " + voucher.getVoucherId() +
                     " Type: " + voucher.getType() +
@@ -58,7 +56,6 @@ public class FileVoucherRepository implements VoucherRepository {
     public Map<String, Voucher> findAll() {
         LoggerFactory.getLogger().info("FileVoucherRepository findAll 실행");
 
-        System.out.println("file = " + file.getPath());
         Map<String, Voucher> voucherMap = new LinkedHashMap<>();
 
         try {
@@ -67,7 +64,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String line;
             while ((line = bufferedReader.readLine()) !=null ) {
                 String[] findLine = line.split(" ");
-                Voucher voucher = create(findLine);
+                Voucher voucher = voucherCreate(findLine);
 
                 voucherMap.put(voucher.getVoucherId().toString(), voucher);
             }
@@ -81,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-    private Voucher create(String[] findLine) {
+    private Voucher voucherCreate(String[] findLine) {
         String type = findLine[3];
         String discount = findLine[5];
 

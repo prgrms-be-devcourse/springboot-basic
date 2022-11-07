@@ -5,8 +5,9 @@ import com.programmers.commandLine.global.factory.LoggerFactory;
 
 public enum Menu {
     EXIT,
-    CREATE,
-    LIST,
+    VOUCHER_CREATE,
+    VOUCHER_LIST,
+    BLACK_CONSUMER_LIST,
     ERROR;
 
     private static final int BAD_REQUEST = -1;
