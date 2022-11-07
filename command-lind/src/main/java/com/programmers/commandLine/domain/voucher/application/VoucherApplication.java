@@ -22,13 +22,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherApplication {
 
-    private final Power power;
+    private final Power power = new Power();
     private final Console console;
     private final VoucherService voucherService;
     private final ConsumerService consumerService;
 
-    VoucherApplication(Power power, Console console, VoucherService voucherService,ConsumerService consumerService) {
-        this.power = power;
+    VoucherApplication(Console console, VoucherService voucherService,ConsumerService consumerService) {
         this.console = console;
         this.voucherService = voucherService;
         this.consumerService = consumerService;

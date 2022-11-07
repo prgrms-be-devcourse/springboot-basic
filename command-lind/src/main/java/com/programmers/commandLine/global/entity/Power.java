@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
  *  작성일 2022/11/03
  *
 **/
-@Component
 public class Power {
 
     private boolean power;
