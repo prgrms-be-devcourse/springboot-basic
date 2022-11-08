@@ -10,10 +10,10 @@ public class VoucherManagementController {
     private final Writer writer;
     private final RunningState state;
 
-    public VoucherManagementController(Reader reader, Writer writer, RunningState state) {
+    public VoucherManagementController(Reader reader, Writer writer) {
         this.reader = reader;
         this.writer = writer;
-        this.state = state;
+        this.state = new RunningState();
     }
 
     public void run() {
