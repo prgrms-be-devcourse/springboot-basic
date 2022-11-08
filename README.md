@@ -33,10 +33,14 @@
 
 
 
-![img.png](img.png)
+![src/main/resources/images/Class_Diagram.png](src/main/resources/images/Class_Diagram.png)
 
-![img_1.png](img_1.png)
+![src/main/resources/images/VoucherProgram.png](src/main/resources/images/VoucherProgram.png)
 
- ![img_2.png](img_2.png)
- 
-![img_3.png](img_3.png)
+![src/main/resources/images/VoucherService.png](src/main/resources/images/VoucherService.png)
+
+![src/main/resources/images/VoucherType.png](src/main/resources/images/VoucherType.png)
+
+
+
+
