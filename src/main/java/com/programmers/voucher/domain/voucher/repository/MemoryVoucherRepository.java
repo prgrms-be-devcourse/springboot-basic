@@ -20,7 +20,7 @@ import com.programmers.voucher.exception.VoucherNotFoundException;
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private static final HashMap<UUID, Voucher> repository = new HashMap<>();
-	private final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+	private static final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	@Override
 	public void save(Voucher voucher) {

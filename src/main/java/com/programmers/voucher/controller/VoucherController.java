@@ -18,7 +18,7 @@ import com.programmers.voucher.io.Output;
 @Controller
 public class VoucherController implements Runnable {
 
-	private final Logger log = LoggerFactory.getLogger(VoucherController.class);
+	private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
 	private final Input input;
 	private final Output output;
 	private final VoucherService voucherService;

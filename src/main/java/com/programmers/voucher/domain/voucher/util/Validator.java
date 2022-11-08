@@ -13,7 +13,7 @@ import com.programmers.voucher.exception.WrongVoucherTypeException;
 @Component
 public class Validator {
 
-	private final Logger log = LoggerFactory.getLogger(Validator.class);
+	private static final Logger log = LoggerFactory.getLogger(Validator.class);
 
 	public void validateVoucherType(String type) {
 		if (!(type.equals(VoucherType.FIXED.getType()) || type.equals(VoucherType.PERCENT.getType()))) {

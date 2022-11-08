@@ -19,7 +19,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 
-	private Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
+	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
 	private final String filePath;
 
 	public FileCustomerRepository(@Value("${repository.file.blacklist}") String filePath) {

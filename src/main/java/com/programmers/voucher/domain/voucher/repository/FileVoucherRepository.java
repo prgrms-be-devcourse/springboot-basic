@@ -25,7 +25,7 @@ import com.programmers.voucher.exception.VoucherNotFoundException;
 @Profile({"dev", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
-	private final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
+	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private final String filePath;
 	private final BufferedWriter writer;
 	private final VoucherFactory factory;
