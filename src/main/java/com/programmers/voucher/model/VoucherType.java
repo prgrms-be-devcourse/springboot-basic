@@ -25,5 +25,8 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }
 
-
+    @Override
+    public String toString() {
+        return voucherType;
+    }
 }

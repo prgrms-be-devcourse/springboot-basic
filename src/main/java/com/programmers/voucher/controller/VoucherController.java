@@ -32,7 +32,8 @@ public class VoucherController implements ApplicationRunner {
                         voucherService.create(getVoucherType(), getDiscountValue());
                         break;
                     case LIST:
-
+                        console.printVouchers(voucherService.findAllVoucher());
+                        break;
                 }
             } catch (IllegalArgumentException e) {
                 console.printError();

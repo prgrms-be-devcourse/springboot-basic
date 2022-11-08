@@ -7,6 +7,7 @@ import com.programmers.voucher.model.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,10 +21,15 @@ public class VoucherService {
 
     public Voucher create(VoucherType voucherType, long discountValue) {
         Voucher newVoucher;
-        if (voucherType.getVoucherType().equals(VoucherType.FIXED_AMOUNT_VOUCHER)) {
+        if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER) {
             newVoucher = new FixedAmountVoucher(UUID.randomUUID(), discountValue);
+        } else {
+            newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
         }
-        newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
         return voucherRepository.save(newVoucher);
+    }
+
+    public List<Voucher> findAllVoucher() {
+        return voucherRepository.findAll();
     }
 }

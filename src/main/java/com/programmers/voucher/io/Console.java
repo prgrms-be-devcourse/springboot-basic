@@ -1,6 +1,9 @@
 package com.programmers.voucher.io;
 
+import com.programmers.voucher.model.Voucher;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class Console<T> {
@@ -34,5 +37,13 @@ public class Console<T> {
 
     public void printError() {
         output.printOutput(Message.WRONG_ORDER_MESSAGE);
+    }
+
+    public void printVouchers(List<Voucher> vouchers) {
+        if(vouchers.isEmpty() || vouchers.size() == 0) {
+            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE);
+            return;
+        }
+        vouchers.stream().forEach(output::printOutput);
     }
 }
