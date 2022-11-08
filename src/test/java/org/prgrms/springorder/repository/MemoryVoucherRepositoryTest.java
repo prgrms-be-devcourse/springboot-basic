@@ -17,6 +17,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springorder.domain.BlockCustomer;
 import org.prgrms.springorder.domain.FixedAmountVoucher;
 import org.prgrms.springorder.domain.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.Voucher;
@@ -114,6 +115,19 @@ class MemoryVoucherRepositoryTest {
         Voucher findVoucher = optionalVoucher.get();
         assertEquals(voucher, findVoucher);
         assertEquals(voucher.getVoucherId(), randomUUID);
+    }
+
+    @DisplayName("조회 테스트 - id로 객체를 찾지만 없으면 빈 옵셔널을 반환한다. ")
+    @Test
+    void findByIdReturnEmptyOptional() {
+        //given
+        UUID randomUUID = UUID.randomUUID();
+
+        //when
+        Optional<Voucher> optionalVoucher = memoryVoucherRepository.findById(randomUUID);
+
+        //then
+        assertTrue(optionalVoucher.isEmpty());
     }
 
     @DisplayName("조회 테스트 - id로 객체를 정상적으로 찾는다.")
