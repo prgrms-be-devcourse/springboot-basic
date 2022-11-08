@@ -10,6 +10,8 @@
 # CMake
 cmake-build-*/
 
+# log 파일 저장 안함
+*.log
 
 # File-based project format
 *.iws
