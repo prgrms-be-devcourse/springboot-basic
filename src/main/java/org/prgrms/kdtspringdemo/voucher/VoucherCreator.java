@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Component
 public class VoucherCreator {
-    public Voucher createVoucher(VoucherType voucherType, Long percentOrAmount) throws Exception{
+    public Voucher createVoucher(VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException{
         Voucher newVoucher =  switch (voucherType){
             case FIXED -> new FixedAmountVoucher(UUID.randomUUID(),percentOrAmount);
             case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(),percentOrAmount);
