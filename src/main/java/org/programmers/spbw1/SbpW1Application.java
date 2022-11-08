@@ -3,6 +3,7 @@ package org.programmers.spbw1;
 import org.programmers.spbw1.io.Input;
 import org.programmers.spbw1.io.Output;
 import org.programmers.spbw1.voucher.MemoryVoucherRepository;
+import org.programmers.spbw1.voucher.VoucherRepository;
 import org.programmers.spbw1.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,9 +32,10 @@ public class SbpW1Application {
 //		}
 		Input input = new Console();
 		Output output = new Console();
-		VoucherService service = new VoucherService(new MemoryVoucherRepository());
+		VoucherRepository repository = new MemoryVoucherRepository();
+		// VoucherService service = new VoucherService(repository);
 
-		new VoucherProgram(input, output, service).run();
+		new VoucherProgram(input, output, repository).run();
 	}
 
 

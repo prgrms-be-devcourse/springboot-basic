@@ -2,26 +2,27 @@ package org.programmers.spbw1;
 
 import org.programmers.spbw1.io.Input;
 import org.programmers.spbw1.io.Output;
-import org.programmers.spbw1.voucher.FixedAmountVoucher;
-import org.programmers.spbw1.voucher.Voucher;
-import org.programmers.spbw1.voucher.VoucherService;
+import org.programmers.spbw1.voucher.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherProgram implements Runnable {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
+    private final VoucherRepository voucherRepository;
     private static final Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
-    public VoucherProgram(Input input, Output output, VoucherService voucherService){
-        this.voucherService = voucherService;
+    public VoucherProgram(Input input, Output output, VoucherRepository voucherRepository){
         this.input = input;
         this.output = output;
+        this.voucherRepository = voucherRepository;
+        voucherService = new VoucherService(voucherRepository);
     }
 
     @Override
@@ -39,26 +40,39 @@ public class VoucherProgram implements Runnable {
                 Class<?> cls = Class.forName(obj.getClass().getName());
                 Method m = cls.getDeclaredMethod(in);
                 m.invoke(obj);
-//            } catch (IOException e) {
-//                output.showExceptionTrace(e);
-//            } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-//                     IllegalAccessException e) {
-//                output.invalidInstruction(in);
             }catch (Exception e){
                 output.invalidInstruction(in);
                 logger.error("invalid instruction : " + in);
             }
         }
-    }
-    static class InstructionClass {
-        private void create(){
-            System.out.println("create called");
-            logger.info("create");
-            Voucher v = new FixedAmountVoucher(UUID.randomUUID(), -1);
-        };
+    }class InstructionClass {
+        private void create() throws Exception{
+            String type = input.input("1. Fixed Amount\n2. Percent\nChoose 1 or 2 : ");
+            Optional<VoucherType> voucherType = VoucherType.getVoucherTypeBySelection(type);
+
+            if (voucherType.isEmpty()){
+                logger.error("invalid type selected : " + type);
+                return;
+            }
+
+
+            String discountAmount = input.input("discount amount " + VoucherType.getRange(voucherType.get()));
+            long amount = 0L;
+            try {
+                amount = Long.parseLong(discountAmount);
+            }catch (NumberFormatException e){
+                logger.error("NumberFormatException : " + discountAmount);
+                return;
+            }
+
+
+            logger.info("create_called");
+            Voucher v = new FixedAmountVoucher(UUID.randomUUID(), 10);
+            voucherRepository.insert(v);
+        }
         private void list(){
-            System.out.println("list called");
-            logger.info("list");
-        };
+            logger.info("list_called");
+            voucherRepository.showAllVouchers();
+        }
     }
 }
