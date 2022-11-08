@@ -23,9 +23,13 @@ public class VoucherManagementController {
     public void runUserRequest(String command) {
         CommandType commandType = CommandType.of(command);
 
-        if (commandType.isExit()) {
+        if (commandType.is(CommandType.EXIT)) {
             runExit();
             return;
+        }
+
+        if (commandType.is(CommandType.CREATE)) {
+            String voucherType = ioManager.getVoucherType();
         }
     }
 

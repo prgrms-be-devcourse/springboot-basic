@@ -15,6 +15,11 @@ public class IOManager {
         return reader.readLine();
     }
 
+    public String getVoucherType() {
+        writer.printVoucherTypeGuide();
+        return reader.readLine();
+    }
+
     public void notifyExit() {
         writer.printExitMessage();
     }

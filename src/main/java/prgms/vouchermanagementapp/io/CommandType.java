@@ -34,15 +34,7 @@ public enum CommandType {
                 .orElseThrow(() -> new NoSuchFieldError(ExceptionMessage.NO_MENU_EXISTS.getMessage()));
     }
 
-    public boolean isExit() {
-        return this == EXIT;
-    }
-
-    public boolean isCreate() {
-        return this == CREATE;
-    }
-
-    public boolean isList() {
-        return this == LIST;
+    public boolean is(CommandType commandType) {
+        return this == commandType;
     }
 }
