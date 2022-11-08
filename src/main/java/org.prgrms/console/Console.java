@@ -9,8 +9,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console {
 
-  private final Message message = new Message();
   private final Scanner scanner = new Scanner(System.in);
+
+  private final Message message;
+
+  public Console() {
+    this.message = new Message();
+  }
 
   public String chooseMenu() {
     printSupportedCommands();
