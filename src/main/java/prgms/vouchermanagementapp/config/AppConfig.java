@@ -3,10 +3,10 @@ package prgms.vouchermanagementapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import prgms.vouchermanagementapp.controller.CommandExecutor;
+import prgms.vouchermanagementapp.controller.VoucherManager;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
-import prgms.vouchermanagementapp.voucher.VoucherManager;
 
 @Configuration
 public class AppConfig {

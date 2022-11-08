@@ -1,7 +1,8 @@
-package prgms.vouchermanagementapp.voucher;
+package prgms.vouchermanagementapp.controller;
 
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.FixedAmount;
+import prgms.vouchermanagementapp.voucher.VoucherType;
 
 public class VoucherManager {
 

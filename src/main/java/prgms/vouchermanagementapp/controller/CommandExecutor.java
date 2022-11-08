@@ -2,7 +2,6 @@ package prgms.vouchermanagementapp.controller;
 
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
-import prgms.vouchermanagementapp.voucher.VoucherManager;
 
 public class CommandExecutor {
 
