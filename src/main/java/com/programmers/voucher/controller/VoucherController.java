@@ -70,12 +70,12 @@ public class VoucherController implements Runnable {
 	public void writeAllVoucher() {
 		List<Voucher> vouchers = voucherService.getAllVoucher();
 		vouchers.stream()
-			.forEach(i -> output.write(i.toString()));
+			.forEach(voucher -> output.write(voucher.toString()));
 	}
 
 	public void writeAllBlacklist() {
 		List<Customer> customers = customerService.getBlackList();
 		customers.stream()
-			.forEach(i -> output.write(i.toString()));
+			.forEach(blacklist -> output.write(blacklist.toString()));
 	}
 }

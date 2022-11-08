@@ -11,15 +11,15 @@ public enum Command {
 	BLACKLIST("blacklist"),
 	EXIT("exit");
 
-	private String command;
+	private String option;
 
-	Command(String command) {
-		this.command = command;
+	Command(String option) {
+		this.option = option;
 	}
 
 	public static Command getCommand(String chosenCommand) {
 		return Arrays.stream(Command.values())
-			.filter(i -> i.command.equals(chosenCommand))
+			.filter(command -> command.option.equals(chosenCommand))
 			.findFirst()
 			.orElseThrow(() -> new WrongCommandException());
 	}
