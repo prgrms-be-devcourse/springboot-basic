@@ -13,32 +13,31 @@ import java.security.InvalidParameterException;
 public class VoucherController implements CommandLineRunner {
 
     private final Console console;
-    private final VoucherControllerManager voucherManager;
     private final CommandExecutor commandExecutor;
 
-    public VoucherController(Console console, VoucherControllerManager voucherManager, CommandExecutor commandExecutor) {
+    public VoucherController(Console console, CommandExecutor commandExecutor) {
         this.console = console;
-        this.voucherManager = voucherManager;
         this.commandExecutor = commandExecutor;
     }
 
     @Override
     public void run(String... args) {
-        while (voucherManager.isRunning()) {
+        VoucherControllerStatus voucherControllerStatus = new VoucherControllerStatus();
+        while (voucherControllerStatus.isRunning()) {
             String userInput = console.getCommand();
             try {
-                runCommand(userInput);
+                runCommand(userInput, voucherControllerStatus);
             } catch (InvalidParameterException exception) {
                 console.printCommandError();
             } catch (NumberFormatException exception) {
-                console.printVoucherAmountNumericError();
+                console.printNumericError();
             } catch (IllegalArgumentException exception) {
-                console.printVoucherTypeError();
+                console.printTypeError();
             }
         }
     }
 
-    private void runCommand(String userInput) {
+    private void runCommand(String userInput, VoucherControllerStatus voucherControllerStatus) {
         switch (CommandType.findCommandType(userInput)) {
             case CREATE -> commandExecutor.create(
                     new VoucherMetaData(
@@ -48,7 +47,7 @@ public class VoucherController implements CommandLineRunner {
             );
             case LIST -> {
             }
-            case EXIT -> voucherManager.quitProgram();
+            case EXIT -> voucherControllerStatus.quitProgram();
             default -> throw new InvalidParameterException();
         }
     }

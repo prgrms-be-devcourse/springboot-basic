@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class VoucherControllerManager {
+public class VoucherControllerStatus {
     private Boolean status = true;
 
     public Boolean isRunning() {

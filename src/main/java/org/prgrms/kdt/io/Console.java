@@ -11,7 +11,6 @@ public class Console {
     public static final String VOUCHER_TYPE_PROMPT = "Enter voucher type. (fixed or percent)" + System.lineSeparator();
     public static final String VOUCHER_AMOUNT_PROMPT = "Enter a value. (fixed - 0~ | percent - 0~100)" + System.lineSeparator();
 
-
     public static final String COMMAND_ERROR_PROMPT = "지원하지 않는 명령어입니다." + System.lineSeparator();
     public static final String VOUCHER_TYPE_ERROR_PROMPT = "지원하지 않는 바우처 종류입니다." + System.lineSeparator();
     public static final String VOUCHER_AMOUNT_NUMERIC_ERROR_PROMPT = "지원하지 않는 바우처 값입니다." + System.lineSeparator();
@@ -46,11 +45,11 @@ public class Console {
         return input.inputText();
     }
 
-    public void printVoucherTypeError() {
+    public void printTypeError() {
         output.printText(VOUCHER_TYPE_ERROR_PROMPT);
     }
 
-    public void printVoucherAmountNumericError() {
+    public void printNumericError() {
         output.printText(VOUCHER_AMOUNT_NUMERIC_ERROR_PROMPT);
     }
 }
