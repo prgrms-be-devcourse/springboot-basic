@@ -8,10 +8,13 @@ import org.prgrms.vouchermanagement.io.Output;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.service.VoucherCreateService;
 import org.prgrms.vouchermanagement.voucher.service.VoucherListFindService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
 public class CommandLineApplication {
@@ -21,6 +24,8 @@ public class CommandLineApplication {
     private final VoucherCreateService voucherCreateService;
     private final VoucherListFindService voucherListFindService;
     private final BlackListFindService blackListFindService;
+
+    private final Logger logger = getLogger(CommandLineApplication.class);
 
     @Autowired
     public CommandLineApplication(Input input,
@@ -61,6 +66,9 @@ public class CommandLineApplication {
                         command = Command.EXIT;
                 }
             } catch (RuntimeException e) {
+
+                logger.error("예외 발생 : {}", e.getMessage());
+
                 System.out.println(e.getMessage());
             }
         }
