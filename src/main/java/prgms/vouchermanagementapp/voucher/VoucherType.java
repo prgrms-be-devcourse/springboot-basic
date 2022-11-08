@@ -1,8 +1,6 @@
 package prgms.vouchermanagementapp.voucher;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public enum VoucherType {
     FixedAmountVoucher(1),
@@ -15,8 +13,7 @@ public enum VoucherType {
     }
 
     public static List<VoucherType> getValues() {
-        return Arrays.stream(VoucherType.values())
-                .collect(Collectors.toList());
+        return List.of(VoucherType.values());
     }
 
     public int getIndex() {

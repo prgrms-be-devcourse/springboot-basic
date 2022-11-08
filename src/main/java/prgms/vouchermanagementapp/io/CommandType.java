@@ -4,7 +4,6 @@ import prgms.vouchermanagementapp.io.message.ExceptionMessage;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public enum CommandType {
 
@@ -21,10 +20,8 @@ public enum CommandType {
         this.message = message;
     }
 
-    public static List<String> getMessages() {
-        return Arrays.stream(CommandType.values())
-                .map(commandType -> commandType.message)
-                .collect(Collectors.toList());
+    public static List<CommandType> getCommandTypes() {
+        return List.of(CommandType.values());
     }
 
     public static CommandType of(String menu) {
@@ -36,5 +33,9 @@ public enum CommandType {
 
     public boolean is(CommandType commandType) {
         return this == commandType;
+    }
+
+    public String getMessage() {
+        return this.message;
     }
 }

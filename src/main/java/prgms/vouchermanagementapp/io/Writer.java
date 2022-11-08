@@ -19,7 +19,10 @@ public class Writer {
 
     public void printCommandGuide() {
         printBlankLine();
-        print(CommandType.getMessages());
+
+        List<CommandType> commandTypes = CommandType.getCommandTypes();
+        commandTypes.forEach(commandType -> System.out.println(commandType.getMessage()));
+
         printPromptSignature();
     }
 
@@ -32,6 +35,7 @@ public class Writer {
             String guide = voucherType.getIndex() + DOT + BLANK + voucherType;
             System.out.println(guide);
         });
+
         printPromptSignature();
     }
 
