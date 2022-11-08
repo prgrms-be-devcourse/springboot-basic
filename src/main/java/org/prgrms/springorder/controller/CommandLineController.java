@@ -15,29 +15,24 @@ public class CommandLineController {
 
     private final VoucherService voucherService;
 
-    private final ConsoleInput consoleInput;
-
-    private final ConsoleOutput consoleOutput;
+    private final Console console;
 
     private final BlockCustomerService blockCustomerService;
 
     public CommandLineController(VoucherService voucherService,
-        ConsoleInput consoleinput,
-        ConsoleOutput consoleOutput,
+        Console console,
         BlockCustomerService blockCustomerService) {
         this.voucherService = voucherService;
-        this.consoleInput = consoleinput;
-        this.consoleOutput = consoleOutput;
+        this.console = console;
         this.blockCustomerService = blockCustomerService;
     }
 
     public void run() {
-
         while (ConsoleRunningStatus.isRunning()) {
             try {
                 displayCommandGuide();
 
-                String inputString = consoleInput.inputString();
+                String inputString = console.input();
 
                 Command command = Command.of(inputString);
 
@@ -45,26 +40,25 @@ public class CommandLineController {
             } catch (RuntimeException e) {
                 logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(),
                     e.getMessage());
-                consoleOutput.showMessage(e.getMessage());
+                console.showMessages(e.getMessage());
             }
         }
     }
 
-    public void execute(Command command) {
+    private void execute(Command command) { //
         switch (command) {
             case CREATE -> {
-                VoucherCreateRequest voucherCreateRequest = consoleInput.getVoucherCreateRequest(
-                    consoleOutput);
+                VoucherCreateRequest voucherCreateRequest = console.getVoucherCreateRequest();
 
-                consoleOutput.showMessage(
+                console.showMessages(
                     "created Voucher. : " + voucherService.createVoucher(voucherCreateRequest));
             }
 
-            case LIST -> consoleOutput.showMessages(voucherService.findAll().stream()
+            case LIST -> console.showMessages(voucherService.findAll().stream()
                 .map(Object::toString)
                 .collect(Collectors.toList()));
 
-            case BLACKLIST -> consoleOutput.showMessages(blockCustomerService.findAll().stream()
+            case BLACKLIST -> console.showMessages(blockCustomerService.findAll().stream()
                 .map(Object::toString)
                 .collect(Collectors.toList()));
 
@@ -73,7 +67,7 @@ public class CommandLineController {
     }
 
     private void displayCommandGuide() {
-        consoleOutput.showMessage("=== Voucher Program ===",
+        console.showMessages("=== Voucher Program ===",
             "Type 'exit' to exit the program. ",
             "Type 'create' to create a new voucher.",
             "Type 'list' to list all vouchers.",

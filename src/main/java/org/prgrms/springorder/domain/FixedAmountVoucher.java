@@ -18,7 +18,6 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-
         long discountAmount = beforeDiscount - this.getAmount();
 
         return discountAmount < 0 ? 0 : discountAmount;
