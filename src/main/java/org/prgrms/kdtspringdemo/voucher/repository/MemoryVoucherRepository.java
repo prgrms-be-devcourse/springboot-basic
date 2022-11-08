@@ -12,8 +12,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"local","default"})
-public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+@Profile({"dev"})
+public class MemoryVoucherRepository implements VoucherRepository  {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -29,25 +29,5 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
     @Override
     public List<Voucher> findAllVaucher() {
         return new ArrayList<>(storage.values());
-    }
-
-    @PostConstruct
-    public void postConstruct(){
-        System.out.println("postConstruct called");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("afterPropertiesSet called");
-
-    }
-    @PreDestroy
-    public void preDistroy(){
-        System.out.println("preDistroy called");
-    }
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("destroy called");
-
     }
 }

@@ -1,0 +1,25 @@
+#spring:
+#  profiles:
+#    group:
+#      "dev":""
+#      "prod":""
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+kdt:
+  voucher:
+    path: "./voucher_list.csv"
+    append: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "default"
+kdt:
+  voucher:
+    path: "./voucher_list.csv"
+    append: true
