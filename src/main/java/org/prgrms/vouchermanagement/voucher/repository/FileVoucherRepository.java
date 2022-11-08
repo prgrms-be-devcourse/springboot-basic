@@ -87,5 +87,14 @@ public class FileVoucherRepository implements VoucherRepository {
         return VoucherType.createVoucher(uuid, voucherType, discountAmount);
     }
 
+    @Override
+    public void clear() {
+        try {
+            Files.writeString(Paths.get(path), "");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
