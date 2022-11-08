@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springorder.domain.BlockCustomer;
@@ -48,6 +49,15 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
         if (!fileStore.exists()) {
             fileStore.createNewFile();
         }
+    }
+
+    @Override
+    public Optional<BlockCustomer> findById(UUID blockId) {
+        if (!storage.containsKey(blockId)) {
+            readAll();
+        }
+
+        return Optional.ofNullable(storage.get(blockId));
     }
 
     @Override

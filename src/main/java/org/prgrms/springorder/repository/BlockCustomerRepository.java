@@ -7,6 +7,8 @@ import org.prgrms.springorder.domain.BlockCustomer;
 
 public interface BlockCustomerRepository {
 
+    Optional<BlockCustomer> findById(UUID blockId);
+
     BlockCustomer insert(BlockCustomer blockCustomer);
 
     List<BlockCustomer> findAll();

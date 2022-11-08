@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,6 +58,38 @@ class FileBlockCustomerRepositoryTest {
 
         //then
         assertTrue(exists);
+    }
+
+    @DisplayName("조회 테스트 - id로 객체를 정상적으로 찾는다.")
+    @Test
+    void findByIdSuccess() {
+        //given
+        UUID randomUUID = UUID.randomUUID();
+        long amount = 0;
+        BlockCustomer blockCustomer = new BlockCustomer(randomUUID, UUID.randomUUID(), LocalDateTime.now());
+        fileBlockCustomerRepository.insert(blockCustomer);
+
+        //when
+        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(randomUUID);
+
+        //then
+        assertTrue(optionalBlockCustomer.isPresent());
+        BlockCustomer findBlockCustomer = optionalBlockCustomer.get();
+        assertEquals(blockCustomer, findBlockCustomer);
+        assertEquals(blockCustomer.getBlockId(), randomUUID);
+    }
+
+    @DisplayName("조회 테스트 - id로 객체를 찾지만 없으면 빈 옵셔널을 반환한다. ")
+    @Test
+    void findByIdReturnEmptyOptional() {
+        //given
+        UUID randomUUID = UUID.randomUUID();
+
+        //when
+        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(randomUUID);
+
+        //then
+        assertTrue(optionalBlockCustomer.isEmpty());
     }
 
     @DisplayName("insert 테스트 - file에 정상 저장되고 저장된 BlockCustomer 를 리턴한다.")
