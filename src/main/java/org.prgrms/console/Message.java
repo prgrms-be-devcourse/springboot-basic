@@ -1,33 +1,22 @@
 package org.prgrms.console;
 
-
-public class Message {
-
-  private Message() {
-  }
-
-  public static final String SHOW_SUPPORTED_COMMANDS() {
-    return """
+public enum Message {
+  SHOW_SUPPORTED_COMMANDS("""
         === Voucher Program ===
         Type exit to exit the program.
         Type create to create a new voucher.
-        Type list to list all vouchers.""";
-  }
-
-  public static final String CHOOSE_VOUCHER_TYPE() {
-    return """
+        Type list to list all vouchers."""),
+  CHOOSE_VOUCHER_TYPE("""
         === Please select a voucher type(numbers only) ===
         1.FixedAmountVoucher
         2.PercentDiscountVoucher
-        """;
-  }
+        """),
+  ENTER_DISCOUNT_RATE("=== Please enter discount rate(numbers only) ==="),
+  ENTER_DISCOUNT_AMOUNT("=== Please enter the discount amount(numbers only) ===");
 
-  public static final String ENTER_DISCOUNT_RATE() {
-    return "=== Please enter discount rate(numbers only) ===";
-  }
+  public final String instruction;
 
-  public static final String ENTER_DISCOUNT_AMOUNT() {
-    return "=== Please enter the discount amount(numbers only) ===";
+  Message(String instruction) {
+    this.instruction = instruction;
   }
-
 }
