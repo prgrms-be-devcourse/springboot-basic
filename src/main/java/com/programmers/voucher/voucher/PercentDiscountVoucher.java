@@ -7,7 +7,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percentage;
 
-    public PercentDiscountVoucher(UUID voucherId, long percentage) {
+    PercentDiscountVoucher(UUID voucherId, long percentage) {
         this.voucherId = voucherId;
         this.percentage = percentage;
     }

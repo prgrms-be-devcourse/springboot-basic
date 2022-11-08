@@ -6,7 +6,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
     private final UUID voucherId;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
         this.amount = amount;
     }

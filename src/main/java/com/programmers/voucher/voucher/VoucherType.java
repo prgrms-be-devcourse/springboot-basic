@@ -1,8 +1,12 @@
 package com.programmers.voucher.voucher;
 
+import com.programmers.voucher.menu.Message;
+
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.programmers.voucher.menu.Message.INPUT_ERROR_MESSAGE;
 
 public enum VoucherType {
     FixedAmount("F") {
@@ -36,21 +40,15 @@ public enum VoucherType {
     }
 
     public static Optional<VoucherType> findVoucher(String type) {
-        return Arrays.stream(VoucherType.values())
+        return Arrays.stream(values())
                 .filter(voucher -> voucher.name().equals(type))
                 .findFirst();
     }
 
-    public static VoucherType findVoucherType(String type) {
-        return Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.type.equals(type))
-                .findFirst()
-                .get();
-    }
-
-    public static boolean isValidateVoucherType(String inputType) {
-        return Arrays.stream(VoucherType.values())
-                .anyMatch(voucher -> voucher.type.equals(inputType));
+    public static VoucherType getValidateVoucherType(String inputType) {
+        return  Arrays.stream(values())
+                .filter(voucherType -> voucherType.getType().equals(inputType))
+                .findFirst().orElseThrow(() -> new RuntimeException(INPUT_ERROR_MESSAGE.getMessage()));
     }
 
     public String getType() {

@@ -14,9 +14,8 @@ import java.util.List;
 import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
-import static com.programmers.voucher.voucher.VoucherType.findVoucherType;
-import static com.programmers.voucher.voucher.VoucherType.isValidateVoucherType;
-import static com.programmers.voucher.voucher.VoucherValidator.isValidateValue;
+import static com.programmers.voucher.voucher.VoucherType.*;
+import static com.programmers.voucher.voucher.VoucherValidator.ValidateValue;
 
 public class CommandLineApplication implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
@@ -64,33 +63,29 @@ public class CommandLineApplication implements Runnable {
     private void createVoucher() {
         view.printMessage(VOUCHER_TYPE_MESSAGE.getMessage());
 
-        String voucherTypeInput = getVoucherTypeInput();
-        String value = getVoucherValue(voucherTypeInput);
+        VoucherType voucherType = getVoucherTypeInput();
 
-        VoucherType voucherType = findVoucherType(voucherTypeInput);
+        String value = getVoucherValue(voucherType);
+
         Voucher voucher = voucherType.createVoucher(Long.parseLong(value));
+
         voucherService.register(voucher);
 
         view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
     }
 
-    private String getVoucherTypeInput() {
-        String voucherTypeInput = view.getUserCommand();//F P A
+    private VoucherType getVoucherTypeInput() {
+        String voucherTypeInput = view.getUserCommand();
 
-        if (!isValidateVoucherType(voucherTypeInput)) {
-            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
-        }
-        return voucherTypeInput;
+        return getValidateVoucherType(voucherTypeInput);
     }
 
 
-    private String getVoucherValue(String type) {
+    private String getVoucherValue(VoucherType type) {
         view.printMessage(VOUCHER_VALUE_MESSAGE.getMessage());
         String value = view.getUserCommand();
 
-        if (!isValidateValue(type, value)) {
-            throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
-        }
+        ValidateValue(type, value);
 
         return value;
     }
