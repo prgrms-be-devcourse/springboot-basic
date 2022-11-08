@@ -30,9 +30,7 @@ public abstract class Voucher {
 
     @Override
     public String toString() {
-        return "voucherType = " + getVoucherType()
-            + ", id = " + getVoucherId()
-            + ", amount = " + getAmount();
+        return String.format("voucherType = %s, id = %s, amount = %s", getVoucherType(), getVoucherId(), getAmount());
     }
 
 }
