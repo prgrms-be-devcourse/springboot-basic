@@ -10,12 +10,12 @@ public class IOManager {
         this.writer = writer;
     }
 
-    public String getCommand() {
+    public String askCommand() {
         writer.printCommandGuide();
         return reader.readLine();
     }
 
-    public String getVoucherType() {
+    public String askVoucherTypeIndex() {
         writer.printVoucherTypeGuide();
         return reader.readLine();
     }

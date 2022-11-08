@@ -2,20 +2,23 @@ package prgms.vouchermanagementapp.controller;
 
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
+import prgms.vouchermanagementapp.voucher.VoucherCreator;
 
 public class VoucherManagementController {
 
     private final IOManager ioManager;
     private final RunningState runningState;
+    private final VoucherCreator voucherCreator;
 
-    public VoucherManagementController(IOManager ioManager) {
+    public VoucherManagementController(IOManager ioManager, VoucherCreator voucherCreator) {
         this.ioManager = ioManager;
+        this.voucherCreator = voucherCreator;
         this.runningState = new RunningState();
     }
 
     public void run() {
         while (runningState.isRunning()) {
-            String command = ioManager.getCommand();
+            String command = ioManager.askCommand();
             runUserRequest(command);
         }
     }
@@ -29,7 +32,8 @@ public class VoucherManagementController {
         }
 
         if (commandType.is(CommandType.CREATE)) {
-            String voucherType = ioManager.getVoucherType();
+            String voucherTypeIndex = ioManager.askVoucherTypeIndex();
+            voucherCreator.create(voucherTypeIndex);
         }
     }
 
