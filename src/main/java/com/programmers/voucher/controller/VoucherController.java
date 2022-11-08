@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.voucher.controller;
 
 import com.programmers.voucher.io.MenuType;
 import com.programmers.voucher.io.Console;
@@ -18,7 +18,9 @@ public class VoucherController implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        while (true) {
+        boolean isRunning = true;
+
+        while (isRunning) {
             console.printOutput(Message.INTRO_MESSAGE);
 
             try {
@@ -26,7 +28,7 @@ public class VoucherController implements ApplicationRunner {
 
                 switch (MenuType.getMenuType(inputMenu)) {
                     case EXIT:
-
+                        isRunning = false;
                     case CREATE:
 
                     case LIST:
