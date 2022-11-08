@@ -1,5 +1,10 @@
 package org.prgrms.console;
 
+import static org.prgrms.console.Message.CHOOSE_VOUCHER_TYPE;
+import static org.prgrms.console.Message.ENTER_DISCOUNT_AMOUNT;
+import static org.prgrms.console.Message.ENTER_DISCOUNT_RATE;
+import static org.prgrms.console.Message.SHOW_SUPPORTED_COMMANDS;
+
 import java.util.List;
 import java.util.Scanner;
 import org.prgrms.voucher.voucherType.Voucher;
@@ -11,11 +16,6 @@ public class Console {
 
   private final Scanner scanner = new Scanner(System.in);
 
-  private final Message message;
-
-  public Console() {
-    this.message = new Message();
-  }
 
   public String chooseMenu() {
     printSupportedCommands();
@@ -27,18 +27,18 @@ public class Console {
   }
 
   private void printSupportedCommands() {
-    System.out.println(message.SHOW_SUPPORTED_COMMANDS());
+    System.out.println(SHOW_SUPPORTED_COMMANDS());
   }
 
   public String chooseVoucherType() {
-    System.out.println(message.CHOOSE_VOUCHER_TYPE());
+    System.out.println(CHOOSE_VOUCHER_TYPE());
     return scanner.nextLine();
   }
 
   public String enterDiscountRate(VoucherType voucherType) {
     switch (voucherType) {
-      case FIXED -> System.out.println(message.ENTER_DISCOUNT_AMOUNT());
-      case PERCENT -> System.out.println(message.ENTER_DISCOUNT_RATE());
+      case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT());
+      case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE());
     }
     return scanner.nextLine();
   }
