@@ -6,11 +6,11 @@ import java.util.UUID;
 
 public class BlockCustomer {
 
-    private UUID blockId;
+    private final UUID blockId;
 
-    private UUID customerId;
+    private final UUID customerId;
 
-    private LocalDateTime registeredAt;
+    private final LocalDateTime registeredAt;
 
     public BlockCustomer(UUID blockId, UUID customerId, LocalDateTime registeredAt) {
         this.blockId = blockId;
@@ -45,5 +45,14 @@ public class BlockCustomer {
     @Override
     public int hashCode() {
         return Objects.hash(blockId);
+    }
+
+    @Override
+    public String toString() {
+        return "BlockCustomer{" +
+            "blockId=" + blockId +
+            ", customerId=" + customerId +
+            ", registeredAt=" + registeredAt +
+            '}';
     }
 }
