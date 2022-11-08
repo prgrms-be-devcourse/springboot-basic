@@ -14,9 +14,9 @@ public enum Message {
   ENTER_DISCOUNT_RATE("=== Please enter discount rate(numbers only) ==="),
   ENTER_DISCOUNT_AMOUNT("=== Please enter the discount amount(numbers only) ===");
 
-  public final String instruction;
+  public final String value;
 
-  Message(String instruction) {
-    this.instruction = instruction;
+  Message(String value) {
+    this.value = value;
   }
 }

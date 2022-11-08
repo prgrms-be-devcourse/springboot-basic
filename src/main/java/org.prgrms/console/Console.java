@@ -24,18 +24,18 @@ public class Console {
   }
 
   private void printSupportedCommands() {
-    System.out.println(SHOW_SUPPORTED_COMMANDS);
+    System.out.println(SHOW_SUPPORTED_COMMANDS.value);
   }
 
   public String chooseVoucherType() {
-    System.out.println(CHOOSE_VOUCHER_TYPE);
+    System.out.println(CHOOSE_VOUCHER_TYPE.value);
     return scanner.nextLine();
   }
 
   public String enterDiscountRate(VoucherType voucherType) {
     switch (voucherType) {
-      case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT);
-      case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE);
+      case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT.value);
+      case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE.value);
     }
     return scanner.nextLine();
   }
