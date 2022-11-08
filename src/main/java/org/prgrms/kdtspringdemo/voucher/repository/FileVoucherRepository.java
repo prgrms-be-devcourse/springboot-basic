@@ -38,6 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         }catch (IllegalArgumentException e){
             logger.error("[voucher load fail]  파일에 가질 수 없는 값을 가지고 있는 열이 있어 불러오는데 실패했습니다. 잘못된 값이 있는지 확인해 주세요");
+            storage.clear();
 //            e.printStackTrace();
 //            throw new IllegalStateException("파일에 가질 수 없는 값을 가지고 있는 열이 있습니다.");
         } catch (FileNotFoundException e) {
