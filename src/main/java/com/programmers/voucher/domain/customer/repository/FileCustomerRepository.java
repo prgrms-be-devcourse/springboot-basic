@@ -20,6 +20,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 public class FileCustomerRepository implements CustomerRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
+	private static final String LINE_SEPARATOR = ", |: ";
 	private final String filePath;
 
 	public FileCustomerRepository(@Value("${repository.file.blacklist}") String filePath) {
@@ -34,7 +35,7 @@ public class FileCustomerRepository implements CustomerRepository {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				String[] customerInfo = line.split(", |: ");
+				String[] customerInfo = line.split(LINE_SEPARATOR);
 				UUID id = UUID.fromString(customerInfo[1]);
 				String type = customerInfo[3];
 

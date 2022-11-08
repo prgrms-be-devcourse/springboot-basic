@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
+	private static final int PERCENT_100 = 100;
 	private final UUID voucherId;
 	private final int percent;
 
@@ -19,7 +20,7 @@ public class PercentDiscountVoucher implements Voucher {
 
 	@Override
 	public int discount(int beforeDiscount) {
-		return beforeDiscount * (percent / 100);
+		return beforeDiscount * (percent / PERCENT_100);
 	}
 
 	@Override

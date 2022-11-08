@@ -26,6 +26,7 @@ import com.programmers.voucher.exception.VoucherNotFoundException;
 public class FileVoucherRepository implements VoucherRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
+	private static final String LINE_SEPARATOR = ", |: |%";
 	private final String filePath;
 	private final BufferedWriter writer;
 	private final VoucherFactory factory;
@@ -55,7 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith(voucherId.toString(), 4)) {
-					String[] voucherInfo = line.split(", |: |%");
+					String[] voucherInfo = line.split(LINE_SEPARATOR);
 					String type = voucherInfo[3];
 					int discount = Integer.parseInt(voucherInfo[5]);
 					return factory.makeVoucher(type, voucherId, discount);
@@ -77,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			BufferedReader reader = new BufferedReader(new FileReader(filePath));
 			String line;
 			while ((line = reader.readLine()) != null) {
-				String[] voucherInfo = line.split(", |: |%");
+				String[] voucherInfo = line.split(LINE_SEPARATOR);
 				UUID id = UUID.fromString(voucherInfo[1]);
 				String type = voucherInfo[3];
 				int discount = Integer.parseInt(voucherInfo[5]);
