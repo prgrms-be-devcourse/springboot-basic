@@ -19,13 +19,13 @@ public class VoucherValidator {
 
     private void validatePercentDiscount(VoucherAmount voucherAmount) {
         if (!isValidValueOfPercentDiscountVoucher(voucherAmount)) {
-            throw new NumberFormatException();
+            throw new NumberFormatException("Please enter a value between " + PERCENT_DISCOUNT_VOUCHER_MIN_VALUE + " and " + PERCENT_DISCOUNT_VOUCHER_MAX_VALUE + "." + System.lineSeparator());
         }
     }
 
     private void validateFixedAmount(VoucherAmount voucherAmount) {
         if (!isValidValueOfFixedAmountVoucher(voucherAmount)) {
-            throw new NumberFormatException();
+            throw new NumberFormatException("Please enter a value greater than or equal " + FIXED_AMOUNT_VOUCHER_MIN_VALUE  + "." + System.lineSeparator());
         }
     }
 

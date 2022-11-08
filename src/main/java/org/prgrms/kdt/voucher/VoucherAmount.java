@@ -7,7 +7,11 @@ public class VoucherAmount {
     private Long value;
 
     public VoucherAmount(String amount) {
-        this.value = Long.parseLong(amount);
+        try {
+            this.value = Long.parseLong(amount);
+        } catch (NumberFormatException exception) {
+            throw new NumberFormatException("Please enter an integer." + System.lineSeparator());
+        }
     }
 
     public boolean isGreaterThanEqual(Long value) {

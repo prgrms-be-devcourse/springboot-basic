@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -29,12 +30,25 @@ public enum VoucherType {
         validateTypeNullSafe(type);
 
         return Optional.ofNullable(voucherTypeMap.get(type.toLowerCase()))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Please enter among " + names() + "." + System.lineSeparator()));
+
+    }
+
+    private static String names() {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append(
+                EnumSet.allOf(VoucherType.class).stream()
+                        .map(v -> v.type)
+                        .collect(Collectors.joining(", "))
+        );
+
+        return stringBuffer.toString();
     }
 
     private static void validateTypeNullSafe(String type) {
         if (type == null) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException("type cannot be null");
         }
     }
 }

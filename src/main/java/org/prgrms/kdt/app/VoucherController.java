@@ -27,12 +27,8 @@ public class VoucherController implements CommandLineRunner {
             String userInput = console.getCommand();
             try {
                 runCommand(userInput, voucherControllerStatus);
-            } catch (InvalidParameterException exception) {
-                console.printCommandError();
-            } catch (NumberFormatException exception) {
-                console.printNumericError();
-            } catch (IllegalArgumentException exception) {
-                console.printTypeError();
+            } catch (RuntimeException exception) {
+                console.printError(exception.getMessage());
             }
         }
     }

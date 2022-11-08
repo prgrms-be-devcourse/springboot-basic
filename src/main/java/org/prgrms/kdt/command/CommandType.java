@@ -2,6 +2,7 @@ package org.prgrms.kdt.command;
 
 import java.security.InvalidParameterException;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -37,12 +38,24 @@ public enum CommandType {
         validateCommandNullSafe(command);
 
         return Optional.ofNullable(commandMap.get(command.toLowerCase()))
-                .orElseThrow(InvalidParameterException::new);
+                .orElseThrow(() -> new IllegalArgumentException("Please enter among " + names() + "." + System.lineSeparator()));
+    }
+
+    private static String names() {
+        StringBuffer stringBuffer = new StringBuffer();
+
+        stringBuffer.append(
+                EnumSet.allOf(CommandType.class).stream()
+                        .map(c -> c.command)
+                        .collect(Collectors.joining(", "))
+        );
+
+        return stringBuffer.toString();
     }
 
     private static void validateCommandNullSafe(String command) {
         if (command == null) {
-            throw new InvalidParameterException();
+            throw new NullPointerException("command cannot be null");
         }
     }
 }
