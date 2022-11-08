@@ -2,7 +2,7 @@ package com.programmers.voucher.menu;
 
 import java.util.Arrays;
 
-import static com.programmers.voucher.menu.Message.INPUT_ERROR_MESSAGE;
+import static com.programmers.voucher.menu.Message.ERROR_INPUT_MESSAGE;
 
 public enum Menu {
     EXIT("EXIT"),
@@ -20,7 +20,7 @@ public enum Menu {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.getMenu().equals(userInput))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(INPUT_ERROR_MESSAGE.getMessage()));
+                .orElseThrow(() -> new RuntimeException(ERROR_INPUT_MESSAGE.getMessage()));
     }
 
     public String getMenu() {

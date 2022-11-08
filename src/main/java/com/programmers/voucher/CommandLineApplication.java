@@ -8,15 +8,15 @@ import com.programmers.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
-import static com.programmers.voucher.voucher.VoucherType.*;
-import static com.programmers.voucher.voucher.VoucherValidator.ValidateValue;
 
+@Component
 public class CommandLineApplication implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
     private final View view;
@@ -31,14 +31,18 @@ public class CommandLineApplication implements Runnable {
     @Override
     public void run() {
         String userCommand = "";
+
         while (!userCommand.equals(EXIT.getMenu())) {
-            view.printMessage(GREETING_MESSAGE.getMessage());
+
+            view.printMessage(GREETING_MESSAGE);
             userCommand = view.getUserCommand().toUpperCase();
 
             try {
+
                 Menu userMenu = findMenu(userCommand);
                 executeUserCommand(userMenu);
-            } catch (RuntimeException e) {
+
+            } catch (Exception e) {
                 logger.error("사용자 커맨드 입력값 오류", e);
                 view.printMessage(e.getMessage());
             }
@@ -48,7 +52,15 @@ public class CommandLineApplication implements Runnable {
     private void executeUserCommand(Menu userMenu) {
         switch (userMenu) {
             case CREATE:
-                createVoucher();
+                view.printMessage(VOUCHER_TYPE_MESSAGE);
+                String voucherTypeInput = view.getUserCommand();
+
+                view.printMessage(VOUCHER_VALUE_MESSAGE);
+                String value = view.getUserCommand();
+
+                voucherService.register(voucherTypeInput, value);
+                view.printMessage(VOUCHER_CREATE_SUCCESS);
+
                 break;
 
             case LIST:
@@ -58,36 +70,6 @@ public class CommandLineApplication implements Runnable {
             case EXIT:
                 return;
         }
-    }
-
-    private void createVoucher() {
-        view.printMessage(VOUCHER_TYPE_MESSAGE.getMessage());
-
-        VoucherType voucherType = getVoucherTypeInput();
-
-        String value = getVoucherValue(voucherType);
-
-        Voucher voucher = voucherType.createVoucher(Long.parseLong(value));
-
-        voucherService.register(voucher);
-
-        view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
-    }
-
-    private VoucherType getVoucherTypeInput() {
-        String voucherTypeInput = view.getUserCommand();
-
-        return getValidateVoucherType(voucherTypeInput);
-    }
-
-
-    private String getVoucherValue(VoucherType type) {
-        view.printMessage(VOUCHER_VALUE_MESSAGE.getMessage());
-        String value = view.getUserCommand();
-
-        ValidateValue(type, value);
-
-        return value;
     }
 
     private void showVoucherList() {
