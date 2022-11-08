@@ -3,6 +3,7 @@ package prgms.vouchermanagementapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import prgms.vouchermanagementapp.controller.VoucherManagementController;
+import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
 
@@ -20,7 +21,12 @@ public class AppConfig {
     }
 
     @Bean
+    public IOManager ioManager() {
+        return new IOManager(reader(), writer());
+    }
+
+    @Bean
     public VoucherManagementController voucherManagementController() {
-        return new VoucherManagementController(reader(), writer());
+        return new VoucherManagementController(ioManager());
     }
 }

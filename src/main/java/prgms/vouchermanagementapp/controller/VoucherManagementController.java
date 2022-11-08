@@ -1,26 +1,21 @@
 package prgms.vouchermanagementapp.controller;
 
 import prgms.vouchermanagementapp.io.CommandType;
-import prgms.vouchermanagementapp.io.Reader;
-import prgms.vouchermanagementapp.io.Writer;
+import prgms.vouchermanagementapp.io.IOManager;
 
 public class VoucherManagementController {
 
-    private final Reader reader;
-    private final Writer writer;
-    private final RunningState state;
+    private final IOManager ioManager;
+    private final RunningState runningState;
 
-    public VoucherManagementController(Reader reader, Writer writer) {
-        this.reader = reader;
-        this.writer = writer;
-        this.state = new RunningState();
+    public VoucherManagementController(IOManager ioManager) {
+        this.ioManager = ioManager;
+        this.runningState = new RunningState();
     }
 
     public void run() {
-        while (state.isRunning()) {
-            writer.printCommandGuide();
-
-            String command = reader.readLine();
+        while (runningState.isRunning()) {
+            String command = ioManager.getCommand();
             runUserRequest(command);
         }
     }
@@ -29,9 +24,13 @@ public class VoucherManagementController {
         CommandType commandType = CommandType.of(command);
 
         if (commandType.isExit()) {
-            writer.printExitMessage();
-            state.exit();
+            runExit();
             return;
         }
+    }
+
+    private void runExit() {
+        ioManager.notifyExit();
+        runningState.exit();
     }
 }
