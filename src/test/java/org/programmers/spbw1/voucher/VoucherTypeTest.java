@@ -42,4 +42,14 @@ class VoucherTypeTest {
         assertThat(inRangeFixed).isTrue();
         assertThat(inRangePercent).isTrue();
     }
+
+    @Test
+    @DisplayName("simple toString test")
+    void toStringTest(){
+        String fixedToString = VoucherType.FIXED.toString();
+        String percentToString = VoucherType.PERCENT.toString();
+
+        assertThat(fixedToString).isEqualTo("FIXED");
+        assertThat(percentToString).isEqualTo("PERCENT");
+    }
 }

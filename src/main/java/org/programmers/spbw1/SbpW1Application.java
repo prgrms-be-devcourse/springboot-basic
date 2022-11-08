@@ -18,22 +18,14 @@ import java.util.Optional;
 
 @SpringBootApplication
 public class SbpW1Application {
-	// static final Logger logger = LoggerFactory.getLogger(SbpW1Application.class);
 
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(SbpW1Application.class, args);
-		System.out.println("hello");
-//		while(true){
-//			output.initSelect();
-//			String in = input.input("");
-//			if (in.equals("exit"))
-//				break;
-//			System.out.println(in);
-//		}
+		System.out.println("안녕!");
+
 		Input input = new Console();
 		Output output = new Console();
 		VoucherRepository repository = new MemoryVoucherRepository();
-		// VoucherService service = new VoucherService(repository);
 
 		new VoucherProgram(input, output, repository).run();
 	}

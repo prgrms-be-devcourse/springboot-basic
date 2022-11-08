@@ -8,8 +8,8 @@ public class PercentDiscountVoucher implements Voucher{
     private final long percent;
 
     public PercentDiscountVoucher(UUID id, long percent) {
-        if (percent <= 0 || percent > 100)
-            throw new IllegalArgumentException("Invalid percent\t valid range : 1 ~ 100");
+//        if (percent <= 0 || percent > 100)
+//            throw new IllegalArgumentException("Invalid percent\t valid range : 1 ~ 100");
         Id = id;
         this.percent = percent;
     }

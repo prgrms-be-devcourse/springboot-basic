@@ -45,33 +45,43 @@ public class VoucherProgram implements Runnable {
                 logger.error("invalid instruction : " + in);
             }
         }
-    }class InstructionClass {
+    }
+
+
+    class InstructionClass {
         private void create() throws Exception{
             String type = input.input("1. Fixed Amount\n2. Percent\nChoose 1 or 2 : ");
             Optional<VoucherType> voucherType = VoucherType.getVoucherTypeBySelection(type);
 
             if (voucherType.isEmpty()){
                 logger.error("invalid type selected : " + type);
+                output.invalidVoucherSelected();
                 return;
             }
 
-
-            String discountAmount = input.input("discount amount " + VoucherType.getRange(voucherType.get()));
+            String discountAmount = input.input("discount amount " + VoucherType.getRange(voucherType.get()) + " : ");
             long amount = 0L;
             try {
                 amount = Long.parseLong(discountAmount);
             }catch (NumberFormatException e){
                 logger.error("NumberFormatException : " + discountAmount);
+                output.numFormatException();
                 return;
             }
 
+            if (!VoucherType.validRange(voucherType.get(), amount)){
+                logger.error("invalid range ERROR, voucher type : " + voucherType.get().toString() + ", tried : " + amount);
+                output.invalidRange(voucherType.get());
+                return;
+            }
 
-            logger.info("create_called");
-            Voucher v = new FixedAmountVoucher(UUID.randomUUID(), 10);
-            voucherRepository.insert(v);
+            Voucher voucher = voucherService.createVoucher(voucherType.get(), amount);
+            logger.info("voucher created, voucher info : " + voucher.toString());
+            output.voucherCreated(voucher);
         }
         private void list(){
-            logger.info("list_called");
+            logger.info("list_called, stored voucher num : " + voucherRepository.getStoredVoucherNum());
+            output.listCalled(voucherRepository.getStoredVoucherNum());
             voucherRepository.showAllVouchers();
         }
     }
