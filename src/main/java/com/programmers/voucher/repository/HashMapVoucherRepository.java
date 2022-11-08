@@ -28,4 +28,9 @@ public class HashMapVoucherRepository implements VoucherRepository {
 
         return voucher;
     }
+
+    @Override
+    public void deleteAll() {
+        map.clear();
+    }
 }

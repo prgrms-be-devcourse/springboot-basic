@@ -4,7 +4,6 @@ import com.programmers.voucher.menu.Menu;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherFactory;
 import com.programmers.voucher.voucher.VoucherList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,14 +68,14 @@ public class CommandLineApplication implements Runnable {
         String value = getVoucherValue(voucherTypeInput);
 
         VoucherList voucherList = findVoucherList(voucherTypeInput);
-        Voucher voucher = VoucherFactory.createVoucher(voucherList, Long.parseLong(value));
+        Voucher voucher = voucherList.createVoucher(Long.parseLong(value));
         voucherService.register(voucher);
 
         view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());
     }
 
     private String getVoucherTypeInput() {
-        String voucherTypeInput = view.getUserCommand();
+        String voucherTypeInput = view.getUserCommand();//F P A
 
         if (!isValidateVoucherType(voucherTypeInput)) {
             throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());

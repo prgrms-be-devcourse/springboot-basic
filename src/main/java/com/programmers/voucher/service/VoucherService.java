@@ -11,4 +11,6 @@ public interface VoucherService {
     Voucher getVoucher(UUID voucherId);
 
     List<Voucher> findAll();
+
+    void deleteAll();
 }

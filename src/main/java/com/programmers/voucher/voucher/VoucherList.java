@@ -7,23 +7,23 @@ import java.util.UUID;
 public enum VoucherList {
     FixedAmount("F") {
         public Voucher createVoucher(long value) {
-            return VoucherFactory.createVoucher(FixedAmount, value);
+            return new FixedAmountVoucher(UUID.randomUUID(), value);
         }
 
         @Override
         public Voucher createVoucher(UUID id, long value) {
-            return VoucherFactory.createVoucher(id, FixedAmount, value);
+            return new FixedAmountVoucher(id, value);
         }
     },
 
     PercentDiscount("P") {
         public Voucher createVoucher(long value) {
-            return VoucherFactory.createVoucher(PercentDiscount, value);
+            return new PercentDiscountVoucher(UUID.randomUUID(), value);
         }
 
         @Override
         public Voucher createVoucher(UUID id, long value) {
-            return VoucherFactory.createVoucher(id, PercentDiscount, value);
+            return new PercentDiscountVoucher(id, value);
         }
     },
     ;

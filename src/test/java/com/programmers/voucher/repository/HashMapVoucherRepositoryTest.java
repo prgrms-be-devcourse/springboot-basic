@@ -1,8 +1,6 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherFactory;
-import com.programmers.voucher.voucher.VoucherList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.programmers.voucher.voucher.VoucherList.FixedAmount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
@@ -37,12 +36,12 @@ class HashMapVoucherRepositoryTest {
 
         assertThat(store.size()).isEqualTo(0);
 
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherList.FixedAmount, 3000);
+        Voucher voucher1 = FixedAmount.createVoucher( 3000);
         repository.registerVoucher(voucher1);
 
         assertThat(store.size()).isEqualTo(1);
 
-        Voucher voucher2 = VoucherFactory.createVoucher(VoucherList.FixedAmount, 3000);
+        Voucher voucher2 = FixedAmount.createVoucher(20000);
         repository.registerVoucher(voucher2);
 
         assertThat(store.size()).isEqualTo(2);
@@ -50,21 +49,21 @@ class HashMapVoucherRepositoryTest {
 
     @Test
     void 맵에서Id로바우처조회() {
-        Voucher voucher = VoucherFactory.createVoucher(VoucherList.FixedAmount, 3000);
+        Voucher voucher = FixedAmount.createVoucher( 100000L);
         repository.registerVoucher(voucher);
 
         Voucher findOne = store.get(voucher.getVoucherId());
 
-        assertSame(voucher, findOne);
-        assertThat(voucher.getValue()).isEqualTo(3000L);
+        assertSame(findOne, voucher);
+        assertThat(findOne.getValue()).isEqualTo(voucher.getValue());
     }
 
     @Test
     void 맵의모든바우처조회() {
         assertThat(store.size()).isEqualTo(0);
 
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherList.FixedAmount, 3000);
-        Voucher voucher2 = VoucherFactory.createVoucher(VoucherList.FixedAmount, 3000);
+        Voucher voucher1 = FixedAmount.createVoucher(3000);
+        Voucher voucher2 = FixedAmount.createVoucher( 3000);
 
         repository.registerVoucher(voucher1);
         assertThat(store.size()).isEqualTo(1);

@@ -54,10 +54,12 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher registerVoucher(Voucher voucher) {
         UUID voucherId = voucher.getVoucherId();
         long voucherValue = voucher.getValue();
-        String voucherType = voucher.getClass().getSimpleName().replaceAll("Voucher", "");
+        String voucherClassName = voucher.getClass()
+                .getSimpleName()
+                .replaceAll("Voucher", "");
 
         wini.put(voucherId.toString(), VOUCHER_VALUE, voucherValue);
-        wini.put(voucherId.toString(), VOUCHER_TYPE, voucherType);
+        wini.put(voucherId.toString(), VOUCHER_TYPE, voucherClassName);
 
         try {
             wini.store();
@@ -76,7 +78,8 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucherType.map(voucher -> voucher.createVoucher(voucherId, value));
     }
 
-    void deleteAll() {
+    @Override
+    public void deleteAll() {
         wini.clear();
     }
 }

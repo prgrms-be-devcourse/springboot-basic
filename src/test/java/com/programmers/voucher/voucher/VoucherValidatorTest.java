@@ -9,7 +9,6 @@ import static com.programmers.voucher.voucher.VoucherValidator.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class VoucherValidatorTest {
-    VoucherValidator validator = new VoucherValidator();
 
     @Test
     @DisplayName("올바른 타입과 한도 내의 금액을 입력한 경우 검증 통과")
@@ -23,8 +22,8 @@ class VoucherValidatorTest {
         boolean validateValue = VoucherValidator.isValidateValue(typeF, valueF);
         boolean validateValue2 = VoucherValidator.isValidateValue(typeP, valueP);
 
-        assertEquals(validateValue, true);
-        assertEquals(validateValue2, true);
+        assertEquals(true, validateValue);
+        assertEquals(true, validateValue2);
     }
 
 
@@ -32,14 +31,14 @@ class VoucherValidatorTest {
     @DisplayName("value로 입력한 값이 숫자인 경우 검증 통과")
     void isNumericTest1() {
         boolean validateValue = VoucherValidator.isNumeric("1259764");
-        assertEquals(validateValue, true);
+        assertEquals(true, validateValue);
     }
 
     @Test
     @DisplayName("value로 입력한 값이 숫자가 아닌 경우 false 리턴")
     void isNumericTest2() {
         boolean validateValue = VoucherValidator.isNumeric("asdf");
-        assertEquals(validateValue, false);
+        assertEquals(false, validateValue);
     }
 
     @Test
@@ -51,8 +50,8 @@ class VoucherValidatorTest {
         String typeF = FixedAmount.getType();
         boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(MAX_DISCOUNT_COST));
 
-        assertEquals(validateValue, true);
-        assertEquals(validateValue2, true);
+        assertEquals(true, validateValue);
+        assertEquals(true, validateValue2);
     }
 
     @Test
@@ -64,8 +63,8 @@ class VoucherValidatorTest {
         String typeF = FixedAmount.getType();
         boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(MIN_DISCOUNT_COST));
 
-        assertEquals(validateValue, true);
-        assertEquals(validateValue2, true);
+        assertEquals(true, validateValue);
+        assertEquals(true, validateValue2);
     }
 
     @Test
@@ -79,8 +78,8 @@ class VoucherValidatorTest {
         int biggerThanMaxValue = MAX_DISCOUNT_COST + 1;
         boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(biggerThanMaxValue));
 
-        assertEquals(validateValue, false);
-        assertEquals(validateValue2, false);
+        assertEquals(false, validateValue);
+        assertEquals(false, validateValue2);
     }
 
     @Test
@@ -93,7 +92,7 @@ class VoucherValidatorTest {
         int smallerThanMinValue = MIN_DISCOUNT_PERCENTAGE - 1; // 0
         boolean validateValue2 = VoucherValidator.isProperValue(typeP, String.valueOf(smallerThanMinValue));
 
-        assertEquals(validateValue, false);
-        assertEquals(validateValue2, false);
+        assertEquals(false, validateValue);
+        assertEquals(false, validateValue2);
     }
 }

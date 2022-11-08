@@ -34,4 +34,9 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> findAll() {
         return repository.findAllVouchers();
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }
