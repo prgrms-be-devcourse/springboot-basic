@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanagement.voucher.domain.FixedAmountVoucher;
@@ -13,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class VoucherListFindServiceTest {
 
@@ -23,6 +22,11 @@ class VoucherListFindServiceTest {
 
     @Autowired
     private VoucherRepository voucherRepository;
+
+    @BeforeEach
+    void init() {
+        voucherRepository.clear();
+    }
 
     @Test
     @DisplayName("바우처 리스트 정상 출력 확인")
