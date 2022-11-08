@@ -33,11 +33,8 @@ public class FileVoucherRepository implements VoucherRepository {
             CsvDto csvDto = csvReader.readCSV();
             List<String[]> csvValues = csvDto.value;
             for (String[] strings : csvValues) {
-                UUID uuid = UUID.fromString(strings[0]);
-                long value = Long.parseLong(strings[1]);
-                VoucherType voucherType = VoucherType.getTypeByName(strings[2]);
-                Voucher myVoucher = voucherCreator.createVoucher(voucherType, value);
-                storage.put(uuid, myVoucher);
+                Voucher myVoucher = makeVoucherFromCsvValue(strings);
+                storage.put(myVoucher.getVoucherId(), myVoucher);
             }
         }catch (IllegalArgumentException e){
             logger.error("[voucher load fail]  파일에 가질 수 없는 값을 가지고 있는 열이 있어 불러오는데 실패했습니다. 잘못된 값이 있는지 확인해 주세요");
@@ -53,6 +50,15 @@ public class FileVoucherRepository implements VoucherRepository {
 //            throw new RuntimeException(e);
         }
     }
+
+    private Voucher makeVoucherFromCsvValue(String[] strings) throws IllegalArgumentException{
+        UUID uuid = UUID.fromString(strings[0]);
+        long value = Long.parseLong(strings[1]);
+        VoucherType voucherType = VoucherType.getTypeByName(strings[2]);
+        Voucher myVoucher = voucherCreator.createVoucher(voucherType, value);
+        return myVoucher;
+    }
+
     public FileVoucherRepository(VoucherCreator voucherCreator,
                                  @Value("${voucher.path}") String path,
                                  @Value("${voucher.append}") boolean append) {
