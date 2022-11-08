@@ -1,7 +1,6 @@
 package org.prgrms.kdt.utils;
 
 import org.prgrms.kdt.exceptions.WrongSelectException;
-import org.prgrms.kdt.io.MessageType;
 
 import java.util.Arrays;
 
