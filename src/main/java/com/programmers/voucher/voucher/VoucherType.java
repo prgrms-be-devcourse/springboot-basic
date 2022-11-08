@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.UUID;
 
-public enum VoucherList {
+public enum VoucherType {
     FixedAmount("F") {
         public Voucher createVoucher(long value) {
             return new FixedAmountVoucher(UUID.randomUUID(), value);
@@ -31,25 +31,25 @@ public enum VoucherList {
 
     private final String type;
 
-    VoucherList(String type) {
+    VoucherType(String type) {
         this.type = type;
     }
 
-    public static Optional<VoucherList> findVoucher(String type) {
-        return Arrays.stream(VoucherList.values())
+    public static Optional<VoucherType> findVoucher(String type) {
+        return Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.name().equals(type))
                 .findFirst();
     }
 
-    public static VoucherList findVoucherList(String type) {
-        return Arrays.stream(VoucherList.values())
+    public static VoucherType findVoucherType(String type) {
+        return Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.type.equals(type))
                 .findFirst()
                 .get();
     }
 
     public static boolean isValidateVoucherType(String inputType) {
-        return Arrays.stream(VoucherList.values())
+        return Arrays.stream(VoucherType.values())
                 .anyMatch(voucher -> voucher.type.equals(inputType));
     }
 

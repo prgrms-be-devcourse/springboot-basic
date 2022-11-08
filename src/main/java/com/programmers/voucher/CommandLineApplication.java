@@ -4,7 +4,7 @@ import com.programmers.voucher.menu.Menu;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherList;
+import com.programmers.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +14,8 @@ import java.util.List;
 import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
-import static com.programmers.voucher.voucher.VoucherList.findVoucherList;
-import static com.programmers.voucher.voucher.VoucherList.isValidateVoucherType;
+import static com.programmers.voucher.voucher.VoucherType.findVoucherType;
+import static com.programmers.voucher.voucher.VoucherType.isValidateVoucherType;
 import static com.programmers.voucher.voucher.VoucherValidator.isValidateValue;
 
 public class CommandLineApplication implements Runnable {
@@ -67,8 +67,8 @@ public class CommandLineApplication implements Runnable {
         String voucherTypeInput = getVoucherTypeInput();
         String value = getVoucherValue(voucherTypeInput);
 
-        VoucherList voucherList = findVoucherList(voucherTypeInput);
-        Voucher voucher = voucherList.createVoucher(Long.parseLong(value));
+        VoucherType voucherType = findVoucherType(voucherTypeInput);
+        Voucher voucher = voucherType.createVoucher(Long.parseLong(value));
         voucherService.register(voucher);
 
         view.printMessage(VOUCHER_CREATE_SUCCESS.getMessage());

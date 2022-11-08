@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.voucher.VoucherList.FixedAmount;
-import static com.programmers.voucher.voucher.VoucherList.PercentDiscount;
+import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
+import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,8 +63,8 @@ class FileVoucherRepositoryTest {
         assertThat(allVouchers.size()).isEqualTo(0);
 
 
-        Voucher voucher1 = FixedAmount.createVoucher( 5000);
-        Voucher voucher2 = FixedAmount.createVoucher( 8000);
+        Voucher voucher1 = FixedAmount.createVoucher(5000);
+        Voucher voucher2 = FixedAmount.createVoucher(8000);
 
         repository.registerVoucher(voucher1);
         repository.registerVoucher(voucher2);

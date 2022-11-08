@@ -10,8 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.voucher.voucher.VoucherList.FixedAmount;
-import static com.programmers.voucher.voucher.VoucherList.PercentDiscount;
+import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
+import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 
@@ -41,7 +41,7 @@ class VoucherServiceImplTest {
     @Test
     @DisplayName("저장한 바우처의 Id로 조회할 경우, 저장한 바우처와 Id, value가 동일해야 한다.")
     void 바우처단건조회() {
-        Voucher voucher = PercentDiscount.createVoucher( 5);
+        Voucher voucher = PercentDiscount.createVoucher(5);
         service.register(voucher);
 
         Voucher findOne = service.getVoucher(voucher.getVoucherId());
@@ -55,8 +55,8 @@ class VoucherServiceImplTest {
         List<Voucher> vouchers = service.findAll();
         assertThat(vouchers.size()).isEqualTo(0);
 
-        Voucher voucher1= FixedAmount.createVoucher( 3000);
-        Voucher voucher2 = PercentDiscount.createVoucher( 7);
+        Voucher voucher1 = FixedAmount.createVoucher(3000);
+        Voucher voucher2 = PercentDiscount.createVoucher(7);
 
         service.register(voucher1);
         service.register(voucher2);

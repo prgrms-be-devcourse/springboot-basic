@@ -24,11 +24,11 @@ public class VoucherValidator {
 
     public static boolean isProperValue(String type, String s) {
         int value = Integer.parseInt(s);
-        if (type.equals(VoucherList.PercentDiscount.getType())) {
+        if (type.equals(VoucherType.PercentDiscount.getType())) {
             return MIN_DISCOUNT_PERCENTAGE <= value && value <= MAX_DISCOUNT_PERCENTAGE;
         }
 
-        if (type.equals(VoucherList.FixedAmount.getType())) {
+        if (type.equals(VoucherType.FixedAmount.getType())) {
             return MIN_DISCOUNT_COST <= value && value <= MAX_DISCOUNT_COST;
         }
 

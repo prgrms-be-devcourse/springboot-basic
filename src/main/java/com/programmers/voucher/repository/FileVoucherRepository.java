@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherList;
+import com.programmers.voucher.voucher.VoucherType;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -73,7 +73,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private Optional<Voucher> getVoucherFromFile(UUID voucherId) {
         String type = wini.get(voucherId.toString(), VOUCHER_TYPE);
         long value = wini.get(voucherId.toString(), VOUCHER_VALUE, long.class);
-        Optional<VoucherList> voucherType = VoucherList.findVoucher(type);
+        Optional<VoucherType> voucherType = VoucherType.findVoucher(type);
 
         return voucherType.map(voucher -> voucher.createVoucher(voucherId, value));
     }
