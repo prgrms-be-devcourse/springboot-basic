@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import prgms.vouchermanagementapp.config.AppConfig;
-import prgms.vouchermanagementapp.controller.VoucherManagementController;
+import prgms.vouchermanagementapp.controller.CommandExecutor;
 
 @SpringBootApplication
 public class VoucherManagementApp implements CommandLineRunner {
@@ -17,7 +17,7 @@ public class VoucherManagementApp implements CommandLineRunner {
     @Override
     public void run(String... args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-        VoucherManagementController controller = applicationContext.getBean(VoucherManagementController.class);
+        CommandExecutor controller = applicationContext.getBean(CommandExecutor.class);
 
         controller.run();
     }

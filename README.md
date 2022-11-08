@@ -25,7 +25,7 @@
 - [ ] create 커맨드를 통해 바우처를 생성할수 있다. (FixedAmountVoucher, PercentDiscountVoucher)
 - [ ] 어떤 바우처를 생성할 건지 클라이언트가 선택
     - [x] 바우처 입력 가이드 출력
-    - [ ] 바우처 입력에 대한 유효성 검증
+    - [x] 바우처 입력에 대한 유효성 검증
 - [ ] FixedAmountVoucher
     - [ ] 고정 할인 금액 입력
     - [ ] 할인 금액 유효성 검증 (금액 > 0)
