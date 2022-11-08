@@ -1,1 +1,19 @@
 
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+file:
+  path: store/
+  stored-name: customer_blacklist
+  stored-extension: .csv

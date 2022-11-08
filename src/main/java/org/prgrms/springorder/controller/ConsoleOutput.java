@@ -34,7 +34,7 @@ public class ConsoleOutput {
 
         if (messages.isEmpty()) {
             try {
-                bufferedWriter.write("저장된 바우처가 없습니다.");
+                bufferedWriter.write("저장된 데이터가 없습니다.");
                 bufferedWriter.newLine();
                 bufferedWriter.flush();
             } catch (IOException e) {

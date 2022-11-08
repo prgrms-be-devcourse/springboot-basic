@@ -41,10 +41,10 @@ class FileBlockCustomerRepositoryTest {
             fileExtension);
     }
 
-    @BeforeEach
-    void after() {
-        fileBlockCustomerRepository.deleteAll();
-    }
+//    @BeforeEach
+//    void after() {
+//        fileBlockCustomerRepository.deleteAll();
+//    }
 
     @DisplayName("file 생성 테스트 - 레포지토리가 생성되면 파일은 생성되어 있다.")
     @Test
@@ -65,7 +65,6 @@ class FileBlockCustomerRepositoryTest {
     void findByIdSuccess() {
         //given
         UUID randomUUID = UUID.randomUUID();
-        long amount = 0;
         BlockCustomer blockCustomer = new BlockCustomer(randomUUID, UUID.randomUUID(), LocalDateTime.now());
         fileBlockCustomerRepository.insert(blockCustomer);
 
