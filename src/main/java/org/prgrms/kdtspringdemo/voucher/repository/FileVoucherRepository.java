@@ -27,7 +27,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final VoucherCreator voucherCreator;
     @PostConstruct
-    public void initStorage() throws Exception{
+    public void initStorage() throws IllegalStateException{
 
         try {
             CsvDto csvDto = csvReader.readCSV();
@@ -40,17 +40,24 @@ public class FileVoucherRepository implements VoucherRepository {
                 storage.put(uuid, myVoucher);
             }
         }catch (IllegalArgumentException e){
-            throw new Exception("파일에 가질 수 없는 값을 가지고 있는 열이 있습니다.");
-        }catch (FileNotFoundException e){
-            throw new FileNotFoundException("파일을 찾을 수 없습니다.");
-        }catch (IOException e){
-
+            logger.error("[voucher load fail]  파일에 가질 수 없는 값을 가지고 있는 열이 있어 불러오는데 실패했습니다. 잘못된 값이 있는지 확인해 주세요");
+//            e.printStackTrace();
+//            throw new IllegalStateException("파일에 가질 수 없는 값을 가지고 있는 열이 있습니다.");
+        } catch (FileNotFoundException e) {
+            logger.error("[voucher load fail] voucher_list.csv 파일을 찾을 수 없습니다. 확인해 주세요.");
+//            e.printStackTrace();
+//            throw new IllegalStateException("파일을 찾을 수 없습니다.");
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+//            e.printStackTrace();
+//            throw new RuntimeException(e);
         }
     }
     public FileVoucherRepository(VoucherCreator voucherCreator,
-                                 @Value("${kdt.voucher.path}") String path,
-                                 @Value("${kdt.voucher.append}") boolean append) {
-        logger.info("파일 입출력 경로:{}\n파일 append 여부 : {}",path,append);
+                                 @Value("${voucher.path}") String path,
+                                 @Value("${voucher.append}") boolean append) {
+        logger.info("파일 입출력 경로: {}",path);
+        logger.info("파일 append 여부 : {}",append);
         this.voucherCreator = voucherCreator;
         csvReader = new CSVReader(path);
         csvWriter = new CSVWriter(path, append);

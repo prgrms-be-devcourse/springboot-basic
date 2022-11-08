@@ -28,7 +28,7 @@ public class VoucherService {
     }
 //    public void useVoucher(Voucher voucher) {
 //    }
-    public Voucher createVoucher(VoucherType voucherType, Long number) throws Exception{
+    public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException{
         Voucher newVoucher= voucherCreator.createVoucher(voucherType,number);
         return voucherRepository.insert(newVoucher);
     }

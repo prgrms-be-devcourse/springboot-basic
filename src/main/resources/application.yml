@@ -9,17 +9,23 @@ spring:
   config:
     activate:
       on-profile: "dev"
-kdt:
-  voucher:
-    path: "./voucher_list.csv"
-    append: true
 
+voucher:
+  path: "./voucher_list.csv"
+  append: true
+
+logging:
+  file:
+    name: "./log/voucher_manager.log"
 ---
 spring:
   config:
     activate:
       on-profile: "default"
-kdt:
-  voucher:
-    path: "./voucher_list.csv"
-    append: true
+
+voucher:
+  path: "./voucher_list.csv"
+  append: true
+logging:
+  file:
+    name: "./log/voucher_manager.log"

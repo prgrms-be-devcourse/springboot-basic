@@ -30,7 +30,7 @@ public class Console {
         output.printText("Type list to list all vouchers.");
     }
 
-    public VoucherType selectVoucherTypeMenu() {
+    public VoucherType selectVoucherTypeMenu() throws IllegalArgumentException{
         output.printText("=== Create Voucher ===");
         output.printText("Type fixed to create fixed voucher");
         output.printText("Type percent to create fixed voucher");
@@ -38,8 +38,13 @@ public class Console {
     }
 
     public Long getVoucherValue() throws NumberFormatException{
-        output.printText("=== Type Number ===");
-        return Long.parseLong(input.getInput());
+        try{
+            output.printText("=== Type Number ===");
+            return Long.parseLong(input.getInput());
+        }catch (NumberFormatException e){
+            throw new NumberFormatException("숫자를 입력해야 합니다.");
+        }
+
     }
 
     public Exception showError(Exception e) {
