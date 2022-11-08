@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /* TODO : 파일이 저장소 자체이기 때문에 파일의 입출력도 이 클래스에서 관리하는게 맞을까요?
-*   csv로 저장하기 위해 입력값을 convert 해주는 로직과 파일에 읽고 쓰는 로직이 다 들어가있어
+*   csv로 저장하기 위해 입력값을 파싱해주는 로직과 파일에 읽고 쓰는 로직이 다 들어가있어
 *  너무 많은 책임을 담당하는 것이 아닌지 궁금합니다.
 *  확장성까지 고려하여 csv 파일에 값을 입출력하는 클래스를 따로 분리하는게 맞을까요?
 * */
@@ -54,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true));
-            writer.write(convert(voucher.getVoucherId().toString(), voucher.getVoucherType().name(), String.valueOf(voucher.getDiscountAmount())));
+            writer.write(parseCsvFormat(voucher.getVoucherId().toString(), voucher.getVoucherType().name(), String.valueOf(voucher.getDiscountAmount())));
             writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -75,7 +75,7 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers;
     }
 
-    private String convert(String... input) {
+    private String parseCsvFormat(String... input) {
         return String.join(",", input) + System.lineSeparator();
     }
 
