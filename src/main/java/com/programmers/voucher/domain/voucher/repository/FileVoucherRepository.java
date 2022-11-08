@@ -28,20 +28,18 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private static final String LINE_SEPARATOR = ", |: |%";
 	private final String filePath;
-	private final BufferedWriter writer;
 	private final VoucherFactory factory;
 
 	@Autowired
 	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath, VoucherFactory factory) throws
 		IOException {
 		this.filePath = filePath;
-		this.writer = new BufferedWriter(new FileWriter(filePath, true));
 		this.factory = factory;
 	}
 
 	@Override
 	public void save(Voucher voucher) {
-		try {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
 			writer.write(voucher.toString() + System.lineSeparator());
 			writer.flush();
 		} catch (IOException e) {
@@ -51,8 +49,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher findByUUID(UUID voucherId) {
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith(voucherId.toString(), 4)) {
@@ -73,9 +70,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findAll() {
 		List<Voucher> vouchers = new ArrayList<>();
-
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] voucherInfo = line.split(LINE_SEPARATOR);

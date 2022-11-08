@@ -31,8 +31,7 @@ public class FileCustomerRepository implements CustomerRepository {
 	public List<Customer> findAllBlacklist() {
 		List<Customer> customers = new ArrayList<>();
 
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(filePath));
+		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] customerInfo = line.split(LINE_SEPARATOR);
