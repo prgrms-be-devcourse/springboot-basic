@@ -1,5 +1,9 @@
 package org.prgrms.kdtspringdemo.voucher.model;
 
+import org.prgrms.kdtspringdemo.io.file.CsvDto;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -7,9 +11,9 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) throws Exception{
+    public PercentDiscountVoucher(UUID voucherId, long percent) throws IllegalArgumentException{
         if(!voucherAllow(percent)) {
-            throw new Exception("허용되지 않는 숫자입니다.");
+            throw new IllegalArgumentException("허용되지 않는 숫자입니다.");
         }
         this.voucherId = voucherId;
         this.percent = percent;
@@ -32,6 +36,14 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String discountValue() {
         return String.valueOf(percent);
+    }
+
+    @Override
+    public CsvDto makeCsvDtoFromVoucher() {
+        List<String[]> lines = new ArrayList<>();
+        String[] line = {this.voucherId.toString(),String.valueOf(this.percent),this.getVoucherType().name()};
+        lines.add(line);
+        return CsvDto.from(lines);
     }
 
     private boolean voucherAllow(Long value) {
