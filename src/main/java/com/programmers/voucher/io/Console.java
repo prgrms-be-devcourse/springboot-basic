@@ -16,7 +16,23 @@ public class Console<T> {
         return input.input();
     }
 
-    public void printOutput(T message) {
-        output.printOutput(message);
+    public long getInputDiscountValue() {
+        return Long.parseLong(input.input());
+    }
+
+    public void requestMenuType() {
+        output.printOutput(Message.INTRO_MESSAGE);
+    }
+
+    public void requestVoucherType() {
+        output.printOutput(Message.REQUEST_VOUCHER_TYPE_MESSAGE);
+    }
+
+    public void requestDiscountValue() {
+        output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE);
+    }
+
+    public void printError() {
+        output.printOutput(Message.WRONG_ORDER_MESSAGE);
     }
 }

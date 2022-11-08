@@ -17,7 +17,7 @@ public enum MenuType {
         return menuType;
     }
 
-    public static MenuType getMenuType(String inputMenu) {
+    public static MenuType toMenuType(String inputMenu) {
         return Stream.of(MenuType.values())
                 .filter(type -> type.getMenuType().equals(inputMenu))
                 .findFirst()
