@@ -1,0 +1,4 @@
+repository :
+  file :
+    voucher:
+      path : "src/main/resources/vouchers.csv"
