@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.commandline_application;
 
 
 public enum CommandType {
-    EXIT, CREATE, LIST,ERROR ;
+    EXIT, CREATE, LIST,BLACK,ERROR ;
 
     public static CommandType getTypeByName(String string) throws IllegalArgumentException {
         try{

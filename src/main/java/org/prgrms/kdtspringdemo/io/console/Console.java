@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.io.console;
 
+import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,8 @@ public class Console {
         output.printText("Type exit to exit the program.");
         output.printText("Type create to create a new voucher.");
         output.printText("Type list to list all vouchers.");
+        output.printText("Type black to list all black customers.");
+
     }
 
     public VoucherType selectVoucherTypeMenu() throws IllegalArgumentException{
@@ -52,7 +55,7 @@ public class Console {
         return e;
     }
 
-    public String showList(List<Voucher> voucherList) {
+    public String showVoucherList(List<Voucher> voucherList) {
         String voucherListString =voucherList.stream().map((voucher) -> {
             String[] argument = {
                     voucher.getVoucherId().toString(),
@@ -68,4 +71,19 @@ public class Console {
         output.printText(voucherListString);
         return voucherListString;
     }
+    public String showBlackCustomerList(List<Customer> customerList){
+        String customerListString =  customerList.stream().map(customer -> {
+            String[] argument = {
+                    customer.getCustomerId().toString(),
+                    customer.getName().toString(),
+                    customer.getDateOfBirth().toString()
+            };
+            return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
+        }).collect(Collectors.joining("\n"
+                ,"  ID  |  Name  | birthDay  |\n"
+                ,"\n==========================="));
+        output.printText(customerListString);
+        return customerListString;
+    }
+
 }

@@ -1,5 +1,7 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
+import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.customer.CustomerService;
 import org.prgrms.kdtspringdemo.io.console.Console;
 import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
@@ -17,11 +19,14 @@ public class CommandLineApplication implements ApplicationRunner {
     private boolean isRunning = true;
     private final Console console;
     private final VoucherService voucherService;
+
+    private final CustomerService customerService;
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public CommandLineApplication(Console console, VoucherService voucherService) {
+    public CommandLineApplication(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @Override
@@ -59,9 +64,18 @@ public class CommandLineApplication implements ApplicationRunner {
                 logger.info("List 로직");
                 showVoucherList();
             }
+            case BLACK -> {
+                logger.info("블랙리스트 로직");
+                showBlackList();
+            }
         }
         return commandType;
 
+    }
+
+    private void showBlackList() {
+        List<Customer> blackList = customerService.getAllBlackList();
+        console.showBlackCustomerList(blackList);
     }
 
     private void exitProgram() {
@@ -83,7 +97,7 @@ public class CommandLineApplication implements ApplicationRunner {
 
     private void showVoucherList() {
         List<Voucher> voucherList = voucherService.getAllVoucherList();
-        console.showList(voucherList);
+        console.showVoucherList(voucherList);
     }
 
 
