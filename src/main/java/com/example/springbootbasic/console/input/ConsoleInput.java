@@ -21,7 +21,6 @@ public class ConsoleInput {
         try {
             String body = br.readLine();
             if (body.isBlank()) {
-
                 request.setStatus(FAIL);
             }
             request.setBody(body);

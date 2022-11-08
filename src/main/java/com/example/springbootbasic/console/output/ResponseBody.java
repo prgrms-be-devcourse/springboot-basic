@@ -3,10 +3,11 @@ package com.example.springbootbasic.console.output;
 import com.example.springbootbasic.console.ConsoleStatus;
 
 import static com.example.springbootbasic.console.ConsoleStatus.SUCCESS;
+import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 
 public class ResponseBody {
     private ConsoleStatus status = SUCCESS;
-    private String body = "";
+    private String body = EMPTY.getUnit();
 
     public ConsoleStatus getStatus() {
         return status;
