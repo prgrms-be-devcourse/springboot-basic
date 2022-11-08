@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.voucher.menu.Message.VOUCHER_ID_NOT_FOUND;
+import static com.programmers.voucher.voucher.VoucherValidator.getValidateVoucher;
+
 @Service
 public class VoucherServiceImpl implements VoucherService {
     private final VoucherRepository repository;
@@ -19,7 +22,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public Voucher register(Voucher voucher) {
+    public Voucher register(String voucherType, String value) {
+        Voucher voucher = getValidateVoucher(voucherType, value);
         return repository.registerVoucher(voucher);
     }
 
@@ -27,7 +31,7 @@ public class VoucherServiceImpl implements VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         Optional<Voucher> result = repository.findById(voucherId);
         return result.orElseThrow(() ->
-                new RuntimeException("존재하지 않는 바우처입니다."));
+                new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
     }
 
     @Override

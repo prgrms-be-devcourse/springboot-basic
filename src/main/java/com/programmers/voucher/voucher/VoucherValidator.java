@@ -1,8 +1,7 @@
 package com.programmers.voucher.voucher;
 
-import static com.programmers.voucher.menu.Message.INPUT_ERROR_MESSAGE;
-import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
-import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
+import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
+import static com.programmers.voucher.voucher.VoucherType.*;
 
 public class VoucherValidator {
     public static final int MAX_DISCOUNT_COST = 200000;
@@ -13,19 +12,29 @@ public class VoucherValidator {
 
     public static final String numberRegEx = "[+-]?\\d+";
 
-    public static void ValidateValue(VoucherType type, String value) {
-        isNumeric(value);
-        isProperValue(type, value);
+    public static Voucher getValidateVoucher(String type, String value) {
+        VoucherType validateVoucherType = getValidateVoucherType(type);
+        long validateValue = ValidateValue(validateVoucherType, value);
+
+        return validateVoucherType.createVoucher(validateValue);
+    }
+
+    public static long ValidateValue(VoucherType type, String value) {
+        if (isNumeric(value) && isProperValue(type, value)) {
+            return Long.parseLong(value);
+        }
+
+        throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
     }
 
     public static boolean isNumeric(String value) {
         value = value.replaceAll(numberRegEx, "");
 
-        if(value.equals("")){
+        if (value.equals("")) {
             return true;
         }
 
-        throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
+        throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
     }
 
     public static boolean isProperValue(VoucherType type, String inputValue) {
@@ -39,6 +48,6 @@ public class VoucherValidator {
             return MIN_DISCOUNT_COST <= value && value <= MAX_DISCOUNT_COST;
         }
 
-        throw new RuntimeException(INPUT_ERROR_MESSAGE.getMessage());
+        throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
     }
 }
