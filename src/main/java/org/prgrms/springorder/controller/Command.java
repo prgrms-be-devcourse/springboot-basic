@@ -6,7 +6,8 @@ public enum Command {
 
     EXIT("exit"),
     CREATE("create"),
-    LIST("list")
+    LIST("list"),
+    BLACKLIST("black-list")
     ;
 
     private final String command;

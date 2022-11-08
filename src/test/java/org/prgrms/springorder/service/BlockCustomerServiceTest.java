@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.springorder.domain.BlockCustomer;
 import org.prgrms.springorder.repository.BlockCustomerRepository;
 
-class BlackListServiceTest {
+class BlockCustomerServiceTest {
 
     @Test
     @DisplayName("findAll() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
@@ -26,13 +26,13 @@ class BlackListServiceTest {
         //given
         BlockCustomerRepository blockCustomerRepository = mock(BlockCustomerRepository.class);
 
-        BlackListService blackListService = new BlackListService(blockCustomerRepository);
+        BlockCustomerService blockCustomerService = new BlockCustomerService(blockCustomerRepository);
 
         when(blockCustomerRepository.findAll())
             .thenReturn(new ArrayList<>());
 
         //when
-        List<BlockCustomer> blockCustomers = blackListService.findAll();
+        List<BlockCustomer> blockCustomers = blockCustomerService.findAll();
 
         //then
         assertNotNull(blockCustomers);
@@ -48,7 +48,7 @@ class BlackListServiceTest {
         //given
         BlockCustomerRepository blockCustomerRepository = mock(BlockCustomerRepository.class);
 
-        BlackListService blackListService = new BlackListService(blockCustomerRepository);
+        BlockCustomerService blockCustomerService = new BlockCustomerService(blockCustomerRepository);
 
         int size = 5;
 
@@ -59,7 +59,7 @@ class BlackListServiceTest {
         );
 
         //when
-        List<BlockCustomer> blockCustomers = blackListService.findAll();
+        List<BlockCustomer> blockCustomers = blockCustomerService.findAll();
 
         //then
         assertNotNull(blockCustomers);

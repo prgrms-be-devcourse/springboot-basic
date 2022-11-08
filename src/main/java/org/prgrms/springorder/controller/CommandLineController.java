@@ -2,6 +2,7 @@ package org.prgrms.springorder.controller;
 
 import java.util.stream.Collectors;
 import org.prgrms.springorder.request.VoucherCreateRequest;
+import org.prgrms.springorder.service.BlockCustomerService;
 import org.prgrms.springorder.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,16 @@ public class CommandLineController {
 
     private final ConsoleOutput consoleOutput;
 
+    private final BlockCustomerService blockCustomerService;
+
     public CommandLineController(VoucherService voucherService,
         ConsoleInput consoleinput,
-        ConsoleOutput consoleOutput) {
+        ConsoleOutput consoleOutput,
+        BlockCustomerService blockCustomerService) {
         this.voucherService = voucherService;
         this.consoleInput = consoleinput;
         this.consoleOutput = consoleOutput;
+        this.blockCustomerService = blockCustomerService;
     }
 
     public void run() {
@@ -59,6 +64,10 @@ public class CommandLineController {
                 .map(Object::toString)
                 .collect(Collectors.toList()));
 
+            case BLACKLIST -> consoleOutput.showMessages(blockCustomerService.findAll().stream()
+                .map(Object::toString)
+                .collect(Collectors.toList()));
+
             case EXIT -> ConsoleRunningStatus.stop();
         }
     }
@@ -67,7 +76,8 @@ public class CommandLineController {
         consoleOutput.showMessage("=== Voucher Program ===",
             "Type 'exit' to exit the program. ",
             "Type 'create' to create a new voucher.",
-            "Type 'list' to list all vouchers. "
+            "Type 'list' to list all vouchers.",
+            "Type 'black-list' to list all black list customers."
         );
     }
 
