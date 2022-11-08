@@ -2,8 +2,22 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
-    <root level="WARN">
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/error.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="OFF">
         <appender-ref ref="CONSOLE" />
     </root>
+
+    <logger name="org.prgrms.java" level="ERROR" additivity="FALSE">
+        <appender-ref ref="FILE" />
+    </logger>
+
     <logger name="org.springframework.web" level="DEBUG"/>
 </configuration>
