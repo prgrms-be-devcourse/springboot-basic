@@ -24,6 +24,10 @@ public enum VoucherType {
                 .orElseThrow(NoSuchFieldError::new);  // TODO: custom exception
     }
 
+    public boolean is(VoucherType voucherType) {
+        return this == voucherType;
+    }
+
     public int getIndex() {
         return this.index;
     }

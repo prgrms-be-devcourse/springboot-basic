@@ -7,8 +7,8 @@ import prgms.vouchermanagementapp.voucher.VoucherManager;
 public class CommandExecutor {
 
     private final IOManager ioManager;
-    private final RunningState runningState;
     private final VoucherManager voucherManager;
+    private final RunningState runningState;
 
     public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
         this.ioManager = ioManager;
@@ -32,11 +32,16 @@ public class CommandExecutor {
         }
 
         if (commandType.is(CommandType.CREATE)) {
+            runCreate();
         }
     }
 
     private void runExit() {
         ioManager.notifyExit();
         runningState.exit();
+    }
+
+    private void runCreate() {
+        voucherManager.createVoucher();
     }
 }

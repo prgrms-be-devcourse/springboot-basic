@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.io;
 
+import prgms.vouchermanagementapp.model.FixedAmount;
+
 public class IOManager {
 
     private final Reader reader;
@@ -18,6 +20,13 @@ public class IOManager {
     public String askVoucherTypeIndex() {
         writer.printVoucherTypeGuide();
         return reader.readLine();
+    }
+
+    public FixedAmount askFixedAmount() {
+        writer.printFixedAmountGuide();
+        String inputAmount = reader.readLine();
+        int amount = Integer.parseInt(inputAmount);
+        return new FixedAmount(amount);
     }
 
     public void notifyExit() {

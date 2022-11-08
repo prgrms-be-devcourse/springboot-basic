@@ -11,7 +11,8 @@ public class Writer {
     private static final String BLANK = " ";
     private static final String PROMPT_SIGNATURE = "> ";
 
-    private static final String VOUCHER_GUIDE = "Enter number you want to create.";
+    private static final String VOUCHER_GUIDE = "Enter index of voucher type you want to create.";
+    private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
 
     public void print(List<String> list) {
         list.forEach(System.out::println);
@@ -36,6 +37,12 @@ public class Writer {
             System.out.println(guide);
         });
 
+        printPromptSignature();
+    }
+
+    public void printFixedAmountGuide() {
+        printBlankLine();
+        System.out.println(FIXED_AMOUNT_GUIDE);
         printPromptSignature();
     }
 

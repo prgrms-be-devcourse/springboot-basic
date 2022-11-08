@@ -28,7 +28,7 @@ public class AppConfig {
 
     @Bean
     public VoucherManager voucherManager() {
-        return new VoucherManager();
+        return new VoucherManager(ioManager());
     }
 
     @Bean
