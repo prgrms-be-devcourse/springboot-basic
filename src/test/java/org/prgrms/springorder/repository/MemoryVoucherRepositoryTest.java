@@ -38,30 +38,6 @@ class MemoryVoucherRepositoryTest {
         memoryVoucherRepository.deleteAll();
     }
 
-    @DisplayName("저장 테스트 - 저장되어있는 객체 중 Id 값이 중복이면 예외를 던진다.")
-    @Test
-    void insertFixedAmountVoucherFailTestThrowsDuplicateException() {
-        //given
-        UUID randomUUID = UUID.randomUUID();
-        memoryVoucherRepository.insert(new FixedAmountVoucher(randomUUID, 100L));
-        Voucher newVoucher = new FixedAmountVoucher(randomUUID, 50L);
-
-        //when & then
-        assertThrows(DuplicateIdException.class, () -> memoryVoucherRepository.insert(newVoucher));
-    }
-
-    @DisplayName("저장 테스트 - 저장되어있는 객체 중 Id 값이 중복이면 예외를 던진다.")
-    @Test
-    void insertPercentDiscountVoucherFailTestThrowsDuplicateException() {
-        //given
-        UUID randomUUID = UUID.randomUUID();
-        memoryVoucherRepository.insert(new PercentDiscountVoucher(randomUUID, 100L));
-        Voucher newVoucher = new FixedAmountVoucher(randomUUID, 50L);
-
-        //when & then
-        assertThrows(DuplicateIdException.class, () -> memoryVoucherRepository.insert(newVoucher));
-    }
-
     @DisplayName("저장 테스트 - 객체가 성공적으로 저장된다.")
     @Test
     void insertPercentDiscountVoucherSuccessTest() {

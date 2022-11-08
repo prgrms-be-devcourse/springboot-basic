@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
+    // 프로그램 시작 종료시 덤프 생각해보자.
     private static final Logger logger = LoggerFactory.getLogger(FileBlockCustomerRepository.class);
 
     private final Map<UUID, BlockCustomer> storage = new ConcurrentHashMap<>();
@@ -43,7 +44,7 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
         readAll();
     }
 
-    private void createFile() throws IOException {
+    private void createFile() throws IOException { // 여기 있기 이상한애
         if (!fileStore.getParentFile().exists()) {
             fileStore.getParentFile().mkdirs();
         }
@@ -55,21 +56,13 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
     @Override
     public Optional<BlockCustomer> findById(UUID blockId) {
-        if (!storage.containsKey(blockId)) {
-            readAll();
-        }
-
         return Optional.ofNullable(storage.get(blockId));
     }
 
     @Override
     public BlockCustomer insert(BlockCustomer blockCustomer) {
-        readAll();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-        if (storage.containsKey(blockCustomer.getBlockId())) {
-            throw new DuplicateIdException("이미 저장되어 있는 VoucherId 입니다.");
-        }
 
         String insertData = String.format("%s, %s, %s", blockCustomer.getBlockId(),
             blockCustomer.getCustomerId(), blockCustomer.getRegisteredAt().format(formatter));
@@ -79,9 +72,10 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
             bufferedWriter.newLine();
         } catch (IOException e) {
             logger.warn("insert file error {}, {}", e.getMessage(), e.getClass().getName(), e);
+            throw new RuntimeException("file i/o error", e);
         }
 
-        storage.put(blockCustomer.getBlockId(), blockCustomer);
+        storage.putIfAbsent(blockCustomer.getBlockId(), blockCustomer);
         return blockCustomer;
     }
 
@@ -131,6 +125,7 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
         } catch (IOException e) {
             logger.warn("file read Error. {}r", e.getMessage());
+            throw new RuntimeException("file i/o error", e);
         }
     }
 

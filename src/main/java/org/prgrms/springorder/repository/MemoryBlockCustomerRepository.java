@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springorder.domain.BlockCustomer;
-import org.prgrms.springorder.exception.DuplicateIdException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -24,10 +23,7 @@ public class MemoryBlockCustomerRepository implements BlockCustomerRepository {
     @Override
     public BlockCustomer insert(BlockCustomer blockCustomer) {
 
-        if (storage.containsKey(blockCustomer.getBlockId())) {
-            throw new DuplicateIdException("이미 저장되어 있는 Id 입니다.");
-        }
-        storage.put(blockCustomer.getBlockId(), blockCustomer);
+        storage.putIfAbsent(blockCustomer.getBlockId(), blockCustomer);
         return blockCustomer;
     }
 

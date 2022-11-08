@@ -1,7 +1,6 @@
 package org.prgrms.springorder.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.repository.VoucherRepository;
 import org.prgrms.springorder.request.VoucherCreateRequest;
@@ -17,7 +16,7 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(VoucherCreateRequest request) {
-        Voucher voucher = VoucherFactory.create(request);
+        Voucher voucher = VoucherFactory.create(request); // 빈으로 관리되게 해볼까?
         return voucherRepository.insert(voucher);
     }
 

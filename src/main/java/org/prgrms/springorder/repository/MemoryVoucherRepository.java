@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.exception.DuplicateIdException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -23,12 +25,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (storage.containsKey(voucher.getVoucherId())) {
-            throw new DuplicateIdException("이미 저장되어 있는 VoucherId 입니다.");
-        }
-
-        storage.put(voucher.getVoucherId(), voucher);
-
+        storage.putIfAbsent(voucher.getVoucherId(), voucher);
         return voucher;
     }
 

@@ -31,9 +31,9 @@ class FileBlockCustomerRepositoryTest {
 
     private FileBlockCustomerRepository fileBlockCustomerRepository;
 
-    private String path = "test/store/";
-    private String fileName = "customer_blacklist";
-    private String fileExtension = ".csv";
+    private final String path = "test/store/";
+    private final String fileName = "customer_blacklist";
+    private final String fileExtension = ".csv";
 
     @BeforeAll
     public void init() throws IOException {
@@ -41,14 +41,14 @@ class FileBlockCustomerRepositoryTest {
             fileExtension);
     }
 
-//    @BeforeEach
-//    void after() {
-//        fileBlockCustomerRepository.deleteAll();
-//    }
+    @BeforeEach
+    void after() {
+        fileBlockCustomerRepository.deleteAll();
+    }
 
     @DisplayName("file 생성 테스트 - 레포지토리가 생성되면 파일은 생성되어 있다.")
     @Test
-    void fileCreateTest() {
+    void fileCreateTest() { // 의미없는 테스트
         // given
         String filePath = path + fileName + fileExtension;
         File file = new File(filePath);

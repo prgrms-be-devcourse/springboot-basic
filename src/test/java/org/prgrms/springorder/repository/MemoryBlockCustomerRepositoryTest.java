@@ -68,23 +68,6 @@ class MemoryBlockCustomerRepositoryTest {
         assertTrue(optionalBlockCustomer.isEmpty());
     }
 
-
-    @DisplayName("저장 테스트 - 저장되어있는 객체 중 Id 값이 중복이면 예외를 던진다.")
-    @Test
-    void insertFailTestThrowsDuplicateException() {
-        //given
-        UUID randomUUID = UUID.randomUUID();
-
-        memoryBlockCustomerRepository.insert(
-            new BlockCustomer(randomUUID, UUID.randomUUID(), LocalDateTime.now()));
-        BlockCustomer newBlockCustomer = new BlockCustomer(randomUUID, UUID.randomUUID(),
-            LocalDateTime.now());
-
-        //when & then
-        assertThrows(DuplicateIdException.class,
-            () -> memoryBlockCustomerRepository.insert(newBlockCustomer));
-    }
-
     @DisplayName("저장 테스트 - 객체가 성공적으로 저장된다.")
     @Test
     void insertSuccessTest() {
