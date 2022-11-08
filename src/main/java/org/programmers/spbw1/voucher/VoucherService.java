@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;

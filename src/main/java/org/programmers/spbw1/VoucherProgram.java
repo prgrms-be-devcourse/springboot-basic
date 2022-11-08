@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Optional;
-import java.util.UUID;
 
 public class VoucherProgram implements Runnable {
     private final Input input;
