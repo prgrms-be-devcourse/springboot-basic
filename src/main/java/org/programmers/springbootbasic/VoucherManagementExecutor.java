@@ -6,11 +6,14 @@ import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.dto.VoucherDto;
 import org.programmers.springbootbasic.dto.VoucherDtoConverter;
 import org.programmers.springbootbasic.dto.VoucherInputDto;
-import org.programmers.springbootbasic.exception.WrongInputException;
+import org.programmers.springbootbasic.exception.WrongRangeInputException;
+import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
 import org.programmers.springbootbasic.service.VoucherService;
 import org.programmers.springbootbasic.util.ConstantMessageUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,6 +27,7 @@ public class VoucherManagementExecutor {
     private final Output output;
     private final VoucherDtoConverter voucherDtoConverter;
     private final VoucherService voucherService;
+    private static Logger logger = LoggerFactory.getLogger(VoucherManagementExecutor.class);
 
 
     public void run() throws IOException {
@@ -54,10 +58,25 @@ public class VoucherManagementExecutor {
         while(continueJob) {
             try {
                 VoucherInputDto voucherInputDto = input.getVoucherCreateMenuInput(ConstantMessageUtil.TYPE_VOUCHER_INFO);
+                // 잘못된 입력값인지 확인
                 voucherInputDto.validateVoucher();
                 VoucherDto voucherDto = voucherDtoConverter.convertVoucherInput(voucherInputDto);
                 voucherService.createVoucher(voucherDto);
-            } catch(WrongInputException | IOException | NumberFormatException e) {
+            } catch(WrongTypeInputException e) {
+                logger.error("잘못된 type 입력입니다.");
+                output.printError();
+                continue;
+            } catch(WrongRangeInputException e) {
+                logger.error("잘못된 amount 범위의 입력입니다.");
+                output.printError();
+                continue;
+            }
+            catch(NumberFormatException e) {
+                logger.error("잘못된 amount 입력입니다.");
+                output.printError();
+                continue;
+            } catch(IOException e) {
+                logger.error("IOException");
                 output.printError();
                 continue;
             }
