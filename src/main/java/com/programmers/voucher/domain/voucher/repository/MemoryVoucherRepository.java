@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher.repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ import com.programmers.voucher.exception.VoucherNotFoundException;
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-	private static final HashMap<UUID, Voucher> repository = new HashMap<>();
+	private static final Map<UUID, Voucher> repository = new HashMap<>();
 	private static final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	@Override
