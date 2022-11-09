@@ -29,7 +29,11 @@ public class IOManager {
     public Amount askFixedDiscountAmount() {
         writer.printFixedAmountGuide();
         long fixedDiscountAmount = readNumber();
-        return new Amount(fixedDiscountAmount);
+
+//        try {
+//            return new Amount(fixedDiscountAmount)
+//        }
+//        return ;
     }
 
     public Ratio askFixedDiscountRatio() {
