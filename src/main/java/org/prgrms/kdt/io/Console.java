@@ -8,7 +8,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class Console {
-    public static final String COMMAND_LIST_PROMPT = "=== Voucher Program ===" + System.lineSeparator() +
+    public static final String COMMAND_LIST_PROMPT = System.lineSeparator() +
+            "=== Voucher Program ===" + System.lineSeparator() +
             "Type exit to exit the program." + System.lineSeparator() +
             "Type create to create a new voucher." + System.lineSeparator() +
             "Type list to list all vouchers" + System.lineSeparator();
