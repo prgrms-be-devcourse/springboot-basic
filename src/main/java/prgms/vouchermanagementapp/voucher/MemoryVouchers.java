@@ -13,6 +13,4 @@ public class MemoryVouchers {
     public void store(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
     }
-
-
 }

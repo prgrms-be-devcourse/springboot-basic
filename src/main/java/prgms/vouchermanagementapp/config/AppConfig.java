@@ -3,12 +3,12 @@ package prgms.vouchermanagementapp.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import prgms.vouchermanagementapp.controller.CommandExecutor;
-import prgms.vouchermanagementapp.controller.VoucherManager;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
 import prgms.vouchermanagementapp.voucher.MemoryVouchers;
 import prgms.vouchermanagementapp.voucher.VoucherCreator;
+import prgms.vouchermanagementapp.voucher.VoucherManager;
 
 @Configuration
 public class AppConfig {
@@ -40,7 +40,7 @@ public class AppConfig {
 
     @Bean
     public VoucherManager voucherManager() {
-        return new VoucherManager(ioManager(), voucherCreator(), memoryVouchers());
+        return new VoucherManager(voucherCreator(), memoryVouchers());
     }
 
     @Bean

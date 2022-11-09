@@ -2,6 +2,9 @@ package prgms.vouchermanagementapp.controller;
 
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
+import prgms.vouchermanagementapp.model.Amount;
+import prgms.vouchermanagementapp.voucher.VoucherManager;
+import prgms.vouchermanagementapp.voucher.VoucherType;
 
 public class CommandExecutor {
 
@@ -41,8 +44,13 @@ public class CommandExecutor {
     }
 
     private void runCreate() {
-        // 어떤타입을 고를지 입력받는다.
+        String voucherTypeIndex = ioManager.askVoucherTypeIndex();
+        VoucherType voucherType = VoucherType.of(voucherTypeIndex);
+
         // 타입에따라 추가정보를 입력 받고(입력은 똑같이 받아도 가능)
-        voucherManager.createVoucher();
+        if (voucherType.is(VoucherType.FixedAmountVoucher)) {
+            Amount fixedDiscountAmount = ioManager.askFixedDiscountAmount();
+            voucherManager.createVoucher(fixedDiscountAmount);
+        }
     }
 }
