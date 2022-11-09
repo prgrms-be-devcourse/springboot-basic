@@ -6,16 +6,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringOrderApplication implements CommandLineRunner {
+public class CommandLineApplication implements CommandLineRunner {
 
     private final CommandLineController controller;
 
-    public SpringOrderApplication(CommandLineController controller) {
+    public CommandLineApplication(CommandLineController controller) {
         this.controller = controller;
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringOrderApplication.class, args);
+        SpringApplication.run(CommandLineApplication.class, args);
     }
 
     @Override
