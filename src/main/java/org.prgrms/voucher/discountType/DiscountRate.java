@@ -1,6 +1,6 @@
 package org.prgrms.voucher.discountType;
 
-public class DiscountRate implements Discount {
+public class DiscountRate implements Amount {
 
   private final long value;
 

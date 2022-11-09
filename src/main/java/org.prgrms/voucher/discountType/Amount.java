@@ -1,6 +1,7 @@
 package org.prgrms.voucher.discountType;
 
-public interface Discount {
+public interface Amount {
 
   long getValue();
 }
+
