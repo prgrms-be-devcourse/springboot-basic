@@ -60,7 +60,6 @@ public class CommandLineApplication implements Runnable {
 
                 voucherService.register(voucherTypeInput, value);
                 view.printMessage(VOUCHER_CREATE_SUCCESS);
-
                 break;
 
             case LIST:

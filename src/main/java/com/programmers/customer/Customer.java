@@ -1,7 +1,7 @@
 package com.programmers.customer;
 
 public class Customer {
-    private final String name;
+    private String name;
 
     public Customer(String name) {
         this.name = name;

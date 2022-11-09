@@ -2,21 +2,33 @@ package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherType;
+import org.ini4j.Profile.Section;
 import org.ini4j.Wini;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 
 @Profile("dev")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
+    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final String VOUCHER_TYPE = "type";
     private static final String VOUCHER_VALUE = "value";
+    private final List<Voucher> memoryStore = new ArrayList<>();
+    private final List<Voucher> dumper = new ArrayList<>();
+
     private Wini wini;
 
     @Value("${kdt.voucher.save-path}")
@@ -30,56 +42,81 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         wini = new Wini(file);
+        load();
+    }
+
+    @PreDestroy
+    void syncToFile() {
+        dump();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return getVoucherFromFile(voucherId);
+
+        return memoryStore.stream()
+                .filter(memoryVoucher -> memoryVoucher.getVoucherId().equals(voucherId))
+                .findAny()
+                .or(() ->
+                        dumper.stream()
+                                .filter(dumperVoucher -> dumperVoucher.getVoucherId().equals(voucherId))
+                                .findAny()
+                );
     }
 
     @Override
     public List<Voucher> findAllVouchers() {
-        List<Voucher> vouchers = new ArrayList<>();
-        Set<String> voucherIdSet = wini.keySet();
-
-        for (String voucherId : voucherIdSet) {
-            Optional<Voucher> optionalVoucher = getVoucherFromFile(UUID.fromString(voucherId));
-            optionalVoucher.ifPresent(opVoucher -> vouchers.add(opVoucher));
-        }
-
-        return vouchers;
+        return Stream.of(memoryStore, dumper)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Voucher registerVoucher(Voucher voucher) {
-        UUID voucherId = voucher.getVoucherId();
-        long voucherValue = voucher.getValue();
-        String voucherClassName = voucher.getClass()
-                .getSimpleName()
-                .replaceAll("Voucher", "");
-
-        wini.put(voucherId.toString(), VOUCHER_VALUE, voucherValue);
-        wini.put(voucherId.toString(), VOUCHER_TYPE, voucherClassName);
-
-        try {
-            wini.store();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        dumper.add(voucher);
         return voucher;
-    }
-
-    private Optional<Voucher> getVoucherFromFile(UUID voucherId) {
-        String type = wini.get(voucherId.toString(), VOUCHER_TYPE);
-        long value = wini.get(voucherId.toString(), VOUCHER_VALUE, long.class);
-        Optional<VoucherType> voucherType = VoucherType.findVoucher(type);
-
-        return voucherType.map(voucher -> voucher.createVoucher(voucherId, value));
     }
 
     @Override
     public void deleteAll() {
         wini.clear();
+    }
+
+    private void load() {
+        for (Entry<String, Section> sections : wini.entrySet()) {
+            if (sections.getValue() != null) {
+                Section section = sections.getValue();
+
+                String id = section.getName();
+                String type = section.get("type");
+                long value = section.get("value", long.class);
+
+                Voucher voucher = VoucherType.getValidateVoucherType(type)
+                        .createVoucher(UUID.fromString(id), value);
+
+                memoryStore.add(voucher);
+            }
+        }
+    }
+
+    private void dump() {
+        for (Voucher voucher : dumper) {
+            UUID voucherId = voucher.getVoucherId();
+            String voucherClassName = voucher.getClass()
+                    .getSimpleName()
+                    .replaceAll("Voucher", "");
+
+            long voucherValue = voucher.getValue();
+
+            wini.put(voucherId.toString(), VOUCHER_TYPE, voucherClassName);
+            wini.put(voucherId.toString(), VOUCHER_VALUE, voucherValue);
+        }
+
+        try {
+            logger.info("파일 동기화 시작");
+            wini.store();
+            logger.info("파일 동기화 완료");
+        } catch (IOException e) {
+            logger.error("파일 동기화 중 에러 발생", e);
+        }
     }
 }
