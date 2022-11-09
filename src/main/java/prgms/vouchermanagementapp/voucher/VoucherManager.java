@@ -4,6 +4,9 @@ import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
 import prgms.vouchermanagementapp.voucher.model.PercentDiscountVoucher;
+import prgms.vouchermanagementapp.voucher.model.Voucher;
+
+import java.util.List;
 
 public class VoucherManager {
 
@@ -23,5 +26,9 @@ public class VoucherManager {
     public void createVoucher(Ratio fixedDiscountRatio) {
         PercentDiscountVoucher percentDiscountVoucher = voucherCreator.createPercentDiscountVoucher(fixedDiscountRatio);
         memoryVouchers.store(percentDiscountVoucher);
+    }
+
+    public List<Voucher> findVouchers() {
+        return memoryVouchers.getVouchers();
     }
 }

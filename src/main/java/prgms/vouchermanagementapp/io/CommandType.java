@@ -29,7 +29,7 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.command.equals(menu))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchFieldError(ExceptionMessage.NO_MENU_EXISTS.getMessage()));
+                .orElseThrow(() -> new NoSuchFieldError(ExceptionMessage.NO_MENU_EXISTS.getMessage() + menu));
     }
 
     public boolean is(CommandType commandType) {

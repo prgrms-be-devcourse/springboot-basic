@@ -2,6 +2,9 @@ package prgms.vouchermanagementapp.io;
 
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
+import prgms.vouchermanagementapp.voucher.model.Voucher;
+
+import java.util.List;
 
 public class IOManager {
 
@@ -42,5 +45,9 @@ public class IOManager {
 
     public void notifyExit() {
         writer.printExitMessage();
+    }
+
+    public void notifyVouchers(List<Voucher> vouchers) {
+        writer.printVouchers(vouchers);
     }
 }

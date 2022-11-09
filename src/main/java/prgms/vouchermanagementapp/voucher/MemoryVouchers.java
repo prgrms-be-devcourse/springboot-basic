@@ -2,9 +2,7 @@ package prgms.vouchermanagementapp.voucher;
 
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MemoryVouchers {
 
@@ -12,5 +10,9 @@ public class MemoryVouchers {
 
     public void store(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
+    }
+
+    public List<Voucher> getVouchers() {
+        return new ArrayList<>(vouchers.values());
     }
 }

@@ -6,6 +6,9 @@ import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
+import prgms.vouchermanagementapp.voucher.model.Voucher;
+
+import java.util.List;
 
 public class CommandExecutor {
 
@@ -36,6 +39,11 @@ public class CommandExecutor {
 
         if (commandType.is(CommandType.CREATE)) {
             runCreate();
+            return;
+        }
+
+        if (commandType.is(CommandType.LIST)) {
+            runList();
         }
     }
 
@@ -48,7 +56,6 @@ public class CommandExecutor {
         String voucherTypeIndex = ioManager.askVoucherTypeIndex();
         VoucherType voucherType = VoucherType.of(voucherTypeIndex);
 
-        // 타입에따라 추가정보를 입력 받고(입력은 똑같이 받아도 가능)
         if (voucherType.is(VoucherType.FixedAmountVoucher)) {
             Amount fixedDiscountAmount = ioManager.askFixedDiscountAmount();
             voucherManager.createVoucher(fixedDiscountAmount);
@@ -58,5 +65,10 @@ public class CommandExecutor {
             Ratio fixedDiscountRatio = ioManager.askFixedDiscountRatio();
             voucherManager.createVoucher(fixedDiscountRatio);
         }
+    }
+
+    private void runList() {
+        List<Voucher> vouchers = voucherManager.findVouchers();
+        ioManager.notifyVouchers(vouchers);
     }
 }

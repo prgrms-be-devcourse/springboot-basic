@@ -2,8 +2,10 @@ package prgms.vouchermanagementapp.io;
 
 import prgms.vouchermanagementapp.io.message.SystemMessage;
 import prgms.vouchermanagementapp.voucher.VoucherType;
+import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Writer {
 
@@ -14,9 +16,23 @@ public class Writer {
     private static final String VOUCHER_GUIDE = "Enter index of voucher type you want to create.";
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
     private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
+    private static final String NO_VOUCHER_EXISTS = "There is no voucher. please create voucher first";
 
     public void print(List<String> list) {
         list.forEach(System.out::println);
+    }
+
+    public void printVouchers(List<Voucher> list) {
+        if (list.isEmpty()) {
+            System.out.println(NO_VOUCHER_EXISTS);
+            return;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        list.forEach((voucher) -> {
+            String prompt = index.incrementAndGet() + BLANK + voucher.getClass().toString();
+            System.out.println(prompt);
+        });
     }
 
     public void printCommandGuide() {
@@ -64,5 +80,4 @@ public class Writer {
     private void printBlankLine() {
         System.out.println();
     }
-
 }
