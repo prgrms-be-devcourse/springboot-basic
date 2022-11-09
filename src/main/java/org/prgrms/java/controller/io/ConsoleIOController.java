@@ -14,11 +14,6 @@ public class ConsoleIOController implements IOController {
     }
 
     @Override
-    public void write(String message) {
-        System.out.println(message);
-    }
-
-    @Override
     public void write(Object object) {
         System.out.println(object.toString());
     }
