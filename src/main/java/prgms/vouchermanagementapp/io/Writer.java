@@ -13,6 +13,7 @@ public class Writer {
 
     private static final String VOUCHER_GUIDE = "Enter index of voucher type you want to create.";
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
+    private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
 
     public void print(List<String> list) {
         list.forEach(System.out::println);
@@ -46,6 +47,12 @@ public class Writer {
         printPromptSignature();
     }
 
+    public void printFixedDiscountRatioGuide() {
+        printBlankLine();
+        System.out.println(FIXED_DISCOUNT_RATIO_GUIDE);
+        printPromptSignature();
+    }
+
     public void printExitMessage() {
         System.out.println(SystemMessage.EXIT.getMessage());
     }
@@ -57,4 +64,5 @@ public class Writer {
     private void printBlankLine() {
         System.out.println();
     }
+
 }

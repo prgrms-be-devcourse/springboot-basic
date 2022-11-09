@@ -3,6 +3,7 @@ package prgms.vouchermanagementapp.controller;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
+import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 
@@ -51,6 +52,11 @@ public class CommandExecutor {
         if (voucherType.is(VoucherType.FixedAmountVoucher)) {
             Amount fixedDiscountAmount = ioManager.askFixedDiscountAmount();
             voucherManager.createVoucher(fixedDiscountAmount);
+        }
+
+        if (voucherType.is(VoucherType.PercentDiscountVoucher)) {
+            Ratio fixedDiscountRatio = ioManager.askFixedDiscountRatio();
+            voucherManager.createVoucher(fixedDiscountRatio);
         }
     }
 }

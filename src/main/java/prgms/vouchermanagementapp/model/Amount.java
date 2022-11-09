@@ -9,6 +9,6 @@ public class Amount {
     }
 
     public long getAmount() {
-        return amount;
+        return this.amount;
     }
 }
