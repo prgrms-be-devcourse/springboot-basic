@@ -1,5 +1,7 @@
 package org.prgrms.java.domain.voucher;
 
+import org.prgrms.java.exception.VoucherException;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -7,6 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        if (amount <= 0) throw new VoucherException("Voucher amount should be positive.");
         this.voucherId = voucherId;
         this.amount = amount;
     }

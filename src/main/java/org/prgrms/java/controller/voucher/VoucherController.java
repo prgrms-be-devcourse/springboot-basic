@@ -48,9 +48,12 @@ public class VoucherController implements CommandLineRunner {
                     case BLACK_LIST:
                         getBlackUsers();
                 }
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
                 ioController.write(e.getMessage());
+                logger.warn(e.getMessage());
+            } catch (Exception e) {
                 logger.error(e.getMessage());
+                isRunning = false;
             }
         }
     }

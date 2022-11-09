@@ -1,5 +1,7 @@
 package org.prgrms.java.domain.voucher;
 
+import org.prgrms.java.exception.VoucherException;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -7,6 +9,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        if (percent <= 0) throw new VoucherException("Voucher percent should be positive.");
         this.voucherId = voucherId;
         this.percent = percent;
     }
