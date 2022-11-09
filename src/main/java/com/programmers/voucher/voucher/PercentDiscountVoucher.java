@@ -1,6 +1,7 @@
 package com.programmers.voucher.voucher;
 
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -31,5 +32,18 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getValue() {
         return percentage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return percentage == that.percentage && Objects.equals(getVoucherId(), that.getVoucherId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVoucherId(), percentage);
     }
 }
