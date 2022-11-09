@@ -4,6 +4,8 @@ import org.prgrms.kdt.exceptions.WrongVoucherTypeException;
 
 import java.util.Arrays;
 
+import static org.prgrms.kdt.io.IOManager.getSelectWrongMessage;
+
 public enum VoucherType {
     FIXED_VOUCHER("1"),
     PERCENT_VOUCHER("2"),

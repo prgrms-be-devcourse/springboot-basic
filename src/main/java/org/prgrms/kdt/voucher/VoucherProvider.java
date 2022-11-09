@@ -3,8 +3,7 @@ package org.prgrms.kdt.voucher;
 import org.prgrms.kdt.exceptions.WrongVoucherTypeException;
 import org.prgrms.kdt.utils.VoucherType;
 import org.springframework.stereotype.Service;
-
-import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,8 +33,10 @@ public class VoucherProvider {
         }
     }
 
-    public List<Voucher> list(){
-        if(voucherStorage.findAll().isEmpty()) throw new NoVoucherException("아직 생성된 바우처가 없습니다.");
+    public List<Voucher> list() {
+        if (voucherStorage.findAll().isEmpty()) {
+            return new ArrayList<>();
+        }
         return voucherStorage.findAll();
     }
 }

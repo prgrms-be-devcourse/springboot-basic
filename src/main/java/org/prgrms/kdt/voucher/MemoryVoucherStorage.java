@@ -3,7 +3,6 @@ package org.prgrms.kdt.voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collector;
 
 @Repository
 public class MemoryVoucherStorage implements VoucherStorage {
@@ -18,7 +17,8 @@ public class MemoryVoucherStorage implements VoucherStorage {
     @Override
     public List<Voucher> findAll() {
         return memoryVoucherStorage.values()
-                .stream().toList();
+                .stream()
+                .toList();
     }
 
     @Override
