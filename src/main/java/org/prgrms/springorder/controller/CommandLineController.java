@@ -1,5 +1,7 @@
 package org.prgrms.springorder.controller;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.prgrms.springorder.request.VoucherCreateRequest;
 import org.prgrms.springorder.service.BlockCustomerService;
@@ -40,7 +42,7 @@ public class CommandLineController {
             } catch (RuntimeException e) {
                 logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(),
                     e.getMessage());
-                console.showMessages(e.getMessage());
+                console.showMessage(e.getMessage());
             }
         }
     }
@@ -50,29 +52,30 @@ public class CommandLineController {
             case CREATE -> {
                 VoucherCreateRequest voucherCreateRequest = console.getVoucherCreateRequest();
 
-                console.showMessages(
+                console.showMessage(
                     "created Voucher. : " + voucherService.createVoucher(voucherCreateRequest));
             }
 
-            case LIST -> console.showMessages(voucherService.findAll().stream()
-                .map(Object::toString)
-                .collect(Collectors.toList()));
+            case LIST -> console.showMessages(voucherService.findAllConvertedToString());
 
-            case BLACKLIST -> console.showMessages(blockCustomerService.findAll().stream()
-                .map(Object::toString)
-                .collect(Collectors.toList()));
+            case BLACKLIST -> console.showMessages(blockCustomerService.findAllConvertedToString());
 
             case EXIT -> ConsoleRunningStatus.stop();
         }
     }
 
     private void displayCommandGuide() {
-        console.showMessages("=== Voucher Program ===",
+        console.showMessages(new String[]{"=== Voucher Program ===",
             "Type 'exit' to exit the program. ",
             "Type 'create' to create a new voucher.",
             "Type 'list' to list all vouchers.",
-            "Type 'black-list' to list all black list customers."
+            "Type 'black-list' to list all black list customers."}
         );
+    }
+
+    private List<String> toStringList(List<Object> objects) {
+        Objects.requireNonNull(objects);
+        return objects.stream().map(Object::toString).collect(Collectors.toList());
     }
 
 }

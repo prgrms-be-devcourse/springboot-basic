@@ -1,6 +1,7 @@
 package org.prgrms.springorder.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.repository.VoucherRepository;
 import org.prgrms.springorder.request.VoucherCreateRequest;
@@ -22,6 +23,12 @@ public class VoucherService {
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    public List<String> findAllConvertedToString() {
+        return findAll().stream()
+            .map(Object::toString)
+            .collect(Collectors.toList());
     }
 
 }

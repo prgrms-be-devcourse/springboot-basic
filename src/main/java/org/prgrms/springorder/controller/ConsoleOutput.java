@@ -2,7 +2,6 @@ package org.prgrms.springorder.controller;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +16,24 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void showMessages(String... message) {
-        Arrays.stream(message).forEach(s -> {
-            try {
-                bufferedWriter.write(s);
-                bufferedWriter.newLine();
-                bufferedWriter.flush();
-            } catch (IOException e) {
-                logger.error("showMessage write error", e);
-                throw new RuntimeException(e.getMessage(), e);
-            }
-        });
+    public void showMessages(String[] messages) {
+        for (String message : messages) {
+            showMessage(message);
+        }
+
     }
+
+    @Override
+    public void showMessage(String message) {
+        try {
+            bufferedWriter.write(message);
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            logger.error("showMessage write error", e);
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
 
 }

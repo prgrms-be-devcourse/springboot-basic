@@ -39,7 +39,7 @@ class ConsoleOutputTest {
         //given
         String expectedMessage = message + "\n";
         //when
-        consoleOutput.showMessages(message);
+        consoleOutput.showMessage(message);
         //then
         assertEquals(expectedMessage, output.toString());
     }

@@ -4,7 +4,7 @@ import java.util.List;
 import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.request.VoucherCreateRequest;
 
-public class Console  {
+public class Console {
 
     private final Input input;
 
@@ -15,13 +15,17 @@ public class Console  {
         this.output = output;
     }
 
-    public void showMessages(String... messages) {
+    public void showMessage(String message) {
+        output.showMessage(message);
+    }
+
+    public void showMessages(String[] messages) {
         output.showMessages(messages);
     }
 
     public void showMessages(List<String> messages) {
         if (messages.isEmpty()) {
-            output.showMessages("저장된 데이터가 없습니다. ");
+            output.showMessage("저장된 데이터가 없습니다.");
             return;
         }
 
@@ -43,9 +47,9 @@ public class Console  {
     }
 
     public VoucherCreateRequest getVoucherCreateRequest() {
-        output.showMessages("select voucherType 'fixed' or 'percent' : ");
+        output.showMessage("select voucherType 'fixed' or 'percent' : ");
         String inputVoucherType = input();
-        output.showMessages("input discount amount : ");
+        output.showMessage("input discount amount : ");
         long discountAmount = inputStringToLong();
 
         VoucherType voucherType = VoucherType.of(inputVoucherType);

@@ -1,6 +1,7 @@
 package org.prgrms.springorder.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -124,11 +126,7 @@ class VoucherServiceTest {
         int size = 5;
 
         when(voucherRepositoryMock.findAll()).thenReturn(
-            IntStream.range(0, size)
-                .mapToObj(i -> i % 2 == 0
-                    ? new FixedAmountVoucher(UUID.randomUUID(), i)
-                    : new PercentDiscountVoucher(UUID.randomUUID(), i))
-                .collect(Collectors.toList())
+            getVoucherList(size)
         );
 
         //when
@@ -159,6 +157,62 @@ class VoucherServiceTest {
         assertTrue(vouchers.isEmpty());
 
         verify(voucherRepositoryMock).findAll();
+    }
+
+    @Test
+    @DisplayName("Voucher findAllConvertedToString() 테스트 - 비어있지 않으면, 저장된 모든 바우처 정보가 조회된다.")
+    void findAllConvertedToStringNotEmptyListTest() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+        int size = 5;
+        List<Voucher> voucherList = getVoucherList(size);
+
+        List<String> convertedToStringVoucherList = voucherList.stream()
+            .map(Objects::toString)
+            .collect(Collectors.toList());
+
+        when(voucherRepositoryMock.findAll()).thenReturn(
+            voucherList
+        );
+
+        //when
+        List<String> vouchers = voucherService.findAllConvertedToString();
+
+        //then
+        assertNotNull(vouchers);
+        assertEquals(size, vouchers.size());
+        assertLinesMatch(convertedToStringVoucherList, vouchers);
+
+        verify(voucherRepositoryMock).findAll();
+    }
+
+    @Test
+    @DisplayName("Voucher findAllConvertedToString() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
+    void findAllConvertedToStringReturnEmptyListTest() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        when(voucherRepositoryMock.findAll())
+            .thenReturn(new ArrayList<>());
+
+        //when
+        List<String> vouchers = voucherService.findAllConvertedToString();
+
+        //then
+        assertNotNull(vouchers);
+        assertTrue(vouchers.isEmpty());
+
+        verify(voucherRepositoryMock).findAll();
+    }
+
+    private List<Voucher> getVoucherList(int size) {
+        return IntStream.range(0, size)
+            .mapToObj(i -> i % 2 == 0
+                ? new FixedAmountVoucher(UUID.randomUUID(), i)
+                : new PercentDiscountVoucher(UUID.randomUUID(), i))
+            .collect(Collectors.toList());
     }
 
 
