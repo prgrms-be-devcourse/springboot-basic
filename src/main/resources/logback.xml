@@ -1,6 +1,7 @@
 <configuration debug="true">
 
-  <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+  <property name="FILE_LOG_PATTERN"
+    value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
   <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>logs/error.log</file>
@@ -17,6 +18,9 @@
   <logger level="info" name="org.prgrms.springorder" additivity="false">
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
-
+  
+  <root level="warn">
+    <appender-ref ref="ROLLING_FILE"/>
+  </root>
 
 </configuration>
