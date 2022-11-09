@@ -44,6 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			writer.flush();
 		} catch (IOException e) {
 			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 	}
 
@@ -61,6 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 
 		log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
@@ -82,6 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 
 		return vouchers;
@@ -94,6 +97,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			clearWriter.close();
 		} catch (IOException e) {
 			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 	}
 }

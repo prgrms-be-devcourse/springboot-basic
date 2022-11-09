@@ -46,6 +46,7 @@ public class FileCustomerRepository implements CustomerRepository {
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 
 		return customers;
