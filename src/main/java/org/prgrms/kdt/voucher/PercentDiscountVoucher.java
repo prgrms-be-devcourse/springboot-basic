@@ -1,17 +1,22 @@
 package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.exceptions.AmountException;
-import org.prgrms.kdt.exceptions.ExceptionMessageType;
 
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private final int MAX_PERCENT_LIMIT = 100;
+    private final int MIN_PERCENT_LIMIT = 1;
+    private final double percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent > 100) throw new AmountException(ExceptionMessageType.AMOUNT_OVER_100.getMessage());
-        if (percent <= 0) throw new AmountException(ExceptionMessageType.AMOUNT_UNDER_ZERO.getMessage());
+    public PercentDiscountVoucher(UUID voucherId, double percent) {
+        if (percent > MAX_PERCENT_LIMIT) {
+            throw new AmountException("퍼센트는 100 이하여야 합니다.");
+        }
+        if (percent <= MIN_PERCENT_LIMIT) {
+            throw new AmountException("퍼센트는 1 이상이어야 합니다.");
+        }
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -22,12 +27,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
+    public double getAmount() {
         return percent;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public double discount(double beforeDiscount) {
         return beforeDiscount * (percent / 100);
     }
 }

@@ -5,9 +5,10 @@ import org.prgrms.kdt.exceptions.AmountException;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    private static final long MAX_VOUCHER = 10000;
+    private static final long MAX_VOUCHER_LIMIT = 10000;
+    private static final long MIN_VOUCHER_LIMIT = 10;
     private final UUID voucherId;
-    private final long amount;
+    private final double amount;
 
     @Override
     public UUID getVoucherId() {
@@ -15,20 +16,20 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= 0) throw new AmountException("Should be positive");
-        if (amount > MAX_VOUCHER) throw new AmountException("Should be less than %d".formatted(MAX_VOUCHER));
+    public FixedAmountVoucher(UUID voucherId, double amount) {
+        if (amount <= MIN_VOUCHER_LIMIT) throw new AmountException("숫자가 0보다 커야 합니다. 다시 작성해주세요.");
+        if (amount > MAX_VOUCHER_LIMIT) throw new AmountException("%d 이하여야 합니다.".formatted(MAX_VOUCHER_LIMIT));
         this.voucherId = voucherId;
         this.amount = amount;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public double discount(double beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
-        return (discountedAmount < 0) ? 0 : discountedAmount;
+        return Double.max(discountedAmount, 0);
     }
 }

@@ -1,15 +1,14 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.exceptions.NoVoucherException;
 import org.prgrms.kdt.exceptions.WrongVoucherTypeException;
-import org.prgrms.kdt.utils.MessageType;
 import org.prgrms.kdt.utils.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+
+import static org.prgrms.kdt.io.IOManager.getSelectWrongMessage;
 
 @Service
 public class VoucherProvider {
@@ -21,11 +20,17 @@ public class VoucherProvider {
         this.voucherStorage = voucherStorage;
     }
 
-    public void create(VoucherType voucherType, long amount){
-        switch (voucherType){
-            case FIXED_VOUCHER -> voucherStorage.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
-            case PERCENT_VOUCHER -> voucherStorage.save(new PercentDiscountVoucher(UUID.randomUUID(), amount));
-            default -> throw new WrongVoucherTypeException(MessageType.SELECT_WRONG.getMessage());
+    public void create(VoucherType voucherType, double amount) {
+        switch (voucherType) {
+            case FIXED_VOUCHER -> {
+                voucherStorage.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
+            }
+            case PERCENT_VOUCHER -> {
+                voucherStorage.save(new PercentDiscountVoucher(UUID.randomUUID(), amount));
+            }
+            default -> {
+                throw new WrongVoucherTypeException(getSelectWrongMessage());
+            }
         }
     }
 

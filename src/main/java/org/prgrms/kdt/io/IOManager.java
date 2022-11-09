@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.utils.MessageType;
+import org.prgrms.kdt.exceptions.AmountException;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -41,8 +41,13 @@ public class IOManager {
                 .strip();
     }
 
-    public long getAmountInput(){
-        return Long.parseLong(console.read().strip());
+    public double getAmountInput() {
+        try {
+            return Double.parseDouble(console.read()
+                    .strip());
+        } catch (NumberFormatException e) {
+            throw new AmountException("할인 정도는 정수나 실수로만 입력 가능합니다.");
+        }
     }
 
     public void writeExceptionMessage(String message) {
