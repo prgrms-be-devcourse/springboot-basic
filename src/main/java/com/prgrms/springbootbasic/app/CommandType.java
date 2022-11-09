@@ -1,9 +1,9 @@
-package com.prgrms.springbootbasic.handler.menu;
+package com.prgrms.springbootbasic.app;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
 
-public enum CommandType {
+enum CommandType {
     CREATE("create"),
     LIST("list"),
     EXIT("exit");
@@ -16,10 +16,6 @@ public enum CommandType {
 
     private String getCommand() {
         return command;
-    }
-
-    public boolean isExit() {
-        return this.equals(EXIT);
     }
 
     public static CommandType findByCommand(String inputCommand) {
