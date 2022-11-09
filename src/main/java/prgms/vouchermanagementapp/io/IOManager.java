@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.io;
 
-import prgms.vouchermanagementapp.model.FixedAmount;
+import prgms.vouchermanagementapp.model.Amount;
 
 public class IOManager {
 
@@ -22,11 +22,11 @@ public class IOManager {
         return reader.readLine();
     }
 
-    public FixedAmount askFixedAmount() {
+    public Amount askFixedDiscountAmount() {
         writer.printFixedAmountGuide();
         String inputAmount = reader.readLine();
-        int amount = Integer.parseInt(inputAmount);
-        return new FixedAmount(amount);
+        long fixedDiscountAmount = Long.parseLong(inputAmount);
+        return new Amount(fixedDiscountAmount);
     }
 
     public void notifyExit() {

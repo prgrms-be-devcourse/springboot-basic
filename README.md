@@ -34,7 +34,7 @@
 - [ ] FixedAmountVoucher
     - [x] 고정 할인 금액 입력
     - [ ] 할인 금액 유효성 검증 (금액 > 0)
-    - [ ] 바우처 생성
+    - [x] 바우처 생성
     - [ ] 바우처 저장
 - [ ] PercentAmountVoucher
     - [ ] 고정 할인 비율(%) 입력
