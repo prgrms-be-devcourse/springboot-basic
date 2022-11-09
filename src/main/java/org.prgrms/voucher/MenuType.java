@@ -17,7 +17,7 @@ public enum MenuType {
   public static MenuType of(String inputMenu) {
     return Stream.of(MenuType.values())
         .filter(type -> type.menu.equals(inputMenu))
-        .findFirst()
+        .findAny()
         .orElseThrow(() -> new NoSuchMenuTypeException(
             "The command " + inputMenu + "could not be found. Please re-enter"));
   }
