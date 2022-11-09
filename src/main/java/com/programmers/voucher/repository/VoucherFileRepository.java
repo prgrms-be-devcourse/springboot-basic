@@ -1,7 +1,8 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.model.Voucher;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileWriter;
@@ -10,15 +11,16 @@ import java.io.IOException;
 import java.util.List;
 
 @Repository
-@Primary
+@Profile("local")
 public class VoucherFileRepository implements VoucherRepository {
 
-    private final String FILE_NAME = "src/main/resources/file/voucher.txt";
     private FileWriter writer;
+    private String fileName;
 
-    public VoucherFileRepository() {
+    public VoucherFileRepository(@Value("${file.path.voucher}") String fileName) {
+        this.fileName = fileName;
         try {
-            writer = new FileWriter(FILE_NAME, true);
+            writer = new FileWriter(fileName, true);
         } catch (IOException e) {
             throw new RuntimeException("파일 생성에 실패하였습니다.");
         }
