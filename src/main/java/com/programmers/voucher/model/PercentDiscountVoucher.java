@@ -4,11 +4,18 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final long discountPercent;
 
-    public PercentDiscountVoucher(UUID voucherId, long amount) {
+    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
+        validateZeroDiscount(discountPercent);
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountPercent = discountPercent;
+    }
+
+    private void validateZeroDiscount(long discountPercent) {
+        if (discountPercent == 0) {
+            throw new IllegalArgumentException("할인 0%는 불가합니다.");
+        }
     }
 
     @Override
@@ -17,12 +24,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount() {
-        return 0;
+    public long discount(long beforeDiscount) {
+        return (long) (beforeDiscount * (1 - (discountPercent / 100.0)));
     }
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT_DISCOUNT_VOUCHER, voucherId, amount);
+        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT_DISCOUNT_VOUCHER, voucherId, discountPercent);
     }
 }
