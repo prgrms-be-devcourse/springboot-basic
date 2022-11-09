@@ -1,6 +1,9 @@
 package org.prgrms.kdt.voucher;
 
-public interface VoucherManager {
+import java.util.List;
 
-    Voucher addVoucher(Voucher voucher);
+public interface VoucherManager {
+    Voucher save(Voucher voucher);
+
+    List<Voucher> findAll();
 }

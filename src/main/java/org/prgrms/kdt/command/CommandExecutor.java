@@ -1,26 +1,34 @@
 package org.prgrms.kdt.command;
 
+import org.prgrms.kdt.voucher.utils.VoucherMapper;
+import org.prgrms.kdt.voucher.utils.VoucherValidator;
 import org.prgrms.kdt.voucher.*;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class CommandExecutor {
 
-    private final VoucherMapper vouchersMapper;
-    private final VoucherValidator voucherValidator;
     private final VoucherManager voucherManager;
+    private final VoucherValidator voucherValidator;
+    private final VoucherMapper voucherMapper;
 
-    public CommandExecutor(VoucherMapper vouchersMapper, VoucherValidator voucherValidator, VoucherManager voucherManager) {
-        this.vouchersMapper = vouchersMapper;
-        this.voucherValidator = voucherValidator;
+    public CommandExecutor(VoucherManager voucherManager, VoucherValidator voucherValidator, VoucherMapper voucherMapper) {
         this.voucherManager = voucherManager;
+        this.voucherValidator = voucherValidator;
+        this.voucherMapper = voucherMapper;
     }
 
-    public void createVoucher(VoucherInfo voucherInfo) {
-        Voucher voucher = vouchersMapper.mapFrom(voucherInfo);
+    public void create(VoucherMetaData voucherMetaData) {
+        Voucher voucher = voucherMapper.MetaDataToVoucher(voucherMetaData);
 
-        voucherValidator.validate(voucher);
+        voucher.validate(voucherValidator);
 
-        voucherManager.addVoucher(voucher);
+        voucherManager.save(voucher);
+    }
+
+    public List<Voucher> list() {
+        return voucherManager.findAll();
     }
 }
