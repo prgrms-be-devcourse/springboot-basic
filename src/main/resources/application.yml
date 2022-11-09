@@ -1,0 +1,21 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: file
+
+---
+
+repository:
+  file:
+    voucher:
+      save-path: ./src/main/resources/voucher_list.csv
+
+
+
