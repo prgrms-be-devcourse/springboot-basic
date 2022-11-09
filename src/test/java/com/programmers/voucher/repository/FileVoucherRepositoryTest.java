@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -27,9 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FileVoucherRepositoryTest {
 
     @Autowired
-    ApplicationContext ac;
-
-    @Autowired
     Wini wini;
 
     @Autowired
@@ -42,10 +38,9 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("실행중에 저장한 바우처는 dumper에서 검색할 수 있어야 한다.")
-    void 조회테스트() {
+    void dumper테스트1() {
         Voucher voucher = PercentDiscount.createVoucher(UUID.randomUUID(), 5);
         repository.registerVoucher(voucher);
-
         Optional<Voucher> result = repository.getDumper().stream()
                 .filter(vouchers -> vouchers.equals(voucher))
                 .findFirst();
@@ -58,8 +53,23 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("실행중에 저장한 바우처의 개수는 dumper의 크기와 일치해야 한다.")
+    void dumper테스트2() {
+        Voucher voucher1 = PercentDiscount.createVoucher(UUID.randomUUID(), 5);
+        Voucher voucher2 = FixedAmount.createVoucher(UUID.randomUUID(), 5000);
+        Voucher voucher3 = PercentDiscount.createVoucher(UUID.randomUUID(), 10);
+
+        repository.registerVoucher(voucher1);
+        repository.registerVoucher(voucher2);
+        repository.registerVoucher(voucher3);
+
+
+        assertEquals(repository.getDumper().size(), 3);
+    }
+
+    @Test
     @DisplayName("실행전 파일에 저장된 바우처의 개수와 loadStore의 size는 동일해야 한다.")
-    void 조회테스트2() {
+    void load테스트1() {
         Set<String> voucherList = wini.keySet();
         List<Voucher> loadStore = repository.getLoadStore();
 
@@ -68,7 +78,7 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("실행전 파일에 저장된 바우처의 Id는 loadStore에 저장된 바우처의 Id와 일치해야 한다.")
-    void 조회테스트3() {
+    void load테스트2() {
         Set<String> voucherSet = wini.keySet();
         List<Voucher> loadStore = repository.getLoadStore();
 
