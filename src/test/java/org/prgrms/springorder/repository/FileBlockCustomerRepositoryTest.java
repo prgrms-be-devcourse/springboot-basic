@@ -3,6 +3,8 @@ package org.prgrms.springorder.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springorder.config.BlockCustomerProperties;
 import org.prgrms.springorder.domain.BlockCustomer;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -36,9 +39,9 @@ class FileBlockCustomerRepositoryTest {
     private final String fileExtension = ".csv";
 
     @BeforeAll
-    public void init() throws IOException {
-        fileBlockCustomerRepository = new FileBlockCustomerRepository(path, fileName,
-            fileExtension);
+    public void init() {
+        BlockCustomerProperties blockCustomerProperties = new BlockCustomerProperties(path, fileName, fileExtension);
+        fileBlockCustomerRepository = new FileBlockCustomerRepository(blockCustomerProperties);
     }
 
     @BeforeEach
@@ -51,11 +54,13 @@ class FileBlockCustomerRepositoryTest {
     void findByIdSuccess() {
         //given
         UUID randomUUID = UUID.randomUUID();
-        BlockCustomer blockCustomer = new BlockCustomer(randomUUID, UUID.randomUUID(), LocalDateTime.now());
+        BlockCustomer blockCustomer = new BlockCustomer(randomUUID, UUID.randomUUID(),
+            LocalDateTime.now());
         fileBlockCustomerRepository.insert(blockCustomer);
 
         //when
-        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(randomUUID);
+        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(
+            randomUUID);
 
         //then
         assertTrue(optionalBlockCustomer.isPresent());
@@ -71,7 +76,8 @@ class FileBlockCustomerRepositoryTest {
         UUID randomUUID = UUID.randomUUID();
 
         //when
-        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(randomUUID);
+        Optional<BlockCustomer> optionalBlockCustomer = fileBlockCustomerRepository.findById(
+            randomUUID);
 
         //then
         assertTrue(optionalBlockCustomer.isEmpty());

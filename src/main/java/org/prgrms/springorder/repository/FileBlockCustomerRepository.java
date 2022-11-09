@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.springorder.config.BlockCustomerProperties;
 import org.prgrms.springorder.domain.BlockCustomer;
 import org.prgrms.springorder.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -31,14 +31,11 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
     private final File fileStore;
 
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
+        "yyyy-MM-dd HH:mm:ss.SSS");
 
-    public FileBlockCustomerRepository(
-        @Value("${file.block-customer.path}") String path,
-        @Value("${file.block-customer.stored-name}") String fileName,
-        @Value("${file.block-customer.stored-extension}") String fileExtension){
-
-        fileStore = FileUtil.createFile(path, fileName + fileExtension);
+    public FileBlockCustomerRepository(BlockCustomerProperties properties) {
+        fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
 
         readAll();
     }

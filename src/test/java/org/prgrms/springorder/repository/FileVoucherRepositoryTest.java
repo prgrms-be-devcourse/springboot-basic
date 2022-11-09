@@ -19,6 +19,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springorder.config.VoucherFileProperties;
 import org.prgrms.springorder.domain.FixedAmountVoucher;
 import org.prgrms.springorder.domain.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.Voucher;
@@ -38,8 +39,8 @@ class FileVoucherRepositoryTest {
 
     @BeforeAll
     public void init() {
-        fileVoucherRepository = new FileVoucherRepository(path, fileName,
-            fileExtension);
+        VoucherFileProperties voucherFileProperties = new VoucherFileProperties(path, fileName, fileExtension);
+        fileVoucherRepository = new FileVoucherRepository(voucherFileProperties);
     }
 
     @BeforeEach

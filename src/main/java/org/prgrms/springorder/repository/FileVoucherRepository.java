@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.springorder.config.VoucherFileProperties;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.service.VoucherFactory;
@@ -31,12 +32,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final File fileStore;
 
-    public FileVoucherRepository(
-        @Value("${file.voucher.path}") String path,
-        @Value("${file.voucher.stored-name}") String fileName,
-        @Value("${file.voucher.stored-extension}") String fileExtension) {
+    public FileVoucherRepository(VoucherFileProperties properties) {
 
-        fileStore = FileUtil.createFile(path, fileName + fileExtension);
+        fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
         readAll();
     }
 
