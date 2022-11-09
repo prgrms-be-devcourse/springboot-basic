@@ -1,6 +1,6 @@
-package com.prgrms.springbootbasic.handler.vocuher.dto;
+package com.prgrms.springbootbasic.voucher.dto;
 
-import com.prgrms.springbootbasic.handler.vocuher.VoucherType;
+import com.prgrms.springbootbasic.voucher.VoucherType;
 
 public class VoucherInfo {
 
@@ -11,4 +11,14 @@ public class VoucherInfo {
         this.voucherType = voucherType;
         this.amount = amount;
     }
+
+    public VoucherType getType(){
+        return voucherType;
+    }
+
+    public int getAmount(){
+        return amount;
+    }
+
+
 }
