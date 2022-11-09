@@ -1,6 +1,7 @@
 package org.prgrms.springorder.controller;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum Command {
 
@@ -18,7 +19,7 @@ public enum Command {
 
     public static Command of(String inputCommand) {
         return Arrays.stream(values())
-            .filter(e -> e.command.equals(inputCommand.toLowerCase()))
+            .filter(e -> Objects.equals(e.command, inputCommand.toLowerCase()))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어 입력입니다. input : " + inputCommand));
     }

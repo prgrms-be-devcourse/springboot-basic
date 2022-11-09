@@ -1,6 +1,7 @@
 package org.prgrms.springorder.domain;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum VoucherType {
 
@@ -15,7 +16,7 @@ public enum VoucherType {
 
     public static VoucherType of(String voucherType) {
         return Arrays.stream(values())
-            .filter(voucher -> voucher.type.equals(voucherType.toUpperCase()))
+            .filter(voucher -> Objects.equals(voucher.type, voucherType.toUpperCase()))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입입니다."));
     }
