@@ -3,7 +3,7 @@ package org.prgrms.springorder.domain;
 import java.util.Arrays;
 import java.util.UUID;
 
-import org.prgrms.springorder.NoSuchVoucherException;
+import org.prgrms.springorder.exception.NoSuchVoucherException;
 
 public enum VoucherType {
 

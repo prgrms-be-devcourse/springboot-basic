@@ -1,4 +1,4 @@
-package org.prgrms.springorder;
+package org.prgrms.springorder.exception;
 
 public class NoSuchVoucherException extends RuntimeException{
 
