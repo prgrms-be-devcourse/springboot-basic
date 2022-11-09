@@ -1,0 +1,57 @@
+2022-11-09 00:32:55.204 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:33:10.124 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:33:13.569 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:34:05.963 ERROR 92107 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:34:15.476 ERROR 92107 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:35:23.371 ERROR 92375 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:35:58.985 ERROR 92375 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:56:25.208 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-09 00:56:28.489 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:56:30.429 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:56:31.634 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:56:34.754 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 00:57:48.612  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 97605 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-09 00:57:48.615  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-09 00:57:49.328  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.039 seconds (JVM running for 1.925)
+2022-11-09 00:57:56.716  INFO 97605 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 00:57:56.716  INFO 97605 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 00:57:56.717  INFO 97605 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:08:38.030  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 382 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-09 01:08:38.042  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-09 01:08:39.267  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 2.573 seconds (JVM running for 4.171)
+2022-11-09 01:09:06.160 ERROR 382 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.
+2022-11-09 01:09:22.067 ERROR 382 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-09 01:22:15.483  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:22:15.490  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:22:15.492  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:22:15.493  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-09 01:22:15.493  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-09 01:22:15.560  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-09 01:22:15.561  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:22:15.563  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:22:26.127  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:22:26.133  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:22:26.135  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:22:26.136  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-09 01:22:26.136  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-09 01:22:26.201  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-09 01:22:26.202  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-09 01:22:26.203  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:22:26.203  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:22:26.204  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:22:26.204  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:42:50.791  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 WRONG_INPUTVoucher 생성 요청
+2022-11-09 01:42:50.828  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:42:50.829  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:42:50.831  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:42:50.831  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-09 01:42:50.832  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-09 01:42:50.835  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-09 01:42:50.836  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-09 01:42:50.836  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-09 01:42:50.837  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-09 01:42:50.838  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-09 01:42:50.838  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장

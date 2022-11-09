@@ -1,57 +1,309 @@
-2022-11-09 00:32:55.204 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:33:10.124 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:33:13.569 ERROR 91760 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:34:05.963 ERROR 92107 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:34:15.476 ERROR 92107 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:35:23.371 ERROR 92375 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:35:58.985 ERROR 92375 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:56:25.208 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
-2022-11-09 00:56:28.489 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:56:30.429 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:56:31.634 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:56:34.754 ERROR 97234 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 00:57:48.612  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 97605 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
-2022-11-09 00:57:48.615  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
-2022-11-09 00:57:49.328  INFO 97605 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.039 seconds (JVM running for 1.925)
-2022-11-09 00:57:56.716  INFO 97605 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 00:57:56.716  INFO 97605 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 00:57:56.717  INFO 97605 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:08:38.030  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 382 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
-2022-11-09 01:08:38.042  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
-2022-11-09 01:08:39.267  INFO 382 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 2.573 seconds (JVM running for 4.171)
-2022-11-09 01:09:06.160 ERROR 382 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.
-2022-11-09 01:09:22.067 ERROR 382 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
-2022-11-09 01:22:15.483  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:22:15.490  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:22:15.492  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:22:15.493  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
-2022-11-09 01:22:15.493  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
-2022-11-09 01:22:15.560  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
-2022-11-09 01:22:15.561  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
-2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:22:15.562  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:22:15.563  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:22:26.127  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:22:26.133  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:22:26.135  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:22:26.136  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
-2022-11-09 01:22:26.136  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
-2022-11-09 01:22:26.201  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
-2022-11-09 01:22:26.202  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
-2022-11-09 01:22:26.203  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:22:26.203  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:22:26.204  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:22:26.204  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:42:50.791  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 WRONG_INPUTVoucher 생성 요청
-2022-11-09 01:42:50.828  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:42:50.829  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:42:50.831  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:42:50.831  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
-2022-11-09 01:42:50.832  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
-2022-11-09 01:42:50.835  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
-2022-11-09 01:42:50.836  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
-2022-11-09 01:42:50.836  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
-2022-11-09 01:42:50.837  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
-2022-11-09 01:42:50.838  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
-2022-11-09 01:42:50.838  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:54:03.854  INFO 41664 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41664 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:54:03.858  INFO 41664 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:54:04.388  WARN 41664 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:54:04.426 ERROR 41664 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:54:34.440  INFO 41696 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41696 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:54:34.446  INFO 41696 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:54:34.926  WARN 41696 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:54:34.983 ERROR 41696 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:54:45.420  INFO 41710 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41710 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:54:45.427  INFO 41710 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:54:45.953  WARN 41710 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:54:45.974 ERROR 41710 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:55:14.601  INFO 41737 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41737 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:55:14.620  INFO 41737 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:55:17.648  WARN 41737 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:55:17.943 ERROR 41737 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:55:58.356  INFO 41776 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41776 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:55:58.359  INFO 41776 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:55:58.799  WARN 41776 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:55:58.826 ERROR 41776 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:56:30.911  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 WRONG_INPUTVoucher 생성 요청
+2022-11-10 00:56:30.958  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 00:56:30.959  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 00:56:30.961  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:56:30.961  INFO   --- [Test worker] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 00:56:30.962  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 00:56:30.966  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 00:56:30.966  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 00:56:30.967  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:56:30.968  INFO   --- [Test worker] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 00:56:30.968  INFO   --- [Test worker] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 00:56:30.968  INFO   --- [Test worker] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:56:52.449  INFO 41832 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41832 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:56:52.451  INFO 41832 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:56:53.020  WARN 41832 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 00:56:53.045 ERROR 41832 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 00:57:46.039  INFO 41884 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 41884 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 00:57:46.042  INFO 41884 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 00:57:46.644  INFO 41884 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.897 seconds (JVM running for 1.527)
+2022-11-10 00:57:52.767  INFO 41884 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 00:57:52.767  INFO 41884 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 00:57:52.768  INFO 41884 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:58:00.756  INFO 41884 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 00:58:00.756  INFO 41884 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 00:58:00.756  INFO 41884 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 00:58:02.032  INFO 41884 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 00:58:02.033  INFO 41884 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 01:59:57.893  INFO 44660 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44660 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 01:59:57.898  INFO 44660 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 01:59:58.535  INFO 44660 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.926 seconds (JVM running for 1.583)
+2022-11-10 02:00:09.688  INFO 44660 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:00:09.689  INFO 44660 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:00:14.262  INFO 44660 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:00:14.262  INFO 44660 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:00:19.621  INFO 44660 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:00:19.622  INFO 44660 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:00:22.812  INFO 44660 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:01:03.209  INFO 44722 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44722 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:01:03.212  INFO 44722 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:01:03.670  INFO 44722 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.924 seconds (JVM running for 1.789)
+2022-11-10 02:01:11.588  INFO 44722 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:01:11.588  INFO 44722 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:01:15.586  INFO 44722 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:01:15.587  INFO 44722 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:01:21.482  INFO 44722 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:01:21.482  INFO 44722 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:03:48.108  INFO 44842 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44842 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:03:48.115  INFO 44842 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:03:48.802  INFO 44842 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.511 seconds (JVM running for 2.41)
+2022-11-10 02:03:57.219  INFO 44842 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:03:57.220  INFO 44842 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:03:59.279  INFO 44842 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:04:05.535  INFO 44861 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44861 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:04:05.541  INFO 44861 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:04:06.168  INFO 44861 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.99 seconds (JVM running for 1.651)
+2022-11-10 02:04:16.300 ERROR 44861 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-10 02:04:25.942  INFO 44861 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:04:25.943  INFO 44861 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:04:30.768 ERROR 44861 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 02:04:35.425  INFO 44861 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:04:35.425  INFO 44861 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:04:58.212  INFO 44909 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44909 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:04:58.214  INFO 44909 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:04:58.693  INFO 44909 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.735 seconds (JVM running for 1.435)
+2022-11-10 02:05:02.447  INFO 44909 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:05:02.448  INFO 44909 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:05:05.735  INFO 44909 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:05:05.735  INFO 44909 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:05:50.475  INFO 44950 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 44950 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:05:50.478  INFO 44950 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:05:51.544  INFO 44950 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.514 seconds (JVM running for 2.612)
+2022-11-10 02:06:13.952  INFO 44950 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:06:20.464  INFO 44950 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:07:06.862  INFO 44950 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:07:08.320  INFO 44950 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:09:08.946  INFO 45108 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45108 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:09:08.948  INFO 45108 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:09:09.891  INFO 45108 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.523 seconds (JVM running for 2.455)
+2022-11-10 02:09:15.193  INFO 45119 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45119 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:09:15.199  INFO 45119 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:09:16.018  INFO 45119 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.179 seconds (JVM running for 1.916)
+2022-11-10 02:09:20.272  INFO 45119 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:09:20.273  INFO 45119 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:09:22.897  INFO 45119 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:09:22.898  INFO 45119 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:09:49.730  INFO 45155 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45155 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:09:49.732  INFO 45155 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:09:50.245  INFO 45155 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.928 seconds (JVM running for 1.594)
+2022-11-10 02:09:53.957  INFO 45155 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:09:53.958  INFO 45155 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:09:57.825  INFO 45155 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:09:57.826  INFO 45155 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:10:10.164  INFO 45174 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45174 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:10:10.168  INFO 45174 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:10:10.784  INFO 45174 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.908 seconds (JVM running for 1.664)
+2022-11-10 02:10:15.846  INFO 45174 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:10:15.847  INFO 45174 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:10:18.587  INFO 45174 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:10:18.587  INFO 45174 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:14:49.644  INFO 45382 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45382 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:14:49.646  INFO 45382 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:14:50.328  INFO 45382 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.92 seconds (JVM running for 1.498)
+2022-11-10 02:14:56.511  INFO 45382 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:14:56.511  INFO 45382 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:15:07.132  INFO 45396 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45396 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:15:07.135  INFO 45396 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:15:07.721  INFO 45396 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.829 seconds (JVM running for 1.586)
+2022-11-10 02:15:14.330  INFO 45396 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:15:14.331  INFO 45396 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:15:17.520  INFO 45396 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:15:17.520  INFO 45396 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:16:04.374  INFO 45435 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45435 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:16:04.389  INFO 45435 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:16:07.682  INFO 45435 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 5.026 seconds (JVM running for 18.005)
+2022-11-10 02:16:53.409  INFO 45435 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:16:55.893  INFO 45435 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:19:01.500  INFO 45577 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45577 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:19:01.510  INFO 45577 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:19:04.487  INFO 45577 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 4.663 seconds (JVM running for 13.146)
+2022-11-10 02:19:31.901  INFO 45577 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:19:32.608  INFO 45577 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:21:39.281  INFO 45702 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45702 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:21:39.284  INFO 45702 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:21:40.017  INFO 45702 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.028 seconds (JVM running for 1.569)
+2022-11-10 02:21:50.798  INFO 45702 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:21:50.799  INFO 45702 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:21:55.709  INFO 45702 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:21:55.709  INFO 45702 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:23:01.574  INFO 45758 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45758 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:23:01.587  INFO 45758 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:23:05.058  INFO 45758 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 5.062 seconds (JVM running for 14.33)
+2022-11-10 02:23:25.551  INFO 45758 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:23:38.172  INFO 45796 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45796 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:23:38.177  INFO 45796 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:23:38.911  INFO 45796 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.241 seconds (JVM running for 2.386)
+2022-11-10 02:23:57.959  INFO 45796 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:24:20.766  INFO 45836 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45836 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:24:20.770  INFO 45836 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:24:21.322  INFO 45836 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.961 seconds (JVM running for 1.599)
+2022-11-10 02:24:22.930  INFO 45836 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:24:31.499  INFO 45846 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45846 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:24:31.506  INFO 45846 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:24:32.187  INFO 45846 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.177 seconds (JVM running for 2.142)
+2022-11-10 02:26:10.423  INFO 45846 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:26:24.865  INFO 45846 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:27:52.584  INFO 45990 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 45990 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:27:52.589  INFO 45990 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:27:53.125  INFO 45990 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.919 seconds (JVM running for 1.584)
+2022-11-10 02:27:57.850  INFO 45990 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:27:57.851  INFO 45990 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:27:57.853  INFO 45990 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:28:00.986  INFO 45990 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:28:00.986  INFO 45990 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:28:00.986  INFO 45990 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:28:01.978  INFO 45990 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:28:01.978  INFO 45990 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:34:26.829  INFO 47277 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 47277 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:34:26.833  INFO 47277 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:34:27.370  INFO 47277 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.399 seconds (JVM running for 2.385)
+2022-11-10 02:34:32.741  INFO 47277 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:34:32.742  INFO 47277 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:34:32.742  INFO 47277 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:34:36.636  INFO 47277 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:34:36.637  INFO 47277 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:34:36.638  INFO 47277 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:34:39.383  INFO 47277 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:34:39.383  INFO 47277 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:34:39.384  INFO 47277 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:34:42.554 ERROR 47277 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.
+2022-11-10 02:34:47.922  INFO 47277 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:34:47.922  INFO 47277 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:34:47.923  INFO 47277 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:34:48.804  INFO 47277 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:34:48.804  INFO 47277 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:35:12.610  INFO 47427 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 47427 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:35:12.614  INFO 47427 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:35:13.273  INFO 47427 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.185 seconds (JVM running for 1.986)
+2022-11-10 02:35:18.482  INFO 47427 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:35:18.482  INFO 47427 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:35:21.305 ERROR 47427 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.
+2022-11-10 02:35:25.688  INFO 47427 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:35:25.688  INFO 47427 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:35:30.656  INFO 47427 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:35:30.656  INFO 47427 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:35:38.552  INFO 47427 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:35:38.552  INFO 47427 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:35:42.755  INFO 47427 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 PERCENTVoucher 생성 요청
+2022-11-10 02:35:42.755  INFO 47427 --- [main] o.p.s.domain.VoucherFactory              : PercentDiscountVoucher 생성
+2022-11-10 02:35:43.840  INFO 47427 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:40:09.481  INFO 48251 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 48251 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:40:09.484  INFO 48251 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:40:10.117  INFO 48251 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.986 seconds (JVM running for 1.856)
+2022-11-10 02:40:12.299  INFO 48251 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력

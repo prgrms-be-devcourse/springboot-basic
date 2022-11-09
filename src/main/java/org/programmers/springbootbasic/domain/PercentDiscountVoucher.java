@@ -7,6 +7,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PercentDiscountVoucher implements Voucher {
 
+    private static StringBuilder sb = new StringBuilder();
     private final UUID voucherId;
     private final long amount;
 
@@ -28,6 +29,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher{" + "voucherId=" + voucherId + ", amount=" + amount + '}';
+        return getClass().getSimpleName() + ", " +
+                voucherId.toString() + ", " +
+                amount;
     }
 }
