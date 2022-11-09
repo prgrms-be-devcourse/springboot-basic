@@ -8,7 +8,8 @@ import java.util.List;
 public enum CommandType {
 
     // TODO: UpperCase를 사용하여 리팩토링
-    EXIT("exit", "Type exit to exit the program."),
+    // 출력 역할 입장에서 생각해봐야한다.
+    EXIT("exit", "Type exit to exit the program.2"),
     CREATE("create", "Type create to create a new voucher."),
     LIST("list", "Type list to list all vouchers.");
 

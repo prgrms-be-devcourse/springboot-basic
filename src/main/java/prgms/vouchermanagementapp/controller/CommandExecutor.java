@@ -41,6 +41,8 @@ public class CommandExecutor {
     }
 
     private void runCreate() {
+        // 어떤타입을 고를지 입력받는다.
+        // 타입에따라 추가정보를 입력 받고(입력은 똑같이 받아도 가능)
         voucherManager.createVoucher();
     }
 }

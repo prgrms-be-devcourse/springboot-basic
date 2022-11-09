@@ -7,6 +7,7 @@ import prgms.vouchermanagementapp.controller.VoucherManager;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.io.Reader;
 import prgms.vouchermanagementapp.io.Writer;
+import prgms.vouchermanagementapp.voucher.MemoryVouchers;
 import prgms.vouchermanagementapp.voucher.VoucherCreator;
 
 @Configuration
@@ -33,8 +34,13 @@ public class AppConfig {
     }
 
     @Bean
+    public MemoryVouchers memoryVouchers() {
+        return new MemoryVouchers();
+    }
+
+    @Bean
     public VoucherManager voucherManager() {
-        return new VoucherManager(ioManager(), voucherCreator());
+        return new VoucherManager(ioManager(), voucherCreator(), memoryVouchers());
     }
 
     @Bean
