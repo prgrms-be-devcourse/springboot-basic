@@ -3,6 +3,7 @@ package org.prgrms.voucherMemory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.voucher.voucherType.Voucher;
 import org.springframework.stereotype.Repository;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class VoucherMemory {
 
-  private final Map<Long, Voucher> voucherMemory = new ConcurrentHashMap<>();
+  private final Map<UUID, Voucher> voucherMemory = new ConcurrentHashMap<>();
 
   public Voucher save(Voucher voucher) {
-    voucherMemory.put(Generate.id(), voucher);
+    voucherMemory.put(voucher.getVoucherId(), voucher);
     return voucher;
   }
 
