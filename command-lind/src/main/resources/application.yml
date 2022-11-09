@@ -7,6 +7,8 @@ spring:
       production:
         - prod
 
+#외부주입 방식 찾기
+
 ---
 
 spring:
