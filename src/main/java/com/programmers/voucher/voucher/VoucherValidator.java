@@ -1,5 +1,7 @@
 package com.programmers.voucher.voucher;
 
+import java.util.Arrays;
+
 import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
 import static com.programmers.voucher.voucher.VoucherType.*;
 
@@ -49,5 +51,12 @@ public class VoucherValidator {
         }
 
         throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
+    }
+
+    public static VoucherType getValidateVoucherType(String inputType) {
+        return Arrays.stream(values())
+                .filter(voucherType -> voucherType.getType().contains(inputType))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage()));
     }
 }

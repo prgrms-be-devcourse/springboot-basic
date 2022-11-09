@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository.loader;
 
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherType;
+import com.programmers.voucher.voucher.VoucherValidator;
 import org.ini4j.Profile;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class ListLoader implements Loader {
                 String type = section.get(VOUCHER_TYPE);
                 long value = section.get(VOUCHER_VALUE, long.class);
 
-                Voucher voucher = VoucherType.getValidateVoucherType(type)
+                Voucher voucher = VoucherValidator.getValidateVoucherType(type)
                         .createVoucher(UUID.fromString(id), value);
 
                 loadStore.add(voucher);
