@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -17,11 +16,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.prgrms.springorder.domain.BlockCustomer;
 import org.prgrms.springorder.domain.FixedAmountVoucher;
 import org.prgrms.springorder.domain.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.Voucher;
-import org.prgrms.springorder.exception.DuplicateIdException;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class MemoryVoucherRepositoryTest {
