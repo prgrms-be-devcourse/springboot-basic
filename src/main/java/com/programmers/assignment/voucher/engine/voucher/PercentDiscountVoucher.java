@@ -10,8 +10,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent < 0) throw new IllegalArgumentException("Discount percent should be positive");
-        if (percent == 0) throw new IllegalArgumentException("Discount percent shoud not be zero");
-        if (percent >= MAX_VOUCHER_PERCENT) throw new IllegalArgumentException(String.format("Discount percent shoud be less than %d", MAX_VOUCHER_PERCENT));
+        if (percent == 0) throw new IllegalArgumentException("Discount percent should not be zero");
+        if (percent >= MAX_VOUCHER_PERCENT) throw new IllegalArgumentException(String.format("Discount percent should be less than %d", MAX_VOUCHER_PERCENT));
         this.voucherId = voucherId;
         this.percent = percent;
     }
