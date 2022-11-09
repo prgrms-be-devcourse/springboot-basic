@@ -6,40 +6,44 @@ import java.util.stream.Stream;
 import org.prgrms.exception.NoSuchVoucherTypeException;
 import org.prgrms.voucher.discountType.DiscountAmount;
 import org.prgrms.voucher.discountType.DiscountRate;
-import org.prgrms.voucher.discountType.Discount;
+import org.prgrms.voucher.discountType.Amount;
 
 public enum VoucherType {
 
-  FIXED("1", (Discount amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount),
+  FIXED("1", (Amount amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount),
       DiscountAmount::new),
-  PERCENT("2", (Discount percent) -> new PercentDiscountVoucher(UUID.randomUUID(), percent),
+  PERCENT("2", (Amount percent) -> new PercentDiscountVoucher(UUID.randomUUID(), percent),
       DiscountRate::new);
 
   private final String type;
 
-  private final Function<Discount, Voucher> voucher;
+  private final Function<Amount, Voucher> voucher;
 
-  private final Function<String, Discount> discount;
+  private final Function<String, Amount> amount;
 
-  VoucherType(String type, Function<Discount, Voucher> voucher,
-      Function<String, Discount> discount) {
+  VoucherType(String type, Function<Amount, Voucher> voucher,
+      Function<String, Amount> amount) {
     this.type = type;
     this.voucher = voucher;
-    this.discount = discount;
+    this.amount = amount;
   }
 
   public static VoucherType of(String choice) {
     return Stream.of(VoucherType.values())
         .filter(voucher -> voucher.type.equals(choice))
-        .findFirst()
+        .findAny()
         .orElseThrow(() -> new NoSuchVoucherTypeException(choice));
   }
 
-  public static Voucher generateVoucher(VoucherType voucherType, Discount discount) {
+  public static Voucher generateVoucher(VoucherType voucherType, Amount discount) {
     return voucherType.voucher.apply(discount);
   }
 
-  public static Discount generateDiscount(VoucherType voucherType, String value) {
-    return voucherType.discount.apply(value);
+  public static Amount generateAmount(VoucherType voucherType, String value) {
+    return voucherType.amount.apply(value);
+  }
+
+  public String getType() {
+    return type;
   }
 }

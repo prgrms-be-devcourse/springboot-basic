@@ -1,15 +1,14 @@
 package org.prgrms.voucher.voucherType;
 
 import java.util.UUID;
-import org.prgrms.voucher.discountType.Discount;
-
+import org.prgrms.voucher.discountType.Amount;
 
 public class PercentDiscountVoucher implements Voucher {
   private final UUID voucherId;
-  private final Discount discountPercent;
+  private final Amount discountPercent;
 
 
-  public PercentDiscountVoucher(UUID voucherId, Discount discountPercent) {
+  public PercentDiscountVoucher(UUID voucherId, Amount discountPercent) {
     this.voucherId = voucherId;
     this.discountPercent = discountPercent;
   }
@@ -26,6 +25,10 @@ public class PercentDiscountVoucher implements Voucher {
 
   @Override
   public String toString() {
-    return "PercentDiscountVoucher : " + discountPercent.getValue() + "%";
+    return "*** PercentDiscountVoucher ***"
+        + System.lineSeparator()
+        + "voucherId : " + voucherId
+        + System.lineSeparator()
+        + "discountRate: " + discountPercent.getValue() + "%";
   }
 }
