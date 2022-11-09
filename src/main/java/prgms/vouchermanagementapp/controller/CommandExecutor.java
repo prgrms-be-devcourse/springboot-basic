@@ -9,6 +9,7 @@ import prgms.vouchermanagementapp.voucher.VoucherType;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 
 public class CommandExecutor {
 
@@ -57,13 +58,13 @@ public class CommandExecutor {
         VoucherType voucherType = VoucherType.of(voucherTypeIndex);
 
         if (voucherType.is(VoucherType.FixedAmountVoucher)) {
-            Amount fixedDiscountAmount = ioManager.askFixedDiscountAmount();
-            voucherManager.createVoucher(fixedDiscountAmount);
+            Optional<Amount> fixedDiscountAmount = ioManager.askFixedDiscountAmount();
+            fixedDiscountAmount.ifPresent(voucherManager::createVoucher);
         }
 
         if (voucherType.is(VoucherType.PercentDiscountVoucher)) {
-            Ratio fixedDiscountRatio = ioManager.askFixedDiscountRatio();
-            voucherManager.createVoucher(fixedDiscountRatio);
+            Optional<Ratio> fixedDiscountRatio = ioManager.askFixedDiscountRatio();
+            fixedDiscountRatio.ifPresent(voucherManager::createVoucher);
         }
     }
 

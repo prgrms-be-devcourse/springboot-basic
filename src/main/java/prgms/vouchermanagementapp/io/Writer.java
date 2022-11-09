@@ -80,4 +80,8 @@ public class Writer {
     private void printBlankLine() {
         System.out.println();
     }
+
+    public void printException(RuntimeException e) {
+        System.out.println(e.getMessage());
+    }
 }

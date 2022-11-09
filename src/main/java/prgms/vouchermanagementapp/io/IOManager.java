@@ -5,6 +5,7 @@ import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 
 public class IOManager {
 
@@ -26,20 +27,30 @@ public class IOManager {
         return reader.readLine();
     }
 
-    public Amount askFixedDiscountAmount() {
+    public Optional<Amount> askFixedDiscountAmount() {
         writer.printFixedAmountGuide();
-        long fixedDiscountAmount = readNumber();
+        long number = readNumber();
 
-//        try {
-//            return new Amount(fixedDiscountAmount)
-//        }
-//        return ;
+        try {
+            Amount amount = new Amount(number);
+            return Optional.of(amount);
+        } catch (IllegalArgumentException exception) {
+            writer.printException(exception);
+            return Optional.empty();
+        }
     }
 
-    public Ratio askFixedDiscountRatio() {
+    public Optional<Ratio> askFixedDiscountRatio() {
         writer.printFixedDiscountRatioGuide();
         long fixedDiscountRatio = readNumber();
-        return new Ratio(fixedDiscountRatio);
+
+        try {
+            Ratio ratio = new Ratio(fixedDiscountRatio);
+            return Optional.of(ratio);
+        } catch (IllegalArgumentException exception) {
+            writer.printException(exception);
+            return Optional.empty();
+        }
     }
 
     private long readNumber() {
