@@ -37,7 +37,7 @@ public class FixedAmountVoucher extends Voucher {
             return false;
         }
         FixedAmountVoucher that = (FixedAmountVoucher) o;
-        return this.getVoucherId() == that.getVoucherId();
+        return Objects.equals(this.getVoucherId(),that.getVoucherId());
     }
 
     @Override

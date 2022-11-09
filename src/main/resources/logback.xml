@@ -18,7 +18,7 @@
   <logger level="info" name="org.prgrms.springorder" additivity="false">
     <appender-ref ref="ROLLING_FILE"/>
   </logger>
-  
+
   <root level="warn">
     <appender-ref ref="ROLLING_FILE"/>
   </root>

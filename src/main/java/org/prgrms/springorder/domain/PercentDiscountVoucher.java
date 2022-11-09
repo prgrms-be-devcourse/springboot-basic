@@ -39,7 +39,7 @@ public class PercentDiscountVoucher extends Voucher {
             return false;
         }
         PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-        return getVoucherId() == that.getVoucherId();
+        return Objects.equals(this.getVoucherId(),that.getVoucherId());
     }
 
     @Override
