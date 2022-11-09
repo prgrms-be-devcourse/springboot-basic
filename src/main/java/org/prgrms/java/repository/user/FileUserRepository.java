@@ -2,6 +2,7 @@ package org.prgrms.java.repository.user;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.user.User;
+import org.prgrms.java.exception.UserException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -80,6 +81,9 @@ public class FileUserRepository implements UserRepository {
 
     @Override
     public User insert(User user, boolean isBlocked) {
+        if (findById(user.getUserId(), false).isPresent() || findById(user.getUserId(), true).isPresent()) {
+            throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
+        }
         try {
             if (isBlocked) {
                 black_writer.write(user.toString());

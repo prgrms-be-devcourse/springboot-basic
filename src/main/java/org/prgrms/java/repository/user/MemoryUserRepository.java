@@ -1,6 +1,7 @@
 package org.prgrms.java.repository.user;
 
 import org.prgrms.java.domain.user.User;
+import org.prgrms.java.exception.UserException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
@@ -32,6 +33,9 @@ public class MemoryUserRepository implements UserRepository {
 
     @Override
     public User insert(User user, boolean isBlocked) {
+        if (findById(user.getUserId(), false).isPresent() || findById(user.getUserId(), true).isPresent()) {
+            throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
+        }
         if (isBlocked) {
             return black_storage.put(user.getUserId(), user);
         }
