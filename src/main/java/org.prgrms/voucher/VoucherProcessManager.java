@@ -2,7 +2,7 @@ package org.prgrms.voucher;
 
 import org.prgrms.console.Console;
 import org.prgrms.exception.NoSuchVoucherTypeException;
-import org.prgrms.voucher.discountType.Discount;
+import org.prgrms.voucher.discountType.Amount;
 import org.prgrms.voucher.voucherType.Voucher;
 import org.prgrms.voucher.voucherType.VoucherType;
 import org.prgrms.voucherMemory.VoucherMemory;
@@ -22,28 +22,21 @@ public class VoucherProcessManager {
 
   public void createVoucher() {
 
-    boolean flag = true;
+    boolean runningState = true;
 
-    while (flag) {
+    while (runningState) {
       try {
-        generateAndSaveVoucher();
-        flag = false;
+        VoucherType voucherType = enteredVoucherType();
+        Amount discount = enteredAmount(voucherType);
+        saveVoucher(voucherType, discount);
+
+        runningState = false;
       } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
       }
     }
 
   }
-
-  private void generateAndSaveVoucher() {
-
-    VoucherType voucherType = enteredVoucherType();
-
-    Discount discount = enteredDiscountRate(voucherType);
-
-    saveVoucher(voucherType, discount);
-  }
-
 
   private VoucherType enteredVoucherType() {
 
@@ -56,12 +49,12 @@ public class VoucherProcessManager {
 
   }
 
-  private Discount enteredDiscountRate(VoucherType voucherType) {
-    String inputDiscountRate = console.enterDiscountRate(voucherType);
-    return VoucherType.generateDiscount(voucherType, inputDiscountRate);
+  private Amount enteredAmount(VoucherType voucherType) {
+    String enteredAmount = console.enteredAmount(voucherType);
+    return VoucherType.generateAmount(voucherType, enteredAmount);
   }
 
-  private void saveVoucher(VoucherType voucherType, Discount discount) {
+  private void saveVoucher(VoucherType voucherType, Amount discount) {
     Voucher voucherSaved = voucherMemory.save(
         VoucherType.generateVoucher(voucherType, discount));
     console.printSavedVoucher(voucherSaved);
