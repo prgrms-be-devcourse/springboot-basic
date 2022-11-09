@@ -2,7 +2,7 @@ package org.prgrms.kdt.app;
 
 import org.prgrms.kdt.command.CommandExecutor;
 import org.prgrms.kdt.command.CommandType;
-import org.prgrms.kdt.io.Console;
+import org.prgrms.kdt.io.ConsoleIO;
 import org.prgrms.kdt.voucher.VoucherMetaData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
@@ -12,11 +12,11 @@ import java.security.InvalidParameterException;
 @Controller
 public class VoucherController implements CommandLineRunner {
 
-    private final Console console;
+    private final ConsoleIO consoleIO;
     private final CommandExecutor commandExecutor;
 
-    public VoucherController(Console console, CommandExecutor commandExecutor) {
-        this.console = console;
+    public VoucherController(ConsoleIO consoleIO, CommandExecutor commandExecutor) {
+        this.consoleIO = consoleIO;
         this.commandExecutor = commandExecutor;
     }
 
@@ -24,11 +24,11 @@ public class VoucherController implements CommandLineRunner {
     public void run(String... args) {
         VoucherControllerStatus voucherControllerStatus = new VoucherControllerStatus();
         while (voucherControllerStatus.isRunning()) {
-            String userInput = console.getCommand();
+            String userInput = consoleIO.getCommand();
             try {
                 runCommand(userInput, voucherControllerStatus);
             } catch (RuntimeException exception) {
-                console.printError(exception.getMessage());
+                consoleIO.printError(exception.getMessage());
             }
         }
     }
@@ -37,11 +37,11 @@ public class VoucherController implements CommandLineRunner {
         switch (CommandType.findCommandType(userInput)) {
             case CREATE -> commandExecutor.create(
                     new VoucherMetaData(
-                            console.getType(),
-                            console.getVoucherAmount()
+                            consoleIO.getType(),
+                            consoleIO.getVoucherAmount()
                     )
             );
-            case LIST -> console.printVouchers(commandExecutor.list());
+            case LIST -> consoleIO.printVouchers(commandExecutor.list());
             case EXIT -> voucherControllerStatus.quitProgram();
             default -> throw new InvalidParameterException();
         }

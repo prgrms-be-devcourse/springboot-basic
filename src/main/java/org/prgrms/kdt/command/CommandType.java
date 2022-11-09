@@ -28,12 +28,6 @@ public enum CommandType {
         this.command = command;
     }
 
-    /**
-     * command 타입 찾기
-     * @param command
-     * @return CommandType
-     * @throws InvalidParameterException command가 null 이거나, 지정된 command를 찾을 수 없습니다.
-     */
     public static CommandType findCommandType(String command) {
         validateCommandNullSafe(command);
 
