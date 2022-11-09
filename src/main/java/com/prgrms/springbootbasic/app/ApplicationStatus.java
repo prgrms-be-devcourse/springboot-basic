@@ -1,9 +1,6 @@
 package com.prgrms.springbootbasic.app;
 
-import org.springframework.stereotype.Component;
-
-@Component
-public class ApplicationStatus {
+class ApplicationStatus {
 
     private boolean running;
 

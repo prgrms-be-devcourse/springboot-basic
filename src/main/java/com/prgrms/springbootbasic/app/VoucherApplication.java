@@ -22,10 +22,9 @@ public class VoucherApplication {
 
     private final Console console;
 
-    public VoucherApplication(VoucherManager voucherManager, ApplicationStatus applicationStatus,
-                              Console console) {
+    public VoucherApplication(VoucherManager voucherManager, Console console) {
         this.voucherManager = voucherManager;
-        this.applicationStatus = applicationStatus;
+        this.applicationStatus = new ApplicationStatus();
         this.console = console;
     }
 
