@@ -2,6 +2,10 @@ package com.programmers.voucher.controller;
 
 import java.util.Arrays;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.WrongCommandException;
 
 public enum Command {
@@ -11,6 +15,7 @@ public enum Command {
 	BLACKLIST("blacklist"),
 	EXIT("exit");
 
+	private static final Logger log = LoggerFactory.getLogger(Command.class);
 	private String option;
 
 	Command(String option) {
@@ -21,6 +26,9 @@ public enum Command {
 		return Arrays.stream(Command.values())
 			.filter(command -> command.option.equals(chosenCommand))
 			.findFirst()
-			.orElseThrow(() -> new WrongCommandException());
+			.orElseThrow(() -> {
+				log.error(ExceptionMessage.WRONG_COMMAND.getMessage());
+				throw new WrongCommandException();
+			});
 	}
 }
