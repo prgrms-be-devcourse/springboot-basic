@@ -1,81 +1,39 @@
 package com.example.springbootbasic.controller;
 
-import com.example.springbootbasic.console.ConsoleMenu;
-import com.example.springbootbasic.console.input.ConsoleInput;
 import com.example.springbootbasic.console.input.RequestBody;
-import com.example.springbootbasic.console.output.ConsoleOutput;
 import com.example.springbootbasic.console.output.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.util.Optional;
-
-import static com.example.springbootbasic.console.ConsoleMenu.*;
-import static com.example.springbootbasic.console.ConsoleStatus.FAIL;
+import static com.example.springbootbasic.console.ResponseType.FAIL;
 
 @Controller
 public class MainController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-    private final ConsoleInput consoleInput;
-    private final ConsoleOutput consoleOutput;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
     @Autowired
-    public MainController(ConsoleInput consoleInput, ConsoleOutput consoleOutput, VoucherController voucherController) {
-        this.consoleInput = consoleInput;
-        this.consoleOutput = consoleOutput;
+    public MainController(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
-    public ResponseBody executeVoucherProgram() {
-        ResponseBody menuResponse = voucherController.selectVoucherMenu();
-        consoleOutput.response(menuResponse);
-
-        RequestBody consoleMenuRequest = consoleInput.request();
-        Optional<ConsoleMenu> findMenu = findConsoleMenuEnum(consoleMenuRequest);
-
+    public ResponseBody request(RequestBody requestBody) {
         ResponseBody responseBody = new ResponseBody();
-        if (consoleMenuRequest.getStatus() == FAIL || findMenu.isEmpty()) {
-            consoleMenuRequest.setStatus(FAIL);
-            responseBody.setStatus(FAIL);
-            consoleOutput.response(responseBody);
-            logger.warn("[{}] - consoleMenuRequest request => '{}'",
-                    consoleMenuRequest.getStatus(),
-                    consoleMenuRequest.getBody());
-            return responseBody;
+        try {
+            ControllerType controllerType = requestBody.getConsoleType().getControllerType();
+            switch (controllerType) {
+                case VOUCHER -> responseBody = voucherController.request(requestBody);
+                case CUSTOMER -> responseBody = customerController.request(requestBody);
+                default -> responseBody.setStatus(FAIL);
+            }
+        } catch (RuntimeException e) {
+            logger.error("[{}] - request {}", requestBody.getStatus(), requestBody.getConsoleType());
+            logger.error("[{}] - response {}", responseBody.getStatus(), responseBody.getConsoleType());
         }
-        logger.debug("[{}] - consoleMenuRequest request => '{}'",
-                consoleMenuRequest.getStatus(),
-                consoleMenuRequest.getBody());
-        return executeVoucherMenu(findMenu.get());
-    }
-
-    private Optional<ConsoleMenu> findConsoleMenuEnum(RequestBody consoleMenuRequest) {
-        String consoleMenuName = consoleMenuRequest.getBody();
-        return findMenu(consoleMenuName);
-    }
-
-    private ResponseBody executeVoucherMenu(ConsoleMenu menu) {
-        ResponseBody responseBody = new ResponseBody();
-
-        if (menu == EXIT) {
-            responseBody = voucherController.shutdownVoucherApplication();
-        }
-        if (menu == CREATE) {
-            responseBody = voucherController.selectHowToCreateVoucher();
-            consoleOutput.response(responseBody);
-
-            RequestBody voucherInputFormRequest = consoleInput.request();
-            responseBody = voucherController.createVoucher(voucherInputFormRequest);
-        }
-        if (menu == LIST) {
-            responseBody = voucherController.selectAllVouchers();
-        }
-
-        consoleOutput.response(responseBody);
-        logger.debug("[{}] - executeVoucherMenu", responseBody.getStatus());
         return responseBody;
     }
 }
