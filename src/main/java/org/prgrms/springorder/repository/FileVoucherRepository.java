@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import javax.annotation.PreDestroy;
 import org.prgrms.springorder.config.VoucherFileProperties;
 import org.prgrms.springorder.domain.Voucher;
 import org.prgrms.springorder.domain.VoucherType;
@@ -33,7 +35,6 @@ public class FileVoucherRepository implements VoucherRepository {
     private final File fileStore;
 
     public FileVoucherRepository(VoucherFileProperties properties) {
-
         fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
         readAll();
     }
@@ -45,10 +46,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String insertData = serialize(voucher);
-
-        write(insertData);
-
         storage.putIfAbsent(voucher.getVoucherId(), voucher);
         return voucher;
     }
@@ -98,15 +95,24 @@ public class FileVoucherRepository implements VoucherRepository {
             voucher.getVoucherId(), voucher.getAmount());
     }
 
-    private void write(String data) {
+    private void writeAll() {
+        String allDate = this.storage.values()
+            .stream()
+            .map(this::serialize)
+            .collect(Collectors.joining(System.lineSeparator()));
 
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileStore, true))) {
-            bufferedWriter.write(data);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileStore, false))) {
+            bufferedWriter.write(allDate);
             bufferedWriter.newLine();
         } catch (IOException e) {
             logger.warn("insert file error {}, {}", e.getMessage(), e.getClass().getName(), e);
             throw new RuntimeException("file i/o error", e);
         }
+    }
+
+    @PreDestroy
+    private void preDestroy() {
+        writeAll();
     }
 
 }

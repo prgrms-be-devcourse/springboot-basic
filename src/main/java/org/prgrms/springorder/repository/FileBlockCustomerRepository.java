@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import javax.annotation.PreDestroy;
 import org.prgrms.springorder.config.BlockCustomerProperties;
 import org.prgrms.springorder.domain.BlockCustomer;
 import org.prgrms.springorder.util.FileUtil;
@@ -47,10 +49,6 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
     @Override
     public BlockCustomer insert(BlockCustomer blockCustomer) {
-        String insertData = serialize(blockCustomer);
-
-        write(insertData);
-
         storage.putIfAbsent(blockCustomer.getBlockId(), blockCustomer);
         return blockCustomer;
     }
@@ -99,15 +97,24 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
             blockCustomer.getCustomerId(), blockCustomer.getRegisteredAt().format(formatter));
     }
 
-    private void write(String data) {
+    private void writeAll() {
+        String allDate = this.storage.values()
+            .stream()
+            .map(this::serialize)
+            .collect(Collectors.joining(System.lineSeparator()));
 
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileStore, true))) {
-            bufferedWriter.write(data);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(fileStore, false))) {
+            bufferedWriter.write(allDate);
             bufferedWriter.newLine();
         } catch (IOException e) {
             logger.warn("insert file error {}, {}", e.getMessage(), e.getClass().getName(), e);
             throw new RuntimeException("file i/o error", e);
         }
+    }
+
+    @PreDestroy
+    private void preDestroy() {
+        writeAll();
     }
 
 }

@@ -3,8 +3,6 @@ package org.prgrms.springorder.repository;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -44,7 +42,7 @@ class FileBlockCustomerRepositoryTest {
         fileBlockCustomerRepository = new FileBlockCustomerRepository(blockCustomerProperties);
     }
 
-    @BeforeEach
+    @AfterEach
     void after() {
         fileBlockCustomerRepository.deleteAll();
     }
@@ -96,12 +94,13 @@ class FileBlockCustomerRepositoryTest {
         BlockCustomer savedBlockCustomer = fileBlockCustomerRepository.insert(blockCustomer);
 
         //then
+        Optional<BlockCustomer> blockCustomerOptional = fileBlockCustomerRepository.findById(blockId);
+        assertTrue(blockCustomerOptional.isPresent());
+        BlockCustomer findBlockCustomer = blockCustomerOptional.get();
+
         assertNotNull(savedBlockCustomer);
         assertEquals(blockCustomer, savedBlockCustomer);
-
-        List<BlockCustomer> findBlockCustomerInFile = readAll(
-            new File(path + fileName + fileExtension));
-        assertTrue(findBlockCustomerInFile.contains(savedBlockCustomer));
+        assertEquals(savedBlockCustomer, findBlockCustomer);
     }
 
     @DisplayName("findAll 테스트 - 저장된 BlockCustomer 가 모두 리턴된다.")

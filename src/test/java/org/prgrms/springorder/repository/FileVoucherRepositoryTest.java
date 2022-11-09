@@ -82,7 +82,7 @@ class FileVoucherRepositoryTest {
 
     @DisplayName("insert 테스트 - file 에 정상 저장되고 저장된 BlockCustomer 를 리턴한다.")
     @Test
-    void insertTest() throws IOException {
+    void insertTest() {
         //given
         UUID randomUUID = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(randomUUID, 50L);
@@ -97,6 +97,7 @@ class FileVoucherRepositoryTest {
         Voucher findVoucher = voucherOptional.get();
 
         assertNotNull(findVoucher);
+        assertEquals(voucher, savedVoucher);
         assertEquals(savedVoucher, findVoucher);
     }
 
