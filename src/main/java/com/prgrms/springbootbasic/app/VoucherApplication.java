@@ -2,6 +2,7 @@ package com.prgrms.springbootbasic.app;
 
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 import com.prgrms.springbootbasic.common.exception.HaveNoVoucherException;
+import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
 import com.prgrms.springbootbasic.console.Console;
 import com.prgrms.springbootbasic.voucher.dto.VoucherResponse;
@@ -40,7 +41,7 @@ public class VoucherApplication {
         try {
             CommandType commandType = CommandType.findByCommand(inputCommand);
             controlMenu(commandType);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidCommandTypeException e) {
             console.printExceptionMessage(e.getMessage());
         }
     }

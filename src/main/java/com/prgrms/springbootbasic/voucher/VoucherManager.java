@@ -27,6 +27,9 @@ public class VoucherManager {
         voucherStorage.save(voucher);
     }
 
+    /**
+     * @throws HaveNoVoucherException 저장한 Voucher가 하나도 없는 상황에서 Voucher를 조회하였을 때 발생하는 예외입니다.
+     */
     public List<VoucherResponse> list() {
         List<Voucher> vouchers = voucherStorage.findAll();
         if (vouchers.isEmpty()) {

@@ -34,6 +34,9 @@ public enum VoucherType {
         return inputValue;
     }
 
+    /**
+     * @throws InvalidVoucherTypeException VoucherType에 해당하지 않는 입력이 주어졌을 때 발생하는 예외입니다.
+     */
     public static VoucherType findByInputValue(String inputValue) {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.getInputValue().equals(inputValue))
@@ -42,6 +45,11 @@ public enum VoucherType {
                         MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue)));
     }
 
+    /**
+     * @throws NumberFormatException     할인율을 숫자로 입력하지 않았을 때 발생하는 예외입니다.
+     * @throws AmountOutOfBoundException voucher type에 따라 정해지는 할인율의 범위를 넘어선 입력이 주어졌을 때 발생하는 예외입니다.
+     *                                   예외 상황을 출력하기 위해 VoucherType enum을 함께 사용해야 합니다.
+     */
     public int validateAmount(String amountInput) {
         try {
             int amount = Integer.parseInt(amountInput);
