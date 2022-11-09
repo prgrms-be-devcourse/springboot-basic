@@ -2,6 +2,7 @@ package org.prgrms.java.repository.voucher;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.exception.VoucherException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -60,6 +61,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
+        if (findById(voucher.getVoucherId()).isPresent() || findById(voucher.getVoucherId()).isPresent()) {
+            throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
+        }
         try {
             writer.write(voucher.toString());
             writer.newLine();

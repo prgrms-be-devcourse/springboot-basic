@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        if (amount <= 0) throw new VoucherException("Voucher amount should be positive.");
+        if (amount <= 0) throw new VoucherException("Voucher discount amount should be positive.");
         this.voucherId = voucherId;
         this.amount = amount;
     }

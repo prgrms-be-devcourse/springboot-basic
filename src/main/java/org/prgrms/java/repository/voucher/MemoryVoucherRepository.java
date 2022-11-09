@@ -1,6 +1,7 @@
 package org.prgrms.java.repository.voucher;
 
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.exception.VoucherException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -22,6 +23,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
+        if (findById(voucher.getVoucherId()).isPresent() || findById(voucher.getVoucherId()).isPresent()) {
+            throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
+        }
         return storage.put(voucher.getVoucherId(), voucher);
     }
 }
