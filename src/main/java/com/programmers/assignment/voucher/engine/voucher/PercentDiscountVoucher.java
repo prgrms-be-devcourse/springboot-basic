@@ -1,5 +1,6 @@
 package com.programmers.assignment.voucher.engine.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -24,5 +25,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (percent/100);
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("voucherId -> {0} Discount Percentage -> {1}", voucherId, percent);
     }
 }

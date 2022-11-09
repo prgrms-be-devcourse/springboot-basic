@@ -1,5 +1,6 @@
 package com.programmers.assignment.voucher.engine.voucher;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -25,5 +26,10 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         var discountedAmount = beforeDiscount - amount;
         return (discountedAmount < 0) ? 0 : discountedAmount;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("voucherId -> {0} Discount Amount -> {1}", voucherId, amount);
     }
 }
