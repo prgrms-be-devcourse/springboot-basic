@@ -14,7 +14,7 @@ import org.prgrms.voucher.voucherType.PercentDiscountVoucher;
 import org.prgrms.voucher.voucherType.Voucher;
 
 class VoucherMemoryTest {
-  VoucherMemory voucherMemory;
+  private VoucherMemory voucherMemory;
 
   @BeforeEach
   void setUp() {
