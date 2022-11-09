@@ -8,6 +8,14 @@ import java.text.MessageFormat;
 
 @Component
 public class IOManager {
+
+    private static final String CONSOLE_START = """
+            === Voucher Program ===
+            Type 'exit' to exit the program.
+            Type 'create' to create a new voucher.
+            Type 'list' to list all vouchers.""";
+
+    private static final String SELECT_WRONG = "올바른 입력이 아닙니다. 보기 중에 입력해주세요.";
     private final Console console;
 
     public IOManager(Console console) {
@@ -15,37 +23,45 @@ public class IOManager {
     }
 
     public String getInput() {
-        return console.read().toLowerCase().strip();
+        return console.read()
+                .toLowerCase()
+                .strip();
     }
 
-    public void doStartMessage(){
-        console.write(MessageType.CONSOLE_START.getMessage());
+    public void writeStartMessage() {
+        console.write(CONSOLE_START);
     }
 
-    public void doErrorMessage(String message){
-        console.write(message);
+    public void writeEndMessage() {
+        console.write("Exit Program. Good Bye.");
     }
 
-    public void doEndMessage(){
-        console.write(MessageType.CONSOLE_END.getMessage());
-    }
-
-    public String getCreateTypeInput(){
-        return console.read().strip();
+    public String getCreateTypeInput() {
+        return console.read()
+                .strip();
     }
 
     public long getAmountInput(){
         return Long.parseLong(console.read().strip());
     }
 
-    public void doMessage(String message){
+    public void writeExceptionMessage(String message) {
         console.write(message);
     }
 
-    public void doVoucherInfo(Voucher voucher){
-        console.write(MessageFormat.format(
-                "- voucherID : {0}, voucherType : {1}, Discount Amount : {2}",
-                voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount())
+    public void writeMessage(String message) {
+        console.write(message);
+    }
+
+    public void writeVoucherInfo(Voucher voucher) {
+        console.write(
+                MessageFormat.format(
+                        "- voucherID : {0}, voucherType : {1}, Discount Amount : {2}",
+                        voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount())
         );
+    }
+
+    public static String getSelectWrongMessage(){
+        return SELECT_WRONG;
     }
 }

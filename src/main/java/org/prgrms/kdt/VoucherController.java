@@ -2,8 +2,8 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.exceptions.WrongSelectException;
 import org.prgrms.kdt.io.IOManager;
+import org.prgrms.kdt.manager.VoucherAppManager;
 import org.prgrms.kdt.utils.SelectType;
-import org.prgrms.kdt.utils.VoucherAppManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -19,15 +19,15 @@ public class VoucherController implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        while (voucherAppManager.getPower()) {
-            ioManager.doStartMessage();
+        while (voucherAppManager.isRunning()) {
+            ioManager.writeStartMessage();
             try {
                 SelectType selectType = SelectType.findSelectType(ioManager.getInput());
                 voucherAppManager.execute(selectType);
             } catch (WrongSelectException e) {
-                ioManager.doErrorMessage(e.getMessage());
+                ioManager.writeExceptionMessage(e.getMessage());
             }
         }
-        ioManager.doEndMessage();
+        ioManager.writeEndMessage();
     }
 }

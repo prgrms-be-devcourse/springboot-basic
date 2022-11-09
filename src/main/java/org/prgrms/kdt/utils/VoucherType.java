@@ -24,7 +24,7 @@ public enum VoucherType {
                 .filter(voucherType -> voucherType.getVoucherType().equals(selection))
                 .findFirst()
                 .orElseThrow(() -> {
-                    throw new WrongVoucherTypeException(MessageType.SELECT_WRONG.getMessage());
+                    throw new WrongVoucherTypeException(getSelectWrongMessage());
                 }
         );
     }
