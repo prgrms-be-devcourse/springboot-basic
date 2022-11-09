@@ -3,6 +3,7 @@ package com.prgrms.springbootbasic.console;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 
 import java.text.MessageFormat;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -20,6 +21,7 @@ public class Console {
     private static final String TYPE_PERCENT_MESSAGE = "Chose percent. Type percent amount(1 ~ 99(%)). Amount must be an integer.";
     private static final String FIXED_AMOUNT_OUT_OF_BOUND = "{0} is out of bound 1 ~ 10000.";
     private static final String PERCENT_OUT_OF_BOUND = "{0} is out of bound 1 ~ 99.";
+    private static final String CREATE_SUCCESS_MESSAGE = "Voucher ID {0} created successfully!";
 
     private final Reader reader;
     private final Printer printer;
@@ -72,5 +74,9 @@ public class Console {
 
     public void printExceptionMessage(String exceptionMessage) {
         printer.printMessage(exceptionMessage);
+    }
+
+    public void printCreateSuccessMessage(UUID createdUUID) {
+        printer.printMessage(MessageFormat.format(CREATE_SUCCESS_MESSAGE, createdUUID.toString().substring(0, 6) + "*****"));
     }
 }

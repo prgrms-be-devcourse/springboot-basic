@@ -11,6 +11,7 @@ import com.prgrms.springbootbasic.voucher.VoucherType;
 import com.prgrms.springbootbasic.voucher.dto.VoucherInfo;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -72,7 +73,8 @@ public class VoucherApplication {
         try {
             voucherType = getVoucherType();
             int amount = getAmount(voucherType);
-            voucherManager.create(new VoucherInfo(voucherType, amount));
+            UUID createdUUID = voucherManager.create(new VoucherInfo(voucherType, amount));
+            console.printCreateSuccessMessage(createdUUID);
         } catch (InvalidVoucherTypeException | NumberFormatException e) {
             console.printExceptionMessage(e.getMessage());
         } catch (AmountOutOfBoundException e) {

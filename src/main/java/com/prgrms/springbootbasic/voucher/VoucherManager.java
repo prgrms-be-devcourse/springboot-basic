@@ -7,6 +7,7 @@ import com.prgrms.springbootbasic.voucher.dto.VoucherResponse;
 import com.prgrms.springbootbasic.voucher.storage.VoucherStorage;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -20,11 +21,11 @@ public class VoucherManager {
         this.voucherStorage = voucherStorage;
     }
 
-    public void create(VoucherInfo voucherInfo) {
+    public UUID create(VoucherInfo voucherInfo) {
         Voucher voucher = voucherInfo
                 .getType()
                 .construct(voucherInfo);
-        voucherStorage.save(voucher);
+        return voucherStorage.save(voucher);
     }
 
     /**
