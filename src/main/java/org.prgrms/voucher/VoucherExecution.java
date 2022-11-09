@@ -1,13 +1,13 @@
 package org.prgrms.voucher;
 
 public class VoucherExecution {
-  private static boolean flag = true;
+  private static boolean runningState = true;
 
   public static boolean isRunnable() {
-    return flag;
+    return runningState;
   }
 
   public static void stop() {
-    flag = false;
+    runningState = false;
   }
 }
