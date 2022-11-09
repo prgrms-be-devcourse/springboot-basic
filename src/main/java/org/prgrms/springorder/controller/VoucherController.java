@@ -1,23 +1,33 @@
 package org.prgrms.springorder.controller;
 
 import org.prgrms.springorder.domain.Message;
+import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.exception.NoSuchCommandException;
 import org.prgrms.springorder.io.Input;
 import org.prgrms.springorder.io.Output;
+import org.prgrms.springorder.repository.VoucherRepository;
+import org.prgrms.springorder.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class VoucherController implements Runnable{
 
 	private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 	private final ControllerStatus controllerStatus;
 	private final Input input;
 	private final Output output;
+	private final VoucherService voucherService;
+	private final VoucherRepository voucherRepository;
 
-	public VoucherController(ControllerStatus controllerStatus, Input input, Output output) {
+	public VoucherController(ControllerStatus controllerStatus, Input input, Output output,
+		VoucherService voucherService, VoucherRepository voucherRepository) {
 		this.controllerStatus = controllerStatus;
 		this.input = input;
 		this.output = output;
+		this.voucherService = voucherService;
+		this.voucherRepository = voucherRepository;
 	}
 
 	@Override
@@ -34,12 +44,14 @@ public class VoucherController implements Runnable{
 	}
 
 	private void execute(Command menu) {
-		//Todo 서비스 구현하기
 		switch (menu) {
-			case CREATE ->
-			case LIST ->
-			case BLACK_LIST ->
-			case EXIT ->
+			case CREATE -> {
+				VoucherType voucherType = VoucherType.getVoucherByOrder(input.read(Message.SELECT_VOUCHER_MESSAGE));
+				long value = Long.parseLong(input.read(voucherType.getMessage()));
+				voucherService.createVoucher(voucherType, value);
+			}
+			case LIST -> output.writeList(voucherService.getList());
+			case EXIT -> controllerStatus.stop();
 			default -> {
 				throw new NoSuchCommandException("Wrong Command");
 			}
