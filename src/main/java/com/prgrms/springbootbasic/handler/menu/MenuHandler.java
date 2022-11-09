@@ -1,8 +1,11 @@
 package com.prgrms.springbootbasic.handler.menu;
 
-import com.prgrms.springbootbasic.handler.vocuher.dto.VoucherInfo;
+import com.prgrms.springbootbasic.voucher.dto.VoucherInfo;
 import org.springframework.stereotype.Component;
 
+/**
+ * Deprecated
+ */
 @Component
 public class MenuHandler {
 
