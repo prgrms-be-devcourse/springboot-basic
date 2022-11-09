@@ -6,6 +6,7 @@ import org.prgrms.springorder.exception.NoSuchCommandException;
 import org.prgrms.springorder.io.Input;
 import org.prgrms.springorder.io.Output;
 import org.prgrms.springorder.repository.VoucherRepository;
+import org.prgrms.springorder.service.CustomerService;
 import org.prgrms.springorder.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,15 +20,15 @@ public class VoucherController implements Runnable{
 	private final Input input;
 	private final Output output;
 	private final VoucherService voucherService;
-	private final VoucherRepository voucherRepository;
+	private final CustomerService customerService;
 
 	public VoucherController(ControllerStatus controllerStatus, Input input, Output output,
-		VoucherService voucherService, VoucherRepository voucherRepository) {
+		VoucherService voucherService, CustomerService customerService) {
 		this.controllerStatus = controllerStatus;
 		this.input = input;
 		this.output = output;
 		this.voucherService = voucherService;
-		this.voucherRepository = voucherRepository;
+		this.customerService = customerService;
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class VoucherController implements Runnable{
 				voucherService.createVoucher(voucherType, value);
 			}
 			case LIST -> output.writeList(voucherService.getList());
+			case BLACK_LIST -> output.writeList(customerService.getBlackList());
 			case EXIT -> controllerStatus.stop();
 			default -> {
 				throw new NoSuchCommandException("Wrong Command");

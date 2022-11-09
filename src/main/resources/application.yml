@@ -17,5 +17,7 @@ repository:
     voucher:
       save-path: ./src/main/resources/voucher_list.csv
 
-
+    customer:
+      blacklist:
+        save-path: ./src/main/resources/customer_blacklist.csv
 
