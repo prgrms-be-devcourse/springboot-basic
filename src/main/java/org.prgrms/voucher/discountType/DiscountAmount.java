@@ -1,10 +1,19 @@
 package org.prgrms.voucher.discountType;
 
-public class DiscountAmount implements Discount {
+public class DiscountAmount implements Amount {
 
   private final long value;
 
   public DiscountAmount(String input) {
+
+    this.value = getTarget(input);
+  }
+
+  public long getValue() {
+    return value;
+  }
+
+  private static long getTarget(String input) {
     long target;
     try {
       target = Long.parseLong(input);
@@ -14,11 +23,7 @@ public class DiscountAmount implements Discount {
     if (target < 1) {
       throw new IllegalStateException("잘못된 할인금액 범위입니다");
     }
-
-    this.value = target;
+    return target;
   }
 
-  public long getValue() {
-    return value;
-  }
 }
