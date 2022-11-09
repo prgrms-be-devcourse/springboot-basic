@@ -36,5 +36,4 @@ public class VoucherManager {
                 .map(voucher -> new VoucherResponse(voucher.getVoucherType(), voucher.getDiscountRate()))
                 .collect(Collectors.toList());
     }
-
 }

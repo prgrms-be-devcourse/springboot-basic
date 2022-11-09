@@ -1,8 +1,8 @@
 package com.prgrms.springbootbasic.common.exception;
 
-public class AmountOutOfBoundException extends IllegalArgumentException{
+public class AmountOutOfBoundException extends IllegalArgumentException {
 
-  public AmountOutOfBoundException(String message){
-    super(message);
-  }
+    public AmountOutOfBoundException(String message) {
+        super(message);
+    }
 }

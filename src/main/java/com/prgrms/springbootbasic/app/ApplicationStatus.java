@@ -11,11 +11,11 @@ public class ApplicationStatus {
         running = true;
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return running;
     }
 
-    public void exit(){
+    public void exit() {
         running = false;
     }
 }

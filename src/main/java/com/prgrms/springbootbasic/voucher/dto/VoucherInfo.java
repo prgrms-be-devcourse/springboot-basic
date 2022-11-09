@@ -12,13 +12,11 @@ public class VoucherInfo {
         this.amount = amount;
     }
 
-    public VoucherType getType(){
+    public VoucherType getType() {
         return voucherType;
     }
 
-    public int getAmount(){
+    public int getAmount() {
         return amount;
     }
-
-
 }

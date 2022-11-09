@@ -1,8 +1,8 @@
 package com.prgrms.springbootbasic.common.exception;
 
-public class InvalidVoucherTypeException extends RuntimeException{
+public class InvalidVoucherTypeException extends RuntimeException {
 
-  public InvalidVoucherTypeException(String message){
-    super(message);
-  }
+    public InvalidVoucherTypeException(String message) {
+        super(message);
+    }
 }
