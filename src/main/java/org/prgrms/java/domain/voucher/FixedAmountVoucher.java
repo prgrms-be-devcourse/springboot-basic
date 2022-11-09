@@ -23,6 +23,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return voucherId + ", " + amount;
+        return String.format("%s, %d", voucherId, amount);
     }
 }

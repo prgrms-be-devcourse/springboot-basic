@@ -23,6 +23,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return voucherId + ", " + percent + "%";
+        return String.format("%s, %d%%", voucherId, percent);
     }
 }
