@@ -26,7 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 
 @TestInstance(Lifecycle.PER_CLASS)
-@ActiveProfiles("file")
+@ActiveProfiles("dev")
 class FileBlockCustomerRepositoryTest {
 
     private FileBlockCustomerRepository fileBlockCustomerRepository;
@@ -44,20 +44,6 @@ class FileBlockCustomerRepositoryTest {
     @BeforeEach
     void after() {
         fileBlockCustomerRepository.deleteAll();
-    }
-
-    @DisplayName("file 생성 테스트 - 레포지토리가 생성되면 파일은 생성되어 있다.")
-    @Test
-    void fileCreateTest() { // 의미없는 테스트
-        // given
-        String filePath = path + fileName + fileExtension;
-        File file = new File(filePath);
-
-        //when
-        boolean exists = file.exists();
-
-        //then
-        assertTrue(exists);
     }
 
     @DisplayName("조회 테스트 - id로 객체를 정상적으로 찾는다.")

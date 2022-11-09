@@ -34,9 +34,9 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
 
     public FileBlockCustomerRepository(
-        @Value("${file.path}") String path,
-        @Value("${file.stored-name}") String fileName,
-        @Value("${file.stored-extension}") String fileExtension){
+        @Value("${file.block-customer.path}") String path,
+        @Value("${file.block-customer.stored-name}") String fileName,
+        @Value("${file.block-customer.stored-extension}") String fileExtension){
 
         fileStore = FileUtil.createFile(path, fileName + fileExtension);
 
