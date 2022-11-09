@@ -8,7 +8,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-import static com.example.springbootbasic.console.ConsoleStatus.*;
 import static com.example.springbootbasic.console.output.ResponseFailMessage.RESPONSE_ERROR;
 import static com.example.springbootbasic.console.output.ResponseFailMessage.RESPONSE_EXIT;
 
@@ -20,13 +19,13 @@ public class ConsoleOutput {
 
     public void response(ResponseBody responseBody) {
         try {
-            if (responseBody.getStatus() == FAIL) {
+            if (responseBody.isFail()) {
                 bw.write(RESPONSE_ERROR.getMessage());
             }
-            if (responseBody.getStatus() == END) {
+            if (responseBody.isEnd()) {
                 bw.write(RESPONSE_EXIT.getMessage());
             }
-            if (responseBody.getStatus() == SUCCESS) {
+            if (responseBody.isSuccess() || responseBody.isAgain()) {
                 bw.write(responseBody.getBody());
             }
             bw.flush();

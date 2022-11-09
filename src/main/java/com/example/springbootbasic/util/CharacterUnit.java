@@ -4,7 +4,8 @@ public enum CharacterUnit {
     SPACE(" "),
     ENTER("\n"),
     PERCENT("%"),
-    EMPTY("");
+    EMPTY(""),
+    STICK("-");
 
     private final String unit;
 

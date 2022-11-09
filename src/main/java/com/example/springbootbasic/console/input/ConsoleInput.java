@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.example.springbootbasic.console.ConsoleStatus.FAIL;
+import static com.example.springbootbasic.console.ResponseType.FAIL;
 
 @Component
 public class ConsoleInput {
