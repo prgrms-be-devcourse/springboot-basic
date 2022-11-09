@@ -1,8 +1,6 @@
 package org.prgrms.springorder.controller;
 
 import java.util.List;
-import org.prgrms.springorder.domain.VoucherType;
-import org.prgrms.springorder.request.VoucherCreateRequest;
 
 public class Console {
 
@@ -44,16 +42,6 @@ public class Console {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("입력값은 숫자여야 합니다.", e);
         }
-    }
-
-    public VoucherCreateRequest getVoucherCreateRequest() {
-        output.showMessage("select voucherType 'fixed' or 'percent' : ");
-        String inputVoucherType = input();
-        output.showMessage("input discount amount : ");
-        long discountAmount = inputStringToLong();
-
-        VoucherType voucherType = VoucherType.of(inputVoucherType);
-        return VoucherCreateRequest.of(voucherType, discountAmount);
     }
 
 }

@@ -1,8 +1,6 @@
 package org.prgrms.springorder.controller;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import org.prgrms.springorder.domain.VoucherType;
 import org.prgrms.springorder.request.VoucherCreateRequest;
 import org.prgrms.springorder.service.BlockCustomerService;
 import org.prgrms.springorder.service.VoucherService;
@@ -50,7 +48,7 @@ public class CommandLineController {
     private void execute(Command command) { //
         switch (command) {
             case CREATE -> {
-                VoucherCreateRequest voucherCreateRequest = console.getVoucherCreateRequest();
+                VoucherCreateRequest voucherCreateRequest = getVoucherCreateRequest();
 
                 console.showMessage(
                     "created Voucher. : " + voucherService.createVoucher(voucherCreateRequest));
@@ -73,9 +71,14 @@ public class CommandLineController {
         );
     }
 
-    private List<String> toStringList(List<Object> objects) {
-        Objects.requireNonNull(objects);
-        return objects.stream().map(Object::toString).collect(Collectors.toList());
+    private VoucherCreateRequest getVoucherCreateRequest() {
+        console.showMessage("select voucherType 'fixed' or 'percent' : ");
+        String inputVoucherType = console.input();
+        console.showMessage("input discount amount : ");
+        long discountAmount = console.inputStringToLong();
+
+        VoucherType voucherType = VoucherType.of(inputVoucherType);
+        return VoucherCreateRequest.of(voucherType, discountAmount);
     }
 
 }
