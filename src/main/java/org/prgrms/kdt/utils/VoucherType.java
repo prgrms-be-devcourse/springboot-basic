@@ -7,9 +7,8 @@ import java.util.Arrays;
 import static org.prgrms.kdt.io.IOManager.getSelectWrongMessage;
 
 public enum VoucherType {
-    FIXED_VOUCHER("1"),
-    PERCENT_VOUCHER("2"),
-    GO_BACK("3");
+    FIXED_VOUCHER("f"),
+    PERCENT_VOUCHER("p");
 
     private final String voucherType;
 
