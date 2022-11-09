@@ -5,13 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.exception.NoSuchVoucherTypeException;
-import org.prgrms.voucher.discountType.Discount;
+import org.prgrms.voucher.discountType.Amount;
 import org.prgrms.voucher.discountType.DiscountAmount;
 import org.prgrms.voucher.discountType.DiscountRate;
 
 public class VoucherTypeTest {
 
-  @DisplayName("of메소드는 1번을 입력받았을 때 FixedAmountVoucher 를 리턴한다.")
+  @DisplayName("콘솔에서 1번을 입력받았을 때 고정 타입을 리턴한다.")
   @Test
   void isFixedType() {
     //given
@@ -22,7 +22,7 @@ public class VoucherTypeTest {
     assertEquals(VoucherType.FIXED, voucherType);
   }
 
-  @DisplayName("of메소드는 2번을 입력받았을 때 PercentDiscountVoucher 를 리턴한다.")
+  @DisplayName("콘솔에서 2번을 입력받았을 때 고정 타입을 리턴한다.")
   @Test
   void isPercentType() {
     //given
@@ -33,7 +33,7 @@ public class VoucherTypeTest {
     assertEquals(VoucherType.PERCENT, voucherType);
   }
 
-  @DisplayName("of메소드는 선택지에 없는 번호를 입력받으면 NoSuchVoucherTypeException을 던진다")
+  @DisplayName("선택지에 없는 번호를 입력받으면 NoSuchVoucherTypeException을 던진다")
   @Test
   void isNoMatchingType() {
     //given
@@ -44,7 +44,7 @@ public class VoucherTypeTest {
 
   }
 
-  @DisplayName("of메소드는 숫자가 아닌 값을 입력받으면 NoSuchVoucherTypeException을 던진다")
+  @DisplayName("Voucher 선택시 숫자가 아닌 값을 입력받으면 NoSuchVoucherTypeException을 던진다")
   @Test
   void nonNumericType() {
     //given
@@ -55,50 +55,50 @@ public class VoucherTypeTest {
 
   }
 
-  @DisplayName("generateVoucher 메소드는 fixed바우처 타입과, discount를 입력받으면 FixedAmountVoucher타입을 리턴한다")
+  @DisplayName("바우처 생성시 fixed바우처 타입을 입력받으면 FixedAmountVoucher타입을 리턴한다")
   @Test
   void generateFixedVoucher() {
     //given
     VoucherType fixed = VoucherType.FIXED;
-    Discount discount = new DiscountAmount("3000");
+    Amount discount = new DiscountAmount("3000");
     //when
     Voucher voucher = VoucherType.generateVoucher(fixed, discount);
     //then
     assertInstanceOf(FixedAmountVoucher.class, voucher);
   }
 
-  @DisplayName("generateVoucher 메소드는 percent바우처 타입과, discount를 입력받으면 PercentDiscountVoucher타입을 리턴한다")
+  @DisplayName("바우처 생성시 percent바우처 타입을 입력받으면 PercentDiscountVoucher타입을 리턴한다")
   @Test
   void generatePercentVoucher() {
     //given
     VoucherType percent = VoucherType.PERCENT;
-    Discount discount = new DiscountRate("10");
+    Amount discount = new DiscountRate("10");
     //when
     Voucher voucher = VoucherType.generateVoucher(percent, discount);
     //then
     assertInstanceOf(PercentDiscountVoucher.class, voucher);
   }
 
-  @DisplayName("generateDiscount 메소드는 fixed바우처 타입과 할인금액을 입력받으면 DiscountAmount타입을 리턴한다")
+  @DisplayName("Amount 타입 생성시 fixed바우처 타입과 할인금액을 입력받으면 DiscountAmount타입을 리턴한다")
   @Test
   void generateFixedDiscount() {
     //given
     VoucherType fixed = VoucherType.FIXED;
     String value = "2000";
     //when
-    Discount discount = VoucherType.generateDiscount(fixed, value);
+    Amount discount = VoucherType.generateAmount(fixed, value);
     //then
     assertInstanceOf(DiscountAmount.class, discount);
   }
 
-  @DisplayName("generateDiscount 메소드는 percent바우처 타입과 할인금액을 입력받으면 DiscountRate타입을 리턴한다")
+  @DisplayName("Amount 타입 생성시 percent바우처 타입과 할인금액을 입력받으면 DiscountRate타입을 리턴한다")
   @Test
   void generatePercentDiscount() {
     //given
     VoucherType percent = VoucherType.PERCENT;
     String value = "50";
     //when
-    Discount discount = VoucherType.generateDiscount(percent, value);
+    Amount discount = VoucherType.generateAmount(percent, value);
     //then
     assertInstanceOf(DiscountRate.class, discount);
   }
