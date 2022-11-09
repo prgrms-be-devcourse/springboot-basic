@@ -2,17 +2,15 @@ package org.prgrms.voucher.voucherType;
 
 import java.util.UUID;
 import org.prgrms.exception.PaymentCannotBeNegativeException;
-import org.prgrms.voucher.discountType.Discount;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.prgrms.voucher.discountType.Amount;
 
-@Qualifier("fixed")
 public class FixedAmountVoucher implements Voucher {
 
   private final UUID voucherId;
-  private final Discount discountAmount;
+  private final Amount discountAmount;
 
 
-  public FixedAmountVoucher(UUID voucherId, Discount discountAmount) {
+  public FixedAmountVoucher(UUID voucherId, Amount discountAmount) {
     this.voucherId = voucherId;
     this.discountAmount = discountAmount;
 
@@ -34,6 +32,10 @@ public class FixedAmountVoucher implements Voucher {
 
   @Override
   public String toString() {
-    return "FixedAmountVoucher : " + discountAmount.getValue() + "원";
+    return "*** FixedAmountVoucher ***"
+        + System.lineSeparator()
+        + "voucherId : " + voucherId
+        + System.lineSeparator()
+        + "discountAmount: " + discountAmount.getValue() + "won";
   }
 }
