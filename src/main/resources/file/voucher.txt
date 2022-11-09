@@ -1,0 +1,6 @@
+PercentDiscountVoucher	a0b192e3-d2e9-4bf4-83f0-d8e9cd70af86	10%
+FixedAmountVoucher	4efa4829-a984-4fa4-a0ec-44a8522779c3	$10,000
+FixedAmountVoucher	1e91bd18-6bed-4725-ae0d-47d1d6383725	$1,000
+FixedAmountVoucher	0ce17512-a79a-48d7-b298-18d49baefe0a	$1,000
+FixedAmountVoucher	86a7467f-db1d-40dc-9a0a-b59d6c09fde9	$1,900
+PercentDiscountVoucher	3ecfe22e-3d52-4a3b-81c3-8c5bedaa71a3	30%
