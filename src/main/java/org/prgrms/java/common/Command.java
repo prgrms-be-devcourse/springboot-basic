@@ -7,7 +7,8 @@ import java.util.Arrays;
 public enum Command {
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACK_LIST("blacklist");
 
     private final String command;
 

@@ -5,7 +5,8 @@ public enum MessageGuide {
             "=== Voucher Program ===\n" +
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers."
+            "Type list to list all vouchers.\n" +
+            "Type blacklist to list all blocked users."
     ),
     VOUCHER_TYPE(
             "=== Select Voucher Type ===\n" +
