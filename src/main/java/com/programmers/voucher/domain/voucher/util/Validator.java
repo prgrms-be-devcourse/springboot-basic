@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.OutOfPercentRangeException;
-import com.programmers.voucher.exception.WrongDiscountTypeException;
-import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 @Component
 public class Validator {
@@ -18,7 +15,7 @@ public class Validator {
 	public void validateVoucherType(String type) {
 		if (!(type.equals(VoucherType.FIXED.getType()) || type.equals(VoucherType.PERCENT.getType()))) {
 			log.error(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());
-			throw new WrongVoucherTypeException();
+			throw new IllegalArgumentException(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());
 		}
 	}
 
@@ -32,7 +29,7 @@ public class Validator {
 
 		if (discount.equals("") || !discount.chars().allMatch(Character::isDigit)) {
 			log.error(ExceptionMessage.WRONG_DISCOUNT_TYPE.getMessage());
-			throw new WrongDiscountTypeException();
+			throw new IllegalArgumentException(ExceptionMessage.WRONG_DISCOUNT_TYPE.getMessage());
 		}
 	}
 
@@ -42,7 +39,7 @@ public class Validator {
 
 			if (parsedDiscount <= 0 || parsedDiscount > 100) {
 				log.error(ExceptionMessage.OUT_OF_PERCENT_RANGE.getMessage());
-				throw new OutOfPercentRangeException();
+				throw new IllegalArgumentException(ExceptionMessage.OUT_OF_PERCENT_RANGE.getMessage());
 			}
 		}
 	}

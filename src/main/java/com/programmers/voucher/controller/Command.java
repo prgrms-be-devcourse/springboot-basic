@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.WrongCommandException;
 
 public enum Command {
 
@@ -16,7 +15,7 @@ public enum Command {
 	EXIT("exit");
 
 	private static final Logger log = LoggerFactory.getLogger(Command.class);
-	private String option;
+	private final String option;
 
 	Command(String option) {
 		this.option = option;
@@ -28,7 +27,7 @@ public enum Command {
 			.findFirst()
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.WRONG_COMMAND.getMessage());
-				throw new WrongCommandException();
+				throw new IllegalArgumentException(ExceptionMessage.WRONG_COMMAND.getMessage());
 			});
 	}
 }

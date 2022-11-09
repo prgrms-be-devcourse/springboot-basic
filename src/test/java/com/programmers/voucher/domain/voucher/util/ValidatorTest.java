@@ -9,9 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.OutOfPercentRangeException;
-import com.programmers.voucher.exception.WrongDiscountTypeException;
-import com.programmers.voucher.exception.WrongVoucherTypeException;
 
 class ValidatorTest {
 
@@ -26,7 +23,7 @@ class ValidatorTest {
 		types.add("   ");
 		types.add("1234");
 
-		Assertions.assertThatExceptionOfType(WrongVoucherTypeException.class)
+		Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
 			.isThrownBy(() -> {
 				types.stream()
 					.forEach(i -> validator.validateVoucherType(i));
@@ -43,7 +40,7 @@ class ValidatorTest {
 		discounts.add("twenty");
 		discounts.add("20.");
 
-		Assertions.assertThatExceptionOfType(WrongDiscountTypeException.class)
+		Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
 			.isThrownBy(() -> {
 				discounts.stream()
 					.forEach(i -> validator.validateDiscount(VoucherType.FIXED.getType(), i));
@@ -58,7 +55,7 @@ class ValidatorTest {
 		discounts.add("120");
 		discounts.add("-5");
 
-		Assertions.assertThatExceptionOfType(OutOfPercentRangeException.class)
+		Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
 			.isThrownBy(() -> {
 				discounts.stream()
 					.forEach(i -> validator.validateDiscount(VoucherType.PERCENT.getType(), i));
