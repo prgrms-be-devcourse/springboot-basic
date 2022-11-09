@@ -2,7 +2,6 @@ package com.programmers.voucher.voucher;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
@@ -32,21 +31,16 @@ public enum VoucherType {
     ;
 
     private final List<String> type;
+
     VoucherType(List<String> type) {
         this.type = type;
-    }
-
-    public static Optional<VoucherType> findVoucher(String type) {
-        return Arrays.stream(values())
-                .filter(voucher -> voucher.name().equals(type))
-                .findFirst();
     }
 
     public static VoucherType getValidateVoucherType(String inputType) {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.getType().contains(inputType))
-                        .findFirst()
-                        .orElseThrow(() -> new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage()));
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage()));
     }
 
     public List<String> getType() {

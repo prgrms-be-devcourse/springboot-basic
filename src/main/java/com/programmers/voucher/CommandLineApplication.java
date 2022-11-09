@@ -4,7 +4,6 @@ import com.programmers.voucher.menu.Menu;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

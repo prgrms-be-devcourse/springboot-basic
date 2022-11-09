@@ -6,13 +6,12 @@ import org.ini4j.Profile.Section;
 import org.ini4j.Wini;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.Map.Entry;
@@ -23,25 +22,22 @@ import java.util.stream.Stream;
 @Profile("dev")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
+    public static final String VOUCHER_TYPE = "type";
+    public static final String VOUCHER_VALUE = "value";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    private static final String VOUCHER_TYPE = "type";
-    private static final String VOUCHER_VALUE = "value";
-    private final List<Voucher> memoryStore = new ArrayList<>();
-    private final List<Voucher> dumper = new ArrayList<>();
+    private final List<Voucher> loadStore;
+    private final List<Voucher> dumper;
+    private final Wini wini;
 
-    private Wini wini;
-
-    @Value("${kdt.voucher.save-path}")
-    private String path;
+    @Autowired
+    public FileVoucherRepository(Wini wini) {
+        this.wini = wini;
+        this.loadStore = new ArrayList<>();
+        this.dumper = new ArrayList<>();
+    }
 
     @PostConstruct
-    public void setting() throws IOException {
-        File file = new File(path);
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-
-        wini = new Wini(file);
+    public void setting() {
         load();
     }
 
@@ -53,7 +49,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
 
-        return memoryStore.stream()
+        return loadStore.stream()
                 .filter(memoryVoucher -> memoryVoucher.getVoucherId().equals(voucherId))
                 .findAny()
                 .or(() ->
@@ -65,7 +61,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllVouchers() {
-        return Stream.of(memoryStore, dumper)
+        return Stream.of(loadStore, dumper)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
@@ -79,6 +75,8 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         wini.clear();
+        loadStore.clear();
+        dumper.clear();
     }
 
     private void load() {
@@ -87,13 +85,13 @@ public class FileVoucherRepository implements VoucherRepository {
                 Section section = sections.getValue();
 
                 String id = section.getName();
-                String type = section.get("type");
-                long value = section.get("value", long.class);
+                String type = section.get(VOUCHER_TYPE);
+                long value = section.get(VOUCHER_VALUE, long.class);
 
                 Voucher voucher = VoucherType.getValidateVoucherType(type)
                         .createVoucher(UUID.fromString(id), value);
 
-                memoryStore.add(voucher);
+                loadStore.add(voucher);
             }
         }
     }
@@ -118,5 +116,13 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error("파일 동기화 중 에러 발생", e);
         }
+    }
+
+    List<Voucher> getLoadStore() {
+        return loadStore;
+    }
+
+    List<Voucher> getDumper() {
+        return dumper;
     }
 }

@@ -7,92 +7,98 @@ import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
 import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 import static com.programmers.voucher.voucher.VoucherValidator.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherValidatorTest {
 
     @Test
-    @DisplayName("올바른 타입과 한도 내의 금액을 입력한 경우 검증 통과")
-    void validatorTest() {
-        String typeF = FixedAmount.getType();
+    @DisplayName("바우처의 value가 숫자가 아닌 경우 런타임 예외가 발생한다.")
+    void isNumeric() {
+        assertThrows(RuntimeException.class,
+                () -> VoucherValidator.isNumeric("hello World"));
+    }
+
+    @Test
+    @DisplayName("바우처의 value가 숫자면 검증 통과")
+    void isNumeric2() {
+        boolean result1 = VoucherValidator.isNumeric("98347598374");
+        boolean result2 = VoucherValidator.isNumeric("123582975");
+        boolean result3 = VoucherValidator.isNumeric("8588585858585885858");
+
+        assertEquals(true, result1);
+        assertEquals(true, result2);
+        assertEquals(true, result3);
+    }
+
+    @Test
+    @DisplayName("한도 내의 금액을 입력한 경우 검증 통과")
+    void 한도금액테스트() {
+        VoucherType typeF = FixedAmount;
         String valueF = "2000";
 
-        String typeP = FixedAmount.getType();
-        String valueP = "2000";
+        VoucherType typeP = PercentDiscount;
+        String valueP = "50";
 
-        boolean validateValue = VoucherValidator.isValidateValue(typeF, valueF);
-        boolean validateValue2 = VoucherValidator.isValidateValue(typeP, valueP);
+        boolean resultF = isProperValue(typeF, valueF);
+        boolean resultP = isProperValue(typeP, valueP);
 
-        assertEquals(true, validateValue);
-        assertEquals(true, validateValue2);
-    }
-
-
-    @Test
-    @DisplayName("value로 입력한 값이 숫자인 경우 검증 통과")
-    void isNumericTest1() {
-        boolean validateValue = VoucherValidator.isNumeric("1259764");
-        assertEquals(true, validateValue);
+        assertEquals(true, resultF);
+        assertEquals(true, resultP);
     }
 
     @Test
-    @DisplayName("value로 입력한 값이 숫자가 아닌 경우 false 리턴")
-    void isNumericTest2() {
-        boolean validateValue = VoucherValidator.isNumeric("asdf");
-        assertEquals(false, validateValue);
+    @DisplayName("FixedAmount 타입에 한도 금액의 MAX 경계값을 입력한 경우 검증 통과")
+    void 한도금액테스트2() {
+        boolean result = isProperValue(FixedAmount, String.valueOf(MAX_DISCOUNT_COST));
+        assertEquals(true, result);
     }
 
     @Test
-    @DisplayName("바우처의 value 입력값으로 MAX경계값을 입력하는 경우 true 리턴")
-    void isProperValue() {
-        String typeP = PercentDiscount.getType();
-        boolean validateValue = VoucherValidator.isProperValue(typeP, String.valueOf(MAX_DISCOUNT_PERCENTAGE));
-
-        String typeF = FixedAmount.getType();
-        boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(MAX_DISCOUNT_COST));
-
-        assertEquals(true, validateValue);
-        assertEquals(true, validateValue2);
+    @DisplayName("FixedAmount 타입에 한도 금액의 MIN 경계값을 입력한 경우 검증 통과")
+    void 한도금액테스트3() {
+        boolean result = isProperValue(FixedAmount, String.valueOf(MIN_DISCOUNT_COST));
+        assertEquals(true, result);
     }
 
     @Test
-    @DisplayName("바우처의 value 입력값으로 MIN경계값을 입력하는 경우 true 리턴")
-    void isProperValue2() {
-        String typeP = PercentDiscount.getType();
-        boolean validateValue = VoucherValidator.isProperValue(typeP, String.valueOf(MIN_DISCOUNT_PERCENTAGE));
-
-        String typeF = FixedAmount.getType();
-        boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(MIN_DISCOUNT_COST));
-
-        assertEquals(true, validateValue);
-        assertEquals(true, validateValue2);
+    @DisplayName("Percent 타입에 한도 금액의 MAX 경계값을 입력한 경우 검증 통과")
+    void 한도금액테스트4() {
+        boolean result = isProperValue(PercentDiscount, String.valueOf(MAX_DISCOUNT_PERCENTAGE));
+        assertEquals(true, result);
     }
 
     @Test
-    @DisplayName("바우처의 타입이 FixDiscount일 때  value 입력값으로 1000 ~ 200000을 벗어나면 false 리턴")
-    void isProperValue3() {
-        String typeF = FixedAmount.getType();
+    @DisplayName("Percent 타입에 한도 금액의 MIN 경계값을 입력한 경우 검증 통과")
+    void 한도금액테스트5() {
+        boolean result = isProperValue(PercentDiscount, String.valueOf(MIN_DISCOUNT_PERCENTAGE));
+        assertEquals(true, result);
+    }
 
-        int smallerThanMinValue = MIN_DISCOUNT_COST - 1; // 999
-        boolean validateValue = VoucherValidator.isProperValue(typeF, String.valueOf(smallerThanMinValue));
-
+    @Test
+    @DisplayName("FixedAmount 타입에 한도 금액을 벗어나는 금액을 입력한 경우 런타임 예외가 발생한다.")
+    void 한도금액초과테스트() {
         int biggerThanMaxValue = MAX_DISCOUNT_COST + 1;
-        boolean validateValue2 = VoucherValidator.isProperValue(typeF, String.valueOf(biggerThanMaxValue));
+        int smallerThanMinValue = MIN_DISCOUNT_COST - 1;
 
-        assertEquals(false, validateValue);
-        assertEquals(false, validateValue2);
+
+        assertThrows(RuntimeException.class,
+                () -> ValidateValue(FixedAmount, String.valueOf(biggerThanMaxValue)));
+
+        assertThrows(RuntimeException.class,
+                () -> ValidateValue(FixedAmount, String.valueOf(smallerThanMinValue)));
     }
 
     @Test
-    @DisplayName("바우처의 타입이 PercentDiscount일 때  value 입력값으로 1~100을 벗어나면 false 리턴")
-    void isProperValue4() {
-        String typeP = PercentDiscount.getType();
-        int biggerThanMaxValue = MAX_DISCOUNT_PERCENTAGE + 1; // 101
-        boolean validateValue = VoucherValidator.isProperValue(typeP, String.valueOf(biggerThanMaxValue));
+    @DisplayName("Percent 타입에 한도 금액을 벗어나는 금액을 입력한 경우 런타임 예외가 발생한다.")
+    void 한도금액초과테스트2() {
+        int biggerThanMaxValue = MAX_DISCOUNT_PERCENTAGE + 1;
+        int smallerThanMinValue = MIN_DISCOUNT_PERCENTAGE - 1;
 
-        int smallerThanMinValue = MIN_DISCOUNT_PERCENTAGE - 1; // 0
-        boolean validateValue2 = VoucherValidator.isProperValue(typeP, String.valueOf(smallerThanMinValue));
 
-        assertEquals(false, validateValue);
-        assertEquals(false, validateValue2);
+        assertThrows(RuntimeException.class,
+                () -> ValidateValue(PercentDiscount, String.valueOf(biggerThanMaxValue)));
+
+        assertThrows(RuntimeException.class,
+                () -> ValidateValue(PercentDiscount, String.valueOf(smallerThanMinValue)));
     }
 }
