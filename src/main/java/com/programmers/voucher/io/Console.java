@@ -7,8 +7,8 @@ import java.util.List;
 
 @Component
 public class Console<T> {
-    Input input;
-    Output output;
+    private final Input input;
+    private final Output output;
 
     public Console(Input input, Output output) {
         this.input = input;

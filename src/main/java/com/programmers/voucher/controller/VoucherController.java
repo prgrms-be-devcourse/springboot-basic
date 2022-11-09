@@ -4,15 +4,17 @@ import com.programmers.voucher.io.MenuType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.model.VoucherType;
 import com.programmers.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class VoucherController implements ApplicationRunner {
-
-    private Console console;
-    private VoucherService voucherService;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Console console;
+    private final VoucherService voucherService;
 
     public VoucherController(Console console, VoucherService voucherService) {
         this.console = console;
@@ -36,6 +38,7 @@ public class VoucherController implements ApplicationRunner {
                         break;
                 }
             } catch (IllegalArgumentException e) {
+                logger.error("wrong order input");
                 console.printError();
             }
         }

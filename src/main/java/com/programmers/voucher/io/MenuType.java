@@ -21,6 +21,6 @@ public enum MenuType {
         return Stream.of(MenuType.values())
                 .filter(type -> type.getMenuType().equals(inputMenu))
                 .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(()->new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }
 }

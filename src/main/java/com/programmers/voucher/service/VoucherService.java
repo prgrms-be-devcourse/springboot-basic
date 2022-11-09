@@ -5,6 +5,8 @@ import com.programmers.voucher.model.PercentDiscountVoucher;
 import com.programmers.voucher.model.Voucher;
 import com.programmers.voucher.model.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -26,10 +28,13 @@ public class VoucherService {
         } else {
             newVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
         }
+        logger.info("voucher create => {}", newVoucher);
         return voucherRepository.save(newVoucher);
     }
 
     public List<Voucher> findAllVoucher() {
-        return voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
+        logger.info("voucher findAll at repository => {}", vouchers);
+        return vouchers;
     }
 }
