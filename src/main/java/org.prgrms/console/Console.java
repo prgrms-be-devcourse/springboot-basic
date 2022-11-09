@@ -1,9 +1,8 @@
 package org.prgrms.console;
 
-import static org.prgrms.console.Message.*;
-
 import java.util.List;
 import java.util.Scanner;
+import org.prgrms.exception.NoSuchVoucherTypeException;
 import org.prgrms.voucher.voucherType.Voucher;
 import org.prgrms.voucher.voucherType.VoucherType;
 import org.springframework.stereotype.Component;
@@ -11,37 +10,48 @@ import org.springframework.stereotype.Component;
 @Component
 public class Console {
 
+  private final static String SHOW_SUPPORTED_COMMANDS = """
+      === Voucher Program ===
+      Type exit to exit the program.
+      Type create to create a new voucher.
+      Type list to list all vouchers.""";
+  private final static String CHOOSE_VOUCHER_TYPE = """
+      === Please select a voucher type(numbers only) ===
+      1.FixedAmountVoucher
+      2.PercentDiscountVoucher
+      """;
+  private final static String ENTER_DISCOUNT_RATE = "=== Please enter discount rate(numbers only) ===";
+  private final static String ENTER_DISCOUNT_AMOUNT = "=== Please enter the discount amount(numbers only) ===";
   private final Scanner scanner = new Scanner(System.in);
 
 
   public String chooseMenu() {
-    printSupportedCommands();
-    return convertInputToLowercase();
+    System.out.println(SHOW_SUPPORTED_COMMANDS);
+    return enteredSelectedMenu()
+        .toLowerCase()
+        .trim();
   }
 
-  private String convertInputToLowercase() {
-    return scanner.nextLine().toLowerCase().trim();
-  }
-
-  private void printSupportedCommands() {
-    System.out.println(SHOW_SUPPORTED_COMMANDS.value);
-  }
-
-  public String chooseVoucherType() {
-    System.out.println(CHOOSE_VOUCHER_TYPE.value);
+  private String enteredSelectedMenu() {
     return scanner.nextLine();
   }
 
-  public String enterDiscountRate(VoucherType voucherType) {
+  public String chooseVoucherType() {
+    System.out.println(CHOOSE_VOUCHER_TYPE);
+    return scanner.nextLine();
+  }
+
+  public String enteredAmount(VoucherType voucherType) {
     switch (voucherType) {
-      case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT.value);
-      case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE.value);
+      case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT);
+      case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE);
+      default -> throw new NoSuchVoucherTypeException(voucherType.getType());
     }
     return scanner.nextLine();
   }
 
   public void printSavedVoucher(Voucher voucher) {
-    System.out.println(voucher.toString());
+    System.out.println(voucher);
   }
 
   public void printVoucherList(List<Voucher> voucherList) {
