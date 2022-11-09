@@ -12,8 +12,8 @@ public enum VoucherMessage {
                     "Type **list** to list all vouchers.{3}{4}",
             ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit(), ENTER.getUnit())),
     CREATE(MessageFormat.format(
-            "Type **fixed '{'number'}'** to create FixedAmountVoucher => ex) fixed 1000{0}" +
-                    "Type **percent '{'number'}'** to create PercentDiscountVoucher => ex) percent 10{1}",
+            "Type **fixed '{'number'}'** to create FixedAmountVoucher => ex) fixed 1000 {0}" +
+                    "Type **percent '{'number'}'** to create PercentDiscountVoucher => ex) percent 10 {1}",
             ENTER.getUnit(), ENTER.getUnit()));
 
     private final String message;

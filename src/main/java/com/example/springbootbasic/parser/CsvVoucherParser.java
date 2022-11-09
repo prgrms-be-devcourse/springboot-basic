@@ -3,6 +3,7 @@ package com.example.springbootbasic.parser;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherEnum;
 
+import static com.example.springbootbasic.exception.ParserException.CSV_PARSER_EXCEPTION;
 import static com.example.springbootbasic.util.CharacterUnit.ENTER;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 
@@ -20,7 +21,7 @@ public class CsvVoucherParser {
                 voucherId,
                 voucherValue,
                 VoucherEnum.findVoucherBy(voucherType)
-                        .orElseThrow(() -> new IllegalArgumentException()));
+                        .orElseThrow(() -> new IllegalArgumentException(CSV_PARSER_EXCEPTION.getMessage())));
     }
 
     public String parseToCsvFrom(Long voucherId, Voucher voucher) {

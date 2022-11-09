@@ -51,7 +51,6 @@ public class CsvVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override

@@ -1,7 +1,8 @@
 package com.example.springbootbasic.console;
 
-public enum ConsoleStatus {
+public enum ResponseType {
     SUCCESS,
     FAIL,
+    AGAIN,
     END;
 }

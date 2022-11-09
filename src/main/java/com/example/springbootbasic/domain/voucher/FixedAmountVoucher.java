@@ -1,6 +1,6 @@
 package com.example.springbootbasic.domain.voucher;
 
-import static com.example.springbootbasic.domain.voucher.VoucherEnum.*;
+import static com.example.springbootbasic.domain.voucher.VoucherEnum.FIXED_AMOUNT_VOUCHER;
 
 public class FixedAmountVoucher implements Voucher {
     private final Long voucherId;
