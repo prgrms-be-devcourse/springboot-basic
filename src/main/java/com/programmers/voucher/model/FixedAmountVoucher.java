@@ -4,11 +4,18 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final long discountAmount;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
+        validateZeroDiscount(discountAmount);
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountAmount = discountAmount;
+    }
+
+    private void validateZeroDiscount(long discountAmount) {
+        if(discountAmount == 0) {
+            throw new IllegalArgumentException("할인금액 0원은 불가합니다.");
+        }
     }
 
     @Override
@@ -17,12 +24,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount() {
-        return 0;
+    public long discount(long beforeDiscount) {
+        return beforeDiscount - discountAmount;
     }
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t$%,d", VoucherType.FIXED_AMOUNT_VOUCHER, voucherId, amount);
+        return String.format("%s\t%s\t$%,d", VoucherType.FIXED_AMOUNT_VOUCHER, voucherId, discountAmount);
     }
 }

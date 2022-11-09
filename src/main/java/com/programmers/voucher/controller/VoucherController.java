@@ -39,7 +39,7 @@ public class VoucherController implements ApplicationRunner {
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
-                console.printError();
+                console.printError(e.getMessage());
             }
         }
     }

@@ -35,8 +35,8 @@ public class Console<T> {
         output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE);
     }
 
-    public void printError() {
-        output.printOutput(Message.WRONG_ORDER_MESSAGE);
+    public void printError(String message) {
+        output.printOutput(message);
     }
 
     public void printVouchers(List<Voucher> vouchers) {
