@@ -5,6 +5,8 @@ import org.prgrms.kdt.voucher.utils.VoucherValidator;
 import org.prgrms.kdt.voucher.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class CommandExecutor {
 
@@ -24,5 +26,9 @@ public class CommandExecutor {
         voucher.validate(voucherValidator);
 
         voucherManager.save(voucher);
+    }
+
+    public List<Voucher> list() {
+        return voucherManager.findAll();
     }
 }

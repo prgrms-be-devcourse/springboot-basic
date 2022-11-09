@@ -41,8 +41,7 @@ public class VoucherController implements CommandLineRunner {
                             console.getVoucherAmount()
                     )
             );
-            case LIST -> {
-            }
+            case LIST -> console.printVouchers(commandExecutor.list());
             case EXIT -> voucherControllerStatus.quitProgram();
             default -> throw new InvalidParameterException();
         }

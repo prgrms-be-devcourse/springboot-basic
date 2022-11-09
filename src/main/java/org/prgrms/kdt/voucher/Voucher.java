@@ -38,4 +38,9 @@ public class Voucher {
     public int hashCode() {
         return Objects.hash(voucherType, amount);
     }
+
+    @Override
+    public String toString() {
+        return "[Type]: " + voucherType.getType() + ", [amount]: " + amount.toString();
+    }
 }

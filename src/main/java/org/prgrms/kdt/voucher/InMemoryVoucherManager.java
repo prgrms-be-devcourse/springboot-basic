@@ -11,13 +11,12 @@ import java.util.concurrent.atomic.AtomicLong;
 @Repository
 public class InMemoryVoucherManager implements VoucherManager {
 
-    private final Map<AtomicLong, Voucher> vouchers = new ConcurrentHashMap<>();
-    private static final AtomicLong sequence = new AtomicLong(0L);
+    private final Map<Long, Voucher> vouchers = new ConcurrentHashMap<>();
+    private final AtomicLong sequence = new AtomicLong(0L);
 
     @Override
     public Voucher save(Voucher voucher) {
-        vouchers.put(sequence, voucher);
-        sequence.incrementAndGet();
+        vouchers.put(sequence.incrementAndGet(), voucher);
         return voucher;
     }
 

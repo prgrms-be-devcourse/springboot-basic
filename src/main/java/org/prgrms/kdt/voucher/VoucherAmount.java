@@ -22,7 +22,7 @@ public class VoucherAmount {
         return this.value <= value;
     }
 
-    public boolean isGreaterThan(long value) {
+    public boolean isGreaterThan(Long value) {
         return this.value > value;
     }
 
@@ -37,5 +37,10 @@ public class VoucherAmount {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
     }
 }
