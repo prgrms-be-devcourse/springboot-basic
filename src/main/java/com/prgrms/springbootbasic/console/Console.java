@@ -18,6 +18,10 @@ public class Console {
         return new MenuInputResult(reader.read());
     }
 
+    public String getInput(){
+        return reader.read();
+    }
+
     public void printMessage(String message) {
         printer.printMessage(message);
     }
