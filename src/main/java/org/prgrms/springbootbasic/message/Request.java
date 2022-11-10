@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic;
+package org.prgrms.springbootbasic.message;
 
 import org.prgrms.springbootbasic.type.Menu;
 import org.prgrms.springbootbasic.type.TypeOption;

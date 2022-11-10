@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic;
 
+import org.prgrms.springbootbasic.message.Request;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.type.Menu;
 import org.prgrms.springbootbasic.type.TypeOption;
