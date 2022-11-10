@@ -5,6 +5,8 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.config.FileCustomerBla
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.utils.CustomerConverter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final File customerBlackListCSVFile;
 
     CustomerRepository(FileCustomerBlackListProperties fileCustomerBlackListProperties) {
@@ -28,6 +31,7 @@ public class CustomerRepository {
                     .map(CustomerConverter::toCustomer)
                     .collect(Collectors.toList());
         } catch (IOException e) {
+            logger.error("findAll error message -> {}",e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }

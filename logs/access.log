@@ -1,0 +1,9 @@
+18:16:18.065 [main] ERROR c.p.k.s.controller.CommandType - Wrong CommandType = creater
+18:16:21.336 [main] ERROR c.p.k.s.controller.CommandType - Wrong CommandType = 
+18:16:23.777 [main] ERROR c.p.k.s.controller.CommandType - Wrong CommandType = dsf
+18:16:25.233 [main] ERROR c.p.k.s.controller.CommandType - Wrong CommandType = 12132
+18:16:32.032 [main] ERROR c.p.k.s.model.voucher.VoucherType - Wrong VoucherType = 12321
+18:16:38.987 [main] ERROR c.p.k.s.model.voucher.VoucherType - Wrong VoucherType = fsdf
+18:16:49.114 [main] ERROR c.p.k.s.m.v.FixedAmountDiscountVoucher - 범위 초과 에러 입력 => 10000000
+18:17:01.684 [main] ERROR c.p.k.s.m.v.PercentDiscountVoucher - 범위 초과 에러 입력 => 100
+18:17:11.957 [main] ERROR c.p.k.s.console.Console - 숫자를 입력해 주세요.

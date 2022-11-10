@@ -1,8 +1,12 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final long MINPERCENT = 0L;
     private static final long MAXPERCENT = 100L;
     private final UUID voucherId;
@@ -16,10 +20,12 @@ public class PercentDiscountVoucher implements Voucher {
         valid(discountPercent);
         this.voucherId = voucherId;
         this.discountPercent = discountPercent;
+        logger.debug("create Voucher voucherId = {}, discountPercent ={}", voucherId, discountPercent);
     }
 
     private void valid(long discountAmount) {
         if (MINPERCENT >= discountAmount || discountAmount >= MAXPERCENT) {
+            logger.error("범위 초과 에러 입력 => {}", discountAmount);
             throw new RuntimeException("적절한 할인 범위를 넘어갔습니다.");
         }
     }

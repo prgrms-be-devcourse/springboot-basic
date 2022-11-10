@@ -5,6 +5,8 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -13,6 +15,7 @@ import java.util.stream.Stream;
 @Component
 public class Console {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private static final String startMessage = "=== Voucher Program ===";
     private static final String inputCommand = "command >> ";
     private static final String inputVoucherType = "voucherType >> ";
@@ -43,6 +46,7 @@ public class Console {
         try {
             return Long.parseLong(scanner.nextLine().trim());
         } catch (NumberFormatException ne) {
+            logger.error(parseErrorMessage);
             throw new RuntimeException(parseErrorMessage);
         }
     }

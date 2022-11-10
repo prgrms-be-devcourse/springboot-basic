@@ -1,6 +1,8 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommandException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.util.stream.Stream;
@@ -11,7 +13,7 @@ public enum CommandType {
     LIST("Type list to list all vouchers.", "list"),
     BLACKLIST("Type blacklist to list all customer-black-list.", "blacklist"),
     HELP("Type help to show all command.", "help");
-
+    private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private final String explanation;
     private final String command;
 
@@ -24,7 +26,10 @@ public enum CommandType {
         return Stream.of(CommandType.values())
                 .filter(commandType -> commandType.command.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new WrongCommandException(input));
+                .orElseThrow(() -> {
+                    logger.error("Wrong CommandType = {}", input);
+                    return new WrongCommandException(input);
+                });
     }
 
     public String getExplanation() {
