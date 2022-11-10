@@ -1,6 +1,8 @@
 package org.programmers.springbootbasic.repository;
 
 import org.programmers.springbootbasic.domain.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,7 @@ import java.util.List;
 @Repository
 public class CustomerBlackListRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerBlackListRepository.class);
     private final File csv;
     private static final int BLACKLIST_ID_INDEX = 0;
     private static final int BLACKLIST_NAME_INDEX = 1;
@@ -34,15 +37,15 @@ public class CustomerBlackListRepository {
                 blackList.add(assembleBlackList(blackInfo));
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            logger.error("읽어올 파일을 찾을 수 없습니다.");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("블랙리스트를 읽어올 수 없습니다.");
         } finally {
             if(br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.error("블랙리스트를 읽어올 수 없습니다.");
                 }
             }
         }

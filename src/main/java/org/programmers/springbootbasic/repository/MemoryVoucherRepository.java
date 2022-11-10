@@ -19,14 +19,14 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher) {
-        logger.info("voucher 저장");
+        logger.info("voucher memoryRepository에 저장 voucher = {}", voucher);
         store.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        logger.info("Voucher 전체 조회");
+        logger.info("voucher 전체 조회");
         return new ArrayList<>(store.values());
     }
 }

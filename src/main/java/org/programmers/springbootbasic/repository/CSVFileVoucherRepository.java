@@ -4,6 +4,8 @@ import org.programmers.springbootbasic.domain.FixedAmountVoucher;
 import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -17,7 +19,7 @@ import java.util.UUID;
 @Profile("local")
 public class CSVFileVoucherRepository implements VoucherRepository {
 
-
+    private static final Logger logger = LoggerFactory.getLogger(CSVFileVoucherRepository.class);
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_UUID_INDEX = 1;
     private static final int VOUCHER_AMOUNT_INDEX = 2;
@@ -29,6 +31,7 @@ public class CSVFileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
+        logger.info("voucher fileRepository에 저장 voucher = {}", voucher);
         write(voucher);
         return voucher;
     }
@@ -36,6 +39,7 @@ public class CSVFileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        logger.info("voucher 전체 조회");
         return read();
     }
 
@@ -47,7 +51,7 @@ public class CSVFileVoucherRepository implements VoucherRepository {
             bw.flush();
             bw.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("해당 바우처를 파일에 저장할 수 없습니다. voucher {}", voucher);
         }
     }
 
@@ -63,17 +67,17 @@ public class CSVFileVoucherRepository implements VoucherRepository {
                 vouchers.add(assembleVoucher(voucherInfo));
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            logger.error("읽어올 파일을 찾을 수 없습니다.");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("바우처를 읽어올 수 없습니다.");
         } catch (WrongTypeInputException e) {
-            throw new RuntimeException(e);
+            logger.error("허용하지 않는 바우처 타입입니다. 허용하는 바우처 타입은 fixed, percent 입니다.");
         } finally {
             if(br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.error("바우처를 읽어올 수 없습니다.");
                 }
             }
         }
