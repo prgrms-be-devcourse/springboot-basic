@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: org.programmers.weekly.mission.VoucherProgramApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.769 s - in org.programmers.weekly.mission.VoucherProgramApplicationTests
