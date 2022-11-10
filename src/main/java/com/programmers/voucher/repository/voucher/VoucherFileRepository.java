@@ -44,8 +44,7 @@ public class VoucherFileRepository implements VoucherRepository {
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
             String content;
             while ((content = buffer.readLine()) != null) {
-                Voucher voucher = toVoucher(content);
-                vouchers.add(voucher);
+                vouchers.add(toVoucher(content));
             }
         } catch (IOException e1) {
             throw new RuntimeException("파일에서 바우처를 불러오지 못했습니다.");
@@ -54,10 +53,10 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     private Voucher toVoucher(String content) {
-        String[] arr = content.split("\t");
-        VoucherType voucherType = VoucherType.toVoucherTypeByName(arr[0]);
-        long discountValue = Long.parseLong(arr[2].substring(0, arr[2].length() - 2));
-        Voucher voucher = voucherType.convertToVoucher(UUID.fromString(arr[1]), discountValue);
+        String[] contents = content.split("\t");
+        VoucherType voucherType = VoucherType.toVoucherTypeByName(contents[0]);
+        long discountValue = Long.parseLong(contents[2].substring(0, contents[2].length() - 2));
+        Voucher voucher = voucherType.convertToVoucher(UUID.fromString(contents[1]), discountValue);
         return voucher;
     }
 }

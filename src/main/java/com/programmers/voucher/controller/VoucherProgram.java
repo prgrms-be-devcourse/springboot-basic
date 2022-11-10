@@ -8,15 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
-public class VoucherController implements ApplicationRunner {
+@Component
+public class VoucherProgram implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Console console;
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherProgram(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }

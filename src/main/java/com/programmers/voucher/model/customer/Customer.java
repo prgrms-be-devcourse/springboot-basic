@@ -8,4 +8,9 @@ public class Customer {
         this.customerId = customerId;
         this.customerName = customerName;
     }
+
+    @Override
+    public String toString() {
+        return "id :" + customerId + ", name :" + customerName;
+    }
 }

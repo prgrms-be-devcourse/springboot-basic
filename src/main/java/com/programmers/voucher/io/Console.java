@@ -1,5 +1,6 @@
 package com.programmers.voucher.io;
 
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -45,5 +46,13 @@ public class Console<T> {
             return;
         }
         vouchers.stream().forEach(output::printOutput);
+    }
+
+    public void printBlacks(List<Customer> blacks) {
+        if(blacks.isEmpty() || blacks.size() == 0) {
+            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE);
+            return;
+        }
+        blacks.stream().forEach(output::printOutput);
     }
 }
