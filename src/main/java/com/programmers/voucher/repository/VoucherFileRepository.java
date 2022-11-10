@@ -14,8 +14,8 @@ import java.util.List;
 @Profile("local")
 public class VoucherFileRepository implements VoucherRepository {
 
-    private FileWriter writer;
-    private String fileName;
+    private final FileWriter writer;
+    private final String fileName;
 
     public VoucherFileRepository(@Value("${file.path.voucher}") String fileName) {
         this.fileName = fileName;

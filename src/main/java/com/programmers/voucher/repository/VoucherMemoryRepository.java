@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherMemoryRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final static Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
