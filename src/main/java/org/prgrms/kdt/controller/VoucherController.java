@@ -41,7 +41,7 @@ public class VoucherController {
     }
 
     public String exit() {
-        return "시스템을 종료합니다. \n ======================= ";
+        return "시스템을 종료합니다. \n======================= ";
     }
 
     public String wrongCommand(){
