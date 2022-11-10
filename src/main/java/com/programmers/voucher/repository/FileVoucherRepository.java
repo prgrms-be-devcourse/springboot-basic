@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 @Profile("dev")
@@ -20,10 +18,8 @@ import java.util.stream.Stream;
 public class FileVoucherRepository implements VoucherRepository {
     public static final String VOUCHER_TYPE = "type";
     public static final String VOUCHER_VALUE = "value";
-    private final List<Voucher> loadStore;
-    private final List<Voucher> dumper;
     private final Wini wini;
-
+    private final Map<UUID, Voucher> cacheMap;
     private final Loader loader;
     private final Dumper dump;
 
@@ -33,58 +29,45 @@ public class FileVoucherRepository implements VoucherRepository {
         this.loader = loader;
         this.dump = dump;
 
-        this.loadStore = new ArrayList<>();
-        this.dumper = new ArrayList<>();
+        this.cacheMap = new HashMap<>();
     }
 
     @PostConstruct
     public void setting() {
-        loader.load(loadStore);
+        loader.load(cacheMap);
     }
 
     @PreDestroy
     void syncToFile() {
-        dump.dump(dumper);
+        dump.dump(cacheMap);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-
-        return loadStore.stream()
-                .filter(memoryVoucher -> memoryVoucher.getVoucherId().equals(voucherId))
-                .findAny()
-                .or(() ->
-                        dumper.stream()
-                                .filter(dumperVoucher -> dumperVoucher.getVoucherId().equals(voucherId))
-                                .findAny()
-                );
+        return Optional.ofNullable(cacheMap.get(voucherId));
     }
+
 
     @Override
     public List<Voucher> findAllVouchers() {
-        return Stream.of(loadStore, dumper)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+        List<Voucher> vouchers = new ArrayList<>();
+
+        for (UUID key : cacheMap.keySet()) {
+            vouchers.add(cacheMap.get(key));
+        }
+
+        return vouchers;
     }
 
     @Override
     public Voucher registerVoucher(Voucher voucher) {
-        dumper.add(voucher);
+        cacheMap.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public void deleteAll() {
         wini.clear();
-        loadStore.clear();
-        dumper.clear();
-    }
-
-    List<Voucher> getLoadStore() {
-        return loadStore;
-    }
-
-    List<Voucher> getDumper() {
-        return dumper;
+        cacheMap.clear();
     }
 }

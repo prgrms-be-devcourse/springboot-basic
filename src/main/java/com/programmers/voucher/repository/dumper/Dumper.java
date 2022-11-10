@@ -2,8 +2,9 @@ package com.programmers.voucher.repository.dumper;
 
 import com.programmers.voucher.voucher.Voucher;
 
-import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public interface Dumper {
-    void dump(List<Voucher> vouchers);
+    void dump(Map<UUID, Voucher> vouchers);
 }

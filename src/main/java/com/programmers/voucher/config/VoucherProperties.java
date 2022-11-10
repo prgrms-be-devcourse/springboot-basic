@@ -11,4 +11,8 @@ public class VoucherProperties {
     public VoucherProperties(String savePath) {
         this.savePath = savePath;
     }
+
+    public String getSavePath() {
+        return savePath;
+    }
 }

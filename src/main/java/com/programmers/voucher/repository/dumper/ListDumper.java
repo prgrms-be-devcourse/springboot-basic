@@ -4,17 +4,16 @@ import com.programmers.voucher.repository.FileVoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import org.ini4j.Wini;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_TYPE;
 import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_VALUE;
-import static org.slf4j.LoggerFactory.*;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
 public class ListDumper implements Dumper {
@@ -26,10 +25,16 @@ public class ListDumper implements Dumper {
         this.wini = wini;
     }
 
+
     @Override
-    public void dump(List<Voucher> dumper) {
-        for (Voucher voucher : dumper) {
+    public void dump(Map<UUID, Voucher> cacheMap) {
+        for (Voucher voucher : cacheMap.values()) {
             UUID voucherId = voucher.getVoucherId();
+
+            if (wini.get(voucherId) != null) {
+                continue;
+            }
+
             String voucherClassName = voucher.getClass()
                     .getSimpleName()
                     .replaceAll("Voucher", "");
