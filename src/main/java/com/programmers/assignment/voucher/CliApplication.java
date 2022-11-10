@@ -26,9 +26,6 @@ public class CliApplication implements Runnable {
             if (command.equals(Menu.EXIT.toString())) {
                 menuController.exitCommand();
             }
-
-
-
         }
     }
 }
