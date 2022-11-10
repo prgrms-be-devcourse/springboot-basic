@@ -6,6 +6,7 @@ import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,9 +22,17 @@ public class IOManager {
         this.writer = writer;
     }
 
-    public String askCommand() {
+    public Optional<CommandType> askCommand() {
         writer.printCommandGuide();
-        return reader.readLine();
+        String command = reader.readLine();
+
+        try {
+            CommandType commandType = CommandType.of(command);
+            return Optional.of(commandType);
+        } catch (IllegalArgumentException exception) {
+            notifyErrorOccurred(MessageFormat.format("command ''{0}'' is invalid!!!", command));
+            return Optional.empty();
+        }
     }
 
     public String askVoucherTypeIndex() {

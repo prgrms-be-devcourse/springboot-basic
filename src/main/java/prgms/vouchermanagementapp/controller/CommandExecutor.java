@@ -30,14 +30,12 @@ public class CommandExecutor {
 
     public void run() {
         while (runningState.isRunning()) {
-            String command = ioManager.askCommand();
-            runUserRequest(command);
+            Optional<CommandType> commandType = ioManager.askCommand();
+            commandType.ifPresent(this::executeCommand);
         }
     }
 
-    public void runUserRequest(String command) {
-        CommandType commandType = CommandType.of(command);
-
+    public void executeCommand(CommandType commandType) {
         if (commandType.is(CommandType.EXIT)) {
             runExit();
             return;
@@ -70,7 +68,7 @@ public class CommandExecutor {
             VoucherType voucherType = VoucherType.of(voucherTypeIndex);
             return Optional.of(voucherType);
         } catch (IllegalArgumentException exception) {
-            ioManager.notifyErrorOccurred(MessageFormat.format("index {0} is invalid!!!", voucherTypeIndex));
+            ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
             return Optional.empty();
         }
     }
