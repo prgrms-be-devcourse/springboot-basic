@@ -91,6 +91,7 @@ public class VoucherApplication {
     private int getAmount(VoucherType voucherType) {
         console.printDiscountAmountMessage(voucherType);
         String amountInput = console.getInput();
-        return voucherType.validateAmount(amountInput);
+        voucherType.validateAmount(amountInput);
+        return voucherType.parseAmount(amountInput);
     }
 }

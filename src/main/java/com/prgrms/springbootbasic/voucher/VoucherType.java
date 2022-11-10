@@ -50,16 +50,19 @@ public enum VoucherType {
      * @throws AmountOutOfBoundException voucher type에 따라 정해지는 할인율의 범위를 넘어선 입력이 주어졌을 때 발생하는 예외입니다.
      *                                   예외 상황을 출력하기 위해 VoucherType enum을 함께 사용해야 합니다.
      */
-    public int validateAmount(String amountInput) {
+    public void validateAmount(String amountInput) {
         try {
             int amount = Integer.parseInt(amountInput);
             if (amountOutOfBound.test(amount)) {
                 throw new AmountOutOfBoundException(MessageFormat.format("Amount: {0}", amount));
             }
-            return amount;
         } catch (NumberFormatException e) {
             throw new NumberFormatException(MessageFormat.format("Your input {0} is not integer.", amountInput));
         }
+    }
+
+    public int parseAmount(String amountInput) {
+        return Integer.parseInt(amountInput);
     }
 
     public Voucher construct(VoucherInfo voucherInfo) {
