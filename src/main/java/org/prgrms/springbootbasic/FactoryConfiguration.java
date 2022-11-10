@@ -13,7 +13,7 @@ public class FactoryConfiguration {
     }
 
     @Bean
-    public PercentAmountVoucherFactory PercentAmountVoucherFactory() {
+    public PercentAmountVoucherFactory percentAmountVoucherFactory() {
         return new PercentAmountVoucherFactory();
     }
 }
