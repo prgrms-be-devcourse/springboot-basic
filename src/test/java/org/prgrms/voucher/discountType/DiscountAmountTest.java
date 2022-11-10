@@ -14,7 +14,7 @@ class DiscountAmountTest {
     VoucherType fixed = VoucherType.FIXED;
     String value = "-1";
     //when&then
-    assertThrows(IllegalStateException.class, () -> VoucherType.generateAmount(fixed, value));
+    assertThrows(IllegalStateException.class, () -> fixed.generateAmount(value));
   }
 
   @DisplayName("입력받은 할인금액이 숫자가 아닐 때 NumberFormatException을 던진다")
@@ -24,6 +24,6 @@ class DiscountAmountTest {
     VoucherType fixed = VoucherType.FIXED;
     String value = "가";
     //when&then
-    assertThrows(NumberFormatException.class, () -> VoucherType.generateAmount(fixed, value));
+    assertThrows(NumberFormatException.class, () -> fixed.generateAmount(value));
   }
 }

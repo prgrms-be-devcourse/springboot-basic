@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.voucher.voucherType.VoucherType;
 
 class DiscountRateTest {
-  @DisplayName("입력받은 할인율이 -1 또는 100 초과 일때 IllegalStateException을 던진다")
+
+  @DisplayName("입력받은 할인율이 적거나 많은 경우에 IllegalStateException을 던진다")
   @Test
   void incorrectlyEnteredDiscountRate() {
     //given
@@ -16,8 +17,8 @@ class DiscountRateTest {
     String overHundred = "101";
     //when&then
     assertAll(
-        () ->  assertThrows(IllegalStateException.class, () -> VoucherType.generateAmount(percent, minusValue)),
-        () ->  assertThrows(IllegalStateException.class, () -> VoucherType.generateAmount(percent, overHundred))
+        () -> assertThrows(IllegalStateException.class, () -> percent.generateAmount(minusValue)),
+        () -> assertThrows(IllegalStateException.class, () -> percent.generateAmount(overHundred))
     );
   }
 
@@ -28,7 +29,7 @@ class DiscountRateTest {
     VoucherType percent = VoucherType.PERCENT;
     String value = "가";
     //when&then
-    assertThrows(NumberFormatException.class, () -> VoucherType.generateAmount(percent, value));
+    assertThrows(NumberFormatException.class, () -> percent.generateAmount(value));
   }
 
 }

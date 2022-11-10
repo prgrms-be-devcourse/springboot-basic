@@ -12,7 +12,7 @@ public enum VoucherType {
 
   FIXED("1", (Amount amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount),
       DiscountAmount::new),
-  PERCENT("2", (Amount percent) -> new PercentDiscountVoucher(UUID.randomUUID(), percent),
+  PERCENT("2", (Amount amount) -> new PercentDiscountVoucher(UUID.randomUUID(), amount),
       DiscountRate::new);
 
   private final String type;

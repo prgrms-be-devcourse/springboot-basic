@@ -62,7 +62,7 @@ public class VoucherTypeTest {
     VoucherType fixed = VoucherType.FIXED;
     Amount discount = new DiscountAmount("3000");
     //when
-    Voucher voucher = VoucherType.generateVoucher(fixed, discount);
+    Voucher voucher = fixed.generateVoucher(discount);
     //then
     assertInstanceOf(FixedAmountVoucher.class, voucher);
   }
@@ -74,7 +74,7 @@ public class VoucherTypeTest {
     VoucherType percent = VoucherType.PERCENT;
     Amount discount = new DiscountRate("10");
     //when
-    Voucher voucher = VoucherType.generateVoucher(percent, discount);
+    Voucher voucher = percent.generateVoucher(discount);
     //then
     assertInstanceOf(PercentDiscountVoucher.class, voucher);
   }
@@ -86,7 +86,7 @@ public class VoucherTypeTest {
     VoucherType fixed = VoucherType.FIXED;
     String value = "2000";
     //when
-    Amount discount = VoucherType.generateAmount(fixed, value);
+    Amount discount = fixed.generateAmount(value);
     //then
     assertInstanceOf(DiscountAmount.class, discount);
   }
@@ -98,7 +98,7 @@ public class VoucherTypeTest {
     VoucherType percent = VoucherType.PERCENT;
     String value = "50";
     //when
-    Amount discount = VoucherType.generateAmount(percent, value);
+    Amount discount = percent.generateAmount(value);
     //then
     assertInstanceOf(DiscountRate.class, discount);
   }
