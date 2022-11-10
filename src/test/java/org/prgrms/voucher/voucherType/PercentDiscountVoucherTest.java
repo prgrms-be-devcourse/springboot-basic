@@ -1,0 +1,26 @@
+package org.prgrms.voucher.voucherType;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.UUID;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.prgrms.voucher.discountType.DiscountRate;
+
+class PercentDiscountVoucherTest {
+  @DisplayName("주어진 금액만큼 할인한 가격을 리턴한다")
+  @Test
+  void testDiscount() {
+    //given
+    String givenDiscountRate = "30";
+    PercentDiscountVoucher percentDiscountVoucher= new PercentDiscountVoucher(UUID.randomUUID(),
+        new DiscountRate(givenDiscountRate));
+    //when
+    long beforeDiscount = 1000;
+    long discounted = percentDiscountVoucher.discount(beforeDiscount);
+
+    //then
+    assertEquals(700, discounted);
+  }
+
+}
