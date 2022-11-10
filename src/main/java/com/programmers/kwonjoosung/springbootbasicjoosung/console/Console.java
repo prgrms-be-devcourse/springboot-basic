@@ -3,6 +3,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -45,10 +46,17 @@ public class Console {
             throw new RuntimeException(parseErrorMessage);
         }
     }
+
     public void showVoucher(Voucher voucher) {
         System.out.println(voucher);
     }
 
+//    제네릭을 사용하는게 더 나은 방법인가요?
+//    public <T> void show(T data) { System.out.println(data); }
+
+    public void showCustomer(Customer customer) {
+        System.out.println(customer);
+    }
     public void showAllCommandSet() {
         Stream.of(CommandType.values())
                 .map(CommandType::getExplanation)

@@ -2,6 +2,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.console.Console;
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
+import com.programmers.kwonjoosung.springbootbasicjoosung.controller.MainController;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class MainLauncher implements InitializingBean, DisposableBean {
     private boolean isRunning = true;
+    private final MainController controller;
     private final Console console;
 
-    public MainLauncher(Console console){
+    public MainLauncher(MainController controller, Console console){
+        this.controller = controller;
         this.console = console;
     }
 
@@ -22,6 +25,7 @@ public class MainLauncher implements InitializingBean, DisposableBean {
                 switch (command) {
                     case HELP -> console.showAllCommandSet();
                     case EXIT -> exit();
+                    default -> controller.selectFunction(command);
                 }
             } catch (Exception e) {
                 console.showError(e);

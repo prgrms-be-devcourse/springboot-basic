@@ -2,13 +2,14 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommandException;
 
+
 import java.util.stream.Stream;
 
 public enum CommandType {
     EXIT("Type exit to exit the program.", "exit"),
     CREATE("Type create to create a new voucher.", "create"),
     LIST("Type list to list all vouchers.", "list"),
-
+    BLACKLIST("Type blacklist to list all customer-black-list.", "blacklist"),
     HELP("Type help to show all command.", "help");
 
     private final String explanation;

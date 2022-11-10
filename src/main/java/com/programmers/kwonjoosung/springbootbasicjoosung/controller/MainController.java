@@ -3,16 +3,19 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.console.Console;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
+import com.programmers.kwonjoosung.springbootbasicjoosung.service.CustomerService;
 import com.programmers.kwonjoosung.springbootbasicjoosung.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherController {
+public class MainController {
     private final VoucherService voucherService;
+    private final CustomerService customerService;
     private final Console console;
 
-    VoucherController(VoucherService voucherService, Console console) {
+    MainController(VoucherService voucherService, CustomerService customerService, Console console) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
         this.console = console;
     }
 
@@ -20,6 +23,7 @@ public class VoucherController {
         switch (commandType) {
             case CREATE -> createVoucher();
             case LIST -> showVoucherList();
+            case BLACKLIST -> showCustomerBlackList();
         }
     }
 
@@ -32,6 +36,9 @@ public class VoucherController {
 
     private void showVoucherList() {
         voucherService.getVoucherList().forEach(console::showVoucher);
+    }
+    private void showCustomerBlackList() {
+        customerService.getBlackList().forEach(console::showCustomer);
     }
 
 }
