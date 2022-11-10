@@ -2,15 +2,23 @@ package org.prgrms.voucher;
 
 import org.prgrms.console.Console;
 import org.prgrms.exception.NoSuchMenuTypeException;
+import org.prgrms.voucher.discountType.Amount;
+
+import org.prgrms.voucher.voucherType.Voucher;
+import org.prgrms.voucher.voucherType.VoucherType;
+import org.prgrms.voucherMemory.VoucherMemory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherCommandLineRunner implements CommandLineRunner {
 
-  private final Console console;
+  Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 
-  private final VoucherProcessManager voucherProgram;
+  private final Console console;
 
   public VoucherCommandLineRunner(Console console, VoucherProcessManager voucherProgram) {
     this.console = console;
@@ -19,18 +27,25 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
+    VoucherProgramStatus voucherProgramStatus = new VoucherProgramStatus();
 
-    while (VoucherExecution.isRunnable()) {
+    while (voucherProgramStatus.isRunnable()) {
       try {
-        execute();
+
+        if (isExit(execute())) {
+          voucherProgramStatus.stop();
+        }
+
       } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
+        logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
     }
   }
 
   private void execute() {
     MenuType menu = MenuType.of(console.chooseMenu());
+    logger.info("Menu : {}", menu);
 
     switch (menu) {
       case EXIT -> voucherProgram.exit();
