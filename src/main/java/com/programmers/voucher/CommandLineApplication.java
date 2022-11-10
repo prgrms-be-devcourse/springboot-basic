@@ -5,7 +5,6 @@ import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.view.View;
 import com.programmers.voucher.voucher.Voucher;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ import java.util.List;
 import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
-import static org.slf4j.LoggerFactory.*;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
 public class CommandLineApplication implements Runnable {

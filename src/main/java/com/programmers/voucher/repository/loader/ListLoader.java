@@ -26,7 +26,6 @@ public class ListLoader implements Loader {
         this.wini = wini;
     }
 
-
     @Override
     public void load(Map<UUID, Voucher> cacheMap) {
         for (Entry<String, Section> sections : wini.entrySet()) {

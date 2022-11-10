@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-import static org.slf4j.LoggerFactory.*;
+import static org.slf4j.LoggerFactory.getLogger;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan("com.programmers.voucher.config")
