@@ -1,6 +1,6 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.io.MenuType;
+import com.programmers.voucher.io.CommandType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.model.VoucherType;
 import com.programmers.voucher.service.VoucherService;
@@ -30,6 +30,7 @@ public class VoucherController implements ApplicationRunner {
                 switch (getMenuType()) {
                     case EXIT:
                         isRunning = false;
+                        break;
                     case CREATE:
                         voucherService.create(getVoucherType(), getDiscountValue());
                         break;
@@ -44,10 +45,10 @@ public class VoucherController implements ApplicationRunner {
         }
     }
 
-    private MenuType getMenuType() {
+    private CommandType getMenuType() {
         console.requestMenuType();
         String inputMenu = console.getInput();
-        return MenuType.toMenuType(inputMenu);
+        return CommandType.toMenuType(inputMenu);
     }
 
     private VoucherType getVoucherType() {
