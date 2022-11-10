@@ -13,7 +13,7 @@ public class DiscountAmount implements Amount {
     return value;
   }
 
-  private static long getTarget(String input) {
+  private long getTarget(String input) {
     long target;
     try {
       target = Long.parseLong(input);
