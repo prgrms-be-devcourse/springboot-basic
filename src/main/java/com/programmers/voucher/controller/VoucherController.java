@@ -27,7 +27,7 @@ public class VoucherController implements ApplicationRunner {
 
         while (isRunning) {
             try {
-                switch (getMenuType()) {
+                switch (getCommandType()) {
                     case EXIT:
                         isRunning = false;
                         break;
@@ -45,10 +45,10 @@ public class VoucherController implements ApplicationRunner {
         }
     }
 
-    private CommandType getMenuType() {
+    private CommandType getCommandType() {
         console.requestMenuType();
-        String inputMenu = console.getInput();
-        return CommandType.toMenuType(inputMenu);
+        String command = console.getInput();
+        return CommandType.toCommandType(command);
     }
 
     private VoucherType getVoucherType() {

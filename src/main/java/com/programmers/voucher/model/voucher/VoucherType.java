@@ -20,14 +20,24 @@ public enum VoucherType {
         this.converter = converter;
     }
 
-
     public String getVoucherType() {
         return voucherType;
+    }
+
+    public String getVoucherName() {
+        return voucherName;
     }
 
     public static VoucherType toVoucherType(String inputString) {
         return Stream.of(VoucherType.values())
                 .filter(type -> type.getVoucherType().equals(inputString))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
+    }
+
+    public static VoucherType toVoucherTypeByName(String inputString) {
+        return Stream.of(VoucherType.values())
+                .filter(type -> type.getVoucherName().equals(inputString))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }

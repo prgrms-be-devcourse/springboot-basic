@@ -1,19 +1,20 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.model.voucher.Voucher;
+import com.programmers.voucher.model.voucher.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.FileWriter;
+import java.io.*;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Profile("local")
 public class VoucherFileRepository implements VoucherRepository {
-
     private final FileWriter writer;
     private final String fileName;
 
@@ -29,7 +30,7 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         try {
-            writer.write(voucher.toString()+"\n");
+            writer.write(voucher.toString() + "\n");
             writer.flush();
         } catch (IOException e) {
             throw new RuntimeException("파일에 바우처 저장하기 실패하였습니다.");
@@ -39,6 +40,24 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        List<Voucher> vouchers = new ArrayList<>();
+        try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
+            String content;
+            while ((content = buffer.readLine()) != null) {
+                Voucher voucher = toVoucher(content);
+                vouchers.add(voucher);
+            }
+        } catch (IOException e1) {
+            throw new RuntimeException("파일에서 바우처를 불러오지 못했습니다.");
+        }
+        return vouchers;
+    }
+
+    private Voucher toVoucher(String content) {
+        String[] arr = content.split("\t");
+        VoucherType voucherType = VoucherType.toVoucherTypeByName(arr[0]);
+        long discountValue = Long.parseLong(arr[2].substring(0, arr[2].length() - 2));
+        Voucher voucher = voucherType.convertToVoucher(UUID.fromString(arr[1]), discountValue);
+        return voucher;
     }
 }

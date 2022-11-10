@@ -4,4 +4,4 @@ spring:
 
 file:
   path:
-    voucher: src/main/resources/file/voucher.txt
+    voucher: src/main/resources/file/voucherlist.txt

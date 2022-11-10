@@ -9,17 +9,17 @@ public enum CommandType {
 
     private final String commandType;
 
-    CommandType(String menuType) {
-        this.commandType = menuType;
+    CommandType(String commandType) {
+        this.commandType = commandType;
     }
 
     public Object getCommandType() {
         return commandType;
     }
 
-    public static CommandType toMenuType(String inputMenu) {
+    public static CommandType toCommandType(String command) {
         return Stream.of(CommandType.values())
-                .filter(type -> type.getCommandType().equals(inputMenu))
+                .filter(type -> type.getCommandType().equals(command))
                 .findFirst()
                 .orElseThrow(()->new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }

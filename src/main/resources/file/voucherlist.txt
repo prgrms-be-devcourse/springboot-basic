@@ -1,0 +1,4 @@
+FixedAmountVoucher	6b9ea768-dc3f-421d-8a76-8bd7f117617d	190000$
+PercentDiscountVoucher	a2ed90b2-a211-4bdf-869b-b5c4dabb02eb	40%
+FixedAmountVoucher	9d62a23d-cb29-45cb-887c-8ecd8c6659eb	15000$
+FixedAmountVoucher	8bae9205-df2b-4b4c-9993-663f3b13d592	180$
