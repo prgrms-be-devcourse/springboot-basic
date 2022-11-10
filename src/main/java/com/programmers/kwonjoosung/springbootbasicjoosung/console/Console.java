@@ -3,6 +3,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -43,6 +44,9 @@ public class Console {
         } catch (NumberFormatException ne) {
             throw new RuntimeException(parseErrorMessage);
         }
+    }
+    public void showVoucher(Voucher voucher) {
+        System.out.println(voucher);
     }
 
     public void showAllCommandSet() {
