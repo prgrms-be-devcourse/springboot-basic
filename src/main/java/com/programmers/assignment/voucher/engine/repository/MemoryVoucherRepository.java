@@ -20,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Map<UUID, Voucher> findAll() {
-        if (repository.size()==0) throw new RuntimeException("There is nothing any vouchers");
+        if (repository.size() == 0) throw new RuntimeException("There is nothing any vouchers");
         return repository;
     }
 

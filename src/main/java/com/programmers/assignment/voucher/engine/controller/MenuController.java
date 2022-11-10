@@ -1,9 +1,6 @@
 package com.programmers.assignment.voucher.engine.controller;
 
-import com.programmers.assignment.voucher.VoucherApplication;
 import com.programmers.assignment.voucher.engine.service.MenuService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class MenuController {

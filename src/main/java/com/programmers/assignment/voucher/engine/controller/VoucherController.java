@@ -16,13 +16,13 @@ public class VoucherController {
 
 
     public void makeVoucher(String discountWay) {
-        if (discountWay.equals(VoucherVariable.PERCENT.toString())){
+        if (discountWay.equals(VoucherVariable.PERCENT.toString())) {
             logger.info("make percent voucher");
             voucherService.makePercentVoucher();
             return;
         }
 
-        if (discountWay.equals(VoucherVariable.FIXED.toString())){
+        if (discountWay.equals(VoucherVariable.FIXED.toString())) {
             logger.info("make fixed voucher");
             voucherService.makeFixedVoucher();
             return;

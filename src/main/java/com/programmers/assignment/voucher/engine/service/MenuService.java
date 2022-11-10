@@ -36,7 +36,6 @@ public class MenuService {
                     "Type PERCENT to create new PercentVoucher.";
 
 
-
     public String inputCommand() {
         return Menu.chooseMenu(input.inputCommand(MENU_MESSAGE));
     }

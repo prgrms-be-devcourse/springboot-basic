@@ -9,8 +9,8 @@ public class ConsoleOutput implements Output {
     @Override
     public void findVoucherList(Map<UUID, Voucher> map) {
         System.out.println("======= Voucher List=========");
-        map.forEach((k,v) -> System.out.println(v)
-    );
+        map.forEach((k, v) -> System.out.println(v)
+        );
         System.out.println("=============================");
     }
 
