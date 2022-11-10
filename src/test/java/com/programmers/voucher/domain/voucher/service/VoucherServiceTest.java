@@ -28,10 +28,10 @@ class VoucherServiceTest {
 	@Test
 	@DisplayName("바우처를 생성하면 생성과 저장이 성공한다.")
 	void createVoucher() {
-		String fixedType = VoucherType.FIXED.getType();
-		String percentType = VoucherType.PERCENT.getType();
-		int fixedAmount = 1000;
-		int percentAmount = 10;
+		VoucherType fixedType = VoucherType.FIXED;
+		VoucherType percentType = VoucherType.PERCENT;
+		String fixedAmount = "1000";
+		String percentAmount = "10";
 
 		Voucher fixedVoucher = service.createVoucher(fixedType, fixedAmount);
 		Voucher percentVoucher = service.createVoucher(percentType, percentAmount);

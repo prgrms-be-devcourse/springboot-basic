@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.VoucherNotFoundException;
@@ -55,8 +56,8 @@ public class FileVoucherRepository implements VoucherRepository {
 			while ((line = reader.readLine()) != null) {
 				if (line.startsWith(voucherId.toString(), 4)) {
 					String[] voucherInfo = line.split(LINE_SEPARATOR);
-					String type = voucherInfo[3];
-					int discount = Integer.parseInt(voucherInfo[5]);
+					VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
+					String discount = voucherInfo[5];
 					return factory.makeVoucher(type, voucherId, discount);
 				}
 			}
@@ -77,8 +78,8 @@ public class FileVoucherRepository implements VoucherRepository {
 			while ((line = reader.readLine()) != null) {
 				String[] voucherInfo = line.split(LINE_SEPARATOR);
 				UUID id = UUID.fromString(voucherInfo[1]);
-				String type = voucherInfo[3];
-				int discount = Integer.parseInt(voucherInfo[5]);
+				VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
+				String discount = voucherInfo[5];
 				Voucher voucher = factory.makeVoucher(type, id, discount);
 				vouchers.add(voucher);
 			}

@@ -27,7 +27,7 @@ class FileVoucherRepositoryTest {
 	@DisplayName("바우처를 파일에 저장하고 id를 통해 파일에서 바우처를 조회하면 성공한다.")
 	void findByUUID() {
 		UUID voucherID = UUID.randomUUID();
-		Voucher voucher = new FixedDiscountVoucher(voucherID, 1000);
+		Voucher voucher = new FixedDiscountVoucher(voucherID, "1000");
 
 		repository.save(voucher);
 		Voucher findVoucher = repository.findByUUID(voucherID);

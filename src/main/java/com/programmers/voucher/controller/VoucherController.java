@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
-import com.programmers.voucher.domain.voucher.util.Validator;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Output;
 
@@ -20,16 +20,14 @@ public class VoucherController implements Runnable {
 	private final Output output;
 	private final VoucherService voucherService;
 	private final CustomerService customerService;
-	private final Validator validator;
 
 	@Autowired
 	public VoucherController(Input input, Output output, VoucherService voucherService,
-		CustomerService customerService, Validator validator) {
+		CustomerService customerService) {
 		this.input = input;
 		this.output = output;
 		this.voucherService = voucherService;
 		this.customerService = customerService;
-		this.validator = validator;
 	}
 
 	@Override
@@ -55,12 +53,10 @@ public class VoucherController implements Runnable {
 
 	private void createVoucher() {
 		output.write(Message.VOUCHER_OPTION.getMessage());
-		String chosenVoucher = input.read();
-		validator.validateVoucherType(chosenVoucher);
+		VoucherType choseVoucherType = VoucherType.getVoucherType(input.read());
 		output.write(Message.DISCOUNT_OPTION.getMessage());
 		String discountAmount = input.read();
-		validator.validateDiscount(chosenVoucher, discountAmount);
-		voucherService.createVoucher(chosenVoucher, Integer.parseInt(discountAmount));
+		voucherService.createVoucher(choseVoucherType, discountAmount);
 	}
 
 	public void writeAllVoucher() {

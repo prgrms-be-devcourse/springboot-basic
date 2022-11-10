@@ -25,7 +25,7 @@ class MemoryVoucherRepositoryTest {
 	@DisplayName("바우처를 저장하고 조회하면 성공적으로 저장, 조회된다.")
 	void save() {
 		UUID voucherId = UUID.randomUUID();
-		Voucher fixedVoucher = new FixedDiscountVoucher(voucherId, 1000);
+		Voucher fixedVoucher = new FixedDiscountVoucher(voucherId, "1000");
 
 		repository.save(fixedVoucher);
 		Voucher findVoucher = repository.findByUUID(voucherId);
@@ -36,8 +36,8 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	@DisplayName("바우처 리스트를 조회하면 성공적으로 조회된다.")
 	void findAllVoucher() {
-		Voucher voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), 1000);
-		Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+		Voucher voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), "1000");
+		Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), "20");
 
 		List<Voucher> beforeSave = repository.findAll();
 		int beforeSize = beforeSave.size();

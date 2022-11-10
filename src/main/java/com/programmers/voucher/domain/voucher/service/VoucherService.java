@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 
@@ -22,7 +23,7 @@ public class VoucherService {
 		this.factory = factory;
 	}
 
-	public Voucher createVoucher(String voucherType, int discountAmount) {
+	public Voucher createVoucher(VoucherType voucherType, String discountAmount) {
 		Voucher voucher = factory.makeVoucher(voucherType, UUID.randomUUID(), discountAmount);
 		repository.save(voucher);
 		return voucher;
