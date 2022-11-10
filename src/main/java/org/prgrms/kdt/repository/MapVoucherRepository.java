@@ -4,20 +4,25 @@ import org.prgrms.kdt.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Repository
 public class MapVoucherRepository implements VoucherRepository{
 
-    private final Map<UUID, Voucher> memory = new HashMap<>();
+    private static final Map<UUID, Voucher> memory = new HashMap<>();
 
-    public Voucher save(Voucher voucher){
-        return memory.put(voucher.getVoucherId(), voucher);
+    public boolean save(Voucher voucher){
+        memory.put(voucher.getVoucherId(), voucher);
+        if(memory.containsKey(voucher.getVoucherId())) {
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public Voucher getVoucherById(UUID voucherId) {
-        return memory.get(voucherId);
+        if (voucher.isPresent()){
+            logger.info("[Repository] find voucher {}", voucher);
+        }
+        logger.info("[Repository] can't find the voucher id, {}", voucherId);
     }
 
     public List<Voucher> getAll(){
