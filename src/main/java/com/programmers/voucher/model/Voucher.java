@@ -2,8 +2,19 @@ package com.programmers.voucher.model;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+public abstract class Voucher {
+    protected UUID voucherId;
+    protected long discountValue;
 
-    long discount(long beforeDiscount);
+    protected Voucher(UUID voucherId, long discountValue) {
+        validateZeroDiscount(discountValue);
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
+    }
+
+    abstract void validateZeroDiscount(long discountValue);
+
+    public abstract UUID getVoucherId();
+
+    abstract long discount(long beforeDiscount);
 }
