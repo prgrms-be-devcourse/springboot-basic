@@ -5,6 +5,7 @@ import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Primary
+@Profile("local")
 public class CSVFileVoucherRepository implements VoucherRepository {
 
     private static final String CSV_FILE_PATH = "src/main/voucher_data.csv";
@@ -23,6 +24,7 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     private final File csv;
 
     public CSVFileVoucherRepository() {
+        System.out.println("CSVFILE RPOSITORY ");
         this.csv = new File(CSV_FILE_PATH);
     }
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class SpringbootBasicApplication {
 
     public static void main(String[] args) throws IOException {
-        ApplicationContext applicationContext = SpringApplication.run(SpringbootBasicApplication.class, args);
+        ApplicationContext applicationContext = new SpringApplication(SpringbootBasicApplication.class).run();
         applicationContext.getBean(VoucherManagementExecutor.class).run();
     }
 

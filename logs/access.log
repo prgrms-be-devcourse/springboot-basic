@@ -307,3 +307,246 @@ Consider marking one of the beans as @Primary, updating the consumer to accept m
 2022-11-10 02:40:09.484  INFO 48251 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
 2022-11-10 02:40:10.117  INFO 48251 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.986 seconds (JVM running for 1.856)
 2022-11-10 02:40:12.299  INFO 48251 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:50:06.331  INFO 49948 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 49948 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:50:06.333  INFO 49948 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:50:06.788  INFO 49948 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.481 seconds (JVM running for 2.394)
+2022-11-10 02:50:08.644  INFO 49948 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:50:08.644  INFO 49948 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:50:32.483  INFO 49948 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:50:32.483  INFO 49948 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:50:37.570  INFO 49948 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 02:50:37.572  INFO 49948 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 02:50:37.573  INFO 49948 --- [main] o.p.s.r.MemoryVoucherRepository          : voucher 저장
+2022-11-10 02:50:38.362  INFO 49948 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:50:38.363  INFO 49948 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:51:21.739  INFO 50177 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 50177 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:51:21.742  INFO 50177 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:51:22.099  WARN 50177 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 02:51:22.126 ERROR 50177 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 02:51:56.485  INFO 50274 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 50274 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:51:56.488  INFO 50274 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:51:56.966  INFO 50274 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.813 seconds (JVM running for 1.434)
+2022-11-10 02:52:08.119  INFO 50309 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 50309 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:52:08.124  INFO 50309 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 02:52:08.657  INFO 50309 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.999 seconds (JVM running for 1.686)
+2022-11-10 02:52:14.454  INFO 50309 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 02:52:14.455  INFO 50309 --- [main] o.p.s.r.MemoryVoucherRepository          : Voucher 전체 조회
+2022-11-10 02:55:49.757  INFO 50923 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 50923 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:55:49.762  INFO 50923 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 02:55:50.204  WARN 50923 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 02:55:50.229 ERROR 50923 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 02:56:10.569  INFO 50983 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 50983 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 02:56:10.571  INFO 50983 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 02:56:11.050  WARN 50983 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected single matching bean but found 2: CSVFileVoucherRepository,memoryVoucherRepository
+2022-11-10 02:56:11.074 ERROR 50983 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a single bean, but 2 were found:
+	- CSVFileVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/CSVFileVoucherRepository.class]
+	- memoryVoucherRepository: defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/repository/MemoryVoucherRepository.class]
+
+
+Action:
+
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+
+2022-11-10 19:39:36.204  INFO 66631 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 66631 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:39:36.207  INFO 66631 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 19:39:36.756  INFO 66631 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.261 seconds (JVM running for 1.987)
+2022-11-10 19:39:44.450  INFO 66631 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 19:39:47.773  INFO 66631 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 19:43:53.978  INFO 67103 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 67103 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:43:53.986  INFO 67103 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 19:43:54.604  INFO 67103 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.442 seconds (JVM running for 2.398)
+2022-11-10 19:44:08.163  INFO 67103 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 19:44:53.047  INFO 67231 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 67231 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:44:53.049  INFO 67231 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 19:44:53.489  WARN 67231 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2022-11-10 19:44:53.520 ERROR 67231 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' in your configuration.
+
+2022-11-10 19:45:21.240  INFO 67281 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 67281 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:45:21.244  INFO 67281 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 19:45:21.680  WARN 67281 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2022-11-10 19:45:21.701 ERROR 67281 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' in your configuration.
+
+2022-11-10 19:46:31.970  INFO 67411 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 67411 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:46:31.973  INFO 67411 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 19:46:32.374  WARN 67411 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2022-11-10 19:46:32.397 ERROR 67411 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' in your configuration.
+
+2022-11-10 19:46:51.468  INFO 67452 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 67452 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:46:51.471  INFO 67452 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 19:46:51.917  WARN 67452 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2022-11-10 19:46:51.934 ERROR 67452 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' in your configuration.
+
+2022-11-10 19:51:49.826 ERROR   --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.yaml.snakeyaml.constructor.DuplicateKeyException: while constructing a mapping
+ in 'reader', line 2, column 1:
+    spring:
+    ^
+found duplicate key spring
+ in 'reader', line 7, column 1:
+    spring:
+    ^
+
+	at org.yaml.snakeyaml.constructor.SafeConstructor.processDuplicateKeys(SafeConstructor.java:105)
+	at org.yaml.snakeyaml.constructor.SafeConstructor.flattenMapping(SafeConstructor.java:76)
+	at org.yaml.snakeyaml.constructor.SafeConstructor.constructMapping2ndStep(SafeConstructor.java:189)
+	at org.yaml.snakeyaml.constructor.BaseConstructor.constructMapping(BaseConstructor.java:461)
+	at org.yaml.snakeyaml.constructor.SafeConstructor$ConstructYamlMap.construct(SafeConstructor.java:556)
+	at org.yaml.snakeyaml.constructor.BaseConstructor.constructObjectNoCheck(BaseConstructor.java:230)
+	at org.yaml.snakeyaml.constructor.BaseConstructor.constructObject(BaseConstructor.java:220)
+	at org.springframework.boot.env.OriginTrackedYamlLoader$OriginTrackingConstructor.constructObject(OriginTrackedYamlLoader.java:123)
+	at org.yaml.snakeyaml.constructor.BaseConstructor.constructDocument(BaseConstructor.java:174)
+	at org.yaml.snakeyaml.constructor.BaseConstructor.getData(BaseConstructor.java:139)
+	at org.springframework.boot.env.OriginTrackedYamlLoader$OriginTrackingConstructor.getData(OriginTrackedYamlLoader.java:103)
+	at org.yaml.snakeyaml.Yaml$1.next(Yaml.java:514)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:198)
+	at org.springframework.beans.factory.config.YamlProcessor.process(YamlProcessor.java:166)
+	at org.springframework.boot.env.OriginTrackedYamlLoader.load(OriginTrackedYamlLoader.java:88)
+	at org.springframework.boot.env.YamlPropertySourceLoader.load(YamlPropertySourceLoader.java:50)
+	at org.springframework.boot.context.config.StandardConfigDataLoader.load(StandardConfigDataLoader.java:54)
+	at org.springframework.boot.context.config.StandardConfigDataLoader.load(StandardConfigDataLoader.java:36)
+	at org.springframework.boot.context.config.ConfigDataLoaders.load(ConfigDataLoaders.java:107)
+	at org.springframework.boot.context.config.ConfigDataImporter.load(ConfigDataImporter.java:128)
+	at org.springframework.boot.context.config.ConfigDataImporter.resolveAndLoad(ConfigDataImporter.java:86)
+	at org.springframework.boot.context.config.ConfigDataEnvironmentContributors.withProcessedImports(ConfigDataEnvironmentContributors.java:116)
+	at org.springframework.boot.context.config.ConfigDataEnvironment.processInitial(ConfigDataEnvironment.java:240)
+	at org.springframework.boot.context.config.ConfigDataEnvironment.processAndApply(ConfigDataEnvironment.java:227)
+	at org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor.postProcessEnvironment(ConfigDataEnvironmentPostProcessor.java:102)
+	at org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor.postProcessEnvironment(ConfigDataEnvironmentPostProcessor.java:94)
+	at org.springframework.boot.env.EnvironmentPostProcessorApplicationListener.onApplicationEnvironmentPreparedEvent(EnvironmentPostProcessorApplicationListener.java:102)
+	at org.springframework.boot.env.EnvironmentPostProcessorApplicationListener.onApplicationEvent(EnvironmentPostProcessorApplicationListener.java:87)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:176)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:169)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:143)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:131)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:85)
+	at org.springframework.boot.SpringApplicationRunListeners.lambda$environmentPrepared$2(SpringApplicationRunListeners.java:66)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:120)
+	at org.springframework.boot.SpringApplicationRunListeners.doWithListeners(SpringApplicationRunListeners.java:114)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:65)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:344)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:302)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at org.programmers.springbootbasic.SpringbootBasicApplication.main(SpringbootBasicApplication.java:15)
+
+2022-11-10 19:54:18.130  INFO 68259 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 68259 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:54:18.135  INFO 68259 --- [main] o.p.s.SpringbootBasicApplication         : No active profile set, falling back to 1 default profile: "default"
+2022-11-10 19:54:18.200  WARN 68259 --- [main] o.s.b.c.config.ConfigDataEnvironment     : Property 'spring.profiles' imported from location 'class path resource [application.yaml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yaml] - 3:13]
+2022-11-10 19:54:18.557  WARN 68259 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherManagementExecutor' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/VoucherManagementExecutor.class]: Unsatisfied dependency expressed through constructor parameter 3; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main/org/programmers/springbootbasic/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2022-11-10 19:54:18.577 ERROR 68259 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.programmers.springbootbasic.service.VoucherService required a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.programmers.springbootbasic.repository.VoucherRepository' in your configuration.
+
+2022-11-10 19:56:38.836  INFO 68510 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 68510 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 19:56:38.842  INFO 68510 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 19:56:38.913  WARN 68510 --- [main] o.s.b.c.config.ConfigDataEnvironment     : Property 'spring.profiles' imported from location 'class path resource [application.yaml]' is invalid and should be replaced with 'spring.config.activate.on-profile' [origin: class path resource [application.yaml] - 3:13]
+2022-11-10 19:56:39.341  INFO 68510 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.907 seconds (JVM running for 1.614)
+2022-11-10 19:56:43.167  INFO 68510 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 20:08:03.407  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 69734 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 20:08:03.411  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 20:08:03.915  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.159 seconds (JVM running for 1.824)
