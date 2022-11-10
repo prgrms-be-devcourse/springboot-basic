@@ -7,17 +7,24 @@ import org.prgrms.springbootbasic.type.TypeOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.Scanner;
-
-import static org.prgrms.springbootbasic.type.TypeOption.FIXED;
-import static org.prgrms.springbootbasic.type.TypeOption.PERCENT;
 
 @Component
 public class Console {
 
+    public static final String MENU_NOTIFICATION = """
+            === Voucher Program ===\s
+            Type **exit** to exit the program.
+            Type **create** to create a new voucher.
+            Type **list** to list all vouchers.""";
+    public static final String WRONG_INPUT_NOTIFICATION = "wrong input!";
+    public static final String VOUCHER_TYPE_CHOICE_NOTIFICATION = "Choose one!\nfixedVoucher: 1 \nPercentVoucher: 2";
+    public static final String EXIT_NOTIFICATION = "Good bye!";
     private boolean Running = true;
     private final Scanner scanner = new Scanner(System.in);
     private final VoucherService voucherService;
+
 
     @Autowired
     public Console(VoucherService voucherService) {
@@ -29,22 +36,15 @@ public class Console {
         return scanner.nextLine();
     }
 
-//    private void output(String output) {
-//        System.out.println(output);
-//    }
-
     public void run() {
         while (Running) {
-            String menu = getInput("=== Voucher Program === \n" +
-                    "Type **exit** to exit the program.\n" +
-                    "Type **create** to create a new voucher.\n" +
-                    "Type **list** to list all vouchers.");
+            String menu = getInput(MENU_NOTIFICATION);
             if (Menu.isExist(menu)) {
                 Running = false;
-                System.out.println("어플리케이션을 종료합니다");
+                System.out.println(EXIT_NOTIFICATION);
                 continue;
             } else if (!Menu.validate(menu)) {
-                System.out.println("잘못된 입력입니다.");
+                System.out.println(WRONG_INPUT_NOTIFICATION);
                 continue;
             }
 
@@ -54,27 +54,21 @@ public class Console {
                 String quantity = chooseOption(request, option);
                 request.insertArgument("quantity", Long.parseLong(quantity));
             }
-
             System.out.println(voucherService.process(request));
         }
     }
 
     private String chooseOption(Request request, String option) {
-        String quantity = "0";
-        if (TypeOption.isFixed(option)) {
-            quantity = getInput("amount: ");
-            request.setOption(FIXED);
-        } else if (TypeOption.isPercent(option)) {
-            quantity = getInput("percent: ");
-            request.setOption(PERCENT);
-        }
+        TypeOption typeOption = TypeOption.stringToTypeOption(option);
+        String quantity = getInput(MessageFormat.format("Type {0} :", typeOption.getArgument()));
+        request.setOption(typeOption);
         return quantity;
     }
 
     private String getOption() {
         String option;
         do {
-            option = getInput("Choose one! fixedVoucher: 1 \nPercentVoucher: 2");
+            option = getInput(VOUCHER_TYPE_CHOICE_NOTIFICATION);
         } while (TypeOption.isFixed(option) && TypeOption.isPercent(option));
         return option;
     }
