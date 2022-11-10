@@ -1,31 +1,31 @@
 package com.programmers.voucher.voucher;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
 
 
 public enum VoucherType {
-    FixedAmount(List.of("F", "FixedAmount")),
+    FixedAmount("F"),
 
-    PercentDiscount(List.of("P", "PercentDiscount")),
+    PercentDiscount("P"),
     ;
 
-    private final List<String> type;
+    private final String type;
 
-    VoucherType(List<String> type) {
+    VoucherType(String type) {
         this.type = type;
-    }
-
-    public List<String> getType() {
-        return type;
     }
 
     public static VoucherType getValidateVoucherType(String inputType) {
         return Arrays.stream(values())
-                .filter(voucherType -> voucherType.getType().contains(inputType))
+                .filter(voucherType ->
+                        voucherType.getType().equals(inputType))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage()));
+    }
+
+    public String getType() {
+        return type;
     }
 }

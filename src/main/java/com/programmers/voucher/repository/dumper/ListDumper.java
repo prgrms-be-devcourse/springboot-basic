@@ -37,7 +37,8 @@ public class ListDumper implements Dumper {
 
             String voucherClassName = voucher.getClass()
                     .getSimpleName()
-                    .replaceAll("Voucher", "");
+                    .replaceAll("Voucher", "")
+                    .toUpperCase();
 
             long voucherValue = voucher.getValue();
 
