@@ -16,14 +16,14 @@ enum CommandType {
         this.command = command;
     }
 
-    private String getCommand() {
+    public String getCommand() {
         return command;
     }
 
     /**
      * @throws InvalidCommandTypeException CommandType에 해당하지 않는 입력이 주어졌을 때 발생하는 예외입니다.
      */
-    public static CommandType findByCommand(String inputCommand) {
+    public static CommandType from(String inputCommand) {
         return Arrays.stream(values())
                 .filter(commandType -> commandType.getCommand().equals(inputCommand))
                 .findFirst()

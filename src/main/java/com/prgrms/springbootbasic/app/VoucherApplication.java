@@ -40,7 +40,7 @@ public class VoucherApplication {
         console.printMenu();
         String inputCommand = console.getCommand();
         try {
-            CommandType commandType = CommandType.findByCommand(inputCommand);
+            CommandType commandType = CommandType.from(inputCommand);
             controlMenu(commandType);
         } catch (InvalidCommandTypeException e) {
             console.printExceptionMessage(e.getMessage());
@@ -85,7 +85,7 @@ public class VoucherApplication {
     private VoucherType getVoucherType() {
         console.printChoosingVoucher();
         String voucherTypeInput = console.getInput();
-        return VoucherType.findByInputValue(voucherTypeInput);
+        return VoucherType.from(voucherTypeInput);
     }
 
     private int getAmount(VoucherType voucherType) {

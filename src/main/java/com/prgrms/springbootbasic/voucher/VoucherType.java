@@ -37,7 +37,7 @@ public enum VoucherType {
     /**
      * @throws InvalidVoucherTypeException VoucherType에 해당하지 않는 입력이 주어졌을 때 발생하는 예외입니다.
      */
-    public static VoucherType findByInputValue(String inputValue) {
+    public static VoucherType from(String inputValue) {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.getInputValue().equals(inputValue))
                 .findFirst()
@@ -65,7 +65,7 @@ public enum VoucherType {
         return Integer.parseInt(amountInput);
     }
 
-    public Voucher construct(VoucherInfo voucherInfo) {
+    public Voucher createVoucher(VoucherInfo voucherInfo) {
         return voucherConstructor.apply(voucherInfo);
     }
 }

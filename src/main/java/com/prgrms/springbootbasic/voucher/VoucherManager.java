@@ -24,7 +24,7 @@ public class VoucherManager {
     public UUID create(VoucherInfo voucherInfo) {
         Voucher voucher = voucherInfo
                 .getType()
-                .construct(voucherInfo);
+                .createVoucher(voucherInfo);
         return voucherStorage.save(voucher);
     }
 
