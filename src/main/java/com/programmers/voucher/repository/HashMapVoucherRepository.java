@@ -2,12 +2,12 @@ package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Profile("test")
-@Repository
+@Component
 public class HashMapVoucherRepository implements VoucherRepository {
     Map<UUID, Voucher> map = new HashMap<>();
 

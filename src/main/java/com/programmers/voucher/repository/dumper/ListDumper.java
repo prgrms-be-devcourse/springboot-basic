@@ -14,10 +14,11 @@ import java.util.UUID;
 
 import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_TYPE;
 import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_VALUE;
+import static org.slf4j.LoggerFactory.*;
 
 @Component
 public class ListDumper implements Dumper {
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private final Logger logger = getLogger(FileVoucherRepository.class);
     private final Wini wini;
 
     @Autowired

@@ -14,10 +14,11 @@ import java.util.List;
 import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
+import static org.slf4j.LoggerFactory.*;
 
 @Component
 public class CommandLineApplication implements Runnable {
-    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private final Logger logger = getLogger(CommandLineApplication.class);
     private final View view;
     private final VoucherService voucherService;
 

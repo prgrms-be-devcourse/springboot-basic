@@ -6,7 +6,7 @@ import com.programmers.voucher.voucher.Voucher;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 
 @Profile("dev")
-@Repository
+@Component
 public class FileVoucherRepository implements VoucherRepository {
     public static final String VOUCHER_TYPE = "type";
     public static final String VOUCHER_VALUE = "value";

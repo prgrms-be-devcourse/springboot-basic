@@ -1,6 +1,7 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.voucher.config.CustomerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -12,13 +13,18 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.slf4j.LoggerFactory.*;
+
 @Repository
 public class FileCustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+    private final Logger logger = getLogger(FileCustomerRepository.class);
 
-    //    @Value("${kdt.customer.blacklist.save-path}")
-    private final String blackFilePath = "./blacklist.csv";
+    private final String blackFilePath;
     private BufferedReader bufferedReader;
+
+    public FileCustomerRepository(CustomerProperties properties) {
+        this.blackFilePath = properties.getSavePath();
+    }
 
     public List<Customer> findAllBlackList() {
 
