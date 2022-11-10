@@ -17,16 +17,14 @@ import java.util.Optional;
 @Component
 public class CommandLine implements Runnable {
     private final VoucherService voucherService;
-    private final VoucherRepository voucherRepository;
     private final CustomerService customerService;
     private final Input input;
     private final Output output;
     private Boolean isRunnable = true;
 
     @Autowired
-    public CommandLine(VoucherService voucherService, VoucherRepository voucherRepository, CustomerService customerService, Input input, Output output) {
+    public CommandLine(VoucherService voucherService, CustomerService customerService, Input input, Output output) {
         this.voucherService = voucherService;
-        this.voucherRepository = voucherRepository;
         this.customerService = customerService;
         this.input = input;
         this.output = output;
@@ -79,7 +77,7 @@ public class CommandLine implements Runnable {
 
     private void getListVoucher() {
         output.printMessage(Message.VOUCHER_LIST.getMessage());
-        voucherRepository.getVoucherList().forEach(output::printObject);
+        voucherService.getVoucherList().forEach(output::printObject);
     }
     private void exitVoucherProgram() {
         isRunnable = false;
