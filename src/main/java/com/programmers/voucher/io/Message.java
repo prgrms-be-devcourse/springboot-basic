@@ -6,7 +6,7 @@ public enum Message {
             "    Type **create** to create a new voucher.\n" +
             "    Type **list** to list all vouchers."),
     WRONG_ORDER_MESSAGE("잘못된 입력입니다."),
-    REQUEST_VOUCHER_TYPE_MESSAGE("FixedAmountVoucher와 PercentDiscountVoucher 중 선택해주세요."),
+    REQUEST_VOUCHER_TYPE_MESSAGE("FixedAmountVoucher는 \"1\", PercentDiscountVoucher는 \"2\"를 입력해주세요."),
     REQUEST_DISCOUNT_VALUE_MESSAGE("원하는 할인값을 입력해주세요."),
     EMPTY_VOUCHER_MESSAGE("조회되는 voucher가 없습니다.");
 
