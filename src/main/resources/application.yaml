@@ -1,0 +1,3 @@
+file:
+  voucher: "src/main/resources/voucher.ser"
+  blackList: "src/main/resources/black_list.csv"
