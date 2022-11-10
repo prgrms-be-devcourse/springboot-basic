@@ -1,6 +1,5 @@
 package prgms.vouchermanagementapp.io;
 
-import prgms.vouchermanagementapp.io.message.SystemMessage;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
@@ -13,6 +12,14 @@ public class Writer {
     private static final String BLANK = " ";
     private static final String PROMPT_SIGNATURE = "> ";
 
+    private static final String COMMAND_GUIDE =
+            "Type exit to exit the program."
+                    + System.lineSeparator()
+                    + "Type create to create a new voucher."
+                    + System.lineSeparator()
+                    + "Type list to list all vouchers.";
+
+    private static final String EXIT = "Terminating Application...";
     private static final String VOUCHER_GUIDE = "Enter index of voucher type you want to create.";
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
     private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
@@ -37,10 +44,7 @@ public class Writer {
 
     public void printCommandGuide() {
         printBlankLine();
-
-        List<CommandType> commandTypes = CommandType.getCommandTypes();
-        commandTypes.forEach(commandType -> System.out.println(commandType.getMessage()));
-
+        System.out.println(COMMAND_GUIDE);
         printPromptSignature();
     }
 
@@ -70,7 +74,7 @@ public class Writer {
     }
 
     public void printExitMessage() {
-        System.out.println(SystemMessage.EXIT.getMessage());
+        System.out.println(EXIT);
     }
 
     private void printPromptSignature() {
