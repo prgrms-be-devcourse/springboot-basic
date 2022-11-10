@@ -550,3 +550,38 @@ Consider defining a bean of type 'org.programmers.springbootbasic.repository.Vou
 2022-11-10 20:08:03.407  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 69734 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
 2022-11-10 20:08:03.411  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
 2022-11-10 20:08:03.915  INFO 69734 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 1.159 seconds (JVM running for 1.824)
+2022-11-10 21:39:11.368  INFO 80203 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 80203 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 21:39:11.378  INFO 80203 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 21:39:12.658  INFO 80203 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 2.042 seconds (JVM running for 2.898)
+2022-11-10 21:39:16.084  INFO 80203 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 21:48:38.803 ERROR 81223 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-10 21:48:44.459 ERROR 81223 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:04:31.477  INFO 82947 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 82947 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 22:04:31.479  INFO 82947 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 22:04:31.906  INFO 82947 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.72 seconds (JVM running for 1.351)
+2022-11-10 22:04:39.448  INFO 82947 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:05:36.815  INFO 83062 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 83062 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 22:05:36.817  INFO 83062 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 22:05:37.264  INFO 83062 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.862 seconds (JVM running for 1.617)
+2022-11-10 22:05:44.172  INFO 83062 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:05:46.102  INFO 83062 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:05:47.235  INFO 83062 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:05:48.419  INFO 83062 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:09:45.385  INFO 83532 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 83532 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 22:09:45.388  INFO 83532 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 22:09:45.876  INFO 83532 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.819 seconds (JVM running for 1.497)
+2022-11-10 22:09:47.745  INFO 83532 --- [main] o.p.s.service.VoucherService             : Voucher 전체 출력
+2022-11-10 22:20:07.733  INFO 84622 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 84622 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 22:20:07.735  INFO 84622 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 22:20:08.211  INFO 84622 --- [main] o.p.s.SpringbootBasicApplication         : Started SpringbootBasicApplication in 0.791 seconds (JVM running for 1.59)
+2022-11-10 22:20:10.635 ERROR 84622 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:20:14.056  INFO 84622 --- [main] o.p.s.service.VoucherService             : VoucherFactory에 FIXEDVoucher 생성 요청
+2022-11-10 22:20:14.056  INFO 84622 --- [main] o.p.s.domain.VoucherFactory              : FixedAmountVoucher 생성
+2022-11-10 22:21:53.144 ERROR 84808 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:23:55.778 ERROR 85015 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-10 22:26:29.494 ERROR 85293 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:26:29.494 ERROR 85293 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:26:56.842 ERROR 85345 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:27:00.805 ERROR 85345 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
+2022-11-10 22:27:33.220 ERROR 85412 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 22:27:37.499 ERROR 85412 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.

@@ -19,6 +19,11 @@
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/access.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -29,11 +34,9 @@
     </appender>
 
 
-    <root level="warn">
-        <appender-ref ref="ROLLING_FILE" />
-    </root>
-
     <logger name="org.programmers.springbootbasic" level="info">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROLLING_FILE"/>
     </logger>
+
 </configuration>
