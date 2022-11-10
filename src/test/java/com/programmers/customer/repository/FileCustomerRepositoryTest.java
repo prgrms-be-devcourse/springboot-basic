@@ -27,7 +27,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("블랙리스트에 저장된 인원 수와 레포지토리에서 검색한 인원의 수가 동일해야 한다.")
-    void 블랙리스트명단조회테스트() {
+    void 블랙리스트_명단조회_테스트() {
         List<Customer> blackList = repository.findAllBlackList();
         assertThat(blackList.size()).isEqualTo(5);
     }
@@ -35,7 +35,7 @@ class FileCustomerRepositoryTest {
 
     @Test
     @DisplayName("레포지토리에서 조회한 명단이 블랙리스트와 정확히 일치하는지 검사한다.")
-    void 블랙리스트명단조회테스트2() {
+    void 블랙리스트_명단조회_테스트2() {
         List<Customer> blackList = repository.findAllBlackList();
         List<String> names = blackList.stream()
                 .map(customer -> customer.getName())
