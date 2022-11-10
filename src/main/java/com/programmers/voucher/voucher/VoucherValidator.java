@@ -1,6 +1,6 @@
 package com.programmers.voucher.voucher;
 
-import java.util.Arrays;
+import org.springframework.util.StringUtils;
 
 import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
 import static com.programmers.voucher.voucher.VoucherType.*;
@@ -30,13 +30,17 @@ public class VoucherValidator {
     }
 
     public static boolean isNumeric(String value) {
-        value = value.replaceAll(numberRegEx, "");
-
-        if (value.equals("")) {
-            return true;
+        if (!StringUtils.hasText(value)) {
+            throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
         }
 
-        throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
+        value = value.replaceAll(numberRegEx, "");
+
+        if (!value.equals("")) {
+            throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
+        }
+
+        return true;
     }
 
     public static boolean isProperValue(VoucherType type, String inputValue) {

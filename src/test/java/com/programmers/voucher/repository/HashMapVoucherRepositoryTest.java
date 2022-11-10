@@ -1,75 +1,67 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
-import org.junit.jupiter.api.AfterEach;
+import com.programmers.voucher.voucher.VoucherFactory;
+import com.programmers.voucher.voucher.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
+import java.util.Optional;
 
 import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class HashMapVoucherRepositoryTest {
 
     @Autowired
-    HashMapVoucherRepository repository;
-    Map<UUID, Voucher> store;
+    VoucherRepository repository;
 
     @BeforeEach
-    void setting() {
-        store = repository.map;
-    }
-
-    @AfterEach
     void clear() {
-        store.clear();
+        repository.deleteAll();
     }
 
     @Test
-    void 맵에바우처저장() {
+    void 맵에_바우처_저장() {
+        VoucherType type = FixedAmount;
 
-        assertThat(store.size()).isEqualTo(0);
+        Voucher voucher = VoucherFactory.createVoucher(type, 3000);
+        Voucher findOne = repository.registerVoucher(voucher);
 
-        Voucher voucher1 = FixedAmount.createVoucher(3000);
-        repository.registerVoucher(voucher1);
-
-        assertThat(store.size()).isEqualTo(1);
-
-        Voucher voucher2 = FixedAmount.createVoucher(20000);
-        repository.registerVoucher(voucher2);
-
-        assertThat(store.size()).isEqualTo(2);
+        assertEquals(voucher, findOne);
     }
 
     @Test
-    void 맵에서Id로바우처조회() {
-        Voucher voucher = FixedAmount.createVoucher(100000L);
+    void 맵에서_Id로_바우처_조회() {
+        VoucherType type = PercentDiscount;
+        Voucher voucher = VoucherFactory.createVoucher(type, 5000);
         repository.registerVoucher(voucher);
 
-        Voucher findOne = store.get(voucher.getVoucherId());
+        Optional<Voucher> findOne = repository.findById(voucher.getVoucherId());
+        assertTrue(findOne.isPresent());
 
-        assertSame(findOne, voucher);
-        assertThat(findOne.getValue()).isEqualTo(voucher.getValue());
+        assertSame(findOne.get(), voucher);
     }
 
     @Test
-    void 맵의모든바우처조회() {
-        assertThat(store.size()).isEqualTo(0);
+    void 맵의_모든_바우처_조회() {
 
-        Voucher voucher1 = FixedAmount.createVoucher(3000);
-        Voucher voucher2 = FixedAmount.createVoucher(3000);
-
+        VoucherType typeP = PercentDiscount;
+        Voucher voucher1 = VoucherFactory.createVoucher(typeP, 5000);
         repository.registerVoucher(voucher1);
-        assertThat(store.size()).isEqualTo(1);
 
+        VoucherType typeF = FixedAmount;
+        Voucher voucher2 = VoucherFactory.createVoucher(typeF, 5000);
         repository.registerVoucher(voucher2);
-        assertThat(store.size()).isEqualTo(2);
+
+        List<Voucher> result = repository.findAllVouchers();
+
+        assertEquals(2, result.size());
     }
 
 }

@@ -2,7 +2,6 @@ package com.programmers.voucher.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-import org.springframework.context.annotation.Profile;
 
 @ConfigurationProperties(prefix = "file.customer.blacklist")
 @ConstructorBinding
