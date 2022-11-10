@@ -2,7 +2,7 @@ package com.programmers.voucher.controller;
 
 import com.programmers.voucher.io.CommandType;
 import com.programmers.voucher.io.Console;
-import com.programmers.voucher.model.VoucherType;
+import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

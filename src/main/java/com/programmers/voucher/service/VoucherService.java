@@ -1,10 +1,10 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.model.FixedAmountVoucher;
-import com.programmers.voucher.model.PercentDiscountVoucher;
-import com.programmers.voucher.model.Voucher;
-import com.programmers.voucher.model.VoucherType;
-import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.voucher.model.voucher.FixedAmountVoucher;
+import com.programmers.voucher.model.voucher.PercentDiscountVoucher;
+import com.programmers.voucher.model.voucher.Voucher;
+import com.programmers.voucher.model.voucher.VoucherType;
+import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

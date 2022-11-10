@@ -1,4 +1,4 @@
-package com.programmers.voucher.model;
+package com.programmers.voucher.model.voucher;
 
 import com.programmers.voucher.io.Message;
 
