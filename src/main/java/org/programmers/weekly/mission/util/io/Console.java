@@ -20,18 +20,6 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public String selectOption(String description) {
-        System.out.print(description);
-        return scanner.nextLine();
-    }
-
-    @Override
-    public String selectVoucher(String description) {
-        System.out.print(description);
-        return scanner.nextLine();
-    }
-
-    @Override
     public Long getVoucherDiscount(String input) {
         try {
             return Long.parseLong(input);
