@@ -1,0 +1,13 @@
+# FileBlackListProperties 라는 class getFileName, getFilePath
+# FileVoucherProperties 라는 class getFileName, getFilePath
+
+file:
+  customer-black-list:
+    name: customer_blacklist.csv
+    path: resources/
+
+  voucher-list:
+    name: voucherList.txt
+    path: resources/
+
+
