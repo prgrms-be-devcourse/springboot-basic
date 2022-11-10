@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
@@ -11,12 +13,14 @@ import prgms.vouchermanagementapp.voucher.model.Voucher;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class CommandExecutor {
 
     private final IOManager ioManager;
     private final VoucherManager voucherManager;
     private final RunningState runningState;
 
+    @Autowired
     public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;

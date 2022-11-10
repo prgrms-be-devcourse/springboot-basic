@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.io;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
@@ -7,11 +9,13 @@ import prgms.vouchermanagementapp.voucher.model.Voucher;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class IOManager {
 
     private final Reader reader;
     private final Writer writer;
 
+    @Autowired
     public IOManager(Reader reader, Writer writer) {
         this.reader = reader;
         this.writer = writer;

@@ -1,11 +1,13 @@
 package prgms.vouchermanagementapp.io;
 
+import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Component
 public class Writer {
 
     private static final String DOT = ".";
@@ -24,10 +26,6 @@ public class Writer {
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
     private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
     private static final String NO_VOUCHER_EXISTS = "There is no voucher. please create voucher first";
-
-    public void print(List<String> list) {
-        list.forEach(System.out::println);
-    }
 
     public void printVouchers(List<Voucher> list) {
         if (list.isEmpty()) {
