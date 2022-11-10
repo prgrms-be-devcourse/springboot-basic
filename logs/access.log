@@ -585,3 +585,8 @@ Consider defining a bean of type 'org.programmers.springbootbasic.repository.Vou
 2022-11-10 22:27:00.805 ERROR 85345 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 입력입니다.
 2022-11-10 22:27:33.220 ERROR 85412 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
 2022-11-10 22:27:37.499 ERROR 85412 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 amount 범위의 입력입니다.
+2022-11-10 22:39:14.694 ERROR 88207 --- [main] o.p.s.VoucherManagementExecutor          : 잘못된 type 입력입니다.
+2022-11-10 23:26:29.244  INFO 97859 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 97859 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 23:26:29.247  INFO 97859 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"
+2022-11-10 23:26:49.991  INFO 97951 --- [main] o.p.s.SpringbootBasicApplication         : Starting SpringbootBasicApplication using Java 17.0.3 on MacBook-Pro-2.local with PID 97951 (/Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic/build/classes/java/main started by yb in /Users/yb/Documents/Study/Dev-course/Assignment/springboot-basic)
+2022-11-10 23:26:49.993  INFO 97951 --- [main] o.p.s.SpringbootBasicApplication         : The following 1 profile is active: "local"

@@ -2,6 +2,7 @@ package org.programmers.springbootbasic;
 
 import lombok.AllArgsConstructor;
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
+import org.programmers.springbootbasic.domain.Customer;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.dto.VoucherDto;
 import org.programmers.springbootbasic.dto.VoucherDtoConverter;
@@ -10,6 +11,7 @@ import org.programmers.springbootbasic.exception.WrongRangeInputException;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
+import org.programmers.springbootbasic.service.CustomerService;
 import org.programmers.springbootbasic.service.VoucherService;
 import org.programmers.springbootbasic.util.ConstantMessageUtil;
 import org.slf4j.Logger;
@@ -27,6 +29,7 @@ public class VoucherManagementExecutor {
     private final Output output;
     private final VoucherDtoConverter voucherDtoConverter;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
     private static Logger logger = LoggerFactory.getLogger(VoucherManagementExecutor.class);
 
 
@@ -42,6 +45,10 @@ public class VoucherManagementExecutor {
                 case LIST -> {
                     List<Voucher> vouchers = voucherService.lookupVoucher();
                     output.printVouchers(vouchers);
+                }
+                case BLACKLIST -> {
+                    List<Customer> blackList = customerService.loopUpBlackList();
+                    output.printBlacklist(blackList);
                 }
                 case EXIT -> {
                     running = false;

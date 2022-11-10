@@ -4,3 +4,4 @@ spring.profiles.active: local
 files:
   location:
     voucher: src/main/resources/voucher_data.csv
+    blacklist: src/main/resources/customer_blacklist.csv

@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.io;
 
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
+import org.programmers.springbootbasic.domain.Customer;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.dto.VoucherInputDto;
 import org.programmers.springbootbasic.util.ConstantMessageUtil;
@@ -48,6 +49,13 @@ public class Console implements Input, Output{
     public void printVouchers(List<Voucher> vouchers) {
         for (Voucher voucher : vouchers) {
             System.out.println(voucher);
+        }
+    }
+
+    @Override
+    public void printBlacklist(List<Customer> blacklist) {
+        for (Customer black : blacklist) {
+            System.out.println(black);
         }
     }
 }

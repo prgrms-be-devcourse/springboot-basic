@@ -18,15 +18,13 @@ import java.util.UUID;
 public class CSVFileVoucherRepository implements VoucherRepository {
 
 
-    private String CSV_FILE_PATH;
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_UUID_INDEX = 1;
     private static final int VOUCHER_AMOUNT_INDEX = 2;
     private final File csv;
 
     public CSVFileVoucherRepository(@Value("${files.location.voucher}") String CSV_FILE_PATH) {
-        this.CSV_FILE_PATH = CSV_FILE_PATH;
-        this.csv = new File(this.CSV_FILE_PATH);
+        this.csv = new File(CSV_FILE_PATH);
     }
 
     @Override

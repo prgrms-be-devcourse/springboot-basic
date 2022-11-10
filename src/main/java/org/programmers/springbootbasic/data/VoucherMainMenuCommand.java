@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherMainMenuCommand {
-    EXIT("exit"), CREATE("create"), LIST("list"), WRONG_INPUT("wrong");
+    EXIT("exit"), CREATE("create"), LIST("list"), BLACKLIST("blacklist"), WRONG_INPUT("wrong");
     final private String command;
 
     VoucherMainMenuCommand(String command) {
