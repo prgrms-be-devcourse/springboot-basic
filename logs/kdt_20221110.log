@@ -1,0 +1,3 @@
+23:35:23.204 [main] INFO  c.p.v.VoucherProgramApplication - Starting VoucherProgramApplication using Java 17.0.4.1 on jang-yeongjiui-MacBookPro.local with PID 75827 (/Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program/build/classes/java/main started by jang-yeongji in /Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program)
+23:35:23.205 [main] INFO  c.p.v.VoucherProgramApplication - The following 1 profile is active: "dev"
+23:35:23.604 [main] INFO  c.p.v.VoucherProgramApplication - read 버퍼 정상 종료

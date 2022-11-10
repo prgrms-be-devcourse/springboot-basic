@@ -1,0 +1,4 @@
+02:25:17.081 [main] INFO  c.p.v.VoucherProgramApplication - Starting VoucherProgramApplication using Java 17.0.4.1 on jang-yeongjiui-MacBookPro.local with PID 86916 (/Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program/build/classes/java/main started by jang-yeongji in /Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program)
+02:25:17.081 [main] INFO  c.p.v.VoucherProgramApplication - The following 1 profile is active: "dev"
+02:25:17.428 [main] INFO  c.p.v.VoucherProgramApplication - read 버퍼 정상 종료
+02:25:18.977 [main] WARN  c.p.v.VoucherProgramApplication - 컨트롤러 run 메소드에서 에러 처리 :No enum constant com.program.voucher.VoucherController.MenuType.LSIT

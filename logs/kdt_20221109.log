@@ -1,0 +1,4 @@
+23:34:04.858 [main] INFO  c.p.v.VoucherProgramApplication - Starting VoucherProgramApplication using Java 17.0.4.1 on jang-yeongjiui-MacBookPro.local with PID 23658 (/Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program/build/classes/java/main started by jang-yeongji in /Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program)
+23:34:04.858 [main] INFO  c.p.v.VoucherProgramApplication - The following 1 profile is active: "dev"
+23:34:05.323 [main] INFO  c.p.v.VoucherProgramApplication - Started VoucherProgramApplication in 0.779 seconds (JVM running for 1.369)
+23:34:07.532 [main] WARN  c.p.v.VoucherProgramApplication - No enum constant com.program.voucher.VoucherController.MenuType.DD

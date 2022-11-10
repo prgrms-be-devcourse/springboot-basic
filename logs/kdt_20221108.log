@@ -1,0 +1,4 @@
+16:03:08.729 [main] INFO  c.p.v.VoucherProgramApplication - Starting VoucherProgramApplication using Java 17.0.4.1 on jang-yeongjiui-MacBookPro.local with PID 46896 (/Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program/build/classes/java/main started by jang-yeongji in /Users/jang-yeongji/Documents/dev-workspace/spring-voucher-program)
+16:03:08.731 [main] INFO  c.p.v.VoucherProgramApplication - The following 1 profile is active: "local"
+16:03:09.162 [main] INFO  c.p.v.VoucherProgramApplication - Started VoucherProgramApplication in 0.766 seconds (JVM running for 1.388)
+16:03:09.165 [main] INFO  c.p.v.VoucherProgramApplication - logger name => com.program.voucher.VoucherProgramApplication
