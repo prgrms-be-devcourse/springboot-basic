@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic;
+package org.prgrms.springbootbasic.type;
 
 import java.util.Arrays;
 

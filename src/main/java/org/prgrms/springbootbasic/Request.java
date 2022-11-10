@@ -1,5 +1,8 @@
 package org.prgrms.springbootbasic;
 
+import org.prgrms.springbootbasic.type.Menu;
+import org.prgrms.springbootbasic.type.TypeOption;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Request {

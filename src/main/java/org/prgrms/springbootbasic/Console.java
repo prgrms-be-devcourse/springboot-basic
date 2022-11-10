@@ -1,13 +1,15 @@
 package org.prgrms.springbootbasic;
 
 import org.prgrms.springbootbasic.service.VoucherService;
+import org.prgrms.springbootbasic.type.Menu;
+import org.prgrms.springbootbasic.type.TypeOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 
-import static org.prgrms.springbootbasic.TypeOption.FIXED;
-import static org.prgrms.springbootbasic.TypeOption.PERCENT;
+import static org.prgrms.springbootbasic.type.TypeOption.FIXED;
+import static org.prgrms.springbootbasic.type.TypeOption.PERCENT;
 
 @Component
 public class Console {

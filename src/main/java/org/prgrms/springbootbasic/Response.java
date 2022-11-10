@@ -1,12 +1,13 @@
 package org.prgrms.springbootbasic;
 
+import org.prgrms.springbootbasic.type.Menu;
 import org.prgrms.springbootbasic.voucher.Voucher;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.prgrms.springbootbasic.Menu.CREATE;
-import static org.prgrms.springbootbasic.Menu.LIST;
+import static org.prgrms.springbootbasic.type.Menu.CREATE;
+import static org.prgrms.springbootbasic.type.Menu.LIST;
 
 public class Response {
     private final Menu menuItem;

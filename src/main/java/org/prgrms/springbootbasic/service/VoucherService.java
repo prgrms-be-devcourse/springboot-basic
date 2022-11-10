@@ -2,7 +2,7 @@ package org.prgrms.springbootbasic.service;
 
 import org.prgrms.springbootbasic.Request;
 import org.prgrms.springbootbasic.Response;
-import org.prgrms.springbootbasic.TypeOption;
+import org.prgrms.springbootbasic.type.TypeOption;
 import org.prgrms.springbootbasic.factory.VoucherFactory;
 import org.prgrms.springbootbasic.repository.VoucherRepository;
 import org.prgrms.springbootbasic.voucher.Voucher;
