@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class InMemoryVoucherStorage implements VoucherStorage {
 
-    Map<UUID, Voucher> vouchers = new HashMap<>();
+    private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
     public UUID save(Voucher voucher) {

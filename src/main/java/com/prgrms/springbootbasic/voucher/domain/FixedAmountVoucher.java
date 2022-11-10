@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
-    UUID id;
-    String voucherType;
-    int fixedAmount;
+    private final UUID id;
+    private final String voucherType;
+    private final int fixedAmount;
 
     public FixedAmountVoucher(String voucherType, int fixedAmount) {
         this.id = UUID.randomUUID();
