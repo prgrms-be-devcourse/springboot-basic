@@ -10,6 +10,9 @@ import java.util.UUID;
 
 public class VoucherCreationFactory {
 
+    private VoucherCreationFactory() {
+    }
+
     public static Voucher createVoucher(Amount fixedDiscountAmount) {
         UUID voucherId = UUID.randomUUID();
         return new FixedAmountVoucher(voucherId, fixedDiscountAmount);
