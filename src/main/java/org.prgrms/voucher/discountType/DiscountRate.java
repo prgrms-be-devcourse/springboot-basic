@@ -9,10 +9,10 @@ public class DiscountRate implements Amount {
     try {
       target = Long.parseLong(input);
     } catch (NumberFormatException e) {
-      throw new NumberFormatException("숫자만 입력 가능합니다");
+      throw new NumberFormatException("Only numbers can be entered");
     }
     if (target > 100 || target < 1) {
-      throw new IllegalStateException("잘못된 할인율 범위입니다");
+      throw new IllegalStateException("Invalid discount rate range");
     }
 
     this.value = target;

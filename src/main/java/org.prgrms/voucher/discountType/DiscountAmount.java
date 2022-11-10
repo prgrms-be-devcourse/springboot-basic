@@ -18,10 +18,10 @@ public class DiscountAmount implements Amount {
     try {
       target = Long.parseLong(input);
     } catch (NumberFormatException e) {
-      throw new NumberFormatException("숫자만 입력 가능합니다");
+      throw new NumberFormatException("Only numbers can be entered");
     }
     if (target < 1) {
-      throw new IllegalStateException("잘못된 할인금액 범위입니다");
+      throw new IllegalStateException("Wrong discount amount range");
     }
     return target;
   }
