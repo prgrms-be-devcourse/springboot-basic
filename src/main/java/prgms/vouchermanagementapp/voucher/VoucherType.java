@@ -17,11 +17,11 @@ public enum VoucherType {
         return List.of(VoucherType.values());
     }
 
-    public static VoucherType of(String index) {
+    public static VoucherType of(String index) throws IllegalArgumentException {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> index.equals(String.valueOf(voucherType.index)))
                 .findFirst()
-                .orElseThrow(NoSuchFieldError::new);  // TODO: custom exception
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public boolean is(VoucherType voucherType) {

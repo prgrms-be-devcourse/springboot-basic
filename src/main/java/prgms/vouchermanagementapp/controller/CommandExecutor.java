@@ -10,6 +10,7 @@ import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,9 +59,23 @@ public class CommandExecutor {
     }
 
     private void runCreate() {
-        String voucherTypeIndex = ioManager.askVoucherTypeIndex();
-        VoucherType voucherType = VoucherType.of(voucherTypeIndex);
+        Optional<VoucherType> voucherType = askVoucherType();
+        voucherType.ifPresent(this::requestVoucherCreation);
+    }
 
+    private Optional<VoucherType> askVoucherType() {
+        String voucherTypeIndex = ioManager.askVoucherTypeIndex();
+
+        try {
+            VoucherType voucherType = VoucherType.of(voucherTypeIndex);
+            return Optional.of(voucherType);
+        } catch (IllegalArgumentException exception) {
+            ioManager.notifyErrorOccurred(MessageFormat.format("index {0} is invalid!!!", voucherTypeIndex));
+            return Optional.empty();
+        }
+    }
+
+    private void requestVoucherCreation(VoucherType voucherType) {
         if (voucherType.is(VoucherType.FixedAmountVoucher)) {
             Optional<Amount> fixedDiscountAmount = ioManager.askFixedDiscountAmount();
             fixedDiscountAmount.ifPresent(voucherManager::createVoucher);

@@ -69,4 +69,8 @@ public class IOManager {
     public void notifyVouchers(List<Voucher> vouchers) {
         writer.printVouchers(vouchers);
     }
+
+    public void notifyErrorOccurred(String errorMessage) {
+        writer.printError(errorMessage);
+    }
 }

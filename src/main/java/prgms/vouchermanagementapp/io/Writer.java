@@ -22,6 +22,8 @@ public class Writer {
                     + "Type list to list all vouchers.";
 
     private static final String EXIT = "Terminating Application...";
+    private static final String ERROR = "Error: ";
+
     private static final String VOUCHER_GUIDE = "Enter index of voucher type you want to create.";
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
     private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
@@ -85,5 +87,9 @@ public class Writer {
 
     public void printException(RuntimeException e) {
         System.out.println(e.getMessage());
+    }
+
+    public void printError(String errorMessage) {
+        System.out.println(ERROR + errorMessage);
     }
 }
