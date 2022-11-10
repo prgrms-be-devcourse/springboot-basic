@@ -4,7 +4,7 @@ import org.programmers.springbootbasic.domain.FixedAmountVoucher;
 import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
-import org.springframework.context.annotation.Primary;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -17,15 +17,16 @@ import java.util.UUID;
 @Profile("local")
 public class CSVFileVoucherRepository implements VoucherRepository {
 
-    private static final String CSV_FILE_PATH = "src/main/voucher_data.csv";
+
+    private String CSV_FILE_PATH;
     private static final int VOUCHER_TYPE_INDEX = 0;
     private static final int VOUCHER_UUID_INDEX = 1;
     private static final int VOUCHER_AMOUNT_INDEX = 2;
     private final File csv;
 
-    public CSVFileVoucherRepository() {
-        System.out.println("CSVFILE RPOSITORY ");
-        this.csv = new File(CSV_FILE_PATH);
+    public CSVFileVoucherRepository(@Value("${files.location.voucher}") String CSV_FILE_PATH) {
+        this.CSV_FILE_PATH = CSV_FILE_PATH;
+        this.csv = new File(this.CSV_FILE_PATH);
     }
 
     @Override
