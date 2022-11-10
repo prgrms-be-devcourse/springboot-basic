@@ -30,7 +30,7 @@ class MemoryVoucherRepositoryTest {
 		repository.save(fixedVoucher);
 		Voucher findVoucher = repository.findByUUID(voucherId);
 
-		Assertions.assertThat(fixedVoucher).isEqualTo(findVoucher);
+		Assertions.assertThat(findVoucher).isEqualTo(fixedVoucher);
 	}
 
 	@Test

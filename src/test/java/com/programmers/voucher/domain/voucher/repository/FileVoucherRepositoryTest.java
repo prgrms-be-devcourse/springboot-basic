@@ -32,6 +32,6 @@ class FileVoucherRepositoryTest {
 		repository.save(voucher);
 		Voucher findVoucher = repository.findByUUID(voucherID);
 
-		Assertions.assertThat(voucher.getVoucherId()).isEqualTo(findVoucher.getVoucherId());
+		Assertions.assertThat(findVoucher.getVoucherId()).isEqualTo(voucher.getVoucherId());
 	}
 }

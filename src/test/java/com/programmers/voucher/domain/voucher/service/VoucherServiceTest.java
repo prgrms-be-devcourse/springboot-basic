@@ -38,7 +38,7 @@ class VoucherServiceTest {
 		Voucher findFixed = repository.findByUUID(fixedVoucher.getVoucherId());
 		Voucher findPercent = repository.findByUUID(percentVoucher.getVoucherId());
 
-		Assertions.assertThat(fixedVoucher.toString()).isEqualTo(findFixed.toString());
-		Assertions.assertThat(percentVoucher.toString()).isEqualTo(findPercent.toString());
+		Assertions.assertThat(findFixed.toString()).isEqualTo(fixedVoucher.toString());
+		Assertions.assertThat(findPercent.toString()).isEqualTo(percentVoucher.toString());
 	}
 }
