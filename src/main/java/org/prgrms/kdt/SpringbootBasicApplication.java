@@ -1,13 +1,27 @@
 package org.prgrms.kdt;
 
+import org.prgrms.kdt.forward.IOController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringbootBasicApplication {
+public class SpringbootBasicApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringbootBasicApplication.class, args);
-	}
+    private final IOController ioController;
 
+    @Autowired
+    public SpringbootBasicApplication(IOController ioController) {
+        this.ioController = ioController;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootBasicApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        ioController.run();
+    }
 }
