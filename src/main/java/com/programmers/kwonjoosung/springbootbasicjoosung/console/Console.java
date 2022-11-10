@@ -1,13 +1,11 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 
-
-
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
+import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.stream.Stream;
@@ -61,14 +59,13 @@ public class Console {
     public void showCustomer(Customer customer) {
         System.out.println(customer);
     }
-    public void showAllCommandSet() {
-        Stream.of(CommandType.values())
-                .map(CommandType::getExplanation)
-                .forEach(System.out::println);
-    }
 
     public void showError(Exception e) {
         System.out.println(e.getMessage());
+    }
+
+    public void showAllCommandSet() {
+        Stream.of(CommandType.values()).map(CommandType::getExplanation).forEach(System.out::println);
     }
 
 }

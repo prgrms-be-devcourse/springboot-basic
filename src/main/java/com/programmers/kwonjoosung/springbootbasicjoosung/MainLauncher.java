@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MainLauncher implements InitializingBean, DisposableBean {
-    private boolean isRunning = true;
     private final MainController controller;
     private final Console console;
+    private boolean isRunning = true;
 
-    public MainLauncher(MainController controller, Console console){
+    public MainLauncher(MainController controller, Console console) {
         this.controller = controller;
         this.console = console;
     }

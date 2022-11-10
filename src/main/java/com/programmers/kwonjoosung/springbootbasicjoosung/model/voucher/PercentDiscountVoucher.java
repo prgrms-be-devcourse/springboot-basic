@@ -50,7 +50,6 @@ public class PercentDiscountVoucher implements Voucher {
         return beforeDiscount - ((beforeDiscount * discountPercent) / 100);
     }
 
-
     @Override
     public String toString() {
         return "VoucherType: PercentDiscountVoucher, " +

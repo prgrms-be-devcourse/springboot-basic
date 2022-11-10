@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.List;
-
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
             writer.write(VoucherConverter.convertText(voucherId, voucher));
             writer.flush();
         } catch (IOException e) {
-            logger.error("insert error message -> {}",e.getMessage());
+            logger.error("insert error message -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
         return voucher;
@@ -51,7 +50,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     .filter(voucher -> voucher.getVoucherId().equals(voucherId))
                     .findAny();
         } catch (IOException e) {
-            logger.error("findById error message -> {}",e.getMessage());
+            logger.error("findById error message -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }
@@ -64,7 +63,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     .map(VoucherConverter::textToVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            logger.error("findAll error message -> {}",e.getMessage());
+            logger.error("findAll error message -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
     }

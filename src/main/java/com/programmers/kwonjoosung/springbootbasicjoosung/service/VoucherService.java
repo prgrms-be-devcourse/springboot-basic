@@ -13,7 +13,7 @@ import java.util.List;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository){
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -22,18 +22,18 @@ public class VoucherService {
     }
 
     public Voucher createAndSave(VoucherType voucherType, long discount) {
-        return saveVoucher(createVoucher(voucherType,discount));
+        return saveVoucher(createVoucher(voucherType, discount));
     }
 
-    private Voucher createVoucher(VoucherType voucherType,long discount){
+    private Voucher createVoucher(VoucherType voucherType, long discount) {
         return switch (voucherType) {
             case FIXED -> new FixedAmountDiscountVoucher(discount);
             case PERCENT -> new PercentDiscountVoucher(discount);
         };
     }
 
-    private Voucher saveVoucher(Voucher voucher){
-        return voucherRepository.insert(voucher.getVoucherId(),voucher);
+    private Voucher saveVoucher(Voucher voucher) {
+        return voucherRepository.insert(voucher.getVoucherId(), voucher);
     }
 
 }

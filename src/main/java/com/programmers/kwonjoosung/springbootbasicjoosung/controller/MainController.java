@@ -1,6 +1,5 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
-
 import com.programmers.kwonjoosung.springbootbasicjoosung.console.Console;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
 import com.programmers.kwonjoosung.springbootbasicjoosung.service.CustomerService;
@@ -37,6 +36,7 @@ public class MainController {
     private void showVoucherList() {
         voucherService.getVoucherList().forEach(console::showVoucher);
     }
+
     private void showCustomerBlackList() {
         customerService.getBlackList().forEach(console::showCustomer);
     }

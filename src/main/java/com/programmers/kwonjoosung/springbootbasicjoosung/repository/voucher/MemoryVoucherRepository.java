@@ -10,18 +10,19 @@ import java.util.*;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
+
     @Override
-    public Voucher insert(UUID voucherID, Voucher voucher){
-        storage.put(voucherID,voucher);
-        logger.debug("insert Voucher = {}",voucher);
+    public Voucher insert(UUID voucherID, Voucher voucher) {
+        storage.put(voucherID, voucher);
+        logger.debug("insert Voucher = {}", voucher);
         return voucher;
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherID){
-        logger.debug("find Voucher = {}",voucherID);
+    public Optional<Voucher> findById(UUID voucherID) {
+        logger.debug("find Voucher = {}", voucherID);
         return Optional.ofNullable(storage.get(voucherID));
     }
 

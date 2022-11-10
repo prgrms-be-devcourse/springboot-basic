@@ -13,6 +13,7 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
     public List<Customer> getBlackList() {
         return customerRepository.findAll();
     }

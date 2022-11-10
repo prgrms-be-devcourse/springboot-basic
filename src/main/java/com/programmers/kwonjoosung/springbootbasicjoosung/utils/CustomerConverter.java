@@ -7,7 +7,7 @@ import java.util.UUID;
 public class CustomerConverter {
     public static Customer toCustomer(String text) {
         String[] textCustomer = text.split(",");
-        return new Customer(UUID.fromString(textCustomer[0]),textCustomer[1]);
+        return new Customer(UUID.fromString(textCustomer[0]), textCustomer[1]);
     }
 
 }

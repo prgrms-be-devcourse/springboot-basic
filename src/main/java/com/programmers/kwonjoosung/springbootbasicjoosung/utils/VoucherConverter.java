@@ -18,12 +18,13 @@ public class VoucherConverter {
         try {
             Voucher voucher = null;
             switch (VoucherType.getVoucherType(textVoucher[0])) {
-                case FIXED -> voucher = new FixedAmountDiscountVoucher(UUID.fromString(textVoucher[1]),Long.parseLong(textVoucher[2]));
-                case PERCENT -> voucher = new PercentDiscountVoucher(UUID.fromString(textVoucher[1]),Long.parseLong(textVoucher[2]));
+                case FIXED ->
+                        voucher = new FixedAmountDiscountVoucher(UUID.fromString(textVoucher[1]), Long.parseLong(textVoucher[2]));
+                case PERCENT ->
+                        voucher = new PercentDiscountVoucher(UUID.fromString(textVoucher[1]), Long.parseLong(textVoucher[2]));
             }
-            if(voucher == null){
+            if (voucher == null)
                 throw new RuntimeException(ERROR);
-            }
             return voucher;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

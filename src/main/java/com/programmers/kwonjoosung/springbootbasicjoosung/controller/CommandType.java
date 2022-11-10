@@ -4,7 +4,6 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommand
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 import java.util.stream.Stream;
 
 public enum CommandType {
