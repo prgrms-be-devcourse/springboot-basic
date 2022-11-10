@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +22,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 public class FileCustomerRepository implements CustomerRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
+	private static final List<Customer> customers = new ArrayList<>();
 	private static final String LINE_SEPARATOR = ", |: ";
 	private final String filePath;
 
@@ -29,8 +32,11 @@ public class FileCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAllBlacklist() {
-		List<Customer> customers = new ArrayList<>();
+		return customers;
+	}
 
+	@PostConstruct
+	void setBlacklist() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
@@ -48,7 +54,5 @@ public class FileCustomerRepository implements CustomerRepository {
 			log.error(ExceptionMessage.IO.getMessage());
 			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
-
-		return customers;
 	}
 }
