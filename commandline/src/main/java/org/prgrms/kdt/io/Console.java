@@ -1,6 +1,5 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.CommandType;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.voucher.VoucherType;
@@ -38,7 +37,6 @@ public class Console {
     public void printError(ErrorCode errorCode) {
         System.out.println(errorCode.getMessage());
     }
-
 
     public void terminate() {
         System.out.println("프로그램을 종료합니다.");
