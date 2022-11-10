@@ -1,7 +1,7 @@
 package org.prgrms.springbootbasic.type;
 
 public enum TypeOption {
-    FIXED("1", "fixedAmountVoucherFactory"), PERCENT("2", "PercentAmountVoucherFactory");
+    FIXED("1", "fixedAmountVoucherFactory"), PERCENT("2", "percentAmountVoucherFactory");
 
     private final String number;
     private final String beanName;
