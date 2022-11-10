@@ -1,5 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongVoucherTypeException;
+
 import java.util.stream.Stream;
 
 public enum VoucherType {
@@ -16,6 +18,6 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(voucherType -> voucherType.command.equals(input.toLowerCase()))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(input));
+                .orElseThrow(() -> new WrongVoucherTypeException(input));
     }
 }

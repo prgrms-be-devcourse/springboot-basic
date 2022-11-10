@@ -1,5 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommandException;
+
 import java.util.stream.Stream;
 
 public enum CommandType {
@@ -21,7 +23,7 @@ public enum CommandType {
         return Stream.of(CommandType.values())
                 .filter(commandType -> commandType.command.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException(input));
+                .orElseThrow(() -> new WrongCommandException(input));
     }
 
     public String getExplanation() {
