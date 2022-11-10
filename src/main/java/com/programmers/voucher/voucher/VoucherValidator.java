@@ -18,7 +18,7 @@ public class VoucherValidator {
         VoucherType validateVoucherType = getValidateVoucherType(type);
         long validateValue = ValidateValue(validateVoucherType, value);
 
-        return validateVoucherType.createVoucher(validateValue);
+        return VoucherFactory.createVoucher(validateVoucherType, validateValue);
     }
 
     public static long ValidateValue(VoucherType type, String value) {
@@ -53,10 +53,4 @@ public class VoucherValidator {
         throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
     }
 
-    public static VoucherType getValidateVoucherType(String inputType) {
-        return Arrays.stream(values())
-                .filter(voucherType -> voucherType.getType().contains(inputType))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage()));
-    }
 }

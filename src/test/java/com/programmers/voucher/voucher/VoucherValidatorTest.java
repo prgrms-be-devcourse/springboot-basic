@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
 import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
+import static com.programmers.voucher.voucher.VoucherType.*;
 import static com.programmers.voucher.voucher.VoucherValidator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
