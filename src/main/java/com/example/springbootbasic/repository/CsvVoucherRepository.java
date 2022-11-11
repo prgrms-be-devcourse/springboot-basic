@@ -45,8 +45,8 @@ public class CsvVoucherRepository implements VoucherRepository {
     @Override
     public synchronized Voucher save(Voucher voucher) {
         try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), true)) {
-            Voucher generatedVoucher = VoucherFactory.generateVoucher(
-                    ++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+            Voucher generatedVoucher =
+                    VoucherFactory.generateVoucher(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
             writer.write(csvParser.parseToCsvFrom(generatedVoucher));
             writer.flush();
         } catch (IOException e) {

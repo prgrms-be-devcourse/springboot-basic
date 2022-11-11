@@ -1,11 +1,11 @@
 package com.example.springbootbasic.console;
 
 import com.example.springbootbasic.controller.CustomerController;
+import com.example.springbootbasic.controller.VoucherController;
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.dto.CustomerDto;
 import com.example.springbootbasic.dto.VoucherDto;
-import com.example.springbootbasic.controller.VoucherController;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
