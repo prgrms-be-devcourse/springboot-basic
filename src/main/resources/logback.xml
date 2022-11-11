@@ -23,9 +23,10 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.kdt" level="warn">
+    <logger name="org.prgrms.kdt.io.IOManager" level="warn">
         <appender-ref ref="FILE" />
     </logger>
+
 
     <root level="info">
         <appender-ref ref="STDOUT" />

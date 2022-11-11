@@ -2,6 +2,8 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.exceptions.AmountException;
 import org.prgrms.kdt.voucher.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
@@ -16,6 +18,7 @@ public class IOManager {
             Type 'list' to list all vouchers.""";
 
     private static final String SELECT_WRONG = "올바른 입력이 아닙니다. 보기 중에 입력해주세요.";
+    private static final Logger logger = LoggerFactory.getLogger(IOManager.class);
     private final Console console;
 
     public IOManager(Console console) {
@@ -51,6 +54,7 @@ public class IOManager {
     }
 
     public void writeExceptionMessage(String message) {
+        logger.error(message);
         console.write(message);
     }
 
