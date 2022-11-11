@@ -7,7 +7,7 @@ import org.prgrms.springorder.domain.Message;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Console implements Input, Output{
+public class Console implements IO {
 
 	private final Scanner scanner = new Scanner(System.in);
 
@@ -20,10 +20,6 @@ public class Console implements Input, Output{
 	@Override
 	public void write(String s) {
 		System.out.println(s);
-	}
-	@Override
-	public void write(Message m) {
-		System.out.println(m);
 	}
 
 	@Override
