@@ -15,7 +15,6 @@ public enum VoucherFactory {
     PERCENT_DISCOUNT_VOUCHER(PERCENT_DISCOUNT, PercentDiscountVoucher::new);
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
-    private static long sequence;
     private final VoucherType voucherType;
     private final BiFunction<Long, Long, Voucher> voucherGenerator;
 
@@ -24,17 +23,25 @@ public enum VoucherFactory {
         this.voucherGenerator = voucherGenerator;
     }
 
-    public static Voucher generateVoucher(long discountValue, String inputVoucherType) {
-        VoucherType findVoucherType = findVoucherType(inputVoucherType);
+    public static Voucher generateVoucher(long discountValue, VoucherType inputVoucherType) {
         VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
-                .filter(voucherFactory -> voucherFactory.voucherType == findVoucherType)
+                .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_FACTORY.getMessage()));
 
-        return findVoucherFactory.generate(++sequence, discountValue);
+        return findVoucherFactory.generate(0, discountValue);
     }
 
-    private Voucher generate(long voucherId, long discountValue) {
+    public static Voucher generateVoucher(long voucherId, long discountValue, VoucherType inputVoucherType) {
+        VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
+                .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
+                .findFirst()
+                .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_FACTORY.getMessage()));
+
+        return findVoucherFactory.generate(voucherId, discountValue);
+    }
+
+    private synchronized Voucher generate(long voucherId, long discountValue) {
         return voucherGenerator.apply(voucherId, discountValue);
     }
 }

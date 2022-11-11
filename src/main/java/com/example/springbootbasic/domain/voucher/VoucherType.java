@@ -20,8 +20,4 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_TYPE.getMessage()));
     }
-
-    public String getVoucherType() {
-        return voucherType;
-    }
 }

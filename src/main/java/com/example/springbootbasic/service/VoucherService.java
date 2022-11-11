@@ -17,8 +17,7 @@ public class VoucherService {
     }
 
     public Voucher saveVoucher(Voucher voucher) {
-        voucherRepository.save(voucher);
-        return voucher;
+        return voucherRepository.save(voucher);
     }
 
     public List<Voucher> findAllVouchers() {

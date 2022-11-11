@@ -1,9 +1,10 @@
-package com.example.springbootbasic.dto.controller;
+package com.example.springbootbasic.controller;
 
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
+import com.example.springbootbasic.domain.voucher.VoucherType;
 import com.example.springbootbasic.dto.VoucherDto;
 import com.example.springbootbasic.service.VoucherService;
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class VoucherController {
     public ResponseBody<VoucherDto> saveVoucher(RequestBody<VoucherDto> request) {
         VoucherDto voucherDto = request.getData();
         Long discountValue = voucherDto.getDiscountValue();
-        String voucherType = voucherDto.getVoucherType();
+        VoucherType voucherType = voucherDto.getVoucherType();
         try {
             Voucher generatedVoucher = VoucherFactory.generateVoucher(discountValue, voucherType);
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
@@ -38,14 +39,15 @@ public class VoucherController {
     }
 
     public ResponseBody<List<VoucherDto>> selectAllVouchers() {
+        List<Voucher> findAllVouchers = Collections.emptyList();
         try {
-            List<Voucher> findAllVouchers = voucherService.findAllVouchers();
-            return ResponseBody.success(findAllVouchers.stream()
-                    .map(VoucherDto::toDto)
-                    .toList());
+            findAllVouchers = voucherService.findAllVouchers();
         } catch (NullPointerException e) {
             logger.error("");
             return ResponseBody.fail(Collections.emptyList());
         }
+        return ResponseBody.success(findAllVouchers.stream()
+                .map(VoucherDto::toDto)
+                .toList());
     }
 }
