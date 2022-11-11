@@ -2,6 +2,7 @@ package com.example.springbootbasic.console.input;
 
 import com.example.springbootbasic.console.ConsoleType;
 import com.example.springbootbasic.controller.request.RequestBody;
+import com.example.springbootbasic.domain.voucher.VoucherType;
 import com.example.springbootbasic.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.example.springbootbasic.console.ConsoleType.VOUCHER_EXIT;
+import static com.example.springbootbasic.console.ConsoleType.EXIT;
 import static com.example.springbootbasic.console.ConsoleType.findConsoleTypeBy;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 
@@ -25,7 +26,7 @@ public class ConsoleInput {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public ConsoleType inputCommand() {
-        ConsoleType voucherExit = VOUCHER_EXIT;
+        ConsoleType voucherExit = EXIT;
         try {
             voucherExit = findConsoleTypeBy(br.readLine()).get();
         } catch (IOException e) {
@@ -38,7 +39,7 @@ public class ConsoleInput {
         VoucherDto voucherDto = new VoucherDto();
         try {
             String[] voucherPieces = br.readLine().split(SPACE.unit());
-            String voucherType = voucherPieces[VOUCHER_TYPE_INDEX];
+            VoucherType voucherType = VoucherType.findVoucherType(voucherPieces[VOUCHER_TYPE_INDEX]);
             long discountValue = Long.parseLong(voucherPieces[VOUCHER_DISCOUNT_VALUE_INDEX]);
             voucherDto = new VoucherDto(discountValue, voucherType);
         } catch (IOException e) {

@@ -1,9 +1,11 @@
 package com.example.springbootbasic.console;
 
+import com.example.springbootbasic.controller.CustomerController;
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
+import com.example.springbootbasic.dto.CustomerDto;
 import com.example.springbootbasic.dto.VoucherDto;
-import com.example.springbootbasic.dto.controller.VoucherController;
+import com.example.springbootbasic.controller.VoucherController;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -12,9 +14,11 @@ import java.util.List;
 public class ConsoleManager {
 
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public ConsoleManager(VoucherController voucherController) {
+    public ConsoleManager(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     public ResponseBody<VoucherDto> saveVoucher(RequestBody<VoucherDto> request) {
@@ -25,4 +29,7 @@ public class ConsoleManager {
         return voucherController.selectAllVouchers();
     }
 
+    public ResponseBody<List<CustomerDto>> selectAllBlackCustomers() {
+        return customerController.selectAllBlackCustomers();
+    }
 }

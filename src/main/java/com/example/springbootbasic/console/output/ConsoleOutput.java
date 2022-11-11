@@ -1,6 +1,7 @@
 package com.example.springbootbasic.console.output;
 
 import com.example.springbootbasic.controller.response.ResponseBody;
+import com.example.springbootbasic.dto.CustomerDto;
 import com.example.springbootbasic.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,8 +46,18 @@ public class ConsoleOutput {
         List<VoucherDto> voucherDtos = responseBody.getData();
         voucherDtos.forEach(voucherDto -> {
             try {
-                bw.write(MessageFormat.format("{0} {1} {2} {3}",
-                        voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
+                bw.write(MessageFormat.format("{0} {1} {2} {3}", voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
+            } catch (IOException e) {
+                logger.error("");
+            }
+        });
+    }
+
+    public void printCustomers(ResponseBody<List<CustomerDto>> responseBody) {
+        List<CustomerDto> customerDtos = responseBody.getData();
+        customerDtos.forEach(customerDto -> {
+            try {
+                bw.write(MessageFormat.format("{0} {1} {2}", customerDto.getCustomerId(), customerDto.getStatus(), ENTER.unit()));
             } catch (IOException e) {
                 logger.error("");
             }
