@@ -2,7 +2,6 @@ package org.prgrms.springorder.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
-import org.springframework.context.annotation.Profile;
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "filepath")
