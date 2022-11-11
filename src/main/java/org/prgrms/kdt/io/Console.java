@@ -9,11 +9,11 @@ public class Console {
 
     Scanner sc = new Scanner(System.in);
 
-    public String selectInput() {
+    public String read() {
         return sc.nextLine();
     }
 
-    public void outputResult(String text) {
+    public void write(String text) {
         System.out.println(text);
     }
 }

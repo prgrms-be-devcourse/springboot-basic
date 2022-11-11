@@ -4,6 +4,8 @@ import org.prgrms.kdt.exceptions.WrongSelectException;
 
 import java.util.Arrays;
 
+import static org.prgrms.kdt.io.IOManager.getSelectWrongMessage;
+
 
 public enum SelectType {
     EXIT("exit"),
@@ -23,8 +25,9 @@ public enum SelectType {
     public static SelectType findSelectType(String selection) {
         return Arrays.stream(SelectType.values())
                 .filter(selectType -> selectType.getType().equals(selection))
-                .findFirst().orElseThrow(() -> {
-                    throw new WrongSelectException();
+                .findFirst()
+                .orElseThrow(() -> {
+                    throw new WrongSelectException(getSelectWrongMessage());
                 });
     }
 }

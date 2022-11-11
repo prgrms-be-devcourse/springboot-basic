@@ -2,13 +2,13 @@ package org.prgrms.kdt;
 
 import org.prgrms.kdt.exceptions.WrongSelectException;
 import org.prgrms.kdt.io.IOManager;
-import org.prgrms.kdt.io.OutputConstant;
+import org.prgrms.kdt.manager.VoucherAppManager;
 import org.prgrms.kdt.utils.SelectType;
-import org.prgrms.kdt.utils.VoucherAppManager;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherController {
+public class VoucherController implements CommandLineRunner {
     private final IOManager ioManager;
     private final VoucherAppManager voucherAppManager;
 
@@ -17,31 +17,17 @@ public class VoucherController {
         this.voucherAppManager = voucherAppManager;
     }
 
-    public void execute() {
-        while (voucherAppManager.getAppStatus()) {
-            ioManager.doOutput(OutputConstant.CONSOLESTART);
+    @Override
+    public void run(String... args) throws Exception {
+        while (voucherAppManager.isRunning()) {
+            ioManager.writeStartMessage();
             try {
                 SelectType selectType = SelectType.findSelectType(ioManager.getInput());
-                doProcess(selectType);
+                voucherAppManager.execute(selectType);
             } catch (WrongSelectException e) {
-                ioManager.doOutput(OutputConstant.SELECTWRONG);
+                ioManager.writeExceptionMessage(e.getMessage());
             }
         }
-    }
-
-    private void doProcess(SelectType selectType) {
-        switch (selectType) {
-            case CREATE -> {
-
-            }
-            case LIST -> {
-
-            }
-            case EXIT -> {
-                ioManager.doOutput(OutputConstant.CONSOLEEND);
-                voucherAppManager.changeAppStatusToStop();
-            }
-            default -> System.out.println(OutputConstant.SELECTWRONG);
-        }
+        ioManager.writeEndMessage();
     }
 }
