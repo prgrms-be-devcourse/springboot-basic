@@ -3,16 +3,16 @@ package com.example.springbootbasic.domain.customer;
 import static com.example.springbootbasic.domain.customer.CustomerStatus.NORMAL;
 
 public class Customer {
-    private long id;
+    private long customerId;
     private CustomerStatus status = NORMAL;
 
-    public Customer(long id, CustomerStatus status) {
-        this.id = id;
+    public Customer(long customerId, CustomerStatus status) {
+        this.customerId = customerId;
         this.status = status;
     }
 
-    public long getId() {
-        return id;
+    public long getCustomerId() {
+        return customerId;
     }
 
     public CustomerStatus getStatus() {

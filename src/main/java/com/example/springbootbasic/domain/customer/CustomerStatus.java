@@ -18,8 +18,4 @@ public enum CustomerStatus {
                 .filter(type -> type.type.equals(customerType))
                 .findFirst();
     }
-
-    public String getType() {
-        return type;
-    }
 }
