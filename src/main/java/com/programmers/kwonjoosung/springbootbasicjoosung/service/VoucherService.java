@@ -33,7 +33,7 @@ public class VoucherService {
     }
 
     private Voucher saveVoucher(Voucher voucher) {
-        return voucherRepository.insert(voucher.getVoucherId(), voucher);
+        return voucherRepository.insert(voucher);
     }
 
 }

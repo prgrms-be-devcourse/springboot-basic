@@ -8,12 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 @Component
 public class Console {
+
     private static final Scanner scanner = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
+
     private static final String START_MESSAGE = "=== Voucher Program ===";
     private static final String INPUT_COMMAND = "command >> ";
     private static final String INPUT_VOUCHER_TYPE = "voucherType >> ";
@@ -65,7 +66,7 @@ public class Console {
     }
 
     public void showAllCommandSet() {
-        Stream.of(CommandType.values()).map(CommandType::getExplanation).forEach(System.out::println);
+        CommandType.getAllExplanation().forEach(System.out::println);
     }
 
 }

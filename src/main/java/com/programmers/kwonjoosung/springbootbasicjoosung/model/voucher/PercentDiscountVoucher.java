@@ -6,21 +6,22 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final long MIN_PERCENT = 0L;
     private static final long MAX_PERCENT = 100L;
     private final UUID voucherId;
     private final long discountPercent;
 
-    public PercentDiscountVoucher(long discountPercent) {
-        this(UUID.randomUUID(), discountPercent);
-    }
-
     public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
         valid(discountPercent);
         this.voucherId = voucherId;
         this.discountPercent = discountPercent;
         logger.debug("create Voucher voucherId = {}, discountPercent ={}", voucherId, discountPercent);
+    }
+
+    public PercentDiscountVoucher(long discountPercent) {
+        this(UUID.randomUUID(), discountPercent);
     }
 
     private void valid(long discountAmount) {
@@ -43,11 +44,6 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public UUID getVoucherId() {
         return voucherId;
-    }
-
-    @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - ((beforeDiscount * discountPercent) / 100);
     }
 
     @Override

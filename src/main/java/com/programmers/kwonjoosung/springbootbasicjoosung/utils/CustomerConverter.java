@@ -5,6 +5,11 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Custome
 import java.util.UUID;
 
 public class CustomerConverter {
+
+    private CustomerConverter() {
+
+    }
+
     public static Customer toCustomer(String text) {
         String[] textCustomer = text.split(",");
         return new Customer(UUID.fromString(textCustomer[0]), textCustomer[1]);

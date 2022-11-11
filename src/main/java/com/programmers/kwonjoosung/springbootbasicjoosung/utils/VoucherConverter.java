@@ -8,9 +8,14 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherT
 import java.util.UUID;
 
 public class VoucherConverter {
+
     private static final String SPACE = " ";
     private static final String NEXT = "\n";
     private static final String ERROR = "데이터 형식이 올바르지 않습니다.";
+
+    private VoucherConverter() {
+
+    }
 
     public static Voucher textToVoucher(String text) {
         String[] textVoucher = text.split(SPACE);
@@ -31,9 +36,9 @@ public class VoucherConverter {
         }
     }
 
-    public static String convertText(UUID voucherId, Voucher voucher) {
+    public static String convertText(Voucher voucher) {
         return voucher.getVoucherType().name() + SPACE +
-                voucherId + SPACE +
+                voucher.getVoucherId() + SPACE +
                 voucher.getDiscount() + NEXT;
     }
 }

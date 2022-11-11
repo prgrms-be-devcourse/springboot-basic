@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -30,29 +28,15 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(UUID voucherId, Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         try (Writer writer = new FileWriter(voucherListTextFile, true)) {
-            writer.write(VoucherConverter.convertText(voucherId, voucher));
+            writer.write(VoucherConverter.convertText(voucher));
             writer.flush();
         } catch (IOException e) {
             logger.error("insert error message -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
         return voucher;
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            List<String> voucherList = Files.readAllLines(voucherListTextFile.toPath());
-            return voucherList.stream()
-                    .map(VoucherConverter::textToVoucher)
-                    .filter(voucher -> voucher.getVoucherId().equals(voucherId))
-                    .findAny();
-        } catch (IOException e) {
-            logger.error("findById error message -> {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
     }
 
     @Override
