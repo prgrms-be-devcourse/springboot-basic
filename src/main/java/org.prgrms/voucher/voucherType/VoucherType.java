@@ -35,12 +35,12 @@ public enum VoucherType {
         .orElseThrow(() -> new NoSuchVoucherTypeException(choice));
   }
 
-  public static Voucher generateVoucher(VoucherType voucherType, Amount discount) {
-    return voucherType.voucher.apply(discount);
+  public Voucher generateVoucher(Amount discount) {
+    return this.voucher.apply(discount);
   }
 
-  public static Amount generateAmount(VoucherType voucherType, String value) {
-    return voucherType.amount.apply(value);
+  public Amount generateAmount(String value) {
+    return this.amount.apply(value);
   }
 
   public String getType() {
