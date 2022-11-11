@@ -1,8 +1,5 @@
 package org.prgrms.springorder.controller;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class ControllerStatus {
 
 	private boolean running;
