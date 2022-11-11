@@ -2,6 +2,7 @@ package org.prgrms.springorder.controller;
 
 import java.util.Arrays;
 
+import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.exception.NoSuchCommandException;
 
 public enum Command {
@@ -20,6 +21,6 @@ public enum Command {
 		return Arrays.stream(Command.values())
 			.filter(a -> a.orderContext.equals(s))
 			.findAny()
-			.orElseThrow(()-> new NoSuchCommandException("Wrong Command"));
+			.orElseThrow(() -> new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE.toString()));
 	}
 }
