@@ -1,28 +1,32 @@
 package com.prgrms.springbootbasic.app;
 
+import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
+import com.prgrms.springbootbasic.common.exception.HaveNoVoucherException;
+import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
+import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
 import com.prgrms.springbootbasic.console.Console;
-import com.prgrms.springbootbasic.handler.menu.CommandType;
-import com.prgrms.springbootbasic.handler.menu.MenuHandler;
-import com.prgrms.springbootbasic.handler.menu.dto.MenuInputResult;
+import com.prgrms.springbootbasic.voucher.dto.VoucherResponse;
+import com.prgrms.springbootbasic.voucher.VoucherManager;
+import com.prgrms.springbootbasic.voucher.VoucherType;
+import com.prgrms.springbootbasic.voucher.dto.VoucherInfo;
+
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherApplication {
 
-    private static final String COMMAND_NOT_SUPPORTER = "command not supported yet.";
-    private static final String MENU = "=== Voucher Program ===\n" +
-            "Type **exit** to exit the program.\n" +
-            "Type **create** to create a new voucher.\n" +
-            "Type **list** to list all vouchers.";
-    private static final String EXIT_MESSAGE = "Exit program. Bye.";
+    private final VoucherManager voucherManager;
 
-    private final MenuHandler menuHandler;
     private final ApplicationStatus applicationStatus;
+
     private final Console console;
 
-    public VoucherApplication(MenuHandler menuHandler, ApplicationStatus applicationStatus, Console console) {
-        this.menuHandler = menuHandler;
-        this.applicationStatus = applicationStatus;
+    public VoucherApplication(VoucherManager voucherManager, Console console) {
+        this.voucherManager = voucherManager;
+        this.applicationStatus = new ApplicationStatus();
         this.console = console;
     }
 
@@ -33,13 +37,13 @@ public class VoucherApplication {
     }
 
     private void getCommand() {
-        console.printMessage(MENU);
-        MenuInputResult inputResult = console.getCommand();
+        console.printMenu();
+        String inputCommand = console.getCommand();
         try {
-            CommandType commandType = CommandType.findByCommand(inputResult.getCommand());
+            CommandType commandType = CommandType.findByCommand(inputCommand);
             controlMenu(commandType);
-        } catch (IllegalArgumentException e) {
-            console.printMessage(e.getMessage());
+        } catch (InvalidCommandTypeException e) {
+            console.printExceptionMessage(e.getMessage());
         }
     }
 
@@ -47,11 +51,46 @@ public class VoucherApplication {
         switch (command) {
             case EXIT -> {
                 applicationStatus.exit();
-                console.printMessage(EXIT_MESSAGE);
+                console.printExitMessage();
             }
-            case CREATE -> menuHandler.create();
-            case LIST -> menuHandler.list();
-            default -> console.printMessage(COMMAND_NOT_SUPPORTER);
+            case CREATE -> create();
+            case LIST -> list();
+            default -> console.printCommendNotSupported();
         }
+    }
+
+    private void list() {
+        try {
+            List<VoucherResponse> vouchers = voucherManager.list();
+            vouchers.forEach(System.out::println);
+        } catch (HaveNoVoucherException e) {
+            console.printExceptionMessage(e.getMessage());
+        }
+    }
+
+    private void create() {
+        VoucherType voucherType = null;
+        try {
+            voucherType = getVoucherType();
+            int amount = getAmount(voucherType);
+            UUID createdUUID = voucherManager.create(new VoucherInfo(voucherType, amount));
+            console.printCreateSuccessMessage(createdUUID);
+        } catch (InvalidVoucherTypeException | NumberFormatException e) {
+            console.printExceptionMessage(e.getMessage());
+        } catch (AmountOutOfBoundException e) {
+            console.printAmountOutOfBoundMessage(voucherType, e.getMessage());
+        }
+    }
+
+    private VoucherType getVoucherType() {
+        console.printChoosingVoucher();
+        String voucherTypeInput = console.getInput();
+        return VoucherType.findByInputValue(voucherTypeInput);
+    }
+
+    private int getAmount(VoucherType voucherType) {
+        console.printDiscountAmountMessage(voucherType);
+        String amountInput = console.getInput();
+        return voucherType.validateAmount(amountInput);
     }
 }

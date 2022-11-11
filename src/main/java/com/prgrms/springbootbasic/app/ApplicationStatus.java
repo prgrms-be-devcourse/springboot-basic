@@ -1,9 +1,6 @@
 package com.prgrms.springbootbasic.app;
 
-import org.springframework.stereotype.Component;
-
-@Component
-public class ApplicationStatus {
+class ApplicationStatus {
 
     private boolean running;
 
@@ -11,11 +8,11 @@ public class ApplicationStatus {
         running = true;
     }
 
-    public boolean isRunning(){
+    public boolean isRunning() {
         return running;
     }
 
-    public void exit(){
+    public void exit() {
         running = false;
     }
 }

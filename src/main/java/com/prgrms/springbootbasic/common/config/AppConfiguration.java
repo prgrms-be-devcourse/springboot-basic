@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {
         "com.prgrms.springbootbasic.app",
         "com.prgrms.springbootbasic.console",
-        "com.prgrms.springbootbasic.handler"
+        "com.prgrms.springbootbasic.voucher"
 })
 public class AppConfiguration {
 }
