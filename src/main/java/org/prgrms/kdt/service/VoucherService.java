@@ -15,9 +15,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(CreateVoucherDto createVoucherDto) {
+    public boolean createVoucher(CreateVoucherDto createVoucherDto) {
         Voucher newVoucher = new Voucher(createVoucherDto);
-        voucherRepository.save(newVoucher);
+        return voucherRepository.save(newVoucher);
     }
 
     public List<Voucher> getAllVouchers() {
