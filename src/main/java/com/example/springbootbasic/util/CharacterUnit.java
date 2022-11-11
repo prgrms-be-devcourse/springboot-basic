@@ -13,7 +13,7 @@ public enum CharacterUnit {
         this.unit = unit;
     }
 
-    public String getUnit() {
+    public String unit() {
         return unit;
     }
 }

@@ -34,9 +34,9 @@ public class CustomerService {
             if (customerStatus == BLACK) {
                 responseBodyBuilder
                         .append(customer.getId())
-                        .append(SPACE.getUnit())
+                        .append(SPACE.unit())
                         .append(customerStatus.getType())
-                        .append(ENTER.getUnit());
+                        .append(ENTER.unit());
             }
         });
 

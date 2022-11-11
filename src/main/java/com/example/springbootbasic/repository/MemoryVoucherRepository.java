@@ -16,24 +16,16 @@ import java.util.Map;
 public class MemoryVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
     private static final Map<Long, Voucher> storage = new HashMap<>();
-    private static Long sequence = 0L;
 
     @Override
-    public Long save(Long voucherId, Voucher voucher) {
-        storage.put(voucherId, voucher);
-        logger.debug("[SAVE] - voucherId => '{}', voucher => '{}'",
-                voucherId,
-                voucher.getVoucherEnum());
-        return voucherId;
+     public synchronized Voucher save(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+//        logger.debug("[SAVE] - voucherId => '{}', voucher => '{}'", sequence, voucher.getVoucherEnum());
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAllVouchers() {
         return new ArrayList<>(storage.values());
-    }
-
-    @Override
-    public Long getSequence() {
-        return sequence++;
     }
 }

@@ -3,7 +3,7 @@ package com.example.springbootbasic.domain.customer;
 import static com.example.springbootbasic.domain.customer.CustomerStatus.NORMAL;
 
 public class Customer {
-    private final long id;
+    private long id;
     private CustomerStatus status = NORMAL;
 
     public Customer(long id, CustomerStatus status) {

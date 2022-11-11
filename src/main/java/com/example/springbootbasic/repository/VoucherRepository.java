@@ -5,7 +5,6 @@ import com.example.springbootbasic.domain.voucher.Voucher;
 import java.util.List;
 
 public interface VoucherRepository {
-    Long save(Long voucherId, Voucher voucher);
+    Voucher save(Voucher voucher);
     List<Voucher> findAllVouchers();
-    Long getSequence();
 }

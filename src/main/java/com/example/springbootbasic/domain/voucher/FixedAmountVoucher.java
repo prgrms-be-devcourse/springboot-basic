@@ -1,23 +1,15 @@
 package com.example.springbootbasic.domain.voucher;
 
-import static com.example.springbootbasic.domain.voucher.VoucherEnum.FIXED_AMOUNT_VOUCHER;
+import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 
-public class FixedAmountVoucher implements Voucher {
-    private final Long voucherId;
-    private final long amount;
+public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(Long voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.amount = amount;
+    public FixedAmountVoucher(Long voucherId, Long discountValue) {
+        super(voucherId, discountValue);
     }
 
     @Override
-    public VoucherEnum getVoucherEnum() {
-        return FIXED_AMOUNT_VOUCHER;
-    }
-
-    @Override
-    public long getDiscountValue() {
-        return amount;
+    public VoucherType getVoucherType() {
+        return FIXED_AMOUNT;
     }
 }
