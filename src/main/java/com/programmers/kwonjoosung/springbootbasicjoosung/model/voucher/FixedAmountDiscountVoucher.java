@@ -7,8 +7,8 @@ import java.util.UUID;
 
 public class FixedAmountDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountDiscountVoucher.class);
-    private static final long MINAMOUNT = 0L;
-    private static final long MAXAMOUNT = 100000L;
+    private static final long MIN_AMOUNT = 0L;
+    private static final long MAX_AMOUNT = 100_000L;
     private final UUID voucherId;
     private final long discountAmount;
 
@@ -24,7 +24,7 @@ public class FixedAmountDiscountVoucher implements Voucher {
     }
 
     private void valid(long discountAmount) {
-        if (MINAMOUNT >= discountAmount || discountAmount >= MAXAMOUNT) {
+        if (MIN_AMOUNT >= discountAmount || discountAmount >= MAX_AMOUNT) {
             logger.error("범위 초과 에러 입력 => {}", discountAmount);
             throw new RuntimeException("적절한 할인 범위를 넘어갔습니다.");
         }

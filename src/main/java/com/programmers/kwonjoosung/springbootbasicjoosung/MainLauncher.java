@@ -45,6 +45,6 @@ public class MainLauncher implements InitializingBean, DisposableBean {
 
     @Override
     public void destroy() {
-        console.ExitMessage();
+        console.exitMessage();
     }
 }

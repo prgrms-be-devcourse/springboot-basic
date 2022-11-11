@@ -14,38 +14,38 @@ import java.util.stream.Stream;
 public class Console {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Logger logger = LoggerFactory.getLogger(Console.class);
-    private static final String startMessage = "=== Voucher Program ===";
-    private static final String inputCommand = "command >> ";
-    private static final String inputVoucherType = "voucherType >> ";
-    private static final String inputDiscount = "discount >> ";
-    private static final String parseErrorMessage = "숫자를 입력해 주세요.";
-    private static final String exitMessage = "=== Exit Program ===";
+    private static final String START_MESSAGE = "=== Voucher Program ===";
+    private static final String INPUT_COMMAND = "command >> ";
+    private static final String INPUT_VOUCHER_TYPE = "voucherType >> ";
+    private static final String INPUT_DISCOUNT = "discount >> ";
+    private static final String PARSE_ERROR_MESSAGE = "숫자를 입력해 주세요.";
+    private static final String EXIT_MESSAGE = "=== Exit Program ===";
 
     public void startMessage() {
-        System.out.println(startMessage);
+        System.out.println(START_MESSAGE);
     }
 
-    public void ExitMessage() {
-        System.out.println(exitMessage);
+    public void exitMessage() {
+        System.out.println(EXIT_MESSAGE);
     }
 
     public String inputCommand() {
-        System.out.print(inputCommand);
+        System.out.print(INPUT_COMMAND);
         return scanner.nextLine().trim();
     }
 
     public String inputVoucherType() {
-        System.out.print(inputVoucherType);
+        System.out.print(INPUT_VOUCHER_TYPE);
         return scanner.nextLine().trim();
     }
 
     public long inputDiscount() {
-        System.out.print(inputDiscount);
+        System.out.print(INPUT_DISCOUNT);
         try {
             return Long.parseLong(scanner.nextLine().trim());
         } catch (NumberFormatException ne) {
-            logger.error(parseErrorMessage);
-            throw new RuntimeException(parseErrorMessage);
+            logger.error(PARSE_ERROR_MESSAGE);
+            throw new RuntimeException(PARSE_ERROR_MESSAGE);
         }
     }
 
