@@ -1,0 +1,27 @@
+21:24:01.539 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 17.0.5 on TAEKSEUNGui-MacBookPro.local with PID 25870 (/Users/taek/Documents/programming/devcourse/project/springboot-basic/out/production/classes started by taek in /Users/taek/Documents/programming/devcourse/project/springboot-basic)
+21:24:01.540 [main] DEBUG org.prgrms.kdt.KdtApplication - Running with Spring Boot v2.7.5, Spring v5.3.23
+21:24:01.541 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to 1 default profile: "default"
+21:24:01.760 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.352 seconds (JVM running for 0.63)
+21:24:01.761 [main] INFO  org.prgrms.kdt.app.VoucherController - Program start
+21:28:29.183 [main] INFO  org.prgrms.kdt.KdtApplication - Starting KdtApplication using Java 17.0.5 on TAEKSEUNGui-MacBookPro.local with PID 25911 (/Users/taek/Documents/programming/devcourse/project/springboot-basic/out/production/classes started by taek in /Users/taek/Documents/programming/devcourse/project/springboot-basic)
+21:28:29.185 [main] INFO  org.prgrms.kdt.KdtApplication - No active profile set, falling back to 1 default profile: "default"
+21:28:29.417 [main] INFO  org.prgrms.kdt.KdtApplication - Started KdtApplication in 0.37 seconds (JVM running for 0.642)
+21:28:29.418 [main] INFO  org.prgrms.kdt.app.VoucherController - Program start
+21:30:24.885 [main] WARN  org.prgrms.kdt.app.VoucherController - Please enter among create, list, exit.
+
+21:44:55.332 [main] WARN  org.prgrms.kdt.app.VoucherController - [java.lang.IllegalArgumentException] Please enter among create, list, exit.
+
+21:49:50.362 [main] WARN  org.prgrms.kdt.app.VoucherController - Please enter among create, list, exit.
+
+java.lang.IllegalArgumentException: Please enter among create, list, exit.
+
+	at org.prgrms.kdt.command.CommandType.lambda$of$0(CommandType.java:31)
+	at java.base/java.util.Optional.orElseThrow(Optional.java:403)
+	at org.prgrms.kdt.command.CommandType.of(CommandType.java:31)
+	at org.prgrms.kdt.app.VoucherController.run(VoucherController.java:32)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:771)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:755)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1295)
+	at org.prgrms.kdt.KdtApplication.main(KdtApplication.java:10)

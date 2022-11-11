@@ -3,6 +3,8 @@ package org.prgrms.kdt.app;
 import org.prgrms.kdt.command.CommandExecutor;
 import org.prgrms.kdt.command.CommandType;
 import org.prgrms.kdt.io.ConsoleManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 
@@ -14,6 +16,7 @@ public class VoucherController implements CommandLineRunner {
     private final ConsoleManager consoleManager;
     private final CommandExecutor commandExecutor;
     private VoucherControllerStatus voucherControllerStatus;
+    private static Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(ConsoleManager consoleManager, CommandExecutor commandExecutor) {
         this.consoleManager = consoleManager;
@@ -28,6 +31,7 @@ public class VoucherController implements CommandLineRunner {
             try {
                 runCommand(CommandType.of(userInput));
             } catch (RuntimeException exception) {
+                logger.warn(exception.getMessage(), exception);
                 consoleManager.printError(exception.getMessage());
             }
         }
