@@ -18,7 +18,6 @@ public class VoucherManager {
 
     public VoucherManager(VoucherStorage voucherStorage, List<VoucherFactory> voucherFactories) {
         this.voucherStorage = voucherStorage;
-
         voucherFactories.forEach(factory -> this.voucherFactoryMap.put(factory.getType(), factory));
     }
 

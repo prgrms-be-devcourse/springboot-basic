@@ -10,6 +10,8 @@ import com.prgrms.springbootbasic.voucher.VoucherType;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +20,8 @@ public class VoucherApplication {
     private final VoucherManager voucherManager;
 
     private final Console console;
+
+    private final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
 
     private ApplicationStatus applicationStatus;
 
@@ -28,6 +32,7 @@ public class VoucherApplication {
 
     public void runLifecycle() {
         applicationStatus = new ApplicationStatus();
+        logger.info("Voucher application started successfully.");
         while (applicationStatus.isRunning()) {
             getCommand();
         }
@@ -40,36 +45,50 @@ public class VoucherApplication {
             CommandType commandType = CommandType.from(inputCommand);
             controlMenu(commandType);
         } catch (InvalidCommandTypeException e) {
+            logger.warn(e.getClass().getSimpleName() + " occurred when getting command from console. invalid command input was provided.");
             console.printExceptionMessage(e.getMessage());
         }
     }
 
     private void controlMenu(CommandType command) {
         switch (command) {
-            case EXIT -> {
-                applicationStatus.exit();
-                console.printExitMessage();
-            }
+            case EXIT -> exit();
             case CREATE -> create();
             case LIST -> list();
             default -> console.printCommendNotSupported();
         }
     }
 
+    private void exit() {
+        applicationStatus.exit();
+        console.printExitMessage();
+        logger.info("Exit Voucher application successfully.");
+    }
+
     private void list() {
         List<Voucher> vouchers = voucherManager.list();
-        if(vouchers.isEmpty()){
+        if (vouchers.isEmpty()) {
             console.printEmptyVoucher();
         }
         console.printVoucherList(vouchers);
+        logger.info("List up all Vouchers.");
     }
 
     private void create() {
         try {
             VoucherType voucherType = getVoucherType();
-            voucherManager.create(voucherType, getAmount(voucherType));
+            String amountInput = getAmount(voucherType);
+            voucherManager.create(voucherType, amountInput);
             console.printCreateSuccessMessage();
-        } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
+            logger.info("New Voucher created.");
+        } catch (InvalidVoucherTypeException e) {
+            logger.warn(e.getClass().getSimpleName() + " occurred when getting voucher type from console. Invalid voucher type input was provided");
+            console.printExceptionMessage(e.getMessage());
+        } catch (NumberFormatException e) {
+            logger.warn(e.getClass().getSimpleName() + " occurred when parsing amount input. Cannot parse String to Integer");
+            console.printExceptionMessage(e.getMessage());
+        } catch (AmountOutOfBoundException e) {
+            logger.warn(e.getClass().getSimpleName() + " occurred when creating new Voucher. Amount dut of boundary.");
             console.printExceptionMessage(e.getMessage());
         }
     }
