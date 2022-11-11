@@ -1,31 +1,27 @@
-package org.prgrms.springorder.domain;
+package org.prgrms.springorder.domain.voucher;
 
 import java.util.Arrays;
-import java.util.UUID;
 
+import org.prgrms.springorder.domain.Message;
 import org.prgrms.springorder.exception.NoSuchVoucherException;
 
 public enum VoucherType {
 
 	FIXED_AMOUNT("1",
 		"fixedAmount",
-		Message.FIXED_AMOUNT_MESSAGE,
-		FixedAmountVoucher::new),
+		Message.FIXED_AMOUNT_MESSAGE),
 	PERCENT_DISCOUNT("2",
 		"percentDiscount",
-		Message.PERCENT_DISCOUNT_MESSAGE,
-		PercentDiscountVoucher::new);
+		Message.PERCENT_DISCOUNT_MESSAGE);
 
 	private final String order;
 	private final String name;
 	private final Message message;
-	private final VoucherFunction<Voucher, UUID, Long> concreteVoucher;
 
-	VoucherType(String order, String name, Message message, VoucherFunction<Voucher, UUID, Long> concreteVoucher) {
+	VoucherType(String order, String name, Message message) {
 		this.order = order;
 		this.name = name;
 		this.message = message;
-		this.concreteVoucher = concreteVoucher;
 	}
 
 	public static VoucherType getVoucherByOrder(String order) {
@@ -44,10 +40,6 @@ public enum VoucherType {
 
 	public Message getMessage() {
 		return message;
-	}
-
-	public Voucher voucherMaker(UUID uuid, long value) {
-		return concreteVoucher.apply(uuid, value);
 	}
 
 }
