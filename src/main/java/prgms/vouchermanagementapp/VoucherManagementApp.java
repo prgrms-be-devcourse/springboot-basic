@@ -3,12 +3,16 @@ package prgms.vouchermanagementapp;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import prgms.vouchermanagementapp.config.AppConfig;
-import prgms.vouchermanagementapp.controller.VoucherManagementController;
+import prgms.vouchermanagementapp.controller.CommandExecutor;
 
 @SpringBootApplication
 public class VoucherManagementApp implements CommandLineRunner {
+
+    private final CommandExecutor commandExecutor;
+
+    public VoucherManagementApp(CommandExecutor commandExecutor) {
+        this.commandExecutor = commandExecutor;
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(VoucherManagementApp.class, args);
@@ -16,9 +20,6 @@ public class VoucherManagementApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
-        VoucherManagementController controller = applicationContext.getBean(VoucherManagementController.class);
-
-        controller.run();
+        commandExecutor.run();
     }
 }
