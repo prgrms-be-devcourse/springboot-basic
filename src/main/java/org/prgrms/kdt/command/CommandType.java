@@ -1,10 +1,6 @@
 package org.prgrms.kdt.command;
 
-import java.security.InvalidParameterException;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,7 +11,7 @@ public enum CommandType {
     EXIT("exit");
 
     private final String command;
-    private static final Map<String, CommandType> commandMap = Collections.unmodifiableMap(
+    private static final Map<String, CommandType> COMMAND_MAP = Collections.unmodifiableMap(
             Stream.of(values())
                     .collect(Collectors.toMap(CommandType::getCommand, Function.identity()))
     );
@@ -28,28 +24,16 @@ public enum CommandType {
         this.command = command;
     }
 
-    public static CommandType findCommandType(String command) {
-        validateCommandNullSafe(command);
+    public static CommandType of(String command) {
+        Objects.requireNonNull(command, "Command should be not null.");
 
-        return Optional.ofNullable(commandMap.get(command.toLowerCase()))
+        return Optional.ofNullable(COMMAND_MAP.get(command.toLowerCase()))
                 .orElseThrow(() -> new IllegalArgumentException("Please enter among " + names() + "." + System.lineSeparator()));
     }
 
     private static String names() {
-        StringBuffer stringBuffer = new StringBuffer();
-
-        stringBuffer.append(
-                EnumSet.allOf(CommandType.class).stream()
-                        .map(c -> c.command)
-                        .collect(Collectors.joining(", "))
-        );
-
-        return stringBuffer.toString();
-    }
-
-    private static void validateCommandNullSafe(String command) {
-        if (command == null) {
-            throw new NullPointerException("command cannot be null");
-        }
+        return Arrays.stream(CommandType.values())
+                .map(CommandType::getCommand)
+                .collect(Collectors.joining(", "));
     }
 }

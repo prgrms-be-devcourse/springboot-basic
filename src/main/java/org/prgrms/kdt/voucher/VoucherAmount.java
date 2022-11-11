@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class VoucherAmount {
 
-    private Long value;
+    private final long value;
 
     public VoucherAmount(String amount) {
         try {
@@ -12,6 +12,10 @@ public class VoucherAmount {
         } catch (NumberFormatException exception) {
             throw new NumberFormatException("Please enter an integer." + System.lineSeparator());
         }
+    }
+
+    public long getValue() {
+        return value;
     }
 
     public boolean isGreaterThanEqual(Long value) {
@@ -29,18 +33,12 @@ public class VoucherAmount {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof VoucherAmount)) return false;
-        VoucherAmount that = (VoucherAmount) o;
+        if (!(o instanceof VoucherAmount that)) return false;
         return Objects.equals(value, that.value);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(value);
-    }
-
-    @Override
-    public String toString() {
-        return value.toString();
     }
 }

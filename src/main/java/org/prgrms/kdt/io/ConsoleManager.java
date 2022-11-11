@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ConsoleIO {
+public class ConsoleManager {
     public static final String COMMAND_LIST_PROMPT = System.lineSeparator() +
             "=== Voucher Program ===" + System.lineSeparator() +
             "Type exit to exit the program." + System.lineSeparator() +
@@ -19,7 +19,7 @@ public class ConsoleIO {
     private final Input input;
     private final Output output;
 
-    public ConsoleIO(Input input, Output output) {
+    public ConsoleManager(Input input, Output output) {
         this.input = input;
         this.output = output;
     }

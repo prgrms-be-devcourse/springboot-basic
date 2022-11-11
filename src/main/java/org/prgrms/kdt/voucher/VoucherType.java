@@ -1,9 +1,6 @@
 package org.prgrms.kdt.voucher;
 
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,8 +23,8 @@ public enum VoucherType {
         this.type = type;
     }
 
-    public static VoucherType findVoucherType(String type) {
-        validateTypeNullSafe(type);
+    public static VoucherType of(String type) {
+        Objects.requireNonNull(type, "Command should be not null.");
 
         return Optional.ofNullable(voucherTypeMap.get(type.toLowerCase()))
                 .orElseThrow(() -> new IllegalArgumentException("Please enter among " + names() + "." + System.lineSeparator()));
@@ -35,20 +32,8 @@ public enum VoucherType {
     }
 
     private static String names() {
-        StringBuffer stringBuffer = new StringBuffer();
-
-        stringBuffer.append(
-                EnumSet.allOf(VoucherType.class).stream()
-                        .map(v -> v.type)
-                        .collect(Collectors.joining(", "))
-        );
-
-        return stringBuffer.toString();
-    }
-
-    private static void validateTypeNullSafe(String type) {
-        if (type == null) {
-            throw new NullPointerException("type cannot be null");
-        }
+        return Arrays.stream(VoucherType.values())
+                .map(VoucherType::getType)
+                .collect(Collectors.joining(", "));
     }
 }

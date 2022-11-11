@@ -1,16 +1,14 @@
 package org.prgrms.kdt.app;
 
-import org.springframework.stereotype.Component;
-
 
 public class VoucherControllerStatus {
-    private Boolean status = true;
+    private boolean status = true;
 
-    public Boolean isRunning() {
+    public boolean isRunning() {
         return status;
     }
 
-    public void quitProgram() {
+    public void quit() {
         this.status = false;
     }
 }
