@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherCommandLineRunner implements CommandLineRunner {
 
-  Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
+  private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 
   private final Console console;
 
