@@ -5,7 +5,6 @@ public class DiscountAmount implements Amount {
   private final long value;
 
   public DiscountAmount(String input) {
-
     this.value = getTarget(input);
   }
 
