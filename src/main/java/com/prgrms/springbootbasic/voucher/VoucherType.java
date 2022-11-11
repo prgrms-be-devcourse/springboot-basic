@@ -1,6 +1,8 @@
 package com.prgrms.springbootbasic.voucher;
 
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -8,6 +10,8 @@ import java.util.Arrays;
 public enum VoucherType {
     FIXED_AMOUNT("fixed amount"),
     PERCENT("percent");
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
     private final String inputValue;
 
@@ -26,7 +30,10 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.getInputValue().equals(inputValue))
                 .findFirst()
-                .orElseThrow(() -> new InvalidVoucherTypeException(
-                        MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue)));
+                .orElseThrow(() -> {
+                    logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
+                    return new InvalidVoucherTypeException(
+                            MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue));
+                });
     }
 }

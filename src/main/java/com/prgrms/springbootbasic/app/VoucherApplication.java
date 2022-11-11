@@ -45,7 +45,6 @@ public class VoucherApplication {
             CommandType commandType = CommandType.from(inputCommand);
             controlMenu(commandType);
         } catch (InvalidCommandTypeException e) {
-            logger.warn(e.getClass().getSimpleName() + " occurred when getting command from console. invalid command input was provided.");
             console.printExceptionMessage(e.getMessage());
         }
     }
@@ -81,14 +80,7 @@ public class VoucherApplication {
             voucherManager.create(voucherType, amountInput);
             console.printCreateSuccessMessage();
             logger.info("New Voucher created.");
-        } catch (InvalidVoucherTypeException e) {
-            logger.warn(e.getClass().getSimpleName() + " occurred when getting voucher type from console. Invalid voucher type input was provided");
-            console.printExceptionMessage(e.getMessage());
-        } catch (NumberFormatException e) {
-            logger.warn(e.getClass().getSimpleName() + " occurred when parsing amount input. Cannot parse String to Integer");
-            console.printExceptionMessage(e.getMessage());
-        } catch (AmountOutOfBoundException e) {
-            logger.warn(e.getClass().getSimpleName() + " occurred when creating new Voucher. Amount dut of boundary.");
+        } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
             console.printExceptionMessage(e.getMessage());
         }
     }

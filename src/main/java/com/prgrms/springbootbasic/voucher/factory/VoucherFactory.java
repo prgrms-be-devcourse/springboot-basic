@@ -2,10 +2,14 @@ package com.prgrms.springbootbasic.voucher.factory;
 
 import com.prgrms.springbootbasic.voucher.VoucherType;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 
 public interface VoucherFactory {
+
+    Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
     default Voucher requestVoucher(VoucherType voucherType, String discountAmountInput) {
         validate(discountAmountInput);
@@ -17,6 +21,7 @@ public interface VoucherFactory {
         try {
             Integer.parseInt(amountInput);
         } catch (NumberFormatException e) {
+            logger.warn("NumberFormatException occurred when parsing amount input. Cannot parse String to Integer");
             throw new NumberFormatException(
                     MessageFormat.format("Your input {0} is not integer.", amountInput));
         }

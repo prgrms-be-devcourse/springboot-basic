@@ -1,6 +1,8 @@
 package com.prgrms.springbootbasic.app;
 
 import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
@@ -10,6 +12,7 @@ enum CommandType {
     LIST("list"),
     EXIT("exit");
 
+    private static final Logger logger = LoggerFactory.getLogger(CommandType.class);
     private final String command;
 
     CommandType(String command) {
@@ -27,7 +30,10 @@ enum CommandType {
         return Arrays.stream(values())
                 .filter(commandType -> commandType.getCommand().equals(inputCommand))
                 .findFirst()
-                .orElseThrow(() -> new InvalidCommandTypeException(
-                        MessageFormat.format("Input command {0} is invalid. Please select again.", inputCommand)));
+                .orElseThrow(() -> {
+                    logger.warn("InvalidCommandTypeException occurred when getting command from console. invalid command input was provided.");
+                    return new InvalidCommandTypeException(
+                            MessageFormat.format("Input command {0} is invalid. Please select again.", inputCommand));
+                });
     }
 }
