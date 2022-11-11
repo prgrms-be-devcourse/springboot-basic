@@ -16,9 +16,8 @@ public class InMemoryVoucherStorage implements VoucherStorage {
     private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
-    public UUID save(Voucher voucher) {
+    public void save(Voucher voucher) {
         vouchers.put(voucher.getUUID(), voucher);
-        return voucher.getUUID();
     }
 
     @Override
