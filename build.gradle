@@ -6,7 +6,7 @@ plugins {
 
 group = 'org.prgms'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+sourceCompatibility = '17'
 
 repositories {
 	mavenCentral()
@@ -15,8 +15,24 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.named("bootJar") {
+	archiveClassifier = 'boot'
+	mainClass = 'org.prgms.springbootbasic.VoucherApplication'
+}
+
+tasks.named("jar") {
+	archiveClassifier = ''
+}
+
+tasks.named("bootRun") {
+	String activeProfile = System.properties['spring.profiles.active']
+	systemProperty "spring.profiles.active", activeProfile
+}
+

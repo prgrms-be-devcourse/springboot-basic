@@ -1,1 +1,25 @@
-
+# default
+logging:
+  level:
+    root: error
+file:
+  blacklist:
+    file-name:
+      blacklist.csv
+---
+# local
+spring:
+  config:
+    activate:
+      on-profile: local
+---
+# dev
+spring:
+  config:
+    activate:
+      on-profile: dev
+file:
+  voucher:
+    file-name:
+      voucher.csv
+---
