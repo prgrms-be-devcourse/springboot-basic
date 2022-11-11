@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers;
 
 public class ApplicationManager {
     private boolean isRun;
