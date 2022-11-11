@@ -5,10 +5,9 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(Long voucherId, Long discountValue) {
-        super(voucherId, discountValue);
+        super(voucherId, discountValue, PERCENT_DISCOUNT);
     }
 
-    @Override
     public VoucherType getVoucherType() {
         return PERCENT_DISCOUNT;
     }

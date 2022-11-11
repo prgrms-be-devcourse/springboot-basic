@@ -1,12 +1,14 @@
 package com.example.springbootbasic.domain.voucher;
 
 public abstract class Voucher {
-    Long voucherId;
-    Long discountValue;
+    private Long voucherId;
+    private Long discountValue;
+    private VoucherType voucherType;
 
-    public Voucher(Long voucherId, Long discountValue) {
+    public Voucher(Long voucherId, Long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
+        this.voucherType = voucherType;
     }
 
     public Long getVoucherId() {
@@ -17,5 +19,5 @@ public abstract class Voucher {
         return discountValue;
     }
 
-    public abstract VoucherType getVoucherType();
+    public VoucherType getVoucherType() { return voucherType; }
 }
