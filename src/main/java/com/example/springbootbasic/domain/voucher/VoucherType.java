@@ -16,7 +16,7 @@ public enum VoucherType {
 
     public static VoucherType findVoucherType(String findVoucherType) {
         return Arrays.stream(VoucherType.values())
-                .filter(type -> type.voucherType.equals(findVoucherType))
+                .filter(type -> type.voucherType.equals(findVoucherType) || type.name().equals(findVoucherType))
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_TYPE.getMessage()));
     }
