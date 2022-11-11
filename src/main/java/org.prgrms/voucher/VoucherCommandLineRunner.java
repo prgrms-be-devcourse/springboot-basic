@@ -1,5 +1,9 @@
 package org.prgrms.voucher;
 
+import static org.prgrms.voucher.MenuType.CREATE;
+import static org.prgrms.voucher.MenuType.EXIT;
+
+import java.util.List;
 import org.prgrms.console.Console;
 import org.prgrms.exception.NoSuchMenuTypeException;
 import org.prgrms.voucher.discountType.Amount;
@@ -20,9 +24,11 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
   private final Console console;
 
-  public VoucherCommandLineRunner(Console console, VoucherProcessManager voucherProgram) {
+  private final VoucherMemory voucherMemory;
+
+  public VoucherCommandLineRunner(Console console, VoucherMemory voucherMemory) {
     this.console = console;
-    this.voucherProgram = voucherProgram;
+    this.voucherMemory = voucherMemory;
   }
 
   @Override
@@ -43,20 +49,59 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
     }
   }
 
-  private void execute() {
+  private MenuType execute() {
     MenuType menu = MenuType.of(console.chooseMenu());
     logger.info("Menu : {}", menu);
 
     switch (menu) {
-      case EXIT -> voucherProgram.exit();
+      case EXIT -> {
+        return EXIT;
+      }
 
-      case CREATE -> voucherProgram.createVoucher();
+      case CREATE -> {
+        Voucher savedVoucher = createVoucher();
+        console.printSavedVoucher(savedVoucher);
+        logger.info("saved_voucher: {}", savedVoucher);
+        return CREATE;
+      }
 
-      case LIST -> voucherProgram.showVoucherList();
+      case LIST -> {
+        List<Voucher> voucherList = voucherMemory.findAll();
+        console.printVoucherList(voucherList);
+        logger.info("voucherList: {}", voucherList);
+        return MenuType.LIST;
+      }
 
       default ->
           throw new NoSuchMenuTypeException("The command could not be found. Please re-enter");
     }
+  }
+
+  public Voucher createVoucher() {
+
+    while (true) {
+      try {
+        VoucherType voucherType = enteredVoucherType();
+        String inputAmount = console.enteredAmount(voucherType);
+        logger.info("input_amount: {}", inputAmount);
+
+        Amount amount = voucherType.generateAmount(inputAmount);
+
+        return voucherMemory.save(voucherType.generateVoucher(amount));
+      } catch (RuntimeException e) {
+        console.printErrorMsg(e.getMessage());
+        logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
+      }
+    }
+  }
+
+  private VoucherType enteredVoucherType() {
+    String inputType = console.chooseVoucherType();
+    return VoucherType.of(inputType);
+  }
+
+  private boolean isExit(MenuType menuType) {
+    return menuType == EXIT;
   }
 
 }
