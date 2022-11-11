@@ -34,7 +34,7 @@ public class ConsoleView {
     public String listVoucher(List<VoucherResponse> list) {
         StringBuilder rtnStr = new StringBuilder("======================= \n");
         for (VoucherResponse v : list) {
-            rtnStr.append(v.getVoucher()).append("\n");
+            rtnStr.append(v.voucher()).append("\n");
         }
         return rtnStr.toString();
     }

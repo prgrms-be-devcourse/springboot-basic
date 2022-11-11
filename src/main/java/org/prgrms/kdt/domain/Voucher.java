@@ -1,19 +1,17 @@
 package org.prgrms.kdt.domain;
 
-import org.prgrms.kdt.service.dto.CreateVoucherDto;
-
 import java.util.UUID;
 
 public class Voucher {
 
-    private UUID voucherId;
-    private VoucherType voucherType;
-    private double discountAmount;
+    private final UUID voucherId;
+    private final VoucherType voucherType;
+    private final double discountAmount;
 
-    public Voucher(CreateVoucherDto createVoucherDto) {
+    public Voucher(VoucherType voucherType, double discountAmount) {
         this.voucherId = UUID.randomUUID();
-        this.voucherType = createVoucherDto.getVoucherType();
-        this.discountAmount = createVoucherDto.getDiscountAmount();
+        this.voucherType = voucherType;
+        this.discountAmount = discountAmount;
     }
 
     public UUID getVoucherId() {

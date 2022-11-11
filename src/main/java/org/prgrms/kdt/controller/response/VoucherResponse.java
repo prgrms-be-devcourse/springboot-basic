@@ -2,15 +2,6 @@ package org.prgrms.kdt.controller.response;
 
 import org.prgrms.kdt.domain.Voucher;
 
-public class VoucherResponse {
+public record VoucherResponse(Voucher voucher) {
 
-    private final Voucher voucher;
-
-    public VoucherResponse(Voucher voucher) {
-        this.voucher = voucher;
-    }
-
-    public Voucher getVoucher() {
-        return voucher;
-    }
 }

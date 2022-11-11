@@ -18,7 +18,7 @@ public class VoucherController {
     }
 
     public boolean create(CreateVoucherRequest createVoucherRequest) {
-        CreateVoucherDto createVoucherDto = new CreateVoucherDto(createVoucherRequest);
+        CreateVoucherDto createVoucherDto = new CreateVoucherDto(createVoucherRequest.getVoucherType(), createVoucherRequest.getDiscountAmount());
         return voucherService.createVoucher(createVoucherDto);
     }
 

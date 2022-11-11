@@ -5,12 +5,12 @@ import org.prgrms.kdt.exception.InvalidRequestException;
 
 public class CreateVoucherRequest {
 
-    private VoucherType voucherType;
-    private double discountAmount;
+    private final VoucherType voucherType;
+    private final double discountAmount;
 
     public CreateVoucherRequest(String requestVoucherInfo) {
-        String [] request = requestVoucherInfo.split(":");
-        if(request.length < 2) throw new InvalidRequestException();
+        String[] request = requestVoucherInfo.split(":");
+        if (request.length < 2) throw new InvalidRequestException();
         this.voucherType = VoucherType.getVoucherTypeByCode(request[0]);
         this.discountAmount = Double.parseDouble(request[1]);
     }

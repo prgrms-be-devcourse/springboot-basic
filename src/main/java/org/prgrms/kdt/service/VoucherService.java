@@ -16,7 +16,7 @@ public class VoucherService {
     }
 
     public boolean createVoucher(CreateVoucherDto createVoucherDto) {
-        Voucher newVoucher = new Voucher(createVoucherDto);
+        Voucher newVoucher = new Voucher(createVoucherDto.voucherType(), createVoucherDto.discountAmount());
         return voucherRepository.save(newVoucher);
     }
 
