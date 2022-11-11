@@ -12,17 +12,17 @@ public enum Message {
 		Write 1 to make fixedAmountVoucher
 		Write 2 to make percentDiscountVoucher
 		"""),
-	FIXED_AMOUNT_MESSAGE("Amount should be over 0"),
-	PERCENT_DISCOUNT_MESSAGE("Percentage should be over 0 and less than 100");
+	FIXED_AMOUNT_MESSAGE("Amount should be over 0 : "),
+	PERCENT_DISCOUNT_MESSAGE("Percentage should be over 0 and less than 100 : ");
 
-	private final String context;
+	private final String message;
 
-	Message(String context) {
-		this.context = context;
+	Message(String message) {
+		this.message = message;
 	}
 
 	@Override
 	public String toString() {
-		return context;
+		return message;
 	}
 }
