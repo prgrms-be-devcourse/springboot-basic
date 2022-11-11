@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.io;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.model.Amount;
@@ -12,6 +14,8 @@ import java.util.Optional;
 
 @Component
 public class IOManager {
+
+    private static final Logger log = LoggerFactory.getLogger(IOManager.class);
 
     private final Reader reader;
     private final Writer writer;
@@ -30,6 +34,7 @@ public class IOManager {
             CommandType commandType = CommandType.of(command);
             return Optional.of(commandType);
         } catch (IllegalArgumentException exception) {
+            log.warn("Input Command Mismatch Error: {} {} ", exception.getMessage(), command);
             notifyErrorOccurred(MessageFormat.format("command ''{0}'' is invalid!!!", command));
             return Optional.empty();
         }
@@ -48,6 +53,7 @@ public class IOManager {
             Amount amount = new Amount(number);
             return Optional.of(amount);
         } catch (IllegalArgumentException exception) {
+            log.warn("Amount Creation Error: {} ", exception.getMessage());
             writer.printException(exception);
             return Optional.empty();
         }
@@ -61,6 +67,7 @@ public class IOManager {
             Ratio ratio = new Ratio(fixedDiscountRatio);
             return Optional.of(ratio);
         } catch (IllegalArgumentException exception) {
+            log.warn("Ratio Creation Error: {} ", exception.getMessage());
             writer.printException(exception);
             return Optional.empty();
         }
