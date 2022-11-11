@@ -49,14 +49,14 @@ class VoucherValidatorTest {
     @Test
     @DisplayName("FixedAmount 타입에 한도 금액의 MAX 경계값을 입력한 경우 검증 통과")
     void 한도금액_테스트2() {
-        boolean result = isProperValue(FixedAmount, String.valueOf(MAX_DISCOUNT_COST));
+        boolean result = isProperValue(FixedAmount, String.valueOf(MAX_DISCOUNT_AMOUNT));
         assertEquals(true, result);
     }
 
     @Test
     @DisplayName("FixedAmount 타입에 한도 금액의 MIN 경계값을 입력한 경우 검증 통과")
     void 한도금액_테스트3() {
-        boolean result = isProperValue(FixedAmount, String.valueOf(MIN_DISCOUNT_COST));
+        boolean result = isProperValue(FixedAmount, String.valueOf(MIN_DISCOUNT_AMOUNT));
         assertEquals(true, result);
     }
 
@@ -77,8 +77,8 @@ class VoucherValidatorTest {
     @Test
     @DisplayName("FixedAmount 타입에 한도 금액을 벗어나는 금액을 입력한 경우 런타임 예외가 발생한다.")
     void 한도금액_초과_테스트() {
-        int biggerThanMaxValue = MAX_DISCOUNT_COST + 1;
-        int smallerThanMinValue = MIN_DISCOUNT_COST - 1;
+        int biggerThanMaxValue = MAX_DISCOUNT_AMOUNT + 1;
+        int smallerThanMinValue = MIN_DISCOUNT_AMOUNT - 1;
 
 
         assertThrows(RuntimeException.class,

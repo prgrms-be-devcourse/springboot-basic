@@ -3,11 +3,12 @@ package com.programmers.voucher.voucher;
 import org.springframework.util.StringUtils;
 
 import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
-import static com.programmers.voucher.voucher.VoucherType.*;
+import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
+import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 
 public class VoucherValidator {
-    public static final int MAX_DISCOUNT_COST = 200000;
-    public static final int MIN_DISCOUNT_COST = 1000;
+    public static final int MAX_DISCOUNT_AMOUNT = 200000;
+    public static final int MIN_DISCOUNT_AMOUNT = 1000;
 
     public static final int MAX_DISCOUNT_PERCENTAGE = 100;
     public static final int MIN_DISCOUNT_PERCENTAGE = 1;
@@ -15,7 +16,7 @@ public class VoucherValidator {
     public static final String numberRegEx = "[+-]?\\d+";
 
     public static Voucher getValidateVoucher(String type, String value) {
-        VoucherType validateVoucherType = getValidateVoucherType(type);
+        VoucherType validateVoucherType = VoucherType.getValidateVoucherType(type);
         long validateValue = ValidateValue(validateVoucherType, value);
 
         return VoucherFactory.createVoucher(validateVoucherType, validateValue);
@@ -51,7 +52,7 @@ public class VoucherValidator {
         }
 
         if (type.equals(FixedAmount)) {
-            return MIN_DISCOUNT_COST <= value && value <= MAX_DISCOUNT_COST;
+            return MIN_DISCOUNT_AMOUNT <= value && value <= MAX_DISCOUNT_AMOUNT;
         }
 
         throw new RuntimeException(VOUCHER_INPUT_ERROR_MESSAGE.getMessage());
