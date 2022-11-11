@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Profile;
 import prgms.vouchermanagementapp.VoucherManagementApp;
 import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Ratio;
@@ -13,6 +14,7 @@ import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.io.File;
 
+@Profile("release")
 class FileVouchersTest {
 
     private static final String FILE_PATH = "src/main/resources/";

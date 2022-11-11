@@ -1,5 +1,7 @@
 package prgms.vouchermanagementapp.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.blacklist.BlacklistManager;
@@ -16,6 +18,8 @@ import java.util.Optional;
 @Component
 public class CommandExecutor {
 
+    private static final Logger log = LoggerFactory.getLogger(CommandExecutor.class);
+
     private final IOManager ioManager;
     private final VoucherManager voucherManager;
     private final BlacklistManager blacklistManager;
@@ -31,6 +35,8 @@ public class CommandExecutor {
 
     public void run() {
         while (runningState.isRunning()) {
+            log.info("log!! -> {}", "log something");
+            log.warn("log!! -> {}", "log something");
             Optional<CommandType> commandType = ioManager.askCommand();
             commandType.ifPresent(this::executeCommand);
         }
@@ -73,6 +79,8 @@ public class CommandExecutor {
             VoucherType voucherType = VoucherType.of(voucherTypeIndex);
             return Optional.of(voucherType);
         } catch (IllegalArgumentException exception) {
+            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
+            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
             ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
             return Optional.empty();
         }
