@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers;
 
 import com.programmers.voucher.menu.Menu;
 import com.programmers.voucher.service.VoucherService;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.programmers.voucher.menu.Menu.EXIT;
 import static com.programmers.voucher.menu.Menu.findMenu;
 import static com.programmers.voucher.menu.Message.*;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -31,7 +30,7 @@ public class CommandLineApplication implements Runnable {
     public void run() {
         String userCommand = "";
 
-        while (!userCommand.equals(EXIT.getMenu())) {
+        while (!userCommand.equals(Menu.EXIT.name())) {
 
             view.printMessage(GREETING_MESSAGE);
             userCommand = view.getUserCommand().toUpperCase();
@@ -51,14 +50,7 @@ public class CommandLineApplication implements Runnable {
     private void executeUserCommand(Menu userMenu) {
         switch (userMenu) {
             case CREATE:
-                view.printMessage(VOUCHER_TYPE_MESSAGE);
-                String voucherTypeInput = view.getUserCommand();
-
-                view.printMessage(VOUCHER_VALUE_MESSAGE);
-                String value = view.getUserCommand();
-
-                voucherService.register(voucherTypeInput, value);
-                view.printMessage(VOUCHER_CREATE_SUCCESS);
+                createVoucher();
                 break;
 
             case LIST:
@@ -68,6 +60,17 @@ public class CommandLineApplication implements Runnable {
             case EXIT:
                 return;
         }
+    }
+
+    private void createVoucher() {
+        view.printMessage(VOUCHER_TYPE_MESSAGE);
+        String voucherTypeInput = view.getUserCommand();
+
+        view.printMessage(VOUCHER_VALUE_MESSAGE);
+        String value = view.getUserCommand();
+
+        voucherService.register(voucherTypeInput, value);
+        view.printMessage(VOUCHER_CREATE_SUCCESS);
     }
 
     private void showVoucherList() {
