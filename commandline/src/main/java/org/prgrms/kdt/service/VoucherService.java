@@ -2,7 +2,7 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.util.VoucherType;
 import org.springframework.stereotype.Service;
 ;
 import java.util.List;

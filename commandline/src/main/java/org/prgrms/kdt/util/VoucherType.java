@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.util;
 
 import org.prgrms.kdt.domain.FixedAmountVoucher;
 import org.prgrms.kdt.domain.PercentDiscountVoucher;
@@ -7,21 +7,16 @@ import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFindVoucherTypeException;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1", "FixedAmountVoucher"),
-    PERCENTAGE("2", "PercentDiscountVoucher");
+    FIXED_AMOUNT("1"),
+    PERCENTAGE("2");
 
     private final String typeValue;
-    private final String expression;
 
-    private static final String SEPARATOR = ". ";
-
-    VoucherType(String typeValue, String expression) {
+    VoucherType(String typeValue) {
         this.typeValue = typeValue;
-        this.expression = expression;
     }
 
     public static Voucher createVoucher(String type, long discountDegree) {
@@ -50,12 +45,4 @@ public enum VoucherType {
             throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
         }
     }
-
-
-    public static String getAllVoucherExpression() {
-        return Stream.of(values())
-                .map(type -> type.typeValue + SEPARATOR + type.expression)
-                .collect(Collectors.joining(System.lineSeparator()));
-    }
-
 }

@@ -1,11 +1,11 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.CommandType;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.InputException;
 import org.prgrms.kdt.exception.IsNotNumberException;
-import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.util.ConstantMessageUtil;
+import org.prgrms.kdt.util.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -28,8 +28,7 @@ public class Console {
     }
 
     public String inputVoucherType() {
-        System.out.println(VoucherType.getAllVoucherExpression());
-        System.out.print("생성할 Voucher 타입의 숫자를 입력하세요: ");
+        System.out.print(ConstantMessageUtil.TYPE_VOUCHER_INFO);
         try {
             String voucherType = br.readLine().trim();
             VoucherType.checkType(voucherType);
@@ -41,7 +40,7 @@ public class Console {
     }
 
     public Long inputVoucherDiscountValue() {
-        System.out.print("선택한 Voucher 형식에 맞는 discountDegree(정수): ");
+        System.out.print(ConstantMessageUtil.DISCOUNT_VALUE);
         try {
             String discountDegree = br.readLine().trim();
             isNumeric(discountDegree);
@@ -52,8 +51,7 @@ public class Console {
     }
 
     public void printCommandList() {
-        System.out.println("=== Voucher Program ===");
-        System.out.println(CommandType.getAllCommandExpression());
+        System.out.println(ConstantMessageUtil.VOUCHER_MAIN_MENU);
     }
 
     public void printError(String message) {
@@ -61,7 +59,7 @@ public class Console {
     }
 
     public void terminate() {
-        System.out.println("프로그램을 종료합니다.");
+        System.out.println(ConstantMessageUtil.TERMINATE);
     }
 
     public void printVouchers(List<Voucher> vouchers) {
