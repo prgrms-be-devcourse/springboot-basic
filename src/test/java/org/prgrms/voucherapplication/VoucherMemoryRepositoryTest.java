@@ -38,7 +38,7 @@ public class VoucherMemoryRepositoryTest {
 
             return Stream.of(
                     Arguments.of(fixedAmountVoucher, fixedAmountVoucher.toString()),
-                    Arguments.of(percentDiscountVoucher, fixedAmountVoucher.toString() + "\n" + percentDiscountVoucher)
+                    Arguments.of(percentDiscountVoucher, fixedAmountVoucher.toString() + percentDiscountVoucher)
             );
         }
 
