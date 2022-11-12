@@ -22,7 +22,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.program.voucher" level="info">
+    <logger name="com.program.console" level="info">
         <appender-ref ref="FILE"/>
     </logger>
 
