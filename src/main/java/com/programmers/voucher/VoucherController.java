@@ -16,8 +16,8 @@ public class VoucherController {
 
     public void createByType(TypeOfVoucher typeOfVoucher, long discount) {
         switch (typeOfVoucher) {
-            case FixedAmountVoucher -> voucherService.createFixedAmountVoucher(discount);
-            case PercentDiscountVoucher -> voucherService.createPercentDiscountVoucher(discount);
+            case FIXED_AMOUNT_VOUCHER -> voucherService.createFixedAmountVoucher(discount);
+            case PERCENT_DISCOUNT_VOUCHER -> voucherService.createPercentDiscountVoucher(discount);
         }
     }
 

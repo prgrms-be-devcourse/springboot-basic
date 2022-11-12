@@ -33,8 +33,8 @@ public class Output {
 
     public void printSelectDiscount(TypeOfVoucher typeOfVoucher) {
         switch (typeOfVoucher) {
-            case FixedAmountVoucher -> System.out.println("Type fixed amount");
-            case PercentDiscountVoucher -> System.out.println("Type percent discount");
+            case FIXED_AMOUNT_VOUCHER -> System.out.println("Type fixed amount");
+            case PERCENT_DISCOUNT_VOUCHER -> System.out.println("Type percent discount");
         }
     }
 

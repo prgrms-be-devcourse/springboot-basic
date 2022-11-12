@@ -1,10 +1,12 @@
 package com.programmers;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum TypeOfVoucher {
-    FixedAmountVoucher("1"),
-    PercentDiscountVoucher("2");
+    FIXED_AMOUNT_VOUCHER("1"),
+    PERCENT_DISCOUNT_VOUCHER("2"),
+    ERROR_VOUCHER("0");
 
     private final String type;
     TypeOfVoucher(String type) {
@@ -12,9 +14,12 @@ public enum TypeOfVoucher {
     }
 
     public static TypeOfVoucher getType(String typeNumber) {
-        return Arrays.stream(TypeOfVoucher.values())
+        Optional<TypeOfVoucher> optional = Arrays.stream(TypeOfVoucher.values())
                 .filter(o -> o.type.equals(typeNumber))
-                .findFirst()
-                .get();
+                .findFirst();
+        if (optional.isEmpty()) {
+            return ERROR_VOUCHER;
+        }
+        return optional.get();
     }
 }

@@ -1,11 +1,13 @@
 package com.programmers;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum Command {
     CREATE("create"),
     LIST("list"),
-    EXIT("exit");
+    EXIT("exit"),
+    ERROR("error");
 
     private final String command;
 
@@ -14,10 +16,14 @@ public enum Command {
     }
 
     public static Command getCommand(String inputCommand) {
-        return Arrays.stream(Command.values())
+        Optional<Command> optional = Arrays.stream(Command.values())
                 .filter(o -> o.command.equals(inputCommand))
-                .findFirst()
-                .get();
+                .findFirst();
+
+        if (optional.isEmpty()) {
+            return ERROR;
+        }
+        return optional.get();
     }
 
 }
