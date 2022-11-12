@@ -1,6 +1,7 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.exception.WrongCommand;
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.WrongCommandException;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,7 +23,7 @@ public enum CommandType {
         return Stream.of(values())
                 .filter(value -> value.command.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new WrongCommand());
+                .orElseThrow(() -> new WrongCommandException(ErrorCode.WRONG_COMMAND.getMessage()));
     }
 
     public static String getAllCommandExpression() {

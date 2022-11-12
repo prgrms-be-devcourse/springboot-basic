@@ -3,7 +3,8 @@ package org.prgrms.kdt.voucher;
 import org.prgrms.kdt.domain.FixedAmountVoucher;
 import org.prgrms.kdt.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.Voucher;
-import org.prgrms.kdt.exception.NotFindVoucherType;
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.NotFindVoucherTypeException;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -15,7 +16,7 @@ public class VoucherFactory {
         return switch (voucherType) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), amount);
             case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), amount);
-            default -> throw new NotFindVoucherType();
+            default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
         };
     }
 

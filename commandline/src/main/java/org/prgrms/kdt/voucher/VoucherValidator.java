@@ -1,7 +1,8 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.IsNotNumberException;
-import org.prgrms.kdt.exception.NotFindVoucherType;
+import org.prgrms.kdt.exception.NotFindVoucherTypeException;
 import org.prgrms.kdt.exception.WrongRangeInputException;
 
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class VoucherValidator {
             throw new IllegalArgumentException();
         }
         if (!Pattern.matches(NUMBER_REGEX, number)) {
-            throw new IsNotNumberException();
+            throw new IsNotNumberException(ErrorCode.IS_NOT_NUMBER.getMessage());
         }
     }
 
@@ -28,7 +29,7 @@ public class VoucherValidator {
         isNumeric(discountValue);
         Long longDiscountValue = Long.parseLong(discountValue);
         if (longDiscountValue < ZERO || longDiscountValue > MAX_FIXED_AMOUNT) {
-            throw new WrongRangeInputException();
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
         }
     }
 
@@ -37,7 +38,7 @@ public class VoucherValidator {
         Long longDiscountValue = Long.parseLong(discountValue);
 
         if (!(longDiscountValue > ZERO && longDiscountValue < MAX_PERCENT)) {
-            throw new WrongRangeInputException();
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
         }
     }
 
@@ -46,7 +47,7 @@ public class VoucherValidator {
         switch (voucherType) {
             case FIXED_AMOUNT -> validateDiscountAmount(discountValue);
             case PERCENTAGE -> validateDiscountPercent(discountValue);
-            default -> throw new NotFindVoucherType();
+            default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.exception.NotFindVoucherType;
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.NotFindVoucherTypeException;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,7 +24,7 @@ public enum VoucherType {
         return Stream.of(values())
                 .filter(voucherType -> voucherType.typeValue.equals(type))
                 .findFirst()
-                .orElseThrow(() -> new NotFindVoucherType());
+                .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
     }
 
     public static String getAllVoucherExpression() {

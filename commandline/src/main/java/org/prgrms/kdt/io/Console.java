@@ -3,6 +3,7 @@ package org.prgrms.kdt.io;
 import org.prgrms.kdt.CommandType;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.InputException;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +16,31 @@ import java.util.List;
 public class Console {
     private static final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public String inputCommand() throws IOException {
-        return br.readLine().trim();
+    public String inputCommand() {
+        try {
+            return br.readLine().trim();
+        } catch (IOException e) {
+            throw new InputException(ErrorCode.InputException.getMessage());
+        }
     }
 
-    public String inputVoucherType() throws IOException {
+    public String inputVoucherType() {
         System.out.println(VoucherType.getAllVoucherExpression());
         System.out.print("생성할 Voucher 타입의 숫자를 입력하세요: ");
-        return br.readLine().trim();
+        try {
+            return br.readLine().trim();
+        } catch (IOException e) {
+            throw new InputException(ErrorCode.InputException.getMessage());
+        }
     }
 
-    public String inputVoucherDiscountValue() throws IOException {
+    public String inputVoucherDiscountValue() {
         System.out.print("선택한 Voucher 형식에 맞는 discountDegree(정수): ");
-        return br.readLine().trim();
+        try {
+            return br.readLine().trim();
+        } catch (IOException e) {
+            throw new InputException(ErrorCode.InputException.getMessage());
+        }
     }
 
     public void printCommandList() {
@@ -35,8 +48,8 @@ public class Console {
         System.out.println(CommandType.getAllCommandExpression());
     }
 
-    public void printError(ErrorCode errorCode) {
-        System.out.println(errorCode.getMessage());
+    public void printError(String message) {
+        System.out.println(message);
     }
 
     public void terminate() {

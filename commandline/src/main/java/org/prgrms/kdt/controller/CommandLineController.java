@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -44,15 +43,11 @@ public class CommandLineController {
                         console.terminate();
                         running = false;
                     }
-                    default -> console.printError(ErrorCode.IOEXCEPTION);
+                    default -> console.printError(ErrorCode.InputException.getMessage());
                 }
-            } catch (IOException e) {
-                console.printError(ErrorCode.IOEXCEPTION);
-                logger.error(ErrorCode.IOEXCEPTION.getMessage());
-                continue;
-            } catch (WrongCommand e) {
-                console.printError(ErrorCode.WRONG_COMMAND);
-                logger.error(ErrorCode.WRONG_COMMAND.getMessage());
+            } catch (RuntimeException e) {
+                console.printError(e.getMessage());
+                logger.error(e.getMessage());
                 continue;
             }
         }
@@ -66,21 +61,9 @@ public class CommandLineController {
                 String discountValue = console.inputVoucherDiscountValue();
                 VoucherValidator.validateVoucher(voucherType, discountValue);
                 voucherService.createVoucher(voucherType, Long.parseLong(discountValue));
-            } catch (IsNotNumberException e) {
-                console.printError(ErrorCode.IS_NOT_NUMBER);
-                logger.error(ErrorCode.IS_NOT_NUMBER.getMessage());
-                continue;
-            } catch (WrongRangeInputException e) {
-                console.printError(ErrorCode.WRONG_RANGE_INPUT);
-                logger.error(ErrorCode.WRONG_RANGE_INPUT.getMessage());
-                continue;
-            } catch (IOException e) {
-                console.printError(ErrorCode.IOEXCEPTION);
-                logger.error(ErrorCode.IOEXCEPTION.getMessage());
-                continue;
-            } catch (NotFindVoucherType e) {
-                console.printError(ErrorCode.NOT_FIND_VOUCHER_TYPE);
-                logger.error(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
+            } catch (RuntimeException e) {
+                console.printError(e.getMessage());
+                logger.error(e.getMessage());
                 continue;
             }
             continueJob = false;
