@@ -1,14 +1,13 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.domain.FixedAmountVoucher;
-import org.prgrms.kdt.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.Voucher;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CSVInOut {
 
@@ -18,24 +17,8 @@ public class CSVInOut {
     public CSVInOut(String path, boolean canAppand) {
         this.path = path;
         this.canAppand = canAppand;
+        initFile(path);
     }
-    /*
-    public static void main(String[] args) {
-        CSVIO csvReader = new CSVIO();
-        Voucher fixed = new FixedAmountVoucher(UUID.randomUUID(), 20);
-        Voucher percentage = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        List<Voucher> vouchers = new ArrayList<>();
-        vouchers.add(fixed);
-        vouchers.add(percentage);
-
-        csvReader.writeCSV(vouchers);
-
-        List<String> result = csvReader.readCSV();
-        for (String s : result) {
-            System.out.println(s);
-        }
-    }
-     */
 
     public List<String> readCSV() {
         List<String> csvList = new ArrayList<>();
@@ -87,6 +70,16 @@ public class CSVInOut {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private static void initFile(String path) {
+        Path filePath = Paths.get(path);
+        try {
+            Files.deleteIfExists(filePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
