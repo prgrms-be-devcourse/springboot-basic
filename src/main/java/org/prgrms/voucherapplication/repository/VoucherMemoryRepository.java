@@ -1,29 +1,28 @@
 package org.prgrms.voucherapplication.repository;
 
-import org.prgrms.voucherapplication.dto.ResponseVoucherList;
 import org.prgrms.voucherapplication.entity.Voucher;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Profile("dev")
+//@Profile("dev")
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository{
 
-    private ResponseVoucherList responseVoucherList;
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public void save(Voucher voucher) {
-        if (responseVoucherList == null) {
-            responseVoucherList = new ResponseVoucherList(new ArrayList<>());
-        }
-
-        responseVoucherList.add(voucher);
+        storage.put(voucher.getUuid(), voucher);
     }
 
     @Override
     public String findAll() {
-        return responseVoucherList.findAll();
+        final StringBuilder stringBuilder = new StringBuilder();
+        storage.forEach(
+                (uuid, voucher) -> stringBuilder.append(voucher.toString()));
+        return stringBuilder.toString();
     }
 }

@@ -13,6 +13,6 @@ public class FixedAmountVoucher extends Voucher{
         return "FixedAmountVoucher{" +
                 "uuid=" + uuid +
                 ", discount=" + discount +
-                '}';
+                "}\n";
     }
 }

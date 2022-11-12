@@ -13,6 +13,6 @@ public class PercentDiscountVoucher extends Voucher{
         return "PercentDiscountVoucher{" +
                 "uuid=" + uuid +
                 ", discount=" + discount +
-                '}';
+                "}\n";
     }
 }

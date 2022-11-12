@@ -11,4 +11,8 @@ public abstract class Voucher {
         this.uuid = uuid;
         this.discount = discount;
     }
+
+    public UUID getUuid() {
+        return uuid;
+    }
 }
