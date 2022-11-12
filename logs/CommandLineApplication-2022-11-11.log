@@ -1,0 +1,75 @@
+[36m01:34:04.358[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 22663 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:34:04.359[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m01:34:04.916[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Started CommandLineApplication in 0.922 seconds (JVM running for 1.632)
+[36m01:34:04.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication run 실행
+[36m01:34:04.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power powerOn 실행
+[36m01:34:04.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power isPower 실행
+[36m01:34:04.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:04.923[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console read 실행
+[36m01:34:10.348[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu selectMenu 실행
+[36m01:34:10.349[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu toCode 실행
+[36m01:34:10.351[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication execute 실행
+[36m01:34:10.352[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication voucherCreate 실행
+[36m01:34:10.353[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:10.353[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console read 실행
+[36m01:34:17.385[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherMenu selectVoucherMenu 실행
+[36m01:34:17.386[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherMenu toCode 실행
+[36m01:34:17.386[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Verification integerParseIntVerification 실행
+[36m01:34:17.387[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:17.389[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console read 실행
+[36m01:34:19.452[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherService create 실행
+[36m01:34:19.453[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherFactory createVoucher 실행
+[36m01:34:19.453[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Verification integerParseIntVerification 실행
+[36m01:34:19.456[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - MemoryVoucherRepository save 실행
+[36m01:34:19.456[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:19.457[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power isPower 실행
+[36m01:34:19.457[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:19.457[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console read 실행
+[36m01:34:22.130[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu selectMenu 실행
+[36m01:34:22.131[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu toCode 실행
+[36m01:34:22.131[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication execute 실행
+[36m01:34:22.131[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication voucherList 실행
+[36m01:34:22.131[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - MemoryVoucherRepository findAll 실행
+[36m01:34:22.135[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:22.135[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power isPower 실행
+[36m01:34:22.135[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:22.135[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console read 실행
+[36m01:34:30.881[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu selectMenu 실행
+[36m01:34:30.885[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Menu toCode 실행
+[36m01:34:30.885[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication execute 실행
+[36m01:34:30.885[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - VoucherApplication exit 실행
+[36m01:34:30.885[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power powerOff 실행
+[36m01:34:30.885[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Console print 실행
+[36m01:34:30.886[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Power isPower 실행
+[36m01:52:47.357[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 22984 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:52:47.358[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m01:53:40.537[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23007 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:53:40.539[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m01:54:33.612[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23422 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:54:33.613[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m01:54:37.705[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23428 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:54:37.707[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m01:58:36.719[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23475 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m01:58:36.721[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:02:22.738[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23515 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:02:22.739[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:04:01.729[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23542 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:04:01.731[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - No active profile set, falling back to 1 default profile: "default"
+[36m02:04:42.519[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23557 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:04:42.521[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - No active profile set, falling back to 1 default profile: "default"
+[36m02:06:13.136[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23590 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:06:13.138[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:06:28.102[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23600 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:06:28.104[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:06:47.376[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23610 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:06:47.378[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:08:56.905[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 23652 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:08:56.907[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:10:12.234[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 24085 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:10:12.236[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:10:29.351[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 24096 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:10:29.353[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:10:46.659[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 24103 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:10:46.661[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
+[36m02:15:08.535[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - Starting CommandLineApplication using Java 17.0.2 on jangjuyeong-ui-MacBookPro.local with PID 24161 (/Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine/build/classes/java/main started by jangjuyeong in /Users/jangjuyeong/Desktop/cloudwi/공부/Dev_course_3/4주차/과제/commandLine)
+[36m02:15:08.537[0;39m [main] [32mINFO [0;39m c.p.c.CommandLineApplication - The following 1 profile is active: "prod"
