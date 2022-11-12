@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Console<T> {
+public class View<T> {
     private final Input input;
     private final Output output;
 
-    public Console(Input input, Output output) {
+    public View(Input input, Output output) {
         this.input = input;
         this.output = output;
     }

@@ -1,7 +1,7 @@
 package com.programmers.voucher.controller;
 
 import com.programmers.voucher.io.CommandType;
-import com.programmers.voucher.io.Console;
+import com.programmers.voucher.io.View;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherProgram implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final Console console;
+    private final View view;
     private final VoucherService voucherService;
 
-    public VoucherProgram(Console console, VoucherService voucherService) {
-        this.console = console;
+    public VoucherProgram(View view, VoucherService voucherService) {
+        this.view = view;
         this.voucherService = voucherService;
     }
 
@@ -35,29 +35,29 @@ public class VoucherProgram implements ApplicationRunner {
                         voucherService.create(getVoucherType(), getDiscountValue());
                         break;
                     case LIST:
-                        console.printVouchers(voucherService.findAllVoucher());
+                        view.printVouchers(voucherService.findAllVoucher());
                         break;
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
-                console.printError(e.getMessage());
+                view.printError(e.getMessage());
             }
         }
     }
 
     private CommandType getCommandType() {
-        console.requestMenuType();
-        String command = console.getInput();
+        view.requestMenuType();
+        String command = view.getInput();
         return CommandType.toCommandType(command);
     }
 
     private VoucherType getVoucherType() {
-        console.requestVoucherType();
-        return VoucherType.toVoucherType(console.getInput());
+        view.requestVoucherType();
+        return VoucherType.toVoucherType(view.getInput());
     }
 
     private long getDiscountValue() {
-        console.requestDiscountValue();
-        return console.getInputDiscountValue();
+        view.requestDiscountValue();
+        return view.getInputDiscountValue();
     }
 }
