@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
+import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -75,8 +74,8 @@ public class IOManager {
         writer.printExitMessage();
     }
 
-    public void notifyVouchers(List<Voucher> vouchers) {
-        writer.printVouchers(vouchers);
+    public void notifyVouchers(VoucherRecord voucherRecord) {
+        writer.printVoucherRecord(voucherRecord);
     }
 
     public void notifyErrorOccurred(String errorMessage) {

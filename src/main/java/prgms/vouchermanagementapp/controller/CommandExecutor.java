@@ -8,10 +8,8 @@ import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -86,7 +84,6 @@ public class CommandExecutor {
     }
 
     private void runList() {
-        List<Voucher> vouchers = voucherManager.findVouchers();
-        ioManager.notifyVouchers(vouchers);
+        ioManager.notifyVouchers(voucherManager.findAllVouchers());
     }
 }
