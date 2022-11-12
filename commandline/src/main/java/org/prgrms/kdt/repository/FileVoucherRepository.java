@@ -21,9 +21,9 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final CSVInOut csvIO;
 
-    public FileVoucherRepository(@Value("${voucher.path}") String path, @Value("${voucher.canAppand}") boolean canAppand) {
+    public FileVoucherRepository(@Value("${voucher.path}") String path) {
         logger.info(MessageFormat.format("construct FileVoucherRepo, path->{0}", path));
-        this.csvIO = new CSVInOut(path, canAppand);
+        this.csvIO = new CSVInOut(path);
     }
 
     @Override

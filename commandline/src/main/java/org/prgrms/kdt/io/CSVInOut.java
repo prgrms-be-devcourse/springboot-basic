@@ -12,11 +12,9 @@ import java.util.List;
 public class CSVInOut {
 
     private final String path;
-    private final boolean canAppand;
 
-    public CSVInOut(String path, boolean canAppand) {
+    public CSVInOut(String path) {
         this.path = path;
-        this.canAppand = canAppand;
         initFile(path);
     }
 
@@ -52,7 +50,7 @@ public class CSVInOut {
         BufferedWriter bw = null; // 출력 스트림 생성
         try {
             csv.createNewFile();
-            bw = new BufferedWriter(new FileWriter(csv, canAppand));
+            bw = new BufferedWriter(new FileWriter(csv, true));
 
             String data = voucher.toString();
             bw.write(data);

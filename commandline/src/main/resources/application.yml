@@ -5,7 +5,6 @@ spring:
       on-profile: "dev"
 
 voucher.path: "./VoucherList.csv"
-voucher.canAppand: true
 logging:
   level: warn
 ---
@@ -15,4 +14,3 @@ spring:
       on-profile: "default"
 
 voucher.path: "./VoucherList.csv"
-voucher.canAppand: true
