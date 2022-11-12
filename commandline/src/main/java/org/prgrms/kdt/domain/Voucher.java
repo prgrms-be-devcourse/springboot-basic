@@ -6,8 +6,6 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    long discount(long beforeDiscount);
-
     void validate(long discountDegree);
 
 }

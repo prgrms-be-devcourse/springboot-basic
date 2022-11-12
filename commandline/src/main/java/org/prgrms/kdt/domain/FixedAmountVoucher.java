@@ -23,11 +23,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
-    }
-
-    @Override
     public void validate(long discountDegree) {
         if (discountDegree < ZERO) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
