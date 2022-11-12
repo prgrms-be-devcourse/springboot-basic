@@ -9,6 +9,7 @@ public class PercentDiscountVoucher implements Voucher{
     private final long discountPercent;
 
     public PercentDiscountVoucher(UUID voucherID, long discountPercent) {
+        if(discountPercent<0 || discountPercent>100) throw new IllegalArgumentException();
         this.voucherID = voucherID;
         this.discountPercent = discountPercent;
     }
