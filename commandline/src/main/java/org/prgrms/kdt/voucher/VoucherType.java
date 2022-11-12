@@ -1,8 +1,12 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.domain.FixedAmountVoucher;
+import org.prgrms.kdt.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFindVoucherTypeException;
 
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +29,15 @@ public enum VoucherType {
                 .filter(voucherType -> voucherType.typeValue.equals(type))
                 .findFirst()
                 .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
+    }
+
+    public static Voucher createVoucher(String type, long amount) {
+        VoucherType voucherType = VoucherType.selectVoucherType(type);
+        return switch (voucherType) {
+            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), amount);
+            case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), amount);
+            default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
+        };
     }
 
     public static String getAllVoucherExpression() {
