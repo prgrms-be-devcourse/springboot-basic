@@ -4,6 +4,8 @@ import com.programmers.io.Output;
 import com.programmers.io.Input;
 import com.programmers.voucher.Voucher;
 import com.programmers.voucher.VoucherController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +23,9 @@ public class CommandLineApplication {
     private final VoucherController voucherController;
     private final ApplicationManager applicationManager = new ApplicationManager(true);
 
+    private final String pattern = "[0-9]*";
+
+    private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public CommandLineApplication(Output output, Input input, VoucherController voucherController) {
         this.output = output;
@@ -42,16 +47,31 @@ public class CommandLineApplication {
             executeByCommand(inputCommand);
         }
     }
+
     private void executeByCommand(Command inputCommand) throws IOException {
         switch (inputCommand) {
             case CREATE -> {
                 output.printSelectVoucher();
                 String typeNumber = input.input();
                 TypeOfVoucher typeOfVoucher = TypeOfVoucher.getType(typeNumber);
+                if(typeOfVoucher==TypeOfVoucher.ERROR_VOUCHER) {
+                    logger.error("존재하지 않는 바우처입니다.");
+                    break;
+                }
 
                 output.printSelectDiscount(typeOfVoucher);
-                long discount = Long.parseLong(input.input());
-                voucherController.createByType(typeOfVoucher, discount);
+                String inputDiscount = input.input();
+                if (!inputDiscount.matches(pattern) || inputDiscount.isEmpty()) {
+                    logger.error("할인금액 또는 할인율이 숫자가 아닙니다.");
+                    break;
+                }
+                long discount = Long.parseLong(inputDiscount);
+
+                try {
+                    voucherController.createByType(typeOfVoucher, discount);
+                } catch (IllegalArgumentException e) {
+                    logger.error("할인금액 또는 할인율이 정상 범위가 아닙니다.");
+                }
             }
             case LIST -> {
                 Map<UUID, Voucher> history = voucherController.findAll();
@@ -61,7 +81,9 @@ public class CommandLineApplication {
             case  EXIT -> {
                 applicationManager.setRun(false);
                 output.printTermination();
+                logger.info("application 이 정상적으로 종료되었습니다.");
             }
+            case ERROR -> logger.error("잘못된 명령입니다.");
         }
 
     }
