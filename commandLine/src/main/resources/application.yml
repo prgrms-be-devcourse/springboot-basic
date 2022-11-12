@@ -1,7 +1,0 @@
-spring:
-  profiles:
-    active: prod
-
-file:
-  voucherResourcesPath: ./src/main/resources/voucherResources.txt
-  consumerBlacklistPath: ./src/main/resources/consumerBlacklist.txt
