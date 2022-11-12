@@ -8,7 +8,7 @@ import org.prgrms.voucher.discountType.DiscountAmount;
 import org.prgrms.voucher.discountType.DiscountRate;
 import org.prgrms.voucher.discountType.Amount;
 
-public enum VoucherType {
+public enum VoucherTypePool {
 
   FIXED("1", (Amount amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount),
       DiscountAmount::new),
@@ -21,15 +21,15 @@ public enum VoucherType {
 
   private final Function<String, Amount> amount;
 
-  VoucherType(String type, Function<Amount, Voucher> voucher,
+  VoucherTypePool(String type, Function<Amount, Voucher> voucher,
       Function<String, Amount> amount) {
     this.type = type;
     this.voucher = voucher;
     this.amount = amount;
   }
 
-  public static VoucherType of(String choice) {
-    return Stream.of(VoucherType.values())
+  public static VoucherTypePool of(String choice) {
+    return Stream.of(VoucherTypePool.values())
         .filter(voucher -> voucher.type.equals(choice))
         .findAny()
         .orElseThrow(() -> new NoSuchVoucherTypeException(choice));

@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.voucher.voucherType.VoucherType;
+import org.prgrms.voucher.voucherType.VoucherTypePool;
 
 class DiscountRateTest {
 
@@ -12,7 +12,7 @@ class DiscountRateTest {
   @Test
   void incorrectlyEnteredDiscountRate() {
     //given
-    VoucherType percent = VoucherType.PERCENT;
+    VoucherTypePool percent = VoucherTypePool.PERCENT;
     String minusValue = "-1";
     String overHundred = "101";
     //when&then
@@ -26,7 +26,7 @@ class DiscountRateTest {
   @Test
   void whenDiscountRateNotANumber() {
     //given
-    VoucherType percent = VoucherType.PERCENT;
+    VoucherTypePool percent = VoucherTypePool.PERCENT;
     String value = "가";
     //when&then
     assertThrows(NumberFormatException.class, () -> percent.generateAmount(value));
