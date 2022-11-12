@@ -3,12 +3,14 @@ package org.prgrms.kdt.repository;
 import org.prgrms.kdt.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);

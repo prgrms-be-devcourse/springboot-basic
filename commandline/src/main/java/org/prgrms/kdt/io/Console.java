@@ -1,5 +1,6 @@
 package org.prgrms.kdt.io;
 
+import org.prgrms.kdt.CommandType;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.voucher.VoucherType;

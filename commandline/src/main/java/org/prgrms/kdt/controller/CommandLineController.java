@@ -1,6 +1,6 @@
 package org.prgrms.kdt.controller;
 
-import org.prgrms.kdt.io.CommandType;
+import org.prgrms.kdt.CommandType;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.io.Console;
