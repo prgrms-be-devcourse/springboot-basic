@@ -9,6 +9,11 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <file>logs/voucher.log</file>
         <append>false</append>
         <encoder>
@@ -16,11 +21,14 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers" level="error">
+
+
+    <logger name="com.programmers" level="info">
         <appender-ref ref="FILE"/>
     </logger>
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
+
 </configuration>
