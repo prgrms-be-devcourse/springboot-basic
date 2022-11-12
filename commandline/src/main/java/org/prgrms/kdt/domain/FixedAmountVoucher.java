@@ -6,7 +6,7 @@ import org.prgrms.kdt.exception.WrongRangeInputException;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    private static final int ZERO = 0;
+    private static final int MIN_AMOUNT = 0;
 
     private final UUID voucherId;
     private final long amount;
@@ -24,7 +24,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public void validate(long discountDegree) {
-        if (discountDegree < ZERO) {
+        if (discountDegree < MIN_AMOUNT) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
         }
     }

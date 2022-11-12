@@ -1,6 +1,9 @@
 package org.prgrms.kdt.util;
 
 public class ConstantMessageUtil {
+    private ConstantMessageUtil() {
+    }
+
     public static final String VOUCHER_MAIN_MENU = "=== Voucher Program ===" + System.lineSeparator() +
             "Type 'create' to create a new voucher." + System.lineSeparator() +
             "Type 'list' to list all voucher." + System.lineSeparator() +
