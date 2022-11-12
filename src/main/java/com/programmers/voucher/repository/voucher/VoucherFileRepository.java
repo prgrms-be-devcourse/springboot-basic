@@ -15,6 +15,10 @@ import java.util.UUID;
 @Repository
 @Profile("local")
 public class VoucherFileRepository implements VoucherRepository {
+
+    private final String FAIL_CREATE_FILE = "파일 생성에 실패하였습니다.";
+    private final String FAIL_SAVE_VOUCHER = "파일에 바우처 저장하기 실패하였습니다.";
+    private final String FAIL_GET_VOUCHER = "파일에서 바우처를 불러오지 못했습니다.";
     private final FileWriter writer;
     private final String fileName;
 
@@ -23,7 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
         try {
             writer = new FileWriter(fileName, true);
         } catch (IOException e) {
-            throw new RuntimeException("파일 생성에 실패하였습니다.");
+            throw new RuntimeException(FAIL_CREATE_FILE);
         }
     }
 
@@ -33,7 +37,7 @@ public class VoucherFileRepository implements VoucherRepository {
             writer.write(voucher.toString() + "\n");
             writer.flush();
         } catch (IOException e) {
-            throw new RuntimeException("파일에 바우처 저장하기 실패하였습니다.");
+            throw new RuntimeException(FAIL_SAVE_VOUCHER);
         }
         return voucher;
     }
@@ -47,7 +51,7 @@ public class VoucherFileRepository implements VoucherRepository {
                 vouchers.add(toVoucher(content));
             }
         } catch (IOException e1) {
-            throw new RuntimeException("파일에서 바우처를 불러오지 못했습니다.");
+            throw new RuntimeException(FAIL_GET_VOUCHER);
         }
         return vouchers;
     }

@@ -4,6 +4,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
+    private final String ZERO_DISCOUNT = "할인 0%는 불가합니다.";
+
     public PercentDiscountVoucher(UUID voucherId, long discountValue) {
         super(voucherId, discountValue);
     }
@@ -11,7 +13,7 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     protected void validateZeroDiscount(long discountValue) {
         if (discountValue == 0) {
-            throw new IllegalArgumentException("할인 0%는 불가합니다.");
+            throw new IllegalArgumentException(ZERO_DISCOUNT);
         }
     }
 

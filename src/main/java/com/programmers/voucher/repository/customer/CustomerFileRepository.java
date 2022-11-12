@@ -13,6 +13,8 @@ import java.util.List;
 @Repository
 public class CustomerFileRepository implements CustomerRepository {
 
+    private final String FAIL_GET_BLACK = "파일에서 블랙리스트를 불러오지 못했습니다.";
+
     private final String fileName;
 
     public CustomerFileRepository(@Value("${file.path.black}") String fileName) {
@@ -28,7 +30,7 @@ public class CustomerFileRepository implements CustomerRepository {
                 customers.add(toCustomer(content));
             }
         } catch (IOException e1) {
-            throw new RuntimeException("파일에서 바우처를 불러오지 못했습니다.");
+            throw new RuntimeException(FAIL_GET_BLACK );
         }
         return customers;
     }
