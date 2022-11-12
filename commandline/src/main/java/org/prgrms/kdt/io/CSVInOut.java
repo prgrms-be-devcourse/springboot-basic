@@ -47,14 +47,14 @@ public class CSVInOut {
 
     public void writeCSV(Voucher voucher) {
         File csv = new File(path);
-        BufferedWriter bw = null; // 출력 스트림 생성
+        BufferedWriter bw = null;
         try {
             csv.createNewFile();
             bw = new BufferedWriter(new FileWriter(csv, true));
 
             String data = voucher.toString();
             bw.write(data);
-            bw.newLine(); // 개행
+            bw.newLine();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

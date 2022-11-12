@@ -24,14 +24,7 @@ public enum VoucherType {
         this.expression = expression;
     }
 
-    public static VoucherType selectVoucherType(String type) {
-        return Stream.of(values())
-                .filter(voucherType -> voucherType.typeValue.equals(type))
-                .findFirst()
-                .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
-    }
-
-    public static Voucher createVoucher(String type, String discountDegree) {
+    public static Voucher createVoucher(String type, long discountDegree) {
         VoucherType voucherType = VoucherType.selectVoucherType(type);
         return switch (voucherType) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountDegree);
@@ -39,6 +32,25 @@ public enum VoucherType {
             default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
         };
     }
+
+    private static VoucherType selectVoucherType(String type) {
+        return Stream.of(values())
+                .filter(voucherType -> voucherType.typeValue.equals(type))
+                .findFirst()
+                .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
+    }
+
+    private static boolean isContainType(String type) {
+        return Stream.of(values())
+                .anyMatch(voucherType -> voucherType.typeValue.equals(type));
+    }
+
+    public static void checkType(String type) {
+        if (!isContainType(type)) {
+            throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
+        }
+    }
+
 
     public static String getAllVoucherExpression() {
         return Stream.of(values())

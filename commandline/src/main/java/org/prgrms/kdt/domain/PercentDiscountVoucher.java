@@ -12,13 +12,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, String percent) {
-        validate(percent);
-        this.voucherId = voucherId;
-        this.percent = Long.parseLong(percent);
-    }
-
     public PercentDiscountVoucher(UUID voucherId, long percent) {
+        validate(percent);
+        
         this.voucherId = voucherId;
         this.percent = percent;
     }
@@ -34,12 +30,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void validate(String discountDegree) {
-        Voucher.isNumeric(discountDegree);
-
-        Long longDiscountValue = Long.parseLong(discountDegree);
-
-        if (!(longDiscountValue > ZERO && longDiscountValue < MAX_PERCENT)) {
+    public void validate(long discountDegree) {
+        if (!(discountDegree > ZERO && discountDegree < MAX_PERCENT)) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
         }
     }

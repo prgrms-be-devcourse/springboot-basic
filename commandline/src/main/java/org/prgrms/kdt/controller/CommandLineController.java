@@ -57,7 +57,7 @@ public class CommandLineController {
         while (continueJob) {
             try {
                 String voucherType = console.inputVoucherType();
-                String discountValue = console.inputVoucherDiscountValue();
+                long discountValue = console.inputVoucherDiscountValue();
                 voucherService.createVoucher(voucherType, discountValue);
             } catch (RuntimeException e) {
                 console.printError(e.getMessage());

@@ -11,13 +11,8 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, String amount) {
-        validate(amount);
-        this.voucherId = voucherId;
-        this.amount = Long.parseLong(amount);
-    }
-
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        validate(amount);
         this.voucherId = voucherId;
         this.amount = amount;
     }
@@ -33,11 +28,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public void validate(String discountDegree) {
-        Voucher.isNumeric(discountDegree);
-
-        Long longDiscountValue = Long.parseLong(discountDegree);
-        if (longDiscountValue < ZERO) {
+    public void validate(long discountDegree) {
+        if (discountDegree < ZERO) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
         }
     }
