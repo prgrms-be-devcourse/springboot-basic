@@ -4,7 +4,6 @@ import org.prgrms.voucherapplication.config.VoucherProperties;
 import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
-import org.prgrms.voucherapplication.dto.ResponseVoucherList;
 import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.entity.VoucherType;
 import org.prgrms.voucherapplication.service.VoucherService;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Controller;
 public class VoucherController {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-    private final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요. ";
+    private static final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요. ";
 
     private final Input input;
     private final Output output;
@@ -57,8 +56,8 @@ public class VoucherController {
     }
 
     public void getList() {
-        ResponseVoucherList voucherList = voucherService.getList();
-        output.display(voucherList.toString());
+        String voucherList = voucherService.getList();
+        output.display(voucherList);
     }
 
     public void create() {

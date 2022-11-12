@@ -4,9 +4,11 @@ import java.util.UUID;
 
 public abstract class Voucher {
 
-    private UUID uuid;
+    protected UUID uuid;
+    protected int discount;
 
-    public Voucher(UUID uuid) {
+    protected Voucher(UUID uuid, int discount) {
         this.uuid = uuid;
+        this.discount = discount;
     }
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.voucherapplication.config.VoucherProperties;
 import org.prgrms.voucherapplication.console.Console;
 import org.prgrms.voucherapplication.controller.VoucherController;
-import org.prgrms.voucherapplication.dto.ResponseVoucherList;
 import org.prgrms.voucherapplication.entity.VoucherType;
 import org.prgrms.voucherapplication.service.VoucherService;
 
@@ -123,7 +122,6 @@ public class VoucherControllerTest {
                 InputStream in = new SequenceInputStream(new ByteArrayInputStream("lisT\n".getBytes()), new ByteArrayInputStream("exit".getBytes()));
                 System.setIn(in);
 
-                when(voucherService.getList()).thenReturn(mock(ResponseVoucherList.class));
                 voucherController.start();
 
                 verify(voucherService, times(1)).getList();

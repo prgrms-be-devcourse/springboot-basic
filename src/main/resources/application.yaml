@@ -3,3 +3,15 @@ voucher:
     Type exit to exit the program.\n  
     Type create to create a new voucher.\n
     Type list to list all vouchers."
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod

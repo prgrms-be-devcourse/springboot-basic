@@ -1,15 +1,23 @@
 package org.prgrms.voucherapplication.service;
 
-import org.prgrms.voucherapplication.dto.ResponseVoucherList;
 import org.prgrms.voucherapplication.entity.Voucher;
+import org.prgrms.voucherapplication.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
-    public void create(Voucher voucher) {
+
+    private final VoucherRepository voucherRepository;
+
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
-    public ResponseVoucherList getList() {
-        return new ResponseVoucherList();
+    public void create(Voucher voucher) {
+        voucherRepository.save(voucher);
+    }
+
+    public String getList() {
+        return voucherRepository.findAll();
     }
 }

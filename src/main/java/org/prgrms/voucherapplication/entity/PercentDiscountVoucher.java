@@ -4,10 +4,15 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher{
 
-    private int percent;
-
     public PercentDiscountVoucher(UUID uuid, int percent) {
-        super(uuid);
-        this.percent = percent;
+        super(uuid, percent);
+    }
+
+    @Override
+    public String toString() {
+        return "PercentDiscountVoucher{" +
+                "uuid=" + uuid +
+                ", discount=" + discount +
+                '}';
     }
 }
