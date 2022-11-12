@@ -31,11 +31,11 @@ public enum VoucherType {
                 .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
     }
 
-    public static Voucher createVoucher(String type, long amount) {
+    public static Voucher createVoucher(String type, String discountDegree) {
         VoucherType voucherType = VoucherType.selectVoucherType(type);
         return switch (voucherType) {
-            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), amount);
-            case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), amount);
+            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountDegree);
+            case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), discountDegree);
             default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
         };
     }

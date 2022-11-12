@@ -5,7 +5,6 @@ import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.io.Console;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.voucher.VoucherValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -59,8 +58,7 @@ public class CommandLineController {
             try {
                 String voucherType = console.inputVoucherType();
                 String discountValue = console.inputVoucherDiscountValue();
-                VoucherValidator.validateVoucher(voucherType, discountValue);
-                voucherService.createVoucher(voucherType, Long.parseLong(discountValue));
+                voucherService.createVoucher(voucherType, discountValue);
             } catch (RuntimeException e) {
                 console.printError(e.getMessage());
                 logger.error(e.getMessage());

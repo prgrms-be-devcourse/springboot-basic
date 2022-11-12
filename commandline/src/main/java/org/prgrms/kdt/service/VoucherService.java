@@ -25,7 +25,7 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(String type, long discountDegree) {
+    public Voucher createVoucher(String type, String discountDegree) {
         logger.info(MessageFormat.format("createVoucher()->{1}Voucher 생성", type));
         Voucher voucher = VoucherType.createVoucher(type, discountDegree);
         voucherRepository.insert(voucher);
