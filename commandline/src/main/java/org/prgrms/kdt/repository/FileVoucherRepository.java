@@ -16,13 +16,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final CSVInOut csvIO;
 
     public FileVoucherRepository(@Value("${voucher.path}") String path) {
-        logger.info(MessageFormat.format("construct FileVoucherRepo, path->{0}", path));
         this.csvIO = new CSVInOut(path);
     }
 
