@@ -12,7 +12,6 @@ import prgms.vouchermanagementapp.voucher.warehouse.model.FileVoucherRecord;
 import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
 import java.io.File;
-import java.io.IOException;
 
 @Component
 @Primary
@@ -30,14 +29,6 @@ public class FileVouchers implements VoucherWarehouse {
     public FileVouchers(FileConfig fileConfig, FileManager fileManager) {
         this.fileConfig = fileConfig;
         this.fileManager = fileManager;
-    }
-
-    private static void createNewFile(File file) {
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

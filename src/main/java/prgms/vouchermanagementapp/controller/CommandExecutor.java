@@ -35,8 +35,6 @@ public class CommandExecutor {
 
     public void run() {
         while (runningState.isRunning()) {
-            log.info("log!! -> {}", "log something");
-            log.warn("log!! -> {}", "log something");
             Optional<CommandType> commandType = ioManager.askCommand();
             commandType.ifPresent(this::executeCommand);
         }
