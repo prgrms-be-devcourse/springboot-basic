@@ -2,7 +2,8 @@ voucher:
   description: "=== Voucher Program ===\n
     Type exit to exit the program.\n  
     Type create to create a new voucher.\n
-    Type list to list all vouchers."
+    Type list to list all vouchers.\n
+    Type blacklist to list all customer_blacklist."
 ---
 spring:
   config:
@@ -10,4 +11,4 @@ spring:
       on-profile: prod
 
 voucher:
-  file-path: org/prgrms/voucherapplication/repository/files/Voucher.csv
+  file-path: file:customer_blacklist.csv

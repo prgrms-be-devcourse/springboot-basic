@@ -14,6 +14,7 @@ import org.prgrms.voucherapplication.entity.Voucher;
 import org.prgrms.voucherapplication.repository.VoucherMemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = VoucherApplication.class)
+@ActiveProfiles("dev")
 @DisplayName("memoryRepository 테스트")
 public class VoucherMemoryRepositoryTest {
 
@@ -34,11 +36,11 @@ public class VoucherMemoryRepositoryTest {
 
         Stream<Arguments> createVouchers() {
             FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 90);
 
             return Stream.of(
                     Arguments.of(fixedAmountVoucher, fixedAmountVoucher.toString()),
-                    Arguments.of(percentDiscountVoucher, fixedAmountVoucher.toString() + percentDiscountVoucher)
+                    Arguments.of(percentDiscountVoucher, percentDiscountVoucher.toString())
             );
         }
 
@@ -50,7 +52,7 @@ public class VoucherMemoryRepositoryTest {
 
             String all = memoryRepository.findAll();
 
-            Assertions.assertThat(all).hasToString(list);
+            Assertions.assertThat(all).contains(list);
         }
     }
 }

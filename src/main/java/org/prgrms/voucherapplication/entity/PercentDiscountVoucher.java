@@ -1,5 +1,7 @@
 package org.prgrms.voucherapplication.entity;
 
+import org.prgrms.voucherapplication.common.VoucherException;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher{

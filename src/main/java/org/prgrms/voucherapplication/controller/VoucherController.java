@@ -16,6 +16,7 @@ public class VoucherController {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private static final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요. ";
+    private String blacklistString;
 
     private final Input input;
     private final Output output;
@@ -26,6 +27,10 @@ public class VoucherController {
         this.output = output;
         this.voucherService = voucherService;
         this.voucherProperties = voucherProperties;
+    }
+
+    public void init(String blacklist) {
+        blacklistString = blacklist;
     }
 
     public void start() {
@@ -51,8 +56,15 @@ public class VoucherController {
                 case LIST:
                     getList();
                     break;
+                case BLACKLIST:
+                    getBlacklist();
+                    break;
             }
         }
+    }
+
+    private void getBlacklist() {
+        output.display(blacklistString);
     }
 
     public void getList() {

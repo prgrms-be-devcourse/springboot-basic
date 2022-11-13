@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.entity;
+package org.prgrms.voucherapplication.common;
 
 public class VoucherException extends RuntimeException{
 
