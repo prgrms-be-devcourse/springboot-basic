@@ -41,18 +41,18 @@ public class View {
     }
 
     public void printVouchers(List<Voucher> vouchers) {
-        if(vouchers.isEmpty() || vouchers.size() == 0) {
-            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
-            return;
-        }
         vouchers.stream().forEach(voucher -> output.printOutput(voucher.toString()));
     }
 
+    public void printEmptyVouchers(){
+        output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
+    }
+
     public void printBlacks(List<Customer> blacks) {
-        if(blacks.isEmpty() || blacks.size() == 0) {
-            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
-            return;
-        }
         blacks.stream().forEach(black -> output.printOutput(black.toString()));
+    }
+
+    public void printEmptyBlacks(){
+        output.printOutput(Message.EMPTY_BLACK_MESSAGE.toString());
     }
 }

@@ -1,5 +1,14 @@
 package com.programmers.voucher.io;
 
-public interface Input {
-    String input();
+import org.springframework.stereotype.Component;
+
+import java.util.Scanner;
+
+@Component
+public class Input {
+    private Scanner scanner = new Scanner(System.in);
+
+    public String input() {
+        return scanner.nextLine();
+    }
 }

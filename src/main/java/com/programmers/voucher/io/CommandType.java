@@ -3,9 +3,10 @@ package com.programmers.voucher.io;
 import java.util.stream.Stream;
 
 public enum CommandType {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list");
+    EXIT("1"),
+    CREATE("2"),
+    LIST("3"),
+    BLACKS("4");
 
     private final String commandType;
 
