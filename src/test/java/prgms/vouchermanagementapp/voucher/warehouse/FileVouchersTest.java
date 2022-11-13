@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Profile;
 import prgms.vouchermanagementapp.VoucherManagementApp;
-import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherCreationFactory;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
@@ -20,7 +19,7 @@ class FileVouchersTest {
     private static final String FILE_PATH = "src/main/resources/";
 
     ApplicationContext applicationContext = new AnnotationConfigApplicationContext(VoucherManagementApp.class);
-    VoucherWarehouse voucherWarehouse = new FileVouchers(applicationContext.getBean(FileConfig.class), fileManager);
+    VoucherWarehouse voucherWarehouse = applicationContext.getBean(VoucherWarehouse.class);
 
     @DisplayName("파일이 지정한 위치에 정상 생성 되는지 확인")
     @Test
