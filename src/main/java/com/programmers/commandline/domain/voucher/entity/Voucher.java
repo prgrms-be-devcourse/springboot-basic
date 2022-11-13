@@ -2,9 +2,9 @@ package com.programmers.commandline.domain.voucher.entity;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
-    VoucherType getType();
-    Long getDiscount();
-    String getAmountUnit();
+public abstract class Voucher {
+    public abstract UUID getVoucherId();
+    public abstract VoucherType getType();
+    public abstract Long getDiscount();
+    public abstract String getAmountUnit();
 }
