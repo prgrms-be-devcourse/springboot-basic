@@ -31,11 +31,10 @@ public class CommandExecutor {
 
     public void run() {
         while (runningState.isRunning()) {
-            String command = ioManager.askCommand();
-
             try {
-                Optional<CommandType> commandType = CommandType.of(command);
-                commandType.ifPresent(this::executeCommand);
+                String command = ioManager.askCommand();
+                CommandType.of(command)
+                        .ifPresent(this::executeCommand);
             } catch (IllegalCommandException e) {
                 log.warn("command input error occurred: {}", e.getMessage());
                 ioManager.notifyErrorOccurred(e.getMessage());
