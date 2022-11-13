@@ -44,7 +44,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
       } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
-        logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
+        logger.error("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
     }
   }
