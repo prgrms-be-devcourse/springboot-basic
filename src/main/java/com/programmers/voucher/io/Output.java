@@ -1,5 +1,5 @@
 package com.programmers.voucher.io;
 
-public interface Output<T> {
-    void printOutput(T message);
+public interface Output {
+    void printOutput(String message);
 }

@@ -1,9 +1,8 @@
 package com.programmers.voucher.model.voucher;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Voucher implements Serializable {
+public abstract class Voucher {
     protected UUID voucherId;
     protected long discountValue;
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class View<T> {
+public class View {
     private final Input input;
     private final Output output;
 
@@ -25,15 +25,15 @@ public class View<T> {
     }
 
     public void requestMenuType() {
-        output.printOutput(Message.INTRO_MESSAGE);
+        output.printOutput(Message.INTRO_MESSAGE.toString());
     }
 
     public void requestVoucherType() {
-        output.printOutput(Message.REQUEST_VOUCHER_TYPE_MESSAGE);
+        output.printOutput(Message.REQUEST_VOUCHER_TYPE_MESSAGE.toString());
     }
 
     public void requestDiscountValue() {
-        output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE);
+        output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE.toString());
     }
 
     public void printError(String message) {
@@ -42,17 +42,17 @@ public class View<T> {
 
     public void printVouchers(List<Voucher> vouchers) {
         if(vouchers.isEmpty() || vouchers.size() == 0) {
-            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE);
+            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
             return;
         }
-        vouchers.stream().forEach(output::printOutput);
+        vouchers.stream().forEach(voucher -> output.printOutput(voucher.toString()));
     }
 
     public void printBlacks(List<Customer> blacks) {
         if(blacks.isEmpty() || blacks.size() == 0) {
-            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE);
+            output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
             return;
         }
-        blacks.stream().forEach(output::printOutput);
+        blacks.stream().forEach(black -> output.printOutput(black.toString()));
     }
 }
