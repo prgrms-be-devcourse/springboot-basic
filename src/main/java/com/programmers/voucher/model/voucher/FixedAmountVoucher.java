@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private final String ZERO_DISCOUNT = "할인금액 0원은 불가합니다.";
+    private static final String ZERO_DISCOUNT = "할인금액 0원은 불가합니다.";
 
     public FixedAmountVoucher(UUID voucherId, long discountValue) {
         super(voucherId, discountValue);
@@ -23,8 +23,8 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - discountValue;
+    public long discount(long fullAmount) {
+        return fullAmount - discountValue;
     }
 
     @Override

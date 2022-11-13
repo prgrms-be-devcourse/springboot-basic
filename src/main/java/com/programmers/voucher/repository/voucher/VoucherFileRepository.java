@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Profile("local")
 public class VoucherFileRepository implements VoucherRepository {
 
-    private final String FAIL_CREATE_FILE = "파일 생성에 실패하였습니다.";
-    private final String FAIL_SAVE_VOUCHER = "파일에 바우처 저장하기 실패하였습니다.";
-    private final String FAIL_GET_VOUCHER = "파일에서 바우처를 불러오지 못했습니다.";
+    private static final String FAIL_CREATE_FILE = "파일 생성에 실패하였습니다.";
+    private static final String FAIL_SAVE_VOUCHER = "파일에 바우처 저장하기 실패하였습니다.";
+    private static final String FAIL_GET_VOUCHER = "파일에서 바우처를 불러오지 못했습니다.";
     private final FileWriter writer;
     private final String fileName;
 

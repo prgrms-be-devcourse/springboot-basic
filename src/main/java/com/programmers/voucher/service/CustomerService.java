@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    private final String FAIL_GET_BLACK = "파일에서 블랙리스트를 불러오지 못했습니다.";
+    private static final String FAIL_GET_BLACK = "파일에서 블랙리스트를 불러오지 못했습니다.";
 
     private CustomerRepository customerRepository;
 

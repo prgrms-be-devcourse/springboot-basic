@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    private final String ZERO_DISCOUNT = "할인 0%는 불가합니다.";
+    private static final String ZERO_DISCOUNT = "할인 0%는 불가합니다.";
 
     public PercentDiscountVoucher(UUID voucherId, long discountValue) {
         super(voucherId, discountValue);
@@ -23,8 +23,8 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return (long) (beforeDiscount * (1 - (discountValue / 100.0)));
+    public long discount(long fullAmount) {
+        return (long) (fullAmount * (1 - (discountValue / 100.0)));
     }
 
     @Override
