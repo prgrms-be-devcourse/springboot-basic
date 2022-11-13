@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+    private static final long MIN_AMOUNT = 0;
+    private static final long MAX_AMOUNT = 1000000;
     private final  UUID voucherId;
     private  final long amount;
     public FixedAmountVoucher(UUID voucherId, long amount) throws IllegalArgumentException{
@@ -41,10 +43,7 @@ public class FixedAmountVoucher implements Voucher {
         lines.add(line);
         return CsvDto.from(lines);
     }
-    private boolean voucherAllow(Long amount){
-        if(amount>=0){
-            return true;
-        }
-        return false;
+    private boolean voucherAllow(long amount){
+        return amount >= MIN_AMOUNT && amount <= MAX_AMOUNT;
     }
 }

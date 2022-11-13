@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
+    private static final long MAX_PERCENT = 100;
+    private static final long MIN_PERCENT = 0;
     private final  UUID voucherId;
 
     private final long percent;
@@ -47,9 +49,6 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private boolean voucherAllow(Long value) {
-        if(value>=0 && value <= 100){
-            return true;
-        }
-        return false;
+        return value >= MIN_PERCENT && value <= MAX_PERCENT;
     }
 }
