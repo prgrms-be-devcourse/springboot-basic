@@ -24,7 +24,8 @@ public enum Message {
     DISCOUNT_ERROR("할인 적용을 잘못하셨습니다.\n"),
     FILE_READ_ERROR("파일 읽기에 문제가 발생했습니다.\n"),
     FILE_SAVE_ERROR("파일 쓰기에 문제가 발생하였습니다.\n"),
-    COUSUMER_FILE_READ_ERROR("블랙리스트 읽기에 문제가 발생했습니다.\n");
+    COUSUMER_FILE_READ_ERROR("블랙리스트 읽기에 문제가 발생했습니다.\n"),
+    READ_LINE("입력에 문제가 발생했습니다.");
     ;
 
     private String message;

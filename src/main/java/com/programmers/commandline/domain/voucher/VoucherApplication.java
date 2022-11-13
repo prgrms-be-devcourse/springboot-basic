@@ -1,6 +1,6 @@
 package com.programmers.commandline.domain.voucher;
 
-import com.programmers.commandline.domain.consumer.service.CousumerService;
+import com.programmers.commandline.domain.consumer.service.ConsumerService;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import com.programmers.commandline.domain.voucher.service.VoucherService;
 import com.programmers.commandline.global.entity.Menu;
@@ -15,22 +15,31 @@ public class VoucherApplication {
     private final Power power = new Power();
     private final Console console;
     private final VoucherService voucherService;
-    private final CousumerService cousumerService;
+    private final ConsumerService consumerService;
 
-    VoucherApplication(Console console, VoucherService voucherService, CousumerService cousumerService) {
+    VoucherApplication(Console console, VoucherService voucherService, ConsumerService consumerService) {
         this.console = console;
         this.voucherService = voucherService;
-        this.cousumerService = cousumerService;
+        this.consumerService = consumerService;
     }
 
     public void run() {
         power.powerOn(); // 전원을 켜기
         while (power.isPower()) {
-            console.print(Message.SELECT_MENU.getMessage());
-            String input = console.read();
-            Menu menu = Menu.ofMenu(input);
-            String answer = execute(menu);
-            console.print(answer);
+            try {
+                console.print(Message.SELECT_MENU.getMessage());
+
+                String input = console.read(); // 여기서 에러 발생
+
+                Menu menu = Menu.ofMenu(input);
+
+                String answer = execute(menu);
+
+                console.print(answer);
+            } catch (RuntimeException e) {
+                console.print(e.getMessage());
+            }
+
         }
     }
 
@@ -60,11 +69,12 @@ public class VoucherApplication {
             console.print(voucherType.getMessage());
 
             String discount = console.read();
+
             Verification.validateParseToNumber(discount);
 
             return voucherService.create(voucherType, Long.parseLong(discount)).toString();
         } catch (RuntimeException e) {
-            return e.getMessage();
+            throw new RuntimeException("create에서 에러가 발생했습니다.");
         }
     }
 
@@ -74,7 +84,7 @@ public class VoucherApplication {
 
     private String blackConsumers() {
         try {
-            return cousumerService.blackCousumerList();
+            return consumerService.findAll();
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
@@ -82,7 +92,7 @@ public class VoucherApplication {
 
     private String vouchers() {
         try {
-            return voucherService.list() + "\n\n";
+            return voucherService.list();
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }

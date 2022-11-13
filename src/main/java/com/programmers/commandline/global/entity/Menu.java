@@ -11,30 +11,29 @@ public enum Menu {
     BLACK_CONSUMER_LIST(4),
     ERROR(5);
 
-    private static final int BAD_REQUEST = -1;
-
     private final int code;
 
     Menu(int code) {
         this.code = code;
     }
 
-    public static Menu ofMenu(String input) { // exit, create, list -> 123asfdewt
-        LogAspect.getLogger().info("Menu selectMenu 실행");
+    public static Menu ofMenu(String input) {
         int code = toCode(input);
+
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.code == code)
                 .findFirst()
-                .orElse(ERROR);
+                .orElseThrow(()->{
+                    throw new RuntimeException("잘못된 메뉴 선택입니다.");
+                });
 
     }
 
     private static int toCode(String input) {
-        LogAspect.getLogger().info("Menu toCode 실행");
         try {
             return Integer.parseInt(input);
         } catch (RuntimeException e) {
-            return BAD_REQUEST;
+            throw new RuntimeException("toCode에서 발생하는 에러 입니다.");
         }
     }
 }
