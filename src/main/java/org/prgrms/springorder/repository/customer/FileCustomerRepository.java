@@ -18,14 +18,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class FileCustomerRepository implements CustomerRepository {
 
-	private final String filePath;
 	private final File file;
 
 	private Map<UUID, Customer> memory = new HashMap<>();
 
 	public FileCustomerRepository(GlobalProperties globalProperties) {
-		this.filePath = globalProperties.getBlacklist();
-		file = new File(filePath);
+		file = new File(globalProperties.getBlacklist());
 	}
 
 	@PostConstruct
