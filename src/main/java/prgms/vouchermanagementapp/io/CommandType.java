@@ -15,8 +15,4 @@ public enum CommandType {
             throw new IllegalCommandException(command);
         }
     }
-
-    public boolean is(CommandType commandType) {
-        return this == commandType;
-    }
 }
