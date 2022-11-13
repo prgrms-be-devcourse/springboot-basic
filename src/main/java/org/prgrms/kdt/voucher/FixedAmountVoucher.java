@@ -2,7 +2,6 @@ package org.prgrms.kdt.voucher;
 
 public class FixedAmountVoucher implements Voucher {
     private static final Long FIXED_AMOUNT_VOUCHER_MIN_VALUE = 0L;
-    private static final String TYPE = "FIXED";
 
     private final long id;
     private final VoucherAmount amount;
@@ -15,7 +14,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private void validate(VoucherAmount amount) {
         if (!isValidAmount(amount)) {
-            throw new NumberFormatException("Please enter a value greater than or equal " + FIXED_AMOUNT_VOUCHER_MIN_VALUE + "." + System.lineSeparator());
+            throw new NumberFormatException("Please enter a value greater than or equal " + FIXED_AMOUNT_VOUCHER_MIN_VALUE  + "." + System.lineSeparator());
         }
     }
 
@@ -26,16 +25,6 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getId() {
         return id;
-    }
-
-    @Override
-    public String getType() {
-        return TYPE;
-    }
-
-    @Override
-    public String getAmount() {
-        return String.valueOf(amount.getValue());
     }
 
     @Override

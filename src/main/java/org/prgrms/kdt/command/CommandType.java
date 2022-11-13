@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 public enum CommandType {
     CREATE("create"),
     LIST("list"),
-    BLACK("black"),
     EXIT("exit");
 
     private final String command;
