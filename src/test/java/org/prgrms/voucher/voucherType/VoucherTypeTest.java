@@ -17,9 +17,9 @@ public class VoucherTypeTest {
     //given
     String fixed = "1";
     //when
-    VoucherType voucherType = VoucherType.of(fixed);
+    VoucherTypePool voucherType = VoucherTypePool.of(fixed);
     //then
-    assertEquals(VoucherType.FIXED, voucherType);
+    assertEquals(VoucherTypePool.FIXED, voucherType);
   }
 
   @DisplayName("콘솔에서 2번을 입력받았을 때 고정 타입을 리턴한다.")
@@ -28,9 +28,9 @@ public class VoucherTypeTest {
     //given
     String percent = "2";
     //when
-    VoucherType voucherType = VoucherType.of(percent);
+    VoucherTypePool voucherType = VoucherTypePool.of(percent);
     //then
-    assertEquals(VoucherType.PERCENT, voucherType);
+    assertEquals(VoucherTypePool.PERCENT, voucherType);
   }
 
   @DisplayName("선택지에 없는 번호를 입력받으면 NoSuchVoucherTypeException을 던진다")
@@ -39,7 +39,7 @@ public class VoucherTypeTest {
     //given
     String noType = "3";
     //when&then
-    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherType.of(noType),
+    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherTypePool.of(noType),
         noType + "은 존재하지 않습니다. 다시입력해주세요");
 
   }
@@ -50,7 +50,7 @@ public class VoucherTypeTest {
     //given
     String nonNumeric = "가abc*";
     //when&then
-    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherType.of(nonNumeric),
+    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherTypePool.of(nonNumeric),
         nonNumeric + "은 존재하지 않습니다. 다시입력해주세요");
 
   }
@@ -59,10 +59,10 @@ public class VoucherTypeTest {
   @Test
   void generateFixedVoucher() {
     //given
-    VoucherType fixed = VoucherType.FIXED;
+    VoucherTypePool fixed = VoucherTypePool.FIXED;
     Amount discount = new DiscountAmount("3000");
     //when
-    Voucher voucher = VoucherType.generateVoucher(fixed, discount);
+    Voucher voucher = fixed.generateVoucher(discount);
     //then
     assertInstanceOf(FixedAmountVoucher.class, voucher);
   }
@@ -71,10 +71,10 @@ public class VoucherTypeTest {
   @Test
   void generatePercentVoucher() {
     //given
-    VoucherType percent = VoucherType.PERCENT;
+    VoucherTypePool percent = VoucherTypePool.PERCENT;
     Amount discount = new DiscountRate("10");
     //when
-    Voucher voucher = VoucherType.generateVoucher(percent, discount);
+    Voucher voucher = percent.generateVoucher(discount);
     //then
     assertInstanceOf(PercentDiscountVoucher.class, voucher);
   }
@@ -83,10 +83,10 @@ public class VoucherTypeTest {
   @Test
   void generateFixedDiscount() {
     //given
-    VoucherType fixed = VoucherType.FIXED;
+    VoucherTypePool fixed = VoucherTypePool.FIXED;
     String value = "2000";
     //when
-    Amount discount = VoucherType.generateAmount(fixed, value);
+    Amount discount = fixed.generateAmount(value);
     //then
     assertInstanceOf(DiscountAmount.class, discount);
   }
@@ -95,10 +95,10 @@ public class VoucherTypeTest {
   @Test
   void generatePercentDiscount() {
     //given
-    VoucherType percent = VoucherType.PERCENT;
+    VoucherTypePool percent = VoucherTypePool.PERCENT;
     String value = "50";
     //when
-    Amount discount = VoucherType.generateAmount(percent, value);
+    Amount discount = percent.generateAmount(value);
     //then
     assertInstanceOf(DiscountRate.class, discount);
   }

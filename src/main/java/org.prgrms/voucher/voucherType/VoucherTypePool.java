@@ -8,11 +8,11 @@ import org.prgrms.voucher.discountType.DiscountAmount;
 import org.prgrms.voucher.discountType.DiscountRate;
 import org.prgrms.voucher.discountType.Amount;
 
-public enum VoucherType {
+public enum VoucherTypePool {
 
   FIXED("1", (Amount amount) -> new FixedAmountVoucher(UUID.randomUUID(), amount),
       DiscountAmount::new),
-  PERCENT("2", (Amount percent) -> new PercentDiscountVoucher(UUID.randomUUID(), percent),
+  PERCENT("2", (Amount amount) -> new PercentDiscountVoucher(UUID.randomUUID(), amount),
       DiscountRate::new);
 
   private final String type;
@@ -21,26 +21,26 @@ public enum VoucherType {
 
   private final Function<String, Amount> amount;
 
-  VoucherType(String type, Function<Amount, Voucher> voucher,
+  VoucherTypePool(String type, Function<Amount, Voucher> voucher,
       Function<String, Amount> amount) {
     this.type = type;
     this.voucher = voucher;
     this.amount = amount;
   }
 
-  public static VoucherType of(String choice) {
-    return Stream.of(VoucherType.values())
+  public static VoucherTypePool of(String choice) {
+    return Stream.of(VoucherTypePool.values())
         .filter(voucher -> voucher.type.equals(choice))
         .findAny()
         .orElseThrow(() -> new NoSuchVoucherTypeException(choice));
   }
 
-  public static Voucher generateVoucher(VoucherType voucherType, Amount discount) {
-    return voucherType.voucher.apply(discount);
+  public Voucher generateVoucher(Amount discount) {
+    return this.voucher.apply(discount);
   }
 
-  public static Amount generateAmount(VoucherType voucherType, String value) {
-    return voucherType.amount.apply(value);
+  public Amount generateAmount(String value) {
+    return this.amount.apply(value);
   }
 
   public String getType() {

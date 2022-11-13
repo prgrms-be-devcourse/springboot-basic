@@ -1,0 +1,57 @@
+<configuration>
+
+  <property name ="LOG_PATTERN" value ="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+  <appender name="WARN-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>warn</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <file>logs/voucher-warn.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/voucher-warn-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="ERROR-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>error</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <file>logs/voucher-error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/voucher-error-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="LOG-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/voucher.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>logs/voucher-info-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
+
+    <encoder>
+      <pattern>${LOG_PATTERN}</pattern>
+    </encoder>
+  </appender>
+
+  <logger name ="org.prgrms" level="warn">
+      <appender-ref ref="WARN-FILE"/>
+      <appender-ref ref="ERROR-FILE"/>
+  </logger>
+
+  <logger name ="org.prgrms" level="info" additivity="false">
+    <appender-ref ref="LOG-FILE"/>
+  </logger>
+
+</configuration>
