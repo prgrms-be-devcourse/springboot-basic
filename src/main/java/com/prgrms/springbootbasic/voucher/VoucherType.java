@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED_AMOUNT("fixed amount"),
+    FIXED_AMOUNT("fixedAmount"),
     PERCENT("percent");
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);

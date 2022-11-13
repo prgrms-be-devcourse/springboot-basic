@@ -18,7 +18,7 @@ public class Console {
             "Type **create** to create a new voucher.\n" +
             "Type **list** to list all vouchers.";
     private static final String EXIT_MESSAGE = "Exit program. Bye.";
-    private static final String TYPE_VOUCHER_MESSAGE = "Type 'fixed amount' for fixed amount voucher, or type 'percent' for percent voucher";
+    private static final String TYPE_VOUCHER_MESSAGE = "Type 'fixedAmount' for fixed amount voucher, or type 'percent' for percent voucher";
     private static final String TYPE_FIXED_AMOUNT_MESSAGE = "Chose fixed amount. Type fixed amount(1 ~ 10000). Amount must be an integer.";
     private static final String TYPE_PERCENT_MESSAGE = "Chose percent. Type percent amount(1 ~ 99(%)). Amount must be an integer.";
     private static final String CREATE_SUCCESS_MESSAGE = "New voucher created!";
