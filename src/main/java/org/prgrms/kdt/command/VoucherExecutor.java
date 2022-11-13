@@ -13,7 +13,6 @@ public class VoucherExecutor {
 
     private final VoucherManager voucherManager;
     private final VoucherMapper voucherMapper;
-    private static Logger logger = LoggerFactory.getLogger(VoucherExecutor.class);
 
     public VoucherExecutor(VoucherManager voucherManager, VoucherMapper voucherMapper) {
         this.voucherManager = voucherManager;
@@ -21,15 +20,12 @@ public class VoucherExecutor {
     }
 
     public void create(String type, String amount) {
-        logger.info("바우처 생성: [type] -> {}, [amount] -> {}", type, amount);
-
         Voucher voucher = voucherMapper.fromMetadata(type, amount);
 
         voucherManager.save(voucher);
     }
 
     public List<Voucher> list() {
-        logger.info("바우처 리스트 반환");
         return voucherManager.findAll();
     }
 }
