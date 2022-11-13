@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
+import prgms.vouchermanagementapp.io.FileManager;
 import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
 import prgms.vouchermanagementapp.voucher.model.PercentDiscountVoucher;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
@@ -11,7 +12,6 @@ import prgms.vouchermanagementapp.voucher.warehouse.model.FileVoucherRecord;
 import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 @Component
@@ -25,16 +25,19 @@ public class FileVouchers implements VoucherWarehouse {
             + "-".repeat(40);
 
     private final FileConfig fileConfig;
+    private final FileManager fileManager;
 
-    public FileVouchers(FileConfig fileConfig) {
+    public FileVouchers(FileConfig fileConfig, FileManager fileManager) {
         this.fileConfig = fileConfig;
-        System.out.println(fileConfig.getVoucherRecord());
+        this.fileManager = fileManager;
     }
 
-    @Override
-    public void store(Voucher voucher) {
-        File file = initializeFile();
-        writeContents(file, toContents(voucher));
+    private static void createNewFile(File file) {
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -42,18 +45,10 @@ public class FileVouchers implements VoucherWarehouse {
         return new FileVoucherRecord(fileConfig.getVoucherRecord());
     }
 
-    private File initializeFile() {
-        File file = new File(fileConfig.getVoucherRecord());
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-                System.out.println("created");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            writeContents(file, INITIAL_MESSAGE);
-        }
-        return file;
+    @Override
+    public void store(Voucher voucher) {
+        File file = fileManager.initializeFileWithContents(fileConfig.getVoucherRecord(), INITIAL_MESSAGE);
+        fileManager.writeContents(file, toContents(voucher));
     }
 
     private String toContents(Voucher voucher) {
@@ -73,13 +68,5 @@ public class FileVouchers implements VoucherWarehouse {
         String voucherType = voucher.getClass().getSimpleName();
         long ratio = voucher.getFixedDiscountRatio().getRatio();
         return String.format(MESSAGE_FORMAT, voucherType, ratio + "%");
-    }
-
-    private void writeContents(File file, String contents) {
-        try (FileWriter writer = new FileWriter(file, true)) {
-            writer.append(contents).append(System.lineSeparator());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

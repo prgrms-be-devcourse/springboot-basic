@@ -1,3 +1,4 @@
 Voucher Type        , Amount/Ratio        
 ----------------------------------------
-FixedAmountVoucher  , 34000               
+FixedAmountVoucher  , 333                 
+PercentDiscountVoucher, 34%                 

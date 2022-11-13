@@ -20,7 +20,6 @@ public class VoucherManagementApp implements CommandLineRunner {
     }
 
     public static void main(String[] args) {
-        log.info("logger {} -> ", log.getName());
         SpringApplication.run(VoucherManagementApp.class, args);
     }
 

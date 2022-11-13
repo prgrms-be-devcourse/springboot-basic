@@ -20,7 +20,7 @@ class FileVouchersTest {
     private static final String FILE_PATH = "src/main/resources/";
 
     ApplicationContext applicationContext = new AnnotationConfigApplicationContext(VoucherManagementApp.class);
-    VoucherWarehouse voucherWarehouse = new FileVouchers(applicationContext.getBean(FileConfig.class));
+    VoucherWarehouse voucherWarehouse = new FileVouchers(applicationContext.getBean(FileConfig.class), fileManager);
 
     @DisplayName("파일이 지정한 위치에 정상 생성 되는지 확인")
     @Test
