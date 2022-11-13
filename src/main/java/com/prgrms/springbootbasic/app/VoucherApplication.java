@@ -88,7 +88,7 @@ public class VoucherApplication {
         console.printChoosingVoucher();
         String voucherTypeInput = console.getInput();
         VoucherType voucherType = VoucherType.from(voucherTypeInput);
-        switch (voucherType){
+        switch (voucherType) {
             case FIXED_AMOUNT, PERCENT -> {
                 return voucherType;
             }

@@ -41,10 +41,6 @@ public class Console {
         return reader.read();
     }
 
-    public void printVoucherNotSupported() {
-        printer.printMessage(VOUCHER_NOT_SUPPORTED);
-    }
-
     public void printCommendNotSupported() {
         printer.printMessage(COMMAND_NOT_SUPPORTED);
     }
@@ -80,12 +76,12 @@ public class Console {
     }
 
     public void printVoucherList(List<Voucher> vouchers) {
-        if(vouchers.isEmpty()){
+        if (vouchers.isEmpty()) {
             printer.printMessage(VOUCHER_EMPTY_MESSAGE);
-        } else{
+        } else {
             vouchers
-                .forEach(voucher -> System.out.println(
-                    MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+                    .forEach(voucher -> System.out.println(
+                            MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
         }
     }
 }

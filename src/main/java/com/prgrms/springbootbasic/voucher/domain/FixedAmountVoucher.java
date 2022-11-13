@@ -41,7 +41,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public BigDecimal discount(int beforeDiscount) {
         BigDecimal afterDiscount = new BigDecimal(beforeDiscount - fixedAmount);
-        if(afterDiscount.compareTo(BigDecimal.ZERO) <= -1){
+        if (afterDiscount.compareTo(BigDecimal.ZERO) <= -1) {
             throw new IllegalStateException(ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT);
         }
         return afterDiscount;
