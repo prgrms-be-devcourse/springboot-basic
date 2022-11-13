@@ -39,32 +39,23 @@ public class FileVoucherRepository implements VoucherRepository {
         }catch (IllegalArgumentException e){
             logger.error("[voucher load fail]  파일에 가질 수 없는 값을 가지고 있는 열이 있어 불러오는데 실패했습니다. 잘못된 값이 있는지 확인해 주세요");
             storage.clear();
-//            e.printStackTrace();
-//            throw new IllegalStateException("파일에 가질 수 없는 값을 가지고 있는 열이 있습니다.");
         } catch (FileNotFoundException e) {
             logger.error("[voucher load fail] voucher_list.csv 파일을 찾을 수 없습니다. 확인해 주세요.");
-//            e.printStackTrace();
-//            throw new IllegalStateException("파일을 찾을 수 없습니다.");
         } catch (IOException e) {
             logger.error(e.getMessage());
-//            e.printStackTrace();
-//            throw new RuntimeException(e);
         }
     }
 
     private Voucher makeVoucherFromCsvValue(String[] strings) throws IllegalArgumentException{
-        UUID uuid = UUID.fromString(strings[0]);
+        UUID voucherId = UUID.fromString(strings[0]);
         long value = Long.parseLong(strings[1]);
         VoucherType voucherType = VoucherType.getTypeByName(strings[2]);
-        Voucher myVoucher = voucherCreator.createVoucher(voucherType, value);
-        return myVoucher;
+        return voucherCreator.createVoucher(voucherId,voucherType, value);
     }
 
     public FileVoucherRepository(VoucherCreator voucherCreator,
                                  @Value("${voucher.path}") String path,
                                  @Value("${voucher.append}") boolean append) {
-        logger.info("파일 입출력 경로: {}",path);
-        logger.info("파일 append 여부 : {}",append);
         this.voucherCreator = voucherCreator;
         csvReader = new CSVReader(path);
         csvWriter = new CSVWriter(path, append);

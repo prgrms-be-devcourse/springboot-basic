@@ -22,4 +22,13 @@ public class VoucherCreator {
         logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}",voucherType.name(),percentOrAmount);
         return newVoucher;
     }
+    public Voucher createVoucher(UUID voucherId,VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException{
+
+        Voucher newVoucher =  switch (voucherType){
+            case FIXED -> new FixedAmountVoucher(voucherId,percentOrAmount);
+            case PERCENT -> new PercentDiscountVoucher(voucherId,percentOrAmount);
+        };
+        logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}",voucherType.name(),percentOrAmount);
+        return newVoucher;
+    }
 }
