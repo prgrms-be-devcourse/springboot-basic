@@ -1,5 +1,7 @@
 package com.prgrms.springbootbasic.app;
 
+import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.VOUCHER_NOT_SUPPORTED;
+
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
@@ -85,7 +87,13 @@ public class VoucherApplication {
     private VoucherType getVoucherType() {
         console.printChoosingVoucher();
         String voucherTypeInput = console.getInput();
-        return VoucherType.from(voucherTypeInput);
+        VoucherType voucherType = VoucherType.from(voucherTypeInput);
+        switch (voucherType){
+            case FIXED_AMOUNT, PERCENT -> {
+                return voucherType;
+            }
+            default -> throw new InvalidVoucherTypeException(VOUCHER_NOT_SUPPORTED);
+        }
     }
 
     private String getAmount(VoucherType voucherType) {
