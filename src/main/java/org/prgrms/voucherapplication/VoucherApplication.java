@@ -3,7 +3,7 @@ package org.prgrms.voucherapplication;
 import org.prgrms.voucherapplication.common.VoucherException;
 import org.prgrms.voucherapplication.config.VoucherProperties;
 import org.prgrms.voucherapplication.controller.VoucherController;
-import org.prgrms.voucherapplication.utils.CsvFile;
+import org.prgrms.voucherapplication.utils.CsvFileService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -14,7 +14,7 @@ import org.springframework.core.io.Resource;
 import java.io.File;
 import java.io.IOException;
 
-import static org.prgrms.voucherapplication.utils.CsvFile.FILE_ERROR;
+import static org.prgrms.voucherapplication.utils.CsvFileService.FILE_ERROR;
 
 @Configuration
 @EnableConfigurationProperties(value = {VoucherProperties.class})
@@ -37,7 +37,7 @@ public class VoucherApplication {
 			throw new VoucherException(FILE_ERROR);
 		}
 
-		CsvFile csvfile = applicationContext.getBean(CsvFile.class);
+		CsvFileService csvfile = applicationContext.getBean(CsvFileService.class);
 		String blacklist = csvfile.readFileLines(file);
 
 		VoucherController voucherController = applicationContext.getBean(VoucherController.class);

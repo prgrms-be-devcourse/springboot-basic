@@ -13,9 +13,9 @@ import java.nio.file.Files;
 import java.util.List;
 
 @Component
-public class CsvFile {
+public class CsvFileService {
 
-    private final Logger logger = LoggerFactory.getLogger(CsvFile.class);
+    private final Logger logger = LoggerFactory.getLogger(CsvFileService.class);
     public static final String FILE_ERROR = "csv 파일 처리 과정에서 오류가 발생했습니다. 확인 후 프로그램을 재실행 시켜주세요.";
 
     public String readFileLines(File file) {
