@@ -5,7 +5,7 @@ import com.programmers.commandline.domain.voucher.entity.VoucherType;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
     private final UUID voucherId;
     private final Long percent;
     private final VoucherType vouchertype = VoucherType.PERCENT_DISCOUNT;

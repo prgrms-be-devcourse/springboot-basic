@@ -5,7 +5,7 @@ import com.programmers.commandline.domain.voucher.entity.VoucherType;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
     private final Long amount;
     private final VoucherType type = VoucherType.FIXED_AMOUNT;
     private final UUID voucherId;
