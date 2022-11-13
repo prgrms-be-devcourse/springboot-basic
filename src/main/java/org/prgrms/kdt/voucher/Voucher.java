@@ -10,4 +10,8 @@ public interface Voucher {
     }
 
     long getId();
+
+    String getType();
+
+    String getAmount();
 }

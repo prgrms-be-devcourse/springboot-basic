@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+@Profile("dev")
 @Repository
 public class InMemoryVoucherManager implements VoucherManager {
 
