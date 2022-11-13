@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -19,7 +20,10 @@ public class CustomerService {
 
     public List<Customer> findAllBlack() {
         try {
-            return customerRepository.findAllBlack();
+            return customerRepository.findAllBlack().stream()
+                .map(line -> line.split("   "))
+                .map(content -> new Customer(content[0], content[1]))
+                .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(FAIL_GET_BLACK);
         }

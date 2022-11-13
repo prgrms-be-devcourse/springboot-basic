@@ -46,6 +46,7 @@ public class VoucherProgram implements ApplicationRunner {
                         break;
                     case BLACKS:
                         checkEmptyBlack(customerService.findAllBlack());
+                        break;
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");

@@ -1,6 +1,5 @@
 package com.programmers.voucher.repository.customer;
 
-import com.programmers.voucher.model.customer.Customer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +18,9 @@ public class CustomerRepository {
         this.fileName = fileName;
     }
 
-    public List<Customer> findAllBlack() throws IOException{
+    public List<String> findAllBlack() throws IOException{
         BufferedReader buffer = new BufferedReader(new FileReader(fileName));
         return buffer.lines()
-                .map(line -> line.split("   "))
-                .map(content -> new Customer(content[0], content[1]))
                 .collect(Collectors.toList());
     }
 }
