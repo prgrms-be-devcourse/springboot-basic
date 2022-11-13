@@ -11,4 +11,5 @@ spring:
       on-profile: prod
 
 voucher:
+  file-path: src/voucherFile.csv
   blakclist-file-path: file:customer_blacklist.csv
