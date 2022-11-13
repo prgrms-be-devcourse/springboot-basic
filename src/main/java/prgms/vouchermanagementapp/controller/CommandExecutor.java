@@ -72,8 +72,7 @@ public class CommandExecutor {
             VoucherType voucherType = VoucherType.of(voucherTypeIndex);
             return Optional.of(voucherType);
         } catch (IllegalArgumentException exception) {
-            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
-            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
+            log.warn("VoucherTypeIndex Error: index ''{}'' is invalid!!!", voucherTypeIndex);
             ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
             return Optional.empty();
         }
