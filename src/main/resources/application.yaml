@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: release
+
+files:
+  customer-blacklist: src/main/resources/customer_blacklist.csv
+  voucherRecord: src/main/resources/voucher_record.csv

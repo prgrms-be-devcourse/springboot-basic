@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-@Profile("local")
+@Profile("dev")
 public class MemoryVouchers implements VoucherWarehouse {
 
     private static final Map<UUID, Voucher> vouchers = new HashMap<>();

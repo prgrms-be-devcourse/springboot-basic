@@ -1,7 +1,9 @@
 package prgms.vouchermanagementapp.voucher.warehouse;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
 import prgms.vouchermanagementapp.voucher.model.PercentDiscountVoucher;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
@@ -13,15 +15,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 @Component
-@Profile("dev")
+@Primary
+@Profile("release")
 public class FileVouchers implements VoucherWarehouse {
 
-    private static final String MESSAGE_FORMAT = "%-20s %-20s";
+    private static final String MESSAGE_FORMAT = "%-20s, %-20s";
     private static final String INITIAL_MESSAGE = String.format(MESSAGE_FORMAT, "Voucher Type", "Amount/Ratio")
             + System.lineSeparator()
             + "-".repeat(40);
-    private static final String FILE_PATH = "src/main/resources/";
-    private static final String FILE_NAME = "file_vouchers.txt";
+
+    private final FileConfig fileConfig;
+
+    public FileVouchers(FileConfig fileConfig) {
+        this.fileConfig = fileConfig;
+        System.out.println(fileConfig.getVoucherRecord());
+    }
 
     @Override
     public void store(Voucher voucher) {
@@ -31,12 +39,18 @@ public class FileVouchers implements VoucherWarehouse {
 
     @Override
     public VoucherRecord getVoucherRecord() {
-        return new FileVoucherRecord(FILE_PATH + FILE_NAME);
+        return new FileVoucherRecord(fileConfig.getVoucherRecord());
     }
 
     private File initializeFile() {
-        File file = new File(FILE_PATH, FILE_NAME);
+        File file = new File(fileConfig.getVoucherRecord());
         if (!file.exists()) {
+            try {
+                file.createNewFile();
+                System.out.println("created");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             writeContents(file, INITIAL_MESSAGE);
         }
         return file;

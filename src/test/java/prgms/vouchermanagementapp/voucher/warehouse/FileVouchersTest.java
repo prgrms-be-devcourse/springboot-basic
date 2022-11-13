@@ -3,6 +3,10 @@ package prgms.vouchermanagementapp.voucher.warehouse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import prgms.vouchermanagementapp.VoucherManagementApp;
+import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherCreationFactory;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
@@ -13,7 +17,8 @@ class FileVouchersTest {
 
     private static final String FILE_PATH = "src/main/resources/";
 
-    VoucherWarehouse voucherWarehouse = new FileVouchers();
+    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(VoucherManagementApp.class);
+    VoucherWarehouse voucherWarehouse = new FileVouchers(applicationContext.getBean(FileConfig.class));
 
     @DisplayName("파일이 지정한 위치에 정상 생성 되는지 확인")
     @Test
