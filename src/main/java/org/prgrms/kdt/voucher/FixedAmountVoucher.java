@@ -15,7 +15,7 @@ public class FixedAmountVoucher implements Voucher {
 
     private void validate(VoucherAmount amount) {
         if (!isValidAmount(amount)) {
-            throw new NumberFormatException("Please enter a value greater than or equal " + FIXED_AMOUNT_VOUCHER_MIN_VALUE  + "." + System.lineSeparator());
+            throw new NumberFormatException("Please enter a value greater than or equal " + FIXED_AMOUNT_VOUCHER_MIN_VALUE + "." + System.lineSeparator());
         }
     }
 

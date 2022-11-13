@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Profile({"local", "default"})
 @Repository
@@ -15,17 +14,17 @@ public class FileVoucherManager implements VoucherManager {
 
     private static Logger logger = LoggerFactory.getLogger(FileVoucherManager.class);
 
-    private static final String FILE_PATH = "src/main/resources/vouchers.txt";
+    private static final String FILE_PATH = "src/main/resources/vouchers.csv";
 
-    private final File file;
+    private final File vouchersCsv;
 
     public FileVoucherManager() {
-        this.file = createFile();
+        this.vouchersCsv = createFile();
     }
 
     @Override
     public void save(Voucher voucher) {
-        write(voucher, file);
+        write(voucher, vouchersCsv);
     }
 
     private static File createFile() {
@@ -50,9 +49,9 @@ public class FileVoucherManager implements VoucherManager {
     }
 
     private static void write(Voucher voucher, File file) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
             bufferedWriter.append(voucher.getType());
-            bufferedWriter.append(" ");
+            bufferedWriter.append(", ");
             bufferedWriter.append(voucher.getAmount());
             bufferedWriter.append(System.lineSeparator());
         } catch (IOException exception) {
@@ -63,13 +62,14 @@ public class FileVoucherManager implements VoucherManager {
 
     @Override
     public List<Voucher> findAll() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(vouchersCsv))) {
             return bufferedReader.lines()
-                    .map(line -> line.split(" "))
+                    .map(line -> line.split(", "))
                     .map(t -> Voucher.newInstance(VoucherType.of(t[0]), new VoucherAmount(t[1])))
                     .toList();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Cannot find file. Please check there is file those name is {}", vouchersCsv.getName());
+            throw new RuntimeException("File Read Error");
         }
     }
 }

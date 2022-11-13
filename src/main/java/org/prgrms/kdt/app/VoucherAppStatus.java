@@ -1,7 +1,7 @@
 package org.prgrms.kdt.app;
 
 
-public class VoucherControllerStatus {
+public class VoucherAppStatus {
     private boolean status = true;
 
     public boolean isRunning() {
