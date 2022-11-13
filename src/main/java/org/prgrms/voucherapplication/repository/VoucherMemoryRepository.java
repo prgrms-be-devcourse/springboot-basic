@@ -1,13 +1,14 @@
 package org.prgrms.voucherapplication.repository;
 
 import org.prgrms.voucherapplication.entity.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-//@Profile("dev")
+@Profile("dev")
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository{
 
