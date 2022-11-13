@@ -63,9 +63,16 @@ public class VoucherController {
     public void create() {
         VoucherType voucherType = getVoucherType();
 
-        String discount = input.command();
-
-        Voucher voucher = voucherType.createVoucher(Integer.parseInt(discount));
+        String discount;
+        Voucher voucher;
+        try {
+            discount = input.command();
+            voucher = voucherType.createVoucher(Integer.parseInt(discount));
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage());
+            discount = input.command();
+            voucher = voucherType.createVoucher(Integer.parseInt(discount));
+        }
         voucherService.create(voucher);
     }
 
@@ -74,8 +81,17 @@ public class VoucherController {
         String voucherNames = VoucherType.getNames();
         output.display(voucherNames);
         String voucherNameInput = input.command();
+        VoucherType voucherType;
 
-        VoucherType voucherType = VoucherType.of(voucherNameInput);
+        try {
+            voucherType = VoucherType.of(voucherNameInput);
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage());
+            output.display(voucherNames);
+            voucherNameInput = input.command();
+            voucherType = VoucherType.of(voucherNameInput);
+        }
+
         output.display(voucherType.getDiscountGuide());
         return voucherType;
     }
