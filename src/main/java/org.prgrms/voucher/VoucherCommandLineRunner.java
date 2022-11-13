@@ -3,14 +3,17 @@ package org.prgrms.voucher;
 import static org.prgrms.voucher.MenuType.CREATE;
 import static org.prgrms.voucher.MenuType.EXIT;
 
+import java.io.IOException;
 import java.util.List;
 import org.prgrms.console.Console;
 import org.prgrms.exception.NoSuchMenuTypeException;
+import org.prgrms.memory.CustomerBlackListFileMemory;
+import org.prgrms.memory.Memory;
 import org.prgrms.voucher.discountType.Amount;
 
 import org.prgrms.voucher.voucherType.Voucher;
 import org.prgrms.voucher.voucherType.VoucherType;
-import org.prgrms.voucherMemory.VoucherMemory;
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +23,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherCommandLineRunner implements CommandLineRunner {
 
-  Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
+  private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineRunner.class);
 
   private final Console console;
 
-  private final VoucherMemory voucherMemory;
+  private final Memory voucherMemory;
 
-  public VoucherCommandLineRunner(Console console, VoucherMemory voucherMemory) {
+  private final CustomerBlackListFileMemory blackListFileMemory;
+
+  public VoucherCommandLineRunner(Console console, Memory voucherMemory,
+      CustomerBlackListFileMemory blackListFileMemory) {
     this.console = console;
     this.voucherMemory = voucherMemory;
+    this.blackListFileMemory = blackListFileMemory;
   }
 
   @Override
@@ -42,14 +49,14 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
           voucherProgramStatus.stop();
         }
 
-      } catch (RuntimeException e) {
+      } catch (RuntimeException | IOException e) {
         console.printErrorMsg(e.getMessage());
-        logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
+        logger.error("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
     }
   }
 
-  private MenuType execute() {
+  private MenuType execute() throws IOException {
     MenuType menu = MenuType.of(console.chooseMenu());
     logger.info("Menu : {}", menu);
 
@@ -66,10 +73,15 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
       }
 
       case LIST -> {
-        List<Voucher> voucherList = voucherMemory.findAll();
+        List<String> voucherList = voucherMemory.findAll();
         console.printVoucherList(voucherList);
         logger.info("voucherList: {}", voucherList);
         return MenuType.LIST;
+      }
+
+      case BLACK -> {
+        console.printBlackList(showCustomerBlackList());
+        return MenuType.BLACK;
       }
 
       default ->
@@ -88,7 +100,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
         Amount amount = voucherType.generateAmount(inputAmount);
 
         return voucherMemory.save(voucherType.generateVoucher(amount));
-      } catch (RuntimeException e) {
+      } catch (RuntimeException | IOException e) {
         console.printErrorMsg(e.getMessage());
         logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
@@ -102,6 +114,12 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
   private boolean isExit(MenuType menuType) {
     return menuType == EXIT;
+  }
+
+  private List<String> showCustomerBlackList() throws IOException {
+    List<String> blacklist = blackListFileMemory.findAll();
+    logger.info("customer_blacklist: {}", blacklist);
+    return blacklist;
   }
 
 }

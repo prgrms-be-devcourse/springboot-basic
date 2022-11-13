@@ -14,7 +14,8 @@ public class Console {
       === Voucher Program ===
       Type exit to exit the program.
       Type create to create a new voucher.
-      Type list to list all vouchers.""";
+      Type list to list all vouchers.
+      Type black to search the customer blacklist""";
   private final static String CHOOSE_VOUCHER_TYPE = """
       === Please select a voucher type(numbers only) ===
       1.FixedAmountVoucher
@@ -54,11 +55,15 @@ public class Console {
     System.out.println(voucher);
   }
 
-  public void printVoucherList(List<Voucher> voucherList) {
+  public void printVoucherList(List<String> voucherList) {
     voucherList.forEach(System.out::println);
   }
 
   public void printErrorMsg(String error) {
     System.out.println(error);
+  }
+
+  public void printBlackList(List<String> blacklist) {
+    blacklist.forEach(System.out::println);
   }
 }
