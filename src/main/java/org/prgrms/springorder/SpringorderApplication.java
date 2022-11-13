@@ -10,10 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication
 public class SpringorderApplication implements CommandLineRunner {
 
-	private final CommandLineApp voucherController;
+	private final CommandLineApp commandLineApp;
 
 	public SpringorderApplication(CommandLineApp voucherController) {
-		this.voucherController = voucherController;
+		this.commandLineApp = voucherController;
 	}
 
 	public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class SpringorderApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		voucherController.run();
+		commandLineApp.run();
 	}
 }
 
