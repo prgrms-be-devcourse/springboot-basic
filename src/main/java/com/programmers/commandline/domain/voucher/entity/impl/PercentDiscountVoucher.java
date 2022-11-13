@@ -9,6 +9,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final Long percent;
     private final VoucherType vouchertype = VoucherType.PERCENT_DISCOUNT;
+    private final String amountUnit = "%";
 
     public PercentDiscountVoucher(UUID voucherId, Long percent) {
         this.voucherId = voucherId;
@@ -33,5 +34,10 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public Long getDiscount() {
         return this.percent;
+    }
+
+    @Override
+    public String getAmountUnit() {
+        return this.amountUnit;
     }
 }

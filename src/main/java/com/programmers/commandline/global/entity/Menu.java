@@ -1,6 +1,6 @@
 package com.programmers.commandline.global.entity;
 
-import com.programmers.commandline.global.factory.LoggerFactory;
+import com.programmers.commandline.global.aop.LogAspect;
 
 import java.util.Arrays;
 
@@ -20,7 +20,7 @@ public enum Menu {
     }
 
     public static Menu ofMenu(String input) { // exit, create, list -> 123asfdewt
-        LoggerFactory.getLogger().info("Menu selectMenu 실행");
+        LogAspect.getLogger().info("Menu selectMenu 실행");
         int code = toCode(input);
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.code == code)
@@ -30,7 +30,7 @@ public enum Menu {
     }
 
     private static int toCode(String input) {
-        LoggerFactory.getLogger().info("Menu toCode 실행");
+        LogAspect.getLogger().info("Menu toCode 실행");
         try {
             return Integer.parseInt(input);
         } catch (RuntimeException e) {

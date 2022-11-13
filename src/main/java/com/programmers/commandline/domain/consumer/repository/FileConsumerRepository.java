@@ -1,7 +1,7 @@
 package com.programmers.commandline.domain.consumer.repository;
 
 import com.programmers.commandline.domain.consumer.entity.Cousumer;
-import com.programmers.commandline.global.factory.LoggerFactory;
+import com.programmers.commandline.global.aop.LogAspect;
 import com.programmers.commandline.global.io.Message;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -28,7 +28,7 @@ public class FileConsumerRepository {
     }
 
     public List<Cousumer> findAll() {
-        LoggerFactory.getLogger().info("FileConsumerRepository findAll 실행");
+        LogAspect.getLogger().info("FileConsumerRepository findAll 실행");
         try {
             FileReader fileReader = new FileReader(file);
 
@@ -43,7 +43,7 @@ public class FileConsumerRepository {
             }
             return memory;
         } catch (IOException e) {
-            LoggerFactory.getLogger().error("FileConsumerRepository findAll 에러 발생");
+            LogAspect.getLogger().error("FileConsumerRepository findAll 에러 발생");
             throw new IllegalArgumentException(Message.COUSUMER_FILE_READ_ERROR.getMessage());
         }
     }
