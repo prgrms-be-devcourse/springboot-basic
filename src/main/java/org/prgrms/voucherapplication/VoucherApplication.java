@@ -15,16 +15,14 @@ import org.springframework.core.io.Resource;
 @SpringBootApplication
 public class VoucherApplication {
 
-
-
 	public static void main(String[] args) {
 		SpringApplication springApplication = new SpringApplication(VoucherApplication.class);
 		springApplication.setAdditionalProfiles("prod");
 		ApplicationContext applicationContext = springApplication.run(args);
 
 		VoucherProperties voucherProperties = applicationContext.getBean(VoucherProperties.class);
-		String filePath = voucherProperties.getFilePath();
-		Resource resource = applicationContext.getResource(filePath);
+		String blacklistFilePath = voucherProperties.getBlacklistFilePath();
+		Resource resource = applicationContext.getResource(blacklistFilePath);
 
 		CsvFile csvfile = applicationContext.getBean(CsvFile.class);
 		String blacklist = csvfile.readFileLines(resource);

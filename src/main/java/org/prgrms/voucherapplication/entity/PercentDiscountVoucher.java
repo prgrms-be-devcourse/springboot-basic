@@ -1,17 +1,21 @@
 package org.prgrms.voucherapplication.entity;
 
 import org.prgrms.voucherapplication.common.VoucherException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher{
 
+    private final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final String PERCENT_NOT_100 = "할인 퍼센트는 100% 이하만 가능합니다.";
 
     public PercentDiscountVoucher(UUID uuid, int percent) {
         super(uuid, percent);
 
         if (percent > 100) {
+            logger.error(PERCENT_NOT_100);
             throw new VoucherException(PERCENT_NOT_100);
         }
     }
