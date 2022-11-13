@@ -29,12 +29,15 @@ public class VoucherControllerTest {
     static final String description = "=== Voucher Program ===\n" +
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.";
+            "Type list to list all vouchers.\n" +
+            "Type blacklist to list all customer_blacklist.";
+
+    static final String filePath = "file:customer_blacklist.csv";
 
     @BeforeAll
     static void constructor() {
         Console console = new Console();
-        voucherProperties = new VoucherProperties(description);
+        voucherProperties = new VoucherProperties(description, filePath);
         voucherController = new VoucherController(console, console, voucherService, voucherProperties);
     }
 
@@ -65,9 +68,9 @@ public class VoucherControllerTest {
         class whenCreate {
             Stream<Arguments> createParam() {
                 return Stream.of(
-                        Arguments.of("create\n", "고정금액\n", "100\n", "exit"),
-                        Arguments.of("CREATE\n", "퍼센트\n", "5\n", "EXit"),
-                        Arguments.of("CReAtE\n", "퍼센트\n", "10\n", "eXIT")
+                        Arguments.of("create\n", "fixed\n", "100\n", "exit"),
+                        Arguments.of("CREATE\n", "percent\n", "5\n", "EXit"),
+                        Arguments.of("CReAtE\n", "percent\n", "10\n", "eXIT")
                 );
             }
 
@@ -94,8 +97,8 @@ public class VoucherControllerTest {
 
             Stream<Arguments> voucherName() {
                 return Stream.of(
-                        Arguments.of("고정금액", "FIXED"),
-                        Arguments.of("퍼센트", "PERCENT")
+                        Arguments.of("fixed", "FIXED"),
+                        Arguments.of("percent", "PERCENT")
                 );
             }
 
@@ -140,6 +143,30 @@ public class VoucherControllerTest {
 
                 voucherController.start();
                 // 종료 테스트는 어떻게 할 수 있을까요?
+            }
+        }
+
+        @Nested
+        @DisplayName("blacklist를 입력하면")
+        class blacklist {
+            @Test
+            @DisplayName("블랙리스트 파일의 내용이 콘솔에 출력된다.")
+            void thenPrint() {
+                OutputStream outputStream = new ByteArrayOutputStream();
+                System.setOut(new PrintStream(outputStream));
+
+                InputStream in = new SequenceInputStream(new ByteArrayInputStream("blacklist\n".getBytes()), new ByteArrayInputStream("exit".getBytes()));
+                System.setIn(in);
+
+                String blacklist = "1. 김영빈\n" +
+                        "2. 장주영\n" +
+                        "3. 이동준\n" +
+                        "4. 김기웅\n";
+                voucherController.init(blacklist);
+
+                voucherController.start();
+
+                assertThat(outputStream.toString()).contains(blacklist);
             }
         }
     }
