@@ -32,44 +32,40 @@ public class CommandLineApplication implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         while (isRunning) {
-            //output 책임
             console.showMenu();
-            String myString = console.getInputWithPrompt("");
-            try {
-                executeMenuByInput(myString);
-            } catch (IllegalArgumentException e) {
-                logger.error(e.getMessage());
-                console.showError(e);
-            }
+            String userInput = console.getInputWithPrompt("type :");
+            selectMenuByInput(userInput);
         }
     }
 
-    //분기하는 책임
-    private CommandType executeMenuByInput(String myString) throws IllegalArgumentException {
+    private CommandType selectMenuByInput(String menu) {
 
-        CommandType commandType = CommandType.getTypeByName(myString);
-        switch (commandType) {
-            case EXIT -> {
-                //종료하는 책임
-                logger.info("종료 로직");
-                exitProgram();
+        try {
+            CommandType commandType = CommandType.getTypeByName(menu);
+            switch (commandType) {
+                case EXIT -> {
+                    logger.info("종료 로직");
+                    exitProgram();
+                }
+                case CREATE -> {
+                    logger.info("create 로직");
+                    createVoucher();
+                }
+                case LIST -> {
+                    logger.info("List 로직");
+                    showVoucherList();
+                }
+                case BLACK -> {
+                    logger.info("블랙리스트 로직");
+                    showBlackList();
+                }
             }
-            case CREATE -> {
-                //생성하는 책임
-                logger.info("create 로직");
-                createVoucher();
-            }
-            case LIST -> {
-                //list를 보여주는 책임
-                logger.info("List 로직");
-                showVoucherList();
-            }
-            case BLACK -> {
-                logger.info("블랙리스트 로직");
-                showBlackList();
-            }
+            return commandType;
+        } catch (IllegalArgumentException e) {
+            logger.error(e.getMessage());
+            console.showError(e);
+            return CommandType.ERROR;
         }
-        return commandType;
 
     }
 
@@ -99,7 +95,6 @@ public class CommandLineApplication implements ApplicationRunner {
         List<Voucher> voucherList = voucherService.getAllVoucherList();
         console.showVoucherList(voucherList);
     }
-
 
 
 }
