@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class PercentVoucherFactory implements VoucherFactory {
     @Override
-    public Voucher createVoucher(VoucherType VoucherType, int discountAmount) {
-        return new PercentVoucher(VoucherType.getInputValue(), discountAmount);
+    public Voucher createVoucher(int discountAmount) {
+        return new PercentVoucher(discountAmount);
     }
 
     @Override

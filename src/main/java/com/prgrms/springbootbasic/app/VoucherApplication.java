@@ -66,9 +66,6 @@ public class VoucherApplication {
 
     private void list() {
         List<Voucher> vouchers = voucherManager.list();
-        if (vouchers.isEmpty()) {
-            console.printEmptyVoucher();
-        }
         console.printVoucherList(vouchers);
         logger.info("List up all Vouchers.");
     }

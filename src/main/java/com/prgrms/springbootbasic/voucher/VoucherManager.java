@@ -23,7 +23,7 @@ public class VoucherManager {
 
     public void create(VoucherType voucherType, String amountInput) {
         VoucherFactory voucherFactory = voucherFactoryMap.get(voucherType);
-        Voucher voucher = voucherFactory.requestVoucher(voucherType, amountInput);
+        Voucher voucher = voucherFactory.requestVoucher(amountInput);
         voucherStorage.save(voucher);
     }
 

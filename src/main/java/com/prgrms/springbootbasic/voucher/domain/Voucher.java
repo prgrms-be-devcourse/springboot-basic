@@ -4,9 +4,7 @@ import java.util.UUID;
 
 public interface Voucher {
 
-    void validate(String voucherType, int discountAmount);
-
-    String getVoucherType();
+    void validate(int discountAmount);
 
     UUID getUUID();
 

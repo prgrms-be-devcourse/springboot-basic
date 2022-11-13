@@ -10,26 +10,19 @@ public class FixedAmountVoucher implements Voucher {
     private static final int MIN_AMOUNT_BOUNDARY = 1;
 
     private final UUID id;
-    private final String voucherType;
     private final int fixedAmount;
 
-    public FixedAmountVoucher(String voucherType, int fixedAmount) {
-        validate(voucherType, fixedAmount);
+    public FixedAmountVoucher(int fixedAmount) {
+        validate(fixedAmount);
         this.id = UUID.randomUUID();
-        this.voucherType = voucherType;
         this.fixedAmount = fixedAmount;
     }
 
     @Override
-    public void validate(String voucherType, int discountAmount) {
+    public void validate(int discountAmount) {
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {
-            throw new AmountOutOfBoundException(voucherType, MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
+            throw new AmountOutOfBoundException(this.getClass().getSimpleName(), MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
         }
-    }
-
-    @Override
-    public String getVoucherType() {
-        return voucherType;
     }
 
     @Override

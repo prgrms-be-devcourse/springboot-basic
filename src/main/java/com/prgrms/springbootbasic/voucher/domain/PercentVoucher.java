@@ -14,27 +14,20 @@ public class PercentVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentVoucher.class);
 
     UUID id;
-    String voucherType;
     int percent;
 
-    public PercentVoucher(String voucherType, int percent) {
-        validate(voucherType, percent);
+    public PercentVoucher(int percent) {
+        validate(percent);
         this.id = UUID.randomUUID();
-        this.voucherType = voucherType;
         this.percent = percent;
     }
 
     @Override
-    public void validate(String voucherType, int discountAmount) {
+    public void validate(int discountAmount) {
         logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {
-            throw new AmountOutOfBoundException(voucherType, MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
+            throw new AmountOutOfBoundException(this.getClass().getSimpleName(), MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
         }
-    }
-
-    @Override
-    public String getVoucherType() {
-        return voucherType;
     }
 
     @Override

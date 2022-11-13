@@ -80,12 +80,12 @@ public class Console {
     }
 
     public void printVoucherList(List<Voucher> vouchers) {
-        vouchers
+        if(vouchers.isEmpty()){
+            printer.printMessage(VOUCHER_EMPTY_MESSAGE);
+        } else{
+            vouchers
                 .forEach(voucher -> System.out.println(
-                        MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getVoucherType(), voucher.getDiscountRate())));
-    }
-
-    public void printEmptyVoucher() {
-        printer.printMessage(VOUCHER_EMPTY_MESSAGE);
+                    MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+        }
     }
 }

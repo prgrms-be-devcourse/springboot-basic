@@ -11,10 +11,10 @@ public interface VoucherFactory {
 
     Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
-    default Voucher requestVoucher(VoucherType voucherType, String discountAmountInput) {
+    default Voucher requestVoucher(String discountAmountInput) {
         validate(discountAmountInput);
         int discountAmount = parseAmount(discountAmountInput);
-        return createVoucher(voucherType, discountAmount);
+        return createVoucher(discountAmount);
     }
 
     default void validate(String amountInput) {
@@ -31,7 +31,7 @@ public interface VoucherFactory {
         return Integer.parseInt(discountAmount);
     }
 
-    Voucher createVoucher(VoucherType voucherType, int discountAmount);
+    Voucher createVoucher(int discountAmount);
 
     VoucherType getType();
 }
