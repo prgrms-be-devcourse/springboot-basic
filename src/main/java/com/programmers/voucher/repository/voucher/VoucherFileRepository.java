@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
@@ -44,23 +44,15 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = new ArrayList<>();
         try (BufferedReader buffer = new BufferedReader(new FileReader(fileName))) {
-            String content;
-            while ((content = buffer.readLine()) != null) {
-                vouchers.add(toVoucher(content));
-            }
+            return buffer.lines()
+                    .map(line -> line.split("\t"))
+                    .map(content -> VoucherType.toVoucherTypeByName(content[0])
+                            .convertToVoucher(UUID.fromString(content[1]),
+                                    Long.parseLong(content[2].substring(0, content[2].length() - 2))))
+                    .collect(Collectors.toList());
         } catch (IOException e1) {
             throw new RuntimeException(FAIL_GET_VOUCHER);
         }
-        return vouchers;
-    }
-
-    private Voucher toVoucher(String content) {
-        String[] contents = content.split("\t");
-        VoucherType voucherType = VoucherType.toVoucherTypeByName(contents[0]);
-        long discountValue = Long.parseLong(contents[2].substring(0, contents[2].length() - 2));
-        Voucher voucher = voucherType.convertToVoucher(UUID.fromString(contents[1]), discountValue);
-        return voucher;
     }
 }
