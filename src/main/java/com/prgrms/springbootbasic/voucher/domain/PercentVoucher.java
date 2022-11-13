@@ -1,6 +1,9 @@
 package com.prgrms.springbootbasic.voucher.domain;
 
+import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT;
+
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
+import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,5 +41,14 @@ public class PercentVoucher implements Voucher {
     @Override
     public int getDiscountRate() {
         return percent;
+    }
+
+    @Override
+    public BigDecimal discount(int beforeDiscount) {
+        BigDecimal afterDiscount = new BigDecimal(beforeDiscount * (1 - (percent / 100)));
+        if(afterDiscount.compareTo(BigDecimal.ZERO) <= -1){
+            throw new IllegalStateException(ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT);
+        }
+        return afterDiscount;
     }
 }

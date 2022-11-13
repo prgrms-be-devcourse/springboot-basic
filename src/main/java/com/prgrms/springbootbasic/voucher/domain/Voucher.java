@@ -1,5 +1,6 @@
 package com.prgrms.springbootbasic.voucher.domain;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public interface Voucher {
@@ -9,4 +10,6 @@ public interface Voucher {
     UUID getUUID();
 
     int getDiscountRate();
+
+    BigDecimal discount(int beforeDiscount);
 }
