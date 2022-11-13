@@ -1,9 +1,13 @@
 package com.prgrms.springbootbasic.app;
 
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
+import com.prgrms.springbootbasic.common.exception.FatalFileIOException;
+import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
 import com.prgrms.springbootbasic.console.Console;
+import com.prgrms.springbootbasic.user.blacklist.BlacklistManager;
+import com.prgrms.springbootbasic.user.domain.User;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import com.prgrms.springbootbasic.voucher.VoucherManager;
 import com.prgrms.springbootbasic.voucher.VoucherType;
@@ -19,14 +23,17 @@ public class VoucherApplication {
 
     private final VoucherManager voucherManager;
 
+    private final BlacklistManager blacklistManager;
+
     private final Console console;
 
     private final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
 
     private ApplicationStatus applicationStatus;
 
-    public VoucherApplication(VoucherManager voucherManager, Console console) {
+    public VoucherApplication(VoucherManager voucherManager, BlacklistManager blacklistManager, Console console) {
         this.voucherManager = voucherManager;
+        this.blacklistManager = blacklistManager;
         this.console = console;
     }
 
@@ -54,23 +61,37 @@ public class VoucherApplication {
             case EXIT -> exit();
             case CREATE -> create();
             case LIST -> list();
+            case BLACKLIST -> blacklist();
             default -> console.printCommendNotSupported();
+        }
+    }
+
+    private void blacklist() {
+        try{
+            List<User> blacklist = blacklistManager.list();
+            console.printBlackList(blacklist);
+            logger.info("List up all blacked users.");
+        } catch(FatalFileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
         }
     }
 
     private void exit() {
         applicationStatus.exit();
         console.printExitMessage();
-        logger.info("Exit Voucher application successfully.");
+        logger.info("Exit Voucher application.");
     }
 
     private void list() {
-        List<Voucher> vouchers = voucherManager.list();
-        if (vouchers.isEmpty()) {
-            console.printEmptyVoucher();
+        try{
+            List<Voucher> vouchers = voucherManager.list();
+            console.printVoucherList(vouchers);
+            logger.info("List up all Vouchers.");
+        } catch(FatalFileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
         }
-        console.printVoucherList(vouchers);
-        logger.info("List up all Vouchers.");
     }
 
     private void create() {
@@ -82,6 +103,9 @@ public class VoucherApplication {
             logger.info("New Voucher created.");
         } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
             console.printExceptionMessage(e.getMessage());
+        } catch(FatalFileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
         }
     }
 
