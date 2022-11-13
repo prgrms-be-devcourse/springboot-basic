@@ -57,11 +57,11 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
 
-        try {
-            FileReader fileReader = new FileReader(this.file);
+        try (
+                FileReader fileReader = new FileReader(this.file);
 
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-            System.out.println("여기");
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ) {
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
@@ -77,7 +77,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
                 voucherList.add(voucher);
             }
-
             return voucherList;
 
         } catch (IOException e) {
