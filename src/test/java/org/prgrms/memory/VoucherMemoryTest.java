@@ -1,4 +1,4 @@
-package org.prgrms.voucherMemory;
+package org.prgrms.memory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,11 +14,12 @@ import org.prgrms.voucher.voucherType.PercentDiscountVoucher;
 import org.prgrms.voucher.voucherType.Voucher;
 
 class VoucherMemoryTest {
-  private VoucherMemory voucherMemory;
+
+  private VoucherInMemory voucherMemory;
 
   @BeforeEach
   void setUp() {
-    voucherMemory = new VoucherMemory();
+    voucherMemory = new VoucherInMemory();
   }
 
   @DisplayName("save메소드는 save한 voucher를 리턴한다.")
@@ -47,7 +48,7 @@ class VoucherMemoryTest {
     }
 
     //when
-    List<Voucher> vouchers = voucherMemory.findAll();
+    List<String> vouchers = voucherMemory.findAll();
     //then
     assertEquals(VOUCHER_SIZE, vouchers.size());
 
@@ -57,7 +58,7 @@ class VoucherMemoryTest {
   @Test
   void withoutVoucher() {
     //when
-    List<Voucher> vouchers = voucherMemory.findAll();
+    List<String> vouchers = voucherMemory.findAll();
     //then
     assertTrue(vouchers.isEmpty());
   }
