@@ -2,7 +2,6 @@ package prgms.vouchermanagementapp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
@@ -23,7 +22,6 @@ public class CommandExecutor {
     private final VoucherManager voucherManager;
     private final RunningState runningState;
 
-    @Autowired
     public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;

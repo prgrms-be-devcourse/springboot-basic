@@ -1,6 +1,5 @@
 package prgms.vouchermanagementapp.voucher;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
@@ -13,7 +12,6 @@ public class VoucherManager {
 
     private final VoucherWarehouse voucherWarehouse;
 
-    @Autowired
     public VoucherManager(VoucherWarehouse voucherWarehouse) {
         this.voucherWarehouse = voucherWarehouse;
     }

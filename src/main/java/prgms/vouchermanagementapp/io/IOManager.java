@@ -1,6 +1,5 @@
 package prgms.vouchermanagementapp.io;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Amount;
@@ -18,7 +17,6 @@ public class IOManager {
     private final FileManager fileManager;
     private final FileConfig fileConfig;
 
-    @Autowired
     public IOManager(Reader reader, Writer writer, FileManager fileManager, FileConfig fileConfig) {
         this.reader = reader;
         this.writer = writer;
