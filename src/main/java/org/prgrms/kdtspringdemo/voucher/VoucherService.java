@@ -15,7 +15,6 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherCreator voucherCreator;
 
-//    private final VoucherValidator voucherValidator;
     @Autowired
     public VoucherService(VoucherRepository voucherRepository, VoucherCreator voucherCreator) {
         this.voucherRepository = voucherRepository;
@@ -24,10 +23,9 @@ public class VoucherService {
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow(()->
-                new RuntimeException(MessageFormat.format("Can not find a voucher for{0}", voucherId)));
+                new NullPointerException(MessageFormat.format("Can not find a voucher for{0}", voucherId)));
     }
-//    public void useVoucher(Voucher voucher) {
-//    }
+
     public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException{
         Voucher newVoucher= voucherCreator.createVoucher(voucherType,number);
         return voucherRepository.insert(newVoucher);

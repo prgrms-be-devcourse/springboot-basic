@@ -1,9 +1,3 @@
-#spring:
-#  profiles:
-#    group:
-#      "dev":""
-#      "prod":""
-
 ---
 spring:
   config:
