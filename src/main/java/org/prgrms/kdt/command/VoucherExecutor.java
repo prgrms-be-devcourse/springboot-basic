@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CommandExecutor {
+public class VoucherExecutor {
 
     private final VoucherManager voucherManager;
     private final VoucherMapper voucherMapper;
-    private static Logger logger = LoggerFactory.getLogger(CommandExecutor.class);
+    private static Logger logger = LoggerFactory.getLogger(VoucherExecutor.class);
 
-    public CommandExecutor(VoucherManager voucherManager, VoucherMapper voucherMapper) {
+    public VoucherExecutor(VoucherManager voucherManager, VoucherMapper voucherMapper) {
         this.voucherManager = voucherManager;
         this.voucherMapper = voucherMapper;
     }
