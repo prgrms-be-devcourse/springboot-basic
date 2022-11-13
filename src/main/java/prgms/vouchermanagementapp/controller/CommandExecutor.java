@@ -2,6 +2,7 @@ package prgms.vouchermanagementapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.blacklist.BlacklistManager;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
@@ -17,12 +18,14 @@ public class CommandExecutor {
 
     private final IOManager ioManager;
     private final VoucherManager voucherManager;
+    private final BlacklistManager blacklistManager;
     private final RunningState runningState;
 
     @Autowired
-    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
+    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager, BlacklistManager blacklistManager) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
+        this.blacklistManager = blacklistManager;
         this.runningState = new RunningState();
     }
 
@@ -46,6 +49,10 @@ public class CommandExecutor {
 
         if (commandType.is(CommandType.LIST)) {
             runList();
+        }
+
+        if (commandType.is(CommandType.BLACKLIST)) {
+            runBlacklist();
         }
     }
 
@@ -85,5 +92,9 @@ public class CommandExecutor {
 
     private void runList() {
         ioManager.notifyVouchers(voucherManager.findAllVouchers());
+    }
+
+    private void runBlacklist() {
+        ioManager.showBlacklist(blacklistManager.getBlacklistFilepath());
     }
 }

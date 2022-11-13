@@ -22,11 +22,13 @@ public class Writer {
     private static final String PROMPT_SIGNATURE = "> ";
 
     private static final String COMMAND_GUIDE =
-            "Type exit to exit the program."
+            "Type 'exit' to exit the program."
                     + System.lineSeparator()
-                    + "Type create to create a new voucher."
+                    + "Type 'create' to create a new voucher."
                     + System.lineSeparator()
-                    + "Type list to list all vouchers.";
+                    + "Type 'list' to list all vouchers."
+                    + System.lineSeparator()
+                    + "Type 'blacklist' to query all blacklists.";
 
     private static final String EXIT = "Terminating Application...";
     private static final String ERROR = "Error: ";
@@ -121,5 +123,16 @@ public class Writer {
             String prompt = index.incrementAndGet() + BLANK + voucher.getClass().toString();
             System.out.println(prompt);
         });
+    }
+
+    public void printFileContents(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

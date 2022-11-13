@@ -14,11 +14,13 @@ public class IOManager {
 
     private final Reader reader;
     private final Writer writer;
+    private final FileManager fileManager;
 
     @Autowired
-    public IOManager(Reader reader, Writer writer) {
+    public IOManager(Reader reader, Writer writer, FileManager fileManager) {
         this.reader = reader;
         this.writer = writer;
+        this.fileManager = fileManager;
     }
 
     public Optional<CommandType> askCommand() {
@@ -80,5 +82,9 @@ public class IOManager {
 
     public void notifyErrorOccurred(String errorMessage) {
         writer.printError(errorMessage);
+    }
+
+    public void showBlacklist(String blacklistFilepath) {
+        writer.printFileContents(fileManager.getFileByPath(blacklistFilepath));
     }
 }
