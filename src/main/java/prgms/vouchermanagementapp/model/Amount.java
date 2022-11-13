@@ -4,7 +4,7 @@ public class Amount {
 
     private final long amount;
 
-    public Amount(long amount) throws IllegalArgumentException {
+    public Amount(long amount) {
         if (amount < 0) {
             throw new IllegalArgumentException("Discount amount cannot be negative: " + amount);
         }
