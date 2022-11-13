@@ -3,6 +3,7 @@ package prgms.vouchermanagementapp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
@@ -35,7 +36,7 @@ public class CommandExecutor {
             try {
                 Optional<CommandType> commandType = CommandType.of(command);
                 commandType.ifPresent(this::executeCommand);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalCommandException e) {
                 log.warn("command input error occurred: {}", e.getMessage());
                 ioManager.notifyErrorOccurred(e.getMessage());
             }
@@ -43,22 +44,15 @@ public class CommandExecutor {
     }
 
     public void executeCommand(CommandType commandType) {
-        if (commandType.is(CommandType.EXIT)) {
-            runExit();
-            return;
-        }
-
-        if (commandType.is(CommandType.CREATE)) {
-            runCreate();
-            return;
-        }
-
-        if (commandType.is(CommandType.LIST)) {
-            runList();
-        }
-
-        if (commandType.is(CommandType.BLACKLIST)) {
-            runBlacklist();
+        switch (commandType) {
+            case EXIT -> runExit();
+            case CREATE -> runCreate();
+            case LIST -> runList();
+            case BLACKLIST -> runBlacklist();
+            default -> {
+                log.error("Error: commandType mismatch error occurred while executing command");
+                throw new RuntimeException();
+            }
         }
     }
 
