@@ -7,18 +7,18 @@ import org.springframework.boot.context.properties.ConstructorBinding;
 @ConfigurationProperties("voucher")
 public final class VoucherProperties {
     private final String description;
-    private final String filePath;
+    private final String blacklistFilePath;
 
-    public VoucherProperties(String description, String filePath) {
+    public VoucherProperties(String description, String blakclistFilePath) {
         this.description = description;
-        this.filePath = filePath;
+        this.blacklistFilePath = blakclistFilePath;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public String getFilePath() {
-        return filePath;
+    public String getBlacklistFilePath() {
+        return blacklistFilePath;
     }
 }
