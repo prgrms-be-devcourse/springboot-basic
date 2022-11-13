@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.blacklist.BlacklistManager;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
@@ -22,14 +21,12 @@ public class CommandExecutor {
 
     private final IOManager ioManager;
     private final VoucherManager voucherManager;
-    private final BlacklistManager blacklistManager;
     private final RunningState runningState;
 
     @Autowired
-    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager, BlacklistManager blacklistManager) {
+    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
-        this.blacklistManager = blacklistManager;
         this.runningState = new RunningState();
     }
 
@@ -77,8 +74,6 @@ public class CommandExecutor {
             VoucherType voucherType = VoucherType.of(voucherTypeIndex);
             return Optional.of(voucherType);
         } catch (IllegalArgumentException exception) {
-            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
-            log.warn("index ''{}'' is invalid!!!", voucherTypeIndex);
             ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
             return Optional.empty();
         }
@@ -101,6 +96,6 @@ public class CommandExecutor {
     }
 
     private void runBlacklist() {
-        ioManager.showBlacklist(blacklistManager.getBlacklistFilepath());
+        ioManager.showBlacklist();
     }
 }

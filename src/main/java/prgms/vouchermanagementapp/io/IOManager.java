@@ -2,6 +2,7 @@ package prgms.vouchermanagementapp.io;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
@@ -15,12 +16,14 @@ public class IOManager {
     private final Reader reader;
     private final Writer writer;
     private final FileManager fileManager;
+    private final FileConfig fileConfig;
 
     @Autowired
-    public IOManager(Reader reader, Writer writer, FileManager fileManager) {
+    public IOManager(Reader reader, Writer writer, FileManager fileManager, FileConfig fileConfig) {
         this.reader = reader;
         this.writer = writer;
         this.fileManager = fileManager;
+        this.fileConfig = fileConfig;
     }
 
     public Optional<CommandType> askCommand() {
@@ -84,7 +87,7 @@ public class IOManager {
         writer.printError(errorMessage);
     }
 
-    public void showBlacklist(String blacklistFilepath) {
-        writer.printFileContents(fileManager.getFileByPath(blacklistFilepath));
+    public void showBlacklist() {
+        writer.printFileContents(fileManager.getFileByPath(fileConfig.getCustomerBlacklist()));
     }
 }
