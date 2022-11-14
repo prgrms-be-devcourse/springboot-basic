@@ -23,7 +23,8 @@ public class ConsoleInput implements Input {
 		try {
 			input = reader.readLine();
 		} catch (IOException e) {
-
+			log.error(ExceptionMessage.IO.getMessage());
+			throw new RuntimeException(ExceptionMessage.IO.getMessage());
 		}
 		return input;
 	}

@@ -32,8 +32,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	private final VoucherFactory factory;
 
 	@Autowired
-	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath, VoucherFactory factory) throws
-		IOException {
+	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath, VoucherFactory factory) {
 		this.filePath = filePath;
 		this.factory = factory;
 	}
