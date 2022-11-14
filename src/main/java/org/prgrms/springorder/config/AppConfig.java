@@ -1,16 +1,20 @@
 package org.prgrms.springorder.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import javax.sql.DataSource;
 import org.prgrms.springorder.global.Console;
 import org.prgrms.springorder.global.ConsoleInput;
 import org.prgrms.springorder.global.ConsoleOutput;
 import org.prgrms.springorder.global.Input;
 import org.prgrms.springorder.global.Output;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @Configuration
 public class AppConfig {
@@ -29,5 +33,21 @@ public class AppConfig {
     public Console console() {
         return new Console(consoleInput(), consoleOutput());
     }
+
+    @Bean
+    public DataSource dataSource(JdbcProperties jdbcProperties) {
+        return DataSourceBuilder.create()
+            .url(jdbcProperties.getUrl())
+            .username(jdbcProperties.getUsername())
+            .password(jdbcProperties.getPassword())
+            .type(HikariDataSource.class)
+            .build();
+    }
+
+    @Bean
+    public NamedParameterJdbcTemplate jdbcTemplate(JdbcProperties jdbcProperties) {
+        return new NamedParameterJdbcTemplate(dataSource(jdbcProperties));
+    }
+
 
 }

@@ -1,44 +1,11 @@
 
 
-spring:
-  config:
-    activate:
-      on-profile: local
-
-
----
 
 spring:
-  config:
-    activate:
-      on-profile: dev
-
-file:
-  block-customer:
-    path: store/
-    stored-name: customer_blacklist
-    stored-extension: .csv
-
-  voucher:
-    path: store/
-    stored-name: voucher
-    stored-extension: .csv
+  profiles:
+    include:
+      - db
 
 
----
 
-spring:
-  config:
-    activate:
-      on-profile: file
 
-file:
-  block-customer:
-    path: store/
-    stored-name: customer_blacklist
-    stored-extension: .csv
-
-  voucher:
-    path: store/
-    stored-name: voucher
-    stored-extension: .csv
