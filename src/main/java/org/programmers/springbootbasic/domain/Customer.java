@@ -11,7 +11,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "id : " + id +", name : " + name;
+        return "id : " + id + ", name : " + name;
     }
 
     public long getId() {

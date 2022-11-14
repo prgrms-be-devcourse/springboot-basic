@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Component
-public class Console implements Input, Output{
+public class Console implements Input, Output {
 
     private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 

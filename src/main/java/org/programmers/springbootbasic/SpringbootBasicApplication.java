@@ -13,5 +13,4 @@ public class SpringbootBasicApplication {
         ApplicationContext applicationContext = new SpringApplication(SpringbootBasicApplication.class).run();
         applicationContext.getBean(VoucherManagementExecutor.class).run();
     }
-
 }

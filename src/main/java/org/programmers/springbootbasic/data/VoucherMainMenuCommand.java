@@ -21,12 +21,11 @@ public enum VoucherMainMenuCommand {
             .collect(Collectors.toMap(VoucherMainMenuCommand::getCommand, e -> e));
 
     private static VoucherMainMenuCommand filterNullInput(Optional<VoucherMainMenuCommand> optionalCommand) {
-        if(optionalCommand.isEmpty()) return VoucherMainMenuCommand.WRONG_INPUT;
+        if (optionalCommand.isEmpty()) return VoucherMainMenuCommand.WRONG_INPUT;
         else return optionalCommand.get();
     }
 
     public static VoucherMainMenuCommand valueOfCommand(String command) {
         return filterNullInput(Optional.ofNullable(BY_COMMAND.get(command)));
     }
-
 }

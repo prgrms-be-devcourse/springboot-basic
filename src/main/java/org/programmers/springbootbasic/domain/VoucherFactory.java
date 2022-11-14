@@ -12,7 +12,7 @@ import java.util.UUID;
  * Voucher가 추가될 경우 case 문에 추가해서 처리 가능.
  */
 @Component
-public class VoucherFactory{
+public class VoucherFactory {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
     public Voucher getVoucher(VoucherType type, long amount) throws WrongTypeInputException {

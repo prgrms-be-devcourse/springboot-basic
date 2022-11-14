@@ -22,7 +22,7 @@ public enum VoucherType {
             .collect(Collectors.toMap(VoucherType::getType, e -> e));
 
     private static VoucherType filterNullInput(Optional<VoucherType> optionalType) {
-        if(optionalType.isEmpty()) return VoucherType.WRONG_INPUT;
+        if (optionalType.isEmpty()) return VoucherType.WRONG_INPUT;
         else return optionalType.get();
     }
 

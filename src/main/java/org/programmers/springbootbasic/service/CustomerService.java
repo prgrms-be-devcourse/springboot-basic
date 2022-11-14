@@ -18,6 +18,4 @@ public class CustomerService {
     public List<Customer> loopUpBlackList() {
         return customerBlackListRepository.findAll();
     }
-
-
 }
