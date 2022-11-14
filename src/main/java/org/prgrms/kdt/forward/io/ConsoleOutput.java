@@ -1,14 +1,16 @@
 package org.prgrms.kdt.forward.io;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
+import org.springframework.stereotype.Component;
 
+import java.io.*;
+
+@Component
 public class ConsoleOutput implements Output {
 
     private final BufferedWriter writer;
 
-    public ConsoleOutput(BufferedWriter writer) {
-        this.writer = writer;
+    public ConsoleOutput() {
+        this.writer = new BufferedWriter(new OutputStreamWriter(System.out));
     }
 
     public void write(String string) {
