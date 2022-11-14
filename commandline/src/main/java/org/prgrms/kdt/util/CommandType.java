@@ -20,7 +20,7 @@ public enum CommandType {
         return Stream.of(values())
                 .filter(value -> value.command.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new WrongCommandException(ErrorCode.WRONG_COMMAND.getMessage()));
+                .orElseThrow(() -> new WrongCommandException(ErrorCode.WRONG_COMMAND_EXCEPTION.getMessage()));
     }
 }
 

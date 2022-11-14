@@ -4,7 +4,7 @@ import org.prgrms.kdt.domain.FixedAmountVoucher;
 import org.prgrms.kdt.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.NotFindVoucherTypeException;
+import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
 
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -24,7 +24,7 @@ public enum VoucherType {
         return switch (voucherType) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountDegree);
             case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), discountDegree);
-            default -> throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
+            default -> throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
         };
     }
 
@@ -32,7 +32,7 @@ public enum VoucherType {
         return Stream.of(values())
                 .filter(voucherType -> voucherType.typeValue.equals(type))
                 .findFirst()
-                .orElseThrow(() -> new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage()));
+                .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage()));
     }
 
     private static boolean isContainType(String type) {
@@ -42,7 +42,7 @@ public enum VoucherType {
 
     public static void checkType(String type) {
         if (!isContainType(type)) {
-            throw new NotFindVoucherTypeException(ErrorCode.NOT_FIND_VOUCHER_TYPE.getMessage());
+            throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
         }
     }
 }

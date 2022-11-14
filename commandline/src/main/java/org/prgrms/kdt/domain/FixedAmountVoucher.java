@@ -25,7 +25,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public void validate(long discountDegree) {
         if (discountDegree < MIN_AMOUNT) {
-            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
         }
     }
 

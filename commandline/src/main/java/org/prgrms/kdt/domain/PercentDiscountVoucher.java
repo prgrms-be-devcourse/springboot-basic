@@ -27,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public void validate(long discountDegree) {
         if (!(discountDegree > MIN_PERCENT && discountDegree < MAX_PERCENT)) {
-            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT.getMessage());
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
         }
     }
 
