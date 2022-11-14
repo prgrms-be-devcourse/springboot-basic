@@ -2,6 +2,7 @@ package com.programmers.commandline.domain.voucher.entity;
 
 import com.programmers.commandline.domain.voucher.entity.impl.FixedAmountVoucher;
 import com.programmers.commandline.domain.voucher.entity.impl.PercentDiscountVoucher;
+import com.programmers.commandline.global.io.Message;
 import com.programmers.commandline.global.util.Verification;
 
 import java.util.Arrays;
@@ -33,13 +34,12 @@ public enum VoucherType {
                 .filter(voucherMenu -> voucherMenu.code == code)
                 .findFirst()
                 .orElseThrow(() -> {
-                    throw new RuntimeException("잘못된 바우처를 선택하셨습니다.");
+                    throw new RuntimeException(Message.VOUCHER_MENU_ERROR.getMessage());
                 });
     }
 
     private static int toCode(String input) {
         Verification.validateParseToNumber(input);
-
         return Integer.parseInt(input);
     }
 

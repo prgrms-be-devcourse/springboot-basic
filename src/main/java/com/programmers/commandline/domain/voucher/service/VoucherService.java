@@ -18,25 +18,16 @@ public class VoucherService {
     }
     public UUID create(VoucherType voucherType, Long discount) {
         Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount);
-
         voucherRepository.save(voucher);
-
         return voucher.getVoucherId();
     }
 
     public String list() {
         StringBuilder sb = new StringBuilder();
-
         List<Voucher> findAll = voucherRepository.findAll();
 
         findAll.forEach(voucher ->{
-            sb.append("ID: " + voucher.getVoucherId() +
-                    " Type: " + voucher.getType().toString() +
-                    " discount: " + voucher.getDiscount()
-                    + voucher.getAmountUnit()
-            );
-
-            sb.append("\n");
+            sb.append(voucher.toString() + "\n");
         });
 
         return sb.toString();
