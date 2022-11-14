@@ -83,7 +83,7 @@ public class CommandExecutor {
     }
 
     private void runList() {
-        ioManager.notifyVouchers(voucherManager.findAllVouchers());
+        ioManager.showVoucherRecord(voucherManager.findAllVouchers());
     }
 
     private void runBlacklist() {

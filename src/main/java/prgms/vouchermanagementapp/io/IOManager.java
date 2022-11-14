@@ -68,7 +68,7 @@ public class IOManager {
         writer.printExitMessage();
     }
 
-    public void notifyVouchers(VoucherRecord voucherRecord) {
+    public void showVoucherRecord(VoucherRecord voucherRecord) {
         writer.printVoucherRecord(voucherRecord);
     }
 
