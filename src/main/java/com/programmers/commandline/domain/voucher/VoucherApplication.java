@@ -3,6 +3,7 @@ package com.programmers.commandline.domain.voucher;
 import com.programmers.commandline.domain.consumer.service.ConsumerService;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import com.programmers.commandline.domain.voucher.service.VoucherService;
+import com.programmers.commandline.global.aop.LogAspect;
 import com.programmers.commandline.global.entity.Menu;
 import com.programmers.commandline.global.entity.Power;
 import com.programmers.commandline.global.io.Console;
@@ -28,73 +29,54 @@ public class VoucherApplication {
         while (power.isPower()) {
             try {
                 console.print(Message.SELECT_MENU.getMessage());
-
-                String input = console.read(); // 여기서 에러 발생
-
+                String input = console.read();
                 Menu menu = Menu.ofMenu(input);
-
-                String answer = execute(menu);
-
-                console.print(answer);
+                execute(menu);
             } catch (RuntimeException e) {
-                console.print(e.getMessage());
+                LogAspect.getLogger().error(e.getMessage());
             }
-
         }
     }
 
-    private String execute(Menu menu) {
-        return switch (menu) {
+    private void execute(Menu menu) {
+        switch (menu) {
             case EXIT -> exit();
             case VOUCHER_CREATE -> create();
-            case VOUCHER_LIST -> vouchers();
-            case BLACK_CONSUMER_LIST -> blackConsumers();
+            case VOUCHER_LIST -> findVouchers();
+            case BLACK_CONSUMER_LIST -> findBlackConsumers();
             case ERROR -> error();
         };
     }
 
-    private String exit() {
+    private void exit() {
         power.powerOff();
-        return Message.EXIT.getMessage();
+        console.print(Message.EXIT.getMessage());
     }
 
-    private String create() {
+    private void create() {
         console.print(Message.SELECT_VOUCHER.getMessage());
 
         final String input = console.read();
+        VoucherType voucherType = VoucherType.ofNumber(input);
 
-        try {
-            VoucherType voucherType = VoucherType.ofNumber(input);
+        console.print(voucherType.getMessage());
 
-            console.print(voucherType.getMessage());
+        String discount = console.read();
+        Verification.validateParseToNumber(discount);
+        String uuid = voucherService.create(voucherType, Long.parseLong(discount)).toString();
 
-            String discount = console.read();
-
-            Verification.validateParseToNumber(discount);
-
-            return voucherService.create(voucherType, Long.parseLong(discount)).toString();
-        } catch (RuntimeException e) {
-            throw new RuntimeException("create에서 에러가 발생했습니다.");
-        }
+        console.print(uuid);
     }
 
-    private String error() {
-        return Message.MENU_ERROR.getMessage();
+    private void error() {
+        console.print(Message.MENU_ERROR.getMessage());
     }
 
-    private String blackConsumers() {
-        try {
-            return consumerService.findAll();
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
-        }
+    private void findBlackConsumers() {
+        console.print(consumerService.findAll());
     }
 
-    private String vouchers() {
-        try {
-            return voucherService.list();
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
-        }
+    private void findVouchers() {
+        console.print(voucherService.list());
     }
 }
