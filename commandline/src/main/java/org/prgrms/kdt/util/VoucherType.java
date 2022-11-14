@@ -7,29 +7,35 @@ import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
 
 import java.util.UUID;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1", "FixedAmountVoucher"),
-    PERCENTAGE("2", "PercentDiscountVoucher");
+    FIXED_AMOUNT("1", "FixedAmountVoucher", "amount", (uuid, discountDegree) -> new FixedAmountVoucher(uuid, discountDegree)),
+    PERCENTAGE("2", "PercentDiscountVoucher", "percent", (uuid, discountDegree) -> new PercentDiscountVoucher(uuid, discountDegree));
 
     private final String typeValue;
     private final String name;
+    private final String discountType;
+    private final BiFunction<UUID, Long, Voucher> voucherBiFunction;
 
     private static final int NOT_FOUND_RESULT = -1;
+    private static final String EQUAL = "=";
 
-    VoucherType(String typeValue, String name) {
+    private Voucher create(UUID uuid, long discountDegree) {
+        return this.voucherBiFunction.apply(uuid, discountDegree);
+    }
+
+    VoucherType(String typeValue, String name, String discountType, BiFunction<UUID, Long, Voucher> voucherBiFunction) {
         this.typeValue = typeValue;
         this.name = name;
+        this.discountType = discountType;
+        this.voucherBiFunction = voucherBiFunction;
     }
 
     public static Voucher createVoucher(String type, long discountDegree) {
-        VoucherType voucherType = VoucherType.selectVoucherType(type);
-        return switch (voucherType) {
-            case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountDegree);
-            case PERCENTAGE -> new PercentDiscountVoucher(UUID.randomUUID(), discountDegree);
-            default -> throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
-        };
+        VoucherType selectVoucherType = VoucherType.selectVoucherType(type);
+        return selectVoucherType.create(UUID.randomUUID(), discountDegree);
     }
 
     private static VoucherType selectVoucherType(String type) {
@@ -59,17 +65,6 @@ public enum VoucherType {
 
     public static Voucher createVoucherFromFile(VoucherType voucherType, String stringId, String stringDiscount) {
         UUID voucherId = UUID.fromString(stringId.replace("voucherId=", ""));
-
-        return switch (voucherType) {
-            case FIXED_AMOUNT -> {
-                long amount = Long.parseLong(stringDiscount.replace("amount=", "").trim());
-                yield new FixedAmountVoucher(voucherId, amount);
-            }
-            case PERCENTAGE -> {
-                long percent = Long.parseLong(stringDiscount.replace("percent=", "").trim());
-                yield new PercentDiscountVoucher(voucherId, percent);
-            }
-            default -> throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
-        };
+        return voucherType.create(voucherId, Long.parseLong(stringDiscount.replace(voucherType.discountType + EQUAL, "").trim()));
     }
 }

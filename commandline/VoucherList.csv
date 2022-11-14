@@ -1,3 +1,3 @@
-FixedAmountVoucher{voucherId=41fa1819-b46c-4acb-a0b9-f2c2f4e84861, amount=20}
-PercentDiscountVoucher{voucherId=3301d0d1-f595-4cde-97b9-396244b8614f, percent=30}
-PercentDiscountVoucher{voucherId=d43231c1-daf1-44e3-b13d-964fd7f0ea66, percent=90}
+FixedAmountVoucher{voucherId=6bb3fb92-624e-4b0a-a538-4d8a861c5767, amount=10}
+PercentDiscountVoucher{voucherId=6a01b221-988e-4bc9-b719-acf7c3e12906, percent=40}
+FixedAmountVoucher{voucherId=16d29762-60f8-4747-94f3-38d1d558c219, amount=20}
