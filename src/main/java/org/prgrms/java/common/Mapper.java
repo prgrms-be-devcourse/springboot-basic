@@ -8,6 +8,9 @@ import org.prgrms.java.domain.voucher.Voucher;
 import java.util.UUID;
 
 public class Mapper {
+    private Mapper() {
+    }
+
     public static Voucher mapToVoucher(String object) {
         String[] atoms = object.split(",");
         UUID voucherId = UUID.fromString(atoms[0].trim());
