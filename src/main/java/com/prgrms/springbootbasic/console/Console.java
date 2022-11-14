@@ -84,18 +84,18 @@ public class Console {
             printer.printMessage(VOUCHER_EMPTY_MESSAGE);
         } else {
             vouchers
-                .forEach(voucher -> System.out.println(
-                    MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+                    .forEach(voucher -> System.out.println(
+                            MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
         }
     }
 
     public void printBlackList(List<User> blacklist) {
-        if(blacklist.isEmpty()){
+        if (blacklist.isEmpty()) {
             printer.printMessage(BLACKLIST_EMPTY_MESSAGE);
-        } else{
+        } else {
             blacklist
-                .forEach(user -> System.out.println(
-                    MessageFormat.format(BLACKED_USER_MESSAGE, user.getId(), user.getName())));
+                    .forEach(user -> System.out.println(
+                            MessageFormat.format(BLACKED_USER_MESSAGE, user.getId(), user.getName())));
         }
     }
 }

@@ -40,14 +40,14 @@ public enum VoucherType {
                 });
     }
 
-    public static VoucherType fromClassName(String className){
+    public static VoucherType fromClassName(String className) {
         return Arrays.stream(values())
-            .filter(voucherType -> voucherType.className.equals(className))
-            .findFirst()
-            .orElseThrow(() -> {
-                logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
-                return new InvalidVoucherTypeException(
-                    MessageFormat.format("class name {0} doesn" + "'" + "t match.", className));
-            });
+                .filter(voucherType -> voucherType.className.equals(className))
+                .findFirst()
+                .orElseThrow(() -> {
+                    logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
+                    return new InvalidVoucherTypeException(
+                            MessageFormat.format("class name {0} doesn" + "'" + "t match.", className));
+                });
     }
 }
