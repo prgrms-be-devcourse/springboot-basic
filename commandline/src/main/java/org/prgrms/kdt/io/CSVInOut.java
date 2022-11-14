@@ -1,6 +1,9 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.FileInOutException;
+import org.prgrms.kdt.exception.FileNotFoundCustomException;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -10,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVInOut {
-
     private final String path;
 
     public CSVInOut(String path) {
@@ -18,8 +20,8 @@ public class CSVInOut {
         initFile(path);
     }
 
-    public List<String> readCSV() {
-        List<String> csvList = new ArrayList<>();
+    public List<Voucher> readCSV() {
+        List<Voucher> csvList = new ArrayList<>();
         File csv = new File(path);
         BufferedReader br = null;
         String line = "";
@@ -27,19 +29,18 @@ public class CSVInOut {
         try {
             br = new BufferedReader(new FileReader(csv));
             while ((line = br.readLine()) != null) {
-                csvList.add(line);
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
         } finally {
             try {
                 if (br != null) {
                     br.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
             }
         }
         return csvList;
@@ -56,9 +57,9 @@ public class CSVInOut {
             bw.write(data);
             bw.newLine();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
         } finally {
             try {
                 if (bw != null) {
@@ -66,7 +67,7 @@ public class CSVInOut {
                     bw.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
             }
         }
     }
@@ -77,7 +78,7 @@ public class CSVInOut {
             Files.deleteIfExists(filePath);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
         }
     }
 }

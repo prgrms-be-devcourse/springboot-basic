@@ -31,11 +31,6 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(storage.get(voucherId));
-    }
-
-    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
