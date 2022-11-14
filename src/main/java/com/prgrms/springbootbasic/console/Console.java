@@ -3,14 +3,16 @@ package com.prgrms.springbootbasic.console;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 
 import java.text.MessageFormat;
-import java.util.UUID;
+import java.util.List;
 
+import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Console {
 
-    private static final String COMMAND_NOT_SUPPORTER = "Command not supported yet.";
+    private static final String COMMAND_NOT_SUPPORTED = "Command not supported yet.";
+    private static final String VOUCHER_NOT_SUPPORTED = "Voucher not supported yet.";
     private static final String MENU = "=== Voucher Program ===\n" +
             "Type **exit** to exit the program.\n" +
             "Type **create** to create a new voucher.\n" +
@@ -19,9 +21,9 @@ public class Console {
     private static final String TYPE_VOUCHER_MESSAGE = "Type 'fixed amount' for fixed amount voucher, or type 'percent' for percent voucher";
     private static final String TYPE_FIXED_AMOUNT_MESSAGE = "Chose fixed amount. Type fixed amount(1 ~ 10000). Amount must be an integer.";
     private static final String TYPE_PERCENT_MESSAGE = "Chose percent. Type percent amount(1 ~ 99(%)). Amount must be an integer.";
-    private static final String FIXED_AMOUNT_OUT_OF_BOUND = "{0} is out of bound 1 ~ 10000.";
-    private static final String PERCENT_OUT_OF_BOUND = "{0} is out of bound 1 ~ 99.";
-    private static final String CREATE_SUCCESS_MESSAGE = "Voucher ID {0} created successfully!";
+    private static final String CREATE_SUCCESS_MESSAGE = "New voucher created!";
+    private static final String VOUCHER_LIST_MESSAGE = "Voucher Type = {0} / discount amount = {1}";
+    private static final String VOUCHER_EMPTY_MESSAGE = "You don't have any voucher";
 
     private final Reader reader;
     private final Printer printer;
@@ -40,7 +42,7 @@ public class Console {
     }
 
     public void printCommendNotSupported() {
-        printer.printMessage(COMMAND_NOT_SUPPORTER);
+        printer.printMessage(COMMAND_NOT_SUPPORTED);
     }
 
     public void printMenu() {
@@ -61,14 +63,7 @@ public class Console {
                     printer.printMessage(MessageFormat.format(TYPE_FIXED_AMOUNT_MESSAGE, voucherType.getInputValue()));
             case PERCENT ->
                     printer.printMessage(MessageFormat.format(TYPE_PERCENT_MESSAGE, voucherType.getInputValue()));
-        }
-    }
-
-    public void printAmountOutOfBoundMessage(VoucherType voucherType, String exceptionMessage) {
-        switch (voucherType) {
-            case FIXED_AMOUNT ->
-                    printer.printMessage(MessageFormat.format(FIXED_AMOUNT_OUT_OF_BOUND, exceptionMessage));
-            case PERCENT -> printer.printMessage(MessageFormat.format(PERCENT_OUT_OF_BOUND, exceptionMessage));
+            default -> printer.printMessage(VOUCHER_NOT_SUPPORTED);
         }
     }
 
@@ -76,7 +71,17 @@ public class Console {
         printer.printMessage(exceptionMessage);
     }
 
-    public void printCreateSuccessMessage(UUID createdUUID) {
-        printer.printMessage(MessageFormat.format(CREATE_SUCCESS_MESSAGE, createdUUID.toString().substring(0, 6) + "*****"));
+    public void printCreateSuccessMessage() {
+        printer.printMessage(CREATE_SUCCESS_MESSAGE);
+    }
+
+    public void printVoucherList(List<Voucher> vouchers) {
+        if (vouchers.isEmpty()) {
+            printer.printMessage(VOUCHER_EMPTY_MESSAGE);
+        } else {
+            vouchers
+                    .forEach(voucher -> System.out.println(
+                            MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+        }
     }
 }

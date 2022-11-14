@@ -1,33 +1,22 @@
 package com.prgrms.springbootbasic.voucher;
 
-import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
-import com.prgrms.springbootbasic.voucher.domain.FixedAmountVoucher;
-import com.prgrms.springbootbasic.voucher.domain.PercentVoucher;
-import com.prgrms.springbootbasic.voucher.domain.Voucher;
-import com.prgrms.springbootbasic.voucher.dto.VoucherInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.function.Function;
-import java.util.function.IntPredicate;
 
 public enum VoucherType {
-    FIXED_AMOUNT("fixed amount",
-            amount -> amount < 1 || amount > 10000,
-            voucherInfo -> new FixedAmountVoucher(voucherInfo.getType().getInputValue(), voucherInfo.getAmount())),
-    PERCENT("percent",
-            amount -> amount < 1 || amount > 99,
-            voucherInfo -> new PercentVoucher(voucherInfo.getType().getInputValue(), voucherInfo.getAmount()));
+    FIXED_AMOUNT("fixed amount"),
+    PERCENT("percent");
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
     private final String inputValue;
-    private final IntPredicate amountOutOfBound;
-    private final Function<VoucherInfo, Voucher> voucherConstructor;
 
-    VoucherType(String inputValue, IntPredicate amountOutOfBound, Function<VoucherInfo, Voucher> voucherConstructor) {
+    VoucherType(String inputValue) {
         this.inputValue = inputValue;
-        this.amountOutOfBound = amountOutOfBound;
-        this.voucherConstructor = voucherConstructor;
     }
 
     public String getInputValue() {
@@ -37,32 +26,14 @@ public enum VoucherType {
     /**
      * @throws InvalidVoucherTypeException VoucherType에 해당하지 않는 입력이 주어졌을 때 발생하는 예외입니다.
      */
-    public static VoucherType findByInputValue(String inputValue) {
+    public static VoucherType from(String inputValue) {
         return Arrays.stream(values())
                 .filter(voucherType -> voucherType.getInputValue().equals(inputValue))
                 .findFirst()
-                .orElseThrow(() -> new InvalidVoucherTypeException(
-                        MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue)));
-    }
-
-    /**
-     * @throws NumberFormatException     할인율을 숫자로 입력하지 않았을 때 발생하는 예외입니다.
-     * @throws AmountOutOfBoundException voucher type에 따라 정해지는 할인율의 범위를 넘어선 입력이 주어졌을 때 발생하는 예외입니다.
-     *                                   예외 상황을 출력하기 위해 VoucherType enum을 함께 사용해야 합니다.
-     */
-    public int validateAmount(String amountInput) {
-        try {
-            int amount = Integer.parseInt(amountInput);
-            if (amountOutOfBound.test(amount)) {
-                throw new AmountOutOfBoundException(MessageFormat.format("Amount: {0}", amount));
-            }
-            return amount;
-        } catch (NumberFormatException e) {
-            throw new NumberFormatException(MessageFormat.format("Your input {0} is not integer.", amountInput));
-        }
-    }
-
-    public Voucher construct(VoucherInfo voucherInfo) {
-        return voucherConstructor.apply(voucherInfo);
+                .orElseThrow(() -> {
+                    logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
+                    return new InvalidVoucherTypeException(
+                            MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue));
+                });
     }
 }
