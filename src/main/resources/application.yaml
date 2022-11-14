@@ -1,0 +1,12 @@
+notification:
+  voucherPrompt: |
+    ==== Voucher Program ===
+    Type **exit** to exit the program.
+    Type **create** to create a new voucher.
+    Type **list** to list all vouchers.
+  voucherTypeChoice: |
+    Choose one!
+    fixedVoucher: 1
+    PercentVoucher: 2
+  wrongInput: It's wrong input
+  exit: Good bye!

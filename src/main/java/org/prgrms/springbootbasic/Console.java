@@ -12,19 +12,12 @@ import java.util.Scanner;
 
 @Component
 public class Console {
-
-    public static final String MENU_NOTIFICATION = """
-            === Voucher Program ===\s
-            Type **exit** to exit the program.
-            Type **create** to create a new voucher.
-            Type **list** to list all vouchers.""";
-    public static final String WRONG_INPUT_NOTIFICATION = "wrong input!";
-    public static final String VOUCHER_TYPE_CHOICE_NOTIFICATION = "Choose one!\nfixedVoucher: 1 \nPercentVoucher: 2";
-    public static final String EXIT_NOTIFICATION = "Good bye!";
     private boolean Running = true;
     private final Scanner scanner = new Scanner(System.in);
     private final VoucherService voucherService;
 
+    @Autowired
+    NotificationProperties notificationProperties;
 
     @Autowired
     public Console(VoucherService voucherService) {
@@ -38,13 +31,13 @@ public class Console {
 
     public void run() {
         while (Running) {
-            String menu = getInput(MENU_NOTIFICATION);
+            String menu = getInput(notificationProperties.getVoucherPrompt());
             if (Menu.isExist(menu)) {
                 Running = false;
-                System.out.println(EXIT_NOTIFICATION);
+                System.out.println(notificationProperties.getExit());
                 continue;
             } else if (!Menu.validate(menu)) {
-                System.out.println(WRONG_INPUT_NOTIFICATION);
+                System.out.println(notificationProperties.getWrongInput());
                 continue;
             }
 
@@ -68,7 +61,7 @@ public class Console {
     private String getOption() {
         String option;
         do {
-            option = getInput(VOUCHER_TYPE_CHOICE_NOTIFICATION);
+            option = getInput(notificationProperties.getVoucherTypeChoice());
         } while (TypeOption.isFixed(option) && TypeOption.isPercent(option));
         return option;
     }
