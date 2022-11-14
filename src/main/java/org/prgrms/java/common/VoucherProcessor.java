@@ -17,7 +17,6 @@ import java.util.UUID;
 
 @Component
 public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
-    private boolean isRunning = true;
     private final UserService userService;
     private final VoucherService voucherService;
     private final View view;
@@ -31,9 +30,10 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
 
     @Override
     public void run(String... args) {
+        boolean isRunning = true;
         while (isRunning) {
             try {
-                processCommand();
+                isRunning = processCommand();
             } catch (Exception e) {
                 view.print(e.getMessage());
                 logger.error(e.getMessage());
@@ -42,14 +42,14 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
         }
     }
 
-    private void processCommand() {
+    private boolean processCommand() {
+        boolean isRunning = true;
         view.print(MessageGuide.COMMAND_OPTION);
         try {
             switch (Command.get(view.read())) {
                 case EXIT:
                     view.print("Terminates the program...");
-                    isRunning = false;
-                    break;
+                    return isRunning = false;
                 case CREATE:
                     createVoucher();
                     break;
@@ -59,10 +59,12 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
                 case BLACKLIST:
                     getBlackUsers();
             }
+            return true;
         } catch (CommandException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }
+        return isRunning;
     }
 
     private void getBlackUsers() {
