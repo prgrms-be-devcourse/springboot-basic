@@ -1,14 +1,15 @@
 package org.prgrms.kdt.storage;
 
-import org.prgrms.kdt.storage.VoucherStorage;
 import org.prgrms.kdt.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@Profile({"dev", "default"})
 public class MemoryVoucherStorage implements VoucherStorage {
 
     private final Map<UUID, Voucher> memoryVoucherStorage = new HashMap<>();
