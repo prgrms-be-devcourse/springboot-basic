@@ -1,6 +1,6 @@
 package com.programmers.commandline.domain.consumer.repository;
 
-import com.programmers.commandline.domain.consumer.entity.Cousumer;
+import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.global.aop.LogAspect;
 import com.programmers.commandline.global.io.Message;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +18,7 @@ import java.util.List;
 @Profile("prod")
 public class FileConsumerRepository {
 
-    private final List<Cousumer> memory = new ArrayList<>();
+    private final List<Consumer> memory = new ArrayList<>();
     private final String filePath;
     private final File file;
 
@@ -27,7 +27,7 @@ public class FileConsumerRepository {
         this.file = new File(filePath);
     }
 
-    public List<Cousumer> findAll() {
+    public List<Consumer> findAll() {
         LogAspect.getLogger().info("FileConsumerRepository findAll 실행");
         try (
                 FileReader fileReader = new FileReader(file);
@@ -37,14 +37,10 @@ public class FileConsumerRepository {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] findLine = line.split(",");
-
                 Long cousumerId = Long.parseLong(findLine[0]);
-
                 String nickName = findLine[1];
-
-                Cousumer cousumer = new Cousumer(cousumerId, nickName);
-
-                memory.add(cousumer);
+                Consumer consumer = new Consumer(cousumerId, nickName);
+                memory.add(consumer);
             }
             return memory;
         } catch (IOException e) {
