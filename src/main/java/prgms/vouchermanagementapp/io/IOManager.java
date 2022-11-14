@@ -11,6 +11,8 @@ import java.util.Optional;
 @Component
 public class IOManager {
 
+    private static final Logger log = LoggerFactory.getLogger(IOManager.class);
+
     private final Reader reader;
     private final Writer writer;
     private final FileManager fileManager;
@@ -41,6 +43,7 @@ public class IOManager {
             Amount amount = new Amount(number);
             return Optional.of(amount);
         } catch (IllegalArgumentException exception) {
+            log.warn("Amount Creation Error: {} ", exception.getMessage());
             writer.printException(exception);
             return Optional.empty();
         }
@@ -54,6 +57,7 @@ public class IOManager {
             Ratio ratio = new Ratio(fixedDiscountRatio);
             return Optional.of(ratio);
         } catch (IllegalArgumentException exception) {
+            log.warn("Ratio Creation Error: {} ", exception.getMessage());
             writer.printException(exception);
             return Optional.empty();
         }
