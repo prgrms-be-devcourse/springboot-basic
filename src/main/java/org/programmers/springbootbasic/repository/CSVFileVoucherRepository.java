@@ -44,12 +44,12 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     }
 
     private void write(Voucher voucher) {
-        BufferedWriter bw = null;
-        try {
-            bw = new BufferedWriter(new FileWriter(csv, true));
+
+        try (
+                BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+        ) {
             bw.write(voucher + "\n");
             bw.flush();
-            bw.close();
         } catch (IOException e) {
             logger.error("해당 바우처를 파일에 저장할 수 없습니다. voucher {}", voucher);
         }
@@ -58,11 +58,12 @@ public class CSVFileVoucherRepository implements VoucherRepository {
 
     private List<Voucher> read() {
         List<Voucher> vouchers = new ArrayList<>();
-        BufferedReader br = null;
-        try {
+
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(csv));
+        ) {
             String line;
-            br = new BufferedReader(new FileReader(csv));
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(", ");
                 vouchers.add(assembleVoucher(voucherInfo));
             }
@@ -72,20 +73,12 @@ public class CSVFileVoucherRepository implements VoucherRepository {
             logger.error("바우처를 읽어올 수 없습니다.");
         } catch (WrongTypeInputException e) {
             logger.error("허용하지 않는 바우처 타입입니다. 허용하는 바우처 타입은 fixed, percent 입니다.");
-        } finally {
-            if(br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    logger.error("바우처를 읽어올 수 없습니다.");
-                }
-            }
         }
         return vouchers;
     }
 
     private Voucher assembleVoucher(String[] voucherInfo) throws WrongTypeInputException {
-        if(FixedAmountVoucher.class.getSimpleName().equals(voucherInfo[VOUCHER_TYPE_INDEX])) {
+        if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo[VOUCHER_TYPE_INDEX])) {
             return new FixedAmountVoucher(UUID.fromString(voucherInfo[VOUCHER_UUID_INDEX]),
                     Long.parseLong(voucherInfo[VOUCHER_AMOUNT_INDEX]));
         } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo[VOUCHER_TYPE_INDEX])) {

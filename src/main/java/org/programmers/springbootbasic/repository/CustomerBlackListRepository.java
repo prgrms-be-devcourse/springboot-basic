@@ -28,11 +28,11 @@ public class CustomerBlackListRepository {
 
     private List<Customer> read() {
         List<Customer> blackList = new ArrayList<>();
-        BufferedReader br = null;
-        try {
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(csv));
+        ) {
             String line;
-            br = new BufferedReader(new FileReader(csv));
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] blackInfo = line.split(", ");
                 blackList.add(assembleBlackList(blackInfo));
             }
@@ -40,14 +40,6 @@ public class CustomerBlackListRepository {
             logger.error("읽어올 파일을 찾을 수 없습니다.");
         } catch (IOException e) {
             logger.error("블랙리스트를 읽어올 수 없습니다.");
-        } finally {
-            if(br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    logger.error("블랙리스트를 읽어올 수 없습니다.");
-                }
-            }
         }
         return blackList;
     }
