@@ -16,6 +16,14 @@ public class IOManager {
             Type 'list' to list all vouchers.""";
 
     private static final String SELECT_WRONG = "올바른 입력이 아닙니다. 보기 중에 입력해주세요.";
+    private static final String CREATE_MESSAGE = """
+            Type 'fix' to create FixedAmountVoucher.
+            Type 'percent' to create PercentAmountVoucher.
+            Type 'g' to go back to main.""";
+
+    private static final String AMOUNT_MESSAGE = "할인하고자 하는 만큼의 수를 입력해주세요.";
+    private static final String AMOUNT_ERROR = "할인 정도는 정수나 실수로만 입력 가능합니다.";
+    private static final String EXIT_APP = "Exit Program. Good Bye.";
     private final Console console;
 
     public IOManager(Console console) {
@@ -33,20 +41,22 @@ public class IOManager {
     }
 
     public void writeEndMessage() {
-        console.write("Exit Program. Good Bye.");
+        console.write(EXIT_APP);
     }
 
     public String getCreateTypeInput() {
+        console.write(CREATE_MESSAGE);
         return console.read()
                 .strip();
     }
 
     public double getAmountInput() {
+        console.write(AMOUNT_MESSAGE);
         try {
             return Double.parseDouble(console.read()
                     .strip());
         } catch (NumberFormatException e) {
-            throw new AmountException("할인 정도는 정수나 실수로만 입력 가능합니다.");
+            throw new AmountException(AMOUNT_ERROR);
         }
     }
 
@@ -60,13 +70,11 @@ public class IOManager {
 
     public void writeVoucherInfo(Voucher voucher) {
         console.write(
-                MessageFormat.format(
-                        "- voucherID : {0}, voucherType : {1}, Discount Amount : {2}",
-                        voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount())
-        );
+                MessageFormat.format("voucher Id -> {0}, voucher Type -> {1}, Amount -> {2}",
+                        voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount()));
     }
 
-    public static String getSelectWrongMessage(){
+    public static String getSelectWrongMessage() {
         return SELECT_WRONG;
     }
 }

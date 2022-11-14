@@ -1,6 +1,6 @@
 package org.prgrms.kdt.manager;
 
-import org.prgrms.kdt.exceptions.WrongSelectException;
+import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.utils.Power;
 import org.prgrms.kdt.utils.SelectType;
 import org.springframework.stereotype.Component;
@@ -13,8 +13,8 @@ public class VoucherAppManager {
     private final Power power;
     private final VoucherProviderManager voucherProviderManager;
 
-    public VoucherAppManager(VoucherProviderManager voucherCreateManager) {
-        this.voucherProviderManager = voucherCreateManager;
+    public VoucherAppManager(VoucherProviderManager voucherProviderManager) {
+        this.voucherProviderManager = voucherProviderManager;
         this.power = new Power();
     }
 
@@ -25,16 +25,16 @@ public class VoucherAppManager {
     public void execute(SelectType selectType) {
         switch (selectType) {
             case CREATE -> {
-                voucherProviderManager.create();
+                voucherProviderManager.runCreateCycle();
             }
             case LIST -> {
-                voucherProviderManager.list();
+                voucherProviderManager.runGetList();
             }
             case EXIT -> {
                 power.stop();
             }
             default -> {
-                throw new WrongSelectException(getSelectWrongMessage());
+                throw new InvalidITypeInputException(getSelectWrongMessage());
             }
         }
     }
