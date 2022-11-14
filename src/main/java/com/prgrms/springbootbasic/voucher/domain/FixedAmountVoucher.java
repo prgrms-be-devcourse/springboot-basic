@@ -21,6 +21,12 @@ public class FixedAmountVoucher implements Voucher {
         this.fixedAmount = fixedAmount;
     }
 
+    public FixedAmountVoucher(UUID uuid, int fixedAmount) {
+        validate(fixedAmount);
+        this.id = uuid;
+        this.fixedAmount = fixedAmount;
+    }
+
     @Override
     public void validate(int discountAmount) {
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {

@@ -1,5 +1,6 @@
 package com.prgrms.springbootbasic.console;
 
+import com.prgrms.springbootbasic.user.domain.User;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 
 import java.text.MessageFormat;
@@ -16,14 +17,17 @@ public class Console {
     private static final String MENU = "=== Voucher Program ===\n" +
             "Type **exit** to exit the program.\n" +
             "Type **create** to create a new voucher.\n" +
-            "Type **list** to list all vouchers.";
+            "Type **list** to list all vouchers.\n" +
+            "Type **blacklist** to list blacklist.";
     private static final String EXIT_MESSAGE = "Exit program. Bye.";
-    private static final String TYPE_VOUCHER_MESSAGE = "Type 'fixed amount' for fixed amount voucher, or type 'percent' for percent voucher";
-    private static final String TYPE_FIXED_AMOUNT_MESSAGE = "Chose fixed amount. Type fixed amount(1 ~ 10000). Amount must be an integer.";
+    private static final String TYPE_VOUCHER_MESSAGE = "Type 'fixedAmount' for fixed amount voucher, or type 'percent' for percent voucher";
+    private static final String TYPE_FIXED_AMOUNT_MESSAGE = "Chose fixedAmount. Type fixed amount(1 ~ 10000). Amount must be an integer.";
     private static final String TYPE_PERCENT_MESSAGE = "Chose percent. Type percent amount(1 ~ 99(%)). Amount must be an integer.";
     private static final String CREATE_SUCCESS_MESSAGE = "New voucher created!";
     private static final String VOUCHER_LIST_MESSAGE = "Voucher Type = {0} / discount amount = {1}";
     private static final String VOUCHER_EMPTY_MESSAGE = "You don't have any voucher";
+    private static final String BLACKED_USER_MESSAGE = "User id = {0} / name = {1}";
+    private static final String BLACKLIST_EMPTY_MESSAGE = "There is no blacked user";
 
     private final Reader reader;
     private final Printer printer;
@@ -80,8 +84,18 @@ public class Console {
             printer.printMessage(VOUCHER_EMPTY_MESSAGE);
         } else {
             vouchers
-                    .forEach(voucher -> System.out.println(
-                            MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+                .forEach(voucher -> System.out.println(
+                    MessageFormat.format(VOUCHER_LIST_MESSAGE, voucher.getClass().getSimpleName(), voucher.getDiscountRate())));
+        }
+    }
+
+    public void printBlackList(List<User> blacklist) {
+        if(blacklist.isEmpty()){
+            printer.printMessage(BLACKLIST_EMPTY_MESSAGE);
+        } else{
+            blacklist
+                .forEach(user -> System.out.println(
+                    MessageFormat.format(BLACKED_USER_MESSAGE, user.getId(), user.getName())));
         }
     }
 }

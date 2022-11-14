@@ -27,6 +27,11 @@ public class PercentVoucher implements Voucher {
         this.percent = percent;
     }
 
+    public PercentVoucher(UUID uuid, int percent) {
+        this.id = uuid;
+        this.percent = percent;
+    }
+
     @Override
     public void validate(int discountAmount) {
         logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");

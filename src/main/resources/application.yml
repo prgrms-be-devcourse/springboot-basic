@@ -1,0 +1,9 @@
+classpath.customer-blacklist: customer_blacklist.csv
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+classpath.voucher-storage: classpath:voucher_storage.txt

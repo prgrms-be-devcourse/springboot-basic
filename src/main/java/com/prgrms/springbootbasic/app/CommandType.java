@@ -10,6 +10,7 @@ import java.util.Arrays;
 enum CommandType {
     CREATE("create"),
     LIST("list"),
+    BLACKLIST("blacklist"),
     EXIT("exit");
 
     private static final Logger logger = LoggerFactory.getLogger(CommandType.class);

@@ -3,9 +3,13 @@ package com.prgrms.springbootbasic.app;
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.VOUCHER_NOT_SUPPORTED;
 
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
+import com.prgrms.springbootbasic.common.exception.FileIOException;
+import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
 import com.prgrms.springbootbasic.console.Console;
+import com.prgrms.springbootbasic.user.blacklist.BlacklistManager;
+import com.prgrms.springbootbasic.user.domain.User;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import com.prgrms.springbootbasic.voucher.VoucherManager;
 import com.prgrms.springbootbasic.voucher.VoucherType;
@@ -21,14 +25,17 @@ public class VoucherApplication {
 
     private final VoucherManager voucherManager;
 
+    private final BlacklistManager blacklistManager;
+
     private final Console console;
 
     private final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
 
     private ApplicationStatus applicationStatus;
 
-    public VoucherApplication(VoucherManager voucherManager, Console console) {
+    public VoucherApplication(VoucherManager voucherManager, BlacklistManager blacklistManager, Console console) {
         this.voucherManager = voucherManager;
+        this.blacklistManager = blacklistManager;
         this.console = console;
     }
 
@@ -56,20 +63,37 @@ public class VoucherApplication {
             case EXIT -> exit();
             case CREATE -> create();
             case LIST -> list();
+            case BLACKLIST -> blacklist();
             default -> console.printCommendNotSupported();
+        }
+    }
+
+    private void blacklist() {
+        try{
+            List<User> blacklist = blacklistManager.list();
+            console.printBlackList(blacklist);
+            logger.info("List up all blacked users.");
+        } catch(FileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
         }
     }
 
     private void exit() {
         applicationStatus.exit();
         console.printExitMessage();
-        logger.info("Exit Voucher application successfully.");
+        logger.info("Exit Voucher application.");
     }
 
     private void list() {
-        List<Voucher> vouchers = voucherManager.list();
-        console.printVoucherList(vouchers);
-        logger.info("List up all Vouchers.");
+        try{
+            List<Voucher> vouchers = voucherManager.list();
+            console.printVoucherList(vouchers);
+            logger.info("List up all Vouchers.");
+        } catch(FileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
+        }
     }
 
     private void create() {
@@ -81,13 +105,16 @@ public class VoucherApplication {
             logger.info("New Voucher created.");
         } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
             console.printExceptionMessage(e.getMessage());
+        } catch(FileIOException | FileNotExistException e){
+            console.printExceptionMessage(e.getMessage());
+            exit();
         }
     }
 
     private VoucherType getVoucherType() {
         console.printChoosingVoucher();
         String voucherTypeInput = console.getInput();
-        VoucherType voucherType = VoucherType.from(voucherTypeInput);
+        VoucherType voucherType = VoucherType.fromInputValue(voucherTypeInput);
         switch (voucherType) {
             case FIXED_AMOUNT, PERCENT -> {
                 return voucherType;
