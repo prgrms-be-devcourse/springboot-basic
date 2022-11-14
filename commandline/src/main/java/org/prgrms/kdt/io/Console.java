@@ -23,7 +23,7 @@ public class Console {
         try {
             return br.readLine().trim();
         } catch (IOException e) {
-            throw new InputException(ErrorCode.InputException.getMessage());
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
         }
     }
 
@@ -35,7 +35,7 @@ public class Console {
             return voucherType;
 
         } catch (IOException e) {
-            throw new InputException(ErrorCode.InputException.getMessage());
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ public class Console {
             isNumeric(discountDegree);
             return Long.parseLong(discountDegree);
         } catch (IOException e) {
-            throw new InputException(ErrorCode.InputException.getMessage());
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
         }
     }
 
@@ -70,10 +70,10 @@ public class Console {
 
     private void isNumeric(String number) {
         if (number == null) {
-            throw new InputException(ErrorCode.InputException.getMessage());
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
         }
         if (!Pattern.matches(NUMBER_REGEX, number)) {
-            throw new IsNotNumberException(ErrorCode.IS_NOT_NUMBER.getMessage());
+            throw new IsNotNumberException(ErrorCode.IS_NOT_NUMBER_EXCEPTION.getMessage());
         }
     }
 }

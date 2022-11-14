@@ -42,7 +42,7 @@ public class CommandLineController {
                         console.terminate();
                         running = false;
                     }
-                    default -> console.printError(ErrorCode.InputException.getMessage());
+                    default -> console.printError(ErrorCode.INPUT_EXCEPTION.getMessage());
                 }
             } catch (RuntimeException e) {
                 console.printError(e.getMessage());
