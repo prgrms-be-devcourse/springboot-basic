@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "file.voucher")
-@Profile("dev")
+@Profile("file")
 public class VoucherFileProperties {
 
     private final String path;

@@ -23,3 +23,22 @@ file:
     path: store/
     stored-name: voucher
     stored-extension: .csv
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: file
+
+file:
+  block-customer:
+    path: store/
+    stored-name: customer_blacklist
+    stored-extension: .csv
+
+  voucher:
+    path: store/
+    stored-name: voucher
+    stored-extension: .csv

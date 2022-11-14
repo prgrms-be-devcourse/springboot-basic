@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "file.block-customer")
-@Profile("dev")
+@Profile("file")
 public class BlockCustomerProperties {
 
     private final String path;

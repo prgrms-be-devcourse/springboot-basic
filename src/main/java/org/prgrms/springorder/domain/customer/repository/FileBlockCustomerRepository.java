@@ -24,7 +24,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("dev")
+@Profile("file")
 public class FileBlockCustomerRepository implements BlockCustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileBlockCustomerRepository.class);
