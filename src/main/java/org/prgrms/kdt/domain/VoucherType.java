@@ -5,7 +5,7 @@ import org.prgrms.kdt.exception.InvalidVoucherTypeException;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
+import java.util.function.DoubleBinaryOperator;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("fixed", (price, discountAmount) -> {
@@ -19,9 +19,9 @@ public enum VoucherType {
         return salePrice;
     });
 
-    private final BiFunction<Double, Double, Double> discount;
+    private final DoubleBinaryOperator discount;
 
-    VoucherType(String code, BiFunction<Double, Double, Double> discount) {
+    VoucherType(String code, DoubleBinaryOperator discount) {
         this.discount = discount;
     }
 
@@ -34,7 +34,7 @@ public enum VoucherType {
     };
 
     public double getSalePrice(double price, double discountAmount) {
-        return discount.apply(price, discountAmount);
+        return discount.applyAsDouble(price, discountAmount);
     }
 
     public static VoucherType getVoucherTypeByCode(String code) {

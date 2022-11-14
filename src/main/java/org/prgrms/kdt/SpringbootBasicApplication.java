@@ -1,7 +1,6 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.forward.IOController;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,7 +10,6 @@ public class SpringbootBasicApplication implements CommandLineRunner {
 
     private final IOController ioController;
 
-    @Autowired
     public SpringbootBasicApplication(IOController ioController) {
         this.ioController = ioController;
     }
