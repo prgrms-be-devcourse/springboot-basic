@@ -10,13 +10,17 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1"),
-    PERCENTAGE("2");
+    FIXED_AMOUNT("1", "FixedAmountVoucher"),
+    PERCENTAGE("2", "PercentDiscountVoucher");
 
     private final String typeValue;
+    private final String name;
 
-    VoucherType(String typeValue) {
+    private static final int NOT_FOUND_RESULT = -1;
+
+    VoucherType(String typeValue, String name) {
         this.typeValue = typeValue;
+        this.name = name;
     }
 
     public static Voucher createVoucher(String type, long discountDegree) {
@@ -44,5 +48,28 @@ public enum VoucherType {
         if (!isContainType(type)) {
             throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
         }
+    }
+
+    public static VoucherType selectVoucherTypeFromFile(String type) {
+        return Stream.of(values())
+                .filter(voucherType -> type.indexOf(voucherType.name) != NOT_FOUND_RESULT)
+                .findFirst()
+                .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage()));
+    }
+
+    public static Voucher createVoucherFromFile(VoucherType voucherType, String stringId, String stringDiscount) {
+        UUID voucherId = UUID.fromString(stringId.replace("voucherId=", ""));
+
+        return switch (voucherType) {
+            case FIXED_AMOUNT -> {
+                long amount = Long.parseLong(stringDiscount.replace("amount=", "").trim());
+                yield new FixedAmountVoucher(voucherId, amount);
+            }
+            case PERCENTAGE -> {
+                long percent = Long.parseLong(stringDiscount.replace("percent=", "").trim());
+                yield new PercentDiscountVoucher(voucherId, percent);
+            }
+            default -> throw new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage());
+        };
     }
 }

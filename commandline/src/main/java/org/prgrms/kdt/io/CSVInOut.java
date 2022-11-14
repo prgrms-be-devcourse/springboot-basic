@@ -4,6 +4,7 @@ import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.FileInOutException;
 import org.prgrms.kdt.exception.FileNotFoundCustomException;
+import org.prgrms.kdt.util.VoucherType;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -13,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVInOut {
+    public static final int BRACKET_NEXT = 1;
+    public static final int BRACKET_END = 1;
+    public static final int VOUCHER_ID_INDEX = 0;
+    public static final int DISCOUNT_DEGREE_INDEX = 1;
     private final String path;
 
     public CSVInOut(String path) {
@@ -25,10 +30,11 @@ public class CSVInOut {
         File csv = new File(path);
         BufferedReader br = null;
         String line = "";
-
         try {
             br = new BufferedReader(new FileReader(csv));
             while ((line = br.readLine()) != null) {
+                Voucher voucher = stringToVoucher(line);
+                csvList.add(voucher);
             }
         } catch (FileNotFoundException e) {
             throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
@@ -80,5 +86,14 @@ public class CSVInOut {
         } catch (IOException e) {
             throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
         }
+    }
+
+    private static Voucher stringToVoucher(String input) {
+        VoucherType voucherType = VoucherType.selectVoucherTypeFromFile(input);
+
+        input = input.substring(input.indexOf("{") + BRACKET_NEXT, input.length() - BRACKET_END);
+        String[] values = input.split(",");
+
+        return VoucherType.createVoucherFromFile(voucherType, values[VOUCHER_ID_INDEX], values[DISCOUNT_DEGREE_INDEX]);
     }
 }
