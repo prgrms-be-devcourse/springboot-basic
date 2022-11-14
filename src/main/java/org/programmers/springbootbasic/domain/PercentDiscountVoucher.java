@@ -7,7 +7,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class PercentDiscountVoucher implements Voucher {
 
-    private static StringBuilder sb = new StringBuilder();
     private final UUID voucherId;
     private final long amount;
 
