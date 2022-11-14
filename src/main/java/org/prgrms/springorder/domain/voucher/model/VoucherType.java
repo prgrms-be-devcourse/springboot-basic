@@ -21,4 +21,7 @@ public enum VoucherType {
             .orElseThrow(() -> new IllegalArgumentException("잘못된 바우처 타입입니다."));
     }
 
+    public String getType() {
+        return type;
+    }
 }

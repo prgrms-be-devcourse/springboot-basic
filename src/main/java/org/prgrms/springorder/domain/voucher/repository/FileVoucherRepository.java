@@ -61,6 +61,13 @@ public class FileVoucherRepository implements VoucherRepository {
         storage.clear();
     }
 
+    @Override
+    public Voucher update(Voucher voucher) {
+        storage.remove(voucher.getVoucherId());
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
     private void readAll() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileStore))) {
 

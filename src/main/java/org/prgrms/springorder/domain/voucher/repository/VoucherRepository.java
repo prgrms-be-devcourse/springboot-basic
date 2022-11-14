@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
+import org.prgrms.springorder.domain.voucher.model.VoucherType;
 
 public interface VoucherRepository {
 
@@ -15,4 +16,5 @@ public interface VoucherRepository {
 
     void deleteAll();
 
+    Voucher update(Voucher voucher);
 }

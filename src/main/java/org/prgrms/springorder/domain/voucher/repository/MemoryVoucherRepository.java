@@ -38,4 +38,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
         this.storage.clear();
     }
 
+    @Override
+    public Voucher update(Voucher voucher) {
+        storage.remove(voucher.getVoucherId());
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
 }
