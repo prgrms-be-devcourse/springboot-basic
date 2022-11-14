@@ -1,6 +1,6 @@
 package org.prgrms.kdt.domain;
 
-import org.prgrms.kdt.exception.WrongSalePrice;
+import org.prgrms.kdt.exception.WrongSalePriceException;
 import org.prgrms.kdt.exception.InvalidVoucherTypeException;
 
 import java.util.Arrays;
@@ -13,12 +13,12 @@ import static java.util.stream.Collectors.toMap;
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("fixed", (price, discountAmount) -> {
         double salePrice = price - discountAmount;
-        if (salePrice < 0) throw new WrongSalePrice();
+        if (salePrice < 0) throw new WrongSalePriceException();
         return salePrice;
     }),
     PERCENT_DISCOUNT_VOUCHER("percent", (price, discountAmount) -> {
         double salePrice = price - ((price * discountAmount) / 100);
-        if (salePrice < 0) throw new WrongSalePrice();
+        if (salePrice < 0) throw new WrongSalePriceException();
         return salePrice;
     });
 
