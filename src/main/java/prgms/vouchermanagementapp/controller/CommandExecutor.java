@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.exception.IllegalCommandException;
+import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
 import prgms.vouchermanagementapp.model.Amount;
@@ -11,7 +12,6 @@ import prgms.vouchermanagementapp.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 
-import java.text.MessageFormat;
 import java.util.Optional;
 
 @Component
@@ -61,20 +61,13 @@ public class CommandExecutor {
     }
 
     private void runCreate() {
-        Optional<VoucherType> voucherType = askVoucherType();
-        voucherType.ifPresent(this::requestVoucherCreation);
-    }
-
-    private Optional<VoucherType> askVoucherType() {
         String voucherTypeIndex = ioManager.askVoucherTypeIndex();
+        Optional<VoucherType> voucherType = VoucherType.of(voucherTypeIndex);
 
-        try {
-            VoucherType voucherType = VoucherType.of(voucherTypeIndex);
-            return Optional.of(voucherType);
-        } catch (IllegalArgumentException exception) {
-            ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
-            return Optional.empty();
+        if (voucherType.isEmpty()) {
+            ioManager.notifyErrorOccurred(new IllegalVoucherTypeIndexException(voucherTypeIndex).getMessage());
         }
+        voucherType.ifPresent(this::requestVoucherCreation);
     }
 
     private void requestVoucherCreation(VoucherType voucherType) {
