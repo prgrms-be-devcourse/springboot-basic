@@ -1,6 +1,5 @@
 package prgms.vouchermanagementapp.voucher.warehouse;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
@@ -12,7 +11,6 @@ import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 import java.io.File;
 
 @Component
-@Primary
 @Profile("release")
 public class FileVouchers implements VoucherWarehouse {
 
