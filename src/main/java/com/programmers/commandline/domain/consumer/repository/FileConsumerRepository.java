@@ -31,22 +31,20 @@ public class FileConsumerRepository {
         LogAspect.getLogger().info("FileConsumerRepository findAll 실행");
         try (
                 FileReader fileReader = new FileReader(file);
-
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
         ) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] findLine = line.split(",");
-                Long cousumerId = Long.parseLong(findLine[0]);
+                Long consumerId = Long.parseLong(findLine[0]);
                 String nickName = findLine[1];
-                Consumer consumer = new Consumer(cousumerId, nickName);
+
+                Consumer consumer = new Consumer(consumerId, nickName);
                 memory.add(consumer);
             }
             return memory;
         } catch (IOException e) {
-            LogAspect.getLogger().error("FileConsumerRepository findAll 에러 발생");
-
-            throw new IllegalArgumentException(Message.COUSUMER_FILE_READ_ERROR.getMessage());
+            throw new IllegalArgumentException(Message.CONSUMER_FILE_READ_ERROR.getMessage());
         }
     }
 

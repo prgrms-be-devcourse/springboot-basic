@@ -19,13 +19,12 @@ public enum Message {
                 1. FixedAmountVoucher
                 2. PercentDiscountVoucher
                 """),
-    DISCOUNT_AMOUNT("할인금액: "),
-    DISCOUNT_RATE("할인율: "),
-    DISCOUNT_ERROR("할인 적용을 잘못하셨습니다.\n"),
     FILE_READ_ERROR("파일 읽기에 문제가 발생했습니다.\n"),
-    FILE_SAVE_ERROR("파일 쓰기에 문제가 발생하였습니다.\n"),
-    COUSUMER_FILE_READ_ERROR("블랙리스트 읽기에 문제가 발생했습니다.\n"),
-    READ_LINE("입력에 문제가 발생했습니다.");
+    CONSUMER_FILE_READ_ERROR("블랙리스트 읽기에 문제가 발생했습니다.\n"),
+    READ_LINE("입력에 문제가 발생했습니다."),
+    VALIDATE_PARSE_TO_NUMBER_ERROR("잘못된 입력 값 입니다. 정상 입력은 숫자 입니다."),
+    FILE_VOUCHER_REPOSITORY_SAVE_ERROR("FileVoucherRepository save 에러발생"),
+    FILE_VOUCHER_REPOSITORY_FINDALL_ERROR("FileVoucherRepository findAll 에러발생");
     ;
 
     private String message;

@@ -1,7 +1,5 @@
 package com.programmers.commandline.global.io;
 
-import com.programmers.commandline.global.aop.LogAspect;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
