@@ -5,20 +5,14 @@ import org.prgrms.java.exception.CommandException;
 import java.util.Arrays;
 
 public enum Command {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACK_LIST("blacklist");
-
-    private final String command;
-
-    Command(String command) {
-        this.command = command;
-    }
+    EXIT,
+    CREATE,
+    LIST,
+    BLACKLIST;
 
     public static Command get(String command) {
         return Arrays.stream(Command.values())
-                .filter((item) -> item.command.equals(command.toLowerCase()))
+                .filter((item) -> item.toString().equals(command.toUpperCase()))
                 .findAny()
                 .orElseThrow(() -> new CommandException("Invalid input."));
     }
