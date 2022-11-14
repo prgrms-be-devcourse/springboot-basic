@@ -35,11 +35,15 @@ class MemoryUserRepositoryTest {
         User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
         User blockedUser = new User(UUID.randomUUID(), "test2", "test2@gmail.com", true);
 
-        userRepository.insert(user, user.isBlocked());
-        userRepository.insert(blockedUser, blockedUser.isBlocked());
+        System.out.println("user = " + user);
 
-        assertThat(userRepository.findAll(false).isEmpty(), is(false));
-        assertThat(userRepository.findAll(true).isEmpty(), is(false));
+        User insertedUser = userRepository.insert(user, user.isBlocked());
+
+        System.out.println("insertedUser = " + insertedUser);
+        User insertedBlockedUser = userRepository.insert(blockedUser, blockedUser.isBlocked());
+
+        assertThat(user, samePropertyValuesAs(insertedUser));
+        assertThat(blockedUser, samePropertyValuesAs(insertedBlockedUser));
     }
 
     @Test

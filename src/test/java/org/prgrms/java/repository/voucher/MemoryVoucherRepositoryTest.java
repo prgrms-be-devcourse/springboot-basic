@@ -36,9 +36,9 @@ class MemoryVoucherRepositoryTest {
     void testInsert() {
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
 
-        voucherRepository.insert(fixedAmountVoucher);
+        Voucher insertedFixedAmountVoucher = voucherRepository.insert(fixedAmountVoucher);
 
-        assertThat(voucherRepository.findAll().isEmpty(), is(false));
+        assertThat(fixedAmountVoucher, samePropertyValuesAs(insertedFixedAmountVoucher));
     }
 
     @Test

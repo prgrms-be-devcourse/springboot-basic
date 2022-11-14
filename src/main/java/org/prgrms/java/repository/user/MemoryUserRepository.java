@@ -37,8 +37,10 @@ public class MemoryUserRepository implements UserRepository {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
         if (isBlocked) {
-            return black_storage.put(user.getUserId(), user);
+            black_storage.put(user.getUserId(), user);
+            return black_storage.get(user.getUserId());
         }
-        return storage.put(user.getUserId(), user);
+        storage.put(user.getUserId(), user);
+        return storage.get(user.getUserId());
     }
 }

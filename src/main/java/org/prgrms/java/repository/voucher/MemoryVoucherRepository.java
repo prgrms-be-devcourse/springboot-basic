@@ -22,10 +22,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) { //
         if (findById(voucher.getVoucherId()).isPresent() || findById(voucher.getVoucherId()).isPresent()) {
             throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
         }
-        return storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getVoucherId(), voucher);
+        return storage.get(voucher.getVoucherId());
     }
 }
