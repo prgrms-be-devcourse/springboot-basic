@@ -21,7 +21,7 @@ public class VoucherFactory {
 				return new PercentDiscountVoucher(uuid, value);
 			}
 			default -> {
-				throw new NoSuchVoucherException(NO_SUCH_VOUCHER_MESSAGE.toString());
+				throw new NoSuchVoucherException(NO_SUCH_VOUCHER_MESSAGE);
 			}
 		}
 	}

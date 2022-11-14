@@ -1,5 +1,7 @@
 package org.prgrms.springorder.domain.voucher;
 
+import static org.prgrms.springorder.domain.ErrorMessage.*;
+
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.ErrorMessage;
@@ -18,7 +20,7 @@ public class PercentDiscountVoucher extends Voucher {
 	@Override
 	public void validateValue(double value) {
 		if (value < 0 || value > 100) {
-			throw new IllegalArgumentException(ErrorMessage.WRONG_PERCENT_MESSAGE.toString());
+			throw new IllegalArgumentException(WRONG_PERCENT_MESSAGE.toString());
 		}
 	}
 

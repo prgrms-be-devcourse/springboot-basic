@@ -1,7 +1,10 @@
 package org.prgrms.springorder.domain.voucher;
 
+import static org.prgrms.springorder.domain.ErrorMessage.*;
+
 import java.util.Arrays;
 
+import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.Message;
 import org.prgrms.springorder.exception.NoSuchVoucherException;
 
@@ -28,14 +31,14 @@ public enum VoucherType {
 		return Arrays.stream(values())
 			.filter(a -> a.order.equals(order))
 			.findAny()
-			.orElseThrow(() -> new NoSuchVoucherException("No Such Voucher"));
+			.orElseThrow(() -> new NoSuchVoucherException(NO_SUCH_VOUCHER_MESSAGE));
 	}
 
 	public static VoucherType getVoucherByName(String name) {
 		return Arrays.stream(values())
 			.filter(a -> a.name.equals(name))
 			.findAny()
-			.orElseThrow(() -> new NoSuchVoucherException("No Such Voucher"));
+			.orElseThrow(() -> new NoSuchVoucherException(NO_SUCH_VOUCHER_MESSAGE));
 	}
 
 	public Message getMessage() {

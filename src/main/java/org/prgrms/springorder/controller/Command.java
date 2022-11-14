@@ -21,6 +21,6 @@ public enum Command {
 		return Arrays.stream(Command.values())
 			.filter(a -> a.orderContext.equals(s))
 			.findAny()
-			.orElseThrow(() -> new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE.toString()));
+			.orElseThrow(() -> new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE));
 	}
 }

@@ -1,5 +1,7 @@
 package org.prgrms.springorder.domain.voucher;
 
+import static org.prgrms.springorder.domain.ErrorMessage.*;
+
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.ErrorMessage;
@@ -18,7 +20,7 @@ public class FixedAmountVoucher extends Voucher {
 	@Override
 	public void validateValue(double value) {
 		if (value < 0) {
-			throw new IllegalArgumentException(ErrorMessage.WRONG_AMOUNT_MESSAGE.toString());
+			throw new IllegalArgumentException(WRONG_AMOUNT_MESSAGE.toString());
 		}
 	}
 

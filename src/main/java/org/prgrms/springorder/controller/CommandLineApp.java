@@ -1,5 +1,7 @@
 package org.prgrms.springorder.controller;
 
+import static org.prgrms.springorder.domain.Message.*;
+
 import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.Message;
 import org.prgrms.springorder.domain.voucher.VoucherType;
@@ -29,7 +31,7 @@ public class CommandLineApp {
 		ControllerStatus controllerStatus = new ControllerStatus();
 		while (controllerStatus.isRunning()) {
 			try {
-				Command menu = Command.getOrder(io.read(Message.MENU_MESSAGE));
+				Command menu = Command.getOrder(io.read(MENU_MESSAGE));
 				execute(menu, controllerStatus);
 			} catch (RuntimeException e) {
 				e.printStackTrace();
@@ -42,7 +44,7 @@ public class CommandLineApp {
 	private void execute(Command menu, ControllerStatus controllerStatus) {
 		switch (menu) {
 			case CREATE -> {
-				VoucherType voucherType = VoucherType.getVoucherByOrder(io.read(Message.SELECT_VOUCHER_MESSAGE));
+				VoucherType voucherType = VoucherType.getVoucherByOrder(io.read(SELECT_VOUCHER_MESSAGE));
 				double value = Double.parseDouble(io.read(voucherType.getMessage()));
 				voucherService.createVoucher(voucherType, value);
 			}
@@ -50,7 +52,7 @@ public class CommandLineApp {
 			case BLACK_LIST -> io.writeList(customerService.getBlackList());
 			case EXIT -> controllerStatus.stop();
 			default -> {
-				throw new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE.toString());
+				throw new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE);
 			}
 		}
 	}

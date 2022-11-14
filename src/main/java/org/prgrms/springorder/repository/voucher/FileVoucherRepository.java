@@ -1,5 +1,7 @@
 package org.prgrms.springorder.repository.voucher;
 
+import static org.prgrms.springorder.domain.ErrorMessage.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -53,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new FileLoadException(ErrorMessage.FILE_LOAD_FAIL_MESSAGE.toString(), e);
+			throw new FileLoadException(FILE_LOAD_FAIL_MESSAGE, e);
 		}
 	}
 
@@ -68,7 +70,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new FileSaveException(ErrorMessage.FILE_SAVE_FAIL_MESSAGE.toString(), e);
+			throw new FileSaveException(FILE_SAVE_FAIL_MESSAGE, e);
 
 		}
 	}
