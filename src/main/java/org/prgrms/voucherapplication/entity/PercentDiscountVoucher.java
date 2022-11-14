@@ -14,7 +14,8 @@ public class PercentDiscountVoucher extends Voucher{
     public PercentDiscountVoucher(UUID uuid, int percent) {
         super(uuid, percent);
 
-        if (percent > 100) {
+        final int MAX_PERCENT = 100;
+        if (percent > MAX_PERCENT) {
             logger.error(PERCENT_NOT_100);
             throw new VoucherException(PERCENT_NOT_100);
         }
