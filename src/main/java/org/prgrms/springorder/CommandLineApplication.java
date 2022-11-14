@@ -1,6 +1,6 @@
 package org.prgrms.springorder;
 
-import org.prgrms.springorder.controller.CommandLineController;
+import org.prgrms.springorder.global.CommandLineController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

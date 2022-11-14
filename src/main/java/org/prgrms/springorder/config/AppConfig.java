@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import org.prgrms.springorder.controller.Console;
-import org.prgrms.springorder.controller.ConsoleInput;
-import org.prgrms.springorder.controller.ConsoleOutput;
-import org.prgrms.springorder.controller.Input;
-import org.prgrms.springorder.controller.Output;
+import org.prgrms.springorder.global.Console;
+import org.prgrms.springorder.global.ConsoleInput;
+import org.prgrms.springorder.global.ConsoleOutput;
+import org.prgrms.springorder.global.Input;
+import org.prgrms.springorder.global.Output;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
