@@ -47,15 +47,11 @@ public class Console implements Input, Output{
 
     @Override
     public void printVouchers(List<Voucher> vouchers) {
-        for (Voucher voucher : vouchers) {
-            System.out.println(voucher);
-        }
+        vouchers.forEach(System.out::println);
     }
 
     @Override
     public void printBlacklist(List<Customer> blacklist) {
-        for (Customer black : blacklist) {
-            System.out.println(black);
-        }
+        blacklist.forEach(System.out::println);
     }
 }
