@@ -3,9 +3,12 @@ package org.prgrms.kdt.domain;
 import org.prgrms.kdt.exception.WrongSalePrice;
 import org.prgrms.kdt.exception.InvalidVoucherTypeException;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.DoubleBinaryOperator;
+
+import static java.util.stream.Collectors.toMap;
 
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("fixed", (price, discountAmount) -> {
@@ -19,26 +22,28 @@ public enum VoucherType {
         return salePrice;
     });
 
+    private final String code;
+
     private final DoubleBinaryOperator discount;
 
     VoucherType(String code, DoubleBinaryOperator discount) {
         this.discount = discount;
+        this.code = code;
     }
 
-    private static final Map<String, VoucherType> vouchers
-            = new HashMap<>() {
-        {
-            put("fixed", FIXED_AMOUNT_VOUCHER);
-            put("percent", PERCENT_DISCOUNT_VOUCHER);
-        }
-    };
+    private static final Map<String, VoucherType> VOUCHERS =
+            Arrays.stream(VoucherType.values())
+                    .collect(toMap(VoucherType::getCode, discountVoucherType -> discountVoucherType));
+
+    private String getCode() {
+        return code;
+    }
 
     public double getSalePrice(double price, double discountAmount) {
         return discount.applyAsDouble(price, discountAmount);
     }
 
     public static VoucherType getVoucherTypeByCode(String code) {
-        if (!vouchers.containsKey(code)) throw new InvalidVoucherTypeException();
-        return vouchers.get(code);
+        return Optional.ofNullable(VOUCHERS.get(code)).orElseThrow(InvalidVoucherTypeException::new);
     }
 }
