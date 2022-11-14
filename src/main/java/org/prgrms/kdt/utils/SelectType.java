@@ -1,6 +1,6 @@
 package org.prgrms.kdt.utils;
 
-import org.prgrms.kdt.exceptions.WrongSelectException;
+import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 
 import java.util.Arrays;
 
@@ -27,7 +27,7 @@ public enum SelectType {
                 .filter(selectType -> selectType.getType().equals(selection))
                 .findFirst()
                 .orElseThrow(() -> {
-                    throw new WrongSelectException(getSelectWrongMessage());
+                    throw new InvalidITypeInputException(getSelectWrongMessage());
                 });
     }
 }

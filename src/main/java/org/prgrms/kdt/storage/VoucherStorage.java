@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.storage;
+
+import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
