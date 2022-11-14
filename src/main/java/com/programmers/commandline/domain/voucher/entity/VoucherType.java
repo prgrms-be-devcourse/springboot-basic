@@ -3,14 +3,9 @@ package com.programmers.commandline.domain.voucher.entity;
 import com.programmers.commandline.domain.voucher.entity.impl.FixedAmountVoucher;
 import com.programmers.commandline.domain.voucher.entity.impl.PercentDiscountVoucher;
 import com.programmers.commandline.global.util.Verification;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.UUID;
-
-//enum에 함수를 넣는방법
-//if문을 최대한 줄이면서
-//다시 의문 VoucherType에서 바우처를 생성한다는 것은 할인 금액을 입력 받아야 하는것 인데 .....console까지 책임을 가져야하나 ?
 
 public enum VoucherType {
     FIXED_AMOUNT(1, "할인금액 : ", ((uuid, discount) -> new FixedAmountVoucher(uuid, discount))),
@@ -32,7 +27,7 @@ public enum VoucherType {
     }
 
     public static VoucherType ofNumber(String input) {
-        int code = toCode(input); // 똥
+        int code = toCode(input);
 
         return Arrays.stream(VoucherType.values())
                 .filter(voucherMenu -> voucherMenu.code == code)
