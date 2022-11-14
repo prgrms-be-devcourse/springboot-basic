@@ -14,7 +14,9 @@ public abstract class Voucher {
 
     abstract void validateZeroDiscount(long discountValue);
 
-    public abstract UUID getVoucherId();
-
     abstract long discount(long beforeDiscount);
+
+    public UUID getVoucherId(){
+        return voucherId;
+    }
 }
