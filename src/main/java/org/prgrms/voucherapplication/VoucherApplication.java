@@ -22,9 +22,7 @@ import static org.prgrms.voucherapplication.utils.CsvFileService.FILE_ERROR;
 public class VoucherApplication {
 
 	public static void main(String[] args) {
-		SpringApplication springApplication = new SpringApplication(VoucherApplication.class);
-		springApplication.setAdditionalProfiles("prod");
-		ApplicationContext applicationContext = springApplication.run(args);
+		ApplicationContext applicationContext = new SpringApplication(VoucherApplication.class).run(args);
 
 		VoucherProperties voucherProperties = applicationContext.getBean(VoucherProperties.class);
 		String blacklistFilePath = voucherProperties.getBlacklistFilePath();
