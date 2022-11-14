@@ -39,7 +39,7 @@ public class Output {
     }
 
     public void printStorage(Map<UUID, Voucher> history) {
-        history.forEach((key, value) -> System.out.println("ID -> " + key + " Type -> " + value.getType() + " Discount -> " + value.getDiscount()));
+        history.forEach((key, value) -> System.out.println(value.toString()));
 
     }
 }

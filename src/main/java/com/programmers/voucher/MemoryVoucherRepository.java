@@ -31,4 +31,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Map<UUID, Voucher> findAll() {
         return storage;
     }
+
+
 }

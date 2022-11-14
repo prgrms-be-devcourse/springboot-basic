@@ -23,13 +23,9 @@ public class PercentDiscountVoucher implements Voucher{
     public long discount(long beforeDiscount) {
         return beforeDiscount * (100 - discountPercent) / 100;
     }
-
-    public String getType() {
-        return type;
-    }
-
+    
     @Override
-    public long getDiscount() {
-        return discountPercent;
+    public String toString() {
+        return "Voucher ID -> " + voucherID + " Voucher Type -> " + type + " Discount -> " + discountPercent;
     }
 }
