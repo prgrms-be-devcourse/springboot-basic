@@ -19,24 +19,18 @@ public class VoucherFileRepository implements VoucherRepository {
     private static final String FAIL_CREATE_FILE = "파일 생성에 실패하였습니다.";
     private static final String FAIL_SAVE_VOUCHER = "파일에 바우처 저장하기 실패하였습니다.";
     private static final String FAIL_GET_VOUCHER = "파일에서 바우처를 불러오지 못했습니다.";
-    private final FileWriter writer;
     private final String fileName;
 
     public VoucherFileRepository(@Value("${file.path.voucher}") String fileName) {
         this.fileName = fileName;
-        try {
-            writer = new FileWriter(fileName, true);
-        } catch (IOException e) {
-            throw new RuntimeException(FAIL_CREATE_FILE);
-        }
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        try {
-            writer.write(voucher.toString() + "\n");
-            writer.flush();
-        } catch (IOException e) {
+        try (BufferedWriter buffer = new BufferedWriter(new FileWriter(fileName, true))) {
+            buffer.write(voucher.toString() + "\n");
+            buffer.flush();
+        } catch (IOException e1) {
             throw new RuntimeException(FAIL_SAVE_VOUCHER);
         }
         return voucher;
@@ -49,7 +43,7 @@ public class VoucherFileRepository implements VoucherRepository {
                     .map(line -> line.split("\t"))
                     .map(content -> VoucherType.toVoucherTypeByName(content[0])
                             .convertToVoucher(UUID.fromString(content[1]),
-                                    Long.parseLong(content[2].substring(0, content[2].length() - 2))))
+                                    Long.parseLong(content[2].substring(0, content[2].length() - 1))))
                     .collect(Collectors.toList());
         } catch (IOException e1) {
             throw new RuntimeException(FAIL_GET_VOUCHER);
