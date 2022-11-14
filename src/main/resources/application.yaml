@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: local
+
+pro:
+  version: "1.0"
+  voucher-csv-resource: src/main/resources/csv/voucher/voucher.csv
+  customer-csv-resource: src/main/resources/csv/customer/customer_blacklist.csv
