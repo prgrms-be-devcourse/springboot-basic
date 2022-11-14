@@ -14,7 +14,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class CommandLineApplication {
 
 	public static void main(String[] args) {
-
 		ApplicationContext applicationContext = SpringApplication.run(CommandLineApplication.class, args);
 		applicationContext.getBean(VoucherApplication.class).run();
 	}

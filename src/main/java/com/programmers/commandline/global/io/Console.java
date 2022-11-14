@@ -1,6 +1,7 @@
 package com.programmers.commandline.global.io;
 
 import com.programmers.commandline.global.aop.LogAspect;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -10,17 +11,17 @@ import java.io.InputStreamReader;
 @Component
 public class Console {
 
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
     public void print(String message) {
-        System.out.println(message);
+        System.out.print(message);
     }
 
-    public String read() {
+    public static String read() {
         try {
-            return br.readLine();
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+            String input = bufferedReader.readLine();
+            return input;
         } catch (IOException e) {
-            return e.getMessage();
+            throw new RuntimeException(Message.READ_LINE.getMessage());
         }
     }
 }
