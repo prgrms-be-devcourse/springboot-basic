@@ -19,8 +19,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.ini4j/ini4j
     implementation 'org.ini4j:ini4j:0.5.4'
 
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
-//	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
