@@ -30,18 +30,20 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+
         try {
             List<String> vouchers = Files.readAllLines(Paths.get(path));
-            vouchers.stream()
+            Optional<String> findVoucher = vouchers.stream()
                     .filter(voucherInfo -> {
                         String voucherIdCandidate = voucherInfo.split(",")[0];
                         return voucherIdCandidate.equals(voucherId.toString());
-                    })
-                    .findFirst()
-                    .ifPresentOrElse(voucherInfo -> {
-                        String[] infoArr = voucherInfo.split(",");
-                        VoucherType.createVoucher(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2]));
-                    }, Optional::empty);
+                    }).findFirst();
+
+            if (findVoucher.isEmpty()) return Optional.empty();
+
+            String[] infoArr = findVoucher.get().split(",");
+            return Optional.of(VoucherType.createVoucher(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2])));
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
