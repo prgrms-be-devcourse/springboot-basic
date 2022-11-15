@@ -46,19 +46,17 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository 
 
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] voucherArr = line.split(",");
-                    if (VoucherType.findVoucherType(voucherArr[1]).equals(VoucherType.PERCENT)) {
 
-                        memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new PercentDiscountVoucher(UUID.fromString(voucherArr[0]),
+                    switch(VoucherType.findVoucherType(voucherArr[1])) {
+                        case FIXED -> memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new PercentDiscountVoucher(UUID.fromString(voucherArr[0]),
                                 VoucherType.PERCENT,
                                 Long.parseLong(voucherArr[2])));
-                    } else if (VoucherType.findVoucherType(voucherArr[1]).equals(VoucherType.FIXED)) {
-
-                        memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new FixedAmountVoucher(UUID.fromString(voucherArr[0]),
+                        case PERCENT -> memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new FixedAmountVoucher(UUID.fromString(voucherArr[0]),
                                 VoucherType.FIXED,
                                 Long.parseLong(voucherArr[2])));
-                    } else {
-                        throw new IllegalArgumentException("invalid voucher option");
+                        default -> throw new IllegalArgumentException("invalid voucher option");
                     }
+
                 }
 
                 Objects.requireNonNull(bufferedReader).close();
@@ -73,7 +71,7 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository 
     public void saveFile() {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(voucherFile.getFileName().toString(), false))) {
             for (Voucher voucher : memoryCache.values()) {
-                bufferedWriter.write(voucher.getUuid()+","+voucher.getVoucherType()+","+voucher.getAmount()+"\n");
+                bufferedWriter.write(voucher.getUuid() + "," + voucher.getVoucherType() + "," + voucher.getAmount() + "\n");
                 bufferedWriter.flush();
             }
         } catch (IOException e) {
