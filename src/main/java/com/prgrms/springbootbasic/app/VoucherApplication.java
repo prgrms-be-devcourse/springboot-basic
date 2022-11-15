@@ -23,13 +23,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherApplication {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
+
     private final VoucherManager voucherManager;
-
     private final BlacklistManager blacklistManager;
-
     private final Console console;
-
-    private final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
 
     private ApplicationStatus applicationStatus;
 
@@ -74,6 +72,7 @@ public class VoucherApplication {
             console.printBlackList(blacklist);
             logger.info("List up all blacked users.");
         } catch(FileIOException | FileNotExistException e){
+            logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();
         }
@@ -91,6 +90,7 @@ public class VoucherApplication {
             console.printVoucherList(vouchers);
             logger.info("List up all Vouchers.");
         } catch(FileIOException | FileNotExistException e){
+            logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();
         }
@@ -106,6 +106,7 @@ public class VoucherApplication {
         } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
             console.printExceptionMessage(e.getMessage());
         } catch(FileIOException | FileNotExistException e){
+            logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();
         }
