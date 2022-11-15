@@ -53,7 +53,7 @@ class VoucherServiceTest {
 
         // when
         Voucher percentVoucher = voucherService.createVoucher(new VoucherDto(VoucherType.PERCENT, 20));
-        Voucher savedVoucher = voucherService.lookupVoucher().get(0);
+        Voucher savedVoucher = voucherService.collectVouchers().get(0);
 
         //then
         Assertions.assertThat(percentVoucher).isEqualTo(savedVoucher);

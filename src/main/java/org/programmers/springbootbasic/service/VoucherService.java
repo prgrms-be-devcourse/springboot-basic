@@ -27,7 +27,7 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
-    public List<Voucher> lookupVoucher() {
+    public List<Voucher> collectVouchers() {
         logger.info("Voucher 전체 출력");
         return voucherRepository.findAll();
     }

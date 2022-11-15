@@ -43,11 +43,11 @@ public class VoucherManagementExecutor {
                     createVoucher();
                 }
                 case LIST -> {
-                    List<Voucher> vouchers = voucherService.lookupVoucher();
+                    List<Voucher> vouchers = voucherService.collectVouchers();
                     output.printVouchers(vouchers);
                 }
                 case BLACKLIST -> {
-                    List<Customer> blackList = customerService.loopUpBlackList();
+                    List<Customer> blackList = customerService.collectBlacklists();
                     output.printBlacklist(blackList);
                 }
                 case EXIT -> {

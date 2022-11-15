@@ -15,7 +15,7 @@ public class CustomerService {
         this.customerBlackListRepository = customerBlackListRepository;
     }
 
-    public List<Customer> loopUpBlackList() {
+    public List<Customer> collectBlacklists() {
         return customerBlackListRepository.findAll();
     }
 }
