@@ -25,9 +25,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("file")
-public class FileBlockCustomerRepository implements BlockCustomerRepository {
+public class BlockCustomerFileRepository implements BlockCustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileBlockCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlockCustomerFileRepository.class);
 
     private final Map<UUID, BlockCustomer> storage = new ConcurrentHashMap<>();
 
@@ -36,7 +36,7 @@ public class FileBlockCustomerRepository implements BlockCustomerRepository {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
         "yyyy-MM-dd HH:mm:ss.SSS");
 
-    public FileBlockCustomerRepository(BlockCustomerProperties properties) {
+    public BlockCustomerFileRepository(BlockCustomerProperties properties) {
         fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
 
         readAll();

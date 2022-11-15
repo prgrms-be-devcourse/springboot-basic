@@ -25,15 +25,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("file")
-public class FileVoucherRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     private final File fileStore;
 
-    public FileVoucherRepository(VoucherFileProperties properties) {
+    public VoucherFileRepository(VoucherFileProperties properties) {
         fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
         readAll();
     }

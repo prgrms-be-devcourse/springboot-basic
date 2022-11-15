@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("local")
-public class MemoryBlockCustomerRepository implements BlockCustomerRepository {
+public class BlockCustomerMemoryRepository implements BlockCustomerRepository {
 
     private final Map<UUID, BlockCustomer> storage = new ConcurrentHashMap<>();
 

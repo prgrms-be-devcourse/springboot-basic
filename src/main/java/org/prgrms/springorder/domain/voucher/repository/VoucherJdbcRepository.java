@@ -24,6 +24,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 
+
+    private static final String findByIdSql = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
+
+    private static final String insertSql = "INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (:voucherId, :amount, :voucherType)";
+
+    private static final String selectAllSql = "SELECT * FROM vouchers";
+
+    private static final String deleteAllSql = "DELETE  FROM vouchers";
+
+    private static final String updateByIdSql = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType";
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(
@@ -48,16 +59,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }};
     }
 
-    private final String findByIdSql = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
-
-    private final String insertSql = "INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (:voucherId, :amount, :voucherType)";
-
-    private final String selectAllSql = "SELECT * FROM vouchers";
-
-    private final String deleteAllSql = "DELETE  FROM vouchers";
-
-    private final String updateByIdSql = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType";
-
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
 
@@ -76,12 +77,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
 
         try {
-            int update = jdbcTemplate.update(insertSql, toParamMap(voucher));
-
-            if (update != 1) {
-                // TODO: 2022/11/15 예외 재정의
-                throw new RuntimeException();
-            }
+            jdbcTemplate.update(insertSql, toParamMap(voucher));
 
             return voucher;
         } catch (DataAccessException e) {
@@ -104,14 +100,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-
-        int update = jdbcTemplate.update(updateByIdSql, toParamMap(voucher));
-
-        if (update != 1) {
-            // 예외 재정의
-            throw new RuntimeException();
-        }
-
+        jdbcTemplate.update(updateByIdSql, toParamMap(voucher));
         return voucher;
     }
 
