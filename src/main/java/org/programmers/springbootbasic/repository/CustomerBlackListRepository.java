@@ -23,10 +23,10 @@ public class CustomerBlackListRepository {
     }
 
     public List<Customer> findAll() {
-        return read();
+        return readBlacklistsFromFile();
     }
 
-    private List<Customer> read() {
+    private List<Customer> readBlacklistsFromFile() {
         List<Customer> blackList = new ArrayList<>();
         try (
                 BufferedReader br = new BufferedReader(new FileReader(csv));
