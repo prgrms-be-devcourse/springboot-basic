@@ -8,6 +8,8 @@ import org.prgrms.java.domain.voucher.Voucher;
 import java.util.UUID;
 
 public class Mapper {
+    private static final String PERCENT_PATTERN = "[0-9]+%";
+
     private Mapper() {
     }
 
@@ -15,7 +17,7 @@ public class Mapper {
         String[] atoms = object.split(",");
         UUID voucherId = UUID.fromString(atoms[0].trim());
         String amount = atoms[1].trim();
-        if (amount.matches("[0-9]+%")) {
+        if (amount.matches(PERCENT_PATTERN)) {
             return new PercentDiscountVoucher(voucherId, Long.parseLong(amount.substring(0, amount.length()-1)));
         } else {
             return new FixedAmountVoucher(voucherId, Long.parseLong(amount));
