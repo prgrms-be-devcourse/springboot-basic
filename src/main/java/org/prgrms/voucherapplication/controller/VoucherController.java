@@ -1,6 +1,5 @@
 package org.prgrms.voucherapplication.controller;
 
-import org.prgrms.voucherapplication.config.VoucherProperties;
 import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
@@ -15,18 +14,17 @@ import org.springframework.stereotype.Controller;
 public class VoucherController {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-    private static final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요. ";
+    private static final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요.";
     private String blacklistString;
 
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-    private final VoucherProperties voucherProperties;
-    public VoucherController(Input input, Output output, VoucherService voucherService, VoucherProperties voucherProperties) {
+
+    public VoucherController(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
-        this.voucherProperties = voucherProperties;
     }
 
     public void init(String blacklist) {
@@ -34,7 +32,12 @@ public class VoucherController {
     }
 
     public void start() {
-        String description = voucherProperties.getDescription();
+        String description = "=== Voucher Program ===\n" +
+            "Type exit to exit the program.\n" +
+            "Type create to create a new voucher.\n" +
+            "Type list to list all vouchers.\n" +
+            "Type blacklist to list all customer_blacklist.";
+
         boolean isExited = false;
 
         while (!isExited) {

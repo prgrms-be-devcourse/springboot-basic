@@ -25,7 +25,7 @@ public class VoucherApplication {
 		ApplicationContext applicationContext = new SpringApplication(VoucherApplication.class).run(args);
 
 		VoucherProperties voucherProperties = applicationContext.getBean(VoucherProperties.class);
-		String blacklistFilePath = voucherProperties.getBlacklistFilePath();
+		String blacklistFilePath = voucherProperties.getBlacklist();
 		Resource resource = applicationContext.getResource(blacklistFilePath);
 
 		File file;

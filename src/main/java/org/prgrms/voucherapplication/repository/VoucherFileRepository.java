@@ -15,7 +15,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private final File voucherFile;
     private final CsvFileService csvFileService;
 
-    public VoucherFileRepository(@Value("${voucher.file-path}") String voucherFilePath, CsvFileService csvFileService) {
+    public VoucherFileRepository(@Value("${file-path.voucher}") String voucherFilePath, CsvFileService csvFileService) {
         this.voucherFile = new File(voucherFilePath);
         this.csvFileService = csvFileService;
     }
