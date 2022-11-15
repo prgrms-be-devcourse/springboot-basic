@@ -6,7 +6,7 @@ public class FixedAmountVoucher implements Voucher{
 
     private final UUID voucherId;
     private final int discountAmount;
-    private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+    private final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 
     public FixedAmountVoucher(UUID uuid, int discountAmount) {
         this.voucherId = uuid;
