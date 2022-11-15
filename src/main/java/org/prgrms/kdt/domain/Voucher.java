@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Voucher {
@@ -35,5 +36,10 @@ public class Voucher {
     public boolean equals(Object v) {
         if (!(v instanceof Voucher)) return false;
         return this.voucherId == ((Voucher) v).getVoucherId();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(voucherId);
     }
 }
