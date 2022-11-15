@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CustomerBlackListRepositoryTest {
 
-    CustomerBlackListRepository customerBlackListRepository = new CustomerBlackListRepository("src/main/resources/customer_blacklist.csv");
+    CustomerBlackListRepository customerBlackListRepository = new CustomerBlackListRepository("src/test/resources/customer_blacklist.csv");
 
     /**
      * FILE DATA 목록
