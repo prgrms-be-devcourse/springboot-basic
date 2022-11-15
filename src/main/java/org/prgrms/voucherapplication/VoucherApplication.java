@@ -2,7 +2,7 @@ package org.prgrms.voucherapplication;
 
 import org.prgrms.voucherapplication.common.VoucherException;
 import org.prgrms.voucherapplication.config.VoucherProperties;
-import org.prgrms.voucherapplication.controller.VoucherController;
+import org.prgrms.voucherapplication.voucher.controller.VoucherController;
 import org.prgrms.voucherapplication.utils.CsvFileService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

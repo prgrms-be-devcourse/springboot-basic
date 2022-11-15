@@ -1,6 +1,6 @@
-package org.prgrms.voucherapplication.repository;
+package org.prgrms.voucherapplication.voucher.repository;
 
-import org.prgrms.voucherapplication.entity.Voucher;
+import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.utils.CsvFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

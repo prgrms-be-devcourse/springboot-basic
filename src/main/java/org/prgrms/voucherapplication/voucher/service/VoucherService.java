@@ -1,7 +1,7 @@
-package org.prgrms.voucherapplication.service;
+package org.prgrms.voucherapplication.voucher.service;
 
-import org.prgrms.voucherapplication.entity.Voucher;
-import org.prgrms.voucherapplication.repository.VoucherRepository;
+import org.prgrms.voucherapplication.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -5,9 +5,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.voucherapplication.console.Console;
-import org.prgrms.voucherapplication.controller.VoucherController;
-import org.prgrms.voucherapplication.entity.VoucherType;
-import org.prgrms.voucherapplication.service.VoucherService;
+import org.prgrms.voucherapplication.voucher.controller.VoucherController;
+import org.prgrms.voucherapplication.voucher.entity.VoucherType;
+import org.prgrms.voucherapplication.voucher.service.VoucherService;
 
 import java.io.*;
 import java.util.Arrays;

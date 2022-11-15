@@ -1,11 +1,11 @@
-package org.prgrms.voucherapplication.controller;
+package org.prgrms.voucherapplication.voucher.controller;
 
 import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
-import org.prgrms.voucherapplication.entity.Voucher;
-import org.prgrms.voucherapplication.entity.VoucherType;
-import org.prgrms.voucherapplication.service.VoucherService;
+import org.prgrms.voucherapplication.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.voucher.entity.VoucherType;
+import org.prgrms.voucherapplication.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
