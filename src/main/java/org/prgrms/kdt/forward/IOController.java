@@ -8,7 +8,6 @@ import org.prgrms.kdt.forward.io.Output;
 import org.prgrms.kdt.view.ConsoleView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class IOController {
     private final ConsoleView consoleView;
     private static final Logger logger = LoggerFactory.getLogger(IOController.class);
 
-    @Autowired
     public IOController(Input input, Output output, VoucherController voucherController, ConsoleView consoleView) {
         this.input = input;
         this.output = output;
@@ -34,25 +32,17 @@ public class IOController {
         logger.info("Start : Voucher Manage Program");
         output.write(consoleView.introduceCommand());
 
-        do {
+        while (!exit) {
             try {
                 String command = input.readLine();
                 switch (command) {
                     case "create" -> {
                         logger.info("Request <create voucher>");
-                        output.write(consoleView.requestVoucherInfo());
-                        String requestedVoucherInfo = input.readLine();
-                        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(requestedVoucherInfo);
-                        if (voucherController.create(createVoucherRequest))
-                            output.write(consoleView.saveVoucher());
-                        else output.write(consoleView.saveVoucherError());
+                        create();
                     }
                     case "list" -> {
                         logger.info("Request <list voucher>");
-                        List<VoucherResponse> list = voucherController.list();
-                        if (list.isEmpty())
-                            output.write(consoleView.emptyVoucherList());
-                        else output.write(consoleView.listVoucher(list));
+                        list();
                     }
                     case "exit" -> {
                         logger.info("Request <exit>");
@@ -69,9 +59,27 @@ public class IOController {
             }
 
             if (!exit) output.write(consoleView.introduceCommand());
-        } while (!exit);
+        }
 
         input.close();
         logger.info("Finish : Voucher Manage Program");
+    }
+
+    private void create() {
+        output.write(consoleView.requestVoucherInfo());
+        String requestedVoucherInfo = input.readLine();
+        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(requestedVoucherInfo);
+        if (voucherController.createVoucher(createVoucherRequest)) {
+            output.write(consoleView.saveVoucher());
+        }
+        else output.write(consoleView.saveVoucherError());
+    }
+
+    private void list() {
+        List<VoucherResponse> list = voucherController.getAllVouchers();
+        if (list.isEmpty()) {
+            output.write(consoleView.emptyVoucherList());
+        }
+        else output.write(consoleView.listVoucher(list));
     }
 }

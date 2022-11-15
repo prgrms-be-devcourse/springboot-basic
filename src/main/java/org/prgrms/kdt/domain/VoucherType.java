@@ -13,12 +13,16 @@ import static java.util.stream.Collectors.toMap;
 public enum VoucherType {
     FIXED_AMOUNT_VOUCHER("fixed", (price, discountAmount) -> {
         double salePrice = price - discountAmount;
-        if (salePrice < 0) throw new WrongSalePriceException();
+        if (salePrice < 0) {
+            throw new WrongSalePriceException();
+        }
         return salePrice;
     }),
     PERCENT_DISCOUNT_VOUCHER("percent", (price, discountAmount) -> {
         double salePrice = price - ((price * discountAmount) / 100);
-        if (salePrice < 0) throw new WrongSalePriceException();
+        if (salePrice < 0) {
+            throw new WrongSalePriceException();
+        }
         return salePrice;
     });
 
@@ -44,6 +48,7 @@ public enum VoucherType {
     }
 
     public static VoucherType getVoucherTypeByCode(String code) {
-        return Optional.ofNullable(VOUCHERS.get(code)).orElseThrow(InvalidVoucherTypeException::new);
+        return Optional.ofNullable(VOUCHERS.get(code))
+                .orElseThrow(InvalidVoucherTypeException::new);
     }
 }
