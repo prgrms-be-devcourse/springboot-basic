@@ -38,10 +38,10 @@ public class ScannerOutput implements Output {
 
     @Override
     public void customerBlackListView(List<Customer> blackList) {
-        System.out.println("--------------------");
+        System.out.println("-----------------------------------");
         blackList.forEach(customer -> {
-            System.out.println(customer.getCustomerId() + " - " + customer.getName());
+            System.out.println(customer.getCustomerId() + " : " + customer.getName());
         });
-        System.out.println("--------------------");
+        System.out.println("-----------------------------------");
     }
 }
