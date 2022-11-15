@@ -1,7 +1,5 @@
-package com.program.commandLine.customer;
+package com.program.commandLine.voucher;
 
-import com.program.commandLine.voucher.PercentDiscountVoucher;
-import com.program.commandLine.voucher.Voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,31 +7,16 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 class PercentDiscountVoucherTest {
+
+
     // Given
     UUID voucherId = UUID.randomUUID();
     Voucher percentDiscountVoucherSut = new PercentDiscountVoucher(voucherId, 30);
-
-
-    @Test
-    @DisplayName("Voucher Id를 얻을 수 있다.")
-    void getVoucherId() {
-        // When
-        var getId = percentDiscountVoucherSut.getVoucherId();
-        // Then
-        assertThat(getId, is(voucherId));
-    }
-
-    @Test
-    @DisplayName("Voucher type을 얻을 수 있다.")
-    void getVoucherType() {
-        // When
-        var getType = percentDiscountVoucherSut.getVoucherType();
-        // Then
-        assertThat(getType, is("Percent_discount"));
-    }
 
     @Test
     @DisplayName("Voucher의 할인금액을 얻을 수 있다.")

@@ -1,80 +1,78 @@
 package com.program.commandLine.service;
 
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.repository.MemoryVoucherRepository;
 import com.program.commandLine.repository.VoucherRepository;
-import org.junit.jupiter.api.Disabled;
+import com.program.commandLine.voucher.FixedAmountVoucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class VoucherServiceTest {
 
-    static final String FIXED_AMOUNT_VOUCHER = "1";
-    static final String PERCENT_DISCOUNT_VOUCHER = "2";
+    private final String NUMBER_FIXED_TYPE = "1";
+    private final String NUMBER_PERCENT_TYPE = "2";
 
-    class VoucherRepositoryStub implements VoucherRepository {
-
-        Map<UUID, Voucher> stubMap = new HashMap<>();
-
-        @Override
-        public Optional<Voucher> findById(UUID voucherId) {
-            return Optional.empty();
-        }
-
-        @Override
-        public Voucher insertVoucher(Voucher voucher) {
-            return voucher;
-        }
-
-        @Override
-        public List<Voucher> findAll() {
-            return stubMap.values().stream().toList();
-        }
-    }
-
-
+    @DisplayName("fixed amount voucher가 생성된다. - mock")
     @Test
-    @DisplayName("Fixed amount voucher가 생성된다.")
-    void createFixedAmountVoucher() {
+    void testCreateFixedAmountVoucher() {
         // Given
+        var voucherRepositoryMock = mock(VoucherRepository.class);
+        var voucherFactoryMock = mock(VoucherFactory.class);
         UUID voucherId = UUID.randomUUID();
-        int discountAmount = 2000;
-        var sut = new VoucherService(new VoucherRepositoryStub(), new VoucherFactory());
+        var sut = new VoucherService(voucherRepositoryMock, voucherFactoryMock);
+
         // When
-        Voucher fixedAmountVoucher = sut.createVoucher(FIXED_AMOUNT_VOUCHER, voucherId, discountAmount);
+        var voucher = sut.createVoucher(NUMBER_FIXED_TYPE, voucherId, 20);
+
         // Then
-        assertThat(fixedAmountVoucher.getVoucherId(), is(voucherId));
-        assertThat(fixedAmountVoucher.getVoucherType(), is("Fixed_amount"));
-        assertThat(fixedAmountVoucher.getVoucherDiscount(), is(discountAmount));
+        verify(voucherFactoryMock).createVoucher(NUMBER_FIXED_TYPE, voucherId, 20);
+        verify(voucherRepositoryMock).insertVoucher(voucher);
+
     }
 
+    @DisplayName("percent discount voucher가 생성된다. - mock")
     @Test
-    @Disabled
-    @DisplayName("Percent discount voucher가 생성된다.")
-    void createPercentDiscountVoucher() {
+    void testCreatePercentDiscountVoucher() {
         // Given
+        var voucherRepositoryMock = mock(VoucherRepository.class);
+        var voucherFactoryMock = mock(VoucherFactory.class);
         UUID voucherId = UUID.randomUUID();
-        int discountPercent = 30;
-        var sut = new VoucherService(new VoucherRepositoryStub(), new VoucherFactory());
+        var sut = new VoucherService(voucherRepositoryMock, voucherFactoryMock);
+
         // When
-        Voucher PercentDiscountVoucher = sut.createVoucher(PERCENT_DISCOUNT_VOUCHER, voucherId, discountPercent);
+        var voucher = sut.createVoucher(NUMBER_PERCENT_TYPE, voucherId, 20);
+
         // Then
-        assertThat(PercentDiscountVoucher.getVoucherId(), is(voucherId));
-        assertThat(PercentDiscountVoucher.getVoucherType(), is("Percent_discount"));
-        assertThat(PercentDiscountVoucher.getVoucherDiscount(), is(discountPercent));
+        verify(voucherFactoryMock).createVoucher(NUMBER_PERCENT_TYPE, voucherId, 20);
+        verify(voucherRepositoryMock).insertVoucher(voucher);
+
     }
 
     @Test
-    @DisplayName("voucher map를 꺼내올 수 있다.(mock)")
-    void getAllVoucher() {
+    @DisplayName("추가된 바우처가 list로 반환된다. - stub")
+    void testGetAllVoucher() {
         // Given
+        var voucherRepository = new MemoryVoucherRepository();
+        var voucherFactory = new VoucherFactory();
+        var voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        voucherRepository.insertVoucher(voucher);
+
+        var sut = new VoucherService(voucherRepository, voucherFactory);
 
         // When
+        var allVoucher = sut.getAllVoucher();
 
         // Then
+        assertThat(allVoucher.size(), is(1));
+        assertThat(allVoucher.get(0), is(voucher));
+        assertThat(allVoucher.get(0).getVoucherId(), is(voucher.getVoucherId()));
+
     }
+
 }

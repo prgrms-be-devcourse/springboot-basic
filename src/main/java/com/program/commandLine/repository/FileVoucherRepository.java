@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.List;
@@ -30,14 +29,14 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-    @Value("${voucher.file_repository.path}")
-    private String voucherFilePath;
+    private final String voucherFilePath;
 
-    public FileVoucherRepository(VoucherFactory voucherFactory) {
+    public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${voucher.file_repository.path}") String voucherFilePath) {
         this.voucherFactory = voucherFactory;
+        this.voucherFilePath = voucherFilePath;
+        readVoucherFile();
     }
 
-    @PostConstruct
     private void readVoucherFile(){
         voucherFile = new File(voucherFilePath);
         if (voucherFile.exists()) {

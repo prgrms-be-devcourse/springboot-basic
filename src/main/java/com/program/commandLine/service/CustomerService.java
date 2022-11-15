@@ -7,7 +7,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -21,14 +20,14 @@ public class CustomerService {
 
     private final List<Customer> blackListConsumers = new ArrayList<>();
 
-    @Value("${customer.black_list.path}")
-    private String blackListFilePath;
+    private final String blackListFilePath;
 
-    public CustomerService(ApplicationContext applicationContext) {
+    public CustomerService(ApplicationContext applicationContext, @Value("${customer.black_list.path}") String blackListFilePath) {
         this.applicationContext = applicationContext;
+        this.blackListFilePath = blackListFilePath;
+        readBlackListFile();
     }
 
-    @PostConstruct
     private void readBlackListFile() {
         Resource resource = applicationContext.getResource(blackListFilePath);
         if (!resource.exists()) return;
@@ -42,7 +41,7 @@ public class CustomerService {
 
     }
 
-    public List<Customer> getBlackListCustomers() throws IOException {
+    public List<Customer> getBlackListCustomers() {
         return List.copyOf(blackListConsumers);
     }
 }

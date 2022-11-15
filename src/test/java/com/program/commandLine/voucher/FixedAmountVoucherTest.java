@@ -1,7 +1,5 @@
-package com.program.commandLine.customer;
+package com.program.commandLine.voucher;
 
-import com.program.commandLine.voucher.FixedAmountVoucher;
-import com.program.commandLine.voucher.Voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -18,33 +16,6 @@ class FixedAmountVoucherTest {
     UUID voucherId = UUID.randomUUID();
     Voucher fixedAmountVoucherSut = new FixedAmountVoucher(voucherId, 2000);
 
-
-    @Test
-    @DisplayName("Voucher Id를 얻을 수 있다.")
-    void getVoucherId() {
-        // When
-        var getId = fixedAmountVoucherSut.getVoucherId();
-        // Then
-        assertThat(getId, is(voucherId));
-    }
-
-    @Test
-    @DisplayName("Voucher type을 얻을 수 있다.")
-    void getVoucherType() {
-        // When
-        var getType = fixedAmountVoucherSut.getVoucherType();
-        // Then
-        assertThat(getType, is("Fixed_amount"));
-    }
-
-    @Test
-    @DisplayName("Voucher의 할인금액을 얻을 수 있다.")
-    void getVoucherDiscount() {
-        // When
-        var getType = fixedAmountVoucherSut.getVoucherDiscount();
-        // Then
-        assertThat(getType, is(2000));
-    }
 
     @Test
     @DisplayName("Voucher의 주어진 금액만큼 할인이 된다.")

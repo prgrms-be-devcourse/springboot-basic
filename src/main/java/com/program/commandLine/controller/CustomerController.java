@@ -23,7 +23,7 @@ public class CustomerController {
         try {
             List<Customer> blackList = customerService.getBlackListCustomers();
             return blackList;
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.warn("black list 파일 열기 실패");
             throw new RuntimeException("! Failed to open blacklist file");
         }
