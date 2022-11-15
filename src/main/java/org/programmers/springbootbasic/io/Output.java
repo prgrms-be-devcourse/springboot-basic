@@ -6,7 +6,7 @@ import org.programmers.springbootbasic.domain.Voucher;
 import java.util.List;
 
 public interface Output {
-    void printMenu(String menu);
+    void printMainMenu();
 
     void printError();
 

@@ -13,7 +13,6 @@ import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
 import org.programmers.springbootbasic.service.CustomerService;
 import org.programmers.springbootbasic.service.VoucherService;
-import org.programmers.springbootbasic.util.ConstantMessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -36,8 +35,8 @@ public class VoucherManagementExecutor {
     public void run() throws IOException {
         boolean running = true;
         while (running) {
-            output.printMenu(ConstantMessageUtil.VOUCHER_MAIN_MENU);
-            VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput(ConstantMessageUtil.TYPE_USER_COMMAND);
+            output.printMainMenu();
+            VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput();
             switch (menuInput) {
                 case CREATE -> {
                     createVoucher();
@@ -64,7 +63,7 @@ public class VoucherManagementExecutor {
         boolean continueJob = true;
         while (continueJob) {
             try {
-                VoucherInputDto voucherInputDto = input.getVoucherCreateMenuInput(ConstantMessageUtil.TYPE_VOUCHER_INFO);
+                VoucherInputDto voucherInputDto = input.getVoucherCreateMenuInput();
                 // 잘못된 입력값인지 확인
                 voucherInputDto.validateVoucher();
                 VoucherDto voucherDto = voucherDtoConverter.convertVoucherInput(voucherInputDto);
