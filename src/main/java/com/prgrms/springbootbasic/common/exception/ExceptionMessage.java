@@ -10,4 +10,5 @@ public class ExceptionMessage {
 
     public static final String ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT = "Discount result is under zero. You cannot use this voucher.";
     public static final String VOUCHER_NOT_SUPPORTED = "Voucher not supported yet.";
+    public static final String FILE_NUMBER_OF_COLUMN_NOT_MATCHED = "Accessing file system's columns out of bound.";
 }
