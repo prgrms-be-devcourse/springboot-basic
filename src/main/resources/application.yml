@@ -1,16 +1,14 @@
 
+file:
+  customer:
+    file-path: src/customer_blacklist.csv
+
 ---
 
 spring:
   config:
     activate:
       on-profile: dev
-file:
-  customer:
-    file-path: src/customer_blacklist.csv
-  voucher:
-    file-path: src/voucher_memory.csv
-
 
 ---
 
@@ -19,8 +17,6 @@ spring:
     activate:
       on-profile: local
 file:
-  customer:
-    file-path: src/customer_blacklist.csv
   voucher:
     file-path: src/voucher_memory.csv
 
