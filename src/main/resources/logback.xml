@@ -59,6 +59,7 @@
   <logger name="org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate" level="OFF"/>
   <logger name="org.springframework.test.context.cache" level="OFF"/>
   <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="OFF"/>
+  <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="OFF"/>
   <root level="debug">
     <appender-ref ref="CONSOLE"/>
     <appender-ref ref="ROLLING_FILE"/>
