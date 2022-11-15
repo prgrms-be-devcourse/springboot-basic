@@ -13,12 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryUserRepository implements UserRepository {
     private final Map<UUID, User> storage = new ConcurrentHashMap<>();
-    private final Map<UUID, User> black_storage = new ConcurrentHashMap<>();
+    private final Map<UUID, User> blackStorage = new ConcurrentHashMap<>();
 
     @Override
     public Optional<User> findById(UUID userId, boolean isBlocked) {
         if (isBlocked) {
-            return Optional.ofNullable(black_storage.get(userId));
+            return Optional.ofNullable(blackStorage.get(userId));
         }
         return Optional.ofNullable(storage.get(userId));
     }
@@ -26,7 +26,7 @@ public class MemoryUserRepository implements UserRepository {
     @Override
     public Collection<User> findAll(boolean isBlocked) {
         if (isBlocked) {
-            return black_storage.values();
+            return blackStorage.values();
         }
         return storage.values();
     }
@@ -37,8 +37,8 @@ public class MemoryUserRepository implements UserRepository {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
         if (isBlocked) {
-            black_storage.put(user.getUserId(), user);
-            return black_storage.get(user.getUserId());
+            blackStorage.put(user.getUserId(), user);
+            return blackStorage.get(user.getUserId());
         }
         storage.put(user.getUserId(), user);
         return storage.get(user.getUserId());
