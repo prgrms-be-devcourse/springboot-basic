@@ -1,7 +1,10 @@
 package org.prgrms.voucherapplication.entity;
 
+import org.prgrms.voucherapplication.common.VoucherException;
+
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public enum VoucherType {
     FIXED(1,"원하시는 할인 금액을 입력해주세요.", discount -> new FixedAmountVoucher(UUID.randomUUID(), discount)),
@@ -33,14 +36,10 @@ public enum VoucherType {
     }
 
     public static VoucherType of(String name) {
-        VoucherType[] values = VoucherType.values();
-        for (VoucherType voucherType : values) {
-            if (voucherType.name().equals(name)) {
-                return voucherType;
-            }
-        }
-
-        throw new IllegalArgumentException(NOT_EXIST);
+        return Stream.of(VoucherType.values())
+                .filter(voucherType -> voucherType.name().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new VoucherException(NOT_EXIST));
     }
 
     public Voucher createVoucher(int discount) {
