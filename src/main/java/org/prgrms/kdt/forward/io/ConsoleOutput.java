@@ -17,7 +17,8 @@ public class ConsoleOutput implements Output {
         try {
             writer.write(string + "\n");
             writer.flush();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

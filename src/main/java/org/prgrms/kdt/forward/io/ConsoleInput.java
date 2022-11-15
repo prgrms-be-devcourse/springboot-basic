@@ -16,18 +16,18 @@ public class ConsoleInput implements Input {
     }
 
     public String readLine() {
-        String input = "";
         try {
-            input = reader.readLine();
-        } catch (IOException ignored) {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return input;
     }
 
     public void close() {
         try {
             reader.close();
-        } catch (IOException ignored) {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
