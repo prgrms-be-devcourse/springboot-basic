@@ -1,7 +1,6 @@
 package org.prgrms.kdt.storage;
 
 import org.prgrms.kdt.exceptions.AmountException;
-import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.io.FileIO;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.voucher.Voucher;
@@ -20,9 +19,11 @@ import static org.prgrms.kdt.voucher.VoucherProvider.getVoucher;
 @Profile("prod")
 public class FileVoucherStorage implements VoucherStorage {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherStorage.class);
-    private final FileIO fileIO;
-    private Map<UUID, Voucher> vouchers;
     private static final String FAIL_PARSE = "숫자 입력값 변환 오류 발생";
+    private static final int VOUCHER_ID_INDEX = 0;
+    private static final int VOUCHER_CLASS_NAME_INDEX = 1;
+    private static final int VOUCHER_AMOUNT_INDEX = 2;
+    private final FileIO fileIO;
 
     public FileVoucherStorage(FileIO fileIO) {
         this.fileIO = fileIO;
@@ -30,21 +31,20 @@ public class FileVoucherStorage implements VoucherStorage {
 
     @Override
     public void save(Voucher voucher) {
-        fileIO.write(voucher);
+        String voucherInfo = MessageFormat.format("{0}/{1}/{2}\n", voucher.getVoucherId().toString(), voucher.getClass().getSimpleName(), voucher.getAmount());
+        logger.info("voucher 객체를 string으로 변환 -> {}", voucherInfo);
+        fileIO.write(voucherInfo);
     }
 
     @Override
     public List<Voucher> findAll() {
-        vouchers = new HashMap<>();
+        List<Voucher> voucherList = new ArrayList<>();
         try {
             List<String> readVouchers = fileIO.read();
-            readVouchers.forEach(voucher -> {
-                String[] info = voucher.split("/");
-                insertVoucher(info);
-            });
-            return vouchers.values()
-                    .stream()
-                    .toList();
+            readVouchers.forEach(voucher ->
+                    voucherList.add(
+                            createVoucher(getSplitVoucherInfo(voucher))));
+            return voucherList;
         } catch (RuntimeException e) {
             logger.error("파일에 저장된 바우처 정보가 없습니다. 빈 배열을 반환합니다.");
             return new ArrayList<>();
@@ -53,24 +53,25 @@ public class FileVoucherStorage implements VoucherStorage {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        findAll();
-        logger.info("생성했던 바우처 목록을 가져오기위해 findAll을 한번 실행했습니다.");
-        return Optional.ofNullable(vouchers.get(voucherId));
+        List<String> readVouchers = fileIO.read();
+        Map<UUID, Voucher> voucherMap = new HashMap<>();
+        readVouchers.forEach(voucherLine -> {
+            Voucher newVoucher = createVoucher(getSplitVoucherInfo(voucherLine));
+            voucherMap.put(newVoucher.getVoucherId(), newVoucher);
+        });
+        return Optional.ofNullable(voucherMap.get(voucherId));
     }
 
-    private void insertVoucher(String[] info) {
-        try {
-            UUID voucherId = UUID.fromString(info[0]);
-            String className = info[1];
-            double amount = parse(info[2]);
-            VoucherType voucherType = VoucherType.findVoucherTypeByClassName(className);
-            Voucher voucher = getVoucher(voucherType, voucherId, amount);
-            if (!vouchers.containsKey(voucherId)) {
-                vouchers.put(voucher.getVoucherId(), voucher);
-            }
-        } catch (InvalidITypeInputException | AmountException e) {
-            logger.error(MessageFormat.format("파일에서 읽어와 바우처를 생성하는 곳에서 에러 발생 -> {0}", e.getMessage()));
-        }
+    private Voucher createVoucher(List<String> info) {
+        UUID voucherId = UUID.fromString(info.get(VOUCHER_ID_INDEX));
+        String className = info.get(VOUCHER_CLASS_NAME_INDEX);
+        double amount = parse(info.get(VOUCHER_AMOUNT_INDEX));
+        VoucherType voucherType = VoucherType.findVoucherTypeByClassName(className);
+        return getVoucher(voucherType, voucherId, amount);
+    }
+
+    private List<String> getSplitVoucherInfo(String readVoucher) {
+        return Arrays.stream(readVoucher.split("/")).toList();
     }
 
     private double parse(String amount) {
