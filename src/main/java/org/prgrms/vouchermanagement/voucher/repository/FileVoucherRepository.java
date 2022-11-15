@@ -52,10 +52,8 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
 
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true));) {
             writer.write(parseCsvFormat(voucher.getVoucherId().toString(), voucher.getVoucherType().name(), String.valueOf(voucher.getDiscountAmount())));
-            writer.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
