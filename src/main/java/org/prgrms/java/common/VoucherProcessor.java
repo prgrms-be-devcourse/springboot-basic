@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @Component
@@ -67,16 +68,6 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
         return isRunning;
     }
 
-    private void getBlackUsers() {
-        try {
-            userService.getAllBlackUser()
-                    .forEach(view::print);
-        } catch (UserException e) {
-            view.print(e.getMessage());
-            logger.warn(e.getMessage());
-        }
-    }
-
     private void createVoucher() {
         view.print(MessageGuide.VOUCHER_TYPE);
         String voucherType = view.read();
@@ -107,6 +98,16 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
         try {
             voucherService.createVoucher(voucher);
         } catch (VoucherException e) {
+            view.print(e.getMessage());
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void getBlackUsers() {
+        try {
+            userService.getAllBlackUser()
+                    .forEach(view::print);
+        } catch (UserException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }
