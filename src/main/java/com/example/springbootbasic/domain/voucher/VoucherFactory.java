@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.*;
-import static com.example.springbootbasic.exception.VoucherException.NULL_VOUCHER_FACTORY;
+import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_FACTORY;
 
 public enum VoucherFactory {
 
@@ -15,6 +15,7 @@ public enum VoucherFactory {
     PERCENT_DISCOUNT_VOUCHER(PERCENT_DISCOUNT, PercentDiscountVoucher::new);
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
+    private static final int UNKNOWN_VOUCHER_ID = 0;
     private final VoucherType voucherType;
     private final BiFunction<Long, Long, Voucher> voucherGenerator;
 
@@ -29,7 +30,7 @@ public enum VoucherFactory {
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_FACTORY.getMessage()));
 
-        return findVoucherFactory.generate(0, discountValue);
+        return findVoucherFactory.generate(UNKNOWN_VOUCHER_ID, discountValue);
     }
 
     public static Voucher generateVoucher(long voucherId, long discountValue, VoucherType inputVoucherType) {

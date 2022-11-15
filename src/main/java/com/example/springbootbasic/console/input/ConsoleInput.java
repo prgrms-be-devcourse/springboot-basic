@@ -41,11 +41,10 @@ public class ConsoleInput {
             String[] voucherPieces = br.readLine().split(SPACE.unit());
             VoucherType voucherType = VoucherType.findVoucherType(voucherPieces[VOUCHER_TYPE_INDEX]);
             long discountValue = Long.parseLong(voucherPieces[VOUCHER_DISCOUNT_VALUE_INDEX]);
-            voucherDto = new VoucherDto(discountValue, voucherType);
+            return RequestBody.success(new VoucherDto(discountValue, voucherType));
         } catch (IOException e) {
             logger.error("");
             return RequestBody.fail(voucherDto);
         }
-        return RequestBody.success(voucherDto);
     }
 }

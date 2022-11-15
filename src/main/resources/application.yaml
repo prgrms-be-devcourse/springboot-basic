@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
 pro:
   version: "1.0"

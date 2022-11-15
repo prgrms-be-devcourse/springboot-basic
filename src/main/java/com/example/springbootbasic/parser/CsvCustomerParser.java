@@ -3,7 +3,7 @@ package com.example.springbootbasic.parser;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
 
-import static com.example.springbootbasic.exception.ParserException.*;
+import static com.example.springbootbasic.exception.ParserExceptionMessage.*;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 
 public class CsvCustomerParser {
