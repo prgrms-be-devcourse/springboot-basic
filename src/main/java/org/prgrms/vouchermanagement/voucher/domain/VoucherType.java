@@ -54,4 +54,8 @@ public enum VoucherType {
     private boolean checkDiscountAmountRange(int discountAmountInput) {
         return discountAmountInput >= 0 && discountAmountInput <= maximumDiscountAmount;
     }
+
+    public int getMaximumDiscountAmount() {
+        return maximumDiscountAmount;
+    }
 }
