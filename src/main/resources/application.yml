@@ -1,0 +1,11 @@
+spring:
+  main:
+    banner-mode: off
+
+prgrms:
+  data:
+    path: data
+    name:
+      customer: customer.csv
+      blacklist: customer_blacklist.csv
+      voucher: voucher.csv

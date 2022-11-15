@@ -3,6 +3,7 @@ package org.prgrms.java.repository.user;
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.user.User;
 import org.prgrms.java.exception.UserException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -16,15 +17,18 @@ import java.util.stream.Collectors;
 @Repository
 @Primary
 public class FileUserRepository implements UserRepository {
-    private static final String DATA_PATH = "data";
-    private static final String DATA_NAME_FOR_CUSTOMER = "customer.csv";
-    private static final String DATA_NAME_FOR_BLACKLIST = "customer_blacklist.csv";
+    private final String DATA_PATH;
+    private final String DATA_NAME_FOR_CUSTOMER;
+    private final String DATA_NAME_FOR_BLACKLIST;
 
-    public FileUserRepository() {
+    public FileUserRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
         File path = new File(DATA_PATH);
         if (!path.exists()) {
             path.mkdirs();
         }
+        this.DATA_PATH = DATA_PATH;
+        this.DATA_NAME_FOR_CUSTOMER = DATA_NAME_FOR_CUSTOMER;
+        this.DATA_NAME_FOR_BLACKLIST = DATA_NAME_FOR_BLACKLIST;
     }
 
     @Override

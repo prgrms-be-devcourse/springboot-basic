@@ -3,6 +3,7 @@ package org.prgrms.java.repository.voucher;
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -16,14 +17,16 @@ import java.util.stream.Collectors;
 @Repository
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
-    private final String DATA_PATH = "data";
-    private final String DATA_NAME = "voucher.csv";
+    private final String DATA_PATH;
+    private final String DATA_NAME;
 
-    public FileVoucherRepository() {
+    public FileVoucherRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.voucher}") String DATA_NAME) {
         File path = new File(DATA_PATH);
         if (!path.exists()) {
             path.mkdirs();
         }
+        this.DATA_PATH = DATA_PATH;
+        this.DATA_NAME = DATA_NAME;
     }
 
     @Override
