@@ -12,7 +12,7 @@ import org.prgrms.springorder.exception.NoSuchVoucherException;
 
 public class VoucherFactory {
 
-	public static Voucher loadVoucher(VoucherType voucherType, UUID uuid, double value) {
+	public static Voucher createVoucher(VoucherType voucherType, UUID uuid, double value) {
 		switch (voucherType) {
 			case FIXED_AMOUNT -> {
 				return new FixedAmountVoucher(uuid, value);
@@ -27,7 +27,7 @@ public class VoucherFactory {
 	}
 
 	public static Voucher createVoucher(VoucherType voucherType, double value) {
-		return loadVoucher(voucherType, UUID.randomUUID(), value);
+		return createVoucher(voucherType, UUID.randomUUID(), value);
 	}
 
 }
