@@ -6,7 +6,6 @@ import org.prgrms.java.exception.UserException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PreDestroy;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.Collection;
@@ -17,66 +16,41 @@ import java.util.stream.Collectors;
 @Repository
 @Primary
 public class FileUserRepository implements UserRepository {
-    private final String DATA_PATH = "data";
-    private final String DATA_NAME_FOR_CUSTOMER = "customer.csv";
-    private final String DATA_NAME_FOR_BLACKLIST = "customer_blacklist.csv";
-    private final BufferedWriter writer;
-    private final BufferedReader reader;
-    private final BufferedWriter black_writer;
-    private final BufferedReader black_reader;
+    private static final String DATA_PATH = "data";
+    private static final String DATA_NAME_FOR_CUSTOMER = "customer.csv";
+    private static final String DATA_NAME_FOR_BLACKLIST = "customer_blacklist.csv";
 
-    public FileUserRepository() throws IOException {
+    public FileUserRepository() {
         File path = new File(DATA_PATH);
         if (!path.exists()) {
             path.mkdirs();
-        }
-
-        writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER), true));
-        reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER)));
-        black_writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_BLACKLIST), true));
-        black_reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_BLACKLIST)));
-    }
-
-    @PreDestroy
-    private void close() {
-        try {
-            writer.close();
-            reader.close();
-            black_writer.close();
-            black_reader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
     @Override
     public Optional<User> findById(UUID userId, boolean isBlocked) {
-        if (isBlocked) {
-            return Optional.of(
-                    Mapper.mapToUser(
-                            black_reader.lines()
-                                    .filter(line -> line.contains(userId.toString()))
-                                    .findAny()
-                                    .orElseThrow(), true));
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+            Optional<String> str = reader.lines()
+                    .filter(line -> line.contains(userId.toString()))
+                    .findAny();
+            if (str.isPresent()) {
+                return Optional.of(Mapper.mapToUser(str.get(), isBlocked));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return Optional.of(
-                Mapper.mapToUser(
-                        reader.lines()
-                                .filter(line -> line.contains(userId.toString()))
-                                .findAny()
-                                .orElseThrow(), false));
+        return Optional.empty();
     }
 
     @Override
     public Collection<User> findAll(boolean isBlocked) {
-        if (isBlocked) {
-            return black_reader.lines()
-                    .map((String object) -> Mapper.mapToUser(object, true))
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+            return reader.lines()
+                    .map((object) -> Mapper.mapToUser(object, isBlocked))
                     .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return reader.lines()
-                .map((String object) -> Mapper.mapToUser(object, false))
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -84,12 +58,8 @@ public class FileUserRepository implements UserRepository {
         if (findById(user.getUserId(), false).isPresent() || findById(user.getUserId(), true).isPresent()) {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
-        try {
-            if (isBlocked) {
-                black_writer.write(user.toString());
-                black_writer.newLine();
-                black_writer.flush();
-            }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
             writer.write(user.toString());
             writer.newLine();
             writer.flush();
@@ -97,5 +67,9 @@ public class FileUserRepository implements UserRepository {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    private String getDataName(boolean isBlocked) {
+        return (isBlocked) ? DATA_NAME_FOR_BLACKLIST : DATA_NAME_FOR_CUSTOMER;
     }
 }
