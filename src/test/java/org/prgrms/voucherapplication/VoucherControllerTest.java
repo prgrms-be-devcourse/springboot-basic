@@ -4,7 +4,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.voucherapplication.config.VoucherProperties;
 import org.prgrms.voucherapplication.console.Console;
 import org.prgrms.voucherapplication.controller.VoucherController;
 import org.prgrms.voucherapplication.entity.VoucherType;
@@ -19,26 +18,16 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
-@DisplayName("VoucherController 클래스")
+@DisplayName("VoucherController 단위 테스트")
 public class VoucherControllerTest {
 
     private static final VoucherService voucherService = mock(VoucherService.class);
-    private static VoucherProperties voucherProperties;
     private static VoucherController voucherController;
-
-    static final String description = "=== Voucher Program ===\n" +
-            "Type exit to exit the program.\n" +
-            "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.\n" +
-            "Type blacklist to list all customer_blacklist.";
-
-    static final String filePath = "file:customer_blacklist.csv";
 
     @BeforeAll
     static void constructor() {
         Console console = new Console();
-        voucherProperties = new VoucherProperties(description, filePath);
-        voucherController = new VoucherController(console, console, voucherService, voucherProperties);
+        voucherController = new VoucherController(console, console, voucherService);
     }
 
     @Nested
@@ -48,6 +37,12 @@ public class VoucherControllerTest {
         @Test
         @DisplayName("지원가능한 명령어를 알려준다")
         void start() {
+            final String description = "=== Voucher Program ===\n" +
+                    "Type exit to exit the program.\n" +
+                    "Type create to create a new voucher.\n" +
+                    "Type list to list all vouchers.\n" +
+                    "Type blacklist to list all customer_blacklist.";
+
             OutputStream out = new ByteArrayOutputStream();
             System.setOut(new PrintStream(out));
 
@@ -55,7 +50,7 @@ public class VoucherControllerTest {
             System.setIn(in);
             voucherController.start();
 
-            assertThat(out).hasToString(voucherProperties.getDescription() + "\n");
+            assertThat(out).hasToString(description + "\n");
         }
     }
 
