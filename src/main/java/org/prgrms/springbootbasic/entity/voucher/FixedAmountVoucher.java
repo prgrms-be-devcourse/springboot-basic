@@ -1,19 +1,11 @@
-package org.prgrms.springbootbasic.voucher;
+package org.prgrms.springbootbasic.entity.voucher;
 
 
-import java.util.UUID;
-
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId = UUID.randomUUID();
+public class FixedAmountVoucher extends Voucher {
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
         this.amount = amount;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override

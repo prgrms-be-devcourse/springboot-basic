@@ -1,26 +1,26 @@
 package org.prgrms.springbootbasic.message;
 
-import org.prgrms.springbootbasic.type.Menu;
-import org.prgrms.springbootbasic.voucher.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.type.MethodType;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.prgrms.springbootbasic.type.Menu.CREATE;
-import static org.prgrms.springbootbasic.type.Menu.LIST;
+import static org.prgrms.springbootbasic.type.MethodType.CREATE;
+import static org.prgrms.springbootbasic.type.MethodType.LOOKUP;
 
 public class Response {
-    private final Menu menuItem;
+    private final MethodType methodType;
     private final List<Voucher> voucherList = new ArrayList<>();
 
-    public Response(Menu menuItem) {
-        this.menuItem = menuItem;
+    public Response(MethodType menuItem) {
+        this.methodType = menuItem;
     }
 
     @Override
     public String toString() {
-        if (menuItem == CREATE) return voucherList.toString() + "이 생성되었습니다.";
-        if (menuItem == LIST) return voucherList.toString() + "이 있습니다.";
+        if (methodType == CREATE) return voucherList.toString() + "이 생성되었습니다.";
+        if (methodType == LOOKUP) return voucherList.toString() + "이 있습니다.";
         return voucherList.toString();
     }
 

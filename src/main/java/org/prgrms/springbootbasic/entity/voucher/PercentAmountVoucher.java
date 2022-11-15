@@ -1,19 +1,11 @@
-package org.prgrms.springbootbasic.voucher;
+package org.prgrms.springbootbasic.entity.voucher;
 
 
-import java.util.UUID;
-
-public class PercentAmountVoucher implements Voucher {
-    private final UUID voucherId = UUID.randomUUID();
+public class PercentAmountVoucher extends Voucher {
     private final long percent;
 
     public PercentAmountVoucher(long percent) {
         this.percent = percent;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override
