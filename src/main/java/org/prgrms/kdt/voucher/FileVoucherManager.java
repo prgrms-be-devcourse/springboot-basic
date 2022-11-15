@@ -12,8 +12,6 @@ import java.util.List;
 @Repository
 public class FileVoucherManager implements VoucherManager {
 
-    private static Logger logger = LoggerFactory.getLogger(FileVoucherManager.class);
-
     private static final String FILE_PATH = "src/main/resources/vouchers.csv";
 
     private final File vouchersCsv;
@@ -42,9 +40,8 @@ public class FileVoucherManager implements VoucherManager {
     private static void createFile(File file) {
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            logger.error("Cannot create file. Please check file name or path.");
-            throw new RuntimeException("File Create Error");
+        } catch (IOException exception) {
+            throw new RuntimeException("Cannot create file. Please check file name or path.", exception);
         }
     }
 
@@ -55,8 +52,7 @@ public class FileVoucherManager implements VoucherManager {
             bufferedWriter.append(voucher.getAmount());
             bufferedWriter.append(System.lineSeparator());
         } catch (IOException exception) {
-            logger.error("Cannot find file. Please check there is file those name is {}", file.getName());
-            throw new RuntimeException("File Write Error");
+            throw new RuntimeException("Cannot find file. Please check there is file those name is " + file.getName(), exception);
         }
     }
 
@@ -67,9 +63,8 @@ public class FileVoucherManager implements VoucherManager {
                     .map(line -> line.split(", "))
                     .map(t -> Voucher.newInstance(VoucherType.of(t[0]), new VoucherAmount(t[1])))
                     .toList();
-        } catch (IOException e) {
-            logger.error("Cannot find file. Please check there is file those name is {}", vouchersCsv.getName());
-            throw new RuntimeException("File Read Error");
+        } catch (IOException exception) {
+            throw new RuntimeException("Cannot find file. Please check there is file those name is " + vouchersCsv.getName(), exception);
         }
     }
 }

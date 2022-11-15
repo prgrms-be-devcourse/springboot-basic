@@ -14,8 +14,6 @@ import java.util.List;
 @Repository
 public class BlackCustomerManager {
 
-    private static Logger logger = LoggerFactory.getLogger(FileVoucherManager.class);
-
     private static final String FILE_PATH = "src/main/resources/customer_blacklist.csv";
 
     private final File blacklistCsv;
@@ -39,9 +37,8 @@ public class BlackCustomerManager {
     private static void createFile(File file) {
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            logger.error("Cannot create file. Please check file name or path.");
-            throw new RuntimeException("File Create Error");
+        } catch (IOException exception) {
+            throw new RuntimeException("Cannot create file. Please check file name or path.", exception);
         }
     }
 
@@ -51,9 +48,8 @@ public class BlackCustomerManager {
                     .map(line -> line.split(", "))
                     .map(t -> new Customer(t[0], t[1]))
                     .toList();
-        } catch (IOException e) {
-            logger.error("Cannot find file. Please check there is file those name is {}", blacklistCsv.getName());
-            throw new RuntimeException("File Read Error");
+        } catch (IOException exception) {
+            throw new RuntimeException("Cannot find file. Please check there is file those name is " + blacklistCsv.getName(), exception);
         }
     }
 }
