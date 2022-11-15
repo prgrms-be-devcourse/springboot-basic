@@ -4,19 +4,10 @@ import org.prgrms.java.exception.VoucherException;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long amount;
-
+public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        super(voucherId, amount);
         if (amount <= 0) throw new VoucherException("Voucher discount amount should be positive.");
-        this.voucherId = voucherId;
-        this.amount = amount;
-    }
-
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
     }
 
     @Override
