@@ -16,14 +16,15 @@ public class FileIO {
 
     public List<String> read() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(vouchersFile))) {
-            return bufferedReader.lines().toList();
+            return bufferedReader.lines()
+                    .toList();
         } catch (IOException fileReadException) {
             throw new RuntimeException("파일에 읽어오는 것을 실패하였습니다.", fileReadException);
         }
     }
 
     public void write(String voucherInfo) {
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_URL, true))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(VOUCHER_FILE_URL, true))) {
             bufferedWriter.write(voucherInfo);
             bufferedWriter.flush();
         } catch (IOException fileWriteException) {
