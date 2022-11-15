@@ -1,5 +1,10 @@
-package org.programmers.spbw1.voucher;
+package org.programmers.spbw1.voucher.service;
 
+import org.programmers.spbw1.voucher.FixedAmountVoucher;
+import org.programmers.spbw1.voucher.Model.VoucherType;
+import org.programmers.spbw1.voucher.PercentDiscountVoucher;
+import org.programmers.spbw1.voucher.Repository.VoucherRepository;
+import org.programmers.spbw1.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;

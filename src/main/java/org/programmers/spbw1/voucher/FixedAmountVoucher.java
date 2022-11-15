@@ -2,19 +2,15 @@ package org.programmers.spbw1.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
-    private final UUID Id;
-    private final long amount;
+public class FixedAmountVoucher extends Voucher{
 
     public FixedAmountVoucher(UUID id, long amount) {
-        this.Id = id;
-        this.amount = amount;
+       super(id, amount);
     }
-
 
     @Override
     public UUID getVoucherID() {
-        return this.Id;
+        return this.id;
     }
 
     @Override
@@ -24,6 +20,6 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public String toString(){
-        return "ID : " + this.Id + ", Type : Fixed Amount, Discount Amount : " + this.amount;
+        return "ID : " + this.id + ", Type : Fixed Amount, Discount Amount : " + this.amount;
     }
 }

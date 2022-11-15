@@ -1,7 +1,8 @@
-package org.programmers.spbw1.voucher;
+package org.programmers.spbw1.voucher.Repository;
 
 import org.programmers.spbw1.Console;
 import org.programmers.spbw1.io.Output;
+import org.programmers.spbw1.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;

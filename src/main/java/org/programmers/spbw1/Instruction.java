@@ -31,4 +31,8 @@ public enum Instruction {
             return Optional.of(map.get(name));
         return Optional.empty();
     }
+
+    //public static void invoke(String name){
+    //     if(map.containsKey(name))
+    // }
 }

@@ -1,7 +1,7 @@
 package org.programmers.spbw1.io;
 
 import org.programmers.spbw1.voucher.Voucher;
-import org.programmers.spbw1.voucher.VoucherType;
+import org.programmers.spbw1.voucher.Model.VoucherType;
 
 import java.io.IOException;
 

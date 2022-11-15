@@ -2,8 +2,12 @@ package org.programmers.spbw1;
 
 import org.programmers.spbw1.io.Input;
 import org.programmers.spbw1.io.Output;
-import org.programmers.spbw1.voucher.*;
 
+import org.programmers.spbw1.voucher.Model.VoucherType;
+import org.programmers.spbw1.voucher.Voucher;
+import org.programmers.spbw1.voucher.Repository.VoucherRepository;
+import org.programmers.spbw1.voucher.service.VoucherService;
+import org.programmers.spbw1.voucher.validator.VoucherValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +21,11 @@ public class VoucherProgram implements Runnable {
     private final VoucherRepository voucherRepository;
     private static final Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
-    public VoucherProgram(Input input, Output output, VoucherRepository voucherRepository){
+    public VoucherProgram(Input input, Output output, VoucherRepository voucherRepository, VoucherService service){
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;
-        voucherService = new VoucherService(voucherRepository);
+        this.voucherService = service;
     }
 
     @Override
@@ -57,20 +61,24 @@ public class VoucherProgram implements Runnable {
         }
 
         String discountAmount = input.input("discount amount " + VoucherType.getRange(voucherType.get()) + " : ");
+        VoucherValidator validator = new VoucherValidator(voucherType.get(), discountAmount);
         long amount = 0L;
-        try {
-            amount = Long.parseLong(discountAmount);
-        }catch (NumberFormatException e){
-            logger.error("NumberFormatException : " + discountAmount);
-            output.numFormatException();
+//        try {
+//            amount = Long.parseLong(discountAmount);
+//        }catch (NumberFormatException e){
+//            logger.error("NumberFormatException : " + discountAmount);
+//            output.numFormatException();
+//            return;
+//        }
+//
+//        if (!VoucherType.validRange(voucherType.get(), amount)){
+//            logger.error("invalid range ERROR, voucher type : " + voucherType.get().toString() + ", tried : " + amount);
+//            output.invalidRange(voucherType.get());
+//            return;
+//        }
+        if (!validator.validate())
             return;
-        }
 
-        if (!VoucherType.validRange(voucherType.get(), amount)){
-            logger.error("invalid range ERROR, voucher type : " + voucherType.get().toString() + ", tried : " + amount);
-            output.invalidRange(voucherType.get());
-            return;
-        }
 
         Voucher voucher = voucherService.createVoucher(voucherType.get(), amount);
         logger.info("voucher created, voucher info : " + voucher.toString());

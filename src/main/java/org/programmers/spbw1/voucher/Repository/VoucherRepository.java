@@ -1,4 +1,6 @@
-package org.programmers.spbw1.voucher;
+package org.programmers.spbw1.voucher.Repository;
+
+import org.programmers.spbw1.voucher.Voucher;
 
 import java.util.Optional;
 import java.util.UUID;

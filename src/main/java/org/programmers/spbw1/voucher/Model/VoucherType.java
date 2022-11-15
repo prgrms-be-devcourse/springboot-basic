@@ -1,4 +1,4 @@
-package org.programmers.spbw1.voucher;
+package org.programmers.spbw1.voucher.Model;
 
 import java.util.Map;
 import java.util.Optional;
