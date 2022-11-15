@@ -4,8 +4,6 @@ import static org.prgrms.springorder.domain.ErrorMessage.*;
 
 import java.util.UUID;
 
-import org.prgrms.springorder.domain.ErrorMessage;
-
 public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(UUID voucherId, double value) {

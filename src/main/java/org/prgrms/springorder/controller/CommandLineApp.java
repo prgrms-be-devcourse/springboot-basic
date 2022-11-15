@@ -3,7 +3,6 @@ package org.prgrms.springorder.controller;
 import static org.prgrms.springorder.domain.Message.*;
 
 import org.prgrms.springorder.domain.ErrorMessage;
-import org.prgrms.springorder.domain.Message;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.NoSuchCommandException;
 import org.prgrms.springorder.io.IO;

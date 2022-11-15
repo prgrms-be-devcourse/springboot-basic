@@ -4,8 +4,6 @@ import static org.prgrms.springorder.domain.ErrorMessage.*;
 
 import java.util.UUID;
 
-import org.prgrms.springorder.domain.ErrorMessage;
-
 public class FixedAmountVoucher extends Voucher {
 
 	public FixedAmountVoucher(UUID voucherId, double value) {

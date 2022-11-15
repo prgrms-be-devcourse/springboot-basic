@@ -4,7 +4,6 @@ import static org.prgrms.springorder.domain.ErrorMessage.*;
 
 import java.util.Arrays;
 
-import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.Message;
 import org.prgrms.springorder.exception.NoSuchVoucherException;
 
