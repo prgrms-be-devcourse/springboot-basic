@@ -4,11 +4,7 @@ import lombok.AllArgsConstructor;
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
 import org.programmers.springbootbasic.domain.Customer;
 import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.dto.VoucherDto;
-import org.programmers.springbootbasic.dto.VoucherDtoConverter;
 import org.programmers.springbootbasic.dto.VoucherInputDto;
-import org.programmers.springbootbasic.exception.WrongRangeInputException;
-import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.programmers.springbootbasic.io.Input;
 import org.programmers.springbootbasic.io.Output;
 import org.programmers.springbootbasic.service.CustomerService;
@@ -26,36 +22,37 @@ public class VoucherManagementExecutor {
 
     private final Input input;
     private final Output output;
-    private final VoucherDtoConverter voucherDtoConverter;
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private static Logger logger = LoggerFactory.getLogger(VoucherManagementExecutor.class);
 
 
-    public void run() throws IOException {
+    public void run() {
         boolean running = true;
         while (running) {
             output.printMainMenu();
-            VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput();
-            switch (menuInput) {
-                case CREATE -> {
-                    createVoucher();
+            try {
+                VoucherMainMenuCommand menuInput = input.getVoucherMainMenuInput();
+                switch (menuInput) {
+                    case CREATE -> {
+                        createVoucher();
+                    }
+                    case LIST -> {
+                        List<Voucher> vouchers = voucherService.collectVouchers();
+                        output.printVouchers(vouchers);
+                    }
+                    case BLACKLIST -> {
+                        List<Customer> blackList = customerService.collectBlacklists();
+                        output.printBlacklist(blackList);
+                    }
+                    case EXIT -> {
+                        running = false;
+                    }
                 }
-                case LIST -> {
-                    List<Voucher> vouchers = voucherService.collectVouchers();
-                    output.printVouchers(vouchers);
-                }
-                case BLACKLIST -> {
-                    List<Customer> blackList = customerService.collectBlacklists();
-                    output.printBlacklist(blackList);
-                }
-                case EXIT -> {
-                    running = false;
-                }
-                default -> {
-                    output.printError();
-                }
+            } catch (RuntimeException e) {
+                logger.error(e.getMessage());
             }
+
         }
     }
 
@@ -64,25 +61,9 @@ public class VoucherManagementExecutor {
         while (continueJob) {
             try {
                 VoucherInputDto voucherInputDto = input.getVoucherCreateMenuInput();
-                // 잘못된 입력값인지 확인
-                voucherInputDto.validateVoucher();
-                VoucherDto voucherDto = voucherDtoConverter.convertVoucherInput(voucherInputDto);
-                voucherService.createVoucher(voucherDto);
-            } catch (WrongTypeInputException e) {
-                logger.error("잘못된 type 입력입니다.");
-                output.printError();
-                continue;
-            } catch (WrongRangeInputException e) {
-                logger.error("잘못된 amount 범위의 입력입니다.");
-                output.printError();
-                continue;
-            } catch (NumberFormatException e) {
-                logger.error("잘못된 amount 입력입니다.");
-                output.printError();
-                continue;
-            } catch (IOException e) {
-                logger.error("IOException");
-                output.printError();
+                voucherService.createVoucher(voucherInputDto);
+            } catch (RuntimeException e) {
+                logger.error(e.getMessage());
                 continue;
             }
             continueJob = false;

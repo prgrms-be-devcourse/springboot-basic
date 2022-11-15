@@ -1,14 +1,23 @@
 package org.programmers.springbootbasic.domain;
 
-import lombok.AllArgsConstructor;
+import org.programmers.springbootbasic.exception.MinusDiscountResultException;
+import org.programmers.springbootbasic.exception.WrongRangeInputException;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 public class FixedAmountVoucher implements Voucher {
+
+    private static final int MAX_FIXED_AMOUNT = Integer.MAX_VALUE;
+    private static final int MIN_FIXED_AMOUNT = 0;
 
     private final UUID voucherId;
     private final long amount;
+
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        validateAmountRange();
+    }
 
     @Override
     public UUID getVoucherId() {
@@ -22,7 +31,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long originalPrice) {
-        if (originalPrice - amount < 0) throw new ArithmeticException("할인된 금액은 0원보다 작을 수 없습니다.");
+        if (originalPrice - amount < 0) throw new MinusDiscountResultException("할인된 금액은 0원보다 작을 수 없습니다.");
         return originalPrice - amount;
     }
 
@@ -31,5 +40,9 @@ public class FixedAmountVoucher implements Voucher {
         return getClass().getSimpleName() + ", " +
                 voucherId.toString() + ", " +
                 amount;
+    }
+
+    private void validateAmountRange() {
+        if(!(MIN_FIXED_AMOUNT <= amount && amount <= MAX_FIXED_AMOUNT)) throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }

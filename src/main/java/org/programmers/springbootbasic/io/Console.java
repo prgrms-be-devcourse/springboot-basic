@@ -4,6 +4,9 @@ import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
 import org.programmers.springbootbasic.domain.Customer;
 import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.dto.VoucherInputDto;
+import org.programmers.springbootbasic.exception.InputException;
+import org.programmers.springbootbasic.exception.NotAnIntegerException;
+import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -28,34 +31,44 @@ public class Console implements Input, Output {
     private static final String TYPE_VOUCHER_INFO_TYPE = "type -> ";
     private static final String TYPE_VOUCHER_INFO_AMOUNT = "amount -> ";
     private static final String WRONG_INPUT = "잘못된 입력입니다.";
-
+    private static final String BUFFER_INPUT_ERROR = "입력 버퍼 문제로 입력 받을 수 없습니다.";
+    private static final String NOT_AN_INTEGER = "Amount 입력 값은 정수여야 합니다.";
 
 
     @Override
-    public VoucherMainMenuCommand getVoucherMainMenuInput() throws IOException {
+    public VoucherMainMenuCommand getVoucherMainMenuInput() {
         System.out.print(TYPE_USER_COMMAND);
-        return VoucherMainMenuCommand.valueOfCommand(br.readLine());
+        String commandInput;
+        try {
+            commandInput = br.readLine();
+            return VoucherMainMenuCommand.valueOfCommand(commandInput);
+        } catch (IOException e) {
+            throw new InputException(BUFFER_INPUT_ERROR);
+        }
     }
 
     @Override
-    public VoucherInputDto getVoucherCreateMenuInput() throws IOException {
+    public VoucherInputDto getVoucherCreateMenuInput() {
         // type, amount 입력
-        System.out.println(TYPE_VOUCHER_INFO);
-        System.out.print(TYPE_VOUCHER_INFO_TYPE);
-        String type = br.readLine().strip();
-        System.out.print(TYPE_VOUCHER_INFO_AMOUNT);
-        long amount = Long.parseLong(br.readLine());
-        return new VoucherInputDto(type, amount);
+        String type;
+        long amount;
+        try {
+            System.out.println(TYPE_VOUCHER_INFO);
+            System.out.print(TYPE_VOUCHER_INFO_TYPE);
+            type = br.readLine().strip();
+            System.out.print(TYPE_VOUCHER_INFO_AMOUNT);
+            amount = Long.parseLong(br.readLine());
+            return new VoucherInputDto(type, amount);
+        } catch (IOException e) {
+            throw new InputException(BUFFER_INPUT_ERROR);
+        } catch (NumberFormatException e) {
+            throw new NotAnIntegerException(NOT_AN_INTEGER);
+        }
     }
 
     @Override
     public void printMainMenu() {
         System.out.println(VOUCHER_MAIN_MENU);
-    }
-
-    @Override
-    public void printError() {
-        System.out.println(WRONG_INPUT);
     }
 
     @Override

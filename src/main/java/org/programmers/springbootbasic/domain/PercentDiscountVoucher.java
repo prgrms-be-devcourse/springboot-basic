@@ -1,14 +1,20 @@
 package org.programmers.springbootbasic.domain;
 
-import lombok.AllArgsConstructor;
+import org.programmers.springbootbasic.exception.WrongRangeInputException;
 
 import java.util.UUID;
 
-@AllArgsConstructor
 public class PercentDiscountVoucher implements Voucher {
-
+    private static final int MAX_PERCENT_AMOUNT = 100;
+    private static final int MIN_PERCENT_AMOUNT = 0;
     private final UUID voucherId;
     private final long amount;
+
+    public PercentDiscountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+        validateAmountRange();
+    }
 
     @Override
     public UUID getVoucherId() {
@@ -31,5 +37,9 @@ public class PercentDiscountVoucher implements Voucher {
         return getClass().getSimpleName() + ", " +
                 voucherId.toString() + ", " +
                 amount;
+    }
+
+    private void validateAmountRange() {
+        if(!(MIN_PERCENT_AMOUNT <= amount && amount <= MAX_PERCENT_AMOUNT)) throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }

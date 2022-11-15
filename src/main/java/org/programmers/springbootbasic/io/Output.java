@@ -8,8 +8,6 @@ import java.util.List;
 public interface Output {
     void printMainMenu();
 
-    void printError();
-
     void printVouchers(List<Voucher> vouchers);
 
     void printBlacklist(List<Customer> blacklist);

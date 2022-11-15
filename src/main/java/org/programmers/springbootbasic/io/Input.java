@@ -6,7 +6,7 @@ import org.programmers.springbootbasic.dto.VoucherInputDto;
 import java.io.IOException;
 
 public interface Input {
-    VoucherMainMenuCommand getVoucherMainMenuInput() throws IOException;
+    VoucherMainMenuCommand getVoucherMainMenuInput();
 
-    VoucherInputDto getVoucherCreateMenuInput() throws IOException;
+    VoucherInputDto getVoucherCreateMenuInput();
 }
