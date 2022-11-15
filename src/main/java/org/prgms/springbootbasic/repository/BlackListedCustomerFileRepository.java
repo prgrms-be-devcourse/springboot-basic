@@ -22,16 +22,12 @@ public class BlackListedCustomerFileRepository implements FileRepository {
 
     @Override
     public void initFile() {
-        try {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(this.immutableBlackList.fileName()))) {
             String line;
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(this.immutableBlackList.fileName()));
-
             while ((line = bufferedReader.readLine()) != null) {
                 String[] customerString = line.split(",");
                 fileCache.putIfAbsent(UUID.fromString(customerString[0]), new BlacklistedCustomer(UUID.fromString(customerString[0]), UUID.fromString(customerString[1])));
             }
-
-            Objects.requireNonNull(bufferedReader).close();
         } catch (IOException e) {
             throw new CommandLineIOException("error occurred reading line with buffered reader", e);
         }

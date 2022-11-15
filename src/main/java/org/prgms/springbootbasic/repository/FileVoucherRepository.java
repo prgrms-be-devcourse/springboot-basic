@@ -40,9 +40,8 @@ public class FileVoucherRepository implements FileRepository, VoucherRepository 
                 throw new FileIOException("failed to create file : " + voucherFile.getFileName().toString(), e);
             }
         } else {
-            try {
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(voucherFile.getFileName().toFile()))){
                 String line;
-                BufferedReader bufferedReader = new BufferedReader(new FileReader(voucherFile.getFileName().toFile()));
 
                 while ((line = bufferedReader.readLine()) != null) {
                     String[] voucherArr = line.split(",");
