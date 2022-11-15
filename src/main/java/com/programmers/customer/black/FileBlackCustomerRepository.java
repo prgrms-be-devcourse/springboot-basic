@@ -1,9 +1,8 @@
-package com.programmers.customer.repository;
+package com.programmers.customer.black;
 
 import com.programmers.customer.Customer;
 import com.programmers.voucher.config.CustomerProperties;
 import org.slf4j.Logger;
-import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,17 +10,18 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Repository
-public class FileCustomerRepository implements CustomerRepository {
-    private final Logger logger = getLogger(FileCustomerRepository.class);
+//@Repository
+public class FileBlackCustomerRepository implements BlackCustomerRepository {
+    private final Logger logger = getLogger(FileBlackCustomerRepository.class);
 
     private final String blackFilePath;
     private BufferedReader bufferedReader;
 
-    public FileCustomerRepository(CustomerProperties properties) {
+    public FileBlackCustomerRepository(CustomerProperties properties) {
         this.blackFilePath = properties.getSavePath();
     }
 
@@ -35,7 +35,7 @@ public class FileCustomerRepository implements CustomerRepository {
             String line = "";
 
             while ((line = bufferedReader.readLine()) != null) {
-                customers.add(new Customer(line));
+                customers.add(new Customer(UUID.randomUUID(), line));
             }
 
         } catch (IOException e) {
