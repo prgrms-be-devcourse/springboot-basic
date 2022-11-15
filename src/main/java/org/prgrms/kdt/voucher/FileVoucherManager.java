@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.List;
 
-@Profile({"local", "default"})
+@Profile({"local"})
 @Repository
 public class FileVoucherManager implements VoucherManager {
 
