@@ -33,7 +33,7 @@ public class VoucherController {
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
             return ResponseBody.success(VoucherDto.toDto(savedVoucher));
         } catch (NullPointerException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(voucherDto);
         }
     }
@@ -43,7 +43,7 @@ public class VoucherController {
         try {
             findAllVouchers = voucherService.findAllVouchers();
         } catch (NullPointerException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllVouchers.stream()

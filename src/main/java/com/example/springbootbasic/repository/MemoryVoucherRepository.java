@@ -11,24 +11,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
-    private static final Map<Long, Voucher> storage = new HashMap<>();
+    private static final Map<Long, Voucher> storage = new ConcurrentHashMap<>();
     private static long sequence;
 
     @Override
      public synchronized Voucher save(Voucher voucher) {
         Voucher generatedVoucher = VoucherFactory.generateVoucher(
                 ++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
-        return storage.put(generatedVoucher.getVoucherId(), generatedVoucher);
+        storage.put(generatedVoucher.getVoucherId(), generatedVoucher);
+        return generatedVoucher;
     }
 
     @Override
     public List<Voucher> findAllVouchers() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
     }
 }

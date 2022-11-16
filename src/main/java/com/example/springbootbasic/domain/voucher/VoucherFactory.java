@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.*;
-import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_FACTORY;
+import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_FACTORY_EXCEPTION;
 
 public enum VoucherFactory {
 
@@ -28,7 +28,7 @@ public enum VoucherFactory {
         VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
                 .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_FACTORY.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_FACTORY_EXCEPTION.getMessage()));
 
         return findVoucherFactory.generate(UNKNOWN_VOUCHER_ID, discountValue);
     }
@@ -37,7 +37,7 @@ public enum VoucherFactory {
         VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
                 .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_FACTORY.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_FACTORY_EXCEPTION.getMessage()));
 
         return findVoucherFactory.generate(voucherId, discountValue);
     }

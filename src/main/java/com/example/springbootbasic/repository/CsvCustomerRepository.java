@@ -35,10 +35,10 @@ public class CsvCustomerRepository implements CustomerRepository {
         try {
             voucherTexts = Files.readAllLines(csvPath);
         } catch (IOException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
         }
         return voucherTexts.stream()
-                .map(csvParser::parseToCustomerFrom)
+                .map(csvParser::toCustomerFrom)
                 .collect(Collectors.toList());
     }
 }

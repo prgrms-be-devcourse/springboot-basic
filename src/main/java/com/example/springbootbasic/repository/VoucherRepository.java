@@ -7,4 +7,5 @@ import java.util.List;
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
     List<Voucher> findAllVouchers();
+    void deleteAll();
 }

@@ -1,6 +1,7 @@
 package com.example.springbootbasic.domain.voucher;
 
 public abstract class Voucher {
+
     private Long voucherId;
     private Long discountValue;
     private VoucherType voucherType;
@@ -20,4 +21,13 @@ public abstract class Voucher {
     }
 
     public VoucherType getVoucherType() { return voucherType; }
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                "voucherId=" + voucherId +
+                ", discountValue=" + discountValue +
+                ", voucherType=" + voucherType +
+                '}';
+    }
 }
