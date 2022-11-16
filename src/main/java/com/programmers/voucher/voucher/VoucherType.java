@@ -3,7 +3,8 @@ package com.programmers.voucher.voucher;
 import java.util.Arrays;
 import java.util.Objects;
 
-import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
+import static com.programmers.message.ErrorMessage.VOUCHER_INPUT_ERROR_MESSAGE;
+
 
 
 public enum VoucherType {

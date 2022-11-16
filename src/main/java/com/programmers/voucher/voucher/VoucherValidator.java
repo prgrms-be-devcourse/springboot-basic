@@ -2,7 +2,7 @@ package com.programmers.voucher.voucher;
 
 import org.springframework.util.StringUtils;
 
-import static com.programmers.voucher.menu.Message.VOUCHER_INPUT_ERROR_MESSAGE;
+import static com.programmers.message.ErrorMessage.VOUCHER_INPUT_ERROR_MESSAGE;
 import static com.programmers.voucher.voucher.VoucherType.FixedAmount;
 import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 

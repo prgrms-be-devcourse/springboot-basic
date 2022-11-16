@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.menu.Message.VOUCHER_ID_NOT_FOUND;
+import static com.programmers.message.ErrorMessage.VOUCHER_ID_NOT_FOUND;
 
 @Service
 public class VoucherServiceImpl implements VoucherService {
