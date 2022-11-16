@@ -4,14 +4,14 @@ import com.prgrms.springbootbasic.common.exception.FileIOException;
 import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.user.domain.User;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -28,13 +28,12 @@ public class BlacklistStorage {
     private static final int NAME_COLUMN_INDEX = 1;
     private static final int VOUCHER_COLUMN_SIZE = 2;
 
-    @Value("${classpath.customer-blacklist}")
-    private String CLASSPATH_BLACKLIST;
-
+    private final String CLASSPATH_BLACKLIST;
     private final ResourceLoader resourceLoader;
 
-    public BlacklistStorage(ResourceLoader resourceLoader) {
+    public BlacklistStorage(ResourceLoader resourceLoader, @Value("${classpath.customer-blacklist}") String classpathBlacklist) {
         this.resourceLoader = resourceLoader;
+        this.CLASSPATH_BLACKLIST = classpathBlacklist;
     }
 
     public List<User> findAll() {
@@ -52,23 +51,21 @@ public class BlacklistStorage {
         try {
             return resource.getFile();
         } catch (FileNotFoundException e) {
-            String errorMessage = FILE_NOT_EXIST_EXCEPTION_MESSAGE + e.getMessage();
-            throw new FileNotExistException(errorMessage);
+            throw new FileNotExistException(FILE_NOT_EXIST_EXCEPTION_MESSAGE + e.getMessage());
         } catch (IOException e) {
-            String errorMessage = FATAL_FILE_IO_EXCEPTION_MESSAGE + e.getMessage();
-            throw new FileIOException(errorMessage);
+            throw new FileIOException(FATAL_FILE_IO_EXCEPTION_MESSAGE + e.getMessage());
         }
     }
 
     private List<User> readAll(File file) throws IOException {
-        List<User> blacklist = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            skipLine(br);
-            while ((line = br.readLine()) != null) {
-                blacklist.add(mapToUser(line));
-            }
+        List<User> blacklist;
+
+        try(Stream<String> lineStream = Files.lines(file.toPath())){
+            blacklist = lineStream.skip(1)
+                    .map(this::mapToUser)
+                    .collect(Collectors.toList());
         }
+
         return blacklist;
     }
 
@@ -86,9 +83,5 @@ public class BlacklistStorage {
         if (columns.size() != VOUCHER_COLUMN_SIZE) {
             throw new FileIOException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
         }
-    }
-
-    private void skipLine(BufferedReader br) throws IOException {
-        br.readLine();
     }
 }

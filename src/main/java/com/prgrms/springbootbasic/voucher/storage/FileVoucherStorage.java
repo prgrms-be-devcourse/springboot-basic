@@ -14,7 +14,10 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.*;
 
@@ -89,14 +92,14 @@ public class FileVoucherStorage implements VoucherStorage {
     }
 
     private List<Voucher> readAll(File file) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            List<Voucher> vouchers = new ArrayList<>();
-            String voucherStr;
-            while ((voucherStr = br.readLine()) != null) {
-                vouchers.add(mapToVoucher(voucherStr));
-            }
-            return vouchers;
+        List<Voucher> vouchers;
+
+        try(Stream<String> lineStream = Files.lines(file.toPath())){
+            vouchers = lineStream.map(this::mapToVoucher)
+                    .collect(Collectors.toList());
         }
+
+        return vouchers;
     }
 
     private Voucher mapToVoucher(String voucherStr) {
