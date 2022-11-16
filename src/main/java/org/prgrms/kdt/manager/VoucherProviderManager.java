@@ -29,13 +29,19 @@ public class VoucherProviderManager {
         this.voucherProvider = voucherProvider;
     }
 
-    public void runGetList() {
-        List<Voucher> vouchers = voucherProvider.list();
-        if (vouchers.isEmpty()) {
-            ioManager.writeMessage(NO_VOUCHERS);
-        } else {
-            vouchers.forEach(ioManager::writeVoucherInfo);
-            logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
+    public void runGetList(Power AppPower) {
+        try {
+            List<Voucher> vouchers = voucherProvider.list();
+            if (vouchers.isEmpty()) {
+                ioManager.writeMessage(NO_VOUCHERS);
+            } else {
+                vouchers.forEach(ioManager::writeVoucherInfo);
+                logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
+            }
+        } catch (RuntimeException runtimeException){
+            logger.error(runtimeException.getMessage());
+            AppPower.stop();
+            AppPower.stopByException();
         }
     }
 

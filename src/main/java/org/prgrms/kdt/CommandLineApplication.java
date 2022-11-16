@@ -40,7 +40,12 @@ public class CommandLineApplication implements CommandLineRunner {
                 ioManager.writeExceptionMessage(e.getMessage());
             }
         }
-        logger.info("프로그램이 정상적으로 종료되었습니다.");
-        ioManager.writeEndMessage();
+        logger.info("프로그램이 종료되었습니다.");
+        if(power.getIsExceptionExit()){
+            ioManager.writeMessage("프로그램 오류로 종료되었습니다.");
+        }
+        else {
+            ioManager.writeEndMessage();
+        }
     }
 }

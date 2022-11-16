@@ -22,7 +22,7 @@ public class VoucherAppManager {
                 voucherProviderManager.runCreateCycle();
             }
             case LIST -> {
-                voucherProviderManager.runGetList();
+                voucherProviderManager.runGetList(power);
             }
             case EXIT -> {
                 power.stop();
