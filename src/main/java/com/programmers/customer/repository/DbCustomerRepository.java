@@ -6,7 +6,7 @@ import com.programmers.customer.repository.sql.CustomerSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +26,12 @@ public class DbCustomerRepository implements CustomerRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerRowMapper customerRowMapper;
 
+    public final static String CUSTOMER_ID = "customerId";
+    public final static String CUSTOMER_NAME = "name";
+    public final static String CUSTOMER_EMAIL = "email";
+    public final static String CREATE_AT = "createAt";
+    public final static String LAST_LOGIN_AT = "lastLoginAt";
+
     public DbCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.customerRowMapper = new CustomerRowMapper();
@@ -35,10 +41,13 @@ public class DbCustomerRepository implements CustomerRepository{
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(CustomerSql.SELECT_BY_ID
-                            , singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper)
+                    jdbcTemplate.queryForObject(
+                            CustomerSql.SELECT_BY_ID,
+                            singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                            customerRowMapper
+                    )
             );
-        } catch (EmptyResultDataAccessException e) {
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
@@ -47,10 +56,14 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME,
-                    singletonMap("name", name),
-                    customerRowMapper));
-        } catch (EmptyResultDataAccessException e) {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            SELECT_BY_NAME,
+                            singletonMap(CUSTOMER_NAME, name),
+                            customerRowMapper
+                    )
+            );
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
@@ -59,10 +72,14 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL,
-                    singletonMap("email", email),
-                    customerRowMapper));
-        } catch (EmptyResultDataAccessException e) {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            SELECT_BY_EMAIL,
+                            singletonMap(CUSTOMER_EMAIL, email),
+                            customerRowMapper
+                    )
+            );
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
@@ -94,7 +111,8 @@ public class DbCustomerRepository implements CustomerRepository{
     public Customer update(Customer customer) {
         int update = jdbcTemplate.update(
                 UPDATE_CUSTOMER,
-                toParamMap(customer));
+                toParamMap(customer)
+        );
 
         if (update != 1) {
             log.error(DB_ERROR_LOG.getMessage());
@@ -111,11 +129,11 @@ public class DbCustomerRepository implements CustomerRepository{
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put("name",customer.getName());
-            put("email",customer.getEmail());
-            put("createAt", customer.getCreateAt());
-            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-            put("customerId", customer.getCustomerId().toString().getBytes() );
+            put(CUSTOMER_NAME, customer.getName());
+            put(CUSTOMER_EMAIL, customer.getEmail());
+            put(CREATE_AT, customer.getCreateAt());
+            put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+            put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes() );
         }};
     }
 }

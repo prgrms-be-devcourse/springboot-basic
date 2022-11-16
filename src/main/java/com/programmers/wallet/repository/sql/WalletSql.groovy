@@ -17,7 +17,7 @@ class WalletSql {
     public static final String FIND_CUSTOMER_WITH_VOUCHER_ID = """
         SELECT * FROM customer c
         JOIN wallet w ON c.customer_id = w.customer_id
-        WHERE w.voucher_id = UUID_TO_BIN(:voucher_id)
+        WHERE w.voucher_id = UUID_TO_BIN(:voucherId)
     """
 
     public static final String DELETE_CUSTOMER_VOUCHER = """

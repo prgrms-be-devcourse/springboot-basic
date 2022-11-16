@@ -13,8 +13,10 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.customer.repository.DbCustomerRepository.CUSTOMER_ID;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
+import static com.programmers.voucher.repository.DbVoucherRepository.VOUCHER_ID;
 import static com.programmers.wallet.repository.sql.WalletSql.*;
 
 @Repository
@@ -23,6 +25,7 @@ public class DbWalletRepository implements WalletRepository {
     private final Logger log = LoggerFactory.getLogger(DbWalletRepository.class);
     private final CustomerRowMapper customerRowMapper;
     private final VoucherRowMapper voucherRowMapper;
+    public static final String ASSIGN_AT = "assignAt";
 
     public DbWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -33,9 +36,9 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public Customer assignVoucher(Customer customer, Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
-        paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
-        paramMap.put("assignAt", LocalDateTime.now());
+        paramMap.put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
+        paramMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
+        paramMap.put(ASSIGN_AT, LocalDateTime.now());
 
         int count = jdbcTemplate.update(INSERT_WALLET, paramMap);
         if (count != 1) {
@@ -48,10 +51,11 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         try {
-            return jdbcTemplate.query(FIND_VOUCHERS_WITH_CUSTOMER_ID,
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    voucherRowMapper);
-
+            return jdbcTemplate.query(
+                    FIND_VOUCHERS_WITH_CUSTOMER_ID,
+                    Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                    voucherRowMapper
+            );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return List.of();
@@ -61,9 +65,13 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_WITH_VOUCHER_ID,
-                    Collections.singletonMap("voucher_id", voucherId.toString().getBytes())
-                    , customerRowMapper));
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            FIND_CUSTOMER_WITH_VOUCHER_ID,
+                            Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()),
+                            customerRowMapper
+                    )
+            );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
@@ -73,9 +81,10 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
         try {
-            jdbcTemplate.update(DELETE_CUSTOMER_VOUCHER,
-                    Collections.singletonMap("voucherId",
-                            voucherId.toString().getBytes()));
+            jdbcTemplate.update(
+                    DELETE_CUSTOMER_VOUCHER,
+                    Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes())
+            );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
         }

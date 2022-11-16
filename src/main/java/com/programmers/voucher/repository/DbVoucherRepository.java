@@ -23,6 +23,11 @@ public class DbVoucherRepository implements VoucherRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final VoucherRowMapper voucherRowMapper;
 
+    public static final String VOUCHER_ID = "voucherId";
+    public static final String VOUCHER_TYPE = "voucherType";
+    public static final String VOUCHER_VALUE = "voucherValue";
+    public static final String CREATE_AT = "createAt";
+
     @Autowired
     public DbVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -33,7 +38,7 @@ public class DbVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
-                    Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper));
+                    Collections.singletonMap(VOUCHER_ID, id.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
@@ -47,19 +52,19 @@ public class DbVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher registerVoucher(Voucher voucher) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
-        paramMap.put("createAt", LocalDateTime.now());
+        Map<String, Object> voucherParamMap = new HashMap<>();
+        voucherParamMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
+        voucherParamMap.put(CREATE_AT, LocalDateTime.now());
 
-        Map<String, Object> voucherRuleMap = new HashMap<>();
-        voucherRuleMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
-        voucherRuleMap.put("voucherType", voucher.getClass().getSimpleName().replaceAll("Voucher", ""));
-        voucherRuleMap.put("voucherValue", voucher.getValue());
+        Map<String, Object> voucherRuleParamMap = new HashMap<>();
+        voucherRuleParamMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
+        voucherRuleParamMap.put(VOUCHER_TYPE, voucher.getClass().getSimpleName().replaceAll("Voucher", ""));
+        voucherRuleParamMap.put(VOUCHER_VALUE, voucher.getValue());
 
-        jdbcTemplate.update(INSERT_VOUCHER, paramMap);
-        int count = jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleMap);
+        int voucherCount = jdbcTemplate.update(INSERT_VOUCHER, voucherParamMap);
+        int voucherRuleCount = jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleParamMap);
 
-        if (count != 1) {
+        if (voucherCount != 1 || voucherRuleCount != 1) {
             log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException(INSERT_ERROR.getMessage());
         }
