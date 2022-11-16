@@ -1,7 +1,8 @@
 package com.example.springbootbasic.domain.customer;
 
 import java.util.Arrays;
-import java.util.Optional;
+
+import static com.example.springbootbasic.exception.CustomerStatusExceptionMessage.CUSTOMER_STATUS_FIND_EXCEPTION;
 
 public enum CustomerStatus {
     NORMAL("normal"),
@@ -13,9 +14,10 @@ public enum CustomerStatus {
         this.type = type;
     }
 
-    public static Optional<CustomerStatus> findCustomerBy(String customerType) {
+    public static CustomerStatus of(String customerType) {
         return Arrays.stream(CustomerStatus.values())
                 .filter(type -> type.type.equals(customerType))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(CUSTOMER_STATUS_FIND_EXCEPTION.getMessage()));
     }
 }

@@ -11,9 +11,10 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.NoSuchElementException;
 
 import static com.example.springbootbasic.console.ConsoleType.EXIT;
-import static com.example.springbootbasic.console.ConsoleType.findConsoleTypeBy;
+import static com.example.springbootbasic.console.ConsoleType.of;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 
 @Component
@@ -26,11 +27,11 @@ public class ConsoleInput {
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public ConsoleType inputCommand() {
-        ConsoleType voucherExit = EXIT;
+        ConsoleType voucherExit = ConsoleType.CONTINUE;
         try {
-            voucherExit = findConsoleTypeBy(br.readLine()).get();
-        } catch (IOException e) {
-            logger.error("");
+            voucherExit = ConsoleType.of(br.readLine());
+        } catch (IOException | IllegalArgumentException e) {
+            logger.error("Fail - {}", e.getMessage());
         }
         return voucherExit;
     }
@@ -42,8 +43,8 @@ public class ConsoleInput {
             VoucherType voucherType = VoucherType.findVoucherType(voucherPieces[VOUCHER_TYPE_INDEX]);
             long discountValue = Long.parseLong(voucherPieces[VOUCHER_DISCOUNT_VALUE_INDEX]);
             return RequestBody.success(new VoucherDto(discountValue, voucherType));
-        } catch (IOException e) {
-            logger.error("");
+        } catch (IOException | IllegalArgumentException e) {
+            logger.error("Fail - {}", e.getMessage());
             return RequestBody.fail(voucherDto);
         }
     }

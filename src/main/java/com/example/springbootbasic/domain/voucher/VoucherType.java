@@ -2,7 +2,7 @@ package com.example.springbootbasic.domain.voucher;
 
 import java.util.Arrays;
 
-import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_TYPE;
+import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_TYPE_EXCEPTION;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed"),
@@ -18,6 +18,6 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(type -> type.voucherType.equals(findVoucherType) || type.name().equals(findVoucherType))
                 .findFirst()
-                .orElseThrow(() -> new NullPointerException(NULL_VOUCHER_TYPE.getMessage()));
+                .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_TYPE_EXCEPTION.getMessage()));
     }
 }

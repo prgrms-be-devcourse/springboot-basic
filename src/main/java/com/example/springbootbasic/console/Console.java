@@ -37,6 +37,7 @@ public class Console {
             case VOUCHER_LIST -> selectAllVouchersButton();
             case CUSTOMER_BLACK_LIST -> selectAllBlackCustomersButton();
             case EXIT -> status = END;
+            default -> status = CONTINUE;
         }
         return status;
     }

@@ -4,6 +4,7 @@ import com.example.springbootbasic.config.AppConfiguration;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.parser.CsvVoucherParser;
+import com.example.springbootbasic.util.CharacterUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.example.springbootbasic.util.CharacterUnit.*;
 
 @Repository
 @Profile("dev")
@@ -47,10 +50,10 @@ public class CsvVoucherRepository implements VoucherRepository {
         try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), true)) {
             Voucher generatedVoucher =
                     VoucherFactory.generateVoucher(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
-            writer.write(csvParser.parseToCsvFrom(generatedVoucher));
+            writer.write(csvParser.toCsvFrom(generatedVoucher));
             writer.flush();
         } catch (IOException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
         }
         return voucher;
     }
@@ -62,10 +65,19 @@ public class CsvVoucherRepository implements VoucherRepository {
         try {
             voucherTexts = Files.readAllLines(csvPath);
         } catch (IOException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
         }
         return voucherTexts.stream()
-                .map(csvParser::parseToVoucherFrom)
+                .map(csvParser::toVoucherFrom)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), false)) {
+            writer.write(EMPTY.unit());
+        } catch (IOException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
     }
 }

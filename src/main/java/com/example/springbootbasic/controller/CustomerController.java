@@ -26,7 +26,7 @@ public class CustomerController {
         try {
             findAllBlackCustomers = customerService.findAllBlackCustomers();
         } catch (NullPointerException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllBlackCustomers.stream()

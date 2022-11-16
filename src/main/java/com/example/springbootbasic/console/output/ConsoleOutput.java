@@ -27,7 +27,7 @@ public class ConsoleOutput {
             bw.write(text);
             bw.flush();
         } catch (IOException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
         }
     }
 
@@ -38,7 +38,7 @@ public class ConsoleOutput {
                     SAVE_VOUCHER_SUCCESS.message(), ENTER.unit(), voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
             bw.flush();
         } catch (IOException e) {
-            logger.error("");
+            logger.error("Fail - {}", e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class ConsoleOutput {
             try {
                 bw.write(MessageFormat.format("{0} {1} {2} {3}", voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
             } catch (IOException e) {
-                logger.error("");
+                logger.error("Fail - {}", e.getMessage());
             }
         });
     }
@@ -59,7 +59,7 @@ public class ConsoleOutput {
             try {
                 bw.write(MessageFormat.format("{0} {1} {2}", customerDto.getCustomerId(), customerDto.getStatus(), ENTER.unit()));
             } catch (IOException e) {
-                logger.error("");
+                logger.error("Fail - {}", e.getMessage());
             }
         });
     }

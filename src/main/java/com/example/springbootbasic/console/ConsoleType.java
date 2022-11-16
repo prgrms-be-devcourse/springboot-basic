@@ -1,14 +1,17 @@
 package com.example.springbootbasic.console;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.Optional;
+
+import static com.example.springbootbasic.exception.ConsoleTypeExceptionMessage.CONSOLE_TYPE_FIND_EXCEPTION;
 
 public enum ConsoleType {
 
     VOUCHER_CREATE("create"),
     VOUCHER_LIST("list"),
     CUSTOMER_BLACK_LIST("customer-black-list"),
-    EXIT("exit");
+    EXIT("exit"),
+    CONTINUE("continue");
 
     private final String type;
 
@@ -16,9 +19,10 @@ public enum ConsoleType {
         this.type = type;
     }
 
-    public static Optional<ConsoleType> findConsoleTypeBy(String findType) {
+    public static ConsoleType of(String findType) {
         return Arrays.stream(ConsoleType.values())
                 .filter(type -> type.type.equals(findType))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format(CONSOLE_TYPE_FIND_EXCEPTION.getMessage(), findType)));
     }
 }
