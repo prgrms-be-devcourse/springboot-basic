@@ -14,6 +14,11 @@ public class PercentAmountVoucher extends Voucher {
     }
 
     @Override
+    public long getQuantity() {
+        return percent;
+    }
+
+    @Override
     public String toString() {
         return "{PercentAmountVoucher- id: %s, percent: %d}".formatted(voucherId, percent);
     }

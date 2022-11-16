@@ -14,6 +14,11 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
+    public long getQuantity() {
+        return amount;
+    }
+
+    @Override
     public String toString() {
         return "{FixedAmountVoucher - id: %s, amount: %d}".formatted(voucherId, amount);
     }

@@ -9,5 +9,7 @@ public abstract class Voucher {
         return voucherId;
     }
 
+    public abstract long getQuantity();
+
     public abstract long discount(long beforeDiscount);
 }
