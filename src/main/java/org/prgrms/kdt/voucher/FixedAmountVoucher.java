@@ -2,7 +2,7 @@ package org.prgrms.kdt.voucher;
 
 public class FixedAmountVoucher implements Voucher {
     private static final Long FIXED_AMOUNT_VOUCHER_MIN_VALUE = 0L;
-    private static final String TYPE = "FIXED";
+    private static final VoucherType TYPE = VoucherType.FIXED;
 
     private final long id;
     private final VoucherAmount amount;
@@ -30,7 +30,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getType() {
-        return TYPE;
+        return TYPE.getType().toUpperCase();
     }
 
     @Override

@@ -6,11 +6,12 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.List;
 
-@Profile({"local"})
+@Profile("local")
 @Repository
 public class FileVoucherManager implements VoucherManager {
 
     private static final String FILE_PATH = "src/main/resources/vouchers.csv";
+
     @Override
     public void save(Voucher voucher) {
         File vouchersCsv = loadFile();
@@ -52,10 +53,18 @@ public class FileVoucherManager implements VoucherManager {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(vouchersCsv))) {
             return bufferedReader.lines()
                     .map(line -> line.split(", "))
-                    .map(t -> Voucher.newInstance(VoucherType.of(t[0]), new VoucherAmount(t[1])))
+                    .map(FileVoucherManager::getVoucher)
                     .toList();
         } catch (IOException exception) {
             throw new RuntimeException("Cannot find file. Please check there is file those name is " + vouchersCsv.getName(), exception);
+        }
+    }
+
+    private static Voucher getVoucher(String[] t) {
+        try {
+            return Voucher.newInstance(VoucherType.of(t[0]), new VoucherAmount(t[1]));
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            throw new RuntimeException("Invalid File. Please write the file in following format. [Format]: Type, Amount", exception);
         }
     }
 }
