@@ -26,4 +26,8 @@ public class InMemoryVoucherStorage implements VoucherStorage {
     public List<Voucher> findAll() {
         return new ArrayList<>(vouchers.values());
     }
+
+    public Voucher findById(UUID uuid){
+        return vouchers.get(uuid);
+    }
 }

@@ -14,9 +14,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.*;
 
@@ -59,6 +57,13 @@ public class FileVoucherStorage implements VoucherStorage {
             String errorMessage = FATAL_FILE_IO_EXCEPTION_MESSAGE + e.getMessage();
             throw new FileIOException(errorMessage);
         }
+    }
+
+    public Voucher findById(UUID id){
+        List<Voucher> vouchers = findAll();
+        Map<UUID, Voucher> voucherMap = new HashMap<>();
+        vouchers.forEach(voucher -> voucherMap.put(voucher.getUUID(), voucher));
+        return voucherMap.get(id);
     }
 
     private File openFile() {
