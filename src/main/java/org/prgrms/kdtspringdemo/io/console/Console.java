@@ -76,7 +76,7 @@ public class Console {
             String[] argument = {
                     customer.getCustomerId().toString(),
                     customer.getName().toString(),
-                    customer.getDateOfBirth().toString()
+                    customer.getBirth().toString()
             };
             return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
         }).collect(Collectors.joining("\n"
