@@ -1,7 +1,7 @@
 package com.example.springbootbasic.controller.request;
 
-import static com.example.springbootbasic.controller.response.ResponseCode.FAIL;
-import static com.example.springbootbasic.controller.response.ResponseCode.SUCCESS;
+import static com.example.springbootbasic.controller.request.RequestCode.FAIL;
+import static com.example.springbootbasic.controller.request.RequestCode.SUCCESS;
 
 public class RequestBody<T> {
     private Integer code;
