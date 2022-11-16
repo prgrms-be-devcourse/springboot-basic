@@ -26,6 +26,7 @@ public class VoucherFileMemory implements Memory {
   private static final int TYPE_INDEX = 0;
   private static final int ID_INDEX = 1;
   private static final int AMOUNT_INDEX = 2;
+  private static final int LENGTH = 3;
 
   public VoucherFileMemory(@Value("${file.voucher.file-path}") String filePath) {
     this.file = new File(filePath);
@@ -36,7 +37,7 @@ public class VoucherFileMemory implements Memory {
       writer.write(voucher.getClass().getSimpleName() + "," + voucher.getVoucherId() + ","
           + voucher.getVoucherAmount().getValue() + System.lineSeparator());
     } catch (IOException e) {
-      throw new FileNotExistException();
+      throw new FileNotExistException(e);
     }
     return voucher;
   }
@@ -53,7 +54,7 @@ public class VoucherFileMemory implements Memory {
           voucherList.add(extractVoucherFromFile(verifyArrayLength(line.split(","))));
         }
       } catch (IOException e) {
-        throw new FileNotExistException();
+        throw new FileNotExistException(e);
       }
     }
     return voucherList;
@@ -76,7 +77,7 @@ public class VoucherFileMemory implements Memory {
   }
 
   private String[] verifyArrayLength(String[] lineArray) {
-    if (lineArray.length == 3) {
+    if (lineArray.length == LENGTH) {
       return lineArray;
     }
     throw new ArrayIndexOutOfBoundsException(

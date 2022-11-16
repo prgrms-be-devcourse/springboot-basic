@@ -31,7 +31,7 @@ public class CustomerBlackListFileMemory {
           blacklist.add(line);
         }
       }catch (IOException e) {
-        throw new FileNotExistException();
+        throw new FileNotExistException(e);
       }
     }
     return blacklist;
