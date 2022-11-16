@@ -2,7 +2,9 @@ plugins {
     id 'org.springframework.boot' version '2.7.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'java'
+    id 'groovy'
 }
+[compileGroovy, compileTestGroovy]*.options*.encoding = 'UTF-8'
 
 group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
@@ -22,10 +24,23 @@ dependencies {
 	implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
+    // groovy 설정
+    implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.4'
 
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
-
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['src/main/java']
+        }
+        java {
+            srcDirs = []
+        }
+    }
+}
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+
