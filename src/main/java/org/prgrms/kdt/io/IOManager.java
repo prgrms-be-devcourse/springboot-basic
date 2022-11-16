@@ -70,8 +70,8 @@ public class IOManager {
 
     public void writeVoucherInfo(Voucher voucher) {
         console.write(
-                MessageFormat.format("voucher Id -> {0}, voucher Type -> {1}, Amount -> {2}",
-                        voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount()));
+                MessageFormat.format("[voucher Type] : {0}, [Amount] : {1}",
+                        voucher.getClass().getSimpleName(), voucher.getAmount()));
     }
 
     public static String getSelectWrongMessage() {
