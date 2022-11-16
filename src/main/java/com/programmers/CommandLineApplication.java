@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 import static com.programmers.voucher.menu.Menu.findMenu;
-import static com.programmers.voucher.menu.Message.*;
+import static com.programmers.message.Message.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component

@@ -1,6 +1,6 @@
 package com.programmers.voucher.view;
 
-import com.programmers.voucher.menu.Message;
+import com.programmers.message.Message;
 import com.programmers.voucher.voucher.Voucher;
 
 public interface View {
