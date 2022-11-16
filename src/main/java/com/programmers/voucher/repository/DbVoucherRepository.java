@@ -1,21 +1,19 @@
 package com.programmers.voucher.repository;
 
+import com.programmers.voucher.repository.sql.VoucherRowMapper;
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherFactory;
-import com.programmers.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.message.ErrorMessage.*;
 import static com.programmers.voucher.repository.sql.VoucherSql.*;
 
 @Repository
@@ -23,10 +21,12 @@ import static com.programmers.voucher.repository.sql.VoucherSql.*;
 public class DbVoucherRepository implements VoucherRepository{
     private final Logger log = LoggerFactory.getLogger(DbVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final VoucherRowMapper voucherRowMapper;
 
     @Autowired
     public DbVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.voucherRowMapper = new VoucherRowMapper();
     }
     
     @Override
@@ -35,7 +35,7 @@ public class DbVoucherRepository implements VoucherRepository{
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
                     Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
-            log.error("Got empty result", e);
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -57,7 +57,12 @@ public class DbVoucherRepository implements VoucherRepository{
         voucherRuleMap.put("voucherValue", voucher.getValue());
 
         jdbcTemplate.update(INSERT_VOUCHER, paramMap);
-        jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleMap);
+        int count = jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleMap);
+
+        if (count != 1) {
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(INSERT_ERROR.getMessage());
+        }
 
         return voucher;
     }
@@ -65,19 +70,5 @@ public class DbVoucherRepository implements VoucherRepository{
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
-    }
-
-    private final static RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        String type = resultSet.getString("voucher_type").substring(0, 1);
-        long value = resultSet.getLong("voucher_value");
-
-        VoucherType voucherType = VoucherType.getValidateVoucherType(type);
-        return VoucherFactory.createVoucher(voucherId, voucherType, value);
-    };
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

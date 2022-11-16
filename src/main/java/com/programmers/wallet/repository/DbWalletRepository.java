@@ -1,54 +1,33 @@
 package com.programmers.wallet.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.sql.CustomerRowMapper;
+import com.programmers.voucher.repository.sql.VoucherRowMapper;
 import com.programmers.voucher.voucher.Voucher;
-import com.programmers.voucher.voucher.VoucherFactory;
-import com.programmers.voucher.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
+import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static com.programmers.wallet.repository.sql.WalletSql.*;
 
 @Repository
 public class DbWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Logger log = LoggerFactory.getLogger(DbWalletRepository.class);
+    private final CustomerRowMapper customerRowMapper;
+    private final VoucherRowMapper voucherRowMapper;
 
     public DbWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private final static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        String customerName = resultSet.getString("name");
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        String email = resultSet.getString("email");
-        LocalDateTime createAt = resultSet.getTimestamp("create_at").toLocalDateTime();
-        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-
-        return new Customer(customerId, customerName, email, lastLoginAt, createAt);
-    };
-
-    private final static RowMapper<Voucher> voucherRowMapper = (resultSet, i) ->{
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        long voucherValue = resultSet.getLong("voucher_value");
-        String voucherType = resultSet.getString("voucher_type").substring(0, 1);
-
-        VoucherType validateVoucherType = VoucherType.getValidateVoucherType(voucherType);
-        return VoucherFactory.createVoucher(voucherId, validateVoucherType, voucherValue);
-    };
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        this.customerRowMapper = new CustomerRowMapper();
+        this.voucherRowMapper = new VoucherRowMapper();
     }
 
     @Override
@@ -60,11 +39,10 @@ public class DbWalletRepository implements WalletRepository {
 
         int count = jdbcTemplate.update(INSERT_WALLET, paramMap);
         if (count != 1) {
-            log.error("repository error");
-            throw new RuntimeException("바우처 할당 실패");
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(INSERT_ERROR.getMessage());
         }
         return customer;
-
     }
 
     @Override
@@ -75,7 +53,7 @@ public class DbWalletRepository implements WalletRepository {
                     voucherRowMapper);
 
         } catch (DataAccessException e) {
-            log.error("repository 예외 발생", e);
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return List.of();
         }
     }
@@ -87,7 +65,7 @@ public class DbWalletRepository implements WalletRepository {
                     Collections.singletonMap("voucher_id", voucherId.toString().getBytes())
                     , customerRowMapper));
         } catch (DataAccessException e) {
-            log.error("repository 예외 발생", e);
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -99,7 +77,7 @@ public class DbWalletRepository implements WalletRepository {
                     Collections.singletonMap("voucherId",
                             voucherId.toString().getBytes()));
         } catch (DataAccessException e) {
-            log.error("repository 예외 발생", e);
+            log.error(DB_ERROR_LOG.getMessage(), e);
         }
 
     }

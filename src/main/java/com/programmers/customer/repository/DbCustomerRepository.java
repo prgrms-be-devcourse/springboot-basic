@@ -1,44 +1,35 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.sql.CustomerRowMapper;
 import com.programmers.customer.repository.sql.CustomerSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.customer.repository.sql.CustomerSql.*;
+import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
+import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
 @Profile("dev")
 @Repository
 public class DbCustomerRepository implements CustomerRepository{
-    private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Logger log = LoggerFactory.getLogger(DbCustomerRepository.class);
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final CustomerRowMapper customerRowMapper;
 
     public DbCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.customerRowMapper = new CustomerRowMapper();
     }
-
-    private final static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        String customerName = resultSet.getString("name");
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        String email = resultSet.getString("email");
-        LocalDateTime createAt = resultSet.getTimestamp("create_at").toLocalDateTime();
-        LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-
-        return new Customer(customerId, customerName, email, lastLoginAt, createAt);
-    };
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
@@ -48,7 +39,7 @@ public class DbCustomerRepository implements CustomerRepository{
                             , singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
-            log.error("Got empty result", e);
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -60,7 +51,7 @@ public class DbCustomerRepository implements CustomerRepository{
                     singletonMap("name", name),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Got empty result");
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -72,7 +63,7 @@ public class DbCustomerRepository implements CustomerRepository{
                     singletonMap("email", email),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            log.error("Got empty result");
+            log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
         }
     }
@@ -92,8 +83,8 @@ public class DbCustomerRepository implements CustomerRepository{
         int count = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
 
         if (count != 1) {
-            log.error("Got error while closing connection");
-            throw new RuntimeException();
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(INSERT_ERROR.getMessage());
         }
 
         return customer;
@@ -106,7 +97,7 @@ public class DbCustomerRepository implements CustomerRepository{
                 toParamMap(customer));
 
         if (update != 1) {
-            log.error("Got error while closing connection");
+            log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException();
         }
 
@@ -116,12 +107,6 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(SELECT_ALL , customerRowMapper);
-    }
-
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
