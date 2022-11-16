@@ -41,11 +41,10 @@ public class CommandLineApplication implements CommandLineRunner {
             }
         }
         logger.info("프로그램이 종료되었습니다.");
-        if(power.getIsExceptionExit()){
+        if (power.getIsExceptionExit()) {
             ioManager.writeMessage("프로그램 오류로 종료되었습니다.");
         }
-        else {
-            ioManager.writeEndMessage();
-        }
+        ioManager.writeEndMessage();
     }
 }
+
