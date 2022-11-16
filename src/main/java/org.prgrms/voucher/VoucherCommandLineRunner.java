@@ -14,7 +14,6 @@ import org.prgrms.voucher.discountType.Amount;
 import org.prgrms.voucher.voucherType.Voucher;
 import org.prgrms.voucher.voucherType.VoucherType;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -93,7 +92,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
     while (true) {
       try {
-        VoucherType voucherType = enteredVoucherType();
+        VoucherTypePool voucherType = enteredVoucherType();
         String inputAmount = console.enteredAmount(voucherType);
         logger.info("input_amount: {}", inputAmount);
 
@@ -107,9 +106,9 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
     }
   }
 
-  private VoucherType enteredVoucherType() {
+  private VoucherTypePool enteredVoucherType() {
     String inputType = console.chooseVoucherType();
-    return VoucherType.of(inputType);
+    return VoucherTypePool.of(inputType);
   }
 
   private boolean isExit(MenuType menuType) {
