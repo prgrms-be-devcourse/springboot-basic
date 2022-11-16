@@ -1,15 +1,15 @@
 package org.prgrms.springbootbasic.repository;
 
-import org.prgrms.springbootbasic.voucher.Voucher;
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
+@Primary
 public class InMemoryVoucherRepository implements VoucherRepository {
     Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
@@ -27,7 +27,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> findAll() {
-        return map;
+    public List<Voucher> findAll() {
+        return new ArrayList<>(map.values());
     }
 }
