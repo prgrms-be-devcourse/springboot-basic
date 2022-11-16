@@ -1,6 +1,7 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.sql.CustomerSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.customer.repository.sql.CustomerSql.*;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
@@ -42,7 +44,7 @@ public class DbCustomerRepository implements CustomerRepository{
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(
-                    jdbcTemplate.queryForObject("select * from customer where customer_id = UUID_TO_BIN(:customerId)"
+                    jdbcTemplate.queryForObject(CustomerSql.SELECT_BY_ID
                             , singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper)
             );
         } catch (EmptyResultDataAccessException e) {
@@ -54,7 +56,7 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customer where name = :name",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_NAME,
                     singletonMap("name", name),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -66,7 +68,7 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customer where email = :email",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_EMAIL,
                     singletonMap("email", email),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -77,17 +79,17 @@ public class DbCustomerRepository implements CustomerRepository{
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from customer", emptyMap());
+        jdbcTemplate.update(DELETE_ALL , emptyMap());
     }
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customer", emptyMap(), Integer.class);
+        return jdbcTemplate.queryForObject(SELECT_COUNT , emptyMap(), Integer.class);
     }
 
     @Override
     public Customer insert(Customer customer) {
-        int count = jdbcTemplate.update("INSERT INTO customer(customer_id, name, email, create_at) values (UUID_TO_BIN(:customerId), :name ,:email, :createAt)", toParamMap(customer));
+        int count = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
 
         if (count != 1) {
             log.error("Got error while closing connection");
@@ -100,7 +102,7 @@ public class DbCustomerRepository implements CustomerRepository{
     @Override
     public Customer update(Customer customer) {
         int update = jdbcTemplate.update(
-                "UPDATE customer SET name = :name, email =:email, last_login_at =:lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+                UPDATE_CUSTOMER,
                 toParamMap(customer));
 
         if (update != 1) {
@@ -113,7 +115,7 @@ public class DbCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select * from customer", customerRowMapper);
+        return jdbcTemplate.query(SELECT_ALL , customerRowMapper);
     }
 
 

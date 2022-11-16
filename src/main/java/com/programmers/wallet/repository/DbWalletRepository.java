@@ -15,6 +15,8 @@ import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.wallet.repository.sql.WalletSql.*;
+
 @Repository
 public class DbWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -56,10 +58,7 @@ public class DbWalletRepository implements WalletRepository {
         paramMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paramMap.put("assignAt", LocalDateTime.now());
 
-        String sql = "INSERT INTO wallet(customer_id, voucher_id, assign_at)" +
-                " VALUES(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId), :assignAt)";
-
-        int count = jdbcTemplate.update(sql, paramMap);
+        int count = jdbcTemplate.update(INSERT_WALLET, paramMap);
         if (count != 1) {
             log.error("repository error");
             throw new RuntimeException("바우처 할당 실패");
@@ -71,14 +70,10 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         try {
-            String sql = "SELECT * FROM wallet w" +
-                    " JOIN voucher v ON w.voucher_id = v.voucher_id" +
-                    " JOIN voucher_rule r ON v.voucher_id = r.voucher_id" +
-                    " WHERE w.customer_id = UUID_TO_BIN(:customerId)";
-
-            return jdbcTemplate.query(sql,
+            return jdbcTemplate.query(FIND_VOUCHERS_WITH_CUSTOMER_ID,
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     voucherRowMapper);
+
         } catch (DataAccessException e) {
             log.error("repository 예외 발생", e);
             return List.of();
@@ -88,11 +83,7 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         try {
-            String sql = "SELECT * FROM customer c" +
-                    " JOIN wallet w ON c.customer_id = w.customer_id" +
-                    " WHERE w.voucher_id = UUID_TO_BIN(:voucher_id)";
-
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_WITH_VOUCHER_ID,
                     Collections.singletonMap("voucher_id", voucherId.toString().getBytes())
                     , customerRowMapper));
         } catch (DataAccessException e) {
@@ -104,7 +95,7 @@ public class DbWalletRepository implements WalletRepository {
     @Override
     public void deleteCustomerVoucher(UUID customerId, UUID voucherId) {
         try {
-            jdbcTemplate.update("delete from wallet where voucher_id = UUID_TO_BIN(:voucherId)",
+            jdbcTemplate.update(DELETE_CUSTOMER_VOUCHER,
                     Collections.singletonMap("voucherId",
                             voucherId.toString().getBytes()));
         } catch (DataAccessException e) {

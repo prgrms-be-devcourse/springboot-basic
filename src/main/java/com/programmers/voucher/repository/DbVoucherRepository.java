@@ -16,6 +16,8 @@ import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.programmers.voucher.repository.sql.VoucherSql.*;
+
 @Repository
 @Profile("dev")
 public class DbVoucherRepository implements VoucherRepository{
@@ -30,9 +32,7 @@ public class DbVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher v left join" +
-                            " voucher_rule r on v.voucher_id = r.voucher_id" +
-                            " where v.voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
                     Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
             log.error("Got empty result", e);
@@ -42,8 +42,7 @@ public class DbVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAllVouchers() {
-        return jdbcTemplate.query("select * from voucher v left join" +
-                " voucher_rule r on v.voucher_id = r.voucher_id ", voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_VOUCHERS, voucherRowMapper);
     }
 
     @Override
@@ -57,18 +56,15 @@ public class DbVoucherRepository implements VoucherRepository{
         voucherRuleMap.put("voucherType", voucher.getClass().getSimpleName().replaceAll("Voucher", ""));
         voucherRuleMap.put("voucherValue", voucher.getValue());
 
-        jdbcTemplate.update("INSERT INTO voucher(voucher_id, create_at)" +
-                " VALUES(UUID_TO_BIN(:voucherId), :createAt)", paramMap);
-
-        jdbcTemplate.update("INSERT INTO voucher_rule(voucher_id, voucher_type, voucher_value)" +
-                " VALUES(UUID_TO_BIN(:voucherId), :voucherType, :voucherValue)", voucherRuleMap);
+        jdbcTemplate.update(INSERT_VOUCHER, paramMap);
+        jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleMap);
 
         return voucher;
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from voucher", Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
     }
 
     private final static RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
