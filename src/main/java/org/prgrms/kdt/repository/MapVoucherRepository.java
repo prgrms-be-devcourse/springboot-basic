@@ -10,8 +10,12 @@ import java.util.*;
 @Repository
 public class MapVoucherRepository implements VoucherRepository{
 
-    private static final Map<UUID, Voucher> memory = new HashMap<>();
+    private final Map<UUID, Voucher> memory;
     private static final Logger logger = LoggerFactory.getLogger(MapVoucherRepository.class);
+
+    public MapVoucherRepository(){
+        this.memory = new HashMap<>();
+    }
 
     public boolean save(Voucher voucher){
         memory.put(voucher.getVoucherId(), voucher);
@@ -23,7 +27,6 @@ public class MapVoucherRepository implements VoucherRepository{
         return false;
     }
 
-    @Override
     public Optional<Voucher> getVoucherById(UUID voucherId) {
         Optional<Voucher> voucher = Optional.ofNullable(memory.get(voucherId));
         if (voucher.isPresent()){
