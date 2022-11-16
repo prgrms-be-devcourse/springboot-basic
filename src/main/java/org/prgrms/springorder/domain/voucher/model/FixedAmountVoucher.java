@@ -1,17 +1,26 @@
 package org.prgrms.springorder.domain.voucher.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import org.prgrms.springorder.domain.customer.model.Customer;
 
 public class FixedAmountVoucher extends Voucher {
+
+    private static final int MINIMUM_FIXED_AMOUNT = 0;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         super(voucherId, amount);
     }
 
+    public FixedAmountVoucher(UUID voucherId, long amount,
+        UUID customerId, LocalDateTime createdAt) {
+        super(voucherId, amount, customerId, createdAt);
+    }
+
     @Override
     protected void validateAmount(long amount) {
-        if (amount < 0) {
+        if (amount < MINIMUM_FIXED_AMOUNT) {
             throw new IllegalArgumentException("할인금액은 0보다 작을 수 없습니다.");
         }
     }
@@ -37,7 +46,7 @@ public class FixedAmountVoucher extends Voucher {
             return false;
         }
         FixedAmountVoucher that = (FixedAmountVoucher) o;
-        return Objects.equals(this.getVoucherId(),that.getVoucherId());
+        return Objects.equals(this.getVoucherId(), that.getVoucherId());
     }
 
     @Override

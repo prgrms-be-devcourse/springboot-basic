@@ -1,6 +1,8 @@
 package org.prgrms.springorder.domain.voucher.service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.voucher.api.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
@@ -19,16 +21,26 @@ public class VoucherFactory {
     public static Voucher create(VoucherCreateRequest request) {
         VoucherType voucherType = request.getVoucherType();
 
-        return toVoucher(voucherType, UUID.randomUUID(), request.getDiscountAmount());
-    }
-
-    public static Voucher toVoucher(VoucherType voucherType, UUID voucherId, long amount) {
         switch (voucherType) {
             case FIXED:
-                return new FixedAmountVoucher(voucherId, amount);
+                return new FixedAmountVoucher(UUID.randomUUID(), request.getDiscountAmount());
 
             case PERCENT:
-                return new PercentDiscountVoucher(voucherId, amount);
+                return new PercentDiscountVoucher(UUID.randomUUID(), request.getDiscountAmount());
+
+            default:
+                logger.error("invalid Voucher Type : {}", voucherType);
+                throw new IllegalArgumentException("잘못된 요청입니다.");
+        }
+    }
+
+    public static Voucher toVoucher(VoucherType voucherType, UUID voucherId, long amount, UUID customerId, LocalDateTime createdAt) {
+        switch (voucherType) {
+            case FIXED:
+                return new FixedAmountVoucher(voucherId, amount, customerId, createdAt);
+
+            case PERCENT:
+                return new PercentDiscountVoucher(voucherId, amount, customerId, createdAt);
 
             default:
                 logger.error("invalid Voucher Type : {}", voucherType);
