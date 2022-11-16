@@ -11,10 +11,10 @@ import java.util.List;
 @Component
 public class FileIO {
     private static final String VOUCHER_FILE_URL = "Vouchers.txt";
-    private final File vouchersFile = new File(VOUCHER_FILE_URL);
     private static final Logger logger = LoggerFactory.getLogger(FileIO.class);
 
     public List<String> read() {
+        File vouchersFile = getFile();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(vouchersFile))) {
             return bufferedReader.lines()
                     .toList();
@@ -30,5 +30,9 @@ public class FileIO {
         } catch (IOException fileWriteException) {
             logger.error("파일에 바우처를 저장하는 것을 실패하였습니다.", fileWriteException);
         }
+    }
+
+    private File getFile(){
+        return new File(FileIO.VOUCHER_FILE_URL);
     }
 }
