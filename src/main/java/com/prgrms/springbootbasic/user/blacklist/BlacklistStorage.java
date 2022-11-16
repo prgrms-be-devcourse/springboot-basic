@@ -1,8 +1,5 @@
 package com.prgrms.springbootbasic.user.blacklist;
 
-import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.FATAL_FILE_IO_EXCEPTION_MESSAGE;
-import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.FILE_NOT_EXIST_EXCEPTION_MESSAGE;
-
 import com.prgrms.springbootbasic.common.exception.FileIOException;
 import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.user.domain.User;
@@ -21,12 +18,15 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
+import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.*;
+
 @Repository
 public class BlacklistStorage {
 
     private static final String DELIMITER = ",";
     private static final int USER_ID_COLUMN_INDEX = 0;
     private static final int NAME_COLUMN_INDEX = 1;
+    private static final int VOUCHER_COLUMN_SIZE = 2;
 
     @Value("${classpath.customer-blacklist}")
     private String CLASSPATH_BLACKLIST;
@@ -73,11 +73,19 @@ public class BlacklistStorage {
     }
 
     private User mapToUser(String line) {
-        String[] columns = line.split(DELIMITER);
+        List<String> columns = List.of(line.split(DELIMITER));
 
-        UUID id = UUID.fromString(columns[USER_ID_COLUMN_INDEX].trim());
-        String name = columns[NAME_COLUMN_INDEX].trim();
+        validateSize(columns);
+
+        UUID id = UUID.fromString(columns.get(USER_ID_COLUMN_INDEX).trim());
+        String name = columns.get(NAME_COLUMN_INDEX).trim();
         return new User(id, name);
+    }
+
+    private void validateSize(List<String> columns) {
+        if (columns.size() != VOUCHER_COLUMN_SIZE) {
+            throw new FileIOException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
+        }
     }
 
     private void skipLine(BufferedReader br) throws IOException {
