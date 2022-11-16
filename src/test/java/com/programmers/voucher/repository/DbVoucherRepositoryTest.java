@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,14 +22,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class DbVoucherRepositoryTest {
 
     @Autowired
-    DbVoucherRepository repository;
+    VoucherRepository repository;
 
-    @BeforeEach
+//    @BeforeEach
     void clear() {
         repository.deleteAll();
     }
 
     @Test
+    @Transactional
     @DisplayName("insert 시 DB에 바우처가 성공적으로 저장되어야 한다.")
     void DB_바우처_저장_테스트() {
         Voucher voucher = VoucherFactory.createVoucher(FixedAmount, 5000L);
@@ -37,6 +39,7 @@ class DbVoucherRepositoryTest {
 
 
     @Test
+    @Transactional
     @DisplayName("바우처 ID로 조회 시 바우처가 성공적으로 조회되어야 한다.")
     void DB_바우처_단건조회_테스트() {
         Voucher voucher = VoucherFactory.createVoucher(FixedAmount, 5000L);
@@ -50,6 +53,7 @@ class DbVoucherRepositoryTest {
     }
 
     @Test
+    @Transactional
     @DisplayName("전체 조회 시 모든 바우처가 성공적으로 조회되어야 한다.")
     void DB_바우처_전체조회_테스트() {
         Voucher voucher1 = VoucherFactory.createVoucher(FixedAmount, 5000L);

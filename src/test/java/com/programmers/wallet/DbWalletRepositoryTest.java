@@ -6,8 +6,7 @@ import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherFactory;
 import com.programmers.wallet.repository.WalletRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,8 +21,10 @@ import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 
 @SpringBootTest
+@TestInstance(PER_CLASS)
 class DbWalletRepositoryTest {
 
     @Autowired
@@ -33,30 +34,35 @@ class DbWalletRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-    @Test
+    Customer customer;
+    Voucher voucher;
+
+    @BeforeEach
     @Transactional
-    @DisplayName("DB에 바우처 지갑 정보가 성공적으로 저장된다.")
-    void 바우처_지갑_저장_테스트() {
-        Customer customer = new Customer(UUID.randomUUID(), "kiseo", "kiseo@aaa.aaa", LocalDateTime.now());
+    void 테스트용_데이터() {
+        customer = new Customer(UUID.randomUUID(), "kiseo", "test@aaa.aaa", LocalDateTime.now());
         customerRepository.insert(customer);
 
-        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), FixedAmount, 50000);
+        voucher = VoucherFactory.createVoucher(UUID.randomUUID(), PercentDiscount, 50);
         voucherRepository.registerVoucher(voucher);
+    }
 
-        walletRepository.assignVoucher(customer, voucher);
+    @AfterEach
+    void clear() {
+        walletRepository.deleteCustomerVoucher(customer.getCustomerId(), voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("DB에 바우처 지갑 정보가 성공적으로 저장된다.")
+    @Transactional
+    void 바우처_지갑_저장_테스트() {
+        assertDoesNotThrow(() -> walletRepository.assignVoucher(customer, voucher));
     }
 
     @Test
     @Transactional
     @DisplayName("특정 바우처를 보유한 회원을 검색할 수 있다.")
     void 바우처_회원_조회_테스트() {
-
-        Customer customer = new Customer(UUID.randomUUID(), "kiseo", "giseo@aaa.aaa", LocalDateTime.now());
-        customerRepository.insert(customer);
-
-        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), FixedAmount, 50000);
-        voucherRepository.registerVoucher(voucher);
-
         walletRepository.assignVoucher(customer, voucher);
 
         Optional<Customer> voucherOwner = walletRepository.findCustomerByVoucherId(voucher.getVoucherId());
@@ -91,11 +97,6 @@ class DbWalletRepositoryTest {
     @Transactional
     @DisplayName("특정 고객의 바우처를 지갑에서 제거할 수 있다.")
     void 지갑_바우처_제거_테스트() {
-        Customer customer = new Customer(UUID.randomUUID(), "kiseo", "giseo@aaa.aaa", LocalDateTime.now());
-        customerRepository.insert(customer);
-
-        Voucher voucher = VoucherFactory.createVoucher(UUID.randomUUID(), FixedAmount, 50000);
-        voucherRepository.registerVoucher(voucher);
         walletRepository.assignVoucher(customer, voucher);
 
         List<Voucher> beforeDelete = walletRepository.findVouchersByCustomerId(customer.getCustomerId());

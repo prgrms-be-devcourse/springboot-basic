@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +21,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     @Transactional
     public void join(Customer customer) {
+        Optional<Customer> findOne = customerRepository.findByEmail(customer.getEmail());
+
+        if (findOne.isPresent()) {
+            throw new RuntimeException("이미 사용중인 이메일입니다.");
+        }
+
         customerRepository.insert(customer);
     }
 
