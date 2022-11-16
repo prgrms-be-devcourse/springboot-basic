@@ -31,6 +31,11 @@ public class FixedAmountVoucher implements Voucher {
   }
 
   @Override
+  public Amount getVoucherAmount() {
+    return discountAmount;
+  }
+
+  @Override
   public String toString() {
     return "*** FixedAmountVoucher ***"
         + System.lineSeparator()
