@@ -3,7 +3,6 @@ package org.programmers.springbootbasic.dto;
 import org.programmers.springbootbasic.data.VoucherType;
 
 
-
 public class VoucherInputDto {
     private String type;
     private VoucherType voucherType;

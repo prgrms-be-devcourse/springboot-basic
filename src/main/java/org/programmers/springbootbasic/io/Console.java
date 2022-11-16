@@ -6,7 +6,6 @@ import org.programmers.springbootbasic.domain.Voucher;
 import org.programmers.springbootbasic.dto.VoucherInputDto;
 import org.programmers.springbootbasic.exception.InputException;
 import org.programmers.springbootbasic.exception.NotAnIntegerException;
-import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

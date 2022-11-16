@@ -25,7 +25,6 @@ public class VoucherFactory {
                 logger.info("PercentDiscountVoucher 생성");
                 yield new PercentDiscountVoucher(UUID.randomUUID(), amount);
             }
-            default -> throw new WrongTypeInputException();
         };
     }
 }

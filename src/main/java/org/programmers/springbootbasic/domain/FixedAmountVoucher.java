@@ -43,6 +43,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void validateAmountRange() {
-        if(!(MIN_FIXED_AMOUNT <= amount && amount <= MAX_FIXED_AMOUNT)) throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
+        if (!(MIN_FIXED_AMOUNT <= amount && amount <= MAX_FIXED_AMOUNT))
+            throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }

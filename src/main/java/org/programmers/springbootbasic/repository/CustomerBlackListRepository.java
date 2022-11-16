@@ -37,9 +37,9 @@ public class CustomerBlackListRepository {
                 blackList.add(assembleBlackList(blackInfo));
             }
         } catch (FileNotFoundException e) {
-            logger.error("읽어올 파일을 찾을 수 없습니다.");
+            throw new RuntimeException("읽어올 파일을 찾을 수 없습니다.", e);
         } catch (IOException e) {
-            logger.error("블랙리스트를 읽어올 수 없습니다.");
+            throw new RuntimeException("블랙리스트를 읽어올 수 없습니다.", e);
         }
         return blackList;
     }

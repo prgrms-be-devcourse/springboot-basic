@@ -3,6 +3,7 @@ package org.programmers.springbootbasic.repository;
 import org.programmers.springbootbasic.domain.FixedAmountVoucher;
 import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.Voucher;
+import org.programmers.springbootbasic.exception.FileWriteException;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +34,7 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         logger.info("voucher fileRepository에 저장 voucher = {}", voucher);
-        write(voucher);
+        writeVoucherToFile(voucher);
         return voucher;
     }
 
@@ -40,10 +42,10 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         logger.info("voucher 전체 조회");
-        return read();
+        return readVouchersFromFile();
     }
 
-    private void write(Voucher voucher) {
+    private void writeVoucherToFile(Voucher voucher) {
 
         try (
                 BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
@@ -51,12 +53,12 @@ public class CSVFileVoucherRepository implements VoucherRepository {
             bw.write(voucher + "\n");
             bw.flush();
         } catch (IOException e) {
-            logger.error("해당 바우처를 파일에 저장할 수 없습니다. voucher {}", voucher);
+            throw new FileWriteException(MessageFormat.format("해당 바우처를 파일에 저장할 수 없습니다. voucher {0}", voucher), e);
         }
     }
 
 
-    private List<Voucher> read() {
+    private List<Voucher> readVouchersFromFile() {
         List<Voucher> vouchers = new ArrayList<>();
 
         try (
@@ -65,25 +67,25 @@ public class CSVFileVoucherRepository implements VoucherRepository {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] voucherInfo = line.split(", ");
-                vouchers.add(assembleVoucher(voucherInfo));
+                vouchers.add(convertToVoucher(voucherInfo));
             }
         } catch (FileNotFoundException e) {
-            logger.error("읽어올 파일을 찾을 수 없습니다.");
+            throw new RuntimeException("읽어올 파일을 찾을 수 없습니다.", e);
         } catch (IOException e) {
-            logger.error("바우처를 읽어올 수 없습니다.");
+            throw new RuntimeException("바우처를 읽어올 수 없습니다.", e);
         } catch (WrongTypeInputException e) {
-            logger.error("허용하지 않는 바우처 타입입니다. 허용하는 바우처 타입은 fixed, percent 입니다.");
+            throw new WrongTypeInputException(e.getMessage(), e);
         }
         return vouchers;
     }
 
-    private Voucher assembleVoucher(String[] voucherInfo) throws WrongTypeInputException {
+    private Voucher convertToVoucher(String[] voucherInfo) throws WrongTypeInputException {
         if (FixedAmountVoucher.class.getSimpleName().equals(voucherInfo[VOUCHER_TYPE_INDEX])) {
             return new FixedAmountVoucher(UUID.fromString(voucherInfo[VOUCHER_UUID_INDEX]),
                     Long.parseLong(voucherInfo[VOUCHER_AMOUNT_INDEX]));
         } else if (PercentDiscountVoucher.class.getSimpleName().equals(voucherInfo[VOUCHER_TYPE_INDEX])) {
             return new PercentDiscountVoucher(UUID.fromString(voucherInfo[VOUCHER_UUID_INDEX]),
                     Long.parseLong(voucherInfo[VOUCHER_AMOUNT_INDEX]));
-        } else throw new WrongTypeInputException();
+        } else throw new WrongTypeInputException("허용하지 않는 바우처 타입입니다. 허용하는 바우처 타입은 fixed, percent 입니다.");
     }
 }

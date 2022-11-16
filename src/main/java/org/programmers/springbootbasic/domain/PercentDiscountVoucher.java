@@ -40,6 +40,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     private void validateAmountRange() {
-        if(!(MIN_PERCENT_AMOUNT <= amount && amount <= MAX_PERCENT_AMOUNT)) throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
+        if (!(MIN_PERCENT_AMOUNT <= amount && amount <= MAX_PERCENT_AMOUNT))
+            throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }
