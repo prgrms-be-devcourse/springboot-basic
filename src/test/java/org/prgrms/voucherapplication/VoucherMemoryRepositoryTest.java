@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 @DisplayName("memoryRepository 테스트")
 public class VoucherMemoryRepositoryTest {
 
-    private VoucherMemoryRepository memoryRepository = new VoucherMemoryRepository();
+    private final VoucherMemoryRepository memoryRepository = new VoucherMemoryRepository();
 
     @Nested
     @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -41,7 +41,7 @@ public class VoucherMemoryRepositoryTest {
 
         @ParameterizedTest
         @MethodSource("createVouchers")
-        @DisplayName("응답 객체의 리스트에 추가되고, 조회 시 바우처 객체 내에서 정의한 문자열 값으로 리턴된다.")
+        @DisplayName("메모리에 해당 Voucher 객체가 저장되고, 전체 size가 +1 된다.")
         void listAdd(Voucher voucher, int size) {
             memoryRepository.save(voucher);
 
