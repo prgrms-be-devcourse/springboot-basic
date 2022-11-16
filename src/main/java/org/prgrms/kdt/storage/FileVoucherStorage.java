@@ -1,5 +1,6 @@
 package org.prgrms.kdt.storage;
 
+import org.prgrms.kdt.exceptions.AmountException;
 import org.prgrms.kdt.io.FileIO;
 import org.prgrms.kdt.utils.FileParser;
 import org.prgrms.kdt.voucher.Voucher;
@@ -14,6 +15,7 @@ import java.util.*;
 @Repository
 @Profile("prod")
 public class FileVoucherStorage implements VoucherStorage {
+    private static final String FIND_ALL_EXCEPTION = "파일에서 바우처 정보를 모두 읽어올 수 없습니다.";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherStorage.class);
     private final FileIO fileIO;
     private final FileParser fileParser;
@@ -32,16 +34,19 @@ public class FileVoucherStorage implements VoucherStorage {
     @Override
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
-        try {
-            List<String> readVouchers = fileIO.read();
-            readVouchers.forEach(voucher ->
-                    voucherList.add(
-                            fileParser.createVoucher(voucher)));
-            return voucherList;
-        } catch (RuntimeException e) {
-            logger.error("파일에 저장된 바우처 정보가 없습니다. 빈 배열을 반환합니다.");
-            return new ArrayList<>();
+        List<String> readVouchers = fileIO.read();
+        readVouchers.forEach(readVoucher -> {
+            try {
+                voucherList.add(
+                        fileParser.createVoucher(readVoucher));
+            } catch (AmountException amountException) {
+                logger.error("[숫자 변환 예외 발생] 예외 발생 바우처 -> {}", readVoucher, amountException);
+            }
+        });
+        if(voucherList.size() != readVouchers.size()){
+            throw new RuntimeException(FIND_ALL_EXCEPTION);
         }
+        return voucherList;
     }
 
     @Override
