@@ -1,68 +1,39 @@
 package org.prgrms.springbootbasic;
 
-import org.prgrms.springbootbasic.message.Request;
-import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.type.Menu;
-import org.prgrms.springbootbasic.type.TypeOption;
+import org.prgrms.springbootbasic.controller.VoucherController;
+import org.prgrms.springbootbasic.util.CommandLineInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.text.MessageFormat;
-import java.util.Scanner;
+import static org.prgrms.springbootbasic.type.MethodType.isExist;
 
 @Component
 public class Console {
-    private boolean Running = true;
-    private final Scanner scanner = new Scanner(System.in);
-    private final VoucherService voucherService;
+
+    @Value(value = "${notification.service}")
+    private static String serviceNotification;
+
+    @Value(value = "${notification.exit}")
+    private static String exitNotification;
+    private final VoucherController voucherController;
 
     @Autowired
     NotificationProperties notificationProperties;
 
     @Autowired
-    public Console(VoucherService voucherService) {
-        this.voucherService = voucherService;
-    }
-
-    private String getInput(String prompt) {
-        System.out.println(prompt);
-        return scanner.nextLine();
+    public Console(VoucherController voucherController) {
+        this.voucherController = voucherController;
     }
 
     public void run() {
-        while (Running) {
-            String menu = getInput(notificationProperties.getVoucherPrompt());
-            if (Menu.isExist(menu)) {
-                Running = false;
-                System.out.println(notificationProperties.getExit());
-                continue;
-            } else if (!Menu.validate(menu)) {
-                System.out.println(notificationProperties.getWrongInput());
-                continue;
-            }
-
-            Request request = Request.GenerateRequest(menu);
-            if (Menu.isCreateVoucher(menu)) {
-                String option = getOption();
-                String quantity = chooseOption(request, option);
-                request.insertArgument("quantity", Long.parseLong(quantity));
-            }
-            System.out.println(voucherService.process(request));
+        String input = CommandLineInput.getInput(serviceNotification);
+        if (isExist(input)) {
+            System.out.println(exitNotification);
+            return;
         }
+        System.out.println(voucherController.process());
+        run();
     }
 
-    private String chooseOption(Request request, String option) {
-        TypeOption typeOption = TypeOption.stringToTypeOption(option);
-        String quantity = getInput(MessageFormat.format("Type {0} :", typeOption.getArgument()));
-        request.setOption(typeOption);
-        return quantity;
-    }
-
-    private String getOption() {
-        String option;
-        do {
-            option = getInput(notificationProperties.getVoucherTypeChoice());
-        } while (TypeOption.isFixed(option) && TypeOption.isPercent(option));
-        return option;
-    }
 }
