@@ -25,7 +25,7 @@ public enum Command {
 			VoucherType choseVoucherType = VoucherType.getVoucherType(input.read());
 			output.write(Message.DISCOUNT_OPTION.getMessage());
 			String discountAmount = input.read();
-			voucherService.createVoucher(choseVoucherType, discountAmount);
+			voucherService.createVoucher(discountAmount, choseVoucherType);
 		}
 	},
 	LIST("list") {

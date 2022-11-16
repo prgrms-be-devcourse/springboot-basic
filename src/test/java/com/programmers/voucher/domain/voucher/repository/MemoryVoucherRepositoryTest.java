@@ -8,9 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.programmers.voucher.domain.voucher.model.FixedDiscountVoucher;
-import com.programmers.voucher.domain.voucher.model.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 
 class MemoryVoucherRepositoryTest {
 
@@ -25,7 +24,7 @@ class MemoryVoucherRepositoryTest {
 	@DisplayName("바우처를 저장하고 조회하면 성공적으로 저장, 조회된다.")
 	void save() {
 		UUID voucherId = UUID.randomUUID();
-		Voucher fixedVoucher = new FixedDiscountVoucher(voucherId, "1000");
+		Voucher fixedVoucher = new Voucher(voucherId, VoucherType.FIXED, "1000");
 
 		repository.save(fixedVoucher);
 		Voucher findVoucher = repository.findByUUID(voucherId);
@@ -36,8 +35,8 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	@DisplayName("바우처 리스트를 조회하면 성공적으로 조회된다.")
 	void findAllVoucher() {
-		Voucher voucher1 = new FixedDiscountVoucher(UUID.randomUUID(), "1000");
-		Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), "20");
+		Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, "1000");
+		Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, "20");
 
 		List<Voucher> beforeSave = repository.findAll();
 		int beforeSize = beforeSave.size();

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
-import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.VoucherNotFoundException;
@@ -30,12 +29,10 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private static final String LINE_SEPARATOR = ", |: |%";
 	private final String filePath;
-	private final VoucherFactory factory;
 
 	@Autowired
-	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath, VoucherFactory factory) {
+	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath) {
 		this.filePath = filePath;
-		this.factory = factory;
 	}
 
 	@Override
@@ -58,12 +55,12 @@ public class FileVoucherRepository implements VoucherRepository {
 					String[] voucherInfo = line.split(LINE_SEPARATOR);
 					VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
 					String discount = voucherInfo[5];
-					return factory.makeVoucher(type, voucherId, discount);
+					return new Voucher(voucherId, type, discount);
 				}
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
-			throw new EmptyBufferException();
+			throw new RuntimeException(ExceptionMessage.EMPTY_BUFFER.getMessage());
 		}
 
 		log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
@@ -80,7 +77,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				UUID id = UUID.fromString(voucherInfo[1]);
 				VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
-				Voucher voucher = factory.makeVoucher(type, id, discount);
+				Voucher voucher = new Voucher(id, type, discount);
 				vouchers.add(voucher);
 			}
 		} catch (IOException e) {
