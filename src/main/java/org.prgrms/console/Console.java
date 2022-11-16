@@ -55,7 +55,7 @@ public class Console {
     System.out.println(voucher);
   }
 
-  public void printVoucherList(List<String> voucherList) {
+  public void printVoucherList(List<Voucher> voucherList) {
     voucherList.forEach(System.out::println);
   }
 

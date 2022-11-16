@@ -14,14 +14,14 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class VoucherInMemory implements Memory {
 
-  private final Map<UUID, String> voucherMemory = new ConcurrentHashMap<>();
+  private final Map<UUID, Voucher> voucherMemory = new ConcurrentHashMap<>();
 
   public Voucher save(Voucher voucher) {
-    voucherMemory.put(voucher.getVoucherId(), voucher.toString());
+    voucherMemory.put(voucher.getVoucherId(), voucher);
     return voucher;
   }
 
-  public List<String> findAll() {
+  public List<Voucher> findAll() {
     return new ArrayList<>(voucherMemory.values());
   }
 }
