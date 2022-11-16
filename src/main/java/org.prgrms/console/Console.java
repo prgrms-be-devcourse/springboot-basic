@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 import org.prgrms.exception.NoSuchVoucherTypeException;
 import org.prgrms.voucher.voucherType.Voucher;
-import org.prgrms.voucher.voucherType.VoucherTypePool;
+import org.prgrms.voucher.voucherType.VoucherType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -42,7 +42,7 @@ public class Console {
     return scanner.nextLine();
   }
 
-  public String enteredAmount(VoucherTypePool voucherType) {
+  public String enteredAmount(VoucherType voucherType) {
     switch (voucherType) {
       case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT);
       case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE);
