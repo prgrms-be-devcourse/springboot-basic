@@ -33,7 +33,7 @@ public class VoucherFileMemory implements Memory {
   }
 
   public Voucher save(Voucher voucher) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
       writer.write(voucher.getClass().getSimpleName() + "," + voucher.getVoucherId() + ","
           + voucher.getVoucherAmount().getValue() + System.lineSeparator());
     } catch (IOException e) {
