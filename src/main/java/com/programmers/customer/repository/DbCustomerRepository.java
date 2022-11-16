@@ -3,6 +3,7 @@ package com.programmers.customer.repository;
 import com.programmers.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,6 +17,7 @@ import java.util.*;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
+@Profile("dev")
 @Repository
 public class DbCustomerRepository implements CustomerRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;

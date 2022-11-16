@@ -3,7 +3,7 @@ package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
 import com.programmers.customer.black.FileBlackCustomerRepository;
-import com.programmers.voucher.config.CustomerProperties;
+import com.programmers.config.properties.BlackCustomerProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class FileBlackCustomerRepositoryTest {
 
     @BeforeAll
     void init() {
-        CustomerProperties properties = new CustomerProperties(path);
+        BlackCustomerProperties properties = new BlackCustomerProperties(path);
         repository = new FileBlackCustomerRepository(properties);
     }
 

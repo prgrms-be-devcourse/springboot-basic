@@ -5,6 +5,7 @@ import com.programmers.voucher.voucher.Voucher;
 import org.ini4j.Wini;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -15,6 +16,7 @@ import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_T
 import static com.programmers.voucher.repository.FileVoucherRepository.VOUCHER_VALUE;
 import static org.slf4j.LoggerFactory.getLogger;
 
+@Profile("file")
 @Component
 public class ListDumper implements Dumper {
     private final Logger logger = getLogger(FileVoucherRepository.class);

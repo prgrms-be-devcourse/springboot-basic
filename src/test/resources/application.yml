@@ -1,6 +1,11 @@
 spring:
   profiles:
-    active: test
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/test_voucher
+    username: kiseo
+    password: 1234
 
 file:
   voucher:
