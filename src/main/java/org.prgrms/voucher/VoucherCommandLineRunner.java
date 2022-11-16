@@ -1,9 +1,9 @@
 package org.prgrms.voucher;
 
+import static org.prgrms.console.Validator.parseNum;
 import static org.prgrms.voucher.MenuType.CREATE;
 import static org.prgrms.voucher.MenuType.EXIT;
 
-import java.io.IOException;
 import java.util.List;
 import org.prgrms.console.Console;
 import org.prgrms.exception.NoSuchMenuTypeException;
@@ -31,6 +31,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
   private final CustomerBlackListFileMemory blackListFileMemory;
 
+
   public VoucherCommandLineRunner(Console console, Memory voucherMemory,
       CustomerBlackListFileMemory blackListFileMemory) {
     this.console = console;
@@ -49,14 +50,14 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
           voucherProgramStatus.stop();
         }
 
-      } catch (RuntimeException | IOException e) {
+      } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
         logger.error("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
     }
   }
 
-  private MenuType execute() throws IOException {
+  private MenuType execute() {
     MenuType menu = MenuType.of(console.chooseMenu());
     logger.info("Menu : {}", menu);
 
@@ -73,7 +74,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
       }
 
       case LIST -> {
-        List<String> voucherList = voucherMemory.findAll();
+        List<Voucher> voucherList = voucherMemory.findAll();
         console.printVoucherList(voucherList);
         logger.info("voucherList: {}", voucherList);
         return MenuType.LIST;
@@ -94,13 +95,13 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
     while (true) {
       try {
         VoucherType voucherType = enteredVoucherType();
-        String inputAmount = console.enteredAmount(voucherType);
+        long inputAmount = parseNum(console.enteredAmount(voucherType));
         logger.info("input_amount: {}", inputAmount);
 
         Amount amount = voucherType.generateAmount(inputAmount);
 
         return voucherMemory.save(voucherType.generateVoucher(amount));
-      } catch (RuntimeException | IOException e) {
+      } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
         logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
       }
@@ -108,7 +109,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
   }
 
   private VoucherType enteredVoucherType() {
-    String inputType = console.chooseVoucherType();
+    long inputType = parseNum(console.chooseVoucherType());
     return VoucherType.of(inputType);
   }
 
@@ -116,7 +117,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
     return menuType == EXIT;
   }
 
-  private List<String> showCustomerBlackList() throws IOException {
+  private List<String> showCustomerBlackList() {
     List<String> blacklist = blackListFileMemory.findAll();
     logger.info("customer_blacklist: {}", blacklist);
     return blacklist;

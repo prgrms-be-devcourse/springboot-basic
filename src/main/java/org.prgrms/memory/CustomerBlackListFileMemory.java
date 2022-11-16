@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.prgrms.exception.FileNotExistException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -19,17 +20,19 @@ public class CustomerBlackListFileMemory {
     this.file = new File(filePath);
   }
 
-  public List<String> findAll() throws IOException {
+  public List<String> findAll(){
     List<String> blacklist = new ArrayList<>();
     if (file.exists()) {
-      BufferedReader reader = new BufferedReader(new FileReader(file));
+      try(BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
-      String line;
+        String line;
 
-      while ((line = reader.readLine()) != null) {
-        blacklist.add(line);
+        while ((line = reader.readLine()) != null) {
+          blacklist.add(line);
+        }
+      }catch (IOException e) {
+        throw new FileNotExistException();
       }
-      reader.close();
     }
     return blacklist;
   }
