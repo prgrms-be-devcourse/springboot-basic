@@ -1,29 +1,23 @@
 package com.programmers;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 public enum Command {
     CREATE("create"),
     LIST("list"),
-    EXIT("exit"),
-    ERROR("error");
+    EXIT("exit");
 
-    private final String command;
+    private final String stringCommand;
 
     Command(String command) {
-        this.command = command;
+        this.stringCommand = command;
     }
 
     public static Command getCommand(String inputCommand) {
-        Optional<Command> optional = Arrays.stream(Command.values())
-                .filter(o -> o.command.equals(inputCommand))
-                .findFirst();
-
-        if (optional.isEmpty()) {
-            return ERROR;
-        }
-        return optional.get();
+        return Arrays.stream(Command.values())
+                .filter(command -> command.stringCommand.equals(inputCommand))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("잘못된 명령입니다."));
     }
 
 }
