@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.WrongRangeInputException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -36,4 +37,19 @@ public class FixedAmountVoucher implements Voucher {
                 ", amount=" + amount +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return amount == that.amount && Objects.equals(getVoucherId(), that.getVoucherId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVoucherId(), amount);
+    }
+
+
 }

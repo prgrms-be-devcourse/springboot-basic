@@ -3,6 +3,7 @@ package org.prgrms.kdt.domain;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.WrongRangeInputException;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -37,5 +38,18 @@ public class PercentDiscountVoucher implements Voucher {
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return percent == that.percent && Objects.equals(getVoucherId(), that.getVoucherId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVoucherId(), percent);
     }
 }

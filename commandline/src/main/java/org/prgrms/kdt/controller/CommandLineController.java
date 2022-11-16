@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class CommandLineController {
@@ -58,7 +59,7 @@ public class CommandLineController {
             try {
                 String voucherType = console.inputVoucherType();
                 long discountValue = console.inputVoucherDiscountValue();
-                voucherService.createVoucher(voucherType, discountValue);
+                voucherService.createVoucher(voucherType, UUID.randomUUID(), discountValue);
             } catch (RuntimeException e) {
                 console.printError(e.getMessage());
                 logger.error(e.getMessage());

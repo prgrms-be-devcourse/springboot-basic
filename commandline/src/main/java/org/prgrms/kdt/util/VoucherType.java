@@ -33,9 +33,9 @@ public enum VoucherType {
         this.voucherBiFunction = voucherBiFunction;
     }
 
-    public static Voucher createVoucher(String type, long discountDegree) {
+    public static Voucher createVoucher(String type, UUID voucherId, long discountDegree) {
         VoucherType selectVoucherType = VoucherType.selectVoucherType(type);
-        return selectVoucherType.create(UUID.randomUUID(), discountDegree);
+        return selectVoucherType.create(voucherId, discountDegree);
     }
 
     private static VoucherType selectVoucherType(String type) {
@@ -65,6 +65,7 @@ public enum VoucherType {
 
     public static Voucher createVoucherFromFile(VoucherType voucherType, String stringId, String stringDiscount) {
         UUID voucherId = UUID.fromString(stringId.replace("voucherId=", ""));
-        return voucherType.create(voucherId, Long.parseLong(stringDiscount.replace(voucherType.discountType + EQUAL, "").trim()));
+        Long discountDegree = Long.parseLong(stringDiscount.replace(voucherType.discountType + EQUAL, "").trim());
+        return voucherType.create(voucherId, discountDegree);
     }
 }
