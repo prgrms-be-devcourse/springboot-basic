@@ -3,12 +3,10 @@
   <property name ="LOG_PATTERN" value ="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
   <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>warn</level>
-      <onMatch>ACCEPT</onMatch>
-      <onMismatch>DENY</onMismatch>
     </filter>
-    <file>logs/voucher-error.log</file>
+    <file>logs/voucher-warn-and-error.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>logs/voucher-error-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
