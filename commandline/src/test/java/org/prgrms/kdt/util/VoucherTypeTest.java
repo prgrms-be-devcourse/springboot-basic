@@ -71,7 +71,7 @@ class VoucherTypeTest {
     }
 
     @Test
-    @DisplayName("createVoucherFromFile() 정상동작 테스트")
+    @DisplayName("파일에서 읽어온 String 값으로 해당하는 타입의 Voucher를 만들 수 있다.")
     void createVoucherFromFileCorrectTest() {
         UUID fixedUUID = UUID.randomUUID();
         UUID percentUUID = UUID.randomUUID();

@@ -25,5 +25,4 @@ class PercentDiscountVoucherTest {
             Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 101);
         });
     }
-
 }
