@@ -19,21 +19,21 @@ class MenuTest {
     @Test
     @DisplayName("메뉴에 존재하는 EXIT을 입력한 경우 헤당 메뉴를 리턴해야 한다.")
     void 메뉴_EXIT_조회테스트() {
-        Menu menu = findMenu(EXIT.getMenu());
+        Menu menu = findMenu(EXIT.name());
         assertEquals(EXIT, menu);
     }
 
     @Test
     @DisplayName("메뉴에 존재하는 CREATE를 입력한 경우 헤당 메뉴를 리턴해야 한다.")
     void 메뉴_CREATE_조회테스트() {
-        Menu menu = findMenu(CREATE.getMenu());
+        Menu menu = findMenu(CREATE.name());
         assertEquals(CREATE, menu);
     }
 
     @Test
     @DisplayName("메뉴에 존재하는 LIST를 입력한 경우 헤당 메뉴를 리턴해야 한다.")
     void 메뉴에서LIST조회테스트() {
-        Menu menu = findMenu(LIST.getMenu());
+        Menu menu = findMenu(LIST.name());
         assertEquals(LIST, menu);
     }
 }
