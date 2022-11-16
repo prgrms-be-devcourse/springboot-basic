@@ -1,2 +1,1 @@
-23:44:28.125 [main] ERROR c.programmers.CommandLineApplication - 잘못된 명령입니다.
-23:44:29.720 [main] ERROR c.programmers.CommandLineApplication - 잘못된 명령입니다.
+17:48:48.846 [main] ERROR c.programmers.CommandLineApplication - 할인금액 또는 할인율이 숫자가 아닙니다.
