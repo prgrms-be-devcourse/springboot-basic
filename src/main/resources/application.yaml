@@ -1,9 +1,8 @@
 notification:
   voucherPrompt: |
     ==== Voucher Program ===
-    Type **exit** to exit the program.
     Type **create** to create a new voucher.
-    Type **list** to list all vouchers.
+    Type **lookup** to lookup list all vouchers.
   voucherTypeChoice: |
     Choose one!
     fixedVoucher: 1
