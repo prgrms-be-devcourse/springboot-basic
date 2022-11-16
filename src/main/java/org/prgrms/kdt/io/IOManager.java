@@ -24,6 +24,7 @@ public class IOManager {
     private static final String AMOUNT_MESSAGE = "할인하고자 하는 만큼의 수를 입력해주세요.";
     private static final String AMOUNT_ERROR = "할인 정도는 정수나 실수로만 입력 가능합니다.";
     private static final String EXIT_APP = "Exit Program. Good Bye.";
+
     private final Console console;
 
     public IOManager(Console console) {

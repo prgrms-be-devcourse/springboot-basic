@@ -21,10 +21,12 @@ public class FileParser {
     private static final String VOUCHER_INFO_SPLIT_STANDARD = "/";
     private static final String AMOUNT_BEFORE_REPLACE_CHAR = ",";
     private static final String AMOUNT_AFTER_REPLACE_CHAR = "";
+
     private static final int VOUCHER_ID_INDEX = 0;
     private static final int VOUCHER_CLASS_NAME_INDEX = 1;
     private static final int VOUCHER_AMOUNT_INDEX = 2;
     private static final int VOUCER_INFO_LIST_SIZE = 3;
+
     private static final Logger logger = LoggerFactory.getLogger(FileParser.class);
 
     public String getVoucherInfo(Voucher voucher) {

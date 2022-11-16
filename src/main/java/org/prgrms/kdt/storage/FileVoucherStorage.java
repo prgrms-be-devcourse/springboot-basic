@@ -17,6 +17,7 @@ import java.util.*;
 public class FileVoucherStorage implements VoucherStorage {
     private static final String FIND_ALL_EXCEPTION = "파일에서 바우처 정보를 모두 읽어올 수 없습니다.";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherStorage.class);
+
     private final FileIO fileIO;
     private final FileParser fileParser;
 
