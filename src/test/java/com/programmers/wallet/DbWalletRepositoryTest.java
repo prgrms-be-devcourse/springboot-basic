@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 
 @SpringBootTest
 @TestInstance(PER_CLASS)
+@Transactional
 class DbWalletRepositoryTest {
 
     @Autowired
@@ -38,7 +39,6 @@ class DbWalletRepositoryTest {
     Voucher voucher;
 
     @BeforeEach
-    @Transactional
     void 테스트용_데이터() {
         customer = new Customer(UUID.randomUUID(), "kiseo", "test@aaa.aaa", LocalDateTime.now());
         customerRepository.insert(customer);
@@ -47,20 +47,13 @@ class DbWalletRepositoryTest {
         voucherRepository.registerVoucher(voucher);
     }
 
-    @AfterEach
-    void clear() {
-        walletRepository.deleteCustomerVoucher(customer.getCustomerId(), voucher.getVoucherId());
-    }
-
     @Test
     @DisplayName("DB에 바우처 지갑 정보가 성공적으로 저장된다.")
-    @Transactional
     void 바우처_지갑_저장_테스트() {
         assertDoesNotThrow(() -> walletRepository.assignVoucher(customer, voucher));
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 바우처를 보유한 회원을 검색할 수 있다.")
     void 바우처_회원_조회_테스트() {
         walletRepository.assignVoucher(customer, voucher);
@@ -72,7 +65,6 @@ class DbWalletRepositoryTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 회원의 바우처 목록을 조회할 수 있다.")
     void 회원_바우처_조회_테스트() {
         Customer customer = new Customer(UUID.randomUUID(), "kiseo", "giseo@aaa.aaa", LocalDateTime.now());
@@ -94,7 +86,6 @@ class DbWalletRepositoryTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 고객의 바우처를 지갑에서 제거할 수 있다.")
     void 지갑_바우처_제거_테스트() {
         walletRepository.assignVoucher(customer, voucher);

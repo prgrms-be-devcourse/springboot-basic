@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,15 +18,11 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class DbCustomerRepositoryTest {
 
     @Autowired
     DbCustomerRepository repository;
-
-    @BeforeEach
-    void clear() {
-        repository.deleteAll();
-    }
 
     @Test
     @DisplayName("저장 시 고객이 성공적으로 저장되어야 한다.")
@@ -81,7 +78,7 @@ class DbCustomerRepositoryTest {
     @Test
     @DisplayName("이메일로 고객을 조회할 수 있다.")
     void 회원이메일로_DB_조회테스트() {
-        Customer customer = new Customer(UUID.randomUUID(), "kiseo", "aaa@aaa.com", LocalDateTime.now());
+        Customer customer = new Customer(UUID.randomUUID(), "kiseo", "aaaa@aaa.com", LocalDateTime.now());
         repository.insert(customer);
 
         Optional<Customer> result = repository.findByEmail(customer.getEmail());
