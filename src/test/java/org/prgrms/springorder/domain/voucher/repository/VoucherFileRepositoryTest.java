@@ -2,6 +2,8 @@ package org.prgrms.springorder.domain.voucher.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -93,13 +95,13 @@ class VoucherFileRepositoryTest {
         assertNotNull(findVoucher);
         assertEquals(voucher, savedVoucher);
         assertEquals(savedVoucher, findVoucher);
+        assertNull(voucher.getCustomerId());
     }
 
     @DisplayName("findAll 테스트 - 저장된 Voucher 가 모두 리턴된다.")
     @Test
     void findAllTest() {
         //given
-
         int saveCount = 5;
         IntStream.range(0, saveCount).forEach(i -> {
             Voucher voucher;
@@ -212,6 +214,34 @@ class VoucherFileRepositoryTest {
 
         assertEquals(voucherId, findUpdatedVoucher.getVoucherId());
         assertEquals(updateVoucherType, findUpdatedVoucher.getVoucherType());
+    }
+
+    @DisplayName("findByIdWithCustomer Join 테스트 - 메모리 레포지토리를 지원하지 않으므로 예외를 던진다.")
+    @Test
+    void findByIdWithCustomerThrowException() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        //when & then
+        assertThrows(RuntimeException.class,
+            () -> voucherFileRepository.findByIdWithCustomer(voucherId));
+    }
+
+    @DisplayName("deleteById 테스트 - voucherId로 저장된 Voucher가 제거된다.")
+    @Test
+    void deleteByIdTest() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long amount = 100L;
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+        voucherFileRepository.insert(voucher);
+
+        //when
+        voucherFileRepository.deleteById(voucherId);
+
+        //then
+        Optional<Voucher> voucherOptional = voucherFileRepository.findById(voucherId);
+
+        assertTrue(voucherOptional.isEmpty());
     }
 
 }

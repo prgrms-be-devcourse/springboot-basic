@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import javax.annotation.PreDestroy;
 import org.prgrms.springorder.config.VoucherFileProperties;
+import org.prgrms.springorder.domain.voucher.api.CustomerWithVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.service.VoucherFactory;
@@ -68,6 +70,16 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Override
+    public Optional<CustomerWithVoucher> findByIdWithCustomer(UUID voucherId) {
+        throw new RuntimeException("지원되지 않는 기능입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        storage.remove(voucherId);
+    }
+
     private void readAll() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileStore))) {
 
@@ -93,12 +105,16 @@ public class VoucherFileRepository implements VoucherRepository {
 
         long amount = Long.parseLong(split[2].trim());
 
-        return VoucherFactory.toVoucher(voucherType, voucherId, amount);
+        UUID customerId = UUID.fromString(split[3].trim());
+
+        LocalDateTime createdAt = LocalDateTime.parse(split[4]);
+
+        return VoucherFactory.toVoucher(voucherType, voucherId, amount, customerId, createdAt);
     }
 
     private String serialize(Voucher voucher) {
-        return String.format("%s, %s, %s", voucher.getVoucherType(),
-            voucher.getVoucherId(), voucher.getAmount());
+        return String.format("%s, %s, %s, %s, %s", voucher.getVoucherType(),
+            voucher.getVoucherId(), voucher.getAmount(), voucher.getCustomerId(), voucher.getCreatedAt());
     }
 
     private void writeAll() {

@@ -1,11 +1,14 @@
 package org.prgrms.springorder.domain.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springorder.domain.customer.model.CustomerStatus;
+import org.prgrms.springorder.domain.voucher.api.CustomerWithVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.service.VoucherFactory;
@@ -24,17 +27,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 
-
-    private static final String findByIdSql = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
-
-    private static final String insertSql = "INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (:voucherId, :amount, :voucherType)";
-
-    private static final String selectAllSql = "SELECT * FROM vouchers";
-
-    private static final String deleteAllSql = "DELETE  FROM vouchers";
-
-    private static final String updateByIdSql = "UPDATE vouchers SET amount = :amount, voucher_type = :voucherType";
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(
@@ -44,11 +36,16 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private final RowMapper<Voucher> voucherRowMapper = ((rs, rowNum) -> {
 
-        String voucherId = rs.getString("voucher_id");
+        UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
         long amount = rs.getLong("amount");
         VoucherType voucherType = VoucherType.of(rs.getString("voucher_type"));
 
-        return VoucherFactory.toVoucher(voucherType, UUID.fromString(voucherId), amount);
+        String customerIdStr = rs.getString("customer_id");
+        UUID customerId = customerIdStr == null ? null : UUID.fromString(customerIdStr);
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+
+        return VoucherFactory.toVoucher(voucherType, voucherId, amount, customerId,
+            createdAt);
     });
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -56,14 +53,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString());
             put("amount", voucher.getAmount());
             put("voucherType", voucher.getVoucherType().getType());
+            put("customerId", voucher.getCustomerId());
+            put("createdAt", voucher.getCreatedAt());
         }};
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-
         try {
-            Voucher findVoucher = jdbcTemplate.queryForObject(findByIdSql,
+            Voucher findVoucher = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID.getSql(),
                 Collections.singletonMap("voucherId", voucherId),
                 voucherRowMapper);
 
@@ -75,9 +73,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-
         try {
-            jdbcTemplate.update(insertSql, toParamMap(voucher));
+            jdbcTemplate.update(VoucherSQL.INSERT.getSql(), toParamMap(voucher));
 
             return voucher;
         } catch (DataAccessException e) {
@@ -90,18 +87,55 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(selectAllSql, voucherRowMapper);
+        return jdbcTemplate.query(VoucherSQL.FIND_ALL.getSql(), voucherRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(deleteAllSql, Collections.emptyMap());
+        jdbcTemplate.update(VoucherSQL.DELETE_ALL.getSql(), Collections.emptyMap());
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        jdbcTemplate.update(updateByIdSql, toParamMap(voucher));
+        jdbcTemplate.update(VoucherSQL.UPDATE_BY_ID.getSql(), toParamMap(voucher));
         return voucher;
+    }
+
+    @Override
+    public Optional<CustomerWithVoucher> findByIdWithCustomer(UUID voucherId) {
+
+        try {
+            CustomerWithVoucher customerWithVoucher
+                = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID_WITH_CUSTOMER.getSql(),
+                Collections.singletonMap("voucherId", voucherId),
+                (rs, rowNum) -> {
+                    UUID findVoucherId = UUID.fromString(rs.getString("voucher_id"));
+                    long amount = rs.getLong("amount");
+                    VoucherType voucherType = VoucherType.of(rs.getString("voucher_type"));
+
+                    LocalDateTime voucherCreatedAt = rs.getTimestamp("created_at")
+                        .toLocalDateTime();
+
+                    UUID customerId = UUID.fromString(rs.getString("customer_id"));
+
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    CustomerStatus customerStatus = CustomerStatus.of(
+                        rs.getString("customer_status"));
+
+                    return new CustomerWithVoucher(findVoucherId, amount, voucherCreatedAt,
+                        voucherType, customerId, name, email, customerStatus);
+                });
+            return Optional.ofNullable(customerWithVoucher);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update(VoucherSQL.DELETE_BY_ID.getSql(), Collections.singletonMap("voucherId", voucherId));
     }
 
 }

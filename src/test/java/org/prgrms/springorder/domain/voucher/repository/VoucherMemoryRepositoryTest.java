@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -269,6 +270,32 @@ class VoucherMemoryRepositoryTest {
         assertEquals(updateVoucherType, findUpdatedVoucher.getVoucherType());
     }
 
+    @DisplayName("findByIdWithCustomer Join 테스트 - 메모리 레포지토리를 지원하지 않으므로 예외를 던진다.")
+    @Test
+    void findByIdWithCustomerThrowException() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        //when & then
+        assertThrows(RuntimeException.class,
+            () -> voucherMemoryRepository.findByIdWithCustomer(voucherId));
+    }
 
+    @DisplayName("deleteById 테스트 - voucherId로 저장된 Voucher가 제거된다.")
+    @Test
+    void deleteByIdTest() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long amount = 100L;
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+        voucherMemoryRepository.insert(voucher);
+
+        //when
+        voucherMemoryRepository.deleteById(voucherId);
+
+        //then
+        Optional<Voucher> voucherOptional = voucherMemoryRepository.findById(voucherId);
+
+        assertTrue(voucherOptional.isEmpty());
+    }
 
 }

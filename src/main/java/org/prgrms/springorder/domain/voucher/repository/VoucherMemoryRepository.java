@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import org.prgrms.springorder.domain.voucher.api.CustomerWithVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -43,6 +44,16 @@ public class VoucherMemoryRepository implements VoucherRepository {
         storage.remove(voucher.getVoucherId());
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public Optional<CustomerWithVoucher> findByIdWithCustomer(UUID voucherId) {
+        throw new RuntimeException("지원되지 않는 기능입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        this.storage.remove(voucherId);
     }
 
 }
