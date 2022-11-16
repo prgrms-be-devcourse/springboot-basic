@@ -18,26 +18,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
 @Repository
-@Profile({"default","dev"})
+@Profile({"default", "dev"})
 public class FileBlackCustomerRepository {
     private final CSVReader csvReader;
-    private final Map<UUID, Customer> storage= new ConcurrentHashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);
+    private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);//static이 있어야 하는 이유를 확인
 
     public FileBlackCustomerRepository(@Value("${customer.path}") String path) {
         csvReader = new CSVReader(path);
-
     }
 
     @PostConstruct
-    public void initStorage(){
-        try{
+    public void initStorage() {
+        try {
             CsvDto csvDto = csvReader.readCSV();
             for (String[] strings : csvDto.value) {
                 Customer customer = makeCustomerFromCsvLine(strings);
-                storage.put(customer.getCustomerId(),customer);
-
+                storage.put(customer.getCustomerId(), customer);
             }
         } catch (FileNotFoundException e) {
             logger.error("[black_list load fail] customer_blacklist.csv가 있는지 확인해 주세요");
@@ -50,10 +49,10 @@ public class FileBlackCustomerRepository {
         UUID customerId = UUID.fromString(strings[0]);
         String name = strings[1];
         LocalDate dateOfBirth = LocalDate.parse(strings[2]);
-        return new Customer(customerId,name,dateOfBirth);
+        return new Customer(customerId, name, dateOfBirth);
     }
 
-    public List<Customer> findAllBlackCustomer(){
+    public List<Customer> findAllBlackCustomer() {
         return new ArrayList<>(storage.values());
     }
 }

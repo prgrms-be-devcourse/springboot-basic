@@ -29,9 +29,10 @@ public class Customer {
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
-    public CsvDto makeCsvDto(){
-        List<String[]>  rowDatas = new ArrayList<>();
-        String[] rowData = {customerId.toString(),name,dateOfBirth.toString()};
+
+    public CsvDto makeCsvDto() {
+        List<String[]> rowDatas = new ArrayList<>();
+        String[] rowData = {customerId.toString(), name, dateOfBirth.toString()};
         rowDatas.add(rowData);
         return CsvDto.from(rowDatas);
     }

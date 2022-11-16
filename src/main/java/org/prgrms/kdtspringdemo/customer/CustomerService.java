@@ -12,7 +12,8 @@ public class CustomerService {
     public CustomerService(FileBlackCustomerRepository fileBlackCustomerRepository) {
         this.fileBlackCustomerRepository = fileBlackCustomerRepository;
     }
-    public List<Customer> getAllBlackList(){
+
+    public List<Customer> getAllBlackList() {
         return fileBlackCustomerRepository.findAllBlackCustomer();
     }
 }

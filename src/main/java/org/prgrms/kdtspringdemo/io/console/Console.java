@@ -33,18 +33,18 @@ public class Console {
 
     }
 
-    public VoucherType selectVoucherTypeMenu() throws IllegalArgumentException{
+    public VoucherType selectVoucherTypeMenu() throws IllegalArgumentException {
         output.printText("=== Create Voucher ===");
         output.printText("Type fixed to create fixed voucher");
         output.printText("Type percent to create fixed voucher");
         return VoucherType.getTypeByName(input.getInput());
     }
 
-    public Long getVoucherValue() throws NumberFormatException{
-        try{
+    public Long getVoucherValue() throws NumberFormatException {
+        try {
             output.printText("=== Type Number ===");
             return Long.parseLong(input.getInput());
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             throw new NumberFormatException("숫자를 입력해야 합니다.");
         }
 
@@ -56,32 +56,33 @@ public class Console {
     }
 
     public String showVoucherList(List<Voucher> voucherList) {
-        String voucherListString =voucherList.stream().map((voucher) -> {
+        String voucherListString = voucherList.stream().map((voucher) -> {
             String[] argument = {
                     voucher.getVoucherId().toString(),
                     voucher.discountValue(),
                     voucher.getVoucherType().name().toLowerCase()
 
             };
-            return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
+            return MessageFormat.format("  {0}  |  {1}  |  {2} |", argument);
         }).collect(Collectors.joining(
                 "\n"
-                ,"  ID  |  Amount  |  VoucherType  |\n"
-                ,"\n==========================="));
+                , "  ID  |  Amount  |  VoucherType  |\n"
+                , "\n==========================="));
         output.printText(voucherListString);
         return voucherListString;
     }
-    public String showBlackCustomerList(List<Customer> customerList){
-        String customerListString =  customerList.stream().map(customer -> {
+
+    public String showBlackCustomerList(List<Customer> customerList) {
+        String customerListString = customerList.stream().map(customer -> {
             String[] argument = {
                     customer.getCustomerId().toString(),
                     customer.getName().toString(),
                     customer.getDateOfBirth().toString()
             };
-            return MessageFormat.format("  {0}  |  {1}  |  {2} |",argument);
+            return MessageFormat.format("  {0}  |  {1}  |  {2} |", argument);
         }).collect(Collectors.joining("\n"
-                ,"  ID  |  Name  | birthDay  |\n"
-                ,"\n==========================="));
+                , "  ID  |  Name  | birthDay  |\n"
+                , "\n==========================="));
         output.printText(customerListString);
         return customerListString;
     }
