@@ -3,7 +3,7 @@ package com.programmers;
 import com.programmers.io.Output;
 import com.programmers.io.Input;
 import com.programmers.voucher.Voucher;
-import com.programmers.voucher.VoucherController;
+import com.programmers.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,17 +20,16 @@ public class CommandLineApplication {
 
     private final Output output;
     private final Input input;
-    private final VoucherController voucherController;
+    private final VoucherService voucherService;
     private final ApplicationManager applicationManager = new ApplicationManager(true);
 
-    private final String pattern = "[0-9]*";
 
     private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public CommandLineApplication(Output output, Input input, VoucherController voucherController) {
+    public CommandLineApplication(Output output, Input input, VoucherService voucherService) {
         this.output = output;
         this.input = input;
-        this.voucherController = voucherController;
+        this.voucherService = voucherService;
     }
 
     public static void main(String[] args) throws IOException {
@@ -43,48 +42,52 @@ public class CommandLineApplication {
         while (applicationManager.isRun()) {
             output.printStartOrder();
             String command = input.input();
-            Command inputCommand= Command.getCommand(command);
-            executeByCommand(inputCommand);
+            try {
+                Command inputCommand = Command.getCommand(command);
+                executeByCommand(inputCommand);
+            } catch (RuntimeException e) {
+                logger.error("잘못된 명령입니다.");
+            }
+
         }
     }
 
     private void executeByCommand(Command inputCommand) throws IOException {
         switch (inputCommand) {
-            case CREATE -> {
-                output.printSelectVoucher();
-                String typeNumber = input.input();
-                TypeOfVoucher typeOfVoucher = TypeOfVoucher.getType(typeNumber);
-                if(typeOfVoucher==TypeOfVoucher.ERROR_VOUCHER) {
-                    logger.error("존재하지 않는 바우처입니다.");
-                    break;
-                }
+            case CREATE -> createVoucher();
 
-                output.printSelectDiscount(typeOfVoucher);
-                String inputDiscount = input.input();
-                if (!inputDiscount.matches(pattern) || inputDiscount.isEmpty()) {
-                    logger.error("할인금액 또는 할인율이 숫자가 아닙니다.");
-                    break;
-                }
-                long discount = Long.parseLong(inputDiscount);
-
-                try {
-                    voucherController.createByType(typeOfVoucher, discount);
-                } catch (IllegalArgumentException e) {
-                    logger.error("할인금액 또는 할인율이 정상 범위가 아닙니다.");
-                }
-            }
             case LIST -> {
-                Map<UUID, Voucher> history = voucherController.findAll();
+                Map<UUID, Voucher> history = voucherService.findAll();
+                logger.info("voucher 가 전체 조회되었습니다.");
                 output.printStorage(history);
             }
 
-            case  EXIT -> {
+            case EXIT -> {
                 applicationManager.setRun(false);
                 output.printTermination();
                 logger.info("application 이 정상적으로 종료되었습니다.");
             }
-            case ERROR -> logger.error("잘못된 명령입니다.");
         }
 
+    }
+
+    private void createVoucher() throws IOException {
+        output.printSelectVoucher();
+        String typeNumber = input.input();
+        try {
+            TypeOfVoucher typeOfVoucher = TypeOfVoucher.getType(typeNumber);
+            output.printSelectDiscount(TypeOfVoucher.getGuideMessage(typeOfVoucher));
+            long inputDiscount = input.inputNumber();
+            Voucher voucher = TypeOfVoucher.createVoucher(typeOfVoucher, inputDiscount);
+            voucherService.saveVoucher(voucher);
+        } catch (NumberFormatException e) {
+            logger.error("할인금액 또는 할인율이 숫자가 아닙니다.");
+        } catch (IllegalArgumentException e) {
+            output.printError(e.getMessage());
+            logger.error("할인금액 또는 할인율이 정상 범위가 아닙니다.");
+        } catch (RuntimeException e) {
+            output.printError(e.getMessage());
+            logger.error("존재하지 않는 바우처입니다.");
+        }
     }
 }
