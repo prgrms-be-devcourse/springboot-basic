@@ -51,11 +51,12 @@ public class VoucherService {
         voucherRepository.insert(voucher);
     }
 
-    public Optional<Voucher> getVoucherById(UUID voucherId) {
-        return Optional.of(
-                voucherRepository
+    public Voucher getVoucherById(UUID voucherId) {
+        return voucherRepository
                         .findById(voucherId)
-                        .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)))
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        MessageFormat.format("Can not find a voucher for {0}", voucherId))
         );
     }
 
