@@ -14,8 +14,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Service
 public class VoucherCreateService {
 
-    private final VoucherRepository voucherRepository;
     private static final Logger logger = getLogger(VoucherCreateService.class);
+    private final VoucherRepository voucherRepository;
 
     @Autowired
     public VoucherCreateService(VoucherRepository voucherRepository) {
@@ -23,9 +23,6 @@ public class VoucherCreateService {
     }
 
     public Voucher createVoucher(String voucherTypeInput, int discountValue) {
-
-        logger.info("바우처 생성 (타입 : {}, 할인 : {})", voucherTypeInput, discountValue);
-
         Voucher voucher = VoucherType.createVoucher(UUID.randomUUID(), voucherTypeInput, discountValue);
         voucherRepository.save(voucher);
         return voucher;

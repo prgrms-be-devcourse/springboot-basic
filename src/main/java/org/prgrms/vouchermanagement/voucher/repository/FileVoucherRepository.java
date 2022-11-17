@@ -2,7 +2,10 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,13 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-/* TODO : 파일이 저장소 자체이기 때문에 파일의 입출력도 이 클래스에서 관리하는게 맞을까요?
-*   csv로 저장하기 위해 입력값을 파싱해주는 로직과 파일에 읽고 쓰는 로직이 다 들어가있어
-*  너무 많은 책임을 담당하는 것이 아닌지 궁금합니다.
-*  확장성까지 고려하여 csv 파일에 값을 입출력하는 클래스를 따로 분리하는게 맞을까요?
-* */
+@Repository
 public class FileVoucherRepository implements VoucherRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final String path;
 
     public FileVoucherRepository(@Value("${repository.file.voucher.path}") String path) {
@@ -45,7 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
             return Optional.of(VoucherType.createVoucher(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2])));
 
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         return Optional.empty();
@@ -57,7 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true));) {
             writer.write(parseCsvFormat(voucher.getVoucherId().toString(), voucher.getVoucherType().name(), String.valueOf(voucher.getDiscountAmount())));
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return voucher;
     }
@@ -69,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<String> voucherInfos = Files.readAllLines(Paths.get(path));
             voucherInfos.forEach(info -> vouchers.add(createVoucher(info.split(","))));
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         return vouchers;
@@ -92,7 +92,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             Files.writeString(Paths.get(path), "");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
