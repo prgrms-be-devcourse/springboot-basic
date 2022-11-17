@@ -1,0 +1,36 @@
+package com.programmers.voucher.repository;
+
+import com.programmers.voucher.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
+
+@Profile("test")
+@Component
+public class HashMapVoucherRepository implements VoucherRepository {
+    Map<UUID, Voucher> map = new HashMap<>();
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(map.get(id));
+    }
+
+    @Override
+    public List<Voucher> findAllVouchers() {
+        return new LinkedList<>(map.values());
+    }
+
+    @Override
+    public Voucher registerVoucher(Voucher voucher) {
+        UUID voucherId = voucher.getVoucherId();
+        map.put(voucherId, voucher);
+
+        return voucher;
+    }
+
+    @Override
+    public void deleteAll() {
+        map.clear();
+    }
+}

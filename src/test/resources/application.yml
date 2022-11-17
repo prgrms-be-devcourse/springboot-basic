@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: test
+
+file:
+  voucher:
+    save-path: ./test.ini
+
+  customer:
+    blacklist:
+      save-path: ./blacklist.csv
