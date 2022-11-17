@@ -17,6 +17,7 @@ public class ConsoleManager {
             "Type black to show black customer list" + System.lineSeparator();
     public static final String VOUCHER_TYPE_PROMPT = System.lineSeparator() + "Enter voucher type. (fixed or percent)";
     public static final String VOUCHER_AMOUNT_PROMPT = "Enter a value. (fixed - 0~ | percent - 0~100)";
+    public static final String DELIMITER = ", ";
 
     private final Input input;
     private final Output output;
@@ -51,7 +52,7 @@ public class ConsoleManager {
     public void printVouchers(List<Voucher> vouchers) {
         output.printText(
                 vouchers.stream()
-                        .map(Voucher::toString)
+                        .map(voucher -> voucher.getType().getType() + DELIMITER + voucher.getAmount().getValue())
                         .collect(Collectors.joining("\n"))
         );
     }
@@ -59,7 +60,7 @@ public class ConsoleManager {
     public void printBlackList(List<Customer> blacklist) {
         output.printText(
                 blacklist.stream()
-                        .map(Customer::toString)
+                        .map(customer -> customer.getId() + DELIMITER + customer.getName())
                         .collect(Collectors.joining("\n"))
         );
     }

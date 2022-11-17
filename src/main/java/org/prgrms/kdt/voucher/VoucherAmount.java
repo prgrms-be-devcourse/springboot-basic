@@ -26,10 +26,6 @@ public class VoucherAmount {
         return this.value <= value;
     }
 
-    public boolean isGreaterThan(Long value) {
-        return this.value > value;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

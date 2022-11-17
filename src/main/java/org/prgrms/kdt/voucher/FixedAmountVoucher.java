@@ -20,7 +20,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private boolean isValidAmount(VoucherAmount voucherAmount) {
-        return voucherAmount.isGreaterThan(FIXED_AMOUNT_VOUCHER_MIN_VALUE);
+        return voucherAmount.isGreaterThanEqual(FIXED_AMOUNT_VOUCHER_MIN_VALUE);
     }
 
     @Override
@@ -29,17 +29,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getType() {
-        return TYPE.getType().toUpperCase();
+    public VoucherType getType() {
+        return TYPE;
     }
 
     @Override
-    public String getAmount() {
-        return String.valueOf(amount.getValue());
-    }
-
-    @Override
-    public String toString() {
-        return "[type]: fixed, [amount]: " + amount.getValue();
+    public VoucherAmount getAmount() {
+        return amount;
     }
 }

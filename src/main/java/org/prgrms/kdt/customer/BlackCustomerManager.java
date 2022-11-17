@@ -1,9 +1,5 @@
 package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.voucher.FileVoucherManager;
-import org.prgrms.kdt.voucher.Voucher;
-import org.prgrms.kdt.voucher.VoucherAmount;
-import org.prgrms.kdt.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -14,26 +10,26 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 
+
 @Repository
 public class BlackCustomerManager {
 
+    private static final Logger logger = LoggerFactory.getLogger(BlackCustomerManager.class);
+
     private static final String FILE_PATH = "src/main/resources/customer_blacklist.csv";
+    public static final String DELIMITER = ", ";
 
 
     private File loadFile() {
         File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            createFile(file);
+        try {
+            if (file.createNewFile()) {
+                logger.info("file created. [FILE PATH]: " + FILE_PATH);
+            }
+        } catch (IOException exception) {
+            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + FILE_PATH, exception);
         }
         return file;
-    }
-
-    private void createFile(File file) {
-        try {
-            file.createNewFile();
-        } catch (IOException exception) {
-            throw new RuntimeException("Cannot create file. Please check file name or path.", exception);
-        }
     }
 
     public List<Customer> findAll() {
@@ -41,17 +37,17 @@ public class BlackCustomerManager {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(blacklistCsv))) {
             return bufferedReader.lines()
-                    .map(line -> line.split(", "))
-                    .map(BlackCustomerManager::getCustomer)
+                    .map(BlackCustomerManager::mapToCustomer)
                     .toList();
         } catch (IOException exception) {
-            throw new RuntimeException("Cannot find file. Please check there is file those name is " + blacklistCsv.getName(), exception);
+            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + blacklistCsv.getName(), exception);
         }
     }
 
-    private static Customer getCustomer(String[] t) {
+    private static Customer mapToCustomer(String line) {
         try {
-            return new Customer(t[0], t[1]);
+            String[] tokens = line.split(DELIMITER);
+            return new Customer(tokens[0], tokens[1]);
         } catch (ArrayIndexOutOfBoundsException exception) {
             throw new RuntimeException("Invalid File. Please write the file in following format. [Format]: Id, Name", exception);
         }

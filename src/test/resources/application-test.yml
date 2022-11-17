@@ -3,4 +3,4 @@ spring:
     active: local
 
 voucher:
-  file-path: src/main/resources/vouchers.csv
+  file-path: src/test/resources/vouchers.csv
