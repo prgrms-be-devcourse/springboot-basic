@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
             = "INSERT INTO vouchers(voucher_number, discount_value, voucher_type) " +
             "VALUES(UUID_TO_BIN(:voucherNumber), :discountValue, :voucherType)";
     private static final String findAllSql = "SELECT * FROM vouchers";
+    private static final String deleteSql = "DELETE FROM vouchers";
+
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
         UUID voucherNumber = toUUID(resultSet.getBytes("voucher_number"));
         long discountValue = resultSet.getLong("discount_value");
@@ -29,10 +32,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     @Override
     public Voucher save(Voucher voucher, VoucherType voucherType) {
         jdbcTemplate.update(insertSql, toParamMap(voucher, voucherType));
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query(findAllSql, rowMapper);
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(deleteSql, Collections.emptyMap());
     }
 
     private Map<String, Object> toParamMap(Voucher voucher, VoucherType voucherType) {
@@ -41,15 +59,5 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 "discountValue", voucher.getDiscountValue(),
                 "voucherType", voucherType.getVoucherType()
         );
-    }
-
-    @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query(findAllSql, rowMapper);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

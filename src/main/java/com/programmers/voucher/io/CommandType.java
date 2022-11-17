@@ -6,7 +6,8 @@ public enum CommandType {
     EXIT("1"),
     CREATE("2"),
     LIST("3"),
-    BLACKS("4");
+    DELETE("4"),
+    BLACKS("5");
 
     private final String commandType;
 
@@ -22,6 +23,6 @@ public enum CommandType {
         return Stream.of(CommandType.values())
                 .filter(type -> type.getCommandType().equals(command))
                 .findFirst()
-                .orElseThrow(()->new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
+                .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }
 }

@@ -9,4 +9,6 @@ public interface VoucherRepository {
     Voucher save(Voucher voucher, VoucherType voucherType);
 
     List<Voucher> findAll();
+
+    void deleteAll();
 }

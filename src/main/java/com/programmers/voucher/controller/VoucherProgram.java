@@ -44,6 +44,10 @@ public class VoucherProgram implements ApplicationRunner {
                     case LIST:
                         checkEmptyVoucher(voucherService.findAllVoucher());
                         break;
+                    case DELETE:
+                        voucherService.deleteAll();
+                        view.printDeleteAll();
+                        break;
                     case BLACKS:
                         checkEmptyBlack(customerService.findAllBlack());
                         break;

@@ -30,4 +30,8 @@ public class VoucherService {
         logger.info("voucher findAll at repository => {}", vouchers);
         return vouchers;
     }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
+    }
 }

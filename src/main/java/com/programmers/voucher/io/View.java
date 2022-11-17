@@ -44,7 +44,7 @@ public class View {
         vouchers.stream().forEach(voucher -> output.printOutput(voucher.toString()));
     }
 
-    public void printEmptyVouchers(){
+    public void printEmptyVouchers() {
         output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
     }
 
@@ -52,7 +52,11 @@ public class View {
         blacks.stream().forEach(black -> output.printOutput(black.toString()));
     }
 
-    public void printEmptyBlacks(){
+    public void printEmptyBlacks() {
         output.printOutput(Message.EMPTY_BLACK_MESSAGE.toString());
+    }
+
+    public void printDeleteAll() {
+        output.printOutput(Message.DELETE_ALL_VOUCHERS.toString());
     }
 }
