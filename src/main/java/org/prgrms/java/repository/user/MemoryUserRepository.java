@@ -43,4 +43,19 @@ public class MemoryUserRepository implements UserRepository {
         storage.put(user.getUserId(), user);
         return storage.get(user.getUserId());
     }
+
+    @Override
+    public long deleteAll(boolean isBlocked) {
+        long count;
+
+        if (isBlocked) {
+            count = blackStorage.size();
+            blackStorage.clear();
+        } else {
+            count = storage.size();
+            storage.clear();
+        }
+
+        return count;
+    }
 }

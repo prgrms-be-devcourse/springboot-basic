@@ -29,4 +29,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
         storage.put(voucher.getVoucherId(), voucher);
         return storage.get(voucher.getVoucherId());
     }
+
+    @Override
+    public long deleteAll() {
+        long count = storage.size();
+        storage.clear();
+
+        return count;
+    }
 }

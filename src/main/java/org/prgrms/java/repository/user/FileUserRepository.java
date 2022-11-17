@@ -67,7 +67,7 @@ public class FileUserRepository implements UserRepository {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked)), true))) {
             writer.write(user.toString());
             writer.newLine();
             writer.flush();
@@ -75,6 +75,23 @@ public class FileUserRepository implements UserRepository {
             throw new RuntimeException(e);
         }
         return user;
+    }
+
+    @Override
+    public long deleteAll(boolean isBlocked) {
+        String fileName = MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked));
+        long count;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            count = reader.lines()
+                    .filter(line -> !line.isBlank())
+                    .count();
+            new FileOutputStream(fileName).close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
     }
 
     private String getDataName(boolean isBlocked) {

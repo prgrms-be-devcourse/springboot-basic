@@ -12,4 +12,6 @@ public interface VoucherRepository {
     Collection<Voucher> findAll();
 
     Voucher insert(Voucher voucher);
+
+    long deleteAll();
 }

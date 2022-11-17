@@ -73,4 +73,21 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         return voucher;
     }
+
+    @Override
+    public long deleteAll() {
+        String fileName = MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME);
+        long count;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            count = reader.lines()
+                    .filter(line -> !line.isBlank())
+                    .count();
+            new FileWriter(fileName).close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return count;
+    }
 }
