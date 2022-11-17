@@ -67,6 +67,6 @@ public class VoucherController {
         do {
             voucherTypeNumber = CommandLineInput.getInput(notificationProperties.getVoucherTypeChoice());
         } while (VoucherType.isFixed(voucherTypeNumber) && VoucherType.isPercent(voucherTypeNumber));
-        return VoucherType.NumberToTypeOption(voucherTypeNumber);
+        return VoucherType.NumberToVoucherType(voucherTypeNumber);
     }
 }

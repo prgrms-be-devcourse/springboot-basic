@@ -8,6 +8,7 @@ import org.prgrms.springbootbasic.factory.PercentAmountVoucherFactory;
 import org.prgrms.springbootbasic.factory.VoucherFactory;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum VoucherType {
     FIXED("1", "amount", FixedAmountVoucherFactory.class, FixedAmountVoucher.class),
@@ -42,9 +43,15 @@ public enum VoucherType {
         return voucherClass;
     }
 
-    public static VoucherType NumberToTypeOption(String option) {
+    public static VoucherType NumberToVoucherType(String option) {
         return Arrays.stream(VoucherType.values())
                 .filter(x -> x.getNumber().equals(option))
+                .findFirst().get();
+    }
+
+    public static VoucherType ClassToVoucherType(Voucher voucher) {
+        return Arrays.stream(VoucherType.values())
+                .filter(x -> Objects.equals(x.getVoucherClass(), voucher.getClass()))
                 .findFirst().get();
     }
 
