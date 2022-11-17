@@ -1,10 +1,9 @@
-package com.example.springbootbasic.repository;
+package com.example.springbootbasic.repository.voucher;
 
-import com.example.springbootbasic.config.AppConfiguration;
+import com.example.springbootbasic.config.AppConfig;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.parser.CsvVoucherParser;
-import com.example.springbootbasic.util.CharacterUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +28,11 @@ public class CsvVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
     private static long sequence;
-    private final AppConfiguration appConfiguration;
+    private final AppConfig appConfiguration;
     private final CsvVoucherParser csvParser = new CsvVoucherParser();
 
     @Autowired
-    public CsvVoucherRepository(AppConfiguration appConfiguration) {
+    public CsvVoucherRepository(AppConfig appConfiguration) {
         this.appConfiguration = appConfiguration;
         initSequence();
     }
@@ -49,7 +48,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     public synchronized Voucher save(Voucher voucher) {
         try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), true)) {
             Voucher generatedVoucher =
-                    VoucherFactory.generateVoucher(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+                    VoucherFactory.of(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
             writer.write(csvParser.toCsvFrom(generatedVoucher));
             writer.flush();
         } catch (IOException e) {

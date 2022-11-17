@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
-import static com.example.springbootbasic.exception.PercentDiscountVoucherExceptionMessage.PERCENT_DISCOUNT_RANGE_EXCEPTION;
+import static com.example.springbootbasic.exception.voucher.PercentDiscountVoucherExceptionMessage.PERCENT_DISCOUNT_RANGE_EXCEPTION;
 
 public class PercentDiscountVoucher extends Voucher {
 

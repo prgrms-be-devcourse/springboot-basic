@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.text.MessageFormat;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.*;
-import static com.example.springbootbasic.exception.FixedAmountVoucherExceptionMessage.FIXED_AMOUNT_DISCOUNT_RANGE_EXCEPTION;
+import static com.example.springbootbasic.exception.voucher.FixedAmountVoucherExceptionMessage.FIXED_AMOUNT_DISCOUNT_RANGE_EXCEPTION;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);

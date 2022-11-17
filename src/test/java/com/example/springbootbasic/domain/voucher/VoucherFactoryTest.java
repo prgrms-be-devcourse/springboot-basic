@@ -17,7 +17,7 @@ class VoucherFactoryTest {
     @MethodSource("whenGenerateVoucherThenSuccessDummy")
     @DisplayName("바우처 타입과 할인 금액을 이용한 바우처 생성 성공")
     void whenGenerateVoucherThenSuccessTest(Long discountValue, VoucherType voucherType) {
-        Voucher generateVoucher = VoucherFactory.generateVoucher(discountValue, voucherType);
+        Voucher generateVoucher = VoucherFactory.of(discountValue, voucherType);
         assertThat(generateVoucher.getVoucherType(), is(voucherType));
     }
 

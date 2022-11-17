@@ -2,7 +2,7 @@ package com.example.springbootbasic.domain.voucher;
 
 import java.util.Arrays;
 
-import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_TYPE_EXCEPTION;
+import static com.example.springbootbasic.exception.voucher.VoucherExceptionMessage.NULL_VOUCHER_TYPE_EXCEPTION;
 
 public enum VoucherType {
     FIXED_AMOUNT("fixed"),

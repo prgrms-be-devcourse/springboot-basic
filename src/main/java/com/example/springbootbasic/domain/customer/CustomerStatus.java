@@ -2,7 +2,7 @@ package com.example.springbootbasic.domain.customer;
 
 import java.util.Arrays;
 
-import static com.example.springbootbasic.exception.CustomerStatusExceptionMessage.CUSTOMER_STATUS_FIND_EXCEPTION;
+import static com.example.springbootbasic.exception.customer.CustomerStatusExceptionMessage.CUSTOMER_STATUS_FIND_EXCEPTION;
 
 public enum CustomerStatus {
     NORMAL("normal"),
@@ -19,5 +19,13 @@ public enum CustomerStatus {
                 .filter(type -> type.type.equals(customerType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(CUSTOMER_STATUS_FIND_EXCEPTION.getMessage()));
+    }
+
+    public boolean isBlack() {
+        return this == BLACK;
+    }
+
+    public String getType() {
+        return type;
     }
 }

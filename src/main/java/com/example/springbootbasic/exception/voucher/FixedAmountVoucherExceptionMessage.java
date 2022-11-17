@@ -1,4 +1,4 @@
-package com.example.springbootbasic.exception;
+package com.example.springbootbasic.exception.voucher;
 
 public enum FixedAmountVoucherExceptionMessage {
 

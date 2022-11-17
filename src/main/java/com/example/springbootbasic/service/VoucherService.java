@@ -1,7 +1,7 @@
 package com.example.springbootbasic.service;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
-import com.example.springbootbasic.repository.VoucherRepository;
+import com.example.springbootbasic.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

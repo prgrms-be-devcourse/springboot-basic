@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.function.BiFunction;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.*;
-import static com.example.springbootbasic.exception.VoucherExceptionMessage.NULL_VOUCHER_FACTORY_EXCEPTION;
+import static com.example.springbootbasic.exception.voucher.VoucherExceptionMessage.NULL_VOUCHER_FACTORY_EXCEPTION;
 
 public enum VoucherFactory {
 
@@ -24,16 +24,16 @@ public enum VoucherFactory {
         this.voucherGenerator = voucherGenerator;
     }
 
-    public static Voucher generateVoucher(long discountValue, VoucherType inputVoucherType) {
+    public static Voucher of(long discountValue, VoucherType inputVoucherType) {
         VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
                 .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_FACTORY_EXCEPTION.getMessage()));
-
+        logger.info("Success - discountValue = {}, inputVoucherType = {}", discountValue, inputVoucherType);
         return findVoucherFactory.generate(UNKNOWN_VOUCHER_ID, discountValue);
     }
 
-    public static Voucher generateVoucher(long voucherId, long discountValue, VoucherType inputVoucherType) {
+    public static Voucher of(long voucherId, long discountValue, VoucherType inputVoucherType) {
         VoucherFactory findVoucherFactory = Arrays.stream(VoucherFactory.values())
                 .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()

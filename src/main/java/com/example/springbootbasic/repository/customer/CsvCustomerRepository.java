@@ -1,11 +1,13 @@
-package com.example.springbootbasic.repository;
+package com.example.springbootbasic.repository.customer;
 
-import com.example.springbootbasic.config.AppConfiguration;
+import com.example.springbootbasic.config.AppConfig;
 import com.example.springbootbasic.domain.customer.Customer;
+import com.example.springbootbasic.domain.customer.CustomerStatus;
 import com.example.springbootbasic.parser.CsvCustomerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -17,14 +19,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@Profile("dev")
 public class CsvCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
-    private final AppConfiguration appConfiguration;
+    private final AppConfig appConfiguration;
     private final CsvCustomerParser csvParser = new CsvCustomerParser();
 
-    @Autowired
-    public CsvCustomerRepository(AppConfiguration appConfiguration) {
+    public CsvCustomerRepository(AppConfig appConfiguration) {
         this.appConfiguration = appConfiguration;
     }
 
@@ -38,6 +40,21 @@ public class CsvCustomerRepository implements CustomerRepository {
             logger.error("Fail - {}", e.getMessage());
         }
         return voucherTexts.stream()
+                .map(csvParser::toCustomerFrom)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Customer> findCustomersByStatus(CustomerStatus status) {
+        Path csvPath = Paths.get(appConfiguration.getCustomerCsvResource());
+        List<String> voucherTexts = Collections.emptyList();
+        try {
+            voucherTexts = Files.readAllLines(csvPath);
+        } catch (IOException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+        return voucherTexts.stream()
+                .filter(voucherText -> voucherText.contains(status.name()))
                 .map(csvParser::toCustomerFrom)
                 .collect(Collectors.toList());
     }

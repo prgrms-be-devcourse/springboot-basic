@@ -1,7 +1,7 @@
 package com.example.springbootbasic.service;
 
 import com.example.springbootbasic.domain.customer.Customer;
-import com.example.springbootbasic.repository.CustomerRepository;
+import com.example.springbootbasic.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.TestInstance;

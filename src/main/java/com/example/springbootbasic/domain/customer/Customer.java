@@ -16,4 +16,8 @@ public class Customer {
     public CustomerStatus getStatus() {
         return status;
     }
+
+    public boolean isBlack() {
+        return status.isBlack();
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.springbootbasic.repository;
+package com.example.springbootbasic.repository.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 

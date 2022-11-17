@@ -1,18 +1,15 @@
-package com.example.springbootbasic.repository;
+package com.example.springbootbasic.repository.voucher;
 
-import com.example.springbootbasic.config.AppConfiguration;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestInstance;
+import com.example.springbootbasic.repository.voucher.MemoryVoucherRepository;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.springframework.test.context.ActiveProfiles;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,18 +17,16 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUN
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.TestInstance.Lifecycle;
+import static org.junit.jupiter.api.TestInstance.*;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@ActiveProfiles("dev")
-class CsvVoucherRepositoryTest {
+class MemoryVoucherRepositoryTest {
 
-    private final String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
-    private final String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
-    private final CsvVoucherRepository voucherRepository;
+    private MemoryVoucherRepository voucherRepository;
 
-    public CsvVoucherRepositoryTest() {
-        this.voucherRepository = new CsvVoucherRepository(new AppConfiguration(voucherCsvResource, customerCsvResource));
+    @BeforeAll
+    void init() {
+        voucherRepository = new MemoryVoucherRepository();
     }
 
     @AfterEach
@@ -42,9 +37,9 @@ class CsvVoucherRepositoryTest {
     @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")
     @MethodSource("voucherDummy")
     @DisplayName("저장된 바우처 할인값, 바우처 타입 확인 성공")
-    void whenSaveCsvVoucherThenSuccessTest(long discountValue, VoucherType voucherType) {
+    void whenSaveVoucherThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
-        Voucher voucher = VoucherFactory.generateVoucher(discountValue, voucherType);
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
 
         // when
         Voucher savedVoucher = voucherRepository.save(voucher);
@@ -60,8 +55,8 @@ class CsvVoucherRepositoryTest {
     void whenFindAllVouchersThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
         final int maxCount = 100;
-        Voucher voucher = VoucherFactory.generateVoucher(discountValue, voucherType);
-        for (int count = 0; count < maxCount; count++) {
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        for(int count = 0; count < maxCount; count++) {
             voucherRepository.save(voucher);
         }
 
@@ -71,6 +66,17 @@ class CsvVoucherRepositoryTest {
         //then
         assertThat(allVouchers, notNullValue());
         assertThat(allVouchers, hasSize(maxCount));
+    }
+
+    @Test
+    @DisplayName("비어 있는 바우처 리스트 검색시 EmptyList 반환 성공")
+    void whenFindEmptyThenSuccessTest() {
+        // when
+        List<Voucher> allVouchers = voucherRepository.findAllVouchers();
+
+        // then
+        assertThat(allVouchers, notNullValue());
+        assertThat(allVouchers, is(Collections.emptyList()));
     }
 
     static Stream<Arguments> voucherDummy() {
