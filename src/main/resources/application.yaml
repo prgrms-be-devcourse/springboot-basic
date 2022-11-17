@@ -1,4 +1,7 @@
 notification:
+  service: |
+    type enter to proceed
+    (type exist if you want to exist)
   voucherPrompt: |
     ==== Voucher Program ===
     Type **create** to create a new voucher.
