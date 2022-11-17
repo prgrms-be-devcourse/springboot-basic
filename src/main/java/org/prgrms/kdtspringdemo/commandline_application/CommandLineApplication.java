@@ -1,9 +1,10 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
-import org.prgrms.kdtspringdemo.customer.Customer;
-import org.prgrms.kdtspringdemo.customer.CustomerService;
+import org.prgrms.kdtspringdemo.blacklist.BlackListService;
+import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.io.console.Console;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
+import org.prgrms.kdtspringdemo.voucher.exception.FailCreateVoucherException;
 import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.slf4j.Logger;
@@ -18,22 +19,24 @@ import java.util.List;
 public class CommandLineApplication implements ApplicationRunner {
     private final Console console;
     private final VoucherService voucherService;
-    private final CustomerService customerService;
-    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
-    private boolean isRunning = true;
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    //    private final CustomerService customerService;
+    private final BlackListService blackListService;
 
-    public CommandLineApplication(Console console, VoucherService voucherService, CustomerService customerService) {
+    public CommandLineApplication(Console console, VoucherService voucherService, /*CustomerService customerService,*/ BlackListService blackListService) {
         this.console = console;
         this.voucherService = voucherService;
-        this.customerService = customerService;
+//        this.customerService = customerService;
+        this.blackListService = blackListService;
     }
 
     @Override
     public void run(ApplicationArguments args) {
-        while (isRunning) {
+        CommandType selectedCommand = null;
+        while (selectedCommand != CommandType.EXIT) {
             console.showMenu();
             String userInput = console.getInputWithPrompt("type :");
-            selectMenuByInput(userInput);
+            selectedCommand = selectMenuByInput(userInput);
         }
     }
 
@@ -44,7 +47,6 @@ public class CommandLineApplication implements ApplicationRunner {
             switch (commandType) {
                 case EXIT -> {
                     logger.info("종료 로직");
-                    exitProgram();
                 }
                 case CREATE -> {
                     logger.info("create 로직");
@@ -64,18 +66,17 @@ public class CommandLineApplication implements ApplicationRunner {
             logger.error(e.getMessage());
             console.showError(e);
             return CommandType.ERROR;
+        } catch (FailCreateVoucherException e) {
+            logger.error(e.getMessage());
+            console.showError(e);
+            return CommandType.CREATE;
         }
 
     }
 
     private void showBlackList() {
-        List<Customer> blackList = customerService.getAllBlackList();
+        List<BlackCustomer> blackList = blackListService.getAllBlackList();
         console.showBlackCustomerList(blackList);
-    }
-
-    private void exitProgram() {
-        this.isRunning = false;
-
     }
 
     private Voucher createVoucher() {
@@ -84,9 +85,7 @@ public class CommandLineApplication implements ApplicationRunner {
             Long value = console.getVoucherValue();
             return voucherService.createVoucher(voucherType, value);
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            console.showError(e);
-            return null;
+            throw new FailCreateVoucherException(e.getMessage());
         }
     }
 

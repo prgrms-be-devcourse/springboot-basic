@@ -57,7 +57,6 @@ public class Customer {
     public String getEmail() {
         return email;
     }
-
     public LocalDateTime getLastLoginAt() {
         return lastLoginAt;
     }
@@ -70,10 +69,4 @@ public class Customer {
         return blackList;
     }
 
-//    public CsvDto makeCsvDto(){
-//        List<String[]>  rowDatas = new ArrayList<>();
-//        String[] rowData = {customerId.toString(),name, birth.toString()};
-//        rowDatas.add(rowData);
-//        return CsvDto.from(rowDatas);
-//    }
 }

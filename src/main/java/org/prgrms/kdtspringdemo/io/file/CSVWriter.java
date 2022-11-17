@@ -19,20 +19,18 @@ public class CSVWriter {
         return append;
     }
 
-    public void writeCSV(CsvDto csvDto) {
+    public void writeCSV(CsvDto csvDto) throws IllegalStateException {
         File targetCsv = new File(path);
         List<String[]> value = csvDto.value;
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetCsv, append));
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetCsv, append))) {
             for (String[] strings : value) {
                 String line = String.join(",", strings);
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }
             bufferedWriter.flush();
-            bufferedWriter.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException("파일 입출력 에러가 발생했습니다.");
         }
     }
 }

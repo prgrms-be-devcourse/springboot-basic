@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.io.console;
 
-import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
@@ -72,16 +72,16 @@ public class Console {
         return voucherListString;
     }
 
-    public String showBlackCustomerList(List<Customer> customerList) {
+    public String showBlackCustomerList(List<BlackCustomer> customerList) {
         String customerListString = customerList.stream().map(customer -> {
             String[] argument = {
                     customer.getCustomerId().toString(),
-                    customer.getName().toString(),
+                    customer.getEmail(),
                     customer.getBirth().toString()
             };
             return MessageFormat.format("  {0}  |  {1}  |  {2} |", argument);
         }).collect(Collectors.joining("\n"
-                , "  ID  |  Name  | birthDay  |\n"
+                , "  ID  |  E-mail  | birthDay  |\n"
                 , "\n==========================="));
         output.printText(customerListString);
         return customerListString;

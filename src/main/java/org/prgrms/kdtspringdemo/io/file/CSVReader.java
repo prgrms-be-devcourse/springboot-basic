@@ -14,14 +14,12 @@ public class CSVReader {
 
     public CsvDto readCSV() throws FileNotFoundException, IOException {
         File csv = new File(path);
-        BufferedReader bufferedReader = null;
-        String line = null;
+        String line;
         if (!csv.exists()) {
             csv.createNewFile();
         }
         List<String[]> resultList = new ArrayList<>();
-        try {
-            bufferedReader = new BufferedReader(new FileReader(csv));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(csv))) {
             while ((line = bufferedReader.readLine()) != null) {
                 resultList.add(line.split(","));
             }
@@ -30,15 +28,7 @@ public class CSVReader {
             throw new FileNotFoundException("파일경로를 찾을 수 없습니다.");
         } catch (IOException e) {
             throw new IOException("입출력 오류가 발생했습니다.");
-        } finally {
-            try {
-                if (bufferedReader != null) {
-                    bufferedReader.close();
-                }
-            } catch (IOException e) {
-                throw new IOException("입출력 오류가 발생했습니다.");
-
-            }
         }
+
     }
 }

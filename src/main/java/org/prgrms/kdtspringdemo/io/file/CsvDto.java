@@ -1,5 +1,9 @@
 package org.prgrms.kdtspringdemo.io.file;
 
+import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.voucher.model.Voucher;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CsvDto {
@@ -13,4 +17,17 @@ public class CsvDto {
         return new CsvDto(value);
     }
 
+    public static CsvDto from(BlackCustomer customer) {
+        List<String[]> rowDatas = new ArrayList<>();
+        String[] rowData = {customer.getCustomerId().toString(), customer.getEmail(), customer.getBirth().toString()};
+        rowDatas.add(rowData);
+        return CsvDto.from(rowDatas);
+    }
+
+    public static CsvDto from(Voucher voucher) {
+        List<String[]> lines = new ArrayList<>();
+        String[] line = {voucher.getVoucherId().toString(), String.valueOf(voucher.discountValue()), voucher.getVoucherType().name()};
+        lines.add(line);
+        return CsvDto.from(lines);
+    }
 }

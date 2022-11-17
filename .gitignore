@@ -34,3 +34,5 @@ build/
 
 *.csv
 log
+
+**/application-db.yml

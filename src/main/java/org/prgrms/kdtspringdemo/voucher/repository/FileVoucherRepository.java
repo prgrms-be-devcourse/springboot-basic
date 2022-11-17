@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final CSVReader csvReader;
     private final CSVWriter csvWriter;
 
@@ -69,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) throws IllegalStateException {
         CsvDto csvDto = voucher.makeCsvDtoFromVoucher();
         csvWriter.writeCSV(csvDto);
         return storage.put(voucher.getVoucherId(), voucher);

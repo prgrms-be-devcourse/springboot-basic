@@ -1,3 +1,6 @@
+spring:
+  profiles:
+    include: "db"
 ---
 spring:
   config:
