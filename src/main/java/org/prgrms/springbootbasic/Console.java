@@ -12,10 +12,10 @@ import static org.prgrms.springbootbasic.type.MethodType.isExist;
 public class Console {
 
     @Value(value = "${notification.service}")
-    private static String serviceNotification;
+    private String serviceNotification;
 
     @Value(value = "${notification.exit}")
-    private static String exitNotification;
+    private String exitNotification;
     private final VoucherController voucherController;
 
     @Autowired
