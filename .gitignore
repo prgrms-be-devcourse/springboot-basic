@@ -6,6 +6,8 @@ log/*
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+.src/main/resources/consumerResources
+.src/main/resources/voucherResources
 ### STS ###
 .apt_generated
 .classpath
