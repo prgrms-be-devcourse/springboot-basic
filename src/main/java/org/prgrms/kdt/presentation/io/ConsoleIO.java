@@ -1,6 +1,7 @@
 package org.prgrms.kdt.presentation.io;
 
 import org.prgrms.kdt.dao.entity.voucher.VoucherType;
+import org.prgrms.kdt.exception.io.WrongInputDataException;
 import org.prgrms.kdt.presentation.controller.CommandType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,8 @@ public class ConsoleIO {
         try {
             return br.readLine().trim();
         } catch (IOException e) {
-            logger.error("{} {}", e.getMessage(), e.getStackTrace());
+            throw new WrongInputDataException("Command Input 작업이 실패했습니다.", e);
         }
-
-        return "";
     }
 
     public String inputVoucherType() {
@@ -34,10 +33,8 @@ public class ConsoleIO {
             System.out.println(VoucherType.getAllVoucherExpression());
             return br.readLine().trim();
         } catch (IOException e) {
-            logger.error("{} {}", e.getMessage(), e.getStackTrace());
+            throw new WrongInputDataException("VoucherType Input 작업이 실패했습니다.", e);
         }
-
-        return "";
     }
 
     public String inputVoucherDiscountValue() {
@@ -45,14 +42,8 @@ public class ConsoleIO {
             System.out.println("선택한 Voucher 형식에 맞는 할인 금액 혹은 할인율을 입력하시오 : ");
             return br.readLine().trim();
         } catch (IOException e) {
-            logger.error("{} {}", e.getMessage(), e.getStackTrace());
+            throw new WrongInputDataException("VoucherDiscountValue Input 작업이 실패했습니다.", e);
         }
-
-        return "";
-    }
-
-    public void printLine(String str) {
-        System.out.println(str);
     }
 
     public void printEnableCommandList() {
@@ -65,12 +56,11 @@ public class ConsoleIO {
     }
 
     public <T> void printItems(List<T> vouchers) {
-
+        System.out.println("리스트 : ");
         if (vouchers.isEmpty()) {
             System.out.println("is empty");
         }
 
         vouchers.forEach(System.out::println);
     }
-
 }

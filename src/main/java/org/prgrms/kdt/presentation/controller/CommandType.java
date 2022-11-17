@@ -40,7 +40,6 @@ public enum CommandType {
         }
     };
 
-
     public final String command;
     private final String expression;
 
