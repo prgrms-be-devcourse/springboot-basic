@@ -14,8 +14,11 @@ public class Customer {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return id + " " + name;
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

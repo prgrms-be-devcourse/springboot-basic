@@ -30,17 +30,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getType() {
-        return TYPE.getType().toUpperCase();
+    public VoucherType getType() {
+        return TYPE;
     }
 
     @Override
-    public String getAmount() {
-        return String.valueOf(amount.getValue());
-    }
-
-    @Override
-    public String toString() {
-        return "[type]: percent, [amount]: " + amount.getValue() + "%";
+    public VoucherAmount getAmount() {
+        return amount;
     }
 }

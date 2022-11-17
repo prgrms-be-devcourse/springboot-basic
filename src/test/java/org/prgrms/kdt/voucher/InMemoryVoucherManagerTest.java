@@ -5,32 +5,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-class FileVoucherManagerTest {
+class InMemoryVoucherManagerTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherManagerTest.class);
-    public static final String FILE_PATH = "src/test/resources/vouchers.csv";
     private VoucherManager voucherManager;
 
     @BeforeEach
     void init() {
-        try {
-            new FileOutputStream(FILE_PATH).close();
-        } catch (IOException exception) {
-            logger.error(exception.getMessage());
-        }
-        voucherManager = new FileVoucherManager(FILE_PATH);
+        voucherManager = new InMemoryVoucherManager();
     }
 
     @DisplayName("0보다 크거나 같은 값으로 저장될 수 있다.")
@@ -57,11 +45,12 @@ class FileVoucherManagerTest {
     }
 
     @Test
-    @DisplayName("파일에 저장된 바우처를 조회할 수 있다.")
+    @DisplayName("메모리에 저장된 바우처를 조회할 수 있다.")
     void findAll() {
         // given
         Voucher voucher1 = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
         Voucher voucher2 = Voucher.newInstance(VoucherType.of("percent"), new VoucherAmount("20"));
+
         voucherManager.save(voucher1);
         voucherManager.save(voucher2);
 
@@ -70,10 +59,8 @@ class FileVoucherManagerTest {
 
         // then
         assertThat(actualVouchers)
-                .extracting(Voucher::getType, Voucher::getAmount)
-                .containsExactlyInAnyOrder(
-                        tuple(VoucherType.of("fixed"), new VoucherAmount("10")),
-                        tuple(VoucherType.of("percent"), new VoucherAmount("20"))
-                );
+                .containsAll(List.of(voucher1, voucher2));
+
     }
+
 }

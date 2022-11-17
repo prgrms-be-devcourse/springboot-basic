@@ -9,9 +9,18 @@ public interface Voucher {
         };
     }
 
+    static Voucher getInstance(long id, VoucherType type, VoucherAmount amount) {
+        return switch (type) {
+            case FIXED -> new FixedAmountVoucher(id, amount);
+            case PERCENT -> new PercentDiscountVoucher(id, amount);
+        };
+    }
+
     long getId();
 
-    String getType();
+    VoucherType getType();
 
-    String getAmount();
+    VoucherAmount getAmount();
+
+
 }

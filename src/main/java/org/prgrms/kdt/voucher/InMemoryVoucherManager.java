@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -28,6 +28,12 @@ public class InMemoryVoucherManager implements VoucherManager {
                 .stream()
                 .collect(getUnmodifiableListCollector());
     }
+
+    @Override
+    public Optional<Voucher> findById(long id) {
+        return Optional.ofNullable(vouchers.get(id));
+    }
+
 
     private static Collector<Voucher, Object, List<Voucher>> getUnmodifiableListCollector() {
         return Collectors.collectingAndThen(

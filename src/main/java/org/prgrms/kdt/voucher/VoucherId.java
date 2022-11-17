@@ -11,4 +11,8 @@ public class VoucherId {
     public static long increase() {
         return voucherId.incrementAndGet();
     }
+
+    public static long getId() {
+        return voucherId.get();
+    }
 }
