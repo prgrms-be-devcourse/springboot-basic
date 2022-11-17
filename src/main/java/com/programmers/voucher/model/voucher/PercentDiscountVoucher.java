@@ -6,8 +6,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     private static final String WRONG_DISCOUNT = "할인 퍼센트를 1~100사이로 입력해주세요.";
 
-    public PercentDiscountVoucher(UUID voucherId, long discountValue) {
-        super(voucherId, discountValue);
+    public PercentDiscountVoucher(UUID voucherNumber, long discountValue) {
+        super(voucherNumber, discountValue);
     }
 
     @Override

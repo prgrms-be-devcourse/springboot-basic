@@ -22,7 +22,7 @@ public class VoucherService {
     public Voucher create(VoucherType voucherType, long discountValue) {
         Voucher newVoucher = voucherType.convertToVoucher(UUID.randomUUID(), discountValue);
         logger.info("voucher create => {}", newVoucher);
-        return voucherRepository.save(newVoucher);
+        return voucherRepository.save(newVoucher, voucherType);
     }
 
     public List<Voucher> findAllVoucher() {

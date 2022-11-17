@@ -1,14 +1,18 @@
 package com.programmers.voucher.model.voucher;
 
+import com.programmers.voucher.model.customer.Customer;
+
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected UUID voucherId;
+    protected String voucherId;
+    protected UUID voucherNumber;
     protected long discountValue;
+    protected Customer customer;
 
-    protected Voucher(UUID voucherId, long discountValue) {
+    protected Voucher(UUID voucherNumber, long discountValue) {
         validateZeroDiscount(discountValue);
-        this.voucherId = voucherId;
+        this.voucherNumber = voucherNumber;
         this.discountValue = discountValue;
     }
 
@@ -16,7 +20,15 @@ public abstract class Voucher {
 
     abstract long discount(long beforeDiscount);
 
-    public UUID getVoucherId(){
+    public String getVoucherId(){
         return voucherId;
+    }
+
+    public UUID getVoucherNumber() {
+        return voucherNumber;
+    }
+
+    public long getDiscountValue() {
+        return discountValue;
     }
 }
