@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,20 +7,18 @@ import org.prgrms.vouchermanagement.voucher.domain.FixedAmountVoucher;
 import org.prgrms.vouchermanagement.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
 
-@SpringBootTest
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.mockito.Mockito.*;
+
 class VoucherListFindServiceTest {
 
-    @Autowired
-    private VoucherListFindService voucherListFindService;
-
-    @Autowired
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository = mock(VoucherRepository.class);
+    private final VoucherListFindService voucherListFindService = new VoucherListFindService(voucherRepository);
 
     @BeforeEach
     void init() {
@@ -32,26 +29,25 @@ class VoucherListFindServiceTest {
     @DisplayName("바우처 리스트 정상 출력 확인")
     void voucherList() {
         // given
-        UUID fixedAmountVoucherId = UUID.randomUUID();
-        int fixedAmountVoucherDiscountAmount = 1000;
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(fixedAmountVoucherId, fixedAmountVoucherDiscountAmount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
-        UUID percentDiscountVoucherId = UUID.randomUUID();
-        int percentDiscountVoucherDiscountAmount = 50;
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(percentDiscountVoucherId, percentDiscountVoucherDiscountAmount);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50);
 
         voucherRepository.save(fixedAmountVoucher);
         voucherRepository.save(percentDiscountVoucher);
 
+        when(voucherRepository.findAll())
+                .thenReturn(List.of(fixedAmountVoucher, percentDiscountVoucher));
+
         // when
-        List<Voucher> resultVouchers = voucherListFindService.findAllVouchers();
+        List<Voucher> allVouchers = voucherListFindService.findAllVouchers();
 
         // then
-        for (Voucher resultVoucher : resultVouchers) {
-            if (resultVoucher instanceof FixedAmountVoucher) {
-                Assertions.assertThat(resultVoucher).isEqualTo(fixedAmountVoucher);
-            } else
-                Assertions.assertThat(resultVoucher).isEqualTo(percentDiscountVoucher);
-        }
+        verify(voucherRepository).findAll();
+        assertThat(allVouchers).hasSize(2);
+        assertThat(allVouchers)
+                .extracting("voucherId", "discountAmount", "voucherType")
+                .contains(tuple(fixedAmountVoucher.getVoucherId(), fixedAmountVoucher.getDiscountAmount(), fixedAmountVoucher.getVoucherType()),
+                        tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType()));
     }
 }
