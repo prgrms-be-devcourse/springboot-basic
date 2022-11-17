@@ -3,19 +3,21 @@ package com.programmers.assignment.voucher.engine.io;
 import com.programmers.assignment.voucher.engine.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class ConsoleOutput {
-    public void findVoucherList(Map<UUID, Voucher> map) {
+    public void findVoucherList(List<Voucher> voucherList) {
         System.out.println("======= Voucher List=========");
-        map.forEach((k, v) -> System.out.println(v)
-        );
+        voucherList.forEach(System.out::println);
         System.out.println("=============================");
     }
 
     public void exitApplication() {
         System.out.println("===Exit Application===");
+    }
+
+    public void voucherListSizeZero() {
+        System.out.println("There is nothing any vouchers");
     }
 }

@@ -9,6 +9,7 @@ import com.programmers.assignment.voucher.engine.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -57,7 +58,7 @@ public class VoucherService {
         );
     }
 
-    public Map<UUID, Voucher> getAllVouchers() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 }

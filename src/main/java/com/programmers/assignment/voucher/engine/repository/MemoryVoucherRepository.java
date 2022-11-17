@@ -3,9 +3,7 @@ package com.programmers.assignment.voucher.engine.repository;
 import com.programmers.assignment.voucher.engine.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -19,9 +17,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Map<UUID, Voucher> findAll() {
-        if (repository.size() == 0) throw new RuntimeException("There is nothing any vouchers");
-        return repository;
+    public List<Voucher> findAll() {
+        List<Voucher> voucherList = new ArrayList<>();
+        repository.forEach((id, voucher) -> voucherList.add(voucher));
+        return voucherList;
     }
 
     @Override

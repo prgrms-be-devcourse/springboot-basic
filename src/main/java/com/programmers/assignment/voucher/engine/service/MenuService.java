@@ -48,7 +48,11 @@ public class MenuService {
     }
 
     public void showVouchers() {
-        var map = voucherRepository.findAll();
-        output.findVoucherList(map);
+        var voucherList = voucherRepository.findAll();
+        if (voucherList.size() == 0) {
+            output.voucherListSizeZero();
+            return;
+        }
+        output.findVoucherList(voucherList);
     }
 }
