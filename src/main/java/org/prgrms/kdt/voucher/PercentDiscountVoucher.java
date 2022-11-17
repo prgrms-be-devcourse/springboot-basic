@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher;
 public class PercentDiscountVoucher implements Voucher {
     private static final Long PERCENT_DISCOUNT_VOUCHER_MIN_VALUE = 0L;
     private static final Long PERCENT_DISCOUNT_VOUCHER_MAX_VALUE = 100L;
-    private static final String TYPE = "PERCENT";
+    private static final VoucherType TYPE = VoucherType.PERCENT;
 
     private final long id;
     private final VoucherAmount amount;
@@ -31,7 +31,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String getType() {
-        return TYPE;
+        return TYPE.getType().toUpperCase();
     }
 
     @Override

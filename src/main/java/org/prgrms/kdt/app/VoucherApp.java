@@ -18,7 +18,7 @@ public class VoucherApp implements CommandLineRunner {
     private final VoucherExecutor voucherExecutor;
     private final CustomerExecutor customerExecutor;
     private VoucherAppStatus voucherAppStatus;
-    private static Logger logger = LoggerFactory.getLogger(VoucherApp.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
 
     public VoucherApp(ConsoleManager consoleManager, VoucherExecutor voucherExecutor, CustomerExecutor customerExecutor) {
         this.consoleManager = consoleManager;
