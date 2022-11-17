@@ -15,8 +15,7 @@ spring:
     url: jdbc:mysql://localhost:5431/devcourse
     username: root
     password: 303ehd
-    hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 
 jdbc:

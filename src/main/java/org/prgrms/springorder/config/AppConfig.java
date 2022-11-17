@@ -1,6 +1,5 @@
 package org.prgrms.springorder.config;
 
-import com.zaxxer.hikari.HikariDataSource;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -11,7 +10,6 @@ import org.prgrms.springorder.console.io.ConsoleInput;
 import org.prgrms.springorder.console.io.ConsoleOutput;
 import org.prgrms.springorder.console.io.Input;
 import org.prgrms.springorder.console.io.Output;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -36,17 +34,6 @@ public class AppConfig {
     @Bean
     public Console console() {
         return new Console(consoleInput(), consoleOutput());
-    }
-
-    @Bean
-    @Profile("dev")
-    public DataSource dataSource(JdbcProperties jdbcProperties) {
-        return DataSourceBuilder.create()
-            .url(jdbcProperties.getUrl())
-            .username(jdbcProperties.getUsername())
-            .password(jdbcProperties.getPassword())
-            .type(HikariDataSource.class)
-            .build();
     }
 
     @Bean
