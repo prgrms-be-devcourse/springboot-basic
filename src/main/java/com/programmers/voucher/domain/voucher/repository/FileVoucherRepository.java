@@ -6,8 +6,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +25,13 @@ import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.VoucherNotFoundException;
 
 @Repository
 @Profile({"dev", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
+	private static final Map<UUID, Voucher> vouchers = new HashMap<>();
 	private static final String LINE_SEPARATOR = ", |: |%";
 	private final String filePath;
 
@@ -35,67 +40,54 @@ public class FileVoucherRepository implements VoucherRepository {
 		this.filePath = filePath;
 	}
 
-	@Override
-	public void save(Voucher voucher) {
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-			writer.write(voucher.toString() + System.lineSeparator());
-			writer.flush();
-		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
-			throw new EmptyBufferException();
-		}
-	}
-
-	@Override
-	public Voucher findByUUID(UUID voucherId) {
-		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				if (line.startsWith(voucherId.toString(), 4)) {
-					String[] voucherInfo = line.split(LINE_SEPARATOR);
-					VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
-					String discount = voucherInfo[5];
-					return new Voucher(voucherId, type, discount);
-				}
-			}
-		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
-			throw new RuntimeException(ExceptionMessage.EMPTY_BUFFER.getMessage());
-		}
-
-		log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-		throw new VoucherNotFoundException();
-	}
-
-	@Override
-	public List<Voucher> findAll() {
-		List<Voucher> vouchers = new ArrayList<>();
+	@PostConstruct
+	void readFile() {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] voucherInfo = line.split(LINE_SEPARATOR);
-				UUID id = UUID.fromString(voucherInfo[1]);
+				UUID voucherId = UUID.fromString(voucherInfo[1]);
 				VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
-				Voucher voucher = new Voucher(id, type, discount);
-				vouchers.add(voucher);
+				Voucher voucher = new Voucher(voucherId, type, discount);
+				vouchers.put(voucherId, voucher);
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
-
-		return vouchers;
 	}
 
-	@Override
-	public void clear() {
-		try {
-			BufferedWriter clearWriter = new BufferedWriter(new FileWriter(filePath, false));
-			clearWriter.close();
+	@PreDestroy
+	void writeFile() {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
+			for (Voucher voucher : vouchers.values()) {
+				writer.write(voucher.toString() + System.lineSeparator());
+				writer.flush();
+			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
+	}
+
+	@Override
+	public void save(Voucher voucher) {
+		vouchers.put(voucher.getVoucherId(), voucher);
+	}
+
+	@Override
+	public Voucher findByUUID(UUID voucherId) {
+		return vouchers.get(voucherId);
+	}
+
+	@Override
+	public List<Voucher> findAll() {
+		return new ArrayList<>(vouchers.values());
+	}
+
+	@Override
+	public void clear() {
+		vouchers.clear();
 	}
 }
