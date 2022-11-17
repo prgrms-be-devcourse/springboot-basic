@@ -29,16 +29,19 @@ public class CliApplication {
             command = menuController.startMenu();
             logger.info("Command input : " + command);
 
-            if (command.equals(Menu.CREATE.toString())) {
-                String inputDiscountWay = menuController.createCommand();
-                logger.info("Voucher select : " + inputDiscountWay);
-                runCreate(inputDiscountWay);
-            }
-            if (command.equals(Menu.LIST.toString())) {
-                menuController.listCommand();
-            }
-            if (command.equals(Menu.EXIT.toString())) {
-                menuController.exitCommand();
+            switch (command) {
+                case "CREATE" -> {
+                    String inputDiscountWay = menuController.createCommand();
+                    logger.info("Voucher select : " + inputDiscountWay);
+                    runCreate(inputDiscountWay);
+                }
+                case "LIST" -> {
+                    menuController.listCommand();
+                }
+                case "EXIT" -> {
+                    menuController.exitCommand();
+
+                }
             }
         }
     }
