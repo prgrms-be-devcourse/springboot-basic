@@ -33,7 +33,6 @@ public class RequestHandler {
         VoucherControllerDecorator voucherController1) {
         this.customerController = customerController1;
         this.voucherController = voucherController1;
-
         this.requestMap = new EnumMap<>(Command.class);
 
         requestMap.put(EXIT, o -> {ConsoleRunningStatus.stop();return null;});
@@ -45,7 +44,6 @@ public class RequestHandler {
         requestMap.put(DELETE_CUSTOMER_VOUCHERS, customerController::deleteVoucher);
         requestMap.put(GET_VOUCHER_WITH_CUSTOMER, voucherController::findCustomerWithVoucher);
         requestMap.put(CREATE_CUSTOMER, customerController1::createCustomer);
-
     }
 
     public Function<Request, Response> handle(Command command) {
