@@ -19,13 +19,13 @@ import static org.slf4j.LoggerFactory.getLogger;
 @Component
 public class CommandLineApplication {
 
+    private static final Logger logger = getLogger(CommandLineApplication.class);
+
     private final Input input;
     private final Output output;
     private final VoucherCreateService voucherCreateService;
     private final VoucherListFindService voucherListFindService;
     private final BlackListFindService blackListFindService;
-
-    private final Logger logger = getLogger(CommandLineApplication.class);
 
     @Autowired
     public CommandLineApplication(Input input,
@@ -49,28 +49,42 @@ public class CommandLineApplication {
                 command = Command.findCommand(input.receiveCommand());
                 switch (command) {
                     case CREATE:
-                        String voucherTypeInput = input.receiveVoucherType();
-                        int voucherAmountInput = input.receiveDiscountAmount(voucherTypeInput);
-                        voucherCreateService.createVoucher(voucherTypeInput, voucherAmountInput);
-                        output.printVoucherCreateMessage();
+                        createVoucher();
                         break;
                     case LIST:
-                        List<Voucher> vouchers = voucherListFindService.findAllVouchers();
-                        output.printAllVouchers(vouchers);
+                        printVouchers();
                         break;
                     case BLACKLIST:
-                        List<Customer> blackList = blackListFindService.findAllBlackList();
-                        output.printAllBlackList(blackList);
+                        printBlacklist();
                         break;
                     case EXIT:
-                        command = Command.EXIT;
+                        exit(command);
                 }
             } catch (RuntimeException e) {
-
-                logger.error("예외 발생 : {}", e.getMessage());
-
-                System.out.println(e.getMessage());
+                logger.error("[ERROR] {}", e.getMessage());
             }
         }
     }
+
+    private void createVoucher() {
+        String voucherTypeInput = input.receiveVoucherType();
+        int voucherAmountInput = input.receiveDiscountAmount(voucherTypeInput);
+        voucherCreateService.createVoucher(voucherTypeInput, voucherAmountInput);
+        output.printVoucherCreateMessage();
+    }
+
+    private void printVouchers() {
+        List<Voucher> vouchers = voucherListFindService.findAllVouchers();
+        output.printAllVouchers(vouchers);
+    }
+
+    private void printBlacklist() {
+        List<Customer> blackList = blackListFindService.findAllBlackList();
+        output.printAllBlackList(blackList);
+    }
+
+    private void exit(Command command) {
+        command = Command.EXIT;
+    }
+
 }
