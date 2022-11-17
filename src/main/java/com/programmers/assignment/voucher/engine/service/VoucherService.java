@@ -6,6 +6,7 @@ import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.engine.voucher.FixedAmountVoucher;
 import com.programmers.assignment.voucher.engine.voucher.PercentDiscountVoucher;
 import com.programmers.assignment.voucher.engine.voucher.Voucher;
+import com.programmers.assignment.voucher.util.domain.VoucherVariable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -20,13 +21,13 @@ public class VoucherService {
     private final ConsoleInput input;
     private final ConsoleOutput output;
 
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
-    private final String FIXED_VOUCHER_MESSAGE =
+    private static final String FIXED_VOUCHER_MESSAGE =
             "===Fixed amount voucher===\n" +
                     "Type FixedVoucher amount.";
 
-    private final String PERCENT_VOUCHER_MESSAGE =
+    private static final String PERCENT_VOUCHER_MESSAGE =
             "===Percent discount voucher===\n" +
                     "Type PercentVoucher discount.";
 
@@ -60,5 +61,16 @@ public class VoucherService {
 
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public void makeVoucher(String discountWay) {
+        if (discountWay.equals(VoucherVariable.PERCENT.toString())) {
+            makePercentVoucher();
+            return;
+        }
+        if (discountWay.equals(VoucherVariable.FIXED.toString())) {
+            makeFixedVoucher();
+            return;
+        }
     }
 }

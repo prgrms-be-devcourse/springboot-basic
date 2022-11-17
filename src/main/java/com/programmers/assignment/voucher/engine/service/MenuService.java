@@ -21,13 +21,13 @@ public class MenuService {
         this.voucherRepository = voucherRepository;
     }
 
-    private final String MENU_MESSAGE =
+    private static final String MENU_MESSAGE =
             "===Voucher Program===\n" +
                     "Type exit to exit the program.\n" +
                     "Type create to create a new voucher.\n" +
                     "Type list to list all vouchers";
 
-    private final String VOUCHER_MESSAGE =
+    private static final String VOUCHER_MESSAGE =
             "===Select Voucher===\n" +
                     "Type FIXED to create new FixedVoucher.\n" +
                     "Type PERCENT to create new PercentVoucher.";
@@ -53,6 +53,6 @@ public class MenuService {
             output.voucherListSizeZero();
             return;
         }
-        output.findVoucherList(voucherList);
+        output.showVoucherList(voucherList);
     }
 }

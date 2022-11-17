@@ -30,9 +30,9 @@ public class CliApplication {
             logger.info("Command input : " + command);
 
             if (command.equals(Menu.CREATE.toString())) {
-                String discountWay = menuController.createCommand();
-                logger.info("Voucher select : " + discountWay);
-                runCreate(discountWay);
+                String inputDiscountWay = menuController.createCommand();
+                logger.info("Voucher select : " + inputDiscountWay);
+                runCreate(inputDiscountWay);
             }
             if (command.equals(Menu.LIST.toString())) {
                 menuController.listCommand();
@@ -43,7 +43,7 @@ public class CliApplication {
         }
     }
 
-    public void runCreate(String discountWay) {
-        voucherController.makeVoucher(discountWay);
+    public void runCreate(String inputDiscountWay) {
+        voucherController.makeVoucher(inputDiscountWay);
     }
 }

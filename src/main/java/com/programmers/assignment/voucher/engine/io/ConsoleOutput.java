@@ -7,7 +7,7 @@ import java.util.List;
 
 @Component
 public class ConsoleOutput {
-    public void findVoucherList(List<Voucher> voucherList) {
+    public void showVoucherList(List<Voucher> voucherList) {
         System.out.println("======= Voucher List=========");
         voucherList.forEach(System.out::println);
         System.out.println("=============================");

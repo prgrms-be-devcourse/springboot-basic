@@ -17,19 +17,9 @@ public class VoucherController {
     }
 
 
-    public void makeVoucher(String discountWay) {
-        if (discountWay.equals(VoucherVariable.PERCENT.toString())) {
-            logger.info("make percent voucher");
-            voucherService.makePercentVoucher();
-            return;
-        }
-
-        if (discountWay.equals(VoucherVariable.FIXED.toString())) {
-            logger.info("make fixed voucher");
-            voucherService.makeFixedVoucher();
-            return;
-        }
-        throw new IllegalArgumentException(discountWay + "은(는) 존재하지 않는 할인 방법 입니다.");
+    public void makeVoucher(String inputDiscountWay) {
+        String discountWay = VoucherVariable.chooseDiscountWay(inputDiscountWay);
+        voucherService.makeVoucher(discountWay);
     }
 
 
