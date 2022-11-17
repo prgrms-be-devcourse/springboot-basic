@@ -25,8 +25,8 @@ public class CsvCustomerRepository implements CustomerRepository {
     private final CsvProperties appConfiguration;
     private final CsvCustomerParser csvParser = new CsvCustomerParser();
 
-    public CsvCustomerRepository(CsvProperties appConfiguration) {
-        this.appConfiguration = appConfiguration;
+    public CsvCustomerRepository(CsvProperties csvProperties) {
+        this.appConfiguration = csvProperties;
     }
 
     @Override

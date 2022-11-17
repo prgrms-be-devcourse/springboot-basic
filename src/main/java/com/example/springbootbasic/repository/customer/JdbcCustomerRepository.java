@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-@Profile("dev")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
