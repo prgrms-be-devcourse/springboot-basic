@@ -15,6 +15,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class VoucherProgram implements ApplicationRunner {
@@ -39,13 +40,17 @@ public class VoucherProgram implements ApplicationRunner {
                     case EXIT:
                         isRunning = false;
                         break;
-                    case CREATE:
+                    case CREATE_VOUCHER:
                         voucherService.create(getVoucherType(), getDiscountValue());
                         break;
-                    case LIST:
+                    case LIST_VOUCHER:
                         checkEmptyVoucher(voucherService.findAllVoucher());
                         break;
-                    case DELETE:
+                    case SELECT_VOUCHER:
+                        Voucher voucher = voucherService.findById(getVoucherId());
+                        view.printVoucher(voucher);
+                        break;
+                    case DELETE_ALL_VOUCHER:
                         voucherService.deleteAll();
                         view.printDeleteAll();
                         break;
@@ -53,7 +58,7 @@ public class VoucherProgram implements ApplicationRunner {
                         Customer customer = customerService.create(getCustomerDto());
                         view.printCustomer(customer);
                         break;
-                    case BLACKS:
+                    case BLACKS_CUSTOMER:
                         checkEmptyBlack(customerService.findAllBlack());
                         break;
                 }
@@ -78,6 +83,11 @@ public class VoucherProgram implements ApplicationRunner {
     private long getDiscountValue() {
         view.requestDiscountValue();
         return view.getInputDiscountValue();
+    }
+
+    private UUID getVoucherId() {
+        view.requestVoucherId();
+        return UUID.fromString(view.getInput());
     }
 
     private void checkEmptyVoucher(List<Voucher> vouchers) {

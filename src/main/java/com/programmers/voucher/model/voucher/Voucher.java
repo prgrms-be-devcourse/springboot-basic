@@ -5,14 +5,13 @@ import com.programmers.voucher.model.customer.Customer;
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected int voucherId;
-    protected UUID voucherNumber;
+    protected UUID voucherId;
     protected long discountValue;
     protected Customer customer;
 
-    protected Voucher(UUID voucherNumber, long discountValue) {
+    protected Voucher(UUID voucherId, long discountValue) {
         validateZeroDiscount(discountValue);
-        this.voucherNumber = voucherNumber;
+        this.voucherId = voucherId;
         this.discountValue = discountValue;
     }
 
@@ -20,12 +19,8 @@ public abstract class Voucher {
 
     abstract long discount(long beforeDiscount);
 
-    public int getVoucherId(){
+    public UUID getVoucherId() {
         return voucherId;
-    }
-
-    public UUID getVoucherNumber() {
-        return voucherNumber;
     }
 
     public long getDiscountValue() {

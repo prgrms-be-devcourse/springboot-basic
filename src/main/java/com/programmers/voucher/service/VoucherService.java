@@ -31,6 +31,10 @@ public class VoucherService {
         return vouchers;
     }
 
+    public Voucher findById(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
+
     public void deleteAll() {
         voucherRepository.deleteAll();
     }

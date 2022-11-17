@@ -35,8 +35,8 @@ public enum VoucherType {
                 .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
     }
 
-    public Voucher convertToVoucher(UUID voucherNumber, long discount) {
-        return converter.apply(voucherNumber, discount);
+    public Voucher convertToVoucher(UUID voucherId, long discount) {
+        return converter.apply(voucherId, discount);
     }
 
     @Override

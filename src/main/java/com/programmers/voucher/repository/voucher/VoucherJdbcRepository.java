@@ -15,17 +15,20 @@ import java.util.UUID;
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
     private static final String insertSql
-            = "INSERT INTO vouchers(voucher_number, discount_value, voucher_type) " +
-            "VALUES(UUID_TO_BIN(:voucherNumber), :discountValue, :voucherType)";
+            = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) " +
+            "VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
     private static final String findAllSql = "SELECT * FROM vouchers";
+    private static final String findSql
+            = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String deleteSql = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
-        UUID voucherNumber = toUUID(resultSet.getBytes("voucher_number"));
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long discountValue = resultSet.getLong("discount_value");
         String voucherType = resultSet.getString("voucher_type");
-        return VoucherType.toVoucherType(voucherType).convertToVoucher(voucherNumber, discountValue);
+        return VoucherType.toVoucherType(voucherType).convertToVoucher(voucherId, discountValue);
     };
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -49,15 +52,26 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher findById(UUID voucherId) {
+        return jdbcTemplate.queryForObject(findSql, toIdMap(voucherId), rowMapper);
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update(deleteSql, Collections.emptyMap());
     }
 
     private Map<String, Object> toParamMap(Voucher voucher, VoucherType voucherType) {
         return Map.of(
-                "voucherNumber", voucher.getVoucherNumber().toString().getBytes(),
+                "voucherId", voucher.getVoucherId().toString().getBytes(),
                 "discountValue", voucher.getDiscountValue(),
                 "voucherType", voucherType.getVoucherType()
+        );
+    }
+
+    private Map<String, Object> toIdMap(UUID voucherId) {
+        return Map.of(
+                "voucherId", voucherId.toString().getBytes()
         );
     }
 }

@@ -36,6 +36,10 @@ public class View {
         output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE.toString());
     }
 
+    public void requestVoucherId() {
+        output.printOutput(Message.REQUEST_VOUCHER_ID.toString());
+    }
+
     public void requestCustomerName() {
         output.printOutput(Message.REQUEST_CUSTOMER_NAME.toString());
     }
@@ -50,6 +54,10 @@ public class View {
 
     public void printVouchers(List<Voucher> vouchers) {
         vouchers.stream().forEach(voucher -> output.printOutput(voucher.toString()));
+    }
+
+    public void printVoucher(Voucher voucher) {
+        output.printOutput(voucher.toString());
     }
 
     public void printEmptyVouchers() {

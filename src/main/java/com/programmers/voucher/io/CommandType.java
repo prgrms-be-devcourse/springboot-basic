@@ -4,11 +4,12 @@ import java.util.stream.Stream;
 
 public enum CommandType {
     EXIT("1"),
-    CREATE("2"),
-    LIST("3"),
-    DELETE("4"),
-    CREATE_CUSTOMER("5"),
-    BLACKS("6");
+    CREATE_VOUCHER("2"),
+    LIST_VOUCHER("3"),
+    SELECT_VOUCHER("4"),
+    DELETE_ALL_VOUCHER("5"),
+    CREATE_CUSTOMER("6"),
+    BLACKS_CUSTOMER("7");
 
     private final String commandType;
 

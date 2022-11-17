@@ -6,8 +6,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private static final String WRONG_DISCOUNT = "할인금액 0원 이하는 불가합니다.";
 
-    public FixedAmountVoucher(UUID voucherNumber, long discountValue) {
-        super(voucherNumber, discountValue);
+    public FixedAmountVoucher(UUID voucherId, long discountValue) {
+        super(voucherId, discountValue);
     }
 
     @Override
@@ -24,6 +24,6 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%d$", VoucherType.FIXED_AMOUNT_VOUCHER, voucherNumber, discountValue);
+        return String.format("%s\t%s\t%d$", VoucherType.FIXED_AMOUNT_VOUCHER, voucherId, discountValue);
     }
 }
