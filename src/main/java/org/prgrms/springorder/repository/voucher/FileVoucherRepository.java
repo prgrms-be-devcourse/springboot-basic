@@ -34,12 +34,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	private final String filePath;
 	private final File file;
-
-	private final Map<UUID, Voucher> memory = new HashMap<>();
+	private final Map<UUID, Voucher> memory;
 
 	public FileVoucherRepository(GlobalProperties globalProperties) {
 		this.filePath = globalProperties.getVoucher();
-		file = new File(filePath);
+		this.file = new File(filePath);
+		this.memory = new HashMap<>();
 	}
 
 	@PostConstruct
@@ -50,7 +50,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				String[] voucherInfo = line.split(",");
 				UUID id = UUID.fromString(voucherInfo[0]);
 				VoucherType voucherType = VoucherType.getVoucherByName(voucherInfo[1]);
-				Voucher voucher = VoucherFactory.loadVoucher(voucherType, id, Double.parseDouble(voucherInfo[2]));
+				Voucher voucher = VoucherFactory.createVoucher(voucherType, id, Double.parseDouble(voucherInfo[2]));
 				memory.put(voucher.getVoucherId(), voucher);
 			}
 		} catch (IOException e) {
