@@ -2,11 +2,7 @@ package com.prgrms.springbootbasic.app;
 
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.VOUCHER_NOT_SUPPORTED;
 
-import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
-import com.prgrms.springbootbasic.common.exception.FileIOException;
-import com.prgrms.springbootbasic.common.exception.FileNotExistException;
-import com.prgrms.springbootbasic.common.exception.InvalidCommandTypeException;
-import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
+import com.prgrms.springbootbasic.common.exception.*;
 import com.prgrms.springbootbasic.console.Console;
 import com.prgrms.springbootbasic.user.blacklist.BlacklistManager;
 import com.prgrms.springbootbasic.user.domain.User;
@@ -67,11 +63,11 @@ public class VoucherApplication {
     }
 
     private void blacklist() {
-        try{
+        try {
             List<User> blacklist = blacklistManager.list();
             console.printBlackList(blacklist);
             logger.info("List up all blacked users.");
-        } catch(FileIOException | FileNotExistException e){
+        } catch (FileIOException | FileNotExistException | FileFormatException e) {
             logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();
@@ -85,11 +81,11 @@ public class VoucherApplication {
     }
 
     private void list() {
-        try{
+        try {
             List<Voucher> vouchers = voucherManager.list();
             console.printVoucherList(vouchers);
             logger.info("List up all Vouchers.");
-        } catch(FileIOException | FileNotExistException e){
+        } catch (FileIOException | FileNotExistException e) {
             logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();
@@ -105,7 +101,7 @@ public class VoucherApplication {
             logger.info("New Voucher created.");
         } catch (InvalidVoucherTypeException | NumberFormatException | AmountOutOfBoundException e) {
             console.printExceptionMessage(e.getMessage());
-        } catch(FileIOException | FileNotExistException e){
+        } catch (FileIOException | FileNotExistException | FileFormatException e) {
             logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();

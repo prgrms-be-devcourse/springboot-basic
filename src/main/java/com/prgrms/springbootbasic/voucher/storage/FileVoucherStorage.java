@@ -1,5 +1,6 @@
 package com.prgrms.springbootbasic.voucher.storage;
 
+import com.prgrms.springbootbasic.common.exception.FileFormatException;
 import com.prgrms.springbootbasic.common.exception.FileIOException;
 import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.common.exception.VoucherTypeNotSupportedException;
@@ -32,7 +33,6 @@ public class FileVoucherStorage implements VoucherStorage {
     private static final int VOUCHER_COLUMN_SIZE = 3;
 
     private final ResourceLoader resourceLoader;
-
     private final String VOUCHER_STORAGE_CLASSPATH;
 
     public FileVoucherStorage(ResourceLoader resourceLoader, @Value("${classpath.voucher-storage}") String VoucherStorageClasspath) {
@@ -62,7 +62,7 @@ public class FileVoucherStorage implements VoucherStorage {
         }
     }
 
-    public Voucher findById(UUID id){
+    public Voucher findById(UUID id) {
         List<Voucher> vouchers = findAll();
         Map<UUID, Voucher> voucherMap = new HashMap<>();
         vouchers.forEach(voucher -> voucherMap.put(voucher.getUUID(), voucher));
@@ -94,7 +94,7 @@ public class FileVoucherStorage implements VoucherStorage {
     private List<Voucher> readAll(File file) throws IOException {
         List<Voucher> vouchers;
 
-        try(Stream<String> lineStream = Files.lines(file.toPath())){
+        try (Stream<String> lineStream = Files.lines(file.toPath())) {
             vouchers = lineStream.map(this::mapToVoucher)
                     .collect(Collectors.toList());
         }
@@ -125,7 +125,7 @@ public class FileVoucherStorage implements VoucherStorage {
 
     private void validSize(List<String> columns) {
         if (columns.size() != VOUCHER_COLUMN_SIZE) {
-            throw new FileIOException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
+            throw new FileFormatException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
         }
     }
 }

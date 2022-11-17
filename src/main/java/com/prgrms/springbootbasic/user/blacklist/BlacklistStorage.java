@@ -1,5 +1,6 @@
 package com.prgrms.springbootbasic.user.blacklist;
 
+import com.prgrms.springbootbasic.common.exception.FileFormatException;
 import com.prgrms.springbootbasic.common.exception.FileIOException;
 import com.prgrms.springbootbasic.common.exception.FileNotExistException;
 import com.prgrms.springbootbasic.user.domain.User;
@@ -60,7 +61,7 @@ public class BlacklistStorage {
     private List<User> readAll(File file) throws IOException {
         List<User> blacklist;
 
-        try(Stream<String> lineStream = Files.lines(file.toPath())){
+        try (Stream<String> lineStream = Files.lines(file.toPath())) {
             blacklist = lineStream.skip(1)
                     .map(this::mapToUser)
                     .collect(Collectors.toList());
@@ -81,7 +82,7 @@ public class BlacklistStorage {
 
     private void validateSize(List<String> columns) {
         if (columns.size() != VOUCHER_COLUMN_SIZE) {
-            throw new FileIOException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
+            throw new FileFormatException(FILE_NUMBER_OF_COLUMN_NOT_MATCHED);
         }
     }
 }
