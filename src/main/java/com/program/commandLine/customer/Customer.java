@@ -19,8 +19,6 @@ public interface Customer {
 
     String getEmail();
 
-    LocalDateTime getCreatedAt();
-
     LocalDateTime getLastLoginAt();
 
 }

@@ -13,6 +13,8 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findByAssignedCustomer(UUID customerId);
+
     void deleteAll();
 
     int count();

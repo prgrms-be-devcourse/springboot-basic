@@ -43,7 +43,7 @@ public class CustomerService {
         try {
             Files.readAllLines(resource.getFile().toPath()).forEach(value -> {
                 String[] customerInfo = value.split(" ");
-                blackListConsumers.add(new BlackListCustomer(UUID.randomUUID(), customerInfo[0], customerInfo[1], LocalDateTime.now()));
+                blackListConsumers.add(customerFactory.createCustomer(CustomerType.BLACK_LIST_CUSTOMER,UUID.randomUUID(), customerInfo[0], customerInfo[1]));
             });
         } catch (IOException error) {
             throw new RuntimeException("! Failed to open Blacklist file");

@@ -65,7 +65,7 @@ class FileVoucherRepositoryTest {
     @Test
     void testFindAll() {
         // Given
-        var newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
+        var newVoucher = new FixedAmountVoucher(UUID.randomUUID(),  3000);
         fileVoucherRepository.insertVoucher(newVoucher);
         // When
         var vouchers = fileVoucherRepository.findAll();

@@ -37,11 +37,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
             var customerName = rs.getString("name");
             var customerId = toUUID(rs.getBytes("customer_id"));
             var email = rs.getString("email");
-            var createdAt = rs.getTimestamp("created_at").toLocalDateTime();
             var lastLoginAt = rs.getTimestamp("last_login_at") != null ?
                     rs.getTimestamp("last_login_at").toLocalDateTime() : null;
 
-            return customerFactory.createCustomer(CustomerType.getType(customerType),customerId, customerName, email, lastLoginAt, createdAt);
+            return customerFactory.createCustomer(CustomerType.getType(customerType),customerId, customerName, email, lastLoginAt);
         }
     };
 
@@ -53,14 +52,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-            put("createdAt", customer.getCreatedAt());
         }};
     }
 
     @Override
     public Customer insert(Customer customer) {
-        var update = jdbcTemplate.update("INSERT INTO customers(customer_id,type,name,email, created_at)" +
-                "  VALUES (UUID_TO_BIN(:customerId),:type,:name,:email,:createdAt)", toParamMap(customer));
+        var update = jdbcTemplate.update("INSERT INTO customers(customer_id,type,name,email, last_login_at)" +
+                "  VALUES (UUID_TO_BIN(:customerId),:type,:name,:email,:lastLoginAt)", toParamMap(customer));
         if (update != 1) throw new RuntimeException("Nothing was inserted!");
         return customer;
     }
@@ -74,7 +72,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.EMPTY_MAP, Integer.class);
+        return jdbcTemplate.getJdbcTemplate().queryForObject("select count(*) from customers", Integer.class);
     }
 
     @Override

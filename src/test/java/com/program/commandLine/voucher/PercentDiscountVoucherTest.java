@@ -40,7 +40,7 @@ class PercentDiscountVoucherTest {
     void voucherCreation() {
         assertAll("FixedAmountVoucher creation",
                 () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 0)),
-                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), -10)),
+                () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(),  -10)),
                 () -> assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), 100)));
     }
 }

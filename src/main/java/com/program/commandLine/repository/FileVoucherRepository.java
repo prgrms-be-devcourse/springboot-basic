@@ -68,6 +68,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByAssignedCustomer(UUID customerId) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getAssignedCustomerId() == customerId).toList();
+    }
+
+
+    @Override
     public void deleteAll() {
         storage.clear();
     }

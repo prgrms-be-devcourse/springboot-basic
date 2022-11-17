@@ -1,6 +1,7 @@
 package com.program.commandLine.repository;
 
 import com.program.commandLine.customer.Customer;
+import com.program.commandLine.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

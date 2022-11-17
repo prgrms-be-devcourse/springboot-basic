@@ -5,26 +5,23 @@ import java.util.UUID;
 
 public class RegularCustomer implements Customer {
     private final UUID customerId;
-    private  String name;
+    private  final String name;
     private final String email;
     private LocalDateTime lastLoginAt;
-    private final LocalDateTime createdAt;
 
-    public RegularCustomer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+    public RegularCustomer(UUID customerId, String name, String email) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
     }
 
-    public RegularCustomer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public RegularCustomer(UUID customerId, String name, String email, LocalDateTime lastLoginAt) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
     }
 
 
@@ -46,11 +43,6 @@ public class RegularCustomer implements Customer {
     @Override
     public String getEmail() {
         return email;
-    }
-
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
     }
 
     @Override

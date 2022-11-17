@@ -1,5 +1,6 @@
 package com.program.commandLine.repository;
 
+import com.program.commandLine.customer.Customer;
 import com.program.commandLine.voucher.Voucher;
 import com.program.commandLine.voucher.VoucherFactory;
 import com.program.commandLine.voucher.VoucherType;
@@ -36,6 +37,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("type",voucher.getVoucherType().getString());
             put("discount", voucher.getVoucherDiscount());
+            put("AssignedCustomerId", voucher.getAssignedCustomerId() != null ?
+                    voucher.getAssignedCustomerId().toString().getBytes() : null);
+            put("using", voucher.getUsing());
         }};
     }
 
@@ -45,8 +49,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
             var voucherId = toUUID(rs.getBytes("voucher_id"));
             var type = VoucherType.getType(rs.getString("type"));
             var discount = rs.getInt("discount");
+            var AssignedCustomerId = toUUID(rs.getBytes("assigned_customer_id"));
+            var using = rs.getBoolean("using");
 
-            return voucherFactory.createVoucher(type,voucherId,discount);
+            return voucherFactory.createVoucher(type,voucherId,discount, AssignedCustomerId,using);
         }
     };
 
@@ -62,8 +68,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insertVoucher(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id,type, discount)" +
-                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount)",toParamMap(voucher));
+        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, discount, assigned_customer_id, using)" +
+                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount,:AssignedCustomerId ,:using )",toParamMap(voucher));
         if(update != 1) throw new RuntimeException("Nothing was inserted!");
         return voucher;
     }
@@ -71,6 +77,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByAssignedCustomer(UUID customerId) {
+        return jdbcTemplate.query("select * from vouchers WHERE assigned_customer_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("customerId",customerId.toString().getBytes()), voucherRowMapper);
     }
 
     @Override
