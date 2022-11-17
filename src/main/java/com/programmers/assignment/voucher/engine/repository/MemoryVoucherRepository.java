@@ -28,9 +28,4 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void insert(Voucher voucher) {
         repository.put(voucher.getVoucherId(), voucher);
     }
-
-    @Override
-    public void save(Map<UUID, Voucher> map) {
-        //db연동 후 개발
-    }
 }
