@@ -1,17 +1,20 @@
 package com.programmers.VoucherManagementApplication.voucher;
 
-import com.programmers.VoucherManagementApplication.dto.Amount;
-import com.programmers.VoucherManagementApplication.dto.VoucherType;
+import com.programmers.VoucherManagementApplication.io.Message;
+import com.programmers.VoucherManagementApplication.vo.Amount;
+import com.programmers.VoucherManagementApplication.vo.VoucherType;
 
 import java.util.UUID;
 
-public class FixedVoucherAmount extends Voucher {
+public class FixedVoucher extends Voucher {
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;
 
-    public FixedVoucherAmount(UUID voucherId, VoucherType voucherType, Amount amount) {
+    public FixedVoucher(UUID voucherId, VoucherType voucherType, Amount amount) {
         super(voucherId, voucherType, amount);
-        if(amount.getAmount() > MAX_VOUCHER_AMOUNT) throw new IllegalArgumentException("fix amount greater");
+        if (amount.getAmount() > MAX_VOUCHER_AMOUNT) {
+            throw new IllegalArgumentException(Message.INVALID_FIXED_MAX.getMessage());
+        }
     }
 
 //    @Override
