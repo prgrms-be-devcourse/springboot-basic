@@ -4,5 +4,5 @@ import java.util.UUID;
 
 @FunctionalInterface
 public interface LambdaVoucher {
-    Voucher create(UUID uuid, Long discount);
+    Voucher create(UUID id, Long discount);
 }

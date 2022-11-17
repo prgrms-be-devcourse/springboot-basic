@@ -3,24 +3,22 @@ package com.programmers.commandline.domain.voucher.entity;
 import java.util.UUID;
 
 public abstract class Voucher {
-    private final UUID voucherId;
+    private String voucherId;
     private final Long discount;
-    private final VoucherType vouchertype;
-    private final String unit;
+    private final VoucherType voucherType;
 
-    protected Voucher(UUID voucherId, Long discount, VoucherType vouchertype, String unit) {
-        this.voucherId = voucherId;
+    protected Voucher(UUID uuid, Long discount, VoucherType type) {
+        this.voucherId = uuid.toString();
         this.discount = discount;
-        this.vouchertype = vouchertype;
-        this.unit = unit;
+        this.voucherType = type;
     }
 
-    public UUID getVoucherId() {
+    public String getVoucherId() {
         return this.voucherId;
     }
 
     @Override
     public String toString() {
-        return String.format("Id: %s Type: %s Discount: %d %s", this.voucherId, this.vouchertype, this.discount, this.unit);
+        return String.format("Id:%s Type:%s Discount:%d", this.voucherId, this.voucherType, this.discount);
     }
 }

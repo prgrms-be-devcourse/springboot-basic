@@ -1,6 +1,8 @@
 package com.programmers.commandline.domain.consumer.repository;
 
+import com.moandjiezana.toml.Toml;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
+import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.global.aop.LogAspect;
 import com.programmers.commandline.global.io.Message;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Profile("prod")
@@ -28,24 +31,15 @@ public class FileConsumerRepository {
     }
 
     public List<Consumer> findAll() {
-        LogAspect.getLogger().info("FileConsumerRepository findAll 실행");
-        try (
-                FileReader fileReader = new FileReader(file);
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
-        ) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] findLine = line.split(",");
-                Long consumerId = Long.parseLong(findLine[0]);
-                String nickName = findLine[1];
-
-                Consumer consumer = new Consumer(consumerId, nickName);
-                memory.add(consumer);
-            }
-            return memory;
-        } catch (IOException e) {
-            throw new IllegalArgumentException(Message.CONSUMER_FILE_READ_ERROR.getMessage());
+        File[] files = file.listFiles();
+        for (File file : files) {
+            Toml toml = new Toml().read(file);
+            Long nickname = toml.getLong("nickname");
+            String name = toml.getString("name");
+            Consumer consumer = new Consumer(nickname, name);
+            memory.add(consumer);
         }
+        return memory;
     }
 
 }

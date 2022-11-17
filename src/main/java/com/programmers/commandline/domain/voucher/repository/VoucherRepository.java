@@ -1,12 +1,11 @@
 package com.programmers.commandline.domain.voucher.repository;
 
 import com.programmers.commandline.domain.voucher.entity.Voucher;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 public interface VoucherRepository {
-    Voucher save(Voucher voucher);
+    String save(Voucher voucher);
     List<Voucher> findAll();
 }

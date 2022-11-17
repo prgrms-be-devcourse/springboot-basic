@@ -1,8 +1,0 @@
-Id: 28162186-d301-4d11-8c5b-aacbf9f73ea3 Type: FIXED_AMOUNT Discount: 10 $
-Id: 63562196-0d50-4675-b2ab-aeb806fd893c Type: PERCENT_DISCOUNT Discount: 10 %
-Id: ae43aacd-cee5-4d27-99ec-b2bf4a760776 Type: FIXED_AMOUNT Discount: 100 $
-Id: 41b8f1cb-1fee-4c78-b442-d2bcda3cac37 Type: FIXED_AMOUNT Discount: 100 $
-Id: fc5c9432-b70a-4b50-80fa-4c01a079923b Type: FIXED_AMOUNT Discount: 100 $
-Id: f72f11a9-3a70-45bb-92e1-5f27d5b5bcea Type: FIXED_AMOUNT Discount: 6 $
-Id: b486c3b5-5928-4c06-9dbb-d8b858c3e889 Type: FIXED_AMOUNT Discount: 10000 $
-Id: 7f7a9bf2-d975-4540-b40c-3d69124ffc88 Type: FIXED_AMOUNT Discount: 100 $

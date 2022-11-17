@@ -3,5 +3,5 @@ spring:
     active: prod
 
 file:
-  voucherResourcesPath: ./src/main/resources/voucherResources.txt
-  consumerBlacklistPath: ./src/main/resources/consumerBlacklist.txt
+  voucherResourcesPath: ./src/main/resources/voucherResources/
+  consumerBlacklistPath: ./src/main/resources/consumerResources/

@@ -8,6 +8,6 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID uuid, Long discount) {
-        super(uuid, discount, VoucherType.FIXED_AMOUNT, "$");
+        super(uuid, discount, VoucherType.FIXED_AMOUNT);
     }
 }
