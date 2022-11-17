@@ -1,13 +1,15 @@
 package com.programmers.VoucherManagementApplication.repository;
 
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
-@Repository
 public interface VoucherRepository {
-    void addVoucher(Voucher voucher);
+    Voucher addVoucher(Voucher voucher);
 
-    List<Voucher> findAll();
+    Map<UUID, Voucher> findAll();
+
+    Optional<Voucher> findById(UUID voucherId);
 }

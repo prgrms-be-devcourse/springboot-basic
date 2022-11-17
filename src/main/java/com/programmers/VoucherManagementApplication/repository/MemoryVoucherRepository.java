@@ -1,27 +1,35 @@
 package com.programmers.VoucherManagementApplication.repository;
 
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-//ocp 구조 개방 폐쇄 원칙 ( 메모리 vs 파일 )
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
-    private final List<Voucher> vouchers = new ArrayList<>();
+    //private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+    private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+
 
     @Override
-    public void addVoucher(Voucher voucher) {
-        vouchers.add(voucher);
-        logger.info("Add voucher => {}", voucher);
+    public Voucher addVoucher(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+        return voucher;
+        //logger.info("Add voucher => {}", voucher);
     }
 
     @Override
-    public List<Voucher> findAll() {
-        logger.info("Call memory repository findAll method => {} ", vouchers);
+    public Map<UUID, Voucher> findAll() {
+        //logger.info("Call memory repository findAll method => {} ", vouchers);
         return vouchers;
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
 }
