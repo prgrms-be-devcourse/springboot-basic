@@ -40,6 +40,6 @@ public class BlackListCustomerRepository {
         String name = customerInfos[1];
         String email = customerInfos[2];
 
-        return new Customer(customerId, name, email);
+        return Customer.createBlackCustomer(customerId, name, email);
     }
 }
