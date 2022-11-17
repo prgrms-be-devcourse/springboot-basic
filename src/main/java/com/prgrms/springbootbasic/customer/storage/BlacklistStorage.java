@@ -1,4 +1,4 @@
-package com.prgrms.springbootbasic.customer.blacklist;
+package com.prgrms.springbootbasic.customer.storage;
 
 import com.prgrms.springbootbasic.common.exception.FileFormatException;
 import com.prgrms.springbootbasic.common.exception.FileIOException;

@@ -4,7 +4,7 @@ import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.VOUCH
 
 import com.prgrms.springbootbasic.common.exception.*;
 import com.prgrms.springbootbasic.console.Console;
-import com.prgrms.springbootbasic.customer.blacklist.BlacklistManager;
+import com.prgrms.springbootbasic.customer.BlacklistManager;
 import com.prgrms.springbootbasic.customer.domain.Customer;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import com.prgrms.springbootbasic.voucher.VoucherManager;
