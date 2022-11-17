@@ -1,0 +1,33 @@
+package org.prgrms.springbootbasic.repository;
+
+import org.prgrms.springbootbasic.voucher.Voucher;
+import org.springframework.stereotype.Repository;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
+
+@Repository
+public class InMemoryVoucherRepository implements VoucherRepository {
+    Map<UUID, Voucher> map = new ConcurrentHashMap<>();
+
+    @Override
+    public void insert(Voucher voucher) {
+        map.put(voucher.getVoucherId(), voucher);
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if (!map.containsKey(voucherId)) {
+            return Optional.empty();
+        }
+        return Optional.of(map.get(voucherId));
+    }
+
+    @Override
+    public Map<UUID, Voucher> findAll() {
+        return map;
+    }
+}
