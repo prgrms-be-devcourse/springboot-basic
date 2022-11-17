@@ -1,6 +1,6 @@
 # 미션 내용
 
-- SpringBoot Part1 Weekly Mission(~11/11)
+## SpringBoot Part1 Weekly Mission(~11/11)
 
   (기본) **바우처 관리 애플리케이션**
 
@@ -32,3 +32,61 @@
     - [x]  고객 블랙 리스트 명단을 작성한다.
     - customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수 있고 블랙 리스트조회 할 수있다 (추가할 필요는 없어요. 블랙리스트는 파일로만 관리된다고 가정합니다.)
     - [x]  YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해본다.
+
+---
+
+## SpringBoot Part2 Weekly Mission(~11/18)
+
+  **(기본)** **바우처 관리 애플리케이션**
+
+    - [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+        - 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+        - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+        - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
+    - [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+        - customers 테이블 정의 및 추가
+        - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+    - [ ]  (1주차엔 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+        - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+        - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+        - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+
+  **(심화)** **바우처 지갑을 만들어보세요.**
+
+    - 특정 고객에게 바우처를 할당할 수 있습니다.
+    - 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+    - 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+    - 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
+
+### SpringBoot Part2 Weekly Mission 기능 정리 🚀
+
+- DB를 이용한 customer 관리 애플리케이션 구현
+  - [ ] customer 테이블 정의
+  - [ ] customer 테이블 추가
+  - [ ] customer DB Repository
+    - [ ] JdbcTemplate 사용
+      - [ ] customer 전체 조회 기능
+      - [ ] customer 타입 별 조회 기능
+- DB를 이용한 voucher 관리 애플리케이션 구현
+  - [ ] voucher 테이블 정의
+  - [ ] voucher 테이블 추가
+    - [ ] 고정할인, 할인율을 고려한다.
+  - [ ] voucher DB Repository
+    - [ ] JdbcTemplate 사용
+      - [ ] voucher Create 기능
+        - [ ] 고정 할인 바우처 생성 기능
+        - [ ] 할인율 바우처 생성 기능
+      - [ ] voucher Read 기능
+        - [ ] 고정 할인 바우처 전체 검색 기능
+        - [ ] 할인율 바우처 전체 검색 기능
+      - [ ] voucher Update 기능
+        - [ ] 고정 할인 바우처 할인 금액 수정 기능
+        - [ ] 할인율 바우처 할인율 수정 기능
+      - [ ] voucher Delete 기능
+        - [ ] 고정 할인 바우처 삭제 기능
+        - [ ] 할인율 바우처 삭제 기능
+- DB를 이용한 바우처 지갑 관리 애플리케이션 구현
+  - [ ] 특정 customer에게 voucher 입력 기능
+  - [ ] 특정 customer의 voucher 검색 기능
+  - [ ] 특정 customer가 보유한 voucher 삭제 기능
+  - [ ] 특정 voucher를 보유한 customer 검색 기능
