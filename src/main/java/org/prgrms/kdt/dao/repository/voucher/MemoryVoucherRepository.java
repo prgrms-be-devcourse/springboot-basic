@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> repository = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> repository = new ConcurrentHashMap<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
