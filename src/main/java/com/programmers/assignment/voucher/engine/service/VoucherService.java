@@ -6,13 +6,14 @@ import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.engine.voucher.FixedAmountVoucher;
 import com.programmers.assignment.voucher.engine.voucher.PercentDiscountVoucher;
 import com.programmers.assignment.voucher.engine.voucher.Voucher;
+import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-//@Service
+@Service
 public class VoucherService {
 
     private Input input;

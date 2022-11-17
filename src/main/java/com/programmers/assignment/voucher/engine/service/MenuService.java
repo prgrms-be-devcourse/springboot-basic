@@ -6,8 +6,9 @@ import com.programmers.assignment.voucher.engine.io.Output;
 import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.util.domain.Menu;
 import com.programmers.assignment.voucher.util.domain.VoucherVariable;
+import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class MenuService {
     private Input input;
 

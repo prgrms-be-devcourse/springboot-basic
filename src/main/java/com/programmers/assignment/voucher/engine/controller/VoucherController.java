@@ -4,7 +4,9 @@ import com.programmers.assignment.voucher.engine.service.VoucherService;
 import com.programmers.assignment.voucher.util.domain.VoucherVariable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherController {
     private final VoucherService voucherService;
 

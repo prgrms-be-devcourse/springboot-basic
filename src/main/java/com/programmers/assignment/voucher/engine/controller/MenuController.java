@@ -1,8 +1,10 @@
 package com.programmers.assignment.voucher.engine.controller;
 
 import com.programmers.assignment.voucher.engine.service.MenuService;
+import org.springframework.stereotype.Controller;
 
 
+@Controller
 public class MenuController {
     private final MenuService menuService;
 

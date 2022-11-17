@@ -2,16 +2,18 @@ package com.programmers.assignment.voucher;
 
 import com.programmers.assignment.voucher.engine.controller.MenuController;
 import com.programmers.assignment.voucher.util.domain.Menu;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class CliApplication implements Runnable {
+@Component
+public class CliApplication {
     private final MenuController menuController;
 
+    @Autowired
     public CliApplication(MenuController menuController) {
         this.menuController = menuController;
     }
 
-
-    @Override
     public void run() {
         String command = "";
         while (true) {

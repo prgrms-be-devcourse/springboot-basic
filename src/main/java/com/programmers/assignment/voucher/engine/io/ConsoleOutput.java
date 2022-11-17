@@ -1,10 +1,12 @@
 package com.programmers.assignment.voucher.engine.io;
 
 import com.programmers.assignment.voucher.engine.voucher.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 public class ConsoleOutput implements Output {
     @Override
     public void findVoucherList(Map<UUID, Voucher> map) {
