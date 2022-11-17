@@ -15,6 +15,9 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
+    runtimeOnly 'mysql:mysql-connector-java'
+    testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
 }
 
 tasks.named('test') {

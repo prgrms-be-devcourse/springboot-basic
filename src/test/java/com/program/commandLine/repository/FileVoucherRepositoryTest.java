@@ -1,7 +1,8 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.service.VoucherFactory;
+import com.program.commandLine.voucher.VoucherFactory;
 import com.program.commandLine.voucher.FixedAmountVoucher;
+import com.program.commandLine.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +51,7 @@ class FileVoucherRepositoryTest {
         // Given
         var voucherId = UUID.randomUUID();
         var discount = 30;
-        var voucherType = "Fixed_amount";
+        var voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
         // When
         var newVoucher = fileVoucherRepository.insertVoucher(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
         // Then

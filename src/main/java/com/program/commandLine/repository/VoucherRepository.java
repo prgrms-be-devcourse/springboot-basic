@@ -12,4 +12,8 @@ public interface VoucherRepository {
     Voucher insertVoucher(Voucher voucher);
 
     List<Voucher> findAll();
+
+    void deleteAll();
+
+    int count();
 }

@@ -4,7 +4,6 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private static final long MAX_VOUCHER_PERCENT = 90;
-    private static final String VOUCHER_TYPE = "Percent_discount";
     private final UUID voucherID;
     private final int percent;
 
@@ -23,8 +22,8 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherType() {
-        return VOUCHER_TYPE;
+    public VoucherType getVoucherType() {
+        return VoucherType.PERCENT_DISCOUNT;
     }
 
     @Override

@@ -2,7 +2,8 @@ package com.program.commandLine.repository;
 
 import com.program.commandLine.CommandLineProgramApplication;
 import com.program.commandLine.voucher.Voucher;
-import com.program.commandLine.service.VoucherFactory;
+import com.program.commandLine.voucher.VoucherFactory;
+import com.program.commandLine.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,16 @@ public class FileVoucherRepository implements VoucherRepository {
         return storage.values().stream().toList();
     }
 
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
+
+    @Override
+    public int count() {
+        return storage.size();
+    }
+
     private void fileRead() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader(voucherFile));
         String line = null;
@@ -73,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String[] readVoucher = line.split(" ");
             if (readVoucher.length < 3) continue;
             UUID voucherId = UUID.fromString(readVoucher[0]);
-            String voucherType = readVoucher[1];
+            VoucherType voucherType = VoucherType.getType(readVoucher[1]);
             int voucherDiscount = Integer.parseInt(readVoucher[2]);
             Voucher voucher = voucherFactory.createVoucher(voucherType,voucherId, voucherDiscount);
             storage.put(voucherId, voucher);
@@ -89,7 +100,7 @@ public class FileVoucherRepository implements VoucherRepository {
         BufferedWriter writer = new BufferedWriter(new FileWriter(voucherFile, true));
         for (UUID key : storage.keySet()) {
             String writeVoucher = key + " "
-                    + storage.get(key).getVoucherType() + " "
+                    + storage.get(key).getVoucherType().getString() + " "
                     + storage.get(key).getVoucherDiscount();
             writer.write(writeVoucher);
             writer.newLine();

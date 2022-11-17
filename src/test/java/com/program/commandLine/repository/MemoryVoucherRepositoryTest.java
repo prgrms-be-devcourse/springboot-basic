@@ -1,7 +1,8 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.service.VoucherFactory;
+import com.program.commandLine.voucher.VoucherFactory;
 import com.program.commandLine.voucher.FixedAmountVoucher;
+import com.program.commandLine.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,6 @@ import static org.hamcrest.Matchers.*;
 class MemoryVoucherRepositoryTest {
 
     MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
-
 
     @DisplayName("올바른 id 조회시 voucher를 리턴한다.")
     @Test
@@ -47,7 +47,7 @@ class MemoryVoucherRepositoryTest {
         // Given
         var voucherId = UUID.randomUUID();
         var discount = 30;
-        var voucherType = "Percent_discount";
+        var voucherType = VoucherType.PERCENT_DISCOUNT;
         // When
         var newVoucher = memoryVoucherRepository.insertVoucher(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
         // Then

@@ -3,6 +3,8 @@ package com.program.commandLine.service;
 import com.program.commandLine.repository.MemoryVoucherRepository;
 import com.program.commandLine.repository.VoucherRepository;
 import com.program.commandLine.voucher.FixedAmountVoucher;
+import com.program.commandLine.voucher.VoucherFactory;
+import com.program.commandLine.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,7 +33,7 @@ class VoucherServiceTest {
         var voucher = sut.createVoucher(NUMBER_FIXED_TYPE, voucherId, 20);
 
         // Then
-        verify(voucherFactoryMock).createVoucher(NUMBER_FIXED_TYPE, voucherId, 20);
+        verify(voucherFactoryMock).createVoucher(VoucherType.FIXED_AMOUNT_DISCOUNT, voucherId, 20);
         verify(voucherRepositoryMock).insertVoucher(voucher);
 
     }
@@ -49,7 +51,7 @@ class VoucherServiceTest {
         var voucher = sut.createVoucher(NUMBER_PERCENT_TYPE, voucherId, 20);
 
         // Then
-        verify(voucherFactoryMock).createVoucher(NUMBER_PERCENT_TYPE, voucherId, 20);
+        verify(voucherFactoryMock).createVoucher(VoucherType.PERCENT_DISCOUNT, voucherId, 20);
         verify(voucherRepositoryMock).insertVoucher(voucher);
 
     }

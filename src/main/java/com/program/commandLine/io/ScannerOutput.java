@@ -5,7 +5,6 @@ import com.program.commandLine.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Scanner;
 
 @Component
 public class ScannerOutput implements Output {
@@ -30,7 +29,7 @@ public class ScannerOutput implements Output {
     @Override
     public void allVoucherView(List<Voucher> vouchers) {
         vouchers.forEach(value -> {
-            String voucher = value.getVoucherType() + " voucher - " + value.getVoucherDiscount();
+            String voucher = value.getVoucherType().getString() + " voucher - " + value.getVoucherDiscount();
             System.out.println(value.getVoucherId() + " : " + voucher);
         });
         System.out.println();

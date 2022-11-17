@@ -16,11 +16,15 @@ public enum VoucherType {
         this.stringType = stringType;
     }
 
-    public static VoucherType of(final String symbol) {
+    public static VoucherType getType(final String symbol) {
         return Arrays.stream(values())
                 .filter(type -> Objects.equals(type.numberType,symbol) || Objects.equals(type.stringType,symbol))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("! Wrong type input. Please enter only given number"));
+    }
+
+    public String getString(){
+        return stringType;
     }
 
 }

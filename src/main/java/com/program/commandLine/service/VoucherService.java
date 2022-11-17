@@ -2,6 +2,8 @@ package com.program.commandLine.service;
 
 import com.program.commandLine.voucher.Voucher;
 import com.program.commandLine.repository.VoucherRepository;
+import com.program.commandLine.voucher.VoucherFactory;
+import com.program.commandLine.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,8 @@ public class VoucherService {
     }
 
     public Voucher createVoucher(String voucherTypeNumber, UUID voucherId, int discount) {
-        Voucher newVoucher = voucherFactory.createVoucher(voucherTypeNumber,voucherId,discount);
+        VoucherType voucherType = VoucherType.getType(voucherTypeNumber);
+        Voucher newVoucher = voucherFactory.createVoucher(voucherType,voucherId,discount);
         return voucherRepository.insertVoucher(newVoucher);
     }
 

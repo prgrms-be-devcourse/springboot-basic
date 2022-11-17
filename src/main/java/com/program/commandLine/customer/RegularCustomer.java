@@ -1,21 +1,16 @@
 package com.program.commandLine.customer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class BlackListCustomer implements Customer {
+public class RegularCustomer implements Customer {
     private final UUID customerId;
-    private String name;
+    private  String name;
     private final String email;
-    private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
+    private final LocalDateTime createdAt;
 
-    private final Logger logger = LoggerFactory.getLogger(BlackListCustomer.class);
-
-    public BlackListCustomer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+    public RegularCustomer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
@@ -23,9 +18,19 @@ public class BlackListCustomer implements Customer {
         this.createdAt = createdAt;
     }
 
+    public RegularCustomer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        validateName(name);
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+    }
+
+
     @Override
     public CustomerType getCustomerType() {
-        return CustomerType.BLACK_LIST_CUSTOMER;
+        return CustomerType.REGULAR_CUSTOMER;
     }
 
     @Override
@@ -53,8 +58,7 @@ public class BlackListCustomer implements Customer {
         return lastLoginAt;
     }
 
-    public void login() throws IllegalAccessException {
-        logger.warn("블랙 리스트 고객이 로그인을 시도하였습니다.");
-        throw new IllegalAccessException("! BlackList customer cannot log in");
+    public void login(){
+        lastLoginAt = LocalDateTime.now();
     }
 }

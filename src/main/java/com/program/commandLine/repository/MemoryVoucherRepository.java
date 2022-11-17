@@ -33,5 +33,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.values().stream().toList();
     }
 
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
+
+    @Override
+    public int count() {
+        return storage.size();
+    }
 
 }

@@ -24,8 +24,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String getVoucherType() {
-        return VOUCHER_TYPE;
+    public VoucherType getVoucherType() {
+        return VoucherType.FIXED_AMOUNT_DISCOUNT;
     }
 
     @Override

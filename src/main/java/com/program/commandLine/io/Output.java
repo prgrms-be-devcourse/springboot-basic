@@ -10,7 +10,6 @@ public interface Output {
 
     void messageView(String message);
 
-
     void allVoucherView(List<Voucher> vouchers);
 
     void customerBlackListView(List<Customer> blackList);

@@ -59,7 +59,7 @@ public class SystemController implements Runnable {
     }
 
     private void createVoucher() {
-        String voucherType = console.input("What type of voucher to create?   1.Fixed Amount   2.percent discount : ");
+        String voucherType = console.input("What type getType voucher to create?   1.Fixed Amount   2.percent discount : ");
         String discount = console.input("Enter discount amount or percentage : ");
 
         Voucher voucher =  voucherController.createVoucher(voucherType, Integer.parseInt(discount));
