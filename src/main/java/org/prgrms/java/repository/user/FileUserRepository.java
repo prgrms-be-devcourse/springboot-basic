@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
@@ -62,12 +61,12 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public User insert(User user, boolean isBlocked) {
-        if (findById(user.getUserId(), false).isPresent() || findById(user.getUserId(), true).isPresent()) {
+    public User insert(User user) {
+        if (findById(user.getUserId(), user.isBlocked()).isPresent()) {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked)), true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(user.isBlocked())), true))) {
             writer.write(user.toString());
             writer.newLine();
             writer.flush();
@@ -78,20 +77,25 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public long deleteAll(boolean isBlocked) {
-        String fileName = MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked));
-        long count;
+    public long deleteAll() {
+        AtomicLong count = new AtomicLong(0L);
+        List<String> fileName = new ArrayList<>() {{
+                add(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(true)));
+                add(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(false)));
+        }};
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            count = reader.lines()
-                    .filter(line -> !line.isBlank())
-                    .count();
-            new FileOutputStream(fileName).close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        fileName.forEach(file -> {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                count.addAndGet(reader.lines()
+                        .filter(line -> !line.isBlank())
+                        .count());
+                new FileOutputStream(file).close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        return count;
+        return count.get();
     }
 
     private String getDataName(boolean isBlocked) {

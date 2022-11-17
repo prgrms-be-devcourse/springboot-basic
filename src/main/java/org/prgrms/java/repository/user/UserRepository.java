@@ -11,7 +11,7 @@ public interface UserRepository {
 
     Collection<User> findAll(boolean isBlocked);
 
-    User insert(User user, boolean isBlocked);
+    User insert(User user);
 
-    long deleteAll(boolean isBlocked);
+    long deleteAll();
 }

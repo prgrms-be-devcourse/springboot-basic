@@ -20,18 +20,17 @@ class MemoryUserRepositoryTest {
     @BeforeEach
     @AfterEach
     void clean() {
-        userRepository.deleteAll(true);
-        userRepository.deleteAll(false);
+        userRepository.deleteAll();
     }
 
     @Test
     @DisplayName("정상/블랙 유저를 등록할 수 있다.")
     void testInsert() {
-        User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
+        User user = new User(UUID.randomUUID(), "test", "test@gmail.com");
         User blockedUser = new User(UUID.randomUUID(), "test2", "test2@gmail.com", true);
 
-        User insertedUser = userRepository.insert(user, user.isBlocked());
-        User insertedBlockedUser = userRepository.insert(blockedUser, blockedUser.isBlocked());
+        User insertedUser = userRepository.insert(user);
+        User insertedBlockedUser = userRepository.insert(blockedUser);
 
         assertThat(user, samePropertyValuesAs(insertedUser));
         assertThat(blockedUser, samePropertyValuesAs(insertedBlockedUser));
@@ -42,22 +41,22 @@ class MemoryUserRepositoryTest {
     void testInsertSameIdUser() {
         assertThrows(UserException.class, () -> {
             UUID userId = UUID.randomUUID();
-            User user = new User(userId, "test", "test@gmail.com", false);
-            User user2 = new User(userId, "test2", "test2@gmail.com", false);
+            User user = new User(userId, "test", "test@gmail.com");
+            User user2 = new User(userId, "test2", "test2@gmail.com");
 
-            userRepository.insert(user, user.isBlocked());
-            userRepository.insert(user2, user2.isBlocked());
+            userRepository.insert(user);
+            userRepository.insert(user2);
         });
     }
 
     @Test
     @DisplayName("등록한 유저가 정상적으로 반환돼야 한다.")
     void testFindById() {
-        User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
-        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com", false);
+        User user = new User(UUID.randomUUID(), "test", "test@gmail.com");
+        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com");
 
-        userRepository.insert(user, user.isBlocked());
-        userRepository.insert(user2, user2.isBlocked());
+        userRepository.insert(user);
+        userRepository.insert(user2);
 
         assertThat(userRepository.findById(user.getUserId(), user.isBlocked()).get(), samePropertyValuesAs(user));
         assertThat(userRepository.findById(user2.getUserId(), user2.isBlocked()).get(), samePropertyValuesAs(user2));
@@ -67,11 +66,11 @@ class MemoryUserRepositoryTest {
     @Test
     @DisplayName("등록한 유저와 전체 인스턴스의 개수가 일치한다.")
     void testFindAll() {
-        User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
-        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com", false);
+        User user = new User(UUID.randomUUID(), "test", "test@gmail.com");
+        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com");
 
-        userRepository.insert(user, user.isBlocked());
-        userRepository.insert(user2, user2.isBlocked());
+        userRepository.insert(user);
+        userRepository.insert(user2);
 
         assertThat(userRepository.findAll(user.isBlocked()).isEmpty(), is(false));
         assertThat(userRepository.findAll(user2.isBlocked()), hasSize(2));
@@ -80,15 +79,14 @@ class MemoryUserRepositoryTest {
     @Test
     @DisplayName("등록한 유저와 전체 삭제한 개수가 같다.")
     void testDeleteAll() {
-        User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
-        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com", false);
+        User user = new User(UUID.randomUUID(), "test", "test@gmail.com");
+        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com");
         User blackUser = new User(UUID.randomUUID(), "unknown", "spam@spam.com", true);
 
-        userRepository.insert(user, user.isBlocked());
-        userRepository.insert(user2, user2.isBlocked());
-        userRepository.insert(blackUser, blackUser.isBlocked());
+        userRepository.insert(user);
+        userRepository.insert(user2);
+        userRepository.insert(blackUser);
 
-        assertThat(userRepository.deleteAll(false), is(2L));
-        assertThat(userRepository.deleteAll(true), is(1L));
+        assertThat(userRepository.deleteAll(), is(3L));
     }
 }

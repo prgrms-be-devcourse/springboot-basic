@@ -6,7 +6,13 @@ public class User {
     private final UUID userId;
     private String name;
     private String email;
-    private boolean isBlocked;
+    private boolean isBlocked = false;
+
+    public User(UUID userId, String name, String email) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+    }
 
     public User(UUID userId, String name, String email, boolean isBlocked) {
         this.userId = userId;

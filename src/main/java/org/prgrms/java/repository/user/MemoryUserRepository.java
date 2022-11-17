@@ -32,11 +32,11 @@ public class MemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public User insert(User user, boolean isBlocked) {
-        if (findById(user.getUserId(), false).isPresent() || findById(user.getUserId(), true).isPresent()) {
+    public User insert(User user) {
+        if (findById(user.getUserId(), user.isBlocked()).isPresent()) {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
-        if (isBlocked) {
+        if (user.isBlocked()) {
             blackStorage.put(user.getUserId(), user);
             return blackStorage.get(user.getUserId());
         }
@@ -45,16 +45,12 @@ public class MemoryUserRepository implements UserRepository {
     }
 
     @Override
-    public long deleteAll(boolean isBlocked) {
+    public long deleteAll() {
         long count;
+        count = storage.size() + blackStorage.size();
 
-        if (isBlocked) {
-            count = blackStorage.size();
-            blackStorage.clear();
-        } else {
-            count = storage.size();
-            storage.clear();
-        }
+        storage.clear();
+        blackStorage.clear();
 
         return count;
     }
