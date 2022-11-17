@@ -3,7 +3,6 @@ package org.prgrms.kdt.presentation.controller;
 import org.prgrms.kdt.presentation.io.ConsoleIO;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.util.VoucherValidator;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -22,8 +21,7 @@ public enum CommandType {
         public boolean executeCommand(ConsoleIO consoleIO, VoucherService voucherService, BlackListService blackListService) {
             String voucherType = consoleIO.inputVoucherType();
             String voucherDiscountValue = consoleIO.inputVoucherDiscountValue();
-            VoucherValidator.validateVoucherTypeAndDiscountValue(voucherType, voucherDiscountValue);
-            voucherService.save(voucherService.create(voucherType, voucherDiscountValue));
+            voucherService.create(voucherType, voucherDiscountValue);
             return true;
         }
     },

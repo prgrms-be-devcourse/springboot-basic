@@ -4,11 +4,11 @@ import org.prgrms.kdt.dao.entity.voucher.VoucherType;
 
 import java.util.regex.Pattern;
 
-public class VoucherValidator {
+public class ValidatorUtil {
 
     public static final String NUMBER_REGEX = "^[\\+\\-]?\\d*(\\.?\\d)*$";
 
-    private VoucherValidator() {
+    private ValidatorUtil() {
     }
 
     public static boolean isNumeric(String number) {
