@@ -14,10 +14,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.customer.repository.DbCustomerRepository.CUSTOMER_ID;
+import static com.programmers.customer.repository.sql.CustomerSql.DELETE_ALL;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static com.programmers.voucher.repository.DbVoucherRepository.VOUCHER_ID;
 import static com.programmers.wallet.repository.sql.WalletSql.*;
+import static java.util.Collections.emptyMap;
 
 @Repository
 public class DbWalletRepository implements WalletRepository {
@@ -89,5 +91,10 @@ public class DbWalletRepository implements WalletRepository {
             log.error(DB_ERROR_LOG.getMessage(), e);
         }
 
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(DELETE_ALL_WALLET, emptyMap());
     }
 }

@@ -5,11 +5,12 @@ import com.programmers.customer.repository.CustomerRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherFactory;
+import com.programmers.wallet.repository.WalletRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,9 +33,18 @@ class WalletServiceImplTest {
     @Autowired
     VoucherRepository voucherRepository;
 
+    @Autowired
+    WalletRepository walletRepository;
+
+    @AfterEach
+    void clear() {
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
+        walletRepository.deleteAll();
+    }
+
 
     @Test
-    @Transactional
     @DisplayName("등록 회원의 지갑에 바우처를 저장할 수 있다.")
     void 지갑_바우처_저장_성공() {
         UUID customerUUID = UUID.randomUUID();
@@ -52,7 +62,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("미등록 회원의 지갑에는 바우처를 저장할 수 없다.")
     void 지갑_바우처_저장_실패() {
         UUID customerUUID = UUID.randomUUID();
@@ -67,7 +76,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("미등록 바우처는 지갑에 저장할 수 없다.")
     void 지갑_바우처_저장_실패2() {
         UUID customerUUID = UUID.randomUUID();
@@ -82,7 +90,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 고객의 바우처를 조회할 수 있다.")
     void 지갑_바우처_조회() {
         //given
@@ -104,7 +111,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 바우처를 지닌 고객을 조회할 수 있다.")
     void 지갑_고객_조회() {
         //given
@@ -126,7 +132,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("특정 고객의 바우처를 삭제할 수 있다.")
     void 지갑_바우처_삭제() {
         //given
@@ -153,7 +158,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("회원의 지갑에 없는 바우처는 삭제할 수 없다.")
     void 지갑_바우처_삭제_실패1() {
         //given
@@ -173,7 +177,6 @@ class WalletServiceImplTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("미등록 회원의 바우처는 삭제할 수 없다.")
     void 지갑_바우처_삭제_실패2() {
         //given

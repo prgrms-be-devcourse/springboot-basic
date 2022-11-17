@@ -1,6 +1,8 @@
 package com.programmers.customer.service;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.CustomerRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class CustomerServiceTest {
     @Autowired
     CustomerService customerService;
+
+
+    @Autowired
+    CustomerRepository customerRepository;
+
+    @AfterEach
+    void clear() {
+        customerRepository.deleteAll();
+    }
 
     @Test
     @Transactional

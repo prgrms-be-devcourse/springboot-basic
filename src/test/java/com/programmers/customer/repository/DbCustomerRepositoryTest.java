@@ -1,11 +1,11 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,11 +18,15 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 class DbCustomerRepositoryTest {
 
     @Autowired
     DbCustomerRepository repository;
+
+    @AfterEach
+    void clear() {
+        repository.deleteAll();
+    }
 
     @Test
     @DisplayName("저장 시 고객이 성공적으로 저장되어야 한다.")

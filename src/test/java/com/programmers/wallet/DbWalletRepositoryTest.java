@@ -6,13 +6,9 @@ import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherFactory;
 import com.programmers.wallet.repository.WalletRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +25,6 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 @SpringBootTest
 @TestInstance(PER_CLASS)
-@Transactional
 class DbWalletRepositoryTest {
 
     @Autowired
@@ -41,6 +36,13 @@ class DbWalletRepositoryTest {
 
     Customer customer;
     Voucher voucher;
+
+    @AfterEach
+    void clear() {
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
+        walletRepository.deleteAll();
+    }
 
     @BeforeEach
     void 테스트용_데이터() {

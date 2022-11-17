@@ -23,4 +23,8 @@ class WalletSql {
     public static final String DELETE_CUSTOMER_VOUCHER = """
         delete from wallet where voucher_id = UUID_TO_BIN(:voucherId)
     """
+
+    public static final String DELETE_ALL_WALLET = """
+        delete from wallet
+    """
 }
