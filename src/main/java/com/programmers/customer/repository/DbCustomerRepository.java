@@ -77,8 +77,6 @@ public class DbCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-//        List<Voucher> wallet = getCustomerVouchers(customerId);
-
         try {
             return Optional.ofNullable(
                     jdbcTemplate.query(
@@ -87,9 +85,6 @@ public class DbCustomerRepository implements CustomerRepository {
                             resultSetExtractor
                     )
             );
-
-//            customerOptional.ifPresent(customer -> customer.makeWallet(wallet));
-//            return customerOptional;
 
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
