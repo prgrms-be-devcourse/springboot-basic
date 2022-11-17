@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    boolean save(Voucher voucher);
+    boolean saveVoucher(Voucher voucher);
     Optional<Voucher> getVoucherById(UUID voucherId);
-    List<Voucher> getAll();
+    List<Voucher> getAllVouchers();
 }

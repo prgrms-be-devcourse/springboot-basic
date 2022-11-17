@@ -27,7 +27,7 @@ public class MapVoucherRepositoryTest {
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
 
-        boolean result = memory.save(newVoucher);
+        boolean result = memory.saveVoucher(newVoucher);
 
         Assertions.assertTrue(result);
     }
@@ -39,7 +39,7 @@ public class MapVoucherRepositoryTest {
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
         UUID voucherId = newVoucher.getVoucherId();
-        memory.save(newVoucher);
+        memory.saveVoucher(newVoucher);
 
         Optional<Voucher> voucherById = memory.getVoucherById(voucherId);
 
@@ -62,9 +62,9 @@ public class MapVoucherRepositoryTest {
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
-        memory.save(newVoucher);
+        memory.saveVoucher(newVoucher);
 
-        List<Voucher> allVoucher = memory.getAll();
+        List<Voucher> allVoucher = memory.getAllVouchers();
 
         Assertions.assertEquals(allVoucher.size(), 1);
     }

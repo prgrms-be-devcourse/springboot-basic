@@ -17,10 +17,10 @@ public class VoucherService {
 
     public boolean createVoucher(CreateVoucherDto createVoucherDto) {
         Voucher newVoucher = new Voucher(createVoucherDto.voucherType(), createVoucherDto.discountAmount());
-        return voucherRepository.save(newVoucher);
+        return voucherRepository.saveVoucher(newVoucher);
     }
 
     public List<Voucher> getAllVouchers() {
-        return voucherRepository.getAll();
+        return voucherRepository.getAllVouchers();
     }
 }

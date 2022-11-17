@@ -29,7 +29,7 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("[성공] 바우처 저장하기")
     void createVoucherTest() {
-        when(voucherRepository.save(any())).thenReturn(true);
+        when(voucherRepository.saveVoucher(any())).thenReturn(true);
 
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
@@ -43,7 +43,7 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("[실패] 바우처 저장 실패한 경우")
     void createVoucherTest_fail() {
-        when(voucherRepository.save(any())).thenReturn(false);
+        when(voucherRepository.saveVoucher(any())).thenReturn(false);
 
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
@@ -61,7 +61,7 @@ public class VoucherServiceTest {
         double discountAmount = 10;
         Voucher voucher = new Voucher(voucherType, discountAmount);
 
-        when(voucherRepository.getAll()).thenReturn(List.of(voucher));
+        when(voucherRepository.getAllVouchers()).thenReturn(List.of(voucher));
 
         List<Voucher> allVouchers = voucherService.getAllVouchers();
 
