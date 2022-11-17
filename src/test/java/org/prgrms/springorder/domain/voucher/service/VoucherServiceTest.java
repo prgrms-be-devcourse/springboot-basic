@@ -3,16 +3,20 @@ package org.prgrms.springorder.domain.voucher.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -23,12 +27,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.MockedStatic;
-import org.prgrms.springorder.domain.voucher.api.VoucherCreateRequest;
+import org.prgrms.springorder.domain.customer.model.CustomerStatus;
+import org.prgrms.springorder.domain.voucher.api.CustomerWithVoucher;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.repository.VoucherRepository;
+import org.prgrms.springorder.global.exception.BadAccessRequestException;
+import org.prgrms.springorder.global.exception.EntityNotFoundException;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class VoucherServiceTest {
@@ -140,7 +148,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("Voucher findAll() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
+    @DisplayName("Voucher findAll() 테스트 - 비어있으면 예외를 발생시킨다.")
     void findAllReturnEmptyListTest() {
         //given
         VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
@@ -149,14 +157,8 @@ class VoucherServiceTest {
         when(voucherRepositoryMock.findAll())
             .thenReturn(new ArrayList<>());
 
-        //when
-        List<Voucher> vouchers = voucherService.findAll();
-
-        //then
-        assertNotNull(vouchers);
-        assertTrue(vouchers.isEmpty());
-
-        verify(voucherRepositoryMock).findAll();
+        //when & then
+        assertThrows(EntityNotFoundException.class, voucherService::findAll);
     }
 
     @Test
@@ -188,7 +190,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("Voucher findAllConvertedToString() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
+    @DisplayName("Voucher findAllConvertedToString() 테스트 - 비어있으면 예외를 발생시킨다.")
     void findAllConvertedToStringReturnEmptyListTest() {
         //given
         VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
@@ -197,15 +199,148 @@ class VoucherServiceTest {
         when(voucherRepositoryMock.findAll())
             .thenReturn(new ArrayList<>());
 
+        //when & then
+        assertThrows(EntityNotFoundException.class, voucherService::findAllConvertedToString);
+    }
+
+    @DisplayName("특정 바우처를 보유한 고객을 조회한다.")
+    @Test
+    void findVoucherWithCustomerByVoucherIdSuccessTest() {
+        //given
+
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        UUID voucherId = UUID.randomUUID();
+        long amount = 100L;
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        VoucherType voucherType = VoucherType.FIXED;
+
+        UUID customerId= UUID.randomUUID();
+
+        String name = "name";
+
+        String email = "testEmail@gmail.com";
+
+        CustomerStatus customerStatus = CustomerStatus.NORMAL;
+        CustomerWithVoucher customerWithVoucher = new CustomerWithVoucher(voucherId, amount,
+            createdAt, voucherType, customerId, name, email, customerStatus);
+
+        when(voucherRepositoryMock.findByIdWithCustomer(voucherId))
+            .thenReturn(Optional.of(customerWithVoucher));
+
         //when
-        List<String> vouchers = voucherService.findAllConvertedToString();
+
+        CustomerWithVoucher findCustomerWithVoucher = voucherService.findVoucherWithCustomerByVoucherId(
+            voucherId);
 
         //then
-        assertNotNull(vouchers);
-        assertTrue(vouchers.isEmpty());
 
-        verify(voucherRepositoryMock).findAll();
+        assertNotNull(findCustomerWithVoucher);
+        assertEquals(customerWithVoucher, findCustomerWithVoucher);
+        verify(voucherRepositoryMock).findByIdWithCustomer(voucherId);
     }
+
+    @DisplayName("특정 바우처를 보유한 고객을 조회할 때 존재하지 않는다면 예외를 던진다.")
+    @Test
+    void findVoucherWithCustomerByVoucherIdFailThrowExceptionTest() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        UUID voucherId = UUID.randomUUID();
+
+        when(voucherRepositoryMock.findByIdWithCustomer(voucherId))
+            .thenReturn(Optional.empty());
+
+        //when
+        assertThrows(EntityNotFoundException.class, () ->  voucherService.findVoucherWithCustomerByVoucherId(
+            voucherId));
+
+        //then
+        verify(voucherRepositoryMock).findByIdWithCustomer(voucherId);
+    }
+
+    @DisplayName("delete 테스트 - 고객이 보유한 바우처를 제거한다.")
+    @Test
+    void deleteVoucherByCustomerIdSuccess() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        UUID voucherId = UUID.randomUUID();
+        long amount = 0;
+        UUID customerId = UUID.randomUUID();
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount, customerId, createdAt);
+
+        when(voucherRepositoryMock.findById(voucherId))
+            .thenReturn(Optional.of(fixedAmountVoucher));
+
+        doNothing().when(voucherRepositoryMock)
+            .deleteById(voucherId);
+
+        //when
+        voucherService.deleteVoucherByCustomerId(voucherId, customerId);
+
+        //then
+        verify(voucherRepositoryMock).findById(voucherId);
+        verify(voucherRepositoryMock).deleteById(voucherId);
+    }
+
+    @DisplayName("delete 실패 테스트 - 바우처가 존재하지 않는다면 예외를 던진다 ")
+    @Test
+    void deleteVoucherByCustomerIdNotFoundFail() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        UUID voucherId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
+
+        when(voucherRepositoryMock.findById(voucherId))
+            .thenReturn(Optional.empty());
+
+        //when
+        assertThrows(EntityNotFoundException.class, () ->
+            voucherService.deleteVoucherByCustomerId(voucherId, customerId));
+
+        //then
+        verify(voucherRepositoryMock).findById(voucherId);
+    }
+
+    @DisplayName("delete 실패 테스트 - 고객이 보유한 바우처거 아니라면 예외를 던진다 ")
+    @Test
+    void deleteVoucherByCustomerIdNotOwnedFail() {
+        //given
+        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
+        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+
+        UUID voucherId = UUID.randomUUID();
+        long amount = 0;
+        UUID customerId = UUID.randomUUID();
+        UUID otherCustomerID = UUID.randomUUID();
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, amount, customerId, createdAt);
+
+        when(voucherRepositoryMock.findById(voucherId))
+            .thenReturn(Optional.of(fixedAmountVoucher));
+
+        doNothing().when(voucherRepositoryMock)
+            .deleteById(voucherId);
+
+        //when
+        assertThrows(BadAccessRequestException.class, () ->
+            voucherService.deleteVoucherByCustomerId(voucherId, otherCustomerID)
+            );
+
+        //then
+        verify(voucherRepositoryMock).findById(voucherId);
+    }
+
 
     private List<Voucher> getVoucherList(int size) {
         return IntStream.range(0, size)

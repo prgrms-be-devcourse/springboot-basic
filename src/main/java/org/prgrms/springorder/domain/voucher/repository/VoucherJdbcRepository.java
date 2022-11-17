@@ -53,7 +53,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString());
             put("amount", voucher.getAmount());
             put("voucherType", voucher.getVoucherType().getType());
-            put("customerId", voucher.getCustomerId());
+            put("customerId", voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString());
             put("createdAt", voucher.getCreatedAt());
         }};
     }
@@ -62,7 +62,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             Voucher findVoucher = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID.getSql(),
-                Collections.singletonMap("voucherId", voucherId),
+                Collections.singletonMap("voucherId", voucherId.toString()),
                 voucherRowMapper);
 
             return Optional.ofNullable(findVoucher);
@@ -107,7 +107,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         try {
             CustomerWithVoucher customerWithVoucher
                 = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID_WITH_CUSTOMER.getSql(),
-                Collections.singletonMap("voucherId", voucherId),
+                Collections.singletonMap("voucherId", voucherId.toString()),
                 (rs, rowNum) -> {
                     UUID findVoucherId = UUID.fromString(rs.getString("voucher_id"));
                     long amount = rs.getLong("amount");
@@ -135,7 +135,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(VoucherSQL.DELETE_BY_ID.getSql(), Collections.singletonMap("voucherId", voucherId));
+        jdbcTemplate.update(VoucherSQL.DELETE_BY_ID.getSql(),
+            Collections.singletonMap("voucherId", voucherId.toString()));
     }
 
 }

@@ -12,7 +12,7 @@ public enum VoucherSQL {
         + "VALUES (:voucherId, :amount, :voucherType, :customerId, :createdAt)"),
 
 
-    UPDATE_BY_ID("UPDATE vouchers SET amount = :amount, voucher_type = :voucherType, customer_id = :customerId"),
+    UPDATE_BY_ID("UPDATE vouchers SET amount = :amount, voucher_type = :voucherType, customer_id = :customerId WHERE voucher_id = :voucherId" ),
 
 
     FIND_BY_ID_WITH_CUSTOMER("SELECT "

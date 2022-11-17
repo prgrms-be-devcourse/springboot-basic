@@ -27,7 +27,7 @@ import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
-import org.prgrms.springorder.jdbctest.JdbcTestBase;
+import org.prgrms.springorder.common.JdbcTestBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;

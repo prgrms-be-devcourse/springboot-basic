@@ -8,7 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.prgrms.springorder.domain.voucher.api.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;

@@ -15,9 +15,19 @@ CREATE TABLE IF NOT EXISTS vouchers
     voucher_id   varchar(36) PRIMARY KEY,
     amount       bigint      NOT NULL,
     voucher_type varchar(30) NOT NULL,
-    customer_id  varchar(36),
+    customer_id  varchar(36) NULL,
     created_at   timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-    FOREIGN KEY (customer_id) references customers(customer_id)
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
 
+CREATE TABLE IF NOT EXISTS block_customers
+(
+    block_id varchar(36) PRIMARY KEY ,
 
+    customer_id varchar(36),
+
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+
+);
