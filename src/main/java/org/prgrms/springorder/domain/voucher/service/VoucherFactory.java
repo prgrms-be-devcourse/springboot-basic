@@ -2,8 +2,7 @@ package org.prgrms.springorder.domain.voucher.service;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.prgrms.springorder.domain.customer.model.Customer;
-import org.prgrms.springorder.domain.voucher.api.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;

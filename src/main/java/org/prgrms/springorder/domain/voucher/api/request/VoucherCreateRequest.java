@@ -1,14 +1,15 @@
-package org.prgrms.springorder.domain.voucher.api;
+package org.prgrms.springorder.domain.voucher.api.request;
 
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
+import org.prgrms.springorder.console.io.Request;
 
-public class VoucherCreateRequest {
+public class VoucherCreateRequest implements Request {
 
     private final VoucherType voucherType;
 
     private final long discountAmount;
 
-    private VoucherCreateRequest(VoucherType voucherType, long discountAmount) {
+    public VoucherCreateRequest(VoucherType voucherType, long discountAmount) {
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
