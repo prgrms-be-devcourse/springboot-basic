@@ -1,8 +1,8 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.dao.repository.voucher;
 
 
-import org.prgrms.kdt.entity.Voucher;
-import org.prgrms.kdt.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

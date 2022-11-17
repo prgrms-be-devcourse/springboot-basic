@@ -1,8 +1,5 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.dao.entity.voucher;
 
-import org.prgrms.kdt.entity.FixedAmountVoucher;
-import org.prgrms.kdt.entity.PercentDiscountVoucher;
-import org.prgrms.kdt.entity.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;

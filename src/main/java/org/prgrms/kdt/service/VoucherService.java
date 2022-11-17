@@ -1,8 +1,8 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.entity.Voucher;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

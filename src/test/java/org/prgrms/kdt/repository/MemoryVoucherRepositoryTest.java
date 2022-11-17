@@ -3,8 +3,10 @@ package org.prgrms.kdt.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.entity.FixedAmountVoucher;
-import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
+import org.prgrms.kdt.dao.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
 
 import java.util.UUID;
 

@@ -1,6 +1,6 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.dao.repository.voucher;
 
-import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

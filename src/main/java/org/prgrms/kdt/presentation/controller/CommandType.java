@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.presentation.controller;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

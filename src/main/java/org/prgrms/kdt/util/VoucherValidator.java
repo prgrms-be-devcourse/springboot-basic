@@ -1,4 +1,6 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.util;
+
+import org.prgrms.kdt.dao.entity.voucher.VoucherType;
 
 import java.util.regex.Pattern;
 

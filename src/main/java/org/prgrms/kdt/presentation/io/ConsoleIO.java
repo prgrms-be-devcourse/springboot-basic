@@ -1,7 +1,7 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt.presentation.io;
 
-import org.prgrms.kdt.CommandType;
-import org.prgrms.kdt.voucher.VoucherType;
+import org.prgrms.kdt.dao.entity.voucher.VoucherType;
+import org.prgrms.kdt.presentation.controller.CommandType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

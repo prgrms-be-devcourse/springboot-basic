@@ -1,4 +1,4 @@
-package org.prgrms.kdt.entity;
+package org.prgrms.kdt.dao.entity.voucher;
 
 import java.util.UUID;
 

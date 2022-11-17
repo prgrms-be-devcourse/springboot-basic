@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.kdt.util.VoucherValidator;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

@@ -1,9 +1,9 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.presentation.controller;
 
-import org.prgrms.kdt.io.ConsoleIO;
+import org.prgrms.kdt.presentation.io.ConsoleIO;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.voucher.VoucherValidator;
+import org.prgrms.kdt.util.VoucherValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

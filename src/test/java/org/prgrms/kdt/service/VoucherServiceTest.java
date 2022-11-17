@@ -2,11 +2,11 @@ package org.prgrms.kdt.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.entity.FixedAmountVoucher;
-import org.prgrms.kdt.entity.PercentDiscountVoucher;
-import org.prgrms.kdt.entity.Voucher;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.dao.entity.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.repository.voucher.MemoryVoucherRepository;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

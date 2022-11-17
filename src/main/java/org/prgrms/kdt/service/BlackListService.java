@@ -1,6 +1,6 @@
 package org.prgrms.kdt.service;
 
-import org.prgrms.kdt.entity.BlackList;
+import org.prgrms.kdt.dao.entity.BlackList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

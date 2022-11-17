@@ -1,6 +1,6 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.dao.repository.voucher;
 
-import org.prgrms.kdt.entity.Voucher;
+import org.prgrms.kdt.dao.entity.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
