@@ -85,7 +85,7 @@ public class VoucherApplication {
             List<Voucher> vouchers = voucherManager.list();
             console.printVoucherList(vouchers);
             logger.info("List up all Vouchers.");
-        } catch (FileIOException | FileNotExistException e) {
+        } catch (FileIOException | FileNotExistException | FileFormatException e) {
             logger.error(e.getMessage(), e);
             console.printExceptionMessage(e.getMessage());
             exit();

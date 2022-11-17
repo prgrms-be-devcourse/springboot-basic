@@ -6,6 +6,7 @@ import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 
 import java.math.BigDecimal;
 
+import com.prgrms.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,9 @@ public class PercentVoucher implements Voucher {
 
     private static final Logger logger = LoggerFactory.getLogger(PercentVoucher.class);
 
-    UUID id;
-    int percent;
+    private final UUID id;
+    private final int percent;
+    private VoucherType voucherType;
 
     public PercentVoucher(int percent) {
         validate(percent);
@@ -28,8 +30,23 @@ public class PercentVoucher implements Voucher {
     }
 
     public PercentVoucher(UUID uuid, int percent) {
+        validate(percent);
         this.id = uuid;
         this.percent = percent;
+    }
+
+    public PercentVoucher(UUID uuid, int percent, VoucherType voucherType) {
+        validate(percent);
+        this.id = uuid;
+        this.percent = percent;
+        this.voucherType = voucherType;
+    }
+
+    public PercentVoucher(int percent, VoucherType voucherType) {
+        validate(percent);
+        this.id = UUID.randomUUID();
+        this.percent = percent;
+        this.voucherType = voucherType;
     }
 
     @Override
@@ -48,6 +65,11 @@ public class PercentVoucher implements Voucher {
     @Override
     public int getDiscountRate() {
         return percent;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override

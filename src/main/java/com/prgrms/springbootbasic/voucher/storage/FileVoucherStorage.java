@@ -22,7 +22,7 @@ import java.util.stream.Stream;
 
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.*;
 
-@Profile("prod")
+@Profile("dev")
 @Repository
 public class FileVoucherStorage implements VoucherStorage {
 
@@ -85,7 +85,7 @@ public class FileVoucherStorage implements VoucherStorage {
     private void write(Voucher voucher, File file) throws IOException {
         try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write(voucher.getUUID().toString() + DELIMITER);
-            fileWriter.write(voucher.getClass().getSimpleName() + DELIMITER);
+            fileWriter.write(voucher.getVoucherType().getInputValue() + DELIMITER);
             fileWriter.write(voucher.getDiscountRate() + System.lineSeparator());
             fileWriter.flush();
         }
@@ -102,8 +102,8 @@ public class FileVoucherStorage implements VoucherStorage {
         return vouchers;
     }
 
-    private Voucher mapToVoucher(String voucherStr) {
-        List<String> columns = List.of(voucherStr.split(DELIMITER));
+    private Voucher mapToVoucher(String voucherData) {
+        List<String> columns = List.of(voucherData.split(DELIMITER));
 
         validSize(columns);
 
@@ -111,13 +111,13 @@ public class FileVoucherStorage implements VoucherStorage {
         String voucherTypeString = columns.get(VOUCHER_TYPE_COLUMN_INDEX).trim();
         int discountAmount = Integer.parseInt(columns.get(DISCOUNT_AMOUNT_INDEX).trim());
 
-        VoucherType voucherType = VoucherType.fromClassName(voucherTypeString);
+        VoucherType voucherType = VoucherType.fromInputValue(voucherTypeString);
         switch (voucherType) {
             case FIXED_AMOUNT -> {
-                return new FixedAmountVoucher(uuid, discountAmount);
+                return new FixedAmountVoucher(uuid, discountAmount, voucherType);
             }
             case PERCENT -> {
-                return new PercentVoucher(uuid, discountAmount);
+                return new PercentVoucher(uuid, discountAmount, voucherType);
             }
             default -> throw new VoucherTypeNotSupportedException(voucherTypeString);
         }

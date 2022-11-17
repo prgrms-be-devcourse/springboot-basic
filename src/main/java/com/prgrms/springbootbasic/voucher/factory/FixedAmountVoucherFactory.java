@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class FixedAmountVoucherFactory implements VoucherFactory {
     @Override
     public Voucher createVoucher(int discountAmount) {
-        return new FixedAmountVoucher(discountAmount);
+        return new FixedAmountVoucher(discountAmount, VoucherType.FIXED_AMOUNT);
     }
 
     @Override
