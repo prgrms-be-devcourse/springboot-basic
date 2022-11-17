@@ -6,11 +6,6 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
-/*
-* 여러 Voucher 의 타입에 대한 값들을 정의한 enum 클래스입니다.
-* 사용자의 입력값으로 받을 Voucher 의 타입, 최댓값, 바우처의 생성 함수를 필드로 가집니다.
-* 바우처 생성, 입력값에 따른 바우처 타입 찾기, 특정 바우처에 대한 입력값 검증의 기능을 갖습니다. (너무 많은 책임을 갖는지 의문입니다.)
-* */
 public enum VoucherType {
 
     FIXED_AMOUNT("1", 1000000, FixedAmountVoucher::new),
@@ -34,10 +29,6 @@ public enum VoucherType {
                 .voucherConstructor.apply(uuid, discountValue);
     }
 
-    public boolean isMatchVoucherType(String voucherTypeInput) {
-        return voucherTypeNumber.equals(voucherTypeInput) || name().equals(voucherTypeInput);
-    }
-
     public static boolean isCorrectVoucherType(String voucherTypeInput) {
         return Arrays.stream(values())
                 .anyMatch(voucherType -> voucherType.isMatchVoucherType(voucherTypeInput));
@@ -53,6 +44,10 @@ public enum VoucherType {
 
     private boolean checkDiscountAmountRange(int discountAmountInput) {
         return discountAmountInput >= 0 && discountAmountInput <= maximumDiscountAmount;
+    }
+
+    public boolean isMatchVoucherType(String voucherTypeInput) {
+        return voucherTypeNumber.equals(voucherTypeInput) || name().equals(voucherTypeInput);
     }
 
     public int getMaximumDiscountAmount() {
