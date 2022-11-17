@@ -24,6 +24,7 @@ public class IOManager {
     private static final String AMOUNT_MESSAGE = "할인하고자 하는 만큼의 수를 입력해주세요.";
     private static final String AMOUNT_ERROR = "할인 정도는 정수나 실수로만 입력 가능합니다.";
     private static final String EXIT_APP = "Exit Program. Good Bye.";
+
     private final Console console;
 
     public IOManager(Console console) {
@@ -70,8 +71,8 @@ public class IOManager {
 
     public void writeVoucherInfo(Voucher voucher) {
         console.write(
-                MessageFormat.format("voucher Id -> {0}, voucher Type -> {1}, Amount -> {2}",
-                        voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount()));
+                MessageFormat.format("[voucher Type] : {0}, [Amount] : {1}",
+                        voucher.getClass().getSimpleName(), voucher.getAmount()));
     }
 
     public static String getSelectWrongMessage() {

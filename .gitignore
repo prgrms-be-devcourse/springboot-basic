@@ -193,7 +193,7 @@ buildNumber.properties
 .classpath
 
 .idea
-src/main/resources/application.properties
 logs
 Vouchers.txt
+src/main/resources/vouchers
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,intellij,maven

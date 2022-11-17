@@ -12,13 +12,16 @@
         <encoder>
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>error</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/error-log-%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -28,10 +31,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.prgrms.kdt" level="info"/>
-
-
-    <root level="warn">
+    <root level="info">
         <appender-ref ref="FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>

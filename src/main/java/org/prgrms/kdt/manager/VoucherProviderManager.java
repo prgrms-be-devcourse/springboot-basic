@@ -16,12 +16,13 @@ import java.util.List;
 @Component
 public class VoucherProviderManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherProviderManager.class);
-    private final IOManager ioManager;
-    private final VoucherProvider voucherProvider;
     private static final String GO_BACK = "g";
     private static final String NO_VOUCHERS = "생성된 바우처가 없습니다.";
     private static final String CREATE_VOUCHER = "성공적으로 바우처가 형성되었습니다.";
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherProviderManager.class);
+    private final IOManager ioManager;
+    private final VoucherProvider voucherProvider;
     private Power power;
 
     public VoucherProviderManager(IOManager ioManager, VoucherProvider voucherProvider) {
@@ -29,13 +30,20 @@ public class VoucherProviderManager {
         this.voucherProvider = voucherProvider;
     }
 
-    public void runGetList() {
-        List<Voucher> vouchers = voucherProvider.list();
-        if (vouchers.isEmpty()) {
-            ioManager.writeMessage(NO_VOUCHERS);
-        } else {
+    public void runGetList(Power AppPower) {
+        try {
+            List<Voucher> vouchers = voucherProvider.list();
+            if (vouchers.isEmpty()) {
+                ioManager.writeMessage(NO_VOUCHERS);
+                return;
+            }
             vouchers.forEach(ioManager::writeVoucherInfo);
             logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
+
+        } catch (RuntimeException runtimeException) {
+            logger.error(runtimeException.getMessage());
+            AppPower.stop();
+            AppPower.stopByException();
         }
     }
 
