@@ -62,7 +62,7 @@ public class FileUserRepository implements UserRepository {
 
     @Override
     public User insert(User user) {
-        if (findById(user.getUserId(), user.isBlocked()).isPresent()) {
+        if (findById(user.getUserId(), true).isPresent() || findById(user.getUserId(), false).isPresent()) {
             throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
         }
 
