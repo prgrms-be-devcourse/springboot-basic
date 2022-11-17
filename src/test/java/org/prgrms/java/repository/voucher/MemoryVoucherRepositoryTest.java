@@ -1,15 +1,13 @@
 package org.prgrms.java.repository.voucher;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
@@ -18,18 +16,14 @@ import static org.hamcrest.MatcherAssert.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig
 class MemoryVoucherRepositoryTest {
-    @Configuration
-    static class Config {
-        @Bean
-        VoucherRepository voucherRepository() {
-            return new MemoryVoucherRepository();
-        }
-    }
+    private static final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
-    @Autowired
-    VoucherRepository voucherRepository;
+    @BeforeEach
+    @AfterEach
+    void clean() {
+        voucherRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("바우처를 등록할 수 있다.")
@@ -79,5 +73,17 @@ class MemoryVoucherRepositoryTest {
 
         assertThat(voucherRepository.findAll().isEmpty(), is(false));
         assertThat(voucherRepository.findAll(), hasSize(2));
+    }
+
+    @Test
+    @DisplayName("등록한 개수와 전체 삭제한 개수가 같다.")
+    void testDeleteAll() {
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100);
+
+        voucherRepository.insert(fixedAmountVoucher);
+        voucherRepository.insert(percentDiscountVoucher);
+
+        assertThat(voucherRepository.deleteAll(), is(2L));
     }
 }

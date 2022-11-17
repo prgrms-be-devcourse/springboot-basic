@@ -1,13 +1,11 @@
 package org.prgrms.java.repository.user;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.java.domain.user.User;
 import org.prgrms.java.exception.UserException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.UUID;
 
@@ -16,18 +14,15 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringJUnitConfig
 class MemoryUserRepositoryTest {
-    @Configuration
-    static class Config {
-        @Bean
-        UserRepository userRepository() {
-            return new MemoryUserRepository();
-        }
-    }
+    private static final UserRepository userRepository = new MemoryUserRepository();
 
-    @Autowired
-    UserRepository userRepository;
+    @BeforeEach
+    @AfterEach
+    void clean() {
+        userRepository.deleteAll(true);
+        userRepository.deleteAll(false);
+    }
 
     @Test
     @DisplayName("정상/블랙 유저를 등록할 수 있다.")
@@ -35,11 +30,7 @@ class MemoryUserRepositoryTest {
         User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
         User blockedUser = new User(UUID.randomUUID(), "test2", "test2@gmail.com", true);
 
-        System.out.println("user = " + user);
-
         User insertedUser = userRepository.insert(user, user.isBlocked());
-
-        System.out.println("insertedUser = " + insertedUser);
         User insertedBlockedUser = userRepository.insert(blockedUser, blockedUser.isBlocked());
 
         assertThat(user, samePropertyValuesAs(insertedUser));
@@ -74,7 +65,7 @@ class MemoryUserRepositoryTest {
     }
 
     @Test
-    @DisplayName("등록한 바우처와 전체 인스턴스의 개수가 일치한다.")
+    @DisplayName("등록한 유저와 전체 인스턴스의 개수가 일치한다.")
     void testFindAll() {
         User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
         User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com", false);
@@ -84,5 +75,20 @@ class MemoryUserRepositoryTest {
 
         assertThat(userRepository.findAll(user.isBlocked()).isEmpty(), is(false));
         assertThat(userRepository.findAll(user2.isBlocked()), hasSize(2));
+    }
+
+    @Test
+    @DisplayName("등록한 유저와 전체 삭제한 개수가 같다.")
+    void testDeleteAll() {
+        User user = new User(UUID.randomUUID(), "test", "test@gmail.com", false);
+        User user2 = new User(UUID.randomUUID(), "test2", "test2@gmail.com", false);
+        User blackUser = new User(UUID.randomUUID(), "unknown", "spam@spam.com", true);
+
+        userRepository.insert(user, user.isBlocked());
+        userRepository.insert(user2, user2.isBlocked());
+        userRepository.insert(blackUser, blackUser.isBlocked());
+
+        assertThat(userRepository.deleteAll(false), is(2L));
+        assertThat(userRepository.deleteAll(true), is(1L));
     }
 }
