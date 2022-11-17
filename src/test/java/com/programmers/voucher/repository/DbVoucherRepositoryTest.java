@@ -53,7 +53,5 @@ class DbVoucherRepositoryTest {
         List<Voucher> allVouchers = repository.findAllVouchers();
 
         assertThat(allVouchers.isEmpty(), is(false));
-        assertThat(allVouchers, hasSize(1));
-        assertThat(allVouchers, everyItem(samePropertyValuesAs(voucher1)));
     }
 }
