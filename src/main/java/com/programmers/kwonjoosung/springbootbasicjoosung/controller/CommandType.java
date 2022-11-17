@@ -11,8 +11,13 @@ public enum CommandType {
     EXIT("Type exit to exit the program.", "exit"),
     CREATE("Type create to create a new voucher.", "create"),
     LIST("Type list to list all vouchers.", "list"),
+    DELETE("delete your voucher.", "delete"),
+    UPDATE("update your voucher.", "update"),
+    SELECT("Type show your voucher.", "select"),
     BLACKLIST("Type blacklist to list all customer-black-list.", "blacklist"),
-    HELP("Type help to show all command.", "help");
+    HELP("Type help to show all command.", "help"),
+    WALLET("Type wallet to show customer wallet.", "wallet"),
+    ASSIGN("Type assign to assign voucher to customer", "assign");
 
     private final String explanation;
     private final String command;

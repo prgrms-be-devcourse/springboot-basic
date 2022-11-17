@@ -9,10 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @SpringBootApplication
 public class SpringBootBasicJoosungApplication implements CommandLineRunner {
 
-    private final MainLauncher mainLauncher;
+    private final ApplicationLauncher applicationLauncher;
 
-    SpringBootBasicJoosungApplication(MainLauncher mainLauncher) {
-        this.mainLauncher = mainLauncher;
+    public SpringBootBasicJoosungApplication(ApplicationLauncher applicationLauncher) {
+        this.applicationLauncher = applicationLauncher;
     }
 
     public static void main(String[] args) {
@@ -21,6 +21,6 @@ public class SpringBootBasicJoosungApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        mainLauncher.run();
+        applicationLauncher.run();
     }
 }

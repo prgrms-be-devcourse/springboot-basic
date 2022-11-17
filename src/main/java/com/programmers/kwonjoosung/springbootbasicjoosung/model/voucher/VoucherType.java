@@ -21,4 +21,5 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new WrongVoucherTypeException(input));
     }
+
 }

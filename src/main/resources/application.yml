@@ -10,4 +10,10 @@ file:
     name: voucherList.txt
     path: resources/
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/VoucherManagementApplication
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
 

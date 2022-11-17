@@ -1,8 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.controller.CommandType;
-import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +19,8 @@ public class Console {
     private static final String INPUT_DISCOUNT = "discount >> ";
     private static final String PARSE_ERROR_MESSAGE = "숫자를 입력해 주세요.";
     private static final String EXIT_MESSAGE = "=== Exit Program ===";
+    public static final String INPUT_CUSTOM_ID = "customId >> ";
+    public static final String INPUT_VOUCHER_ID = "voucherId >> ";
 
     public void startMessage() {
         System.out.println(START_MESSAGE);
@@ -46,19 +46,11 @@ public class Console {
             return Long.parseLong(scanner.nextLine().trim());
         } catch (NumberFormatException ne) {
             logger.error(PARSE_ERROR_MESSAGE);
-            throw new RuntimeException(PARSE_ERROR_MESSAGE);
+            throw new NumberFormatException(PARSE_ERROR_MESSAGE);
         }
     }
-
-    public void showVoucher(Voucher voucher) {
-        System.out.println(voucher);
-    }
-
-//    제네릭을 사용하는게 더 나은 방법인가요?
-//    public <T> void show(T data) { System.out.println(data); }
-
-    public void showCustomer(Customer customer) {
-        System.out.println(customer);
+    public <T> void show(T data) {
+        System.out.println(data);
     }
 
     public void showError(Exception e) {
@@ -69,4 +61,13 @@ public class Console {
         CommandType.getAllExplanation().forEach(System.out::println);
     }
 
+    public String inputCustomId() {
+        System.out.print(INPUT_CUSTOM_ID);
+        return scanner.nextLine().trim();
+    }
+
+    public String inputVoucherId() {
+        System.out.print(INPUT_VOUCHER_ID);
+        return scanner.nextLine().trim();
+    }
 }
