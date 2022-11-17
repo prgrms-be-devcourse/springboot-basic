@@ -1,0 +1,24 @@
+
+file:
+  customer:
+    file-path: src/customer_blacklist.csv
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+file:
+  voucher:
+    file-path: src/voucher_memory.csv
+
+
+

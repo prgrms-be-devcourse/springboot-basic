@@ -6,7 +6,8 @@ import org.prgrms.exception.NoSuchMenuTypeException;
 public enum MenuType {
   EXIT("exit"),
   CREATE("create"),
-  LIST("list");
+  LIST("list"),
+  BLACK("black");
 
   private final String menu;
 

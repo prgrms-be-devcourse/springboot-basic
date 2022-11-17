@@ -24,6 +24,11 @@ public class PercentDiscountVoucher implements Voucher {
   }
 
   @Override
+  public Amount getVoucherAmount() {
+    return discountPercent;
+  }
+
+  @Override
   public String toString() {
     return "*** PercentDiscountVoucher ***"
         + System.lineSeparator()
