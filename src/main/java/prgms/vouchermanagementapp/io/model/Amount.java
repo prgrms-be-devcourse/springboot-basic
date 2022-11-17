@@ -10,7 +10,6 @@ public class Amount {
         if (amount < 0) {
             throw new IllegalArgumentException("Discount amount cannot be negative: " + amount);
         }
-
         this.amount = amount;
     }
 
