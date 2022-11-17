@@ -5,7 +5,7 @@ import com.programmers.voucher.model.customer.Customer;
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected String voucherId;
+    protected int voucherId;
     protected UUID voucherNumber;
     protected long discountValue;
     protected Customer customer;
@@ -20,7 +20,7 @@ public abstract class Voucher {
 
     abstract long discount(long beforeDiscount);
 
-    public String getVoucherId(){
+    public int getVoucherId(){
         return voucherId;
     }
 

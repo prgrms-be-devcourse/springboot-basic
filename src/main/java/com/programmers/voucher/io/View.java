@@ -36,6 +36,14 @@ public class View {
         output.printOutput(Message.REQUEST_DISCOUNT_VALUE_MESSAGE.toString());
     }
 
+    public void requestCustomerName() {
+        output.printOutput(Message.REQUEST_CUSTOMER_NAME.toString());
+    }
+
+    public void requestEmail() {
+        output.printOutput(Message.REQUEST_CUSTOMER_EMAIL.toString());
+    }
+
     public void printError(String message) {
         output.printOutput(message);
     }
@@ -58,5 +66,9 @@ public class View {
 
     public void printDeleteAll() {
         output.printOutput(Message.DELETE_ALL_VOUCHERS.toString());
+    }
+
+    public void printCustomer(Customer customer) {
+        output.printOutput(customer.getCustomerName() + Message.WELCOME_CUSTOMER);
     }
 }

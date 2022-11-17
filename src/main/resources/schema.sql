@@ -10,8 +10,7 @@ CREATE TABLE customers
 (
     customer_id		int(5)      PRIMARY KEY 	AUTO_INCREMENT,
     customer_name	varchar(25) NOT NULL,
-    email			varchar(40) NOT NULL UNIQUE,
-    created_at		varchar(20) NOT NULL
+    email			varchar(40) NOT NULL UNIQUE
 );
 
 CREATE TABLE voucher_type

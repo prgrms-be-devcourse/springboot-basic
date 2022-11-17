@@ -1,5 +1,6 @@
 package com.programmers.voucher.controller;
 
+import com.programmers.voucher.dto.CustomerDto;
 import com.programmers.voucher.io.CommandType;
 import com.programmers.voucher.io.View;
 import com.programmers.voucher.model.customer.Customer;
@@ -29,7 +30,7 @@ public class VoucherProgram implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         boolean isRunning = true;
 
         while (isRunning) {
@@ -47,6 +48,10 @@ public class VoucherProgram implements ApplicationRunner {
                     case DELETE:
                         voucherService.deleteAll();
                         view.printDeleteAll();
+                        break;
+                    case CREATE_CUSTOMER:
+                        Customer customer = customerService.create(getCustomerDto());
+                        view.printCustomer(customer);
                         break;
                     case BLACKS:
                         checkEmptyBlack(customerService.findAllBlack());
@@ -81,6 +86,14 @@ public class VoucherProgram implements ApplicationRunner {
             return;
         }
         view.printVouchers(vouchers);
+    }
+
+    private CustomerDto getCustomerDto() {
+        view.requestCustomerName();
+        String customerName = view.getInput();
+        view.requestEmail();
+        String email = view.getInput();
+        return new CustomerDto(customerName, email);
     }
 
     private void checkEmptyBlack(List<Customer> blacks) {

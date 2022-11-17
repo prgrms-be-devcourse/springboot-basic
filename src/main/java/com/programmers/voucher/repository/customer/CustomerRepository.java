@@ -1,26 +1,12 @@
 package com.programmers.voucher.repository.customer;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
+import com.programmers.voucher.dto.CustomerDto;
+import com.programmers.voucher.model.customer.Customer;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Repository
-public class CustomerRepository {
+public interface CustomerRepository {
+    int save(CustomerDto customerDto);
 
-    private final String fileName;
-
-    public CustomerRepository(@Value("${file.path.black}") String fileName) {
-        this.fileName = fileName;
-    }
-
-    public List<String> findAllBlack() throws IOException{
-        BufferedReader buffer = new BufferedReader(new FileReader(fileName));
-        return buffer.lines()
-                .collect(Collectors.toList());
-    }
+    List<Customer> findAllBlack();
 }

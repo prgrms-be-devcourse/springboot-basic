@@ -1,18 +1,12 @@
-package com.programmers.voucher.model.customer;
+package com.programmers.voucher.dto;
 
-public class Customer {
-    private final int customerId;
+public class CustomerDto {
     private final String customerName;
     private final String email;
 
-    public Customer(int customerId, String customerName, String email) {
-        this.customerId = customerId;
+    public CustomerDto(String customerName, String email) {
         this.customerName = customerName;
         this.email = email;
-    }
-
-    public int getCustomerId() {
-        return customerId;
     }
 
     public String getCustomerName() {

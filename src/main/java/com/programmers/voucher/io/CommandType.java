@@ -7,7 +7,8 @@ public enum CommandType {
     CREATE("2"),
     LIST("3"),
     DELETE("4"),
-    BLACKS("5");
+    CREATE_CUSTOMER("5"),
+    BLACKS("6");
 
     private final String commandType;
 
