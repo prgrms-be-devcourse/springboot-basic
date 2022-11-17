@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -25,6 +26,7 @@ import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
+import com.programmers.voucher.exception.VoucherNotFoundException;
 
 @Repository
 @Profile({"dev", "test"})
@@ -78,7 +80,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher findByUUID(UUID voucherId) {
-		return vouchers.get(voucherId);
+		return Optional.ofNullable(vouchers.get(voucherId))
+			.orElseThrow(() -> {
+				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+				throw new VoucherNotFoundException();
+			});
 	}
 
 	@Override
