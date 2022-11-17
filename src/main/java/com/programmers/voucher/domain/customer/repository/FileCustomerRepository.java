@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
+import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 
 @Repository
@@ -51,8 +52,8 @@ public class FileCustomerRepository implements CustomerRepository {
 				}
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 }

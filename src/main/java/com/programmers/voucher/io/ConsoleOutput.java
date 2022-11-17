@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 
 public class ConsoleOutput implements Output {
@@ -23,8 +24,8 @@ public class ConsoleOutput implements Output {
 			writer.write(str + System.lineSeparator());
 			writer.flush();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 
@@ -33,8 +34,8 @@ public class ConsoleOutput implements Output {
 		try {
 			writer.close();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 }

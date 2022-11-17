@@ -9,7 +9,7 @@ public enum ExceptionMessage {
 	WRONG_DISCOUNT_TYPE("할인값을 숫자로 입력해주세요"),
 	WRONG_VOUCHER_TYPE("바우처 이름을 잘못 입력하셨습니다."),
 	WRONG_CUSTOMER_TYPE("잘못된 고객 타입입니다."),
-	IO("입출력 버퍼가 비었습니다.");
+	EMPTY_BUFFER("입출력 버퍼가 비었습니다.");
 
 	private String message;
 

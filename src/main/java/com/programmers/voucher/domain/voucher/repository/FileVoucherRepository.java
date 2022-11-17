@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
+import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.VoucherNotFoundException;
 
@@ -43,8 +44,8 @@ public class FileVoucherRepository implements VoucherRepository {
 			writer.write(voucher.toString() + System.lineSeparator());
 			writer.flush();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 
@@ -61,8 +62,8 @@ public class FileVoucherRepository implements VoucherRepository {
 				}
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 
 		log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
@@ -83,8 +84,8 @@ public class FileVoucherRepository implements VoucherRepository {
 				vouchers.add(voucher);
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 
 		return vouchers;
@@ -96,8 +97,8 @@ public class FileVoucherRepository implements VoucherRepository {
 			BufferedWriter clearWriter = new BufferedWriter(new FileWriter(filePath, false));
 			clearWriter.close();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.IO.getMessage());
-			throw new RuntimeException(ExceptionMessage.IO.getMessage());
+			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 }
