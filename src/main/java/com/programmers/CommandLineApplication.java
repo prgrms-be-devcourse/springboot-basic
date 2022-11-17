@@ -3,14 +3,14 @@ package com.programmers;
 import com.programmers.customer.controller.CustomerController;
 import com.programmers.view.View;
 import com.programmers.voucher.controller.VoucherController;
-import com.programmers.voucher.menu.Menu;
+import com.programmers.menu.Menu;
 import com.programmers.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static com.programmers.message.Message.GREETING_MESSAGE;
-import static com.programmers.voucher.menu.Menu.findMenu;
+import static com.programmers.menu.Menu.findMenu;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component

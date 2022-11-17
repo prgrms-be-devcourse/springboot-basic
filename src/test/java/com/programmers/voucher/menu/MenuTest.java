@@ -3,7 +3,7 @@ package com.programmers.voucher.menu;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.programmers.voucher.menu.Menu.findMenu;
+import static com.programmers.menu.Menu.findMenu;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MenuTest {

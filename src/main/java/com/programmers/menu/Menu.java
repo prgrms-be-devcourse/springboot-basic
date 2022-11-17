@@ -1,4 +1,4 @@
-package com.programmers.voucher.menu;
+package com.programmers.menu;
 
 import java.util.Arrays;
 
