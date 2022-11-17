@@ -21,16 +21,15 @@ import static java.util.Collections.singletonMap;
 
 @Profile("dev")
 @Repository
-public class DbCustomerRepository implements CustomerRepository{
-    private final Logger log = LoggerFactory.getLogger(DbCustomerRepository.class);
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final CustomerRowMapper customerRowMapper;
-
+public class DbCustomerRepository implements CustomerRepository {
     public final static String CUSTOMER_ID = "customerId";
     public final static String CUSTOMER_NAME = "name";
     public final static String CUSTOMER_EMAIL = "email";
     public final static String CREATE_AT = "createAt";
     public final static String LAST_LOGIN_AT = "lastLoginAt";
+    private final Logger log = LoggerFactory.getLogger(DbCustomerRepository.class);
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final CustomerRowMapper customerRowMapper;
 
     public DbCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -87,12 +86,12 @@ public class DbCustomerRepository implements CustomerRepository{
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL , emptyMap());
+        jdbcTemplate.update(DELETE_ALL, emptyMap());
     }
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject(SELECT_COUNT , emptyMap(), Integer.class);
+        return jdbcTemplate.queryForObject(SELECT_COUNT, emptyMap(), Integer.class);
     }
 
     @Override
@@ -124,7 +123,7 @@ public class DbCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(SELECT_ALL , customerRowMapper);
+        return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -133,7 +132,7 @@ public class DbCustomerRepository implements CustomerRepository{
             put(CUSTOMER_EMAIL, customer.getEmail());
             put(CREATE_AT, customer.getCreateAt());
             put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-            put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes() );
+            put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
         }};
     }
 }

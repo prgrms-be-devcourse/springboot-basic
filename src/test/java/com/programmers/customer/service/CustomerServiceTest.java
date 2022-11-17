@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 class CustomerServiceTest {
@@ -24,32 +24,28 @@ class CustomerServiceTest {
     @Transactional
     @DisplayName("정상 회원은 성공적으로 등록된다.")
     void 회원가입_성공() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        assertDoesNotThrow(() -> customerService.join(customer));
+        assertDoesNotThrow(() -> customerService.join("test1", "test@test.com"));
     }
 
     @Test
     @Transactional
     @DisplayName("중복 email 회원은 가입이 불가능하다.")
     void 중복이메일_가입_실패() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        assertDoesNotThrow(() -> customerService.join(customer));
+        assertDoesNotThrow(() -> customerService.join("tester1", "test@test.com"));
 
-        Customer sameEmailUser = new Customer(UUID.randomUUID(), "hello", "test@test.com", LocalDateTime.now());
-        assertThrows(RuntimeException.class, () -> customerService.join(sameEmailUser));
+        assertThrows(RuntimeException.class, () -> customerService.join("hello", "test@test.com"));
     }
 
     @Test
     @Transactional
     @DisplayName("회원의 이름 정보를 변경할 수 있다.")
     void 회원정보_업데이트() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        customerService.join(customer);
+        Customer customer = customerService.join("tester1", "test@test.com");
 
         customer.changeName("tester2");
         Customer updateCustomer = customerService.update(customer);
 
-        assertThat(updateCustomer.getName(), is("tester2"));
+        assertThat(customer.getName(), is("tester2"));
         assertDoesNotThrow(() -> customerService.findByName("tester2"));
     }
 
@@ -57,8 +53,7 @@ class CustomerServiceTest {
     @Transactional
     @DisplayName("등록된 회원의 이름으로 조회 시 성공")
     void 회원_조회_이름() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        customerService.join(customer);
+        Customer customer = customerService.join("tester1", "test@test.com");
 
         Customer findOne = customerService.findByName(customer.getName());
         assertEquals(customer, findOne);
@@ -68,8 +63,7 @@ class CustomerServiceTest {
     @Transactional
     @DisplayName("등록된 회원의 Id로 조회 시 성공")
     void 회원_조회_Id() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        customerService.join(customer);
+        Customer customer = customerService.join("tester1", "test@test.com");
 
         Customer findOne = customerService.findById(customer.getCustomerId());
         assertEquals(customer, findOne);
@@ -79,8 +73,7 @@ class CustomerServiceTest {
     @Transactional
     @DisplayName("등록된 회원의 Email로 조회 시 성공")
     void 회원_조회_Email() {
-        Customer customer = new Customer(UUID.randomUUID(), "tester1", "test@test.com", LocalDateTime.now());
-        customerService.join(customer);
+        Customer customer = customerService.join("tester1", "test@test.com");
 
         Customer findOne = customerService.findByEmail(customer.getEmail());
         assertEquals(customer, findOne);
@@ -111,10 +104,8 @@ class CustomerServiceTest {
     @DisplayName("저장된 회원 목록을 조회할 수 있다")
     @Transactional
     void 전체_회원_조회() {
-        Customer customer1 = new Customer(UUID.randomUUID(), "tester1", "test1@test.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "tester2", "test2@test.com", LocalDateTime.now());
-        customerService.join(customer1);
-        customerService.join(customer2);
+        customerService.join("tester1", "test1@test.com");
+        customerService.join("tester2", "test2@test.com");
 
         List<Customer> customers = customerService.findAll();
         assertThat(customers, hasSize(2));

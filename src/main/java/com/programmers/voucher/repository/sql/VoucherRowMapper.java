@@ -11,6 +11,11 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class VoucherRowMapper implements RowMapper<Voucher> {
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     @Override
     public Voucher mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
@@ -19,10 +24,5 @@ public class VoucherRowMapper implements RowMapper<Voucher> {
 
         VoucherType voucherType = VoucherType.getValidateVoucherType(type);
         return VoucherFactory.createVoucher(voucherId, voucherType, value);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

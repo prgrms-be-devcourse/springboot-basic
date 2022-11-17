@@ -1,9 +1,9 @@
 package com.programmers.customer.repository;
 
 
+import com.programmers.config.properties.BlackCustomerProperties;
 import com.programmers.customer.Customer;
 import com.programmers.customer.black.FileBlackCustomerRepository;
-import com.programmers.config.properties.BlackCustomerProperties;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

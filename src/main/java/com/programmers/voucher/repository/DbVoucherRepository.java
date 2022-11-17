@@ -13,32 +13,32 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.programmers.message.ErrorMessage.*;
+import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
+import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static com.programmers.voucher.repository.sql.VoucherSql.*;
 
 @Repository
 @Profile("dev")
-public class DbVoucherRepository implements VoucherRepository{
-    private final Logger log = LoggerFactory.getLogger(DbVoucherRepository.class);
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final VoucherRowMapper voucherRowMapper;
-
+public class DbVoucherRepository implements VoucherRepository {
     public static final String VOUCHER_ID = "voucherId";
     public static final String VOUCHER_TYPE = "voucherType";
     public static final String VOUCHER_VALUE = "voucherValue";
     public static final String CREATE_AT = "createAt";
+    private final Logger log = LoggerFactory.getLogger(DbVoucherRepository.class);
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final VoucherRowMapper voucherRowMapper;
 
     @Autowired
     public DbVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.voucherRowMapper = new VoucherRowMapper();
     }
-    
+
     @Override
-    public Optional<Voucher> findById(UUID id) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_VOUCHER_BY_ID,
-                    Collections.singletonMap(VOUCHER_ID, id.toString().getBytes()), voucherRowMapper));
+                    Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();

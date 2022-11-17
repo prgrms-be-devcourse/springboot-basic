@@ -21,11 +21,11 @@ import static com.programmers.wallet.repository.sql.WalletSql.*;
 
 @Repository
 public class DbWalletRepository implements WalletRepository {
+    public static final String ASSIGN_AT = "assignAt";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Logger log = LoggerFactory.getLogger(DbWalletRepository.class);
     private final CustomerRowMapper customerRowMapper;
     private final VoucherRowMapper voucherRowMapper;
-    public static final String ASSIGN_AT = "assignAt";
 
     public DbWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;

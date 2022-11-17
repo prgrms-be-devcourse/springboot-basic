@@ -6,7 +6,6 @@ import java.util.Objects;
 import static com.programmers.message.ErrorMessage.VOUCHER_INPUT_ERROR_MESSAGE;
 
 
-
 public enum VoucherType {
     FixedAmount("F"),
 

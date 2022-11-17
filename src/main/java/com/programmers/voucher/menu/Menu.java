@@ -6,9 +6,19 @@ import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
 
 public enum Menu {
     EXIT,
-    CREATE,
-    LIST,
-    ;
+
+    JOIN,
+    CUSTOMERS,
+    DELETE_C,
+
+    REGISTER,
+    VOUCHERS,
+    DELETE_V,
+
+    ASSIGN,
+    WALLET,
+    VOUCHER_OWNER,
+    DELETE_W;
 
     Menu() {
     }

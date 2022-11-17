@@ -34,6 +34,7 @@ public class Customer {
         this.createAt = createAt;
         this.wallet = new ArrayList<>();
     }
+
     public Customer(UUID customerId, String name) {
         this.customerId = customerId;
         this.name = name;
@@ -87,6 +88,15 @@ public class Customer {
         return Objects.hash(getCustomerId(), getName(), getEmail());
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
     public void addVoucher(Voucher voucher) {
         this.wallet.add(voucher);
     }
@@ -99,5 +109,9 @@ public class Customer {
 
     public List<Voucher> getWallet() {
         return wallet;
+    }
+
+    public void makeWallet(List<Voucher> wallet) {
+        this.wallet = wallet;
     }
 }

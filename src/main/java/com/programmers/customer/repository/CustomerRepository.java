@@ -8,7 +8,9 @@ import java.util.UUID;
 
 public interface CustomerRepository {
     Optional<Customer> findById(UUID customerId);
+
     Optional<Customer> findByName(String name);
+
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
@@ -16,8 +18,9 @@ public interface CustomerRepository {
     int count();
 
     Customer insert(Customer customer);
-    Customer update(Customer customer);
-    List<Customer> findAll();
 
+    Customer update(Customer customer);
+
+    List<Customer> findAll();
 
 }

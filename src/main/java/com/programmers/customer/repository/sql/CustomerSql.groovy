@@ -11,8 +11,20 @@ class CustomerSql {
     """
 
     public static final String SELECT_BY_ID = """
-        SELECT * FROM customer 
+        SELECT * FROM customer
         WHERE customer_id = UUID_TO_BIN(:customerId)
+    """
+
+    public static final String SELECT_ALL_BY_ID = """
+        SELECT c.customer_id, c.name, c.email, w.voucher_id, r.voucher_type, r.voucher_value
+        FROM customer c
+        LEFT JOIN wallet w
+        ON c.customer_id = w.customer_id
+        LEFT JOIN voucher v
+        on w.voucher_id = v.voucher_id
+        LEFT JOIN voucher_rule r
+        on v.voucher_id = r.voucher_id
+        WHERE c.customer_id = UUID_TO_BIN(:customerId)
     """
 
     public static final String SELECT_BY_NAME = """

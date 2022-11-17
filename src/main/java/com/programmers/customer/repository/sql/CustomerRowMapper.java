@@ -11,6 +11,11 @@ import java.util.UUID;
 
 public class CustomerRowMapper implements RowMapper<Customer> {
 
+    private static UUID toUUID(byte[] bytes) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     @Override
     public Customer mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         String customerName = resultSet.getString("name");
@@ -21,10 +26,5 @@ public class CustomerRowMapper implements RowMapper<Customer> {
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
 
         return new Customer(customerId, customerName, email, lastLoginAt, createAt);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

@@ -1,7 +1,7 @@
 package com.programmers.customer.black;
 
-import com.programmers.customer.Customer;
 import com.programmers.config.properties.BlackCustomerProperties;
+import com.programmers.customer.Customer;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

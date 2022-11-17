@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface WalletService {
-    Customer assignVoucher(Customer customer, Voucher voucher);
+    Customer assignVoucher(UUID customerId, UUID voucherId);
 
     List<Voucher> searchVouchersByCustomerId(UUID customerId);
 
     Customer searchCustomerByVoucherId(UUID voucherId);
 
-    void removeCustomerVoucher(Customer customer, Voucher voucher);
+    void removeCustomerVoucher(UUID customerId, UUID voucherId);
 }
