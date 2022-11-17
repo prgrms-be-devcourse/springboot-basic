@@ -21,12 +21,12 @@ public class Response {
 
     @Override
     public String toString() {
-        if (methodType == CREATE) return MessageFormat.format("{0}이 생성되었습니다.", voucherList);
+        if (methodType == CREATE) return MessageFormat.format("{0} is generated.", voucherList);
         if (methodType == LOOKUP) {
             if (voucherList.isEmpty()) {
                 return VOUCHER_DOES_NOT_EXIST;
             }
-            return MessageFormat.format("{0}이 있습니다.", voucherList);
+            return MessageFormat.format("{0} exist.", voucherList);
         }
         return voucherList.toString();
     }
