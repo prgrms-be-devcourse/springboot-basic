@@ -15,16 +15,17 @@ public class CSVWriter {
         this.append = append;
     }
 
-    public boolean isWriterAppendMode(){
+    public boolean isWriterAppendMode() {
         return append;
     }
-    public void writeCSV(CsvDto csvDto){
+
+    public void writeCSV(CsvDto csvDto) {
         File targetCsv = new File(path);
         List<String[]> value = csvDto.value;
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetCsv,append));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(targetCsv, append));
             for (String[] strings : value) {
-                String line = String.join(",",strings);
+                String line = String.join(",", strings);
                 bufferedWriter.write(line);
                 bufferedWriter.newLine();
             }

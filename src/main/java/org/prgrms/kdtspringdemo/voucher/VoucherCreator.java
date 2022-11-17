@@ -13,22 +13,24 @@ import java.util.UUID;
 @Component
 public class VoucherCreator {
     private static final Logger logger = LoggerFactory.getLogger(VoucherCreator.class);
-    public Voucher createVoucher(VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException{
 
-        Voucher newVoucher =  switch (voucherType){
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(),percentOrAmount);
-            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(),percentOrAmount);
+    public Voucher createVoucher(VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException {
+
+        Voucher newVoucher = switch (voucherType) {
+            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), percentOrAmount);
+            case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), percentOrAmount);
         };
-        logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}",voucherType.name(),percentOrAmount);
+        logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}", voucherType.name(), percentOrAmount);
         return newVoucher;
     }
-    public Voucher createVoucher(UUID voucherId,VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException{
 
-        Voucher newVoucher =  switch (voucherType){
-            case FIXED -> new FixedAmountVoucher(voucherId,percentOrAmount);
-            case PERCENT -> new PercentDiscountVoucher(voucherId,percentOrAmount);
+    public Voucher createVoucher(UUID voucherId, VoucherType voucherType, Long percentOrAmount) throws IllegalArgumentException {
+
+        Voucher newVoucher = switch (voucherType) {
+            case FIXED -> new FixedAmountVoucher(voucherId, percentOrAmount);
+            case PERCENT -> new PercentDiscountVoucher(voucherId, percentOrAmount);
         };
-        logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}",voucherType.name(),percentOrAmount);
+        logger.info("바우쳐 생성 성공. 타입 :{} 값 :{}", voucherType.name(), percentOrAmount);
         return newVoucher;
     }
 }

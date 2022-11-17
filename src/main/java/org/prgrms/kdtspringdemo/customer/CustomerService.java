@@ -8,10 +8,12 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
-    public List<Customer> getAllBlackList(){
+
+    public List<Customer> getAllBlackList() {
         return customerRepository.findAll();
     }
 }

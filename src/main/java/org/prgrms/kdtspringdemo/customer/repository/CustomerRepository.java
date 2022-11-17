@@ -8,11 +8,17 @@ import java.util.UUID;
 
 public interface CustomerRepository {
     Customer insert(Customer customer);
+
     void update(Customer customer);
+
     List<Customer> findAll();
+
     Optional<Customer> findById(UUID targetId);
+
     void deleteById(UUID targetId);
+
     void deleteAll();
+
     List<Customer> findAllBlackList();
 
 }

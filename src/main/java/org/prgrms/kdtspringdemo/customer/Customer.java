@@ -1,13 +1,10 @@
 package org.prgrms.kdtspringdemo.customer;
 
-import org.prgrms.kdtspringdemo.io.file.CsvDto;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Customer {
@@ -19,11 +16,10 @@ public class Customer {
     private final LocalDate birth;
     @NonNull
     private final String email;
-    @Nullable
-    private LocalDateTime lastLoginAt;
     @NonNull
     private final LocalDateTime createdAt;
-
+    @Nullable
+    private LocalDateTime lastLoginAt;
     @NonNull
     private boolean blackList;
 
@@ -33,15 +29,16 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
-        this.birth =birth;
+        this.birth = birth;
         this.blackList = blackList;
     }
+
     public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
-        this.birth =birth;
+        this.birth = birth;
         this.blackList = false;
     }
 

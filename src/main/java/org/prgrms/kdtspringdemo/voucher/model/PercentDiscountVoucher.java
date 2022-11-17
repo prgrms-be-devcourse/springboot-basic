@@ -9,17 +9,18 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private static final long MAX_PERCENT = 100;
     private static final long MIN_PERCENT = 0;
-    private final  UUID voucherId;
+    private final UUID voucherId;
 
     private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) throws IllegalArgumentException{
-        if(!voucherAllow(percent)) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) throws IllegalArgumentException {
+        if (!voucherAllow(percent)) {
             throw new IllegalArgumentException("허용되지 않는 숫자입니다.");
         }
         this.voucherId = voucherId;
         this.percent = percent;
     }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
@@ -27,7 +28,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount *(percent/100);
+        return beforeDiscount * (percent / 100);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public CsvDto makeCsvDtoFromVoucher() {
         List<String[]> lines = new ArrayList<>();
-        String[] line = {this.voucherId.toString(),String.valueOf(this.percent),this.getVoucherType().name()};
+        String[] line = {this.voucherId.toString(), String.valueOf(this.percent), this.getVoucherType().name()};
         lines.add(line);
         return CsvDto.from(lines);
     }

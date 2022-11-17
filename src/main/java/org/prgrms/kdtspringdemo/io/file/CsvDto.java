@@ -8,7 +8,8 @@ public class CsvDto {
     private CsvDto(List<String[]> value) {
         this.value = value;
     }
-    public static CsvDto from(List<String[]> value){
+
+    public static CsvDto from(List<String[]> value) {
         return new CsvDto(value);
     }
 

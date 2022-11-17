@@ -3,8 +3,8 @@ package org.prgrms.kdtspringdemo.commandline_application;
 import org.prgrms.kdtspringdemo.customer.Customer;
 import org.prgrms.kdtspringdemo.customer.CustomerService;
 import org.prgrms.kdtspringdemo.io.console.Console;
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.VoucherService;
+import org.prgrms.kdtspringdemo.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +16,11 @@ import java.util.List;
 
 @Component
 public class CommandLineApplication implements ApplicationRunner {
-    private boolean isRunning = true;
     private final Console console;
     private final VoucherService voucherService;
-
     private final CustomerService customerService;
     private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private boolean isRunning = true;
 
     public CommandLineApplication(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;

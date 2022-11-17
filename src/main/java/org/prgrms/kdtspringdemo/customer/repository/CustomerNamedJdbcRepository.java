@@ -13,14 +13,14 @@ import java.util.*;
 
 @Repository
 public class CustomerNamedJdbcRepository implements CustomerRepository {
-    private final String INSERT_SQL ="INSERT INTO customers_demo(customer_id, name, birth_date, email, created_at) VALUES(UUID_TO_BIN(:customerId),:name,:birth,:email,:createdAt)";
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private static RowMapper<Customer> customerRawMapper = (resultSet,i)->{
+    private static RowMapper<Customer> customerRawMapper = (resultSet, i) -> {
         String name = resultSet.getString("name");
         return null;
     };
+    private final String INSERT_SQL = "INSERT INTO customers_demo(customer_id, name, birth_date, email, created_at) VALUES(UUID_TO_BIN(:customerId),:name,:birth,:email,:createdAt)";
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
     @Autowired
     public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -28,7 +28,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        jdbcTemplate.update(INSERT_SQL,toParamMap(customer));
+        jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
         return customer;
     }
 
@@ -61,14 +61,14 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         return null;
     }
 
-    private Map<String,Object> toParamMap(Customer customer){
-        return new HashMap<>(){{
-            put("customerId",customer.getCustomerId().toString().getBytes());
-            put("name",customer.getName());
-            put("birth",customer.getBirth());
-            put("email",customer.getEmail());
+    private Map<String, Object> toParamMap(Customer customer) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("name", customer.getName());
+            put("birth", customer.getBirth());
+            put("email", customer.getEmail());
             put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-            put("lastLoginAt",customer.getLastLoginAt()!=null? Timestamp.valueOf(customer.getLastLoginAt()):null);
+            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
         }};
     }
 }

@@ -22,15 +22,16 @@ public class VoucherService {
     }
 
     public Voucher getVoucher(UUID voucherId) {
-        return voucherRepository.findById(voucherId).orElseThrow(()->
+        return voucherRepository.findById(voucherId).orElseThrow(() ->
                 new NullPointerException(MessageFormat.format("Can not find a voucher for{0}", voucherId)));
     }
 
-    public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException{
-        Voucher newVoucher= voucherCreator.createVoucher(voucherType,number);
+    public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException {
+        Voucher newVoucher = voucherCreator.createVoucher(voucherType, number);
         return voucherRepository.insert(newVoucher);
     }
-    public List<Voucher> getAllVoucherList(){
+
+    public List<Voucher> getAllVoucherList() {
         return voucherRepository.findAllVaucher();
     }
 }
