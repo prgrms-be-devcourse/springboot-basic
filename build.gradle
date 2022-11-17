@@ -16,6 +16,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.projectlombok:lombok:1.18.22'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//JDBC
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	//MySql
+	implementation 'mysql:mysql-connector-java'
 }
 
 tasks.named('test') {

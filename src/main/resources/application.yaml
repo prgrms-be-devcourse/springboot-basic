@@ -1,8 +1,9 @@
 spring:
-  profiles:
-    active: local
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher
+    username: voucher
+    password: root1234!
 
 file:
   path:
-    voucher: src/main/resources/file/voucherlist.txt
     black: src/main/resources/file/customer_blacklist.csv
