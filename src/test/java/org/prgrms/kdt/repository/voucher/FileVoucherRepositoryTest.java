@@ -1,20 +1,27 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.repository.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.repository.voucher.FileVoucherRepository;
 import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
-class MemoryVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository = new MemoryVoucherRepository();
+@SpringBootTest(classes = {FileVoucherRepository.class, VoucherFactory.class})
+class FileVoucherRepositoryTest {
+
+    @Autowired
+    private VoucherRepository voucherRepository;
 
     @BeforeEach
     void beforeEach() {
@@ -32,39 +39,37 @@ class MemoryVoucherRepositoryTest {
         Voucher findVoucher = voucherRepository.findById(voucher.getVoucherId()).orElseThrow(IllegalArgumentException::new);
 
         // then
-        assertThat(voucher.getVoucherId()).isEqualTo(findVoucher.getVoucherId());
+        assertThat(findVoucher.getVoucherId(), is(voucher.getVoucherId()));
     }
 
     @Test
     @DisplayName("바우처가 제대로 들어갔는지 repository 내부 바우처의 갯수로 검증")
     void insert() {
         // given
-        int size = 0;
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
-        size += 1;
 
         // when
         voucherRepository.insert(voucher);
         int getVoucherCount = voucherRepository.getAllStoredVoucher().size();
+        System.out.println(getVoucherCount);
 
         // then
-        assertThat(size).isEqualTo(getVoucherCount);
+        assertThat(getVoucherCount, is(1));
     }
 
     @Test
     @DisplayName("저장된 바우처들이 제대로 나오는지 바우처 갯수를 이용한 검증")
     void getAllStoredVoucher() {
         // given
-        int size = 3;
-        for (int i = 1; i <= size; i++) {
-            voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000L * i));
-        }
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 1000L));
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 2000L));
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 3000L));
 
         // when
         int getVoucherCount = voucherRepository.getAllStoredVoucher().size();
 
         // then
-        assertThat(size).isEqualTo(getVoucherCount);
+        assertThat(getVoucherCount, is(3));
     }
 
 }

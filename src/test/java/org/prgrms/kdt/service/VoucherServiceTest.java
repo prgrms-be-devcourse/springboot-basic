@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Component
@@ -37,7 +38,7 @@ class VoucherServiceTest {
         int size = voucherService.getAllVouchers().size();
 
         // then
-        assertThat(3).isEqualTo(size);
+        assertThat(size, is(3));
     }
 
     @Test
@@ -51,7 +52,7 @@ class VoucherServiceTest {
 
         // then
         UUID voucherId = voucherService.getAllVouchers().get(0).getVoucherId();
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
+        assertThat(voucherId, is(voucher.getVoucherId()));
     }
 
     @Test
@@ -70,7 +71,7 @@ class VoucherServiceTest {
         Voucher newVoucher = voucherService.create(FIXED_AMOUNT_VOUCHER, discountValue);
 
         // then
-        assertThat(FixedAmountVoucher.class).isEqualTo(newVoucher.getClass());
+        assertThat(newVoucher.getClass(), is(FixedAmountVoucher.class));
     }
 
     @Test
@@ -83,6 +84,6 @@ class VoucherServiceTest {
         Voucher newVoucher = voucherService.create(PERCENT_DISCOUNT_VOUCHER, discountValue);
 
         // then
-        assertThat(PercentDiscountVoucher.class).isEqualTo(newVoucher.getClass());
+        assertThat(newVoucher.getClass(), is(PercentDiscountVoucher.class));
     }
 }
