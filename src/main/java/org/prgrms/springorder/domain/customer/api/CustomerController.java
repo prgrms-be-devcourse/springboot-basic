@@ -2,6 +2,8 @@ package org.prgrms.springorder.domain.customer.api;
 
 import java.util.List;
 import org.prgrms.springorder.console.io.ListResponse;
+import org.prgrms.springorder.console.io.Response;
+import org.prgrms.springorder.console.io.StringResponse;
 import org.prgrms.springorder.domain.customer.Wallet;
 import org.prgrms.springorder.domain.customer.api.request.CreateCustomerRequest;
 import org.prgrms.springorder.domain.customer.api.request.CustomerIdRequest;
@@ -10,12 +12,10 @@ import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
 import org.prgrms.springorder.domain.voucher.api.request.AllocateVoucherRequest;
 import org.prgrms.springorder.domain.voucher.api.request.DeleteVoucherRequest;
-import org.prgrms.springorder.console.io.Response;
-import org.prgrms.springorder.console.io.StringResponse;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
-@Component
+@Controller
 @Profile("dev")
 public class CustomerController  {
 

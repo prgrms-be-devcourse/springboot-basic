@@ -61,7 +61,9 @@
   <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="OFF"/>
   <logger name="org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener" level="OFF"/>
   <logger name="com.zaxxer.hikari.pool.HikariPool" level="OFF"/>
-  <root level="warn">
+  <logger name="org.thymeleaf.TemplateEngine" level="OFF"/>
+
+  <root level="debug">
     <appender-ref ref="CONSOLE"/>
     <appender-ref ref="ROLLING_FILE"/>
   </root>

@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
-public class CommandLineApplication implements CommandLineRunner {
+public class CommandLineApplication {
 
     private final CommandLineDispatcher dispatcher;
 
@@ -29,25 +28,25 @@ public class CommandLineApplication implements CommandLineRunner {
         this.console = console;
     }
 
-    @Override
-    public void run(String... args) {
-        while (ConsoleRunningStatus.isRunning()) {
-            try {
-                console.displayCommandGuide();
-
-                String inputString = console.input();
-
-                Command command = Command.of(inputString);
-
-                Request request = consoleRequestBuilder.request(command);
-
-                console.showMessage(dispatcher.request(command, request).getResponse());
-
-            } catch (RuntimeException e) {
-                logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(),
-                    e.getMessage());
-                console.showMessage(e.getMessage());
-            }
-        }
-    }
+//    @Override
+//    public void run(String... args) {
+//        while (ConsoleRunningStatus.isRunning()) {
+//            try {
+//                console.displayCommandGuide();
+//
+//                String inputString = console.input();
+//
+//                Command command = Command.of(inputString);
+//
+//                Request request = consoleRequestBuilder.request(command);
+//
+//                console.showMessage(dispatcher.request(command, request).getResponse());
+//
+//            } catch (RuntimeException e) {
+//                logger.warn("errorName : {}, errorMessage : {}", e.getClass().getName(),
+//                    e.getMessage());
+//                console.showMessage(e.getMessage());
+//            }
+//        }
+//    }
 }

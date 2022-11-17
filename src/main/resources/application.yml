@@ -9,3 +9,6 @@ spring:
     allow-bean-definition-overriding: true
 
 
+  thymeleaf:
+    cache: false
+
