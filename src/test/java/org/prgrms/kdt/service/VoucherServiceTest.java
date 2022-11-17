@@ -2,10 +2,9 @@ package org.prgrms.kdt.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.dao.entity.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.dao.entity.voucher.Voucher;
 import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.entity.voucher.VoucherType;
 import org.prgrms.kdt.dao.repository.voucher.MemoryVoucherRepository;
 import org.springframework.stereotype.Component;
 
@@ -30,10 +29,9 @@ class VoucherServiceTest {
     @DisplayName("바우처를 여러 개 만들었을 때, 반환 받는 바우처의 개수가 동일한지 검증")
     void 반환되는_바우처_갯수확인() throws IOException {
         // given
-        voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 1000L));
-        voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 2000L));
-        voucherService.save(new FixedAmountVoucher(UUID.randomUUID(), 3000L));
-
+        voucherService.create(FIXED_AMOUNT_VOUCHER, "1000");
+        voucherService.create(FIXED_AMOUNT_VOUCHER, "2000");
+        voucherService.create(FIXED_AMOUNT_VOUCHER, "3000");
         // when
         int size = voucherService.getAllVouchers().size();
 
@@ -45,13 +43,12 @@ class VoucherServiceTest {
     @DisplayName("생성한 바우처의 id 값과 저장된 바우처의 id 값이 같은 지 비교")
     void 바우처_id비교() throws IOException {
         // given
-        FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
+        Voucher voucher = voucherService.create(FIXED_AMOUNT_VOUCHER, "1000");
 
         // when
-        voucherService.save(voucher);
+        UUID voucherId = voucherService.getAllVouchers().get(0).getVoucherId();
 
         // then
-        UUID voucherId = voucherService.getAllVouchers().get(0).getVoucherId();
         assertThat(voucherId, is(voucher.getVoucherId()));
     }
 
@@ -71,7 +68,7 @@ class VoucherServiceTest {
         Voucher newVoucher = voucherService.create(FIXED_AMOUNT_VOUCHER, discountValue);
 
         // then
-        assertThat(newVoucher.getClass(), is(FixedAmountVoucher.class));
+        assertThat(newVoucher.getVoucherType(), is(VoucherType.getStringClassName(FIXED_AMOUNT_VOUCHER)));
     }
 
     @Test
@@ -84,6 +81,6 @@ class VoucherServiceTest {
         Voucher newVoucher = voucherService.create(PERCENT_DISCOUNT_VOUCHER, discountValue);
 
         // then
-        assertThat(newVoucher.getClass(), is(PercentDiscountVoucher.class));
+        assertThat(newVoucher.getVoucherType(), is(VoucherType.getStringClassName(PERCENT_DISCOUNT_VOUCHER)));
     }
 }

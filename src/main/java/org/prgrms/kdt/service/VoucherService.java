@@ -2,10 +2,12 @@ package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.dao.entity.voucher.Voucher;
 import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
+import org.prgrms.kdt.dao.entity.voucher.VoucherType;
 import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -22,11 +24,10 @@ public class VoucherService {
         return voucherRepository.getAllStoredVoucher();
     }
 
-    public void save(Voucher voucher) {
-        voucherRepository.insert(voucher);
-    }
-
     public Voucher create(String voucherTypeNumber, String discountValue) {
-        return voucherFactory.createVoucher(voucherTypeNumber, discountValue);
+        String voucherType = VoucherType.getStringClassName(voucherTypeNumber);
+        Voucher voucher = voucherFactory.createVoucher(UUID.randomUUID(), discountValue, voucherType);
+        voucherRepository.insert(voucher);
+        return voucher;
     }
 }
