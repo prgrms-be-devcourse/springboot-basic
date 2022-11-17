@@ -1,33 +1,49 @@
 package org.programmers.springbootbasic.io;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
+import org.programmers.springbootbasic.exception.WrongCommandInputException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 class ConsoleTest {
 
     @Test
-    public void 사용자_입력_테스트() throws Exception {
+    @DisplayName("사용자가 exit 입력을 했을 때 EXIT Enum이 반환되어야 한다.")
+    void 사용자_exit_입력_테스트() throws Exception {
         //given
-        String input1 = "exit";
-        String input2 = "create";
-        String input3 = "list";
+        String input = "exit";
+        assertThat(VoucherMainMenuCommand.EXIT, is(VoucherMainMenuCommand.valueOfCommand(input)));
+    }
+
+    @Test
+    @DisplayName("사용자가 create 입력을 했을 때 CREATE Enum이 반환되어야 한다.")
+    void 사용자_create_입력_테스트() throws Exception {
+        //given
+        String input = "create";
+        assertThat(VoucherMainMenuCommand.CREATE, is(VoucherMainMenuCommand.valueOfCommand(input)));
+    }
+
+    @Test
+    @DisplayName("사용자가 list 입력을 했을 때 LIST Enum이 반환되어야 한다.")
+    void 사용자_list_입력_테스트() throws Exception {
+        //given
+        String input = "list";
+        assertThat(VoucherMainMenuCommand.LIST, is(VoucherMainMenuCommand.valueOfCommand(input)));
+    }
+
+    @Test
+    @DisplayName("사용자가 정해진 값 이외를 입력 했을 때 WrongCommandException이 발생해야 한다.")
+    void 사용자_오류_입력_테스트() throws Exception {
+        //given
         String wrongInput1 = "aas";
-        String wrongInput2 = "123123";
-        String wrongInput3 = "!#!#@#12312#@!!#@3";
-        String wrongInput4 = "EXIT";
-
-        // when
-        //then
-
-        Assertions.assertThat(VoucherMainMenuCommand.EXIT).isEqualTo(VoucherMainMenuCommand.valueOfCommand(input1));
-        Assertions.assertThat(VoucherMainMenuCommand.CREATE).isEqualTo(VoucherMainMenuCommand.valueOfCommand(input2));
-        Assertions.assertThat(VoucherMainMenuCommand.LIST).isEqualTo(VoucherMainMenuCommand.valueOfCommand(input3));
 
         // wrong input.
-        Assertions.assertThat(VoucherMainMenuCommand.WRONG_INPUT).isEqualTo(VoucherMainMenuCommand.valueOfCommand(wrongInput1));
-        Assertions.assertThat(VoucherMainMenuCommand.WRONG_INPUT).isEqualTo(VoucherMainMenuCommand.valueOfCommand(wrongInput2));
-        Assertions.assertThat(VoucherMainMenuCommand.WRONG_INPUT).isEqualTo(VoucherMainMenuCommand.valueOfCommand(wrongInput3));
-        Assertions.assertThat(VoucherMainMenuCommand.WRONG_INPUT).isEqualTo(VoucherMainMenuCommand.valueOfCommand(wrongInput4));
+        Assertions.assertThatThrownBy(() -> {
+            VoucherMainMenuCommand.valueOfCommand(wrongInput1);
+        }).isInstanceOf(WrongCommandInputException.class);
     }
 }

@@ -15,7 +15,7 @@ import java.util.UUID;
 public class VoucherFactory {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
-    public Voucher getVoucher(VoucherType type, long amount) throws WrongTypeInputException {
+    public Voucher getVoucher(VoucherType type, long amount) {
         return switch (type) {
             case FIXED -> {
                 logger.info("FixedAmountVoucher 생성");

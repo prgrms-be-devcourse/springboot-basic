@@ -6,8 +6,6 @@ import org.programmers.springbootbasic.domain.Customer;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CustomerBlackListRepositoryTest {
 
     CustomerBlackListRepository customerBlackListRepository = new CustomerBlackListRepository("src/test/resources/customer_blacklist.csv");
@@ -25,7 +23,7 @@ class CustomerBlackListRepositoryTest {
 
 
     @Test
-    public void 블랙리스트_전체조회_테스트() throws Exception {
+    void 블랙리스트_전체조회_테스트() throws Exception {
         //given
         // when
         List<Customer> blackList = customerBlackListRepository.findAll();
@@ -34,7 +32,7 @@ class CustomerBlackListRepositoryTest {
     }
 
     @Test
-    public void 블랙리스트_전체조회_1개_데이터_검증_테스트() throws Exception {
+    void 블랙리스트_전체조회_1개_데이터_검증_테스트() throws Exception {
         //given
         Customer customer = new Customer(1, "김영빈");
         //when
