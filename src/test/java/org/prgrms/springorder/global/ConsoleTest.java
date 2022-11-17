@@ -19,6 +19,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.prgrms.springorder.console.io.Console;
+import org.prgrms.springorder.console.io.ConsoleInput;
+import org.prgrms.springorder.console.io.Input;
+import org.prgrms.springorder.console.io.Output;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class ConsoleTest {

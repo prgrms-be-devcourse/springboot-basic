@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.prgrms.springorder.console.io.ConsoleOutput;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConsoleOutputTest {
@@ -51,6 +52,8 @@ class ConsoleOutputTest {
         String[] messages = {"message1", "message2", "message3"};
 
         StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("\n");
 
         for (String message : messages) {
             stringBuilder.append(message).append("\n");

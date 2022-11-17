@@ -1,4 +1,4 @@
-package org.prgrms.springorder.global;
+package org.prgrms.springorder.console.core;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -6,9 +6,15 @@ import java.util.Objects;
 public enum Command {
 
     EXIT("exit"),
+    DISPLAY("display"),
     CREATE("create"),
     LIST("list"),
-    BLACKLIST("black-list")
+    BLACKLIST("black-list"),
+    CREATE_CUSTOMER("create-customer"),
+    POST_CUSTOMER_VOUCHERS("post-allocate-voucher"),
+    GET_CUSTOMER_VOUCHERS("get-customer-vouchers"),
+    DELETE_CUSTOMER_VOUCHERS("delete-customer-vouchers"),
+    GET_VOUCHER_WITH_CUSTOMER("get-voucher-with-customer")
     ;
 
     private final String command;

@@ -1,4 +1,4 @@
-package org.prgrms.springorder.global;
+package org.prgrms.springorder.console.io;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -17,10 +17,10 @@ public class ConsoleOutput implements Output {
 
     @Override
     public void showMessages(String[] messages) {
+        showMessage("");
         for (String message : messages) {
             showMessage(message);
         }
-
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ConsoleOutput implements Output {
             bufferedWriter.flush();
         } catch (IOException e) {
             logger.error("showMessage write error", e);
-            throw new RuntimeException(e.getMessage(), e);
+            throw new RuntimeException (e.getMessage(), e);
         }
     }
 

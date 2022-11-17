@@ -1,4 +1,4 @@
-package org.prgrms.springorder.global;
+package org.prgrms.springorder.console.core;
 
 public class ConsoleRunningStatus {
 

@@ -6,14 +6,15 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import javax.sql.DataSource;
-import org.prgrms.springorder.global.Console;
-import org.prgrms.springorder.global.ConsoleInput;
-import org.prgrms.springorder.global.ConsoleOutput;
-import org.prgrms.springorder.global.Input;
-import org.prgrms.springorder.global.Output;
+import org.prgrms.springorder.console.io.Console;
+import org.prgrms.springorder.console.io.ConsoleInput;
+import org.prgrms.springorder.console.io.ConsoleOutput;
+import org.prgrms.springorder.console.io.Input;
+import org.prgrms.springorder.console.io.Output;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -38,6 +39,7 @@ public class AppConfig {
     }
 
     @Bean
+    @Profile("dev")
     public DataSource dataSource(JdbcProperties jdbcProperties) {
         return DataSourceBuilder.create()
             .url(jdbcProperties.getUrl())
@@ -48,16 +50,19 @@ public class AppConfig {
     }
 
     @Bean
-    public NamedParameterJdbcTemplate jdbcTemplate(JdbcProperties jdbcProperties) {
-        return new NamedParameterJdbcTemplate(dataSource(jdbcProperties));
+    @Profile({"dev"})
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Bean
+    @Profile({"dev"})
     public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
+    @Profile({"dev"})
     public TransactionTemplate transactionTemplate(
         PlatformTransactionManager platformTransactionManager) {
         return new TransactionTemplate(platformTransactionManager);
