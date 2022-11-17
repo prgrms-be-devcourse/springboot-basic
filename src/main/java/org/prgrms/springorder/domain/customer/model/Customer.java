@@ -12,13 +12,17 @@ public class Customer {
 
     private String name;
 
-    private final String email;
+    private String email;
 
     private LocalDateTime lastLoginAt;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     private CustomerStatus customerStatus;
+
+    protected Customer(UUID customerId) {
+        this.customerId = customerId;
+    }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt,
         LocalDateTime createdAt, CustomerStatus customerStatus) {
@@ -46,7 +50,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (!StringUtils.hasText(name)) {
-            throw new RuntimeException("Name should not be black");
+            throw new IllegalArgumentException("Name should not be black");
         }
     }
 
@@ -97,5 +101,17 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(customerId);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+            "customerId=" + customerId +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", lastLoginAt=" + lastLoginAt +
+            ", createdAt=" + createdAt +
+            ", customerStatus=" + customerStatus +
+            '}';
     }
 }

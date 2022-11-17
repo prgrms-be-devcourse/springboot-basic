@@ -94,7 +94,7 @@ public class BlockCustomerFileRepository implements BlockCustomerRepository {
 
     private String serialize(BlockCustomer blockCustomer) {
         return String.format("%s, %s, %s", blockCustomer.getBlockId(),
-            blockCustomer.getCustomerId(), blockCustomer.getRegisteredAt().format(formatter));
+            blockCustomer.getCustomerId(), blockCustomer.getCreatedAt().format(formatter));
     }
 
     private void writeAll() {

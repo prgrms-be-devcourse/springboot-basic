@@ -10,12 +10,12 @@ public class BlockCustomer {
 
     private final UUID customerId;
 
-    private final LocalDateTime registeredAt;
+    private final LocalDateTime createdAt;
 
-    public BlockCustomer(UUID blockId, UUID customerId, LocalDateTime registeredAt) {
+    public BlockCustomer(UUID blockId, UUID customerId, LocalDateTime createdAt) {
         this.blockId = blockId;
         this.customerId = customerId;
-        this.registeredAt = registeredAt;
+        this.createdAt = createdAt;
     }
 
     public UUID getBlockId() {
@@ -26,8 +26,8 @@ public class BlockCustomer {
         return customerId;
     }
 
-    public LocalDateTime getRegisteredAt() {
-        return registeredAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BlockCustomer {
         return "BlockCustomer{" +
             "blockId=" + blockId +
             ", customerId=" + customerId +
-            ", registeredAt=" + registeredAt +
+            ", registeredAt=" + createdAt +
             '}';
     }
 }

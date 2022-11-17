@@ -1,6 +1,7 @@
 package org.prgrms.springorder.domain.voucher.api;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 import org.prgrms.springorder.domain.customer.model.CustomerStatus;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
@@ -67,5 +68,41 @@ public class CustomerWithVoucher {
 
     public CustomerStatus getCustomerStatus() {
         return customerStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "voucherId=" + voucherId +
+            ", amount=" + amount +
+            ", voucherCreatedAt=" + voucherCreatedAt +
+            ", voucherType=" + voucherType +
+            ", customerId=" + customerId +
+            ", name='" + name + '\'' +
+            ", email='" + email + '\'' +
+            ", customerStatus=" + customerStatus +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CustomerWithVoucher that = (CustomerWithVoucher) o;
+        return amount == that.amount && Objects.equals(voucherId, that.voucherId)
+            && Objects.equals(voucherCreatedAt, that.voucherCreatedAt)
+            && voucherType == that.voucherType && Objects.equals(customerId, that.customerId)
+            && Objects.equals(name, that.name) && Objects.equals(email, that.email)
+            && customerStatus == that.customerStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, amount, voucherCreatedAt, voucherType, customerId, name,
+            email,
+            customerStatus);
     }
 }
