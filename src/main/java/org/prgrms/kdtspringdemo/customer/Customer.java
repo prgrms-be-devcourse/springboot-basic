@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -21,16 +22,26 @@ public class Customer {
     @Nullable
     private LocalDateTime lastLoginAt;
     @NonNull
-    private boolean blackList;
+    private boolean isBlackCustomer;
 
 
-    public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime createdAt, boolean blackList) {
+    public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt, boolean isBlackCustomer) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+        this.birth = birth;
+        this.isBlackCustomer = isBlackCustomer;
+    }
+
+    public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime createdAt, boolean isBlackCustomer) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
         this.birth = birth;
-        this.blackList = blackList;
+        this.isBlackCustomer = isBlackCustomer;
     }
 
     public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime createdAt) {
@@ -39,7 +50,17 @@ public class Customer {
         this.email = email;
         this.createdAt = createdAt;
         this.birth = birth;
-        this.blackList = false;
+        this.isBlackCustomer = false;
+    }
+
+    public Customer(UUID customerId, String name, LocalDate birth, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.lastLoginAt = lastLoginAt;
+        this.createdAt = createdAt;
+        this.birth = birth;
+        this.isBlackCustomer = false;
     }
 
     public UUID getCustomerId() {
@@ -57,6 +78,7 @@ public class Customer {
     public String getEmail() {
         return email;
     }
+
     public LocalDateTime getLastLoginAt() {
         return lastLoginAt;
     }
@@ -65,8 +87,20 @@ public class Customer {
         return createdAt;
     }
 
-    public boolean isBlackList() {
-        return blackList;
+    public boolean isBlackCustomer() {
+        return isBlackCustomer;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return isBlackCustomer == customer.isBlackCustomer && customerId.equals(customer.customerId) && name.equals(customer.name) && birth.equals(customer.birth) && email.equals(customer.email) && createdAt.equals(customer.createdAt) && Objects.equals(lastLoginAt, customer.lastLoginAt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, birth, email, createdAt, lastLoginAt, isBlackCustomer);
+    }
 }

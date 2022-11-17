@@ -7,18 +7,25 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
+    //CREATE
     Customer insert(Customer customer);
-
-    void update(Customer customer);
-
-    List<Customer> findAll();
+    //READ
 
     Optional<Customer> findById(UUID targetId);
 
-    void deleteById(UUID targetId);
+    Optional<Customer> findByEmail(String email);
 
-    void deleteAll();
+    Optional<Customer> findByName(String name);
 
-    List<Customer> findAllBlackList();
+    List<Customer> findAll();
 
+    //UPDATE
+    int update(Customer customer);
+
+    //DELETE
+    int deleteById(UUID targetId);
+
+    int deleteAll();
+
+    int count();
 }

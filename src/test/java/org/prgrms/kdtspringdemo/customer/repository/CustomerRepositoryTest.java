@@ -1,9 +1,7 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.kdtspringdemo.customer.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -27,13 +25,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Testcontainers
 @SpringJUnitConfig
 class CustomerRepositoryTest {
     @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer<>("mysql:8").withInitScript("schema.sql");
+    private static MySQLContainer mySQLContainer = new MySQLContainer<>("mysql:8").withInitScript("schema.sql");
     static Customer newCustomer;
     static List<Customer> blackListCustomers = new ArrayList<>();
     static List<Customer> nonBlackListCustomers = new ArrayList<>();
@@ -71,13 +68,25 @@ class CustomerRepositoryTest {
 
     }
 
+    @BeforeEach
+    void insertCustomers() {
+        blackListCustomers.stream().forEach(customerRepository::insert);
+    }
+
+    @AfterEach
+    void cleanup() {
+        customerRepository.deleteAll();
+    }
+
     @Test
+    @Order(1)
     public void testHikariConnectionPool() {
         assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
     }
 
     //CREATE
     @Test
+    @Order(2)
     @DisplayName("고객을 넣는다.")
     void insert() {
         customerRepository.insert(newCustomer);
@@ -121,7 +130,7 @@ class CustomerRepositoryTest {
     @DisplayName("모든 고객을 찾을때, DB에 아무 데이터도 없다.")
     public void findAllButNoData() throws Exception {
         //given
-
+        customerRepository.deleteAll();
         //when
         List<Customer> customers = customerRepository.findAll();
         //then
@@ -132,18 +141,18 @@ class CustomerRepositoryTest {
     @DisplayName("id로 고객을 찾는다.")
     public void findById() {
         //given
-
+        var customerId = blackListCustomers.get(1).getCustomerId();
         //when
-        Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> customer = customerRepository.findById(customerId);
         //then
-        assertThat(customer.get()).isEqualTo(newCustomer);
+        assertThat(customer.get()).isEqualTo(blackListCustomers.get(1));
     }
 
     @Test
     @DisplayName("id로 고객을 찾는다. (id가 잘못됨)")
     public void findByIdWithWrongId() {
         //when
-        Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
+        Optional<Customer> customer = customerRepository.findById(UUID.randomUUID());
         //then
         assertThat(customer.isEmpty()).isTrue();
     }
@@ -153,19 +162,24 @@ class CustomerRepositoryTest {
     @DisplayName("업데이트를 한다.")
     public void update() throws Exception {
         //given
+        customerRepository.insert(newCustomer);
+        var updatedCustomer = new Customer(newCustomer.getCustomerId(), "updated-name", newCustomer.getBirth(), newCustomer.getEmail(), newCustomer.getCreatedAt());
         //when
-
+        var updatedRow = customerRepository.update(updatedCustomer);
         //then
+        assertThat(customerRepository.findById(newCustomer.getCustomerId()).get()).isEqualTo(updatedCustomer);
+        assertThat(customerRepository.findById(newCustomer.getCustomerId()).get().getName()).isEqualTo("updated-name");
+        assertThat(updatedRow).isEqualTo(1);
     }
 
     @Test
     @DisplayName("업데이트를 실패했다.(겹치는 id 가 없음)")
     public void updateFail() throws Exception {
         //given
-
         //when
-
+        var updatedRow = customerRepository.update(newCustomer);
         //then
+        assertThat(updatedRow).isEqualTo(0);
     }
 
     @Test
@@ -178,8 +192,12 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("id로 고객을 지운다.")
     void deleteById() {
-        customerRepository.deleteById(newCustomer.getCustomerId());
-        Optional<Customer> customer = customerRepository.findById(newCustomer.getCustomerId());
+        //given
+        var customer1 = blackListCustomers.get(1);
+        //when
+        customerRepository.deleteById(customer1.getCustomerId());
+        //then
+        Optional<Customer> customer = customerRepository.findById(customer1.getCustomerId());
         assertThat(customer.isEmpty()).isTrue();
     }
 
@@ -187,32 +205,20 @@ class CustomerRepositoryTest {
     @DisplayName("id로 고객을 지운다 (id가 잘못됨)")
     public void deleteByIdWithWrongId() throws Exception {
         //given
-
         //when
         //then
-        assertThrows(Exception.class, () -> customerRepository.deleteById(newCustomer.getCustomerId()));
+        assertThat(customerRepository.deleteById(UUID.randomUUID())).isEqualTo(0);
     }
 
     @Test
     @DisplayName("모든 고객을 지운다.")
     void deleteAll() {
-        customerRepository.deleteAll();
+        var allRow = customerRepository.count();
+        var deletedRow = customerRepository.deleteAll();
         assertThat(customerRepository.findAll().isEmpty()).isTrue();
+        assertThat(deletedRow).isEqualTo(allRow);
     }
 
-    @Test
-    @DisplayName("블랙리스트에 해당하는 고객들만 불러온다.")
-    void findAllBlackList() {
-        //given
-//        List<Customer> blackListCustomer
-        //when
-        List<Customer> selectedBlackList = customerRepository.findAllBlackList();
-        //then
-        selectedBlackList.forEach(customer -> {
-            assertThat(customer.isBlackList()).isTrue();
-        });
-
-    }
 
     @Configuration
     @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.customer.repository"})
