@@ -4,8 +4,8 @@ import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.VOUCH
 
 import com.prgrms.springbootbasic.common.exception.*;
 import com.prgrms.springbootbasic.console.Console;
-import com.prgrms.springbootbasic.user.blacklist.BlacklistManager;
-import com.prgrms.springbootbasic.user.domain.User;
+import com.prgrms.springbootbasic.customer.blacklist.BlacklistManager;
+import com.prgrms.springbootbasic.customer.domain.Customer;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import com.prgrms.springbootbasic.voucher.VoucherManager;
 import com.prgrms.springbootbasic.voucher.VoucherType;
@@ -64,7 +64,7 @@ public class VoucherApplication {
 
     private void blacklist() {
         try {
-            List<User> blacklist = blacklistManager.list();
+            List<Customer> blacklist = blacklistManager.list();
             console.printBlackList(blacklist);
             logger.info("List up all blacked users.");
         } catch (FileIOException | FileNotExistException | FileFormatException e) {

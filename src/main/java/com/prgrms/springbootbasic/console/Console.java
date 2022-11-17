@@ -1,6 +1,6 @@
 package com.prgrms.springbootbasic.console;
 
-import com.prgrms.springbootbasic.user.domain.User;
+import com.prgrms.springbootbasic.customer.domain.Customer;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 
 import java.text.MessageFormat;
@@ -89,7 +89,7 @@ public class Console {
         }
     }
 
-    public void printBlackList(List<User> blacklist) {
+    public void printBlackList(List<Customer> blacklist) {
         if (blacklist.isEmpty()) {
             printer.printMessage(BLACKLIST_EMPTY_MESSAGE);
         } else {

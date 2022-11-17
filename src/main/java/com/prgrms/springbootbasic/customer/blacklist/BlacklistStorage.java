@@ -1,9 +1,9 @@
-package com.prgrms.springbootbasic.user.blacklist;
+package com.prgrms.springbootbasic.customer.blacklist;
 
 import com.prgrms.springbootbasic.common.exception.FileFormatException;
 import com.prgrms.springbootbasic.common.exception.FileIOException;
 import com.prgrms.springbootbasic.common.exception.FileNotExistException;
-import com.prgrms.springbootbasic.user.domain.User;
+import com.prgrms.springbootbasic.customer.domain.Customer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,7 +37,7 @@ public class BlacklistStorage {
         this.CLASSPATH_BLACKLIST = classpathBlacklist;
     }
 
-    public List<User> findAll() {
+    public List<Customer> findAll() {
         try {
             File file = openFile();
             return readAll(file);
@@ -58,8 +58,8 @@ public class BlacklistStorage {
         }
     }
 
-    private List<User> readAll(File file) throws IOException {
-        List<User> blacklist;
+    private List<Customer> readAll(File file) throws IOException {
+        List<Customer> blacklist;
 
         try (Stream<String> lineStream = Files.lines(file.toPath())) {
             blacklist = lineStream.skip(1)
@@ -70,14 +70,14 @@ public class BlacklistStorage {
         return blacklist;
     }
 
-    private User mapToUser(String line) {
+    private Customer mapToUser(String line) {
         List<String> columns = List.of(line.split(DELIMITER));
 
         validateSize(columns);
 
         UUID id = UUID.fromString(columns.get(USER_ID_COLUMN_INDEX).trim());
         String name = columns.get(NAME_COLUMN_INDEX).trim();
-        return new User(id, name);
+        return new Customer(id, name);
     }
 
     private void validateSize(List<String> columns) {

@@ -1,12 +1,12 @@
-package com.prgrms.springbootbasic.user.domain;
+package com.prgrms.springbootbasic.customer.domain;
 
 import java.util.UUID;
 
-public class User {
+public class Customer {
     private final UUID id;
     private final String name;
 
-    public User(UUID id, String name) {
+    public Customer(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
