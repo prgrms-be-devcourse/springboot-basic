@@ -21,10 +21,13 @@ public class FileVoucherRepository implements VoucherRepository {
     private final String DATA_NAME;
 
     public FileVoucherRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.voucher}") String DATA_NAME) {
-        File path = new File(DATA_PATH);
-        if (!path.exists()) {
-            path.mkdirs();
+        try {
+            new File(DATA_PATH).mkdirs();
+            new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)).createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         this.DATA_PATH = DATA_PATH;
         this.DATA_NAME = DATA_NAME;
     }

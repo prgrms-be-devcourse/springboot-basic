@@ -22,10 +22,14 @@ public class FileUserRepository implements UserRepository {
     private final String DATA_NAME_FOR_BLACKLIST;
 
     public FileUserRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
-        File path = new File(DATA_PATH);
-        if (!path.exists()) {
-            path.mkdirs();
+        try {
+            new File(DATA_PATH).mkdirs();
+            new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER)).createNewFile();
+            new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_BLACKLIST)).createNewFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         this.DATA_PATH = DATA_PATH;
         this.DATA_NAME_FOR_CUSTOMER = DATA_NAME_FOR_CUSTOMER;
         this.DATA_NAME_FOR_BLACKLIST = DATA_NAME_FOR_BLACKLIST;
