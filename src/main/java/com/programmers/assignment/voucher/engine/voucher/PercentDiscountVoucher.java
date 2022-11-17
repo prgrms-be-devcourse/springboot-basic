@@ -11,17 +11,15 @@ public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     private static final long MAX_VOUCHER_PERCENT = 100;
+
+    private static final long MIN_VOUCHER_PERCENT = 0;
     private final UUID voucherId;
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
-        if (percent < 0) {
+        if (percent <= MIN_VOUCHER_PERCENT) {
             logger.error("illegal percent discount input : " + percent);
-            throw new IllegalArgumentException("Amount should be positive");
-        }
-        if (percent == 0) {
-            logger.error("illegal percent discount input : " + percent);
-            throw new IllegalArgumentException("Amount should not be zero");
+            throw new IllegalArgumentException("Percent should be over zero");
         }
         if (percent > MAX_VOUCHER_PERCENT) {
             logger.error("illegal percent discount input : " + percent);
