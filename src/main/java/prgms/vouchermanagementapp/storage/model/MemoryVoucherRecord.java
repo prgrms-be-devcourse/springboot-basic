@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.voucher.warehouse.model;
+package prgms.vouchermanagementapp.storage.model;
 
 import prgms.vouchermanagementapp.voucher.model.Voucher;
 

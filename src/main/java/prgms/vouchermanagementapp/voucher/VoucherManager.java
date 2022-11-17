@@ -1,32 +1,32 @@
 package prgms.vouchermanagementapp.voucher;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
+import prgms.vouchermanagementapp.io.model.Amount;
+import prgms.vouchermanagementapp.io.model.Ratio;
+import prgms.vouchermanagementapp.storage.Vouchers;
+import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
-import prgms.vouchermanagementapp.voucher.warehouse.VoucherWarehouse;
-import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
 @Component
 public class VoucherManager {
 
-    private final VoucherWarehouse voucherWarehouse;
+    private final Vouchers vouchers;
 
-    public VoucherManager(VoucherWarehouse voucherWarehouse) {
-        this.voucherWarehouse = voucherWarehouse;
+    public VoucherManager(Vouchers vouchers) {
+        this.vouchers = vouchers;
     }
 
     public void createVoucher(Amount fixedDiscountAmount) {
         Voucher fixedAmountVoucher = VoucherCreationFactory.createVoucher(fixedDiscountAmount);
-        voucherWarehouse.store(fixedAmountVoucher);
+        vouchers.store(fixedAmountVoucher);
     }
 
     public void createVoucher(Ratio fixedDiscountRatio) {
         Voucher percentDiscountVoucher = VoucherCreationFactory.createVoucher(fixedDiscountRatio);
-        voucherWarehouse.store(percentDiscountVoucher);
+        vouchers.store(percentDiscountVoucher);
     }
 
     public VoucherRecord findAllVouchers() {
-        return voucherWarehouse.getVoucherRecord();
+        return vouchers.getVoucherRecord();
     }
 }

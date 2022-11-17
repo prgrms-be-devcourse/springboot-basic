@@ -2,9 +2,9 @@ package prgms.vouchermanagementapp.io;
 
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
-import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
+import prgms.vouchermanagementapp.io.model.Amount;
+import prgms.vouchermanagementapp.io.model.Ratio;
+import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 
 import java.util.Optional;
 

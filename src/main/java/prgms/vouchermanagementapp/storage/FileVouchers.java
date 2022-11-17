@@ -1,18 +1,18 @@
-package prgms.vouchermanagementapp.voucher.warehouse;
+package prgms.vouchermanagementapp.storage;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.io.FileManager;
+import prgms.vouchermanagementapp.storage.model.FileVoucherRecord;
+import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 import prgms.vouchermanagementapp.voucher.model.Voucher;
-import prgms.vouchermanagementapp.voucher.warehouse.model.FileVoucherRecord;
-import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
 import java.io.File;
 
 @Component
 @Profile("release")
-public class FileVouchers implements VoucherWarehouse {
+public class FileVouchers implements Vouchers {
 
     private static final String MESSAGE_FORMAT = "%-20s, %-20s";
     private static final String INITIAL_MESSAGE = String.format(MESSAGE_FORMAT, "Voucher Type", "Amount/Ratio");

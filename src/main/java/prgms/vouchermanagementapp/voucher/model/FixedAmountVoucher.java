@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.voucher.model;
 
-import prgms.vouchermanagementapp.model.Amount;
+import prgms.vouchermanagementapp.io.model.Amount;
 
 import java.text.MessageFormat;
 import java.util.UUID;

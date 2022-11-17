@@ -1,7 +1,7 @@
 package prgms.vouchermanagementapp.voucher;
 
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
+import prgms.vouchermanagementapp.io.model.Amount;
+import prgms.vouchermanagementapp.io.model.Ratio;
 import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
 import prgms.vouchermanagementapp.voucher.model.PercentDiscountVoucher;
 import prgms.vouchermanagementapp.voucher.model.Voucher;

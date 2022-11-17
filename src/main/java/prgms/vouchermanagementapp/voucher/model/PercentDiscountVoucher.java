@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.voucher.model;
 
-import prgms.vouchermanagementapp.model.Ratio;
+import prgms.vouchermanagementapp.io.model.Ratio;
 
 import java.util.UUID;
 

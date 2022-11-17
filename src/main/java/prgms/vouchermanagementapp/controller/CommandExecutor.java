@@ -7,8 +7,8 @@ import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
 import prgms.vouchermanagementapp.io.CommandType;
 import prgms.vouchermanagementapp.io.IOManager;
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
+import prgms.vouchermanagementapp.io.model.Amount;
+import prgms.vouchermanagementapp.io.model.Ratio;
 import prgms.vouchermanagementapp.voucher.VoucherManager;
 import prgms.vouchermanagementapp.voucher.VoucherType;
 

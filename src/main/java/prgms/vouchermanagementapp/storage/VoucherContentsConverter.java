@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.voucher.warehouse;
+package prgms.vouchermanagementapp.storage;
 
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
