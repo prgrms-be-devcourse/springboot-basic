@@ -20,7 +20,7 @@ public class CommandLineApplication implements ApplicationRunner {
     private final Console console;
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    private final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
     public CommandLineApplication(Console console, VoucherService voucherService, CustomerService customerService) {
         this.console = console;

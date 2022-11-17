@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileBlackCustomerRepository {
     private final CSVReader csvReader;
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
-    private final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);//static이 있어야 하는 이유를 확인
+    private static final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);//static이 있어야 하는 이유를 확인
 
     public FileBlackCustomerRepository(@Value("${customer.path}") String path) {
         csvReader = new CSVReader(path);

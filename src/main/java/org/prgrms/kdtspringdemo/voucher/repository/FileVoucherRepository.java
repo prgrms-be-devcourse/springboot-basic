@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final CSVReader csvReader;
     private final CSVWriter csvWriter;
 
