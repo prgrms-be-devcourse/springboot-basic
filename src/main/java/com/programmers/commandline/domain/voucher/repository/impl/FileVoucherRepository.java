@@ -10,9 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("prod")
@@ -65,11 +63,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-    public VoucherType createVoucherType(String line) {
+    private VoucherType createVoucherType(String line) {
         return VoucherType.valueOf(line);
     }
 
-    public Long toLong(String discount) {
+    private Long toLong(String discount) {
         Verification.validateParseToNumber(discount);
         return Long.parseLong(discount);
     }

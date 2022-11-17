@@ -1,6 +1,6 @@
 package com.programmers.commandline.global.entity;
 
-import com.programmers.commandline.global.aop.LogAspect;
+import com.programmers.commandline.global.util.Verification;
 
 import java.util.Arrays;
 
@@ -18,6 +18,7 @@ public enum Menu {
     }
 
     public static Menu ofMenu(String input) {
+
         int code = toCode(input);
 
         return Arrays.stream(Menu.values())
@@ -26,14 +27,10 @@ public enum Menu {
                 .orElseThrow(()->{
                     throw new RuntimeException("잘못된 메뉴 선택입니다.");
                 });
-
     }
 
     private static int toCode(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("toCode에서 발생하는 에러 입니다.");
-        }
+        Verification.validateParseToNumber(input);
+        return Integer.parseInt(input);
     }
 }
