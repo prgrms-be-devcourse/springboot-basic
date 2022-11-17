@@ -1,10 +1,13 @@
 package org.prgrms.springbootbasic.entity.voucher;
 
 
+import java.util.UUID;
+
 public class PercentAmountVoucher extends Voucher {
     private final long percent;
 
-    public PercentAmountVoucher(long percent) {
+    public PercentAmountVoucher(UUID voucherId, long percent) {
+        super(voucherId);
         this.percent = percent;
     }
 

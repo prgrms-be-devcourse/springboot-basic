@@ -1,10 +1,13 @@
 package org.prgrms.springbootbasic.entity.voucher;
 
 
+import java.util.UUID;
+
 public class FixedAmountVoucher extends Voucher {
     private final long amount;
 
-    public FixedAmountVoucher(long amount) {
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        super(voucherId);
         this.amount = amount;
     }
 
