@@ -8,9 +8,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final int MAX_PERCENT_LIMIT = 100;
     private final int MIN_PERCENT_LIMIT = 1;
-    private final double percent;
+    private final int percent;
 
-    public PercentDiscountVoucher(UUID voucherId, double percent) {
+    public PercentDiscountVoucher(UUID voucherId, int percent) {
         if (percent > MAX_PERCENT_LIMIT) {
             throw new AmountException("퍼센트는 100 이하여야 합니다.");
         }
@@ -27,12 +27,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public double getAmount() {
+    public int getAmount() {
         return percent;
     }
 
     @Override
-    public double discount(double beforeDiscount) {
+    public int discount(int beforeDiscount) {
         return beforeDiscount - (beforeDiscount * (percent / 100));
     }
 }

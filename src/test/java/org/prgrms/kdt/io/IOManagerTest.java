@@ -28,17 +28,17 @@ class IOManagerTest {
         ioManager = new IOManager(console);
     }
 
-    @DisplayName("할인 정도로는 정수 혹은 실수를 입력받는다.")
+    @DisplayName("할인 정도로는 정수를 입력받는다.")
     @ParameterizedTest
-    @ValueSource(strings = {"0", "0.1", "30", "100", "-100", "1234f", "5678d"})
+    @ValueSource(strings = {"0", "30", "100", "-100", "1234f", "5678d"})
     void getAmountInputTest(String input) {
         // given
         createIOManager(input);
         //when
-        double amount = ioManager.getAmountInput();
+        int amount = ioManager.getAmountInput();
         logger.info(MessageFormat.format("amount -> {0}", amount));
         //then
-        assertEquals(Double.parseDouble(input), amount);
+        assertEquals(Integer.parseInt(input), amount);
     }
 
     @DisplayName("할인 정도는 숫자만을 받을 수 있다.")

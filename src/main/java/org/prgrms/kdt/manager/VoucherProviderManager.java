@@ -57,7 +57,7 @@ public class VoucherProviderManager {
             }
             try {
                 VoucherType voucherType = VoucherType.findVoucherTypeByInput(createTypeInput);
-                double amount = ioManager.getAmountInput();
+                int amount = ioManager.getAmountInput();
                 voucherProvider.create(voucherType, amount);
                 ioManager.writeMessage(CREATE_VOUCHER);
                 logger.info("바우처가 성공적으로 생성되었습니다.");

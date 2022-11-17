@@ -20,7 +20,7 @@ public class VoucherProvider {
         this.voucherStorage = voucherStorage;
     }
 
-    public void create(VoucherType voucherType, double amount) {
+    public void create(VoucherType voucherType, int amount) {
         switch (voucherType) {
             case FIXED_VOUCHER -> {
                 voucherStorage.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
@@ -34,7 +34,7 @@ public class VoucherProvider {
         }
     }
 
-    public static Voucher getVoucher(VoucherType voucherType, UUID voucherId, double amount) {
+    public static Voucher getVoucher(VoucherType voucherType, UUID voucherId, int amount) {
         switch (voucherType) {
             case FIXED_VOUCHER -> {
                 return new FixedAmountVoucher(voucherId, amount);

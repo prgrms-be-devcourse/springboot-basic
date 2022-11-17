@@ -8,7 +8,7 @@ public class FixedAmountVoucher implements Voucher {
     private static final long MAX_VOUCHER_LIMIT = 10000;
     private static final long MIN_VOUCHER_LIMIT = 10;
     private final UUID voucherId;
-    private final double amount;
+    private final int amount;
 
     @Override
     public UUID getVoucherId() {
@@ -16,11 +16,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, double amount) {
+    public FixedAmountVoucher(UUID voucherId, int amount) {
         if (amount <= MIN_VOUCHER_LIMIT) {
             throw new AmountException("숫자가 %d보다 커야 합니다. 다시 작성해주세요.".formatted(MIN_VOUCHER_LIMIT));
         }
@@ -32,8 +32,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public double discount(double beforeDiscount) {
-        var discountedAmount = beforeDiscount - amount;
-        return Double.max(discountedAmount, 0);
+    public int discount(int beforeDiscount) {
+        int discountedAmount = beforeDiscount - amount;
+        return Integer.max(discountedAmount, 0);
     }
 }

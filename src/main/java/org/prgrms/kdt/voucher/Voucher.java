@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public interface Voucher {
 
-    double discount(double beforeDiscount);
+    int discount(int beforeDiscount);
 
     UUID getVoucherId();
 
-    double getAmount();
+    int getAmount();
 }

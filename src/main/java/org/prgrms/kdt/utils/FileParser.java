@@ -98,16 +98,16 @@ public class FileParser {
         UUID voucherId = UUID.fromString(
                 info.get(VOUCHER_ID_INDEX));
         String className = info.get(VOUCHER_CLASS_NAME_INDEX);
-        double amount = parseAmount(info.get(VOUCHER_AMOUNT_INDEX));
+        int amount = parseAmount(info.get(VOUCHER_AMOUNT_INDEX));
 
         VoucherType voucherType = VoucherType.findVoucherTypeByClassName(className);
 
         return getVoucher(voucherType, voucherId, amount);
     }
 
-    private double parseAmount(String amount) {
+    private int parseAmount(String amount) {
         try {
-            return Double.parseDouble(
+            return Integer.parseInt(
                     amount.replace(AMOUNT_BEFORE_REPLACE_STR, AMOUNT_AFTER_REPLACE_STR));
         } catch (NumberFormatException amountParseException) {
             throw new AmountException(FAIL_PARSE);

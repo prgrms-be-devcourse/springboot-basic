@@ -34,9 +34,10 @@ public class FileVoucherStorage implements VoucherStorage {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         List<String> voucherIds = fileParser.getVoucherIdList();
+        String id = voucherId.toString();
 
         return Optional.of(voucherIds.stream()
-                .filter(readId -> voucherId.toString().equals(readId))
+                .filter(id::equals)
                 .findFirst()
                 .map(readId -> {
                     try {
