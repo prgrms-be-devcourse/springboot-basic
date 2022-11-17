@@ -1,6 +1,5 @@
 package org.prgrms.springbootbasic.message;
 
-import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.prgrms.springbootbasic.type.MethodType;
 
 import java.text.MessageFormat;
@@ -9,25 +8,27 @@ import java.util.List;
 import static org.prgrms.springbootbasic.type.MethodType.CREATE;
 import static org.prgrms.springbootbasic.type.MethodType.LOOKUP;
 
-public class Response {
-    public static final String VOUCHER_DOES_NOT_EXIST = "voucher does not exist";
+public class Response<T> {
+    public static final String DOES_NOT_EXIST = "does not exist";
+    public static final String GENERATED = "is generated";
+    public static final String EXIST = "exist";
     private final MethodType methodType;
-    private final List<Voucher> voucherList;
+    private final List<T> list;
 
-    public Response(MethodType methodType, List<Voucher> voucherList) {
+    public Response(MethodType methodType, List<T> list) {
         this.methodType = methodType;
-        this.voucherList = voucherList;
+        this.list = list;
     }
 
     @Override
     public String toString() {
-        if (methodType == CREATE) return MessageFormat.format("{0} is generated.", voucherList);
+        if (methodType == CREATE) return MessageFormat.format("{0} {1}", list, GENERATED);
         if (methodType == LOOKUP) {
-            if (voucherList.isEmpty()) {
-                return VOUCHER_DOES_NOT_EXIST;
+            if (list.isEmpty()) {
+                return DOES_NOT_EXIST;
             }
-            return MessageFormat.format("{0} exist.", voucherList);
+            return MessageFormat.format("{0} {1}", list, EXIST);
         }
-        return voucherList.toString();
+        return list.toString();
     }
 }
