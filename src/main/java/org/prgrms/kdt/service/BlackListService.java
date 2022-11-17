@@ -1,6 +1,7 @@
 package org.prgrms.kdt.service;
 
 import org.prgrms.kdt.dao.entity.BlackList;
+import org.prgrms.kdt.exception.io.WrongOutputDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,26 +20,17 @@ import java.util.List;
 public class BlackListService {
 
     private static final Logger logger = LoggerFactory.getLogger(BlackListService.class);
-    private final String filePath;
     private final ClassPathResource resource;
-    private BufferedReader bufferedReader;
 
     public BlackListService(@Value("${kdt.blacklist-file}") String filePath) {
-        this.filePath = filePath;
         this.resource = new ClassPathResource(filePath);
-    }
-
-    private BlackList createBlackList(String name, String birthDate) throws IllegalArgumentException {
-        return new BlackList(name, Date.valueOf(birthDate));
     }
 
     public List<BlackList> getAllBlackList() {
         List<BlackList> blackLists = new ArrayList<>();
-        try {
-            bufferedReader = new BufferedReader(new FileReader(resource.getFile()));
-            String line = bufferedReader.readLine();
-
-            while ((line = bufferedReader.readLine()) != null) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(resource.getFile()))) {
+            String line;
+            while ((line = getLine(bufferedReader)) != null) {
                 String[] format = line.split(",");
 
                 BlackList blackList = createBlackList(format[0], format[1]);
@@ -46,11 +38,19 @@ public class BlackListService {
                 blackLists.add(blackList);
             }
         } catch (IOException e) {
-            logger.error("{} {}", e.getMessage(), e.getStackTrace());
+            throw new WrongOutputDataException("모든 Blacklist를 읽기에 실패했습니다.", e);
         } catch (IllegalArgumentException e) {
             logger.error("{} {}", "blacklist.csv 파일의 date 형식이 잘못되었습니다.", e.getStackTrace());
         }
 
         return blackLists;
+    }
+
+    private String getLine(BufferedReader bufferedReader) throws IOException {
+        return bufferedReader.readLine();
+    }
+
+    private BlackList createBlackList(String name, String birthDate) throws IllegalArgumentException {
+        return new BlackList(name, Date.valueOf(birthDate));
     }
 }
