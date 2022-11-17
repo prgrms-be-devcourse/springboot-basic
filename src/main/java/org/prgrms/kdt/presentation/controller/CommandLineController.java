@@ -3,13 +3,10 @@ package org.prgrms.kdt.presentation.controller;
 import org.prgrms.kdt.presentation.io.ConsoleIO;
 import org.prgrms.kdt.service.BlackListService;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.util.VoucherValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class CommandLineController implements CommandLineRunner {
@@ -26,28 +23,13 @@ public class CommandLineController implements CommandLineRunner {
     }
 
     public void run(String[] args) {
-        while (true) {
-            consoleIO.printEnableCommandList();
+        boolean isRunning = true;
+
+        while (isRunning) {
             try {
+                consoleIO.printEnableCommandList();
                 CommandType command = CommandType.of(consoleIO.inputCommand());
-                switch (command) {
-                    case CREATE -> {
-                        String voucherType = consoleIO.inputVoucherType();
-                        String voucherDiscountValue = consoleIO.inputVoucherDiscountValue();
-                        VoucherValidator.validateVoucherTypeAndDiscountValue(voucherType, voucherDiscountValue);
-                        voucherService.save(voucherService.create(voucherType, voucherDiscountValue));
-                    }
-                    case LIST -> consoleIO.printItems(voucherService.getAllVouchers().stream()
-                            .map(voucher -> voucher.toString())
-                            .collect(Collectors.toList()));
-                    case BLACKLIST -> consoleIO.printItems(blackListService.getAllBlackList().stream()
-                            .map(voucher -> voucher.toString())
-                            .collect(Collectors.toList()));
-                    case EXIT -> {
-                        consoleIO.terminate();
-                        System.exit(0);
-                    }
-                }
+                isRunning = command.executeCommand(consoleIO, voucherService, blackListService);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 logger.warn("{} {}", e.getMessage(), e.getStackTrace());

@@ -64,7 +64,7 @@ public class ConsoleIO {
         System.out.println("프로그램을 종료합니다.");
     }
 
-    public void printItems(List<String> vouchers) {
+    public <T> void printItems(List<T> vouchers) {
 
         if (vouchers.isEmpty()) {
             System.out.println("is empty");
