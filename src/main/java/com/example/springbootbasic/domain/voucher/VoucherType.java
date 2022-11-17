@@ -14,10 +14,14 @@ public enum VoucherType {
         this.voucherType = voucherType;
     }
 
-    public static VoucherType findVoucherType(String findVoucherType) {
+    public static VoucherType of(String findVoucherType) {
         return Arrays.stream(VoucherType.values())
                 .filter(type -> type.voucherType.equals(findVoucherType) || type.name().equals(findVoucherType))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_TYPE_EXCEPTION.getMessage()));
+    }
+
+    public String getVoucherType() {
+        return voucherType;
     }
 }

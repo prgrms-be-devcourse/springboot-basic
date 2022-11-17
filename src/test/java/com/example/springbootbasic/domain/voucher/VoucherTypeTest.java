@@ -18,7 +18,7 @@ class VoucherTypeTest {
     @MethodSource("whenFindVoucherTypeThenSuccessDummy")
     @DisplayName("바우처 타입 정확한 입력값으로 검색 성공")
     void whenFindVoucherTypeThenSuccessTest(String inputVoucherType, VoucherType voucherType) {
-        VoucherType findVoucherType = findVoucherType(inputVoucherType);
+        VoucherType findVoucherType = of(inputVoucherType);
         assertThat(findVoucherType, is(voucherType));
     }
 
@@ -26,7 +26,7 @@ class VoucherTypeTest {
     @MethodSource("whenFindVoucherTypeWrongThenExceptionDummy")
     @DisplayName("바우처 타입 잘못된 입력값으로 인한 검색 예외 처리")
     void whenFindVoucherTypeWrongThenExceptionTest(String inputVoucherType) {
-        Assertions.assertThrowsExactly(IllegalArgumentException.class, () -> VoucherType.findVoucherType(inputVoucherType));
+        Assertions.assertThrowsExactly(IllegalArgumentException.class, () -> VoucherType.of(inputVoucherType));
     }
 
     static Stream<Arguments> whenFindVoucherTypeThenSuccessDummy() {

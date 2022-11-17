@@ -1,8 +1,7 @@
 package com.example.springbootbasic.repository.customer;
 
-import com.example.springbootbasic.config.AppConfig;
+import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.customer.Customer;
-import com.example.springbootbasic.repository.customer.CsvCustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.TestInstance;
@@ -10,22 +9,22 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static com.example.springbootbasic.domain.customer.CustomerStatus.*;
+import static com.example.springbootbasic.domain.customer.CustomerStatus.BLACK;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("dev")
+@ActiveProfiles("csv")
 class CsvCustomerRepositoryTest {
 
     private final String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
     private final String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
     private final CsvCustomerRepository customerRepository;
-    private final AppConfig appConfiguration;
+    private final CsvProperties appConfiguration;
 
     public CsvCustomerRepositoryTest() {
-        this.appConfiguration = new AppConfig(voucherCsvResource, customerCsvResource);
+        this.appConfiguration = new CsvProperties(voucherCsvResource, customerCsvResource);
         this.customerRepository = new CsvCustomerRepository(appConfiguration);
     }
 

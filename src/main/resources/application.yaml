@@ -2,7 +2,25 @@ spring:
   profiles:
     active: dev
 
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/spb_basic
+    username: root
+    password: root1234!
+
+---
+
+spring:
+  profiles:
+    active: csv
+
 pro:
   version: "1.0"
   voucher-csv-resource: src/main/resources/csv/voucher/voucher.csv
   customer-csv-resource: src/main/resources/csv/customer/customer_blacklist.csv
+
+---
+
+spring:
+  profiles:
+    active: memory

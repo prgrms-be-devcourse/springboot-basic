@@ -1,4 +1,4 @@
-package com.example.springbootbasic.dto;
+package com.example.springbootbasic.dto.customer;
 
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;

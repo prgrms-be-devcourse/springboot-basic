@@ -1,4 +1,4 @@
-package com.example.springbootbasic.parser;
+package com.example.springbootbasic.parser.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherType;

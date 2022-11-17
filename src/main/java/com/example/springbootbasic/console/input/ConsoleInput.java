@@ -3,7 +3,7 @@ package com.example.springbootbasic.console.input;
 import com.example.springbootbasic.console.ConsoleType;
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.example.springbootbasic.dto.VoucherDto;
+import com.example.springbootbasic.dto.voucher.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,10 +11,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.NoSuchElementException;
 
-import static com.example.springbootbasic.console.ConsoleType.EXIT;
-import static com.example.springbootbasic.console.ConsoleType.of;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
 
 @Component
@@ -40,7 +37,7 @@ public class ConsoleInput {
         VoucherDto voucherDto = new VoucherDto();
         try {
             String[] voucherPieces = br.readLine().split(SPACE.unit());
-            VoucherType voucherType = VoucherType.findVoucherType(voucherPieces[VOUCHER_TYPE_INDEX]);
+            VoucherType voucherType = VoucherType.of(voucherPieces[VOUCHER_TYPE_INDEX]);
             long discountValue = Long.parseLong(voucherPieces[VOUCHER_DISCOUNT_VALUE_INDEX]);
             return RequestBody.success(new VoucherDto(discountValue, voucherType));
         } catch (IOException | IllegalArgumentException e) {

@@ -15,12 +15,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-@Profile("jdbc")
+@Profile("dev")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private static final String FIND_ALL_CUSTOMERS_SQL = "SELECT * FROM CUSTOMER";
-    private static final String FIND_ALL_BLACK_CUSTOMERS_SQL = "SELECT * FROM CUSTOMER WHERE customer_status = {0}";
+    private static final String FIND_ALL_CUSTOMERS_BY_STATUS_SQL = "SELECT * FROM CUSTOMER WHERE customer_status = {0}";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -47,7 +47,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findCustomersByStatus(CustomerStatus status) {
         try {
-            return jdbcTemplate.query(MessageFormat.format(FIND_ALL_BLACK_CUSTOMERS_SQL, ":customerStatus"),
+            return jdbcTemplate.query(MessageFormat.format(FIND_ALL_CUSTOMERS_BY_STATUS_SQL, ":customerStatus"),
                     Collections.singletonMap("customerStatus", status.getType()), customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());

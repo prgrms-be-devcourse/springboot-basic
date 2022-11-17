@@ -1,4 +1,4 @@
-package com.example.springbootbasic.service;
+package com.example.springbootbasic.service.customer;
 
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.repository.customer.CustomerRepository;

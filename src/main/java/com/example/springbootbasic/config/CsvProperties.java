@@ -2,14 +2,16 @@ package com.example.springbootbasic.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
+import org.springframework.context.annotation.Profile;
 
 @ConstructorBinding
-@ConfigurationProperties(prefix = "pro")
-public class AppConfiguration {
+@ConfigurationProperties(prefix = "csv")
+@Profile("csv")
+public class CsvProperties {
     private String voucherCsvResource;
     private String customerCsvResource;
 
-    public AppConfiguration(String voucherCsvResource, String customerCsvResource) {
+    public CsvProperties(String voucherCsvResource, String customerCsvResource) {
         this.voucherCsvResource = voucherCsvResource;
         this.customerCsvResource = customerCsvResource;
     }

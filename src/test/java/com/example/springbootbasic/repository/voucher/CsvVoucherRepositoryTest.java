@@ -1,10 +1,9 @@
 package com.example.springbootbasic.repository.voucher;
 
-import com.example.springbootbasic.config.AppConfig;
+import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.example.springbootbasic.repository.voucher.CsvVoucherRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInstance;
@@ -23,7 +22,7 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@ActiveProfiles("dev")
+@ActiveProfiles("csv")
 class CsvVoucherRepositoryTest {
 
     private final String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
@@ -32,7 +31,7 @@ class CsvVoucherRepositoryTest {
 
 
     public CsvVoucherRepositoryTest() {
-        this.voucherRepository = new CsvVoucherRepository(new AppConfig(voucherCsvResource, customerCsvResource));
+        this.voucherRepository = new CsvVoucherRepository(new CsvProperties(voucherCsvResource, customerCsvResource));
     }
 
     @AfterEach

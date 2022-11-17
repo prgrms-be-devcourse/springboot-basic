@@ -1,4 +1,4 @@
-package com.example.springbootbasic.parser;
+package com.example.springbootbasic.parser.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
@@ -26,7 +26,7 @@ public class CsvVoucherParser {
         validateString(inputVoucherType);
         validateDigit(inputDiscountValue);
         long voucherId = Long.parseLong(inputVoucherId);
-        VoucherType voucherType = VoucherType.findVoucherType(inputVoucherType);
+        VoucherType voucherType = VoucherType.of(inputVoucherType);
         long discountValue = Long.parseLong(inputDiscountValue);
         return VoucherFactory.of(voucherId, discountValue, voucherType);
     }

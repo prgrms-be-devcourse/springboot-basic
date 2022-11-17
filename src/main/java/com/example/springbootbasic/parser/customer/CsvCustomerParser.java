@@ -1,4 +1,4 @@
-package com.example.springbootbasic.parser;
+package com.example.springbootbasic.parser.customer;
 
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;

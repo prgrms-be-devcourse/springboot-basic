@@ -1,9 +1,10 @@
 package com.example.springbootbasic.repository.voucher;
 
-import com.example.springbootbasic.config.AppConfig;
+import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
-import com.example.springbootbasic.parser.CsvVoucherParser;
+import com.example.springbootbasic.domain.voucher.VoucherType;
+import com.example.springbootbasic.parser.voucher.CsvVoucherParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.springbootbasic.util.CharacterUnit.*;
+import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 
 @Repository
-@Profile("dev")
+@Profile("csv")
 public class CsvVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);
     private static long sequence;
-    private final AppConfig appConfiguration;
+    private final CsvProperties appConfig;
     private final CsvVoucherParser csvParser = new CsvVoucherParser();
 
     @Autowired
-    public CsvVoucherRepository(AppConfig appConfiguration) {
-        this.appConfiguration = appConfiguration;
+    public CsvVoucherRepository(CsvProperties appConfig) {
+        this.appConfig = appConfig;
         initSequence();
     }
 
@@ -46,7 +47,7 @@ public class CsvVoucherRepository implements VoucherRepository {
 
     @Override
     public synchronized Voucher save(Voucher voucher) {
-        try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), true)) {
+        try (Writer writer = new FileWriter(appConfig.getVoucherCsvResource(), true)) {
             Voucher generatedVoucher =
                     VoucherFactory.of(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
             writer.write(csvParser.toCsvFrom(generatedVoucher));
@@ -59,7 +60,7 @@ public class CsvVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllVouchers() {
-        Path csvPath = Paths.get(appConfiguration.getVoucherCsvResource());
+        Path csvPath = Paths.get(appConfig.getVoucherCsvResource());
         List<String> voucherTexts = Collections.emptyList();
         try {
             voucherTexts = Files.readAllLines(csvPath);
@@ -72,11 +73,43 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllVouchersByVoucherType(VoucherType voucherType) {
+        Path csvPath = Paths.get(appConfig.getVoucherCsvResource());
+        List<String> voucherTexts = Collections.emptyList();
+        try {
+            voucherTexts = Files.readAllLines(csvPath);
+        } catch (IOException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+        return voucherTexts.stream()
+                .map(csvParser::toVoucherFrom)
+                .filter(voucher -> voucher.getVoucherType() == voucherType)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        try (Writer writer = new FileWriter(appConfig.getVoucherCsvResource(), true)) {
+            Voucher generatedVoucher =
+                    VoucherFactory.of(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+            writer.write(csvParser.toCsvFrom(generatedVoucher));
+            writer.flush();
+        } catch (IOException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+        return voucher;    }
+
+    @Override
     public void deleteAll() {
-        try (Writer writer = new FileWriter(appConfiguration.getVoucherCsvResource(), false)) {
+        try (Writer writer = new FileWriter(appConfig.getVoucherCsvResource(), false)) {
             writer.write(EMPTY.unit());
         } catch (IOException e) {
             logger.error("Fail - {}", e.getMessage());
         }
+    }
+
+    @Override
+    public void deleteVouchersByVoucherType(VoucherType voucherType) {
+
     }
 }

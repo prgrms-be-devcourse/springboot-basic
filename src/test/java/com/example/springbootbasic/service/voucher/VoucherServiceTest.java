@@ -1,14 +1,16 @@
-package com.example.springbootbasic.service;
+package com.example.springbootbasic.service.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.example.springbootbasic.repository.voucher.VoucherRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -17,34 +19,28 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUN
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.TestInstance.Lifecycle;
-import static org.mockito.Mockito.*;
 
-@TestInstance(Lifecycle.PER_CLASS)
-//@ActiveProfiles("dev")
+
+@SpringBootTest
+@ActiveProfiles("dev")
 class VoucherServiceTest {
 
-    private final VoucherService voucherService;
+    @Autowired
+    private VoucherService voucherService;
 
-    public VoucherServiceTest() {
-        VoucherRepository voucherRepository = mock(VoucherRepository.class);
-        this.voucherService = new VoucherService(voucherRepository);
+    @AfterEach
+    void afterEach() {
+        voucherService.deleteAllVouchers();
     }
-
-//    @AfterEach
-//    void clear() {
-//        voucherService.deleteAllVouchers();
-//    }
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")
     @MethodSource("voucherDummy")
     @DisplayName("다수 바우처 저장 후 조회 성공")
     void whenFindAllVouchersThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
-        final int maxCount = 100;
-        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        final int maxCount = 10;
         for (int count = 0; count < maxCount; count++) {
+            Voucher voucher = VoucherFactory.of(discountValue, voucherType);
             voucherService.saveVoucher(voucher);
         }
 
@@ -52,8 +48,7 @@ class VoucherServiceTest {
         List<Voucher> allVouchers = voucherService.findAllVouchers();
 
         //then
-        assertThat(allVouchers, notNullValue());
-         assertThat(allVouchers, hasSize(maxCount));
+        assertThat(allVouchers, hasSize(maxCount));
     }
 
     static Stream<Arguments> voucherDummy() {

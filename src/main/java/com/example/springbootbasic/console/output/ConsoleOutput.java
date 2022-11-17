@@ -1,8 +1,8 @@
 package com.example.springbootbasic.console.output;
 
 import com.example.springbootbasic.controller.response.ResponseBody;
-import com.example.springbootbasic.dto.CustomerDto;
-import com.example.springbootbasic.dto.VoucherDto;
+import com.example.springbootbasic.dto.customer.CustomerDto;
+import com.example.springbootbasic.dto.voucher.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

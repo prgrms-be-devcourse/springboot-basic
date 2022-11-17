@@ -1,4 +1,4 @@
-package com.example.springbootbasic.dto;
+package com.example.springbootbasic.dto.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherType;

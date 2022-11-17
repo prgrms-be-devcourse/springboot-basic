@@ -4,14 +4,15 @@ import com.example.springbootbasic.console.input.ConsoleInput;
 import com.example.springbootbasic.console.output.ConsoleOutput;
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
-import com.example.springbootbasic.dto.CustomerDto;
-import com.example.springbootbasic.dto.VoucherDto;
+import com.example.springbootbasic.dto.customer.CustomerDto;
+import com.example.springbootbasic.dto.voucher.VoucherDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.example.springbootbasic.console.ConsoleStatus.*;
+import static com.example.springbootbasic.console.ConsoleStatus.CONTINUE;
+import static com.example.springbootbasic.console.ConsoleStatus.END;
 import static com.example.springbootbasic.console.message.ConsoleMenuMessage.*;
 
 @Component

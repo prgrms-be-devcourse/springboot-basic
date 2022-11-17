@@ -1,12 +1,11 @@
 package com.example.springbootbasic.repository.customer;
 
-import com.example.springbootbasic.config.AppConfig;
+import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
-import com.example.springbootbasic.parser.CsvCustomerParser;
+import com.example.springbootbasic.parser.customer.CsvCustomerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -19,14 +18,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("dev")
+@Profile("csv")
 public class CsvCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvCustomerRepository.class);
-    private final AppConfig appConfiguration;
+    private final CsvProperties appConfiguration;
     private final CsvCustomerParser csvParser = new CsvCustomerParser();
 
-    public CsvCustomerRepository(AppConfig appConfiguration) {
+    public CsvCustomerRepository(CsvProperties appConfiguration) {
         this.appConfiguration = appConfiguration;
     }
 

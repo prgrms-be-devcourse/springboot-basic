@@ -1,12 +1,12 @@
-package com.example.springbootbasic.controller;
+package com.example.springbootbasic.controller.voucher;
 
 import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.example.springbootbasic.dto.VoucherDto;
-import com.example.springbootbasic.service.VoucherService;
+import com.example.springbootbasic.dto.voucher.VoucherDto;
+import com.example.springbootbasic.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class VoucherController {
         Long discountValue = voucherDto.getDiscountValue();
         VoucherType voucherType = voucherDto.getVoucherType();
         try {
-            Voucher generatedVoucher = VoucherFactory.generateVoucher(discountValue, voucherType);
+            Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
             return ResponseBody.success(VoucherDto.toDto(savedVoucher));
         } catch (NullPointerException e) {

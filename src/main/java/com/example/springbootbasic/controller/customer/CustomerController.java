@@ -1,9 +1,9 @@
-package com.example.springbootbasic.controller;
+package com.example.springbootbasic.controller.customer;
 
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.domain.customer.Customer;
-import com.example.springbootbasic.dto.CustomerDto;
-import com.example.springbootbasic.service.CustomerService;
+import com.example.springbootbasic.dto.customer.CustomerDto;
+import com.example.springbootbasic.service.customer.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

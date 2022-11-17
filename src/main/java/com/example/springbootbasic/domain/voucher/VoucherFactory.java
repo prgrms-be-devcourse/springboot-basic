@@ -6,7 +6,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
-import static com.example.springbootbasic.domain.voucher.VoucherType.*;
+import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
+import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static com.example.springbootbasic.exception.voucher.VoucherExceptionMessage.NULL_VOUCHER_FACTORY_EXCEPTION;
 
 public enum VoucherFactory {
@@ -38,7 +39,7 @@ public enum VoucherFactory {
                 .filter(voucherFactory -> voucherFactory.voucherType == inputVoucherType)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(NULL_VOUCHER_FACTORY_EXCEPTION.getMessage()));
-
+        logger.info("Success - voucherId = {}, discountValue = {}, inputVoucherType = {}", voucherId, discountValue, inputVoucherType);
         return findVoucherFactory.generate(voucherId, discountValue);
     }
 

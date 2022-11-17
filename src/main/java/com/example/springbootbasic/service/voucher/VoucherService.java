@@ -1,4 +1,4 @@
-package com.example.springbootbasic.service;
+package com.example.springbootbasic.service.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.repository.voucher.VoucherRepository;
@@ -18,8 +18,9 @@ public class VoucherService {
     }
 
     public Voucher saveVoucher(Voucher voucher) {
+        voucherRepository.save(voucher);
         logger.info("Success - {}", voucher.toString());
-        return voucherRepository.save(voucher);
+        return voucher;
     }
 
     public List<Voucher> findAllVouchers() {
