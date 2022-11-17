@@ -2,16 +2,22 @@ package org.prgrms.springorder.domain.customer.repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.prgrms.springorder.domain.customer.Wallet;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.model.CustomerStatus;
+import org.prgrms.springorder.domain.voucher.model.Voucher;
+import org.prgrms.springorder.domain.voucher.model.VoucherType;
+import org.prgrms.springorder.domain.voucher.service.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,21 +25,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile("dev")
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
-
-    private static final String findByIdSql = "SELECT * FROM customers WHERE customer_id = :customerId";
-
-    private static final String insertSql = "INSERT INTO customers(customer_id, name, email, last_login_at) "
-        + "VALUES (:customerId, :name, :email, :lastLoginAt)";
-
-    private static final String selectAllSql = "SELECT * FROM customers";
-
-    private static final String deleteAllSql = "DELETE FROM customers";
-
-    private static final String updateByIdSql
-        = "UPDATE customers set name = :name, email = :email, customer_status = :customerStatus, last_login_at = :lastLoginAt";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -56,7 +51,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("customerId", customer.getCustomerId().toString());
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("customerStatus", customer.getCustomerStatus().name());
@@ -74,10 +69,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-
         try {
-            Customer findCustomer = jdbcTemplate.queryForObject(findByIdSql,
-                Collections.singletonMap("customerId", customerId)
+            Customer findCustomer = jdbcTemplate.queryForObject(CustomerSql.FIND_BY_ID.getSql(),
+                Collections.singletonMap("customerId", customerId.toString())
                 , customerRowMapper);
 
             return Optional.ofNullable(findCustomer);
@@ -89,7 +83,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         try {
-            jdbcTemplate.update(insertSql, toParamMap(customer));
+            jdbcTemplate.update(CustomerSql.INSERT.getSql(), toParamMap(customer));
 
             return customer;
         } catch (DataAccessException e) {
@@ -101,17 +95,66 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(selectAllSql, customerRowMapper);
+        return jdbcTemplate.query(CustomerSql.FIND_ALL.getSql(), customerRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(deleteAllSql, Collections.emptyMap());
+        jdbcTemplate.update(CustomerSql.DELETE_ALL.getSql(), Collections.emptyMap());
     }
 
     @Override
     public Customer update(Customer customer) {
-        jdbcTemplate.update(updateByIdSql, toParamMap(customer));
+        jdbcTemplate.update(CustomerSql.UPDATE_BY_ID.getSql(), toParamMap(customer));
         return customer;
+    }
+
+    @Override
+    public Optional<Wallet> findByIdWithVouchers(UUID customerId) {
+
+        try {
+            Wallet wallet = jdbcTemplate.query("SELECT * FROM customers c INNER JOIN vouchers v "
+                    + "ON c.customer_id = v.customer_id WHERE c.customer_id = :customerId",
+                Collections.singletonMap("customerId", customerId.toString()),
+                rs -> {
+                    Customer customer = null;
+                    List<Voucher> vouchers = new ArrayList<>();
+
+                    int row = 0;
+
+                    while (rs.next()) {
+                        if (customer == null) {
+                            customer = customerRowMapper.mapRow(rs, row);
+                        }
+
+                        UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
+                        long amount = rs.getLong("amount");
+                        VoucherType voucherType = VoucherType.of(rs.getString("voucher_type"));
+
+                        UUID foreignCustomerId = UUID.fromString(rs.getString("customer_id"));
+                        LocalDateTime createdAt = rs.getTimestamp("created_at")
+                            .toLocalDateTime();
+
+                        Voucher voucher = VoucherFactory.toVoucher(voucherType, voucherId, amount,
+                            foreignCustomerId,
+                            createdAt);
+
+                        vouchers.add(voucher);
+
+                        row++;
+                    }
+
+                    return new Wallet(customer, vouchers);
+                }
+            );
+
+            if (wallet != null && wallet.isEmpty()) {
+                return Optional.empty();
+            }
+
+            return Optional.ofNullable(wallet);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

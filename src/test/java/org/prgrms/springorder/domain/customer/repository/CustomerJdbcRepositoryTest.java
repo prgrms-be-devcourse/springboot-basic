@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.prgrms.springorder.domain.customer.model.Customer;
-import org.prgrms.springorder.jdbctest.JdbcTestBase;
+import org.prgrms.springorder.common.JdbcTestBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

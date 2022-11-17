@@ -13,16 +13,16 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class CustomerTest {
 
-    private UUID customerId = UUID.randomUUID();
-    private String name = "customerName";
-    private String email = "customerEmail@gmail.com";
+    private final UUID customerId = UUID.randomUUID();
+    private final String name = "customerName";
+    private final String email = "customerEmail@gmail.com";
 
     @DisplayName("name 변경 테스트 - Customer 의 name이 바뀐다.")
     @Test
     void changeNameSuccessTest() {
         //given
         String changeName = "changeName";
-        Customer customer = new Customer(customerId, name, email);
+        Customer customer = createCustomer();
 
         //when
         customer.changeName(changeName);
@@ -38,10 +38,10 @@ class CustomerTest {
     @ValueSource(strings = {" ", "", "  ", "    ",})
     void changeNameFailTest(String emptyValue) {
         //given
-        Customer customer = new Customer(customerId, name, email);
+        Customer customer = createCustomer();
 
         //when & then
-        assertThrows(RuntimeException.class, () -> customer.changeName(emptyValue));
+        assertThrows(IllegalArgumentException.class, () -> customer.changeName(emptyValue));
     }
 
     @DisplayName("lastLoginAt 변경 테스트 - Customer 의 lastLoginAt 이 바뀐다.")
@@ -50,7 +50,7 @@ class CustomerTest {
         //given
         LocalDateTime changeLastLoginAt = LocalDateTime.now();
 
-        Customer customer = new Customer(customerId, name, email);
+        Customer customer = createCustomer();
 
         //when
         customer.updateLastLoginAt(changeLastLoginAt);
@@ -66,7 +66,7 @@ class CustomerTest {
     @Test
     void statusChangeSuccessTest() {
         //given
-        Customer customer = new Customer(customerId, name, email);
+        Customer customer = createCustomer();
         CustomerStatus block = CustomerStatus.BLOCKED;
 
         //when
@@ -77,5 +77,9 @@ class CustomerTest {
         assertEquals(name, customer.getName());
         assertEquals(customerId, customer.getCustomerId());
         assertEquals(email, customer.getEmail());
+    }
+
+    private Customer createCustomer() {
+        return new Customer(customerId, name, email);
     }
 }

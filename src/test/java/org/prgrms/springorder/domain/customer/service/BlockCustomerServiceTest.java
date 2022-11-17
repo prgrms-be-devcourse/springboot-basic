@@ -3,6 +3,7 @@ package org.prgrms.springorder.domain.customer.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertLinesMatch;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -14,15 +15,17 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import javax.swing.text.html.parser.Entity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.repository.BlockCustomerRepository;
+import org.prgrms.springorder.global.exception.EntityNotFoundException;
 
 class BlockCustomerServiceTest {
 
     @Test
-    @DisplayName("findAll() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
+    @DisplayName("findAll() 테스트 - 비어있으면 예외를 던진다.")
     void findAllReturnEmptyListTest() {
         //given
         BlockCustomerRepository blockCustomerRepository = mock(BlockCustomerRepository.class);
@@ -34,12 +37,9 @@ class BlockCustomerServiceTest {
             .thenReturn(new ArrayList<>());
 
         //when
-        List<BlockCustomer> blockCustomers = blockCustomerService.findAll();
+        assertThrows(EntityNotFoundException.class, blockCustomerService::findAll);
 
         //then
-        assertNotNull(blockCustomers);
-        assertTrue(blockCustomers.isEmpty());
-
         verify(blockCustomerRepository).findAll();
     }
 
@@ -70,7 +70,7 @@ class BlockCustomerServiceTest {
     }
 
     @Test
-    @DisplayName("findAllConvertedToString() 테스트 - 비어있으면 빈 리스트가 리턴된다.")
+    @DisplayName("findAllConvertedToString() 테스트 - 비어있으면 예외를 던진다.")
     void findAllConvertedToStringReturnEmptyListTest() {
         //given
         BlockCustomerRepository blockCustomerRepository = mock(BlockCustomerRepository.class);
@@ -82,11 +82,9 @@ class BlockCustomerServiceTest {
             .thenReturn(new ArrayList<>());
 
         //when
-        List<String> blockCustomers = blockCustomerService.findAllConvertedToString();
+        assertThrows(EntityNotFoundException.class, blockCustomerService::findAllConvertedToString);
 
         //then
-        assertNotNull(blockCustomers);
-        assertTrue(blockCustomers.isEmpty());
 
         verify(blockCustomerRepository).findAll();
     }
@@ -109,9 +107,8 @@ class BlockCustomerServiceTest {
             .map(Object::toString)
             .collect(Collectors.toList());
 
-        when(blockCustomerRepository.findAll()).thenReturn(
-            blockCustomers
-        );
+        when(blockCustomerRepository.findAll())
+            .thenReturn(blockCustomers);
 
         //when
         List<String> findBlockCustomers = blockCustomerService.findAllConvertedToString();

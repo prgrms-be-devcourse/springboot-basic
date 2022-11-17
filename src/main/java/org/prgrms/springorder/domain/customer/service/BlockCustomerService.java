@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.repository.BlockCustomerRepository;
+import org.prgrms.springorder.global.exception.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,13 @@ public class BlockCustomerService {
     }
 
     public List<BlockCustomer> findAll() {
-        return blockCustomerRepository.findAll();
+        List<BlockCustomer> blockCustomers = blockCustomerRepository.findAll();
+
+        if (blockCustomers.isEmpty()) {
+            throw new EntityNotFoundException(BlockCustomer.class, "all");
+        }
+
+        return blockCustomers;
     }
 
     public List<String> findAllConvertedToString() {
