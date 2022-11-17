@@ -1,4 +1,4 @@
-package com.programmers.VoucherManagementApplication.dto;
+package com.programmers.VoucherManagementApplication.vo;
 
 @FunctionalInterface
 public interface VoucherFunction<T, V, E, R> {
