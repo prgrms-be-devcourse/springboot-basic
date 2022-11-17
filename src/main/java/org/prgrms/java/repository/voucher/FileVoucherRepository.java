@@ -60,7 +60,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        if (findById(voucher.getVoucherId()).isPresent() || findById(voucher.getVoucherId()).isPresent()) {
+        if (findById(voucher.getVoucherId()).isPresent()) {
             throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
         }
 
