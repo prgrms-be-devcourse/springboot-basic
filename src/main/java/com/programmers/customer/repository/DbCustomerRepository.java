@@ -143,20 +143,4 @@ public class DbCustomerRepository implements CustomerRepository {
             put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
         }};
     }
-
-    @Override
-    public List<Voucher> getCustomerVouchers(UUID customerId) {
-        try {
-            return jdbcTemplate.query(
-                    FIND_VOUCHERS_WITH_CUSTOMER_ID,
-                    singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
-                    voucherRowMapper
-            );
-
-        } catch (DataAccessException e) {
-            log.error(DB_ERROR_LOG.getMessage(), e);
-            return List.of();
-        }
-    }
-
 }

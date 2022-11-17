@@ -23,6 +23,4 @@ public interface CustomerRepository {
     Customer update(Customer customer);
 
     List<Customer> findAll();
-
-    List<Voucher> getCustomerVouchers(UUID customerId);
 }
