@@ -13,7 +13,7 @@ import javax.annotation.PreDestroy;
 import java.util.*;
 
 
-@Profile("dev")
+@Profile("file")
 @Component
 public class FileVoucherRepository implements VoucherRepository {
     public static final String VOUCHER_TYPE = "type";

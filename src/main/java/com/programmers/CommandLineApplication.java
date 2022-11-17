@@ -1,29 +1,32 @@
 package com.programmers;
 
+import com.programmers.customer.controller.CustomerController;
+import com.programmers.view.View;
+import com.programmers.voucher.controller.VoucherController;
 import com.programmers.voucher.menu.Menu;
-import com.programmers.voucher.service.VoucherService;
-import com.programmers.voucher.view.View;
-import com.programmers.voucher.voucher.Voucher;
+import com.programmers.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
+import static com.programmers.message.Message.GREETING_MESSAGE;
 import static com.programmers.voucher.menu.Menu.findMenu;
-import static com.programmers.voucher.menu.Message.*;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
 public class CommandLineApplication implements Runnable {
     private final Logger logger = getLogger(CommandLineApplication.class);
     private final View view;
-    private final VoucherService voucherService;
+    private final VoucherController voucherController;
+    private final CustomerController customerController;
+    private final WalletController walletController;
 
     @Autowired
-    public CommandLineApplication(View view, VoucherService voucherService) {
+    public CommandLineApplication(View view, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.view = view;
-        this.voucherService = voucherService;
+        this.voucherController = voucherController;
+        this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     @Override
@@ -49,34 +52,40 @@ public class CommandLineApplication implements Runnable {
 
     private void executeUserCommand(Menu userMenu) {
         switch (userMenu) {
-            case CREATE:
-                createVoucher();
+            case JOIN:
+                customerController.join();
                 break;
 
-            case LIST:
-                showVoucherList();
+            case REGISTER:
+                voucherController.createVoucher();
+                break;
+
+            case CUSTOMERS:
+                customerController.findAllCustomers();
+                break;
+
+            case VOUCHERS:
+                voucherController.showVoucherList();
+                break;
+
+            case ASSIGN:
+                walletController.assign();
+                break;
+
+            case WALLET:
+                walletController.showCustomerVouchers();
+                break;
+
+            case VOUCHER_OWNER:
+                walletController.findVoucherOwner();
+                break;
+
+            case DELETE_W:
+                walletController.delete();
                 break;
 
             case EXIT:
                 return;
-        }
-    }
-
-    private void createVoucher() {
-        view.printMessage(VOUCHER_TYPE_MESSAGE);
-        String voucherTypeInput = view.getUserCommand();
-
-        view.printMessage(VOUCHER_VALUE_MESSAGE);
-        String value = view.getUserCommand();
-
-        voucherService.register(voucherTypeInput, value);
-        view.printMessage(VOUCHER_CREATE_SUCCESS);
-    }
-
-    private void showVoucherList() {
-        List<Voucher> vouchers = voucherService.findAll();
-        for (Voucher voucher : vouchers) {
-            view.printVoucher(voucher);
         }
     }
 }

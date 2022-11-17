@@ -24,8 +24,9 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "type=FixedAmountVoucher" + '\n' +
-                "amount=" + amount;
+        return "ID =" + voucherId + '\n' +
+                "type = FixedAmountVoucher" + '\n' +
+                "amount = " + amount;
     }
 
     @Override

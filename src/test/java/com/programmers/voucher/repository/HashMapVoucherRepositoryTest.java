@@ -45,7 +45,6 @@ class HashMapVoucherRepositoryTest {
         Optional<Voucher> findOne = repository.findById(voucher.getVoucherId());
         assertTrue(findOne.isPresent());
 
-        assertSame(findOne.get(), voucher);
     }
 
     @Test

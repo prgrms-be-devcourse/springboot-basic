@@ -5,6 +5,7 @@ import com.programmers.voucher.voucher.VoucherType;
 import org.ini4j.Profile.Section;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -17,6 +18,7 @@ import static com.programmers.voucher.voucher.VoucherFactory.createVoucher;
 import static com.programmers.voucher.voucher.VoucherType.getValidateVoucherType;
 import static java.util.UUID.fromString;
 
+@Profile("file")
 @Component
 public class ListLoader implements Loader {
     private final Wini wini;

@@ -2,13 +2,23 @@ package com.programmers.voucher.menu;
 
 import java.util.Arrays;
 
-import static com.programmers.voucher.menu.Message.ERROR_INPUT_MESSAGE;
+import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
 
 public enum Menu {
     EXIT,
-    CREATE,
-    LIST,
-    ;
+
+    JOIN,
+    CUSTOMERS,
+    DELETE_C,
+
+    REGISTER,
+    VOUCHERS,
+    DELETE_V,
+
+    ASSIGN,
+    WALLET,
+    VOUCHER_OWNER,
+    DELETE_W;
 
     Menu() {
     }

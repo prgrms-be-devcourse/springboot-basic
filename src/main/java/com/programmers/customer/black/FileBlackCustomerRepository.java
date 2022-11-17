@@ -1,8 +1,10 @@
 package com.programmers.customer.black;
 
+import com.programmers.config.properties.BlackCustomerProperties;
 import com.programmers.customer.Customer;
-import com.programmers.voucher.config.CustomerProperties;
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,14 +16,15 @@ import java.util.UUID;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-//@Repository
+@Profile("file")
+@Repository
 public class FileBlackCustomerRepository implements BlackCustomerRepository {
     private final Logger logger = getLogger(FileBlackCustomerRepository.class);
 
     private final String blackFilePath;
     private BufferedReader bufferedReader;
 
-    public FileBlackCustomerRepository(CustomerProperties properties) {
+    public FileBlackCustomerRepository(BlackCustomerProperties properties) {
         this.blackFilePath = properties.getSavePath();
     }
 

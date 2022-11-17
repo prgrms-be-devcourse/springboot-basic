@@ -1,6 +1,7 @@
-package com.programmers.voucher.view;
+package com.programmers.view;
 
-import com.programmers.voucher.menu.Message;
+import com.programmers.customer.Customer;
+import com.programmers.message.Message;
 import com.programmers.voucher.voucher.Voucher;
 
 public interface View {
@@ -11,4 +12,6 @@ public interface View {
     void printMessage(Message message);
 
     void printVoucher(Voucher voucher);
+
+    void printCustomer(Customer customer);
 }

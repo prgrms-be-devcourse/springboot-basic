@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @SpringBootApplication
-@ConfigurationPropertiesScan("com.programmers.voucher.config")
+@ConfigurationPropertiesScan("com.programmers.config")
 public class SpringVoucherServiceApplication {
     private static final Logger logger = getLogger(SpringVoucherServiceApplication.class);
     private static CommandLineApplication application;

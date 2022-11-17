@@ -2,6 +2,11 @@ spring:
   profiles:
     active: dev
 
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: kiseo
+    password: 1234
+
 file:
   voucher:
     save-path: ./sample.ini

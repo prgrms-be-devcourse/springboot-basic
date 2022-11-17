@@ -1,6 +1,7 @@
-package com.programmers.voucher.view;
+package com.programmers.view;
 
-import com.programmers.voucher.menu.Message;
+import com.programmers.customer.Customer;
+import com.programmers.message.Message;
 import com.programmers.voucher.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -30,5 +31,10 @@ public class ConsoleView implements View {
     public void printVoucher(Voucher voucher) {
         System.out.println(voucher);
         System.out.println("============================");
+    }
+
+    @Override
+    public void printCustomer(Customer customer) {
+        System.out.println(customer);
     }
 }

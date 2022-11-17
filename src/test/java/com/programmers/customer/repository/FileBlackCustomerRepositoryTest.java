@@ -1,8 +1,9 @@
 package com.programmers.customer.repository;
 
 
+import com.programmers.config.properties.BlackCustomerProperties;
 import com.programmers.customer.Customer;
-import com.programmers.voucher.config.CustomerProperties;
+import com.programmers.customer.black.FileBlackCustomerRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,14 +16,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-class FileCustomerRepositoryTest {
+class FileBlackCustomerRepositoryTest {
     private final String path = "./blacklist.csv";
-    private FileCustomerRepository repository;
+    private FileBlackCustomerRepository repository;
 
     @BeforeAll
     void init() {
-        CustomerProperties properties = new CustomerProperties(path);
-        repository = new FileCustomerRepository(properties);
+        BlackCustomerProperties properties = new BlackCustomerProperties(path);
+        repository = new FileBlackCustomerRepository(properties);
     }
 
     @Test
