@@ -20,10 +20,11 @@ public class FileCustomerRepository implements CustomerRepository {
 
 	private final File file;
 
-	private Map<UUID, Customer> memory = new HashMap<>();
+	private final Map<UUID, Customer> memory;
 
 	public FileCustomerRepository(GlobalProperties globalProperties) {
 		file = new File(globalProperties.getBlacklist());
+		memory = new HashMap<>();
 	}
 
 	@PostConstruct
