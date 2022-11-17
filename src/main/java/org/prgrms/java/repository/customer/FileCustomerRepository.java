@@ -1,8 +1,8 @@
-package org.prgrms.java.repository.user;
+package org.prgrms.java.repository.customer;
 
 import org.prgrms.java.common.Mapper;
-import org.prgrms.java.domain.user.User;
-import org.prgrms.java.exception.UserException;
+import org.prgrms.java.domain.customer.Customer;
+import org.prgrms.java.exception.CustomerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 
 @Repository
 @Primary
-public class FileUserRepository implements UserRepository {
+public class FileCustomerRepository implements CustomerRepository {
     private final String DATA_PATH;
     private final String DATA_NAME_FOR_CUSTOMER;
     private final String DATA_NAME_FOR_BLACKLIST;
 
-    public FileUserRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
+    public FileCustomerRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
         try {
             new File(DATA_PATH).mkdirs();
             new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER)).createNewFile();
@@ -35,13 +35,13 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(UUID userId, boolean isBlocked) {
+    public Optional<Customer> findById(UUID customerId, boolean isBlocked) {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
             Optional<String> str = reader.lines()
-                    .filter(line -> line.contains(userId.toString()))
+                    .filter(line -> line.contains(customerId.toString()))
                     .findAny();
             if (str.isPresent()) {
-                return Optional.of(Mapper.mapToUser(str.get(), isBlocked));
+                return Optional.of(Mapper.mapToCustomer(str.get(), isBlocked));
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -50,10 +50,10 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public Collection<User> findAll(boolean isBlocked) {
+    public Collection<Customer> findAll(boolean isBlocked) {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
             return reader.lines()
-                    .map((object) -> Mapper.mapToUser(object, isBlocked))
+                    .map((object) -> Mapper.mapToCustomer(object, isBlocked))
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -61,19 +61,19 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public User insert(User user) {
-        if (findById(user.getUserId(), true).isPresent() || findById(user.getUserId(), false).isPresent()) {
-            throw new UserException(String.format("Already exists user having id %s", user.getUserId()));
+    public Customer insert(Customer customer) {
+        if (findById(customer.getCustomerId(), true).isPresent() || findById(customer.getCustomerId(), false).isPresent()) {
+            throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
         }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(user.isBlocked())), true))) {
-            writer.write(user.toString());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(customer.isBlocked())), true))) {
+            writer.write(customer.toString());
             writer.newLine();
             writer.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return user;
+        return customer;
     }
 
     @Override

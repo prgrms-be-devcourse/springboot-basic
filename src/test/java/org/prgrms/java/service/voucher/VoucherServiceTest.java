@@ -79,19 +79,19 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 등록하지 않으면 전체 조회시 빈 컬렉션이 반환된다.")
     void testGetAllVoucherWithNoCreation() {
-        assertThat(voucherService.getAllVoucher(), hasSize(0));
+        assertThat(voucherService.getAllVouchers(), hasSize(0));
     }
 
     @Test
     @DisplayName("서비스를 통해 모든 바우처를 조회할 수 있다.")
-    void testGetAllUser() {
+    void testGetAllVouchers() {
         Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10000);
         Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50);
 
         voucherService.createVoucher(fixedAmountVoucher);
         voucherService.createVoucher(percentDiscountVoucher);
 
-        assertThat(voucherService.getAllVoucher(), hasSize(2));
-        assertThat(voucherService.getAllVoucher(), containsInAnyOrder(samePropertyValuesAs(fixedAmountVoucher), samePropertyValuesAs(percentDiscountVoucher)));
+        assertThat(voucherService.getAllVouchers(), hasSize(2));
+        assertThat(voucherService.getAllVouchers(), containsInAnyOrder(samePropertyValuesAs(fixedAmountVoucher), samePropertyValuesAs(percentDiscountVoucher)));
     }
 }

@@ -1,28 +1,28 @@
-package org.prgrms.java.domain.user;
+package org.prgrms.java.domain.customer;
 
 import java.util.UUID;
 
-public class User {
-    private final UUID userId;
+public class Customer {
+    private final UUID customerId;
     private String name;
     private String email;
     private boolean isBlocked = false;
 
-    public User(UUID userId, String name, String email) {
-        this.userId = userId;
+    public Customer(UUID customerId, String name, String email) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
     }
 
-    public User(UUID userId, String name, String email, boolean isBlocked) {
-        this.userId = userId;
+    public Customer(UUID customerId, String name, String email, boolean isBlocked) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.isBlocked = isBlocked;
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getCustomerId() {
+        return customerId;
     }
 
     public String getName() {
@@ -51,6 +51,6 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s", userId, name, email);
+        return String.format("%s, %s, %s", customerId, name, email);
     }
 }

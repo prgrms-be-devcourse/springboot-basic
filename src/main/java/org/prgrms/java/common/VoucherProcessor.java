@@ -4,27 +4,26 @@ import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.CommandException;
-import org.prgrms.java.exception.UserException;
+import org.prgrms.java.exception.CustomerException;
 import org.prgrms.java.exception.VoucherException;
-import org.prgrms.java.service.user.UserService;
+import org.prgrms.java.service.customer.CustomerService;
 import org.prgrms.java.service.voucher.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @Component
 public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
-    private final UserService userService;
+    private final CustomerService customerService;
     private final VoucherService voucherService;
     private final View view;
     private static final Logger logger = LoggerFactory.getLogger(VoucherProcessor.class);
 
-    public VoucherProcessor(UserService userService, VoucherService voucherService, View view) {
-        this.userService = userService;
+    public VoucherProcessor(CustomerService customerService, VoucherService voucherService, View view) {
+        this.customerService = customerService;
         this.voucherService = voucherService;
         this.view = view;
     }
@@ -58,7 +57,7 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
                     getVouchers();
                     break;
                 case BLACKLIST:
-                    getBlackUsers();
+                    getBlackCustomers();
             }
             return true;
         } catch (CommandException e) {
@@ -103,18 +102,18 @@ public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
         }
     }
 
-    private void getBlackUsers() {
+    private void getBlackCustomers() {
         try {
-            userService.getAllBlackUser()
+            customerService.getAllBlackCustomers()
                     .forEach(view::print);
-        } catch (UserException e) {
+        } catch (CustomerException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }
     }
 
     private void getVouchers() {
-        voucherService.getAllVoucher()
+        voucherService.getAllVouchers()
                 .forEach(view::print);
     }
 }

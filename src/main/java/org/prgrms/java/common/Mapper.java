@@ -1,6 +1,6 @@
 package org.prgrms.java.common;
 
-import org.prgrms.java.domain.user.User;
+import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
@@ -24,12 +24,12 @@ public class Mapper {
         }
     }
 
-    public static User mapToUser(String object, boolean isBlocked) {
+    public static Customer mapToCustomer(String object, boolean isBlocked) {
         String[] atoms = object.split(",");
-        UUID userId = UUID.fromString(atoms[0].trim());
+        UUID customerId = UUID.fromString(atoms[0].trim());
         String name = atoms[1].trim();
         String email = atoms[2].trim();
 
-        return new User(userId, name, email, isBlocked);
+        return new Customer(customerId, name, email, isBlocked);
     }
 }

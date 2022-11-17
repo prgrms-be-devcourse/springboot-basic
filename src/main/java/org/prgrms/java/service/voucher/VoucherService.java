@@ -25,7 +25,7 @@ public class VoucherService {
                 .orElseThrow(() -> new VoucherException(String.format("Can not find a voucher for %s", voucherId)));
     }
 
-    public Collection<Voucher> getAllVoucher() {
+    public Collection<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }
 }
