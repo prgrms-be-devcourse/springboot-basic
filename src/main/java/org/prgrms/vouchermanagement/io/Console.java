@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
-
 @Component
 public class Console implements Input, Output {
 
@@ -81,5 +80,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllBlackList(List<Customer> customers) {customers.forEach(System.out::println);}
+    public void printAllBlackList(List<Customer> customers) {
+        customers.forEach(System.out::println);
+    }
 }
