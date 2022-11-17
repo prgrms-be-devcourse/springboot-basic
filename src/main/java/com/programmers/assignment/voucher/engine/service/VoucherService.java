@@ -1,7 +1,7 @@
 package com.programmers.assignment.voucher.engine.service;
 
-import com.programmers.assignment.voucher.engine.io.Input;
-import com.programmers.assignment.voucher.engine.io.Output;
+import com.programmers.assignment.voucher.engine.io.ConsoleInput;
+import com.programmers.assignment.voucher.engine.io.ConsoleOutput;
 import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.engine.voucher.FixedAmountVoucher;
 import com.programmers.assignment.voucher.engine.voucher.PercentDiscountVoucher;
@@ -16,9 +16,9 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    private Input input;
+    private final ConsoleInput input;
+    private final ConsoleOutput output;
 
-    private Output output;
     private VoucherRepository voucherRepository;
 
     private final String FIXED_VOUCHER_MESSAGE =
@@ -30,7 +30,7 @@ public class VoucherService {
                     "Type PercentVoucher discount.";
 
 
-    public VoucherService(Input input, Output output, VoucherRepository voucherRepository) {
+    public VoucherService(ConsoleInput input, ConsoleOutput output, VoucherRepository voucherRepository) {
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;

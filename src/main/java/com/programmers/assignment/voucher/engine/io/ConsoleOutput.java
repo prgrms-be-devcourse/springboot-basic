@@ -7,8 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Component
-public class ConsoleOutput implements Output {
-    @Override
+public class ConsoleOutput {
     public void findVoucherList(Map<UUID, Voucher> map) {
         System.out.println("======= Voucher List=========");
         map.forEach((k, v) -> System.out.println(v)
@@ -16,7 +15,6 @@ public class ConsoleOutput implements Output {
         System.out.println("=============================");
     }
 
-    @Override
     public void exitApplication() {
         System.out.println("===Exit Application===");
     }

@@ -19,8 +19,9 @@ public class MenuController {
     }
 
 
-    public void createCommand() {
-        menuService.createVoucher();
+    public String createCommand() {
+        String discountWay = menuService.createVoucher();
+        return discountWay;
     }
 
     public void listCommand() {

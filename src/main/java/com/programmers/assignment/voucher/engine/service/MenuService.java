@@ -1,8 +1,7 @@
 package com.programmers.assignment.voucher.engine.service;
 
-import com.programmers.assignment.voucher.engine.controller.VoucherController;
-import com.programmers.assignment.voucher.engine.io.Input;
-import com.programmers.assignment.voucher.engine.io.Output;
+import com.programmers.assignment.voucher.engine.io.ConsoleInput;
+import com.programmers.assignment.voucher.engine.io.ConsoleOutput;
 import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.util.domain.Menu;
 import com.programmers.assignment.voucher.util.domain.VoucherVariable;
@@ -10,19 +9,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MenuService {
-    private Input input;
+    private final ConsoleInput input;
 
-    private Output output;
+    private final ConsoleOutput output;
 
-    private VoucherRepository voucherRepository;
+    private final VoucherRepository voucherRepository;
 
-    private VoucherController voucherController;
-
-    public MenuService(Input input, Output output, VoucherRepository voucherRepository, VoucherController voucherController) {
+    public MenuService(ConsoleInput input, ConsoleOutput output, VoucherRepository voucherRepository) {
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;
-        this.voucherController = voucherController;
     }
 
     private final String MENU_MESSAGE =
@@ -41,9 +37,9 @@ public class MenuService {
         return Menu.chooseMenu(input.inputCommand(MENU_MESSAGE));
     }
 
-    public void createVoucher() {
+    public String createVoucher() {
         String discountWay = VoucherVariable.chooseDiscountWay(input.selectVoucher(VOUCHER_MESSAGE));
-        voucherController.makeVoucher(discountWay);
+        return discountWay;
     }
 
     public void exitApplication() {
