@@ -69,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) throws IllegalStateException {
         CsvDto csvDto = voucher.makeCsvDtoFromVoucher();
         csvWriter.writeCSV(csvDto);
         return storage.put(voucher.getVoucherId(), voucher);

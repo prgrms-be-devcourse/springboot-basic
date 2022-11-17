@@ -26,7 +26,7 @@ public class VoucherService {
                 new NullPointerException(MessageFormat.format("Can not find a voucher for{0}", voucherId)));
     }
 
-    public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException {
+    public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException, IllegalStateException {
         Voucher newVoucher = voucherCreator.createVoucher(voucherType, number);
         return voucherRepository.insert(newVoucher);
     }

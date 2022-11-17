@@ -2,8 +2,6 @@ package org.prgrms.kdtspringdemo.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -38,10 +36,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public CsvDto makeCsvDtoFromVoucher() {
-        List<String[]> lines = new ArrayList<>();
-        String[] line = {this.voucherId.toString(), String.valueOf(this.amount), this.getVoucherType().name()};
-        lines.add(line);
-        return CsvDto.from(lines);
+        return CsvDto.from(this);
     }
 
     private boolean voucherAllow(long amount) {
