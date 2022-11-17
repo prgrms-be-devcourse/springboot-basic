@@ -1,42 +1,64 @@
 package com.programmers.VoucherManagementApplication.io;
 
+import com.programmers.VoucherManagementApplication.controller.VoucherController;
+import com.programmers.VoucherManagementApplication.dto.CreateVoucherRequest;
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
-import java.util.List;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
-public class Console {
-    private Input input;
-    private Output output;
+import java.util.Map;
+import java.util.UUID;
 
-    public Console(Input input, Output output) {
+@Component
+public class Console implements CommandLineRunner {
+
+    private final Input input;
+    private final Output output;
+    private final VoucherController voucherController;
+
+    public Console(Input input, Output output, VoucherController voucherController) {
         this.input = input;
         this.output = output;
+        this.voucherController = voucherController;
     }
 
-    public String input() {
-        return input.input();
-    }
-    public void menuPromptPrint() {
-        output.messagePrint(Message.MENU_PROMPT);
-    }
-    public void invalidInputPrint() {
-        output.messagePrint(Message.INVALID_INPUT);
-    }
-    public void exitMenuPrint() {
-        output.messagePrint(Message.EXIT_MENU);
-    }
-    public void selectVoucherMenu() {
-        output.messagePrint(Message.VOUCHER_MENU);
-    }
-    public void inputPricePrompt() {
-        output.messagePrint(Message.PRICE_INPUT_PROMPT);
-    }
-    public void inputVoucherAmount(Message message) {
-        output.messagePrint(message);
-    }
-
-    public void findAll(List<Voucher> list) {
-        for (Voucher voucher : list) {
-            System.out.println(voucher.getVoucherType() + " : " + voucher.getOriginPrice() + " | " + voucher.getAmount() + " | " + voucher.discount());
+    @Override
+    public void run(String... args) throws Exception {
+        MenuType menuType = MenuType.DEFAULT;
+        while (menuType != MenuType.EXIT) {
+            try {
+                output.write(Message.MENU_PROMPT.getMessage());
+                menuType = MenuType.getMenuType(input.readLine());
+                switch (menuType) {
+                    case EXIT:
+                        output.write(Message.EXIT_MESSAGE.getMessage());
+                        break;
+                    case CREATE:
+                        createVoucher();
+                        break;
+                    case LIST:
+                        writeVoucherMap();
+                        break;
+                    default:
+                        output.write(Message.INVALID_INPUT.getMessage());
+                }
+            } catch (IllegalArgumentException e) {
+                output.write(e.getMessage());
+            }
         }
+    }
+
+    private void writeVoucherMap() {
+        Map<UUID, Voucher> map = voucherController.findAll();
+        if (map.size() == 0) output.write(Message.NO_LIST.getMessage());
+        else output.writeAll(map);
+    }
+
+    private Voucher createVoucher() {
+        output.write(Message.CREATE_MENU.getMessage());
+        CreateVoucherRequest request = new CreateVoucherRequest(input.readLine());
+//        Voucher voucher = request.getVoucherType().voucherCreator(request);
+//        System.out.println(voucher);
+        return voucherController.create(request.getVoucherType(), request.getAmount());
     }
 }

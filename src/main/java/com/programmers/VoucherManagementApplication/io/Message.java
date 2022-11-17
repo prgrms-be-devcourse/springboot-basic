@@ -1,18 +1,25 @@
 package com.programmers.VoucherManagementApplication.io;
 
 public enum Message {
-    MENU_PROMPT("\n========= Voucher Program =========\n" +
+
+    MENU_PROMPT("\n========= Voucher Program =========\n"+
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
             "Type list to list all vouchers.\n"),
+    EXIT_MESSAGE("\nThe input value is not valid. Please try again.\n"),
+    CREATE_MENU("\n1. FixedAmountVoucher \n2. PercentDiscountVoucher\n" +
+            "Enter fixed/percent, and enter discount values separated by 'spaces'\n" +
+            "ex) fixed 10\n"),
+    NO_LIST("\nNo saved voucher\n"),
+
     INVALID_INPUT("\nThe input value is not valid. Please try again.\n"),
-    EXIT_MENU("\nExit Voucher Program\n"),
+    INVALID_REQUEST_SIZE("\nThe request value is not in the correct format.\n"),
+    INVALID_ZERO("\nAmount should not be zero"),
+    INVALID_MINUS("\nAmount should be positive"),
+    INVALID_INTEGER("\nThe price is an integer."),
 
-    VOUCHER_MENU("\n1. FixedAmountVoucher \n2. PercentDiscountVoucher\n"),
-
-    PRICE_INPUT_PROMPT("\nAmount before discount"),
-    FIXED_VOUCHER_INPUT_PROMPT("\nA fixed discount"),
-    PERCENT_VOUCHER_INPUT_PROMPT("\nA percent discount");
+    INVALID_FIXED_MAX("\nDiscount value is greater than maximum discount value. Please try again.\n"),
+    INVALID_PERCENT("\nThe percent input value is not valid.\n");
 
     private final String message;
 
@@ -20,8 +27,7 @@ public enum Message {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
+    public String getMessage() {
         return message;
     }
 }

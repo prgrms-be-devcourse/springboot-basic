@@ -6,7 +6,8 @@ public enum MenuType {
 
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    DEFAULT("default");
 
     private final String value;
 
@@ -18,7 +19,6 @@ public enum MenuType {
         return Stream.of(MenuType.values())
                 .filter(menuType -> menuType.value.equals(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(String.valueOf(Message.INVALID_INPUT))
-                );
+                .orElse(DEFAULT);
     }
 }
