@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.programmers.message.ErrorMessage.DELETE_ERROR;
+
 public class Customer {
     private final UUID customerId;
     private String name;
@@ -90,8 +92,8 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
+        return "[Customer]" +
+                "customerId = " + customerId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 '}';
@@ -103,7 +105,7 @@ public class Customer {
 
     public void removeVoucher(Voucher voucher) {
         if (!wallet.remove(voucher)) {
-            throw new RuntimeException("바우처 삭제 실패");
+            throw new RuntimeException(DELETE_ERROR.getMessage());
         }
     }
 

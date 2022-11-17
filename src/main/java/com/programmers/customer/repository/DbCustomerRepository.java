@@ -1,8 +1,10 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.sql.CustomerResultSetExtractor;
 import com.programmers.customer.repository.sql.CustomerRowMapper;
-import com.programmers.customer.repository.sql.CustomerSql;
+import com.programmers.voucher.repository.sql.VoucherRowMapper;
+import com.programmers.voucher.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +18,7 @@ import java.util.*;
 import static com.programmers.customer.repository.sql.CustomerSql.*;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
+import static com.programmers.wallet.repository.sql.WalletSql.FIND_VOUCHERS_WITH_CUSTOMER_ID;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
@@ -30,26 +33,14 @@ public class DbCustomerRepository implements CustomerRepository {
     private final Logger log = LoggerFactory.getLogger(DbCustomerRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerRowMapper customerRowMapper;
+    private final VoucherRowMapper voucherRowMapper;
+    private final CustomerResultSetExtractor resultSetExtractor;
 
     public DbCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.voucherRowMapper = new VoucherRowMapper();
         this.customerRowMapper = new CustomerRowMapper();
-    }
-
-    @Override
-    public Optional<Customer> findById(UUID customerId) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            CustomerSql.SELECT_BY_ID,
-                            singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
-                            customerRowMapper
-                    )
-            );
-        } catch (DataAccessException e) {
-            log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
-        }
+        this.resultSetExtractor = new CustomerResultSetExtractor(customerRowMapper, voucherRowMapper);
     }
 
     @Override
@@ -78,6 +69,28 @@ public class DbCustomerRepository implements CustomerRepository {
                             customerRowMapper
                     )
             );
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage(), e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+//        List<Voucher> wallet = getCustomerVouchers(customerId);
+
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.query(
+                            SELECT_ALL_BY_ID,
+                            singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                            resultSetExtractor
+                    )
+            );
+
+//            customerOptional.ifPresent(customer -> customer.makeWallet(wallet));
+//            return customerOptional;
+
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             return Optional.empty();
@@ -135,4 +148,20 @@ public class DbCustomerRepository implements CustomerRepository {
             put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
         }};
     }
+
+    @Override
+    public List<Voucher> getCustomerVouchers(UUID customerId) {
+        try {
+            return jdbcTemplate.query(
+                    FIND_VOUCHERS_WITH_CUSTOMER_ID,
+                    singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                    voucherRowMapper
+            );
+
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage(), e);
+            return List.of();
+        }
+    }
+
 }

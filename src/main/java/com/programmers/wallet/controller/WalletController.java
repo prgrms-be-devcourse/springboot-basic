@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.message.Message.VOUCHER_CUSTOMER_ID;
+import static com.programmers.message.Message.VOUCHER_ID;
+
 @Controller
 public class WalletController {
     private final WalletService walletService;
@@ -20,19 +23,19 @@ public class WalletController {
     }
 
     public void assign() {
-        view.printMessage("바우처를 할당할 고객 ID를 입력해주세요.");
+        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
-        view.printMessage("할당할 바우처 ID를 입력해주세요.");
+        view.printMessage(VOUCHER_ID.getMessage());
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 
         walletService.assignVoucher(customerUUID, voucherUUID);
     }
 
-    public void showCustomerVoucher() {
-        view.printMessage("바우처를 조회할 고객 ID를 입력해주세요.");
+    public void showCustomerVouchers() {
+        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
@@ -44,7 +47,7 @@ public class WalletController {
     }
 
     public void findVoucherOwner() {
-        view.printMessage("소유자를 조회할 바우처 ID를 입력해주세요.");
+        view.printMessage(VOUCHER_ID.getMessage());
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 
@@ -53,11 +56,11 @@ public class WalletController {
     }
 
     public void delete() {
-        view.printMessage("바우처를 관리할 고객 ID를 입력해주세요.");
+        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
-        view.printMessage("삭제할 바우처의 ID를 입력해주세요.");
+        view.printMessage(VOUCHER_ID.getMessage());
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 

@@ -56,12 +56,12 @@ public class CommandLineApplication implements Runnable {
                 customerController.join();
                 break;
 
-            case CUSTOMERS:
-                customerController.findAllCustomers();
-                break;
-
             case REGISTER:
                 voucherController.createVoucher();
+                break;
+
+            case CUSTOMERS:
+                customerController.findAllCustomers();
                 break;
 
             case VOUCHERS:
@@ -73,7 +73,7 @@ public class CommandLineApplication implements Runnable {
                 break;
 
             case WALLET:
-                walletController.showCustomerVoucher();
+                walletController.showCustomerVouchers();
                 break;
 
             case VOUCHER_OWNER:

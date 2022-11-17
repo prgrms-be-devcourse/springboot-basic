@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.message.ErrorMessage.*;
+
 @Service
 @Transactional(readOnly = true)
 public class WalletServiceImpl implements WalletService {
@@ -31,11 +33,11 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public Customer assignVoucher(UUID customerId, UUID voucherId) {
-//        Optional<Customer> customerOptional = customerRepository.findById(customerId);
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
+
         Optional<Voucher> voucherOptional = voucherRepository.findById(voucherId);
-        Customer customer = customerService.findById(customerId);
-//        Customer customer = customerOptional.orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
-        Voucher voucher = voucherOptional.orElseThrow(() -> new RuntimeException("존재하지 않는 바우처입니다."));
+        Voucher voucher = voucherOptional.orElseThrow(() -> new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
 
         walletRepository.assignVoucher(customer, voucher);
         customer.addVoucher(voucher);
@@ -51,21 +53,19 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public Customer searchCustomerByVoucherId(UUID voucherId) {
         return walletRepository.findCustomerByVoucherId(voucherId)
-                .orElseThrow(() -> new RuntimeException("조회 에러"));
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_ERROR.getMessage()));
     }
 
     @Override
     @Transactional
     public void removeCustomerVoucher(UUID customerId, UUID voucherId) {
-//        customerRepository.findAllById(customerId);
-//        Optional<Customer> customerOptional = customerRepository.findById(customerId);
-        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherId);
-        Customer findCustomer = customerService
-                .findById(customerId);
-//        Customer findCustomer = customerOptional.orElseThrow(() -> new RuntimeException("존재하지 않는 회원입니다."));
-        Voucher findVoucher = voucherOptional.orElseThrow(() -> new RuntimeException("존재하지 않는 바우처입니다."));
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
 
-        findCustomer.removeVoucher(findVoucher);
+        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherId);
+        Voucher findVoucher = voucherOptional.orElseThrow(() -> new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
+
+        customer.removeVoucher(findVoucher);
 
         walletRepository.deleteCustomerVoucher(customerId, voucherId);
     }

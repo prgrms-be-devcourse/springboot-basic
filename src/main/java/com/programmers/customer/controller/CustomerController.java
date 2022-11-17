@@ -9,6 +9,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
+import static com.programmers.message.Message.CUSTOMER_EMAIL;
+import static com.programmers.message.Message.CUSTOMER_NAME;
 
 @Controller
 public class CustomerController {
@@ -29,15 +31,14 @@ public class CustomerController {
     }
 
     public void join() {
-        view.printMessage("이름을 입력해주세요.");
+        view.printMessage(CUSTOMER_NAME.getMessage());
         String name = view.getUserCommand();
 
-        view.printMessage("이메일을 입력해주세요.");
+        view.printMessage(CUSTOMER_EMAIL.getMessage());
         String email = view.getUserCommand();
 
         validateInput(name, email);
 
-//        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
         customerService.join(name, email);
     }
 

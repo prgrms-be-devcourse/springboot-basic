@@ -18,12 +18,18 @@ public enum Message {
             + "보유한 바우처 제거 - delete_w" + System.lineSeparator()
             + System.lineSeparator()),
 
+
     VOUCHER_TYPE_MESSAGE("고정할인 바우처는 F, 정률 할인 바우처는 P를 입력해주세요." + System.lineSeparator()),
 
     VOUCHER_VALUE_MESSAGE("바우처의 금액을 입력해주세요." + System.lineSeparator()
             + "고정 할인 바우처는 1000~200000, 정률 할인 바우처는 1~100" + System.lineSeparator()),
 
     VOUCHER_CREATE_SUCCESS("바우처 생성 성공" + System.lineSeparator()),
+
+    VOUCHER_CUSTOMER_ID("원하시는 고객 ID를 입력해주세요." + System.lineSeparator()),
+    VOUCHER_ID("바우처의 ID를 입력해주세요." + System.lineSeparator()),
+    CUSTOMER_NAME("회원 이름을 입력해주세요." + System.lineSeparator()),
+    CUSTOMER_EMAIL("회원 이메일을 입력해주세요." + System.lineSeparator()),
 
 
     ;

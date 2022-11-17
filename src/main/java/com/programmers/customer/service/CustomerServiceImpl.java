@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.message.ErrorMessage.CUSTOMER_NOT_FOUND;
+import static com.programmers.message.ErrorMessage.OCCUPIED_EMAIL;
+
 @Service
 @Transactional(readOnly = true)
 public class CustomerServiceImpl implements CustomerService {
@@ -29,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> findOne = customerRepository.findByEmail(email);
 
         if (findOne.isPresent()) {
-            throw new RuntimeException("이미 사용중인 이메일입니다.");
+            throw new RuntimeException(OCCUPIED_EMAIL.getMessage());
         }
 
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
@@ -47,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer findById(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
 
         List<Voucher> wallet = walletRepository.findVouchersByCustomerId(customerId);
 
@@ -59,13 +62,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer findByName(String name) {
         return customerRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
     }
 
     @Override
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
     }
 
     @Override
