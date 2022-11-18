@@ -12,7 +12,7 @@ class VoucherTypeTest {
 
     @Test
     @DisplayName("콘솔에서 fix를 입력받으면 고정금액 할인 바우처 타입을 반환한다.")
-    void testSelectFixedAmountVoucherType(){
+    void testSelectFixedAmountVoucherType() {
         // given
         String input = "fix";
         // when
@@ -23,7 +23,7 @@ class VoucherTypeTest {
 
     @Test
     @DisplayName("콘솔에서 percent를 입력받으면 퍼센트 할인 바우처 타입으로 반환한다.")
-    void testSelectPercentDiscountVoucherType(){
+    void testSelectPercentDiscountVoucherType() {
         // given
         String input = "percent";
         // when
@@ -34,7 +34,7 @@ class VoucherTypeTest {
 
     @Test
     @DisplayName("클래스명을 전달하면 그 클래스 타입의 바우처 타입을 반환한다.")
-    void testSelectVoucherTypeByClassName(){
+    void testSelectVoucherTypeByClassName() {
         // given
         String fixed = "FixedAmountVoucher";
         String percent = "PercentDiscountVoucher";
@@ -49,18 +49,16 @@ class VoucherTypeTest {
     @DisplayName("해당되지 않는 값을 입력할 경우 예외를 반환한다.")
     @ParameterizedTest
     @ValueSource(strings = {"123", "fic", "p", "percnet", "exit", "0"})
-    void testInvalidSelectInput(String input){
-        assertThrows(InvalidITypeInputException.class, () -> {
-            VoucherType.findVoucherTypeByInput(input);
-        });
+    void testInvalidSelectInput(String input) {
+        assertThrows(InvalidITypeInputException.class,
+                () -> VoucherType.findVoucherTypeByInput(input));
     }
 
     @DisplayName("해당되지 않는 클래스명을 입력할 경우 예외를 반환한다.")
     @ParameterizedTest
     @ValueSource(strings = {"MemberShipDiscountVoucher", "FixVoucher", "PercentVoucher"})
-    void testInvalidClassName(String className){
-        assertThrows(InvalidITypeInputException.class, () -> {
-            VoucherType.findVoucherTypeByClassName(className);
-        });
+    void testInvalidClassName(String className) {
+        assertThrows(InvalidITypeInputException.class,
+                () -> VoucherType.findVoucherTypeByClassName(className));
     }
 }

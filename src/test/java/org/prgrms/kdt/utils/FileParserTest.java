@@ -28,7 +28,7 @@ public class FileParserTest {
     private static String exceptionVoucherFilePath;
 
     @BeforeAll
-    static void setup(){
+    static void setup() {
         exceptionVoucherId = UUID.randomUUID().toString();
         exceptionVoucherFilePath = MessageFormat.format("src/main/resources/vouchers/{0}.txt", exceptionVoucherId);
         String exceptionVoucherInfo = MessageFormat.format("{0}/FixedAmountVoucher/50000", exceptionVoucherId);
@@ -42,12 +42,12 @@ public class FileParserTest {
 
     @Test
     @DisplayName("파일 내의 잘못된 내용이 있을 경우 예외를 반환한다.")
-    void testFileException(){
+    void testFileException() {
         assertThrows(AmountException.class, () -> fileParser.getVoucherById(exceptionVoucherId));
     }
 
     @AfterAll
-    static void cleanup(){
+    static void cleanup() {
         File exceptionFile = new File(exceptionVoucherFilePath);
         exceptionFile.delete();
     }

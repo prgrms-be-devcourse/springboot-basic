@@ -34,9 +34,9 @@ class FileVoucherStorageTest {
 
         // then
         voucherStorage.findById(fixedAmountVoucher.getVoucherId())
-                        .ifPresent(findVoucher ->
-                                assertThat(findVoucher).usingRecursiveComparison()
-                                        .isEqualTo(fixedAmountVoucher));
+                .ifPresent(findVoucher ->
+                        assertThat(findVoucher).usingRecursiveComparison()
+                                .isEqualTo(fixedAmountVoucher));
 
         voucherStorage.findById(percentAmountVoucher.getVoucherId())
                 .ifPresent(findVoucher ->
@@ -59,7 +59,7 @@ class FileVoucherStorageTest {
 
     @Test
     @DisplayName("바우처 Id를 이용하여 바우처를 삭제할 수 있다.")
-    void testDeleteById(){
+    void testDeleteById() {
         // given
         String newVoucherId = UUID.randomUUID().toString();
         voucherStorage.save(new PercentDiscountVoucher(newVoucherId, 20));
