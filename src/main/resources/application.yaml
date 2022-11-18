@@ -1,0 +1,6 @@
+repository :
+  file :
+    voucher:
+      path : "src/main/resources/vouchers.csv"
+    blacklist:
+      path: "src/main/resources/customer_blacklist.csv"
