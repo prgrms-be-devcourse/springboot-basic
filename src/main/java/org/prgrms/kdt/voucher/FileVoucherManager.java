@@ -16,7 +16,7 @@ public class FileVoucherManager implements VoucherManager {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherManager.class);
 
-    public static final String DELIMITER = ", ";
+    private static final String DELIMITER = ", ";
     private final String filePath;
 
     public FileVoucherManager(@Value("${voucher.file-path}") String filePath) {

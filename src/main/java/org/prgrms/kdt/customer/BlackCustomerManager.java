@@ -16,18 +16,17 @@ public class BlackCustomerManager {
 
     private static final Logger logger = LoggerFactory.getLogger(BlackCustomerManager.class);
 
-    private static final String FILE_PATH = "src/main/resources/customer_blacklist.csv";
-    public static final String DELIMITER = ", ";
-
+    private static final String filePath = "src/main/resources/customer_blacklist.csv";
+    private static final String DELIMITER = ", ";
 
     private File loadFile() {
-        File file = new File(FILE_PATH);
+        File file = new File(filePath);
         try {
             if (file.createNewFile()) {
-                logger.info("file created. [FILE PATH]: " + FILE_PATH);
+                logger.info("file created. [FILE PATH]: " + filePath);
             }
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + FILE_PATH, exception);
+            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + filePath, exception);
         }
         return file;
     }
