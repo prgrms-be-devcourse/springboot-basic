@@ -16,5 +16,11 @@ public class CustomerService {
 		this.customerRepository = customerRepository;
 	}
 
+	public List<String> getCustomerList() {
+		return customerRepository.findAll().stream().map(Customer::toString).collect(Collectors.toList());
+	}
 
+	public void createCustomer(Customer customer) {
+		customerRepository.save(customer);
+	}
 }
