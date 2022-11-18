@@ -1,0 +1,29 @@
+---
+spring:
+  config:
+    activate:
+      on-profile: "dev"
+
+voucher:
+  path: "./voucher_list.csv"
+  append: true
+
+logging:
+  file:
+    name: "./log/voucher_manager.log"
+customer:
+  path: "./customer_blacklist.csv"
+
+---
+spring:
+  config:
+    activate:
+      on-profile: "default"
+voucher:
+  path: "./voucher_list.csv"
+  append: true
+logging:
+  file:
+    name: "./log/voucher_manager.log"
+customer:
+  path: "./customer_blacklist.csv"
