@@ -16,7 +16,5 @@ public class CustomerService {
 		this.customerRepository = customerRepository;
 	}
 
-	public List<String> getBlackList() {
-		return customerRepository.getBlackList().stream().map(Customer::toString).collect(Collectors.toList());
-	}
+
 }
