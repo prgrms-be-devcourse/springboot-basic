@@ -6,11 +6,12 @@ import org.prgrms.voucher.discountType.Amount;
 public class PercentDiscountVoucher implements Voucher {
   private final UUID voucherId;
   private final Amount discountPercent;
-
+  private final VoucherType type;
 
   public PercentDiscountVoucher(UUID voucherId, Amount discountPercent) {
     this.voucherId = voucherId;
     this.discountPercent = discountPercent;
+    this.type = VoucherType.PERCENT;
   }
 
   @Override
@@ -21,6 +22,16 @@ public class PercentDiscountVoucher implements Voucher {
   @Override
   public UUID getVoucherId() {
     return voucherId;
+  }
+
+  @Override
+  public Amount getVoucherAmount() {
+    return discountPercent;
+  }
+
+  @Override
+  public VoucherType getVoucherType() {
+    return type;
   }
 
   @Override
