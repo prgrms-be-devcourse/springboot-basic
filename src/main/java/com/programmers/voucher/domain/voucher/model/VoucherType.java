@@ -15,11 +15,11 @@ public enum VoucherType {
 
 	private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 	private final String name;
-	private final Predicate<Double> OutOfDiscountRangeFilter;
+	private final Predicate<Double> outOfDiscountRangeFilter;
 
 	VoucherType(String name, Predicate<Double> OutOfDiscountRangeFilter) {
 		this.name = name;
-		this.OutOfDiscountRangeFilter = OutOfDiscountRangeFilter;
+		this.outOfDiscountRangeFilter = OutOfDiscountRangeFilter;
 	}
 
 	public String getName() {
@@ -27,7 +27,7 @@ public enum VoucherType {
 	}
 
 	public boolean hasOutOfDiscountRange(double discount) {
-		return OutOfDiscountRangeFilter.test(discount);
+		return outOfDiscountRangeFilter.test(discount);
 	}
 
 	public static VoucherType getVoucherType(String voucherType) {
