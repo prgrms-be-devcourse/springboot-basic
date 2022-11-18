@@ -96,6 +96,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return Optional.empty();
     }
 
+    @Override
+    public boolean isPresent(String email) {
+        return findByEmail(email).isPresent();
+    }
+
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of("customerId", customer.getCustomerId().toString().getBytes(),
                 "name", customer.getName(),

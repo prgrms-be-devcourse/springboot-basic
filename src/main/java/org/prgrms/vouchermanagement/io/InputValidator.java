@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanagement.io;
 
+import org.prgrms.vouchermanagement.exception.validation.AbnormalCustomerValueException;
 import org.prgrms.vouchermanagement.exception.validation.NotNumberException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectDiscountAmountException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
@@ -36,5 +37,21 @@ public class InputValidator {
             throw new InCorrectVoucherTypeException();
         }
         return voucherTypeNumberInput;
+    }
+
+    protected String validateName(String customerName) {
+        if (!customerName.matches(RegexConstant.NAME_REGEX)) {
+            logger.error("[ERROR] Abnormal Name Format Error");
+            throw new AbnormalCustomerValueException();
+        }
+        return customerName;
+    }
+
+    protected String validateEmail(String customerEmail) {
+        if (!customerEmail.matches(RegexConstant.EMAIL_REGEX)) {
+            logger.error("[ERROR] Abnormal Email Format Error");
+            throw new AbnormalCustomerValueException();
+        }
+        return customerEmail;
     }
 }

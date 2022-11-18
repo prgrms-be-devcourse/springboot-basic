@@ -18,4 +18,6 @@ public interface CustomerRepository {
     List<Customer> findByName(String name);
 
     Optional<Customer> findByEmail(String email);
+
+    boolean isPresent(String email);
 }
