@@ -2,12 +2,13 @@ package org.prgrms.springorder.domain.voucher;
 
 import static org.prgrms.springorder.domain.ErrorMessage.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
-	public FixedAmountVoucher(UUID voucherId, double value) {
-		super(voucherId, value);
+	public FixedAmountVoucher(UUID voucherId, double value, LocalDateTime createdAt) {
+		super(voucherId, value,createdAt,VoucherType.FIXED_AMOUNT);
 	}
 
 	@Override
