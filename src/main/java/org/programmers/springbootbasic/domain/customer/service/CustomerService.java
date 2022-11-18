@@ -27,10 +27,4 @@ public class CustomerService {
                 .map(black -> new CustomerOutputDto(black.getCustomerId(), black.getName()))
                 .collect(Collectors.toList());
     }
-
-    public void insertCustomer() {
-        CustomerInsertDto customerInsertDto = new CustomerInsertDto("123", "a@gmail.com");
-        jdbcCustomerRepository.insert(customerInsertDto);
-
-    }
 }
