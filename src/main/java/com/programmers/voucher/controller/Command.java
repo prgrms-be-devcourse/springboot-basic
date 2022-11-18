@@ -17,46 +17,34 @@ import com.programmers.voucher.io.Output;
 
 public enum Command {
 
-	CREATE("create") {
-		@Override
-		public void doCommand(Input input, Output output, VoucherService voucherService,
-			CustomerService customerService) {
-			output.write(Message.VOUCHER_OPTION.getMessage());
-			VoucherType choseVoucherType = VoucherType.getVoucherType(input.read());
-			output.write(Message.DISCOUNT_OPTION.getMessage());
-			String discountAmount = input.read();
-			voucherService.createVoucher(discountAmount, choseVoucherType);
-		}
-	},
-	LIST("list") {
-		@Override
-		public void doCommand(Input input, Output output, VoucherService voucherService,
-			CustomerService customerService) {
-			List<Voucher> vouchers = voucherService.getAllVoucher();
-			vouchers.forEach(voucher -> output.write(voucher.toString()));
-		}
-	},
-	BLACKLIST("blacklist") {
-		@Override
-		public void doCommand(Input input, Output output, VoucherService voucherService,
-			CustomerService customerService) {
+	CREATE("create", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+		output.write(Message.VOUCHER_OPTION.getMessage());
+		VoucherType choseVoucherType = VoucherType.getVoucherType(input.read());
+		output.write(Message.DISCOUNT_OPTION.getMessage());
+		String discountAmount = input.read();
+		voucherService.createVoucher(discountAmount, choseVoucherType);
+	}),
+	LIST("list", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+		List<Voucher> vouchers = voucherService.getAllVoucher();
+		vouchers.forEach(voucher -> output.write(voucher.toString()));
+	}),
+	BLACKLIST("blacklist",
+		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
 			List<Customer> customers = customerService.getBlackList();
-			customers.forEach(blacklist -> output.write(blacklist.toString()));
-		}
-	},
-	EXIT("exit") {
-		@Override
-		public void doCommand(Input input, Output output, VoucherService voucherService,
-			CustomerService customerService) {
-			ControllerPower.stop();
-		}
-	};
+			customers.forEach(customer -> output.write(customer.toString()));
+		}),
+	EXIT("exit", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+		ControllerPower.stop();
+	});
 
 	private static final Logger log = LoggerFactory.getLogger(Command.class);
 	private final String option;
+	private final QuadFunction<Input, Output, VoucherService, CustomerService> commandFunction;
 
-	Command(String option) {
+	Command(String option,
+		QuadFunction<Input, Output, VoucherService, CustomerService> commandFunction) {
 		this.option = option;
+		this.commandFunction = commandFunction;
 	}
 
 	public static Command getCommand(String chosenCommand) {
@@ -69,6 +57,7 @@ public enum Command {
 			});
 	}
 
-	public abstract void doCommand(Input input, Output output, VoucherService voucherService,
-		CustomerService customerService);
+	public void doCommand(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
+		commandFunction.apply(input, output, voucherService, customerService);
+	}
 }
