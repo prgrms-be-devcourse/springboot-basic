@@ -1,0 +1,9 @@
+blacklist:
+  file: "blacklist.csv"
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+repository:
+  file: "voucher_list.txt"

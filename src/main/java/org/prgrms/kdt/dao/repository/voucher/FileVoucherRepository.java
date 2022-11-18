@@ -32,7 +32,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final ClassPathResource resource;
 
-    public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${kdt.log-file}") String filePath) {
+    public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${repository.file}") String filePath) {
         this.voucherFactory = voucherFactory;
         this.resource = new ClassPathResource(filePath);
     }

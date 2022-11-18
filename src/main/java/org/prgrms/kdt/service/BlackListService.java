@@ -22,7 +22,7 @@ public class BlackListService {
     private static final Logger logger = LoggerFactory.getLogger(BlackListService.class);
     private final ClassPathResource resource;
 
-    public BlackListService(@Value("${kdt.blacklist-file}") String filePath) {
+    public BlackListService(@Value("${blacklist.file}") String filePath) {
         this.resource = new ClassPathResource(filePath);
     }
 
