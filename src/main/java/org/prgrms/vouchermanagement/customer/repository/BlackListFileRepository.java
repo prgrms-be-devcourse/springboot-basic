@@ -14,13 +14,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class BlackListCustomerRepository {
+public class BlackListFileRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(BlackListCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(BlackListFileRepository.class);
 
     private final String path;
 
-    public BlackListCustomerRepository(@Value("${repository.file.blacklist.path}") String path) {
+    public BlackListFileRepository(@Value("${repository.file.blacklist.path}") String path) {
         this.path = path;
     }
 
