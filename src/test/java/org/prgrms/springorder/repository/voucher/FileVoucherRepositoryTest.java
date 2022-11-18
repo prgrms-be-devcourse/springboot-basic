@@ -1,5 +1,6 @@
 package org.prgrms.springorder.repository.voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.springorder.domain.voucher.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.Voucher;
-import org.prgrms.springorder.properties.GlobalProperties;
+import org.prgrms.springorder.properties.FileVoucherProperties;
 
 class FileVoucherRepositoryTest {
 
@@ -22,8 +23,8 @@ class FileVoucherRepositoryTest {
 
 	@BeforeEach
 	void init() {
-		GlobalProperties globalProperties = new GlobalProperties(voucherPath, blackListPath);
-		fileVoucherRepository = new FileVoucherRepository(globalProperties);
+		FileVoucherProperties fileVoucherProperties = new FileVoucherProperties(voucherPath);
+		fileVoucherRepository = new FileVoucherRepository(fileVoucherProperties);
 	}
 
 	@Test
@@ -31,7 +32,7 @@ class FileVoucherRepositoryTest {
 	void test1() {
 		//given
 		UUID uuid = UUID.randomUUID();
-		Voucher voucher = new PercentDiscountVoucher((uuid), 50);
+		Voucher voucher = new PercentDiscountVoucher((uuid), 50, LocalDateTime.now());
 		//when
 		fileVoucherRepository.save(voucher);
 		Optional<Voucher> savedVoucher = fileVoucherRepository.findById(uuid);
@@ -47,9 +48,9 @@ class FileVoucherRepositoryTest {
 		int expectSize = 4;
 		for (int i = 0; i < 4; i++) {
 			if (i % 2 == 0) {
-				fileVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 50));
+				fileVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 50, LocalDateTime.now()));
 			} else {
-				fileVoucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 50));
+				fileVoucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now()));
 			}
 		}
 		//when
