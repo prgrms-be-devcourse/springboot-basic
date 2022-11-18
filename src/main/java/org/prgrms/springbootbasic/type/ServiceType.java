@@ -1,27 +1,27 @@
 package org.prgrms.springbootbasic.type;
 
-import org.prgrms.springbootbasic.controller.BlackListManagementController;
-import org.prgrms.springbootbasic.controller.Controller;
-import org.prgrms.springbootbasic.controller.VoucherController;
+import org.prgrms.springbootbasic.processor.BlackListManagementProcessor;
+import org.prgrms.springbootbasic.processor.Processor;
+import org.prgrms.springbootbasic.processor.VoucherProcessor;
 
 import java.util.Arrays;
 import java.util.Optional;
 
 public enum ServiceType {
-    VOUCHER_SERVICE("1", VoucherController.class), BLACK_LIST_MANAGEMENT_SERVICE("2", BlackListManagementController.class);
+    VOUCHER_SERVICE("1", VoucherProcessor.class), BLACK_LIST_MANAGEMENT_SERVICE("2", BlackListManagementProcessor.class);
 
     private final String number;
-    private final Class<? extends Controller> controller;
+    private final Class<? extends Processor> processor;
 
-    ServiceType(String number, Class<? extends Controller> controller) {
+    ServiceType(String number, Class<? extends Processor> processor) {
         this.number = number;
-        this.controller = controller;
+        this.processor = processor;
     }
 
-    public static Class<? extends Controller> number2ControllerClass(String number) {
-        Optional<? extends Class<? extends Controller>> first = Arrays.stream(ServiceType.values())
+    public static Class<? extends Processor> number2ProcessorClass(String number) {
+        Optional<? extends Class<? extends Processor>> first = Arrays.stream(ServiceType.values())
                 .filter(x -> x.number.equals(number))
-                .map(x -> x.controller).findFirst();
+                .map(x -> x.processor).findFirst();
 
         if (first.isEmpty()) {
             return null;
