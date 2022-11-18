@@ -1,6 +1,5 @@
 package org.programmers.weekly.mission.domain.customer.service;
 
-import org.programmers.weekly.mission.domain.customer.model.BlackCustomer;
 import org.programmers.weekly.mission.domain.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +12,5 @@ public class CustomerService {
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-    }
-
-    public List<BlackCustomer> getBlackList() {
-        return customerRepository.getBlackList();
     }
 }

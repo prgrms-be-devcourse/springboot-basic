@@ -1,6 +1,5 @@
 package org.programmers.weekly.mission.domain.customer.repository;
 
-import org.programmers.weekly.mission.domain.customer.model.BlackCustomer;
 import org.programmers.weekly.mission.domain.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +9,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
@@ -51,11 +48,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    @Override
-    public List<BlackCustomer> getBlackList() {
-        return null;
     }
 
     @Override

@@ -6,7 +6,11 @@ public enum OptionType {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
-    BLACK_LIST("blacklist");
+    BLACK_LIST("blacklist"),
+    WALLET("wallet"),
+    CUSTOMER("customer"),
+    VOUCHER("voucher"),
+    DELETE("delete");
 
     private final String option;
 

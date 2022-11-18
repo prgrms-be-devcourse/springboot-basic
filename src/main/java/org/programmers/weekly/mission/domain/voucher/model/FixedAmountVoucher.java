@@ -22,7 +22,12 @@ public class FixedAmountVoucher implements Voucher, Serializable {
     }
 
     @Override
-    public long getVoucherInfo() {
+    public String getType() {
+        return this.getClass().getSimpleName();
+    }
+
+    @Override
+    public long getDiscount() {
         return amount;
     }
 

@@ -7,7 +7,7 @@ public enum Message {
             Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers.
-            Type blacklist to list black list.
+            Type wallet to use functions about wallet.
             =>\s"""),
     SELECT_VOUCHER_MESSAGE("""
 
@@ -29,7 +29,19 @@ public enum Message {
             
             === BLACK List ===
             """),
-    INPUT_ERROR_MESSAGE("잘못된 입력값 입니다.");
+    INPUT_ERROR_MESSAGE("잘못된 입력값 입니다."),
+    SELECT_WALLET_MESSAGE("""
+            
+            === Wallet ===
+            [create] 특정 고객에게 바우처를 할당하려면 create 를 입력하세요.
+            [voucher] 고객이 어떤 바우처를 보유하고 있는 지 조회하려면 voucher 을 입력하세요.
+            [delete] 고객이 보유한 바우처를 제거하려면 delete 를 입력하세요.
+            [customer] 특정 바우처를 보유한 고객을 조회하려면 customer 을 입력하세요.
+            =>\s"""),
+    INPUT_CUSTOMER_VOUCHER_MESSAGE("""
+            
+            customerId와 voucherId를 입력하세요. (ex. customerId voucherId)
+            =>\s""");
 
 
     private final String message;
