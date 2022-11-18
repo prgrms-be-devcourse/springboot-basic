@@ -1,6 +1,7 @@
-package org.programmers.voucherProgram.io;
+package org.programmers.program.io;
 
-import org.programmers.voucherProgram.voucher.Repository.VoucherRepository;
-
-public interface Output {
+public class Output {
+    void printString(String print){
+        System.out.println(print);
+    }
 }
