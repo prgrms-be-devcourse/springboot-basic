@@ -17,13 +17,14 @@ public class CommandLineApp {
 
 	private final Logger logger = LoggerFactory.getLogger(CommandLineApp.class);
 	private final IO io;
-	private final VoucherService voucherService;
-	private final CustomerService customerService;
+	private final VoucherController voucherController;
+	private final CustomerController customerController;
 
-	public CommandLineApp(IO io, VoucherService voucherService, CustomerService customerService) {
+	public CommandLineApp(IO io, VoucherController voucherController,
+		CustomerController customerController) {
 		this.io = io;
-		this.voucherService = voucherService;
-		this.customerService = customerService;
+		this.voucherController = voucherController;
+		this.customerController = customerController;
 	}
 
 	public void run() {
@@ -42,13 +43,9 @@ public class CommandLineApp {
 
 	private void execute(Command menu, ControllerStatus controllerStatus) {
 		switch (menu) {
-			case CREATE -> {
-				VoucherType voucherType = VoucherType.getVoucherByOrder(io.read(SELECT_VOUCHER_MESSAGE));
-				double value = Double.parseDouble(io.read(voucherType.getMessage()));
-				voucherService.createVoucher(voucherType, value);
-			}
-			case LIST -> io.writeList(voucherService.getList());
-			case BLACK_LIST -> io.writeList(customerService.getBlackList());
+			case CREATE -> voucherController.createVoucher();
+			case LIST -> voucherController.showVoucherList();
+			case BLACK_LIST -> customerController.showBlackList();
 			case EXIT -> controllerStatus.stop();
 			default -> {
 				throw new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE);
