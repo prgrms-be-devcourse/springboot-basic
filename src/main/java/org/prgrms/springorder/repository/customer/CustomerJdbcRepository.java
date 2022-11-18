@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.customer.CustomerType;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
