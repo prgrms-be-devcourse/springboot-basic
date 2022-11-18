@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @TestConfiguration
 @ComponentScan(basePackages = "com.programmers.kwonjoosung.springbootbasicjoosung.repository")
-public class DataSourceConfig {
+public class TestDataSourceConfig {
 
     @Bean
     public DataSource dataSource() {

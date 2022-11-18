@@ -1,6 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.config.DataSourceConfig;
+import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongFindDataException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
 @SpringJUnitConfig
-@Import(DataSourceConfig.class)
+@Import(TestDataSourceConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class JdbcCustomerRepositoryTest {

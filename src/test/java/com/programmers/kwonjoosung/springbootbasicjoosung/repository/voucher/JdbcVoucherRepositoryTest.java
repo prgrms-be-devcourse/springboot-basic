@@ -1,6 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.config.DataSourceConfig;
+import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
@@ -20,7 +20,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
-@Import(DataSourceConfig.class)
+@Import(TestDataSourceConfig.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class JdbcVoucherRepositoryTest {
