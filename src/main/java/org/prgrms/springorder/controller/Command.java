@@ -8,8 +8,15 @@ import org.prgrms.springorder.exception.NoSuchCommandException;
 public enum Command {
 	LIST("list"),
 	CREATE("create"),
+	JOIN("join"),
 	EXIT("exit"),
-	BLACK_LIST("blacklist");
+	BLACK_LIST("blacklist"),
+	ALLOCATE("allocate"),
+	GET("get"),
+	DELETE("delete"),
+	SEARCH("search");
+
+
 
 	private final String orderContext;
 
@@ -21,6 +28,6 @@ public enum Command {
 		return Arrays.stream(Command.values())
 			.filter(a -> a.orderContext.equals(s))
 			.findAny()
-			.orElseThrow(() -> new NoSuchCommandException(ErrorMessage.No_SUCH_COMMAND_MESSAGE));
+			.orElseThrow(() -> new NoSuchCommandException(ErrorMessage.NO_SUCH_COMMAND_MESSAGE));
 	}
 }
