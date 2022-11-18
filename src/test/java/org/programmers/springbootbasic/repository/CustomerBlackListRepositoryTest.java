@@ -2,7 +2,9 @@ package org.programmers.springbootbasic.repository;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.domain.Customer;
+import org.programmers.springbootbasic.domain.customer.model.Customer;
+import org.programmers.springbootbasic.domain.customer.dto.CustomerOutputDto;
+import org.programmers.springbootbasic.domain.customer.repository.CustomerBlackListRepository;
 
 import java.util.List;
 
@@ -34,13 +36,13 @@ class CustomerBlackListRepositoryTest {
     @Test
     void 블랙리스트_전체조회_1개_데이터_검증_테스트() throws Exception {
         //given
-        Customer customer = new Customer(1, "김영빈");
+        CustomerOutputDto customer = new CustomerOutputDto(1, "김영빈");
         //when
         List<Customer> blackList = customerBlackListRepository.findAll();
         //then
 
-        Assertions.assertThat(blackList.get(0).getName()).isEqualTo(customer.getName());
-        Assertions.assertThat(blackList.get(0).getId()).isEqualTo(customer.getId());
+        Assertions.assertThat(blackList.get(0).getName()).isEqualTo(customer.name());
+        Assertions.assertThat(blackList.get(0).getCustomerId()).isEqualTo(customer.id());
     }
 
 }

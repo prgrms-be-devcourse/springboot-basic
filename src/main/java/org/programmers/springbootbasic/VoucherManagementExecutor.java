@@ -2,13 +2,13 @@ package org.programmers.springbootbasic;
 
 import lombok.AllArgsConstructor;
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
-import org.programmers.springbootbasic.domain.Customer;
-import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.dto.VoucherInputDto;
-import org.programmers.springbootbasic.io.Input;
-import org.programmers.springbootbasic.io.Output;
-import org.programmers.springbootbasic.service.CustomerService;
-import org.programmers.springbootbasic.service.VoucherService;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.domain.customer.dto.CustomerOutputDto;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.console.Input;
+import org.programmers.springbootbasic.domain.console.Output;
+import org.programmers.springbootbasic.domain.customer.service.CustomerService;
+import org.programmers.springbootbasic.domain.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ public class VoucherManagementExecutor {
                         output.printVouchers(vouchers);
                     }
                     case BLACKLIST -> {
-                        List<Customer> blackList = customerService.collectBlacklists();
+                        List<CustomerOutputDto> blackList = customerService.collectBlacklists();
                         output.printBlacklist(blackList);
                     }
                     case EXIT -> {
@@ -49,7 +49,7 @@ public class VoucherManagementExecutor {
                     }
                 }
             } catch (RuntimeException e) {
-                logger.error(e.getMessage() + e);
+                logger.error(e.getMessage(), e);
             }
         }
     }

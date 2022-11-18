@@ -4,13 +4,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.domain.FixedAmountVoucher;
-import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
-import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.domain.VoucherFactory;
-import org.programmers.springbootbasic.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.domain.voucher.VoucherFactory;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.voucher.service.VoucherService;
 import org.programmers.springbootbasic.exception.WrongRangeInputException;
-import org.programmers.springbootbasic.repository.MemoryVoucherRepository;
+import org.programmers.springbootbasic.domain.voucher.repository.MemoryVoucherRepository;
 
 class VoucherServiceTest {
     VoucherService voucherService;

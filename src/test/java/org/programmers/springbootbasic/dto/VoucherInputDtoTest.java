@@ -4,6 +4,7 @@ package org.programmers.springbootbasic.dto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.instanceOf;

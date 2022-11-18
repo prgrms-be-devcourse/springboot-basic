@@ -1,6 +1,13 @@
 ---
 spring.profiles.active: local
 
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_basic?serverTimezone=Asia/Seoul
+    username: root
+    password: 
+
 files:
   location:
     voucher: src/main/resources/voucher_data.csv
