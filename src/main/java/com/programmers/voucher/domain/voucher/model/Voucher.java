@@ -26,6 +26,9 @@ public class Voucher {
 
 	@Override
 	public String toString() {
+		if (voucherType.equals(VoucherType.FIXED)) {
+			return "ID: " + voucherId + ", Type: " + voucherType.getName() + ", Discount: " + discount;
+		}
 		return "ID: " + voucherId + ", Type: " + voucherType.getName() + ", Discount: " + discount + "%";
 	}
 
