@@ -1,5 +1,6 @@
 package org.prgrms.kdt.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.dao.entity.voucher.Voucher;
@@ -19,11 +20,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Component
 class VoucherServiceTest {
 
-    private final VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), new VoucherFactory());
+    private static final VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), new VoucherFactory());
+    private static final String FIXED_AMOUNT_VOUCHER = "1";
+    private static final String PERCENT_DISCOUNT_VOUCHER = "2";
+    private static final String BLANK = " ";
 
-    private final String FIXED_AMOUNT_VOUCHER = "1";
-    private final String PERCENT_DISCOUNT_VOUCHER = "2";
-    private final String BLANK = " ";
+    @BeforeEach
+    void clear() {
+        voucherService.clear();
+    }
 
     @Test
     @DisplayName("바우처를 여러 개 만들었을 때, 반환 받는 바우처의 개수가 동일한지 검증")

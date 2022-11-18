@@ -20,6 +20,10 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
+    public void clear() {
+        voucherRepository.clear();
+    }
+
     public List<Voucher> getAllVouchers() {
         return voucherRepository.getAllStoredVoucher();
     }
