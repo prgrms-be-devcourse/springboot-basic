@@ -21,8 +21,8 @@ public enum Message {
 	PERCENT_DISCOUNT_MESSAGE("Percentage should be over 0 and less than 100 : "),
 	CUSTOMER_ID_MESSAGE("Write customer ID : "),
 	VOUCHER_ID_MESSAGE("Write voucher ID : "),
-	REQUEST_NAME_MESSAGE("Write your name"),
-	REQUEST_EMAIL_MESSAGE("Write your email");
+	REQUEST_NAME_MESSAGE("Write your name : "),
+	REQUEST_EMAIL_MESSAGE("Write your email : ");
 
 	private final String message;
 
