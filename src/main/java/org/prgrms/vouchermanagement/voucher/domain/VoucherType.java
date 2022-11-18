@@ -1,10 +1,11 @@
 package org.prgrms.vouchermanagement.voucher.domain;
 
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
+import org.prgrms.vouchermanagement.util.func.TriFunction;
+import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherCreateDTO;
 
 import java.util.Arrays;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 public enum VoucherType {
 
@@ -13,20 +14,20 @@ public enum VoucherType {
 
     private final String voucherTypeNumber;
     private final int maximumDiscountAmount;
-    private final BiFunction<UUID, Integer, Voucher> voucherConstructor;
+    private final TriFunction<UUID, Integer, UUID, Voucher> voucherConstructor;
 
-    VoucherType(String voucherTypeNumber, int maximumDiscountAmount, BiFunction<UUID, Integer, Voucher> voucherConstructor) {
+    VoucherType(String voucherTypeNumber, int maximumDiscountAmount, TriFunction<UUID, Integer, UUID, Voucher> voucherConstructor) {
         this.voucherTypeNumber = voucherTypeNumber;
         this.maximumDiscountAmount = maximumDiscountAmount;
         this.voucherConstructor = voucherConstructor;
     }
 
-    public static Voucher createVoucher(UUID uuid, String voucherTypeInput, int discountValue) {
+    public static Voucher createVoucher(VoucherCreateDTO voucherCreateDTO) {
         return Arrays.stream(values())
-                .filter(voucherType -> voucherType.isMatchVoucherType(voucherTypeInput))
+                .filter(voucherType -> voucherType.isMatchVoucherType(voucherCreateDTO.getVoucherType()))
                 .findAny()
                 .orElseThrow(InCorrectVoucherTypeException::new)
-                .voucherConstructor.apply(uuid, discountValue);
+                .voucherConstructor.apply(voucherCreateDTO.getVoucherId(), voucherCreateDTO.getDiscountAmount(), voucherCreateDTO.getCustomerId());
     }
 
     public static boolean isCorrectVoucherType(String voucherTypeInput) {
