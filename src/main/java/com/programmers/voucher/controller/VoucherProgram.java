@@ -1,6 +1,6 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.dto.CustomerDto;
+import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.io.CommandType;
 import com.programmers.voucher.io.View;
 import com.programmers.voucher.model.customer.Customer;
@@ -37,37 +37,47 @@ public class VoucherProgram implements ApplicationRunner {
         while (isRunning) {
             try {
                 switch (getCommandType()) {
-                    case EXIT:
-                        isRunning = false;
-                        break;
-                    case CREATE_VOUCHER:
-                        voucherService.create(getVoucherType(), getDiscountValue());
-                        break;
-                    case LIST_VOUCHER:
-                        checkEmptyVoucher(voucherService.findAllVoucher());
-                        break;
-                    case SELECT_VOUCHER:
-                        Voucher selected = voucherService.findById(getVoucherId());
-                        view.printVoucher(selected);
-                        break;
-                    case UPDATE_VOUCHER:
-                        Voucher updated = voucherService.update(getVoucherId(), getDiscountValue(), getVoucherType());
-                        view.printVoucher(updated);
-                        break;
-                    case DELETE_ALL_VOUCHER:
-                        voucherService.deleteAll();
-                        view.printDeleteAll();
-                        break;
-                    case CREATE_CUSTOMER:
-                        Customer customer = customerService.create(getCustomerDto());
-                        view.printCustomer(customer);
-                        break;
+                    case EXIT -> isRunning = false;
+                    case CREATE_VOUCHER -> createVoucher();
+                    case LIST_VOUCHER -> findAllVouchers();
+                    case SELECT_VOUCHER -> findVoucher();
+                    case UPDATE_VOUCHER -> updateVoucher();
+                    case DELETE_ALL_VOUCHER -> deleteAllVoucher();
+                    case CREATE_CUSTOMER -> createCustomer();
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
                 view.printError(e.getMessage());
             }
         }
+    }
+
+    private void createVoucher() {
+        voucherService.create(getVoucherType(), getDiscountValue());
+    }
+
+    private void findAllVouchers() {
+        checkEmptyVoucher(voucherService.findAllVoucher());
+    }
+
+    private void findVoucher() {
+        Voucher selected = voucherService.findById(getVoucherId());
+        view.printVoucher(selected);
+    }
+
+    private void updateVoucher() {
+        Voucher updated = voucherService.update(getVoucherId(), getDiscountValue(), getVoucherType());
+        view.printVoucher(updated);
+    }
+
+    private void deleteAllVoucher() {
+        voucherService.deleteAll();
+        view.printDeleteAll();
+    }
+
+    private void createCustomer() {
+        Customer customer = customerService.create(getCustomerDto());
+        view.printCustomer(customer);
     }
 
     private CommandType getCommandType() {
