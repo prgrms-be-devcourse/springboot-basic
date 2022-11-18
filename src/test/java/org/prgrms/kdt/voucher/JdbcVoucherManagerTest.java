@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.prgrms.kdt.JdbcBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -26,56 +27,11 @@ import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringJUnitConfig
 @ActiveProfiles("prod")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JdbcVoucherManagerTest {
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt.voucher"}
-    )
-    static class Config {
-
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/voucher_mgmt")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-    }
+class JdbcVoucherManagerTest extends JdbcBase {
 
     @Autowired
     private VoucherManager voucherManager;
-
-    EmbeddedMysql embeddedMysql;
-
-    @BeforeAll
-    void setup() {
-        var mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("voucher_mgmt", classPathScript("schema.sql"))
-                .start();
-    }
-
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
 
     @BeforeEach
     void init() {
