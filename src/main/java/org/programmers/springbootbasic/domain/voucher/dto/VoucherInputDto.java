@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.dto;
+package org.programmers.springbootbasic.domain.voucher.dto;
 
 import org.programmers.springbootbasic.data.VoucherType;
 

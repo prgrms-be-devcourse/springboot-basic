@@ -1,6 +1,6 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.domain.customer.repository;
 
-import org.programmers.springbootbasic.domain.Customer;
+import org.programmers.springbootbasic.domain.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +45,6 @@ public class CustomerBlackListRepository {
     }
 
     private Customer assembleBlackList(String[] blackListInfo) {
-        return new Customer(Long.parseLong(blackListInfo[BLACKLIST_ID_INDEX]), blackListInfo[BLACKLIST_NAME_INDEX]);
+        return new Customer(Long.parseLong(blackListInfo[BLACKLIST_ID_INDEX]), blackListInfo[BLACKLIST_NAME_INDEX], null, null);
     }
 }

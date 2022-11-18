@@ -1,9 +1,9 @@
-package org.programmers.springbootbasic.io;
+package org.programmers.springbootbasic.domain.console;
 
 import org.programmers.springbootbasic.data.VoucherMainMenuCommand;
-import org.programmers.springbootbasic.domain.Customer;
-import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.domain.customer.dto.CustomerOutputDto;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
 import org.programmers.springbootbasic.exception.InputException;
 import org.programmers.springbootbasic.exception.NotAnIntegerException;
 import org.springframework.stereotype.Component;
@@ -76,7 +76,7 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printBlacklist(List<Customer> blacklist) {
+    public void printBlacklist(List<CustomerOutputDto> blacklist) {
         blacklist.forEach(System.out::println);
     }
 }

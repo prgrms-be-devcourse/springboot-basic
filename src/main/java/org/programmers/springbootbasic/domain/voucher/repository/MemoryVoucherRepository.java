@@ -1,6 +1,6 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.domain.voucher.repository;
 
-import org.programmers.springbootbasic.domain.Voucher;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;

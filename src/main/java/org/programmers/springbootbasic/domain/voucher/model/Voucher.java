@@ -1,4 +1,4 @@
-package org.programmers.springbootbasic.domain;
+package org.programmers.springbootbasic.domain.voucher.model;
 
 import java.util.UUID;
 

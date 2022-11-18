@@ -1,8 +1,8 @@
-package org.programmers.springbootbasic.repository;
+package org.programmers.springbootbasic.domain.voucher.repository;
 
-import org.programmers.springbootbasic.domain.FixedAmountVoucher;
-import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
-import org.programmers.springbootbasic.domain.Voucher;
+import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.programmers.springbootbasic.exception.FileWriteException;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.slf4j.Logger;

@@ -1,11 +1,11 @@
-package org.programmers.springbootbasic.service;
+package org.programmers.springbootbasic.domain.voucher.service;
 
 import lombok.AllArgsConstructor;
-import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.domain.VoucherFactory;
-import org.programmers.springbootbasic.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.domain.voucher.VoucherFactory;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
-import org.programmers.springbootbasic.repository.VoucherRepository;
+import org.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

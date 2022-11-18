@@ -1,7 +1,9 @@
-package org.programmers.springbootbasic.domain;
+package org.programmers.springbootbasic.domain.voucher;
 
 import org.programmers.springbootbasic.data.VoucherType;
-import org.programmers.springbootbasic.exception.WrongTypeInputException;
+import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
