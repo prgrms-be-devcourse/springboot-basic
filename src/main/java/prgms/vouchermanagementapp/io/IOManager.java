@@ -84,5 +84,4 @@ public class IOManager {
         writer.printCustomerGuide();
         return reader.readLine();
     }
-
 }

@@ -3,7 +3,6 @@ package prgms.vouchermanagementapp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.customer.CustomerManager;
 import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
 import prgms.vouchermanagementapp.io.CommandType;
@@ -22,18 +21,18 @@ public class CommandExecutor {
 
     private final IOManager ioManager;
     private final VoucherManager voucherManager;
-    private final CustomerManager customerManager;
+    private final CustomerController customerController;
     private final RunningState runningState;
 
-    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager, CustomerManager customerManager) {
+    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager, CustomerController customerController) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
-        this.customerManager = customerManager;
+        this.customerController = customerController;
         this.runningState = new RunningState();
     }
 
     public void run() {
-        ioManager.askCustomerName();
+        customerController.run();
 
         while (runningState.isRunning()) {
             try {

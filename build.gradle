@@ -15,6 +15,12 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	//JdbcTemplate
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	//H2 Database
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

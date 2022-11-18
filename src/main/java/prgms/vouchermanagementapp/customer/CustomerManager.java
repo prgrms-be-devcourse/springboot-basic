@@ -1,9 +1,9 @@
 package prgms.vouchermanagementapp.customer;
 
-import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.storage.Customers;
 
-@Component
+import java.util.Optional;
+
 public class CustomerManager {
 
     private final Customers customers;
@@ -14,11 +14,15 @@ public class CustomerManager {
         this.customers = customers;
     }
 
-    public void findCustomerByName() {
-        // TODO: find customer from database by name
+    public void save(Customer customer) {
+        this.currentCustomer = customers.save(customer);
     }
 
-    public void save() {
-        // TODO: save customer to database
+    public Optional<Customer> findCustomerByName(String name) {
+        return customers.findByName(name);
+    }
+
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
     }
 }

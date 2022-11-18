@@ -2,13 +2,23 @@ package prgms.vouchermanagementapp.customer;
 
 public class Customer {
 
-    private final String name;
+    private Long id;
+    private String customerName;
 
-    public Customer(String name) {
-        this.name = name;
+    public Customer(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getName() {
-        return name;
+    public Customer(long id, String customerName) {
+        this.id = id;
+        this.customerName = customerName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCustomerName() {
+        return customerName;
     }
 }
