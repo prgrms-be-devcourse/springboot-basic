@@ -31,6 +31,6 @@ public class MemoryVoucherStorage implements VoucherStorage {
 
     @Override
     public void deleteById(String voucherId) {
-
+        memoryVoucherStorage.remove(voucherId);
     }
 }

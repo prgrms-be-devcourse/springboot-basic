@@ -59,4 +59,19 @@ class MemoryVoucherStorageTest {
         // then
         assertEquals(2, vouchers.size());
     }
+
+    @Test
+    @DisplayName("바우처 Id를 이용하여 특정 바우처를 삭제할 수 있다.")
+    void testDelete(){
+        // given
+        String id = UUID.randomUUID().toString();
+        Voucher voucher = new FixedAmountVoucher(id, 1000);
+        voucherStorage.save(voucher);
+
+        // when
+        voucherStorage.deleteById(id);
+
+        // then
+        assertFalse(voucherStorage.findAll().contains(voucher));
+    }
 }
