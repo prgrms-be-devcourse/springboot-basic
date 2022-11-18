@@ -25,9 +25,9 @@ public enum Message {
             
             === Voucher List ===
             """),
-    BLACK_LIST("""
+    CUSTOMER_LIST("""
             
-            === BLACK List ===
+            === Customer List ===
             """),
     INPUT_ERROR_MESSAGE("잘못된 입력값 입니다."),
     SELECT_WALLET_MESSAGE("""
@@ -41,7 +41,9 @@ public enum Message {
     INPUT_CUSTOMER_VOUCHER_MESSAGE("""
             
             customerId와 voucherId를 입력하세요. (ex. customerId voucherId)
-            =>\s""");
+            =>\s"""),
+    INPUT_CUSTOMER_ID("고객 id를 입력해주세요 : "),
+    INPUT_VOUCHER_ID("바우처 id를 입력해주세요 : ");
 
 
     private final String message;

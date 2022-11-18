@@ -154,5 +154,27 @@ class WalletRepositoryTest {
         assertThat(vouchers, hasSize(1));
     }
 
+    @Test
+    @DisplayName("특정 바우처를 보유한 고객을 조회할 수 있다")
+    @Order(6)
+    public void testFindCustomerByVoucherId() {
+        List<Customer> customers = walletRepository.findCustomerByVoucherId(newVoucher.getVoucherId());
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers, hasSize(1));
+    }
+
+    @Test
+    @DisplayName("고객이 보유한 바우처를 삭제할 수 있다")
+    @Order(8)
+    public void testDeleteVouchersByCustomerHave() {
+        walletRepository.deleteVouchersByCustomerId(newCustomer.getCustomerId());
+
+        List<Voucher> vouchers = walletRepository.findVoucherByCustomerId(newCustomer.getCustomerId());
+        assertThat(vouchers.isEmpty(), is(true));
+
+        Optional<Voucher> maybeVoucher = voucherRepository.findById(newVoucher.getVoucherId());
+        assertThat(maybeVoucher.isEmpty(), is(true));
+    }
+
 
 }

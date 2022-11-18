@@ -1,6 +1,8 @@
 package org.programmers.weekly.mission;
 
+import org.programmers.weekly.mission.domain.customer.model.Customer;
 import org.programmers.weekly.mission.domain.customer.service.CustomerService;
+import org.programmers.weekly.mission.domain.voucher.model.Voucher;
 import org.programmers.weekly.mission.domain.voucher.service.VoucherService;
 import org.programmers.weekly.mission.domain.wallet.WalletService;
 import org.programmers.weekly.mission.util.io.Input;
@@ -12,6 +14,7 @@ import org.programmers.weekly.mission.util.type.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -50,10 +53,37 @@ public class CommandLine implements Runnable {
 
         switch (walletType) {
             case CREATE -> createWallet();
-            case VOUCHER -> {}
-            case DELETE -> {}
-            case CUSTOMER -> {}
+            case VOUCHER -> getVouchers();
+            case DELETE -> deleteVoucher();
+            case CUSTOMER -> getCustomers();
         }
+    }
+
+    private void deleteVoucher() {
+        output.printMessage(Message.INPUT_CUSTOMER_ID.getMessage());
+        UUID customerId = UUID.fromString(input.getInput());
+
+        walletService.deleteVoucherCustomerHave(customerId);
+    }
+
+    private void getCustomers() {
+        output.printMessage(Message.INPUT_CUSTOMER_VOUCHER_MESSAGE.getMessage());
+        UUID voucherId = UUID.fromString(input.getInput());
+
+        output.printMessage(Message.CUSTOMER_LIST.getMessage());
+        List<Customer> customers = walletService.getCustomerByVoucherId(voucherId);
+
+        customers.forEach((output::printObject));
+    }
+
+    private void getVouchers() {
+        output.printMessage(Message.INPUT_CUSTOMER_VOUCHER_MESSAGE.getMessage());
+        UUID customerId = UUID.fromString(input.getInput());
+
+        output.printMessage(Message.VOUCHER_LIST.getMessage());
+        List<Voucher> vouchers = walletService.getVoucherByCustomerId(customerId);
+
+        vouchers.forEach((output::printObject));
     }
 
     private void createWallet() {
