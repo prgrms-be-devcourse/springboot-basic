@@ -79,4 +79,10 @@ public class IOManager {
     public void showBlacklist() {
         writer.printFileContents(fileManager.getFileByPath(fileConfig.getCustomerBlacklist()));
     }
+
+    public String askCustomerName() {
+        writer.printCustomerGuide();
+        return reader.readLine();
+    }
+
 }

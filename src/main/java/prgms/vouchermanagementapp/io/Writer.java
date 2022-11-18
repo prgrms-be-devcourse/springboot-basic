@@ -30,6 +30,8 @@ public class Writer {
                     + System.lineSeparator()
                     + "Type 'blacklist' to query all blacklists.";
 
+    private static final String CUSTOMER_GUIDE = "Hello Customer! Please enter your name first.";
+
     private static final String EXIT = "Terminating Application...";
     private static final String ERROR = "Error: ";
 
@@ -136,5 +138,10 @@ public class Writer {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void printCustomerGuide() {
+        System.out.println(CUSTOMER_GUIDE);
+        printPromptSignature();
     }
 }
