@@ -59,7 +59,7 @@ public class Console {
         String voucherListString = voucherList.stream().map((voucher) -> {
             String[] argument = {
                     voucher.getVoucherId().toString(),
-                    voucher.discountValue(),
+                    String.valueOf(voucher.getValue()),
                     voucher.getVoucherType().name().toLowerCase()
 
             };

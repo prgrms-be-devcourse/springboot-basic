@@ -69,14 +69,24 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) throws IllegalStateException {
+    public Optional<Voucher> insert(Voucher voucher) throws IllegalStateException {
         CsvDto csvDto = voucher.makeCsvDtoFromVoucher();
         csvWriter.writeCSV(csvDto);
-        return storage.put(voucher.getVoucherId(), voucher);
+        return Optional.ofNullable(storage.put(voucher.getVoucherId(), voucher));
     }
 
     @Override
     public List<Voucher> findAllVaucher() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

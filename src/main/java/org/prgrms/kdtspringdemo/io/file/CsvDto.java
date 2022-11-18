@@ -26,7 +26,7 @@ public class CsvDto {
 
     public static CsvDto from(Voucher voucher) {
         List<String[]> lines = new ArrayList<>();
-        String[] line = {voucher.getVoucherId().toString(), String.valueOf(voucher.discountValue()), voucher.getVoucherType().name()};
+        String[] line = {voucher.getVoucherId().toString(), String.valueOf(voucher.getValue()), voucher.getVoucherType().name()};
         lines.add(line);
         return CsvDto.from(lines);
     }

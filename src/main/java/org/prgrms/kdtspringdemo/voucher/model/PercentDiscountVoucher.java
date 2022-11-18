@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -35,13 +36,26 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public String discountValue() {
-        return String.valueOf(percent);
+    public long getValue() {
+        return percent;
     }
 
     @Override
     public CsvDto makeCsvDtoFromVoucher() {
         return CsvDto.from(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PercentDiscountVoucher that = (PercentDiscountVoucher) o;
+        return percent == that.percent && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, percent);
     }
 
     private boolean voucherAllow(Long value) {

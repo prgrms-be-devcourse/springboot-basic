@@ -11,9 +11,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.*;
+
+import static org.prgrms.kdtspringdemo.util.VoucherManagerUtil.toUUID;
 
 @Repository
 public class CustomerNamedJdbcRepository implements CustomerRepository, BlackListRepository {
@@ -50,11 +51,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository, BlackLis
     public Customer insert(Customer customer) {
         jdbcTemplate.update(INSERT_SQL, toParamMap(customer));
         return customer;
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byterBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byterBuffer.getLong(), byterBuffer.getLong());
     }
 
     @Override

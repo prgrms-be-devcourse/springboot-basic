@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
-
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -28,7 +27,12 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException, IllegalStateException {
         Voucher newVoucher = voucherCreator.createVoucher(voucherType, number);
-        return voucherRepository.insert(newVoucher);
+        var voucher = voucherRepository.insert(newVoucher);
+        if (voucher.isPresent()) {
+            return voucher.get();
+        } else {
+            return null;
+        }
     }
 
     public List<Voucher> getAllVoucherList() {

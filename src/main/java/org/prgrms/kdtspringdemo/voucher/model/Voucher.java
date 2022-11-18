@@ -11,7 +11,7 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-    String discountValue();
+    long getValue();
 
     CsvDto makeCsvDtoFromVoucher();
 }

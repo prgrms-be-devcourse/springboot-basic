@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -31,8 +32,21 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String discountValue() {
-        return String.valueOf(amount);
+    public long getValue() {
+        return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher that = (FixedAmountVoucher) o;
+        return amount == that.amount && Objects.equals(voucherId, that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, amount);
     }
 
     public CsvDto makeCsvDtoFromVoucher() {
