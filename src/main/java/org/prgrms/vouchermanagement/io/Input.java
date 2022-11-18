@@ -4,6 +4,10 @@ public interface Input {
     String receiveCommand();
 
     int receiveDiscountAmount(String voucherTypeNumberInput);
-    
+
     String receiveVoucherType();
+
+    String receiveCustomerName();
+
+    String receiveCustomerEmail();
 }

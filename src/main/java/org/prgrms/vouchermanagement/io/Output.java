@@ -7,9 +7,20 @@ import java.util.List;
 
 public interface Output {
     void printCommandNotices();
+
     void printSelectVoucherType();
+
     void printSelectVoucherDiscountAmount();
+
     void printVoucherCreateMessage();
+
     void printAllVouchers(List<Voucher> vouchers);
-    void printAllBlackList(List<Customer> customers);
+
+    void printCustomers(List<Customer> customers);
+
+    void printVoucherAssignCustomerEmail();
+
+    void printCustomerName();
+
+    void printCustomerEmail();
 }

@@ -9,6 +9,8 @@ public enum Command {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
+    CREATE_CUSTOMER("create customer"),
+    CUSTOMER_LIST("show customers"),
     BLACKLIST("blacklist");
 
     private final String userInputCommand;

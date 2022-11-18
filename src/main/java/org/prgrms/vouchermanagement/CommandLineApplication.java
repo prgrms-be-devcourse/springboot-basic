@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement;
 
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.service.BlackListFindService;
+import org.prgrms.vouchermanagement.customer.service.CustomerService;
 import org.prgrms.vouchermanagement.io.Command;
 import org.prgrms.vouchermanagement.io.Input;
 import org.prgrms.vouchermanagement.io.Output;
@@ -26,18 +27,21 @@ public class CommandLineApplication {
     private final VoucherCreateService voucherCreateService;
     private final VoucherListFindService voucherListFindService;
     private final BlackListFindService blackListFindService;
+    private final CustomerService customerService;
 
     @Autowired
     public CommandLineApplication(Input input,
                                   Output output,
                                   VoucherCreateService voucherCreateService,
                                   VoucherListFindService voucherListFindService,
-                                  BlackListFindService blackListFindService) {
+                                  BlackListFindService blackListFindService,
+                                  CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherCreateService = voucherCreateService;
         this.voucherListFindService = voucherListFindService;
         this.blackListFindService = blackListFindService;
+        this.customerService = customerService;
     }
 
     void run() {
@@ -54,6 +58,12 @@ public class CommandLineApplication {
                     case LIST:
                         printVouchers();
                         break;
+                    case CREATE_CUSTOMER:
+                        createCustomer();
+                        break;
+                    case CUSTOMER_LIST:
+                        printCustomers();
+                        break;
                     case BLACKLIST:
                         printBlacklist();
                         break;
@@ -69,7 +79,9 @@ public class CommandLineApplication {
     private void createVoucher() {
         String voucherTypeInput = input.receiveVoucherType();
         int voucherAmountInput = input.receiveDiscountAmount(voucherTypeInput);
-        voucherCreateService.createVoucher(voucherTypeInput, voucherAmountInput);
+        String customerEmail = input.receiveCustomerEmail();
+
+        voucherCreateService.createVoucher(voucherTypeInput, voucherAmountInput, customerEmail);
         output.printVoucherCreateMessage();
     }
 
@@ -78,9 +90,21 @@ public class CommandLineApplication {
         output.printAllVouchers(vouchers);
     }
 
+    private void createCustomer() {
+        String name = input.receiveCustomerName();
+        String email = input.receiveCustomerEmail();
+
+        customerService.save(name, email);
+    }
+
+    private void printCustomers() {
+        List<Customer> customers = customerService.findAll();
+        output.printCustomers(customers);
+    }
+
     private void printBlacklist() {
         List<Customer> blackList = blackListFindService.findAllBlackList();
-        output.printAllBlackList(blackList);
+        output.printCustomers(blackList);
     }
 
     private void exit(Command command) {
