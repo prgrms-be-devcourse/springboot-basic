@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.VoucherFactory;
+import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Repository;
 
 @Profile("jdbc")
 @Repository
-public class VoucherJdbcRepository implements VoucherRepository{
+public class VoucherJdbcRepository implements VoucherRepository {
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -31,7 +32,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
 	}
 
-	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i)->{
+	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
 		var voucherId = toUUID(resultSet.getBytes("voucher_id"));
 		var value = resultSet.getInt("voucher_value");
 		var voucherType = VoucherType.getVoucherByName(resultSet.getString("voucher_type"));
@@ -39,7 +40,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	};
 
 	private Map<String, Object> toParamMap(Voucher voucher) {
-		return new HashMap<>(){{
+		return new HashMap<>() {{
 			put("voucherId", voucher.getVoucherId().toString());
 			put("value", voucher.getValue());
 			put("createdAt", voucher.getCreatedAt());
@@ -51,14 +52,17 @@ public class VoucherJdbcRepository implements VoucherRepository{
 	public void save(Voucher voucher) {
 
 		Map<String, Object> paramMap = toParamMap(voucher);
-		jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_value,created_at,voucher_type) Values(UUID_TO_BIN(:voucherId),:value,:createdAt,:voucherType)",paramMap);
+		jdbcTemplate.update(
+			"INSERT INTO voucher(voucher_id, voucher_value,created_at,voucher_type) Values(UUID_TO_BIN(:voucherId),:value,:createdAt,:voucherType)",
+			paramMap);
 
 	}
 
 	@Override
 	public Optional<Voucher> findById(UUID voucherId) {
-		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-			Collections.singletonMap("voucherId", voucherId.toString().getBytes()), voucherRowMapper));
+		return Optional.ofNullable(
+			jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+				Collections.singletonMap("voucherId", voucherId.toString().getBytes()), voucherRowMapper));
 	}
 
 	@Override
@@ -71,8 +75,12 @@ public class VoucherJdbcRepository implements VoucherRepository{
 		jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = uuid_to_bin(:voucherId)", Collections.emptyMap());
 	}
 
-
-
-
+	@Override
+	public void update(Voucher voucher) {
+		Map<String, Object> paramMap = toParamMap(voucher);
+		jdbcTemplate.update(
+			"UPDATE voucher SET voucher_value = :value,voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+			paramMap);
+	}
 
 }

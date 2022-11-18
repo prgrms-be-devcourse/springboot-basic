@@ -7,15 +7,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.prgrms.springorder.properties.BlackListProperties;
-import org.prgrms.springorder.utils.FIleUtil;
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.customer.CustomerType;
+import org.prgrms.springorder.properties.BlackListProperties;
+import org.prgrms.springorder.utils.FIleUtil;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,29 +36,17 @@ public class FileBlackListRepository {
 		for (String voucherInfo : customerList) {
 			String[] customerInfo = voucherInfo.split(",");
 			UUID id = UUID.fromString(customerInfo[0]);
-			memory.put(id, new Customer(id, customerInfo[1],customerInfo[2], LocalDateTime.parse(customerInfo[3],
+			memory.put(id, new Customer(id, customerInfo[1], customerInfo[2], LocalDateTime.parse(customerInfo[3],
 				DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")), CustomerType.BLACK));
 		}
 	}
-
 
 	public void save(Customer customer) {
 		memory.put(customer.getCustomerId(), customer);
 	}
 
-
-	public void update(Customer customer) {
-		memory.replace(customer.getCustomerId(), customer);
-	}
-
-
 	public List<Customer> findAll() {
 		return new ArrayList<>(memory.values());
-	}
-
-
-	public Optional<Customer> findById(UUID customerId) {
-		return Optional.ofNullable(memory.get(customerId));
 	}
 
 }

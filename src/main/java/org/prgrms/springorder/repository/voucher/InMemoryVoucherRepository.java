@@ -36,4 +36,9 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	public void delete(UUID voucherId) {
 		memory.remove(voucherId);
 	}
+
+	@Override
+	public void update(Voucher voucher) {
+		memory.replace(voucher.getVoucherId(), voucher);
+	}
 }
