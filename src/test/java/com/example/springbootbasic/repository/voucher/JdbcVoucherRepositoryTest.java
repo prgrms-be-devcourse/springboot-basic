@@ -3,62 +3,31 @@ package com.example.springbootbasic.repository.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-@SpringJUnitConfig
+@SpringBootTest
 @ActiveProfiles("dev")
 class JdbcVoucherRepositoryTest {
 
-    @Configuration
-    static class Config {
-        @Bean
-        DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:3306/spb_basic")
-                    .username("root")
-                    .password("root1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
-
-        @Bean
-        JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
-
-        @Bean
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate() {
-            return new NamedParameterJdbcTemplate(jdbcTemplate());
-        }
-
-        @Bean
-        JdbcVoucherRepository voucherRepository() {
-            return new JdbcVoucherRepository(namedParameterJdbcTemplate());
-        }
-    }
-
     @Autowired
     private JdbcVoucherRepository voucherRepository;
-
 
     @BeforeEach
     void beforeEach() {
@@ -66,7 +35,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("모든 타입의 바우처 검색 성공")
+    @DisplayName("FIXED, PERCENT 타입의 바우처를 저장하고 모든 바우처 검색을 성공한다.")
     void whenFindAllVouchersThenSuccessTest() {
         // given
         Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
@@ -74,16 +43,119 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher3 = VoucherFactory.of(1L, PERCENT_DISCOUNT);
         Voucher voucher4 = VoucherFactory.of(10L, PERCENT_DISCOUNT);
 
+        // when
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);
         voucherRepository.save(voucher4);
-
-        // when
         List<Voucher> allVouchers = voucherRepository.findAllVouchers();
-        System.out.println("allVouchers = " + allVouchers);
 
         // then
-        assertThat(allVouchers, hasSize(allVouchers.size()));
+        assertThat(allVouchers).hasSize(4);
+    }
+
+    @ParameterizedTest
+    @MethodSource("whenSaveVoucherOverRangeThenFailDummy")
+    @DisplayName("할인 금액 설정 범위를 넘은 바우처 저장을 실패한다.")
+    void whenSaveVoucherOverRangeThenFailTest(long discountValue, VoucherType voucherType) {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> VoucherFactory.of(discountValue, voucherType));
+    }
+
+    @Test
+    @DisplayName("새로운 바우처를 저장하고, 바우처 타입 수정하여 바우처 비교를 성공한다.")
+    void whenUpdateVoucherThenSuccessTest() {
+        // given
+        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
+
+        // when
+        Voucher savedVoucher = voucherRepository.save(voucher);
+        Voucher goingToUpdateVoucher =
+                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+        Voucher updatedVoucher = voucherRepository.update(goingToUpdateVoucher);
+
+        // then
+        assertThat(updatedVoucher).isEqualTo(updatedVoucher);
+    }
+
+    @Test
+    @DisplayName("새로운 바우처 저장하고, 다른 바우처를 수정하려 접근하여 실패한다.")
+    void whenUpdateAnotherVoucherThenFailTest() {
+        // given
+        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher anotherVoucher = VoucherFactory.of(100L, FIXED_AMOUNT);
+
+        // when
+        Voucher savedVoucher = voucherRepository.save(voucher);
+        Voucher savedAnotherVoucher = voucherRepository.save(anotherVoucher);
+
+        Voucher goingToUpdateVoucher =
+                VoucherFactory.of(savedAnotherVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+        Voucher updatedVoucher = voucherRepository.update(goingToUpdateVoucher);
+
+        // then
+        assertThat(updatedVoucher).isNotEqualTo(savedVoucher);
+    }
+
+    @Test
+    @DisplayName("바우처 타입을 통해 조회시 null 타입이 들어갔을 경우 Collections.emptyList를 반환한다.")
+    void whenFindVoucherTypeNullThenExceptionTest() {
+        // when
+        List<Voucher> findNullVouchers = voucherRepository.findAllVouchersByVoucherType(null);
+
+        // then
+        assertThat(findNullVouchers).isEqualTo(Collections.emptyList());
+    }
+
+    @Test
+    @DisplayName("모든 바우처 레코드 조회를 성공한다.")
+    void whenFindVoucherAllThenSuccessTest() {
+        // given
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
+        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher voucher4 = VoucherFactory.of(100L, PERCENT_DISCOUNT);
+
+        // when
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+        voucherRepository.save(voucher4);
+        List<Voucher> findAllVouchers = voucherRepository.findAllVouchers();
+
+        // then
+        assertThat(findAllVouchers.size()).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("여러 타입의 바우처를 저장하고 모든 바우처 삭제에 성공한다.")
+    void whenDeleteVouchersThenSuccessTest() {
+        // given
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
+        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher voucher4 = VoucherFactory.of(100L, PERCENT_DISCOUNT);
+
+        // when
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+        voucherRepository.save(voucher4);
+        voucherRepository.deleteAll();
+        List<Voucher> findAllVouchers = voucherRepository.findAllVouchers();
+
+        // then
+        assertThat(findAllVouchers.size()).isEqualTo(0);
+    }
+
+    static Stream<Arguments> whenSaveVoucherOverRangeThenFailDummy() {
+        return Stream.of(
+                Arguments.arguments(-1L, FIXED_AMOUNT),
+                Arguments.arguments(50001L, FIXED_AMOUNT),
+                Arguments.arguments(Long.MAX_VALUE, FIXED_AMOUNT),
+                Arguments.arguments(-1L, PERCENT_DISCOUNT),
+                Arguments.arguments(101L, PERCENT_DISCOUNT),
+                Arguments.arguments(Long.MAX_VALUE, PERCENT_DISCOUNT)
+        );
     }
 }
