@@ -31,4 +31,9 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	public List<Voucher> findAll() {
 		return new ArrayList<>(memory.values());
 	}
+
+	@Override
+	public void delete(UUID voucherId) {
+		memory.remove(voucherId);
+	}
 }

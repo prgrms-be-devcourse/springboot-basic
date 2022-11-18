@@ -18,13 +18,13 @@ import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
-import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.VoucherFactory;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.FileLoadException;
 import org.prgrms.springorder.exception.FileSaveException;
-import org.prgrms.springorder.properties.GlobalProperties;
+import org.prgrms.springorder.properties.BlackListProperties;
+import org.prgrms.springorder.properties.FileVoucherProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +36,8 @@ public class FileVoucherRepository implements VoucherRepository {
 	private final File file;
 	private final Map<UUID, Voucher> memory;
 
-	public FileVoucherRepository(GlobalProperties globalProperties) {
-		this.filePath = globalProperties.getVoucher();
+	public FileVoucherRepository(FileVoucherProperties fileVoucherProperties) {
+		this.filePath = fileVoucherProperties.getPath();
 		this.file = new File(filePath);
 		this.memory = new HashMap<>();
 	}
@@ -81,13 +81,18 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<Voucher> findById(UUID uuid) {
-		return Optional.ofNullable(memory.get(uuid));
+	public Optional<Voucher> findById(UUID voucherId) {
+		return Optional.ofNullable(memory.get(voucherId));
 	}
 
 	@Override
 	public List<Voucher> findAll() {
 		return new ArrayList<>(memory.values());
+	}
+
+	@Override
+	public void delete(UUID voucherId) {
+		memory.remove(voucherId);
 	}
 
 }
