@@ -58,35 +58,61 @@
     - 고객이 보유한 바우처를 제거할 수 있어야 합니다.
     - 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
 
-### SpringBoot Part2 Weekly Mission 기능 정리 🚀
+## SpringBoot Part2 Weekly Mission 기능 정리 🚀
 
-- DB를 이용한 customer 관리 애플리케이션 구현
-  - [x] customer 테이블 정의
-  - [x] customer 테이블 추가
-  - [x] customer DB Repository
-    - [x] JdbcTemplate 사용
-      - [x] customer 전체 조회 기능
-      - [x] customer 타입 별 조회 기능
-- DB를 이용한 voucher 관리 애플리케이션 구현
-  - [x] voucher 테이블 정의
-  - [x] voucher 테이블 추가
-    - [x] 고정할인, 할인율을 고려한다.
-  - [x] voucher DB Repository
-    - [x] JdbcTemplate 사용
-      - [x] voucher Create 기능
-        - [x] 고정 할인 바우처 생성 기능
-        - [x] 할인율 바우처 생성 기능
-      - [x] voucher Read 기능
-        - [x] 고정 할인 바우처 전체 검색 기능
-        - [x] 할인율 바우처 전체 검색 기능
-      - [x] voucher Update 기능
-        - [x] 고정 할인 바우처 할인 금액 수정 기능
-        - [x] 할인율 바우처 할인율 수정 기능
-      - [x] voucher Delete 기능
-        - [x] 고정 할인 바우처 삭제 기능
-        - [x] 할인율 바우처 삭제 기능
-- DB를 이용한 바우처 지갑 관리 애플리케이션 구현
-  - [ ] 특정 customer에게 voucher 입력 기능
-  - [ ] 특정 customer의 voucher 검색 기능
-  - [ ] 특정 customer가 보유한 voucher 삭제 기능
-  - [ ] 특정 voucher를 보유한 customer 검색 기능
+### 🔥 DB를 이용한 customer 관리 애플리케이션 구현 🔥
+
+#### 1. Customer Table
+- [x] customer 테이블 정의
+- [x] customer 테이블 추가
+
+#### 2. Customer Jdbc Repository
+- [x] JdbcTemplate 사용
+  - [x] customer 전체 조회 기능
+  - [x] customer 타입 별 조회 기능
+
+#### 3. Customer Service
+- [x] customer 전체 조회 기능
+- [x] customer 타입 별 조회 기능
+      
+### 🔥 DB를 이용한 voucher 관리 애플리케이션 구현 🔥
+
+#### 1. Voucher Table
+- [x] voucher 테이블 정의
+- [x] voucher 테이블 추가
+  - [x] 고정할인, 할인율을 고려한다.
+#### 2. Voucher Jdbc Repository
+- [x] voucher Create 기능
+  - [x] 고정 할인 바우처 생성 기능
+  - [x] 할인율 바우처 생성 기능
+- [x] voucher Read 기능
+  - [x] 고정 할인 바우처 전체 검색 기능
+  - [x] 할인율 바우처 전체 검색 기능
+- [x] voucher Update 기능
+  - [x] 고정 할인 바우처 할인 금액 수정 기능
+  - [x] 할인율 바우처 할인율 수정 기능
+- [x] voucher Delete 기능
+  - [x] 고정 할인 바우처 삭제 기능
+  - [x] 할인율 바우처 삭제 기능
+#### 3. Voucher Service
+- [x] voucher Create 기능
+  - [x] 고정 할인 바우처 생성 기능
+  - [x] 할인율 바우처 생성 기능
+- [x] voucher Read 기능
+  - [x] 고정 할인 바우처 전체 검색 기능
+  - [x] 할인율 바우처 전체 검색 기능
+- [x] voucher Update 기능
+  - [x] 고정 할인 바우처 할인 금액 수정 기능
+  - [x] 할인율 바우처 할인율 수정 기능
+- [x] voucher Delete 기능
+  - [x] 고정 할인 바우처 삭제 기능
+  - [x] 할인율 바우처 삭제 기능
+#### 4. Voucher Controller
+
+### DB를 이용한 바우처 지갑 관리 애플리케이션 구현
+- [ ] 특정 customer에게 voucher 입력 기능
+- [ ] 특정 customer의 voucher 검색 기능
+- [ ] 특정 customer가 보유한 voucher 삭제 기능
+- [ ] 특정 voucher를 보유한 customer 검색 기능
+
+
