@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-@Profile("local")
+@Profile("file")
 public class CSVFileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CSVFileVoucherRepository.class);
