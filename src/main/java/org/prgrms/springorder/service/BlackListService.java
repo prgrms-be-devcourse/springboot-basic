@@ -16,7 +16,7 @@ public class BlackListService {
 		this.fileBlackListRepository = fileBlackListRepository;
 	}
 
-	public List<String> findAll() {
+	public List<String> getBlackList() {
 		return fileBlackListRepository.findAll().stream().map(Customer::toString).collect(Collectors.toList());
 	}
 
