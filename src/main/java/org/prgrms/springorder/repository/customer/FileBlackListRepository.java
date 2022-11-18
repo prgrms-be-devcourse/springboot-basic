@@ -19,7 +19,7 @@ import org.prgrms.springorder.domain.customer.CustomerType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileBlackListRepository implements CustomerRepository {
+public class FileBlackListRepository {
 
 	private final File file;
 
@@ -42,22 +42,22 @@ public class FileBlackListRepository implements CustomerRepository {
 		}
 	}
 
-	@Override
+
 	public void save(Customer customer) {
 		memory.put(customer.getCustomerId(), customer);
 	}
 
-	@Override
+
 	public void update(Customer customer) {
 		memory.replace(customer.getCustomerId(), customer);
 	}
 
-	@Override
+
 	public List<Customer> findAll() {
 		return new ArrayList<>(memory.values());
 	}
 
-	@Override
+
 	public Optional<Customer> findById(UUID customerId) {
 		return Optional.ofNullable(memory.get(customerId));
 	}
