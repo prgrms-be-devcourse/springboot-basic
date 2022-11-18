@@ -29,9 +29,9 @@ class VoucherListFindServiceTest {
     @DisplayName("바우처 리스트 정상 출력 확인")
     void voucherList() {
         // given
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, UUID.randomUUID());
 
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50, UUID.randomUUID());
 
         voucherRepository.save(fixedAmountVoucher);
         voucherRepository.save(percentDiscountVoucher);
