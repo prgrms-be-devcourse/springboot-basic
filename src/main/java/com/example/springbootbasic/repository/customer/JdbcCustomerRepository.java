@@ -4,7 +4,6 @@ import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
+
+import static com.example.springbootbasic.exception.customer.JdbcCustomerRepositoryExceptionMessage.CUSTOMER_STATUS_NULL_EXCEPTION;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -46,11 +47,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findCustomersByStatus(CustomerStatus status) {
         try {
+            validateCustomerStatusNull(status);
             return jdbcTemplate.query(MessageFormat.format(FIND_ALL_CUSTOMERS_BY_STATUS_SQL, ":customerStatus"),
                     Collections.singletonMap("customerStatus", status.getType()), customerRowMapper);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
+        }
+    }
+
+    private void validateCustomerStatusNull(CustomerStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException(CUSTOMER_STATUS_NULL_EXCEPTION.getMessage());
         }
     }
 }
