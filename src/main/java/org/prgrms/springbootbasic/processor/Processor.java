@@ -1,7 +1,7 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.processor;
 
 import org.prgrms.springbootbasic.message.Response;
 
-public interface Controller {
+public interface Processor {
     Response process();
 }

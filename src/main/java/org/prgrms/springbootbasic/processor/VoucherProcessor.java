@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.processor;
 
 import org.prgrms.springbootbasic.NotificationProperties;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -10,7 +10,7 @@ import org.prgrms.springbootbasic.util.CommandLineInput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -22,14 +22,14 @@ import static org.prgrms.springbootbasic.type.VoucherType.isFixed;
 import static org.prgrms.springbootbasic.type.VoucherType.isPercent;
 
 
-@Controller
-public class VoucherController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+@Component
+public class VoucherProcessor implements Processor {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherProcessor.class);
     private final NotificationProperties notificationProperties;
     private final VoucherService voucherService;
 
     @Autowired
-    VoucherController(VoucherService voucherService, NotificationProperties notificationProperties) {
+    VoucherProcessor(VoucherService voucherService, NotificationProperties notificationProperties) {
         this.voucherService = voucherService;
         this.notificationProperties = notificationProperties;
     }

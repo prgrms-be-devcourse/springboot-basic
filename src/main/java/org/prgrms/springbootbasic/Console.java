@@ -1,7 +1,6 @@
 package org.prgrms.springbootbasic;
 
-import org.prgrms.springbootbasic.controller.Controller;
-import org.prgrms.springbootbasic.type.ServiceType;
+import org.prgrms.springbootbasic.processor.Processor;
 import org.prgrms.springbootbasic.util.CommandLineInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.prgrms.springbootbasic.type.MethodType.isExist;
-import static org.prgrms.springbootbasic.type.ServiceType.number2ControllerClass;
+import static org.prgrms.springbootbasic.type.ServiceType.number2ProcessorClass;
 
 @Component
 public class Console {
@@ -24,39 +23,39 @@ public class Console {
 
     @Autowired
     NotificationProperties notificationProperties;
-    private final List<Controller> processorList;
+    private final List<Processor> processorList;
 
     @Autowired
-    public Console(List<Controller> controllerList) {
+    public Console(List<Processor> controllerList) {
         this.processorList = controllerList;
     }
 
     public void run() {
         String selected;
-        Controller controller;
+        Processor processor;
         do {
             selected = CommandLineInput.getInput(serviceNotification);
             if (isExist(selected)) {
                 System.out.println(exitNotification);
                 return;
             }
-            controller = searchController(number2ControllerClass(selected));
-        } while (controller == null);
+            processor = searchProcessor(number2ProcessorClass(selected));
+        } while (processor == null);
 
-        System.out.println(controller.process());
+        System.out.println(processor.process());
         run();
     }
 
-    private Controller searchController(Class<? extends Controller> controllerClass) {
-        if (controllerClass == null) {
+    private Processor searchProcessor(Class<? extends Processor> processorClass) {
+        if (processorClass == null) {
             return null;
         }
         return processorList.stream()
-                .filter(x -> isSelected(x, controllerClass))
+                .filter(x -> isSelected(x, processorClass))
                 .findFirst().get();
     }
 
-    private boolean isSelected(Controller controller, Class<? extends Controller> selected) {
-        return Objects.equals(controller.getClass(), selected);
+    private boolean isSelected(Processor processor, Class<? extends Processor> selected) {
+        return Objects.equals(processor.getClass(), selected);
     }
 }

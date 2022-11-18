@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.controller;
+package org.prgrms.springbootbasic.processor;
 
 import org.prgrms.springbootbasic.message.Response;
 import org.prgrms.springbootbasic.service.BlackListManagementService;
@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import static org.prgrms.springbootbasic.type.MethodType.LOOKUP;
 
 @Component
-public class BlackListManagementController implements Controller {
+public class BlackListManagementProcessor implements Processor {
 
     public static final String ONLY_LOOKUP_NOTIFICATION = "you can only lookup blackList users";
     private final BlackListManagementService blackListManagementService;
 
     @Autowired
-    public BlackListManagementController(BlackListManagementService blackListManagementService) {
+    public BlackListManagementProcessor(BlackListManagementService blackListManagementService) {
         this.blackListManagementService = blackListManagementService;
     }
 
