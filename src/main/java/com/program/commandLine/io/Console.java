@@ -11,13 +11,15 @@ public interface Console {
 
     String input(String message);
 
-    void menuView();
+    void menuView(MenuType menuType);
 
     void errorMessageView(String message);
 
     void successMessageView(String message);
 
-    void allVoucherView(List<Voucher> vouchers);
+    void voucherListView(List<Voucher> vouchers);
 
     void customerBlackListView(List<Customer> blackList);
+
+    void customerView(Customer customer);
 }

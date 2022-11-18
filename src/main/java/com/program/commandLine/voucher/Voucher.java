@@ -1,8 +1,5 @@
 package com.program.commandLine.voucher;
 
-import com.program.commandLine.customer.Customer;
-
-import java.util.Optional;
 import java.util.UUID;
 
 public interface Voucher {
@@ -15,8 +12,13 @@ public interface Voucher {
 
     UUID getAssignedCustomerId();
 
-    boolean getUsing();
+    boolean getUsed();
 
     int discountPrice(int beforeDiscount);
 
+    void used();
+
+    void assignCustomer(UUID customerId);
+
+    void retrieved();
 }

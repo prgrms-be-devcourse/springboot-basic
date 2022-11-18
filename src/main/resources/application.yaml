@@ -1,6 +1,15 @@
 spring:
   profiles:
-    active: dev
+    active: jdbc
+
+  datasource:
+    hikari:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/manage_system
+    username: root
+    password: dudwl0804!
+
+
 
 customer:
   black_list:
@@ -9,3 +18,4 @@ customer:
 voucher:
   file_repository:
     path: "./file_voucher_repo/voucher_file_repository.txt"
+

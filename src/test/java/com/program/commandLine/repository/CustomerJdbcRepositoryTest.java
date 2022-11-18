@@ -1,7 +1,6 @@
 package com.program.commandLine.repository;
 
 import com.program.commandLine.customer.Customer;
-import com.program.commandLine.customer.CustomerFactory;
 import com.program.commandLine.customer.RegularCustomer;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
@@ -12,13 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -28,9 +23,7 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.is;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -39,7 +32,7 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.program.commandLine.customer","com.program.commandLine.repository"}
+            basePackages = {"com.program.commandLine.customer", "com.program.commandLine.repository"}
     )
     static class Config {
 

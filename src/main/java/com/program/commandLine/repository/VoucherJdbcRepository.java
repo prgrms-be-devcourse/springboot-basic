@@ -1,6 +1,5 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.customer.Customer;
 import com.program.commandLine.voucher.Voucher;
 import com.program.commandLine.voucher.VoucherFactory;
 import com.program.commandLine.voucher.VoucherType;
@@ -12,11 +11,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.program.commandLine.util.JdbcUtil.*;
+import static com.program.commandLine.util.JdbcUtil.toUUID;
 
 @Component(value = "voucherRepository")
 @Profile("JDBC")
@@ -27,8 +27,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final VoucherFactory voucherFactory;
 
-    public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate, VoucherFactory voucherFactory) {
-        this.jdbcTemplate = jdbcTemplate;
+    public VoucherJdbcRepository(DataSource dataSource, VoucherFactory voucherFactory) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.voucherFactory = voucherFactory;
     }
 
@@ -39,7 +39,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("discount", voucher.getVoucherDiscount());
             put("AssignedCustomerId", voucher.getAssignedCustomerId() != null ?
                     voucher.getAssignedCustomerId().toString().getBytes() : null);
-            put("using", voucher.getUsing());
+            put("used", voucher.getUsed());
         }};
     }
 
@@ -50,9 +50,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             var type = VoucherType.getType(rs.getString("type"));
             var discount = rs.getInt("discount");
             var AssignedCustomerId = toUUID(rs.getBytes("assigned_customer_id"));
-            var using = rs.getBoolean("using");
+            var used = rs.getBoolean("used");
 
-            return voucherFactory.createVoucher(type,voucherId,discount, AssignedCustomerId,using);
+            return voucherFactory.createVoucher(type,voucherId,discount, AssignedCustomerId,used);
         }
     };
 
@@ -68,8 +68,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher insertVoucher(Voucher voucher) {
-        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, discount, assigned_customer_id, using)" +
-                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount,:AssignedCustomerId ,:using )",toParamMap(voucher));
+        var update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, discount, assigned_customer_id, used)" +
+                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount,:AssignedCustomerId ,:used )",toParamMap(voucher));
         if(update != 1) throw new RuntimeException("Nothing was inserted!");
         return voucher;
     }

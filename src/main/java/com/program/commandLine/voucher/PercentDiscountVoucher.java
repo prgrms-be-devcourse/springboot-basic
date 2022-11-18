@@ -1,6 +1,5 @@
 package com.program.commandLine.voucher;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -9,7 +8,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherID;
     private final int percent;
     private UUID assignedCustomerId;
-    private boolean using = false;
+    private boolean used = false;
 
 
     public PercentDiscountVoucher(UUID voucherID, int percent) {
@@ -21,11 +20,11 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherID, int percent, UUID assignedCustomerId, boolean using) {
+    public PercentDiscountVoucher(UUID voucherID, int percent, UUID assignedCustomerId, boolean used) {
         this.voucherID = voucherID;
         this.percent = percent;
         this.assignedCustomerId = assignedCustomerId;
-        this.using = using;
+        this.used = used;
     }
 
     @Override
@@ -49,12 +48,29 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public boolean getUsing() {
-        return using;
+    public boolean getUsed() {
+        return used;
     }
 
     @Override
     public int discountPrice(int beforeDiscount) {
-        return (int)(beforeDiscount * (1 - (double)percent / 100));
+        return (int) (beforeDiscount * (1 - (double) percent / 100));
+    }
+
+    @Override
+    public void used() {
+        if (used) throw new IllegalAccessError("! 이미 사용된 바우처 입니다.");
+        used = true;
+    }
+
+    @Override
+    public void assignCustomer(UUID customerId) {
+        if (assignedCustomerId != null) throw new IllegalAccessError("! 이미 할당된 바우처 입니다.");
+        assignedCustomerId = customerId;
+    }
+
+    @Override
+    public void retrieved() {
+        assignedCustomerId = null;
     }
 }

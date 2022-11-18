@@ -29,8 +29,8 @@ public class ScannerConsole implements Console {
     }
 
     @Override
-    public void menuView() {
-        output.menuView();
+    public void menuView(MenuType menuType) {
+        output.menuView(menuType);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class ScannerConsole implements Console {
     }
 
     @Override
-    public void allVoucherView(List<Voucher> vouchers) {
+    public void voucherListView(List<Voucher> vouchers) {
         if (vouchers.size() == 0) {
             output.messageView("empty");
             return;
@@ -60,4 +60,11 @@ public class ScannerConsole implements Console {
         }
         output.customerBlackListView(blackList);
     }
+
+    @Override
+    public void customerView(Customer customer) {
+        output.customerView(customer);
+    }
+
+
 }

@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum VoucherType {
-    FIXED_AMOUNT_DISCOUNT("1","Fixed_amount") ,
-    PERCENT_DISCOUNT("2","Percent_discount") ;
+    FIXED_AMOUNT_DISCOUNT("1", "Fixed_amount"),
+    PERCENT_DISCOUNT("2", "Percent_discount");
 
 
     private final String numberType;
@@ -18,12 +18,12 @@ public enum VoucherType {
 
     public static VoucherType getType(final String symbol) {
         return Arrays.stream(values())
-                .filter(type -> Objects.equals(type.numberType,symbol) || Objects.equals(type.stringType,symbol))
+                .filter(type -> Objects.equals(type.numberType, symbol) || Objects.equals(type.stringType, symbol))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("! Wrong type input. Please enter only given number"));
     }
 
-    public String getString(){
+    public String getString() {
         return stringType;
     }
 

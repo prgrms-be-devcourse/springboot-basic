@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,8 +26,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerFactory customerFactory;
 
-    public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate, CustomerFactory customerFactory) {
-        this.jdbcTemplate = jdbcTemplate;
+    public CustomerJdbcRepository(DataSource dataSource, CustomerFactory customerFactory) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.customerFactory = customerFactory;
     }
 

@@ -1,6 +1,5 @@
 package com.program.commandLine.voucher;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -10,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final int amount;
     private UUID assignedCustomerId;
-    private boolean using = false;
+    private boolean used = false;
 
     public FixedAmountVoucher(UUID voucherId, int amount) {
         if (amount < 0) throw new IllegalArgumentException("! Amount should be positive");
@@ -21,11 +20,11 @@ public class FixedAmountVoucher implements Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, int amount, UUID assignedCustomerId, boolean using) {
+    public FixedAmountVoucher(UUID voucherId, int amount, UUID assignedCustomerId, boolean used) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.assignedCustomerId = assignedCustomerId;
-        this.using = using;
+        this.used = used;
     }
 
     @Override
@@ -49,12 +48,29 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public boolean getUsing() {
-        return using;
+    public boolean getUsed() {
+        return used;
     }
 
     @Override
     public int discountPrice(int beforeDiscount) {
         return Math.max(beforeDiscount - amount, 0);
     }
+
+    @Override
+    public void used() {
+        if (used) throw new IllegalAccessError("! This voucher has already been used.");
+        used = true;
+    }
+
+    @Override
+    public void assignCustomer(UUID customerId) {
+        assignedCustomerId = customerId;
+    }
+
+    @Override
+    public void retrieved() {
+        assignedCustomerId = null;
+    }
+
 }
