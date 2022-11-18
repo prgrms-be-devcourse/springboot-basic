@@ -3,6 +3,9 @@ package org.prgrms.springorder.domain.customer;
 import java.util.Arrays;
 import java.util.Objects;
 
+import org.prgrms.springorder.domain.ErrorMessage;
+import org.prgrms.springorder.exception.NoSuchCustomerException;
+
 public enum CustomerType {
 	NORMAL("NORMAL"),
 	BLACK("BLACK");
@@ -17,7 +20,7 @@ public enum CustomerType {
 		return Arrays.stream(values())
 			.filter(a -> Objects.equals(a.rating, rating))
 			.findAny()
-			.orElseThrow();
+			.orElseThrow(()->new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
 	}
 
 	public String getRating() {
