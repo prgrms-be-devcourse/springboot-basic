@@ -1,6 +1,8 @@
 package org.prgrms.voucher.voucherType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,31 +17,31 @@ public class VoucherTypeTest {
   @Test
   void isFixedType() {
     //given
-    String fixed = "1";
+    long fixed = 1L;
     //when
-    VoucherTypePool voucherType = VoucherTypePool.of(fixed);
+    VoucherType voucherType = VoucherType.of(fixed);
     //then
-    assertEquals(VoucherTypePool.FIXED, voucherType);
+    assertEquals(VoucherType.FIXED, voucherType);
   }
 
   @DisplayName("콘솔에서 2번을 입력받았을 때 고정 타입을 리턴한다.")
   @Test
   void isPercentType() {
     //given
-    String percent = "2";
+    long percent = 2L;
     //when
-    VoucherTypePool voucherType = VoucherTypePool.of(percent);
+    VoucherType voucherType = VoucherType.of(percent);
     //then
-    assertEquals(VoucherTypePool.PERCENT, voucherType);
+    assertEquals(VoucherType.PERCENT, voucherType);
   }
 
   @DisplayName("선택지에 없는 번호를 입력받으면 NoSuchVoucherTypeException을 던진다")
   @Test
   void isNoMatchingType() {
     //given
-    String noType = "3";
+    long noType = 3L;
     //when&then
-    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherTypePool.of(noType),
+    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherType.of(noType),
         noType + "은 존재하지 않습니다. 다시입력해주세요");
 
   }
@@ -50,7 +52,7 @@ public class VoucherTypeTest {
     //given
     String nonNumeric = "가abc*";
     //when&then
-    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherTypePool.of(nonNumeric),
+    assertThrows(NoSuchVoucherTypeException.class, () -> VoucherType.of(nonNumeric),
         nonNumeric + "은 존재하지 않습니다. 다시입력해주세요");
 
   }
@@ -59,8 +61,8 @@ public class VoucherTypeTest {
   @Test
   void generateFixedVoucher() {
     //given
-    VoucherTypePool fixed = VoucherTypePool.FIXED;
-    Amount discount = new DiscountAmount("3000");
+    VoucherType fixed = VoucherType.FIXED;
+    Amount discount = new DiscountAmount(3000L);
     //when
     Voucher voucher = fixed.generateVoucher(discount);
     //then
@@ -71,8 +73,8 @@ public class VoucherTypeTest {
   @Test
   void generatePercentVoucher() {
     //given
-    VoucherTypePool percent = VoucherTypePool.PERCENT;
-    Amount discount = new DiscountRate("10");
+    VoucherType percent = VoucherType.PERCENT;
+    Amount discount = new DiscountRate(10L);
     //when
     Voucher voucher = percent.generateVoucher(discount);
     //then
@@ -83,8 +85,8 @@ public class VoucherTypeTest {
   @Test
   void generateFixedDiscount() {
     //given
-    VoucherTypePool fixed = VoucherTypePool.FIXED;
-    String value = "2000";
+    VoucherType fixed = VoucherType.FIXED;
+    long value = 2000L;
     //when
     Amount discount = fixed.generateAmount(value);
     //then
@@ -95,8 +97,8 @@ public class VoucherTypeTest {
   @Test
   void generatePercentDiscount() {
     //given
-    VoucherTypePool percent = VoucherTypePool.PERCENT;
-    String value = "50";
+    VoucherType percent = VoucherType.PERCENT;
+    long value = 50L;
     //when
     Amount discount = percent.generateAmount(value);
     //then
