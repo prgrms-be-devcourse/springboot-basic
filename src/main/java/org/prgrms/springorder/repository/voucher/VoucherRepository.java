@@ -8,10 +8,11 @@ import org.prgrms.springorder.domain.voucher.Voucher;
 
 public interface VoucherRepository {
 
-	void save(Voucher v);
+	void save(Voucher voucher);
 
 	Optional<Voucher> findById(UUID uuid);
 
 	List<Voucher> findAll();
 
+	void delete(UUID voucherId);
 }
