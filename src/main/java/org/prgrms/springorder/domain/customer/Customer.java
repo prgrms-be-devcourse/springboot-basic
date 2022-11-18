@@ -9,7 +9,7 @@ public class Customer {
 	private final String name;
 	private final String email;
 	private final LocalDateTime createdAt;
-	private final CustomerType customerType;
+	private CustomerType customerType;
 
 	public Customer(UUID customerId, String name, String email, LocalDateTime createdAt,
 		CustomerType customerType) {
@@ -25,5 +25,23 @@ public class Customer {
 		return String.format("ID : %s Name : %s", customerId, name);
 	}
 
+	public UUID getCustomerId() {
+		return customerId;
+	}
 
+	public String getName() {
+		return name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public CustomerType getCustomerType() {
+		return customerType;
+	}
 }
