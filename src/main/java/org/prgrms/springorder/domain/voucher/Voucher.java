@@ -16,6 +16,7 @@ public abstract class Voucher {
 
 	public Voucher(UUID voucherId, double value, LocalDateTime createdAt,
 		VoucherType voucherType) {
+		validateValue(value);
 		this.voucherId = voucherId;
 		this.value = value;
 		this.createdAt = createdAt;
