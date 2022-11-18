@@ -15,10 +15,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("release")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final File voucherListTextFile;
@@ -28,15 +29,15 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Optional<Voucher> insert(Voucher voucher) {
         try (Writer writer = new FileWriter(voucherListTextFile, true)) {
             writer.write(VoucherConverter.convertText(voucher));
             writer.flush();
+            return Optional.of(voucher);
         } catch (IOException e) {
             logger.error("insert error message -> {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            return Optional.empty();
         }
-        return voucher;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     .collect(Collectors.toList());
         } catch (IOException e) {
             logger.error("findAll error message -> {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            return List.of();
         }
     }
 }

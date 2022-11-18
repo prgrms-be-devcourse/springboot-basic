@@ -3,6 +3,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -51,5 +52,17 @@ public class PercentDiscountVoucher implements Voucher {
         return "VoucherType: PercentDiscountVoucher, " +
                 "voucherId: " + voucherId +
                 ", discountPercent: " + discountPercent + "%";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PercentDiscountVoucher that)) return false;
+        return discountPercent == that.discountPercent && voucherId.equals(that.voucherId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, discountPercent);
     }
 }
