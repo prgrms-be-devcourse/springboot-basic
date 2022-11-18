@@ -20,4 +20,7 @@ public enum CustomerType {
 			.orElseThrow();
 	}
 
+	public String getRating() {
+		return rating;
+	}
 }
