@@ -1,6 +1,8 @@
 package org.prgrms.springorder.controller;
 
-import org.prgrms.springorder.io.IO;
+import java.util.List;
+
+import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.service.BlackListService;
 import org.prgrms.springorder.service.CustomerService;
 import org.springframework.stereotype.Component;
@@ -10,18 +12,26 @@ public class CustomerController {
 
 	private final CustomerService customerService;
 	private final BlackListService blackListService;
-	private final IO io;
 
 	public CustomerController(CustomerService customerService,
-		BlackListService blackListService, IO io) {
+		BlackListService blackListService) {
 		this.customerService = customerService;
 		this.blackListService = blackListService;
-		this.io = io;
 	}
 
-	public void showBlackList() {
-		io.writeList(blackListService.findAll());
+	public List<String> getBlackList() {
+		return blackListService.getBlackList();
 	}
+
+	public List<String> getCustomerList() {
+		return customerService.getCustomerList();
+	}
+
+	public void createCustomer(Customer customer) {
+		customerService.createCustomer(customer);
+	}
+
+
 
 
 }
