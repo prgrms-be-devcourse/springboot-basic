@@ -38,7 +38,7 @@ public class WalletRepository {
 		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
 	}
 
-	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i)->{
+	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
 		var voucherId = toUUID(resultSet.getBytes("voucher_id"));
 		var value = resultSet.getInt("voucher_value");
 		var createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -55,9 +55,8 @@ public class WalletRepository {
 		return new Customer(customerId, customerName, email, createdAt, customerType);
 	};
 
-
 	private Map<String, Object> toParamMap(Voucher voucher) {
-		return new HashMap<>(){{
+		return new HashMap<>() {{
 			put("voucherId", voucher.getVoucherId().toString().getBytes());
 			put("value", voucher.getValue());
 			put("createdAt", voucher.getCreatedAt());
@@ -65,9 +64,10 @@ public class WalletRepository {
 		}};
 	}
 
-	public Optional<Customer> findByVoucherId(UUID voucherId){
-		try{
-			return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customer INNER JOIN voucher on customer.customer_id = voucher.customer_id WHERE voucher.voucher_id = uuid_to_bin(:voucherId)",
+	public Optional<Customer> findByVoucherId(UUID voucherId) {
+		try {
+			return Optional.ofNullable(jdbcTemplate.queryForObject(
+				"SELECT * FROM customer INNER JOIN voucher on customer.customer_id = voucher.customer_id WHERE voucher.voucher_id = uuid_to_bin(:voucherId)",
 				Collections.singletonMap("voucherId", voucherId.toString().getBytes()), customerRowMapper));
 		} catch (DataAccessException e) {
 			log.error(ErrorMessage.DATA_ACCESS_MESSAGE.toString());
@@ -75,24 +75,28 @@ public class WalletRepository {
 		}
 
 	}
-	public void updateCustomerIdByVoucherId(UUID customerId, UUID voucherId){
-		Map<String, Object> paramMap = toIdParamMap(customerId,voucherId);
-		jdbcTemplate.update("UPDATE voucher SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = uuid_to_bin(:voucherId)", paramMap);
+
+	public void updateCustomerIdByVoucherId(UUID customerId, UUID voucherId) {
+		Map<String, Object> paramMap = toIdParamMap(customerId, voucherId);
+		jdbcTemplate.update(
+			"UPDATE voucher SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = uuid_to_bin(:voucherId)",
+			paramMap);
 	}
 
 	private Map<String, Object> toIdParamMap(UUID customerId, UUID voucherId) {
-		return new HashMap<>(){{
+		return new HashMap<>() {{
 			put("customerId", customerId.toString().getBytes());
 			put("voucherId", voucherId.toString().getBytes());
 		}};
 	}
 
-	public List<Voucher> findVouchersByCustomerId(UUID customerId){
+	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
 
-		try{
-			return jdbcTemplate.query("SELECT * FROM voucher INNER JOIN customer on voucher.customer_id = customer.customer_id "
+		try {
+			return jdbcTemplate.query(
+				"SELECT * FROM voucher INNER JOIN customer on voucher.customer_id = customer.customer_id "
 					+ "WHERE voucher.customer_id = UUID_TO_BIN(:customerId)",
-				Collections.singletonMap("customerId", customerId.toString()),voucherRowMapper);
+				Collections.singletonMap("customerId", customerId.toString()), voucherRowMapper);
 		} catch (DataAccessException e) {
 			log.error(ErrorMessage.DATA_ACCESS_MESSAGE.toString());
 			return List.of();
@@ -100,10 +104,11 @@ public class WalletRepository {
 
 	}
 
-	public void delete(UUID customerId, UUID voucherId){
-		Map<String, Object> paramMap = toIdParamMap(customerId,voucherId);
-		try{
-			jdbcTemplate.update("DELETE FROM voucher Using voucher INNER JOIN customer on voucher.customer_id = customer.customer_id "
+	public void delete(UUID customerId, UUID voucherId) {
+		Map<String, Object> paramMap = toIdParamMap(customerId, voucherId);
+		try {
+			jdbcTemplate.update(
+				"DELETE FROM voucher Using voucher INNER JOIN customer on voucher.customer_id = customer.customer_id "
 					+ "WHERE voucher.customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)",
 				paramMap);
 		} catch (DataAccessException e) {
@@ -111,6 +116,5 @@ public class WalletRepository {
 		}
 
 	}
-
 
 }

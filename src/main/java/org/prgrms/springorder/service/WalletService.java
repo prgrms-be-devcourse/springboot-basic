@@ -25,7 +25,10 @@ public class WalletService {
 	}
 
 	public List<String> getCustomerVouchers(UUID customerId) {
-		return walletRepository.findVouchersByCustomerId(customerId).stream().map(Voucher::toString).collect(Collectors.toList());
+		return walletRepository.findVouchersByCustomerId(customerId)
+			.stream()
+			.map(Voucher::toString)
+			.collect(Collectors.toList());
 	}
 
 	public void deleteByVoucherId(UUID customerId, UUID voucherId) {
@@ -33,6 +36,7 @@ public class WalletService {
 	}
 
 	public Customer findByVoucherId(UUID voucherId) {
-		return walletRepository.findByVoucherId(voucherId).orElseThrow(()->new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
+		return walletRepository.findByVoucherId(voucherId)
+			.orElseThrow(() -> new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
 	}
 }

@@ -15,10 +15,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
-
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -53,28 +51,29 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public void save(Customer customer) {
 		Map<String, Object> paramMap = toParamMap(customer);
-		jdbcTemplate.update("INSERT INTO customer(customer_id, customer_name, email, created_at,customer_type) Values(UUID_TO_BIN(:customerId),:name,:email,:createdAt,:customerType)" ,paramMap);
+		jdbcTemplate.update(
+			"INSERT INTO customer(customer_id, customer_name, email, created_at,customer_type) Values(UUID_TO_BIN(:customerId),:name,:email,:createdAt,:customerType)",
+			paramMap);
 	}
 
 	@Override
 	public void update(Customer customer) {
 		Map<String, Object> paramMap = toParamMap(customer);
-		jdbcTemplate.update("UPDATE customer SET customer_name = :name, email = :email, customer_type = :customerType WHERE customer_id = UUID_TO_BIN(:customerId)",paramMap);
+		jdbcTemplate.update(
+			"UPDATE customer SET customer_name = :name, email = :email, customer_type = :customerType WHERE customer_id = UUID_TO_BIN(:customerId)",
+			paramMap);
 	}
 
 	@Override
 	public List<Customer> findAll() {
-		return jdbcTemplate.query("SELECT * FROM customer",customerRowMapper);
+		return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
 	}
-
 
 	@Override
 	public Optional<Customer> findById(UUID customerId) {
-		return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)",
-			Collections.singletonMap("customerId", customerId.toString()), customerRowMapper));
+		return Optional.ofNullable(
+			jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)",
+				Collections.singletonMap("customerId", customerId.toString()), customerRowMapper));
 	}
-
-
-
 
 }
