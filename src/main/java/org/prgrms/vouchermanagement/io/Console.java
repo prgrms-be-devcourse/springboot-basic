@@ -27,7 +27,7 @@ public class Console implements Input, Output {
 
     public static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";
     private static final String CUSTOMER_NAME_INPUT_MESSAGE = "생성할 Customer의 이름을 입력해주세요.";
-    private static final String CUSTOMER_EMAIL_INPUT_MESSAGE = "생성할 Customer의 이메일을 입력해주세요.";
+    private static final String CUSTOMER_EMAIL_INPUT_MESSAGE = "Customer의 이메일을 입력해주세요.";
     public static final String VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE = "바우처를 할당하기 위한 고객의 이메일을 입력해주세요.";
 
     private final Scanner scanner = new Scanner(System.in);
