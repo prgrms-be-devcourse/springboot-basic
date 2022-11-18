@@ -25,6 +25,10 @@ public enum CustomerStatus {
         return this == BLACK;
     }
 
+    public boolean isNormal() {
+        return this == NORMAL;
+    }
+
     public String getType() {
         return type;
     }
