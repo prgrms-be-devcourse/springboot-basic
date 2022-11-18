@@ -51,6 +51,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s", customerId, name, email);
+        return String.format("%s, %s, %s, %s", customerId, name, email, isBlocked);
     }
 }

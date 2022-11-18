@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
@@ -21,20 +22,26 @@ public class CustomerService {
     }
 
     public Customer getCustomer(UUID customerId) {
-        return customerRepository.findById(customerId, false)
+        return customerRepository.findById(customerId)
+                .filter(customer -> !customer.isBlocked())
                 .orElseThrow(() -> new CustomerException(String.format("Can not find a customer for %s", customerId)));
     }
 
     public Customer getBlackCustomer(UUID customerId) {
-        return customerRepository.findById(customerId, true)
+        return customerRepository.findById(customerId)
+                .filter(Customer::isBlocked)
                 .orElseThrow(() -> new CustomerException(String.format("Can not find a black customer for %s", customerId)));
     }
 
     public Collection<Customer> getAllCustomers() {
-        return customerRepository.findAll(false);
+        return customerRepository.findAll().stream()
+                .filter(customer -> !customer.isBlocked())
+                .collect(Collectors.toList());
     }
 
     public Collection<Customer> getAllBlackCustomers() {
-        return customerRepository.findAll(true);
+        return customerRepository.findAll().stream()
+                .filter(Customer::isBlocked)
+                .collect(Collectors.toList());
     }
 }

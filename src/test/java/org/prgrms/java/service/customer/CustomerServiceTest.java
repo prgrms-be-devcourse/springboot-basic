@@ -1,24 +1,77 @@
 package org.prgrms.java.service.customer;
 
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.ScriptResolver;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
+import com.wix.mysql.distribution.Version;
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;
 import org.prgrms.java.repository.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import javax.sql.DataSource;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
+//@SpringBootTest
+@SpringJUnitConfig
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CustomerServiceTest {
+    @Configuration
+    @ComponentScan(basePackages = {"org.prgrms.java.*.customer"})
+    static class Config {
+        @Bean
+        public DataSource dataSource() {
+            return DataSourceBuilder.create()
+                    .url("jdbc:mysql://localhost:2215/voucher_mgmt")
+                    .username("test")
+                    .password("test1234!")
+                    .type(HikariDataSource.class)
+                    .build();
+        }
+
+        @Bean
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
+        }
+    }
+
     @Autowired
     CustomerRepository customerRepository;
 
     @Autowired
     CustomerService customerService;
+
+    EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    void setup() {
+        MysqldConfig mysqldConfig = MysqldConfig.aMysqldConfig(Version.v8_latest)
+                .withCharset(Charset.UTF8)
+                .withPort(2215)
+                .withUser("test", "test1234!")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqldConfig)
+                .addSchema("voucher_mgmt", ScriptResolver.classPathScript("schema.sql"))
+                .start();
+    }
+
+    @AfterAll
+    void cleanup() {
+        embeddedMysql.stop();
+    }
 
     @BeforeEach
     @AfterEach

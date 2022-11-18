@@ -15,12 +15,12 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryCustomerRepositoryTest {
-    private static final CustomerRepository CUSTOMER_REPOSITORY = new MemoryCustomerRepository();
+    private static final CustomerRepository customerRepository = new MemoryCustomerRepository();
 
     @BeforeEach
     @AfterEach
     void clean() {
-        CUSTOMER_REPOSITORY.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
@@ -29,8 +29,8 @@ class MemoryCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
         Customer blockedCustomer = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", true);
 
-        Customer insertedCustomer = CUSTOMER_REPOSITORY.insert(customer);
-        Customer insertedBlockedCustomer = CUSTOMER_REPOSITORY.insert(blockedCustomer);
+        Customer insertedCustomer = customerRepository.insert(customer);
+        Customer insertedBlockedCustomer = customerRepository.insert(blockedCustomer);
 
         assertThat(customer, samePropertyValuesAs(insertedCustomer));
         assertThat(blockedCustomer, samePropertyValuesAs(insertedBlockedCustomer));
@@ -44,8 +44,8 @@ class MemoryCustomerRepositoryTest {
             Customer customer = new Customer(customerId, "test", "test@gmail.com");
             Customer customer2 = new Customer(customerId, "test2", "test2@gmail.com");
 
-            CUSTOMER_REPOSITORY.insert(customer);
-            CUSTOMER_REPOSITORY.insert(customer2);
+            customerRepository.insert(customer);
+            customerRepository.insert(customer2);
         });
     }
 
@@ -55,12 +55,12 @@ class MemoryCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
         Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com");
 
-        CUSTOMER_REPOSITORY.insert(customer);
-        CUSTOMER_REPOSITORY.insert(customer2);
+        customerRepository.insert(customer);
+        customerRepository.insert(customer2);
 
-        assertThat(CUSTOMER_REPOSITORY.findById(customer.getCustomerId(), customer.isBlocked()).get(), samePropertyValuesAs(customer));
-        assertThat(CUSTOMER_REPOSITORY.findById(customer2.getCustomerId(), customer2.isBlocked()).get(), samePropertyValuesAs(customer2));
-        assertThat(CUSTOMER_REPOSITORY.findById(customer.getCustomerId(), customer.isBlocked()).get(), not(samePropertyValuesAs((customer2))));
+        assertThat(customerRepository.findById(customer.getCustomerId()).get(), samePropertyValuesAs(customer));
+        assertThat(customerRepository.findById(customer2.getCustomerId()).get(), samePropertyValuesAs(customer2));
+        assertThat(customerRepository.findById(customer.getCustomerId()).get(), not(samePropertyValuesAs((customer2))));
     }
 
     @Test
@@ -69,11 +69,11 @@ class MemoryCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
         Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com");
 
-        CUSTOMER_REPOSITORY.insert(customer);
-        CUSTOMER_REPOSITORY.insert(customer2);
+        customerRepository.insert(customer);
+        customerRepository.insert(customer2);
 
-        assertThat(CUSTOMER_REPOSITORY.findAll(customer.isBlocked()).isEmpty(), is(false));
-        assertThat(CUSTOMER_REPOSITORY.findAll(customer2.isBlocked()), hasSize(2));
+        assertThat(customerRepository.findAll().isEmpty(), is(false));
+        assertThat(customerRepository.findAll(), hasSize(2));
     }
 
     @Test
@@ -83,10 +83,10 @@ class MemoryCustomerRepositoryTest {
         Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com");
         Customer blackCustomer = new Customer(UUID.randomUUID(), "unknown", "spam@spam.com", true);
 
-        CUSTOMER_REPOSITORY.insert(customer);
-        CUSTOMER_REPOSITORY.insert(customer2);
-        CUSTOMER_REPOSITORY.insert(blackCustomer);
+        customerRepository.insert(customer);
+        customerRepository.insert(customer2);
+        customerRepository.insert(blackCustomer);
 
-        assertThat(CUSTOMER_REPOSITORY.deleteAll(), is(3L));
+        assertThat(customerRepository.deleteAll(), is(3L));
     }
 }

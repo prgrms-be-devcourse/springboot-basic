@@ -24,11 +24,12 @@ public class Mapper {
         }
     }
 
-    public static Customer mapToCustomer(String object, boolean isBlocked) {
+    public static Customer mapToCustomer(String object) {
         String[] atoms = object.split(",");
         UUID customerId = UUID.fromString(atoms[0].trim());
         String name = atoms[1].trim();
         String email = atoms[2].trim();
+        boolean isBlocked = Boolean.parseBoolean(atoms[3].trim());
 
         return new Customer(customerId, name, email, isBlocked);
     }

@@ -13,44 +13,39 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class MemoryCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
-    private final Map<UUID, Customer> blackStorage = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<Customer> findById(UUID customerId, boolean isBlocked) {
-        if (isBlocked) {
-            return Optional.ofNullable(blackStorage.get(customerId));
-        }
+    public Optional<Customer> findById(UUID customerId) {
         return Optional.ofNullable(storage.get(customerId));
     }
 
     @Override
-    public Collection<Customer> findAll(boolean isBlocked) {
-        if (isBlocked) {
-            return blackStorage.values();
-        }
+    public Collection<Customer> findAll() {
         return storage.values();
     }
 
     @Override
     public Customer insert(Customer customer) {
-        if (findById(customer.getCustomerId(), true).isPresent() || findById(customer.getCustomerId(), false).isPresent()) {
+        if (findById(customer.getCustomerId()).isPresent()) {
             throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
-        }
-        if (customer.isBlocked()) {
-            blackStorage.put(customer.getCustomerId(), customer);
-            return blackStorage.get(customer.getCustomerId());
         }
         storage.put(customer.getCustomerId(), customer);
         return storage.get(customer.getCustomerId());
     }
 
     @Override
-    public long deleteAll() {
-        long count;
-        count = storage.size() + blackStorage.size();
+    public Customer update(Customer customer) {
+        if (findById(customer.getCustomerId()).isEmpty()) {
+            throw new CustomerException(String.format("No exists customer having id %s", customer.getCustomerId()));
+        }
+        storage.put(customer.getCustomerId(), customer);
+        return customer;
+    }
 
+    @Override
+    public long deleteAll() {
+        long count = storage.size();
         storage.clear();
-        blackStorage.clear();
 
         return count;
     }

@@ -3,8 +3,9 @@ package org.prgrms.java.repository.customer;
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -14,13 +15,14 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class FileCustomerRepository implements CustomerRepository {
     private final String DATA_PATH;
     private final String DATA_NAME_FOR_CUSTOMER;
     private final String DATA_NAME_FOR_BLACKLIST;
 
+    private final static Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     public FileCustomerRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
+        logger.error("생성 중...");
         try {
             new File(DATA_PATH).mkdirs();
             new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER)).createNewFile();
@@ -35,34 +37,40 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId, boolean isBlocked) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
-            Optional<String> str = reader.lines()
-                    .filter(line -> line.contains(customerId.toString()))
-                    .findAny();
-            if (str.isPresent()) {
-                return Optional.of(Mapper.mapToCustomer(str.get(), isBlocked));
+    public Optional<Customer> findById(UUID customerId) {
+        for (boolean isBlocked: List.of(true, false)) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                Optional<String> str = reader.lines()
+                        .filter(line -> line.contains(customerId.toString()))
+                        .findAny();
+                if (str.isPresent()) {
+                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
         return Optional.empty();
     }
 
     @Override
-    public Collection<Customer> findAll(boolean isBlocked) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
-            return reader.lines()
-                    .map((object) -> Mapper.mapToCustomer(object, isBlocked))
-                    .collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public Collection<Customer> findAll() {
+        Collection<Customer> customers = new ArrayList<>(Collections.emptyList());
+        for (boolean isBlocked: List.of(true, false)) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                customers.addAll(reader.lines()
+                        .map(Mapper::mapToCustomer)
+                        .collect(Collectors.toList()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+        return customers;
     }
 
     @Override
     public Customer insert(Customer customer) {
-        if (findById(customer.getCustomerId(), true).isPresent() || findById(customer.getCustomerId(), false).isPresent()) {
+        if (findById(customer.getCustomerId()).isPresent()) {
             throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
         }
 
@@ -74,6 +82,11 @@ public class FileCustomerRepository implements CustomerRepository {
             throw new RuntimeException(e);
         }
         return customer;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        return null;
     }
 
     @Override

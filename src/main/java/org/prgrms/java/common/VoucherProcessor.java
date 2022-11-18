@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class VoucherProcessor implements CommandLineRunner { // 네이밍 변경
+public class VoucherProcessor implements CommandLineRunner {
     private final CustomerService customerService;
     private final VoucherService voucherService;
     private final View view;
