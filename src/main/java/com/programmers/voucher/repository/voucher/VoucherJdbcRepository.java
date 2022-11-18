@@ -20,6 +20,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String findAllSql = "SELECT * FROM vouchers";
     private static final String findSql
             = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String updateSql
+            = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType " +
+            "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String deleteSql = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
@@ -54,6 +57,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Voucher findById(UUID voucherId) {
         return jdbcTemplate.queryForObject(findSql, toIdMap(voucherId), rowMapper);
+    }
+
+    @Override
+    public void update(Voucher voucher, VoucherType voucherType) {
+        jdbcTemplate.update(updateSql, toParamMap(voucher, voucherType));
     }
 
     @Override

@@ -64,14 +64,6 @@ public class View {
         output.printOutput(Message.EMPTY_VOUCHER_MESSAGE.toString());
     }
 
-    public void printBlacks(List<Customer> blacks) {
-        blacks.stream().forEach(black -> output.printOutput(black.toString()));
-    }
-
-    public void printEmptyBlacks() {
-        output.printOutput(Message.EMPTY_BLACK_MESSAGE.toString());
-    }
-
     public void printDeleteAll() {
         output.printOutput(Message.DELETE_ALL_VOUCHERS.toString());
     }

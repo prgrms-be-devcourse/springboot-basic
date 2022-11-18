@@ -26,4 +26,8 @@ public abstract class Voucher {
     public long getDiscountValue() {
         return discountValue;
     }
+
+    public void setDiscountValue(long discountValue) {
+        this.discountValue = discountValue;
+    }
 }

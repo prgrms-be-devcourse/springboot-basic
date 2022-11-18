@@ -7,9 +7,9 @@ public enum CommandType {
     CREATE_VOUCHER("2"),
     LIST_VOUCHER("3"),
     SELECT_VOUCHER("4"),
-    DELETE_ALL_VOUCHER("5"),
-    CREATE_CUSTOMER("6"),
-    BLACKS_CUSTOMER("7");
+    UPDATE_VOUCHER("5"),
+    DELETE_ALL_VOUCHER("6"),
+    CREATE_CUSTOMER("7");
 
     private final String commandType;
 

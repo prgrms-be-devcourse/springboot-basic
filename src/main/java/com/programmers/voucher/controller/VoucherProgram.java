@@ -47,8 +47,12 @@ public class VoucherProgram implements ApplicationRunner {
                         checkEmptyVoucher(voucherService.findAllVoucher());
                         break;
                     case SELECT_VOUCHER:
-                        Voucher voucher = voucherService.findById(getVoucherId());
-                        view.printVoucher(voucher);
+                        Voucher selected = voucherService.findById(getVoucherId());
+                        view.printVoucher(selected);
+                        break;
+                    case UPDATE_VOUCHER:
+                        Voucher updated = voucherService.update(getVoucherId(), getDiscountValue(), getVoucherType());
+                        view.printVoucher(updated);
                         break;
                     case DELETE_ALL_VOUCHER:
                         voucherService.deleteAll();
@@ -57,9 +61,6 @@ public class VoucherProgram implements ApplicationRunner {
                     case CREATE_CUSTOMER:
                         Customer customer = customerService.create(getCustomerDto());
                         view.printCustomer(customer);
-                        break;
-                    case BLACKS_CUSTOMER:
-                        checkEmptyBlack(customerService.findAllBlack());
                         break;
                 }
             } catch (IllegalArgumentException e) {
@@ -104,13 +105,5 @@ public class VoucherProgram implements ApplicationRunner {
         view.requestEmail();
         String email = view.getInput();
         return new CustomerDto(customerName, email);
-    }
-
-    private void checkEmptyBlack(List<Customer> blacks) {
-        if (blacks.isEmpty() || blacks.size() == 0) {
-            view.printEmptyBlacks();
-            return;
-        }
-        view.printBlacks(blacks);
     }
 }

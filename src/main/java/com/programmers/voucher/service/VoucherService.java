@@ -35,6 +35,13 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
+    public Voucher update(UUID voucherId, long discountValue, VoucherType voucherType) {
+        Voucher voucher = findById(voucherId);
+        voucher.setDiscountValue(discountValue);
+        voucherRepository.update(voucher, voucherType);
+        return findById(voucherId);
+    }
+
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
