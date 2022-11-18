@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/spring_order
+    username: root
+    password: dlrjsdn123
+
+file:
+  voucher:
+    path: ./src/main/resources/voucher_list.csv
+  blacklist:
+    path: ./src/main/resources/customer_blacklist.csv
+
+
+
