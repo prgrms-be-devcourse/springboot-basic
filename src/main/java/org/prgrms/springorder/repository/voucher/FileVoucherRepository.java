@@ -94,4 +94,9 @@ public class FileVoucherRepository implements VoucherRepository {
 		memory.remove(voucherId);
 	}
 
+	@Override
+	public void update(Voucher voucher) {
+		memory.replace(voucher.getVoucherId(), voucher);
+	}
+
 }
