@@ -5,36 +5,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.kdt.util.ValidatorUtil;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 class ValidatorUtilTest {
 
-    private final String FIXEDAMOUNTVOUCHER = "1";
-    private final String PERCENTDISCOUNTVOUCHER = "2";
-
-    @DisplayName("FixedAmountVoucher를 선택한 경우, 문자, 음수나 실수를 넣으면 예외가 발생")
+    @DisplayName("숫자가 아닌 값을 넣으면 false가 반환된다.")
     @ParameterizedTest
-    @ValueSource(strings = {
-            "10.4",
-            "-40",
-            "hi"
-    })
-    void 고정금액_할인정책_문자_음수_실수넣기(String discountAmount) {
-        //then
-        assertThrows(IllegalArgumentException.class,
-                () -> ValidatorUtil.validateVoucherTypeAndDiscountValue(FIXEDAMOUNTVOUCHER, discountAmount));
+    @ValueSource(strings = {"a", "c", "  "})
+    void 숫자_아닌_값넣기(String value) {
+        assertThat(ValidatorUtil.isNumeric(value), is(false));
     }
 
-    @DisplayName("PercentDiscountVoucher를 선택한 경우, 문자나 범위가 0과 같거나 더 적거나 100보다 큰 경우 예외 발생")
+    @DisplayName("숫자인 값을 넣으면 true가 반환된다.")
     @ParameterizedTest
-    @ValueSource(strings = {
-            "101",
-            "0",
-            "-10"
-    })
-    void 퍼센트_할인정책_문자_범위벗어난값_넣기(String discountAmount) {
-        //then
-        assertThrows(IllegalArgumentException.class,
-                () -> ValidatorUtil.validateVoucherTypeAndDiscountValue(PERCENTDISCOUNTVOUCHER, discountAmount));
+    @ValueSource(strings = {"1", "2.34", "-2"})
+    void 숫자_값넣기(String value) {
+        assertThat(ValidatorUtil.isNumeric(value), is(true));
     }
 }
