@@ -3,8 +3,6 @@ package org.prgrms.springorder.domain.voucher;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.cglib.core.Local;
-
 public abstract class Voucher {
 
 	private final UUID voucherId;

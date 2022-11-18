@@ -23,7 +23,6 @@ import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.FileLoadException;
 import org.prgrms.springorder.exception.FileSaveException;
-import org.prgrms.springorder.properties.BlackListProperties;
 import org.prgrms.springorder.properties.FileVoucherProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
