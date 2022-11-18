@@ -29,6 +29,8 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v5_7_latest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -293,6 +295,33 @@ class JdbcCustomerRepositoryTest {
         assertThat(resultChangeBothCustomer)
                 .usingRecursiveComparison()
                 .isEqualTo(afterChangeBothCustomer);
+    }
+
+    @Test
+    @DisplayName("이미 존재하는 이메일인 경우")
+    void existEmail() {
+        // given
+        Customer customer = makeCustomer(UUID.randomUUID(), "name", "email@google.com");
+        jdbcCustomerRepository.save(customer);
+
+        // when
+        boolean result = jdbcCustomerRepository.isPresent(customer.getEmail());
+
+        // then
+        assertTrue(result);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 이메일인 경우")
+    void notExistEmail() {
+        // given
+        Customer customer = makeCustomer(UUID.randomUUID(), "name", "email@google.com");
+
+        // when
+        boolean result = jdbcCustomerRepository.isPresent(customer.getEmail());
+
+        // then
+        assertFalse(result);
     }
 
     private Customer makeCustomer(UUID customerId, String name, String email) {

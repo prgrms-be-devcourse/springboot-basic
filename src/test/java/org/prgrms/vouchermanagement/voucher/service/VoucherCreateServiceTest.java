@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
+import org.prgrms.vouchermanagement.exception.customer.CustomerAlreadyExistException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
@@ -13,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class VoucherCreateServiceTest {
@@ -63,6 +65,20 @@ class VoucherCreateServiceTest {
         assertThat(voucher.getVoucherType()).isEqualTo(VoucherType.PERCENT_DISCOUNT);
         assertThat(voucher.getDiscountAmount()).isEqualTo(discountValue);
         assertThat(voucher.getCustomerId()).isEqualTo(customerId);
+    }
+
+    @Test
+    @DisplayName("Customer의 이메일이 이미 존재하는 경우")
+    void existCustomerEmail() {
+        // given
+        String email = "email@google.com";
+        when(customerRepository.findByEmail(email))
+                .thenThrow(CustomerAlreadyExistException.class);
+
+        // when, then
+        assertThrows(CustomerAlreadyExistException.class,
+                () -> voucherCreateService.createVoucher("1", 1000, email));
+        verify(customerRepository).findByEmail(email);
     }
 
 }
