@@ -10,11 +10,6 @@ class CustomerSql {
         WHERE email = :email
     """
 
-    public static final String SELECT_BY_ID = """
-        SELECT * FROM customer
-        WHERE customer_id = UUID_TO_BIN(:customerId)
-    """
-
     public static final String SELECT_ALL_BY_ID = """
         SELECT c.customer_id, c.name, c.email, c.create_at, c.last_login_at, v.voucher_id, r.voucher_type, r.voucher_value
         FROM customer c

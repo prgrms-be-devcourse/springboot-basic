@@ -1,6 +1,7 @@
 package com.programmers.wallet.repository;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.repository.sql.CustomerResultSetExtractor;
 import com.programmers.customer.repository.sql.CustomerRowMapper;
 import com.programmers.voucher.repository.sql.VoucherRowMapper;
 import com.programmers.voucher.voucher.Voucher;
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.customer.repository.DbCustomerRepository.CUSTOMER_ID;
-import static com.programmers.customer.repository.sql.CustomerSql.DELETE_ALL;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static com.programmers.voucher.repository.DbVoucherRepository.VOUCHER_ID;
@@ -26,6 +26,7 @@ public class DbWalletRepository implements WalletRepository {
     public static final String ASSIGN_AT = "assignAt";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Logger log = LoggerFactory.getLogger(DbWalletRepository.class);
+    private final CustomerResultSetExtractor resultSetExtractor;
     private final CustomerRowMapper customerRowMapper;
     private final VoucherRowMapper voucherRowMapper;
 
@@ -33,6 +34,7 @@ public class DbWalletRepository implements WalletRepository {
         this.jdbcTemplate = jdbcTemplate;
         this.customerRowMapper = new CustomerRowMapper();
         this.voucherRowMapper = new VoucherRowMapper();
+        this.resultSetExtractor = new CustomerResultSetExtractor(customerRowMapper, voucherRowMapper);
     }
 
     @Override
@@ -68,10 +70,10 @@ public class DbWalletRepository implements WalletRepository {
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         try {
             return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
+                    jdbcTemplate.query(
                             FIND_CUSTOMER_WITH_VOUCHER_ID,
                             Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()),
-                            customerRowMapper
+                            resultSetExtractor
                     )
             );
         } catch (DataAccessException e) {

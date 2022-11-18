@@ -2,16 +2,16 @@ package com.programmers.voucher.repository.sql
 
 class VoucherSql {
     public static final String FIND_VOUCHER_BY_ID = """
-        SELECT * FROM voucher v 
-        LEFT JOIN voucher_rule r 
+        SELECT v.voucher_id, r.voucher_type, r.voucher_value FROM voucher v 
+        INNER JOIN voucher_rule r 
         ON v.voucher_id = r.voucher_id
         WHERE v.voucher_id = UUID_TO_BIN(:voucherId)
     """
 
     public static final String FIND_ALL_VOUCHERS = """
-        SELECT * FROM voucher v 
-        left join voucher_rule r 
-        ON v.voucher_id = r.voucher_id
+        SELECT v.voucher_id, r.voucher_type, r.voucher_value FROM voucher v 
+        INNER join voucher_rule r 
+        ON v.voucher_id = r.voucher_id;
     """
 
     public static final String INSERT_VOUCHER = """
