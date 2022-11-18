@@ -1,16 +1,11 @@
 spring:
   config:
     activate:
-      on-profile: local
-file:
-  blacklist:
-    path: ./src/main/resources/customer_blacklist.csv
-
----
-spring:
-  config:
-    activate:
-      on-profile: file
+      on-profile: jdbc
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/spring_order
+    username: root
+    password: dlrjsdn123
 
 file:
   voucher:
@@ -18,14 +13,5 @@ file:
   blacklist:
     path: ./src/main/resources/customer_blacklist.csv
 
----
-spring:
-  config:
-    activate:
-      on-profile: jdbc
-  datasource:
-    url: jdbc:mysql://localhost:3306/devcourse_voucher
-    username: root
-    password: dlrjsdn123
 
 
