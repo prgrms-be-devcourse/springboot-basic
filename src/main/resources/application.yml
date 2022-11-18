@@ -2,8 +2,9 @@ spring:
   config:
     activate:
       on-profile: local
-filepath:
-  blacklist: ./src/main/resources/customer_blacklist.csv
+file:
+  blacklist:
+    path: ./src/main/resources/customer_blacklist.csv
 
 ---
 spring:
@@ -11,6 +12,15 @@ spring:
     activate:
       on-profile: file
 
-filepath:
-  voucher: ./src/main/resources/voucher_list.csv
-  blacklist: ./src/main/resources/customer_blacklist.csv
+file:
+  voucher:
+    path: ./src/main/resources/voucher_list.csv
+  blacklist:
+    path: ./src/main/resources/customer_blacklist.csv
+
+---
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+
