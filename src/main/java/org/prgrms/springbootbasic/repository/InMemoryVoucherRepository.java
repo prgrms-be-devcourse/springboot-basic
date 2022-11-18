@@ -1,7 +1,7 @@
 package org.prgrms.springbootbasic.repository;
 
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Repository
-@Primary
+@Profile("default")
 public class InMemoryVoucherRepository implements VoucherRepository {
     Map<UUID, Voucher> map = new ConcurrentHashMap<>();
 
