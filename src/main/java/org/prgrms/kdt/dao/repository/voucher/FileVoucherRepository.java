@@ -24,7 +24,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile({"dev", "test"})
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final List<Voucher> voucherRepository = new ArrayList<>();

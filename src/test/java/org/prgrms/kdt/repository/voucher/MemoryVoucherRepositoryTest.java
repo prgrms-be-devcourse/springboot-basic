@@ -16,8 +16,7 @@ class MemoryVoucherRepositoryTest {
 
     private static final String FIXED_TYPE = "FixedAmountVoucher";
     private static final String PERCENT_TYPE = "PercentDiscountVoucher";
-
-    VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    private static final VoucherRepository voucherRepository = new MemoryVoucherRepository();
 
     @BeforeEach
     void beforeEach() {
@@ -57,7 +56,7 @@ class MemoryVoucherRepositoryTest {
     void getAllStoredVoucher() {
         // given
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "1000", FIXED_TYPE));
-        voucherRepository.insert(new Voucher(UUID.randomUUID(), "2000", FIXED_TYPE));
+        voucherRepository.insert(new Voucher(UUID.randomUUID(), "50", PERCENT_TYPE));
         voucherRepository.insert(new Voucher(UUID.randomUUID(), "3000", FIXED_TYPE));
 
         // when
@@ -66,5 +65,4 @@ class MemoryVoucherRepositoryTest {
         // then
         assertThat(getVoucherCount, is(3));
     }
-
 }

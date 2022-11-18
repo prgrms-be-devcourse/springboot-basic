@@ -7,22 +7,17 @@ import org.prgrms.kdt.dao.entity.voucher.Voucher;
 import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
 import org.prgrms.kdt.dao.repository.voucher.FileVoucherRepository;
 import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-
-@SpringBootTest(classes = {FileVoucherRepository.class, VoucherFactory.class})
 class FileVoucherRepositoryTest {
 
     private static final String FIXED_TYPE = "FixedAmountVoucher";
     private static final String PERCENT_TYPE = "PercentDiscountVoucher";
-    @Autowired
-    private VoucherRepository voucherRepository;
+    private static final VoucherRepository voucherRepository = new FileVoucherRepository(new VoucherFactory(), "testFileReposiroty.txt");
 
     @BeforeEach
     void beforeEach() {
@@ -33,7 +28,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("저장된 바우처를 voucherId를 이용해 찾는 기능 검증")
     void voucherId_이용한_바우처찾기() {
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), "1000", FIXED_TYPE);
+        Voucher voucher = new Voucher(UUID.randomUUID(), "50", PERCENT_TYPE);
 
         // when
         voucherRepository.insert(voucher);

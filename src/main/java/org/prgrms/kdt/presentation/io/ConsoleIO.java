@@ -3,8 +3,6 @@ package org.prgrms.kdt.presentation.io;
 import org.prgrms.kdt.dao.entity.voucher.VoucherType;
 import org.prgrms.kdt.exception.io.WrongInputDataException;
 import org.prgrms.kdt.presentation.controller.CommandType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -15,9 +13,7 @@ import java.util.List;
 @Component
 public class ConsoleIO {
 
-    private static final Logger logger = LoggerFactory.getLogger(ConsoleIO.class);
     private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
 
     public String inputCommand() {
         try {
