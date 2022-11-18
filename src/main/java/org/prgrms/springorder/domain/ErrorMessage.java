@@ -5,8 +5,11 @@ public enum ErrorMessage {
 	NO_SUCH_VOUCHER_MESSAGE("""
 		No Such Voucher
 		"""),
-	No_SUCH_COMMAND_MESSAGE("""
+	NO_SUCH_COMMAND_MESSAGE("""
 		No Such Command
+		"""),
+	NO_SUCH_CUSTOMER_MESSAGE("""
+		No Such Customer
 		"""),
 	FILE_LOAD_FAIL_MESSAGE("""
 		File Load Failed
@@ -22,6 +25,9 @@ public enum ErrorMessage {
 		"""),
 	WRONG_PERCENT_MESSAGE("""
 		Percentage out of range
+		"""),
+	DATA_ACCESS_MESSAGE("""
+		Wrong data access
 		""");
 
 	private final String message;
