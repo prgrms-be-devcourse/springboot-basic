@@ -18,6 +18,8 @@ import java.util.List;
 
 import static org.prgrms.springbootbasic.type.MethodType.isCreateVoucher;
 import static org.prgrms.springbootbasic.type.MethodType.isLookupList;
+import static org.prgrms.springbootbasic.type.VoucherType.isFixed;
+import static org.prgrms.springbootbasic.type.VoucherType.isPercent;
 
 
 @Controller
@@ -66,7 +68,7 @@ public class VoucherController {
         String voucherTypeNumber;
         do {
             voucherTypeNumber = CommandLineInput.getInput(notificationProperties.getVoucherTypeChoice());
-        } while (VoucherType.isFixed(voucherTypeNumber) && VoucherType.isPercent(voucherTypeNumber));
+        } while (!isFixed(voucherTypeNumber) && !isPercent(voucherTypeNumber));
         return VoucherType.NumberToVoucherType(voucherTypeNumber);
     }
 }
