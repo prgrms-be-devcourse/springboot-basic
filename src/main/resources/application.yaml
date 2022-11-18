@@ -1,6 +1,7 @@
 notification:
   service: |
-    type enter to proceed
+    voucherService : 1
+    blackListManagementService : 2
     (type exist if you want to exist)
   voucherPrompt: |
     ==== Voucher Program ===
