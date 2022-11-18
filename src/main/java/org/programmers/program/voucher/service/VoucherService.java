@@ -11,5 +11,5 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 // @Service
-public class VoucherService {
+public interface VoucherService {
 }
