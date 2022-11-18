@@ -1,6 +1,5 @@
 package org.prgrms.kdt.customer;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,14 +25,14 @@ class JdbcCustomerManagerTest extends JdbcBase {
     @Test
     void saveTest() {
         // given
-        long customerId = 1L;
-        Customer customer = new Customer(customerId, "test1");
+        String customerName = "test1";
+        Customer customer = new Customer(customerName);
 
         // when
-        customerManager.save(customer);
+        Customer savedCustomer = customerManager.save(customer);
 
         // then
-        assertThat(customerManager.findById(customerId).isPresent())
+        assertThat(customerManager.findById(savedCustomer.getId()).isPresent())
                 .isTrue();
     }
 
@@ -41,35 +40,33 @@ class JdbcCustomerManagerTest extends JdbcBase {
     @Test
     void findAllTest() {
         // given
-        long customer1Id = 1L;
-        Customer customer1 = new Customer(customer1Id, "test12");
-        long customer2Id = 1L;
-        Customer customer2 = new Customer(customer2Id, "test2");
-        customerManager.save(customer1);
-        customerManager.save(customer2);
+        Customer customer1 = new Customer("test1");
+        Customer customer2 = new Customer("test2");
+        Customer savedCustomer1 = customerManager.save(customer1);
+        Customer savedCustomer2 = customerManager.save(customer2);
 
         // when
         List<Customer> actualCustomers = customerManager.findAll();
 
         // then
+
         assertThat(actualCustomers)
                 .usingRecursiveComparison()
-                .isEqualTo(List.of(customer1, customer2));
+                .isEqualTo(List.of(savedCustomer1, savedCustomer2));
     }
 
     @DisplayName("아이디로 고객의 정보를 조회할 수 있다.")
     @Test
     void findIdTest() {
         // given
-        long customerId = 1L;
-        Customer customer = new Customer(customerId, "test1");
-        customerManager.save(customer);
+        Customer customer = new Customer("test");
+        Customer savedCustomer = customerManager.save(customer);
 
         // when
-
+        Optional<Customer> actual = customerManager.findById(savedCustomer.getId());
 
         // then
-        assertThat(customerManager.findById(customerId).isPresent())
+        assertThat(actual.isPresent())
                 .isTrue();
     }
 
@@ -77,20 +74,19 @@ class JdbcCustomerManagerTest extends JdbcBase {
     @Test
     void updateTest() {
         // given
-        long customerId = 1L;
-        Customer customer = new Customer(customerId, "test1");
-        customerManager.save(customer);
-        Customer updatedCustomer = new Customer(customerId, "update");
+        Customer customer = new Customer("test1");
+        Customer savedCustomer = customerManager.save(customer);
+        Customer updatedCustomer = new Customer(savedCustomer.getId(), "update");
 
         // when
         customerManager.update(updatedCustomer);
+        Optional<Customer> actual = customerManager.findById(updatedCustomer.getId());
 
         // then
-        customerManager.findById(customerId).ifPresent(
-                actual -> assertThat(actual)
-                        .usingRecursiveComparison()
-                        .isEqualTo(updatedCustomer)
-        );
+        assertThat(actual)
+                .isPresent()
+                .map(Customer::getName)
+                .hasValue("update");
 
     }
 

@@ -24,10 +24,11 @@ public class FileVoucherManager implements VoucherManager {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         File vouchersCsv = loadFile();
 
         write(voucher, vouchersCsv);
+        return voucher;
     }
 
     private File loadFile() {

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface CustomerManager {
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
     List<Customer> findAll();
 

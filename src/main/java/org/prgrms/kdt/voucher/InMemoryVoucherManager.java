@@ -18,8 +18,9 @@ public class InMemoryVoucherManager implements VoucherManager {
     private final Map<Long, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
+        return voucher;
     }
 
     @Override
