@@ -27,6 +27,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String FIND_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
     private static final String FIND_BY_NAME_SQL = "SELECT * FROM customers WHERE name = :name";
     private static final String FIND_BY_EMAIL_SQL = "SELECT * FROM customers WHERE email = :email";
+    private static final String COUNT_SAME_EMAIL_SQL = "SELECT COUNT(*) FROM customers WHERE email = :email";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -36,6 +37,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 resultSet.getString("name"),
                 resultSet.getString("email"),
                 resultSet.getTimestamp("createdAt").toLocalDateTime());
+    };
+
+    private final RowMapper<Integer> countRowMapper = (resultSet, i) -> {
+        return resultSet.getInt(1);
     };
 
     @Autowired
@@ -98,7 +103,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public boolean isPresent(String email) {
-        return findByEmail(email).isPresent();
+        return jdbcTemplate.queryForObject(COUNT_SAME_EMAIL_SQL, Map.of("email", email), countRowMapper) > 0;
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
