@@ -82,10 +82,29 @@ public class FileVoucherManager implements VoucherManager {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        try {
+            new FileOutputStream(filePath).close();
+        } catch (IOException exception) {
+            logger.error(exception.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
     private static Voucher mapToVoucher(String line) {
         try {
             String[] tokens = line.split(DELIMITER);
-            return Voucher.getInstance(Long.parseLong(tokens[0]), VoucherType.of(tokens[1]), new VoucherAmount(tokens[2]));
+            return Voucher.from(Long.parseLong(tokens[0]), VoucherType.of(tokens[1]), new VoucherAmount(tokens[2]));
         } catch (ArrayIndexOutOfBoundsException exception) {
             throw new RuntimeException("Invalid File. Please write the file in following format. [Format]: Id, Type, Amount", exception);
         }

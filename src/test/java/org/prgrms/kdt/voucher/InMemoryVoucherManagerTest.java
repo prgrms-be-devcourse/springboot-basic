@@ -14,16 +14,25 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryVoucherManagerTest {
 
-    private VoucherManager voucherManager;
+    private VoucherManager voucherManager = new InMemoryVoucherManager();
 
     @BeforeEach
     void init() {
-        voucherManager = new InMemoryVoucherManager();
+        voucherManager.deleteAll();
     }
 
     @DisplayName("0보다 크거나 같은 값으로 저장될 수 있다.")
     @ParameterizedTest
-    @CsvSource(value = {"fixed, 10", "fixed, 1000", "fixed, 10000", "fixed, 0", "percent, 10", "percent, 20", "percent, 100", "percent, 0"})
+    @CsvSource(value = {
+            "fixed, 0",
+            "fixed, 10",
+            "fixed, 1000",
+            "fixed, 10000",
+            "percent, 0",
+            "percent, 10",
+            "percent, 100",
+            "percent, 20"
+    })
     void save(String type, String amount) {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
@@ -39,7 +48,13 @@ class InMemoryVoucherManagerTest {
 
     @DisplayName("유효하지 않은 값은 저장될 수 없다.")
     @ParameterizedTest
-    @CsvSource(value = {"fixed, 30.2", "fixed, -1", "percent, 10.21", "percent, -10", "percent, 105"})
+    @CsvSource(value = {
+            "fixed, 30.2",
+            "fixed, -1",
+            "percent, 10.21",
+            "percent, -10",
+            "percent, 105"
+    })
     void saveNumberFormatException(String type, String amount) {
         assertThrows(NumberFormatException.class, () -> Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount)));
     }

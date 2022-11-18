@@ -34,6 +34,20 @@ public class InMemoryVoucherManager implements VoucherManager {
         return Optional.ofNullable(vouchers.get(id));
     }
 
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
 
     private static Collector<Voucher, Object, List<Voucher>> getUnmodifiableListCollector() {
         return Collectors.collectingAndThen(

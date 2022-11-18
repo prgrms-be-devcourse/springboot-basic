@@ -1,6 +1,23 @@
 spring:
   profiles:
-    active: local
+    active: prod
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost/voucher_mgmt
+    username: root
+    password: root1234!
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
 
 voucher:
   file-path: src/main/resources/vouchers.csv

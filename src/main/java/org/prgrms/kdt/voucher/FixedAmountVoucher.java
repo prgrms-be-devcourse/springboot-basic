@@ -1,5 +1,8 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.customer.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class FixedAmountVoucher implements Voucher {
     private static final Long FIXED_AMOUNT_VOUCHER_MIN_VALUE = 0L;
     private static final VoucherType TYPE = VoucherType.FIXED;

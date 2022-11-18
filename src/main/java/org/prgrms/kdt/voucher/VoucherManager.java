@@ -9,4 +9,10 @@ public interface VoucherManager {
     List<Voucher> findAll();
 
     Optional<Voucher> findById(long id);
+
+    void deleteAll();
+
+    void update(Voucher voucher);
+
+    void deleteById(long voucherId);
 }

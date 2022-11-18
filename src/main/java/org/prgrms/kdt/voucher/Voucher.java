@@ -9,7 +9,7 @@ public interface Voucher {
         };
     }
 
-    static Voucher getInstance(long id, VoucherType type, VoucherAmount amount) {
+    static Voucher from(long id, VoucherType type, VoucherAmount amount) {
         return switch (type) {
             case FIXED -> new FixedAmountVoucher(id, amount);
             case PERCENT -> new PercentDiscountVoucher(id, amount);
@@ -21,6 +21,4 @@ public interface Voucher {
     VoucherType getType();
 
     VoucherAmount getAmount();
-
-
 }

@@ -19,23 +19,27 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileVoucherManagerTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherManagerTest.class);
     public static final String FILE_PATH = "src/test/resources/vouchers.csv";
     private VoucherManager voucherManager;
 
     @BeforeEach
     void init() {
-        try {
-            new FileOutputStream(FILE_PATH).close();
-        } catch (IOException exception) {
-            logger.error(exception.getMessage());
-        }
         voucherManager = new FileVoucherManager(FILE_PATH);
+        voucherManager.deleteAll();
     }
 
     @DisplayName("0보다 크거나 같은 값으로 저장될 수 있다.")
     @ParameterizedTest
-    @CsvSource(value = {"fixed, 10", "fixed, 1000", "fixed, 10000", "fixed, 0", "percent, 10", "percent, 20", "percent, 100", "percent, 0"})
+    @CsvSource(value = {
+            "fixed, 0",
+            "fixed, 10",
+            "fixed, 1000",
+            "fixed, 10000",
+            "percent, 0",
+            "percent, 10",
+            "percent, 100",
+            "percent, 20"
+    })
     void save(String type, String amount) {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
@@ -51,7 +55,13 @@ class FileVoucherManagerTest {
 
     @DisplayName("유효하지 않은 값은 저장될 수 없다.")
     @ParameterizedTest
-    @CsvSource(value = {"fixed, 30.2", "fixed, -1", "percent, 10.21", "percent, -10", "percent, 105"})
+    @CsvSource(value = {
+            "fixed, 30.2",
+            "fixed, -1",
+            "percent, 10.21",
+            "percent, -10",
+            "percent, 105"
+    })
     void saveNumberFormatException(String type, String amount) {
         assertThrows(NumberFormatException.class, () -> Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount)));
     }
@@ -60,8 +70,8 @@ class FileVoucherManagerTest {
     @DisplayName("파일에 저장된 바우처를 조회할 수 있다.")
     void findAll() {
         // given
-        Voucher voucher1 = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
-        Voucher voucher2 = Voucher.newInstance(VoucherType.of("percent"), new VoucherAmount("20"));
+        Voucher voucher1 = Voucher.from(1L, VoucherType.of("fixed"), new VoucherAmount("10"));
+        Voucher voucher2 = Voucher.from(2L, VoucherType.of("percent"), new VoucherAmount("20"));
         voucherManager.save(voucher1);
         voucherManager.save(voucher2);
 
@@ -70,10 +80,20 @@ class FileVoucherManagerTest {
 
         // then
         assertThat(actualVouchers)
-                .extracting(Voucher::getType, Voucher::getAmount)
-                .containsExactlyInAnyOrder(
-                        tuple(VoucherType.of("fixed"), new VoucherAmount("10")),
-                        tuple(VoucherType.of("percent"), new VoucherAmount("20"))
-                );
+                .usingRecursiveComparison()
+                .isEqualTo(List.of(voucher1, voucher2));
+    }
+
+    @Test
+    void findByIdTest() {
+        // given
+        Voucher voucher = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
+        voucherManager.save(voucher);
+
+        // when
+
+        // then
+        assertThat(voucherManager.findById(voucher.getId()).isPresent())
+                .isTrue();
     }
 }
