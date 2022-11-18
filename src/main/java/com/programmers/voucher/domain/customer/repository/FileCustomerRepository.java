@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +25,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 public class FileCustomerRepository implements CustomerRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
-	private static final List<Customer> customers = new ArrayList<>();
+	private static final Map<UUID, Customer> customers = new LinkedHashMap();
 	private static final String LINE_SEPARATOR = ", |: ";
 	private final String filePath;
 
@@ -33,7 +35,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAllBlacklist() {
-		return customers;
+		return new ArrayList<>(customers.values());
 	}
 
 	@PostConstruct
@@ -48,7 +50,7 @@ public class FileCustomerRepository implements CustomerRepository {
 				if (type.equals(CustomerType.BLACKLIST.name())) {
 					CustomerType customerType = CustomerType.getCustomerType(type);
 					Customer customer = new Customer(id, customerType);
-					customers.add(customer);
+					customers.put(id, customer);
 				}
 			}
 		} catch (IOException e) {

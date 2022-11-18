@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,7 +33,7 @@ import com.programmers.voucher.exception.VoucherNotFoundException;
 public class FileVoucherRepository implements VoucherRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
-	private static final Map<UUID, Voucher> vouchers = new HashMap<>();
+	private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
 	private static final String LINE_SEPARATOR = ", |: |%";
 	private final String filePath;
 
