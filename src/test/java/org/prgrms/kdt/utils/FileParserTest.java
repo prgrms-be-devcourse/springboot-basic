@@ -34,16 +34,16 @@ public class FileParserTest {
         String exceptionVoucherInfo = MessageFormat.format("{0}/FixedAmountVoucher/50000", exceptionVoucherId);
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(exceptionVoucherFilePath))) {
             bufferedWriter.write(exceptionVoucherInfo);
-            bufferedWriter.flush();
         } catch (IOException fileWriteException) {
             logger.error("테스트 파일 생성에 실패하였습니다.");
         }
     }
 
     @Test
-    @DisplayName("파일 내의 잘못된 내용이 있을 경우 예외를 반환한다.")
+    @DisplayName("파일을 이용하여 바우처 객체로 변환할 수 없는 경우 예외를 전달한다.")
     void testFileException() {
-        assertThrows(AmountException.class, () -> fileParser.getVoucherById(exceptionVoucherId));
+        assertThrows(AmountException.class,
+                () -> fileParser.getVoucherById(exceptionVoucherId));
     }
 
     @AfterAll

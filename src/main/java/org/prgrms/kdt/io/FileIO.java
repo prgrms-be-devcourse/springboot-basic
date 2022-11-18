@@ -36,7 +36,6 @@ public class FileIO {
         String filePath = MessageFormat.format("{0}{1}.txt", VOUCHER_FILE_DIRECTORY, voucher.getVoucherId());
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.write(getVoucherInfo(voucher));
-            bufferedWriter.flush();
         } catch (IOException fileWriteException) {
             logger.error("파일에 바우처를 저장하는 것을 실패하였습니다.", fileWriteException);
         }
