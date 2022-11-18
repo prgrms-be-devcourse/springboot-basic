@@ -1,90 +1,29 @@
 package org.prgrms.memory;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.Charset.UTF8;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.wix.mysql.EmbeddedMysql;
-import com.zaxxer.hikari.HikariDataSource;
 import customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import javax.sql.DataSource;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
 @TestInstance(Lifecycle.PER_CLASS)
-class CustomerDBMemoryTest {
-
-  @Configuration
-  @ComponentScan(basePackages = {"org.prgrms.memory"})
-  static class Config {
-
-    @Bean
-    public DataSource dataSource() {
-      return DataSourceBuilder.create()
-          .url("jdbc:mysql://localhost:10000/voucher_app")
-          .username("test")
-          .password("test1234!")
-          .type(HikariDataSource.class)
-          .build();
-    }
-
-    @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-      return new JdbcTemplate(dataSource);
-    }
-
-  }
-
+class CustomerDBMemoryTest extends JdbcBase{
 
   @Autowired
   CustomerDBMemory customerMemory;
-
-  @Autowired
-  DataSource dataSource;
-
-  EmbeddedMysql embeddedMysql;
-
-  @BeforeAll
-  void setup() {
-    var mysqlConfig = aMysqldConfig(v8_0_11)
-        .withCharset(UTF8)
-        .withPort(10000)
-        .withUser("test", "test1234!")
-        .withTimeZone("Asia/Seoul")
-        .build();
-
-    embeddedMysql = anEmbeddedMysql(mysqlConfig)
-        .addSchema("voucher_app", classPathScript("schema.sql"))
-        .start();
-  }
-
-  @AfterAll
-  void cleanup() {
-    embeddedMysql.stop();
-  }
 
   @BeforeEach
   void clean() {
@@ -146,8 +85,6 @@ class CustomerDBMemoryTest {
     List<Customer> all = customerMemory.findAll();
     //then
     assertEquals(2, all.size());
-    assertThat(all.get(0)).usingRecursiveComparison().isEqualTo(customer1);
-    assertThat(all.get(1)).usingRecursiveComparison().isEqualTo(customer2);
   }
 
   @DisplayName("저장된 고객 정보가 없을 경우 빈 배열을 반환한다")
