@@ -1,3 +1,13 @@
+
+spring:
+  profiles:
+    active: prod
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: surin1119
+
+---
 spring:
   profiles:
     active: dev
