@@ -2,6 +2,7 @@ package org.prgrms.springorder.service;
 
 import static org.mockito.BDDMockito.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -49,7 +50,7 @@ class VoucherServiceTest {
 		VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 		double value = 50;
 
-		FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), value);
+		FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), value, LocalDateTime.now());
 
 		when(VoucherFactory.createVoucher(voucherType, value))
 			.thenReturn(fixedAmountVoucher);
@@ -71,8 +72,8 @@ class VoucherServiceTest {
 
 		//given
 		List<Voucher> voucherList = new ArrayList<>();
-		FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50);
-		PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 40);
+		FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50, LocalDateTime.now());
+		PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 40,LocalDateTime.now());
 		voucherList.add(fixedAmountVoucher);
 		voucherList.add(percentDiscountVoucher);
 

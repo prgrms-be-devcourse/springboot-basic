@@ -1,5 +1,6 @@
 package org.prgrms.springorder.repository.voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +27,7 @@ class InMemoryVoucherRepositoryTest {
 	void test1() {
 		//given
 		UUID uuid = UUID.randomUUID();
-		Voucher voucher = new FixedAmountVoucher(uuid, 1500);
+		Voucher voucher = new FixedAmountVoucher(uuid, 1500,LocalDateTime.now());
 		//when
 		inMemoryVoucherRepository.save(voucher);
 		Optional<Voucher> savedVoucher = inMemoryVoucherRepository.findById(uuid);
@@ -42,9 +43,9 @@ class InMemoryVoucherRepositoryTest {
 		int expectSize = 4;
 		for (int i = 0; i < 4; i++) {
 			if (i % 2 == 0) {
-				inMemoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 50));
+				inMemoryVoucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 50, LocalDateTime.now()));
 			} else {
-				inMemoryVoucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 50));
+				inMemoryVoucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now()));
 			}
 		}
 		//when
