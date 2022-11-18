@@ -1,6 +1,6 @@
 package org.prgrms.voucher.voucherType;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +12,7 @@ class PercentDiscountVoucherTest {
   @Test
   void testDiscount() {
     //given
-    String givenDiscountRate = "30";
+    long givenDiscountRate = 30L;
     PercentDiscountVoucher percentDiscountVoucher= new PercentDiscountVoucher(UUID.randomUUID(),
         new DiscountRate(givenDiscountRate));
     //when
