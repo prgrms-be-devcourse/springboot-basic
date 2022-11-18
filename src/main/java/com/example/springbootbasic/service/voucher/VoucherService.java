@@ -1,6 +1,7 @@
 package com.example.springbootbasic.service.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
+import com.example.springbootbasic.domain.voucher.VoucherType;
 import com.example.springbootbasic.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +29,23 @@ public class VoucherService {
         return voucherRepository.findAllVouchers();
     }
 
+    public List<Voucher> findAllVoucherByVoucherType(VoucherType voucherType) {
+        logger.info("Success - findAllVoucherByVoucherType, voucherType =  {}", voucherType);
+        return voucherRepository.findAllVouchersByVoucherType(voucherType);
+    }
+
+    public Voucher update(Voucher voucher) {
+        logger.info("Success - update : {}", voucher.toString());
+        return voucherRepository.update(voucher);
+    }
+
     public void deleteAllVouchers() {
         logger.info("Success - deleteAllVouchers");
         voucherRepository.deleteAll();
+    }
+
+    public void deleteVouchersByVoucherType(VoucherType voucherType) {
+        logger.error("Success - deleteVouchersByVoucherType");
+        voucherRepository.deleteVouchersByVoucherType(voucherType);
     }
 }
