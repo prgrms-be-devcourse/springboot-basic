@@ -23,10 +23,10 @@ public class VoucherProvider {
     public void create(VoucherType voucherType, int amount) {
         switch (voucherType) {
             case FIXED_VOUCHER -> {
-                voucherStorage.save(new FixedAmountVoucher(UUID.randomUUID(), amount));
+                voucherStorage.save(new FixedAmountVoucher(UUID.randomUUID().toString(), amount));
             }
             case PERCENT_VOUCHER -> {
-                voucherStorage.save(new PercentDiscountVoucher(UUID.randomUUID(), amount));
+                voucherStorage.save(new PercentDiscountVoucher(UUID.randomUUID().toString(), amount));
             }
             default -> {
                 throw new InvalidITypeInputException(getSelectWrongMessage());
@@ -34,7 +34,7 @@ public class VoucherProvider {
         }
     }
 
-    public static Voucher getVoucher(VoucherType voucherType, UUID voucherId, int amount) {
+    public static Voucher getVoucher(VoucherType voucherType, String voucherId, int amount) {
         switch (voucherType) {
             case FIXED_VOUCHER -> {
                 return new FixedAmountVoucher(voucherId, amount);

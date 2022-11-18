@@ -1,54 +1,46 @@
 package org.prgrms.kdt.io;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.kdt.exceptions.AmountException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.text.MessageFormat;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IOManagerTest {
 
-    private Console console;
     private IOManager ioManager;
 
-    private static final Logger logger = LoggerFactory.getLogger(IOManagerTest.class);
 
-
-    private void createIOManager(String input) {
-        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
-        System.setIn(inputStream);
-        console = new Console();
-        ioManager = new IOManager(console);
-    }
-
-    @DisplayName("할인 정도로는 정수를 입력받는다.")
+    @DisplayName("amount는 정수만 입력받는다.")
     @ParameterizedTest
-    @ValueSource(strings = {"0", "30", "100", "-100", "1234f", "5678d"})
+    @ValueSource(strings = {"0", "-100", "30", "100", "1234", "5678"})
     void getAmountInputTest(String input) {
         // given
-        createIOManager(input);
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+        IOManager ioManager = new IOManager(new Console());
+
         //when
         int amount = ioManager.getAmountInput();
-        logger.info(MessageFormat.format("amount -> {0}", amount));
+
         //then
         assertEquals(Integer.parseInt(input), amount);
     }
 
-    @DisplayName("할인 정도는 숫자만을 받을 수 있다.")
+    @DisplayName("amount는 0보다 큰 정수가 아닌 값을 받을 경우 예외를 반환한다.")
     @ParameterizedTest
     @ValueSource(strings = {"a", "1234p", "asdf", "five"})
     void getInvalidAmountInputTest(String input) {
-        createIOManager(input);
-        assertThrows(AmountException.class, () -> {
-            ioManager.getAmountInput();
-        });
-        logger.info(MessageFormat.format("input -> {0}", input));
+        InputStream inputStream = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inputStream);
+        IOManager ioManager = new IOManager(new Console());
+
+        assertThrows(AmountException.class, ioManager::getAmountInput);
     }
 }

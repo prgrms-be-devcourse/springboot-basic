@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public class CustomerJdbcStorage implements CustomerStorage{
@@ -28,7 +27,7 @@ public class CustomerJdbcStorage implements CustomerStorage{
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
-        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
+        String customerId = resultSet.getString("customer_id");
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customerId, customerName, email, createdAt);
     };

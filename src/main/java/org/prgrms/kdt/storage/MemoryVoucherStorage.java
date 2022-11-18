@@ -10,7 +10,7 @@ import java.util.*;
 @Profile({"dev", "default"})
 public class MemoryVoucherStorage implements VoucherStorage {
 
-    private final Map<UUID, Voucher> memoryVoucherStorage = new HashMap<>();
+    private final Map<String, Voucher> memoryVoucherStorage = new HashMap<>();
 
     @Override
     public void save(Voucher voucher) {
@@ -25,7 +25,12 @@ public class MemoryVoucherStorage implements VoucherStorage {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(String voucherId) {
         return Optional.ofNullable(memoryVoucherStorage.get(voucherId));
+    }
+
+    @Override
+    public void deleteById(String voucherId) {
+
     }
 }

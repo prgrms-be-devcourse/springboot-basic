@@ -9,9 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherProvider.getVoucher;
 
@@ -51,7 +49,7 @@ public class FileParser {
         return voucherInfo;
     }
 
-    public List<String> getVoucherIdList(){
+    public List<String> getFileList(){
         List<String> rowVoucherList = fileIO.readFileList();
         return rowVoucherList.stream()
                 .map(voucher -> voucher
@@ -68,7 +66,7 @@ public class FileParser {
                 logger.error("[숫자 변환 예외 발생] 예외 발생 바우처 -> {}", readVoucherInfo, amountException);
             }
         });
-        if(voucherList.size() != getVoucherIdList().size()){
+        if(voucherList.size() != getFileList().size()){
             throw new RuntimeException(FIND_ALL_EXCEPTION);
         }
         return voucherList;
@@ -80,23 +78,21 @@ public class FileParser {
     }
 
     private List<String> getAllVoucherInfo(){
-        List<String> voucherIds = getVoucherIdList();
+        List<String> voucherIds = getFileList();
         return voucherIds.stream()
                 .map(fileIO::read)
                 .toList();
     }
 
     private Voucher createVoucher(String voucherInfo) {
-        List<String> info = Arrays.stream(
-                        voucherInfo.split(VOUCHER_INFO_SPLIT_STANDARD))
-                .toList();
+        List<String> info = List.of(
+                        voucherInfo.split(VOUCHER_INFO_SPLIT_STANDARD));
 
         if(info.size() != VOUCHER_INFO_LIST_SIZE){
             throw new RuntimeException(FAIL_CREATE_VOUCHER);
         }
 
-        UUID voucherId = UUID.fromString(
-                info.get(VOUCHER_ID_INDEX));
+        String voucherId = info.get(VOUCHER_ID_INDEX);
         String className = info.get(VOUCHER_CLASS_NAME_INDEX);
         int amount = parseAmount(info.get(VOUCHER_AMOUNT_INDEX));
 

@@ -22,41 +22,52 @@ class FileVoucherStorageTest {
     private final VoucherStorage voucherStorage = new FileVoucherStorage(fileParser);
 
     @Test
-    @DisplayName("파일에 바우처를 저장할 수 있다.")
+    @DisplayName("파일에 두 가지 타입의 바우처를 모두 저장할 수 있다.")
     void testSave() {
         // given
-        Voucher fixedAmountVoucher = createFixedAmountVoucher();
-        Voucher percentAmountVoucher = createPercentDiscountVoucher();
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID().toString(), 1000);
+        Voucher percentAmountVoucher = new PercentDiscountVoucher(UUID.randomUUID().toString(), 50);
+
         // when
         voucherStorage.save(fixedAmountVoucher);
         voucherStorage.save(percentAmountVoucher);
-        // then
-        assertThat(voucherStorage.findById(
-                        fixedAmountVoucher.getVoucherId())
-                .get())
-                .usingRecursiveComparison()
-                .isEqualTo(fixedAmountVoucher);
 
-        assertThat(voucherStorage.findById(
-                        fixedAmountVoucher.getVoucherId())
-                .get())
-                .usingRecursiveComparison()
-                .isEqualTo(fixedAmountVoucher);
+        // then
+        voucherStorage.findById(fixedAmountVoucher.getVoucherId())
+                        .ifPresent(findVoucher ->
+                                assertThat(findVoucher).usingRecursiveComparison()
+                                        .isEqualTo(fixedAmountVoucher));
+
+        voucherStorage.findById(percentAmountVoucher.getVoucherId())
+                .ifPresent(findVoucher ->
+                        assertThat(findVoucher).usingRecursiveComparison()
+                                .isEqualTo(percentAmountVoucher));
     }
 
     @Test
-    @DisplayName("파일에 저장된 바우처 정보를 모두 불러올 수 있다.")
+    @DisplayName("파일로 저장된 바우처 정보들을 모두 불러올 수 있다.")
     void testFindAllVoucher() {
+        // given
+        List<String> voucherIds = fileParser.getFileList();
+
+        // when
         List<Voucher> vouchers = voucherStorage.findAll();
-        List<String> readVouchers = fileParser.getVoucherIdList();
-        assertEquals(readVouchers.size(), vouchers.size());
+
+        // then
+        assertEquals(voucherIds.size(), vouchers.size());
     }
 
-    private Voucher createFixedAmountVoucher() {
-        return new FixedAmountVoucher(UUID.randomUUID(), 1000);
-    }
+    @Test
+    @DisplayName("바우처 Id를 이용하여 바우처를 삭제할 수 있다.")
+    void testDeleteById(){
+        // given
+        String newVoucherId = UUID.randomUUID().toString();
+        voucherStorage.save(new PercentDiscountVoucher(newVoucherId, 20));
 
-    private Voucher createPercentDiscountVoucher() {
-        return new PercentDiscountVoucher(UUID.randomUUID(), 50);
+        // when
+        voucherStorage.deleteById(newVoucherId);
+
+        // then
+        assertFalse(fileParser.getFileList().contains(newVoucherId));
     }
 }

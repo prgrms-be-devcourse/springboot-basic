@@ -49,7 +49,7 @@ public class CustomerJdbcStorageTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
     }
@@ -60,16 +60,14 @@ public class CustomerJdbcStorageTest {
     @Autowired
     DataSource dataSource;
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
 
     Customer customer;
-    UUID customerId;
+    String customerId;
     EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setup(){
-        customerId = UUID.randomUUID();
+    void setup() {
+        customerId = UUID.randomUUID().toString();
         customer = new Customer(customerId, "user1", "user1@gmail.com");
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
@@ -85,45 +83,43 @@ public class CustomerJdbcStorageTest {
     }
 
     @AfterAll
-    void cleanup(){
+    void cleanup() {
         embeddedMysql.stop();
     }
 
     @Test
     @DisplayName("고객을 새로 추가할 수 있다.")
-    void test1(){
+    void test1() {
         // given
-        UUID newCustomerId = UUID.randomUUID();
+        String newCustomerId = UUID.randomUUID().toString();
         Customer newCustomer = new Customer(newCustomerId, "new-user", "new-user@gmail.com");
 
         // when
         customerJdbcStorage.insert(newCustomer);
 
-        // then
-        Customer c = customerJdbcStorage.findById(newCustomerId.toString()).get();
-
-        assertThat(c).usingRecursiveComparison()
-                .isEqualTo(newCustomer);
+        customerJdbcStorage.findById(newCustomerId)
+                .ifPresent(findCustomer ->
+                        assertThat(newCustomer).usingRecursiveComparison()
+                                .isEqualTo(findCustomer));
     }
 
     @Test
     @DisplayName("고객의 아이디를 통해 특정 고객을 조회할 수 있다.")
-    void test2(){
+    void test2() {
         // given
         String customerId = customer.getCustomerId();
 
-        // when
-        Customer findCustomer = customerJdbcStorage.findById(customerId).get();
-
         // then
-        assertThat(customer).usingRecursiveComparison()
-                .isEqualTo(findCustomer);
+        customerJdbcStorage.findById(customerId)
+                .ifPresent(findCustomer ->
+                        assertThat(customer).usingRecursiveComparison()
+                                .isEqualTo(findCustomer));
 
     }
 
     @Test
     @DisplayName("모든 고객을 조회할 수 있다.")
-    void test3(){
+    void test3() {
         // when
         List<Customer> allCustomer = customerJdbcStorage.findAll();
 
@@ -133,9 +129,9 @@ public class CustomerJdbcStorageTest {
 
     @Test
     @DisplayName("고객 아이디를 활용하여 특정 고객을 저장소에서 삭제할 수 있다.")
-    void tes4t(){
+    void tes4t() {
         // given
-        UUID id = UUID.randomUUID();
+        String id = UUID.randomUUID().toString();
         Customer deleteCustomer = new Customer(id, "delete-user", "delete-user@gmail.com");
 
         customerJdbcStorage.insert(deleteCustomer);
@@ -144,12 +140,13 @@ public class CustomerJdbcStorageTest {
         customerJdbcStorage.deleteCustomerById(deleteCustomer.getCustomerId());
 
         // then
-        assertEquals(Optional.empty(), customerJdbcStorage.findById(deleteCustomer.getCustomerId()));
+        assertEquals(Optional.empty(),
+                customerJdbcStorage.findById(deleteCustomer.getCustomerId()));
     }
 
     @Test
     @DisplayName("고객의 이름을 수정할 수 있다.")
-    void test6(){
+    void test6() {
         // given
         String name = "new-name";
         customer.changeName(name);
@@ -158,8 +155,8 @@ public class CustomerJdbcStorageTest {
         customerJdbcStorage.update(customer);
 
         // then
-        Customer getCustomer = customerJdbcStorage.findById(customer.getCustomerId()).get();
-        assertThat(customer).usingRecursiveComparison()
-                .isEqualTo(getCustomer);
+        customerJdbcStorage.findById(customer.getCustomerId())
+                .ifPresent(getCustomer -> assertThat(customer).usingRecursiveComparison()
+                        .isEqualTo(getCustomer));
     }
 }
