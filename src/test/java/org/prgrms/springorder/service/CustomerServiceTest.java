@@ -45,7 +45,7 @@ class CustomerServiceTest {
 		when(fileBlackListRepository.findAll()).thenReturn(customerList);
 
 		//when
-		List<String> blackList = blackListService.findAll();
+		List<String> blackList = blackListService.getBlackList();
 
 		//then
 		Assertions.assertNotNull(blackList);
