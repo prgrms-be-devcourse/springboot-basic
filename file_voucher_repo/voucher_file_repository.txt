@@ -1,0 +1,2 @@
+c9e8afb4-2dc0-4e6a-95e1-d53eb34bced8 Percent_discount 33
+0edfd1b4-c21f-4a06-9533-9aa2afd98b81 Fixed_amount 11
