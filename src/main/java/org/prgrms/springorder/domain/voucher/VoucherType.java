@@ -45,4 +45,7 @@ public enum VoucherType {
 		return message;
 	}
 
+	public String getName() {
+		return name;
+	}
 }
