@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.example.springbootbasic.exception.voucher.JdbcVoucherRepositoryExceptionMessage.VOUCHER_TYPE_NULL_EXCEPTION;
 import static com.example.springbootbasic.repository.voucher.JdbcVoucherSql.*;
 
 @Repository
@@ -33,6 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
+            put("voucherId", voucher.getVoucherId());
             put("voucherType", voucher.getVoucherType().getVoucherType());
             put("voucherDiscountValue", voucher.getDiscountValue());
         }};
@@ -68,11 +70,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAllVouchersByVoucherType(VoucherType type) {
         try {
+            validateVoucherTypeNull(type);
             return jdbcTemplate.query(SELECT_ALL_VOUCHERS_BY_TYPE_SQL.getSql(),
                     Collections.singletonMap("voucherType", type.getVoucherType()), voucherRowMapper);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
+        }
+    }
+
+    private static void validateVoucherTypeNull(VoucherType type) {
+        if (type == null) {
+            throw new IllegalArgumentException(VOUCHER_TYPE_NULL_EXCEPTION.getMessage());
         }
     }
 
