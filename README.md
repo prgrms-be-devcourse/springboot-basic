@@ -1,13 +1,15 @@
-#  SpringBoot Part1 Weekly Mission
+# SpringBoot Part1 Weekly Mission
 
 ## (기본) **바우처 관리 애플리케이션**
 
-- [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜 본다.
+- [x]  Maven / Gradle 로 프로젝트를 실제로 구성하고 이때 Spring Boot CLI를 개발PC에 설치해서 명령어들을 사용해보고 프로젝트를 만든다. 그리고 IDE (IntelliJ)에서 실행시켜
+  본다.
 - [x]  바우처 관리 Command-line Application을 만들어본다.
-    -
-    참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
-    - [x]  스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
-    - [x]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
+-
+
+참고: [https://dzone.com/articles/interactive-console-applications-in-java](https://dzone.com/articles/interactive-console-applications-in-java)
+- [x]  스프링부트 애플리케이션으로 만든다. (Web기능이 없이만듭니다. 즉, 서버가 띄지 않고 커맨드라인 애플리케이션으로 동작해야한다.)
+- [x]  프로그램이 시작하면 다음과 같이 지원가능한 명령어를 알려준다.
 
   ```bash
   === Voucher Program ===
@@ -67,3 +69,42 @@
 - [x] customer_blacklist.csv 파일을 만들고 스프링 애플리케이션에서 해당 파일을 읽을 수 있고
   블랙 리스트조회 할 수있다 (추가할 필요는 없어요. 블랙리스트는 파일로만 관리된다고 가정합니다.)
 - [x]  YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해본다.
+
+# SpringBoot Part2 Weekly Mission
+
+## (기본) 바우처 관리 애플리케이션 (database 프로파일에서 동작)
+
+### 단위 테스트
+
+- [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+    - [ ] 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+    - [ ] 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+    - ~~Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.~~ -> AssertJ 이용
+
+### Customer
+
+- [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+    - [ ] customers 테이블 정의 및 추가
+        - [ ] (콘솔) customer의 name을 입력
+            - [ ] 입력 받은 name을 DB에서 조회
+            - [ ] name 이 DB에 존재하지 않으면 자동으로 생성
+    - [ ] CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+        - [ ] 입력받은 name 저장 (primary key 는 auto generated key를 사용)
+
+### 바우처를 DB로 관리
+
+- [ ]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+    - [ ]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - [ ]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - [ ]  기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+        - [ ]  Create: save (insert)
+        - [ ]  Read: findById, findAll
+        - [ ]  Update: update
+        - [ ]  Delete: deleteAll, deleteById
+
+## (심화) 바우처 지갑을 만들어보세요.
+
+- [ ] 특정 고객에게 바우처를 할당할 수 있습니다.
+- [ ] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+- [ ] 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+- [ ] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
