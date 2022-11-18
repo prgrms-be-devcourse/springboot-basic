@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 import org.prgrms.exception.NoSuchVoucherTypeException;
 import org.prgrms.voucher.voucherType.Voucher;
-import org.prgrms.voucher.voucherType.VoucherTypePool;
+import org.prgrms.voucher.voucherType.VoucherType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,8 @@ public class Console {
       === Voucher Program ===
       Type exit to exit the program.
       Type create to create a new voucher.
-      Type list to list all vouchers.""";
+      Type list to list all vouchers.
+      Type black to search the customer blacklist""";
   private final static String CHOOSE_VOUCHER_TYPE = """
       === Please select a voucher type(numbers only) ===
       1.FixedAmountVoucher
@@ -41,7 +42,7 @@ public class Console {
     return scanner.nextLine();
   }
 
-  public String enteredAmount(VoucherTypePool voucherType) {
+  public String enteredAmount(VoucherType voucherType) {
     switch (voucherType) {
       case FIXED -> System.out.println(ENTER_DISCOUNT_AMOUNT);
       case PERCENT -> System.out.println(ENTER_DISCOUNT_RATE);
@@ -60,5 +61,9 @@ public class Console {
 
   public void printErrorMsg(String error) {
     System.out.println(error);
+  }
+
+  public void printBlackList(List<String> blacklist) {
+    blacklist.forEach(System.out::println);
   }
 }
