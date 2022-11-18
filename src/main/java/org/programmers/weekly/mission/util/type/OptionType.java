@@ -15,6 +15,7 @@ public enum OptionType {
     }
 
     public static Optional<OptionType> checkType(String input) {
+        // stream 변경
         for (OptionType optionType : OptionType.values()) {
             if (optionType.option.equalsIgnoreCase(input)) return Optional.of(optionType);
         }

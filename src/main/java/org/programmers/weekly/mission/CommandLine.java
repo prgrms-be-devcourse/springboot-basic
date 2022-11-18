@@ -32,6 +32,7 @@ public class CommandLine implements Runnable {
 
     @Override
     public void run() {
+        // isRunnable 필드 -> 변수
         while (isRunnable) {
             switch (selectOptionType()) {
                 case CREATE -> createVoucher();

@@ -13,6 +13,7 @@ public enum VoucherType {
     }
 
     public static Optional<VoucherType> checkVoucherType(String input) {
+        // stream 사용
         for (VoucherType voucherType : VoucherType.values()) {
             if (voucherType.voucher.equalsIgnoreCase(input)) return Optional.of(voucherType);
         }
