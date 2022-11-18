@@ -8,14 +8,14 @@ import java.util.List;
 import static org.prgrms.springbootbasic.type.MethodType.CREATE;
 import static org.prgrms.springbootbasic.type.MethodType.LOOKUP;
 
-public class Response<T> {
+public class Response {
     public static final String DOES_NOT_EXIST = "does not exist";
     public static final String GENERATED = "is generated";
     public static final String EXIST = "exist";
     private final MethodType methodType;
-    private final List<T> list;
+    private final List<?> list;
 
-    public Response(MethodType methodType, List<T> list) {
+    public Response(MethodType methodType, List<?> list) {
         this.methodType = methodType;
         this.list = list;
     }
