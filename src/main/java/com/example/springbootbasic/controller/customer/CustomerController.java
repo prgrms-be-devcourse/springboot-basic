@@ -22,9 +22,9 @@ public class CustomerController {
     }
 
     public ResponseBody<List<CustomerDto>> selectAllBlackCustomers() {
-        List<Customer> findAllBlackCustomers = Collections.emptyList();
+        List<Customer> findAllBlackCustomers;
         try {
-            findAllBlackCustomers = customerService.findAllBlackCustomers();
+            findAllBlackCustomers = customerService.findAllCustomers();
         } catch (NullPointerException e) {
             logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(Collections.emptyList());

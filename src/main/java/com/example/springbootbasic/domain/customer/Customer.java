@@ -2,7 +2,7 @@ package com.example.springbootbasic.domain.customer;
 
 public class Customer {
     private final long customerId;
-    private CustomerStatus status;
+    private final CustomerStatus status;
 
     public Customer(long customerId, CustomerStatus status) {
         this.customerId = customerId;
@@ -20,4 +20,6 @@ public class Customer {
     public boolean isBlack() {
         return status.isBlack();
     }
+
+    public boolean isNormal() { return status.isNormal(); }
 }
