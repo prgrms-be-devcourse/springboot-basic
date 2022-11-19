@@ -1,4 +1,4 @@
-package com.programmers.devcoursevoucher;
+package com.programmers.voucher;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

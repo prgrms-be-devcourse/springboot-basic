@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.programmers.devcourse-voucher' is invalid and this project uses 'com.programmers.devcoursevoucher' instead.
+* The original package name 'com.programmers.devcourse-voucher' is invalid and this project uses 'com.programmers.voucher' instead.
 
 # Getting Started
 
