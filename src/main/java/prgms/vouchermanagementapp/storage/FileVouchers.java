@@ -3,10 +3,10 @@ package prgms.vouchermanagementapp.storage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
+import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.io.FileManager;
 import prgms.vouchermanagementapp.storage.model.FileVoucherRecord;
 import prgms.vouchermanagementapp.storage.model.VoucherRecord;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.io.File;
 

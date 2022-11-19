@@ -2,21 +2,21 @@ package prgms.vouchermanagementapp.io;
 
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
-import prgms.vouchermanagementapp.io.model.Amount;
-import prgms.vouchermanagementapp.io.model.Ratio;
+import prgms.vouchermanagementapp.domain.model.Amount;
+import prgms.vouchermanagementapp.domain.model.Ratio;
 import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 
 import java.util.Optional;
 
 @Component
-public class IOManager {
+public class IoManager {
 
     private final Reader reader;
     private final Writer writer;
     private final FileManager fileManager;
     private final FileConfig fileConfig;
 
-    public IOManager(Reader reader, Writer writer, FileManager fileManager, FileConfig fileConfig) {
+    public IoManager(Reader reader, Writer writer, FileManager fileManager, FileConfig fileConfig) {
         this.reader = reader;
         this.writer = writer;
         this.fileManager = fileManager;

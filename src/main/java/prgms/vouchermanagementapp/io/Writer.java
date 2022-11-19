@@ -1,11 +1,11 @@
 package prgms.vouchermanagementapp.io;
 
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.storage.model.FileVoucherRecord;
 import prgms.vouchermanagementapp.storage.model.MemoryVoucherRecord;
 import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 import prgms.vouchermanagementapp.voucher.VoucherType;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.customer;
+package prgms.vouchermanagementapp.domain;
 
 public class Customer {
 

@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.io.model;
+package prgms.vouchermanagementapp.domain.model;
 
 import java.util.Objects;
 

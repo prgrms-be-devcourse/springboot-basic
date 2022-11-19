@@ -2,6 +2,7 @@ package prgms.vouchermanagementapp.io.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import prgms.vouchermanagementapp.domain.model.Amount;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

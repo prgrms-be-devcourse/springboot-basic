@@ -1,5 +1,6 @@
 package prgms.vouchermanagementapp.customer;
 
+import prgms.vouchermanagementapp.domain.Customer;
 import prgms.vouchermanagementapp.storage.Customers;
 
 import java.util.Optional;

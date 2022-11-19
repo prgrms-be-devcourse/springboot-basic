@@ -7,10 +7,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Profile;
 import prgms.vouchermanagementapp.VoucherManagementApp;
-import prgms.vouchermanagementapp.io.model.Ratio;
+import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.domain.model.Ratio;
 import prgms.vouchermanagementapp.storage.Vouchers;
 import prgms.vouchermanagementapp.voucher.VoucherCreationFactory;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
 
 import java.io.File;
 

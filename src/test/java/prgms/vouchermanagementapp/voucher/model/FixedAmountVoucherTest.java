@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import prgms.vouchermanagementapp.VoucherManagementApp;
-import prgms.vouchermanagementapp.io.model.Amount;
+import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.domain.model.Amount;
 import prgms.vouchermanagementapp.voucher.VoucherCreationFactory;
 
 class FixedAmountVoucherTest {
