@@ -23,6 +23,15 @@ create table if not exists vouchers_demo
     FOREIGN KEY (voucher_type) REFERENCES voucher_type (id) ON UPDATE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS wallet
+(
+    voucher_id  BINARY(16) NOT NULL,
+    customer_id BINARY(16) NOT NULL,
+    PRIMARY KEY (voucher_id, customer_id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers_demo (voucher_id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers_demo (customer_id) ON DELETE CASCADE
+);
+
 INSERT INTO voucher_type (voucher_type)
 VALUES ('FIXED');
 INSERT INTO voucher_type (voucher_type)
