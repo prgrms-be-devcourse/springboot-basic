@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.domain.voucher.model;
 
+import org.programmers.springbootbasic.data.VoucherType;
 import org.programmers.springbootbasic.exception.WrongRangeInputException;
 
 import java.util.UUID;
@@ -9,6 +10,7 @@ public class PercentDiscountVoucher implements Voucher {
     private static final int MIN_PERCENT_AMOUNT = 0;
     private final UUID voucherId;
     private final long amount;
+    private final VoucherType voucherType = VoucherType.PERCENT;
 
     public PercentDiscountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
@@ -24,6 +26,11 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getAmount() {
         return amount;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override

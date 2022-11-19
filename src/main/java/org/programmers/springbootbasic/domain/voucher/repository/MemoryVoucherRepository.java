@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.domain.voucher.repository;
 
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.exception.NotSupportedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -30,5 +31,23 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         logger.info("voucher 전체 조회");
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
+    }
+
+    /**
+     * @param voucherId
+     */
+    @Override
+    public void deleteById(UUID voucherId) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 }

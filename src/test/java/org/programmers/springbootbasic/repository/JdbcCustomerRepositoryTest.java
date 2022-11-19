@@ -92,7 +92,7 @@ class JdbcCustomerRepositoryTest {
         int beforeSize = retrievedAllFirst.size();
 
         // when
-        jdbcCustomerRepository.insert(customerInputDto);
+        jdbcCustomerRepository.save(customerInputDto);
 
         //then
         List<Customer> retrievedAllLast = jdbcCustomerRepository.findAll();

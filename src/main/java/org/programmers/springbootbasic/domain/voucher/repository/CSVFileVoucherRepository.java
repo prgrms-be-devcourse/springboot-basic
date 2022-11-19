@@ -4,6 +4,7 @@ import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.programmers.springbootbasic.exception.FileWriteException;
+import org.programmers.springbootbasic.exception.NotSupportedException;
 import org.programmers.springbootbasic.exception.WrongTypeInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,21 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         logger.info("voucher 전체 조회");
         return readVouchersFromFile();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
+    }
+
+    @Override
+    public void deleteAll() {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 
     private void writeVoucherToFile(Voucher voucher) {

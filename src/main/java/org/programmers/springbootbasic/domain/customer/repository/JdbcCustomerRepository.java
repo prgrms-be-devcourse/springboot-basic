@@ -2,6 +2,7 @@ package org.programmers.springbootbasic.domain.customer.repository;
 
 import org.programmers.springbootbasic.domain.customer.model.Customer;
 import org.programmers.springbootbasic.domain.customer.dto.CustomerInsertDto;
+import org.programmers.springbootbasic.exception.CanNotDeleteException;
 import org.programmers.springbootbasic.exception.CanNotInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,23 +67,33 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 
     @Override
-    public void insert(CustomerInsertDto customerInsertDto) {
+    public void save(CustomerInsertDto customerInsertDto) {
         int insertRow = 0;
         try {
             insertRow = jdbcTemplate.update("insert into customers(name, email) values (?, ?)",
                     customerInsertDto.name(),
                     customerInsertDto.email()
             );
+            if(insertRow != 1) throw new CanNotInsertException("Customer를 데이터베이스에 쓸 수 없습니다.");
         } catch (DataAccessException e) {
             logger.error("Customer를 데이터베이스에 쓸 수 없습니다.");
             throw new CanNotInsertException(e.getMessage(), e);
         }
-        if(insertRow != 1) throw new CanNotInsertException("Customer를 데이터베이스에 쓸 수 없습니다.");
     }
 
 
     @Override
     public void deleteAll() {
         jdbcTemplate.update("delete from customers");
+    }
+
+    @Override
+    public void deleteById(long customerId) {
+        try {
+            int deleteRow = jdbcTemplate.update("delete from customers where customer_id = ?", customerId);
+            if(deleteRow != 1) throw new CanNotDeleteException("Customer를 삭제할 수 없습니다.");
+        } catch(DataAccessException e) {
+            throw new CanNotDeleteException("Customer를 삭제할 수 없습니다.");
+        }
     }
 }

@@ -14,7 +14,9 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String name);
 
-    void insert(CustomerInsertDto customerInsertDto);
+    void save(CustomerInsertDto customerInsertDto);
 
     void deleteAll();
+
+    void deleteById(long customerId);
 }
