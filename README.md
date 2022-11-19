@@ -86,7 +86,7 @@
 - [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
     - [ ] customers 테이블 정의 및 추가
         - [ ] (콘솔) customer의 name을 입력
-            - [ ] 입력 받은 name을 DB에서 조회
+        - [ ] 입력 받은 name을 DB에서 조회
             - [ ] name 이 DB에 존재하지 않으면 자동으로 생성
     - [ ] CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
         - [ ] 입력받은 name 저장 (primary key 는 auto generated key를 사용)

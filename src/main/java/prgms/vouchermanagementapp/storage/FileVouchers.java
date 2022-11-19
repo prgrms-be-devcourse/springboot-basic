@@ -11,7 +11,7 @@ import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 import java.io.File;
 
 @Component
-@Profile("release")
+@Profile("file | database")
 public class FileVouchers implements Vouchers {
 
     private static final String MESSAGE_FORMAT = "%-20s, %-20s";
