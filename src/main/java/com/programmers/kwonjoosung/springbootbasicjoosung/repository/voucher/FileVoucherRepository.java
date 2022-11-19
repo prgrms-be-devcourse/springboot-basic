@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -29,14 +28,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
+    public boolean insert(Voucher voucher) {
         try (Writer writer = new FileWriter(voucherListTextFile, true)) {
             writer.write(VoucherConverter.convertText(voucher));
             writer.flush();
-            return Optional.of(voucher);
+            return true;
         } catch (IOException e) {
             logger.error("insert error message -> {}", e.getMessage());
-            return Optional.empty();
+            return false;
         }
     }
 

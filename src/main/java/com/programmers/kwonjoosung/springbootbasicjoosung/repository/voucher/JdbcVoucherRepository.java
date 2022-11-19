@@ -46,13 +46,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
+    public boolean insert(Voucher voucher) {
         final String sql = "INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)";
         SqlParameterSource parameters = getFullSqlParametersSource(voucher);
         try { // 각 메서드에 예외를 잡아서 처리하는게 맞는지?
-            return jdbcTemplate.update(sql, parameters) == 1 ? Optional.of(voucher) : Optional.empty();
+            return jdbcTemplate.update(sql, parameters) == 1;
         } catch (DataAccessException e) {
-            return Optional.empty();
+            return false;
         }
     }
 
@@ -78,13 +78,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> update(Voucher voucher) {
+    public boolean update(Voucher voucher) {
         final String sql = "UPDATE vouchers SET voucher_type = :voucher_type, discount = :discount WHERE voucher_id = :voucher_id";
         SqlParameterSource parameters = getFullSqlParametersSource(voucher);
         try {
-            return jdbcTemplate.update(sql, parameters) == 1 ? Optional.of(voucher) : Optional.empty();
+            return jdbcTemplate.update(sql, parameters) == 1;
         } catch (DataAccessException e) {
-            return Optional.empty();
+            return false;
         }
     }
 

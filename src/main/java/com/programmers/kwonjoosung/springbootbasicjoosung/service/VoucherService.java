@@ -8,6 +8,7 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.Vou
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VoucherService {
@@ -21,8 +22,8 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher createAndSave(VoucherType voucherType, long discount) {
-        return saveVoucher(createVoucher(voucherType, discount));
+    public Optional<Voucher> createAndSave(VoucherType voucherType, long discount) {
+        return Optional.ofNullable(saveVoucher(createVoucher(voucherType, discount)));
     }
 
     private Voucher createVoucher(VoucherType voucherType, long discount) {
@@ -33,7 +34,7 @@ public class VoucherService {
     }
 
     private Voucher saveVoucher(Voucher voucher) {
-        return voucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher) ? voucher : null;
     }
 
 }

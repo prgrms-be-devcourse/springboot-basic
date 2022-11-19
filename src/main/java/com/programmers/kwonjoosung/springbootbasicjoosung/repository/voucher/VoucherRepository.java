@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Optional<Voucher> insert(Voucher voucher);
+    boolean insert(Voucher voucher);
 
     default Optional<Voucher> findById(UUID voucherId){
         return Optional.empty();
@@ -16,8 +16,8 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    default Optional<Voucher> update(Voucher voucher){
-        return Optional.empty();
+    default boolean update(Voucher voucher){
+        return false;
     }
 
     default boolean deleteById(UUID voucherId){

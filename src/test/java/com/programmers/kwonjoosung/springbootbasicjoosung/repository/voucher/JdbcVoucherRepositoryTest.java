@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
@@ -47,7 +46,7 @@ class JdbcVoucherRepositoryTest {
         //when
         Optional<Voucher> voucherOptional = jdbcVoucherRepository.findById(voucher.getVoucherId());
         //then
-        assertTrue(voucherOptional.isPresent());
+        assertThat(voucherOptional.isPresent()).isTrue();
         assertThat(voucherOptional.get()).isEqualTo(voucher);
     }
 
@@ -66,10 +65,9 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when
-        Optional<Voucher> insertedVoucher = jdbcVoucherRepository.insert(voucher);
+        boolean insertResult = jdbcVoucherRepository.insert(voucher);
         //then
-        assertTrue(insertedVoucher.isPresent());
-        assertThat(insertedVoucher.get()).isEqualTo(voucher);
+        assertThat(insertResult).isTrue();
     }
 
     @Test
@@ -79,13 +77,11 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when
-        Optional<Voucher> insertedVoucher1 = jdbcVoucherRepository.insert(voucher1);
-        Optional<Voucher> insertedVoucher2 = jdbcVoucherRepository.insert(voucher2);
+        boolean insertResult1 = jdbcVoucherRepository.insert(voucher1);
+        boolean insertResult2 = jdbcVoucherRepository.insert(voucher2);
         //then
-        assertTrue(insertedVoucher1.isPresent());
-        assertTrue(insertedVoucher2.isPresent());
-        assertThat(insertedVoucher1.get()).isEqualTo(voucher1);
-        assertThat(insertedVoucher2.get()).isEqualTo(voucher2);
+        assertThat(insertResult1).isTrue();
+        assertThat(insertResult2).isTrue();
     }
 
     @Test
@@ -95,7 +91,7 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher1);
         //when & then
-        assertThat(jdbcVoucherRepository.insert(voucher1)).isEmpty();
+        assertThat(jdbcVoucherRepository.insert(voucher1)).isFalse();
     }
 
 
@@ -121,12 +117,11 @@ class JdbcVoucherRepositoryTest {
         jdbcVoucherRepository.insert(voucher);
         Voucher newVoucher = VoucherFactory.createVoucher(VoucherType.PERCENT, voucher.getVoucherId(), 10);
         //when
-        Optional<Voucher> updatedVoucher = jdbcVoucherRepository.update(newVoucher);
-        //then
-        assertTrue(updatedVoucher.isPresent());
-        assertThat(updatedVoucher.get()).isEqualTo(newVoucher);
+        boolean updateResult = jdbcVoucherRepository.update(newVoucher);
         Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
-        assertTrue(foundVoucher.isPresent());
+        //then
+        assertThat(updateResult).isTrue();
+        assertThat(foundVoucher.isPresent()).isTrue();
         assertThat(foundVoucher.get()).isEqualTo(newVoucher);
     }
 
@@ -136,7 +131,7 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when & then
-        assertThat(jdbcVoucherRepository.update(voucher)).isEmpty();
+        assertThat(jdbcVoucherRepository.update(voucher)).isFalse();
     }
 
     @Test

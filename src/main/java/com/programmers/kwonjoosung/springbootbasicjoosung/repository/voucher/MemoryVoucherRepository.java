@@ -14,8 +14,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
     @Override
-    public Optional<Voucher> insert(Voucher voucher) {
-        return Optional.ofNullable(storage.put(voucher.getVoucherId(), voucher));
+    public boolean insert(Voucher voucher) {
+        return storage.put(voucher.getVoucherId(), voucher) != null;
     }
 
     @Override
