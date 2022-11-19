@@ -1,16 +1,14 @@
 package org.programmers.springbootbasic.domain.voucher.repository;
 
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.exception.NotFoundException;
 import org.programmers.springbootbasic.exception.NotSupportedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -31,6 +29,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         logger.info("voucher 전체 조회");
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if(store.containsKey(voucherId)) return Optional.ofNullable(store.get(voucherId));
+        else throw new NotFoundException("해당 Voucher를 찾을 수 없습니다.");
     }
 
     @Override

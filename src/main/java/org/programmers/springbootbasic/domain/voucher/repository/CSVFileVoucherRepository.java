@@ -16,6 +16,7 @@ import java.io.*;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -44,6 +45,11 @@ public class CSVFileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         logger.info("voucher 전체 조회");
         return readVouchersFromFile();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 
     @Override

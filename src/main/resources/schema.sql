@@ -8,3 +8,11 @@ create table spring_basic.customers
     constraint unq_user_email
         unique (email)
 );
+
+create table spring_basic.vouchers
+(
+    voucher_id  BINARY(16)                                     not null primary key,
+    type        TEXT                                           not null,
+    amount      BIGINT(11)                                     not null,
+    constraint unq_voucher_id unique(voucher_id)
+);
