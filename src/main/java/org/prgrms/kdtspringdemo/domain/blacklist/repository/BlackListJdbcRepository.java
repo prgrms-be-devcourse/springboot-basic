@@ -13,8 +13,8 @@ import static org.prgrms.kdtspringdemo.util.VoucherManagerUtil.toUUID;
 
 @Repository
 public class BlackListJdbcRepository implements BlackListRepository {
-    private static final String FIND_BLACK_LIST_SQL = "SELECT customer_id, email, birth_date FROM customers_id WHERE black_list = true";
-    private static RowMapper<BlackCustomer> blackCustomerRowMapper = (resultSet, i) -> {
+    private static final String FIND_BLACK_LIST_SQL = "SELECT customer_id, email, birth_date FROM customers_demo WHERE black_list = true";
+    private static final RowMapper<BlackCustomer> blackCustomerRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String email = resultSet.getString("email");
         LocalDate birth = resultSet.getDate("birth_date").toLocalDate();
