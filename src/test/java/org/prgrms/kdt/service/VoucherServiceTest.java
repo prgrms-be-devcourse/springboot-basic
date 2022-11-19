@@ -1,91 +1,118 @@
 package org.prgrms.kdt.service;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.prgrms.kdt.dao.entity.customer.Customer;
+import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherFactory;
-import org.prgrms.kdt.dao.entity.voucher.VoucherType;
-import org.prgrms.kdt.dao.repository.voucher.MemoryVoucherRepository;
-import org.springframework.stereotype.Component;
+import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
+import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
 
-import java.io.IOException;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.mockito.Mockito.*;
 
-@Component
+@ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
+    private final static String FIXED = "FixedAmountVoucher";
+    @Mock
+    private VoucherRepository voucherRepository;
+    @Mock(answer = Answers.RETURNS_SELF)
+    private VoucherBuilder voucherBuilder;
+    @InjectMocks
+    private VoucherService voucherService;
 
-    private static final VoucherService voucherService = new VoucherService(new MemoryVoucherRepository(), new VoucherFactory());
-    private static final String FIXED_AMOUNT_VOUCHER = "1";
-    private static final String PERCENT_DISCOUNT_VOUCHER = "2";
-    private static final String BLANK = " ";
+    @Test
+    @DisplayName("바우처를 생성할 수 있다.")
+    void 바우처_생성하기() {
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, LocalDateTime.now());
+        when(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(FIXED).build()).thenReturn(voucher);
+        doNothing().when(voucherRepository).insert(voucher);
 
-    @BeforeEach
-    void clear() {
-        voucherService.clear();
+        Voucher createVoucher = voucherService.create("1", "1000");
+
+        verify(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(FIXED)).build();
+        verify(voucherRepository).insert(voucher);
+        assertThat(voucher, samePropertyValuesAs(createVoucher));
     }
 
     @Test
-    @DisplayName("바우처를 여러 개 만들었을 때, 반환 받는 바우처의 개수가 동일한지 검증")
-    void 반환되는_바우처_갯수확인() throws IOException {
-        // given
-        voucherService.create(FIXED_AMOUNT_VOUCHER, "1000");
-        voucherService.create(FIXED_AMOUNT_VOUCHER, "2000");
-        voucherService.create(FIXED_AMOUNT_VOUCHER, "3000");
-        // when
-        int size = voucherService.getAllVouchers().size();
+    @DisplayName("모든 바우처를 조회할 수 있다.")
+    void 모든_바우처_조회하기() {
+        List<Voucher> voucherList = new ArrayList<>();
 
-        // then
-        assertThat(size, is(3));
+        when(voucherRepository.getAllStoredVoucher()).thenReturn(voucherList);
+        voucherService.getAllVouchers();
+
+        verify(voucherRepository).getAllStoredVoucher();
     }
 
     @Test
-    @DisplayName("생성한 바우처의 id 값과 저장된 바우처의 id 값이 같은 지 비교")
-    void 바우처_id비교() throws IOException {
-        // given
-        Voucher voucher = voucherService.create(FIXED_AMOUNT_VOUCHER, "1000");
+    @DisplayName("바우처 Id를 이용하여 바우처를 조회할 수 있다.")
+    void 바우처_ID_조회하기() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, LocalDateTime.now());
 
-        // when
-        UUID voucherId = voucherService.getAllVouchers().get(0).getVoucherId();
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
+        Voucher voucherById = voucherService.findVoucherById(voucherId.toString());
 
-        // then
-        assertThat(voucherId, is(voucher.getVoucherId()));
+        verify(voucherRepository).findById(voucherId);
+        assertThat(voucher, samePropertyValuesAs(voucherById));
     }
 
     @Test
-    @DisplayName("존재하지 않는 Voucher 형식을 넣으면 예외 발생")
-    void 존재하지_않는_바우처_형식넣기() {
-        assertThrows(NoSuchElementException.class, () -> voucherService.create(BLANK, "1000"));
+    @DisplayName("특정 손님 ID를 이용하여 해당 손님에게 바우처 할당하기")
+    void 바우처_할당하기() {
+        Customer customer = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com", LocalDateTime.now(), false);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, LocalDateTime.now());
+
+        when(voucherRepository.update(voucher)).thenReturn(voucher);
+        Voucher assignVoucher = voucherService.assignVoucher(voucher, customer);
+
+        verify(voucherRepository).update(voucher);
+        assertThat(assignVoucher.getOwnedCustomerId().get(), is(customer.getCustomerId()));
     }
 
     @Test
-    @DisplayName("요청한 바우처 형식 FixedAmountVoucher와 생성된 바우처의 형식이 같은지 확인")
-    void FixedAmountVoucher_요청형식_생성바우처형식_비교() {
-        // given
-        String discountValue = "1000";
+    @DisplayName("특정 손님 ID를 이용하여 해당 손님이 보유한 바우처 조회하기")
+    void 보유한_바우처_조회하기() {
+        UUID customerId = UUID.randomUUID();
+        List<Voucher> voucherList = new ArrayList<>();
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, customerId, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "2000", FIXED, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "3000", FIXED, customerId, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "4000", FIXED, LocalDateTime.now()));
 
-        // when
-        Voucher newVoucher = voucherService.create(FIXED_AMOUNT_VOUCHER, discountValue);
+        when(voucherRepository.getAllStoredVoucher()).thenReturn(voucherList);
+        List<Voucher> ownedVouchers = voucherService.getOwnedVouchers(customerId.toString());
 
-        // then
-        assertThat(newVoucher.getVoucherType(), is(VoucherType.getStringClassName(FIXED_AMOUNT_VOUCHER)));
+        verify(voucherRepository).getAllStoredVoucher();
+        Assertions.assertThat(ownedVouchers).filteredOn(voucher -> Objects.equals(voucher.getOwnedCustomerId().get(), customerId));
     }
 
     @Test
-    @DisplayName("요청한 바우처 형식 PercentDiscountVoucher와 생성된 바우처의 형식이 같은지 확인")
-    void PercentDiscountVoucher_요청형식_생성바우처형식_비교() {
-        // given
-        String discountValue = "50";
+    @DisplayName("특정 바우처 ID의 할당된 고객을 제거할 수 있다.")
+    void 바우처_할당해제() {
+        UUID voucherId = UUID.randomUUID();
+        Customer customer = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com", LocalDateTime.now(), false);
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, customer.getCustomerId(), LocalDateTime.now());
 
-        // when
-        Voucher newVoucher = voucherService.create(PERCENT_DISCOUNT_VOUCHER, discountValue);
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
+        voucher.setOwnedCustomerId(null);
+        when(voucherRepository.update(voucher)).thenReturn(voucher);
+        Voucher removeVoucher = voucherService.removeAssignment(voucherId.toString());
 
-        // then
-        assertThat(newVoucher.getVoucherType(), is(VoucherType.getStringClassName(PERCENT_DISCOUNT_VOUCHER)));
+        verify(voucherRepository).findById(voucherId);
+        assertThat(removeVoucher.getOwnedCustomerId().isEmpty(), is(true));
     }
 }
