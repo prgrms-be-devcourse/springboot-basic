@@ -15,20 +15,15 @@ public class VoucherFactory {
 
 	public Voucher createVoucher(VoucherType voucherType, String discount) {
 		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(UUID.randomUUID(), discount, LocalDateTime.now(), voucherType,
-				LocalDateTime.now());
+			return new FixedDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
 		}
-		return new PercentDiscountVoucher(UUID.randomUUID(), discount, LocalDateTime.now(), voucherType,
-			LocalDateTime.now());
+		return new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
 	}
 
-	public Voucher createVoucher(UUID voucherId, VoucherType voucherType, String discount, LocalDateTime createdAt,
-		LocalDateTime lastModifiedAt) {
+	public Voucher createVoucher(UUID voucherId, VoucherType voucherType, String discount, LocalDateTime createdAt) {
 		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(voucherId, discount, createdAt, voucherType,
-				lastModifiedAt);
+			return new FixedDiscountVoucher(voucherId, discount, voucherType, createdAt);
 		}
-		return new PercentDiscountVoucher(voucherId, discount, createdAt, voucherType,
-			lastModifiedAt);
+		return new PercentDiscountVoucher(voucherId, discount, voucherType, createdAt);
 	}
 }

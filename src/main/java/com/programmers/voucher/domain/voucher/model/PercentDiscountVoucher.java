@@ -15,9 +15,9 @@ public class PercentDiscountVoucher extends Voucher {
 	private static final double MIN_PERCENT = 0;
 	private static final double MAX_PERCENT = 100;
 
-	public PercentDiscountVoucher(UUID voucherId, String discount, LocalDateTime createdAt,
-		VoucherType voucherType, LocalDateTime modifiedAt) {
-		super(voucherId, discount, createdAt, voucherType, modifiedAt);
+	public PercentDiscountVoucher(UUID voucherId, String discount,
+		VoucherType voucherType, LocalDateTime createdAt) {
+		super(voucherId, discount, voucherType, createdAt);
 	}
 
 	@Override
@@ -39,8 +39,7 @@ public class PercentDiscountVoucher extends Voucher {
 
 	@Override
 	public String toString() {
-		return "voucherId: " + voucherId + ", voucherType: " + voucherType.name() + ", discount: " + discount
-			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-			+ ", lastModifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		return "voucherId: " + voucherId + ", voucherType: " + voucherType.name() + ", discount: " + discount + "%"
+			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

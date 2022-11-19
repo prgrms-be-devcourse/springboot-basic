@@ -57,10 +57,8 @@ public class FileVoucherRepository implements VoucherRepository {
 				VoucherType voucherType = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
 				String createdAt = voucherInfo[7];
-				String lastModifiedAt = voucherInfo[9];
 				Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discount,
-					LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-					LocalDateTime.parse(lastModifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+					LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				vouchers.put(voucherId, voucher);
 			}
 		} catch (IOException e) {

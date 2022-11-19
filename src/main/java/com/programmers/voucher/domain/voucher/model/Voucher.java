@@ -7,17 +7,14 @@ public abstract class Voucher {
 
 	protected final UUID voucherId;
 	protected final double discount;
+	protected final VoucherType voucherType;
 	protected final LocalDateTime createdAt;
-	protected VoucherType voucherType;
-	protected LocalDateTime lastModifiedAt;
 
-	protected Voucher(UUID voucherId, String discount, LocalDateTime createdAt,
-		VoucherType voucherType, LocalDateTime lastModifiedAt) {
+	protected Voucher(UUID voucherId, String discount, VoucherType voucherType, LocalDateTime createdAt) {
 		this.voucherId = voucherId;
 		this.discount = validateDiscount(discount);
-		this.createdAt = createdAt;
 		this.voucherType = voucherType;
-		this.lastModifiedAt = lastModifiedAt;
+		this.createdAt = createdAt;
 	}
 
 	public UUID getVoucherId() {

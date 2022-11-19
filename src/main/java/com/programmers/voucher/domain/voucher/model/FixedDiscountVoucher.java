@@ -14,9 +14,9 @@ public class FixedDiscountVoucher extends Voucher {
 	private static final Logger log = LoggerFactory.getLogger(FixedDiscountVoucher.class);
 	private static final double MIN_DISCOUNT = 0;
 
-	public FixedDiscountVoucher(UUID voucherId, String discount, LocalDateTime createdAt,
-		VoucherType voucherType, LocalDateTime modifiedAt) {
-		super(voucherId, discount, createdAt, voucherType, modifiedAt);
+	public FixedDiscountVoucher(UUID voucherId, String discount,
+		VoucherType voucherType, LocalDateTime createdAt) {
+		super(voucherId, discount, voucherType, createdAt);
 	}
 
 	@Override
@@ -39,7 +39,6 @@ public class FixedDiscountVoucher extends Voucher {
 	@Override
 	public String toString() {
 		return "voucherId: " + voucherId + ", voucherType: " + voucherType.name() + ", discount: " + discount
-			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-			+ ", lastModifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

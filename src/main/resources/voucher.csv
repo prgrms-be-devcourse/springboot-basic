@@ -1,3 +1,3 @@
-voucherId: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, voucherType: FIXED, discount: 2000.0, createdAt: 2022-11-20 09:50:15, lastModifiedAt: 2022-11-20 09:50:15
-voucherId: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, voucherType: PERCENT, discount: 20.0, createdAt: 2022-11-20 10:00:15, lastModifiedAt: 2022-11-20 10:00:15
-voucherId: 865c9351-caa9-48d8-9302-a8fb6d547af6, voucherType: FIXED, discount: 2000.0, createdAt: 2022-11-20 10:10:15, lastModifiedAt: 2022-11-20 10:10:15
+voucherId: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, voucherType: FIXED, discount: 2000.0, createdAt: 2022-11-20 09:50:15
+voucherId: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, voucherType: PERCENT, discount: 20.0%, createdAt: 2022-11-20 10:00:15
+voucherId: 865c9351-caa9-48d8-9302-a8fb6d547af6, voucherType: FIXED, discount: 2000.0, createdAt: 2022-11-20 10:10:15
