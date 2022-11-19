@@ -1,3 +1,3 @@
-customerId: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, customerType: NORMAL, createdAt: 2022-11-20 09:30:15, modifiedAt: 2022-11-20 09:30:15
-customerId: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, customerType: BLACKLIST, createdAt: 2022-11-20 09:40:15, modifiedAt: 2022-11-20 09:40:15
-customerId: 865c9351-caa9-48d8-9302-a8fb6d547af6, customerType: BLACKLIST, createdAt: 2022-11-20 09:45:15, modifiedAt: 2022-11-20 09:45:15
+customerId: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, customerType: NORMAL, createdAt: 2022-11-20 09:30:15, lastModifiedAt: 2022-11-20 09:30:15
+customerId: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, customerType: BLACKLIST, createdAt: 2022-11-20 09:40:15, lastModifiedAt: 2022-11-20 09:40:15
+customerId: 865c9351-caa9-48d8-9302-a8fb6d547af6, customerType: BLACKLIST, createdAt: 2022-11-20 09:45:15, lastModifiedAt: 2022-11-20 09:45:15

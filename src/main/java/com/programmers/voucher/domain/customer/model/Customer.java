@@ -11,11 +11,11 @@ public class Customer {
 	private CustomerType customerType;
 	private LocalDateTime lastModifiedAt;
 
-	public Customer(UUID customerId, LocalDateTime createdAt, CustomerType customerType, LocalDateTime modifiedAt) {
+	public Customer(UUID customerId, LocalDateTime createdAt, CustomerType customerType, LocalDateTime lastModifiedAt) {
 		this.customerId = customerId;
 		this.createdAt = createdAt;
 		this.customerType = customerType;
-		this.lastModifiedAt = modifiedAt;
+		this.lastModifiedAt = lastModifiedAt;
 	}
 
 	public UUID getCustomerId() {
@@ -38,6 +38,6 @@ public class Customer {
 	public String toString() {
 		return "customerId: " + customerId + ", customerType: " + customerType.name()
 			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-			+ ", modifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+			+ ", lastModifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }
