@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringdemo.customer.repository;
+package org.prgrms.kdtspringdemo.domain.customer.repository;
 
-import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.domain.customer.model.Customer;
 
 import java.util.List;
 import java.util.Optional;

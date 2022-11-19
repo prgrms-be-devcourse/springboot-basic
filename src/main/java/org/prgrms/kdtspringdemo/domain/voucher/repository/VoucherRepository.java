@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringdemo.voucher.repository;
+package org.prgrms.kdtspringdemo.domain.voucher.repository;
 
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
 
 import java.util.List;
 import java.util.Optional;

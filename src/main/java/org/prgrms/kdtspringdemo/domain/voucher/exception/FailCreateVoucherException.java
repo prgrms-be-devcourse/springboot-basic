@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher.exception;
+package org.prgrms.kdtspringdemo.domain.voucher.exception;
 
 public class FailCreateVoucherException extends RuntimeException {
     public FailCreateVoucherException() {

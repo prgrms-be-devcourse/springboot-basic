@@ -1,7 +1,7 @@
-package org.prgrms.kdtspringdemo.blacklist;
+package org.prgrms.kdtspringdemo.domain.customer;
 
-import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
-import org.prgrms.kdtspringdemo.blacklist.repository.BlackListRepository;
+import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.customer.repository.BlackListRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

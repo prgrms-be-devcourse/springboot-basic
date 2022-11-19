@@ -1,7 +1,7 @@
-package org.prgrms.kdtspringdemo.voucher;
+package org.prgrms.kdtspringdemo.domain.voucher;
 
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -1,8 +1,8 @@
-package org.prgrms.kdtspringdemo.voucher;
+package org.prgrms.kdtspringdemo.domain.voucher;
 
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

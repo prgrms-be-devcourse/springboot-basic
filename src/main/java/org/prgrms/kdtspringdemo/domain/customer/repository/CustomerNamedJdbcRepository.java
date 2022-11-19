@@ -1,8 +1,7 @@
-package org.prgrms.kdtspringdemo.customer.repository;
+package org.prgrms.kdtspringdemo.domain.customer.repository;
 
-import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
-import org.prgrms.kdtspringdemo.blacklist.repository.BlackListRepository;
-import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +39,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository, BlackLis
         var blackList = resultSet.getBoolean("black_list");
         return new Customer(customerId, name, birth, email, lastLoginAt, createdAt, blackList);
     };
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -142,4 +142,5 @@ public class CustomerNamedJdbcRepository implements CustomerRepository, BlackLis
     public List<BlackCustomer> findAllBlackCustomers() {
         return null;
     }
+
 }

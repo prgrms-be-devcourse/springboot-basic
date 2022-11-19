@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.customer;
+package org.prgrms.kdtspringdemo.domain.customer.model;
 
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;

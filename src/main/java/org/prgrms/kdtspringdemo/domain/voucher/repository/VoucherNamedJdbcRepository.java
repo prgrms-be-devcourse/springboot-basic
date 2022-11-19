@@ -1,8 +1,8 @@
-package org.prgrms.kdtspringdemo.voucher.repository;
+package org.prgrms.kdtspringdemo.domain.voucher.repository;
 
-import org.prgrms.kdtspringdemo.voucher.VoucherCreator;
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.domain.voucher.VoucherCreator;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;

@@ -2,7 +2,8 @@ package org.prgrms.kdtspringdemo.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.customer.Customer;
+import org.prgrms.kdtspringdemo.domain.customer.model.Customer;
+import org.prgrms.kdtspringdemo.domain.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -221,7 +222,7 @@ class CustomerRepositoryTest {
 
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.customer.repository"})
+    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.domain.customer.repository"})
     static class Config {
         @Bean
 //        @ConfigurationProperties(prefix = "")

@@ -1,12 +1,12 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
-import org.prgrms.kdtspringdemo.blacklist.BlackListService;
-import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.customer.BlackListService;
+import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.voucher.VoucherService;
+import org.prgrms.kdtspringdemo.domain.voucher.exception.FailCreateVoucherException;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
 import org.prgrms.kdtspringdemo.io.console.Console;
-import org.prgrms.kdtspringdemo.voucher.VoucherService;
-import org.prgrms.kdtspringdemo.voucher.exception.FailCreateVoucherException;
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;

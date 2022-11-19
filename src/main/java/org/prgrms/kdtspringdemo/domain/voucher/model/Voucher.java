@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher.model;
+package org.prgrms.kdtspringdemo.domain.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 

@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringdemo.customer;
+package org.prgrms.kdtspringdemo.domain.customer;
 
-import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
+import org.prgrms.kdtspringdemo.domain.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 @Service

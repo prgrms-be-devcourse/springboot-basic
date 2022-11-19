@@ -2,9 +2,12 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.voucher.VoucherCreator;
-import org.prgrms.kdtspringdemo.voucher.model.Voucher;
-import org.prgrms.kdtspringdemo.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.domain.voucher.VoucherCreator;
+import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
+import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
+import org.prgrms.kdtspringdemo.domain.voucher.repository.FileVoucherRepository;
+import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherNamedJdbcRepository;
+import org.prgrms.kdtspringdemo.domain.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +43,7 @@ class VoucherRepositoryTest {
     VoucherCreator voucherCreator;
 
     @Configuration
-    @ComponentScan(basePackages = "org.prgrms.kdtspringdemo.voucher.repository",
+    @ComponentScan(basePackages = "org.prgrms.kdtspringdemo.domain.voucher.repository",
             excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = FileVoucherRepository.class))
     static class Config {
         @Bean

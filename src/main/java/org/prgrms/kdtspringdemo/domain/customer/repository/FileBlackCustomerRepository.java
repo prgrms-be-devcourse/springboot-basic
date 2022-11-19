@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringdemo.blacklist.repository;
+package org.prgrms.kdtspringdemo.domain.customer.repository;
 
-import org.prgrms.kdtspringdemo.blacklist.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.io.file.CSVReader;
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 import org.slf4j.Logger;
