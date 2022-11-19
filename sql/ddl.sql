@@ -29,13 +29,21 @@ drop table if exists vouchers_demo CASCADE;
 create table if not exists vouchers_demo
 (
     voucher_id   BINARY(16) PRIMARY KEY,
-    customer_id  binary(16) DEFAULT NULL,
+    customer_id  BINARY(16) DEFAULT NULL,
     voucher_type TINYINT NOT NULL,
     value        BIGINT  NOT NULL,
     FOREIGN KEY (voucher_type) REFERENCES voucher_type (id) ON UPDATE CASCADE
 );
 # Walet테이블 만들기
-
+drop table if exists wallet CASCADE;
+CREATE TABLE IF NOT EXISTS wallet
+(
+    voucher_id  BINARY(16) NOT NULL,
+    customer_id BINARY(16) NOT NULL,
+    PRIMARY KEY (voucher_id, customer_id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers_demo (voucher_id) ON UPDATE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers_demo (customer_id) ON UPDATE CASCADE
+);
 SET foreign_key_checks = 1;
 
 ##전체 테이블 삭제
