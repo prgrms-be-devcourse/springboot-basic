@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.customer.CustomerManager;
 import prgms.vouchermanagementapp.domain.Customer;
 import prgms.vouchermanagementapp.io.IoManager;
-import prgms.vouchermanagementapp.storage.Customers;
 
 import java.util.Optional;
 
@@ -14,9 +13,9 @@ public class CustomerController {
     private final IoManager ioManager;
     private final CustomerManager customerManager;
 
-    public CustomerController(IoManager ioManager, Customers customers) {
+    public CustomerController(IoManager ioManager, CustomerManager customerManager) {
         this.ioManager = ioManager;
-        this.customerManager = new CustomerManager(customers);
+        this.customerManager = customerManager;
     }
 
     public void run() {

@@ -1,5 +1,6 @@
 package prgms.vouchermanagementapp.voucher;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.domain.model.Amount;
@@ -12,7 +13,7 @@ public class VoucherManager {
 
     private final Vouchers vouchers;
 
-    public VoucherManager(Vouchers vouchers) {
+    public VoucherManager(@Qualifier("fileVouchers") Vouchers vouchers) {
         this.vouchers = vouchers;
     }
 

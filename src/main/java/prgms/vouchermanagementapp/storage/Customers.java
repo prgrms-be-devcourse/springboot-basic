@@ -1,7 +1,6 @@
 package prgms.vouchermanagementapp.storage;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -40,15 +39,19 @@ public class Customers {
                 "where customer_name=:customerName";
 
         try {
-            Map<String, Object> param = Map.of("customerName", name);
-            Customer customer = template.queryForObject(sql, param, itemRowMapper());
+            Map<String, String> param = Map.of("customerName", name);
+            Customer customer = template.queryForObject(sql, param, customerRowMapper());
             return Optional.of(Objects.requireNonNull(customer));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
 
-    private RowMapper<Customer> itemRowMapper() {
-        return BeanPropertyRowMapper.newInstance(Customer.class);
+    private RowMapper<Customer> customerRowMapper() {
+        return ((rs, rowNum) -> {
+            long id = rs.getLong("id");
+            String customerName = rs.getString("customer_name");
+            return new Customer(id, customerName);
+        });
     }
 }
