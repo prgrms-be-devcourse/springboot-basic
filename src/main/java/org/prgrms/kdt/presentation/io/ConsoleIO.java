@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.MessageFormat;
 import java.util.List;
 
 @Component
@@ -42,13 +43,23 @@ public class ConsoleIO {
         }
     }
 
+    public String inputId(String entity) {
+        try {
+            System.out.println(MessageFormat.format("찾고자 하는 {0}의 ID를 입력하시오 :", entity));
+            return br.readLine().trim();
+        } catch (IOException e) {
+            throw new WrongInputDataException("Id Input 작업이 실패했습니다.", e);
+        }
+    }
+
     public void printEnableCommandList() {
         System.out.println("=== Voucher Program ===");
         System.out.println(CommandType.getAllCommandExpression());
     }
 
-    public void terminate() {
-        System.out.println("프로그램을 종료합니다.");
+    public <T> void printItem(T voucher) {
+        System.out.println("리스트 : ");
+        System.out.println(voucher);
     }
 
     public <T> void printItems(List<T> vouchers) {
@@ -58,5 +69,9 @@ public class ConsoleIO {
         }
 
         vouchers.forEach(System.out::println);
+    }
+
+    public void terminate() {
+        System.out.println("프로그램을 종료합니다.");
     }
 }
