@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,10 +23,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
 @ActiveProfiles("jdbc")
-public class VoucherDBMemoryTest extends JdbcBase{
+public class VoucherDBMemoryTest extends JdbcBase {
 
   @Autowired
-  VoucherDBMemory memory;
+  private VoucherDBMemory memory;
 
   @BeforeEach
   void clear() {
@@ -107,5 +108,28 @@ public class VoucherDBMemoryTest extends JdbcBase{
     //then
     assertEquals(all.size(), 0);
   }
+
+  @DisplayName("할인 금액을 업데이트한 바우처 정보를 리턴한다")
+  @Test
+  void test6() {
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
+    memory.save(voucher);
+
+    Voucher updateAmount = voucher.changeAmountValue(3000L);
+    Voucher updatedVoucher = memory.update(updateAmount);
+
+    assertEquals(updateAmount, updatedVoucher);
+  }
+
+  @DisplayName("존재하지 않는 Id로 업데이트 시 NoSuchElementException을 던진다.")
+  @Test
+  void test6_1() {
+    Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
+
+    Voucher updateAmount = voucher.changeAmountValue(300L);
+
+    assertThrows(NoSuchElementException.class, () -> memory.update(updateAmount));
+  }
+
 
 }

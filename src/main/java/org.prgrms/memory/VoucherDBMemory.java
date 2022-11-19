@@ -1,8 +1,9 @@
 package org.prgrms.memory;
 
-import static org.prgrms.query.VoucherSQL.*;
+import static org.prgrms.memory.query.VoucherSQL.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.voucher.discountType.Amount;
@@ -40,7 +41,7 @@ public class VoucherDBMemory implements Memory {
   public Voucher save(Voucher voucher) {
     try {
       jdbcTemplate.update(INSERT.getSql(), String.valueOf(voucher.getVoucherId()),
-          String.valueOf(voucher.getVoucherType()),
+          voucher.getVoucherType().name(),
           voucher.getVoucherAmount().getValue());
     } catch (DataAccessException e) {
       throw new DuplicateKeyException(
@@ -55,14 +56,14 @@ public class VoucherDBMemory implements Memory {
   }
 
   public Optional<Voucher> findById(UUID id) {
-    Voucher voucher;
+
     try {
-      voucher = jdbcTemplate.queryForObject(FIND_BY_ID.getSql(), voucherRowMapper,
+      Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID.getSql(), voucherRowMapper,
           String.valueOf(id));
+      return Optional.ofNullable(voucher);
     } catch (DataAccessException e) {
       return Optional.empty();
     }
-    return Optional.ofNullable(voucher);
   }
 
   public Optional<Voucher> deleteById(UUID id) {
@@ -75,6 +76,15 @@ public class VoucherDBMemory implements Memory {
 
   public void deleteAll() {
     jdbcTemplate.update(DELETE_ALL.getSql());
+  }
 
+  public Voucher update(Voucher voucher) {
+    int updateNum = jdbcTemplate.update(UPDATE.getSql(), voucher.getVoucherType().name(),
+        voucher.getVoucherAmount().getValue(), String.valueOf(voucher.getVoucherId()));
+    if (updateNum == 0) {
+      throw new NoSuchElementException(
+          "That ID could not be found *current ID : " + voucher.getVoucherId());
+    }
+    return voucher;
   }
 }

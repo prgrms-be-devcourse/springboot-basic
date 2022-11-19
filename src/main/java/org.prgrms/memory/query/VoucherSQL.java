@@ -1,11 +1,12 @@
-package org.prgrms.query;
+package org.prgrms.memory.query;
 
 public enum VoucherSQL {
   INSERT("INSERT INTO voucher(id, type, amount) VALUES (?,?,?)"),
   FIND_ALL("SELECT * FROM voucher"),
   FIND_BY_ID("SELECT * FROM voucher WHERE id = ?"),
   DELETE_ALL("DELETE FROM voucher"),
-  DELETE_BY_ID("DELETE FROM voucher WHERE id = ?");
+  DELETE_BY_ID("DELETE FROM voucher WHERE id = ?"),
+  UPDATE("UPDATE voucher SET type = ? , amount = ? WHERE id = ? ");
 
   private final String value;
 

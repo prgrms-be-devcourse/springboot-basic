@@ -3,6 +3,7 @@ package org.prgrms.voucher.voucherType;
 import java.util.UUID;
 import org.prgrms.exception.PaymentCannotBeNegativeException;
 import org.prgrms.voucher.discountType.Amount;
+import org.prgrms.voucher.discountType.DiscountAmount;
 
 public class FixedAmountVoucher implements Voucher {
 
@@ -37,6 +38,11 @@ public class FixedAmountVoucher implements Voucher {
   @Override
   public Amount getVoucherAmount() {
     return discountAmount;
+  }
+
+  @Override
+  public Voucher changeAmountValue(long amount) {
+    return new FixedAmountVoucher(this.voucherId, new DiscountAmount(amount));
   }
 
   @Override
