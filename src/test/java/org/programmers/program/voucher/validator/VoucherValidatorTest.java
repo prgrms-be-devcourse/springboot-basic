@@ -7,6 +7,7 @@ import org.programmers.program.voucher.model.PercentDiscountVoucher;
 import org.programmers.program.voucher.model.Voucher;
 import org.programmers.program.voucher.model.VoucherType;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,16 +31,17 @@ class VoucherValidatorTest {
         vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 10000000L));
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 150L));
 
+        vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 50L, LocalDate.now().minusWeeks(1)));
+        vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 50L, LocalDate.now().minusWeeks(1)));
+
+
         for(Voucher v: vouchers){
-            if (validator.test(
-                    v.getClass().getName().equals(FixedAmountVoucher.class.getName()) ? VoucherType.FIXED : VoucherType.PERCENT,
-                    v.getDiscountAmount())
-            )
+            if (validator.test(v))
                 availableVoucherCount += 1;
             else
                 unAvailableVoucherCount += 1;
         }
         assertThat(availableVoucherCount).isEqualTo(2);
-        assertThat(unAvailableVoucherCount).isEqualTo(4);
+        assertThat(unAvailableVoucherCount).isEqualTo(6);
     }
 }

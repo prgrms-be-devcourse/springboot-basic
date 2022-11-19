@@ -1,4 +1,4 @@
-package org.programmers.program;
+package org.programmers.program.instruction.model;
 
 import java.util.Collections;
 import java.util.Map;
@@ -17,7 +17,7 @@ public enum Instruction {
         this.name = name;
     }
 
-    private static final Map<String, Instruction> map =
+    private final Map<String, Instruction> map =
             Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(
                     Instruction::getName, Function.identity()
             )));
@@ -31,8 +31,4 @@ public enum Instruction {
             return Optional.of(map.get(name));
         return Optional.empty();
     }
-
-    //public static void invoke(String name){
-    //     if(map.containsKey(name))
-    // }
 }

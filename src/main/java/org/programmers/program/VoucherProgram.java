@@ -4,12 +4,16 @@ import org.programmers.program.io.Input;
 import org.programmers.program.io.Output;
 import org.programmers.program.voucher.repository.VoucherRepository;
 import org.programmers.program.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 import static org.programmers.program.io.Message.*;
 
 public class VoucherProgram implements Runnable {
+
+    private static final Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
 
     private final Input input;
     private final Output output;
