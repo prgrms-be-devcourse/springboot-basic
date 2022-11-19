@@ -17,6 +17,7 @@ import prgms.vouchermanagementapp.storage.entity.VoucherEntity;
 import prgms.vouchermanagementapp.voucher.VoucherCreationFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,11 +30,11 @@ class JdbcVouchersTest {
 
     private Customer savedCustomer;
 
-    private static Stream<Arguments> provideSingleFixedAmountVoucher() {
+    private static Stream<Arguments> provideSingleFixedAmountVoucherOf3000() {
         return Stream.of(Arguments.of(VoucherCreationFactory.createVoucher(new Amount(3000))));
     }
 
-    private static Stream<Arguments> provideSinglePercentDiscountVoucher() {
+    private static Stream<Arguments> provideSinglePercentDiscountVoucherOf50() {
         return Stream.of(Arguments.of(VoucherCreationFactory.createVoucher(new Ratio(50))));
     }
 
@@ -62,12 +63,21 @@ class JdbcVouchersTest {
 
     @DisplayName("고객이 가진 FixedAmountVoucher 의 고정 할인 금액을 변경할 수 있다.")
     @Test
-    void updateAmountByCustomerName() {
+    void updateFixedAmountVoucherById() {
         // given
+        long originalAmount = 1000;
+        Voucher originalVoucher = VoucherCreationFactory.createVoucher(new Amount(originalAmount));
+        VoucherEntity originalVoucherEntity = EntityMapper.toVoucher(originalVoucher, savedCustomer);
+        jdbcVouchers.save(originalVoucherEntity);
 
         // when
+        long changedAmount = 2000;
+        jdbcVouchers.updateFixedAmountVoucherById(originalVoucherEntity.getId(), changedAmount);
+        Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
 
         // then
+        assert foundVoucherEntity.isPresent();
+        assertThat(foundVoucherEntity.get().getAmount()).isEqualTo(changedAmount);
     }
 
     @DisplayName("고객이 가진 PercentDiscountVoucher 의 고정 할인 비율을 변경할 수 있다.")

@@ -10,11 +10,11 @@ create table customer
 
 create table vouchers
 (
-    uuid          varchar(50),
-    voucher_type  varchar(30) not null,
+    id            varchar(50),
+    type          varchar(30) not null,
     amount        bigint,
     ratio         bigint,
     customer_name varchar(30) not null,
-    primary key (uuid),
+    primary key (id),
     foreign key (customer_name) references customer (customer_name)
 );

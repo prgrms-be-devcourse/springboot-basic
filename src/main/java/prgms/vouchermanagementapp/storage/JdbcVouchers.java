@@ -10,9 +10,7 @@ import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.storage.entity.VoucherEntity;
 
 import javax.sql.DataSource;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JdbcVouchers {
@@ -23,8 +21,7 @@ public class JdbcVouchers {
     public JdbcVouchers(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("vouchers")
-                .usingColumns("uuid", "voucher_type", "amount", "ratio", "customer_name");
+                .withTableName("vouchers");
     }
 
     public void save(VoucherEntity voucherEntity) {
@@ -42,21 +39,48 @@ public class JdbcVouchers {
         }
     }
 
-    public List<VoucherEntity> findByCustomerName(String name) {
-        String sql = "select * from vouchers where customer_name=:customerName";
+    public List<VoucherEntity> findAllByCustomerName(String customerName) {
+        String sql = "select * from vouchers " +
+                "where customer_name=:customerName";
 
         try {
-            Map<String, String> param = Map.of("customerName", name);
+            Map<String, String> param = Map.of("customerName", customerName);
             return template.query(sql, param, voucherEntityRowMapper());
         } catch (DataAccessException e) {
             return Collections.emptyList();
         }
     }
 
+    public Optional<VoucherEntity> findVoucherEntityById(String id) {
+        String sql = "select * from vouchers " +
+                "where id=:id";
+
+        try {
+            Map<String, String> param = Map.of("id", id);
+            VoucherEntity voucherEntity = template.queryForObject(sql, param, voucherEntityRowMapper());
+            return Optional.of(Objects.requireNonNull(voucherEntity));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public void updateFixedAmountVoucherById(String id, long amount) {
+        String sql = "update vouchers " +
+                "set amount=:amount " +
+                "where id=:id";
+
+        Map<String, Object> param = Map.of(
+                "id", id,
+                "amount", amount
+        );
+
+        template.update(sql, param);
+    }
+
     private RowMapper<VoucherEntity> voucherEntityRowMapper() {
         return ((rs, rowNum) -> {
-            String uuid = rs.getString("uuid");
-            String voucherType = rs.getString("voucher_type");
+            String uuid = rs.getString("id");
+            String voucherType = rs.getString("type");
             Long amount = rs.getLong("amount");
             Long ratio = rs.getLong("ratio");
             String customerName = rs.getString("customer_name");

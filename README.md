@@ -79,7 +79,6 @@
 - [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
     - [ ] 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
     - [ ] 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
-    - ~~Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.~~ -> AssertJ 이용
 
 ### Customer
 
@@ -95,14 +94,14 @@
 
 - [ ]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
     - [x]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
-    - [ ]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - [x]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
     - [ ]  기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
-        - [x]  Create: save (insert)
-        - [x]  Read: findAll
-        - [ ]  Update:
-        - updateAmountByCustomerName(long amount)
-        - updateRatioByCustomerName(long ratio)
-        - [ ]  Delete: deleteAll
+        - [x]  Create: 바우처를 DB에 저장
+        - [x]  Read: 저장된 모든 바우처 조회
+        - [x]  Update: 바우처의 할인 금액 또는 비율 수정
+            - [x] 고정 금액 할인 바우처의 금액 수정
+            - [ ] 고정 비율 할인 바우처의 비율 수정
+        - [ ]  Delete: 저장된 모든 바우처 삭제
 
 - [ ] 콘솔로 CRUD 실행 구현
 
@@ -110,8 +109,8 @@
 
 - [ ] 특정 고객에게 바우처를 할당할 수 있습니다.
 - [ ] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
-    - [x] Read: findByCustomerName
+    - [x] Read: `findByCustomerName()`
 - [ ] 고객이 보유한 바우처를 제거할 수 있어야 합니다.
-    - [ ] Delete: deleteByCustomerName
+    - [ ] Delete: `deleteByCustomerName()`
 - [ ] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
-    - [ ] Read: findCustomerByVoucherType
+    - [ ] Read: `findCustomerByVoucherType()`
