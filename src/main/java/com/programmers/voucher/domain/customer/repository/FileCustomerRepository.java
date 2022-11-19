@@ -48,18 +48,15 @@ public class FileCustomerRepository implements CustomerRepository {
 			while ((line = reader.readLine()) != null) {
 				String[] customerInfo = line.split(LINE_SEPARATOR);
 				UUID customerId = UUID.fromString(customerInfo[1]);
-				String type = customerInfo[3];
+				CustomerType customerType = CustomerType.getCustomerType(customerInfo[3]);
 				String createdAt = customerInfo[5];
 				String lastModifiedAt = customerInfo[7];
 
-				if (type.equals(CustomerType.BLACKLIST.name())) {
-					CustomerType customerType = CustomerType.getCustomerType(type);
-					Customer customer = new Customer(customerId,
-						LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
-						customerType,
-						LocalDateTime.parse(lastModifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-					customers.put(customerId, customer);
-				}
+				Customer customer = new Customer(customerId,
+					LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+					customerType,
+					LocalDateTime.parse(lastModifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+				customers.put(customerId, customer);
 			}
 		} catch (IOException e) {
 			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());

@@ -5,10 +5,11 @@ public enum Message {
 	COMMAND_OPTION("""
 				
 		=== Voucher Program ===
-		Type create to create a new voucher.
-		Type list to list all vouchers.
-		Type blacklist to list all blacklists
-		Type exit to exit the program."""),
+		Type \"create voucher\" to create a new voucher.
+		Type \"get all voucher\" to list all vouchers.
+		Type \"get all customer\" to list all customers.
+		Type \"get all blacklist\" to list all blacklists
+		Type \"exit\" to exit the program."""),
 	VOUCHER_OPTION("""
 		  
 		고정 할인 바우처를 생성하려면 fixed 를 입력해주세요.
