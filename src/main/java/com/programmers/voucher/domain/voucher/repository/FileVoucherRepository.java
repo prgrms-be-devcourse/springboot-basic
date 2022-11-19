@@ -32,7 +32,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.VoucherNotFoundException;
 
 @Repository
-@Profile({"dev", "test"})
+@Profile({"file", "test"})
 public class FileVoucherRepository implements VoucherRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);

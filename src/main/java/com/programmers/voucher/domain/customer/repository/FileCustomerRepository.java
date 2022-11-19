@@ -21,6 +21,7 @@ import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.customer.model.Customer;
@@ -30,6 +31,7 @@ import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 
 @Repository
+@Profile({"file", "test"})
 public class FileCustomerRepository implements CustomerRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);

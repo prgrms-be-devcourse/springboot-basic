@@ -1,14 +1,25 @@
 spring:
   profiles:
-    active: dev
+    active: file
 ---
 spring:
   config:
     activate:
-      on-profile: dev
+      on-profile: file
 
 repository:
   file:
     voucher: "src/main/resources/voucher.csv"
     blacklist: "src/main/resources/customer_blacklist.csv"
+---
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_management
+    username: user
+    password: programmers1234
 ---
