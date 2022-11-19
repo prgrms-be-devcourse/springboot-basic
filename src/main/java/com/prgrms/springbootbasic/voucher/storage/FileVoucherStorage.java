@@ -62,11 +62,12 @@ public class FileVoucherStorage implements VoucherStorage {
         }
     }
 
-    public Voucher findById(UUID id) {
+    @Override
+    public Optional<Voucher> findById(UUID id) {
         List<Voucher> vouchers = findAll();
-        Map<UUID, Voucher> voucherMap = new HashMap<>();
-        vouchers.forEach(voucher -> voucherMap.put(voucher.getUUID(), voucher));
-        return voucherMap.get(id);
+        return vouchers.stream()
+                .filter(voucher -> voucher.getUUID().equals(id))
+                .findAny();
     }
 
     private File openFile() {

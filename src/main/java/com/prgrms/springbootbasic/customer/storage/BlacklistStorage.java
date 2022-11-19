@@ -59,15 +59,11 @@ public class BlacklistStorage {
     }
 
     private List<Customer> readAll(File file) throws IOException {
-        List<Customer> blacklist;
-
         try (Stream<String> lineStream = Files.lines(file.toPath())) {
-            blacklist = lineStream.skip(1)
+            return lineStream.skip(1)
                     .map(this::mapToUser)
                     .collect(Collectors.toList());
         }
-
-        return blacklist;
     }
 
     private Customer mapToUser(String line) {
