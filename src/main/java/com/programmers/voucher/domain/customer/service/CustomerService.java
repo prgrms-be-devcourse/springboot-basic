@@ -18,6 +18,10 @@ public class CustomerService {
 		this.repository = repository;
 	}
 
+	public List<Customer> getAllCustomer() {
+		return repository.findAll();
+	}
+
 	public List<Customer> getBlackList() {
 		return repository.findAllBlacklist();
 	}

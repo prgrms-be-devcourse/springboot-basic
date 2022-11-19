@@ -17,18 +17,25 @@ import com.programmers.voucher.io.Output;
 
 public enum Command {
 
-	CREATE("create", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
-		output.write(Message.VOUCHER_OPTION.getMessage());
-		VoucherType chosenVoucherType = VoucherType.getVoucherType(input.read());
-		output.write(Message.DISCOUNT_OPTION.getMessage());
-		String discount = input.read();
-		voucherService.createVoucher(chosenVoucherType, discount);
-	}),
-	LIST("list", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
-		List<Voucher> vouchers = voucherService.getAllVoucher();
-		vouchers.forEach(voucher -> output.write(voucher.toString()));
-	}),
-	BLACKLIST("blacklist",
+	CREATE_VOUCHER("create voucher",
+		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+			output.write(Message.VOUCHER_OPTION.getMessage());
+			VoucherType chosenVoucherType = VoucherType.getVoucherType(input.read());
+			output.write(Message.DISCOUNT_OPTION.getMessage());
+			String discount = input.read();
+			voucherService.createVoucher(chosenVoucherType, discount);
+		}),
+	GET_ALL_VOUCHER("get all voucher",
+		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+			List<Voucher> vouchers = voucherService.getAllVoucher();
+			vouchers.forEach(voucher -> output.write(voucher.toString()));
+		}),
+	GET_ALL_CUSTOMER("get all customer",
+		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+			List<Customer> customers = customerService.getAllCustomer();
+			customers.forEach(customer -> output.write(customer.toString()));
+		}),
+	GET_ALL_BLACKLIST("get all blacklist",
 		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
 			List<Customer> customers = customerService.getBlackList();
 			customers.forEach(customer -> output.write(customer.toString()));
