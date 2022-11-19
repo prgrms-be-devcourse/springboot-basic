@@ -1,5 +1,6 @@
 package org.prgrms.kdt.customer;
 
+import org.prgrms.kdt.customer.utils.CustomerSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.prgrms.kdt.customer.utils.CustomerSql.*;
 
 @Repository
 public class JdbcCustomerManager implements CustomerManager {
@@ -39,13 +42,13 @@ public class JdbcCustomerManager implements CustomerManager {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM customers", customerMapper);
+        return jdbcTemplate.query(FIND_ALL.getSql(), customerMapper);
     }
 
     @Override
     public Optional<Customer> findById(long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID.getSql(),
                     customerMapper,
                     id
             ));
@@ -57,25 +60,25 @@ public class JdbcCustomerManager implements CustomerManager {
 
     @Override
     public void update(Customer customer) {
-        int update = jdbcTemplate.update("UPDATE customers SET name = ? where customer_id = ?",
+        int update = jdbcTemplate.update(UPDATE.getSql(),
                 customer.getName(),
                 customer.getId()
         );
         if (update != 1) {
-            throw new RuntimeException("Notion was updated");
+            throw new RuntimeException("Nothing was updated");
         }
     }
 
     @Override
     public void deleteById(long id) {
-        jdbcTemplate.update("DELETE FROM customers WHERE customer_id = ?",
+        jdbcTemplate.update(DELETE_BY_ID.getSql(),
                 id
         );
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customers");
+        jdbcTemplate.update(DELETE_ALL.getSql());
     }
 
     private static final RowMapper<Customer> customerMapper = (resultSet, i) -> {

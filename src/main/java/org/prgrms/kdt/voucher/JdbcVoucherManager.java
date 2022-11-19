@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.voucher.utils.VoucherSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static org.prgrms.kdt.voucher.utils.VoucherSql.*;
 
 @Profile("prod")
 @Repository
@@ -41,13 +44,13 @@ public class JdbcVoucherManager implements VoucherManager {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL.getSql(), voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = ?",
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID.getSql(),
                     voucherRowMapper,
                     id
             ));
@@ -59,14 +62,15 @@ public class JdbcVoucherManager implements VoucherManager {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM vouchers");
+        jdbcTemplate.update(DELETE_ALL.getSql());
     }
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update("UPDATE vouchers SET type = ?, amount = ?",
+        int update = jdbcTemplate.update(UPDATE.getSql(),
                 voucher.getType().getType(),
-                voucher.getAmount().getValue()
+                voucher.getAmount().getValue(),
+                voucher.getId()
         );
         if (update != 1) {
             throw new RuntimeException("Notion was updated");
@@ -75,7 +79,7 @@ public class JdbcVoucherManager implements VoucherManager {
 
     @Override
     public void deleteById(long voucherId) {
-        jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?",
+        jdbcTemplate.update(DELETE_BY_ID.getSql(),
                 voucherId
         );
     }
