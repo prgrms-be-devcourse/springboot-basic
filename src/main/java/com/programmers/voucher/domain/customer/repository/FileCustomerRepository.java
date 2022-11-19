@@ -3,6 +3,8 @@ package com.programmers.voucher.domain.customer.repository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -44,13 +46,18 @@ public class FileCustomerRepository implements CustomerRepository {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] customerInfo = line.split(LINE_SEPARATOR);
-				UUID id = UUID.fromString(customerInfo[1]);
+				UUID customerId = UUID.fromString(customerInfo[1]);
 				String type = customerInfo[3];
+				String createdAt = customerInfo[5];
+				String modifiedAt = customerInfo[7];
 
 				if (type.equals(CustomerType.BLACKLIST.name())) {
 					CustomerType customerType = CustomerType.getCustomerType(type);
-					Customer customer = new Customer(id, customerType);
-					customers.put(id, customer);
+					Customer customer = new Customer(customerId,
+						LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+						customerType,
+						LocalDateTime.parse(modifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+					customers.put(customerId, customer);
 				}
 			}
 		} catch (IOException e) {
