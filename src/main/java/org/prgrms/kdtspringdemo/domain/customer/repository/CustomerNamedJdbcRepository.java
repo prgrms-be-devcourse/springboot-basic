@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.domain.customer.repository;
 
-import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.domain.customer.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import java.util.*;
 import static org.prgrms.kdtspringdemo.util.VoucherManagerUtil.toUUID;
 
 @Repository
-public class CustomerNamedJdbcRepository implements CustomerRepository, BlackListRepository {
+public class CustomerNamedJdbcRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
     private static final String INSERT_SQL = "INSERT INTO customers_demo(customer_id, name, birth_date, email, created_at,black_list) VALUES(UUID_TO_BIN(:customerId),:name,:birth,:email,:createdAt,:blackList)";
     private static final String FIND_BY_ID_SQL = "SELECT * FROM customers_demo WHERE customer_id = UUID_TO_BIN(:customerId)";
@@ -26,7 +25,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository, BlackLis
     private static final String UPDATE_SQL = "UPDATE customers_demo SET name = :name,email=:email,last_login_at=:lastLoginAt where customer_id = UUID_TO_BIN(:customerId)";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM customers_demo WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String DELETE_ALL_SQL = "delete FROM customers_demo";
-    private static final String FIND_BLACK_LIST_SQL = "SELECT customer_id, email, birth_date FROM customers_id WHERE black_list = true";
     private static final String COUNT_SQL = "SELECT COUNT(*) FROM customers_demo";
     private static RowMapper<Customer> customerRawMapper = (resultSet, i) -> {
         var name = resultSet.getString("name");
@@ -138,9 +136,6 @@ public class CustomerNamedJdbcRepository implements CustomerRepository, BlackLis
     }
 
     // BlackListRepository로써의 역할
-    @Override
-    public List<BlackCustomer> findAllBlackCustomers() {
-        return null;
-    }
+
 
 }

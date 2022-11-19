@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.commandline_application;
 
-import org.prgrms.kdtspringdemo.domain.customer.BlackListService;
-import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.blacklist.BlackListService;
+import org.prgrms.kdtspringdemo.domain.blacklist.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.domain.voucher.VoucherService;
 import org.prgrms.kdtspringdemo.domain.voucher.exception.FailCreateVoucherException;
 import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;

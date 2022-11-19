@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.io.file;
 
-import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.blacklist.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
 
 import java.util.ArrayList;

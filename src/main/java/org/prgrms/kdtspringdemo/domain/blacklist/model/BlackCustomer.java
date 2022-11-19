@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.domain.customer.model;
+package org.prgrms.kdtspringdemo.domain.blacklist.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 import org.springframework.lang.NonNull;

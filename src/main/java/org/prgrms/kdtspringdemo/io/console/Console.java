@@ -1,6 +1,6 @@
 package org.prgrms.kdtspringdemo.io.console;
 
-import org.prgrms.kdtspringdemo.domain.customer.model.BlackCustomer;
+import org.prgrms.kdtspringdemo.domain.blacklist.model.BlackCustomer;
 import org.prgrms.kdtspringdemo.domain.voucher.model.Voucher;
 import org.prgrms.kdtspringdemo.domain.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
