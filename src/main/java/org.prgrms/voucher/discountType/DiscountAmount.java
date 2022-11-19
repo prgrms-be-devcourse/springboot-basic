@@ -12,7 +12,8 @@ public class DiscountAmount implements Amount {
 
   private void validateAmount(long input) {
     if (input < 1) {
-      throw new IllegalStateException("Wrong discount amount range");
+      throw new IllegalStateException(
+          "Discount amount cannot be negative *currentAmount: " + input);
     }
   }
 
