@@ -1,9 +1,7 @@
-package customer;
+package org.prgrms.customer;
 
 import java.util.UUID;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Customer {
 
   private final UUID id;
@@ -22,8 +20,13 @@ public class Customer {
     return name;
   }
 
+  public Customer updateName(String name) {
+    return new Customer(this.getId(), name);
+  }
+
   public String toString() {
-    return "=============Customer==============" + System.lineSeparator() + "Id: " + id + System.lineSeparator()
+    return "=============Customer==============" + System.lineSeparator() + "Id: " + id
+        + System.lineSeparator()
         + "name: " + name + System.lineSeparator();
   }
 }

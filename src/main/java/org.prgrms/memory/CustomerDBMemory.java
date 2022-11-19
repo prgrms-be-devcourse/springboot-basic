@@ -1,13 +1,13 @@
 package org.prgrms.memory;
 
-import static org.prgrms.query.CustomerSQL.*;
+import static org.prgrms.memory.query.CustomerSQL.*;
 
-import customer.Customer;
+import java.util.NoSuchElementException;
+import org.prgrms.customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,8 +33,9 @@ public class CustomerDBMemory {
       jdbcTemplate.update(INSERT.getSql(), String.valueOf(customer.getId()),
           customer.getName());
     } catch (DataAccessException e) {
-      throw new DuplicateKeyException(
-          "This member's ID already exists *current id: " + customer.getId());
+      throw new DataAccessException(
+          "please check id *current id: " + customer.getId(), e) {
+      };
     }
     return customer;
   }
@@ -60,9 +61,21 @@ public class CustomerDBMemory {
 
   public Optional<Customer> deleteById(UUID id) {
     Optional<Customer> beforeDeletion = findById(id);
-    if (beforeDeletion.isPresent()) {
-      jdbcTemplate.update(DELETE_BY_ID.getSql(), String.valueOf(id));
+
+    int deleteCount = jdbcTemplate.update(DELETE_BY_ID.getSql(), String.valueOf(id));
+    if(deleteCount == 0) {
+      return Optional.empty();
     }
     return beforeDeletion;
+  }
+
+  public Customer update(Customer customer) {
+    int updateNum = jdbcTemplate.update(UPDATE.getSql(), customer.getName(),
+        String.valueOf(customer.getId()));
+    if (updateNum == 0) {
+      throw new NoSuchElementException(
+          "That ID could not be found *current ID : " + customer.getId());
+    }
+    return customer;
   }
 }

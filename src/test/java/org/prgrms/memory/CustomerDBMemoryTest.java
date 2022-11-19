@@ -5,7 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import customer.Customer;
+import java.util.NoSuchElementException;
+import org.prgrms.customer.Customer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,8 +15,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
@@ -42,14 +45,14 @@ class CustomerDBMemoryTest extends JdbcBase{
     assertEquals(customer, saved);
   }
 
-  @DisplayName("이미 있는 id 값을 저장할 때 DuplicateKeyException을 던진다")
+  @DisplayName("이미 있는 id 값을 저장할 때 DataAccessException을 던진다")
   @Test
   void test1_1() {
     //given
     Customer customer = new Customer(UUID.randomUUID(), "예오닝");
     customerMemory.save(customer);
     //when&then
-    assertThrows(DuplicateKeyException.class, () -> customerMemory.save(customer));
+    assertThrows(DataAccessException.class, () -> customerMemory.save(customer));
   }
 
   @DisplayName("특정 id로 고객 정보를 찾아 반환한다")
@@ -130,6 +133,25 @@ class CustomerDBMemoryTest extends JdbcBase{
     Optional<Customer> deleted = customerMemory.deleteById(UUID.randomUUID());
     //then
     assertEquals(deleted, Optional.empty());
+  }
+
+  @DisplayName("저장된 customer의 id를 통해 이름을 변경한다.")
+  @Test
+  void test6() {
+    Customer customer = new Customer(UUID.randomUUID(), "업데이트 테스트 전");
+    customerMemory.save(customer);
+    Customer updateCustomer = customer.updateName("업데이트 후");
+
+    Customer updated = customerMemory.update(updateCustomer);
+    assertEquals(updateCustomer, updated);
+  }
+
+  @DisplayName("존재하지 않는 Id로 업데이트 시 NoSuchElementException을 던진다.")
+  @Test
+  void test7(){
+    Customer customer = new Customer(UUID.randomUUID(), "예오니1");
+    Customer updateCustomer = customer.updateName("예오니업뎃");
+    assertThrows(NoSuchElementException.class, () -> customerMemory.update(updateCustomer));
   }
 
 }
