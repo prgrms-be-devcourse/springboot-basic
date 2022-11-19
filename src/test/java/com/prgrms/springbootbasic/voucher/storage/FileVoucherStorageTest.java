@@ -12,6 +12,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.io.*;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -89,10 +90,13 @@ class FileVoucherStorageTest {
         fileVoucherStorage.save(voucher);
 
         //when
-        Voucher found = fileVoucherStorage.findById(voucher.getUUID());
+        Optional<Voucher> found = fileVoucherStorage.findById(voucher.getUUID());
 
         //then
-        assertThat(found)
+        assertThat(found.isPresent())
+                .isTrue();
+        Voucher foundVoucher = found.get();
+        assertThat(foundVoucher)
                 .usingRecursiveComparison()
                 .isEqualTo(voucher);
     }

@@ -51,7 +51,7 @@ class VoucherFactoryTest {
         VoucherFactory voucherFactory = voucherFactoryMap.get(VoucherType.FIXED_AMOUNT);
 
         //when&then
-        assertThrows(NumberFormatException.class, () -> voucherFactory.requestVoucher("wrong"));
+        assertThrows(NumberFormatException.class, () -> voucherFactory.generateVoucher("wrong"));
     }
 
     @ParameterizedTest
@@ -62,7 +62,7 @@ class VoucherFactoryTest {
         VoucherFactory voucherFactory = voucherFactoryMap.get(VoucherType.FIXED_AMOUNT);
 
         //when&then
-        assertThrows(AmountOutOfBoundException.class, () -> voucherFactory.requestVoucher(discountAmount));
+        assertThrows(AmountOutOfBoundException.class, () -> voucherFactory.generateVoucher(discountAmount));
     }
 
     @Test
@@ -87,6 +87,6 @@ class VoucherFactoryTest {
         VoucherFactory voucherFactory = voucherFactoryMap.get(VoucherType.PERCENT);
 
         //when&then
-        assertThrows(AmountOutOfBoundException.class, () -> voucherFactory.requestVoucher(discountAmount));
+        assertThrows(AmountOutOfBoundException.class, () -> voucherFactory.generateVoucher(discountAmount));
     }
 }

@@ -8,6 +8,7 @@ import org.mockito.Mock;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,10 +44,14 @@ class InMemoryVoucherStorageTest {
 
         //when
         inMemoryVoucherStorage.save(voucher);
-        Voucher afterSave = inMemoryVoucherStorage.findById(uuid);
+        Optional<Voucher> found = inMemoryVoucherStorage.findById(uuid);
 
         //then
-        assertThat(afterSave.getDiscountRate()).isEqualTo(10);
+
+        assertThat(found.isPresent()).isTrue();
+        Voucher foundVoucher = found.get();
+
+        assertThat(foundVoucher.getDiscountRate()).isEqualTo(10);
     }
 
     @Test
