@@ -14,7 +14,7 @@ public enum VoucherType {
   FIXED(1, FixedAmountVoucher::new, DiscountAmount::new),
   PERCENT(2, PercentDiscountVoucher::new, DiscountRate::new);
 
-  private final long type;
+  private final int type;
 
   private final BiFunction<UUID ,Amount, Voucher> voucher;
 
@@ -27,7 +27,7 @@ public enum VoucherType {
     this.amount = amount;
   }
 
-  public static VoucherType of(long choice) {
+  public static VoucherType of(int choice) {
     return Stream.of(VoucherType.values())
         .filter(voucher -> voucher.type == choice)
         .findAny()
@@ -53,7 +53,7 @@ public enum VoucherType {
     return this.amount.apply(value);
   }
 
-  public long getType() {
+  public int getType() {
     return type;
   }
 

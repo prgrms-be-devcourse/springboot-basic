@@ -106,7 +106,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
   }
 
   private VoucherType enteredVoucherType() {
-    long inputType = parseNum(console.chooseVoucherType());
+    int inputType = parseNum(console.chooseVoucherType());
     return VoucherType.of(inputType);
   }
 
