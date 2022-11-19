@@ -8,7 +8,7 @@ spring:
       on-profile: dev
 
 file-path:
-  blacklist: file:customer_blacklist.csv
+  blacklist: src/main/resources/customer_blacklist.csv
 ---
 spring:
   config:
@@ -17,4 +17,4 @@ spring:
 
 file-path:
   voucher: src/voucherFile.csv
-  blacklist: file:customer_blacklist.csv
+  blacklist: src/main/resources/customer_blacklist.csv

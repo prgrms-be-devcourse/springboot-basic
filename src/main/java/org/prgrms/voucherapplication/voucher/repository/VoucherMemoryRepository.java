@@ -4,6 +4,8 @@ import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,10 +22,9 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public String findAll() {
-        final StringBuilder stringBuilder = new StringBuilder();
-        storage.forEach(
-                (uuid, voucher) -> stringBuilder.append(voucher.toString()));
-        return stringBuilder.toString();
+    public List<Voucher> findAll() {
+        List<Voucher> voucherList = new ArrayList<>();
+        storage.forEach((uuid, voucher) -> voucherList.add(voucher));
+        return voucherList;
     }
 }

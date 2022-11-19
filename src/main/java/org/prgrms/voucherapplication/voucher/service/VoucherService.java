@@ -4,6 +4,8 @@ import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
 
@@ -17,7 +19,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public String getList() {
+    public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
 }

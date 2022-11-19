@@ -3,6 +3,8 @@ package org.prgrms.voucherapplication.voucher.controller;
 import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
+import org.prgrms.voucherapplication.customer.CustomerService;
+import org.prgrms.voucherapplication.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.voucher.service.VoucherService;
@@ -10,25 +12,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
+import java.util.UUID;
+
 @Controller
 public class VoucherController {
 
     private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private static final String REQUEST_MESSAGE_VOUCHER_TYPE = "원하시는 바우처 이름을 입력해주세요.";
-    private String blacklistString;
 
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(Input input, Output output, VoucherService voucherService) {
+    public VoucherController(Input input, Output output, VoucherService voucherService, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
-    }
-
-    public void init(String blacklist) {
-        blacklistString = blacklist;
+        this.customerService = customerService;
     }
 
     public void start() {
@@ -57,7 +59,7 @@ public class VoucherController {
                     break;
 
                 case LIST:
-                    getList();
+                    findAll();
                     break;
                 case BLACKLIST:
                     getBlacklist();
@@ -66,13 +68,14 @@ public class VoucherController {
         }
     }
 
-    private void getBlacklist() {
-        output.display(blacklistString);
+    public void getBlacklist() {
+        List<ResponseBlacklist> blacklist = customerService.findBlacklist();
+        blacklist.forEach(blackCustomer -> output.display(blackCustomer.toString()));
     }
 
-    public void getList() {
-        String voucherList = voucherService.getList();
-        output.display(voucherList);
+    public void findAll() {
+        List<Voucher> voucherList = voucherService.findAll();
+        voucherList.forEach(voucher -> output.display(voucher.toString()));
     }
 
     public void create() {
@@ -82,11 +85,11 @@ public class VoucherController {
         Voucher voucher;
         try {
             discount = input.command();
-            voucher = voucherType.createVoucher(Integer.parseInt(discount));
+            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
         } catch (RuntimeException e) {
             logger.error(e.getMessage());
             discount = input.command();
-            voucher = voucherType.createVoucher(Integer.parseInt(discount));
+            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
         }
         voucherService.create(voucher);
     }

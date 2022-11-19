@@ -1,9 +1,9 @@
-package org.prgrms.voucherapplication.utils;
+package org.prgrms.voucherapplication.voucher.service;
 
 import org.prgrms.voucherapplication.common.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,13 +12,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
-@Component
+@Service
 public class CsvFileService {
 
     private final Logger logger = LoggerFactory.getLogger(CsvFileService.class);
     public static final String FILE_ERROR = "csv 파일 처리 과정에서 오류가 발생했습니다. 확인 후 프로그램을 재실행 시켜주세요.";
 
-    public String readFileLines(File file) {
+    public List<String> readFileLines(File file) {
         List<String> strings;
         try {
             strings = Files.readAllLines(file.toPath());
@@ -27,13 +27,7 @@ public class CsvFileService {
             throw new VoucherException(FILE_ERROR);
         }
 
-        StringBuilder blacklist = new StringBuilder();
-        for (String string : strings) {
-            String[] split = string.split(",");
-            blacklist.append(split[0]).append(". ").append(split[1]).append(" ");
-        }
-
-        return blacklist.toString();
+        return strings;
     }
 
     public void write(File file, String line) {
