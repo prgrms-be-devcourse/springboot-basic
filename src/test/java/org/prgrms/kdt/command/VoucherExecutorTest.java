@@ -36,13 +36,11 @@ class VoucherExecutorTest {
         @CsvSource(value = {"FIXED, 0", "FIXED, 10", "FIXED, 1000", "FIXED, 10000", "PERCENT, 0", "PERCENT, 10", "PERCENT, 100", "PERCENT, 20"})
         void saveTest(String type, String amount) {
             // given
-            Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
 
 
             // when
-            voucherExecutor.create(type, amount);
-            long createdId = voucher.getId() + 1;
-            Optional<Voucher> actual = voucherManager.findById(createdId);
+            Voucher createdVoucher = voucherExecutor.create(type, amount);
+            Optional<Voucher> actual = voucherManager.findById(createdVoucher.getId());
 
             // then
             assertThat(actual.isPresent())
@@ -87,14 +85,13 @@ class VoucherExecutorTest {
 
         @DisplayName("바우처를 저장할 수 있다.")
         @ParameterizedTest
-        @CsvSource(value = {"1, FIXED, 0", "2, FIXED, 10", "3, FIXED, 1000", "4, FIXED, 10000", "5, PERCENT, 0", "6, PERCENT, 10", "7, PERCENT, 100", "8, PERCENT, 20"})
-        void saveTest(long id, String type, String amount) {
+        @CsvSource(value = {"FIXED, 0", "FIXED, 10", "FIXED, 1000", "FIXED, 10000", "PERCENT, 0", "PERCENT, 10", "PERCENT, 100", "PERCENT, 20"})
+        void saveTest(String type, String amount) {
             // given
-            Voucher voucher = Voucher.from(id, VoucherType.of(type), new VoucherAmount(amount));
 
             // when
-            voucherExecutor.create(type, amount);
-            Optional<Voucher> actual = voucherManager.findById(voucher.getId());
+            Voucher createdVoucher = voucherExecutor.create(type, amount);
+            Optional<Voucher> actual = voucherManager.findById(createdVoucher.getId());
 
             // then
             assertThat(actual.isPresent())

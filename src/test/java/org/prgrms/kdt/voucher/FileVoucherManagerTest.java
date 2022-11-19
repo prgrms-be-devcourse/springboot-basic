@@ -40,8 +40,8 @@ class FileVoucherManagerTest {
         Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
 
         // when
-        voucherManager.save(voucher);
-        Optional<Voucher> actual = voucherManager.findById(voucher.getId());
+        Voucher savedVoucher = voucherManager.save(voucher);
+        Optional<Voucher> actual = voucherManager.findById(savedVoucher.getId());
 
         // then
         assertThat(actual.isPresent())
@@ -83,12 +83,12 @@ class FileVoucherManagerTest {
     void findByIdTest() {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
-        voucherManager.save(voucher);
+        Voucher savedVoucher = voucherManager.save(voucher);
 
         // when
 
         // then
-        assertThat(voucherManager.findById(voucher.getId()).isPresent())
+        assertThat(voucherManager.findById(savedVoucher.getId()).isPresent())
                 .isTrue();
     }
 }

@@ -19,8 +19,8 @@ public class InMemoryVoucherManager implements VoucherManager {
 
     @Override
     public Voucher save(Voucher voucher) {
-        vouchers.put(voucher.getId(), voucher);
-        return voucher;
+        vouchers.put(VoucherId.increase(), voucher);
+        return Voucher.from(VoucherId.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override

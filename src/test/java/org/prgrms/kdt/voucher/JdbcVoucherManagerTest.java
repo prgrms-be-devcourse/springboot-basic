@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -41,10 +42,10 @@ class JdbcVoucherManagerTest extends JdbcBase {
         Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(value));
 
         // when
-        voucherManager.save(voucher);
+        Voucher savedVoucher = voucherManager.save(voucher);
 
         // then
-        Assertions.assertThat(voucherManager.findById(voucher.getId()).isPresent())
+        Assertions.assertThat(voucherManager.findById(savedVoucher.getId()).isPresent())
                 .isTrue();
     }
 
@@ -55,8 +56,8 @@ class JdbcVoucherManagerTest extends JdbcBase {
         Voucher voucher1 = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
         Voucher voucher2 = Voucher.newInstance(VoucherType.of("percent"), new VoucherAmount("20"));
 
-        voucherManager.save(voucher1);
-        voucherManager.save(voucher2);
+        Voucher savedVoucher1 = voucherManager.save(voucher1);
+        Voucher savedVoucher2 = voucherManager.save(voucher2);
 
         // when
         List<Voucher> actualVouchers = voucherManager.findAll();
@@ -64,9 +65,7 @@ class JdbcVoucherManagerTest extends JdbcBase {
         // then
         assertThat(actualVouchers)
                 .usingRecursiveComparison()
-                .isEqualTo(List.of(voucher1, voucher2));
-
-
+                .isEqualTo(List.of(savedVoucher1, savedVoucher2));
     }
 
     @DisplayName("Id로 바우처를 조회할 수 있다.")
@@ -74,12 +73,12 @@ class JdbcVoucherManagerTest extends JdbcBase {
     void findById() {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
-        voucherManager.save(voucher);
+        Voucher savedVoucher = voucherManager.save(voucher);
 
         // when
 
         // then
-        assertThat(voucherManager.findById(voucher.getId()).isPresent())
+        assertThat(voucherManager.findById(savedVoucher.getId()).isPresent())
                 .isTrue();
     }
 
@@ -88,18 +87,19 @@ class JdbcVoucherManagerTest extends JdbcBase {
     void updateTest() {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
-        voucherManager.save(voucher);
-        Voucher updatedVoucher = Voucher.from(voucher.getId(), VoucherType.FIXED, new VoucherAmount("20"));
+        Voucher savedVoucher = voucherManager.save(voucher);
+        Voucher updatedVoucher = Voucher.from(savedVoucher.getId(), VoucherType.FIXED, new VoucherAmount("20"));
 
         // when
         voucherManager.update(updatedVoucher);
+        Optional<Voucher> actual = voucherManager.findById(savedVoucher.getId());
 
         // then
-        voucherManager.findById(voucher.getId()).ifPresent(
-                actual -> assertThat(actual)
-                        .usingRecursiveComparison()
-                        .isEqualTo(updatedVoucher)
-        );
+        assertThat(actual)
+                .isPresent()
+                .map(Voucher::getAmount)
+                .hasValue(new VoucherAmount("20"));
+
     }
 
     @DisplayName("Id로 바우처는 삭제될 수 있다.")
@@ -107,13 +107,13 @@ class JdbcVoucherManagerTest extends JdbcBase {
     void deleteByIdTest() {
         // given
         Voucher voucher = Voucher.newInstance(VoucherType.of("fixed"), new VoucherAmount("10"));
-        voucherManager.save(voucher);
+        Voucher savedVoucher = voucherManager.save(voucher);
 
         // when
-        voucherManager.deleteById(voucher.getId());
+        voucherManager.deleteById(savedVoucher.getId());
 
         // then
-        assertThat(voucherManager.findById(voucher.getId()).isPresent())
+        assertThat(voucherManager.findById(savedVoucher.getId()).isPresent())
                 .isFalse();
     }
 }

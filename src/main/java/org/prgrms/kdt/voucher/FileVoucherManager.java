@@ -27,8 +27,9 @@ public class FileVoucherManager implements VoucherManager {
     public Voucher save(Voucher voucher) {
         File vouchersCsv = loadFile();
 
-        write(voucher, vouchersCsv);
-        return voucher;
+        Voucher savedVoucher = Voucher.from(getNextLineNumber(vouchersCsv), voucher.getType(), voucher.getAmount());
+        write(savedVoucher, vouchersCsv);
+        return savedVoucher;
     }
 
     private File loadFile() {
@@ -41,6 +42,15 @@ public class FileVoucherManager implements VoucherManager {
             throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + filePath, exception);
         }
         return file;
+    }
+
+    private long getNextLineNumber(File file) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            return bufferedReader.lines()
+                    .count() + 1;
+        } catch (IOException exception) {
+            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName(), exception);
+        }
     }
 
     private void write(Voucher voucher, File file) {

@@ -19,10 +19,10 @@ public class VoucherExecutor {
         this.voucherMapper = voucherMapper;
     }
 
-    public void create(String type, String amount) {
+    public Voucher create(String type, String amount) {
         Voucher voucher = voucherMapper.fromMetadata(type, amount);
 
-        voucherManager.save(voucher);
+        return voucherManager.save(voucher);
     }
 
     public List<Voucher> list() {
