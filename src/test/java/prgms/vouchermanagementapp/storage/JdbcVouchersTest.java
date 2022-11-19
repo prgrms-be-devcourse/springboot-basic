@@ -61,7 +61,7 @@ class JdbcVouchersTest {
         assertThat(voucherEntities.size()).isEqualTo(2);
     }
 
-    @DisplayName("고객이 가진 FixedAmountVoucher 의 고정 할인 금액을 변경할 수 있다.")
+    @DisplayName("고객이 가진 고정 금액 할인 바우처의 금액을 변경할 수 있다.")
     @Test
     void updateFixedAmountVoucherById() {
         // given
@@ -80,14 +80,23 @@ class JdbcVouchersTest {
         assertThat(foundVoucherEntity.get().getAmount()).isEqualTo(changedAmount);
     }
 
-    @DisplayName("고객이 가진 PercentDiscountVoucher 의 고정 할인 비율을 변경할 수 있다.")
+    @DisplayName("고객이 가진 고정 비율 할인 바우처의 고정 할인 비율을 변경할 수 있다.")
     @Test
     void updateRatioByCustomerName() {
         // given
+        long originalRatio = 50;
+        Voucher originalVoucher = VoucherCreationFactory.createVoucher(new Ratio(originalRatio));
+        VoucherEntity originalVoucherEntity = EntityMapper.toVoucher(originalVoucher, savedCustomer);
+        jdbcVouchers.save(originalVoucherEntity);
 
         // when
+        long changedRatio = 100;
+        jdbcVouchers.updatePercentDiscountVoucherById(originalVoucherEntity.getId(), changedRatio);
+        Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
 
         // then
+        assert foundVoucherEntity.isPresent();
+        assertThat(foundVoucherEntity.get().getRatio()).isEqualTo(changedRatio);
     }
 
     @DisplayName("모든 바우처를 삭제할 수 있다.")
@@ -99,6 +108,4 @@ class JdbcVouchersTest {
 
         // then
     }
-
-
 }

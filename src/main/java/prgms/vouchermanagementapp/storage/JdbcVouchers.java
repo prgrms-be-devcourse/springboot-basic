@@ -77,6 +77,19 @@ public class JdbcVouchers {
         template.update(sql, param);
     }
 
+    public void updatePercentDiscountVoucherById(String id, long ratio) {
+        String sql = "update vouchers " +
+                "set ratio=:ratio " +
+                "where id=:id";
+
+        Map<String, Object> param = Map.of(
+                "id", id,
+                "ratio", ratio
+        );
+
+        template.update(sql, param);
+    }
+
     private RowMapper<VoucherEntity> voucherEntityRowMapper() {
         return ((rs, rowNum) -> {
             String uuid = rs.getString("id");
