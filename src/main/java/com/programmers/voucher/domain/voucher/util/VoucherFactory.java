@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.voucher.util;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -14,15 +15,20 @@ public class VoucherFactory {
 
 	public Voucher createVoucher(VoucherType voucherType, String discount) {
 		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(UUID.randomUUID(), voucherType, discount);
+			return new FixedDiscountVoucher(UUID.randomUUID(), discount, LocalDateTime.now(), voucherType,
+				LocalDateTime.now());
 		}
-		return new PercentDiscountVoucher(UUID.randomUUID(), voucherType, discount);
+		return new PercentDiscountVoucher(UUID.randomUUID(), discount, LocalDateTime.now(), voucherType,
+			LocalDateTime.now());
 	}
 
-	public Voucher createVoucher(UUID voucherId, VoucherType voucherType, String discount) {
+	public Voucher createVoucher(UUID voucherId, VoucherType voucherType, String discount, LocalDateTime createdAt,
+		LocalDateTime lastModifiedAt) {
 		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(voucherId, voucherType, discount);
+			return new FixedDiscountVoucher(voucherId, discount, createdAt, voucherType,
+				lastModifiedAt);
 		}
-		return new PercentDiscountVoucher(voucherId, voucherType, discount);
+		return new PercentDiscountVoucher(voucherId, discount, createdAt, voucherType,
+			lastModifiedAt);
 	}
 }

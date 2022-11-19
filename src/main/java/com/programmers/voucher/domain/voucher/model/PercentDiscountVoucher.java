@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -13,8 +15,9 @@ public class PercentDiscountVoucher extends Voucher {
 	private static final double MIN_PERCENT = 0;
 	private static final double MAX_PERCENT = 100;
 
-	public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, String discount) {
-		super(voucherId, voucherType, discount);
+	public PercentDiscountVoucher(UUID voucherId, String discount, LocalDateTime createdAt,
+		VoucherType voucherType, LocalDateTime modifiedAt) {
+		super(voucherId, discount, createdAt, voucherType, modifiedAt);
 	}
 
 	@Override
@@ -36,6 +39,8 @@ public class PercentDiscountVoucher extends Voucher {
 
 	@Override
 	public String toString() {
-		return "ID: " + voucherId + ", Type: " + voucherType.name() + ", Discount: " + discount + "%";
+		return "voucherId: " + voucherId + ", voucherType: " + voucherType.name() + ", discount: " + discount
+			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+			+ ", lastModifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

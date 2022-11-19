@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -12,8 +14,9 @@ public class FixedDiscountVoucher extends Voucher {
 	private static final Logger log = LoggerFactory.getLogger(FixedDiscountVoucher.class);
 	private static final double MIN_DISCOUNT = 0;
 
-	public FixedDiscountVoucher(UUID voucherId, VoucherType voucherType, String discount) {
-		super(voucherId, voucherType, discount);
+	public FixedDiscountVoucher(UUID voucherId, String discount, LocalDateTime createdAt,
+		VoucherType voucherType, LocalDateTime modifiedAt) {
+		super(voucherId, discount, createdAt, voucherType, modifiedAt);
 	}
 
 	@Override
@@ -35,6 +38,8 @@ public class FixedDiscountVoucher extends Voucher {
 
 	@Override
 	public String toString() {
-		return "ID: " + voucherId + ", Type: " + voucherType.name() + ", Discount: " + discount;
+		return "voucherId: " + voucherId + ", voucherType: " + voucherType.name() + ", discount: " + discount
+			+ ", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+			+ ", lastModifiedAt: " + lastModifiedAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

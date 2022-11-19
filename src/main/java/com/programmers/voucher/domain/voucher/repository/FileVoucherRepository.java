@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,7 +37,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
-	private static final String LINE_SEPARATOR = ", |: |%";
+	private static final String LINE_SEPARATOR = ", |: |%, ";
 	private final VoucherFactory voucherFactory;
 	private final String filePath;
 
@@ -54,7 +56,11 @@ public class FileVoucherRepository implements VoucherRepository {
 				UUID voucherId = UUID.fromString(voucherInfo[1]);
 				VoucherType voucherType = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
-				Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discount);
+				String createdAt = voucherInfo[7];
+				String lastModifiedAt = voucherInfo[9];
+				Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discount,
+					LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")),
+					LocalDateTime.parse(lastModifiedAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				vouchers.put(voucherId, voucher);
 			}
 		} catch (IOException e) {
