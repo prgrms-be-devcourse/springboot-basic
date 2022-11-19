@@ -1,7 +1,7 @@
 package com.prgrms.springbootbasic.customer.storage;
 
+import com.prgrms.springbootbasic.common.exception.DataModifyingException;
 import com.prgrms.springbootbasic.customer.domain.Customer;
-import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -12,6 +12,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -31,11 +32,14 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("prod")
 @TestInstance(Lifecycle.PER_CLASS)
 class CustomerRepositoryTest {
+
+    private static final String tooLongName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     @Configuration
     @ComponentScan(
@@ -57,7 +61,6 @@ class CustomerRepositoryTest {
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
-
     }
 
     @Autowired
@@ -70,10 +73,11 @@ class CustomerRepositoryTest {
     DataSource dataSource;
 
     private Customer customer;
+    private Customer wrongNameCustomer;
     private List<Customer> customerList;
 
     @BeforeAll
-    void setDatabase() {
+    public void setDatabase() {
 
         MysqldConfig mysqldConfig = aMysqldConfig(v5_7_latest)
                 .withCharset(Charset.UTF8)
@@ -88,16 +92,19 @@ class CustomerRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        customer = new Customer(UUID.randomUUID(), "test", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
+        customer = new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test");
+        wrongNameCustomer = new Customer(UUID.randomUUID(),
+                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
+                tooLongName);
         customerList = List.of(
-                new Customer(UUID.randomUUID(), "test1", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)),
-                new Customer(UUID.randomUUID(), "test2", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS)),
-                new Customer(UUID.randomUUID(), "test3", LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS))
+                new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test1"),
+                new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test2"),
+                new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test3")
         );
     }
 
     @AfterEach
-    private void deleteAll() {
+    public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customer");
     }
 
@@ -105,28 +112,38 @@ class CustomerRepositoryTest {
     @DisplayName("Customer를 저장할 수 있다.")
     void save() {
         //given&when
-        Customer savedCustomer = jdbcCustomerRepository.save(customer);
-
-        //then
-        assertThat(savedCustomer)
-                .usingRecursiveComparison()
-                .isEqualTo(customer);
-    }
-
-    @Test
-    @DisplayName("id를 조회해서 Customer를 조회할 수 있다.")
-    void findById() {
-        //given
-        Customer savedCustomer = jdbcCustomerRepository.save(customer);
-
-        //when
-        Optional<Customer> found = jdbcCustomerRepository.findById(savedCustomer.getId());
+        jdbcCustomerRepository.save(customer);
+        Optional<Customer> found = jdbcCustomerRepository.findById(customer.getId());
 
         //then
         assertThat(found.isPresent()).isTrue();
         Customer foundCustomer = found.get();
 
         assertThat(foundCustomer)
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("영문 기준 50글자를 초과하면 저장에 실패한다.")
+    void saveFailStringTooLong() {
+        //when&then
+        assertThrows(DataIntegrityViolationException.class, () -> jdbcCustomerRepository.save(wrongNameCustomer));
+    }
+
+    @Test
+    @DisplayName("id를 조회해서 Customer를 조회할 수 있다.")
+    void findById() {
+        //given
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        Optional<Customer> found = jdbcCustomerRepository.findById(customer.getId());
+
+        //then
+        assertThat(found.isPresent()).isTrue();
+
+        assertThat(found.get())
                 .usingRecursiveComparison()
                 .isEqualTo(customer);
     }
@@ -145,34 +162,116 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("Customer를 수정할 수 있다.")
-    void update() {
+    @DisplayName("이름으로 Customer를 조회할 수 있다.")
+    void findByName() {
         //given
-        Customer savedCustomer = jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.save(customer);
 
         //when
-        String newName = "new_name";
-        savedCustomer.update(newName);
-
-        Customer updatedCustomer = jdbcCustomerRepository.update(savedCustomer);
+        Optional<Customer> foundCustomer = jdbcCustomerRepository.findByName(customer.getName());
 
         //then
-        assertThat(savedCustomer.getId()).isEqualTo(updatedCustomer.getId());
-        assertThat(savedCustomer.getName()).isEqualTo(newName);
+        assertThat(foundCustomer.isPresent()).isTrue();
+        assertThat(foundCustomer.get())
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
     }
 
     @Test
-    @DisplayName("Customer를 삭제할 수 있다.")
-    void delete() {
+    @DisplayName("Customer를 수정할 수 있다.")
+    void update() {
         //given
-        Customer savedCustomer = jdbcCustomerRepository.save(customer);
+        jdbcCustomerRepository.save(customer);
+
+        //when
+        String newName = "new_name";
+        customer.update(newName);
+
+        jdbcCustomerRepository.update(customer);
+        Optional<Customer> found = jdbcCustomerRepository.findById(customer.getId());
+
+        //then
+        assertThat(found.isPresent()).isTrue();
+
+        assertThat(found.get())
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("수정하고자 하는 이름이 너무 길면 Customer를 수정할 수 없다.")
+    void updateFailStringTooLong() {
+        //given
+        jdbcCustomerRepository.save(customer);
+
+
+        //when&then
+        customer.update(tooLongName);
+        assertThrows(DataIntegrityViolationException.class, () -> jdbcCustomerRepository.update(customer));
+    }
+
+    @Test
+    @DisplayName("조회할 수 없는 PK값을 갖고있는 Customer를 update하려고 하면 실패한다.")
+    void updateFailIdNotFound() {
+        //given
+        jdbcCustomerRepository.save(customer);
+
+        //when&then
+        Customer wrongIdCustomer = new Customer(UUID.randomUUID(), "wrongIdCustomer");
+        assertThrows(DataModifyingException.class, () -> jdbcCustomerRepository.update(wrongIdCustomer));
+    }
+
+    @Test
+    @DisplayName("Customer id를 통해 Customer를 삭제할 수 있다.")
+    void deleteById() {
+        //given
+        jdbcCustomerRepository.save(customer);
         List<Customer> foundBeforeDelete = jdbcCustomerRepository.findAll();
 
         //when
-        jdbcCustomerRepository.delete(savedCustomer.getId());
+        jdbcCustomerRepository.delete(customer.getId());
 
         //then
         List<Customer> foundAfterDelete = jdbcCustomerRepository.findAll();
         assertThat(foundAfterDelete.size()).isEqualTo(foundBeforeDelete.size() - 1);
+    }
+
+    @Test
+    @DisplayName("조회할 수 없는 PK값을 갖고있는 Customer를 delete하려고 하면 실패한다.")
+    void deleteFailIdNotFound() {
+        //given
+        jdbcCustomerRepository.save(customer);
+
+        //when&then
+        Customer wrongIdCustomer = new Customer(UUID.randomUUID(), "wrongIdCustomer");
+        assertThrows(DataModifyingException.class, () -> jdbcCustomerRepository.delete(wrongIdCustomer.getId()));
+    }
+
+    @Test
+    @DisplayName("Customer name을 통해 Customer를 삭제할 수 있다.")
+    void deleteByName() {
+        //given
+        jdbcCustomerRepository.save(customer);
+        List<Customer> foundBeforeDelete = jdbcCustomerRepository.findAll();
+
+        //when
+        jdbcCustomerRepository.delete(customer.getName());
+
+        //then
+        List<Customer> foundAfterDelete = jdbcCustomerRepository.findAll();
+        assertThat(foundAfterDelete.size()).isEqualTo(foundBeforeDelete.size() - 1);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 name을 통해 Customer를 delete하려고 하면 실패한다.")
+    void deleteFailNameNotFound() {
+        //given
+        jdbcCustomerRepository.save(customer);
+
+        //when&then
+        String realName = customer.getName();
+        customer.update("wrongName");
+        jdbcCustomerRepository.update(customer);
+        assertThrows(DataModifyingException.class, () -> jdbcCustomerRepository.delete(realName));
     }
 }

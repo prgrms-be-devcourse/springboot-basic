@@ -7,11 +7,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    Customer save(Customer customer);
+    void save(Customer customer);
 
-    Customer update(Customer customer);
+    void update(Customer customer);
 
     void delete(UUID id);
+
+    void delete(String name);
 
     Optional<Customer> findById(UUID id);
 
