@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -36,26 +37,26 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) {
+    public boolean insert(Customer customer) {
         final String sql = "INSERT INTO customers (customer_id, name) VALUES (:customer_id,:name)";
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         try {
-            jdbcTemplate.update(sql, parameters);
-            return customer;
+
+            return jdbcTemplate.update(sql, parameters) == 1;
         }catch (DuplicateKeyException e) {
             throw new WrongFindDataException(SAME_ID_MESSAGE);
         }
     }
 
     @Override
-    public Customer findById(UUID customerId) {
+    public Optional<Customer> findById(UUID customerId) {
         final String sql = "SELECT * FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue(TABLE_FIELD_CUSTOMER_ID, customerId);
         try {
-            return jdbcTemplate.queryForObject(sql, parameters, customerRowMapper);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameters, customerRowMapper));
         } catch (DataAccessException e) {
             throw new WrongFindDataException(NOT_FOUND_ID_MESSAGE);
         }
@@ -68,14 +69,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer update(Customer customer) {
+    public boolean update(Customer customer) {
         final String sql = "UPDATE customers SET name = :name WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
-        if(jdbcTemplate.update(sql, parameters) == 1)
-            return customer;
-        throw new WrongFindDataException(NOT_FOUND_ID_MESSAGE);
+        return jdbcTemplate.update(sql, parameters) == 1;
+//        throw new WrongFindDataException(NOT_FOUND_ID_MESSAGE);
     }
 
     @Override

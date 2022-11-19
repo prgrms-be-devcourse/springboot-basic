@@ -13,6 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,9 +42,12 @@ class JdbcCustomerRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(),"test1");
         //when
-        jdbcCustomerRepository.insert(customer);
+        boolean insertResult = jdbcCustomerRepository.insert(customer);
+        Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
-        assertThat(jdbcCustomerRepository.findById(customer.getCustomerId())).isEqualTo(customer);
+        assertThat(insertResult).isTrue();
+        assertThat(customerOptional).isNotEmpty();
+        assertThat(customerOptional.get()).isEqualTo(customer);
     }
 
     @Test
@@ -64,10 +68,12 @@ class JdbcCustomerRepositoryTest {
     void findByCustomerIdTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test3");
-        //when
         jdbcCustomerRepository.insert(customer);
+        //when
+        Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
-        assertThat(jdbcCustomerRepository.findById(customer.getCustomerId())).isEqualTo(customer);
+        assertThat(customerOptional).isNotEmpty();
+        assertThat(customerOptional.get()).isEqualTo(customer);
     }
 
     @Test
@@ -112,10 +118,13 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.insert(customer);
         Customer newCustomer = new Customer(customer.getCustomerId(), "test8");
         //when
-        jdbcCustomerRepository.update(newCustomer);
+        boolean updateResult = jdbcCustomerRepository.update(newCustomer);
+        Optional<Customer> newCustomerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
-        assertThat(jdbcCustomerRepository.findById(customer.getCustomerId())).isEqualTo(newCustomer);
-        assertThat(jdbcCustomerRepository.findById(customer.getCustomerId()).getName()).isEqualTo(newCustomer.getName());
+        assertThat(updateResult).isTrue();
+        assertThat(newCustomerOptional).isNotEmpty();
+        assertThat(newCustomerOptional.get()).isEqualTo(newCustomer);
+        assertThat(newCustomerOptional.get().getName()).isEqualTo(newCustomer.getName());
     }
 
     @Test
@@ -123,10 +132,10 @@ class JdbcCustomerRepositoryTest {
     void updateNotExistCustomerNameTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test9");
-        //when & then
-        assertThatExceptionOfType(WrongFindDataException.class)
-                .isThrownBy(() -> jdbcCustomerRepository.update(customer))
-                .withMessage("해당 ID는 존재하지 않는 ID입니다.");
+        //when
+        boolean updateResult = jdbcCustomerRepository.update(customer);
+        //then
+        assertThat(updateResult).isFalse();
     }
 
     @Test

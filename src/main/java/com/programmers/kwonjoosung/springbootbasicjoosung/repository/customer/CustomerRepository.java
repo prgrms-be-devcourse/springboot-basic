@@ -3,18 +3,27 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Customer insert(Customer customer);
+    default boolean insert(Customer customer){
+        return false;
+    }
 
-    Customer findById(UUID customerId);
+    default Optional<Customer> findById(UUID customerId){
+        return Optional.empty();
+    }
 
     List<Customer> findAll();
 
-    Customer update(Customer customer);
+    default boolean update(Customer customer){
+        return false;
+    }
 
-    boolean delete(UUID customerId);
+    default boolean delete(UUID customerId){
+        return false;
+    }
 
 }
