@@ -94,17 +94,24 @@
 ### 바우처를 DB로 관리
 
 - [ ]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
-    - [ ]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - [x]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
     - [ ]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
     - [ ]  기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
-        - [ ]  Create: save (insert)
-        - [ ]  Read: findById, findAll
-        - [ ]  Update: update
-        - [ ]  Delete: deleteAll, deleteById
+        - [x]  Create: save (insert)
+        - [x]  Read: findAll
+        - [ ]  Update:
+        - updateAmountByCustomerName(long amount)
+        - updateRatioByCustomerName(long ratio)
+        - [ ]  Delete: deleteAll
+
+- [ ] 콘솔로 CRUD 실행 구현
 
 ## (심화) 바우처 지갑을 만들어보세요.
 
 - [ ] 특정 고객에게 바우처를 할당할 수 있습니다.
 - [ ] 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+    - [x] Read: findByCustomerName
 - [ ] 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+    - [ ] Delete: deleteByCustomerName
 - [ ] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
+    - [ ] Read: findCustomerByVoucherType
