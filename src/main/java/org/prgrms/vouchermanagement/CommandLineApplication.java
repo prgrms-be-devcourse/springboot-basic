@@ -64,6 +64,9 @@ public class CommandLineApplication {
                     case CUSTOMER_LIST:
                         printCustomers();
                         break;
+                    case CUSTOMER_VOUCHER_LIST:
+                        printCustomerVouchers();
+                        break;
                     case BLACKLIST:
                         printBlacklist();
                         break;
@@ -100,6 +103,13 @@ public class CommandLineApplication {
     private void printCustomers() {
         List<Customer> customers = customerService.findAll();
         output.printCustomers(customers);
+    }
+
+    private void printCustomerVouchers() {
+        String email = input.receiveCustomerEmail();
+        Customer customer = customerService.findByEmail(email);
+        List<Voucher> vouchers = voucherListFindService.findVouchersByCustomerId(customer.getCustomerId());
+        output.printAllVouchers(vouchers);
     }
 
     private void printBlacklist() {

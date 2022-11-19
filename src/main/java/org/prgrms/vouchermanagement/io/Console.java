@@ -23,6 +23,7 @@ public class Console implements Input, Output {
             "Type [list] to list all vouchers." + System.lineSeparator() +
             "Type [create customer] to create a new customer." + System.lineSeparator() +
             "Type [show customers] to list all customer." + System.lineSeparator() +
+            "Type [customer vouchers list] to list all vouchers the customer has" + System.lineSeparator() +
             "Type [blacklist] to list all blacklist";
 
     public static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";

@@ -3,6 +3,7 @@ package org.prgrms.vouchermanagement.customer.service;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.prgrms.vouchermanagement.exception.customer.CustomerAlreadyExistException;
+import org.prgrms.vouchermanagement.exception.customer.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +46,8 @@ public class CustomerService {
         return customerRepository.findByName(name);
     }
 
-    public Optional<Customer> findByEmail(String email) {
-        return customerRepository.findByEmail(email);
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .orElseThrow(CustomerNotFoundException::new);
     }
 }

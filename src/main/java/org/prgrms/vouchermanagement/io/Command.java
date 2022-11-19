@@ -9,6 +9,7 @@ public enum Command {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
+    CUSTOMER_VOUCHER_LIST("customer vouchers list"),
     CREATE_CUSTOMER("create customer"),
     CUSTOMER_LIST("show customers"),
     BLACKLIST("blacklist");

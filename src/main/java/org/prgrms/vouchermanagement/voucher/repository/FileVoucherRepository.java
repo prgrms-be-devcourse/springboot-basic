@@ -6,7 +6,6 @@ import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherCreateDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -101,6 +101,21 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        try {
+            List<String> voucherInfos = Files.readAllLines(Paths.get(path));
+            return voucherInfos.stream()
+                    .filter(voucherInfo -> voucherInfo.split(",")[3].equals(customerId.toString()))
+                    .map(voucherInfo -> createVoucher(voucherInfo.split(",")))
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+
+        return List.of();
     }
 
 

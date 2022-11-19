@@ -14,4 +14,6 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     void clear();
+
+    List<Voucher> findVouchersByCustomerId(UUID customerId);
 }
