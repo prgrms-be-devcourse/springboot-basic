@@ -3,11 +3,13 @@ package org.prgrms.vouchermanagement.voucher.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.voucher.domain.FixedAmountVoucher;
 import org.prgrms.vouchermanagement.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,5 +51,30 @@ class VoucherListFindServiceTest {
                 .extracting("voucherId", "discountAmount", "voucherType")
                 .contains(tuple(fixedAmountVoucher.getVoucherId(), fixedAmountVoucher.getDiscountAmount(), fixedAmountVoucher.getVoucherType()),
                         tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType()));
+    }
+
+    @Test
+    @DisplayName("CustomerId로 VoucherList 불러오기 확인")
+    void findVouchersByCustomerId() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Customer customer = Customer.createNormalCustomer(customerId, "name", "email@google.com", LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000, customerId);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30, customerId);
+
+        List<Voucher> vouchers = List.of(fixedAmountVoucher, percentDiscountVoucher);
+
+        when(voucherRepository.findVouchersByCustomerId(customer.getCustomerId()))
+                .thenReturn(vouchers);
+        // when
+        List<Voucher> result = voucherListFindService.findVouchersByCustomerId(customerId);
+
+        // then
+        verify(voucherRepository).findVouchersByCustomerId(customerId);
+        assertThat(result).hasSize(2);
+        assertThat(result)
+                .extracting("voucherId", "discountAmount", "voucherType", "customerId")
+                .contains(tuple(fixedAmountVoucher.getVoucherId(), fixedAmountVoucher.getDiscountAmount(), fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getCustomerId()))
+                .contains(tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType(), percentDiscountVoucher.getCustomerId()));
     }
 }

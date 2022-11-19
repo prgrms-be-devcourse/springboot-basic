@@ -167,6 +167,27 @@ class JdbcVoucherRepositoryTest {
         assertThat(allVouchers).isEmpty();
     }
 
+    @Test
+    @DisplayName("CustomerId로 바우처 찾기")
+    void findVoucherByCustomerId() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Voucher fixedAmountVoucher = createVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10, customerId);
+        Voucher percentDiscountVoucher = createVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 1000, customerId);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
+
+        // when
+        List<Voucher> vouchers = jdbcVoucherRepository.findVouchersByCustomerId(customerId);
+
+        // then
+        assertThat(vouchers).hasSize(2);
+        assertThat(vouchers)
+                .extracting("voucherId", "discountAmount", "voucherType", "customerId")
+                .contains(tuple(fixedAmountVoucher.getVoucherId(), fixedAmountVoucher.getDiscountAmount(), fixedAmountVoucher.getVoucherType(), fixedAmountVoucher.getCustomerId()))
+                .contains(tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType(), percentDiscountVoucher.getCustomerId()));
+    }
+
     private Voucher createVoucher(UUID uuid, VoucherType voucherType, int discountAmount, UUID customerId) {
         return VoucherType.createVoucher(VoucherCreateDTO.of(uuid, voucherType.name(), discountAmount, customerId));
     }
