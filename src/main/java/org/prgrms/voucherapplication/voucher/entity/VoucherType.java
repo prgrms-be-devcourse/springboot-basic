@@ -3,20 +3,20 @@ package org.prgrms.voucherapplication.voucher.entity;
 import org.prgrms.voucherapplication.common.VoucherException;
 
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED(1,"원하시는 할인 금액을 입력해주세요.", discount -> new FixedAmountVoucher(UUID.randomUUID(), discount)),
-    PERCENT(2,"원하시는 할인 퍼센트를 입력해주세요.", discount -> new PercentDiscountVoucher(UUID.randomUUID(), discount));
+    FIXED(1,"원하시는 할인 금액을 입력해주세요.", FixedAmountVoucher::new),
+    PERCENT(2,"원하시는 할인 퍼센트를 입력해주세요.", PercentDiscountVoucher::new);
 
     private static final String NOT_EXIST = "없는 바우처 종류입니다.";
 
     private final int order;
     private final String discountGuide;
-    private final Function<Integer, Voucher> constructor;
+    private final BiFunction<UUID, Integer, Voucher> constructor;
 
-    VoucherType(int order, String discountGuide, Function<Integer, Voucher> constructor) {
+    VoucherType(int order, String discountGuide, BiFunction<UUID, Integer, Voucher> constructor) {
         this.order = order;
         this.discountGuide = discountGuide;
         this.constructor = constructor;
@@ -42,7 +42,7 @@ public enum VoucherType {
                 .orElseThrow(() -> new VoucherException(NOT_EXIST));
     }
 
-    public Voucher createVoucher(int discount) {
-        return this.constructor.apply(discount);
+    public Voucher createVoucher(UUID uuid, int discount) {
+        return this.constructor.apply(uuid, discount);
     }
 }
