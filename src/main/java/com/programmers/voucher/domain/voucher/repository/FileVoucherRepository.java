@@ -83,17 +83,41 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void save(Voucher voucher) {
-		vouchers.put(voucher.getVoucherId(), voucher);
+	public Voucher save(Voucher voucher) {
+		return vouchers.put(voucher.getVoucherId(), voucher);
 	}
 
 	@Override
-	public Voucher findByUUID(UUID voucherId) {
+	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(vouchers.get(voucherId))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				throw new VoucherNotFoundException();
 			});
+	}
+
+	@Override
+	public Voucher update(UUID voucherId, Voucher updateVoucher) {
+		Optional.ofNullable(vouchers.get(voucherId))
+			.ifPresentOrElse(voucher -> vouchers.put(voucherId, voucher),
+				() -> {
+					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					throw new VoucherNotFoundException();
+				}
+			);
+
+		return updateVoucher;
+	}
+
+	@Override
+	public void delete(UUID voucherId) {
+		Optional.ofNullable(vouchers.get(voucherId))
+			.ifPresentOrElse(voucher -> vouchers.remove(voucherId),
+				() -> {
+					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					throw new VoucherNotFoundException();
+				}
+			);
 	}
 
 	@Override

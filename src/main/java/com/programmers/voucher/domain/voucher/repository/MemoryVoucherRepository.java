@@ -24,17 +24,41 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	private static final Logger log = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
 	@Override
-	public void save(Voucher voucher) {
-		repository.put(voucher.getVoucherId(), voucher);
+	public Voucher save(Voucher voucher) {
+		return repository.put(voucher.getVoucherId(), voucher);
 	}
 
 	@Override
-	public Voucher findByUUID(UUID voucherId) {
+	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(repository.get(voucherId))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				throw new VoucherNotFoundException();
 			});
+	}
+
+	@Override
+	public Voucher update(UUID voucherId, Voucher updateVoucher) {
+		Optional.ofNullable(repository.get(voucherId))
+			.ifPresentOrElse(voucher -> repository.put(voucherId, voucher),
+				() -> {
+					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					throw new VoucherNotFoundException();
+				}
+			);
+
+		return updateVoucher;
+	}
+
+	@Override
+	public void delete(UUID voucherId) {
+		Optional.ofNullable(repository.get(voucherId))
+			.ifPresentOrElse(voucher -> repository.remove(voucherId),
+				() -> {
+					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					throw new VoucherNotFoundException();
+				}
+			);
 	}
 
 	@Override

@@ -26,10 +26,10 @@ class FileVoucherRepositoryTest {
 
 	@Test
 	@DisplayName("바우처를 파일에 저장하고 id를 통해 파일에서 바우처를 조회하면 성공한다.")
-	void findByUUID() {
+	void findById() {
 		Voucher voucher = factory.createVoucher(VoucherType.FIXED, "1000");
 		repository.save(voucher);
-		Voucher findVoucher = repository.findByUUID(voucher.getVoucherId());
+		Voucher findVoucher = repository.findById(voucher.getVoucherId());
 
 		Assertions.assertThat(findVoucher).isEqualTo(voucher);
 	}

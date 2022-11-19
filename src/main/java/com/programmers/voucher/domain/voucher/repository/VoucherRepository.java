@@ -7,9 +7,13 @@ import com.programmers.voucher.domain.voucher.model.Voucher;
 
 public interface VoucherRepository {
 
-	void save(Voucher voucher);
+	Voucher save(Voucher voucher);
 
-	Voucher findByUUID(UUID voucherId);
+	Voucher findById(UUID voucherId);
+
+	Voucher update(UUID voucherId, Voucher updateVoucher);
+
+	void delete(UUID voucherId);
 
 	List<Voucher> findAll();
 
