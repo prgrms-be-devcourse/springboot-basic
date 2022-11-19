@@ -103,9 +103,17 @@ class JdbcVouchersTest {
     @Test
     void testMethodNameHere() {
         // given
+        Voucher voucher1 = VoucherCreationFactory.createVoucher(new Amount(3000));
+        Voucher voucher2 = VoucherCreationFactory.createVoucher(new Ratio(50));
+        VoucherEntity voucherEntity1 = EntityMapper.toVoucher(voucher1, savedCustomer);
+        VoucherEntity voucherEntity2 = EntityMapper.toVoucher(voucher2, savedCustomer);
+        jdbcVouchers.save(voucherEntity1);
+        jdbcVouchers.save(voucherEntity2);
 
         // when
+        jdbcVouchers.deleteAll();
 
         // then
+        assertThat(jdbcVouchers.findAll()).isEmpty();
     }
 }

@@ -90,6 +90,12 @@ public class JdbcVouchers {
         template.update(sql, param);
     }
 
+    public void deleteAll() {
+        String sql = "delete from vouchers";
+        Map<String, String> param = Collections.emptyMap();
+        template.update(sql, param);
+    }
+
     private RowMapper<VoucherEntity> voucherEntityRowMapper() {
         return ((rs, rowNum) -> {
             String uuid = rs.getString("id");
