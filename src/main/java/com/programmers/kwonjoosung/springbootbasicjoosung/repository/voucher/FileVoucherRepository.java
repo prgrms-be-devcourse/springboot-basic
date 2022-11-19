@@ -3,7 +3,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.FileVoucherProperties;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
-import com.programmers.kwonjoosung.springbootbasicjoosung.utils.VoucherConverter;
+import com.programmers.kwonjoosung.springbootbasicjoosung.utils.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -30,7 +30,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public boolean insert(Voucher voucher) {
         try (Writer writer = new FileWriter(voucherListTextFile, true)) {
-            writer.write(VoucherConverter.convertText(voucher));
+            writer.write(Converter.convertText(voucher));
             writer.flush();
             return true;
         } catch (IOException e) {
@@ -44,7 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             List<String> voucherList = Files.readAllLines(voucherListTextFile.toPath());
             return voucherList.stream()
-                    .map(VoucherConverter::textToVoucher)
+                    .map(Converter::toVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             logger.error("findAll error message -> {}", e.getMessage());

@@ -1,6 +1,5 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongFindDataException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -20,9 +19,6 @@ import java.util.UUID;
 @Profile("release")
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final String NOT_FOUND_ID_MESSAGE = "해당 ID는 존재하지 않는 ID입니다.";
-
-    private static final String SAME_ID_MESSAGE = "이미 존재하는 ID입니다.";
     private static final String TABLE_FIELD_CUSTOMER_ID = "customer_id";
     private static final String TABLE_FIELD_NAME = "name";
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -43,10 +39,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         try {
-
             return jdbcTemplate.update(sql, parameters) == 1;
         }catch (DuplicateKeyException e) {
-            throw new WrongFindDataException(SAME_ID_MESSAGE);
+            return false;
         }
     }
 
@@ -58,7 +53,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameters, customerRowMapper));
         } catch (DataAccessException e) {
-            throw new WrongFindDataException(NOT_FOUND_ID_MESSAGE);
+            return Optional.empty();
         }
     }
 
@@ -75,7 +70,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         return jdbcTemplate.update(sql, parameters) == 1;
-//        throw new WrongFindDataException(NOT_FOUND_ID_MESSAGE);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
-import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongFindDataException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 
 import org.junit.jupiter.api.*;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 
 @SpringJUnitConfig
@@ -55,12 +53,11 @@ class JdbcCustomerRepositoryTest {
     void insertSameCustomerTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(),"test2");
-        //when
         jdbcCustomerRepository.insert(customer);
+        //when
+        boolean insertResult = jdbcCustomerRepository.insert(customer);
         //then
-        assertThatExceptionOfType(WrongFindDataException.class)
-                .isThrownBy(() -> jdbcCustomerRepository.insert(customer))
-                .withMessage("이미 존재하는 ID입니다.");
+        assertThat(insertResult).isFalse();
     }
 
     @Test
@@ -81,10 +78,10 @@ class JdbcCustomerRepositoryTest {
     void findByNotExistIdTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test4");
-        //when & then
-        assertThatExceptionOfType(WrongFindDataException.class)
-                .isThrownBy(() -> jdbcCustomerRepository.findById(customer.getCustomerId()))
-                .withMessage("해당 ID는 존재하지 않는 ID입니다.");
+        //when
+        Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
+        //then
+        assertThat(customerOptional).isEmpty();
     }
 
     @Test
@@ -146,11 +143,10 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.insert(customer);
         //when
         boolean result = jdbcCustomerRepository.delete(customer.getCustomerId());
+        Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
         assertThat(result).isTrue();
-        assertThatExceptionOfType(WrongFindDataException.class)
-                .isThrownBy(() -> jdbcCustomerRepository.findById(customer.getCustomerId()))
-                .withMessage("해당 ID는 존재하지 않는 ID입니다.");
+        assertThat(customerOptional).isEmpty();
     }
 
     @Test

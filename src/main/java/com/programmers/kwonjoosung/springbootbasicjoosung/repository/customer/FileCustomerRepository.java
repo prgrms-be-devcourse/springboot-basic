@@ -3,7 +3,7 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.FileCustomerBlackListProperties;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import com.programmers.kwonjoosung.springbootbasicjoosung.utils.CustomerConverter;
+import com.programmers.kwonjoosung.springbootbasicjoosung.utils.Converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -29,7 +29,7 @@ public class FileCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         try {
             List<String> customerBlackList = Files.readAllLines(customerBlackListCSVFile.toPath());
-            return customerBlackList.stream().map(CustomerConverter::toCustomer).collect(Collectors.toList());
+            return customerBlackList.stream().map(Converter::toCustomer).collect(Collectors.toList());
         } catch (IOException e) {
             logger.error("findAll error message -> {}", e.getMessage());
             throw new RuntimeException(e.getMessage());

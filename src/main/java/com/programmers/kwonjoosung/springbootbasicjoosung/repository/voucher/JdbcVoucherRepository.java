@@ -22,7 +22,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String TABLE_FIELD_VOUCHER_ID = "voucher_id";
     private static final String TABLE_FIELD_VOUCHER_TYPE = "voucher_type";
     private static final String TABLE_FIELD_DISCOUNT = "discount";
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
     private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> VoucherFactory.createVoucher(
             VoucherType.getVoucherType(rs.getString(TABLE_FIELD_VOUCHER_TYPE)),
             UUID.fromString(rs.getString(TABLE_FIELD_VOUCHER_ID)),
