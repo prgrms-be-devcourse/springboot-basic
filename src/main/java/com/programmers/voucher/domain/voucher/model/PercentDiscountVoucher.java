@@ -36,6 +36,6 @@ public class PercentDiscountVoucher extends Voucher {
 
 	@Override
 	public String toString() {
-		return "ID: " + voucherId + ", Type: " + voucherType.getName() + ", Discount: " + discount + "%";
+		return "ID: " + voucherId + ", Type: " + voucherType.name() + ", Discount: " + discount + "%";
 	}
 }

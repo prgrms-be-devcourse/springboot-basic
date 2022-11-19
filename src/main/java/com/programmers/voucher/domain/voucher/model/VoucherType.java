@@ -9,23 +9,23 @@ import com.programmers.voucher.exception.ExceptionMessage;
 
 public enum VoucherType {
 
-	FIXED("FixedDiscountVoucher"),
-	PERCENT("PercentDiscountVoucher");
+	FIXED("fixed"),
+	PERCENT("percent");
 
 	private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
-	private final String name;
+	private final String type;
 
-	VoucherType(String name) {
-		this.name = name;
+	VoucherType(String type) {
+		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public String getType() {
+		return type;
 	}
 
 	public static VoucherType getVoucherType(String voucherType) {
 		return Arrays.stream(VoucherType.values())
-			.filter(i -> i.name.equals(voucherType))
+			.filter(voucher -> voucher.type.equals(voucherType.toLowerCase()))
 			.findFirst()
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());

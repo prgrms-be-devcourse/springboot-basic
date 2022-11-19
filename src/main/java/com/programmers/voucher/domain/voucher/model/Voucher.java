@@ -22,9 +22,5 @@ public abstract class Voucher {
 		return voucherType;
 	}
 
-	public double getDiscount() {
-		return discount;
-	}
-
 	protected abstract double validateDiscount(String discount);
 }

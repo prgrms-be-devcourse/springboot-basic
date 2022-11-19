@@ -1,3 +1,3 @@
-ID: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, Type: FixedDiscountVoucher, Discount: 2000.0
-ID: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, Type: PercentDiscountVoucher, Discount: 20.0%
-ID: 865c9351-caa9-48d8-9302-a8fb6d547af6, Type: FixedDiscountVoucher, Discount: 2000.0
+ID: 5b4b55fb-dc92-4acb-a860-dcf29f1918fc, Type: FIXED, Discount: 2000.0
+ID: 981abc99-a99b-4b55-aadc-cc82c51f2d4f, Type: PERCENT, Discount: 20.0%
+ID: 865c9351-caa9-48d8-9302-a8fb6d547af6, Type: FIXED, Discount: 2000.0
