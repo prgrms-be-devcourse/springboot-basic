@@ -40,3 +40,4 @@ gradlew.bat
 /logs/
 /src/main/resources/vouchers.csv
 /target/
+/src/test/resources/vouchers.csv
