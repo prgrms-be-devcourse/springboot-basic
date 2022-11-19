@@ -16,4 +16,6 @@ public interface Voucher {
     VoucherType getVoucherType();
 
     BigDecimal discount(int beforeDiscount);
+
+    void update(int discountAmount);
 }

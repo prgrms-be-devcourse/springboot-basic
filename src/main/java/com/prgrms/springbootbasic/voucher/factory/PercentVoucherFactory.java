@@ -5,8 +5,15 @@ import com.prgrms.springbootbasic.voucher.domain.PercentVoucher;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class PercentVoucherFactory implements VoucherFactory {
+    @Override
+    public Voucher mapToVoucher(UUID id, int discountAmount) {
+        return new PercentVoucher(id, discountAmount, VoucherType.PERCENT);
+    }
+
     @Override
     public Voucher createVoucher(int discountAmount) {
         return new PercentVoucher(discountAmount, VoucherType.PERCENT);
