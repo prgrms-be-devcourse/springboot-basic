@@ -1,8 +1,16 @@
-package org.programmers.voucherProgram.voucher.validator;
+package org.programmers.program.voucher.validator;
 
-import org.programmers.voucherProgram.voucher.Model.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.programmers.program.voucher.model.VoucherType;
+import java.util.function.BiPredicate;
 
-public class VoucherValidator {
+import static org.programmers.program.voucher.model.VoucherType.*;
+
+
+public class VoucherValidator implements BiPredicate<VoucherType, Long> {
+    @Override
+    public boolean test(VoucherType type, Long discountAmount) {
+        return
+            (type.equals(FIXED) && discountAmount >= FIXED.getLowerBound() && discountAmount <= FIXED.getUpperBound()) ||
+            (type.equals(PERCENT) && discountAmount >= PERCENT.getLowerBound() && discountAmount <= PERCENT.getUpperBound());
+    }
 }

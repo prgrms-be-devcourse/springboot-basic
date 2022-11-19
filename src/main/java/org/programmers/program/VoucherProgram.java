@@ -1,27 +1,50 @@
-package org.programmers.voucherProgram;
+package org.programmers.program;
 
-import org.programmers.voucherProgram.io.Input;
-import org.programmers.voucherProgram.io.Output;
+import org.programmers.program.io.Input;
+import org.programmers.program.io.Output;
+import org.programmers.program.voucher.repository.VoucherRepository;
+import org.programmers.program.voucher.service.VoucherService;
 
-import org.programmers.voucherProgram.voucher.Model.VoucherType;
-import org.programmers.voucherProgram.voucher.Model.Voucher;
-import org.programmers.voucherProgram.voucher.Repository.VoucherRepository;
-import org.programmers.voucherProgram.voucher.service.VoucherService;
-import org.programmers.voucherProgram.voucher.validator.VoucherValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
-import java.lang.reflect.Method;
-import java.util.Optional;
+import static org.programmers.program.io.Message.*;
 
 public class VoucherProgram implements Runnable {
 
+    private final Input input;
+    private final Output output;
+    private final VoucherService voucherService;
+    private final VoucherRepository voucherRepository;
+
+
+    public VoucherProgram(Input input, Output output, VoucherService voucherService, VoucherRepository voucherRepository) {
+        this.input = input;
+        this.output = output;
+        this.voucherService = voucherService;
+        this.voucherRepository = voucherRepository;
+    }
+
     @Override
     public void run() {
+        output.printString(WELCOME_MESSAGE.getMessage());
+        while(true){
+            output.printString(SELECTION_MESSAGE.getMessage());
+            String in = null;
+            try {
+                in = input.input("Instruction : ");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(in.equals("bye"))
+                break;
+
+        }
     }
     private void create(){
+
     }
 
     private void list(){
+
     }
 }

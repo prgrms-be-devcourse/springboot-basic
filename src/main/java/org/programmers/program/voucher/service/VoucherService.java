@@ -1,15 +1,35 @@
-package org.programmers.voucherProgram.voucher.service;
+package org.programmers.program.voucher.service;
 
-import org.programmers.voucherProgram.voucher.Model.FixedAmountVoucher;
-import org.programmers.voucherProgram.voucher.Model.VoucherType;
-import org.programmers.voucherProgram.voucher.Model.PercentDiscountVoucher;
-import org.programmers.voucherProgram.voucher.Repository.VoucherRepository;
-import org.programmers.voucherProgram.voucher.Model.Voucher;
+import org.programmers.program.voucher.model.FixedAmountVoucher;
+import org.programmers.program.voucher.model.PercentDiscountVoucher;
+import org.programmers.program.voucher.model.Voucher;
+import org.programmers.program.voucher.model.VoucherType;
+import org.programmers.program.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.text.MessageFormat;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-// @Service
-public interface VoucherService {
+@Service
+public class VoucherService {
+    private final VoucherRepository voucherRepository;
+
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
+    public Optional<Voucher> getVoucher(UUID id){
+        return voucherRepository.findById(id);
+    }
+
+    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount){
+        if(type.equals(VoucherType.FIXED))
+            return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount));
+        return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount));
+    }
+
+    public List<Voucher> getAllVouchers(){
+        return voucherRepository.findAll();
+    }
 }

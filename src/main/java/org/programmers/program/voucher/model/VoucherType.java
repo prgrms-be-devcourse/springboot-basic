@@ -1,4 +1,4 @@
-package org.programmers.voucherProgram.voucher.Model;
+package org.programmers.program.voucher.model;
 
 import java.util.Map;
 import java.util.Optional;
@@ -18,7 +18,7 @@ public enum VoucherType {
             "2", PERCENT
     );
 
-    public static Optional<VoucherType> getVoucherTypeBySelection(String selection){
+    public static Optional<VoucherType> getVoucherType(String selection){
         if(map.containsKey(selection))
             return Optional.of(map.get(selection));
         return Optional.empty();
@@ -26,5 +26,11 @@ public enum VoucherType {
 
     public String getRange(){
         return this.lowerBound + " ~ " + this.upperBound;
+    }
+    public Long getLowerBound(){
+        return lowerBound;
+    }
+    public Long getUpperBound(){
+        return upperBound;
     }
 }

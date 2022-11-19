@@ -1,11 +1,37 @@
-package org.programmers.voucherProgram.voucher.Repository;
+package org.programmers.program.voucher.repository;
 
-import org.programmers.voucherProgram.voucher.Model.Voucher;
+import org.programmers.program.voucher.model.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-// @Repository
-public class MemoryVoucherRepository extends VoucherRepository{
+@Repository
+public class MemoryVoucherRepository implements VoucherRepository{
+    private final Map<UUID, Voucher> storage;
+
+    public MemoryVoucherRepository() {
+        this.storage = new ConcurrentHashMap<>();
+    }
+
+    @Override
+    public Voucher insert(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        if (storage.containsKey(id))
+            return Optional.of(storage.get(id));
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return storage.values().stream().toList();
+    }
 }

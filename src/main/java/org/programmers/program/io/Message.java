@@ -13,7 +13,7 @@ public enum Message {
         this.content = message;
     }
 
-    public static String getMessage(Message request){
-        return request.content;
+    public String getMessage(){
+        return content;
     }
 }

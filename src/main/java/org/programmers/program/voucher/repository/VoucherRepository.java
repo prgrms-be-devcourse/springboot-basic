@@ -1,11 +1,13 @@
-package org.programmers.voucherProgram.voucher.Repository;
+package org.programmers.program.voucher.repository;
 
-import org.programmers.voucherProgram.voucher.Model.Voucher;
+import org.programmers.program.voucher.model.Voucher;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class VoucherRepository {
+public interface VoucherRepository {
+    Voucher insert(Voucher voucher);
+    Optional<Voucher> findById(UUID id);
+    List<Voucher> findAll();
 }

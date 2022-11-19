@@ -1,4 +1,4 @@
-package org.programmers.voucherProgram;
+package org.programmers.program;
 
 import java.util.Collections;
 import java.util.Map;
