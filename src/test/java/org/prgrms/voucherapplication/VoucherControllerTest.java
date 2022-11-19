@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.voucherapplication.console.Console;
+import org.prgrms.voucherapplication.customer.CustomerService;
+import org.prgrms.voucherapplication.customer.CustomerServiceImpl;
 import org.prgrms.voucherapplication.voucher.controller.VoucherController;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.voucher.service.VoucherService;
@@ -23,11 +25,12 @@ public class VoucherControllerTest {
 
     private static final VoucherService voucherService = mock(VoucherService.class);
     private static VoucherController voucherController;
+    private static final CustomerService customerService = mock(CustomerServiceImpl.class);
 
     @BeforeAll
     static void constructor() {
         Console console = new Console();
-        voucherController = new VoucherController(console, console, voucherService);
+        voucherController = new VoucherController(console, console, voucherService, customerService);
     }
 
     @Nested
@@ -122,46 +125,33 @@ public class VoucherControllerTest {
 
                 voucherController.start();
 
-                verify(voucherService, times(1)).getList();
+                verify(voucherService, times(1)).findAll();
             }
         }
 
         @Nested
-        @DisplayName("exit를 입력하면")
-        class whenExit {
-
-            @Test
-            @DisplayName("프로그램이 종료된다")
-            void thenExit() {
-                InputStream in = new ByteArrayInputStream("exit".getBytes());
-                System.setIn(in);
-
-                voucherController.start();
-                // 종료 테스트는 어떻게 할 수 있을까요?
-            }
-        }
-
-        @Nested
-        @DisplayName("blacklist를 입력하면")
+        @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+        @DisplayName("대소문자 상관없이 blacklist를 입력하면")
         class blacklist {
-            @Test
-            @DisplayName("블랙리스트 파일의 내용이 콘솔에 출력된다.")
-            void thenPrint() {
-                OutputStream outputStream = new ByteArrayOutputStream();
-                System.setOut(new PrintStream(outputStream));
 
-                InputStream in = new SequenceInputStream(new ByteArrayInputStream("blacklist\n".getBytes()), new ByteArrayInputStream("exit".getBytes()));
+            Stream<Arguments> createParam() {
+                return Stream.of(
+                        Arguments.of("blacklist\n", "exit"),
+                        Arguments.of("BLackList\n", "EXit"),
+                        Arguments.of("BLACKLIST\n", "eXIT")
+                );
+            }
+
+            @ParameterizedTest
+            @MethodSource("createParam")
+            @DisplayName("customerService의 findBlacklist()를 호출한다.")
+            void thenPrint(String commandType, String exit) {
+                InputStream in = new SequenceInputStream(new ByteArrayInputStream(commandType.getBytes()), new ByteArrayInputStream(exit.getBytes()));
                 System.setIn(in);
-
-                String blacklist = "1. 김영빈\n" +
-                        "2. 장주영\n" +
-                        "3. 이동준\n" +
-                        "4. 김기웅\n";
-                voucherController.init(blacklist);
 
                 voucherController.start();
 
-                assertThat(outputStream.toString()).contains(blacklist);
+                verify(customerService, atLeastOnce()).findBlacklist();
             }
         }
     }
