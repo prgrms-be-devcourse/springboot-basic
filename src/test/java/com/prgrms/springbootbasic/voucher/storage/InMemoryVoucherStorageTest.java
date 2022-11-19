@@ -1,5 +1,7 @@
 package com.prgrms.springbootbasic.voucher.storage;
 
+import com.prgrms.springbootbasic.voucher.domain.FixedAmountVoucher;
+import com.prgrms.springbootbasic.voucher.domain.PercentVoucher;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 class InMemoryVoucherStorageTest {
 
@@ -27,19 +27,17 @@ class InMemoryVoucherStorageTest {
     @BeforeEach
     public void init() {
         this.inMemoryVoucherStorage = new InMemoryVoucherStorage();
-        this.voucher = mock(Voucher.class);
+        this.voucher = new PercentVoucher(UUID.randomUUID(), 10);
         this.voucherList = Arrays.asList(
-                mock(Voucher.class),
-                mock(Voucher.class),
-                mock(Voucher.class));
+                voucher,
+                new FixedAmountVoucher(UUID.randomUUID(), 1000),
+                new PercentVoucher(UUID.randomUUID(), 25));
     }
 
     @Test
     @DisplayName("Voucher를 Map에 저장할 수 있다.")
     public void save() {
         //given
-        when(voucher.getUUID()).thenReturn(UUID.randomUUID());
-        when(voucher.getDiscountRate()).thenReturn(10);
         UUID uuid = voucher.getUUID();
 
         //when
@@ -57,12 +55,7 @@ class InMemoryVoucherStorageTest {
     @Test
     @DisplayName("Map에 저장한 모든 Voucher들을 조회할 수 있다.")
     public void list() {
-        //given
-        for (Voucher value : voucherList) {
-            when(value.getUUID()).thenReturn(UUID.randomUUID());
-        }
-
-        //when
+        //given&when
         voucherList.forEach(voucher -> inMemoryVoucherStorage.save(voucher));
         List<Voucher> afterSave = inMemoryVoucherStorage.findAll();
 
