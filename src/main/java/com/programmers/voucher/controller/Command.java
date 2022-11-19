@@ -19,10 +19,10 @@ public enum Command {
 
 	CREATE("create", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
 		output.write(Message.VOUCHER_OPTION.getMessage());
-		VoucherType choseVoucherType = VoucherType.getVoucherType(input.read());
+		VoucherType chosenVoucherType = VoucherType.getVoucherType(input.read());
 		output.write(Message.DISCOUNT_OPTION.getMessage());
-		String discountAmount = input.read();
-		voucherService.createVoucher(discountAmount, choseVoucherType);
+		String discount = input.read();
+		voucherService.createVoucher(chosenVoucherType, discount);
 	}),
 	LIST("list", (Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
 		List<Voucher> vouchers = voucherService.getAllVoucher();

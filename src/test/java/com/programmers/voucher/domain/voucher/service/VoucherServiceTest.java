@@ -33,8 +33,8 @@ class VoucherServiceTest {
 		String fixedAmount = "1000";
 		String percentAmount = "10";
 
-		Voucher fixedVoucher = service.createVoucher(fixedAmount, fixedType);
-		Voucher percentVoucher = service.createVoucher(percentAmount, percentType);
+		Voucher fixedVoucher = service.createVoucher(fixedType, fixedAmount);
+		Voucher percentVoucher = service.createVoucher(percentType, percentAmount);
 		Voucher findFixed = repository.findByUUID(fixedVoucher.getVoucherId());
 		Voucher findPercent = repository.findByUUID(percentVoucher.getVoucherId());
 

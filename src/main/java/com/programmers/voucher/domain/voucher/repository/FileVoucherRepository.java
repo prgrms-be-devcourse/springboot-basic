@@ -24,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
+import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.VoucherNotFoundException;
@@ -35,10 +36,12 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
 	private static final String LINE_SEPARATOR = ", |: |%";
+	private final VoucherFactory voucherFactory;
 	private final String filePath;
 
 	@Autowired
-	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath) {
+	public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${repository.file.voucher}") String filePath) {
+		this.voucherFactory = voucherFactory;
 		this.filePath = filePath;
 	}
 
@@ -49,9 +52,9 @@ public class FileVoucherRepository implements VoucherRepository {
 			while ((line = reader.readLine()) != null) {
 				String[] voucherInfo = line.split(LINE_SEPARATOR);
 				UUID voucherId = UUID.fromString(voucherInfo[1]);
-				VoucherType type = VoucherType.getVoucherType(voucherInfo[3]);
+				VoucherType voucherType = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
-				Voucher voucher = new Voucher(voucherId, type, discount);
+				Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discount);
 				vouchers.put(voucherId, voucher);
 			}
 		} catch (IOException e) {

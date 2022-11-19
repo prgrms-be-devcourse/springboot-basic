@@ -1,7 +1,6 @@
 package com.programmers.voucher.domain.voucher.model;
 
 import java.util.Arrays;
-import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,24 +9,18 @@ import com.programmers.voucher.exception.ExceptionMessage;
 
 public enum VoucherType {
 
-	FIXED("FixedDiscountVoucher", discount -> discount < 0),
-	PERCENT("PercentDiscountVoucher", discount -> discount <= 0 || discount > 100);
+	FIXED("FixedDiscountVoucher"),
+	PERCENT("PercentDiscountVoucher");
 
 	private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 	private final String name;
-	private final Predicate<Double> outOfDiscountRangeFilter;
 
-	VoucherType(String name, Predicate<Double> OutOfDiscountRangeFilter) {
+	VoucherType(String name) {
 		this.name = name;
-		this.outOfDiscountRangeFilter = OutOfDiscountRangeFilter;
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public boolean hasOutOfDiscountRange(double discount) {
-		return outOfDiscountRangeFilter.test(discount);
 	}
 
 	public static VoucherType getVoucherType(String voucherType) {
