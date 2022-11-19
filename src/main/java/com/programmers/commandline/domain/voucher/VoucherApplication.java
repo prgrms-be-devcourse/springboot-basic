@@ -77,6 +77,6 @@ public class VoucherApplication {
     }
 
     private void findVouchers() {
-        console.print(voucherService.list());
+        console.print(voucherService.findVouchers());
     }
 }

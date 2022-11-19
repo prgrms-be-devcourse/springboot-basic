@@ -14,17 +14,17 @@ public enum VoucherType {
 
     private final int code;
     private final String message;
-    private final LambdaVoucher voucher;
+    private final LambdaVoucher lambdaVoucher;
 
 
-    VoucherType(int code, String message, LambdaVoucher voucher) {
+    VoucherType(int code, String message, LambdaVoucher lambdaVoucher) {
         this.code = code;
         this.message = message;
-        this.voucher = voucher;
+        this.lambdaVoucher = lambdaVoucher;
     }
 
     public Voucher createVoucher(UUID uuid, long discount) {
-        return voucher.create(uuid, discount);
+        return lambdaVoucher.create(uuid, discount);
     }
 
     public static VoucherType ofNumber(String input) {

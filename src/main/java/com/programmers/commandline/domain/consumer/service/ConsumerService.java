@@ -18,6 +18,7 @@ public class ConsumerService {
         fileConsumerRepository.findAll().forEach(consumer -> {
             consumers.append(consumer.toString());
         });
+
         return consumers.toString();
     }
 }

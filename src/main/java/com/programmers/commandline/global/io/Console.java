@@ -19,7 +19,7 @@ public class Console {
             String input = bufferedReader.readLine();
             return input;
         } catch (IOException e) {
-            throw new RuntimeException(Message.READ_LINE.getMessage());
+            throw new RuntimeException(Message.READ_LINE.getMessage(), e);
         }
     }
 }
