@@ -21,4 +21,5 @@ delete
 from wallet;
 delete
 from wallet
-where customer_id = :customerId;
+where customer_id = :customerId
+  AND voucher_id = :voucherId;

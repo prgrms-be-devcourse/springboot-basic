@@ -10,11 +10,13 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import static org.prgrms.kdtspringdemo.util.VoucherManagerUtil.toUUID;
 
 @Repository
+//@Profile({"db"})
 public class CustomerNamedJdbcRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
     private static final String INSERT_SQL = "INSERT INTO customers_demo(customer_id, name, birth_date, email, created_at,black_list) VALUES(UUID_TO_BIN(:customerId),:name,:birth,:email,:createdAt,:blackList)";
@@ -32,8 +34,8 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         var email = resultSet.getString("email");
         var birth = resultSet.getDate("birth_date").toLocalDate();
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("created_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+                resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS) : null;
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.MILLIS);
         var blackList = resultSet.getBoolean("black_list");
         return new Customer(customerId, name, birth, email, lastLoginAt, createdAt, blackList);
     };
@@ -63,7 +65,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
                             FIND_BY_ID_SQL,
-                            Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                            Collections.singletonMap("customerId", customerId.toString()),
                             customerRawMapper
                     )
             );
@@ -110,7 +112,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public int deleteById(UUID targetId) {
-        return jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", targetId.toString().getBytes()));
+        return jdbcTemplate.update(DELETE_BY_ID_SQL, Collections.singletonMap("customerId", targetId.toString()));
     }
 
     @Override
@@ -125,7 +127,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("customerId", customer.getCustomerId().toString());
             put("name", customer.getName());
             put("birth", customer.getBirth());
             put("email", customer.getEmail());

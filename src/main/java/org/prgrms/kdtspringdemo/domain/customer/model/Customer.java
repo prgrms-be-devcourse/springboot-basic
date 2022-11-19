@@ -5,6 +5,7 @@ import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,8 +30,8 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
+        this.lastLoginAt = lastLoginAt != null ? lastLoginAt.truncatedTo(ChronoUnit.MILLIS) : null;
+        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
         this.birth = birth;
         this.isBlackCustomer = isBlackCustomer;
     }
@@ -39,7 +40,7 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
         this.birth = birth;
         this.isBlackCustomer = isBlackCustomer;
     }
@@ -48,7 +49,7 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
         this.birth = birth;
         this.isBlackCustomer = false;
     }

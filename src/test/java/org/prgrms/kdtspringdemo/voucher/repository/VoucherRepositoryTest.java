@@ -195,7 +195,7 @@ class VoucherRepositoryTest {
             var voucher = voucherCreator.createVoucher(VoucherType.PERCENT, 10L);
             voucherRepository.insert(voucher);
             //when
-            voucherRepository.delete(voucher.getVoucherId());
+            voucherRepository.deleteById(voucher.getVoucherId());
             //then
             assertThat(voucherRepository.findAllVaucher().isEmpty()).isTrue();
         }
@@ -207,7 +207,7 @@ class VoucherRepositoryTest {
             var voucher = voucherCreator.createVoucher(VoucherType.PERCENT, 10L);
             voucherRepository.insert(voucher);
             //when
-            voucherRepository.delete(UUID.randomUUID());
+            voucherRepository.deleteById(UUID.randomUUID());
             //then
             assertThat(voucherRepository.findAllVaucher().isEmpty()).isFalse();
         }

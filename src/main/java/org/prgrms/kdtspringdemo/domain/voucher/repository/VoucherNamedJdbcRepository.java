@@ -61,7 +61,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
             return Optional.ofNullable(
                     namedParameterJdbcTemplate.queryForObject(
                             FIND_BY_ID_SQL,
-                            Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                            Collections.singletonMap("voucherId", voucherId.toString()),
                             rowMapper
                     )
             );
@@ -78,8 +78,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
 
     @Override
-    public void delete(UUID voucherId) {
-        namedParameterJdbcTemplate.update(DELETE_SQL, Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+    public void deleteById(UUID voucherId) {
+        namedParameterJdbcTemplate.update(DELETE_SQL, Collections.singletonMap("voucherId", voucherId.toString()));
     }
 
     @Override
@@ -90,7 +90,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     private Map<String, Object> toParamMap(Voucher voucher) {
         var voucherTypeId = findVoucherTypeId(voucher.getVoucherType()).get();
         return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("voucherId", voucher.getVoucherId().toString());
             put("voucherType", voucherTypeId);
             put("value", voucher.getValue());
         }};
