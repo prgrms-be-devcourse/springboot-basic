@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
+// methodsource
 class CreateVoucherRequestTest {
 
     @Test
@@ -25,27 +25,28 @@ class CreateVoucherRequestTest {
         assertEquals(createFixRequest.getVoucherType(), VoucherType.FIXED_DISCOUNT);
         assertEquals(createPercentRequest.getVoucherType(), VoucherType.PERCENT_DISCOUNT);
     }
-    
+
     @Test
     @DisplayName("요청한 입력값의 사이즈가 2가 아닌 경우")
     public void 입력값_사이즈_올바르지않은_경우() {
         // given
         String request1 = "percent10";
         String request2 = "fixed 10 30";
-        
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(request1));
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(request2));
+
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(request1));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(request2));
     }
 
 
     @Test
     @DisplayName("입력한 할인값이 숫자가 아닐때")
+    //@ParameterizedTest, methodSource...
     public void 입력한_할인값_숫자_아님() {
         String requestFixed = "fixed abc";
         String requestPercent = "percent -!@3";
 
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestFixed));
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestPercent));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestFixed));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestPercent));
     }
 
     @Test
@@ -54,8 +55,8 @@ class CreateVoucherRequestTest {
         String requestFixed = "fixed 0";
         String requestPercent = "percent 0";
 
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestFixed));
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestPercent));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestFixed));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestPercent));
     }
 
     @Test
@@ -64,8 +65,8 @@ class CreateVoucherRequestTest {
         String requestFixed = "fixed -100";
         String requestPercent = "percent -10";
 
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestFixed));
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(requestPercent));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestFixed));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(requestPercent));
     }
 
     @Test
@@ -74,7 +75,7 @@ class CreateVoucherRequestTest {
         String request1 = "abc 100";
         String request2 = "1 100";
 
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(request1));
-        assertThrows(IllegalArgumentException.class, ()  -> new CreateVoucherRequest(request2));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(request1));
+        assertThrows(IllegalArgumentException.class, () -> new CreateVoucherRequest(request2));
     }
 }

@@ -7,15 +7,17 @@ import com.programmers.VoucherManagementApplication.voucher.PercentVoucher;
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-
+@ActiveProfiles("memory")
 class MemoryVoucherRepositoryTest {
 
     VoucherRepository voucherRepository = new MemoryVoucherRepository();
@@ -23,11 +25,11 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 저장 성공")
     void addVoucher() {
-        // given
+        // given, voucher null값인 경우
         Voucher voucher = new FixedVoucher(UUID.randomUUID(), VoucherType.FIXED_DISCOUNT, new Amount(100L));
 
         // when
-        Voucher addVoucher = voucherRepository.addVoucher(voucher);
+        Voucher addVoucher = voucherRepository.insert(voucher);
 
         // then
         assertEquals(addVoucher.getVoucherId(), voucher.getVoucherId());
@@ -39,17 +41,14 @@ class MemoryVoucherRepositoryTest {
         // given
         Voucher fixedVoucher = new FixedVoucher(UUID.randomUUID(), VoucherType.FIXED_DISCOUNT, new Amount(100L));
         Voucher percentVoucher = new FixedVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new Amount(10L));
-        voucherRepository.addVoucher(fixedVoucher);
-        voucherRepository.addVoucher(percentVoucher);
+        voucherRepository.insert(fixedVoucher);
+        voucherRepository.insert(percentVoucher);
 
         // when
-        var voucherMap = voucherRepository.findAll();
+        var vouchers = voucherRepository.findAll();
 
         // then
-        assertThat(voucherMap.size(), is(2));
-        assertThat(voucherMap.values(), hasSize(2));
-        assertThat(voucherMap.keySet(), hasItem(fixedVoucher.getVoucherId()));
-        assertThat(voucherMap.keySet(), hasItem(percentVoucher.getVoucherId()));
+        assertThat(vouchers.size(), is(2));
     }
 
     @Test
@@ -57,7 +56,7 @@ class MemoryVoucherRepositoryTest {
     void findById() {
         // given
         Voucher voucher = new PercentVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new Amount(50L));
-        voucherRepository.addVoucher(voucher);
+        voucherRepository.insert(voucher);
 
         // when
         Optional<Voucher> findVoucher = voucherRepository.findById(voucher.getVoucherId());
@@ -66,5 +65,26 @@ class MemoryVoucherRepositoryTest {
         assertThat(findVoucher.isEmpty(), is(false));
         assertNotNull(findVoucher);
         assertThat(findVoucher.get().getVoucherId(), is(voucher.getVoucherId()));
+    }
+
+    @Test
+    @DisplayName("저장되어있지 않은 바우처 아이디로 조회")
+    void findById_fail() {
+        // given
+        Voucher voucher = new PercentVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new Amount(50L));
+        voucherRepository.insert(voucher);
+
+        // when
+        Optional<Voucher> findVoucher = voucherRepository.findById(UUID.randomUUID());
+
+        // then
+        assertThat(findVoucher.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("저장된 바우처가 없을 때 아이디로 조회")
+    void findById_fail_All() {
+        Optional<Voucher> findVoucher = voucherRepository.findById(UUID.randomUUID());
+        assertThat(findVoucher.isEmpty(), is(true));
     }
 }
