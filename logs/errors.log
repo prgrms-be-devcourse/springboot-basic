@@ -1,0 +1,194 @@
+01:59:32.213 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+03:25:19.032 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.033 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.055 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.150 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.152 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.182 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.184 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.185 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.194 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.195 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.197 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.197 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:25:19.197 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:25:19.197 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:25:19.198 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.208 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.217 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.219 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.220 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.226 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.228 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.229 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.237 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.239 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.241 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:25:19.247 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.248 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:25:19.250 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; SQL state [HY000]; error code [1411]; Incorrect string value: 'replace(_binary'' for function unhex; nested exception is java.sql.SQLException: Incorrect string value: 'replace(_binary'' for function unhex
+03:27:27.102 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:27:27.280 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:27:27.280 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:27:27.280 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:27:27.312 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:27:27.337 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:30:09.244 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:30:09.404 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:30:09.404 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:30:09.404 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer update error : No value supplied for the SQL parameter 'voucherId': No value registered for key 'voucherId'
+03:30:09.449 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:30:09.470 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:34:46.830 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:34:47.053 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:34:47.076 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+03:45:15.534 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+03:46:16.803 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+04:00:08.895 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+04:00:09.073 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+04:00:09.093 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+12:43:37.492 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+12:53:57.137 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+12:54:24.924 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+12:54:24.925 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 존재하지 않는 고객입니다.
+12:54:41.686 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+12:54:41.687 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 지원하지 않는 타입의 바우처입니다.
+13:55:40.450 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+14:47:56.634 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:47:56.636 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+14:53:43.799 [main] ERROR o.p.v.CommandLineApplication - [ERROR] Index 3 out of bounds for length 3
+14:53:49.930 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+14:53:49.932 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 숫자를 입력해주세요.
+14:59:49.471 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+15:00:06.746 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:00:06.748 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+15:32:40.949 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:33:04.488 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 이미 존재하는 회원입니다. (이메일을 변경해주세요.)
+15:33:11.011 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+15:33:20.902 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:33:20.908 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+15:39:04.785 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:39:04.792 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+15:39:16.573 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:39:16.573 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 존재하지 않는 고객입니다.
+15:41:56.821 [main] ERROR o.p.v.CommandLineApplication - [ERROR] Index 3 out of bounds for length 3
+15:43:58.184 [main] ERROR o.p.v.CommandLineApplication - [ERROR] Index 3 out of bounds for length 3
+17:20:33.304 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:20:33.505 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:20:33.529 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:23:17.645 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:23:17.856 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:23:17.881 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:25:00.001 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:25:00.211 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:25:00.234 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:26:02.267 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:26:02.500 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:26:02.531 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:28:54.987 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:28:55.189 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:28:55.216 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:30:07.329 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:30:07.531 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:30:07.555 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:52.867 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:53.059 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:53.080 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:44:07.810 [main] ERROR o.p.v.c.r.BlackListFileRepository - src\test\resources\test_customer_blacklist.csv
+17:51:50.548 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:51:50.558 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:51:50.578 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:51:50.597 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:51:50.601 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:51:50.604 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+18:02:23.562 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+18:02:23.591 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+18:02:23.599 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+18:02:23.607 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+18:02:53.263 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+18:02:53.312 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+18:02:53.316 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+18:03:11.799 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+18:03:11.832 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+18:03:11.836 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+19:46:37.365 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:46:37.411 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:46:37.422 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:46:37.434 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:46:37.446 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:47:29.987 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:47:30.026 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:47:30.030 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:47:30.035 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+19:47:30.042 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+21:21:54.514 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+21:21:54.719 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+21:21:54.744 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+21:22:00.734 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+21:22:00.741 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+21:22:00.744 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+21:22:00.745 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+21:22:00.750 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+21:22:00.764 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+21:22:00.795 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+21:22:00.797 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+21:22:00.799 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+21:22:00.802 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+21:22:00.805 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+21:22:00.807 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+21:22:00.809 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+21:22:00.811 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
