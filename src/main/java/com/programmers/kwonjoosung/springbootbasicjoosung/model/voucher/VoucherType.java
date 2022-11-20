@@ -2,23 +2,24 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongVoucherTypeException;
 
+import java.util.Objects;
 import java.util.stream.Stream;
 
 public enum VoucherType {
 
-    FIXED("fixed"),
-    PERCENT("percent");
+    FIXED("FIXED"),
+    PERCENT("PERCENT");
 
-    private final String command;
+    private final String TYPE;
 
-    VoucherType(String command) {
-        this.command = command;
+    VoucherType(String type) {
+        this.TYPE = type;
     }
 
-    public static VoucherType getVoucherType(String input) {
+    public static VoucherType of(String inputVoucherType) {
         return Stream.of(VoucherType.values())
-                .filter(voucherType -> voucherType.command.equals(input.toLowerCase()))
+                .filter(value -> Objects.equals(value.TYPE,inputVoucherType.toUpperCase()))
                 .findFirst()
-                .orElseThrow(() -> new WrongVoucherTypeException(input));
+                .orElseThrow(() -> new WrongVoucherTypeException(inputVoucherType));
     }
 }

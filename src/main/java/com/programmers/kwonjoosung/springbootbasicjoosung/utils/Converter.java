@@ -23,7 +23,7 @@ public class Converter {
     public static Voucher toVoucher(String text) {
         String[] textVoucher = text.split(SPACE);
         return VoucherFactory.createVoucher(
-                VoucherType.getVoucherType(textVoucher[0]),
+                VoucherType.of(textVoucher[0]),
                 UUID.fromString(textVoucher[1]),
                 Long.parseLong(textVoucher[2]));
     }

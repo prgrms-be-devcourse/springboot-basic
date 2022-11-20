@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @Profile("file")
-public class FileCustomerRepository implements CustomerRepository {
+public class FileCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private final File customerBlackListCSVFile;
 
@@ -26,7 +26,7 @@ public class FileCustomerRepository implements CustomerRepository {
         customerBlackListCSVFile = new File(fileCustomerBlackListProperties.getFilePath() + fileCustomerBlackListProperties.getFileName());
     }
 
-    public List<Customer> findAll() {
+    public List<Customer> findAllBlockCustomer() {
         try {
             List<String> customerBlackList = Files.readAllLines(customerBlackListCSVFile.toPath());
             return customerBlackList.stream().map(Converter::toCustomer).collect(Collectors.toList());
