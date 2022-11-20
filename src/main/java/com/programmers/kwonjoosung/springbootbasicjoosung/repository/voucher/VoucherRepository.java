@@ -10,17 +10,17 @@ public interface VoucherRepository {
 
     boolean insert(Voucher voucher);
 
-    default Optional<Voucher> findById(UUID voucherId){
+    default Optional<Voucher> findById(UUID voucherId) {
         return Optional.empty();
     }
 
     List<Voucher> findAll();
 
-    default boolean update(Voucher voucher){
+    default boolean update(Voucher voucher) {
         return false;
     }
 
-    default boolean deleteById(UUID voucherId){
+    default boolean deleteById(UUID voucherId) {
         return false;
     }
 

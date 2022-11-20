@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Repository
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final File voucherListTextFile;
 

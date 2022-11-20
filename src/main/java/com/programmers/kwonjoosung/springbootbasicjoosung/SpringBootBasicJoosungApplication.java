@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @ConfigurationPropertiesScan(basePackages = "com.programmers.kwonjoosung.springbootbasicjoosung.config")
 @SpringBootApplication
-public class SpringBootBasicJoosungApplication  {
+public class SpringBootBasicJoosungApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringBootBasicJoosungApplication.class, args);
     }

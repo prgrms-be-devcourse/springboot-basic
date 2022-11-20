@@ -1,7 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
-
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

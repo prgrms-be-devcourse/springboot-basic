@@ -8,11 +8,11 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    default boolean insert(Customer customer){
+    default boolean insert(Customer customer) {
         return false;
     }
 
-    default Optional<Customer> findById(UUID customerId){
+    default Optional<Customer> findById(UUID customerId) {
         return Optional.empty();
     }
 
@@ -20,11 +20,11 @@ public interface CustomerRepository {
         return null;
     }
 
-    default boolean update(Customer customer){
+    default boolean update(Customer customer) {
         return false;
     }
 
-    default boolean delete(UUID customerId){
+    default boolean delete(UUID customerId) {
         return false;
     }
 

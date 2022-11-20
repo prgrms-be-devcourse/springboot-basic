@@ -12,7 +12,6 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet.Jdbc
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +24,7 @@ class WalletServiceTest {
     private final JdbcWalletRepository jdbcWalletRepositoryMock = mock(JdbcWalletRepository.class);
     private final CustomerRepository jdbcCustomerRepositoryMock = mock(JdbcCustomerRepository.class);
     private final VoucherRepository jdbcVoucherRepositoryMock = mock(JdbcVoucherRepository.class);
-    private final WalletService walletService = new WalletService(jdbcWalletRepositoryMock,jdbcVoucherRepositoryMock,jdbcCustomerRepositoryMock);
+    private final WalletService walletService = new WalletService(jdbcWalletRepositoryMock, jdbcVoucherRepositoryMock, jdbcCustomerRepositoryMock);
 
     @Test
     @DisplayName("[성공] 고객에게 바우처를 할당할 수 있다(지갑에 추가)")
@@ -34,7 +33,7 @@ class WalletServiceTest {
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
         when(jdbcCustomerRepositoryMock.findById(customerId)).thenReturn(Optional.of(new Customer(customerId, "test1")));
-        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
+        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED, voucherId, 1000)));
         when(jdbcWalletRepositoryMock.insertToWallet(customerId, voucherId)).thenReturn(true);
         //when
         boolean result = walletService.insertToWallet(customerId, voucherId);
@@ -81,7 +80,7 @@ class WalletServiceTest {
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
         when(jdbcCustomerRepositoryMock.findById(customerId)).thenReturn(Optional.of(new Customer(customerId, "test1")));
-        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
+        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED, voucherId, 1000)));
         when(jdbcWalletRepositoryMock.findCustomerIdByVoucherId(voucherId)).thenReturn(Optional.of(customerId));
         //when
         boolean result = walletService.insertToWallet(customerId, voucherId);
@@ -95,7 +94,7 @@ class WalletServiceTest {
     void deleteVoucherFromWalletTest() {
         //given
         UUID voucherId = UUID.randomUUID();
-        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
+        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED, voucherId, 1000)));
         when(jdbcWalletRepositoryMock.deleteVoucher(voucherId)).thenReturn(true);
         //when
         boolean result = walletService.deleteVoucherFromWallet(voucherId);
@@ -125,7 +124,7 @@ class WalletServiceTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test2");
         UUID voucherId = UUID.randomUUID();
-        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
+        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED, voucherId, 1000)));
         when(jdbcWalletRepositoryMock.findCustomerIdByVoucherId(voucherId)).thenReturn(Optional.of(customer.getCustomerId()));
         when(jdbcCustomerRepositoryMock.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
         //when

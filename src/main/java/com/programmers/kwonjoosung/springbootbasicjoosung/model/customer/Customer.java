@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
+
     private static final Logger logger = LoggerFactory.getLogger(Customer.class);
     private final UUID customerId;
     private final String name;

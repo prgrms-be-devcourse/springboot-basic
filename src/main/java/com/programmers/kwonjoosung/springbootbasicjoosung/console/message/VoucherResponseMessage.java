@@ -1,6 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.console.message;
 
 public enum VoucherResponseMessage implements ResponseMessage {
+
     CREATE_VOUCHER_FAIL("Voucher 생성에 실패했습니다."),
     UPDATE_VOUCHER_SUCCESS("해당 Voucher 정보를 수정했습니다."),
     DELETE_VOUCHER_SUCCESS("해당 Voucher를 삭제했습니다."),

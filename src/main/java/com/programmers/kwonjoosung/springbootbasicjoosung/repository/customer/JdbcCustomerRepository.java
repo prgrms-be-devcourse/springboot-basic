@@ -1,15 +1,14 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +39,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         try {
             return jdbcTemplate.update(sql, parameters) == 1;
-        }catch (DuplicateKeyException e) {
+        } catch (DuplicateKeyException e) {
             return false;
         }
     }

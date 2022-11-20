@@ -11,6 +11,7 @@ import static com.programmers.kwonjoosung.springbootbasicjoosung.console.message
 
 @Component
 public class WalletController {
+
     private final WalletService walletService;
     private final Console console;
 

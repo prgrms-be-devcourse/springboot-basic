@@ -1,7 +1,9 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.utils;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.*;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
 
 import java.util.UUID;
 

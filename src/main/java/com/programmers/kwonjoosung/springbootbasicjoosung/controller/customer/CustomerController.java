@@ -16,6 +16,7 @@ import static com.programmers.kwonjoosung.springbootbasicjoosung.console.message
 
 @Component
 public class CustomerController {
+
     private final CustomerService customerService;
     private final WalletService walletService;
     private final Console console;

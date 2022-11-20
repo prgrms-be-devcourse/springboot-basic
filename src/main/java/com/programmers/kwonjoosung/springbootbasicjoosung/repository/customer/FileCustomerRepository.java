@@ -13,12 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 @Repository
 @Profile("file")
 public class FileCustomerRepository {
+
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private final File customerBlackListCSVFile;
 

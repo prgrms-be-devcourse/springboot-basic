@@ -26,10 +26,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class JdbcVoucherRepositoryTest {
 
+    JdbcVoucherRepository jdbcVoucherRepository;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-
-    JdbcVoucherRepository jdbcVoucherRepository;
 
     @BeforeEach
     void setUp() {

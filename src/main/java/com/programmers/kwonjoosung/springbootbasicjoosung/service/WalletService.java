@@ -32,7 +32,7 @@ public class WalletService {
     }
 
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        if(customerIsEmpty(customerId)) return List.of();
+        if (customerIsEmpty(customerId)) return List.of();
         List<Voucher> vouchers = new ArrayList<>();
         for (UUID uuid : jdbcWalletRepository.findVoucherIdsByCustomerId(customerId))
             voucherRepository.findById(uuid).ifPresent(vouchers::add);
@@ -40,14 +40,14 @@ public class WalletService {
     }
 
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
-        if(voucherIsEmpty(voucherId)) return Optional.empty();
+        if (voucherIsEmpty(voucherId)) return Optional.empty();
         Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucherId);
-        if(customerIdByVoucherId.isEmpty()) return Optional.empty();
+        if (customerIdByVoucherId.isEmpty()) return Optional.empty();
         return customerRepository.findById(customerIdByVoucherId.get());
     }
 
     public boolean deleteVoucherFromWallet(UUID voucherId) {
-        if(voucherIsEmpty(voucherId)) return false;
+        if (voucherIsEmpty(voucherId)) return false;
         return jdbcWalletRepository.deleteVoucher(voucherId);
     }
 

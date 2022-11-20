@@ -2,11 +2,12 @@ package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
-
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 class JdbcCustomerRepositoryTest {
 
+    JdbcCustomerRepository jdbcCustomerRepository;
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-
-    JdbcCustomerRepository jdbcCustomerRepository;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +38,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("[성공] 고객을 저장할 수 있다.")
     void insertCustomerTest() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(),"test1");
+        Customer customer = new Customer(UUID.randomUUID(), "test1");
         //when
         boolean insertResult = jdbcCustomerRepository.insert(customer);
         Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
@@ -52,7 +52,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("[실패] 동일한 고객은 저장할 수 없다.")
     void insertSameCustomerTest() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(),"test2");
+        Customer customer = new Customer(UUID.randomUUID(), "test2");
         jdbcCustomerRepository.insert(customer);
         //when
         boolean insertResult = jdbcCustomerRepository.insert(customer);
@@ -88,8 +88,8 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("[성공] 모든 고객을 조회할 수 있다.")
     void findAllTest() {
         //given
-        Customer customer1 = new Customer(UUID.randomUUID(),"test5");
-        Customer customer2 = new Customer(UUID.randomUUID(),"test6");
+        Customer customer1 = new Customer(UUID.randomUUID(), "test5");
+        Customer customer2 = new Customer(UUID.randomUUID(), "test6");
         jdbcCustomerRepository.insert(customer1);
         jdbcCustomerRepository.insert(customer2);
         //when

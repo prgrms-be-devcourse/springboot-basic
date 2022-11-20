@@ -9,7 +9,10 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.Cu
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.JdbcCustomerRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.JdbcVoucherRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,7 +24,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
@@ -233,6 +237,7 @@ public class JdbcWalletRepositoryTest {
         List<UUID> voucherIdsByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(newCustomer.getCustomerId());
         assertThat(voucherIdsByCustomerId.get(0)).isEqualTo(voucher.getVoucherId());
     }
+
     @Test
     @DisplayName("[성공] 바우처 id가 삭제 되면 지갑에 있는 바우처도 삭제된다.")
     void deleteVoucherIdTest() {

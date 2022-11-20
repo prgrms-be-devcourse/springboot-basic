@@ -18,7 +18,7 @@ public enum VoucherType {
 
     public static VoucherType of(String inputVoucherType) {
         return Stream.of(VoucherType.values())
-                .filter(value -> Objects.equals(value.TYPE,inputVoucherType.toUpperCase()))
+                .filter(value -> Objects.equals(value.TYPE, inputVoucherType.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> new WrongVoucherTypeException(inputVoucherType));
     }

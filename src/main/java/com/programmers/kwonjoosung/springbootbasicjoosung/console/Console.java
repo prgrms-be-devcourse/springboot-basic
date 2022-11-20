@@ -1,11 +1,11 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.console;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.console.message.ResponseMessage;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
-import com.programmers.kwonjoosung.springbootbasicjoosung.console.message.ResponseMessage;
-import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -89,8 +89,8 @@ public class Console {
     }
 
     public void printHelpMessage() {
-//        CommandType.getAllExplanation().forEach(System.out::println);
     }
+
     public void print(String message) {
         System.out.println(message);
     }

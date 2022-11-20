@@ -17,6 +17,7 @@ import static com.programmers.kwonjoosung.springbootbasicjoosung.console.message
 
 @Component
 public class VoucherController {
+
     private final VoucherService voucherService;
     private final WalletService walletService;
     private final Console console;
@@ -47,7 +48,7 @@ public class VoucherController {
     private void createVoucher() {
         VoucherType voucherType = VoucherType.of(console.getVoucherType());
         long discount = console.getDiscount();
-        Optional<Voucher> voucher = voucherService.createVoucher(voucherType,discount);
+        Optional<Voucher> voucher = voucherService.createVoucher(voucherType, discount);
         voucher.ifPresentOrElse(console::printVoucher, () -> console.printMessage(CREATE_VOUCHER_FAIL));
     }
 
@@ -59,7 +60,7 @@ public class VoucherController {
 
     private void listVoucher() {
         List<Voucher> allVouchers = voucherService.getAllVouchers();
-        if(allVouchers.isEmpty()) console.printError(NOT_YET_VOUCHER_SAVE_ERROR);
+        if (allVouchers.isEmpty()) console.printError(NOT_YET_VOUCHER_SAVE_ERROR);
         allVouchers.forEach(console::printVoucher);
     }
 
@@ -68,14 +69,14 @@ public class VoucherController {
         VoucherType voucherType = VoucherType.of(console.getVoucherType());
         long discount = console.getDiscount();
         boolean result = voucherService.updateVoucher(voucherId, voucherType, discount);
-        if(result) console.printMessage(UPDATE_VOUCHER_SUCCESS);
+        if (result) console.printMessage(UPDATE_VOUCHER_SUCCESS);
         else console.printError(NOT_FOUND_VOUCHER_ERROR);
     }
 
     private void deleteVoucher() {
         UUID voucherId = console.getVoucherId();
         boolean result = voucherService.deleteVoucher(voucherId);
-        if(result) console.printMessage(DELETE_VOUCHER_SUCCESS);
+        if (result) console.printMessage(DELETE_VOUCHER_SUCCESS);
         else console.printError(NOT_FOUND_VOUCHER_ERROR);
     }
 

@@ -14,11 +14,9 @@ import java.util.UUID;
 @Repository
 public class JdbcWalletRepository {
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
     private static final String TABLE_FIELD_CUSTOMER_ID = "customer_id";
-
     private static final String TABLE_FIELD_VOUCHER_ID = "voucher_id";
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
