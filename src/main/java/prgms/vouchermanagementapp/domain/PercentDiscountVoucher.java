@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.domain;
 
-import prgms.vouchermanagementapp.domain.model.Ratio;
+import prgms.vouchermanagementapp.domain.value.Ratio;
 
 import java.util.UUID;
 

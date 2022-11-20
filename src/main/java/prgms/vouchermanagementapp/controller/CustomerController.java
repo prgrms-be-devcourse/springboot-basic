@@ -1,9 +1,9 @@
 package prgms.vouchermanagementapp.controller;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.customer.CustomerManager;
 import prgms.vouchermanagementapp.domain.Customer;
-import prgms.vouchermanagementapp.io.IoManager;
+import prgms.vouchermanagementapp.service.CustomerManager;
+import prgms.vouchermanagementapp.view.IoManager;
 
 import java.util.Optional;
 

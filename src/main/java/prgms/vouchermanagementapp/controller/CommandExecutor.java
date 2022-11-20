@@ -3,14 +3,14 @@ package prgms.vouchermanagementapp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.model.Amount;
-import prgms.vouchermanagementapp.domain.model.Ratio;
+import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.domain.value.Ratio;
 import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
-import prgms.vouchermanagementapp.io.CommandType;
-import prgms.vouchermanagementapp.io.IoManager;
-import prgms.vouchermanagementapp.voucher.VoucherManager;
-import prgms.vouchermanagementapp.voucher.VoucherType;
+import prgms.vouchermanagementapp.service.VoucherManager;
+import prgms.vouchermanagementapp.view.CommandType;
+import prgms.vouchermanagementapp.view.IoManager;
 
 import java.util.Optional;
 
