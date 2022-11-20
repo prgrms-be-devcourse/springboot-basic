@@ -1,0 +1,60 @@
+package org.prgrms.kdt.voucher.repository;
+
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.NotFoundVoucherException;
+import org.prgrms.kdt.util.VoucherType;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+@Repository
+@Profile("memory")
+public class MemoryVoucherRepository implements VoucherRepository {
+
+    private final Map<Long, Voucher> storage = new ConcurrentHashMap<>();
+    private static long VOUCHER_ID = 0;
+
+    @Override
+    public synchronized Voucher insert(String type, long discountDegree) {
+        Voucher voucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public Voucher findById(Long voucherId) {
+        if (!storage.containsKey(voucherId)) {
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+        return storage.get(voucherId);
+    }
+
+    @Override
+    public void update(Long voucherId, long discountDegree) {
+        if (!storage.containsKey(voucherId)) {
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+
+        changVoucher(voucherId, discountDegree);
+    }
+
+    private synchronized void changVoucher(Long voucherId, long discountDegree) {
+        Voucher oldVoucher = storage.get(voucherId);
+        VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(oldVoucher.toString());
+        Voucher newVoucher = VoucherType.createVoucher(voucherType, voucherId, discountDegree);
+        storage.replace(voucherId, newVoucher);
+    }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
+    }
+}

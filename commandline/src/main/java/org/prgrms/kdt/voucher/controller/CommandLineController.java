@@ -1,16 +1,15 @@
-package org.prgrms.kdt.controller;
+package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.util.CommandType;
-import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class CommandLineController {
@@ -26,6 +25,7 @@ public class CommandLineController {
     }
 
     public void run() {
+        logger.info("start!");
         boolean running = true;
         while (running) {
             console.printCommandList();
@@ -43,6 +43,24 @@ public class CommandLineController {
                         console.terminate();
                         running = false;
                     }
+                    case FIND -> {
+                        Long voucherId = console.inputVoucherId();
+                        Voucher voucher = voucherService.findById(voucherId);
+                        console.printVoucher(voucher);
+                    }
+                    case UPDATE -> {
+                        Long voucherId = console.inputVoucherId();
+                        Long discountDegree = console.inputDiscountDegree();
+                        voucherService.updateVoucher(voucherId, discountDegree);
+                        console.updateComplete();
+
+                        Voucher voucher = voucherService.findById(voucherId);
+                        console.printVoucher(voucher);
+                    }
+                    case DELETE -> {
+                        voucherService.deleteAll();
+                        console.delete();
+                    }
                     default -> console.printError(ErrorCode.INPUT_EXCEPTION.getMessage());
                 }
             } catch (RuntimeException e) {
@@ -59,7 +77,8 @@ public class CommandLineController {
             try {
                 String voucherType = console.inputVoucherType();
                 long discountValue = console.inputVoucherDiscountValue();
-                voucherService.createVoucher(voucherType, UUID.randomUUID(), discountValue);
+
+                voucherService.createVoucher(voucherType, discountValue);
             } catch (RuntimeException e) {
                 console.printError(e.getMessage());
                 logger.error(e.getMessage());

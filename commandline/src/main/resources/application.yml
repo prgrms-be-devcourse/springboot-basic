@@ -2,15 +2,41 @@
 spring:
   config:
     activate:
-      on-profile: "dev"
+      on-profile: file
 
 voucher.path: "./VoucherList.csv"
+
 logging:
-  level: warn
+  level:
+    org:
+      springframework: warn
+---
+spring.config.activate.on-profile: memory
+spring:
+  config:
+    activate:
+      on-profile: "memory"
+logging:
+  level:
+    org:
+      springframework: warn
+
+voucher.path: "./VoucherList.csv"
 ---
 spring:
   config:
     activate:
-      on-profile: "default"
-
+      on-profile: default, jdbc
+  datasource:
+    #    url: jdbc:h2:tcp://localhost/~/H2DB/customer
+    #    username: sa
+    #    password:
+    url: jdbc:mysql://127.0.0.1:3306/order_mgmt
+    username: root
+    password: 1234567890
+logging:
+  level:
+    org:
+      springframework: warn
 voucher.path: "./VoucherList.csv"
+

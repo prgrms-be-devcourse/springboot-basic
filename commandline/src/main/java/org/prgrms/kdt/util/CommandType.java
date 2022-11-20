@@ -8,6 +8,9 @@ import java.util.stream.Stream;
 public enum CommandType {
     CREAT("create"),
     LIST("list"),
+    DELETE("delete"),
+    FIND("find"),
+    UPDATE("update"),
     EXIT("exit");
 
     private final String command;

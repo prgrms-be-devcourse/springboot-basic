@@ -7,11 +7,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.prgrms.kdt.domain.FixedAmountVoucher;
-import org.prgrms.kdt.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
 
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
@@ -39,21 +38,21 @@ class VoucherTypeTest {
     @Test
     @DisplayName("생성된 Voucher의 타입을 확인한다.")
     void createVoucherCorrectTest() {
-        assertThat(VoucherType.createVoucher("1", UUID.randomUUID(), 20), instanceOf(FixedAmountVoucher.class));
-        assertThat(VoucherType.createVoucher("2", UUID.randomUUID(), 20), instanceOf(PercentDiscountVoucher.class));
+        assertThat(VoucherType.createVoucher("1", 1L, 20L), instanceOf(FixedAmountVoucher.class));
+        assertThat(VoucherType.createVoucher("2", 2L, 20L), instanceOf(PercentDiscountVoucher.class));
     }
 
     @Test
     @DisplayName("제시된 번호 외의 숫자는 선택할 수 없다.")
     void createVoucherInCorrectTest() {
-        assertThatThrownBy(() -> VoucherType.createVoucher("3", UUID.randomUUID(), 20)).isInstanceOf(NotFoundVoucherTypeException.class);
+        assertThatThrownBy(() -> VoucherType.createVoucher("3", 1L, 20L)).isInstanceOf(NotFoundVoucherTypeException.class);
     }
 
     @ParameterizedTest
     @DisplayName("File로 읽어온 String값을 통해 일치하는 타입의 Voucher를 생성할 수 있다.")
     @MethodSource("enumAndStringProvider")
     void selectVoucherTypeCorrectTest(VoucherType type, String input) {
-        assertThat(VoucherType.selectVoucherTypeFromFile(input), is(type));
+        assertThat(VoucherType.selectVoucherTypeFromTypeName(input), is(type));
     }
 
     static Stream<Arguments> enumAndStringProvider() {
@@ -67,18 +66,16 @@ class VoucherTypeTest {
     @DisplayName("selectVoucherTypeFromFile()은 잘못된 타입이 올 수 없다.")
     @ValueSource(strings = {"FixedPercentVoucher", "FixedMoneyVoucher", "PercentAmountVoucher"})
     void selectVoucherTypeInCorrectTest(String input) {
-        assertThatThrownBy(() -> VoucherType.selectVoucherTypeFromFile(input)).isInstanceOf(NotFoundVoucherTypeException.class);
+        assertThatThrownBy(() -> VoucherType.selectVoucherTypeFromTypeName(input)).isInstanceOf(NotFoundVoucherTypeException.class);
     }
 
     @Test
     @DisplayName("파일에서 읽어온 String 값으로 해당하는 타입의 Voucher를 만들 수 있다.")
-    void createVoucherFromFileCorrectTest() {
-        UUID fixedUUID = UUID.randomUUID();
-        UUID percentUUID = UUID.randomUUID();
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(fixedUUID, 20);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(percentUUID, 50);
+    void createVoucherV2CorrectTest() {
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1L, "FixedAmountVoucher", 20L);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(2L, "PercentDiscountVoucher", 50L);
 
-        assertThat(VoucherType.createVoucherFromFile(VoucherType.FIXED_AMOUNT, "voucherId=" + fixedUUID, "amount=20"), samePropertyValuesAs(fixedAmountVoucher));
-        assertThat(VoucherType.createVoucherFromFile(VoucherType.PERCENTAGE, "voucherId=" + percentUUID, "percent=50"), samePropertyValuesAs(percentDiscountVoucher));
+        assertThat(VoucherType.createVoucher(VoucherType.FIXED_AMOUNT, 1L, 20L), samePropertyValuesAs(fixedAmountVoucher));
+        assertThat(VoucherType.createVoucher(VoucherType.PERCENTAGE, 2L, 50L), samePropertyValuesAs(percentDiscountVoucher));
     }
 }

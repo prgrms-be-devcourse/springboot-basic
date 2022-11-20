@@ -1,6 +1,6 @@
 package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.InputException;
 import org.prgrms.kdt.exception.IsNotNumberException;
@@ -62,10 +62,44 @@ public class Console {
         System.out.println(ConstantMessageUtil.TERMINATE);
     }
 
+    public void delete() {
+        System.out.println(ConstantMessageUtil.DELETE);
+    }
+
     public void printVouchers(List<Voucher> vouchers) {
         for (Voucher voucher : vouchers) {
             System.out.println(voucher);
         }
+    }
+
+    public void printVoucher(Voucher voucher) {
+        System.out.println(voucher);
+    }
+
+    public Long inputVoucherId() {
+        System.out.print(ConstantMessageUtil.INPUT_ID);
+        try {
+            String voucherId = br.readLine().trim();
+            isNumeric(voucherId);
+            return Long.parseLong(voucherId);
+        } catch (IOException e) {
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
+        }
+    }
+
+    public Long inputDiscountDegree() {
+        System.out.print(ConstantMessageUtil.INPUT_DISCOUNT_DEGREE);
+        try {
+            String discountDegree = br.readLine().trim();
+            isNumeric(discountDegree);
+            return Long.parseLong(discountDegree);
+        } catch (IOException e) {
+            throw new InputException(ErrorCode.INPUT_EXCEPTION.getMessage());
+        }
+    }
+
+    public void updateComplete() {
+        System.out.println(ConstantMessageUtil.UPDATE);
     }
 
     private void isNumeric(String number) {
