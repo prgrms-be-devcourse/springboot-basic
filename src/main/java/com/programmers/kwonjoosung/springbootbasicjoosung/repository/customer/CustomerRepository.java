@@ -16,7 +16,9 @@ public interface CustomerRepository {
         return Optional.empty();
     }
 
-    List<Customer> findAll();
+    default List<Customer> findAll() {
+        return null;
+    }
 
     default boolean update(Customer customer){
         return false;
@@ -26,4 +28,5 @@ public interface CustomerRepository {
         return false;
     }
 
+    List<Customer> findAllBlockCustomer();
 }
