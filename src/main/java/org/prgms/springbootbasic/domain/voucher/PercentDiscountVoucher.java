@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.domain;
+package org.prgms.springbootbasic.domain.voucher;
 
 import java.util.UUID;
 
@@ -24,7 +24,7 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-                "uuid=" + uuid +
+                "uuid=" + voucherId +
                 ", voucherType=" + voucherType +
                 ", amount=" + amount +
                 '}';

@@ -1,10 +1,13 @@
-package org.prgms.springbootbasic.repository;
+package org.prgms.springbootbasic.repository.customer;
 
-import org.prgms.springbootbasic.domain.BlacklistedCustomer;
+import org.prgms.springbootbasic.domain.customer.BlacklistedCustomer;
 import org.prgms.springbootbasic.util.BlackListedCustomerFileManipulator;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
 @Repository

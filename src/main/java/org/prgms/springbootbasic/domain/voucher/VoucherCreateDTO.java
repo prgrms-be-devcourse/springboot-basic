@@ -1,6 +1,6 @@
-package org.prgms.springbootbasic.domain;
+package org.prgms.springbootbasic.domain.voucher;
 
-public record VoucherChoiceDTO(VoucherType voucherType, long amount) {
+public record VoucherCreateDTO(VoucherType voucherType, long amount) {
 
     @Override
     public String toString() {
