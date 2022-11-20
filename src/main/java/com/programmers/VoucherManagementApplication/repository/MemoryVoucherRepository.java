@@ -26,6 +26,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return vouchers.get(voucherId) == null ? Optional.empty() : Optional.of(vouchers.get(voucherId));
+        return Optional.ofNullable(vouchers.get(voucherId));
     }
 }
