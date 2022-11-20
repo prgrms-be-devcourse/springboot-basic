@@ -81,7 +81,7 @@ class JdbcCustomerRepositoryTest {
                 .build();
 
         embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test-customer", ScriptResolver.classPathScript("schema/create_customers_schema.sql"))
+                .addSchema("test-customer", ScriptResolver.classPathScript("schema/create_table_ddl.sql"))
                 .start();
     }
 
