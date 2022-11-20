@@ -1,11 +1,27 @@
 # default
-logging:
-  level:
-    root: error
 file:
   blacklist:
     file-name:
       blacklist.csv
+spring:
+  # local 정보이므로 일단 git으로 관리
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root1234!
+logging:
+  level:
+    com:
+      zaxxer:
+        hikari: INFO
+    javax:
+      sql:
+        DataSource: OFF
+    jdbc:
+      audit: OFF
+    root:
+      error
 ---
 # local
 spring:
