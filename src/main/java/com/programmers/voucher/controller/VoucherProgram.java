@@ -45,6 +45,7 @@ public class VoucherProgram implements ApplicationRunner {
                     case DELETE_ALL_VOUCHER -> deleteAllVoucher();
                     case CREATE_CUSTOMER -> createCustomer();
                     case ASSIGN_VOUCHER -> assignVoucher();
+                    case SELECT_CUSTOMER_BY_VOUCHER -> findCustomerByVoucher();
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
@@ -85,6 +86,12 @@ public class VoucherProgram implements ApplicationRunner {
         Customer customer = customerService.findByEmail(getInputEmail());
         Voucher voucher = voucherService.assign(getInputVoucherId(), customer);
         view.printAssign(voucher);
+    }
+
+    private void findCustomerByVoucher() {
+        UUID voucherId = getInputVoucherId();
+        Customer customer = customerService.findByVoucher(voucherId);
+        view.printCustomerWithVoucher(customer);
     }
 
     private CommandType getInputCommandType() {

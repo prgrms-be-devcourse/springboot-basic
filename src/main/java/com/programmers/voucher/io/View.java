@@ -77,4 +77,8 @@ public class View {
                 String.format(Message.ASSIGN_VOUCHER.toString(),
                         voucher.getCustomer().getCustomerName(), voucher.getVoucherId()));
     }
+
+    public void printCustomerWithVoucher(Customer customer) {
+        output.printOutput(customer.getCustomerName() + Message.OWN_VOUCHER);
+    }
 }

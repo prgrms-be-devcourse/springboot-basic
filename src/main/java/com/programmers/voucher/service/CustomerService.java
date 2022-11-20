@@ -5,6 +5,8 @@ import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class CustomerService {
 
@@ -21,5 +23,9 @@ public class CustomerService {
 
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email);
+    }
+
+    public Customer findByVoucher(UUID voucherId) {
+        return customerRepository.findByVoucher(voucherId);
     }
 }
