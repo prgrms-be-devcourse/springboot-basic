@@ -4,6 +4,8 @@ import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.prgrms.vouchermanagement.exception.customer.CustomerAlreadyExistException;
 import org.prgrms.vouchermanagement.exception.customer.CustomerNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.UUID;
 @Service
 public class CustomerService {
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
 
     @Autowired
@@ -27,6 +30,7 @@ public class CustomerService {
 
     public Customer save(String name, String email) {
         if (customerRepository.isPresent(email)) {
+            logger.error("[ERROR] Customer already exist error");
             throw new CustomerAlreadyExistException();
         }
 
