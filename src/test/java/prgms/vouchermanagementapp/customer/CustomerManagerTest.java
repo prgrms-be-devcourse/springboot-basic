@@ -38,6 +38,7 @@ class CustomerManagerTest {
 
         // when
         Optional<Customer> optionalCustomer = customerManager.findCustomerByName("test1");
+        assert optionalCustomer.isPresent();
 
         // then
         assertThat(optionalCustomer.get().getCustomerName()).isEqualTo(savedCustomer1.getCustomerName());

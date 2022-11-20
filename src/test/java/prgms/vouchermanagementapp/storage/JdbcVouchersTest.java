@@ -74,13 +74,13 @@ class JdbcVouchersTest {
         long changedAmount = 2000;
         jdbcVouchers.updateFixedAmountVoucherById(originalVoucherEntity.getId(), changedAmount);
         Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
+        assert foundVoucherEntity.isPresent();
 
         // then
-        assert foundVoucherEntity.isPresent();
         assertThat(foundVoucherEntity.get().getAmount()).isEqualTo(changedAmount);
     }
 
-    @DisplayName("고객이 가진 고정 비율 할인 바우처의 고정 할인 비율을 변경할 수 있다.")
+    @DisplayName("고객이 가진 고정 비율 할인 바우처의 비율을 변경할 수 있다.")
     @Test
     void updateRatioByCustomerName() {
         // given
@@ -93,9 +93,9 @@ class JdbcVouchersTest {
         long changedRatio = 100;
         jdbcVouchers.updatePercentDiscountVoucherById(originalVoucherEntity.getId(), changedRatio);
         Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
+        assert foundVoucherEntity.isPresent();
 
         // then
-        assert foundVoucherEntity.isPresent();
         assertThat(foundVoucherEntity.get().getRatio()).isEqualTo(changedRatio);
     }
 
