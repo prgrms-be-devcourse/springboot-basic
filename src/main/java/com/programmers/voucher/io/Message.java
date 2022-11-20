@@ -12,7 +12,8 @@ public enum Message {
                 Type **7** to create a new customer.
                 Type **8** to select a customer by voucher.
                 Type **9** to assign a voucher to customer.
-                Type **10** to list all vouchers the customer has."""),
+                Type **10** to list all vouchers the customer has.
+                Type **11** to delete all vouchers the customer has."""),
     WRONG_ORDER_MESSAGE("잘못된 입력입니다."),
     REQUEST_VOUCHER_TYPE_MESSAGE("FixedAmountVoucher는 \"1\", PercentDiscountVoucher는 \"2\"를 입력해주세요."),
     REQUEST_DISCOUNT_VALUE_MESSAGE("원하는 할인값을 입력해주세요."),

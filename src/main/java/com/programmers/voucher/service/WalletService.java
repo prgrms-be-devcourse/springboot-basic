@@ -30,4 +30,8 @@ public class WalletService {
     public List<Voucher> findAll(String email) {
         return voucherRepository.findAllByEmail(email);
     }
+
+    public void delete(String email) {
+        voucherRepository.deleteByEmail(email);
+    }
 }

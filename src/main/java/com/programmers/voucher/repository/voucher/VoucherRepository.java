@@ -19,5 +19,7 @@ public interface VoucherRepository {
 
     void deleteAll();
 
+    void deleteByEmail(String email);
+
     void assign(Voucher voucher);
 }

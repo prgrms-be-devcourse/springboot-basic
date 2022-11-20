@@ -12,7 +12,8 @@ public enum CommandType {
     CREATE_CUSTOMER("7"),
     SELECT_CUSTOMER_BY_VOUCHER("8"),
     ASSIGN_VOUCHER("9"),
-    LIST_VOUCHERS_OF_CUSTOMER("10");
+    LIST_VOUCHERS_OF_CUSTOMER("10"),
+    DELETE_VOUCHERS_OF_CUSTOMER("11");
 
     private final String commandType;
 

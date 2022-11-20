@@ -23,7 +23,19 @@ public class WalletController {
     }
 
     public void findAll(String email) {
-        List<Voucher> vouchers = walletService.findAll(email);
+        checkEmptyVoucher(walletService.findAll(email));
+    }
+
+    public void delete(String email) {
+        walletService.delete(email);
+        view.printDeleteAll();
+    }
+
+    private void checkEmptyVoucher(List<Voucher> vouchers) {
+        if (vouchers.isEmpty() || vouchers.size() == 0) {
+            view.printEmptyVouchers();
+            return;
+        }
         view.printVouchers(vouchers);
     }
 }

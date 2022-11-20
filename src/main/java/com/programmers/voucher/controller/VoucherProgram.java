@@ -44,6 +44,7 @@ public class VoucherProgram implements ApplicationRunner {
                     case SELECT_CUSTOMER_BY_VOUCHER -> customerController.findCustomerByVoucher(getInputVoucherId());
                     case ASSIGN_VOUCHER -> walletController.assign(getInputVoucherId(), getInputEmail());
                     case LIST_VOUCHERS_OF_CUSTOMER -> walletController.findAll(getInputEmail());
+                    case DELETE_VOUCHERS_OF_CUSTOMER -> walletController.delete(getInputEmail());
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
