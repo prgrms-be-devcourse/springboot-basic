@@ -5,11 +5,12 @@ import org.prgrms.kdt.exceptions.AmountException;
 import java.util.Optional;
 
 public class FixedAmountVoucher implements Voucher {
+    private static final String voucherType = "fix";
     private static final long MAX_VOUCHER_LIMIT = 10000;
     private static final long MIN_VOUCHER_LIMIT = 10;
+
     private final String voucherId;
     private final int amount;
-    private static final String voucherType = "fix";
 
     private String customerId;
 
