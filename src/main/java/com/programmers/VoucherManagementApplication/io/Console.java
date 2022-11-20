@@ -6,8 +6,7 @@ import com.programmers.VoucherManagementApplication.voucher.Voucher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class Console implements CommandLineRunner {
@@ -49,9 +48,9 @@ public class Console implements CommandLineRunner {
     }
 
     private void writeVoucherMap() {
-        Map<UUID, Voucher> map = voucherController.findAll();
-        if (map.size() == 0) output.write(Message.NO_LIST.getMessage());
-        else output.writeAll(map);
+        List<Voucher> all = voucherController.findAll();
+        if (all.size() == 0) output.write(Message.NO_LIST.getMessage());
+        else output.writeAll(all);
     }
 
     private Voucher createVoucher() {

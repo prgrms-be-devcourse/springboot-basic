@@ -2,11 +2,11 @@ package com.programmers.VoucherManagementApplication.io;
 
 public enum Message {
 
-    MENU_PROMPT("\n========= Voucher Program =========\n"+
+    MENU_PROMPT("\n========= Voucher Program =========\n" +
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
             "Type list to list all vouchers.\n"),
-    EXIT_MESSAGE("\nThe input value is not valid. Please try again.\n"),
+    EXIT_MESSAGE("\nExit the program.\n"),
     CREATE_MENU("\n1. FixedAmountVoucher \n2. PercentDiscountVoucher\n" +
             "Enter fixed/percent, and enter discount values separated by 'spaces'\n" +
             "ex) fixed 10\n"),

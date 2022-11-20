@@ -3,8 +3,7 @@ package com.programmers.VoucherManagementApplication.io;
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class Output {
@@ -12,7 +11,7 @@ public class Output {
         System.out.println(message);
     }
 
-    public void writeAll(Map<UUID, Voucher> map) {
-        map.forEach((key, value) -> System.out.println(value));
+    public void writeAll(List<Voucher> list) {
+        list.forEach(System.out::println);
     }
 }
