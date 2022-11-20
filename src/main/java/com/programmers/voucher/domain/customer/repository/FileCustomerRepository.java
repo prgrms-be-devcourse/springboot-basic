@@ -95,9 +95,9 @@ public class FileCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public Customer update(UUID customerId, Customer updateCustomer) {
-		Optional.ofNullable(customers.get(customerId))
-			.ifPresentOrElse(customer -> customers.put(customerId, customer),
+	public Customer update(Customer updateCustomer) {
+		Optional.ofNullable(customers.get(updateCustomer.getCustomerId()))
+			.ifPresentOrElse(customer -> customers.put(updateCustomer.getCustomerId(), customer),
 				() -> {
 					log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
 					throw new CustomerNotFoundException();
