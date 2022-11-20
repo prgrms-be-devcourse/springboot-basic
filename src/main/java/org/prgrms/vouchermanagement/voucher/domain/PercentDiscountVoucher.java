@@ -37,6 +37,6 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public String toString() {
-        return "바우처 종류 : " + voucherType.name() + ", ID : " + this.voucherId + ", 할인률 : " + this.discountAmount + "%";
+        return "바우처 종류 : " + voucherType.name() + ", ID : " + this.voucherId + ", 할인률 : " + this.discountAmount + "%, 소유자 ID : " + this.customerId;
     }
 }
