@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.programmers.voucher.domain.customer.model.Customer;
+import com.programmers.voucher.domain.customer.model.CustomerType;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
@@ -24,6 +25,12 @@ public enum Command {
 			output.write(Message.DISCOUNT_OPTION.getMessage());
 			String discount = input.read();
 			voucherService.createVoucher(chosenVoucherType, discount);
+		}),
+	CREATE_CUSTOMER("create customer",
+		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {
+			output.write(Message.CUSTOMER_OPTION.getMessage());
+			CustomerType chosenCustomerType = CustomerType.getCustomerType(input.read());
+			customerService.createCustomer(chosenCustomerType);
 		}),
 	GET_ALL_VOUCHER("get all voucher",
 		(Input input, Output output, VoucherService voucherService, CustomerService customerService) -> {

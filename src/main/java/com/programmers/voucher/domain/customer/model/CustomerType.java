@@ -15,7 +15,7 @@ public enum CustomerType {
 
 	public static CustomerType getCustomerType(String customerType) {
 		return Arrays.stream(CustomerType.values())
-			.filter(type -> type.name().equals(customerType))
+			.filter(type -> type.name().equals(customerType.toUpperCase()))
 			.findFirst()
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.WRONG_CUSTOMER_TYPE.getMessage());
