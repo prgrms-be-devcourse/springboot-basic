@@ -1,0 +1,409 @@
+00:13:32.380 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:13:37.609 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:15:29.987 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:17:02.103 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:17:07.818 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:20:07.323 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:37:02.843 [main] ERROR o.p.v.CommandLineApplication - [ERROR] Invalid UUID string: 
+00:37:18.811 [main] ERROR o.p.v.CommandLineApplication - [ERROR] Invalid UUID string: 
+00:37:31.454 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+00:38:12.773 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+00:38:12.773 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 존재하지 않는 고객입니다.
+01:13:09.048 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+01:14:29.610 [main] ERROR o.p.v.CommandLineApplication - [ERROR] No value supplied for the SQL parameter 'customerId': No value registered for key 'customerId'
+01:17:03.682 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+01:17:03.687 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+01:46:01.600 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+01:46:12.361 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+01:55:24.222 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+01:55:24.224 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 숫자를 입력해주세요.
+01:55:27.244 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+01:55:30.359 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+13:14:18.673 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+13:56:56.992 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+13:57:02.419 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+13:57:02.425 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 Customer 입력값입니다.
+ID : 영문, 숫자, _만 가능
+NAME : 영문, 한글, 공백만 가능 (30자),
+EMAIL : 이메일 형식만 가능
+13:57:32.439 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+13:57:32.440 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 형태의 UUID 값입니다.
+13:57:35.762 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+13:58:07.655 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 존재하지 않는 Voucher입니다.
+13:58:15.449 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+13:58:19.565 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+13:58:19.566 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 형태의 UUID 값입니다.
+14:02:18.245 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:02:18.267 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:02:18.271 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:02:18.274 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:02:18.278 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:14.550 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:14.568 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:14.571 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:14.575 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:14.578 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:07:57.647 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:07:57.870 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:07:57.895 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:08:09.766 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+14:08:15.628 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:08:15.636 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:08:15.638 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:08:15.640 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+14:08:15.645 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:08:15.657 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:08:15.685 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:08:15.687 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:08:15.690 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+14:08:15.693 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:08:15.697 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:08:15.700 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:08:15.702 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:08:15.705 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:08:15.721 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:08:15.724 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:08:15.727 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:08:15.730 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:08:15.733 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:50:41.592 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:50:41.795 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:50:41.817 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+14:50:53.208 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+14:50:58.453 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:50:58.461 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:50:58.463 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+14:50:58.464 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+14:50:58.468 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:50:58.481 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:50:58.504 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:50:58.506 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+14:50:58.509 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+14:50:58.511 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:50:58.513 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:50:58.515 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:50:58.518 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:50:58.520 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+14:50:58.531 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:50:58.533 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:50:58.535 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:50:58.537 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:50:58.539 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+14:58:56.889 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.prgrms.vouchermanagement.voucher.service.VoucherCreateService required a bean of type 'org.prgrms.vouchermanagement.voucher.repository.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.prgrms.vouchermanagement.voucher.repository.VoucherRepository' in your configuration.
+
+15:06:13.157 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:06:13.360 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:06:13.380 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:06:25.072 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+15:06:30.711 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:06:30.720 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:06:30.722 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:06:30.724 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+15:06:30.728 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:06:30.739 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:06:30.761 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:06:30.763 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:06:30.765 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+15:06:30.768 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:06:30.769 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:06:30.771 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:06:30.774 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:06:30.776 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:06:30.787 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:06:30.790 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:06:30.792 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:06:30.794 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:06:30.796 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:15:00.263 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:15:00.504 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:15:00.537 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:15:12.152 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+15:15:17.815 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:15:17.822 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:15:17.824 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:15:17.825 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+15:15:17.828 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:15:17.838 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:15:17.856 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:15:17.858 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:15:17.860 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+15:15:17.862 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:15:17.864 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:15:17.866 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:15:17.867 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:15:17.869 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:15:17.878 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:15:17.880 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:15:17.881 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:15:17.883 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:15:17.885 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:18:36.603 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 올바르지 않은 명령어입니다.
+15:30:22.024 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:30:22.235 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:30:22.257 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+15:30:33.464 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+15:30:38.463 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:30:38.469 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:30:38.471 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+15:30:38.472 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+15:30:38.476 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:30:38.487 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:30:38.509 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:30:38.511 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+15:30:38.513 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+15:30:38.516 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:30:38.518 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:30:38.519 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:30:38.521 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:30:38.523 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+15:30:38.533 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:30:38.535 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:30:38.536 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:30:38.538 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+15:30:38.540 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:01:44.735 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:01:44.942 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:01:44.965 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:01:56.976 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:01:56.986 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:01:56.988 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:01:56.989 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:01:56.992 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:01:57.002 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:01:57.024 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:01:57.026 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:01:57.028 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:01:57.031 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:01:57.032 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:01:57.035 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:01:57.036 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:01:57.038 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:01:57.049 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:01:57.051 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:01:57.053 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:01:57.056 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:01:57.057 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:03:45.168 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:03:45.414 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:03:45.439 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:03:57.406 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:03:57.413 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:03:57.415 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:03:57.417 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:03:57.419 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:03:57.430 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:03:57.450 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:03:57.452 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:03:57.455 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:03:57.458 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:03:57.460 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:03:57.462 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:03:57.464 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:03:57.466 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:03:57.480 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:03:57.482 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:03:57.484 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:03:57.487 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:03:57.489 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:05:37.302 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:05:37.521 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:05:37.545 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:05:48.728 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:05:48.737 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:05:48.739 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:05:48.741 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:05:48.744 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:05:48.756 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:05:48.780 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:05:48.782 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:05:48.784 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:05:48.788 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:05:48.790 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:05:48.792 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:05:48.794 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:05:48.796 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:05:48.809 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:05:48.811 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:05:48.813 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:05:48.815 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:05:48.817 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:06:11.928 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:06:12.142 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:06:12.163 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:06:29.766 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:06:29.774 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:06:29.775 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:06:29.777 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:06:29.781 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:06:29.791 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:06:29.809 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:06:29.810 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:06:29.812 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:06:29.814 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:06:29.816 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:06:29.817 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:06:29.819 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:06:29.821 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:06:29.830 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:06:29.832 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:06:29.833 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:06:29.835 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:06:29.836 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:12:37.432 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:14:04.621 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:18:42.382 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:20:15.281 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:21:16.473 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:21:59.284 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:22:49.548 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:22:49.691 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:22:49.710 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:22:49.723 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:22:49.736 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] customer save error : PreparedStatementCallback; SQL [INSERT INTO customers VALUES (UNHEX(REPLACE(?,'-','')), ?, ?, ?)]; Duplicate entry 'email@google.com' for key 'unq_user_email'; nested exception is java.sql.SQLIntegrityConstraintViolationException: Duplicate entry 'email@google.com' for key 'unq_user_email'
+17:24:07.256 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:25:33.609 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:27:02.750 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:27:02.976 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:27:02.998 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:27:14.509 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:27:19.651 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:27:19.658 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:27:19.659 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:27:19.660 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:27:19.663 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:27:19.673 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:27:19.691 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:27:19.692 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:27:19.694 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:27:19.696 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:27:19.697 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:27:19.699 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:27:19.700 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:27:19.702 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:27:19.712 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:27:19.715 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:27:19.717 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:27:19.720 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:27:19.722 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:28:46.373 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:28:46.382 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:28:46.384 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:28:46.386 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:28:46.389 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:28:46.402 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:28:46.426 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:28:46.428 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:28:46.430 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:28:46.434 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:28:46.436 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:28:46.438 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:28:46.440 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:28:46.442 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:28:46.455 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:28:46.457 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:28:46.460 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:28:46.461 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:28:46.463 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:29:23.828 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:29:23.837 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:29:23.838 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:29:23.840 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:29:23.842 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:29:23.853 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:29:23.873 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:29:23.875 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:29:23.877 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:29:23.879 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:29:23.881 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:29:23.883 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:29:23.885 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:29:23.887 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:29:23.897 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:29:23.900 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:29:23.902 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:29:23.904 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:29:23.906 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:30:32.523 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:30:38.391 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:30:38.399 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:30:38.401 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:30:38.402 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:30:38.405 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:30:38.416 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:30:38.434 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:30:38.436 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:30:38.438 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:30:38.441 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:30:38.442 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:30:38.444 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:30:38.446 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:30:38.448 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:30:38.456 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:30:38.458 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:30:38.459 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:30:38.461 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:30:38.463 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:31:04.300 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:04.517 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:04.540 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:31:17.000 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:31:22.924 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:31:22.932 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:31:22.934 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:31:22.936 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:31:22.939 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:31:22.950 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:31:22.969 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:31:22.971 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:31:22.972 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:31:22.975 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:31:22.977 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:31:22.979 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:31:22.981 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:31:22.983 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:31:22.994 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:31:22.996 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:31:22.998 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:31:23.000 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:31:23.002 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:33:16.355 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:33:16.355 [main] ERROR o.p.v.CommandLineApplication - [ERROR] 존재하지 않는 고객입니다.
+17:35:05.012 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:35:05.228 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:35:05.250 [main] ERROR o.p.v.c.r.JdbcCustomerRepository - [ERROR] data not exist error : Incorrect result size: expected 1, actual 0
+17:35:16.568 [main] ERROR o.p.v.v.r.JdbcVoucherRepository - 예외 발생 : Incorrect result size: expected 1, actual 0
+17:35:22.132 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:35:22.140 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:35:22.142 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Name Format Error
+17:35:22.144 [main] ERROR o.p.v.io.InputValidator - [ERROR] Not Number Error
+17:35:22.147 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:35:22.157 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:35:22.176 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:35:22.178 [main] ERROR o.p.v.io.InputValidator - [ERROR] Incorrect Range Discount Amount Error
+17:35:22.180 [main] ERROR o.p.v.io.InputValidator - [ERROR] InCorrect Voucher Type Error
+17:35:22.183 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:35:22.184 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:35:22.186 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:35:22.188 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:35:22.190 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal Email Format Error
+17:35:22.202 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:35:22.204 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:35:22.206 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:35:22.208 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
+17:35:22.209 [main] ERROR o.p.v.io.InputValidator - [ERROR] Abnormal UUID Format Error
