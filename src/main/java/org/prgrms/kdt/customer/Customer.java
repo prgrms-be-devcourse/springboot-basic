@@ -12,22 +12,22 @@ public class Customer {
     private final String customerId;
     private String name;
     private final String email;
-    private final LocalDateTime createAt;
+    private final LocalDateTime createdAt;
 
     public Customer(String customerId, String name, String email) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     }
 
-    public Customer(String customerId, String name, String email, LocalDateTime createAt) {
+    public Customer(String customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
     private void validateName(String input){
@@ -53,7 +53,7 @@ public class Customer {
         return email;
     }
 
-    public LocalDateTime getCreateAt(){
-        return createAt;
+    public LocalDateTime getCreatedAt(){
+        return createdAt;
     }
 }
