@@ -5,9 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class FixedAmountVoucherTest {
+
+    private final Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
+
     @Test
     @DisplayName("할인금액이 0인 경우 예외를 발생시킨다.")
     void zeroDiscountValue() {
@@ -26,7 +30,17 @@ public class FixedAmountVoucherTest {
     @DisplayName("할인금액이 정가보다 큰 경우 예외를 발생시킨다.")
     void bigDiscountValue() {
         assertThatThrownBy(
-                () -> new FixedAmountVoucher(UUID.randomUUID(), 5000).discount(2000))
+                () -> voucher.discount(2000))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("할인금액만큼 할인 후의 값을 반환한다.")
+    void discount() {
+        //when
+        long result = voucher.discount(15000);
+
+        //then
+        assertThat(result).isEqualTo(10000);
     }
 }
