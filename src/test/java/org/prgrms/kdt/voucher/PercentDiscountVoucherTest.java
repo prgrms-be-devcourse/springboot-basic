@@ -12,24 +12,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PercentDiscountVoucherTest {
 
-    private Voucher createVoucher(String uuid, int percent){
-        return new PercentDiscountVoucher(uuid, percent);
-    }
-
     @DisplayName("할인 정도는 제한보다 작을 수 없다.")
     @ParameterizedTest
     @ValueSource(ints = {-10, 0})
     void minLimitAmountTest(int percent) {
         assertThrows(AmountException.class,
-                () -> createVoucher(UUID.randomUUID().toString(), percent));
+                () -> new PercentDiscountVoucher(UUID.randomUUID().toString(), percent));
     }
 
     @DisplayName("할인 정도는 제한보다 클 수 없다.")
     @ParameterizedTest
     @ValueSource(ints = {120, 200, 101})
     void maxLimitAmountTest(int percent) {
-        assertThrows(AmountException.class, () ->
-                createVoucher(UUID.randomUUID().toString(), percent));
+        assertThrows(AmountException.class,
+                () -> new PercentDiscountVoucher(UUID.randomUUID().toString(), percent));
     }
 
     @DisplayName("주어진 금액만큼 할인이 되어야 한다.")
@@ -37,7 +33,7 @@ class PercentDiscountVoucherTest {
     @CsvSource({"10, 10000, 9000", "40, 10000, 6000", "70, 10000, 3000"})
     void discountAmountTest(int percent, int beforeDiscount, int expected) {
         // given
-        Voucher voucher = createVoucher(UUID.randomUUID().toString(), percent);
+        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID().toString(), percent);
 
         // when
         int afterDiscount = voucher.discount(beforeDiscount);
