@@ -2,10 +2,10 @@ package org.prgms.springbootbasic.util;
 
 
 import org.prgms.springbootbasic.config.FileVoucherConfig;
-import org.prgms.springbootbasic.domain.FixedAmountVoucher;
-import org.prgms.springbootbasic.domain.PercentDiscountVoucher;
-import org.prgms.springbootbasic.domain.Voucher;
-import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
+import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
+import org.prgms.springbootbasic.domain.voucher.VoucherType;
 import org.prgms.springbootbasic.exception.CommandLineIOException;
 import org.prgms.springbootbasic.exception.FileIOException;
 import org.springframework.context.annotation.Profile;
@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -52,18 +51,16 @@ public class VoucherFileManipulator implements FileManipulator {
                     switch (VoucherType.findVoucherType(voucherArr[1])) {
                         case FIXED ->
                                 memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new FixedAmountVoucher(UUID.fromString(voucherArr[0]),
-                                        VoucherType.PERCENT,
+                                        VoucherType.FIXED,
                                         Long.parseLong(voucherArr[2])));
                         case PERCENT ->
                                 memoryCache.putIfAbsent(UUID.fromString(voucherArr[0]), new PercentDiscountVoucher(UUID.fromString(voucherArr[0]),
-                                        VoucherType.FIXED,
+                                        VoucherType.PERCENT,
                                         Long.parseLong(voucherArr[2])));
                         default -> throw new IllegalArgumentException("invalid voucher option");
                     }
 
                 }
-
-                Objects.requireNonNull(bufferedReader).close();
 
             } catch (IOException e) {
                 throw new CommandLineIOException("error occurred reading line with buffered reader", e);
@@ -75,7 +72,7 @@ public class VoucherFileManipulator implements FileManipulator {
 
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(voucherFile.getFileName().toString(), false))) {
             for (Voucher voucher : memoryCache.values()) {
-                bufferedWriter.write(voucher.getUuid() + "," + voucher.getVoucherType() + "," + voucher.getAmount() + "\n");
+                bufferedWriter.write(voucher.getVoucherId() + "," + voucher.getVoucherType() + "," + voucher.getAmount() + "\n");
                 bufferedWriter.flush();
             }
         } catch (IOException e) {

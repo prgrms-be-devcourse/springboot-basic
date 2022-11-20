@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.util;
 
 import org.prgms.springbootbasic.config.FileBlackListConfig;
-import org.prgms.springbootbasic.domain.BlacklistedCustomer;
+import org.prgms.springbootbasic.domain.customer.BlacklistedCustomer;
 import org.prgms.springbootbasic.exception.CommandLineIOException;
 import org.springframework.stereotype.Component;
 
