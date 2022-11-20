@@ -38,19 +38,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher update(UUID voucherId, Voucher updateVoucher) {
-		Optional.ofNullable(repository.get(voucherId))
-			.ifPresentOrElse(voucher -> repository.put(voucherId, voucher),
-				() -> {
-					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				}
-			);
-
-		return updateVoucher;
-	}
-
-	@Override
 	public void delete(UUID voucherId) {
 		Optional.ofNullable(repository.get(voucherId))
 			.ifPresentOrElse(voucher -> repository.remove(voucherId),
