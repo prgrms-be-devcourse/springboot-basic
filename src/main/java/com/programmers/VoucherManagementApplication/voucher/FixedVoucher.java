@@ -16,7 +16,6 @@ public class FixedVoucher extends Voucher {
             throw new IllegalArgumentException(Message.INVALID_FIXED_MAX.getMessage());
         }
     }
-
 //    @Override
 //    public long discount() {
 //        long discount = super.originPrice.getOriginPrice() - super.amount.getAmount();

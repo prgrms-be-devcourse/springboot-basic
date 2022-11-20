@@ -10,7 +10,7 @@ public class PercentVoucher extends Voucher {
 
     public PercentVoucher(UUID voucherId, VoucherType voucherType, Amount amount) {
         super(voucherId, voucherType, amount);
-        if(amount.getAmount() > 100) {
+        if (amount.getAmount() > 100) {
             throw new IllegalArgumentException(Message.INVALID_PERCENT.getMessage());
         }
     }
