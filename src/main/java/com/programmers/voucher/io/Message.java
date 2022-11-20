@@ -1,16 +1,17 @@
 package com.programmers.voucher.io;
 
 public enum Message {
-    INTRO_MESSAGE("=== Voucher Program ===\n" +
-            "    Type **1** to exit the program.\n" +
-            "    Type **2* to create a new voucher.\n" +
-            "    Type **3** to list all vouchers.\n" +
-            "    Type **4** to select a voucher.\n" +
-            "    Type **5** to update a voucher.\n" +
-            "    Type **6** to delete all vouchers.\n" +
-            "    Type **7** to create a new customer.\n" +
-            "    Type **8** to assign a voucher to customer.\n" +
-            "    Type **9** to select a customer by voucher"),
+    INTRO_MESSAGE("""
+            === Voucher Program ===
+                Type **1** to exit the program.
+                Type **2* to create a new voucher.
+                Type **3** to list all vouchers.
+                Type **4** to select a voucher.
+                Type **5** to update a voucher.
+                Type **6** to delete all vouchers.
+                Type **7** to create a new customer.
+                Type **8** to select a customer by voucher.
+                Type **9** to assign a voucher to customer."""),
     WRONG_ORDER_MESSAGE("잘못된 입력입니다."),
     REQUEST_VOUCHER_TYPE_MESSAGE("FixedAmountVoucher는 \"1\", PercentDiscountVoucher는 \"2\"를 입력해주세요."),
     REQUEST_DISCOUNT_VALUE_MESSAGE("원하는 할인값을 입력해주세요."),
