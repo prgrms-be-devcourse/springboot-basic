@@ -188,6 +188,31 @@ class JdbcVoucherRepositoryTest {
                 .contains(tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType(), percentDiscountVoucher.getCustomerId()));
     }
 
+    @Test
+    @DisplayName("CustomerId로 바우처 삭제")
+    void deleteVoucherByCustomerId() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Voucher fixedAmountVoucher = createVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 10, customerId);
+        Voucher percentDiscountVoucher = createVoucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, 1000, customerId);
+        Voucher anotherVoucher = createVoucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, 5000, UUID.randomUUID());
+
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(anotherVoucher);
+
+        // when
+        jdbcVoucherRepository.deleteVoucherByCustomerId(customerId);
+        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
+        // then
+        assertThat(vouchers).hasSize(1);
+        assertThat(vouchers)
+                .extracting("voucherId", "discountAmount", "voucherType", "customerId")
+                .contains(tuple(anotherVoucher.getVoucherId(), anotherVoucher.getDiscountAmount(), anotherVoucher.getVoucherType(), anotherVoucher.getCustomerId()));
+
+    }
+
     private Voucher createVoucher(UUID uuid, VoucherType voucherType, int discountAmount, UUID customerId) {
         return VoucherType.createVoucher(VoucherCreateDTO.of(uuid, voucherType.name(), discountAmount, customerId));
     }

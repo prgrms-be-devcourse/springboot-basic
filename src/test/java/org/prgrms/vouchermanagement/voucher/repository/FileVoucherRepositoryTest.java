@@ -188,6 +188,30 @@ class FileVoucherRepositoryTest {
                         tuple(percentDiscountVoucher.getVoucherId(), percentDiscountVoucher.getDiscountAmount(), percentDiscountVoucher.getVoucherType(), percentDiscountVoucher.getCustomerId()));
     }
 
+    @Test
+    @DisplayName("CustomerId로 바우처 삭제")
+    void deleteVouchersByCustomerId() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Voucher fixedAmountVoucher = createFixedAmountVoucher(1000, customerId);
+        Voucher percentDiscountVoucher = createPercentDiscountVoucher(50, customerId);
+        Voucher anotherVoucher = createFixedAmountVoucher(500, UUID.randomUUID());
+
+        fileVoucherRepository.save(fixedAmountVoucher);
+        fileVoucherRepository.save(percentDiscountVoucher);
+        fileVoucherRepository.save(anotherVoucher);
+
+        // when
+        fileVoucherRepository.deleteVoucherByCustomerId(customerId);
+        List<Voucher> vouchers = fileVoucherRepository.findAll();
+
+        // then
+        assertThat(vouchers).hasSize(1);
+        assertThat(vouchers)
+                .extracting("voucherId", "discountAmount", "voucherType", "customerId")
+                .contains(tuple(anotherVoucher.getVoucherId(), anotherVoucher.getDiscountAmount(), anotherVoucher.getVoucherType(), anotherVoucher.getCustomerId()));
+    }
+
     private Voucher createFixedAmountVoucher(int discountAmount, UUID customerId) {
         return new FixedAmountVoucher(UUID.randomUUID(), discountAmount, customerId);
     }
