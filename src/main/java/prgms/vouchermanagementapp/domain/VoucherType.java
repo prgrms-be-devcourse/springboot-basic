@@ -1,7 +1,8 @@
-package prgms.vouchermanagementapp.voucher;
+package prgms.vouchermanagementapp.domain;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public enum VoucherType {
     FixedAmountVoucher(1),
@@ -17,11 +18,10 @@ public enum VoucherType {
         return List.of(VoucherType.values());
     }
 
-    public static VoucherType of(String index) throws IllegalArgumentException {
+    public static Optional<VoucherType> of(String index) throws IllegalArgumentException {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> index.equals(String.valueOf(voucherType.index)))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+                .findFirst();
     }
 
     public boolean is(VoucherType voucherType) {

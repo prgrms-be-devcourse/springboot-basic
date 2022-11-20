@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.io;
+package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
 
@@ -18,8 +18,8 @@ public class Reader {
     public String readLine() {
         try {
             return bufferedReader.readLine();
-        } catch (IOException exception) {
-            throw new IllegalArgumentException(exception);
+        } catch (IOException ioException) {
+            throw new IllegalArgumentException(ioException);
         }
     }
 }

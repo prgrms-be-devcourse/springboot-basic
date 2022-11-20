@@ -1,9 +1,12 @@
-package prgms.vouchermanagementapp.io;
+package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.voucher.VoucherType;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
+import prgms.vouchermanagementapp.domain.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -15,11 +18,15 @@ public class Writer {
     private static final String PROMPT_SIGNATURE = "> ";
 
     private static final String COMMAND_GUIDE =
-            "Type exit to exit the program."
+            "Type 'exit' to exit the program."
                     + System.lineSeparator()
-                    + "Type create to create a new voucher."
+                    + "Type 'create' to create a new voucher."
                     + System.lineSeparator()
-                    + "Type list to list all vouchers.";
+                    + "Type 'list' to list all vouchers."
+                    + System.lineSeparator()
+                    + "Type 'blacklist' to query all blacklists.";
+
+    private static final String CUSTOMER_GUIDE = "Hello Customer! Please enter your name first.";
 
     private static final String EXIT = "Terminating Application...";
     private static final String ERROR = "Error: ";
@@ -28,19 +35,6 @@ public class Writer {
     private static final String FIXED_AMOUNT_GUIDE = "Enter fixed amount you want to get a discount.";
     private static final String FIXED_DISCOUNT_RATIO_GUIDE = "Enter fixed ratio you want to get a discount.";
     private static final String NO_VOUCHER_EXISTS = "There is no voucher. please create voucher first";
-
-    public void printVouchers(List<Voucher> list) {
-        if (list.isEmpty()) {
-            System.out.println(NO_VOUCHER_EXISTS);
-            return;
-        }
-
-        AtomicInteger index = new AtomicInteger();
-        list.forEach((voucher) -> {
-            String prompt = index.incrementAndGet() + BLANK + voucher.getClass().toString();
-            System.out.println(prompt);
-        });
-    }
 
     public void printCommandGuide() {
         printBlankLine();
@@ -91,5 +85,59 @@ public class Writer {
 
     public void printError(String errorMessage) {
         System.out.println(ERROR + errorMessage);
+    }
+
+    public void printVoucherRecord(VoucherRecord voucherRecord) {
+        printBlankLine();
+
+        if (voucherRecord.isFile()) {
+            printFileVoucherRecord((FileVoucherRecord) voucherRecord);
+            return;
+        }
+        printMemoryVoucherRecord(((MemoryVoucherRecord) voucherRecord).getMemoryVouchers());
+    }
+
+    private void printFileVoucherRecord(FileVoucherRecord voucherRecord) {
+        File file = new File(voucherRecord.getFilePath());
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+//        Objects.requireNonNull()
+    }
+
+    public void printMemoryVoucherRecord(List<Voucher> list) {
+        if (list.isEmpty()) {
+            System.out.println(NO_VOUCHER_EXISTS);
+            return;
+        }
+
+        AtomicInteger index = new AtomicInteger();
+        list.forEach((voucher) -> {
+            String prompt = index.incrementAndGet() + BLANK + voucher.getClass().toString();
+            System.out.println(prompt);
+        });
+    }
+
+    public void printFileContents(File file) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void printCustomerGuide() {
+        System.out.println(CUSTOMER_GUIDE);
+        printPromptSignature();
     }
 }

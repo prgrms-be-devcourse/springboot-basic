@@ -2,18 +2,17 @@ package prgms.vouchermanagementapp.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.io.CommandType;
-import prgms.vouchermanagementapp.io.IOManager;
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
-import prgms.vouchermanagementapp.voucher.VoucherManager;
-import prgms.vouchermanagementapp.voucher.VoucherType;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
+import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.exception.IllegalCommandException;
+import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
+import prgms.vouchermanagementapp.service.VoucherManager;
+import prgms.vouchermanagementapp.view.CommandType;
+import prgms.vouchermanagementapp.view.IoManager;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -21,61 +20,57 @@ public class CommandExecutor {
 
     private static final Logger log = LoggerFactory.getLogger(CommandExecutor.class);
 
-    private final IOManager ioManager;
+    private final IoManager ioManager;
     private final VoucherManager voucherManager;
-    private final RunningState runningState;
+    private final CustomerController customerController;
 
-    @Autowired
-    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
+    public CommandExecutor(IoManager ioManager, VoucherManager voucherManager, CustomerController customerController) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
-        this.runningState = new RunningState();
+        this.customerController = customerController;
     }
 
-    public void run() {
+    public void run(RunningState runningState) {
+
         while (runningState.isRunning()) {
-            Optional<CommandType> commandType = ioManager.askCommand();
-            commandType.ifPresent(this::executeCommand);
+            try {
+                String command = ioManager.askCommand();
+                CommandType.of(command)
+                        .ifPresent(commandType -> executeCommand(commandType, runningState));
+            } catch (IllegalCommandException illegalCommandException) {
+                log.warn("command input error occurred: {}", illegalCommandException.getMessage());
+                ioManager.notifyErrorOccurred(illegalCommandException.getMessage());
+            }
         }
     }
 
-    public void executeCommand(CommandType commandType) {
-        if (commandType.is(CommandType.EXIT)) {
-            runExit();
-            return;
-        }
-
-        if (commandType.is(CommandType.CREATE)) {
-            runCreate();
-            return;
-        }
-
-        if (commandType.is(CommandType.LIST)) {
-            runList();
+    public void executeCommand(CommandType commandType, RunningState runningState) {
+        switch (commandType) {
+            case EXIT -> runExit(runningState);
+            case CREATE -> runCreate();
+            case LIST -> runList();
+            case BLACKLIST -> runBlacklist();
+            default -> {
+                throw new IllegalArgumentException(
+                        MessageFormat.format("Command Type ''{0}'' is invalid.", commandType)
+                );
+            }
         }
     }
 
-    private void runExit() {
+    private void runExit(RunningState runningState) {
         ioManager.notifyExit();
         runningState.exit();
     }
 
     private void runCreate() {
-        Optional<VoucherType> voucherType = askVoucherType();
-        voucherType.ifPresent(this::requestVoucherCreation);
-    }
-
-    private Optional<VoucherType> askVoucherType() {
         String voucherTypeIndex = ioManager.askVoucherTypeIndex();
+        Optional<VoucherType> voucherType = VoucherType.of(voucherTypeIndex);
 
-        try {
-            VoucherType voucherType = VoucherType.of(voucherTypeIndex);
-            return Optional.of(voucherType);
-        } catch (IllegalArgumentException exception) {
-            log.warn("VoucherTypeIndex Error: index ''{}'' is invalid!!!", voucherTypeIndex);
-            ioManager.notifyErrorOccurred(MessageFormat.format("index ''{0}'' is invalid!!!", voucherTypeIndex));
-            return Optional.empty();
+        if (voucherType.isEmpty()) {
+            ioManager.notifyErrorOccurred(new IllegalVoucherTypeIndexException(voucherTypeIndex).getMessage());
         }
+        voucherType.ifPresent(this::requestVoucherCreation);
     }
 
     private void requestVoucherCreation(VoucherType voucherType) {
@@ -91,7 +86,10 @@ public class CommandExecutor {
     }
 
     private void runList() {
-        List<Voucher> vouchers = voucherManager.findVouchers();
-        ioManager.notifyVouchers(vouchers);
+        ioManager.showVoucherRecord(voucherManager.findAllVouchers());
+    }
+
+    private void runBlacklist() {
+        ioManager.showBlacklist();
     }
 }

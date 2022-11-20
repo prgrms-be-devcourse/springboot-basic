@@ -1,10 +1,10 @@
-package prgms.vouchermanagementapp.voucher;
+package prgms.vouchermanagementapp.service;
 
-import prgms.vouchermanagementapp.model.Amount;
-import prgms.vouchermanagementapp.model.Ratio;
-import prgms.vouchermanagementapp.voucher.model.FixedAmountVoucher;
-import prgms.vouchermanagementapp.voucher.model.PercentDiscountVoucher;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
+import prgms.vouchermanagementapp.domain.FixedAmountVoucher;
+import prgms.vouchermanagementapp.domain.PercentDiscountVoucher;
+import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.domain.value.Ratio;
 
 import java.util.UUID;
 
