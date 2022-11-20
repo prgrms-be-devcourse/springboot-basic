@@ -9,8 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
+
+import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -18,6 +19,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
             = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) " +
             "VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
     private static final String findAllSql = "SELECT * FROM vouchers";
+    private static final String findAllByEmailSql
+            = "SELECT vouchers.* FROM vouchers " +
+            "LEFT JOIN customers ON customers.customer_id = vouchers.customer_id " +
+            "WHERE customers.email = :email";
     private static final String findSql
             = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String updateSql
@@ -26,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String deleteSql = "DELETE FROM vouchers";
     private static final String assignSql
             = "UPDATE vouchers SET customer_id = :customerId " +
-                    "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+            "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
@@ -48,7 +53,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher, VoucherType voucherType) {
-        jdbcTemplate.update(insertSql, toParamMap(voucher, voucherType));
+        jdbcTemplate.update(insertSql, toVoucherMap(voucher, voucherType));
         return voucher;
     }
 
@@ -58,13 +63,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllByEmail(String email) {
+        return jdbcTemplate.query(findAllByEmailSql, toEmailMap(email), rowMapper);
+    }
+
+    @Override
     public Voucher findById(UUID voucherId) {
-        return jdbcTemplate.queryForObject(findSql, toIdMap(voucherId), rowMapper);
+        return jdbcTemplate.queryForObject(findSql, toVoucherIdMap(voucherId), rowMapper);
     }
 
     @Override
     public void update(Voucher voucher, VoucherType voucherType) {
-        jdbcTemplate.update(updateSql, toParamMap(voucher, voucherType));
+        jdbcTemplate.update(updateSql, toVoucherMap(voucher, voucherType));
     }
 
     @Override
@@ -75,26 +85,5 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public void assign(Voucher voucher) {
         jdbcTemplate.update(assignSql, toAssignMap(voucher));
-    }
-
-    private Map<String, Object> toParamMap(Voucher voucher, VoucherType voucherType) {
-        return Map.of(
-                "voucherId", voucher.getVoucherId().toString().getBytes(),
-                "discountValue", voucher.getDiscountValue(),
-                "voucherType", voucherType.getVoucherType()
-        );
-    }
-
-    private Map<String, Object> toIdMap(UUID voucherId) {
-        return Map.of(
-                "voucherId", voucherId.toString().getBytes()
-        );
-    }
-
-    private Map<String, Object> toAssignMap(Voucher voucher) {
-        return Map.of(
-                "voucherId", voucher.getVoucherId().toString().getBytes(),
-                "customerId", voucher.getCustomer().getCustomerId()
-        );
     }
 }

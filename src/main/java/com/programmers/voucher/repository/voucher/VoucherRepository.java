@@ -11,6 +11,8 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
+    List<Voucher> findAllByEmail(String email);
+
     Voucher findById(UUID voucherId);
 
     void update(Voucher voucher, VoucherType voucherType);

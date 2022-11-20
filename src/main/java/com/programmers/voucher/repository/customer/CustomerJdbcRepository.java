@@ -3,14 +3,13 @@ package com.programmers.voucher.repository.customer;
 import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.customer.Customer;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.Map;
 import java.util.UUID;
+
+import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -39,7 +38,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int save(CustomerDto customerDto) {
-        return jdbcTemplate.update(insertSql, toParamMap(customerDto), new GeneratedKeyHolder());
+        return jdbcTemplate.update(insertSql, toCustomerMap(customerDto), new GeneratedKeyHolder());
     }
 
     @Override
@@ -49,23 +48,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer findByVoucher(UUID voucherId) {
-        return jdbcTemplate.queryForObject(findByVoucherSql, toIdMap(voucherId), rowMapper);
-    }
-
-    private SqlParameterSource toParamMap(CustomerDto customerDto) {
-        return new MapSqlParameterSource()
-                .addValue("customerName", customerDto.customerName())
-                .addValue("email", customerDto.email());
-    }
-
-    private SqlParameterSource toEmailMap(String email) {
-        return new MapSqlParameterSource()
-                .addValue("email", email);
-    }
-
-    private Map<String, Object> toIdMap(UUID voucherId) {
-        return Map.of(
-                "voucherId", voucherId.toString().getBytes()
-        );
+        return jdbcTemplate.queryForObject(findByVoucherSql, toVoucherIdMap(voucherId), rowMapper);
     }
 }

@@ -19,26 +19,26 @@ public class VoucherController {
         this.view = view;
     }
 
-    public void createVoucher(VoucherType inputVoucherType, long inputDiscountValue) {
+    public void create(VoucherType inputVoucherType, long inputDiscountValue) {
         Voucher voucher = voucherService.create(inputVoucherType, inputDiscountValue);
         view.printVoucher(voucher);
     }
 
-    public void findAllVouchers() {
+    public void findAll() {
         checkEmptyVoucher(voucherService.findAllVoucher());
     }
 
-    public void findVoucher(UUID inputVoucherId) {
+    public void findById(UUID inputVoucherId) {
         Voucher selected = voucherService.findById(inputVoucherId);
         view.printVoucher(selected);
     }
 
-    public void updateVoucher(UUID inputVoucherId, long inputDiscountValue, VoucherType inputVoucherType) {
+    public void update(UUID inputVoucherId, long inputDiscountValue, VoucherType inputVoucherType) {
         Voucher updated = voucherService.update(inputVoucherId, inputDiscountValue, inputVoucherType);
         view.printVoucher(updated);
     }
 
-    public void deleteAllVoucher() {
+    public void deleteAll() {
         voucherService.deleteAll();
         view.printDeleteAll();
     }

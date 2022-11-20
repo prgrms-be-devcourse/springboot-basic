@@ -35,14 +35,15 @@ public class VoucherProgram implements ApplicationRunner {
             try {
                 switch (getInputCommandType()) {
                     case EXIT -> isRunning = false;
-                    case CREATE_VOUCHER -> voucherController.createVoucher(getInputVoucherType(), getInputDiscountValue());
-                    case LIST_VOUCHER -> voucherController.findAllVouchers();
-                    case SELECT_VOUCHER -> voucherController.findVoucher(getInputVoucherId());
-                    case UPDATE_VOUCHER -> voucherController.updateVoucher(getInputVoucherId(), getInputDiscountValue(), getInputVoucherType());
-                    case DELETE_ALL_VOUCHER -> voucherController.deleteAllVoucher();
+                    case CREATE_VOUCHER -> voucherController.create(getInputVoucherType(), getInputDiscountValue());
+                    case LIST_VOUCHER -> voucherController.findAll();
+                    case SELECT_VOUCHER -> voucherController.findById(getInputVoucherId());
+                    case UPDATE_VOUCHER -> voucherController.update(getInputVoucherId(), getInputDiscountValue(), getInputVoucherType());
+                    case DELETE_ALL_VOUCHER -> voucherController.deleteAll();
                     case CREATE_CUSTOMER -> customerController.createCustomer(getCustomerDto());
                     case SELECT_CUSTOMER_BY_VOUCHER -> customerController.findCustomerByVoucher(getInputVoucherId());
                     case ASSIGN_VOUCHER -> walletController.assign(getInputVoucherId(), getInputEmail());
+                    case LIST_VOUCHERS_OF_CUSTOMER -> walletController.findAll(getInputEmail());
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");

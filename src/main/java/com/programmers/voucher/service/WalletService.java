@@ -6,6 +6,7 @@ import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -24,5 +25,9 @@ public class WalletService {
         voucher.setCustomer(customer);
         voucherRepository.assign(voucher);
         return voucher;
+    }
+
+    public List<Voucher> findAll(String email) {
+        return voucherRepository.findAllByEmail(email);
     }
 }
