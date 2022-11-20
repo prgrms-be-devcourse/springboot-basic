@@ -25,12 +25,6 @@ public class JdbcVoucherStorage implements VoucherStorage {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherStorage.class);
     private static final int UPDATE_SUCCESS = 1;
 
-    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-
-    public JdbcVoucherStorage(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-    }
-
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         String voucherId = resultSet.getString("voucher_id");
         VoucherType voucherType = findVoucherTypeByInput(resultSet.getString("type"));
@@ -52,6 +46,12 @@ public class JdbcVoucherStorage implements VoucherStorage {
             default -> throw new InvalidDBAccessException("잘못된 타입 값 -> " + voucherType);
         }
     };
+
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public JdbcVoucherStorage(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
 
     private static Map<String, Object> createParaMap(Voucher voucher) {
         Map<String, Object> paraMap = new HashMap<>();
