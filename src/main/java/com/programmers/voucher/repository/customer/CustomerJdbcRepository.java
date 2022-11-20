@@ -1,6 +1,8 @@
 package com.programmers.voucher.repository.customer;
 
-import com.programmers.voucher.dto.CustomerDto;
+import com.programmers.voucher.controller.dto.CustomerDto;
+import com.programmers.voucher.model.customer.Customer;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -12,6 +14,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private static final String insertSql
             = "INSERT INTO customers(customer_name, email) " +
             "VALUES(:customerName, :email)";
+    private static final String findSql
+            = "SELECT * FROM customers WHERE email = :email";
+
+    private static final RowMapper<Customer> rowMapper = (resultSet, count) -> {
+        int customerId = resultSet.getInt("customer_id");
+        String customerName = resultSet.getString("customer_name");
+        String email = resultSet.getString("email");
+        return new Customer(customerId, customerName, email);
+    };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -21,12 +32,22 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public int save(CustomerDto customerDto) {
-        return jdbcTemplate.update(insertSql, toParam(customerDto), new GeneratedKeyHolder());
+        return jdbcTemplate.update(insertSql, toParamMap(customerDto), new GeneratedKeyHolder());
     }
 
-    private SqlParameterSource toParam(CustomerDto customerDto) {
+    @Override
+    public Customer findByEmail(String email) {
+        return jdbcTemplate.queryForObject(findSql, toEmailMap(email), rowMapper);
+    }
+
+    private SqlParameterSource toParamMap(CustomerDto customerDto) {
         return new MapSqlParameterSource()
-                .addValue("customerName", customerDto.getCustomerName())
-                .addValue("email", customerDto.getEmail());
+                .addValue("customerName", customerDto.customerName())
+                .addValue("email", customerDto.email());
+    }
+
+    private SqlParameterSource toEmailMap(String email) {
+        return new MapSqlParameterSource()
+                .addValue("email", email);
     }
 }

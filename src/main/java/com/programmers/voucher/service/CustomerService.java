@@ -1,11 +1,9 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.dto.CustomerDto;
+import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CustomerService {
@@ -18,10 +16,10 @@ public class CustomerService {
 
     public Customer create(CustomerDto customerDto) {
         int customerId = customerRepository.save(customerDto);
-        return new Customer(customerId, customerDto.getCustomerName(), customerDto.getEmail());
+        return new Customer(customerId, customerDto.customerName(), customerDto.email());
     }
 
-    public List<Customer> findAllBlack() {
-        return null;
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email);
     }
 }
