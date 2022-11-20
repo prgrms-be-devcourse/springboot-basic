@@ -24,6 +24,14 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public int update(Voucher voucher) {
+        if (!storage.containsKey(voucher.getVoucherId()))
+            return -1;
+        storage.put(voucher.getVoucherId(), voucher);
+        return 1;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID id) {
         if (storage.containsKey(id))
             return Optional.of(storage.get(id));

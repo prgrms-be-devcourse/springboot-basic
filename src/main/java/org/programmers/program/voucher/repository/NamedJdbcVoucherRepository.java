@@ -60,6 +60,18 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public int update(Voucher voucher) {
+        var update = namedJdbcTemplate.update(
+                "update vouchers set discount_amount = :discountAmount, is_used = :isUsed, expiration_date = :expirationDate " +
+                        "where voucher_id = UUID_TO_BIN(:voucherId)",
+                toParamMap(voucher)
+        );
+        if(update != 1)
+            return -1;
+        return 1;
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
