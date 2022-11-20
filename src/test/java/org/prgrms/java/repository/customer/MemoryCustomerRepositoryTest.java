@@ -77,6 +77,18 @@ class MemoryCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("유저를 등록한 후에 필드를 변경할 수 있다.")
+    void testUpdate() {
+        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
+        customerRepository.insert(customer);
+
+        Customer updatedCustomer = new Customer(customer.getCustomerId(), "update-test", customer.getEmail());
+        Customer insertedUpdatedCustomer = customerRepository.update(updatedCustomer);
+
+        assertThat(customer, not(samePropertyValuesAs(insertedUpdatedCustomer)));
+    }
+
+    @Test
     @DisplayName("등록한 유저와 전체 삭제한 개수가 같다.")
     void testDeleteAll() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
