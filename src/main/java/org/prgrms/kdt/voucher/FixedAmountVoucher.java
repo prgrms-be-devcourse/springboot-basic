@@ -9,7 +9,7 @@ public class FixedAmountVoucher implements Voucher {
     private static final long MIN_VOUCHER_LIMIT = 10;
     private final String voucherId;
     private final int amount;
-    private static final String voucherType = "fixed";
+    private static final String voucherType = "fix";
 
     private String customerId;
 

@@ -13,4 +13,8 @@ public interface Voucher {
     String getVoucherType();
 
     Optional<String> getOwnerId();
+
+    default boolean isOwned(){
+        return getOwnerId().isPresent();
+    }
 }
