@@ -21,10 +21,6 @@ public enum VoucherType {
         this.voucherFunction = voucherFunction;
     }
 
-    public VoucherFunction<UUID, VoucherType, Amount, Voucher> getVoucherFunction() {
-        return voucherFunction;
-    }
-
     public static VoucherType of(String inputValue) {
         return Arrays.stream(values())
                 .filter(discountType -> discountType.inputValue.equals(inputValue))
@@ -37,5 +33,9 @@ public enum VoucherType {
     public Voucher createVoucher(VoucherType voucherType, Amount amount) {
         return voucherFunction
                 .apply(UUID.randomUUID(), voucherType, amount);
+    }
+
+    public static VoucherType getName(String voucherType) {
+        return voucherType.equals(VoucherType.FIXED_DISCOUNT.toString()) ? FIXED_DISCOUNT : PERCENT_DISCOUNT;
     }
 }
