@@ -26,9 +26,9 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
-import com.programmers.voucher.exception.CustomerNotFoundException;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
+import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
 @Profile({"file", "test"})
@@ -90,7 +90,7 @@ public class FileCustomerRepository implements CustomerRepository {
 		return Optional.ofNullable(customers.get(customerId))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-				throw new CustomerNotFoundException();
+				throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -100,7 +100,7 @@ public class FileCustomerRepository implements CustomerRepository {
 			.ifPresentOrElse(customer -> customers.put(updateCustomer.getCustomerId(), customer),
 				() -> {
 					log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-					throw new CustomerNotFoundException();
+					throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
 				}
 			);
 
@@ -113,7 +113,7 @@ public class FileCustomerRepository implements CustomerRepository {
 			.ifPresentOrElse(customer -> customers.remove(customerId),
 				() -> {
 					log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-					throw new CustomerNotFoundException();
+					throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
 				}
 			);
 	}

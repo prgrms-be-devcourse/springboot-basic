@@ -29,7 +29,7 @@ import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 import com.programmers.voucher.exception.EmptyBufferException;
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.VoucherNotFoundException;
+import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
 @Profile({"file", "test"})
@@ -90,7 +90,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		return Optional.ofNullable(vouchers.get(voucherId))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				throw new VoucherNotFoundException();
+				throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -100,7 +100,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			.ifPresentOrElse(voucher -> vouchers.put(voucherId, voucher),
 				() -> {
 					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new VoucherNotFoundException();
+					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 
@@ -113,7 +113,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			.ifPresentOrElse(voucher -> vouchers.remove(voucherId),
 				() -> {
 					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new VoucherNotFoundException();
+					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 	}

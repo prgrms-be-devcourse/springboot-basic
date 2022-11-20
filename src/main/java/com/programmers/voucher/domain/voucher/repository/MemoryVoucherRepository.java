@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.VoucherNotFoundException;
+import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
 @Profile("local")
@@ -33,7 +33,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 		return Optional.ofNullable(repository.get(voucherId))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				throw new VoucherNotFoundException();
+				throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -43,7 +43,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 			.ifPresentOrElse(voucher -> repository.put(voucherId, voucher),
 				() -> {
 					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new VoucherNotFoundException();
+					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 
@@ -56,7 +56,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 			.ifPresentOrElse(voucher -> repository.remove(voucherId),
 				() -> {
 					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new VoucherNotFoundException();
+					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 	}
