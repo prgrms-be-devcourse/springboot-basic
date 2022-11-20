@@ -6,8 +6,7 @@ import com.programmers.VoucherManagementApplication.service.VoucherService;
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
 import org.springframework.stereotype.Controller;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Controller
 public class VoucherController {
@@ -22,7 +21,7 @@ public class VoucherController {
         return voucherService.create(voucherType, amount);
     }
 
-    public Map<UUID, Voucher> findAll() {
+    public List<Voucher> findAll() {
         return voucherService.findAll();
     }
 }
