@@ -8,6 +8,7 @@ import org.programmers.program.voucher.model.Voucher;
 import org.programmers.program.voucher.model.VoucherType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -31,8 +32,8 @@ class VoucherValidatorTest {
         vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 10000000L));
         vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 150L));
 
-        vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 50L, LocalDate.now().minusWeeks(1)));
-        vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 50L, LocalDate.now().minusWeeks(1)));
+        vouchers.add(new PercentDiscountVoucher(UUID.randomUUID(), 50L, LocalDateTime.now().minusWeeks(1)));
+        vouchers.add(new FixedAmountVoucher(UUID.randomUUID(), 50L, LocalDateTime.now().minusWeeks(1)));
 
 
         for(Voucher v: vouchers){

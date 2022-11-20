@@ -1,29 +1,38 @@
 package org.programmers.program.voucher.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public abstract class Voucher {
     protected final UUID id;
     protected final Long discountAmount;
-    protected final LocalDate expirationDate;
+
+    private final LocalDateTime createdAt;
+    protected final LocalDateTime expirationDate;
+
+    protected VoucherType voucherType = null;
+    protected boolean isUsed;
 
     protected Voucher(UUID id, Long discountAmount){
         this.id = id;
         this.discountAmount = discountAmount;
-        expirationDate = LocalDate.now().plusWeeks(1);
+        createdAt = LocalDateTime.now();
+        expirationDate = LocalDateTime.now().plusWeeks(1);
+        isUsed = false;
     }
-    protected Voucher(UUID id, Long discountAmount, LocalDate expirationDate) {
+    protected Voucher(UUID id, Long discountAmount, LocalDateTime expirationDate) {
         this.id = id;
         this.discountAmount = discountAmount;
         this.expirationDate = expirationDate;
+        createdAt = LocalDateTime.now();
+        isUsed = false;
     }
 
     public UUID getVoucherId(){
         return this.id;
     }
 
-    public LocalDate getExpirationDate() {
+    public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
 
@@ -31,5 +40,17 @@ public abstract class Voucher {
         return this.discountAmount;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     abstract Long discount(Long price);
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    public boolean getIsUsed(){
+        return isUsed;
+    }
 }

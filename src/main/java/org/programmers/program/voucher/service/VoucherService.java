@@ -8,6 +8,7 @@ import org.programmers.program.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class VoucherService {
         return voucherRepository.findById(id);
     }
 
-    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount, LocalDate expirationDate){
+    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount, LocalDateTime expirationDate){
         if(type.equals(VoucherType.FIXED))
             return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount, expirationDate));
         return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount, expirationDate));

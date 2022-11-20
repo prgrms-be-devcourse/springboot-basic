@@ -1,14 +1,17 @@
 package org.programmers.program.voucher.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher{
     public FixedAmountVoucher(UUID id, Long discountAmount){
         super(id, discountAmount);
+        this.voucherType = VoucherType.FIXED;
     }
-    public FixedAmountVoucher(UUID id, Long discountAmount, LocalDate expirationDate){
+    public FixedAmountVoucher(UUID id, Long discountAmount, LocalDateTime expirationDate){
         super(id, discountAmount, expirationDate);
+        this.voucherType = VoucherType.FIXED;
     }
 
     @Override
