@@ -57,6 +57,9 @@ public class VoucherProcessor implements CommandLineRunner {
                 case LIST:
                     getVouchers();
                     break;
+                case CUSTOMERS:
+                    getCustomers();
+                    break;
                 case BLACKLIST:
                     getBlackCustomers();
             }
@@ -98,6 +101,16 @@ public class VoucherProcessor implements CommandLineRunner {
         try {
             voucherService.createVoucher(voucher);
         } catch (VoucherException e) {
+            view.print(e.getMessage());
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void getCustomers() {
+        try {
+            customerService.getAllCustomers()
+                    .forEach(view::print);
+        } catch (CustomerException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }

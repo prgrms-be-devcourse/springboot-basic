@@ -6,6 +6,7 @@ public enum MessageGuide {
             "Type " + MessageGuide.ANSI_BOLD + MessageGuide.ANSI_RED + "exit" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + MessageGuide.ANSI_RED + "exit" + MessageGuide.ANSI_RESET + " the program.\n" +
             "Type " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " a new voucher.\n" +
             "Type " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " all vouchers.\n" +
+            "Type " + MessageGuide.ANSI_BOLD + "customers" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " all customers.\n" +
             "Type " + MessageGuide.ANSI_BOLD + "blacklist" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " all blocked customers."
     ),
     VOUCHER_TYPE(

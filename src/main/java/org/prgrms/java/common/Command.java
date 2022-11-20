@@ -8,6 +8,7 @@ public enum Command {
     EXIT,
     CREATE,
     LIST,
+    CUSTOMERS,
     BLACKLIST;
 
     public static Command get(String command) {
