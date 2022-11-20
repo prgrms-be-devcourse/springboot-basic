@@ -27,6 +27,10 @@ public class CustomerService {
 		return customer;
 	}
 
+	public Customer findById(UUID customerId) {
+		return repository.findById(customerId);
+	}
+
 	public List<Customer> getAllCustomer() {
 		return repository.findAll();
 	}
