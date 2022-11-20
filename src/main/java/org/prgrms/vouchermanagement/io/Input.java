@@ -10,4 +10,6 @@ public interface Input {
     String receiveCustomerName();
 
     String receiveCustomerEmail();
+
+    String receiveVoucherId();
 }

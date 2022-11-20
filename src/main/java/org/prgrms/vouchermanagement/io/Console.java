@@ -25,6 +25,7 @@ public class Console implements Input, Output {
             "Type [create customer] to create a new customer." + System.lineSeparator() +
             "Type [show customers] to list all customer." + System.lineSeparator() +
             "Type [customer vouchers list] to list all vouchers the customer has" + System.lineSeparator() +
+            "Type [voucher owner] to print the voucher owner" + System.lineSeparator() +
             "Type [blacklist] to list all blacklist";
 
     private static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";
@@ -32,6 +33,7 @@ public class Console implements Input, Output {
     private static final String CUSTOMER_EMAIL_INPUT_MESSAGE = "Customer의 이메일을 입력해주세요.";
     private static final String VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE = "바우처를 할당하기 위한 고객의 이메일을 입력해주세요.";
     private static final String DELETE_VOUCHERS_MESSAGE = "바우처 삭제가 완료되었습니다.";
+    private static final String VOUCHER_ID_INPUT_MESSAGE = "바우처 ID를 입력해주세요.";
 
     private final Scanner scanner = new Scanner(System.in);
     private final InputValidator inputValidator;
@@ -71,6 +73,12 @@ public class Console implements Input, Output {
     public String receiveCustomerEmail() {
         this.printCustomerEmail();
         return inputValidator.validateEmail(scanner.nextLine());
+    }
+
+    @Override
+    public String receiveVoucherId() {
+        this.printVoucherId();
+        return inputValidator.validateUUID(scanner.nextLine());
     }
 
     // OUTPUT
@@ -119,7 +127,13 @@ public class Console implements Input, Output {
         System.out.println(CUSTOMER_EMAIL_INPUT_MESSAGE);
     }
 
+    @Override
     public void printDeleteVoucherMessage() {
         System.out.println(DELETE_VOUCHERS_MESSAGE);
+    }
+
+    @Override
+    public void printVoucherId() {
+        System.out.println(VOUCHER_ID_INPUT_MESSAGE);
     }
 }

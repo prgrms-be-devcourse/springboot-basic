@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
+import org.prgrms.vouchermanagement.exception.voucher.VoucherNotFoundException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class VoucherListFindService {
 
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         return voucherRepository.findVouchersByCustomerId(customerId);
+    }
+
+    public Voucher findVoucherByVoucherId(UUID voucherId) {
+        return voucherRepository.findById(voucherId)
+                .orElseThrow(VoucherNotFoundException::new);
     }
 }

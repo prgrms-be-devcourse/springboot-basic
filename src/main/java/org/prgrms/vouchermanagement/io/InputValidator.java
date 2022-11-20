@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement.io;
 
 import org.prgrms.vouchermanagement.exception.validation.AbnormalCustomerValueException;
 import org.prgrms.vouchermanagement.exception.validation.NotNumberException;
+import org.prgrms.vouchermanagement.exception.voucher.AbnormalUUIDFormatException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectDiscountAmountException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
 import org.prgrms.vouchermanagement.util.RegexConstant;
@@ -53,5 +54,13 @@ public class InputValidator {
             throw new AbnormalCustomerValueException();
         }
         return customerEmail;
+    }
+
+    protected String validateUUID(String uuid) {
+        if (!uuid.matches(RegexConstant.UUID_REGEX)) {
+            logger.error("[ERROR] Abnormal UUID Format Error");
+            throw new AbnormalUUIDFormatException();
+        }
+        return uuid;
     }
 }

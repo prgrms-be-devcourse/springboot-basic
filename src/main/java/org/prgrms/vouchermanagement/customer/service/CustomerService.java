@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,8 +37,9 @@ public class CustomerService {
         return customerRepository.update(customer);
     }
 
-    public Optional<Customer> findById(UUID customerId) {
-        return customerRepository.findById(customerId);
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> findByName(String name) {

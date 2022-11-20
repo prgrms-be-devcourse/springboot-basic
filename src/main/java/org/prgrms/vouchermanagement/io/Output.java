@@ -25,4 +25,6 @@ public interface Output {
     void printCustomerEmail();
 
     void printDeleteVoucherMessage();
+
+    void printVoucherId();
 }

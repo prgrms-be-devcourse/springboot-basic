@@ -13,6 +13,7 @@ public enum Command {
     CREATE_CUSTOMER("create customer"),
     CUSTOMER_LIST("show customers"),
     DELETE_CUSTOMER_VOUCHER("delete"),
+    SEARCH_VOUCHER_OWNER("voucher owner"),
     BLACKLIST("blacklist");
 
     private final String userInputCommand;

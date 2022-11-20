@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -74,6 +75,9 @@ public class CommandLineApplication {
                     case DELETE_CUSTOMER_VOUCHER:
                         deleteCustomerVoucher();
                         break;
+                    case SEARCH_VOUCHER_OWNER:
+                        printVoucherOwner();
+                        break;
                     case BLACKLIST:
                         printBlacklist();
                         break;
@@ -129,6 +133,13 @@ public class CommandLineApplication {
     private void printBlacklist() {
         List<Customer> blackList = blackListFindService.findAllBlackList();
         output.printCustomers(blackList);
+    }
+
+    private void printVoucherOwner() {
+        UUID voucherId = UUID.fromString(input.receiveVoucherId());
+        Voucher voucher = voucherListFindService.findVoucherByVoucherId(voucherId);
+        Customer customer = customerService.findById(voucher.getCustomerId());
+        output.printCustomers(List.of(customer));
     }
 
     private void exit(Command command) {
