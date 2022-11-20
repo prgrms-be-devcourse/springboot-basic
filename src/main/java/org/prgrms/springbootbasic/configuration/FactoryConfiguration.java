@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic;
+package org.prgrms.springbootbasic.configuration;
 
 import org.prgrms.springbootbasic.factory.FixedAmountVoucherFactory;
 import org.prgrms.springbootbasic.factory.PercentAmountVoucherFactory;
