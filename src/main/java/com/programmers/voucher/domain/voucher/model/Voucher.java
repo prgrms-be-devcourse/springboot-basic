@@ -25,5 +25,13 @@ public abstract class Voucher {
 		return voucherType;
 	}
 
+	public double getDiscount() {
+		return discount;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
 	protected abstract double validateDiscount(String discount);
 }
