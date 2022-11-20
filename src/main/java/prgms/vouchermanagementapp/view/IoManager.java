@@ -11,6 +11,8 @@ import java.util.Optional;
 @Component
 public class IoManager {
 
+    private static final Logger log = LoggerFactory.getLogger(IOManager.class);
+
     private final Reader reader;
     private final Writer writer;
     private final FileManager fileManager;
