@@ -13,5 +13,7 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
+    Voucher update(Voucher voucher);
+
     long deleteAll();
 }

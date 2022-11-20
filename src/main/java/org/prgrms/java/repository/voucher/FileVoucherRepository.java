@@ -4,7 +4,6 @@ import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -15,7 +14,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@Primary
 public class FileVoucherRepository implements VoucherRepository {
     private final String DATA_PATH;
     private final String DATA_NAME;
@@ -72,6 +70,11 @@ public class FileVoucherRepository implements VoucherRepository {
             throw new RuntimeException(e);
         }
         return voucher;
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
     }
 
     @Override

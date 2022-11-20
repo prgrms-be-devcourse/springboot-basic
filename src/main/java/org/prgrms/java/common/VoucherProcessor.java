@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -84,10 +85,10 @@ public class VoucherProcessor implements CommandLineRunner {
         Voucher voucher;
         switch (voucherType) {
             case "1":
-                voucher = new FixedAmountVoucher(UUID.randomUUID(), voucherAmount);
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), voucherAmount, LocalDateTime.now().plusDays(7));
                 break;
             case "2":
-                voucher = new PercentDiscountVoucher(UUID.randomUUID(), voucherAmount);
+                voucher = new PercentDiscountVoucher(UUID.randomUUID(), voucherAmount, LocalDateTime.now().plusDays(7));
                 break;
             default:
                 view.print("Invalid Voucher Type");

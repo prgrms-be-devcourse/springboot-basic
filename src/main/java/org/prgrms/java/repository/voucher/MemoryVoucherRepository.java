@@ -31,6 +31,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher update(Voucher voucher) {
+        if (findById(voucher.getVoucherId()).isEmpty()) {
+            throw new VoucherException(String.format("No exists voucher having id %s", voucher.getVoucherId()));
+        }
+        storage.put(voucher.getVoucherId(), voucher);
+        return storage.get(voucher.getVoucherId());
+    }
+
+    @Override
     public long deleteAll() {
         long count = storage.size();
         storage.clear();
