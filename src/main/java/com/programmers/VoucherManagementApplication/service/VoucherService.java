@@ -6,8 +6,7 @@ import com.programmers.VoucherManagementApplication.repository.VoucherRepository
 import com.programmers.VoucherManagementApplication.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Service
 public class VoucherService {
@@ -19,10 +18,10 @@ public class VoucherService {
     }
 
     public Voucher create(VoucherType voucherType, Amount amount) {
-        return voucherRepository.addVoucher(voucherType.createVoucher(voucherType, amount));
+        return voucherRepository.insert(voucherType.createVoucher(voucherType, amount));
     }
 
-    public Map<UUID, Voucher> findAll() {
+    public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
 }
