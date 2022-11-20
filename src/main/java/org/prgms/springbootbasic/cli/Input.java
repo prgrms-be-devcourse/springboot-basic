@@ -28,13 +28,21 @@ public class Input implements CommandLineIO {
             logger.error("unable to read input through buffered reader input : null");
         } else if (input.isEmpty()) {
             logger.error("empty input entered | input : {}", input);
-        } else if (!input.matches("\\w+")) {
+        } else if (!input.matches("\\w+") && !this.isEmail(input) && !this.isUUID(input)) {
             logger.error("not valid token exists | input : {}", input);
         } else {
             return input.replace(" ", "");
         }
 
         return input;
+    }
+
+    public boolean isEmail(String input) {
+        return input.matches("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$"); // RFC 5322 Official Standard
+    }
+
+    public boolean isUUID(String input) {
+        return input.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
     }
 
     @Override
