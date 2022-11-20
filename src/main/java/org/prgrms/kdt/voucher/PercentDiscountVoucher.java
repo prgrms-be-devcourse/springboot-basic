@@ -32,10 +32,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public Optional<String> getOwnerId() {
-        if(customerId == null){
-            return Optional.empty();
-        }
-        return Optional.of(customerId);
+        return Optional.ofNullable(customerId);
     }
 
     @Override

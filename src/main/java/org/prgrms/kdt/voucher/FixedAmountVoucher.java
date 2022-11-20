@@ -45,10 +45,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public Optional<String> getOwnerId() {
-        if(customerId != null) {
-            return Optional.of(customerId);
-        }
-        return Optional.empty();
+        return Optional.ofNullable(customerId);
     }
 
     private void validateAmount(int input){
