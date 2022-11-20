@@ -75,6 +75,22 @@ class WalletServiceTest {
     }
 
     @Test
+    @DisplayName("[실패] 이미 지갑 테이블에 있는 바우처는 지갑에 추가할 수 없다")
+    void insertAlreadyExistVoucherToWalletTest() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        UUID voucherId = UUID.randomUUID();
+        when(jdbcCustomerRepositoryMock.findById(customerId)).thenReturn(Optional.of(new Customer(customerId, "test1")));
+        when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
+        when(jdbcWalletRepositoryMock.findCustomerIdByVoucherId(voucherId)).thenReturn(Optional.of(customerId));
+        //when
+        boolean result = walletService.insertToWallet(customerId, voucherId);
+        //then
+        assertThat(result).isFalse();
+        verify(jdbcWalletRepositoryMock).findCustomerIdByVoucherId(voucherId);
+    }
+
+    @Test
     @DisplayName("[성공] 지갑에 있는 바우처를 삭제할 수 있다")
     void deleteVoucherFromWalletTest() {
         //given
@@ -111,11 +127,12 @@ class WalletServiceTest {
         UUID voucherId = UUID.randomUUID();
         when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.of(VoucherFactory.createVoucher(VoucherType.FIXED,voucherId,1000)));
         when(jdbcWalletRepositoryMock.findCustomerIdByVoucherId(voucherId)).thenReturn(Optional.of(customer.getCustomerId()));
+        when(jdbcCustomerRepositoryMock.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
         //when
-        Optional<UUID> customerIdByVoucherId = walletService.findCustomerIdByVoucherId(voucherId);
+        Optional<Customer> customerByVoucherId = walletService.findCustomerByVoucherId(voucherId);
         //then
-        assertThat(customerIdByVoucherId).isPresent();
-        assertThat(customerIdByVoucherId.get()).isEqualTo(customer.getCustomerId());
+        assertThat(customerByVoucherId).isPresent();
+        assertThat(customerByVoucherId.get()).isEqualTo(customer);
         verify(jdbcVoucherRepositoryMock).findById(voucherId);
         verify(jdbcWalletRepositoryMock).findCustomerIdByVoucherId(voucherId);
     }
@@ -127,9 +144,9 @@ class WalletServiceTest {
         UUID voucherId = UUID.randomUUID();
         when(jdbcVoucherRepositoryMock.findById(voucherId)).thenReturn(Optional.empty());
         //when
-        Optional<UUID> customerIdByVoucherId = walletService.findCustomerIdByVoucherId(voucherId);
+        Optional<Customer> customerByVoucherId = walletService.findCustomerByVoucherId(voucherId);
         //then
-        assertThat(customerIdByVoucherId).isEmpty();
+        assertThat(customerByVoucherId).isEmpty();
         verify(jdbcVoucherRepositoryMock).findById(voucherId);
     }
 
@@ -142,10 +159,12 @@ class WalletServiceTest {
         Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10);
         when(jdbcWalletRepositoryMock.findVoucherIdsByCustomerId(customer.getCustomerId())).thenReturn(List.of(voucher1.getVoucherId(), voucher2.getVoucherId()));
         when(jdbcCustomerRepositoryMock.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
+        when(jdbcVoucherRepositoryMock.findById(voucher1.getVoucherId())).thenReturn(Optional.of(voucher1));
+        when(jdbcVoucherRepositoryMock.findById(voucher2.getVoucherId())).thenReturn(Optional.of(voucher2));
         //when
-        List<UUID> vouchers = walletService.findVoucherIdsByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = walletService.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        assertThat(vouchers).containsExactly(voucher1.getVoucherId(), voucher2.getVoucherId());
+        assertThat(vouchers).containsExactly(voucher1, voucher2);
         verify(jdbcWalletRepositoryMock).findVoucherIdsByCustomerId(customer.getCustomerId());
         verify(jdbcCustomerRepositoryMock).findById(customer.getCustomerId());
     }
@@ -157,7 +176,7 @@ class WalletServiceTest {
         UUID customerId = UUID.randomUUID();
         when(jdbcCustomerRepositoryMock.findById(customerId)).thenReturn(Optional.empty());
         //when
-        List<UUID> vouchers = walletService.findVoucherIdsByCustomerId(customerId);
+        List<Voucher> vouchers = walletService.findVouchersByCustomerId(customerId);
         //then
         assertThat(vouchers).isEmpty();
         verify(jdbcCustomerRepositoryMock).findById(customerId);

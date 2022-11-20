@@ -1,13 +1,18 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.service;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.CustomerRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet.JdbcWalletRepository;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class WalletService {
 
     private final JdbcWalletRepository jdbcWalletRepository;
@@ -22,17 +27,23 @@ public class WalletService {
 
     public boolean insertToWallet(UUID customerId, UUID voucherId) {
         if (customerIsEmpty(customerId) || voucherIsEmpty(voucherId)) return false;
+        if (jdbcWalletRepository.findCustomerIdByVoucherId(voucherId).isPresent()) return false;
         return jdbcWalletRepository.insertToWallet(customerId, voucherId);
     }
 
-    public List<UUID> findVoucherIdsByCustomerId(UUID customerId) {
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         if(customerIsEmpty(customerId)) return List.of();
-        return jdbcWalletRepository.findVoucherIdsByCustomerId(customerId);
+        List<Voucher> vouchers = new ArrayList<>();
+        for (UUID uuid : jdbcWalletRepository.findVoucherIdsByCustomerId(customerId))
+            voucherRepository.findById(uuid).ifPresent(vouchers::add);
+        return vouchers;
     }
 
-    public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
+    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         if(voucherIsEmpty(voucherId)) return Optional.empty();
-        return jdbcWalletRepository.findCustomerIdByVoucherId(voucherId);
+        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucherId);
+        if(customerIdByVoucherId.isEmpty()) return Optional.empty();
+        return customerRepository.findById(customerIdByVoucherId.get());
     }
 
     public boolean deleteVoucherFromWallet(UUID voucherId) {
