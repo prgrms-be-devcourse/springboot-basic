@@ -6,14 +6,13 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,17 +23,17 @@ import static com.wix.mysql.config.Charset.UTF8;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CustomerJdbcStorageTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt.customer"}
-    )
+    @TestConfiguration
+    @ComponentScan(basePackages = {"org.prgrms.kdt.customer"})
     static class Config {
+
         @Bean
         public DataSource dataSource() {
             HikariDataSource dataSource = DataSourceBuilder.create()
@@ -49,8 +48,8 @@ public class CustomerJdbcStorageTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
+        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
         }
     }
 
