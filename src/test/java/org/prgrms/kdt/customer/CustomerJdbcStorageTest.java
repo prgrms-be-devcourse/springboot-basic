@@ -55,15 +55,12 @@ public class CustomerJdbcStorageTest {
     }
 
     @Autowired
-    CustomerJdbcStorage customerJdbcStorage;
-
-    @Autowired
-    DataSource dataSource;
+    private CustomerJdbcStorage customerJdbcStorage;
 
 
-    Customer customer;
-    String customerId;
-    EmbeddedMysql embeddedMysql;
+    private Customer customer;
+    private String customerId;
+    private EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void setup() {
