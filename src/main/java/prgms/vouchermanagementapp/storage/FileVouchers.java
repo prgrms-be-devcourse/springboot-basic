@@ -1,6 +1,6 @@
 package prgms.vouchermanagementapp.storage;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.domain.Voucher;
@@ -11,7 +11,7 @@ import prgms.vouchermanagementapp.storage.model.VoucherRecord;
 import java.io.File;
 
 @Component
-@Qualifier("fileVouchers")
+@Profile("release")
 public class FileVouchers implements Vouchers {
 
     private static final String MESSAGE_FORMAT = "%-20s, %-20s";

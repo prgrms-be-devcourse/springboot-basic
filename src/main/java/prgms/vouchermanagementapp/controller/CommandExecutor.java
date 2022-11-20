@@ -22,23 +22,20 @@ public class CommandExecutor {
     private final IoManager ioManager;
     private final VoucherManager voucherManager;
     private final CustomerController customerController;
-    private final RunningState runningState;
 
     public CommandExecutor(IoManager ioManager, VoucherManager voucherManager, CustomerController customerController) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
         this.customerController = customerController;
-        this.runningState = new RunningState();
     }
 
-    public void run() {
-        customerController.run();
+    public void run(RunningState runningState) {
 
         while (runningState.isRunning()) {
             try {
                 String command = ioManager.askCommand();
                 CommandType.of(command)
-                        .ifPresent(this::executeCommand);
+                        .ifPresent(commandType -> executeCommand(commandType, runningState));
             } catch (IllegalCommandException e) {
                 log.warn("command input error occurred: {}", e.getMessage());
                 ioManager.notifyErrorOccurred(e.getMessage());
@@ -46,9 +43,9 @@ public class CommandExecutor {
         }
     }
 
-    public void executeCommand(CommandType commandType) {
+    public void executeCommand(CommandType commandType, RunningState runningState) {
         switch (commandType) {
-            case EXIT -> runExit();
+            case EXIT -> runExit(runningState);
             case CREATE -> runCreate();
             case LIST -> runList();
             case BLACKLIST -> runBlacklist();
@@ -59,7 +56,7 @@ public class CommandExecutor {
         }
     }
 
-    private void runExit() {
+    private void runExit(RunningState runningState) {
         ioManager.notifyExit();
         runningState.exit();
     }

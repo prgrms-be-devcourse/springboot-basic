@@ -1,6 +1,7 @@
 package prgms.vouchermanagementapp.voucher.warehouse;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
@@ -19,11 +20,13 @@ class FileVouchersTest {
 
     private static final String FILE_PATH = "src/main/resources/";
 
+    // TODO: Autowired를 사용한 생성자 주입
     ApplicationContext applicationContext = new AnnotationConfigApplicationContext(VoucherManagementApp.class);
     Vouchers vouchers = applicationContext.getBean(Vouchers.class);
 
     @DisplayName("파일이 지정한 위치에 정상 생성 되는지 확인")
     @Test
+    @Disabled
     void testMethodNameHere() {
         // given
         File file = new File(FILE_PATH, "file_vouchers.txt");

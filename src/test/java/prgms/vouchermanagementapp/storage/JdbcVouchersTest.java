@@ -4,9 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.provider.Arguments;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import prgms.vouchermanagementapp.VoucherManagementApp;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import prgms.vouchermanagementapp.customer.CustomerManager;
 import prgms.vouchermanagementapp.domain.Customer;
 import prgms.vouchermanagementapp.domain.Voucher;
@@ -22,11 +21,14 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 class JdbcVouchersTest {
 
-    ApplicationContext applicationContext = new AnnotationConfigApplicationContext(VoucherManagementApp.class);
-    CustomerManager customerManager = applicationContext.getBean(CustomerManager.class);
-    JdbcVouchers jdbcVouchers = applicationContext.getBean(JdbcVouchers.class);
+    @Autowired
+    CustomerManager customerManager;
+
+    @Autowired
+    JdbcVouchers jdbcVouchers;
 
     private Customer savedCustomer;
 

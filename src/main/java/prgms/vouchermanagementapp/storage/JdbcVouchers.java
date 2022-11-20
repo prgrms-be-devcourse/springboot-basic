@@ -1,5 +1,6 @@
 package prgms.vouchermanagementapp.storage;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -13,6 +14,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 @Component
+@Profile("release")
 public class JdbcVouchers {
 
     private final NamedParameterJdbcTemplate template;
