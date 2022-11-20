@@ -19,7 +19,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-//@Repository
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -116,6 +115,22 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         return List.of();
+    }
+
+    @Override
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        StringBuilder voucherListTemp = new StringBuilder();
+        try {
+            List<String> voucherInfos = Files.readAllLines(Paths.get(path));
+            voucherInfos.stream()
+                    .filter(voucherInfo -> !voucherInfo.split(",")[3].equals(customerId.toString()))
+                    .forEach(voucherInfo -> voucherListTemp.append(voucherInfo).append("\n"));
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+                writer.write(voucherListTemp.toString());
+            }
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
     }
 
 

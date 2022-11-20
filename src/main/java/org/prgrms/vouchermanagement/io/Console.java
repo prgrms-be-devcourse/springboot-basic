@@ -21,15 +21,17 @@ public class Console implements Input, Output {
             + "Type [exit] to exit the program" + System.lineSeparator() +
             "Type [create] to create a new voucher." + System.lineSeparator() +
             "Type [list] to list all vouchers." + System.lineSeparator() +
+            "Type [delete] to delete customer's voucher." + System.lineSeparator() +
             "Type [create customer] to create a new customer." + System.lineSeparator() +
             "Type [show customers] to list all customer." + System.lineSeparator() +
             "Type [customer vouchers list] to list all vouchers the customer has" + System.lineSeparator() +
             "Type [blacklist] to list all blacklist";
 
-    public static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";
+    private static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";
     private static final String CUSTOMER_NAME_INPUT_MESSAGE = "생성할 Customer의 이름을 입력해주세요.";
     private static final String CUSTOMER_EMAIL_INPUT_MESSAGE = "Customer의 이메일을 입력해주세요.";
-    public static final String VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE = "바우처를 할당하기 위한 고객의 이메일을 입력해주세요.";
+    private static final String VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE = "바우처를 할당하기 위한 고객의 이메일을 입력해주세요.";
+    private static final String DELETE_VOUCHERS_MESSAGE = "바우처 삭제가 완료되었습니다.";
 
     private final Scanner scanner = new Scanner(System.in);
     private final InputValidator inputValidator;
@@ -115,5 +117,9 @@ public class Console implements Input, Output {
     @Override
     public void printCustomerEmail() {
         System.out.println(CUSTOMER_EMAIL_INPUT_MESSAGE);
+    }
+
+    public void printDeleteVoucherMessage() {
+        System.out.println(DELETE_VOUCHERS_MESSAGE);
     }
 }

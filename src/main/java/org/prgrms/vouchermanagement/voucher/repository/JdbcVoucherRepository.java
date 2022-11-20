@@ -21,11 +21,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String SAVE_SQL = "INSERT INTO vouchers VALUES (UNHEX(REPLACE(:voucherId,'-','')), :discountAmount, :voucherType, UNHEX(REPLACE(:customerId,'-','')))";
-    private final String FIND_ALL_SQL = "SELECT * FROM vouchers";
-    private final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId,'-',''))";
-    private final String DELETE_ALL_SQL = "DELETE FROM vouchers";
-    private final String FIND_VOUCHERS_BY_CUSTOMER_ID_SQL = "SELECT * FROM vouchers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
+    private static final String SAVE_SQL = "INSERT INTO vouchers VALUES (UNHEX(REPLACE(:voucherId,'-','')), :discountAmount, :voucherType, UNHEX(REPLACE(:customerId,'-','')))";
+    private static final String FIND_ALL_SQL = "SELECT * FROM vouchers";
+    private static final String FIND_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId,'-',''))";
+    private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
+    private static final String DELETE_VOUCHERS_BY_CUSTOMER_ID_SQL = "DELETE FROM vouchers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
+    private static final String FIND_VOUCHERS_BY_CUSTOMER_ID_SQL = "SELECT * FROM vouchers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         return VoucherType.createVoucher(
@@ -72,6 +73,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         return jdbcTemplate.query(FIND_VOUCHERS_BY_CUSTOMER_ID_SQL, Map.of("customerId", customerId.toString().getBytes()), voucherRowMapper);
+    }
+
+    @Override
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        jdbcTemplate.update(DELETE_VOUCHERS_BY_CUSTOMER_ID_SQL, Map.of("customerId", customerId.toString().getBytes()));
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {

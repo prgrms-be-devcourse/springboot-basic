@@ -39,4 +39,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteVoucherByCustomerId(UUID customerId) {
+        storage.values()
+                .stream()
+                .filter(voucher -> voucher.getCustomerId().equals(customerId))
+                .forEach(voucher -> storage.remove(voucher.getVoucherId()));
+    }
+
 }

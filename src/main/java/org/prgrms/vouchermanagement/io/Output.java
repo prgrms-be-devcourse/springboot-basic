@@ -23,4 +23,6 @@ public interface Output {
     void printCustomerName();
 
     void printCustomerEmail();
+
+    void printDeleteVoucherMessage();
 }

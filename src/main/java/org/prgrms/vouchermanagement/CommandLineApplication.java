@@ -8,6 +8,7 @@ import org.prgrms.vouchermanagement.io.Input;
 import org.prgrms.vouchermanagement.io.Output;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.service.VoucherCreateService;
+import org.prgrms.vouchermanagement.voucher.service.VoucherDeleteService;
 import org.prgrms.vouchermanagement.voucher.service.VoucherListFindService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class CommandLineApplication {
     private final Output output;
     private final VoucherCreateService voucherCreateService;
     private final VoucherListFindService voucherListFindService;
+    private final VoucherDeleteService voucherDeleteService;
     private final BlackListFindService blackListFindService;
     private final CustomerService customerService;
 
@@ -34,12 +36,14 @@ public class CommandLineApplication {
                                   Output output,
                                   VoucherCreateService voucherCreateService,
                                   VoucherListFindService voucherListFindService,
+                                  VoucherDeleteService voucherDeleteService,
                                   BlackListFindService blackListFindService,
                                   CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherCreateService = voucherCreateService;
         this.voucherListFindService = voucherListFindService;
+        this.voucherDeleteService = voucherDeleteService;
         this.blackListFindService = blackListFindService;
         this.customerService = customerService;
     }
@@ -66,6 +70,9 @@ public class CommandLineApplication {
                         break;
                     case CUSTOMER_VOUCHER_LIST:
                         printCustomerVouchers();
+                        break;
+                    case DELETE_CUSTOMER_VOUCHER:
+                        deleteCustomerVoucher();
                         break;
                     case BLACKLIST:
                         printBlacklist();
@@ -110,6 +117,13 @@ public class CommandLineApplication {
         Customer customer = customerService.findByEmail(email);
         List<Voucher> vouchers = voucherListFindService.findVouchersByCustomerId(customer.getCustomerId());
         output.printAllVouchers(vouchers);
+    }
+
+    private void deleteCustomerVoucher() {
+        String email = input.receiveCustomerEmail();
+        Customer customer = customerService.findByEmail(email);
+        voucherDeleteService.deleteVouchersByCustomerId(customer.getCustomerId());
+        output.printDeleteVoucherMessage();
     }
 
     private void printBlacklist() {
