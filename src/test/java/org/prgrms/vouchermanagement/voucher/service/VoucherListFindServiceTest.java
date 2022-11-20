@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
@@ -24,11 +23,6 @@ class VoucherListFindServiceTest {
 
     private final VoucherRepository voucherRepository = mock(VoucherRepository.class);
     private final VoucherListFindService voucherListFindService = new VoucherListFindService(voucherRepository);
-
-    @BeforeEach
-    void init() {
-        voucherRepository.clear();
-    }
 
     @Test
     @DisplayName("바우처 리스트 정상 출력 확인")
