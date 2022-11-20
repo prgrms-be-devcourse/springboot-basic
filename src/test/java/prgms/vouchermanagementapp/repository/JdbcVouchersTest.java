@@ -3,7 +3,6 @@ package prgms.vouchermanagementapp.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import prgms.vouchermanagementapp.domain.Customer;
@@ -17,7 +16,6 @@ import prgms.vouchermanagementapp.service.VoucherCreationFactory;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,14 +29,6 @@ class JdbcVouchersTest {
     private JdbcVouchers jdbcVouchers;
 
     private Customer savedCustomer;
-
-    private static Stream<Arguments> provideSingleFixedAmountVoucherOf3000() {
-        return Stream.of(Arguments.of(VoucherCreationFactory.createVoucher(new Amount(3000))));
-    }
-
-    private static Stream<Arguments> provideSinglePercentDiscountVoucherOf50() {
-        return Stream.of(Arguments.of(VoucherCreationFactory.createVoucher(new Ratio(50))));
-    }
 
     @BeforeEach
     void beforeEach() {
