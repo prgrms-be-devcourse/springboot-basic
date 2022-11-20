@@ -14,10 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class IOManagerTest {
 
-    private IOManager ioManager;
 
-
-    @DisplayName("amount는 정수만 입력받는다.")
+    @DisplayName("amount Input은 정수만 입력받는다.")
     @ParameterizedTest
     @ValueSource(strings = {"0", "-100", "30", "100", "1234", "5678"})
     void getAmountInputTest(String input) {
@@ -33,7 +31,7 @@ class IOManagerTest {
         assertEquals(Integer.parseInt(input), amount);
     }
 
-    @DisplayName("amount는 0보다 큰 정수가 아닌 값을 받을 경우 예외를 반환한다.")
+    @DisplayName("amount Input으로 숫자가 아닌 것을 입력받으면 예외를 전달한다.")
     @ParameterizedTest
     @ValueSource(strings = {"a", "1234p", "asdf", "five"})
     void getInvalidAmountInputTest(String input) {
