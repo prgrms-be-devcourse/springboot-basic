@@ -36,7 +36,7 @@ public class VoucherProgram implements ApplicationRunner {
 
         while (isRunning) {
             try {
-                switch (getCommandType()) {
+                switch (getInputCommandType()) {
                     case EXIT -> isRunning = false;
                     case CREATE_VOUCHER -> createVoucher();
                     case LIST_VOUCHER -> findAllVouchers();
@@ -44,6 +44,7 @@ public class VoucherProgram implements ApplicationRunner {
                     case UPDATE_VOUCHER -> updateVoucher();
                     case DELETE_ALL_VOUCHER -> deleteAllVoucher();
                     case CREATE_CUSTOMER -> createCustomer();
+                    case ASSIGN_VOUCHER -> assignVoucher();
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
@@ -53,7 +54,7 @@ public class VoucherProgram implements ApplicationRunner {
     }
 
     private void createVoucher() {
-        voucherService.create(getVoucherType(), getDiscountValue());
+        voucherService.create(getInputVoucherType(), getInputDiscountValue());
     }
 
     private void findAllVouchers() {
@@ -61,12 +62,12 @@ public class VoucherProgram implements ApplicationRunner {
     }
 
     private void findVoucher() {
-        Voucher selected = voucherService.findById(getVoucherId());
+        Voucher selected = voucherService.findById(getInputVoucherId());
         view.printVoucher(selected);
     }
 
     private void updateVoucher() {
-        Voucher updated = voucherService.update(getVoucherId(), getDiscountValue(), getVoucherType());
+        Voucher updated = voucherService.update(getInputVoucherId(), getInputDiscountValue(), getInputVoucherType());
         view.printVoucher(updated);
     }
 
@@ -80,23 +81,29 @@ public class VoucherProgram implements ApplicationRunner {
         view.printCustomer(customer);
     }
 
-    private CommandType getCommandType() {
+    private void assignVoucher() {
+        Customer customer = customerService.findByEmail(getInputEmail());
+        Voucher voucher = voucherService.assign(getInputVoucherId(), customer);
+        view.printAssign(voucher);
+    }
+
+    private CommandType getInputCommandType() {
         view.requestMenuType();
         String command = view.getInput();
         return CommandType.toCommandType(command);
     }
 
-    private VoucherType getVoucherType() {
+    private VoucherType getInputVoucherType() {
         view.requestVoucherType();
         return VoucherType.toVoucherType(view.getInput());
     }
 
-    private long getDiscountValue() {
+    private long getInputDiscountValue() {
         view.requestDiscountValue();
         return view.getInputDiscountValue();
     }
 
-    private UUID getVoucherId() {
+    private UUID getInputVoucherId() {
         view.requestVoucherId();
         return UUID.fromString(view.getInput());
     }
@@ -110,10 +117,16 @@ public class VoucherProgram implements ApplicationRunner {
     }
 
     private CustomerDto getCustomerDto() {
+        return new CustomerDto(getInputCustomerName(), getInputEmail());
+    }
+
+    private String getInputCustomerName() {
         view.requestCustomerName();
-        String customerName = view.getInput();
+        return view.getInput();
+    }
+
+    private String getInputEmail() {
         view.requestEmail();
-        String email = view.getInput();
-        return new CustomerDto(customerName, email);
+        return view.getInput();
     }
 }

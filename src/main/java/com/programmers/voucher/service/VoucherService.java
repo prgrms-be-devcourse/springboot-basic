@@ -1,5 +1,6 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
@@ -44,5 +45,12 @@ public class VoucherService {
 
     public void deleteAll() {
         voucherRepository.deleteAll();
+    }
+
+    public Voucher assign(UUID voucherId, Customer customer) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+        voucher.setCustomer(customer);
+        voucherRepository.assign(voucher);
+        return voucher;
     }
 }

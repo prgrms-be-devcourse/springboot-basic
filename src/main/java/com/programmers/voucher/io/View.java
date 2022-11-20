@@ -71,4 +71,10 @@ public class View {
     public void printCustomer(Customer customer) {
         output.printOutput(customer.getCustomerName() + Message.WELCOME_CUSTOMER);
     }
+
+    public void printAssign(Voucher voucher) {
+        output.printOutput(
+                String.format(Message.ASSIGN_VOUCHER.toString(),
+                        voucher.getCustomer().getCustomerName(), voucher.getVoucherId()));
+    }
 }

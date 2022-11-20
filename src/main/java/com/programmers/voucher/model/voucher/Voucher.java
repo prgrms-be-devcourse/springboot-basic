@@ -27,6 +27,14 @@ public abstract class Voucher {
         return discountValue;
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     public void setDiscountValue(long discountValue) {
         this.discountValue = discountValue;
     }

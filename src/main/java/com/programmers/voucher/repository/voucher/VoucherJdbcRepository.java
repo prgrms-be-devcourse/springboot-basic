@@ -24,6 +24,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType " +
             "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String deleteSql = "DELETE FROM vouchers";
+    private static final String assignSql
+            = "UPDATE vouchers SET customer_id = :customerId " +
+                    "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
@@ -69,6 +72,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
         jdbcTemplate.update(deleteSql, Collections.emptyMap());
     }
 
+    @Override
+    public void assign(Voucher voucher) {
+        jdbcTemplate.update(assignSql, toAssignMap(voucher));
+    }
+
     private Map<String, Object> toParamMap(Voucher voucher, VoucherType voucherType) {
         return Map.of(
                 "voucherId", voucher.getVoucherId().toString().getBytes(),
@@ -80,6 +88,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private Map<String, Object> toIdMap(UUID voucherId) {
         return Map.of(
                 "voucherId", voucherId.toString().getBytes()
+        );
+    }
+
+    private Map<String, Object> toAssignMap(Voucher voucher) {
+        return Map.of(
+                "voucherId", voucher.getVoucherId().toString().getBytes(),
+                "customerId", voucher.getCustomer().getCustomerId()
         );
     }
 }
