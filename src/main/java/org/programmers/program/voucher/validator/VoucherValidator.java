@@ -1,10 +1,7 @@
 package org.programmers.program.voucher.validator;
 
-import org.programmers.program.voucher.model.FixedAmountVoucher;
 import org.programmers.program.voucher.model.Voucher;
-import org.programmers.program.voucher.model.VoucherType;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.function.Predicate;
 
