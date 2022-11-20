@@ -3,9 +3,11 @@ package prgms.vouchermanagementapp;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import prgms.vouchermanagementapp.controller.CommandExecutor;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan(basePackages = "prgms.vouchermanagementapp.configuration")
 public class VoucherManagementApp implements CommandLineRunner {
 
     private final CommandExecutor commandExecutor;

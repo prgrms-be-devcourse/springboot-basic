@@ -1,14 +1,18 @@
 package prgms.vouchermanagementapp.io;
 
+import prgms.vouchermanagementapp.exception.IllegalCommandException;
+
+import java.util.Optional;
+
 public enum CommandType {
 
-    EXIT, CREATE, LIST;
+    EXIT, CREATE, LIST, BLACKLIST;
 
-    public static CommandType of(String command) throws IllegalArgumentException {
-        return CommandType.valueOf(command.toUpperCase());
-    }
-
-    public boolean is(CommandType commandType) {
-        return this == commandType;
+    public static Optional<CommandType> of(String command) {
+        try {
+            return Optional.of(CommandType.valueOf(command.toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalCommandException(command);
+        }
     }
 }

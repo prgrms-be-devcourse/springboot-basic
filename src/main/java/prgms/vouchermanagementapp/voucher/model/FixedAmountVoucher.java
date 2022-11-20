@@ -2,6 +2,7 @@ package prgms.vouchermanagementapp.voucher.model;
 
 import prgms.vouchermanagementapp.model.Amount;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -21,6 +22,19 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long amountBeforeDiscount) {
-        return amountBeforeDiscount - this.fixedDiscountAmount.getAmount();
+        long discountAmount = this.fixedDiscountAmount.getAmount();
+        if (amountBeforeDiscount < discountAmount) {
+            throw new IllegalStateException(
+                    MessageFormat.format("amount({0}) should be greater than discount amount({1}).",
+                            amountBeforeDiscount,
+                            discountAmount
+                    )
+            );
+        }
+        return amountBeforeDiscount - discountAmount;
+    }
+
+    public Amount getFixedDiscountAmount() {
+        return this.fixedDiscountAmount;
     }
 }

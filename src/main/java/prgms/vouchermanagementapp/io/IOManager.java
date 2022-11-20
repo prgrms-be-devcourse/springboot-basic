@@ -1,15 +1,11 @@
 package prgms.vouchermanagementapp.io;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.model.Amount;
 import prgms.vouchermanagementapp.model.Ratio;
-import prgms.vouchermanagementapp.voucher.model.Voucher;
+import prgms.vouchermanagementapp.voucher.warehouse.model.VoucherRecord;
 
-import java.text.MessageFormat;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,25 +15,19 @@ public class IOManager {
 
     private final Reader reader;
     private final Writer writer;
+    private final FileManager fileManager;
+    private final FileConfig fileConfig;
 
-    @Autowired
-    public IOManager(Reader reader, Writer writer) {
+    public IOManager(Reader reader, Writer writer, FileManager fileManager, FileConfig fileConfig) {
         this.reader = reader;
         this.writer = writer;
+        this.fileManager = fileManager;
+        this.fileConfig = fileConfig;
     }
 
-    public Optional<CommandType> askCommand() {
+    public String askCommand() {
         writer.printCommandGuide();
-        String command = reader.readLine();
-
-        try {
-            CommandType commandType = CommandType.of(command);
-            return Optional.of(commandType);
-        } catch (IllegalArgumentException exception) {
-            log.warn("Input Command Mismatch Error: {} {} ", exception.getMessage(), command);
-            notifyErrorOccurred(MessageFormat.format("command ''{0}'' is invalid!!!", command));
-            return Optional.empty();
-        }
+        return reader.readLine();
     }
 
     public String askVoucherTypeIndex() {
@@ -82,11 +72,15 @@ public class IOManager {
         writer.printExitMessage();
     }
 
-    public void notifyVouchers(List<Voucher> vouchers) {
-        writer.printVouchers(vouchers);
+    public void showVoucherRecord(VoucherRecord voucherRecord) {
+        writer.printVoucherRecord(voucherRecord);
     }
 
     public void notifyErrorOccurred(String errorMessage) {
         writer.printError(errorMessage);
+    }
+
+    public void showBlacklist() {
+        writer.printFileContents(fileManager.getFileByPath(fileConfig.getCustomerBlacklist()));
     }
 }

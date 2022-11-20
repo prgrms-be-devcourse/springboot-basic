@@ -1,10 +1,12 @@
 package prgms.vouchermanagementapp.model;
 
+import java.util.Objects;
+
 public class Ratio {
 
     private final long ratio;
 
-    public Ratio(long ratio) throws IllegalArgumentException {
+    public Ratio(long ratio) {
         if (ratio < 0 || ratio > 100) {
             throw new IllegalArgumentException("Discount Ratio should between 0 and 100: " + ratio);
         }
@@ -14,5 +16,18 @@ public class Ratio {
 
     public long getRatio() {
         return this.ratio;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ratio otherRatio = (Ratio) o;
+        return this.ratio == otherRatio.ratio;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ratio);
     }
 }
