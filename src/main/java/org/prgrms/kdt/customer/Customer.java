@@ -23,6 +23,7 @@ public class Customer {
     }
 
     public Customer(String customerId, String name, String email, LocalDateTime createAt) {
+        validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;

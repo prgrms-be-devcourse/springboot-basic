@@ -10,13 +10,14 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public class CustomerJdbcStorage implements CustomerStorage{
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerException.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcStorage.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -28,7 +29,7 @@ public class CustomerJdbcStorage implements CustomerStorage{
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
         String customerId = resultSet.getString("customer_id");
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().truncatedTo(ChronoUnit.SECONDS);
         return new Customer(customerId, customerName, email, createdAt);
     };
 
