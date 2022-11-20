@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.vouchermanagement.exception.validation.AbnormalCustomerValueException;
 import org.prgrms.vouchermanagement.exception.validation.NotNumberException;
+import org.prgrms.vouchermanagement.exception.voucher.AbnormalUUIDFormatException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectDiscountAmountException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
 
@@ -152,5 +153,19 @@ class InputValidatorTest {
     @DisplayName("올바르지 않은 사용자 이메일이 들어왔을 경우 검증")
     void incorrectCustomerEmailInput(String incorrectCustomerEmailInput) {
         assertThrows(AbnormalCustomerValueException.class, () -> inputValidator.validateEmail(incorrectCustomerEmailInput));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"ea77b434-688f-11ed-9022-0242ac120002", "4860b460-6890-11ed-9022-0242ac120002", "4860b460-6890-11ed-9022-0242ac120002"})
+    @DisplayName("올바른 UUID일 경우 검증")
+    void correctUUID(String uuid) {
+        assertDoesNotThrow(() -> inputValidator.validateUUID(uuid));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {" ", "12345", "4860b460689011ed90220242ac120002", "4860b460-6890-11ed-9022-0242ac12000", "4860b46-6890-11ed-9022-0242ac120002"})
+    @DisplayName("올바르지 않은 UUID일 경우 검증")
+    void incorrectUUID(String uuid) {
+        assertThrows(AbnormalUUIDFormatException.class, () -> inputValidator.validateUUID(uuid));
     }
 }
