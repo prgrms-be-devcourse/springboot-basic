@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -30,7 +29,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@ActiveProfiles("prod")
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class JdbcVoucherStorageTest {
@@ -60,15 +58,12 @@ public class JdbcVoucherStorageTest {
     }
 
     @Autowired
-    VoucherStorage jdbcVoucherStorage;
+    private VoucherStorage jdbcVoucherStorage;
 
-    @Autowired
-    DataSource dataSource;
-
-    String customerId;
-    Voucher voucher;
-    String voucherId;
-    EmbeddedMysql embeddedMysql;
+    private String customerId;
+    private Voucher voucher;
+    private String voucherId;
+    private EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void setup() {
@@ -95,7 +90,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("소유하지 않은 바우처를 새로 추가할 수 있다.")
-    void test1() {
+    void testInsertNewNotOwnedVoucher() {
         String newVoucherId = UUID.randomUUID().toString();
         Voucher newVoucher = new PercentDiscountVoucher(newVoucherId, 40);
 
@@ -109,7 +104,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("소유한 고객이 있는 바우처를 새로 추가할 수 있다.")
-    void test2() {
+    void testInsertNewOwnedVoucher() {
         String newVoucherId = UUID.randomUUID().toString();
         String newCustomerId = UUID.randomUUID().toString();
         Voucher newVoucher = new FixedAmountVoucher(newVoucherId, 3000, newCustomerId);
@@ -125,7 +120,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("생성된 바우처를 모두 조회할 수 있다.")
-    void test3() {
+    void testFindAllVoucher() {
         List<Voucher> voucherList = jdbcVoucherStorage.findAll();
 
         assertFalse(voucherList.isEmpty());
@@ -133,7 +128,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("바우처 ID를 사용하여 특정 바우처를 삭제할 수 있다.")
-    void test4() {
+    void testDeleteVoucher() {
         String deleteVoucherId = UUID.randomUUID().toString();
         Voucher deleteVoucher = new PercentDiscountVoucher(deleteVoucherId, 50, UUID.randomUUID().toString());
         jdbcVoucherStorage.save(deleteVoucher);
@@ -145,7 +140,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("바우처 ID를 사용하여 특정 바우처를 찾을 수 있다.")
-    void test5() {
+    void testFindVoucherById() {
         jdbcVoucherStorage.findById(voucherId)
                 .ifPresent(findVoucher ->
                         assertThat(voucher).usingRecursiveComparison()
@@ -155,7 +150,7 @@ public class JdbcVoucherStorageTest {
 
     @Test
     @DisplayName("바우처 ID를 통하여 특정 바우처를 가진 고객 아이디 정보 가져올 수 있다.")
-    void test6() {
+    void testCustomerIdBySpecificVoucher() {
         jdbcVoucherStorage.findById(voucherId)
                 .flatMap(Voucher::getOwnerId)
                 .ifPresent(findCustomerId -> assertEquals(customerId, findCustomerId));
