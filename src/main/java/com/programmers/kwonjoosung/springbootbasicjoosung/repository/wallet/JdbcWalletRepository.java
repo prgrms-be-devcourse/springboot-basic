@@ -27,8 +27,8 @@ public class JdbcWalletRepository {
     public boolean insertToWallet(UUID customerId, UUID voucherId) {
         final String sql = "INSERT INTO wallets (customer_id, voucher_id) VALUES (:customer_id, :voucher_id)";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId)
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId);
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString())
+                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId.toString());
         try {
             return jdbcTemplate.update(sql, parameters) == 1;
         } catch (DataAccessException e) {
@@ -39,7 +39,7 @@ public class JdbcWalletRepository {
     public List<UUID> findVoucherIdsByCustomerId(UUID customerId) {
         final String sql = "SELECT * FROM wallets WHERE customer_id = :customer_id";
         SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId);
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString());
         try { // 예외를 던지는게 좋은 건지 아니면 빈 값을 던지는게 좋은 건지?
             return jdbcTemplate.query(sql, parameter,
                     (rs, rowNum) -> UUID.fromString(rs.getString(TABLE_FIELD_VOUCHER_ID)));
@@ -51,7 +51,7 @@ public class JdbcWalletRepository {
     public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
         final String sql = "SELECT * FROM wallets WHERE voucher_id = :voucher_id";
         SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId);
+                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId.toString());
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameter,
                     (rs, rowNum) -> UUID.fromString(rs.getString(TABLE_FIELD_CUSTOMER_ID))));
@@ -63,7 +63,7 @@ public class JdbcWalletRepository {
     public boolean deleteVoucher(UUID voucherId) {
         final String sql = "DELETE FROM wallets WHERE voucher_id = :voucher_id";
         SqlParameterSource parameter = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId);
+                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId.toString());
         try {
             return jdbcTemplate.update(sql, parameter) == 1;
         } catch (DataAccessException e) {

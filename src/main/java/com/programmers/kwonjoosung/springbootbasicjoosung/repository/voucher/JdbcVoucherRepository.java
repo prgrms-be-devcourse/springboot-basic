@@ -26,7 +26,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> VoucherFactory.createVoucher(
-            VoucherType.getVoucherType(rs.getString(TABLE_FIELD_VOUCHER_TYPE)),
+            VoucherType.of(rs.getString(TABLE_FIELD_VOUCHER_TYPE)),
             UUID.fromString(rs.getString(TABLE_FIELD_VOUCHER_ID)),
             rs.getLong(TABLE_FIELD_DISCOUNT));
 
@@ -36,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static SqlParameterSource getFullSqlParametersSource(Voucher voucher) {
         return new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucher.getVoucherId())
+                .addValue(TABLE_FIELD_VOUCHER_ID, voucher.getVoucherId().toString())
                 .addValue(TABLE_FIELD_VOUCHER_TYPE, voucher.getVoucherType().toString())
                 .addValue(TABLE_FIELD_DISCOUNT, voucher.getDiscount());
     }
@@ -44,7 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static SqlParameterSource getVoucherIdSqlParameterSource(UUID voucherId) {
         return new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId);
+                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId.toString());
     }
 
     @Override

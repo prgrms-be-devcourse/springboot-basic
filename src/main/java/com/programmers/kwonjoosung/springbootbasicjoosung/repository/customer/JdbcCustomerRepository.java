@@ -36,7 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public boolean insert(Customer customer) {
         final String sql = "INSERT INTO customers (customer_id, name) VALUES (:customer_id,:name)";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId().toString())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         try {
             return jdbcTemplate.update(sql, parameters) == 1;
@@ -49,7 +49,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         final String sql = "SELECT * FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId);
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString());
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameters, customerRowMapper));
         } catch (DataAccessException e) {
@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public boolean update(Customer customer) {
         final String sql = "UPDATE customers SET name = :name WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId())
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId().toString())
                 .addValue(TABLE_FIELD_NAME, customer.getName());
         return jdbcTemplate.update(sql, parameters) == 1;
     }
@@ -76,8 +76,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public boolean delete(UUID customerId) {
         final String sql = "DELETE FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId);
+                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString());
         return jdbcTemplate.update(sql, parameters) == 1;
+    }
+
+    @Override
+    public List<Customer> findAllBlockCustomer() {
+        return null;
     }
 
 }
