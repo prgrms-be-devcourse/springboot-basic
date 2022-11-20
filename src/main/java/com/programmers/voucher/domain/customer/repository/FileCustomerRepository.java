@@ -31,7 +31,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
-@Profile({"file", "test"})
+@Profile("file")
 public class FileCustomerRepository implements CustomerRepository {
 
 	private static final Logger log = LoggerFactory.getLogger(FileCustomerRepository.class);
