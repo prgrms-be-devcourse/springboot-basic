@@ -9,7 +9,7 @@ import org.prgrms.vouchermanagement.io.Output;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.service.VoucherCreateService;
 import org.prgrms.vouchermanagement.voucher.service.VoucherDeleteService;
-import org.prgrms.vouchermanagement.voucher.service.VoucherListFindService;
+import org.prgrms.vouchermanagement.voucher.service.VoucherFindService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class CommandLineApplication {
     private final Input input;
     private final Output output;
     private final VoucherCreateService voucherCreateService;
-    private final VoucherListFindService voucherListFindService;
+    private final VoucherFindService voucherFindService;
     private final VoucherDeleteService voucherDeleteService;
     private final BlackListFindService blackListFindService;
     private final CustomerService customerService;
@@ -36,14 +36,14 @@ public class CommandLineApplication {
     public CommandLineApplication(Input input,
                                   Output output,
                                   VoucherCreateService voucherCreateService,
-                                  VoucherListFindService voucherListFindService,
+                                  VoucherFindService voucherFindService,
                                   VoucherDeleteService voucherDeleteService,
                                   BlackListFindService blackListFindService,
                                   CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherCreateService = voucherCreateService;
-        this.voucherListFindService = voucherListFindService;
+        this.voucherFindService = voucherFindService;
         this.voucherDeleteService = voucherDeleteService;
         this.blackListFindService = blackListFindService;
         this.customerService = customerService;
@@ -100,7 +100,7 @@ public class CommandLineApplication {
     }
 
     private void printVouchers() {
-        List<Voucher> vouchers = voucherListFindService.findAllVouchers();
+        List<Voucher> vouchers = voucherFindService.findAllVouchers();
         output.printAllVouchers(vouchers);
     }
 
@@ -119,7 +119,7 @@ public class CommandLineApplication {
     private void printCustomerVouchers() {
         String email = input.receiveCustomerEmail();
         Customer customer = customerService.findByEmail(email);
-        List<Voucher> vouchers = voucherListFindService.findVouchersByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = voucherFindService.findVouchersByCustomerId(customer.getCustomerId());
         output.printAllVouchers(vouchers);
     }
 
@@ -137,7 +137,7 @@ public class CommandLineApplication {
 
     private void printVoucherOwner() {
         UUID voucherId = UUID.fromString(input.receiveVoucherId());
-        Voucher voucher = voucherListFindService.findVoucherByVoucherId(voucherId);
+        Voucher voucher = voucherFindService.findVoucherByVoucherId(voucherId);
         Customer customer = customerService.findById(voucher.getCustomerId());
         output.printCustomers(List.of(customer));
     }

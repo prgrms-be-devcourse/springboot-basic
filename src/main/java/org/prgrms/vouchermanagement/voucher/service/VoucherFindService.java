@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class VoucherListFindService {
+public class VoucherFindService {
 
     private final VoucherRepository voucherRepository;
 
     @Autowired
-    public VoucherListFindService(VoucherRepository voucherRepository) {
+    public VoucherFindService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

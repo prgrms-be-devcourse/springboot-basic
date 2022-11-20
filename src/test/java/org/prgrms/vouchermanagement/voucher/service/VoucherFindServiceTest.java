@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-class VoucherListFindServiceTest {
+class VoucherFindServiceTest {
 
     private final VoucherRepository voucherRepository = mock(VoucherRepository.class);
-    private final VoucherListFindService voucherListFindService = new VoucherListFindService(voucherRepository);
+    private final VoucherFindService voucherFindService = new VoucherFindService(voucherRepository);
 
     @Test
     @DisplayName("바우처 리스트 정상 출력 확인")
@@ -39,7 +39,7 @@ class VoucherListFindServiceTest {
                 .thenReturn(List.of(fixedAmountVoucher, percentDiscountVoucher));
 
         // when
-        List<Voucher> allVouchers = voucherListFindService.findAllVouchers();
+        List<Voucher> allVouchers = voucherFindService.findAllVouchers();
 
         // then
         verify(voucherRepository).findAll();
@@ -64,7 +64,7 @@ class VoucherListFindServiceTest {
         when(voucherRepository.findVouchersByCustomerId(customer.getCustomerId()))
                 .thenReturn(vouchers);
         // when
-        List<Voucher> result = voucherListFindService.findVouchersByCustomerId(customerId);
+        List<Voucher> result = voucherFindService.findVouchersByCustomerId(customerId);
 
         // then
         verify(voucherRepository).findVouchersByCustomerId(customerId);
@@ -89,8 +89,8 @@ class VoucherListFindServiceTest {
                 .thenReturn(Optional.of(percentDiscountVoucher));
 
         // when
-        Voucher findFixedAmountVoucher = voucherListFindService.findVoucherByVoucherId(fixedAmountVoucher.getVoucherId());
-        Voucher findPercentDiscountVoucher = voucherListFindService.findVoucherByVoucherId(percentDiscountVoucher.getVoucherId());
+        Voucher findFixedAmountVoucher = voucherFindService.findVoucherByVoucherId(fixedAmountVoucher.getVoucherId());
+        Voucher findPercentDiscountVoucher = voucherFindService.findVoucherByVoucherId(percentDiscountVoucher.getVoucherId());
 
         // then
         verify(voucherRepository).findById(fixedAmountVoucher.getVoucherId());
@@ -116,6 +116,6 @@ class VoucherListFindServiceTest {
                 .thenThrow(VoucherNotFoundException.class);
 
         // when, then
-        assertThrows(VoucherNotFoundException.class, () -> voucherListFindService.findVoucherByVoucherId(voucherId));
+        assertThrows(VoucherNotFoundException.class, () -> voucherFindService.findVoucherByVoucherId(voucherId));
     }
 }
