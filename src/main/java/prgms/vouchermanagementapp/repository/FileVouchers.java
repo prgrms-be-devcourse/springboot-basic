@@ -20,12 +20,10 @@ public class FileVouchers implements Vouchers {
 
     private final FileConfig fileConfig;
     private final FileManager fileManager;
-    private final VoucherContentsConverter contentsConverter;
 
-    public FileVouchers(FileConfig fileConfig, FileManager fileManager, VoucherContentsConverter contentsConverter) {
+    public FileVouchers(FileConfig fileConfig, FileManager fileManager) {
         this.fileConfig = fileConfig;
         this.fileManager = fileManager;
-        this.contentsConverter = contentsConverter;
     }
 
     @Override
@@ -36,6 +34,6 @@ public class FileVouchers implements Vouchers {
     @Override
     public void store(Voucher voucher) {
         File file = fileManager.initializeFileWithContents(fileConfig.getVoucherRecord(), INITIAL_MESSAGE);
-        fileManager.writeContents(file, contentsConverter.toContents(voucher, MESSAGE_FORMAT));
+        fileManager.writeContents(file, VoucherContentsConverter.toContents(voucher, MESSAGE_FORMAT));
     }
 }
