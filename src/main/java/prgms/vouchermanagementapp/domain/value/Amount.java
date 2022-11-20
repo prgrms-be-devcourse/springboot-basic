@@ -1,5 +1,6 @@
 package prgms.vouchermanagementapp.domain.value;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 public class Amount {
@@ -8,7 +9,9 @@ public class Amount {
 
     public Amount(long amount) {
         if (amount < 0) {
-            throw new IllegalArgumentException("Discount amount cannot be negative: " + amount);
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Discount amount ''{0}'' cannot be negative: ", amount)
+            );
         }
         this.amount = amount;
     }

@@ -6,7 +6,7 @@ public class IllegalCommandException extends IllegalArgumentException {
 
     private static final String MESSAGE_FORMAT = "command ''{0}'' is invalid. Please Retry.";
 
-    public IllegalCommandException(String command) {
-        super(MessageFormat.format(MESSAGE_FORMAT, command));
+    public IllegalCommandException(String command, IllegalArgumentException exception) {
+        super(MessageFormat.format(MESSAGE_FORMAT, command), exception);
     }
 }

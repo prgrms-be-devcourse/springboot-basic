@@ -1,5 +1,6 @@
 package prgms.vouchermanagementapp.domain.value;
 
+import java.text.MessageFormat;
 import java.util.Objects;
 
 public class Ratio {
@@ -8,7 +9,9 @@ public class Ratio {
 
     public Ratio(long ratio) {
         if (ratio < 0 || ratio > 100) {
-            throw new IllegalArgumentException("Discount Ratio should between 0 and 100: " + ratio);
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Discount Ratio ''{0}'' should between 0 and 100.", ratio)
+            );
         }
 
         this.ratio = ratio;

@@ -40,8 +40,8 @@ public class IoManager {
         try {
             Amount amount = new Amount(number);
             return Optional.of(amount);
-        } catch (IllegalArgumentException exception) {
-            writer.printException(exception);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            writer.printException(illegalArgumentException);
             return Optional.empty();
         }
     }
@@ -53,8 +53,8 @@ public class IoManager {
         try {
             Ratio ratio = new Ratio(fixedDiscountRatio);
             return Optional.of(ratio);
-        } catch (IllegalArgumentException exception) {
-            writer.printException(exception);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            writer.printException(illegalArgumentException);
             return Optional.empty();
         }
     }

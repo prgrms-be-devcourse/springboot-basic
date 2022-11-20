@@ -48,7 +48,7 @@ public class JdbcVouchers {
         try {
             Map<String, String> param = Map.of("customerName", customerName);
             return template.query(sql, param, voucherEntityRowMapper());
-        } catch (DataAccessException e) {
+        } catch (DataAccessException dataAccessException) {
             return Collections.emptyList();
         }
     }
@@ -61,7 +61,7 @@ public class JdbcVouchers {
             Map<String, String> param = Map.of("id", id);
             VoucherEntity voucherEntity = template.queryForObject(sql, param, voucherEntityRowMapper());
             return Optional.of(Objects.requireNonNull(voucherEntity));
-        } catch (DataAccessException e) {
+        } catch (DataAccessException dataAccessException) {
             return Optional.empty();
         }
     }

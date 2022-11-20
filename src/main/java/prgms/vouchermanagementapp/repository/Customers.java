@@ -42,7 +42,7 @@ public class Customers {
             Map<String, String> param = Map.of("customerName", name);
             Customer customer = template.queryForObject(sql, param, customerRowMapper());
             return Optional.of(Objects.requireNonNull(customer));
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
             return Optional.empty();
         }
     }

@@ -11,8 +11,8 @@ public enum CommandType {
     public static Optional<CommandType> of(String command) {
         try {
             return Optional.of(CommandType.valueOf(command.toUpperCase()));
-        } catch (IllegalArgumentException e) {
-            throw new IllegalCommandException(command);
+        } catch (IllegalArgumentException illegalArgumentException) {
+            throw new IllegalCommandException(command, illegalArgumentException);
         }
     }
 }

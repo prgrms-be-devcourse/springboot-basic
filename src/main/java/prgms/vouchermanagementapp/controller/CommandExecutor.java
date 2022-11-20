@@ -12,6 +12,7 @@ import prgms.vouchermanagementapp.service.VoucherManager;
 import prgms.vouchermanagementapp.view.CommandType;
 import prgms.vouchermanagementapp.view.IoManager;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @Component
@@ -36,9 +37,9 @@ public class CommandExecutor {
                 String command = ioManager.askCommand();
                 CommandType.of(command)
                         .ifPresent(commandType -> executeCommand(commandType, runningState));
-            } catch (IllegalCommandException e) {
-                log.warn("command input error occurred: {}", e.getMessage());
-                ioManager.notifyErrorOccurred(e.getMessage());
+            } catch (IllegalCommandException illegalCommandException) {
+                log.warn("command input error occurred: {}", illegalCommandException.getMessage());
+                ioManager.notifyErrorOccurred(illegalCommandException.getMessage());
             }
         }
     }
@@ -51,7 +52,9 @@ public class CommandExecutor {
             case BLACKLIST -> runBlacklist();
             default -> {
                 log.error("Error: commandType mismatch error occurred while executing command");
-                throw new RuntimeException();
+                throw new IllegalArgumentException(
+                        MessageFormat.format("Command Type ''{0}'' is invalid.", commandType)
+                );
             }
         }
     }

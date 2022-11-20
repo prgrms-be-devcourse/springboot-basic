@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 @Component
 public class FileManager {
@@ -20,8 +21,11 @@ public class FileManager {
     public void writeContents(File file, String contents) {
         try (FileWriter writer = new FileWriter(file, true)) {
             writer.append(contents).append(System.lineSeparator());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ioException) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Cannot writing contents ''{0}'' to file ''{1}''", contents, file),
+                    ioException
+            );
         }
     }
 
@@ -43,16 +47,22 @@ public class FileManager {
     private File getFileByResource(Resource resource) {
         try {
             return resource.getFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ioException) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Cannot find a file from resource ''{0}''", resource),
+                    ioException
+            );
         }
     }
 
     private void createNewFile(File file) {
         try {
             file.createNewFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException ioException) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Cannot create file ''{0}''", file),
+                    ioException
+            );
         }
     }
 }
