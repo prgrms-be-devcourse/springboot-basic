@@ -13,7 +13,7 @@ class VoucherTypeTest {
     @DisplayName("문자열을 받아서 일치하는 바우처타입을 반환한다.")
     void convertToVoucherType() {
         //given
-        String inputString =  "1";
+        String inputString = "1";
 
         //when
         VoucherType result = VoucherType.toVoucherType(inputString);
@@ -38,7 +38,7 @@ class VoucherTypeTest {
     @Test
     @DisplayName("주어진 바우처타입 외에 문자열을 입력하면 예외를 발생시킨다.")
     void cannotConvertToVoucherType() {
-        assertThatThrownBy(()->VoucherType.toVoucherType("3"))
+        assertThatThrownBy(() -> VoucherType.toVoucherType("3"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
