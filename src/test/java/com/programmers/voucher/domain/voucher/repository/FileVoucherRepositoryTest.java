@@ -16,8 +16,6 @@ class FileVoucherRepositoryTest {
 
 	@Autowired
 	VoucherRepository repository;
-	@Autowired
-	VoucherFactory factory;
 
 	@AfterEach
 	void afterEach() {
@@ -27,7 +25,7 @@ class FileVoucherRepositoryTest {
 	@Test
 	@DisplayName("바우처를 파일에 저장하고 id를 통해 파일에서 바우처를 조회하면 성공한다.")
 	void findById() {
-		Voucher voucher = factory.createVoucher(VoucherType.FIXED, "1000");
+		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
 		repository.save(voucher);
 		Voucher findVoucher = repository.findById(voucher.getVoucherId());
 

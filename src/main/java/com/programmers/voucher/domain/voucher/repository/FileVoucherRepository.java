@@ -38,12 +38,10 @@ public class FileVoucherRepository implements VoucherRepository {
 	private static final Logger log = LoggerFactory.getLogger(FileVoucherRepository.class);
 	private static final Map<UUID, Voucher> vouchers = new LinkedHashMap<>();
 	private static final String LINE_SEPARATOR = ", |: |%, ";
-	private final VoucherFactory voucherFactory;
 	private final String filePath;
 
 	@Autowired
-	public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${repository.file.voucher}") String filePath) {
-		this.voucherFactory = voucherFactory;
+	public FileVoucherRepository(@Value("${repository.file.voucher}") String filePath) {
 		this.filePath = filePath;
 	}
 
@@ -57,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				VoucherType voucherType = VoucherType.getVoucherType(voucherInfo[3]);
 				String discount = voucherInfo[5];
 				String createdAt = voucherInfo[7];
-				Voucher voucher = voucherFactory.createVoucher(voucherId, voucherType, discount,
+				Voucher voucher = VoucherFactory.createVoucher(voucherId, voucherType, discount,
 					LocalDateTime.parse(createdAt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 				vouchers.put(voucherId, voucher);
 			}

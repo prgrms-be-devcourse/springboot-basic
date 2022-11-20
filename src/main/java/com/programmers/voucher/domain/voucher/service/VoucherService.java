@@ -14,16 +14,14 @@ import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 public class VoucherService {
 
 	private final VoucherRepository repository;
-	private final VoucherFactory factory;
 
 	@Autowired
-	public VoucherService(VoucherRepository repository, VoucherFactory factory) {
+	public VoucherService(VoucherRepository repository) {
 		this.repository = repository;
-		this.factory = factory;
 	}
 
 	public Voucher createVoucher(VoucherType voucherType, String discount) {
-		Voucher voucher = factory.createVoucher(voucherType, discount);
+		Voucher voucher = VoucherFactory.createVoucher(voucherType, discount);
 		repository.save(voucher);
 		return voucher;
 	}

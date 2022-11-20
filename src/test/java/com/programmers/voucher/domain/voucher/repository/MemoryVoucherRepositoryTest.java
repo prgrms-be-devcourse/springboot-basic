@@ -14,7 +14,6 @@ import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 class MemoryVoucherRepositoryTest {
 
 	VoucherRepository repository = new MemoryVoucherRepository();
-	VoucherFactory factory = new VoucherFactory();
 
 	@BeforeEach
 	public void beforeEach() {
@@ -24,7 +23,7 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	@DisplayName("바우처를 저장하고 조회하면 성공적으로 저장, 조회된다.")
 	void save() {
-		Voucher voucher = factory.createVoucher(VoucherType.FIXED, "1000");
+		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
 
 		repository.save(voucher);
 		Voucher findVoucher = repository.findById(voucher.getVoucherId());
@@ -35,8 +34,8 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	@DisplayName("바우처 리스트를 조회하면 성공적으로 조회된다.")
 	void findAllVoucher() {
-		Voucher voucher1 = factory.createVoucher(VoucherType.FIXED, "1000");
-		Voucher voucher2 = factory.createVoucher(VoucherType.PERCENT, "20");
+		Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, "1000");
+		Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT, "20");
 
 		List<Voucher> beforeSave = repository.findAll();
 		int beforeSize = beforeSave.size();
