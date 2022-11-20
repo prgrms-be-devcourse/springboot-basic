@@ -21,8 +21,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     public PercentDiscountVoucher(String voucherId, int percent, String customerId) {
-        this.voucherId = voucherId;
-        this.percent = percent;
+        this(voucherId, percent);
         this.customerId = customerId;
     }
 

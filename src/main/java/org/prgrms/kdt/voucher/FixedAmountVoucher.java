@@ -20,9 +20,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(String voucherId, int amount, String customerId) {
-        validateAmount(amount);
-        this.voucherId = voucherId;
-        this.amount = amount;
+        this(voucherId, amount);
         this.customerId = customerId;
     }
     @Override
