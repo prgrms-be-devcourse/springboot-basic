@@ -20,4 +20,24 @@ class CustomerTest {
         assertThrows(CustomerException.class, () -> new Customer(UUID.randomUUID().toString(), empty_name, "test@gmail.com"));
     }
 
+    @Test
+    @DisplayName("고객은 이름을 변경할 수 있다.")
+    void testChangeName(){
+        Customer newCustomer = new Customer(UUID.randomUUID().toString(), "beforeChange", "newUser@gmail.com");
+        String newName = "afterChange";
+
+        newCustomer.changeName(newName);
+
+        assertEquals(newCustomer.getName(), newName);
+    }
+
+    @Test
+    @DisplayName("없거나 빈 값으로 이름을 변경할 수 없다.")
+    void testCanNotChangeInvalidName(){
+        Customer newCustomer = new Customer(UUID.randomUUID().toString(), "validName", "valide@gmail.com");
+        String noValidName = "";
+
+        assertThrows(CustomerException.class, () -> newCustomer.changeName(noValidName));
+    }
+
 }
