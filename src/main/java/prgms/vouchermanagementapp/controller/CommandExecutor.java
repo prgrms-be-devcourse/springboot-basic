@@ -38,7 +38,6 @@ public class CommandExecutor {
                 CommandType.of(command)
                         .ifPresent(commandType -> executeCommand(commandType, runningState));
             } catch (IllegalCommandException illegalCommandException) {
-                log.warn("command input error occurred: {}", illegalCommandException.getMessage());
                 ioManager.notifyErrorOccurred(illegalCommandException.getMessage());
             }
         }
@@ -51,7 +50,6 @@ public class CommandExecutor {
             case LIST -> runList();
             case BLACKLIST -> runBlacklist();
             default -> {
-                log.error("Error: commandType mismatch error occurred while executing command");
                 throw new IllegalArgumentException(
                         MessageFormat.format("Command Type ''{0}'' is invalid.", commandType)
                 );
