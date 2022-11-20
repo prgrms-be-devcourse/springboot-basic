@@ -2,7 +2,7 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherCreateDTO;
+import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +48,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String[] infoArr = findVoucher.get().split(",");
             return Optional.of(
                     VoucherType.createVoucher(
-                            VoucherCreateDTO.of(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2]), UUID.fromString(infoArr[3]))));
+                            VoucherVO.of(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2]), UUID.fromString(infoArr[3]))));
 
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -94,7 +94,7 @@ public class FileVoucherRepository implements VoucherRepository {
         int discountAmount = Integer.parseInt(voucherInfos[2]);
         UUID customerId = UUID.fromString(voucherInfos[3]);
 
-        return VoucherType.createVoucher(VoucherCreateDTO.of(uuid, voucherType, discountAmount, customerId));
+        return VoucherType.createVoucher(VoucherVO.of(uuid, voucherType, discountAmount, customerId));
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherCreateDTO;
+import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         return VoucherType.createVoucher(
-                VoucherCreateDTO.of(
+                VoucherVO.of(
                         toUUID(resultSet.getBytes("voucher_id")),
                         resultSet.getString("voucher_type"),
                         resultSet.getInt("discount_amount"),
