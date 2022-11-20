@@ -17,7 +17,7 @@ import com.programmers.voucher.exception.ExceptionMessage;
 import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
-@Profile({"local", "jdbc"})
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private static final Map<UUID, Voucher> repository = new HashMap<>();
