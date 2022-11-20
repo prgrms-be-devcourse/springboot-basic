@@ -1,8 +1,8 @@
 package org.prgrms.springbootbasic.processor;
 
 import org.prgrms.springbootbasic.NotificationProperties;
+import org.prgrms.springbootbasic.dto.Response;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
-import org.prgrms.springbootbasic.message.Response;
 import org.prgrms.springbootbasic.service.VoucherService;
 import org.prgrms.springbootbasic.type.MethodType;
 import org.prgrms.springbootbasic.type.VoucherType;

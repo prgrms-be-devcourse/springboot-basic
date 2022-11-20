@@ -1,4 +1,4 @@
-package org.prgrms.springbootbasic.message;
+package org.prgrms.springbootbasic.dto;
 
 import org.prgrms.springbootbasic.type.MethodType;
 

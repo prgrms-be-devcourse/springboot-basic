@@ -1,6 +1,6 @@
 package org.prgrms.springbootbasic.processor;
 
-import org.prgrms.springbootbasic.message.Response;
+import org.prgrms.springbootbasic.dto.Response;
 import org.prgrms.springbootbasic.service.BlackListManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
