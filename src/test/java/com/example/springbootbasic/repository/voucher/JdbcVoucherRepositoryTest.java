@@ -3,6 +3,7 @@ package com.example.springbootbasic.repository.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,11 +20,11 @@ import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
-@ActiveProfiles("dev")
 class JdbcVoucherRepositoryTest {
 
     @Autowired
@@ -31,7 +32,7 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        voucherRepository.deleteAll();
+        voucherRepository.deleteAllVouchers();
     }
 
     @Test
@@ -141,11 +142,45 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);
         voucherRepository.save(voucher4);
-        voucherRepository.deleteAll();
+        voucherRepository.deleteAllVouchers();
         List<Voucher> findAllVouchers = voucherRepository.findAllVouchers();
 
         // then
         assertThat(findAllVouchers.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("저장된 바우처를 아이디를 통해서 검색에 성공한다.")
+    void whenFindVoucherByIdThenSuccessTest() {
+        // given
+        Voucher voucher = VoucherFactory.of(1L, FIXED_AMOUNT);
+
+        // when
+        Voucher savedVoucher = voucherRepository.save(voucher);
+        Voucher findVoucher = voucherRepository.findById(savedVoucher.getVoucherId());
+
+        // then
+        assertThat(findVoucher.getVoucherType()).isEqualTo(savedVoucher.getVoucherType());
+        assertThat(findVoucher.getDiscountValue()).isEqualTo(savedVoucher.getDiscountValue());
+    }
+
+    @Test
+    @DisplayName("바우처 타입이 같은 모든 바우처 삭제를 성공한다.")
+    void whenDeleteAllVouchersByVoucherTypeThenSuccessTest() {
+        // given
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
+        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
+
+        // when
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+        voucherRepository.deleteVouchersByVoucherType(FIXED_AMOUNT);
+        List<Voucher> findAllVouchers = voucherRepository.findAllVouchers();
+
+        // then
+        assertThat(findAllVouchers.size()).isZero();
     }
 
     static Stream<Arguments> whenSaveVoucherOverRangeThenFailDummy() {

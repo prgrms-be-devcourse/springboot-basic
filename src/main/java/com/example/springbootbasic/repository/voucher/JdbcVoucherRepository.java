@@ -24,7 +24,6 @@ import static com.example.springbootbasic.exception.voucher.JdbcVoucherRepositor
 import static com.example.springbootbasic.repository.voucher.JdbcVoucherSql.*;
 
 @Repository
-@Profile("dev")
 public class JdbcVoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
