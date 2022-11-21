@@ -3,6 +3,8 @@ package org.prgrms.kdt.customer;
 import org.prgrms.kdt.exceptions.CustomerException;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Customer {
@@ -19,7 +21,7 @@ public class Customer {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createdAt = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        this.createdAt = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime().truncatedTo(ChronoUnit.SECONDS);
     }
 
     public Customer(String customerId, String name, String email, LocalDateTime createdAt) {
