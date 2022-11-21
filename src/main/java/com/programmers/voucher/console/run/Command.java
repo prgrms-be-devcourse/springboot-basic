@@ -1,6 +1,7 @@
 package com.programmers.voucher.console.run;
 
 import static com.programmers.voucher.console.run.Message.*;
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.programmers.voucher.console.io.Input;
 import com.programmers.voucher.console.io.Output;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
 import com.programmers.voucher.domain.customer.service.CustomerService;
@@ -111,8 +111,8 @@ public enum Command {
 			.filter(command -> command.option.equals(chosenCommand))
 			.findFirst()
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.WRONG_COMMAND.getMessage());
-				throw new IllegalArgumentException(ExceptionMessage.WRONG_COMMAND.getMessage());
+				log.error(WRONG_COMMAND.getMessage());
+				throw new IllegalArgumentException(WRONG_COMMAND.getMessage());
 			});
 	}
 

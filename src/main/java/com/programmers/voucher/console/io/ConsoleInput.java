@@ -1,5 +1,7 @@
 package com.programmers.voucher.console.io;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -7,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.programmers.voucher.core.exception.EmptyBufferException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 
 public class ConsoleInput implements Input {
 
@@ -24,7 +25,7 @@ public class ConsoleInput implements Input {
 		try {
 			input = reader.readLine();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
 		return input;
@@ -35,7 +36,7 @@ public class ConsoleInput implements Input {
 		try {
 			reader.close();
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
 	}

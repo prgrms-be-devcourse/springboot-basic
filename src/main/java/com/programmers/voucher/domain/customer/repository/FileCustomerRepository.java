@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.customer.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -25,7 +27,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.EmptyBufferException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
@@ -61,7 +62,7 @@ public class FileCustomerRepository implements CustomerRepository {
 				customers.put(customerId, customer);
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
 	}
@@ -74,8 +75,8 @@ public class FileCustomerRepository implements CustomerRepository {
 				writer.flush();
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
-			throw new RuntimeException(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
+			throw new EmptyBufferException();
 		}
 	}
 
@@ -89,8 +90,8 @@ public class FileCustomerRepository implements CustomerRepository {
 	public Customer findById(UUID customerId) {
 		return Optional.ofNullable(customers.get(customerId))
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-				throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+				log.error(CUSTOMER_NOT_FOUND.getMessage());
+				throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -99,8 +100,8 @@ public class FileCustomerRepository implements CustomerRepository {
 		Optional.ofNullable(customers.get(updateCustomer.getCustomerId()))
 			.ifPresentOrElse(customer -> customers.put(updateCustomer.getCustomerId(), customer),
 				() -> {
-					log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-					throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+					log.error(CUSTOMER_NOT_FOUND.getMessage());
+					throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 				}
 			);
 
@@ -112,8 +113,8 @@ public class FileCustomerRepository implements CustomerRepository {
 		Optional.ofNullable(customers.get(customerId))
 			.ifPresentOrElse(customer -> customers.remove(customerId),
 				() -> {
-					log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-					throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+					log.error(CUSTOMER_NOT_FOUND.getMessage());
+					throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 				}
 			);
 	}

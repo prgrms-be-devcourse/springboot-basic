@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.voucher.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
 
 import java.util.Collections;
@@ -16,7 +17,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.DataUpdateException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 
@@ -38,7 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			toVoucherParamMap(voucher));
 
 		if (save != 1) {
-			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
+			log.error(DATA_UPDATE_FAIL.getMessage());
 			throw new DataUpdateException();
 		}
 		return voucher;
@@ -51,8 +51,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 					toVoucherIdMap(voucherId),
 					voucherRowMapper))
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+				log.error(VOUCHER_NOT_FOUND.getMessage());
+				throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -62,8 +62,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			toVoucherIdMap(voucherId));
 
 		if (delete != 1) {
-			log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-			throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+			log.error(VOUCHER_NOT_FOUND.getMessage());
+			throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 		}
 	}
 

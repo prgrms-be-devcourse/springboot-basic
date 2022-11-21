@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.customer.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
 
 import java.util.Collections;
@@ -17,7 +18,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.DataUpdateException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
@@ -40,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			toCustomerParamMap(customer));
 
 		if (save != 1) {
-			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
+			log.error(DATA_UPDATE_FAIL.getMessage());
 			throw new DataUpdateException();
 		}
 		return customer;
@@ -53,8 +53,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 					toCustomerIdMap(customerId),
 					customerRowMapper))
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-				throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+				log.error(CUSTOMER_NOT_FOUND.getMessage());
+				throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -65,8 +65,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			toCustomerParamMap(updateCustomer));
 
 		if (update != 1) {
-			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
-			throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+			log.error(DATA_UPDATE_FAIL.getMessage());
+			throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 		}
 		return updateCustomer;
 	}
@@ -77,8 +77,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			toCustomerIdMap(customerId));
 
 		if (delete != 1) {
-			log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
-			throw new NotFoundException(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
+			log.error(CUSTOMER_NOT_FOUND.getMessage());
+			throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
 		}
 	}
 

@@ -1,11 +1,11 @@
 package com.programmers.voucher.domain.customer.model;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.programmers.voucher.core.exception.ExceptionMessage;
 
 public enum CustomerType {
 
@@ -18,8 +18,8 @@ public enum CustomerType {
 			.filter(type -> type.name().equals(customerType.toUpperCase()))
 			.findFirst()
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.WRONG_CUSTOMER_TYPE.getMessage());
-				throw new IllegalArgumentException(ExceptionMessage.WRONG_CUSTOMER_TYPE.getMessage());
+				log.error(WRONG_CUSTOMER_TYPE.getMessage());
+				throw new IllegalArgumentException(WRONG_CUSTOMER_TYPE.getMessage());
 			});
 	}
 }

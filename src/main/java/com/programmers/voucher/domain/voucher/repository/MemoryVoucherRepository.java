@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 
@@ -32,8 +33,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(repository.get(voucherId))
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+				log.error(VOUCHER_NOT_FOUND.getMessage());
+				throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -42,8 +43,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
 		Optional.ofNullable(repository.get(voucherId))
 			.ifPresentOrElse(voucher -> repository.remove(voucherId),
 				() -> {
-					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					log.error(VOUCHER_NOT_FOUND.getMessage());
+					throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 	}

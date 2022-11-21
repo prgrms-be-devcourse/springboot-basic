@@ -1,8 +1,10 @@
 package com.programmers.voucher.core.exception;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 public class DataUpdateException extends RuntimeException {
 
 	public DataUpdateException() {
-		super(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
+		super(DATA_UPDATE_FAIL.getMessage());
 	}
 }

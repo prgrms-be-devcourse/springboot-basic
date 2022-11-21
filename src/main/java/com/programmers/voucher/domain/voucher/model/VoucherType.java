@@ -1,11 +1,11 @@
 package com.programmers.voucher.domain.voucher.model;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.programmers.voucher.core.exception.ExceptionMessage;
 
 public enum VoucherType {
 
@@ -28,8 +28,8 @@ public enum VoucherType {
 			.filter(voucher -> voucher.type.equals(voucherType.toLowerCase()))
 			.findFirst()
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());
-				throw new IllegalArgumentException(ExceptionMessage.WRONG_VOUCHER_TYPE.getMessage());
+				log.error(WRONG_VOUCHER_TYPE.getMessage());
+				throw new IllegalArgumentException(WRONG_VOUCHER_TYPE.getMessage());
 			});
 	}
 }

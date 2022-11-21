@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain.wallet.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
 
 import java.util.List;
@@ -14,7 +15,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.DataUpdateException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.wallet.model.Wallet;
@@ -37,7 +37,7 @@ public class JdbcWalletRepository implements WalletRepository {
 			toWalletParamMap(wallet));
 
 		if (save != 1) {
-			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
+			log.error(DATA_UPDATE_FAIL.getMessage());
 			throw new DataUpdateException();
 		}
 		return wallet;

@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain.voucher.repository;
 
+import static com.programmers.voucher.core.exception.ExceptionMessage.*;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -25,7 +27,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.EmptyBufferException;
-import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
@@ -60,7 +61,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				vouchers.put(voucherId, voucher);
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
 	}
@@ -73,7 +74,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				writer.flush();
 			}
 		} catch (IOException e) {
-			log.error(ExceptionMessage.EMPTY_BUFFER.getMessage());
+			log.error(EMPTY_BUFFER.getMessage());
 			throw new EmptyBufferException();
 		}
 	}
@@ -87,8 +88,8 @@ public class FileVoucherRepository implements VoucherRepository {
 	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(vouchers.get(voucherId))
 			.orElseThrow(() -> {
-				log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-				throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+				log.error(VOUCHER_NOT_FOUND.getMessage());
+				throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 			});
 	}
 
@@ -97,8 +98,8 @@ public class FileVoucherRepository implements VoucherRepository {
 		Optional.ofNullable(vouchers.get(voucherId))
 			.ifPresentOrElse(voucher -> vouchers.remove(voucherId),
 				() -> {
-					log.error(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
-					throw new NotFoundException(ExceptionMessage.VOUCHER_NOT_FOUND.getMessage());
+					log.error(VOUCHER_NOT_FOUND.getMessage());
+					throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
 	}
