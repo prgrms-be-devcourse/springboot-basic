@@ -51,6 +51,10 @@ public class JdbcTemplateUtil {
 		return Collections.singletonMap("customerId", customerId.toString());
 	}
 
+	public static Map<String, Object> toBlacklistTypeMap() {
+		return Collections.singletonMap("customerType", CustomerType.BLACKLIST.name());
+	}
+
 	public static RowMapper<Customer> customerRowMapper = (ResultSet rs, int rowNum) -> {
 		UUID customerId = UUID.fromString(rs.getString("customer_id"));
 		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();

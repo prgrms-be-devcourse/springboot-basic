@@ -83,8 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAllBlacklist() {
-		return jdbcTemplate.query(SELECT_ALL_BLACKLIST.getSql(),
-				Collections.singletonMap("customerType", CustomerType.BLACKLIST.name()), customerRowMapper)
+		return jdbcTemplate.query(SELECT_ALL_BLACKLIST.getSql(), toBlacklistTypeMap(), customerRowMapper)
 			.stream()
 			.filter(customer -> customer.getCustomerType().equals(CustomerType.BLACKLIST))
 			.collect(Collectors.toList());
