@@ -1,6 +1,5 @@
 package org.prgrms.voucherapplication.voucher.service;
 
-import org.prgrms.voucherapplication.common.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,7 @@ public class CsvFileService {
             strings = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             logger.error(FILE_ERROR);
-            throw new VoucherException(FILE_ERROR);
+            throw new FileReadException(FILE_ERROR);
         }
 
         return strings;
@@ -38,7 +37,7 @@ public class CsvFileService {
             writer.close();
         } catch (IOException e) {
             logger.error(FILE_ERROR);
-            throw new VoucherException(FILE_ERROR);
+            throw new FileWriteException(FILE_ERROR);
         }
     }
 

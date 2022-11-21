@@ -1,7 +1,5 @@
 package org.prgrms.voucherapplication.customer;
 
-import org.prgrms.voucherapplication.common.VoucherException;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -34,7 +32,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new VoucherException(NAME_NOT_BLANK);
+            throw new CustomerNameException(NAME_NOT_BLANK);
         }
     }
 

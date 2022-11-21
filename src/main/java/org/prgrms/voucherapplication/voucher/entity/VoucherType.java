@@ -1,7 +1,5 @@
 package org.prgrms.voucherapplication.voucher.entity;
 
-import org.prgrms.voucherapplication.common.VoucherException;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -39,7 +37,7 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(voucherType -> voucherType.name().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new VoucherException(NOT_EXIST));
+                .orElseThrow(() -> new VoucherTypeOfException(NOT_EXIST));
     }
 
     public Voucher createVoucher(UUID uuid, int discount, LocalDateTime createdAt) {

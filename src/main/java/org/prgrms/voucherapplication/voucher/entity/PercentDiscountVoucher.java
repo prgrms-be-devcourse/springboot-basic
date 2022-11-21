@@ -1,6 +1,5 @@
 package org.prgrms.voucherapplication.voucher.entity;
 
-import org.prgrms.voucherapplication.common.VoucherException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +17,7 @@ public class PercentDiscountVoucher extends Voucher{
         final int MAX_PERCENT = 100;
         if (percent > MAX_PERCENT) {
             logger.error(PERCENT_MAX);
-            throw new VoucherException(PERCENT_MAX);
+            throw new VoucherConstructorException(PERCENT_MAX);
         }
     }
 
