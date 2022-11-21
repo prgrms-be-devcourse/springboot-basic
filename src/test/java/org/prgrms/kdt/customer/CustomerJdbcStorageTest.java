@@ -85,31 +85,31 @@ public class CustomerJdbcStorageTest {
 
     @Test
     @DisplayName("고객을 새로 추가할 수 있다.")
-    void test1() {
+    void testInsertNewCustomer() {
         // given
         String newCustomerId = UUID.randomUUID().toString();
         Customer newCustomer = new Customer(newCustomerId, "new-user", "new-user@gmail.com");
 
         // when
         customerJdbcStorage.insert(newCustomer);
+        Customer findCustomer = customerJdbcStorage.findById(newCustomerId).get();
 
-        customerJdbcStorage.findById(newCustomerId)
-                .ifPresent(findCustomer ->
-                        assertThat(newCustomer).usingRecursiveComparison()
-                                .isEqualTo(findCustomer));
+        assertThat(newCustomer).usingRecursiveComparison()
+                .isEqualTo(findCustomer);
     }
 
     @Test
     @DisplayName("고객의 아이디를 통해 특정 고객을 조회할 수 있다.")
-    void test2() {
+    void testFindCustomerById() {
         // given
         String customerId = customer.getCustomerId();
 
+        // when
+        Customer findCustomer = customerJdbcStorage.findById(customerId).get();
+
         // then
-        customerJdbcStorage.findById(customerId)
-                .ifPresent(findCustomer ->
-                        assertThat(customer).usingRecursiveComparison()
-                                .isEqualTo(findCustomer));
+        assertThat(customer).usingRecursiveComparison()
+                .isEqualTo(findCustomer);
 
     }
 
@@ -137,7 +137,8 @@ public class CustomerJdbcStorageTest {
 
         // then
         assertEquals(Optional.empty(),
-                customerJdbcStorage.findById(deleteCustomer.getCustomerId()));
+                customerJdbcStorage.findById(
+                        deleteCustomer.getCustomerId()));
     }
 
     @Test
@@ -149,10 +150,10 @@ public class CustomerJdbcStorageTest {
 
         // when
         customerJdbcStorage.update(customer);
+        Customer getCustomer = customerJdbcStorage.findById(customerId).get();
 
         // then
-        customerJdbcStorage.findById(customer.getCustomerId())
-                .ifPresent(getCustomer -> assertThat(customer).usingRecursiveComparison()
-                        .isEqualTo(getCustomer));
+        assertThat(customer).usingRecursiveComparison()
+                .isEqualTo(getCustomer);
     }
 }
