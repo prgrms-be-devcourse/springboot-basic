@@ -1,11 +1,12 @@
 package org.prgrms.voucherapplication.voucher.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher{
 
-    public FixedAmountVoucher(UUID uuid, int discount) {
-        super(uuid, discount);
+    public FixedAmountVoucher(UUID uuid, int discount, LocalDateTime createdAt) {
+        super(uuid, discount, VoucherType.FIXED, createdAt);
     }
 
     @Override
@@ -13,6 +14,8 @@ public class FixedAmountVoucher extends Voucher{
         return "FixedAmountVoucher{" +
                 "uuid=" + uuid +
                 ", discount=" + discount +
-                "}\n";
+                ", voucherType=" + voucherType +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

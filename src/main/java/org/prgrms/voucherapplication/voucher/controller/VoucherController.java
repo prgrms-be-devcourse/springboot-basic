@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,11 +86,11 @@ public class VoucherController {
         Voucher voucher;
         try {
             discount = input.command();
-            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
+            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount), LocalDateTime.now());
         } catch (RuntimeException e) {
             logger.error(e.getMessage());
             discount = input.command();
-            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
+            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount), LocalDateTime.now());
         }
         voucherService.create(voucher);
     }

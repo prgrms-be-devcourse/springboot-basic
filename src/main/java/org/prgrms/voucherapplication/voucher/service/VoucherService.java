@@ -22,4 +22,8 @@ public class VoucherService {
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
+
+    public int deleteAll() {
+        return voucherRepository.deleteAll();
+    }
 }
