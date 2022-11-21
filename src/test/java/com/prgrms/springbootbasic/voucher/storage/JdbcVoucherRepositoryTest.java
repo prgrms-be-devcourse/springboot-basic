@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
-@ActiveProfiles("prod")
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
 
@@ -119,13 +119,15 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("모든 Voucher를 조회할 수 있다.")
     void findAll() {
         //given
-        voucherList.forEach(jdbcVoucherRepository::save);
+        jdbcVoucherRepository.save(voucherList.get(0));
+        jdbcVoucherRepository.save(voucherList.get(1));
+        jdbcVoucherRepository.save(voucherList.get(2));
 
         //when
-        List<Voucher> foundVouchers = jdbcVoucherRepository.findAll();
+        int actual = jdbcVoucherRepository.findAll().size();
 
         //then
-        assertThat(voucherList.size()).isEqualTo(foundVouchers.size());
+        assertThat(actual).isEqualTo(3);
     }
 
 
@@ -136,7 +138,7 @@ class JdbcVoucherRepositoryTest {
         jdbcVoucherRepository.save(voucher);
 
         //when
-        int beforeChangeAmount = voucher.getDiscountRate();
+        int beforeChangeAmount = voucher.getDiscountAmount();
         voucher.update(beforeChangeAmount - 1);
 
         jdbcVoucherRepository.update(voucher);
@@ -165,14 +167,14 @@ class JdbcVoucherRepositoryTest {
     void deleteById() {
         //given
         jdbcVoucherRepository.save(voucher);
-        List<Voucher> foundBeforeDelete = jdbcVoucherRepository.findAll();
+        jdbcVoucherRepository.findAll();
 
         //when
         jdbcVoucherRepository.delete(voucher.getUUID());
 
         //then
-        List<Voucher> foundAfterDelete = jdbcVoucherRepository.findAll();
-        assertThat(foundAfterDelete.size()).isEqualTo(foundBeforeDelete.size() - 1);
+        int actual = jdbcVoucherRepository.findAll().size();
+        assertThat(actual).isEqualTo(0);
     }
 
     @Test

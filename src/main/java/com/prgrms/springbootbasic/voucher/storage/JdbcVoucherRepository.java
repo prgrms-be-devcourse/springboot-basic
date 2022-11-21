@@ -5,56 +5,42 @@ import com.prgrms.springbootbasic.voucher.VoucherType;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
 import com.prgrms.springbootbasic.voucher.factory.VoucherFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-@Profile("prod")
+@Profile("prod | test")
 @Repository
 public class JdbcVoucherRepository implements VoucherStorage {
 
-    private enum VoucherQuery {
-        INSERT("INSERT INTO voucher(voucher_id, voucher_type, discount_amount) VALUES(UNHEX(REPLACE(?, '-', '')), ?, ?)"),
-        FIND_BY_ID("select * from voucher where voucher_id = UNHEX(REPLACE(?, '-', ''))"),
-        FIND_ALL("select * from voucher"),
-        UPDATE("update voucher set discount_amount = ? where voucher_id = UNHEX(REPLACE(?, '-', ''))"),
-        DELETE("delete from voucher where voucher_id = UNHEX(REPLACE(?, '-', ''))");
+    private static final String INSERT = "INSERT INTO voucher(voucher_id, voucher_type, discount_amount) VALUES(UNHEX(REPLACE(:voucher_id, '-', '')), :voucher_type, :discount_amount)";
+    private static final String FIND_BY_ID = "select * from voucher where voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
+    private static final String FIND_ALL = "select * from voucher";
+    private static final String UPDATE = "update voucher set discount_amount = :discount_amount where voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
+    private static final String DELETE = "delete from voucher where voucher_id = UNHEX(REPLACE(:voucher_id, '-', ''))";
 
-        private final String query;
+    private static final String ID = "voucher_id";
+    private static final String VOUCHER_TYPE = "voucher_type";
+    private static final String DISCOUNT_AMOUNT = "discount_amount";
 
-        VoucherQuery(String query) {
-            this.query = query;
-        }
-    }
+    private static final int ZERO = 0;
 
-    public enum VoucherColumn {
-        ID("voucher_id"),
-        VOUCHER_TYPE("voucher_type"),
-        DISCOUNT_AMOUNT("discount_amount");
-
-        private final String column;
-
-        VoucherColumn(String column) {
-            this.column = column;
-        }
-    }
-
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Map<VoucherType, VoucherFactory> voucherFactoryMap = new EnumMap<>(VoucherType.class);
 
     public JdbcVoucherRepository(DataSource dataSource, List<VoucherFactory> voucherFactories) {
-        jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         voucherFactories.forEach(factory -> this.voucherFactoryMap.put(factory.getType(), factory));
     }
 
     private final RowMapper<Voucher> ROW_MAPPER = (resultSet, rowNum) -> {
-        UUID voucherId = toUUID(resultSet.getBytes(VoucherColumn.ID.column));
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString(VoucherColumn.VOUCHER_TYPE.column));
-        int discountAmount = resultSet.getInt(VoucherColumn.DISCOUNT_AMOUNT.column);
+        UUID voucherId = toUUID(resultSet.getBytes(ID));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
+        int discountAmount = resultSet.getInt(DISCOUNT_AMOUNT);
 
         VoucherFactory voucherFactory = voucherFactoryMap.get(voucherType);
         return voucherFactory.mapToVoucher(voucherId, discountAmount);
@@ -67,41 +53,43 @@ public class JdbcVoucherRepository implements VoucherStorage {
 
     @Override
     public void save(Voucher voucher) {
-        jdbcTemplate.update(VoucherQuery.INSERT.query,
-                voucher.getUUID().toString(),
-                voucher.getVoucherType().toString(),
-                voucher.getDiscountRate());
+        Map<String, Object> parameters = Map.of(
+                ID, voucher.getUUID().toString(),
+                VOUCHER_TYPE, voucher.getVoucherType().toString(),
+                DISCOUNT_AMOUNT, voucher.getDiscountAmount());
+        jdbcTemplate.update(INSERT, parameters);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(VoucherQuery.FIND_ALL.query, ROW_MAPPER);
+        return jdbcTemplate.query(FIND_ALL, ROW_MAPPER);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         return Optional.ofNullable(jdbcTemplate.queryForObject(
-                VoucherQuery.FIND_BY_ID.query,
-                ROW_MAPPER,
-                id.toString()));
+                FIND_BY_ID,
+                Collections.singletonMap(ID, id.toString()),
+                ROW_MAPPER));
     }
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(VoucherQuery.UPDATE.query,
-                voucher.getDiscountRate(),
-                voucher.getUUID().toString());
-        if (update == 0) {
+        Map<String, Object> parameters = Map.of(
+                DISCOUNT_AMOUNT, voucher.getDiscountAmount(),
+                ID, voucher.getUUID().toString());
+        int update = jdbcTemplate.update(UPDATE, parameters);
+        if (update == ZERO) {
             throw new DataModifyingException(
-                    "Nothing was updated. query: " + VoucherQuery.UPDATE.query + " params: " + voucher.getUUID() + ", " + voucher.getDiscountRate());
+                    "Nothing was updated. query: " + UPDATE + " params: " + voucher.getUUID() + ", " + voucher.getDiscountAmount());
         }
     }
 
     @Override
     public void delete(UUID id) {
-        int update = jdbcTemplate.update(VoucherQuery.DELETE.query, id.toString());
-        if (update == 0) {
-            throw new DataModifyingException("Nothing was deleted. query: " + VoucherQuery.DELETE.query + " params: " + id);
+        int update = jdbcTemplate.update(DELETE, Collections.singletonMap(ID, id.toString()));
+        if (update == ZERO) {
+            throw new DataModifyingException("Nothing was deleted. query: " + DELETE + " params: " + id);
         }
     }
 }
