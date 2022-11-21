@@ -33,12 +33,15 @@ public class CommandLine {
         VoucherType voucherType = VoucherType.findVoucherType(this.input.read());
         long amount = 0L;
 
-        if (voucherType == VoucherType.FIXED) {
-            this.output.print("enter amount of voucher (0 ~)");
-            amount = Long.parseLong(this.input.read());
-        } else if (voucherType == VoucherType.PERCENT) {
-            this.output.print("enter percent of voucher (0 ~ 100)");
-            amount = Long.parseLong(this.input.read());
+        switch (voucherType) {
+            case FIXED -> {
+                this.output.print("enter amount of voucher (0 ~)");
+                amount = Long.parseLong(this.input.read());
+            }
+            case PERCENT -> {
+                this.output.print("enter percent of voucher (0 ~ 100)");
+                amount = Long.parseLong(this.input.read());
+            }
         }
 
         return new VoucherCreateDTO(voucherType, amount);
@@ -76,7 +79,7 @@ public class CommandLine {
     }
 
     public UUID getVoucherCommand(String description) {
-        this.output.print("Type voucher id\t"+ description);
+        this.output.print("Type voucher id\t" + description);
         String voucherId = this.input.read();
         if (this.input.isUUID(voucherId)) {
             return UUID.fromString(voucherId);
@@ -84,6 +87,7 @@ public class CommandLine {
             throw new IllegalArgumentException("not valid uuid entered");
         }
     }
+
     public boolean stopCommandLine() {
         input.stop();
         output.stop();
@@ -102,16 +106,14 @@ public class CommandLine {
                 for (VoucherDTO item : voucherDTOS) {
                     output.print(item.toString());
                 }
-            } else if (list.get(0) instanceof Customer){
+            } else if (list.get(0) instanceof Customer) {
                 List<CustomerDTO> customerDTOS =
                         list.stream().map(c -> this.convertToCustomerDTO((Customer) c)).toList();
 
                 for (CustomerDTO item : customerDTOS) {
                     output.print(item.toString());
                 }
-            }
-
-            else {
+            } else {
                 for (Object item : list) {
                     output.print(item.toString());
                 }

@@ -19,20 +19,20 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherCreateDTO voucherCreateDTO)  {
 
-        if(voucherCreateDTO.voucherType() == VoucherType.PERCENT) {
-            return voucherRepository
-                    .insert(new PercentDiscountVoucher(UUID.randomUUID(),
+        switch (voucherCreateDTO.voucherType()) {
+            case PERCENT -> {
+                return voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(),
                             voucherCreateDTO.voucherType(),
                             voucherCreateDTO.amount()));
-        }
-        else if(voucherCreateDTO.voucherType() == VoucherType.FIXED) {
-            return voucherRepository
-                    .insert(new FixedAmountVoucher(UUID.randomUUID(),
-                            voucherCreateDTO.voucherType(),
-                            voucherCreateDTO.amount()));
-        }
-        else {
-            throw new IllegalArgumentException("invalid voucher option");
+            }
+
+            case FIXED -> {
+                return voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(),
+                                voucherCreateDTO.voucherType(),
+                                voucherCreateDTO.amount()));
+            }
+            default ->
+                throw new IllegalArgumentException("invalid voucher option");
         }
 
     }
