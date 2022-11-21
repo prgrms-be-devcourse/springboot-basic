@@ -23,12 +23,15 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
         this.namedJdbcTemplate = namedJdbcTemplate;
     }
 
+    static UUID toUUID(byte[]  bytes){
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    }
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         var voucherId = toUUID(resultSet.getBytes("voucher_id"));
         var voucherType = resultSet.getString("voucher_type");
         var discountAmount = resultSet.getLong("discount_amount");
-        // var isUsed = resultSet.getBoolean("is_used");
-        // var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         var expirationDate = resultSet.getTimestamp("expiration_date").toLocalDateTime();
 
         if (voucherType.equals(VoucherType.PERCENT.toString()))
@@ -82,7 +85,6 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
                     )
             );
         }catch (EmptyResultDataAccessException e){
-            // logger.error("got empty result,", e);
             return Optional.empty();
         }
     }
@@ -100,10 +102,5 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     @Override
     public int count() {
         return namedJdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(),Integer.class);
-    }
-
-    static UUID toUUID(byte[]  bytes){
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

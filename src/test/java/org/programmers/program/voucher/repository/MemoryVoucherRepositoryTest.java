@@ -1,19 +1,17 @@
 package org.programmers.program.voucher.repository;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.program.voucher.model.FixedAmountVoucher;
 import org.programmers.program.voucher.model.PercentDiscountVoucher;
 import org.programmers.program.voucher.model.Voucher;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class VoucherRepositoryTest {
+class MemoryVoucherRepositoryTest {
     // @Autowired
     static VoucherRepository repository;
 
