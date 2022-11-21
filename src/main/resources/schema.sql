@@ -20,4 +20,3 @@ CREATE TABLE CUSTOMER_VOUCHER
     FOREIGN KEY (voucher_id) REFERENCES VOUCHER(voucher_id)
 );
 
-# INSERT INTO CUSTOMER(customer_status) VALUES ("black");

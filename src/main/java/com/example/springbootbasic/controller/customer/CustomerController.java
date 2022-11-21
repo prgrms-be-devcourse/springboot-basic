@@ -21,16 +21,16 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public ResponseBody<List<CustomerDto>> selectAllBlackCustomers() {
-        List<Customer> findAllBlackCustomers;
+    public ResponseBody<List<CustomerDto>> findAllCustomers() {
+        List<Customer> findAllCustomers;
         try {
-            findAllBlackCustomers = customerService.findAllCustomers();
+            findAllCustomers = customerService.findAllCustomers();
         } catch (NullPointerException e) {
             logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(Collections.emptyList());
         }
-        return ResponseBody.success(findAllBlackCustomers.stream()
-                .map(CustomerDto::toDto)
+        return ResponseBody.success(findAllCustomers.stream()
+                .map(CustomerDto::of)
                 .toList());
     }
 }
