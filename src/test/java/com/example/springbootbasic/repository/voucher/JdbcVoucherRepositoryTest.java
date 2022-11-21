@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 @SpringBootTest
+@ActiveProfiles("dev")
 class JdbcVoucherRepositoryTest {
 
     @Autowired
@@ -73,7 +75,7 @@ class JdbcVoucherRepositoryTest {
         Voucher updatedVoucher = voucherRepository.update(goingToUpdateVoucher);
 
         // then
-        assertThat(updatedVoucher).isEqualTo(updatedVoucher);
+        assertThat(updatedVoucher.getVoucherType()).isEqualTo(PERCENT_DISCOUNT);
     }
 
     @Test
