@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.customer;
+package org.prgrms.voucherapplication.customer.repository;
 
 import org.prgrms.voucherapplication.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.service.CsvFileService;

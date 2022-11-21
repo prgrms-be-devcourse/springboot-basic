@@ -1,4 +1,6 @@
-package org.prgrms.voucherapplication.customer;
+package org.prgrms.voucherapplication.customer.entity;
+
+import org.prgrms.voucherapplication.customer.CustomerNameException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,25 +1,33 @@
-package org.prgrms.voucherapplication.customer;
+package org.prgrms.voucherapplication.customer.repository;
 
+import org.prgrms.voucherapplication.customer.entity.Customer;
+import org.prgrms.voucherapplication.customer.NothingInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public class CustomerNamedJdbcRepository implements CustomerRepository {
+@Profile("dev")
+public class CustomerJdbcRepository implements CustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final String NOTHING_INSERT = "Nothing was inserted";
     private static final String EMPTY_RESULT = "Got empty result";
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
@@ -27,24 +35,23 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        LocalDateTime createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime createAt = resultSet.getTimestamp("create_at").toLocalDateTime();
         return new Customer(customerId, customerName, email, lastLoginAt, createAt);
     };
 
-    public CustomerNamedJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+        this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Customer insert(Customer customer) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
-        paramMap.put("name", customer.getName());
-        paramMap.put("email", customer.getEmail());
-        paramMap.put("createdAt", Timestamp.valueOf(customer.getCreateAt()));
-
-        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
-                paramMap);
+        int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)",
+                customer.getCustomerId().toString().getBytes(),
+                customer.getName(),
+                customer.getEmail(),
+                Timestamp.valueOf(customer.getCreateAt())
+        );
         if (update != 1) {
             throw new NothingInsertException(NOTHING_INSERT);
         }
@@ -53,14 +60,11 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
-        paramMap.put("name", customer.getName());
-        paramMap.put("email", customer.getEmail());
-        paramMap.put("lastLoginAt", Timestamp.valueOf(customer.getLastLoginAt()));
-
-        int update = jdbcTemplate.update("UPDATE customers SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
-            paramMap
+        int update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ?, last_login_at = ? WHERE customer_id = UUID_TO_BIN(?)",
+                customer.getName(),
+                customer.getEmail(),
+                customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null,
+                customer.getCustomerId().toString().getBytes()
         );
         if (update != 1) {
             throw new NothingInsertException(NOTHING_INSERT);
@@ -70,7 +74,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public int count() {
-        return jdbcTemplate.queryForObject("select count(*) from customers", Collections.emptyMap(), Integer.class);
+        return jdbcTemplate.queryForObject("select count(*) from customers", Integer.class);
     }
 
     @Override
@@ -81,9 +85,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    customerRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE customer_id = UUID_TO_BIN(?)",
+                    customerRowMapper,
+                    (Object) customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -93,9 +97,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByName(String name) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE name = :name",
-                    Collections.singletonMap("name", name),
-                    customerRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE name = ?",
+                    customerRowMapper,
+                    name));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -105,9 +109,9 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE email = :email",
-                    Collections.singletonMap("email", email),
-                    customerRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers WHERE email = ?",
+                    customerRowMapper,
+                    email));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -116,7 +120,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM customers");
     }
 
     static UUID toUUID(byte[] bytes) {

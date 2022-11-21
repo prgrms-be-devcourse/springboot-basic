@@ -1,5 +1,6 @@
-package org.prgrms.voucherapplication.customer;
+package org.prgrms.voucherapplication.customer.repository;
 
+import org.prgrms.voucherapplication.customer.entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
