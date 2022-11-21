@@ -33,11 +33,12 @@ public class JdbcVoucherStorage implements VoucherStorage {
 
         String type = resultSet.getString("type");
         VoucherType voucherType;
-        try{
+        try {
             voucherType = findVoucherTypeByInput(type);
-        } catch (InvalidITypeInputException invalidTypeException){
+        } catch (InvalidITypeInputException invalidTypeException) {
             throw new InvalidParameterException(
-                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type), invalidTypeException);
+                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type),
+                    invalidTypeException);
         }
 
         int amount = resultSet.getInt("amount");
@@ -56,7 +57,8 @@ public class JdbcVoucherStorage implements VoucherStorage {
                 }
                 return new PercentDiscountVoucher(voucherId, amount, customerId);
             }
-            default -> throw new InvalidParameterException("잘못된 타입 값 -> " + voucherType);
+            default -> throw new InvalidParameterException(
+                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type));
         }
     };
 
@@ -94,7 +96,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
     public List<Voucher> findAll() {
         try {
             return namedParameterJdbcTemplate.query("select * from voucher", voucherRowMapper);
-        } catch (InvalidITypeInputException invalidITypeInputException){
+        } catch (InvalidITypeInputException invalidITypeInputException) {
             throw new InvalidDBAccessException("파일내부 문제로 결과를 가져올 수 없습니다.", invalidITypeInputException);
         }
     }
@@ -107,7 +109,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         } catch (EmptyResultDataAccessException noResult) {
             logger.info("{} 로 해당되는 바우처가 존재하지 않습니다.", voucherId, noResult);
         } catch (InvalidParameterException invalidVoucherType) {
-            logger.error("바우처를 생성할 수 없습니다. DB에 저장된 바우처 타입이 유효하지 않습니다. {}", invalidVoucherType.getMessage(), invalidVoucherType);
+            throw new InvalidDBAccessException("바우처를 생성할 수 없습니다.", invalidVoucherType);
         }
         return Optional.empty();
     }

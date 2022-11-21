@@ -3,6 +3,7 @@ package org.prgrms.kdt.manager;
 import org.prgrms.kdt.exceptions.AmountException;
 import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
+import org.prgrms.kdt.exceptions.InvalidParameterException;
 import org.prgrms.kdt.io.IOManager;
 import org.prgrms.kdt.utils.Power;
 import org.prgrms.kdt.utils.VoucherType;
@@ -64,7 +65,7 @@ public class VoucherProviderManager {
                 ioManager.writeMessage(CREATE_VOUCHER);
                 logger.info("바우처가 성공적으로 생성되었습니다.");
                 power.stop();
-            } catch (InvalidITypeInputException | AmountException e) {
+            } catch (InvalidITypeInputException | AmountException | InvalidParameterException e) {
                 logger.error("사용자가 유효하지 않은 값을 입력하였습니다.");
                 ioManager.writeExceptionMessage(e.getMessage());
             }
