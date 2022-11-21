@@ -8,7 +8,6 @@ import static org.prgrms.memory.query.CustomerSQL.INSERT;
 import static org.prgrms.memory.query.CustomerSQL.UPDATE;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -39,10 +38,8 @@ public class CustomerDBMemory {
     };
 
     public Customer save(Customer customer) {
-        Map<String, String> paramMap = new HashMap<>() {{
-            put("id", String.valueOf(customer.getId()));
-            put("name", customer.getName());
-        }};
+        Map<String, String> paramMap = Map.of("id", String.valueOf(customer.getId()), "name",
+            customer.getName());
         try {
             jdbcTemplate.update(INSERT.getSql(), paramMap);
         } catch (BadSqlGrammarException e) {
@@ -58,7 +55,7 @@ public class CustomerDBMemory {
         try {
             Customer customer = jdbcTemplate.queryForObject(FIND_BY_ID.getSql(),
                 Collections.singletonMap("id", String.valueOf(id)), customerRowMapper);
-            return Optional.ofNullable(customer);
+            return Optional.of(customer);
         } catch (DataAccessException e) {
             return Optional.empty();
         }
@@ -79,10 +76,8 @@ public class CustomerDBMemory {
     }
 
     public Customer update(Customer customer) {
-        Map<String, String> paramMap = new HashMap<>() {{
-            put("name", customer.getName());
-            put("id", String.valueOf(customer.getId()));
-        }};
+        Map<String, String> paramMap = Map.of("name", customer.getName(), "id",
+            String.valueOf(customer.getId()));
         int updateNum = jdbcTemplate.update(UPDATE.getSql(), paramMap);
         if (updateNum == NO_RESULT) {
             throw new NoSuchElementException(
