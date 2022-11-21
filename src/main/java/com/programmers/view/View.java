@@ -4,7 +4,9 @@ import com.programmers.customer.Customer;
 import com.programmers.message.Message;
 import com.programmers.voucher.voucher.Voucher;
 
-public interface View {
+import java.util.List;
+
+public interface View{
     String getUserCommand();
 
     void printMessage(String message);
@@ -14,4 +16,6 @@ public interface View {
     void printVoucher(Voucher voucher);
 
     void printCustomer(Customer customer);
+
+    void printList(List list);
 }

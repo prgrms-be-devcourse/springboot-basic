@@ -4,7 +4,7 @@ import com.programmers.customer.Customer;
 import com.programmers.view.View;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.wallet.service.WalletService;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +12,7 @@ import java.util.UUID;
 import static com.programmers.message.Message.VOUCHER_CUSTOMER_ID;
 import static com.programmers.message.Message.VOUCHER_ID;
 
-@Controller
+@Component
 public class WalletController {
     private final WalletService walletService;
     private final View view;
@@ -23,11 +23,11 @@ public class WalletController {
     }
 
     public void assign() {
-        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
+        view.printMessage(VOUCHER_CUSTOMER_ID);
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
-        view.printMessage(VOUCHER_ID.getMessage());
+        view.printMessage(VOUCHER_ID);
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 
@@ -35,7 +35,7 @@ public class WalletController {
     }
 
     public void showCustomerVouchers() {
-        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
+        view.printMessage(VOUCHER_CUSTOMER_ID);
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
@@ -47,7 +47,7 @@ public class WalletController {
     }
 
     public void findVoucherOwner() {
-        view.printMessage(VOUCHER_ID.getMessage());
+        view.printMessage(VOUCHER_ID);
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 
@@ -56,11 +56,11 @@ public class WalletController {
     }
 
     public void delete() {
-        view.printMessage(VOUCHER_CUSTOMER_ID.getMessage());
+        view.printMessage(VOUCHER_CUSTOMER_ID);
         String customerId = view.getUserCommand();
         UUID customerUUID = UUID.fromString(customerId);
 
-        view.printMessage(VOUCHER_ID.getMessage());
+        view.printMessage(VOUCHER_ID);
         String voucherId = view.getUserCommand();
         UUID voucherUUID = UUID.fromString(voucherId);
 

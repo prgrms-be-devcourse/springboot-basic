@@ -95,8 +95,7 @@ public class Customer {
         return "[Customer]" +
                 "customerId = " + customerId +
                 ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+                ", email='" + email + '\'';
     }
 
     public void addVoucher(Voucher voucher) {

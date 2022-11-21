@@ -41,7 +41,7 @@ public class DbVoucherRepository implements VoucherRepository {
                     Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage(), e);
         }
     }
 
@@ -61,10 +61,10 @@ public class DbVoucherRepository implements VoucherRepository {
         voucherRuleParamMap.put(VOUCHER_TYPE, voucher.getClass().getSimpleName().replaceAll("Voucher", ""));
         voucherRuleParamMap.put(VOUCHER_VALUE, voucher.getValue());
 
-        int voucherCount = jdbcTemplate.update(INSERT_VOUCHER, voucherParamMap);
-        int voucherRuleCount = jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleParamMap);
-
-        if (voucherCount != 1 || voucherRuleCount != 1) {
+        try {
+            jdbcTemplate.update(INSERT_VOUCHER, voucherParamMap);
+            jdbcTemplate.update(INSERT_VOUCHER_RULE, voucherRuleParamMap);
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException(INSERT_ERROR.getMessage());
         }

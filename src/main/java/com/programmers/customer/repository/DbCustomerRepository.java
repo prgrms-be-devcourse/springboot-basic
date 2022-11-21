@@ -4,7 +4,6 @@ import com.programmers.customer.Customer;
 import com.programmers.customer.repository.sql.CustomerResultSetExtractor;
 import com.programmers.customer.repository.sql.CustomerRowMapper;
 import com.programmers.voucher.repository.sql.VoucherRowMapper;
-import com.programmers.voucher.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -18,18 +17,17 @@ import java.util.*;
 import static com.programmers.customer.repository.sql.CustomerSql.*;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
-import static com.programmers.wallet.repository.sql.WalletSql.FIND_VOUCHERS_WITH_CUSTOMER_ID;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonMap;
 
 @Profile("dev")
 @Repository
 public class DbCustomerRepository implements CustomerRepository {
-    public final static String CUSTOMER_ID = "customerId";
-    public final static String CUSTOMER_NAME = "name";
-    public final static String CUSTOMER_EMAIL = "email";
-    public final static String CREATE_AT = "createAt";
-    public final static String LAST_LOGIN_AT = "lastLoginAt";
+    public static final String CUSTOMER_ID = "customerId";
+    public static final String CUSTOMER_NAME = "name";
+    public static final String CUSTOMER_EMAIL = "email";
+    public static final String CREATE_AT = "createAt";
+    public static final String LAST_LOGIN_AT = "lastLoginAt";
     private final Logger log = LoggerFactory.getLogger(DbCustomerRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerRowMapper customerRowMapper;
@@ -55,7 +53,7 @@ public class DbCustomerRepository implements CustomerRepository {
             );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
 
@@ -71,7 +69,7 @@ public class DbCustomerRepository implements CustomerRepository {
             );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
 
@@ -88,7 +86,7 @@ public class DbCustomerRepository implements CustomerRepository {
 
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
 
@@ -104,26 +102,22 @@ public class DbCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer insert(Customer customer) {
-        int count = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
-
-        if (count != 1) {
+        try {
+            jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException(INSERT_ERROR.getMessage());
         }
-
         return customer;
     }
 
     @Override
     public Customer update(Customer customer) {
-        int update = jdbcTemplate.update(
-                UPDATE_CUSTOMER,
-                toParamMap(customer)
-        );
-
-        if (update != 1) {
-            log.error(DB_ERROR_LOG.getMessage());
-            throw new RuntimeException();
+        try {
+            jdbcTemplate.update(UPDATE_CUSTOMER, toParamMap(customer));
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage(), e);
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
 
         return customer;
@@ -135,12 +129,13 @@ public class DbCustomerRepository implements CustomerRepository {
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put(CUSTOMER_NAME, customer.getName());
-            put(CUSTOMER_EMAIL, customer.getEmail());
-            put(CREATE_AT, customer.getCreateAt());
-            put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-            put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(CUSTOMER_NAME, customer.getName());
+        paramMap.put(CUSTOMER_EMAIL, customer.getEmail());
+        paramMap.put(CREATE_AT, customer.getCreateAt());
+        paramMap.put(LAST_LOGIN_AT, customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+        paramMap.put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
+
+        return paramMap;
     }
 }

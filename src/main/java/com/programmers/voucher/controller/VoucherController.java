@@ -3,14 +3,14 @@ package com.programmers.voucher.controller;
 import com.programmers.view.View;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.message.Message.*;
 
-@Controller
+@Component
 public class VoucherController {
     private final VoucherService voucherService;
     private final View view;
@@ -23,9 +23,7 @@ public class VoucherController {
     public void showVoucherList() {
         List<Voucher> vouchers = voucherService.findAll();
 
-        for (Voucher voucher : vouchers) {
-            view.printVoucher(voucher);
-        }
+        view.printList(vouchers);
     }
 
     public void createVoucher() {
@@ -41,7 +39,7 @@ public class VoucherController {
     }
 
     public void findVoucher() {
-        view.printMessage("바우처 아이디를 입력해주세요.");
+        view.printMessage(VOUCHER_ID);
         String userCommand = view.getUserCommand();
         UUID voucherId = UUID.fromString(userCommand);
 

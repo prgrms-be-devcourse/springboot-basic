@@ -33,16 +33,25 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public Customer assignVoucher(UUID customerId, UUID voucherId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
+        Customer customer = getCustomer(customerId);
 
-        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherId);
-        Voucher voucher = voucherOptional.orElseThrow(() -> new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
+        Voucher voucher = getVoucher(voucherId);
 
         walletRepository.assignVoucher(customer, voucher);
         customer.addVoucher(voucher);
 
         return customer;
+    }
+
+    private Voucher getVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
+        return voucher;
+    }
+
+    private Customer getCustomer(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
     }
 
     @Override
@@ -59,11 +68,9 @@ public class WalletServiceImpl implements WalletService {
     @Override
     @Transactional
     public void removeCustomerVoucher(UUID customerId, UUID voucherId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
+        Customer customer = getCustomer(customerId);
 
-        Optional<Voucher> voucherOptional = voucherRepository.findById(voucherId);
-        Voucher findVoucher = voucherOptional.orElseThrow(() -> new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
+        Voucher findVoucher = getVoucher(voucherId);
 
         customer.removeVoucher(findVoucher);
 

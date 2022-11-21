@@ -3,7 +3,7 @@ package com.programmers.customer.controller;
 import com.programmers.customer.Customer;
 import com.programmers.customer.service.CustomerService;
 import com.programmers.view.View;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
 import static com.programmers.message.Message.CUSTOMER_EMAIL;
 import static com.programmers.message.Message.CUSTOMER_NAME;
 
-@Controller
+@Component
 public class CustomerController {
     private final CustomerService customerService;
     private final View view;
@@ -25,24 +25,25 @@ public class CustomerController {
     public void findAllCustomers() {
         List<Customer> customers = customerService.findAll();
 
-        for (Customer customer : customers) {
-            view.printCustomer(customer);
-        }
+        view.printList(customers);
+//        for (Customer customer : customers) {
+//            view.printCustomer(customer);
+//        }
     }
 
     public void join() {
-        view.printMessage(CUSTOMER_NAME.getMessage());
+        view.printMessage(CUSTOMER_NAME);
         String name = view.getUserCommand();
 
-        view.printMessage(CUSTOMER_EMAIL.getMessage());
+        view.printMessage(CUSTOMER_EMAIL);
         String email = view.getUserCommand();
 
-        validateInput(name, email);
+        validateForJoin(name, email);
 
         customerService.join(name, email);
     }
 
-    private void validateInput(String name, String email) {
+    private void validateForJoin(String name, String email) {
         if (!StringUtils.hasText(name) || !StringUtils.hasText(email)) {
             throw new RuntimeException(ERROR_INPUT_MESSAGE.getMessage());
         }

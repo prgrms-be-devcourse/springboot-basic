@@ -62,7 +62,7 @@ public class DbWalletRepository implements WalletRepository {
             );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return List.of();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class DbWalletRepository implements WalletRepository {
             );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
-            return Optional.empty();
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
 
@@ -91,6 +91,7 @@ public class DbWalletRepository implements WalletRepository {
             );
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
 
     }
