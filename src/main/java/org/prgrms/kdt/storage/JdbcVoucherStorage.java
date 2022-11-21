@@ -1,6 +1,6 @@
 package org.prgrms.kdt.storage;
 
-import org.prgrms.kdt.customer.InvalidParameterException;
+import org.prgrms.kdt.exceptions.InvalidParameterException;
 import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
