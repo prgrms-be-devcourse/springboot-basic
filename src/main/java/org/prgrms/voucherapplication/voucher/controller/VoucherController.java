@@ -4,7 +4,7 @@ import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
 import org.prgrms.voucherapplication.customer.service.CustomerService;
-import org.prgrms.voucherapplication.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.customer.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.voucher.service.VoucherService;

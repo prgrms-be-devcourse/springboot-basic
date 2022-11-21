@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgrms.voucherapplication.customer.repository.BlackListFileRepository;
-import org.prgrms.voucherapplication.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.customer.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.service.CsvFileService;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 

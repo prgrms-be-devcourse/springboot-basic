@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.dto;
+package org.prgrms.voucherapplication.customer.dto;
 
 import java.math.BigInteger;
 
