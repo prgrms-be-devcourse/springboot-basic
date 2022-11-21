@@ -1,5 +1,6 @@
 package org.prgrms.kdt.storage;
 
+import org.prgrms.kdt.customer.InvalidParameterException;
 import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
@@ -58,7 +59,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         paraMap.put("voucherId", voucher.getVoucherId());
         paraMap.put("type", voucher.getVoucherType());
         paraMap.put("amount", voucher.getAmount());
-        paraMap.put("customerId", voucher.getOwnerId());
+        paraMap.put("customerId", voucher.getOwnerId().orElse(null));
 
         return paraMap;
     }
@@ -67,12 +68,12 @@ public class JdbcVoucherStorage implements VoucherStorage {
     public void save(Voucher voucher) {
         Map<String, Object> voucherParaMap = createParaMap(voucher);
         int update = namedParameterJdbcTemplate.update(
-                "INSERT INTO voucher(voucher_id, type, amount, customer_id) VALUES (:vocuherId, :type, :amount, :customerId)",
+                "INSERT INTO voucher(voucher_id, type, amount, customer_id) VALUES (:voucherId, :type, :amount, :customerId)",
                 voucherParaMap);
         if (update != UPDATE_SUCCESS) {
             String errorDescription = MessageFormat.format("고객을 저장할 수 없습니다. 입력된 값을 확인해주세요. voucherId -> {0}, type -> {}, amount -> {}, customerId -> {}"
                     , voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount(), voucher.getOwnerId());
-            throw new InvalidDBAccessException(errorDescription);
+            throw new InvalidParameterException(errorDescription);
         }
     }
 
@@ -88,7 +89,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
                     namedParameterJdbcTemplate.queryForObject("select * from voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
         } catch (EmptyResultDataAccessException noResult) {
             logger.info("{} 로 해당되는 바우처가 존재하지 않습니다.", voucherId, noResult);
-        } catch (InvalidDBAccessException invalidVoucherType) {
+        } catch (InvalidParameterException invalidVoucherType) {
             logger.error("바우처를 생성할 수 없습니다. DB에 저장된 바우처 타입이 유효하지 않습니다. {}", invalidVoucherType.getMessage(), invalidVoucherType);
         }
         return Optional.empty();
@@ -97,7 +98,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
     public void deleteById(String voucherId) {
         int update = namedParameterJdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
         if (update != UPDATE_SUCCESS) {
-            throw new InvalidDBAccessException(
+            throw new InvalidParameterException(
                     MessageFormat.format(
                             "전달받은 ID에 대한 삭제가 성공하지 않았습니다. 사유: 해당 ID -> [{0}] 를 가진 바우처를 찾을 수 없음.", voucherId));
         }
