@@ -2,6 +2,7 @@ package com.example.springbootbasic.repository.customer;
 
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
+import com.example.springbootbasic.domain.voucher.Voucher;
 
 import java.util.List;
 

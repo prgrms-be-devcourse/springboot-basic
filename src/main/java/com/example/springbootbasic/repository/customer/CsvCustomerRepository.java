@@ -3,6 +3,7 @@ package com.example.springbootbasic.repository.customer;
 import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
+import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.parser.customer.CsvCustomerParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
