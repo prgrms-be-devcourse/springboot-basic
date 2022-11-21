@@ -1,8 +1,16 @@
 package org.prgrms.memory;
 
-import static org.prgrms.memory.query.VoucherSQL.*;
+import static org.prgrms.memory.query.VoucherSQL.DELETE_ALL;
+import static org.prgrms.memory.query.VoucherSQL.DELETE_BY_ID;
+import static org.prgrms.memory.query.VoucherSQL.FIND_ALL;
+import static org.prgrms.memory.query.VoucherSQL.FIND_BY_ID;
+import static org.prgrms.memory.query.VoucherSQL.INSERT;
+import static org.prgrms.memory.query.VoucherSQL.UPDATE;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
@@ -12,8 +20,9 @@ import org.prgrms.voucher.voucherType.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,10 +30,11 @@ import org.springframework.stereotype.Repository;
 public class VoucherDBMemory implements Memory {
 
 
-  private final JdbcTemplate jdbcTemplate;
+  private final NamedParameterJdbcTemplate jdbcTemplate;
+  private final int NO_RESULT = 0;
 
 
-  public VoucherDBMemory(JdbcTemplate jdbcTemplate) {
+  public VoucherDBMemory(NamedParameterJdbcTemplate jdbcTemplate) {
 
     this.jdbcTemplate = jdbcTemplate;
   }
@@ -39,15 +49,19 @@ public class VoucherDBMemory implements Memory {
 
 
   public Voucher save(Voucher voucher) {
+    Map<String, Object> paramMap = new HashMap<>() {{
+      put("id", String.valueOf(voucher.getVoucherId()));
+      put("voucherType", voucher.getVoucherType().name());
+      put("amountValue", voucher.getVoucherAmount().getValue());
+    }};
     try {
-      jdbcTemplate.update(INSERT.getSql(), String.valueOf(voucher.getVoucherId()),
-          voucher.getVoucherType().name(),
-          voucher.getVoucherAmount().getValue());
-    } catch (DataAccessException e) {
+      jdbcTemplate.update(INSERT.getSql(), paramMap);
+    } catch (BadSqlGrammarException e) {
       throw new DuplicateKeyException(
           "ID for this voucher already exists *current id: " + voucher.getVoucherId());
     }
-    return voucher;
+    int type = voucher.getVoucherType().getType();
+    return VoucherType.of(type).generateVoucherWithId(voucher.getVoucherId(), voucher.getVoucherAmount());
   }
 
   public List<Voucher> findAll() {
@@ -58,30 +72,31 @@ public class VoucherDBMemory implements Memory {
   public Optional<Voucher> findById(UUID id) {
 
     try {
-      Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID.getSql(), voucherRowMapper,
-          String.valueOf(id));
+      Voucher voucher = jdbcTemplate.queryForObject(FIND_BY_ID.getSql(),
+          Collections.singletonMap("id", String.valueOf(id)), voucherRowMapper);
       return Optional.ofNullable(voucher);
     } catch (DataAccessException e) {
       return Optional.empty();
     }
   }
 
-  public Optional<Voucher> deleteById(UUID id) {
-    Optional<Voucher> beforeDeletion = findById(id);
-    if (beforeDeletion.isPresent()) {
-      jdbcTemplate.update(DELETE_BY_ID.getSql(), String.valueOf(id));
-    }
-    return beforeDeletion;
+  public void deleteById(UUID id) {
+    jdbcTemplate.update(DELETE_BY_ID.getSql(), Collections.singletonMap("id", String.valueOf(id)));
   }
 
   public void deleteAll() {
-    jdbcTemplate.update(DELETE_ALL.getSql());
+    jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
   }
 
   public Voucher update(Voucher voucher) {
-    int updateNum = jdbcTemplate.update(UPDATE.getSql(), voucher.getVoucherType().name(),
-        voucher.getVoucherAmount().getValue(), String.valueOf(voucher.getVoucherId()));
-    if (updateNum == 0) {
+    Map<String, Object> paramMap = new HashMap<>() {{
+      put("voucherType", voucher.getVoucherType().name());
+      put("amountValue", voucher.getVoucherAmount().getValue());
+      put("id", String.valueOf(voucher.getVoucherId()));
+    }};
+
+    int updateNum = jdbcTemplate.update(UPDATE.getSql(), paramMap);
+    if (updateNum == NO_RESULT) {
       throw new NoSuchElementException(
           "That ID could not be found *current ID : " + voucher.getVoucherId());
     }
