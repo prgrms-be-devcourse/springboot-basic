@@ -12,7 +12,7 @@ import java.util.UUID;
 import static org.prgrms.kdtspringdemo.util.VoucherManagerUtil.toUUID;
 
 @Repository
-public class BlackListJdbcRepository implements BlackListRepository {
+public class BlackCustomerJdbcRepository implements BlackCustomerRepository {
     private static final String FIND_BLACK_LIST_SQL = "SELECT customer_id, email, birth_date FROM customers_demo WHERE black_list = true";
     private static final RowMapper<BlackCustomer> blackCustomerRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -22,7 +22,7 @@ public class BlackListJdbcRepository implements BlackListRepository {
     };
     private final JdbcTemplate jdbcTemplate;
 
-    public BlackListJdbcRepository(JdbcTemplate jdbcTemplate) {
+    public BlackCustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

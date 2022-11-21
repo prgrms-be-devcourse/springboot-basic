@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile({"default", "dev"})
-public class FileBlackCustomerRepository implements BlackListRepository {
+public class FileBlackCustomerRepository implements BlackCustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileBlackCustomerRepository.class);//static이 있어야 하는 이유를 확인
     private final CSVReader csvReader;
     private final Map<UUID, BlackCustomer> storage = new ConcurrentHashMap<>();
