@@ -2,17 +2,14 @@ package org.prgrms.kdt.customer;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.assertj.core.internal.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.prgrms.kdt.TestConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,45 +23,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@SpringJUnitConfig
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
 public class CustomerJdbcStorageTest {
 
-    @TestConfiguration
-    @ComponentScan(basePackages = {"org.prgrms.kdt.customer"})
-    static class Config {
-
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/voucher_mgmt")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
-            return new NamedParameterJdbcTemplate(dataSource);
-        }
-    }
+    private static final int NAME_LENGTH = 4;
 
     @Autowired
     private CustomerJdbcStorage customerJdbcStorage;
-
 
     private Customer customer;
     private String customerId;
     private EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setup() {
-        customerId = UUID.randomUUID().toString();
-        customer = new Customer(customerId, "user1", "user1@gmail.com");
+    void setJdbc() {
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -74,6 +49,13 @@ public class CustomerJdbcStorageTest {
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
                 .addSchema("voucher_mgmt", classPathScript("customer.sql"))
                 .start();
+    }
+
+    @BeforeEach
+    void setup() {
+        customerId = UUID.randomUUID().toString();
+        String name = RandomString.make(NAME_LENGTH);
+        customer = new Customer(customerId, name, name + "@gmail.com");
 
         customerJdbcStorage.insert(customer);
     }

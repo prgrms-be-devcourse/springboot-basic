@@ -2,20 +2,16 @@ package org.prgrms.kdt.storage;
 
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.prgrms.kdt.TestConfig;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,36 +25,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-@SpringJUnitConfig
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Import(TestConfig.class)
+@ExtendWith(SpringExtension.class)
 public class JdbcVoucherStorageTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"org.prgrms.kdt.storage"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/voucher_mgmt")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
-    private VoucherStorage jdbcVoucherStorage;
+    private JdbcVoucherStorage jdbcVoucherStorage;
 
     private String customerId;
     private Voucher voucher;
@@ -66,10 +40,7 @@ public class JdbcVoucherStorageTest {
     private EmbeddedMysql embeddedMysql;
 
     @BeforeAll
-    void setup() {
-        voucherId = UUID.randomUUID().toString();
-        customerId = UUID.randomUUID().toString();
-        voucher = new FixedAmountVoucher(voucherId, 1000, customerId);
+    void setjdbc() {
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(2215)
@@ -79,7 +50,13 @@ public class JdbcVoucherStorageTest {
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
                 .addSchema("voucher_mgmt", classPathScript("voucher.sql"))
                 .start();
+    }
 
+    @BeforeEach
+    void setup() {
+        voucherId = UUID.randomUUID().toString();
+        customerId = UUID.randomUUID().toString();
+        voucher = new FixedAmountVoucher(voucherId, 1000, customerId);
         jdbcVoucherStorage.save(voucher);
     }
 
@@ -95,11 +72,10 @@ public class JdbcVoucherStorageTest {
         Voucher newVoucher = new PercentDiscountVoucher(newVoucherId, 40);
 
         jdbcVoucherStorage.save(newVoucher);
+        Voucher findVoucher = jdbcVoucherStorage.findById(newVoucherId).get();
 
-        jdbcVoucherStorage.findById(newVoucherId)
-                .ifPresent(findVoucher ->
-                        assertThat(newVoucher).usingRecursiveComparison()
-                                .isEqualTo(findVoucher));
+        assertThat(newVoucher).usingRecursiveComparison()
+                .isEqualTo(findVoucher);
     }
 
     @Test
@@ -110,11 +86,10 @@ public class JdbcVoucherStorageTest {
         Voucher newVoucher = new FixedAmountVoucher(newVoucherId, 3000, newCustomerId);
 
         jdbcVoucherStorage.save(newVoucher);
+        Voucher findVoucher = jdbcVoucherStorage.findById(newVoucherId).get();
 
-        jdbcVoucherStorage.findById(newVoucherId)
-                .ifPresent(findVoucher ->
-                        assertThat(newVoucher).usingRecursiveComparison()
-                                .isEqualTo(findVoucher));
+        assertThat(newVoucher).usingRecursiveComparison()
+                .isEqualTo(findVoucher);
 
     }
 
@@ -141,19 +116,20 @@ public class JdbcVoucherStorageTest {
     @Test
     @DisplayName("바우처 ID를 사용하여 특정 바우처를 찾을 수 있다.")
     void testFindVoucherById() {
-        jdbcVoucherStorage.findById(voucherId)
-                .ifPresent(findVoucher ->
-                        assertThat(voucher).usingRecursiveComparison()
-                                .isEqualTo(findVoucher)
-                );
+        Voucher findVoucher = jdbcVoucherStorage.findById(voucherId).get();
+
+        assertThat(voucher).usingRecursiveComparison()
+                .isEqualTo(findVoucher);
     }
 
     @Test
     @DisplayName("바우처 ID를 통하여 특정 바우처를 가진 고객 아이디 정보 가져올 수 있다.")
     void testCustomerIdBySpecificVoucher() {
-        jdbcVoucherStorage.findById(voucherId)
-                .flatMap(Voucher::getOwnerId)
-                .ifPresent(findCustomerId -> assertEquals(customerId, findCustomerId));
+        Voucher findVoucher = jdbcVoucherStorage.findById(voucherId).get();
+
+        String findCustomerId = findVoucher.getOwnerId().orElse(null);
+
+        assertEquals(customerId, findCustomerId);
     }
 
 }

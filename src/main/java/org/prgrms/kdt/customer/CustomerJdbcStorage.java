@@ -2,6 +2,7 @@ package org.prgrms.kdt.customer;
 
 import org.prgrms.kdt.exceptions.CustomerException;
 import org.prgrms.kdt.exceptions.InvalidDBAccessException;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+@Profile("jdbc")
 @Repository
 public class CustomerJdbcStorage implements CustomerStorage {
 
