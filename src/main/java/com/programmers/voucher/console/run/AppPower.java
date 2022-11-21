@@ -1,10 +1,10 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.console.run;
 
-public class ControllerPower {
+public class AppPower {
 
 	private static boolean runStatus = true;
 
-	private ControllerPower() {
+	private AppPower() {
 	}
 
 	public static void stop() {

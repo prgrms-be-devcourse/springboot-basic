@@ -1,6 +1,6 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.console.run;
 
-import static com.programmers.voucher.controller.Message.*;
+import static com.programmers.voucher.console.run.Message.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +9,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.programmers.voucher.console.io.Input;
+import com.programmers.voucher.console.io.Output;
+import com.programmers.voucher.core.exception.ExceptionMessage;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
 import com.programmers.voucher.domain.customer.service.CustomerService;
@@ -16,9 +19,6 @@ import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.domain.wallet.service.WalletService;
-import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.io.Input;
-import com.programmers.voucher.io.Output;
 
 public enum Command {
 
@@ -52,6 +52,8 @@ public enum Command {
 		}),
 	REMOVE_VOUCHER("remove",
 		(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService) -> {
+			List<Customer> customers = customerService.getAllCustomer();
+			customers.forEach(customer -> output.write(customer.toString()));
 			output.write(CUSTOMER_SELECT_OPTION.getMessage());
 			UUID customerId = UUID.fromString(input.read());
 			walletService.deleteByCustomerId(customerId);
@@ -91,7 +93,7 @@ public enum Command {
 		}),
 	EXIT("exit",
 		(Input input, Output output, VoucherService voucherService, CustomerService customerService, WalletService walletService) -> {
-			ControllerPower.stop();
+			AppPower.stop();
 		});
 
 	private static final Logger log = LoggerFactory.getLogger(Command.class);

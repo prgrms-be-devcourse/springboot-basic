@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.voucher.core.exception.ExceptionMessage;
+import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.voucher.model.Voucher;
-import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
 @Profile("local")

@@ -1,4 +1,4 @@
-package com.programmers.voucher.config;
+package com.programmers.voucher.core.config;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,10 +8,10 @@ import java.io.OutputStreamWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.programmers.voucher.io.ConsoleInput;
-import com.programmers.voucher.io.ConsoleOutput;
-import com.programmers.voucher.io.Input;
-import com.programmers.voucher.io.Output;
+import com.programmers.voucher.console.io.ConsoleInput;
+import com.programmers.voucher.console.io.ConsoleOutput;
+import com.programmers.voucher.console.io.Input;
+import com.programmers.voucher.console.io.Output;
 
 @Configuration
 public class AppConfig {

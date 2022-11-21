@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.programmers.voucher.exception.ExceptionMessage;
+import com.programmers.voucher.core.exception.ExceptionMessage;
 
 public class FixedDiscountVoucher extends Voucher {
 

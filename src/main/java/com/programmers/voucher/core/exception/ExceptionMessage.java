@@ -1,4 +1,4 @@
-package com.programmers.voucher.exception;
+package com.programmers.voucher.core.exception;
 
 public enum ExceptionMessage {
 

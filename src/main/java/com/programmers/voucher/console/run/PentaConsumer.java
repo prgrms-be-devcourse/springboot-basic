@@ -1,4 +1,4 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.console.run;
 
 @FunctionalInterface
 public interface PentaConsumer<T, U, V, W, X> {

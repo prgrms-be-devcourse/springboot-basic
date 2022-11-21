@@ -1,4 +1,4 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher.console.io;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.programmers.voucher.exception.EmptyBufferException;
-import com.programmers.voucher.exception.ExceptionMessage;
+import com.programmers.voucher.core.exception.EmptyBufferException;
+import com.programmers.voucher.core.exception.ExceptionMessage;
 
 public class ConsoleOutput implements Output {
 

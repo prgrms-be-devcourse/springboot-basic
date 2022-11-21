@@ -1,11 +1,9 @@
 package com.programmers.voucher.domain.customer.repository;
 
-import java.nio.ByteBuffer;
-import java.sql.ResultSet;
-import java.time.LocalDateTime;
+import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
+
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -15,15 +13,14 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.voucher.core.exception.DataUpdateException;
+import com.programmers.voucher.core.exception.ExceptionMessage;
+import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.customer.model.Customer;
 import com.programmers.voucher.domain.customer.model.CustomerType;
-import com.programmers.voucher.exception.DataUpdateException;
-import com.programmers.voucher.exception.ExceptionMessage;
-import com.programmers.voucher.exception.NotFoundException;
 
 @Repository
 @Profile({"jdbc", "test"})
@@ -40,7 +37,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	public Customer save(Customer customer) {
 		int save = jdbcTemplate.update(
 			"INSERT INTO customers(customer_id, customer_type, created_at, last_modified_at) VALUES (UUID_TO_BIN(:customerId), :customerType, :createdAt, :lastModifiedAt)",
-			toParamMap(customer));
+			toCustomerParamMap(customer));
 
 		if (save != 1) {
 			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
@@ -53,7 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	public Customer findById(UUID customerId) {
 		return Optional.ofNullable(
 				jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-					toIdMap(customerId),
+					toCustomerIdMap(customerId),
 					customerRowMapper))
 			.orElseThrow(() -> {
 				log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
@@ -65,7 +62,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	public Customer update(Customer updateCustomer) {
 		int update = jdbcTemplate.update(
 			"UPDATE customers SET customer_type = :customerType, last_modified_at = :lastModifiedAt WHERE customer_id = UUID_TO_BIN(:customerId)",
-			toParamMap(updateCustomer));
+			toCustomerParamMap(updateCustomer));
 
 		if (update != 1) {
 			log.error(ExceptionMessage.DATA_UPDATE_FAIL.getMessage());
@@ -77,7 +74,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public void delete(UUID customerId) {
 		int delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-			toIdMap(customerId));
+			toCustomerIdMap(customerId));
 
 		if (delete != 1) {
 			log.error(ExceptionMessage.CUSTOMER_NOT_FOUND.getMessage());
@@ -102,31 +99,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public void clear() {
 		jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
-	}
-
-	private Map<String, Object> toParamMap(Customer customer) {
-		return Map.of(
-			"customerId", customer.getCustomerId().toString(),
-			"customerType", customer.getCustomerType().name(),
-			"createdAt", customer.getCreatedAt(),
-			"lastModifiedAt", customer.getLastModifiedAt()
-		);
-	}
-
-	private Map<String, Object> toIdMap(UUID customerId) {
-		return Collections.singletonMap("customerId", customerId.toString());
-	}
-
-	private RowMapper<Customer> customerRowMapper = (ResultSet rs, int rowNum) -> {
-		UUID customerId = toUUID(rs.getBytes("customer_id"));
-		LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
-		CustomerType customerType = CustomerType.getCustomerType(rs.getString("customer_type"));
-		LocalDateTime lastModifiedAt = rs.getObject("last_modified_at", LocalDateTime.class);
-		return new Customer(customerId, createdAt, customerType, lastModifiedAt);
-	};
-
-	private UUID toUUID(byte[] bytes) {
-		ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
 	}
 }

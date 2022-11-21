@@ -1,4 +1,4 @@
-package com.programmers.voucher.io;
+package com.programmers.voucher.console.io;
 
 public interface Output {
 

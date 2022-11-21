@@ -1,13 +1,16 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.console;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import com.programmers.voucher.console.io.Input;
+import com.programmers.voucher.console.io.Output;
+import com.programmers.voucher.console.run.AppPower;
+import com.programmers.voucher.console.run.Command;
+import com.programmers.voucher.console.run.Message;
 import com.programmers.voucher.domain.customer.service.CustomerService;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.domain.wallet.service.WalletService;
-import com.programmers.voucher.io.Input;
-import com.programmers.voucher.io.Output;
 
 @Controller
 public class ConsoleVoucherApp implements Runnable {
@@ -30,7 +33,7 @@ public class ConsoleVoucherApp implements Runnable {
 
 	@Override
 	public void run() {
-		while (ControllerPower.isRunning()) {
+		while (AppPower.isRunning()) {
 			try {
 				output.write(Message.COMMAND_OPTION.getMessage());
 				Command chosenCommand = Command.getCommand(input.read());

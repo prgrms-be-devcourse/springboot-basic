@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import com.programmers.voucher.controller.ConsoleVoucherApp;
+import com.programmers.voucher.console.ConsoleVoucherApp;
 
 @SpringBootApplication
 public class VoucherApplication {
