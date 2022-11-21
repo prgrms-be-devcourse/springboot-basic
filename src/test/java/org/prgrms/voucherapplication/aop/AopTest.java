@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringJUnitConfig
@@ -44,7 +45,7 @@ class AopTest {
         OutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
         voucherRepository.save(fixedAmountVoucher);
 
         MatcherAssert.assertThat(out.toString(), Matchers.containsString("LoggingAspect - Before method called."));

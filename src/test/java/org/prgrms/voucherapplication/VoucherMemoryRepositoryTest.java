@@ -14,6 +14,7 @@ import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.repository.VoucherMemoryRepository;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -30,8 +31,8 @@ public class VoucherMemoryRepositoryTest {
     class save {
 
         Stream<Arguments> createVouchers() {
-            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 90);
+            FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
+            PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 90, LocalDateTime.now());
 
             return Stream.of(
                     Arguments.of(fixedAmountVoucher, 1),
