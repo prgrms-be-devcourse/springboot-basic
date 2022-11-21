@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
-    Voucher update(Voucher voucher);
     Voucher findById(long voucherId);
     List<Voucher> findAllVouchers();
     List<Voucher> findAllVouchersByVoucherType(VoucherType voucherType);

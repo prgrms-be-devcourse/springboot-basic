@@ -34,18 +34,13 @@ public class VoucherService {
         return voucherRepository.findAllVouchersByVoucherType(voucherType);
     }
 
-    public Voucher update(Voucher voucher) {
-        logger.info("Success - update : {}", voucher.toString());
-        return voucherRepository.update(voucher);
-    }
-
     public void deleteAllVouchers() {
         logger.info("Success - deleteAllVouchers");
-        voucherRepository.deleteAll();
+        voucherRepository.deleteAllVouchers();
     }
 
     public void deleteVouchersByVoucherType(VoucherType voucherType) {
         logger.error("Success - deleteVouchersByVoucherType");
-        voucherRepository.deleteVouchersByVoucherType(voucherType);
+//        voucherRepository.deleteVouchersByVoucherType(voucherType);
     }
 }
