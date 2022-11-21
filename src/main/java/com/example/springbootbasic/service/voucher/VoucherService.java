@@ -38,9 +38,4 @@ public class VoucherService {
         logger.info("Success - deleteAllVouchers");
         voucherRepository.deleteAllVouchers();
     }
-
-    public void deleteVouchersByVoucherType(VoucherType voucherType) {
-        logger.error("Success - deleteVouchersByVoucherType");
-//        voucherRepository.deleteVouchersByVoucherType(voucherType);
-    }
 }
