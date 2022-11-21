@@ -59,12 +59,13 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public void used() {
-        if (used) throw new IllegalAccessError("! This voucher has already been used.");
+        if (used) throw new IllegalArgumentException("! 이미 사용된 바우처입니다.");
         used = true;
     }
 
     @Override
     public void assignCustomer(UUID customerId) {
+        if (assignedCustomerId != null) throw new IllegalArgumentException("! 이미 할당된 바우처 입니다.");
         assignedCustomerId = customerId;
     }
 

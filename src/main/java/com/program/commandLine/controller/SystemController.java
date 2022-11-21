@@ -45,7 +45,7 @@ public class SystemController implements Runnable {
                     case CUSTOMER -> customerServiceRun();
                     case VOUCHER -> voucherServiceRun();
                     case EXIT -> {
-                        console.successMessageView("  프로그램 종료  ");
+                        console.successMessageView("* 프로그램 종료 * ");
                         systemFlag = false;
                     }
                 }
@@ -78,7 +78,7 @@ public class SystemController implements Runnable {
             case CREATE -> voucherController.createVoucher();
             case ALLOCATE -> voucherWalletController.assignCustomer();
             case RETRIEVE -> voucherWalletController.retrieveVoucher();
-            case LIST -> voucherController.lookupAllVoucherList();
+            case LIST -> voucherWalletController.lookupAssignedVouchersByCustomer();
             case CUSTOMER -> voucherWalletController.lookupCustomerWithVoucher();
         }
     }

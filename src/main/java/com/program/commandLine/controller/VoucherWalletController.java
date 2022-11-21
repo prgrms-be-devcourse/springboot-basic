@@ -23,7 +23,10 @@ public class VoucherWalletController {
     }
 
     public void assignCustomer() {
-        Voucher selectVoucher = choiceVoucher();
+        List<Voucher> allVoucher = voucherService.getAssignedVouchersByCustomer(null);
+        console.voucherListView(allVoucher);
+        String voucherIndex = console.input("할당할 바우처 번호를 입력하세요 : ");
+        Voucher selectVoucher =  allVoucher.get(Integer.parseInt(voucherIndex)-1);
         String customerName = console.input("할당할 고객 이름을 입력하세요 : ");
 
         voucherService.assignCustomer(selectVoucher, customerService.getCustomerByName(customerName).getCustomerId());
@@ -50,7 +53,10 @@ public class VoucherWalletController {
     }
 
     public void lookupCustomerWithVoucher() {
-        Voucher selectVoucher = choiceVoucher();
+        List<Voucher> allVoucher = voucherService.getAllVoucher();
+        console.voucherListView(allVoucher);
+        String voucherIndex = console.input("선택할 바우처 번호를 입력하세요 : ");
+        Voucher selectVoucher =  allVoucher.get(Integer.parseInt(voucherIndex)-1);
         if (voucherService.getAssignedCustomer(selectVoucher).isPresent()) {
             Customer customer = customerService.getCustomerById(voucherService.getAssignedCustomer(selectVoucher).get());
             console.customerView(customer);
@@ -60,10 +66,4 @@ public class VoucherWalletController {
 
     }
 
-    private Voucher choiceVoucher() {
-        List<Voucher> allVoucher = voucherService.getAllVoucher();
-        console.voucherListView(allVoucher);
-        String voucherIndex = console.input("선택할 바우처 번호를 입력하세요 : ");
-        return allVoucher.get(Integer.parseInt(voucherIndex)-1);
-    }
 }

@@ -22,11 +22,11 @@ public class BlackListCustomer implements Customer {
     }
 
     public BlackListCustomer(UUID customerId, String name, String email, LocalDateTime lastLoginAt) {
-        this.lastLoginAt = lastLoginAt;
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        this.lastLoginAt = lastLoginAt;
     }
 
     @Override
@@ -54,8 +54,8 @@ public class BlackListCustomer implements Customer {
         return lastLoginAt;
     }
 
-    public void login() throws IllegalAccessException {
+    public void login() {
         logger.warn("블랙 리스트 고객이 로그인을 시도하였습니다.");
-        throw new IllegalAccessException("! BlackList customer cannot log in");
+        throw new RuntimeException("! 블랙 리스트 고객은 로그인 할수없습니다.");
     }
 }

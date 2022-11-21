@@ -34,7 +34,7 @@ class VoucherServiceTest {
 
         // Then
         verify(voucherFactoryMock).createVoucher(VoucherType.FIXED_AMOUNT_DISCOUNT, voucherId, 20);
-        verify(voucherRepositoryMock).insertVoucher(voucher);
+        verify(voucherRepositoryMock).insert(voucher);
 
     }
 
@@ -52,7 +52,7 @@ class VoucherServiceTest {
 
         // Then
         verify(voucherFactoryMock).createVoucher(VoucherType.PERCENT_DISCOUNT, voucherId, 20);
-        verify(voucherRepositoryMock).insertVoucher(voucher);
+        verify(voucherRepositoryMock).insert(voucher);
 
     }
 
@@ -63,7 +63,7 @@ class VoucherServiceTest {
         var voucherRepository = new MemoryVoucherRepository();
         var voucherFactory = new VoucherFactory();
         var voucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        voucherRepository.insertVoucher(voucher);
+        voucherRepository.insert(voucher);
 
         var sut = new VoucherService(voucherRepository, voucherFactory);
 

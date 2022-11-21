@@ -45,7 +45,7 @@ public class CustomerService {
                 blackListConsumers.add(customerFactory.createCustomer(CustomerType.BLACK_LIST_CUSTOMER,UUID.randomUUID(), customerInfo[0], customerInfo[1]));
             });
         } catch (IOException error) {
-            throw new RuntimeException("!! 블랙리스트 파일 오픈을 실패하였습니다.");
+            throw new RuntimeException("! 블랙리스트 파일 오픈을 실패하였습니다.");
         }
     }
 

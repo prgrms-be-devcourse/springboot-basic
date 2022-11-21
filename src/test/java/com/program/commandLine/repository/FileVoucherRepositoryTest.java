@@ -25,7 +25,7 @@ class FileVoucherRepositoryTest {
         // Given
         var voucherId = UUID.randomUUID();
         var newVoucher = new FixedAmountVoucher(voucherId, 4200);
-        fileVoucherRepository.insertVoucher(newVoucher);
+        fileVoucherRepository.insert(newVoucher);
         // When
         var findVoucher = fileVoucherRepository.findById(voucherId);
         // Then
@@ -53,7 +53,7 @@ class FileVoucherRepositoryTest {
         var discount = 30;
         var voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
         // When
-        var newVoucher = fileVoucherRepository.insertVoucher(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
+        var newVoucher = fileVoucherRepository.insert(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
         // Then
         assertThat(newVoucher, notNullValue());
         assertThat(newVoucher.getVoucherId(), is(voucherId));
@@ -66,7 +66,7 @@ class FileVoucherRepositoryTest {
     void testFindAll() {
         // Given
         var newVoucher = new FixedAmountVoucher(UUID.randomUUID(),  3000);
-        fileVoucherRepository.insertVoucher(newVoucher);
+        fileVoucherRepository.insert(newVoucher);
         // When
         var vouchers = fileVoucherRepository.findAll();
         // Then

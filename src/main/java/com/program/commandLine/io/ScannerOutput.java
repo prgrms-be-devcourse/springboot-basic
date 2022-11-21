@@ -33,7 +33,7 @@ public class ScannerOutput implements Output {
                         "allocate 바우처 할당" + NEWLINE +
                         "retrieve 바우처 회수"+ NEWLINE +
                         "list 고객별 바우처 조회"+ NEWLINE +
-                        "Customer 바우처 보유 고객 조회");
+                        "customer 바우처 보유 고객 조회");
             }
         }
 

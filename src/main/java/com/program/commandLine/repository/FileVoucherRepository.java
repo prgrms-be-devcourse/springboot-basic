@@ -45,7 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
                 fileRead();
             } catch (Exception e) {
                 logger.warn("바우처 리소스 파일 열기에 실패" + e.getMessage());
-                throw new RuntimeException("! Failed to open voucher file");
+                throw new RuntimeException("! 바우처 파일 열기에 실패하였습니다.");
             }
         }
     }
@@ -57,7 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insertVoucher(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
@@ -65,6 +65,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return voucher;
     }
 
     @Override

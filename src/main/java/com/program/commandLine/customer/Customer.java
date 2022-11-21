@@ -7,7 +7,7 @@ public interface Customer {
 
     default void validateName(String name){
         if(name.isBlank()){
-            throw new RuntimeException("Name should not be black");
+            throw new IllegalArgumentException("! 이름을 입력하세요");
         }
     }
 
@@ -21,4 +21,5 @@ public interface Customer {
 
     LocalDateTime getLastLoginAt();
 
+    void login() ;
 }

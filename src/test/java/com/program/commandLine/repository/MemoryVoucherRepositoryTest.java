@@ -21,7 +21,7 @@ class MemoryVoucherRepositoryTest {
         // Given
         var voucherId = UUID.randomUUID();
         var newVoucher = new FixedAmountVoucher(voucherId, 4200);
-        memoryVoucherRepository.insertVoucher(newVoucher);
+        memoryVoucherRepository.insert(newVoucher);
         // When
         var findVoucher = memoryVoucherRepository.findById(voucherId);
         // Then
@@ -49,7 +49,7 @@ class MemoryVoucherRepositoryTest {
         var discount = 30;
         var voucherType = VoucherType.PERCENT_DISCOUNT;
         // When
-        var newVoucher = memoryVoucherRepository.insertVoucher(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
+        var newVoucher = memoryVoucherRepository.insert(new VoucherFactory().createVoucher(voucherType, voucherId, discount));
         // Then
         assertThat(newVoucher, notNullValue());
         assertThat(newVoucher.getVoucherId(), is(voucherId));
@@ -62,7 +62,7 @@ class MemoryVoucherRepositoryTest {
     void testFindAll() {
         // Given
         var newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
-        memoryVoucherRepository.insertVoucher(newVoucher);
+        memoryVoucherRepository.insert(newVoucher);
         // When
         var vouchers = memoryVoucherRepository.findAll();
         // Then

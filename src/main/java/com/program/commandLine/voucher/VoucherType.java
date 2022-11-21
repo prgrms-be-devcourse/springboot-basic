@@ -20,7 +20,7 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(type -> Objects.equals(type.numberType, symbol) || Objects.equals(type.stringType, symbol))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("! Wrong type input. Please enter only given number"));
+                .orElseThrow(() -> new IllegalArgumentException("! 잘못된 입력입니다. 생성할 바우처 타입을 숫자로 입력해주세요"));
     }
 
     public String getString() {

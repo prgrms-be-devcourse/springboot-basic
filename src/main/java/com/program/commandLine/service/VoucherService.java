@@ -25,7 +25,7 @@ public class VoucherService {
     public Voucher createVoucher(String voucherTypeNumber, UUID voucherId, int discount) {
         VoucherType voucherType = VoucherType.getType(voucherTypeNumber);
         Voucher newVoucher = voucherFactory.createVoucher(voucherType, voucherId, discount);
-        return voucherRepository.insertVoucher(newVoucher);
+        return voucherRepository.insert(newVoucher);
     }
 
     public List<Voucher> getAllVoucher() {
@@ -34,6 +34,7 @@ public class VoucherService {
 
     public Voucher assignCustomer(Voucher voucher, UUID customerId) {
         voucher.assignCustomer(customerId);
+        voucherRepository.update(voucher);
         return voucher;
     }
 
@@ -41,8 +42,10 @@ public class VoucherService {
         return voucherRepository.findByAssignedCustomer(customerId);
     }
 
-    public void retrieveVoucher(Voucher voucher) {
+    public Voucher retrieveVoucher(Voucher voucher) {
         voucher.retrieved();
+        voucherRepository.update(voucher);
+        return voucher;
     }
 
     public Optional<UUID> getAssignedCustomer(Voucher voucher) {
