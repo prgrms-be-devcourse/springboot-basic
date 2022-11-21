@@ -35,16 +35,12 @@ public class PercentVoucher implements Voucher {
     }
 
     public PercentVoucher(UUID uuid, int percent, VoucherType voucherType) {
-        validate(percent);
-        this.id = uuid;
-        this.percent = percent;
+        this(uuid, percent);
         this.voucherType = voucherType;
     }
 
     public PercentVoucher(int percent, VoucherType voucherType) {
-        validate(percent);
-        this.id = UUID.randomUUID();
-        this.percent = percent;
+        this(percent);
         this.voucherType = voucherType;
     }
 
@@ -62,7 +58,7 @@ public class PercentVoucher implements Voucher {
     }
 
     @Override
-    public int getDiscountRate() {
+    public int getDiscountAmount() {
         return percent;
     }
 
