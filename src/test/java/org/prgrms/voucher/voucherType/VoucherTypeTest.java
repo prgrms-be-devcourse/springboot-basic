@@ -17,7 +17,7 @@ public class VoucherTypeTest {
   @Test
   void isFixedType() {
     //given
-    long fixed = 1L;
+    int fixed = 1;
     //when
     VoucherType voucherType = VoucherType.of(fixed);
     //then
@@ -28,7 +28,7 @@ public class VoucherTypeTest {
   @Test
   void isPercentType() {
     //given
-    long percent = 2L;
+    int percent = 2;
     //when
     VoucherType voucherType = VoucherType.of(percent);
     //then
@@ -39,7 +39,7 @@ public class VoucherTypeTest {
   @Test
   void isNoMatchingType() {
     //given
-    long noType = 3L;
+    int noType = 3;
     //when&then
     assertThrows(NoSuchVoucherTypeException.class, () -> VoucherType.of(noType),
         noType + "은 존재하지 않습니다. 다시입력해주세요");
