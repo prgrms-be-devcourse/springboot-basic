@@ -7,7 +7,7 @@ import java.util.Scanner;
 @Component
 public class Console implements Input, Output {
 
-    private static final String ENGLISH = "^[a-zA-Z]*$";
+    private static final String ENGLISH_REGEX = "^[a-zA-Z]*$";
 
     @Override
     public void display(String string) {
@@ -19,7 +19,7 @@ public class Console implements Input, Output {
         Scanner scanner = new Scanner(System.in);
         String inputString = scanner.nextLine();
 
-        if (inputString.matches(ENGLISH)) {
+        if (inputString.matches(ENGLISH_REGEX)) {
             inputString = inputString.toUpperCase();
         }
         return inputString;

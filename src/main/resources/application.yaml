@@ -13,8 +13,16 @@ file-path:
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: file
 
 file-path:
   voucher: src/voucherFile.csv
+  blacklist: src/main/resources/customer_blacklist.csv
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+file-path:
   blacklist: src/main/resources/customer_blacklist.csv

@@ -3,15 +3,18 @@ package org.prgrms.voucherapplication.voucher.controller;
 import org.prgrms.voucherapplication.console.CommandType;
 import org.prgrms.voucherapplication.console.Input;
 import org.prgrms.voucherapplication.console.Output;
-import org.prgrms.voucherapplication.customer.CustomerService;
-import org.prgrms.voucherapplication.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.customer.service.CustomerService;
+import org.prgrms.voucherapplication.customer.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.voucher.entity.VoucherConstructorException;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
+import org.prgrms.voucherapplication.voucher.entity.VoucherTypeOfException;
 import org.prgrms.voucherapplication.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -81,36 +84,42 @@ public class VoucherController {
     public void create() {
         VoucherType voucherType = getVoucherType();
 
-        String discount;
-        Voucher voucher;
-        try {
+        boolean isSuccess = false;
+        while (!isSuccess) {
+            String discount;
+            Voucher voucher;
+
             discount = input.command();
-            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage());
-            discount = input.command();
-            voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount));
+            try {
+                voucher = voucherType.createVoucher(UUID.randomUUID(), Integer.parseInt(discount), LocalDateTime.now());
+            } catch (VoucherConstructorException e) {
+                continue;
+            }
+
+            voucherService.create(voucher);
+            isSuccess = true;
         }
-        voucherService.create(voucher);
     }
 
     public VoucherType getVoucherType() {
-        output.display(REQUEST_MESSAGE_VOUCHER_TYPE);
-        String voucherNames = VoucherType.getNames();
-        output.display(voucherNames);
-        String voucherNameInput = input.command();
-        VoucherType voucherType;
+        VoucherType voucherType = null;
 
-        try {
-            voucherType = VoucherType.of(voucherNameInput);
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage());
+        boolean isSuccess = false;
+        while (!isSuccess) {
+            output.display(REQUEST_MESSAGE_VOUCHER_TYPE);
+            String voucherNames = VoucherType.getNames();
             output.display(voucherNames);
-            voucherNameInput = input.command();
-            voucherType = VoucherType.of(voucherNameInput);
-        }
+            String voucherNameInput = input.command();
 
-        output.display(voucherType.getDiscountGuide());
+            try {
+                voucherType = VoucherType.of(voucherNameInput);
+            } catch (VoucherTypeOfException e) {
+                continue;
+            }
+
+            output.display(voucherType.getDiscountGuide());
+            isSuccess = true;
+        }
         return voucherType;
     }
 }

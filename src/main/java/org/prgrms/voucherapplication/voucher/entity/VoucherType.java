@@ -1,9 +1,7 @@
 package org.prgrms.voucherapplication.voucher.entity;
 
-import org.prgrms.voucherapplication.common.VoucherException;
-
+import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
@@ -14,9 +12,9 @@ public enum VoucherType {
 
     private final int order;
     private final String discountGuide;
-    private final BiFunction<UUID, Integer, Voucher> constructor;
+    private final TriFunction<UUID, Integer, LocalDateTime, Voucher> constructor;
 
-    VoucherType(int order, String discountGuide, BiFunction<UUID, Integer, Voucher> constructor) {
+    VoucherType(int order, String discountGuide, TriFunction<UUID, Integer, LocalDateTime, Voucher> constructor) {
         this.order = order;
         this.discountGuide = discountGuide;
         this.constructor = constructor;
@@ -39,10 +37,15 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(voucherType -> voucherType.name().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new VoucherException(NOT_EXIST));
+                .orElseThrow(() -> new VoucherTypeOfException(NOT_EXIST));
     }
 
-    public Voucher createVoucher(UUID uuid, int discount) {
-        return this.constructor.apply(uuid, discount);
+    public Voucher createVoucher(UUID uuid, int discount, LocalDateTime createdAt) {
+        return this.constructor.apply(uuid, discount, createdAt);
+    }
+
+    @FunctionalInterface
+    interface TriFunction<T, U, V, R> {
+        R apply(T t, U u, V v);
     }
 }

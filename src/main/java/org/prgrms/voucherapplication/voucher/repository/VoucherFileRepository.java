@@ -1,18 +1,20 @@
 package org.prgrms.voucherapplication.voucher.repository;
 
-import org.prgrms.voucherapplication.voucher.service.CsvFileService;
 import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
+import org.prgrms.voucherapplication.voucher.service.CsvFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Profile("prod")
+@Profile("file")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
@@ -25,9 +27,10 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String line = voucher.toString();
         csvFileService.write(voucherFile, line);
+        return voucher;
     }
 
     @Override
@@ -35,6 +38,11 @@ public class VoucherFileRepository implements VoucherRepository {
         List<String> readFileLines = csvFileService.readFileLines(voucherFile);
 
         return fileLinesIntoVouchers(readFileLines);
+    }
+
+    @Override
+    public int deleteAll() {
+        return 0;
     }
 
     private List<Voucher> fileLinesIntoVouchers(List<String> readFileLines) {
@@ -45,18 +53,24 @@ public class VoucherFileRepository implements VoucherRepository {
             String voucherTypeName = voucherToString.substring(0, voucherTypeNameEndIndex);
             VoucherType voucherType = VoucherType.of(voucherTypeName);
 
-            String[] split = voucherToString.split("=");
-            final String notNumber = "\\D";
-            for (int i = 0; i < split.length; i++) {
-                split[i] = split[i].replaceAll(notNumber, "");
-            }
+            String voucherId = parseIndexOf(voucherToString, "uuid=", ", discount=");
+            String discountStr = parseIndexOf(voucherToString, "discount=", ", voucherType=");
+            String createdAtStr = parseIndexOf(voucherToString, "createdAt=", "}");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
 
-            UUID uuid = UUID.fromString(split[1]);
-            int discount = Integer.parseInt(split[2]);
-            Voucher voucher = voucherType.createVoucher(uuid, discount);
+            UUID uuid = UUID.fromString(voucherId);
+            int discount = Integer.parseInt(discountStr);
+            LocalDateTime createdAt = LocalDateTime.parse(createdAtStr, formatter);
+            Voucher voucher = voucherType.createVoucher(uuid, discount, createdAt);
             voucherList.add(voucher);
         }
 
         return voucherList;
+    }
+
+    private String parseIndexOf(String string, String start, String end) {
+        int startIndex = string.indexOf(start);
+        int endIndex = string.indexOf(end);
+        return string.substring(startIndex + start.length(), endIndex);
     }
 }

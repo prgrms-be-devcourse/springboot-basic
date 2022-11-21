@@ -16,6 +16,16 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.0'
+	testImplementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.0'
+
+	implementation 'mysql:mysql-connector-java'
+	implementation 'com.h2database:h2:'
+
+	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+
+	implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.0'
 }
 
 tasks.named('test') {
