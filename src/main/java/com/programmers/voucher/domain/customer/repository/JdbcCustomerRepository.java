@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.customer.repository;
 
 import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
+import static com.programmers.voucher.domain.customer.repository.CustomerSQL.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -35,9 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Customer save(Customer customer) {
-		int save = jdbcTemplate.update(
-			"INSERT INTO customers(customer_id, customer_type, created_at, last_modified_at) VALUES (:customerId, :customerType, :createdAt, :lastModifiedAt)",
-			toCustomerParamMap(customer));
+		int save = jdbcTemplate.update(INSERT.getSql(), toCustomerParamMap(customer));
 
 		if (save != 1) {
 			log.error(DATA_UPDATE_FAIL.getMessage());
@@ -49,9 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Customer findById(UUID customerId) {
 		return Optional.ofNullable(
-				jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = :customerId",
-					toCustomerIdMap(customerId),
-					customerRowMapper))
+				jdbcTemplate.queryForObject(SELECT_BY_ID.getSql(), toCustomerIdMap(customerId), customerRowMapper))
 			.orElseThrow(() -> {
 				log.error(CUSTOMER_NOT_FOUND.getMessage());
 				throw new NotFoundException(CUSTOMER_NOT_FOUND.getMessage());
@@ -60,9 +57,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Customer update(Customer updateCustomer) {
-		int update = jdbcTemplate.update(
-			"UPDATE customers SET customer_type = :customerType, last_modified_at = :lastModifiedAt WHERE customer_id = :customerId",
-			toCustomerParamMap(updateCustomer));
+		int update = jdbcTemplate.update(UPDATE.getSql(), toCustomerParamMap(updateCustomer));
 
 		if (update != 1) {
 			log.error(DATA_UPDATE_FAIL.getMessage());
@@ -73,8 +68,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public void deleteById(UUID customerId) {
-		int delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = :customerId",
-			toCustomerIdMap(customerId));
+		int delete = jdbcTemplate.update(DELETE_BY_ID.getSql(), toCustomerIdMap(customerId));
 
 		if (delete != 1) {
 			log.error(CUSTOMER_NOT_FOUND.getMessage());
@@ -84,12 +78,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
-		return jdbcTemplate.query("SELECT * FROM customers", customerRowMapper);
+		return jdbcTemplate.query(SELECT_ALL.getSql(), customerRowMapper);
 	}
 
 	@Override
 	public List<Customer> findAllBlacklist() {
-		return jdbcTemplate.query("SELECT * FROM customers WHERE customer_type = :customerType",
+		return jdbcTemplate.query(SELECT_ALL_BLACKLIST.getSql(),
 				Collections.singletonMap("customerType", CustomerType.BLACKLIST.name()), customerRowMapper)
 			.stream()
 			.filter(customer -> customer.getCustomerType().equals(CustomerType.BLACKLIST))
@@ -98,6 +92,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public void clear() {
-		jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+		jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
 	}
 }

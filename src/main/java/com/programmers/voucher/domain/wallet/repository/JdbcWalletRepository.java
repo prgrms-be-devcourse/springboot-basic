@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.wallet.repository;
 
 import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
+import static com.programmers.voucher.domain.wallet.repository.WalletSQL.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,9 +34,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
 	@Override
 	public Wallet save(Wallet wallet) {
-		int save = jdbcTemplate.update(
-			"INSERT INTO wallets(voucher_id, customer_id, created_at) VALUES (:voucherId, :customerId, :createdAt)",
-			toWalletParamMap(wallet));
+		int save = jdbcTemplate.update(INSERT.getSql(), toWalletParamMap(wallet));
 
 		if (save != 1) {
 			log.error(DATA_UPDATE_FAIL.getMessage());
@@ -46,26 +45,22 @@ public class JdbcWalletRepository implements WalletRepository {
 
 	@Override
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-		return jdbcTemplate.query(
-			"SELECT v.* from wallets w INNER JOIN customers c ON w.customer_id = c.customer_id AND w.customer_id = :customerId INNER JOIN vouchers v ON w.voucher_id = v.voucher_id",
-			toCustomerIdMap(customerId), voucherRowMapper);
+		return jdbcTemplate.query(SELECT_VOUCHER_BY_CUSTOMER_ID.getSql(), toCustomerIdMap(customerId),
+			voucherRowMapper);
 	}
 
 	@Override
 	public List<Customer> findCustomersByVoucherId(UUID voucherId) {
-		return jdbcTemplate.query(
-			"SELECT c.* from wallets w INNER JOIN vouchers v ON w.voucher_id = v.voucher_id AND w.voucher_id = :voucherId INNER JOIN customers c ON w.customer_id = c.customer_id",
-			toVoucherIdMap(voucherId), customerRowMapper);
+		return jdbcTemplate.query(SELECT_CUSTOMER_BY_VOUCHER_ID.getSql(), toVoucherIdMap(voucherId), customerRowMapper);
 	}
 
 	@Override
 	public void deleteByCustomerId(UUID customerId) {
-		jdbcTemplate.update("DELETE FROM wallets WHERE customer_id = :customerId",
-			toCustomerIdMap(customerId));
+		jdbcTemplate.update(DELETE_BY_CUSTOMER_ID.getSql(), toCustomerIdMap(customerId));
 	}
 
 	@Override
 	public void clear() {
-		jdbcTemplate.update("DELETE FROM wallets", Collections.emptyMap());
+		jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
 	}
 }

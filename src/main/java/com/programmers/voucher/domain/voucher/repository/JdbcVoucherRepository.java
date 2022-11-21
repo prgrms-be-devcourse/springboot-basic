@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.repository;
 
 import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
+import static com.programmers.voucher.domain.voucher.repository.VoucherSQL.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,9 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher save(Voucher voucher) {
-		int save = jdbcTemplate.update(
-			"INSERT INTO vouchers(voucher_id, voucher_type, discount, created_at) VALUES (:voucherId, :voucherType, :discount, :createdAt)",
-			toVoucherParamMap(voucher));
+		int save = jdbcTemplate.update(INSERT.getSql(), toVoucherParamMap(voucher));
 
 		if (save != 1) {
 			log.error(DATA_UPDATE_FAIL.getMessage());
@@ -47,9 +46,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(
-				jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
-					toVoucherIdMap(voucherId),
-					voucherRowMapper))
+				jdbcTemplate.queryForObject(SELECT_BY_ID.getSql(), toVoucherIdMap(voucherId), voucherRowMapper))
 			.orElseThrow(() -> {
 				log.error(VOUCHER_NOT_FOUND.getMessage());
 				throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
@@ -58,8 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void deleteById(UUID voucherId) {
-		int delete = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId",
-			toVoucherIdMap(voucherId));
+		int delete = jdbcTemplate.update(DELETE_BY_ID.getSql(), toVoucherIdMap(voucherId));
 
 		if (delete != 1) {
 			log.error(VOUCHER_NOT_FOUND.getMessage());
@@ -69,11 +65,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+		return jdbcTemplate.query(SELECT_ALL.getSql(), voucherRowMapper);
 	}
 
 	@Override
 	public void clear() {
-		jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+		jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
 	}
 }
