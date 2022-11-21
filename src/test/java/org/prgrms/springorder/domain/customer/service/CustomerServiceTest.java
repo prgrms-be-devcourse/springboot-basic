@@ -68,7 +68,7 @@ class CustomerServiceTest {
         UUID percentVoucherId = UUID.randomUUID();
         Voucher percentAmountVoucher = new PercentDiscountVoucher(percentVoucherId, amount);
         List<Voucher> vouchers = List.of(fixedAmountVoucher, percentAmountVoucher);
-        Wallet wallet = new Wallet(customer, vouchers, customer1);
+        Wallet wallet = new Wallet(customer, vouchers);
 
         when(customerRepository.findByIdWithVouchers(customerId))
             .thenReturn(Optional.of(wallet));
