@@ -16,7 +16,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -35,12 +34,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 return customer;
             };
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString());
-            put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-        }};
-    }
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final ObjectMapper objectMapper;
     private final SimpleJdbcInsert jdbcInsert;
@@ -80,8 +74,12 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer updateLastLoginAt(Customer customer) {
+        Map <String, Object> map = Map.of(
+                "customerId", customer.getCustomerId().toString(),
+                "lastLoginAt", customer.getLastLoginAt()
+        );
         int update = jdbcTemplate.update("UPDATE CUSTOMERS SET last_login_at = :lastLoginAt WHERE customer_id = :customerId",
-                toParamMap(customer));
+                map);
         if (update != 1) {
             throw new NoAffectedRowException("Noting was updated");
         }
