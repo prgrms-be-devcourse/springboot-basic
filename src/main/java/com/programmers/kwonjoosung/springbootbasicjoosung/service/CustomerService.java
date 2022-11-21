@@ -31,12 +31,18 @@ public class CustomerService {
     }
 
     public boolean updateCustomer(UUID customerId, String customerName) {
-        Customer customer = new Customer(customerId, customerName);
-        return customerRepository.update(customer);
+        if (findCustomerByCustomerId(customerId).isPresent()) {
+            Customer newCustomer = new Customer(customerId, customerName);
+            return customerRepository.update(newCustomer);
+        }
+        return false;
     }
 
     public boolean deleteCustomer(UUID customerId) {
-        return customerRepository.delete(customerId);
+        if (findCustomerByCustomerId(customerId).isPresent()) {
+            return customerRepository.delete(customerId);
+        }
+        return false;
     }
 
     public List<Customer> getBlackList() {

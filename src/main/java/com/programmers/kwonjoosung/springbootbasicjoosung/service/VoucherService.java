@@ -46,7 +46,11 @@ public class VoucherService {
     }
 
     public boolean deleteVoucher(UUID voucherId) {
-        return voucherRepository.deleteById(voucherId);
+        if (findVoucher(voucherId).isPresent()) {
+            return voucherRepository.deleteById(voucherId);
+        }
+        return false;
+
     }
 
 
