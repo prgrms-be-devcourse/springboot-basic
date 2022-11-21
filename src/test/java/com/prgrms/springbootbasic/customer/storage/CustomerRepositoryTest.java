@@ -12,7 +12,6 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -35,11 +34,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("prod")
+@ActiveProfiles("test")
 @TestInstance(Lifecycle.PER_CLASS)
 class CustomerRepositoryTest {
-
-    private static final String tooLongName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
     @Configuration
     @ComponentScan(
@@ -73,7 +70,6 @@ class CustomerRepositoryTest {
     DataSource dataSource;
 
     private Customer customer;
-    private Customer wrongNameCustomer;
     private List<Customer> customerList;
 
     @BeforeAll
@@ -93,9 +89,6 @@ class CustomerRepositoryTest {
     @BeforeEach
     public void setup() {
         customer = new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test");
-        wrongNameCustomer = new Customer(UUID.randomUUID(),
-                LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS),
-                tooLongName);
         customerList = List.of(
                 new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test1"),
                 new Customer(UUID.randomUUID(), LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS), "test2"),
@@ -125,13 +118,6 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("영문 기준 50글자를 초과하면 저장에 실패한다.")
-    void saveFailStringTooLong() {
-        //when&then
-        assertThrows(DataIntegrityViolationException.class, () -> jdbcCustomerRepository.save(wrongNameCustomer));
-    }
-
-    @Test
     @DisplayName("id를 조회해서 Customer를 조회할 수 있다.")
     void findById() {
         //given
@@ -152,13 +138,15 @@ class CustomerRepositoryTest {
     @DisplayName("모든 Customer를 조회할 수 있다.")
     void findAll() {
         //given
-        customerList.forEach(jdbcCustomerRepository::save);
+        jdbcCustomerRepository.save(customerList.get(0));
+        jdbcCustomerRepository.save(customerList.get(1));
+        jdbcCustomerRepository.save(customerList.get(2));
 
         //when
-        List<Customer> foundCustomers = jdbcCustomerRepository.findAll();
+        int actual = jdbcCustomerRepository.findAll().size();
 
         //then
-        assertThat(customerList.size()).isEqualTo(foundCustomers.size());
+        assertThat(actual).isEqualTo(3);
     }
 
     @Test
@@ -199,18 +187,6 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("수정하고자 하는 이름이 너무 길면 Customer를 수정할 수 없다.")
-    void updateFailStringTooLong() {
-        //given
-        jdbcCustomerRepository.save(customer);
-
-
-        //when&then
-        customer.update(tooLongName);
-        assertThrows(DataIntegrityViolationException.class, () -> jdbcCustomerRepository.update(customer));
-    }
-
-    @Test
     @DisplayName("조회할 수 없는 PK값을 갖고있는 Customer를 update하려고 하면 실패한다.")
     void updateFailIdNotFound() {
         //given
@@ -226,14 +202,14 @@ class CustomerRepositoryTest {
     void deleteById() {
         //given
         jdbcCustomerRepository.save(customer);
-        List<Customer> foundBeforeDelete = jdbcCustomerRepository.findAll();
+        jdbcCustomerRepository.findAll();
 
         //when
         jdbcCustomerRepository.delete(customer.getId());
 
         //then
-        List<Customer> foundAfterDelete = jdbcCustomerRepository.findAll();
-        assertThat(foundAfterDelete.size()).isEqualTo(foundBeforeDelete.size() - 1);
+        int size = jdbcCustomerRepository.findAll().size();
+        assertThat(size).isEqualTo(0);
     }
 
     @Test
@@ -252,14 +228,14 @@ class CustomerRepositoryTest {
     void deleteByName() {
         //given
         jdbcCustomerRepository.save(customer);
-        List<Customer> foundBeforeDelete = jdbcCustomerRepository.findAll();
+        jdbcCustomerRepository.findAll();
 
         //when
         jdbcCustomerRepository.delete(customer.getName());
 
         //then
         List<Customer> foundAfterDelete = jdbcCustomerRepository.findAll();
-        assertThat(foundAfterDelete.size()).isEqualTo(foundBeforeDelete.size() - 1);
+        assertThat(foundAfterDelete.size()).isEqualTo(0);
     }
 
     @Test
