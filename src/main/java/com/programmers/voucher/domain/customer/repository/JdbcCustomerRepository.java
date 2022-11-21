@@ -36,7 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Customer save(Customer customer) {
 		int save = jdbcTemplate.update(
-			"INSERT INTO customers(customer_id, customer_type, created_at, last_modified_at) VALUES (UUID_TO_BIN(:customerId), :customerType, :createdAt, :lastModifiedAt)",
+			"INSERT INTO customers(customer_id, customer_type, created_at, last_modified_at) VALUES (:customerId, :customerType, :createdAt, :lastModifiedAt)",
 			toCustomerParamMap(customer));
 
 		if (save != 1) {
@@ -49,7 +49,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Customer findById(UUID customerId) {
 		return Optional.ofNullable(
-				jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+				jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = :customerId",
 					toCustomerIdMap(customerId),
 					customerRowMapper))
 			.orElseThrow(() -> {
@@ -61,7 +61,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Customer update(Customer updateCustomer) {
 		int update = jdbcTemplate.update(
-			"UPDATE customers SET customer_type = :customerType, last_modified_at = :lastModifiedAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+			"UPDATE customers SET customer_type = :customerType, last_modified_at = :lastModifiedAt WHERE customer_id = :customerId",
 			toCustomerParamMap(updateCustomer));
 
 		if (update != 1) {
@@ -73,7 +73,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public void delete(UUID customerId) {
-		int delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+		int delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = :customerId",
 			toCustomerIdMap(customerId));
 
 		if (delete != 1) {

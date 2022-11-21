@@ -1,6 +1,5 @@
 package com.programmers.voucher.core.util;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -18,11 +17,6 @@ import com.programmers.voucher.domain.wallet.model.Wallet;
 
 public class JdbcTemplateUtil {
 
-	public static UUID toUUID(byte[] bytes) {
-		ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-	}
-
 	public static Map<String, Object> toVoucherParamMap(Voucher voucher) {
 		return Map.of(
 			"voucherId", voucher.getVoucherId().toString(),
@@ -37,7 +31,7 @@ public class JdbcTemplateUtil {
 	}
 
 	public static RowMapper<Voucher> voucherRowMapper = (ResultSet rs, int rowNum) -> {
-		UUID voucherId = toUUID(rs.getBytes("voucher_id"));
+		UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
 		String discount = String.valueOf(rs.getDouble("discount"));
 		VoucherType voucherType = VoucherType.getVoucherType(rs.getString("voucher_type"));
 		LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
@@ -58,7 +52,7 @@ public class JdbcTemplateUtil {
 	}
 
 	public static RowMapper<Customer> customerRowMapper = (ResultSet rs, int rowNum) -> {
-		UUID customerId = toUUID(rs.getBytes("customer_id"));
+		UUID customerId = UUID.fromString(rs.getString("customer_id"));
 		LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
 		CustomerType customerType = CustomerType.getCustomerType(rs.getString("customer_type"));
 		LocalDateTime lastModifiedAt = rs.getObject("last_modified_at", LocalDateTime.class);

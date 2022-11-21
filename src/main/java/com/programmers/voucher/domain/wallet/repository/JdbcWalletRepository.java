@@ -33,7 +33,7 @@ public class JdbcWalletRepository implements WalletRepository {
 	@Override
 	public Wallet save(Wallet wallet) {
 		int save = jdbcTemplate.update(
-			"INSERT INTO wallets(voucher_id, customer_id, created_at) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId), :createdAt)",
+			"INSERT INTO wallets(voucher_id, customer_id, created_at) VALUES (:voucherId, :customerId, :createdAt)",
 			toWalletParamMap(wallet));
 
 		if (save != 1) {
@@ -46,20 +46,20 @@ public class JdbcWalletRepository implements WalletRepository {
 	@Override
 	public List<Voucher> findVouchersByCustomerId(UUID customerId) {
 		return jdbcTemplate.query(
-			"SELECT v.* from wallets w INNER JOIN customers c ON w.customer_id = c.customer_id AND w.customer_id = UUID_TO_BIN(:customerId) INNER JOIN vouchers v ON w.voucher_id = v.voucher_id",
+			"SELECT v.* from wallets w INNER JOIN customers c ON w.customer_id = c.customer_id AND w.customer_id = :customerId INNER JOIN vouchers v ON w.voucher_id = v.voucher_id",
 			toCustomerIdMap(customerId), voucherRowMapper);
 	}
 
 	@Override
 	public List<Customer> findCustomersByVoucherId(UUID voucherId) {
 		return jdbcTemplate.query(
-			"SELECT c.* from wallets w INNER JOIN vouchers v ON w.voucher_id = v.voucher_id AND w.voucher_id = UUID_TO_BIN(:voucherId) INNER JOIN customers c ON w.customer_id = c.customer_id",
+			"SELECT c.* from wallets w INNER JOIN vouchers v ON w.voucher_id = v.voucher_id AND w.voucher_id = :voucherId INNER JOIN customers c ON w.customer_id = c.customer_id",
 			toVoucherIdMap(voucherId), customerRowMapper);
 	}
 
 	@Override
 	public void deleteByCustomerId(UUID customerId) {
-		jdbcTemplate.update("DELETE FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId)",
+		jdbcTemplate.update("DELETE FROM wallets WHERE customer_id = :customerId",
 			toCustomerIdMap(customerId));
 	}
 }

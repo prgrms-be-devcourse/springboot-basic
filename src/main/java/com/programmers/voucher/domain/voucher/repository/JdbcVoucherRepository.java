@@ -34,7 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Voucher save(Voucher voucher) {
 		int save = jdbcTemplate.update(
-			"INSERT INTO vouchers(voucher_id, voucher_type, discount, created_at) VALUES (UUID_TO_BIN(:voucherId), :voucherType, :discount, :createdAt)",
+			"INSERT INTO vouchers(voucher_id, voucher_type, discount, created_at) VALUES (:voucherId, :voucherType, :discount, :createdAt)",
 			toVoucherParamMap(voucher));
 
 		if (save != 1) {
@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Voucher findById(UUID voucherId) {
 		return Optional.ofNullable(
-				jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+				jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = :voucherId",
 					toVoucherIdMap(voucherId),
 					voucherRowMapper))
 			.orElseThrow(() -> {
@@ -58,7 +58,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public void delete(UUID voucherId) {
-		int delete = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+		int delete = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId",
 			toVoucherIdMap(voucherId));
 
 		if (delete != 1) {
