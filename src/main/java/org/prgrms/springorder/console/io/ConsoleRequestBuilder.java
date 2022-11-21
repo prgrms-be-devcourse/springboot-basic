@@ -29,7 +29,10 @@ public class ConsoleRequestBuilder {
 
     public ConsoleRequestBuilder(Console console) {
         requestMap = new EnumMap<>(Command.class);
+        mappingInit(console);
+    }
 
+    private void mappingInit(Console console) {
         requestMap.put(CREATE, () -> getVoucherCreateRequest(console));
         requestMap.put(LIST, () -> Request.EMPTY);
         requestMap.put(BLACKLIST, () -> Request.EMPTY);
@@ -44,7 +47,7 @@ public class ConsoleRequestBuilder {
         return requestMap.get(command).get();
     }
 
-    private VoucherCreateRequest getVoucherCreateRequest(Console console) {
+    private Request getVoucherCreateRequest(Console console) {
         console.showMessage("바우처 타입을 입력하세요. 'fixed' or 'percent' : ");
         String inputVoucherType = console.input();
         console.showMessage("할인 금액을 입력하세요. : ");
