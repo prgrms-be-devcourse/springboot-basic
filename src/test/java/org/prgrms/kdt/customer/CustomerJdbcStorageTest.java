@@ -60,8 +60,13 @@ public class CustomerJdbcStorageTest {
         customerJdbcStorage.insert(customer);
     }
 
+    @AfterEach
+    void clear(){
+        embeddedMysql.reloadSchema("voucher_mgmt", classPathScript("customer.sql"));
+    }
+
     @AfterAll
-    void cleanup() {
+    void exitTest() {
         embeddedMysql.stop();
     }
 
@@ -97,7 +102,7 @@ public class CustomerJdbcStorageTest {
 
     @Test
     @DisplayName("모든 고객을 조회할 수 있다.")
-    void test3() {
+    void testFindAllCustomer() {
         // when
         List<Customer> allCustomer = customerJdbcStorage.findAll();
 
@@ -107,7 +112,7 @@ public class CustomerJdbcStorageTest {
 
     @Test
     @DisplayName("고객 아이디를 활용하여 특정 고객을 저장소에서 삭제할 수 있다.")
-    void tes4t() {
+    void testDeleteCustomerById() {
         // given
         String id = UUID.randomUUID().toString();
         Customer deleteCustomer = new Customer(id, "delete-user", "delete-user@gmail.com");
@@ -125,7 +130,7 @@ public class CustomerJdbcStorageTest {
 
     @Test
     @DisplayName("고객의 이름을 수정할 수 있다.")
-    void test6() {
+    void testChangeCustomerName() {
         // given
         String name = "new-name";
         customer.changeName(name);

@@ -60,8 +60,13 @@ public class JdbcVoucherStorageTest {
         jdbcVoucherStorage.save(voucher);
     }
 
+    @AfterEach
+    void clear(){
+        embeddedMysql.reloadSchema("voucher_mgmt", classPathScript("voucher.sql"));
+    }
+
     @AfterAll
-    void cleanup() {
+    void exitTest() {
         embeddedMysql.stop();
     }
 
