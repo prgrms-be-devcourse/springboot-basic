@@ -6,7 +6,6 @@ import org.prgrms.springorder.domain.customer.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.repository.CustomerRepository;
-import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
 import org.prgrms.springorder.global.exception.EntityNotFoundException;
 import org.springframework.context.annotation.Profile;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Profile("dev")
 public class CustomerService {
 
-    private final CustomerRepository customerRepository; // 메모리나 파일에서도.
+    private final CustomerRepository customerRepository;
 
     private final VoucherService voucherService;
 
