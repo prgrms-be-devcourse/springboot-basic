@@ -1,5 +1,6 @@
 package org.prgrms.kdt.storage;
 
+import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.exceptions.InvalidParameterException;
 import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.utils.VoucherType;
@@ -19,6 +20,7 @@ import java.util.*;
 
 import static org.prgrms.kdt.utils.VoucherType.findVoucherTypeByInput;
 
+
 @Profile("jdbc")
 @Repository
 public class JdbcVoucherStorage implements VoucherStorage {
@@ -28,9 +30,19 @@ public class JdbcVoucherStorage implements VoucherStorage {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         String voucherId = resultSet.getString("voucher_id");
-        VoucherType voucherType = findVoucherTypeByInput(resultSet.getString("type"));
+
+        String type = resultSet.getString("type");
+        VoucherType voucherType;
+        try{
+            voucherType = findVoucherTypeByInput(type);
+        } catch (InvalidITypeInputException invalidTypeException){
+            throw new InvalidParameterException(
+                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type), invalidTypeException);
+        }
+
         int amount = resultSet.getInt("amount");
         String customerId = resultSet.getString("customer_id");
+
         switch (voucherType) {
             case FIXED_VOUCHER -> {
                 if (customerId == null) {
@@ -44,7 +56,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
                 }
                 return new PercentDiscountVoucher(voucherId, amount, customerId);
             }
-            default -> throw new InvalidDBAccessException("잘못된 타입 값 -> " + voucherType);
+            default -> throw new InvalidParameterException("잘못된 타입 값 -> " + voucherType);
         }
     };
 
@@ -70,6 +82,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         int update = namedParameterJdbcTemplate.update(
                 "INSERT INTO voucher(voucher_id, type, amount, customer_id) VALUES (:voucherId, :type, :amount, :customerId)",
                 voucherParaMap);
+
         if (update != UPDATE_SUCCESS) {
             String errorDescription = MessageFormat.format("고객을 저장할 수 없습니다. 입력된 값을 확인해주세요. voucherId -> {0}, type -> {}, amount -> {}, customerId -> {}"
                     , voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount(), voucher.getOwnerId());
@@ -79,7 +92,11 @@ public class JdbcVoucherStorage implements VoucherStorage {
 
     @Override
     public List<Voucher> findAll() {
-        return namedParameterJdbcTemplate.query("select * from voucher", voucherRowMapper);
+        try {
+            return namedParameterJdbcTemplate.query("select * from voucher", voucherRowMapper);
+        } catch (InvalidITypeInputException invalidITypeInputException){
+            throw new InvalidDBAccessException("파일내부 문제로 결과를 가져올 수 없습니다.", invalidITypeInputException);
+        }
     }
 
     @Override

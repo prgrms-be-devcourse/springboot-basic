@@ -1,6 +1,7 @@
 package org.prgrms.kdt.manager;
 
 import org.prgrms.kdt.exceptions.AmountException;
+import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.io.IOManager;
 import org.prgrms.kdt.utils.Power;
@@ -41,8 +42,8 @@ public class VoucherProviderManager {
             vouchers.forEach(ioManager::writeVoucherInfo);
             logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
 
-        } catch (RuntimeException runtimeException) {
-            logger.error(runtimeException.getMessage());
+        } catch (InvalidDBAccessException dbAccessException) {
+            logger.error(dbAccessException.getMessage());
             AppPower.stop();
             AppPower.stopByException();
         }
