@@ -1,10 +1,10 @@
-package org.prgrms.kdt.dao.repository.voucher;
+package org.prgrms.kdt.voucher;
 
 
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
-import org.prgrms.kdt.exception.io.WrongInputDataException;
-import org.prgrms.kdt.exception.io.WrongOutputDataException;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.presentation.io.exception.WrongInputDataException;
+import org.prgrms.kdt.presentation.io.exception.WrongOutputDataException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;

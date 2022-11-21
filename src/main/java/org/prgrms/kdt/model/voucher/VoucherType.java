@@ -1,4 +1,4 @@
-package org.prgrms.kdt.dao.entity.voucher;
+package org.prgrms.kdt.model.voucher;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;

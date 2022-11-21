@@ -1,7 +1,7 @@
-package org.prgrms.kdt.dao.repository.customer;
+package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.exception.repository.NotPresentInRepositoryException;
+import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
+import org.prgrms.kdt.model.customer.Customer;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

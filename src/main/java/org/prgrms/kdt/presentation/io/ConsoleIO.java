@@ -1,8 +1,8 @@
 package org.prgrms.kdt.presentation.io;
 
-import org.prgrms.kdt.dao.entity.voucher.VoucherType;
-import org.prgrms.kdt.exception.io.WrongInputDataException;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.presentation.controller.CommandType;
+import org.prgrms.kdt.presentation.io.exception.WrongInputDataException;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

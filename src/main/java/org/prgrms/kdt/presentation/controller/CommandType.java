@@ -1,10 +1,10 @@
 package org.prgrms.kdt.presentation.controller;
 
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
+import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.presentation.io.ConsoleIO;
-import org.prgrms.kdt.service.CustomerService;
-import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.voucher.VoucherService;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;

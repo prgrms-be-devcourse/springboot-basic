@@ -1,11 +1,10 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
-import org.prgrms.kdt.dao.entity.voucher.VoucherType;
-import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
-import org.prgrms.kdt.exception.repository.NotPresentInRepositoryException;
+import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

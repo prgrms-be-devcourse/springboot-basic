@@ -1,4 +1,4 @@
-package org.prgrms.kdt.dao.entity.voucher;
+package org.prgrms.kdt.model.voucher;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

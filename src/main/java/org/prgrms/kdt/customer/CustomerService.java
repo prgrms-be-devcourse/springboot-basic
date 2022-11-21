@@ -1,8 +1,7 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.dao.repository.customer.CustomerRepository;
-import org.prgrms.kdt.exception.repository.NotPresentInRepositoryException;
+import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
+import org.prgrms.kdt.model.customer.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

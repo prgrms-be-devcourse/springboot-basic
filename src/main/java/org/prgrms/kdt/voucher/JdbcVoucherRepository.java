@@ -1,7 +1,7 @@
-package org.prgrms.kdt.dao.repository.voucher;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;

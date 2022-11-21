@@ -3,10 +3,12 @@ package org.prgrms.kdt.dao.repository.voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.dao.entity.voucher.PercentDiscountVoucher;
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.voucher.FileVoucherRepository;
+import org.prgrms.kdt.voucher.VoucherRepository;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

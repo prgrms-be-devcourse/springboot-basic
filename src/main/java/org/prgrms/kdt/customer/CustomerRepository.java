@@ -1,6 +1,6 @@
-package org.prgrms.kdt.dao.repository.customer;
+package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.dao.entity.customer.Customer;
+import org.prgrms.kdt.model.customer.Customer;
 
 import java.util.List;
 import java.util.Optional;

@@ -8,11 +8,12 @@ import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.dao.entity.voucher.FixedAmountVoucher;
-import org.prgrms.kdt.dao.entity.voucher.Voucher;
-import org.prgrms.kdt.dao.entity.voucher.VoucherBuilder;
-import org.prgrms.kdt.dao.repository.voucher.VoucherRepository;
+import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
+import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.voucher.VoucherRepository;
+import org.prgrms.kdt.voucher.VoucherService;
 
 import java.time.LocalDateTime;
 import java.util.*;

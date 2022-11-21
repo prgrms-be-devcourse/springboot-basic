@@ -8,8 +8,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.kdt.dao.entity.customer.Customer;
-import org.prgrms.kdt.dao.repository.customer.CustomerRepository;
+import org.prgrms.kdt.customer.CustomerRepository;
+import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.model.customer.Customer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
