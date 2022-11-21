@@ -19,11 +19,3 @@ CREATE TABLE customers
     is_blacklist  BOOLEAN              DEFAULT FALSE,
     CONSTRAINT unq_user_email UNIQUE (email)
 );
-
-DROP TABLE IF EXISTS User;
-CREATE TABLE User
-(
-    seq  BIGINT AUTO_INCREMENT,
-    name VARCHAR(50),
-    PRIMARY KEY (seq)
-);
