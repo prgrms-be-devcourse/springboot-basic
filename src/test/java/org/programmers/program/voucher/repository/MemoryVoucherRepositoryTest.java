@@ -2,6 +2,7 @@ package org.programmers.program.voucher.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.programmers.program.voucher.model.FixedAmountVoucher;
 import org.programmers.program.voucher.model.PercentDiscountVoucher;
@@ -39,6 +40,7 @@ class MemoryVoucherRepositoryTest {
         assertThat(v1).isNotNull();
         assertThat(v1.getVoucherId()).isEqualTo(id);
     }
+
 
     @Test
     @DisplayName("레포지토리에서 전부 가져오는 테스트")

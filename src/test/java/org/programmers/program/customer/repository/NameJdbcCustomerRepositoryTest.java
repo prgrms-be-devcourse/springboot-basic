@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.program.customer.model.Customer;
+import org.programmers.program.voucher.model.PercentDiscountVoucher;
 import org.programmers.program.voucher.repository.NamedJdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -132,6 +133,17 @@ class NameJdbcCustomerRepositoryTest {
 
     @Test
     @Order(4)
+    @DisplayName("수정 테스트")
+    void updateTest(){
+        var id = UUID.randomUUID();
+        repository.insert(new Customer(id, "testtest@email.com", "testtest"));
+        repository.update(new Customer(id, "changed@email.com", "changed"));
+
+        assertThat(repository.findById(id).get().getName()).isEqualTo("changed");
+    }
+
+    @Test
+    @Order(5)
     @DisplayName("find all, count 테스트")
     void findAllCountTest(){
         var allCustomers = repository.findAll();
@@ -141,7 +153,7 @@ class NameJdbcCustomerRepositoryTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     @DisplayName("전부다 지우기 테스트")
     void deleteAllTest(){
         repository.deleteAll();
