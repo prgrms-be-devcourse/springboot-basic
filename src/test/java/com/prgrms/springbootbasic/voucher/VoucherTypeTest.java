@@ -14,12 +14,12 @@ class VoucherTypeTest {
     @ParameterizedTest
     @CsvSource({"fixedAmount,FIXED_AMOUNT", "percent,PERCENT"})
     @DisplayName("사용자의 Voucher 타입 입력에 따라 Voucher Type을 정할 수 있다")
-    void findCommandByInputValue(String voucherTypeInput, String expectedVoucherType) {
+    void findCommandByInputValue(String voucherTypeInput, VoucherType expectedVoucherType) {
         //given&when
         VoucherType voucherType = VoucherType.fromInputValue(voucherTypeInput);
 
         //then
-        assertThat(voucherType).isEqualTo(VoucherType.valueOf(expectedVoucherType));
+        assertThat(voucherType).isEqualTo(expectedVoucherType);
     }
 
     @Test
