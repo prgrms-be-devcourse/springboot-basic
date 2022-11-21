@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.wallet.repository;
 import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 import static com.programmers.voucher.core.util.JdbcTemplateUtil.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,5 +62,10 @@ public class JdbcWalletRepository implements WalletRepository {
 	public void deleteByCustomerId(UUID customerId) {
 		jdbcTemplate.update("DELETE FROM wallets WHERE customer_id = :customerId",
 			toCustomerIdMap(customerId));
+	}
+
+	@Override
+	public void clear() {
+		jdbcTemplate.update("DELETE FROM wallets", Collections.emptyMap());
 	}
 }

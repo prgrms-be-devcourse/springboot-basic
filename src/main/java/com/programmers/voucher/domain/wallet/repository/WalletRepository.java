@@ -16,4 +16,6 @@ public interface WalletRepository {
 	List<Customer> findCustomersByVoucherId(UUID voucherId);
 
 	void deleteByCustomerId(UUID customerId);
+
+	void clear();
 }
