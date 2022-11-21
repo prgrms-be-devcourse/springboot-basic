@@ -100,7 +100,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         if (update != UPDATE_SUCCESS) {
             throw new InvalidParameterException(
                     MessageFormat.format(
-                            "전달받은 ID에 대한 삭제가 성공하지 않았습니다. 사유: 해당 ID -> [{0}] 를 가진 바우처를 찾을 수 없음.", voucherId));
+                            "전달받은 ID에 대한 삭제를 할 수 없습니다. 사유: 해당 ID -> [{0}] 를 가진 바우처를 찾을 수 없음.", voucherId));
         }
     }
 }
