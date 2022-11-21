@@ -72,7 +72,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void delete(UUID customerId) {
+	public void deleteById(UUID customerId) {
 		int delete = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = :customerId",
 			toCustomerIdMap(customerId));
 

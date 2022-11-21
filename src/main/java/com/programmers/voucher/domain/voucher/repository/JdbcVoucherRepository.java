@@ -57,7 +57,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void delete(UUID voucherId) {
+	public void deleteById(UUID voucherId) {
 		int delete = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = :voucherId",
 			toVoucherIdMap(voucherId));
 

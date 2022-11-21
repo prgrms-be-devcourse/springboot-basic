@@ -109,7 +109,7 @@ public class FileCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void delete(UUID customerId) {
+	public void deleteById(UUID customerId) {
 		Optional.ofNullable(customers.get(customerId))
 			.ifPresentOrElse(customer -> customers.remove(customerId),
 				() -> {

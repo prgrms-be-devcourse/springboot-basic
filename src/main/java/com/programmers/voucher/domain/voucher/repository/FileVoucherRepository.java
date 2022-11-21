@@ -94,7 +94,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void delete(UUID voucherId) {
+	public void deleteById(UUID voucherId) {
 		Optional.ofNullable(vouchers.get(voucherId))
 			.ifPresentOrElse(voucher -> vouchers.remove(voucherId),
 				() -> {

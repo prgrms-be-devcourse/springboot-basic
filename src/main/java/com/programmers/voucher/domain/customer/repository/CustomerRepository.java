@@ -13,7 +13,7 @@ public interface CustomerRepository {
 
 	Customer update(Customer updateCustomer);
 
-	void delete(UUID customerId);
+	void deleteById(UUID customerId);
 
 	List<Customer> findAll();
 
