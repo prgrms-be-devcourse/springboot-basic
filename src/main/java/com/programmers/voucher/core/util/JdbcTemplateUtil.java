@@ -34,7 +34,7 @@ public class JdbcTemplateUtil {
 		UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
 		String discount = String.valueOf(rs.getDouble("discount"));
 		VoucherType voucherType = VoucherType.getVoucherType(rs.getString("voucher_type"));
-		LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
+		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 		return VoucherFactory.createVoucher(voucherId, voucherType, discount, createdAt);
 	};
 
@@ -53,9 +53,9 @@ public class JdbcTemplateUtil {
 
 	public static RowMapper<Customer> customerRowMapper = (ResultSet rs, int rowNum) -> {
 		UUID customerId = UUID.fromString(rs.getString("customer_id"));
-		LocalDateTime createdAt = rs.getObject("created_at", LocalDateTime.class);
+		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 		CustomerType customerType = CustomerType.getCustomerType(rs.getString("customer_type"));
-		LocalDateTime lastModifiedAt = rs.getObject("last_modified_at", LocalDateTime.class);
+		LocalDateTime lastModifiedAt = rs.getTimestamp("last_modified_at").toLocalDateTime();
 		return new Customer(customerId, createdAt, customerType, lastModifiedAt);
 	};
 
