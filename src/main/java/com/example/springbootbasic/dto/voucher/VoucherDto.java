@@ -23,7 +23,7 @@ public class VoucherDto {
         this.voucherType = voucherType;
     }
 
-    public static VoucherDto toDto(Voucher voucher) {
+    public static VoucherDto of(Voucher voucher) {
         return new VoucherDto(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType());
     }
 

@@ -34,6 +34,10 @@ public class Customer {
         return status;
     }
 
+    public List<Voucher> getVouchers() {
+        return vouchers;
+    }
+
     public boolean isBlack() {
         return status.isBlack();
     }

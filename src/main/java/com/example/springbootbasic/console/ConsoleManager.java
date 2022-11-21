@@ -30,6 +30,6 @@ public class ConsoleManager {
     }
 
     public ResponseBody<List<CustomerDto>> selectAllBlackCustomers() {
-        return customerController.selectAllBlackCustomers();
+        return customerController.findAllCustomers();
     }
 }
