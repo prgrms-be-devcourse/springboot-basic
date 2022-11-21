@@ -12,9 +12,9 @@ public class Customer {
     private static final String NAME_EXCEPTION = "이름은 빈값일 수 없습니다.";
 
     private final String customerId;
-    private String name;
     private final String email;
     private final LocalDateTime createdAt;
+    private String name;
 
     public Customer(String customerId, String name, String email) {
         validateName(name);

@@ -21,6 +21,7 @@ public class VoucherProviderManager {
     private static final String CREATE_VOUCHER = "성공적으로 바우처가 형성되었습니다.";
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherProviderManager.class);
+
     private final IOManager ioManager;
     private final VoucherProvider voucherProvider;
     private Power power;

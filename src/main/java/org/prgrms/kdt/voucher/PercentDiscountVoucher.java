@@ -7,10 +7,10 @@ import java.util.Optional;
 public class PercentDiscountVoucher implements Voucher {
 
     private static final String voucherType = "percent";
+    private static final int MAX_PERCENT_LIMIT = 100;
+    private static final int MIN_PERCENT_LIMIT = 1;
 
     private final String voucherId;
-    private final int MAX_PERCENT_LIMIT = 100;
-    private final int MIN_PERCENT_LIMIT = 1;
     private final int percent;
 
 
