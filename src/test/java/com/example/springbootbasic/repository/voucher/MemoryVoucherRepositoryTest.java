@@ -30,7 +30,7 @@ class MemoryVoucherRepositoryTest {
 
     @AfterEach
     void clear() {
-        voucherRepository.deleteAll();
+        voucherRepository.deleteAllVouchers();
     }
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")

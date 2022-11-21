@@ -100,16 +100,16 @@ public class CsvVoucherRepository implements VoucherRepository {
         return voucher;    }
 
     @Override
-    public void deleteAll() {
+    public Voucher findById(long voucherId) {
+        return null;
+    }
+
+    @Override
+    public void deleteAllVouchers() {
         try (Writer writer = new FileWriter(appConfig.getVoucherCsvResource(), false)) {
             writer.write(EMPTY.unit());
         } catch (IOException e) {
             logger.error("Fail - {}", e.getMessage());
         }
-    }
-
-    @Override
-    public void deleteVouchersByVoucherType(VoucherType voucherType) {
-
     }
 }

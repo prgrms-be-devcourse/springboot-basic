@@ -5,7 +5,6 @@ import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;

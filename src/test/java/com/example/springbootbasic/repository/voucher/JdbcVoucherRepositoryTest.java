@@ -3,7 +3,6 @@ package com.example.springbootbasic.repository.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 

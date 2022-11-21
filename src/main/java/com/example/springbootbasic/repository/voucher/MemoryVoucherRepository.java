@@ -5,7 +5,6 @@ import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
-@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
@@ -54,16 +52,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        storage.clear();
+    public Voucher findById(long voucherId) {
+        if (!storage.containsKey(voucherId)) {
+            throw new IllegalArgumentException();
+        }
+        return storage.get(voucherId);
     }
 
     @Override
-    public void deleteVouchersByVoucherType(VoucherType voucherType) {
-        storage.entrySet()
-                .stream()
-                .filter(voucher -> voucher.getValue().getVoucherType() == voucherType)
-                .forEach(findVoucher -> storage.remove(findVoucher.getKey()));
-
+    public void deleteAllVouchers() {
+        storage.clear();
     }
 }
