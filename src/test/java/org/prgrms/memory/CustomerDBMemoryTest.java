@@ -121,8 +121,7 @@ class CustomerDBMemoryTest {
         List<Customer> all = customerMemory.findAll();
         //then
         assertEquals(2, all.size());
-        assertThat(all.get(0).getId()).isEqualTo(customer1.getId());
-        assertThat(all.get(1).getId()).isEqualTo(customer2.getId());
+        assertThat(all).usingRecursiveFieldByFieldElementComparator().contains(customer1, customer2);
     }
 
     @DisplayName("저장된 고객 정보가 없을 경우 빈 배열을 반환한다")

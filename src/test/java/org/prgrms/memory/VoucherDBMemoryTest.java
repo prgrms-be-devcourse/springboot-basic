@@ -101,8 +101,7 @@ public class VoucherDBMemoryTest {
         List<Voucher> voucherList = memory.findAll();
         //then
         assertEquals(voucherList.size(), 2);
-        assertThat(voucherList.get(0).getVoucherId()).isEqualTo(voucher1.getVoucherId());
-        assertThat(voucherList.get(1).getVoucherId()).isEqualTo(voucher2.getVoucherId());
+        assertThat(voucherList).usingRecursiveFieldByFieldElementComparator().contains(voucher1, voucher2);
 
     }
 
