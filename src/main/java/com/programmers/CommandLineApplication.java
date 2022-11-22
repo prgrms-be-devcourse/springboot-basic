@@ -2,11 +2,11 @@ package com.programmers;
 
 import com.programmers.io.Output;
 import com.programmers.io.Input;
-import com.programmers.voucher.Voucher;
-import com.programmers.voucher.VoucherService;
+import com.programmers.voucher.domain.TypeOfVoucher;
+import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.service.VoucherCommandLineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -20,22 +20,18 @@ public class CommandLineApplication {
 
     private final Output output;
     private final Input input;
-    private final VoucherService voucherService;
+    private final VoucherCommandLineService voucherCommandLineService;
     private final ApplicationManager applicationManager = new ApplicationManager(true);
 
 
     private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public CommandLineApplication(Output output, Input input, VoucherService voucherService) {
+    public CommandLineApplication(Output output, Input input, VoucherCommandLineService voucherCommandLineService) {
         this.output = output;
         this.input = input;
-        this.voucherService = voucherService;
+        this.voucherCommandLineService = voucherCommandLineService;
     }
 
-    public static void main(String[] args) throws IOException {
-        var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
-        applicationContext.getBean(CommandLineApplication.class).run();
-    }
 
     public void run() throws IOException {
         output.printDescription();
@@ -57,7 +53,7 @@ public class CommandLineApplication {
             case CREATE -> createVoucher();
 
             case LIST -> {
-                Map<UUID, Voucher> history = voucherService.findAll();
+                Map<UUID, Voucher> history = voucherCommandLineService.findAll();
                 logger.info("voucher 가 전체 조회되었습니다.");
                 output.printStorage(history);
             }
@@ -68,7 +64,6 @@ public class CommandLineApplication {
                 logger.info("application 이 정상적으로 종료되었습니다.");
             }
         }
-
     }
 
     private void createVoucher() throws IOException {
@@ -79,7 +74,7 @@ public class CommandLineApplication {
             output.printSelectDiscount(TypeOfVoucher.getGuideMessage(typeOfVoucher));
             long inputDiscount = input.inputNumber();
             Voucher voucher = TypeOfVoucher.createVoucher(typeOfVoucher, inputDiscount);
-            voucherService.saveVoucher(voucher);
+            voucherCommandLineService.saveVoucher(voucher);
         } catch (NumberFormatException e) {
             logger.error("할인금액 또는 할인율이 숫자가 아닙니다.");
         } catch (IllegalArgumentException e) {
