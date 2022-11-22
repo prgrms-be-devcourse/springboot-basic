@@ -24,13 +24,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	private static UUID toUUID(byte[] bytes) {
-		ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-		return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-	}
-
 	private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-		var customerId = toUUID(resultSet.getBytes("customer_id"));
+		var customerId = UUID.fromString(resultSet.getString("customer_id"));
 		var customerName = resultSet.getString("customer_name");
 		var email = resultSet.getString("email");
 		var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -52,7 +47,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public void save(Customer customer) {
 		Map<String, Object> paramMap = toParamMap(customer);
 		jdbcTemplate.update(
-			"INSERT INTO customer(customer_id, customer_name, email, created_at,customer_type) Values(UUID_TO_BIN(:customerId),:name,:email,:createdAt,:customerType)",
+			"INSERT INTO customer(customer_id, customer_name, email, created_at,customer_type) Values(:customerId,:name,:email,:createdAt,:customerType)",
 			paramMap);
 	}
 
@@ -60,7 +55,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public void update(Customer customer) {
 		Map<String, Object> paramMap = toParamMap(customer);
 		jdbcTemplate.update(
-			"UPDATE customer SET customer_name = :name, email = :email, customer_type = :customerType WHERE customer_id = UUID_TO_BIN(:customerId)",
+			"UPDATE customer SET customer_name = :name, email = :email, customer_type = :customerType WHERE customer_id = :customerId",
 			paramMap);
 	}
 
@@ -72,7 +67,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> findById(UUID customerId) {
 		return Optional.ofNullable(
-			jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customerId)",
+			jdbcTemplate.queryForObject("SELECT * FROM customer WHERE customer_id = :customerId",
 				Collections.singletonMap("customerId", customerId.toString()), customerRowMapper));
 	}
 
