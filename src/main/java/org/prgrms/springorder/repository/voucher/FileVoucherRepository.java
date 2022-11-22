@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,7 +50,8 @@ public class FileVoucherRepository implements VoucherRepository {
 				String[] voucherInfo = line.split(",");
 				UUID id = UUID.fromString(voucherInfo[0]);
 				VoucherType voucherType = VoucherType.getVoucherByName(voucherInfo[1]);
-				Voucher voucher = VoucherFactory.createVoucher(voucherType, id, Double.parseDouble(voucherInfo[2]));
+				Voucher voucher = VoucherFactory.createVoucher(voucherType, id, Double.parseDouble(voucherInfo[2]),
+					LocalDateTime.parse(voucherInfo[3]));
 				memory.put(voucher.getVoucherId(), voucher);
 			}
 		} catch (IOException e) {

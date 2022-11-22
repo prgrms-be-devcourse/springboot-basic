@@ -43,7 +43,7 @@ public class WalletRepository {
 		var value = resultSet.getInt("voucher_value");
 		var createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 		var voucherType = VoucherType.getVoucherByName(resultSet.getString("voucher_type"));
-		return VoucherFactory.createVoucher(voucherType, voucherId, value);
+		return VoucherFactory.createVoucher(voucherType, voucherId, value,createAt);
 	};
 
 	private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {

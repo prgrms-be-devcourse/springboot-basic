@@ -13,13 +13,13 @@ import org.prgrms.springorder.exception.NoSuchVoucherException;
 
 public class VoucherFactory {
 
-	public static Voucher createVoucher(VoucherType voucherType, UUID uuid, double value) {
+	public static Voucher createVoucher(VoucherType voucherType, UUID uuid, double value, LocalDateTime localDateTime) {
 		switch (voucherType) {
 			case FIXED_AMOUNT -> {
-				return new FixedAmountVoucher(uuid, value, LocalDateTime.now());
+				return new FixedAmountVoucher(uuid, value, localDateTime);
 			}
 			case PERCENT_DISCOUNT -> {
-				return new PercentDiscountVoucher(uuid, value,LocalDateTime.now());
+				return new PercentDiscountVoucher(uuid, value,localDateTime);
 			}
 			default -> {
 				throw new NoSuchVoucherException(NO_SUCH_VOUCHER_MESSAGE);
@@ -28,7 +28,7 @@ public class VoucherFactory {
 	}
 
 	public static Voucher createVoucher(VoucherType voucherType, double value) {
-		return createVoucher(voucherType, UUID.randomUUID(), value);
+		return createVoucher(voucherType, UUID.randomUUID(), value, LocalDateTime.now());
 	}
 
 }
