@@ -11,10 +11,10 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.InvocationTargetException;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.*;
+
+import static org.prgrms.springbootbasic.util.UUIDUtil.toUUID;
 
 
 @Primary
@@ -55,11 +55,6 @@ public class DbVoucherRepository implements VoucherRepository {
             throw new RuntimeException(e);
         }
     };
-
-    private static UUID toUUID(byte[] bytes) throws SQLException {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 
     @Override
     public void insert(Voucher voucher) {
