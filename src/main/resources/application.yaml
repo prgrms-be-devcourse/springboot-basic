@@ -2,11 +2,18 @@ notification:
   service: |
     voucherService : 1
     blackListManagementService : 2
+    CustomerManagementService : 3
     (type exist if you want to exist)
   voucherPrompt: |
-    ==== Voucher Program ===
+    ==== Voucher Program ====
     Type **create** to create a new voucher.
     Type **lookup** to lookup list all vouchers.
+  customerPrompt: |
+    ==== Customer Program ====
+    Type **create** to create a new customer.
+    Type **lookup** to lookup list all customers.
+    Type **update** to update a customer name.
+    Type **delete** to delete a customer.
   voucherTypeChoice: |
     Choose one!
     fixedVoucher: 1

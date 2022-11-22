@@ -8,12 +8,17 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "notification")
 public class NotificationProperties {
     private String voucherPrompt;
+    private String customerPrompt;
     private String wrongInput;
     private String voucherTypeChoice;
     private String exit;
 
     public String getVoucherPrompt() {
         return voucherPrompt;
+    }
+
+    public String getCustomerPrompt() {
+        return customerPrompt;
     }
 
     public String getWrongInput() {
@@ -30,6 +35,10 @@ public class NotificationProperties {
 
     public void setVoucherPrompt(String voucherPrompt) {
         this.voucherPrompt = voucherPrompt;
+    }
+
+    public void setCustomerPrompt(String customerPrompt) {
+        this.customerPrompt = customerPrompt;
     }
 
     public void setVoucherTypeChoice(String voucherTypeChoice) {
