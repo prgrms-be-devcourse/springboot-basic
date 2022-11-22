@@ -1,6 +1,8 @@
 spring:
   profiles:
     include: "db"
+  thymeleaf:
+    cache: false
 ---
 spring:
   config:

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="kr"
+      layout:decorate="~{layout/layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>바우쳐 조회 페이지</title>
+</head>
+<section layout:fragment="content">
+    <table class="table table-hover table-responsive ">
+        <thead>
+        <tr>
+            <th scope="col">voucher id</th>
+            <th scope="col">voucher type</th>
+            <th scope="col">value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr role="button" th:each="voucher:${vouchers}">
+            <th scope="row" th:text="${voucher.getVoucherId()}"></th>
+            <td th:text="${voucher.getValue()}">Mark</td>
+            <td th:text="${voucher.getVoucherType().name()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+</html>
