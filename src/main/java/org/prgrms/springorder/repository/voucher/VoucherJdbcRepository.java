@@ -41,12 +41,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	};
 
 	private Map<String, Object> toParamMap(Voucher voucher) {
-		return new HashMap<>() {{
-			put("voucherId", voucher.getVoucherId().toString());
-			put("value", voucher.getValue());
-			put("createdAt", voucher.getCreatedAt());
-			put("voucherType", voucher.getVoucherType().getName());
-		}};
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("voucherId", voucher.getVoucherId().toString());
+		paramMap.put("value", voucher.getValue());
+		paramMap.put("createdAt", voucher.getCreatedAt());
+		paramMap.put("voucherType", voucher.getVoucherType().getName());
+		return paramMap;
 	}
 
 	@Override
