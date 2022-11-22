@@ -17,6 +17,9 @@ import com.programmers.voucher.domain.wallet.model.Wallet;
 
 public class JdbcTemplateUtil {
 
+	private JdbcTemplateUtil() {
+	}
+
 	public static Map<String, Object> toVoucherParamMap(Voucher voucher) {
 		return Map.of(
 			"voucherId", voucher.getVoucherId().toString(),

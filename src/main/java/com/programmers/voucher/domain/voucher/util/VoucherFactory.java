@@ -10,6 +10,9 @@ import com.programmers.voucher.domain.voucher.model.VoucherType;
 
 public class VoucherFactory {
 
+	private VoucherFactory() {
+	}
+
 	public static Voucher createVoucher(VoucherType voucherType, String discount) {
 		if (voucherType.equals(VoucherType.FIXED)) {
 			return new FixedDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
