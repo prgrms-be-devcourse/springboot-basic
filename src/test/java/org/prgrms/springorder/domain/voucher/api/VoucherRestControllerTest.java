@@ -71,13 +71,11 @@ class VoucherRestControllerTest {
     void findAllVouchersXmlSuccessTest() throws Exception {
         //given
         int saveCount = 5;
-        List<Voucher> save = createFixedVouchers(saveCount);
+        createFixedVouchers(saveCount);
 
         //then & when
-
         mockMvc.perform(get("/api/v1/vouchers")
                     .accept(MediaType.APPLICATION_XML_VALUE)
-//                .contentType(MediaType.APPLICATION_XML_VALUE)
             )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
@@ -99,7 +97,6 @@ class VoucherRestControllerTest {
         List<Voucher> save = createFixedVouchers(saveCount);
 
         //then & when
-
         mockMvc.perform(get("/api/v1/vouchers")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
             )
