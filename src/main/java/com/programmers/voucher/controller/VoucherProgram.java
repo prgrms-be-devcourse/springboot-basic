@@ -18,13 +18,11 @@ public class VoucherProgram implements ApplicationRunner {
     private final View view;
     private final VoucherController voucherController;
     private final CustomerController customerController;
-    private final WalletController walletController;
 
-    public VoucherProgram(View view, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
+    public VoucherProgram(View view, VoucherController voucherController, CustomerController customerController) {
         this.view = view;
         this.voucherController = voucherController;
         this.customerController = customerController;
-        this.walletController = walletController;
     }
 
     @Override
@@ -42,9 +40,9 @@ public class VoucherProgram implements ApplicationRunner {
                     case DELETE_ALL_VOUCHER -> voucherController.deleteAll();
                     case CREATE_CUSTOMER -> customerController.createCustomer(getCustomerDto());
                     case SELECT_CUSTOMER_BY_VOUCHER -> customerController.findCustomerByVoucher(getInputVoucherId());
-                    case ASSIGN_VOUCHER -> walletController.assign(getInputVoucherId(), getInputEmail());
-                    case LIST_VOUCHERS_OF_CUSTOMER -> walletController.findAll(getInputEmail());
-                    case DELETE_VOUCHERS_OF_CUSTOMER -> walletController.delete(getInputEmail());
+                    case ASSIGN_VOUCHER -> voucherController.assign(getInputVoucherId(), getInputEmail());
+                    case LIST_VOUCHERS_OF_CUSTOMER -> voucherController.findAllByCustomer(getInputEmail());
+                    case DELETE_VOUCHERS_OF_CUSTOMER -> voucherController.deleteByCustomer(getInputEmail());
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");

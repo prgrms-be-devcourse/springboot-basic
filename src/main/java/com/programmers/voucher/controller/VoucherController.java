@@ -25,7 +25,11 @@ public class VoucherController {
     }
 
     public void findAll() {
-        checkEmptyVoucher(voucherService.findAllVoucher());
+        checkEmptyVoucher(voucherService.findAll());
+    }
+
+    public void findAllByCustomer(String email) {
+        checkEmptyVoucher(voucherService.findAllByCustomer(email));
     }
 
     public void findById(UUID inputVoucherId) {
@@ -38,8 +42,17 @@ public class VoucherController {
         view.printVoucher(updated);
     }
 
+    public void assign(UUID voucherId, String email) {
+        voucherService.assign(voucherId, email);
+    }
+
     public void deleteAll() {
         voucherService.deleteAll();
+        view.printDeleteAll();
+    }
+
+    public void deleteByCustomer(String email) {
+        voucherService.deleteByCustomer(email);
         view.printDeleteAll();
     }
 

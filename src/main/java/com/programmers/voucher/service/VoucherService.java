@@ -1,7 +1,9 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
+import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +16,11 @@ import java.util.UUID;
 public class VoucherService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
     }
 
     public Voucher create(VoucherType voucherType, long discountValue) {
@@ -25,10 +29,14 @@ public class VoucherService {
         return voucherRepository.save(newVoucher, voucherType);
     }
 
-    public List<Voucher> findAllVoucher() {
+    public List<Voucher> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
         logger.info("voucher findAll at repository => {}", vouchers);
         return vouchers;
+    }
+
+    public List<Voucher> findAllByCustomer(String email) {
+        return voucherRepository.findAllByEmail(email);
     }
 
     public Voucher findById(UUID voucherId) {
@@ -42,7 +50,19 @@ public class VoucherService {
         return findById(voucherId);
     }
 
+    public Voucher assign(UUID voucherId, String email) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+        Customer customer = customerRepository.findByEmail(email);
+        voucher.setCustomer(customer);
+        voucherRepository.assign(voucher);
+        return voucher;
+    }
+
     public void deleteAll() {
         voucherRepository.deleteAll();
+    }
+
+    public void deleteByCustomer(String email) {
+        voucherRepository.deleteByEmail(email);
     }
 }
