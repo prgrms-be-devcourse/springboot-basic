@@ -74,12 +74,11 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer updateLastLoginAt(Customer customer) {
-        Map <String, Object> map = Map.of(
-                "customerId", customer.getCustomerId().toString(),
-                "lastLoginAt", customer.getLastLoginAt()
-        );
         int update = jdbcTemplate.update("UPDATE CUSTOMERS SET last_login_at = :lastLoginAt WHERE customer_id = :customerId",
-                map);
+                Map.of(
+                        "customerId", customer.getCustomerId().toString(),
+                        "lastLoginAt", customer.getLastLoginAt()
+                ));
         if (update != 1) {
             throw new NoAffectedRowException("Noting was updated");
         }
@@ -129,15 +128,15 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         try {
             return jdbcTemplate.query
                     ("""
-                    SELECT
-                        C.CUSTOMER_ID, C.NAME, C.EMAIL, C.LAST_LOGIN_AT, C.CREATED_AT
-                    FROM voucher.VOUCHERS V
-                        LEFT JOIN voucher.CUSTOMERS C
-                        ON C.CUSTOMER_ID = V.CUSTOMER_ID
-                    WHERE V.VOUCHER_ID = :voucherId;
-                    """
-                    , Collections.singletonMap("voucherId", voucherId.toString())
-                    , customerRowMapper);
+                                    SELECT
+                                        C.CUSTOMER_ID, C.NAME, C.EMAIL, C.LAST_LOGIN_AT, C.CREATED_AT
+                                    FROM voucher.VOUCHERS V
+                                        LEFT JOIN voucher.CUSTOMERS C
+                                        ON C.CUSTOMER_ID = V.CUSTOMER_ID
+                                    WHERE V.VOUCHER_ID = :voucherId;
+                                    """
+                            , Collections.singletonMap("voucherId", voucherId.toString())
+                            , customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Collections.emptyList();
