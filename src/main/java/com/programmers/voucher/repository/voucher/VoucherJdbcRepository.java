@@ -56,8 +56,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher, VoucherType voucherType) {
-        jdbcTemplate.update(insertSql, toVoucherMap(voucher, voucherType));
+    public Voucher save(Voucher voucher) {
+        jdbcTemplate.update(insertSql, toVoucherMap(voucher));
         return voucher;
     }
 
@@ -77,8 +77,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Voucher voucher, VoucherType voucherType) {
-        jdbcTemplate.update(updateSql, toVoucherMap(voucher, voucherType));
+    public void update(Voucher voucher) {
+        jdbcTemplate.update(updateSql, toVoucherMap(voucher));
     }
 
     @Override

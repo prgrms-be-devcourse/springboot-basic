@@ -25,8 +25,9 @@ public class VoucherService {
 
     public Voucher create(VoucherType voucherType, long discountValue) {
         Voucher newVoucher = voucherType.convertToVoucher(UUID.randomUUID(), discountValue);
+        newVoucher.setVoucherType(voucherType);
         logger.info("voucher create => {}", newVoucher);
-        return voucherRepository.save(newVoucher, voucherType);
+        return voucherRepository.save(newVoucher);
     }
 
     public List<Voucher> findAll() {
@@ -46,7 +47,8 @@ public class VoucherService {
     public Voucher update(UUID voucherId, long discountValue, VoucherType voucherType) {
         Voucher voucher = findById(voucherId);
         voucher.setDiscountValue(discountValue);
-        voucherRepository.update(voucher, voucherType);
+        voucher.setVoucherType(voucherType);
+        voucherRepository.update(voucher);
         return findById(voucherId);
     }
 

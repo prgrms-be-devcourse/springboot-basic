@@ -2,7 +2,6 @@ package com.programmers.voucher.utils;
 
 import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.voucher.Voucher;
-import com.programmers.voucher.model.voucher.VoucherType;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
@@ -27,11 +26,11 @@ public class JdbcParamMapper {
         );
     }
 
-    public static Map<String, Object> toVoucherMap(Voucher voucher, VoucherType voucherType) {
+    public static Map<String, Object> toVoucherMap(Voucher voucher) {
         return Map.of(
                 "voucherId", voucher.getVoucherId().toString().getBytes(),
                 "discountValue", voucher.getDiscountValue(),
-                "voucherType", voucherType.getVoucherType()
+                "voucherType", voucher.getVoucherType().getVoucherType()
         );
     }
 

@@ -7,6 +7,7 @@ import java.util.UUID;
 public abstract class Voucher {
     protected UUID voucherId;
     protected long discountValue;
+    protected VoucherType voucherType;
     protected Customer customer;
 
     protected Voucher(UUID voucherId, long discountValue) {
@@ -25,6 +26,14 @@ public abstract class Voucher {
 
     public long getDiscountValue() {
         return discountValue;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
+
+    public void setVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
     }
 
     public Customer getCustomer() {

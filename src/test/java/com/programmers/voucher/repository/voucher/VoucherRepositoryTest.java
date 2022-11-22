@@ -79,13 +79,16 @@ class VoucherRepositoryTest {
     }
 
     private Voucher getSingleVoucherData() {
-        return voucherRepository.save(getVoucher(), getVoucherType());
+        Voucher voucher = getVoucher();
+        voucher.setVoucherType(getVoucherType());
+        return voucherRepository.save(voucher);
     }
 
     private void getAllVouchersData() {
         VoucherType voucherType = getVoucherType();
         for (Voucher voucher : getVouchers()) {
-            voucherRepository.save(voucher, voucherType);
+            voucher.setVoucherType(voucherType);
+            voucherRepository.save(voucher);
         }
     }
 
@@ -110,9 +113,10 @@ class VoucherRepositoryTest {
         //given
         VoucherType voucherType = getVoucherType();
         Voucher newVoucher = getVoucher();
+        newVoucher.setVoucherType(voucherType);
 
         //when
-        Voucher result = voucherRepository.save(newVoucher, voucherType);
+        Voucher result = voucherRepository.save(newVoucher);
 
         //then
         assertThat(result.getVoucherId()).isEqualTo(newVoucher.getVoucherId());
@@ -149,12 +153,12 @@ class VoucherRepositoryTest {
     void update() {
         //given
         Voucher voucher = getSingleVoucherData();
-
-        //when
         VoucherType updatedType = VoucherType.toVoucherType("2");
         Voucher updatedVoucher = new PercentDiscountVoucher(voucher.getVoucherId(), 30);
-        voucherRepository.update(updatedVoucher, updatedType);
+        updatedVoucher.setVoucherType(updatedType);
 
+        //when
+        voucherRepository.update(updatedVoucher);
         Voucher result = voucherRepository.findById(voucher.getVoucherId());
 
         //then
