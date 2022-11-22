@@ -36,7 +36,8 @@ public class VoucherFileRepository implements VoucherRepository {
     private final File fileStore;
 
     public VoucherFileRepository(VoucherFileProperties properties) {
-        fileStore = FileUtil.createFile(properties.getPath(), properties.getStoredName() + properties.getStoredExtension());
+        fileStore = FileUtil.createFile(properties.getPath(),
+            properties.getStoredName() + properties.getStoredExtension());
         readAll();
     }
 
@@ -70,6 +71,7 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher;
     }
 
+    @Deprecated
     @Override
     public Optional<CustomerWithVoucher> findByIdWithCustomer(UUID voucherId) {
         throw new RuntimeException("지원되지 않는 기능입니다.");
@@ -78,6 +80,13 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
+    }
+
+    @Deprecated
+    @Override
+    public List<Voucher> findAllBy(LocalDateTime startDate, LocalDateTime endDate,
+        VoucherType voucherType) {
+        throw new RuntimeException("지원되지 않는 기능입니다.");
     }
 
     private void readAll() {
@@ -114,7 +123,8 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private String serialize(Voucher voucher) {
         return String.format("%s, %s, %s, %s, %s", voucher.getVoucherType(),
-            voucher.getVoucherId(), voucher.getAmount(), voucher.getCustomerId(), voucher.getCreatedAt());
+            voucher.getVoucherId(), voucher.getAmount(), voucher.getCustomerId(),
+            voucher.getCreatedAt());
     }
 
     private void writeAll() {

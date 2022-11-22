@@ -1,5 +1,6 @@
 package org.prgrms.springorder.domain.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -7,6 +8,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.prgrms.springorder.domain.voucher.api.CustomerWithVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
+import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -54,6 +56,13 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         this.storage.remove(voucherId);
+    }
+
+    @Deprecated
+    @Override
+    public List<Voucher> findAllBy(LocalDateTime startDate, LocalDateTime endDate,
+        VoucherType voucherType) {
+        throw new RuntimeException("지원되지 않는 기능입니다.");
     }
 
 }

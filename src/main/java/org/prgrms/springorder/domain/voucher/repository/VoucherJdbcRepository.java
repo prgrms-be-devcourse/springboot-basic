@@ -20,6 +20,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 @Repository
 @Profile({"dev", "test"})
@@ -139,6 +140,28 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update(DELETE_BY_ID,
             Collections.singletonMap("voucherId", voucherId.toString()));
+    }
+
+    @Override
+    public List<Voucher> findAllBy(LocalDateTime startDate, LocalDateTime endDate,
+        VoucherType voucherType) {
+
+        Map<String, Object> queryMap = new HashMap<>();
+
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM vouchers WHERE 1=1");
+
+        if (voucherType != null) {
+            queryBuilder.append(" AND voucher_type = :voucherType");
+            queryMap.put("voucherType", voucherType.getType());
+        }
+
+        if (startDate != null || endDate != null) {
+            queryBuilder.append(" AND created_at BETWEEN :startDate AND :endDate");
+            queryMap.put("startDate", startDate);
+            queryMap.put("endDate", endDate);
+        }
+
+        return jdbcTemplate.query(queryBuilder.toString(), queryMap, voucherRowMapper);
     }
 
 

@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 
 public class VoucherResponse {
+
     private final UUID voucherId;
 
     private final long amount;
