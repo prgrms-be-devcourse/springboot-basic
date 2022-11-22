@@ -10,10 +10,6 @@ logging:
 
 voucher.path: "./VoucherList.csv"
 
-#logging:
-#  level:
-#    org:
-#      springframework: info
 ---
 spring:
   config:
@@ -26,20 +22,4 @@ logging:
 
 voucher.path: "./VoucherList.csv"
 ---
-spring:
-  config:
-    activate:
-      on-profile: jdbc
-  datasource:
-    #    url: jdbc:h2:tcp://localhost/~/H2DB/customer
-    #    username: sa
-    #    password:
-    url: jdbc:mysql://127.0.0.1:3306/order_mgmt
-    username: root
-    password: 1234567890
-logging:
-  level:
-    org:
-      springframework: warn
-voucher.path: "./VoucherList.csv"
 

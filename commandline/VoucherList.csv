@@ -1,2 +1,0 @@
-FixedAmountVoucher{voucherId=1, typeName=FixedAmountVoucher, amount=15}
-PercentDiscountVoucher{voucherId=2, typeName=PercentDiscountVoucher, percent=20}

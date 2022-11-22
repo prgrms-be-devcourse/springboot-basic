@@ -162,3 +162,6 @@ buildNumber.properties
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij,java
 
 .idea
+
+#db-profile 제외
+./src/main/resources/application-jdbc.yml
