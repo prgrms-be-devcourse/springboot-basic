@@ -163,5 +163,5 @@ buildNumber.properties
 
 .idea
 
-#db-profile 제외
-./src/main/resources/application-jdbc.yml
+# ignore properties file
+application-jdbc.yml
