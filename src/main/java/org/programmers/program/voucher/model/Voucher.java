@@ -53,4 +53,10 @@ public abstract class Voucher {
     public boolean getIsUsed(){
         return isUsed;
     }
+
+    @Override
+    public String toString() {
+        return "ID : " + id +  ", Voucher Type : " + this.voucherType + ", " + "Discount Amount : " + discountAmount
+                 + ", Expiration Date : " + expirationDate.toString();
+    }
 }

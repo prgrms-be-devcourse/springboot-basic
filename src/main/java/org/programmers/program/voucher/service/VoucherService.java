@@ -21,12 +21,18 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Optional<Voucher> getVoucher(UUID id){
+    public Optional<Voucher> findById(UUID id){
         return voucherRepository.findById(id);
     }
 
-    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount, LocalDateTime expirationDate){
+    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount){
         if(type.equals(VoucherType.FIXED))
+            return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount));
+        return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount));
+    }
+
+    public Voucher createVoucher(VoucherType type, UUID id, long discountAmount, LocalDateTime expirationDate) {
+        if (type.equals(VoucherType.FIXED))
             return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount, expirationDate));
         return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount, expirationDate));
     }
@@ -34,4 +40,6 @@ public class VoucherService {
     public List<Voucher> getAllVouchers(){
         return voucherRepository.findAll();
     }
+
+    public int count(){return voucherRepository.count();}
 }

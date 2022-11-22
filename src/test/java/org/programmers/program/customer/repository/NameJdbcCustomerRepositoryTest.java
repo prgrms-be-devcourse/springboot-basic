@@ -4,8 +4,6 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.program.customer.model.Customer;
-import org.programmers.program.voucher.model.PercentDiscountVoucher;
-import org.programmers.program.voucher.repository.NamedJdbcVoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -37,15 +35,25 @@ class NameJdbcCustomerRepositoryTest {
     @Configuration
     @ComponentScan(basePackages = "org.programmers.program.customer")
     static class Config{
+//        @Bean
+//        public DataSource dataSource(){
+//            return DataSourceBuilder.create()
+//                    .url("jdbc:mysql://localhost:2215/customers")
+//                    .username("test")
+//                    .password("test1234!")
+//                    .type(HikariDataSource.class)
+//                    .build();
+//        }
         @Bean
         public DataSource dataSource(){
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/customers")
-                    .username("test")
-                    .password("test1234!")
+                    .url("jdbc:mysql://localhost/voucherDB")
+                    .username("root")
+                    .password("voucher1234!")
                     .type(HikariDataSource.class)
                     .build();
         }
+
 
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource){
@@ -75,23 +83,23 @@ class NameJdbcCustomerRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    @BeforeAll
-    void setUp(){
-        var mysqlConfig = aMysqldConfig(v8_0_11)
-                .withCharset(UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("customers", classPathScript("customerSchema.sql"))
-                .start();
-    }
-
-    @AfterAll
-    void cleanUp(){
-        embeddedMysql.stop();
-    }
+//    @BeforeAll
+//    void setUp(){
+//        var mysqlConfig = aMysqldConfig(v8_0_11)
+//                .withCharset(UTF8)
+//                .withPort(2215)
+//                .withUser("test", "test1234!")
+//                .withTimeZone("Asia/Seoul")
+//                .build();
+//        embeddedMysql = anEmbeddedMysql(mysqlConfig)
+//                .addSchema("customers", classPathScript("customerSchema.sql"))
+//                .start();
+//    }
+//
+//    @AfterAll
+//    void cleanUp(){
+//        embeddedMysql.stop();
+//    }
 
     @Test
     @Order(1)

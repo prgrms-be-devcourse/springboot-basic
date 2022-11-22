@@ -19,6 +19,7 @@ import java.util.*;
 public class NamedJdbcVoucherRepository implements VoucherRepository{
     private final NamedParameterJdbcTemplate namedJdbcTemplate;
 
+
     public NamedJdbcVoucherRepository(NamedParameterJdbcTemplate namedJdbcTemplate){
         this.namedJdbcTemplate = namedJdbcTemplate;
     }
