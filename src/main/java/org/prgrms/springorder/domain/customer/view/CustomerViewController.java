@@ -1,8 +1,9 @@
-package org.prgrms.springorder.domain.customer;
+package org.prgrms.springorder.domain.customer.view;
 
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.springorder.console.io.Response;
+import org.prgrms.springorder.domain.customer.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
