@@ -30,7 +30,7 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllVouchers() {
+    public ResponseEntity<List<VoucherResponse>> getAllVouchers() {
         List<VoucherResponse> voucherResponses = voucherService.findAll().stream()
             .map(voucher -> new VoucherResponse(voucher.getVoucherId(),
                 voucher.getAmount(),
@@ -42,15 +42,17 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createVoucher(@RequestBody VoucherCreateRequest request) {
+    public ResponseEntity<VoucherCreateResponse> createVoucher(@RequestBody VoucherCreateRequest request) {
         Voucher voucher = voucherService.createVoucher(request);
         return new ResponseEntity<>(new VoucherCreateResponse(voucher.getVoucherId()),
             HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<?> deleteVoucher(@PathVariable UUID voucherId) {
+    public ResponseEntity<Void> deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucherById(voucherId);
         return ResponseEntity.ok().build();
     }
+
+
 }
