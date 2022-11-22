@@ -40,7 +40,7 @@ public class JdbcVoucherRepository {
                 .addValue("voucherDiscountValue", voucher.getDiscountValue());
     }
 
-    private RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         long voucherId = resultSet.getLong("voucher_id");
         long voucherDiscountValue = resultSet.getLong("voucher_discount_value");
         String voucherType = resultSet.getString("voucher_type");
@@ -49,14 +49,12 @@ public class JdbcVoucherRepository {
 
     public Voucher save(Voucher voucher) {
         GeneratedKeyHolder voucherIdHolder = new GeneratedKeyHolder();
-//        try {
+        try {
             jdbcTemplate.update(INPUT_VOUCHER_SQL.getSql(), toParamSource(voucher), voucherIdHolder);
-//        } catch (DataAccessException e) {
-//            logger.error("Fail - {}", e.getMessage());
-//        }
-        Voucher of = VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
-        logger.error("여기를 보세요. - {}", of.toString());
-        return of;
+        } catch (DataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
     }
 
     public List<Voucher> findAllVouchers() {
