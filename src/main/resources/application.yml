@@ -1,7 +1,12 @@
 spring:
   profiles:
-    active: prod
+    active: local
 
 file:
   voucherResourcesPath: ./src/main/resources/voucherResources/
   consumerBlacklistPath: ./src/main/resources/consumerResources/
+
+db:
+  url: jdbc:mysql://localhost/consumer
+  user: root
+  password: root1234!

@@ -13,7 +13,7 @@ public class Console {
         System.out.print(message);
     }
 
-    public static String read() {
+    public String read() {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
             String input = bufferedReader.readLine();

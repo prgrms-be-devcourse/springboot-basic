@@ -8,6 +8,7 @@ public enum Message {
             2. 쿠폰 생성
             3. 쿠폰 조회
             4. 악덕 소비자 조회
+            5. 소비자 입력
 
             입력: """),
 
@@ -23,6 +24,8 @@ public enum Message {
     READ_LINE("입력에 문제가 발생했습니다."),
     VALIDATE_PARSE_TO_NUMBER_ERROR("잘못된 입력 값 입니다. 정상 입력은 숫자 입니다."),
     BAD_DISCOUNT("잘못된 할인 정책입니다."),
+    INSERT_CONSUMER_NAME("이름 : "),
+    INSERT_CONSUMER_EMAIL("이메일 : "),
     ;
 
     private String message;

@@ -6,8 +6,9 @@ import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
-    private final Long discount;
-    public PercentDiscountVoucher(UUID uuid, Long discount) {
+    private final long discount;
+
+    public PercentDiscountVoucher(UUID uuid, long discount) {
         super(uuid, VoucherType.PERCENT_DISCOUNT);
         this.discount = discount;
     }

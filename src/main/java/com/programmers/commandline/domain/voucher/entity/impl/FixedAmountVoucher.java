@@ -7,9 +7,9 @@ import com.programmers.commandline.global.io.Message;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    private final Long discount;
+    private final long discount;
 
-    public FixedAmountVoucher(UUID uuid, Long discount) {
+    public FixedAmountVoucher(UUID uuid, long discount) {
         super(uuid, VoucherType.FIXED_AMOUNT);
 
         if (discount < 0) {

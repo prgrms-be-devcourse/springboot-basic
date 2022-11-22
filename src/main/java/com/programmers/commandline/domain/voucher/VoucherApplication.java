@@ -11,6 +11,9 @@ import com.programmers.commandline.global.io.Message;
 import com.programmers.commandline.global.util.Verification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Component
 public class VoucherApplication {
     private final Power power = new Power();
@@ -44,8 +47,19 @@ public class VoucherApplication {
             case VOUCHER_CREATE -> create();
             case VOUCHER_LIST -> findVouchers();
             case BLACK_CONSUMER_LIST -> findBlackConsumers();
+            case CONSUMER -> insertConsumer();
             case ERROR -> error();
         };
+    }
+
+    private void insertConsumer() {
+        console.print(Message.INSERT_CONSUMER_NAME.getMessage());
+        String name = console.read();
+        console.print(Message.INSERT_CONSUMER_EMAIL.getMessage());
+        String email = console.read();
+
+        String consumerId = consumerService.insert(UUID.randomUUID(), name, email).getConsumerId().toString();
+        console.print(consumerId + "\n");
     }
 
     private void exit() {

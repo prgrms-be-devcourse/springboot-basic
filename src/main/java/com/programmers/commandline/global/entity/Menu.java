@@ -9,7 +9,8 @@ public enum Menu {
     VOUCHER_CREATE(2),
     VOUCHER_LIST(3),
     BLACK_CONSUMER_LIST(4),
-    ERROR(5);
+    CONSUMER(5),
+    ERROR(6);
 
     private final int code;
 
