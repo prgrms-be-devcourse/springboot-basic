@@ -4,28 +4,28 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.prgrms.springbootbasic.type.MethodType.isExist;
+import static org.prgrms.springbootbasic.type.MethodType.isExit;
 
 class MethodTypeTest {
 
     @Test
     void testIsExit_success() {
-        assertThat(isExist("exit"), is(true));
+        assertThat(isExit("exit"), is(true));
     }
 
     @Test
     void testIsExit_fail() {
-        assertThat(isExist("aaaaa"), is(false));
+        assertThat(isExit("aaaaa"), is(false));
     }
 
     @Test
     void isCreateVoucher_success() {
-        assertThat(MethodType.isCreateVoucher("create"), is(true));
+        assertThat(MethodType.isCreate("create"), is(true));
     }
 
     @Test
     void isCreateVoucher_fail() {
-        assertThat(MethodType.isCreateVoucher("not create"), is(false));
+        assertThat(MethodType.isCreate("not create"), is(false));
     }
 
     @Test
