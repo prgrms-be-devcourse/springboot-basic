@@ -49,19 +49,21 @@ public class VoucherJdbcRepository implements VoucherRepository {
     });
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString());
-            put("amount", voucher.getAmount());
-            put("voucherType", voucher.getVoucherType().getType());
-            put("customerId", voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString());
-            put("createdAt", voucher.getCreatedAt());
-        }};
+        HashMap<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("voucherId", voucher.getVoucherId().toString());
+        paramMap.put("amount", voucher.getAmount());
+        paramMap.put("voucherType", voucher.getVoucherType().getType());
+        paramMap.put("customerId", voucher.getCustomerId() == null ? null : voucher.getCustomerId().toString());
+        paramMap.put("createdAt", voucher.getCreatedAt());
+
+        return paramMap;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            Voucher findVoucher = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID.getSql(),
+            Voucher findVoucher = jdbcTemplate.queryForObject(FIND_BY_ID,
                 Collections.singletonMap("voucherId", voucherId.toString()),
                 voucherRowMapper);
 
@@ -74,7 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         try {
-            jdbcTemplate.update(VoucherSQL.INSERT.getSql(), toParamMap(voucher));
+            jdbcTemplate.update(INSERT, toParamMap(voucher));
 
             return voucher;
         } catch (DataAccessException e) {
@@ -87,17 +89,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(VoucherSQL.FIND_ALL.getSql(), voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL, voucherRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(VoucherSQL.DELETE_ALL.getSql(), Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        jdbcTemplate.update(VoucherSQL.UPDATE_BY_ID.getSql(), toParamMap(voucher));
+        jdbcTemplate.update(UPDATE_BY_ID, toParamMap(voucher));
         return voucher;
     }
 
@@ -106,7 +108,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
         try {
             CustomerWithVoucher customerWithVoucher
-                = jdbcTemplate.queryForObject(VoucherSQL.FIND_BY_ID_WITH_CUSTOMER.getSql(),
+                = jdbcTemplate.queryForObject(FIND_BY_ID_WITH_CUSTOMER,
                 Collections.singletonMap("voucherId", voucherId.toString()),
                 (rs, rowNum) -> {
                     UUID findVoucherId = UUID.fromString(rs.getString("voucher_id"));
@@ -135,8 +137,29 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(VoucherSQL.DELETE_BY_ID.getSql(),
+        jdbcTemplate.update(DELETE_BY_ID,
             Collections.singletonMap("voucherId", voucherId.toString()));
     }
+
+
+    private static final String FIND_BY_ID = "SELECT * FROM vouchers WHERE voucher_id = :voucherId";
+
+    private static final String FIND_ALL = "SELECT * FROM vouchers";
+
+    private static final String DELETE_ALL = "DELETE FROM vouchers";
+
+    private static final String DELETE_BY_ID = "DELETE FROM vouchers WHERE voucher_id = :voucherId";
+
+    private static final String INSERT = "INSERT INTO vouchers(voucher_id, amount, voucher_type, customer_id, created_at) "
+        + "VALUES (:voucherId, :amount, :voucherType, :customerId, :createdAt)";
+
+    private static final String UPDATE_BY_ID = "UPDATE vouchers  "
+        + "SET amount = :amount, voucher_type = :voucherType, customer_id = :customerId WHERE voucher_id = :voucherId";
+
+    private static final String FIND_BY_ID_WITH_CUSTOMER = "SELECT "
+        + " * "
+        + " FROM vouchers v "
+        + " INNER JOIN customers c ON v.customer_id = c.customer_id  "
+        + " WHERE voucher_id = :voucherId";
 
 }

@@ -1,39 +1,27 @@
 package org.prgrms.springorder.domain.customer;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 
 public class Wallet {
 
-    private Map<Customer, List<Voucher>> vouchers;
+    private final Customer customer;
+
+    private final List<Voucher> vouchers;
 
     public Wallet(Customer customer, List<Voucher> vouchers) {
-        this.vouchers = new HashMap<>() {{
-            put(customer, vouchers);
-        }};
-
+        this.customer = customer;
+        this.vouchers = vouchers;
     }
 
     public List<Voucher> getVouchers() {
-        Iterator<Entry<Customer, List<Voucher>>> iterator = vouchers.entrySet().iterator();
-        Entry<Customer, List<Voucher>> entry = iterator.next();
-
-        return entry.getValue();
+        return this.vouchers;
     }
 
     public Customer getCustomer() {
-        Iterator<Entry<Customer, List<Voucher>>> iterator = vouchers.entrySet().iterator();
-        Entry<Customer, List<Voucher>> entry = iterator.next();
-
-        return entry.getKey();
+        return this.customer;
     }
 
     public boolean isEmpty() {
@@ -42,18 +30,9 @@ public class Wallet {
 
     @Override
     public String toString() {
-
         if (isEmpty()) {
             throw new IllegalStateException("wallet is empty");
         }
-
-        Iterator<Entry<Customer, List<Voucher>>> iterator = vouchers.entrySet().iterator();
-
-        Entry<Customer, List<Voucher>> entry = iterator.next();
-
-        Customer customer = entry.getKey();
-
-        List<Voucher> vouchers = entry.getValue();
 
         return "Customer Wallet{ \n" +
             "customer = " + customer + "\n" +

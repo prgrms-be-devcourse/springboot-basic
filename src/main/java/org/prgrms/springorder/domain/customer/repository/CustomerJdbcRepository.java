@@ -50,17 +50,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
     };
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("customerStatus", customer.getCustomerStatus().name());
+        HashMap<String, Object> paramMap = new HashMap<>();
 
-            put("createdAt", customer.getCreatedAt() == null ? null
-                : Timestamp.valueOf(customer.getCreatedAt()));
-            put("lastLoginAt", customer.getLastLoginAt() == null ? null : Timestamp.valueOf(
-                customer.getLastLoginAt()));
-        }};
+        paramMap.put("customerId", customer.getCustomerId().toString());
+        paramMap.put("name", customer.getName());
+        paramMap.put("email", customer.getEmail());
+        paramMap.put("customerStatus", customer.getCustomerStatus().name());
+
+        paramMap.put("createdAt", customer.getCreatedAt() == null ? null
+            : Timestamp.valueOf(customer.getCreatedAt()));
+        paramMap.put("lastLoginAt", customer.getLastLoginAt() == null ? null : Timestamp.valueOf(
+            customer.getLastLoginAt()));
+
+        return paramMap;
     }
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -70,7 +72,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Customer findCustomer = jdbcTemplate.queryForObject(CustomerSql.FIND_BY_ID.getSql(),
+            Customer findCustomer = jdbcTemplate.queryForObject(FIND_BY_ID,
                 Collections.singletonMap("customerId", customerId.toString())
                 , customerRowMapper);
 
@@ -83,7 +85,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         try {
-            jdbcTemplate.update(CustomerSql.INSERT.getSql(), toParamMap(customer));
+            jdbcTemplate.update(INSERT, toParamMap(customer));
 
             return customer;
         } catch (DataAccessException e) {
@@ -95,17 +97,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(CustomerSql.FIND_ALL.getSql(), customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL, customerRowMapper);
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(CustomerSql.DELETE_ALL.getSql(), Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
     }
 
     @Override
     public Customer update(Customer customer) {
-        jdbcTemplate.update(CustomerSql.UPDATE_BY_ID.getSql(), toParamMap(customer));
+        jdbcTemplate.update(UPDATE_BY_ID, toParamMap(customer));
         return customer;
     }
 
@@ -113,8 +115,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
     public Optional<Wallet> findByIdWithVouchers(UUID customerId) {
 
         try {
-            Wallet wallet = jdbcTemplate.query("SELECT * FROM customers c INNER JOIN vouchers v "
-                    + "ON c.customer_id = v.customer_id WHERE c.customer_id = :customerId",
+
+            Wallet wallet = jdbcTemplate.query(FIND_BY_ID_WITH_VOUCHERS,
                 Collections.singletonMap("customerId", customerId.toString()),
                 rs -> {
                     Customer customer = null;
@@ -157,4 +159,23 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.empty();
         }
     }
+
+    private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = :customerId";
+
+    private static final String INSERT = "INSERT INTO customers(customer_id, name, email, last_login_at) "
+        + "VALUES (:customerId, :name, :email, :lastLoginAt)";
+
+    private static final String FIND_ALL = "SELECT * FROM customers";
+
+    private static final String DELETE_ALL = "DELETE FROM customers";
+
+    private static final String UPDATE_BY_ID = "UPDATE customers "
+        + "SET name = :name, email = :email, customer_status = :customerStatus, last_login_at = :lastLoginAt "
+        + "WHERE customer_id = :customerId ";
+
+    private static final  String FIND_BY_ID_WITH_VOUCHERS =
+        "SELECT * FROM customers c INNER JOIN vouchers v "
+        + "ON c.customer_id = v.customer_id "
+        + "WHERE c.customer_id = :customerId";
+
 }

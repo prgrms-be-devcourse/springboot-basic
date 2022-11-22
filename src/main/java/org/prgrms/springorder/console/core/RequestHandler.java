@@ -22,20 +22,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestHandler {
 
-    private final CustomerControllerDecorator customerController;
-
-    private final VoucherControllerDecorator voucherController;
-
     private final Map<Command, Function<Request, Response>> requestMap;
 
     public RequestHandler(
-        CustomerControllerDecorator customerController1,
-        VoucherControllerDecorator voucherController1) {
-        this.customerController = customerController1;
-        this.voucherController = voucherController1;
+        CustomerControllerDecorator customerController,
+        VoucherControllerDecorator voucherController) {
         this.requestMap = new EnumMap<>(Command.class);
+        mappingInit(customerController, voucherController);
+    }
 
-        requestMap.put(EXIT, o -> {ConsoleRunningStatus.stop();return null;});
+    public Function<Request, Response> handle(Command command) {
+        return requestMap.get(command);
+    }
+
+    private void mappingInit(CustomerControllerDecorator customerController,
+        VoucherControllerDecorator voucherController) {
+        requestMap.put(EXIT, o -> {
+            ConsoleRunningStatus.stop();
+            return Response.OK;
+        });
         requestMap.put(CREATE, voucherController::createVoucher);
         requestMap.put(LIST, request -> voucherController.findAllVoucher());
         requestMap.put(BLACKLIST, request -> customerController.findAllCustomers());
@@ -43,12 +48,8 @@ public class RequestHandler {
         requestMap.put(GET_CUSTOMER_VOUCHERS, customerController::findAllVouchers);
         requestMap.put(DELETE_CUSTOMER_VOUCHERS, customerController::deleteVoucher);
         requestMap.put(GET_VOUCHER_WITH_CUSTOMER, voucherController::findCustomerWithVoucher);
-        requestMap.put(CREATE_CUSTOMER, customerController1::createCustomer);
-    }
+        requestMap.put(CREATE_CUSTOMER, customerController::createCustomer);
 
-    public Function<Request, Response> handle(Command command) {
-        return requestMap.get(command);
     }
-
 
 }
