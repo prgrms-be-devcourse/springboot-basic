@@ -4,7 +4,6 @@ import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.customer.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -14,7 +13,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("csv")
 class CsvCustomerRepositoryTest {
 

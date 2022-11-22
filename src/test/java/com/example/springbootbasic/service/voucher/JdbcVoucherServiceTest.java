@@ -3,6 +3,12 @@ package com.example.springbootbasic.service.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.ScriptResolver;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
+import com.wix.mysql.distribution.Version;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,11 +27,24 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 class JdbcVoucherServiceTest {
 
     @Autowired
     private JdbcVoucherService voucherService;
+
+    @BeforeAll
+    static void setup() {
+        MysqldConfig config = MysqldConfig.aMysqldConfig(Version.v8_0_11)
+                .withCharset(Charset.UTF8)
+                .withPort(2215)
+                .withUser("test", "test1234!")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        EmbeddedMysql.anEmbeddedMysql(config)
+                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .start();
+    }
 
     @BeforeEach
     void clearData() {

@@ -1,14 +1,21 @@
 package com.example.springbootbasic.service.customer;
 
-import com.example.springbootbasic.config.TestMysqlConfig;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.repository.voucher.JdbcVoucherRepository;
+import com.wix.mysql.EmbeddedMysql;
+import com.wix.mysql.ScriptResolver;
+import com.wix.mysql.config.Charset;
+import com.wix.mysql.config.MysqldConfig;
+import com.wix.mysql.distribution.Version;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -19,13 +26,28 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 import static java.util.Collections.EMPTY_LIST;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class JdbcCustomerServiceTest extends TestMysqlConfig {
+@SpringBootTest
+@ActiveProfiles("test")
+class JdbcCustomerServiceTest {
 
     @Autowired
     private JdbcCustomerService customerService;
 
     @Autowired
     private JdbcVoucherRepository voucherRepository;
+
+    @BeforeAll
+    static void setup() {
+        MysqldConfig config = MysqldConfig.aMysqldConfig(Version.v8_0_11)
+                .withCharset(Charset.UTF8)
+                .withPort(2215)
+                .withUser("test", "test1234!")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        EmbeddedMysql.anEmbeddedMysql(config)
+                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .start();
+    }
 
     @BeforeEach
     void clear() {

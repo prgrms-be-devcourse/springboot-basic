@@ -20,11 +20,11 @@
         </encoder>
     </appender>
 
-    <logger name="com.example.springbootbasic" level="debug">
+    <logger name="com.example.springbootbasic" level="info">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

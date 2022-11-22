@@ -49,12 +49,14 @@ public class JdbcVoucherRepository {
 
     public Voucher save(Voucher voucher) {
         GeneratedKeyHolder voucherIdHolder = new GeneratedKeyHolder();
-        try {
+//        try {
             jdbcTemplate.update(INPUT_VOUCHER_SQL.getSql(), toParamSource(voucher), voucherIdHolder);
-        } catch (DataAccessException e) {
-            logger.error("Fail - {}", e.getMessage());
-        }
-        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
+//        } catch (DataAccessException e) {
+//            logger.error("Fail - {}", e.getMessage());
+//        }
+        Voucher of = VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
+        logger.error("여기를 보세요. - {}", of.toString());
+        return of;
     }
 
     public List<Voucher> findAllVouchers() {

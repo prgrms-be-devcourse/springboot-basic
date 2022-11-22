@@ -20,8 +20,8 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUN
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("csv")
 @SpringBootTest
+@ActiveProfiles("csv")
 class VoucherServiceTest {
 
     @Autowired
