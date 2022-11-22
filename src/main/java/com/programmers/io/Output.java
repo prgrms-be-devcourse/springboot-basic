@@ -1,6 +1,6 @@
 package com.programmers.io;
 
-import com.programmers.voucher.Voucher;
+import com.programmers.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
