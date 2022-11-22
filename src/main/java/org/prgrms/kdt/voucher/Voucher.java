@@ -6,6 +6,7 @@ public interface Voucher {
         return switch (type) {
             case FIXED -> new FixedAmountVoucher(amount);
             case PERCENT -> new PercentDiscountVoucher(amount);
+            default -> throw new IllegalArgumentException("Unknown Type. [argument type]: " + type.getType());
         };
     }
 
@@ -13,6 +14,7 @@ public interface Voucher {
         return switch (type) {
             case FIXED -> new FixedAmountVoucher(id, amount);
             case PERCENT -> new PercentDiscountVoucher(id, amount);
+            default -> throw new IllegalArgumentException("Unknown Type. [argument type]: " + type.getType());
         };
     }
 

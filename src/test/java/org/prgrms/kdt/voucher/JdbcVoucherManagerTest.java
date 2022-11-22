@@ -1,26 +1,56 @@
 package org.prgrms.kdt.voucher;
 
+import com.wix.mysql.EmbeddedMysql;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.prgrms.kdt.JdbcBase;
+import org.prgrms.kdt.JdbcConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
-import java.util.Optional;
 
+import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
+import static com.wix.mysql.ScriptResolver.classPathScript;
+import static com.wix.mysql.config.Charset.UTF8;
+import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
+import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@Import(JdbcConfig.class)
+@ExtendWith(SpringExtension.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("prod")
-class JdbcVoucherManagerTest extends JdbcBase {
+class JdbcVoucherManagerTest {
 
     @Autowired
     private VoucherManager voucherManager;
+
+    private EmbeddedMysql embeddedMysql;
+
+    @BeforeAll
+    void setup() {
+        var mysqlConfig = aMysqldConfig(v8_0_11)
+                .withCharset(UTF8)
+                .withPort(2215)
+                .withUser("test", "test1234!")
+                .withTimeZone("Asia/Seoul")
+                .build();
+        embeddedMysql = anEmbeddedMysql(mysqlConfig)
+                .addSchema("voucher_mgmt", classPathScript("schema.sql"))
+                .start();
+    }
+
+    @AfterAll
+    void cleanup() {
+        embeddedMysql.stop();
+    }
+
 
     @BeforeEach
     void init() {
@@ -92,13 +122,12 @@ class JdbcVoucherManagerTest extends JdbcBase {
 
         // when
         voucherManager.update(updatedVoucher);
-        Optional<Voucher> actual = voucherManager.findById(savedVoucher.getId());
+        Voucher actualVoucher = voucherManager.findById(savedVoucher.getId()).get();
+        long actualAmount = actualVoucher.getAmount().getValue();
 
         // then
-        assertThat(actual)
-                .isPresent()
-                .map(Voucher::getAmount)
-                .hasValue(new VoucherAmount("20"));
+        assertThat(actualAmount)
+                .isEqualTo(20);
 
     }
 

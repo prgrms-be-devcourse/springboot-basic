@@ -86,9 +86,10 @@ class FileVoucherManagerTest {
         Voucher savedVoucher = voucherManager.save(voucher);
 
         // when
+        Optional<Voucher> actual = voucherManager.findById(savedVoucher.getId());
 
         // then
-        assertThat(voucherManager.findById(savedVoucher.getId()).isPresent())
+        assertThat(actual.isPresent())
                 .isTrue();
     }
 }

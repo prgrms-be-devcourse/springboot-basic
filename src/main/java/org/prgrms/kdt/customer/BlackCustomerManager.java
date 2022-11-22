@@ -16,17 +16,17 @@ public class BlackCustomerManager {
 
     private static final Logger logger = LoggerFactory.getLogger(BlackCustomerManager.class);
 
-    private static final String filePath = "src/main/resources/customer_blacklist.csv";
+    private static final String FILE_PATH = "src/main/resources/customer_blacklist.csv";
     private static final String DELIMITER = ", ";
 
     private File loadFile() {
-        File file = new File(filePath);
+        File file = new File(FILE_PATH);
         try {
             if (file.createNewFile()) {
-                logger.info("file created. [FILE PATH]: " + filePath);
+                logger.info("file created. [FILE PATH]: " + FILE_PATH);
             }
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + filePath, exception);
+            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + FILE_PATH, exception);
         }
         return file;
     }
@@ -48,7 +48,7 @@ public class BlackCustomerManager {
             String[] tokens = line.split(DELIMITER);
             return new Customer(tokens[0], tokens[1]);
         } catch (ArrayIndexOutOfBoundsException exception) {
-            throw new RuntimeException("Invalid File. Please write the file in following format. [Format]: Id, Name", exception);
+            throw new IllegalArgumentException("Invalid File. Please write the file in following format. [Format]: Id, Name", exception);
         }
     }
 }

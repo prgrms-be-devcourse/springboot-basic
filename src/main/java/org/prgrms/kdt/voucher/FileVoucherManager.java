@@ -49,7 +49,7 @@ public class FileVoucherManager implements VoucherManager {
             return bufferedReader.lines()
                     .count() + 1;
         } catch (IOException exception) {
-            throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName(), exception);
+            throw new IllegalStateException("Cannot find file. Please check there is file those name is " + file.getName(), exception);
         }
     }
 
