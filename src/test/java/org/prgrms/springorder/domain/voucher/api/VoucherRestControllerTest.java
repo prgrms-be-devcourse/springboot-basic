@@ -1,13 +1,14 @@
 package org.prgrms.springorder.domain.voucher.api;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,9 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.prgrms.springorder.domain.customer.api.CustomerController;
-import org.prgrms.springorder.domain.customer.model.Customer;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
+import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.repository.VoucherJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -46,6 +48,9 @@ class VoucherRestControllerTest {
     @MockBean
     private CustomerController customerController;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @DisplayName("findAll Voucher 테스트 - 저장된 모든 Voucher 가 XML 형식으로 반환된다 ")
     @Test
@@ -62,8 +67,11 @@ class VoucherRestControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
             .andExpect(xpath("list").exists())
             .andExpect(xpath("list").nodeCount(1))
-            .andExpect(xpath("/list/org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher").exists())
-            .andExpect(xpath("/list/org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher").nodeCount(saveCount))
+            .andExpect(xpath(
+                "/list/org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher").exists())
+            .andExpect(xpath(
+                "/list/org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher").nodeCount(
+                saveCount))
             .andDo(print());
     }
 
@@ -91,6 +99,26 @@ class VoucherRestControllerTest {
 
             .andDo(print());
     }
+
+    @DisplayName("Create Voucher 테스트 - 바우처가 생성되고 ID를 반환한다")
+    @Test
+    void createVoucherSuccessTest() throws Exception {
+        //given
+        VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(VoucherType.PERCENT,
+            100L);
+
+        //then & when
+        mockMvc.perform(post("/api/v1/vouchers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(voucherCreateRequest))
+            )
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.voucherId").exists())
+            .andDo(print());
+    }
+
+
+
 
     private List<Voucher> createVouchers(int saveCount) {
         return IntStream.range(0, saveCount)
