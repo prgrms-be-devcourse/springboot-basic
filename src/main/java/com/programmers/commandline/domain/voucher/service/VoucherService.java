@@ -18,8 +18,7 @@ public class VoucherService {
     }
     public String create(VoucherType voucherType, Long discount) {
         Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount);
-        voucherRepository.save(voucher);
-        return voucher.getVoucherId();
+        return voucherRepository.save(voucher);
     }
 
     public String findVouchers() {

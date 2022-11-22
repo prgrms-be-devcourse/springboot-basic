@@ -25,7 +25,7 @@ class VoucherTypeTest {
 
         //then
         assertThat(voucher, isA(FixedAmountVoucher.class));
-        assertThat(voucher.getVoucherId(),is(uuid));
+        assertThat(voucher.getId(),is(uuid));
     }
 
     @Test

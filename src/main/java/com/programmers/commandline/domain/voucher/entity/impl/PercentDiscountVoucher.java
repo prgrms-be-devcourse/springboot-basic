@@ -13,6 +13,11 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
+    public String toString() {
+        return String.format("ID: %s Type: %s Discount: %d", super.getId(), super.getType(), this.discount);
+    }
+
+    @Override
     public Long getDiscount(Long price) {
         return price - (price * (discount/100));
     }

@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -22,7 +23,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final String filePath;
     private final File file;
 
-    FileVoucherRepository(@Value("${file.voucherResourcesPath}") String filePath) {
+    public FileVoucherRepository(@Value("${file.voucherResourcesPath}") String filePath) {
         this.filePath = filePath;
         this.file = new File(filePath);
     }
@@ -32,10 +33,10 @@ public class FileVoucherRepository implements VoucherRepository {
         try
         {
             TomlWriter tomlWriter = new TomlWriter();
-            File file = new File(filePath + voucher.getVoucherId());
+            File file = new File(filePath + voucher.getId());
             tomlWriter.write(voucher, file);
 
-            return voucher.getVoucherId();
+            return voucher.getId();
         } catch (IOException e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -56,6 +57,27 @@ public class FileVoucherRepository implements VoucherRepository {
                 voucherList.add(voucher);
             }
             return voucherList;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<Voucher> findById(String voucherId) {
+        Optional<Voucher> voucher = Optional.empty();
+        try {
+            File[] files = file.listFiles();
+            for (File file : files) {
+                Toml toml = new Toml().read(file);
+                String id = toml.getString("voucherId");
+
+                if (voucherId.equals(id)) {
+                    String type = toml.getString("voucherType");
+                    Long discount = toml.getLong("discount");
+                    voucher = Optional.ofNullable(createVoucherType(type).createVoucher(UUID.fromString(id),discount));
+                }
+            }
+            return voucher;
         } catch (RuntimeException e) {
             throw new RuntimeException(e.getMessage());
         }

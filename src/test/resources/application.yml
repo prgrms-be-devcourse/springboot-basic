@@ -1,3 +1,7 @@
+spring:
+  profiles:
+    active: prod
+
 file:
-  voucherResourcesPath: ./src/test/resources/voucherResources/
-  consumerBlacklistPath: ./src/test/resources/consumerResources/
+  voucherResourcesPath: ./src/main/resources/voucherResources/
+  consumerBlacklistPath: ./src/main/resources/consumerResources/

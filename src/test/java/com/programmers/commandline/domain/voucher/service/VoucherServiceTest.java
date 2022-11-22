@@ -2,39 +2,47 @@ package com.programmers.commandline.domain.voucher.service;
 
 import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
-import com.programmers.commandline.domain.voucher.entity.impl.FixedAmountVoucher;
 import com.programmers.commandline.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.UUID;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
 
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.*;
-
-
+@SpringBootTest
 class VoucherServiceTest {
 
+    @Autowired
+    private VoucherService voucherService;
+    @Autowired
+    private VoucherRepository voucherRepository;
+
     @Test
-    @DisplayName("입력된 바우처")
+    @DisplayName("입력된 바우처 타입과 할인 요금을 적용하여 바우처를 생성을 검증하라")
     void create() {
         //given
-        VoucherType voucherType = VoucherType.FIXED_AMOUNT;
         Long discount = 100L;
-
-        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount);
-        VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
-        VoucherService voucherService = new VoucherService(voucherRepositoryMock);
+        VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 
         //when
-        when(voucherRepositoryMock.save(voucher)).thenReturn(voucher.getVoucherId());
-        String voucherId = voucherService.create(voucherType, discount);
+        String createVoucherId = voucherService.create(voucherType, discount);
 
         //then
-        inOrder()
+        Voucher voucher = voucherRepository.findById(createVoucherId).get();
+        assertThat(voucher, isA(Voucher.class));
     }
 
     @Test
-    void list() {
+    void findVouchers() {
+        //given
+
+        //when
+        String findVoucherId = voucherService.findVouchers();
+
+        //then
+        assertThat("989a671c-5d5a-4ae2-aadb-f493831b5e14", is(findVoucherId));
     }
 }

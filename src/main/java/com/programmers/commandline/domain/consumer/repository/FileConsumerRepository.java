@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,9 +35,11 @@ public class FileConsumerRepository {
         File[] files = file.listFiles();
         for (File file : files) {
             Toml toml = new Toml().read(file);
-            Long nickname = toml.getLong("nickname");
+            UUID uuid = UUID.fromString(toml.getString("nickname"));
             String name = toml.getString("name");
-            Consumer consumer = new Consumer(nickname, name);
+            String email = toml.getString("email");
+            LocalDateTime createdAt = LocalDateTime.now();
+            Consumer consumer = new Consumer(uuid , name, email, createdAt);
             memory.add(consumer);
         }
         return memory;

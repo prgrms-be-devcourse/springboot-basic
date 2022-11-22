@@ -11,8 +11,12 @@ public abstract class Voucher {
         this.voucherType = type;
     }
 
-    public String getVoucherId() {
+    public String getId() {
         return this.voucherId;
+    }
+
+    public String getType() {
+        return this.voucherType.toString();
     }
 
     public abstract Long getDiscount(Long price);

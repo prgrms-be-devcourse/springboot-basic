@@ -22,6 +22,7 @@ public enum Message {
     CONSUMER_FILE_READ_ERROR("블랙리스트 읽기에 문제가 발생했습니다.\n"),
     READ_LINE("입력에 문제가 발생했습니다."),
     VALIDATE_PARSE_TO_NUMBER_ERROR("잘못된 입력 값 입니다. 정상 입력은 숫자 입니다."),
+    BAD_DISCOUNT("잘못된 할인 정책입니다."),
     ;
 
     private String message;

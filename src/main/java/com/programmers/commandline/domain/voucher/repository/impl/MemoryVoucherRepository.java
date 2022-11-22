@@ -7,22 +7,35 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 @Repository
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private List<Voucher> voucherMemory = new ArrayList<>();
+    private List<Voucher> memory = new ArrayList<>();
 
     @Override
     public String save(Voucher voucher) {
-         voucherMemory.add(voucher);
-        return voucher.getVoucherId();
+         memory.add(voucher);
+        return voucher.getId();
     }
 
     @Override
     public List<Voucher> findAll() {
-        return voucherMemory;
+        return memory;
+    }
+
+    @Override
+    public Optional<Voucher> findById(String voucherId) {
+        Optional<Voucher> voucher = Optional.empty();
+
+        for (Voucher v : memory) {
+            if (v.getId().equals(voucherId)) {
+                voucher = Optional.of(v);
+            }
+        }
+
+        return voucher;
     }
 }
