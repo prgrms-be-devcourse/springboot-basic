@@ -81,4 +81,9 @@ public class CustomerService {
         return customerRepository.insert(customer);
     }
 
+    @Transactional(readOnly = true)
+    public List<Customer> findAllCustomers() {
+        return customerRepository.findAll();
+    }
+
 }

@@ -1,14 +1,13 @@
 package org.prgrms.springorder.domain.voucher.api.request;
 
 import java.util.UUID;
-import org.prgrms.springorder.console.io.Request;
 import org.prgrms.springorder.util.UUIDValidator;
 
-public class DeleteVoucherRequest implements Request {
+public class DeleteVoucherRequest {
 
-    private final UUID voucherId;
+    private UUID voucherId;
 
-    private final UUID customerId;
+    private UUID customerId;
 
     public DeleteVoucherRequest(String voucherId, String customerId) {
         UUIDValidator.validateString(voucherId);
@@ -23,5 +22,13 @@ public class DeleteVoucherRequest implements Request {
 
     public UUID getCustomerId() {
         return customerId;
+    }
+
+    @Override
+    public String toString() {
+        return "DeleteVoucherRequest{" +
+            "voucherId=" + voucherId +
+            ", customerId=" + customerId +
+            '}';
     }
 }

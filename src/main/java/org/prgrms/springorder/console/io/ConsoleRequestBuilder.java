@@ -31,8 +31,8 @@ public class ConsoleRequestBuilder {
         requestMap = new EnumMap<>(Command.class);
 
         requestMap.put(CREATE, () -> getVoucherCreateRequest(console));
-        requestMap.put(LIST, () -> Request.EMPTY);
-        requestMap.put(BLACKLIST, () -> Request.EMPTY);
+        requestMap.put(LIST, () -> null);
+        requestMap.put(BLACKLIST, () -> null);
         requestMap.put(POST_CUSTOMER_VOUCHERS, () -> inputAllocationVoucherRequest(console));
         requestMap.put(GET_CUSTOMER_VOUCHERS, () -> inputCustomerIdRequest(console));
         requestMap.put(DELETE_CUSTOMER_VOUCHERS, () -> inputDeleteVoucherRequest(console));
@@ -81,8 +81,8 @@ public class ConsoleRequestBuilder {
         String voucherIdStr = console.input();
         console.showMessage("고객의 Id를 입력하세요 : ");
         String customerIdStr = console.input();
-
-        return new DeleteVoucherRequest(voucherIdStr, customerIdStr);
+        return null;
+//        return new DeleteVoucherRequest(voucherIdStr, customerIdStr);
     }
 
     private Request createCustomerRequest(Console console) {

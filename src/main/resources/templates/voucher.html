@@ -24,184 +24,250 @@
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+<!-- Page Wrapper -->
+<div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">바우처!!!</sup></div>
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <i class="fas fa-laugh-wink"></i>
             </div>
+            <div class="sidebar-brand-text mx-3">바우처!!!</sup></div>
+        </a>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>블랙리스트 조회</span></a>
-            </li>
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>바우처 조회</span></a>
-            </li>
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item active">
+            <a class="nav-link" href="index.html">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
 
+        <!-- Divider -->
+        <hr class="sidebar-divider">
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>바우처 상세</span></a>
-            </li>
-
-
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Sidebar Toggler (Sidebar) -->
-            <div class="text-center d-none d-md-inline">
-                <button class="rounded-circle border-0" id="sidebarToggle"></button>
-            </div>
-
-            <!-- Sidebar Message -->
-            <div class="sidebar-card d-none d-lg-flex">
-                <img class="sidebar-card-illustration mb-2" src="img/undraw_rocket.svg" alt="...">
-                <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-                <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-            </div>
-
-        </ul>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                </nav>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">바우처 목록</h1>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                            <table class="table table-dark table-striped">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Voucher Id</th>
-                                    <th scope="col">Voucher Type</th>
-                                    <th scope="col">Customer Id</th>
-                                    <th scope="col">amount </th>
-                                    <th scope="col">created at</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="voucher, index : ${vouchers}" >
-                                    <td th:text="${index.index}">#</td>
-                                    <td th:text="${voucher.voucherId}"></td>
-                                    <td th:text="${voucher.voucherType}"></td>
-                                    <td th:text="${voucher.customerId}"></td>
-                                    <td th:text="${voucher.amount}"></td>
-                                    <td th:text="${voucher.createdAt}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                    </div>
-
-                </div>
-                <!-- /.container-fluid -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; 김영수 2022</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
-
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Interface
         </div>
-        <!-- End of Content Wrapper -->
+
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="/block-customers">
+                <i class="fas fa-fw fa-table"></i>
+                <span>블랙리스트 조회</span></a>
+        </li>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/vouchers}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>바우처 조회</span></a>
+        </li>
+
+        <!-- Nav Item - Tables -->
+        <li class="nav-item">
+            <a class="nav-link" href="/customers">
+                <i class="fas fa-fw fa-table"></i>
+                <span>고객 조회</span></a>
+        </li>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">바우처 목록</h1>
+                </div>
+
+                <!-- Content Row -->
+                <div class="row">
+
+                    <table class="table table-dark table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Voucher Id</th>
+                            <th scope="col">Voucher Type</th>
+                            <th scope="col">Customer Id</th>
+                            <th scope="col">amount</th>
+                            <th scope="col">created at</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="voucher, index : ${vouchers}">
+                            <td th:text="${index.index}">#</td>
+                            <td th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|" th:text="${voucher.voucherId}" >123</td>
+                            <td th:text="${voucher.voucherType}"></td>
+                            <td th:text="${voucher.customerId}"></td>
+                            <td th:text="${voucher.amount}"></td>
+                            <td th:text="${voucher.createdAt}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+
+            <!--      <button type="button" onclick="getVoucherListAxios()">바우처 조회</button>-->
+
+            <!--      <div id="voucherListContent">-->
+            <!--        <table class="table table-dark table-striped" id = "voucherTable">-->
+            <!--          <thead>-->
+            <!--          <tr>-->
+            <!--            <th scope="col">#</th>-->
+            <!--            <th scope="col">Voucher Id</th>-->
+            <!--            <th scope="col">Voucher Type</th>-->
+            <!--            <th scope="col">Customer Id</th>-->
+            <!--            <th scope="col">amount</th>-->
+            <!--            <th scope="col">created at</th>-->
+            <!--          </tr>-->
+            <!--          </thead>-->
+            <!--          <tbody>-->
+            <!--          <tr>-->
+
+
+            <!--          </tr>-->
+            <!--          </tbody>-->
+            <!--        </table>-->
+            <!--      </div>-->
+        </div>
+        <!-- End of Main Content -->
+
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; 김영수 2022</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
 
     </div>
-    <!-- End of Page Wrapper -->
+    <!-- End of Content Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+</div>
+<!-- End of Page Wrapper -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+<!-- Bootstrap core JavaScript-->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+<!-- Page level plugins -->
+<script src="vendor/chart.js/Chart.min.js"></script>
 
+<!-- Page level custom scripts -->
+<script src="js/demo/chart-area-demo.js"></script>
+<script src="js/demo/chart-pie-demo.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript">
+
+    var vouchers;
+
+    function getVoucherList() {
+        $.ajax({
+            type: "GET",
+            url: "/api/v1/vouchers",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                alert("success");
+
+                $("#voucherListContent").append(result);
+                console.log(result);
+                vouchers = result;
+            },
+            error: function (request, error) {
+
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + error);
+            },
+            // error : function (result) {
+            //     console.log(result.responseText);
+            //     alert("failed" + result);
+            //
+            // }
+        });
+        // .done()
+    }
+
+    function getVoucherListAxios() {
+
+        axios.get('/api/v1/vouchers')
+        .then(response => {
+            // alert(response);
+            console.log(response);
+            // document.getElementById("voucherListContent").append(JSON.stringify(response.data));
+            // document.getElementById("voucherListContent").append(JSON.stringify(response));
+
+            console.log(response.data);
+            return response.data;
+        })
+    }
+
+    var tr = document.getElementById("voucherTable").getElementsByTagName('tr');
+
+    var i;
+    if (!vouchers) {
+        for (i = 0; i < vouchers.length; i++) {
+
+            tr.append(<td>${i}</td>);
+            tr.append(<td>${vouchers[i].voucherId}</td>);
+            tr.append(<td>${vouchers[i].custoemerId}</td>);
+            tr.append(<td>${vouchers[i].voucherType}</td>);
+            tr.append(<td>${vouchers[i].amount}</td>);
+            tr.append(<td>${vouchers[i].createdAt}</td>);
+        }
+    }
+
+</script>
 </body>
 
 </html>

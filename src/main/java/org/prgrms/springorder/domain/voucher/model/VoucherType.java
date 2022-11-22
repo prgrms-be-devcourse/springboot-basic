@@ -1,5 +1,6 @@
 package org.prgrms.springorder.domain.voucher.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -14,6 +15,7 @@ public enum VoucherType {
         this.type = voucherType;
     }
 
+    @JsonCreator
     public static VoucherType of(String voucherType) {
         return Arrays.stream(values())
             .filter(voucher -> Objects.equals(voucher.type, voucherType.toUpperCase()))

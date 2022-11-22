@@ -1,11 +1,11 @@
 package org.prgrms.springorder.domain.customer.api;
 
+import org.prgrms.springorder.console.io.Request;
+import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.domain.customer.api.request.CreateCustomerRequest;
 import org.prgrms.springorder.domain.customer.api.request.CustomerIdRequest;
 import org.prgrms.springorder.domain.voucher.api.request.AllocateVoucherRequest;
 import org.prgrms.springorder.domain.voucher.api.request.DeleteVoucherRequest;
-import org.prgrms.springorder.console.io.Request;
-import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.global.exception.IllegalRequestException;
 import org.springframework.stereotype.Component;
 

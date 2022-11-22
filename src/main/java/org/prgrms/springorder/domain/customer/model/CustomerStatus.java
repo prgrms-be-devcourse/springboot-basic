@@ -24,4 +24,5 @@ public enum CustomerStatus {
             .orElseThrow(() -> new IllegalArgumentException("customer status not exists. value : " + value));
     }
 
+
 }
