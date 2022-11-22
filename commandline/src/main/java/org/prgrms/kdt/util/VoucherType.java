@@ -35,7 +35,7 @@ public enum VoucherType {
     }
 
     public static Voucher createVoucher(String typeNumber, long voucherId, long discountDegree) {
-        VoucherType selectVoucherType = VoucherType.selectVoucherByTypeNumber(typeNumber);
+        VoucherType selectVoucherType = VoucherType.selectVoucherTypeByTypeNumber(typeNumber);
         return selectVoucherType.create(voucherId, discountDegree);
     }
 
@@ -44,11 +44,11 @@ public enum VoucherType {
     }
 
     public static String getVoucherTypeName(String type) {
-        VoucherType voucherType = selectVoucherByTypeNumber(type);
+        VoucherType voucherType = selectVoucherTypeByTypeNumber(type);
         return voucherType.typeName;
     }
 
-    private static VoucherType selectVoucherByTypeNumber(String typeNumber) {
+    private static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
         return Stream.of(values())
                 .filter(voucherType -> voucherType.typeValue.equals(typeNumber))
                 .findFirst()

@@ -10,9 +10,9 @@ public interface VoucherService {
 
     Voucher createVoucher(String type, long discountDegree);
 
-    void updateVoucher(Long voucherId, long voucherDegree);
+    void updateVoucher(long voucherId, long voucherDegree);
 
-    Voucher findById(Long voucherId);
+    Voucher findById(long voucherId);
 
     void deleteAll();
 

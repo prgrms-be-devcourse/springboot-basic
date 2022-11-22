@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-//@Transactional //test에서 사용시 '@Transactional'을 사용시 스프링은 테스르를 트랜잭션안에서 시행하고 끝나면 자동으로 rollback 시켜준다.
+//test에서 에서 '@Transactional'을 사용시, 스프링은 테스트를 트랜잭션안에서 시행하고 끝나면 자동으로 rollback 시켜준다.
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
@@ -42,7 +42,7 @@ public class JdbcVoucherRepositoryTest {
 
         List<Voucher> results = voucherRepository.findAll();
 
-        assertThat(results.size()).isEqualTo(2);
+        assertThat(results).hasSize(2);
         assertThat(results).contains(fixedVoucher, percentVoucher);
     }
 

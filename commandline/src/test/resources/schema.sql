@@ -1,4 +1,4 @@
-CREATE TABLE customers
+CREATE TABLE customer
 (
     customer_id bigint(16) AUTO_INCREMENT PRIMARY KEY,
     name        varchar(20) NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE customers
     CONSTRAINT unq_user_email UNIQUE (email)
 );
 
-CREATE TABLE vouchers
+CREATE TABLE voucher
 (
     voucher_id      bigint(16) AUTO_INCREMENT PRIMARY KEY,
     type_name       varchar(30) NOT NULL,

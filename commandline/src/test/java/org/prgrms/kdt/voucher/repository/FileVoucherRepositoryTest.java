@@ -37,7 +37,7 @@ public class FileVoucherRepositoryTest {
 
         List<Voucher> results = voucherRepository.findAll();
 
-        assertThat(results.size()).isEqualTo(2);
+        assertThat(results).hasSize(2);
         assertThat(results).contains(fixedVoucher, percentVoucher);
     }
 

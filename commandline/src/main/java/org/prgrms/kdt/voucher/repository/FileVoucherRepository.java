@@ -1,5 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.NotFoundVoucherException;
 import org.prgrms.kdt.io.CSVInOut;
 import org.prgrms.kdt.util.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -22,6 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public FileVoucherRepository(@Value("${voucher.path}") String path) {
         this.csvInOut = new CSVInOut(path);
+        init(this.csvInOut);
     }
 
     @Override
@@ -38,7 +41,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(Long voucherId) {
+    public Voucher findById(long voucherId) {
         if (cache.containsKey(voucherId)) {
             return cache.get(voucherId);
         }
@@ -47,16 +50,39 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public synchronized void update(Long voucherId, long discountDegree) {
-        csvInOut.voucherUpdate(voucherId, discountDegree);
-        Voucher oldVoucher = cache.get(voucherId);
-        Voucher newVoucher = oldVoucher.changeDiscountDegree(discountDegree);
-        cache.replace(voucherId, newVoucher);
+    public synchronized void update(long voucherId, long discountDegree) {
+        List<Voucher> vouchers = csvInOut.readAll();
+        for (int i = 0; i < vouchers.size(); i++) {
+            Voucher voucher = vouchers.get(i);
+            if (matchId(voucher, voucherId)) {
+                Voucher newVoucher = voucher.changeDiscountDegree(discountDegree);
+                vouchers.set(i, newVoucher);
+                cache.replace(voucherId, newVoucher);
+                csvInOut.voucherUpdate(vouchers);
+                return;
+            }
+        }
+
+        throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
     }
 
     @Override
     public void deleteAll() {
         csvInOut.deleteAllFile();
         cache.clear();
+    }
+
+    private boolean matchId(Voucher compareVoucher, long newVoucherId) {
+        return compareVoucher.getVoucherId() == newVoucherId;
+    }
+
+    private void init(CSVInOut csvInOut) {
+        List<Voucher> vouchers = csvInOut.readAll();
+        for (Voucher voucher : vouchers) {
+            long current = voucher.getVoucherId();
+            if (current > VOUCHER_ID) {
+                VOUCHER_ID = current;
+            }
+        }
     }
 }

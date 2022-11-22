@@ -30,7 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(Long voucherId) {
+    public Voucher findById(long voucherId) {
         if (!storage.containsKey(voucherId)) {
             throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
         }
@@ -38,7 +38,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Long voucherId, long discountDegree) {
+    public void update(long voucherId, long discountDegree) {
         if (!storage.containsKey(voucherId)) {
             throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
         }
@@ -46,7 +46,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         changVoucher(voucherId, discountDegree);
     }
 
-    private synchronized void changVoucher(Long voucherId, long discountDegree) {
+    private synchronized void changVoucher(long voucherId, long discountDegree) {
         Voucher oldVoucher = storage.get(voucherId);
         VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(oldVoucher.toString());
         Voucher newVoucher = VoucherType.createVoucher(voucherType, voucherId, discountDegree);

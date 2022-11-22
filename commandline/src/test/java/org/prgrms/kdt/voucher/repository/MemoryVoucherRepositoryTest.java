@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ class voucherRepositoryTest {
 
         List<Voucher> results = voucherRepository.findAll();
 
-        assertThat(results.size()).isEqualTo(2);
+        assertThat(results).hasSize(2);
         assertThat(results).contains(fixedVoucher, percentVoucher);
     }
 

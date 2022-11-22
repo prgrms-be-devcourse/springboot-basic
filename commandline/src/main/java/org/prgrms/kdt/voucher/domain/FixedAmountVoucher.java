@@ -13,7 +13,7 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     public FixedAmountVoucher(long voucherId, String typeName, long amount) {
-        validate(amount);
+        validateVoucher(amount);
         this.voucherId = voucherId;
         this.typeName = typeName;
         this.amount = amount;
@@ -35,7 +35,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public void validate(long discountDegree) {
+    public void validateVoucher(long discountDegree) {
         if (discountDegree < MIN_AMOUNT) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
         }
@@ -43,6 +43,8 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public Voucher changeDiscountDegree(long discountDegree) {
+        validateVoucher(discountDegree);
+
         return new FixedAmountVoucher(this.voucherId, this.typeName, discountDegree);
     }
 

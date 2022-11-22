@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.domain;
 
-import java.util.UUID;
-
 public interface Voucher {
 
     long getVoucherId();
@@ -10,7 +8,7 @@ public interface Voucher {
 
     String getTypeName();
 
-    void validate(long discountDegree);
+    void validateVoucher(long discountDegree);
 
     Voucher changeDiscountDegree(long discountDegree);
 

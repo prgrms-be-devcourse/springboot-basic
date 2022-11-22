@@ -32,7 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer insert(String name, String email) {
-        String sql = "insert into customers(name, email, created_at) values( :name,:email,:createdAt)";
+        String sql = "insert into customer(name, email, created_at) values( :name,:email,:createdAt)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         LocalDateTime createdAt = LocalDateTime.now();
         SqlParameterSource param = new MapSqlParameterSource()
@@ -44,13 +44,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
         long customerId = keyHolder.getKey().longValue();
         Customer createdCustomer = new Customer(customerId, name, email, createdAt);
         cache.put(customerId, createdCustomer);
-                
+
         return createdCustomer;
     }
 
     @Override
     public void update(Long customerId, String name, String email) {
-        String sql = "update customers set name = :name, email = :email where customer_id = :customerId";
+        String sql = "update customer set name = :name, email = :email where customer_id = :customerId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("name", name)
@@ -73,7 +73,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return cache.get(customerId);
         }
 
-        String sql = "select customer_id, name, email, created_at from customers where customer_id = :customerId";
+        String sql = "select customer_id, name, email, created_at from customer where customer_id = :customerId";
         logger.info("customerId->{}", customerId);
 
         Map<String, Object> param = Map.of("customerId", customerId);
@@ -88,7 +88,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        String sql = "select customer_id, name, email, created_at from customers";
+        String sql = "select customer_id, name, email, created_at from customer";
 
         return jdbcTemplate.query(sql, customerRowMapper());
     }
@@ -96,7 +96,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from customers", Collections.EMPTY_MAP);
+        jdbcTemplate.update("delete from customer", Collections.EMPTY_MAP);
         cache.clear();
 
     }

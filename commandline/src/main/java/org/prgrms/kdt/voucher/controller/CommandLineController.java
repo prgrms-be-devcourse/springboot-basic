@@ -25,7 +25,6 @@ public class CommandLineController {
     }
 
     public void run() {
-        logger.info("start!");
         boolean running = true;
         while (running) {
             console.printCommandList();

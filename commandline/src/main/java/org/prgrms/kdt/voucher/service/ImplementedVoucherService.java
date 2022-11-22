@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Profile("file")
-public class FileVoucherService implements VoucherService {
-
+public class ImplementedVoucherService implements VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public FileVoucherService(VoucherRepository voucherRepository) {
+    public ImplementedVoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -28,12 +26,12 @@ public class FileVoucherService implements VoucherService {
     }
 
     @Override
-    public void updateVoucher(Long voucherId, long voucherDegree) {
-        voucherRepository.update(voucherId, voucherDegree);
+    public void updateVoucher(long voucherId, long discountDegree) {
+        voucherRepository.update(voucherId, discountDegree);
     }
 
     @Override
-    public Voucher findById(Long voucherId) {
+    public Voucher findById(long voucherId) {
         return voucherRepository.findById(voucherId);
     }
 

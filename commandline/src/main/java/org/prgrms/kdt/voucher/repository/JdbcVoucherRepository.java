@@ -33,7 +33,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(String type, long discountDegree) {
-        String sql = "insert into vouchers(type_name, discount_degree) values( :typeName,:discountDegree)";
+        String sql = "insert into voucher(type_name, discount_degree) values( :typeName,:discountDegree)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         String typeName = VoucherType.getVoucherTypeName(type);
@@ -52,16 +52,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = "select voucher_id, type_name, discount_degree from vouchers";
+        String sql = "select voucher_id, type_name, discount_degree from voucher";
         return jdbcTemplate.query(sql, voucherRowMapper());
     }
 
     @Override
-    public Voucher findById(Long voucherId) {
+    public Voucher findById(long voucherId) {
         if (cache.containsKey(voucherId)) {
             return cache.get(voucherId);
         }
-        String sql = "select voucher_id, type_name, discount_degree from vouchers where voucher_id = :voucherId";
+        String sql = "select voucher_id, type_name, discount_degree from voucher where voucher_id = :voucherId";
         Map<String, Object> param = Map.of("voucherId", voucherId);
 
         try {
@@ -73,8 +73,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Long voucherId, long discountDegree) {
-        String sql = "update vouchers set discount_degree = :discountDegree where voucher_id = :voucherId";
+    public void update(long voucherId, long discountDegree) {
+        String sql = "update voucher set discount_degree = :discountDegree where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("discountDegree", discountDegree)
@@ -92,7 +92,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update("delete from vouchers", Collections.EMPTY_MAP);
+        jdbcTemplate.update("delete from voucher", Collections.EMPTY_MAP);
         cache.clear();
     }
 

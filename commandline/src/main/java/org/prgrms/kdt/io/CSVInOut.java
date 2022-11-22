@@ -3,8 +3,6 @@ package org.prgrms.kdt.io;
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.util.VoucherType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,9 +13,6 @@ public class CSVInOut {
     private static final int NOT_FOUND_RESULT = -1;
     private static final int EQUAL_NEXT_INDEX = 1;
 
-    private static final Logger logger = LoggerFactory.getLogger(CSVInOut.class);
-
-    private static final String EQUAL = "=";
     private final String path;
 
     public CSVInOut(String path) {
@@ -26,10 +21,8 @@ public class CSVInOut {
 
     public Voucher findVoucher(long voucherId) {
         File csv = new File(path);
-        BufferedReader br = null;
-        String line = "";
-        try {
-            br = new BufferedReader(new FileReader(csv));
+        String line;
+        try (BufferedReader br = new BufferedReader(new FileReader(csv));) {
             while ((line = br.readLine()) != null) {
                 if (matchId(line, voucherId)) {
                     return stringToVoucher(line);
@@ -39,14 +32,6 @@ public class CSVInOut {
             throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
             throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-            }
         }
         throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
     }
@@ -54,10 +39,9 @@ public class CSVInOut {
     public List<Voucher> readAll() {
         List<Voucher> csvList = new ArrayList<>();
         File csv = new File(path);
-        BufferedReader br = null;
-        String line = "";
-        try {
-            br = new BufferedReader(new FileReader(csv));
+        String line;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csv))) {
             while ((line = br.readLine()) != null) {
                 Voucher voucher = stringToVoucher(line);
                 csvList.add(voucher);
@@ -66,25 +50,15 @@ public class CSVInOut {
             throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
             throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-            }
         }
         return csvList;
     }
 
     public void writeCSV(Voucher voucher) {
         File csv = new File(path);
-        BufferedWriter bw = null;
-        try {
-            csv.createNewFile();
-            bw = new BufferedWriter(new FileWriter(csv, true));
-
+        try (
+                BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
+        ) {
             String data = voucher.toString();
             bw.write(data);
             bw.newLine();
@@ -92,38 +66,32 @@ public class CSVInOut {
             throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
             throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.flush();
-                    bw.close();
-                }
-            } catch (IOException e) {
-                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
+        }
+    }
+
+    public void voucherUpdate(List<Voucher> vouchers) {
+        File csv = new File(path);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csv))) {
+            for (Voucher voucher : vouchers) {
+                String data = voucher.toString();
+                bw.write(data);
+                bw.newLine();
             }
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
+        } catch (IOException e) {
+            throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
         }
     }
 
     public void deleteAllFile() {
         File csv = new File(path);
-        BufferedWriter bw = null;
-        try {
-            csv.createNewFile();
-            bw = new BufferedWriter(new FileWriter(csv));
-            bw.write("");
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csv))) {
         } catch (FileNotFoundException e) {
             throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
         } catch (IOException e) {
             throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-        } finally {
-            try {
-                if (bw != null) {
-                    bw.flush();
-                    bw.close();
-                }
-            } catch (IOException e) {
-                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-            }
         }
     }
 
@@ -147,43 +115,13 @@ public class CSVInOut {
         if (endIndex == NOT_FOUND_RESULT) {
             endIndex = input.length() - BRACKET_END;
         }
-        String result = input.substring(input.indexOf(EQUAL) + EQUAL_NEXT_INDEX, endIndex);
-
+        String result = input.substring(input.indexOf("=") + EQUAL_NEXT_INDEX, endIndex);
         return result;
     }
 
     private boolean matchId(String line, long voucherId) {
-        return voucherId == Long.parseLong(parsingData(line, "voucherId"));
-    }
-
-    public void voucherUpdate(long voucherId, long newDiscountDegree) {
-        File csv = new File(path);
-        BufferedReader br = null;
-        String line = "";
-        try {
-            br = new BufferedReader(new FileReader(csv));
-            while ((line = br.readLine()) != null) {
-                if (matchId(line, voucherId)) {
-                    VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(line);
-                    String oldDiscountDegree = parsingData(line, voucherType.getDiscountType());
-                    line.replaceAll(oldDiscountDegree, String.valueOf(newDiscountDegree));
-                    return;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            throw new FileNotFoundCustomException(ErrorCode.FILE_NOT_FOUND_EXCEPTION.getMessage());
-        } catch (IOException e) {
-            throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-        } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                throw new FileInOutException(ErrorCode.FILE_INOUT_EXCEPTION.getMessage());
-            }
-        }
-        throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        boolean result = voucherId == Long.parseLong(parsingData(line, "voucherId"));
+        return result;
     }
 
 }

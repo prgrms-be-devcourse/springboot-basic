@@ -10,9 +10,9 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Voucher findById(Long voucherId);
+    Voucher findById(long voucherId);
 
-    void update(Long voucherId, long discountDegree);
+    void update(long voucherId, long discountDegree);
 
     void deleteAll();
 }

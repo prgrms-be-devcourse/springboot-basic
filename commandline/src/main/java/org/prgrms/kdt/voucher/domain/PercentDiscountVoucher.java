@@ -14,7 +14,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final long percent;
 
     public PercentDiscountVoucher(long voucherId, String typeName, long percent) {
-        validate(percent);
+        validateVoucher(percent);
 
         this.voucherId = voucherId;
         this.typeName = typeName;
@@ -37,14 +37,15 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public void validate(long discountDegree) {
-        if (!(discountDegree > MIN_PERCENT && discountDegree < MAX_PERCENT)) {
+    public void validateVoucher(long discountDegree) {
+        if (!(discountDegree >= MIN_PERCENT && discountDegree <= MAX_PERCENT)) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
         }
     }
 
     @Override
     public Voucher changeDiscountDegree(long discountDegree) {
+        validateVoucher(discountDegree);
         return new PercentDiscountVoucher(this.voucherId, this.typeName, discountDegree);
     }
 
