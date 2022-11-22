@@ -1,5 +1,6 @@
 package com.example.springbootbasic.service.customer;
 
+import com.example.springbootbasic.config.TestMysqlConfig;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
@@ -8,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -20,9 +19,7 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 import static java.util.Collections.EMPTY_LIST;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@ActiveProfiles("dev")
-class JdbcCustomerServiceTest {
+class JdbcCustomerServiceTest extends TestMysqlConfig {
 
     @Autowired
     private JdbcCustomerService customerService;
