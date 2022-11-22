@@ -1,4 +1,4 @@
-package org.prgrms.kdt.util;
+package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
@@ -6,32 +6,32 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
 
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1", "FixedAmountVoucher", "amount", (uuid, typeName, discountDegree) -> new FixedAmountVoucher(uuid, typeName, discountDegree)),
-    PERCENTAGE("2", "PercentDiscountVoucher", "percent", (uuid, typeName, discountDegree) -> new PercentDiscountVoucher(uuid, typeName, discountDegree));
+    FIXED_AMOUNT("1","FixedAmountVoucher",   (voucherId, discountDegree) -> new FixedAmountVoucher(voucherId,  discountDegree)),
+    PERCENTAGE("2", "PercentDiscountVoucher",  (voucherId, discountDegree) -> new PercentDiscountVoucher(voucherId, discountDegree));
 
     private final String typeValue;
     private final String typeName;
-    private final String discountType;
-    private final TriFunction<Long, String, Long, Voucher> voucherBiFunction;
+    private final BiFunction<Long, Long, Voucher> voucherBiFunction;
 
     private static final int NOT_FOUND_RESULT = -1;
 
-    private Voucher create(Long uuid, long discountDegree) {
-        return this.voucherBiFunction.apply(uuid, this.typeName, discountDegree);
+    private Voucher create(Long voucherId, long discountDegree) {
+        return this.voucherBiFunction.apply(voucherId, discountDegree);
     }
 
-    public String getDiscountType() {
-        return discountType;
-    }
-
-    VoucherType(String typeValue, String typeName, String discountType, TriFunction<Long, String, Long, Voucher> voucherBiFunction) {
+    VoucherType(String typeValue,String typeName, BiFunction<Long, Long, Voucher> voucherBiFunction) {
         this.typeValue = typeValue;
         this.typeName = typeName;
-        this.discountType = discountType;
         this.voucherBiFunction = voucherBiFunction;
+    }
+
+    public static String getTypeName(String typeValue) {
+        VoucherType voucherType =  selectVoucherTypeByTypeNumber(typeValue);
+        return voucherType.typeName;
     }
 
     public static Voucher createVoucher(String typeNumber, long voucherId, long discountDegree) {
@@ -43,10 +43,10 @@ public enum VoucherType {
         return voucherType.create(voucherId, discountDegree);
     }
 
-    public static String getVoucherTypeName(String type) {
-        VoucherType voucherType = selectVoucherTypeByTypeNumber(type);
-        return voucherType.typeName;
-    }
+//    public static String getVoucherTypeName(String type) {
+//        VoucherType voucherType = selectVoucherTypeByTypeNumber(type);
+//        return "잠시만안녕..";
+//    }
 
     private static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
         return Stream.of(values())
@@ -72,5 +72,4 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage()));
     }
-
 }

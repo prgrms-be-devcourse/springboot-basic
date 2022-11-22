@@ -1,15 +1,26 @@
 package org.prgrms.kdt.voucher.domain;
 
-public interface Voucher {
+public abstract class Voucher {
+    private final long voucherId;
+    private final long discountDegree;
 
-    long getVoucherId();
+    public Voucher(long voucherId, long discountDegree) {
+        validateVoucher(discountDegree);
+        this.voucherId = voucherId;
+        this.discountDegree = discountDegree;
+    }
 
-    long getDiscountDegree();
+    abstract void validateVoucher(long discountDegree);
 
-    String getTypeName();
+    abstract public Voucher changeDiscountDegree(long discountDegree);
 
-    void validateVoucher(long discountDegree);
+    public long getVoucherId() {
+        return voucherId;
+    }
 
-    Voucher changeDiscountDegree(long discountDegree);
+    abstract public String getTypeName();
 
+    public long getDiscountDegree() {
+        return discountDegree;
+    }
 }

@@ -2,7 +2,7 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFoundVoucherException;
-import org.prgrms.kdt.util.VoucherType;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "insert into voucher(type_name, discount_degree) values( :typeName,:discountDegree)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        String typeName = VoucherType.getVoucherTypeName(type);
+        String typeName = VoucherType.getTypeName(type);
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("typeName", typeName)

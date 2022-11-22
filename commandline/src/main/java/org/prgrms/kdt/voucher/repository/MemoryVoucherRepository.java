@@ -2,7 +2,7 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFoundVoucherException;
-import org.prgrms.kdt.util.VoucherType;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -46,10 +46,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
         changVoucher(voucherId, discountDegree);
     }
 
-    private synchronized void changVoucher(long voucherId, long discountDegree) {
+    private void changVoucher(long voucherId, long discountDegree) {
         Voucher oldVoucher = storage.get(voucherId);
-        VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(oldVoucher.toString());
-        Voucher newVoucher = VoucherType.createVoucher(voucherType, voucherId, discountDegree);
+        Voucher newVoucher = oldVoucher.changeDiscountDegree(discountDegree);
         storage.replace(voucherId, newVoucher);
     }
 

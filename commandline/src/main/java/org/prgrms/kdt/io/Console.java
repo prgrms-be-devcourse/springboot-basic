@@ -5,7 +5,7 @@ import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.InputException;
 import org.prgrms.kdt.exception.IsNotNumberException;
 import org.prgrms.kdt.util.ConstantMessageUtil;
-import org.prgrms.kdt.util.VoucherType;
+import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

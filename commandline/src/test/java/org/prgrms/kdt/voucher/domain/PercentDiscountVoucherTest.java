@@ -12,7 +12,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("percent는 0보다 작은 값이 들어 올 수 없다.")
     void validateMinTest() {
         assertThrows(WrongRangeInputException.class, () -> {
-            Voucher voucher = new PercentDiscountVoucher(1L, "percent", -1);
+            Voucher voucher = new PercentDiscountVoucher(1L,  -1);
         });
     }
 
@@ -20,7 +20,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("percent는 100보다 큰 값이 들어 올 수 없다.")
     void validateMaxTest() {
         assertThrows(WrongRangeInputException.class, () -> {
-            Voucher voucher = new PercentDiscountVoucher(1L, "percent", 101);
+            Voucher voucher = new PercentDiscountVoucher(1L,  101);
         });
     }
 }

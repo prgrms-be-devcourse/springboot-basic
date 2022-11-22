@@ -2,7 +2,7 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.util.VoucherType;
+import org.prgrms.kdt.voucher.VoucherType;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -99,7 +99,7 @@ public class CSVInOut {
         VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(input);
 
         long voucherId = Long.parseLong(parsingData(input, "voucherId"));
-        long discountDegree = Long.parseLong(parsingData(input, voucherType.getDiscountType()));
+        long discountDegree = Long.parseLong(parsingData(input, "discountDegree"));
 
         return VoucherType.createVoucher(voucherType, voucherId, discountDegree);
     }
