@@ -5,7 +5,10 @@ import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.PercentAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
@@ -32,7 +35,6 @@ import static org.hamcrest.Matchers.is;
 
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class DbVoucherRepositoryTest {
     @Configuration
@@ -70,11 +72,11 @@ class DbVoucherRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    UUID fixedId1 = UUID.randomUUID();
+    UUID fixedId1;
     long amount1;
     FixedAmountVoucher fixedAmountVoucher1;
 
-    UUID fixedId2 = UUID.randomUUID();
+    UUID fixedId2;
     long amount2;
     FixedAmountVoucher fixedAmountVoucher2;
 
@@ -82,7 +84,7 @@ class DbVoucherRepositoryTest {
     long percent1;
     PercentAmountVoucher percentAmountVoucher1;
 
-    UUID percentId2 = UUID.randomUUID();
+    UUID percentId2;
     long percent2;
     PercentAmountVoucher percentAmountVoucher2;
 
@@ -98,21 +100,21 @@ class DbVoucherRepositoryTest {
                 .addSchema("test-voucher_mgmt", classPathScripts("schema.sql"))
                 .start();
 
-        UUID fixedId1 = UUID.randomUUID();
+        fixedId1 = UUID.randomUUID();
         amount1 = 100L;
         fixedAmountVoucher1 = new FixedAmountVoucher(fixedId1, amount1);
 
-        UUID fixedId2 = UUID.randomUUID();
+        fixedId2 = UUID.randomUUID();
         amount2 = 200L;
         fixedAmountVoucher2 = new FixedAmountVoucher(fixedId2, amount2);
         dbVoucherRepository.insert(fixedAmountVoucher1);
         dbVoucherRepository.insert(fixedAmountVoucher2);
 
-        UUID percentId1 = UUID.randomUUID();
+        percentId1 = UUID.randomUUID();
         percent1 = 10L;
         percentAmountVoucher1 = new PercentAmountVoucher(percentId1, percent1);
 
-        UUID percentId2 = UUID.randomUUID();
+        percentId2 = UUID.randomUUID();
         percent2 = 20L;
         percentAmountVoucher2 = new PercentAmountVoucher(percentId2, percent2);
 
@@ -132,7 +134,6 @@ class DbVoucherRepositoryTest {
 
     @Test
     void testInsert() {
-
         UUID uuid = UUID.randomUUID();
         FixedAmountVoucher insertedFixedAmountVoucher = new FixedAmountVoucher(uuid, 100L);
 
