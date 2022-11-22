@@ -1,5 +1,8 @@
 package org.prgrms.kdt.customer.domain;
 
+import org.prgrms.kdt.exception.ErrorCode;
+import org.prgrms.kdt.exception.NotNullNameException;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,7 +22,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+            throw new NotNullNameException(ErrorCode.NOT_NULL_NAME_EXCEPTION.getMessage());
         }
     }
 

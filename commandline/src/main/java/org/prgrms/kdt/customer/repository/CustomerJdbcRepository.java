@@ -22,8 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
     Map<Long, Customer> cache = new ConcurrentHashMap<>();
-
-    private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
+    
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(DataSource dataSource) {
@@ -74,7 +73,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }
 
         String sql = "select customer_id, name, email, created_at from customer where customer_id = :customerId";
-        logger.info("customerId->{}", customerId);
 
         Map<String, Object> param = Map.of("customerId", customerId);
 
