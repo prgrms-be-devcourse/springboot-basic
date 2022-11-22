@@ -1,10 +1,10 @@
-package com.programmers.voucher;
+package com.programmers.voucher.domain;
 
 import java.util.UUID;
 
 public interface Voucher {
 
-    UUID getVoucherID();
+    UUID getVoucherId();
 
     long discount(long beforeDiscount);
 

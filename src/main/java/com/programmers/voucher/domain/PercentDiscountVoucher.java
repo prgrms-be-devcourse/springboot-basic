@@ -1,11 +1,11 @@
-package com.programmers.voucher;
+package com.programmers.voucher.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherID;
     private final long discountPercent;
@@ -16,7 +16,7 @@ public class PercentDiscountVoucher implements Voucher{
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     public PercentDiscountVoucher(UUID voucherID, long discountPercent) {
-        if (discountPercent < MIN_PERCENT || discountPercent > MAX_PERCENT) {
+        if (discountPercent <= MIN_PERCENT || discountPercent > MAX_PERCENT) {
             throw new IllegalArgumentException("잘못된 범위의 할인율입니다.");
         }
         this.voucherID = voucherID;
@@ -25,11 +25,11 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return voucherID;
     }
 
-    @Override
+
     public long discount(long beforeDiscount) {
         return beforeDiscount * (100 - discountPercent) / 100;
     }

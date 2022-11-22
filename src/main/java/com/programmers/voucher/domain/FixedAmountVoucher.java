@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.voucher.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-
     private final UUID voucherID;
     private final long amount;
     private final long MIN_VOUCHER_AMOUNT = 0;
@@ -24,13 +23,14 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getVoucherID() {
+    public UUID getVoucherId() {
         return voucherID;
     }
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount-amount;
+        long discountedAmount = beforeDiscount - amount;
+        return (discountedAmount <= 0) ? 0 : discountedAmount;
     }
 
 

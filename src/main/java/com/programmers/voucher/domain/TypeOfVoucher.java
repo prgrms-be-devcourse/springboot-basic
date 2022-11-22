@@ -1,15 +1,11 @@
-package com.programmers;
-
-import com.programmers.voucher.FixedAmountVoucher;
-import com.programmers.voucher.PercentDiscountVoucher;
-import com.programmers.voucher.Voucher;
+package com.programmers.voucher.domain;
 
 import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Function;
 
 public enum TypeOfVoucher {
-    FIXED_AMOUNT_VOUCHER("1","Insert amount of fixed discount",(discount)->new FixedAmountVoucher(UUID.randomUUID(),discount)),
+    FIXED_AMOUNT_VOUCHER("1","Insert amount of fixed discount",(discount)-> new FixedAmountVoucher(UUID.randomUUID(),discount)),
     PERCENT_DISCOUNT_VOUCHER("2","Insert ratio of discount" ,(discount) -> new PercentDiscountVoucher(UUID.randomUUID(), discount));
 
 
