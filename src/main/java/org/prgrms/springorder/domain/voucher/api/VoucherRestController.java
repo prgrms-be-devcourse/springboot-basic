@@ -42,7 +42,8 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherCreateResponse> createVoucher(@RequestBody VoucherCreateRequest request) {
+    public ResponseEntity<VoucherCreateResponse> createVoucher(
+        @RequestBody VoucherCreateRequest request) {
         Voucher voucher = voucherService.createVoucher(request);
         return new ResponseEntity<>(new VoucherCreateResponse(voucher.getVoucherId()),
             HttpStatus.CREATED);
@@ -54,5 +55,15 @@ public class VoucherRestController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<VoucherResponse> getById(@PathVariable UUID voucherId) {
+        Voucher voucher = voucherService.findById(voucherId);
+
+        return ResponseEntity.ok(new VoucherResponse(voucher.getVoucherId(),
+            voucher.getAmount(),
+            voucher.getCustomerId(),
+            voucher.getCreatedAt(),
+            voucher.getVoucherType()));
+    }
 
 }

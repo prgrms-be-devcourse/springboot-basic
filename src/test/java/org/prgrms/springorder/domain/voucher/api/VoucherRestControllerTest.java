@@ -142,7 +142,6 @@ class VoucherRestControllerTest {
 
     }
 
-
     @DisplayName("delete Voucher 테스트 - 바우처가 존재하지 않으면 404 응답이 온다.")
     @Test
     void deleteVoucherFailTest() throws Exception {
@@ -151,6 +150,47 @@ class VoucherRestControllerTest {
 
         //then & when
         mockMvc.perform(delete("/api/v1/vouchers/{voucherId}", voucherId.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.errorMessage").exists())
+            .andExpect(jsonPath("$.statusCode").exists())
+            .andExpect(jsonPath("$.statusCode").value(404))
+            .andExpect(jsonPath("$.requestUri").exists())
+            .andDo(print());
+    }
+
+    @DisplayName("find Success 테스트 - 바우처가 존재하면 VoucherResponse 응답이 온다.")
+    @Test
+    void findVoucherSuccessTest() throws Exception {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        VoucherType voucherType = VoucherType.FIXED;
+        long amount = 100L;
+
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
+
+        voucherJdbcRepository.insert(voucher);
+
+        //then & when
+        mockMvc.perform(get("/api/v1/vouchers/{voucherId}", voucherId.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.voucherId").value(voucherId.toString()))
+            .andExpect(jsonPath("$.amount").value(amount))
+            .andExpect(jsonPath("$.voucherType").value(voucherType.name()))
+            .andExpect(jsonPath("$.createdAt").exists())
+            .andExpect(jsonPath("$.customerId").doesNotExist())
+            .andDo(print());
+    }
+
+    @DisplayName("find Voucher 테스트 - 바우처가 존재하지 않으면 404 응답이 온다.")
+    @Test
+    void findVoucherFailTest() throws Exception {
+        ///given
+        UUID voucherId = UUID.randomUUID();
+
+        //then & when
+        mockMvc.perform(get("/api/v1/vouchers/{voucherId}", voucherId.toString())
                 .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isNotFound())
             .andExpect(jsonPath("$.errorMessage").exists())
