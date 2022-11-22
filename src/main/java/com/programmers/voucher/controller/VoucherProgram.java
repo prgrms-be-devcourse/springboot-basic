@@ -1,8 +1,7 @@
 package com.programmers.voucher.controller;
 
 import com.programmers.voucher.controller.dto.CustomerDto;
-import com.programmers.voucher.io.CommandType;
-import com.programmers.voucher.io.View;
+import com.programmers.voucher.io.*;
 import com.programmers.voucher.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +14,14 @@ import java.util.UUID;
 @Component
 public class VoucherProgram implements ApplicationRunner {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final View view;
+    private final Input input;
+    private final Output output;
     private final VoucherController voucherController;
     private final CustomerController customerController;
 
-    public VoucherProgram(View view, VoucherController voucherController, CustomerController customerController) {
-        this.view = view;
+    public VoucherProgram(Input input, Output output, VoucherController voucherController, CustomerController customerController) {
+        this.input = input;
+        this.output = output;
         this.voucherController = voucherController;
         this.customerController = customerController;
     }
@@ -46,30 +47,30 @@ public class VoucherProgram implements ApplicationRunner {
                 }
             } catch (IllegalArgumentException e) {
                 logger.error("wrong order input");
-                view.printError(e.getMessage());
+                output.printError(e.getMessage());
             }
         }
     }
 
     private CommandType getInputCommandType() {
-        view.requestMenuType();
-        String command = view.getInput();
+        output.print(Message.INTRO_MESSAGE);
+        String command = input.getInput();
         return CommandType.toCommandType(command);
     }
 
     private VoucherType getInputVoucherType() {
-        view.requestVoucherType();
-        return VoucherType.toVoucherType(view.getInput());
+        output.print(Message.REQUEST_VOUCHER_TYPE_MESSAGE);
+        return VoucherType.toVoucherType(input.getInput());
     }
 
     private long getInputDiscountValue() {
-        view.requestDiscountValue();
-        return view.getInputDiscountValue();
+        output.print(Message.REQUEST_DISCOUNT_VALUE_MESSAGE);
+        return Long.parseLong(input.getInput());
     }
 
     private UUID getInputVoucherId() {
-        view.requestVoucherId();
-        return UUID.fromString(view.getInput());
+        output.print(Message.REQUEST_VOUCHER_ID);
+        return UUID.fromString(input.getInput());
     }
 
     private CustomerDto getCustomerDto() {
@@ -77,12 +78,12 @@ public class VoucherProgram implements ApplicationRunner {
     }
 
     private String getInputCustomerName() {
-        view.requestCustomerName();
-        return view.getInput();
+        output.print(Message.REQUEST_CUSTOMER_NAME);
+        return input.getInput();
     }
 
     private String getInputEmail() {
-        view.requestEmail();
-        return view.getInput();
+        output.print(Message.REQUEST_CUSTOMER_EMAIL);
+        return input.getInput();
     }
 }

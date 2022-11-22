@@ -22,9 +22,8 @@ public enum Message {
     DELETE_ALL_VOUCHERS("모든 바우처가 삭제되었습니다."),
     REQUEST_CUSTOMER_NAME("사용자 이름을 입력해주세요."),
     REQUEST_CUSTOMER_EMAIL("이메일을 입력해주세요."),
-    WELCOME_CUSTOMER("님 환영합니다."),
-    ASSIGN_VOUCHER("%s님에게 %s 바우처가 할당되었습니다."),
-    OWN_VOUCHER("님이 보유한 바우처입니다.");
+    WELCOME_CUSTOMER("%s님 환영합니다.\n"),
+    OWN_VOUCHER("%s님이 보유한 바우처입니다.\n");
 
     private final String message;
 
