@@ -6,7 +6,7 @@ import com.programmers.voucher.voucher.Voucher;
 
 import java.util.List;
 
-public interface View{
+public interface View {
     String getUserCommand();
 
     void printMessage(String message);

@@ -23,6 +23,7 @@ dependencies {
 
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     // groovy 설정
     implementation group: 'org.codehaus.groovy', name: 'groovy-all', version: '3.0.0'

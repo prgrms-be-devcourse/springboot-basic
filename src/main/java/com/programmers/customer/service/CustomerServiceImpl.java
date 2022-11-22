@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.message.ErrorMessage.CUSTOMER_NOT_FOUND;
-import static com.programmers.message.ErrorMessage.OCCUPIED_EMAIL;
+import static com.programmers.message.ErrorMessage.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -69,6 +68,12 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
+    }
+
+    @Override
+    public Customer findCustomerByVoucherId(UUID voucherId) {
+        return walletRepository.findCustomerByVoucherId(voucherId)
+                .orElseThrow(() -> new RuntimeException(NOT_FOUND_ERROR.getMessage()));
     }
 
     @Override

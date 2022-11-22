@@ -9,11 +9,10 @@ import com.programmers.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.message.ErrorMessage.*;
+import static com.programmers.message.ErrorMessage.CUSTOMER_NOT_FOUND;
+import static com.programmers.message.ErrorMessage.VOUCHER_ID_NOT_FOUND;
 
 @Service
 @Transactional(readOnly = true)
@@ -52,17 +51,6 @@ public class WalletServiceImpl implements WalletService {
     private Customer getCustomer(UUID customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_FOUND.getMessage()));
-    }
-
-    @Override
-    public List<Voucher> searchVouchersByCustomerId(UUID customerId) {
-        return walletRepository.findVouchersByCustomerId(customerId);
-    }
-
-    @Override
-    public Customer searchCustomerByVoucherId(UUID voucherId) {
-        return walletRepository.findCustomerByVoucherId(voucherId)
-                .orElseThrow(() -> new RuntimeException(NOT_FOUND_ERROR.getMessage()));
     }
 
     @Override

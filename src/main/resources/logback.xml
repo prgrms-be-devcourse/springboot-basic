@@ -12,7 +12,7 @@
         </encoder>
     </appender>
 
-    <root level="error">
+    <root level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </root>
 </configuration>

@@ -1,16 +1,16 @@
 package com.programmers;
 
 import com.programmers.customer.controller.CustomerController;
+import com.programmers.menu.Menu;
 import com.programmers.view.View;
 import com.programmers.voucher.controller.VoucherController;
-import com.programmers.menu.Menu;
 import com.programmers.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.programmers.message.Message.GREETING_MESSAGE;
 import static com.programmers.menu.Menu.findMenu;
+import static com.programmers.message.Message.GREETING_MESSAGE;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @Component
@@ -73,11 +73,11 @@ public class CommandLineApplication implements Runnable {
                 break;
 
             case WALLET:
-                walletController.showCustomerVouchers();
+                voucherController.showCustomerVouchers();
                 break;
 
             case VOUCHER_OWNER:
-                walletController.findVoucherOwner();
+                customerController.findVoucherOwner();
                 break;
 
             case DELETE_W:

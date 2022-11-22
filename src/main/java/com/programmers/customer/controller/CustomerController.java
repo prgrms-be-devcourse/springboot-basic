@@ -7,10 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
-import static com.programmers.message.Message.CUSTOMER_EMAIL;
-import static com.programmers.message.Message.CUSTOMER_NAME;
+import static com.programmers.message.Message.*;
 
 @Component
 public class CustomerController {
@@ -26,9 +26,6 @@ public class CustomerController {
         List<Customer> customers = customerService.findAll();
 
         view.printList(customers);
-//        for (Customer customer : customers) {
-//            view.printCustomer(customer);
-//        }
     }
 
     public void join() {
@@ -42,6 +39,16 @@ public class CustomerController {
 
         customerService.join(name, email);
     }
+
+    public void findVoucherOwner() {
+        view.printMessage(VOUCHER_ID);
+        String voucherId = view.getUserCommand();
+        UUID voucherUUID = UUID.fromString(voucherId);
+
+        Customer customer = customerService.findCustomerByVoucherId(voucherUUID);
+        view.printCustomer(customer);
+    }
+
 
     private void validateForJoin(String name, String email) {
         if (!StringUtils.hasText(name) || !StringUtils.hasText(email)) {

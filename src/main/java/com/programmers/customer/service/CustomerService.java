@@ -14,6 +14,8 @@ public interface CustomerService {
 
     Customer findByEmail(String email);
 
+    Customer findCustomerByVoucherId(UUID voucherId);
+
     Customer update(Customer customer);
 
     List<Customer> findAll();

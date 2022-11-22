@@ -1,7 +1,6 @@
 package com.programmers.customer.repository;
 
 import com.programmers.customer.Customer;
-import com.programmers.voucher.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

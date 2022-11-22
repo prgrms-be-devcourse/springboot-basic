@@ -20,6 +20,18 @@ public class VoucherController {
         this.view = view;
     }
 
+    public void showCustomerVouchers() {
+        view.printMessage(VOUCHER_CUSTOMER_ID);
+        String customerId = view.getUserCommand();
+        UUID customerUUID = UUID.fromString(customerId);
+
+        List<Voucher> vouchers = voucherService.searchVouchersByCustomerId(customerUUID);
+
+        for (Voucher voucher : vouchers) {
+            view.printVoucher(voucher);
+        }
+    }
+
     public void showVoucherList() {
         List<Voucher> vouchers = voucherService.findAll();
 

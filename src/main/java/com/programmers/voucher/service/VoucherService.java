@@ -12,5 +12,7 @@ public interface VoucherService {
 
     List<Voucher> findAll();
 
+    List<Voucher> searchVouchersByCustomerId(UUID customerId);
+
     void deleteAll();
 }

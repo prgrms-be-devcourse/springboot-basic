@@ -44,8 +44,10 @@ public class DbWalletRepository implements WalletRepository {
         paramMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
         paramMap.put(ASSIGN_AT, LocalDateTime.now());
 
-        int count = jdbcTemplate.update(INSERT_WALLET, paramMap);
-        if (count != 1) {
+        try {
+            jdbcTemplate.update(INSERT_WALLET, paramMap);
+
+        } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException(INSERT_ERROR.getMessage());
         }
