@@ -50,8 +50,7 @@ public class VoucherService {
 
     @Transactional
     public void changeCustomerId(UUID voucherId, UUID customerId) {
-        Voucher voucher = voucherRepository.findById(voucherId)
-            .orElseThrow(() -> new EntityNotFoundException(Voucher.class, voucherId));
+        Voucher voucher = findById(voucherId);
 
         voucher.changeCustomerId(customerId);
 
@@ -73,14 +72,26 @@ public class VoucherService {
 
     @Transactional
     public void deleteVoucherByCustomerId(UUID voucherId, UUID customerId) {
-        Voucher voucher = voucherRepository.findById(voucherId)
-            .orElseThrow(() -> new EntityNotFoundException(Voucher.class, voucherId));
+        Voucher voucher = findById(voucherId);
 
         if (!voucher.isOwned(customerId)) {
             throw new BadAccessRequestException("해당 유저의 바우처가 아닙니다.");
         }
 
         voucherRepository.deleteById(voucherId);
+    }
+
+    @Transactional
+    public void deleteVoucherById(UUID voucherId) {
+        Voucher findVoucher = findById(voucherId);
+
+        voucherRepository.deleteById(voucherId);
+    }
+
+    @Transactional
+    public Voucher findById(UUID voucherId) {
+        return voucherRepository.findById(voucherId)
+            .orElseThrow(() -> new EntityNotFoundException(Voucher.class, voucherId));
     }
 
 }

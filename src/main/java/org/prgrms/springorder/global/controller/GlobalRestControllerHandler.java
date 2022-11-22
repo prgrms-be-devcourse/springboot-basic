@@ -7,19 +7,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
-public class GlobalMvcExceptionHandler {
+@RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class GlobalRestControllerHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalMvcExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalRestControllerHandler.class);
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public String entityNotFoundExceptionHandling(EntityNotFoundException e,
-        HttpServletRequest request, Model model) {
+    public ResponseEntity<ErrorResponse> entityNotFoundExceptionHandling(EntityNotFoundException e,
+        HttpServletRequest request) {
 
         logger.debug("exceptionName : {}, message {}", e.getClass().getSimpleName(),
             e.getMessage());
@@ -28,12 +29,14 @@ public class GlobalMvcExceptionHandler {
 
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), statusCode,
             request.getRequestURI());
-        model.addAttribute("errorResponse", errorResponse);
-        return "error";
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler({NullPointerException.class, IllegalArgumentException.class, IllegalStateException.class})
-    public String nullPointExceptionHandling(RuntimeException e, HttpServletRequest request,
+    @ExceptionHandler({IllegalArgumentException.class, NullPointerException.class,
+        IllegalStateException.class})
+    public ResponseEntity<ErrorResponse> badRequestExceptionHandling(RuntimeException e,
+        HttpServletRequest request,
         Model model) {
 
         logger.debug("exceptionName : {}, message {}", e.getClass().getSimpleName(),
@@ -44,9 +47,7 @@ public class GlobalMvcExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage(), statusCode,
             request.getRequestURI());
         model.addAttribute("errorResponse", errorResponse);
-
-        return "error";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
-
 
 }

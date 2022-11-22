@@ -1,5 +1,7 @@
 package org.prgrms.springorder.domain.voucher.api;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -10,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -118,6 +121,44 @@ class VoucherRestControllerTest {
     }
 
 
+    @DisplayName("delete Voucher 테스트 - 바우처가 존재하면 바우처를 삭제한다")
+    @Test
+    void deleteVoucherSuccessTest() throws Exception {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, 100L);
+
+        voucherJdbcRepository.insert(voucher);
+
+        //then & when
+        mockMvc.perform(delete("/api/v1/vouchers/{voucherId}", voucherId.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+
+            .andExpect(status().isOk())
+            .andDo(print());
+
+        Optional<Voucher> findVoucher = voucherJdbcRepository.findById(voucherId);
+        assertTrue(findVoucher.isEmpty());
+
+    }
+
+
+    @DisplayName("delete Voucher 테스트 - 바우처가 존재하지 않으면 404 응답이 온다.")
+    @Test
+    void deleteVoucherFailTest() throws Exception {
+        //given
+        UUID voucherId = UUID.randomUUID();
+
+        //then & when
+        mockMvc.perform(delete("/api/v1/vouchers/{voucherId}", voucherId.toString())
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$.errorMessage").exists())
+            .andExpect(jsonPath("$.statusCode").exists())
+            .andExpect(jsonPath("$.statusCode").value(404))
+            .andExpect(jsonPath("$.requestUri").exists())
+            .andDo(print());
+    }
 
 
     private List<Voucher> createVouchers(int saveCount) {
