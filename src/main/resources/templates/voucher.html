@@ -31,7 +31,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
             <div class="sidebar-brand-icon rotate-n-15">
                 <i class="fas fa-laugh-wink"></i>
             </div>
@@ -43,7 +43,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/vouchers">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -206,68 +206,6 @@
 <script src="js/demo/chart-area-demo.js"></script>
 <script src="js/demo/chart-pie-demo.js"></script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="text/javascript">
-
-    var vouchers;
-
-    function getVoucherList() {
-        $.ajax({
-            type: "GET",
-            url: "/api/v1/vouchers",
-            dataType: "json",
-            async: false,
-            success: function (result) {
-                alert("success");
-
-                $("#voucherListContent").append(result);
-                console.log(result);
-                vouchers = result;
-            },
-            error: function (request, error) {
-
-                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + error);
-            },
-            // error : function (result) {
-            //     console.log(result.responseText);
-            //     alert("failed" + result);
-            //
-            // }
-        });
-        // .done()
-    }
-
-    function getVoucherListAxios() {
-
-        axios.get('/api/v1/vouchers')
-        .then(response => {
-            // alert(response);
-            console.log(response);
-            // document.getElementById("voucherListContent").append(JSON.stringify(response.data));
-            // document.getElementById("voucherListContent").append(JSON.stringify(response));
-
-            console.log(response.data);
-            return response.data;
-        })
-    }
-
-    var tr = document.getElementById("voucherTable").getElementsByTagName('tr');
-
-    var i;
-    if (!vouchers) {
-        for (i = 0; i < vouchers.length; i++) {
-
-            tr.append(<td>${i}</td>);
-            tr.append(<td>${vouchers[i].voucherId}</td>);
-            tr.append(<td>${vouchers[i].custoemerId}</td>);
-            tr.append(<td>${vouchers[i].voucherType}</td>);
-            tr.append(<td>${vouchers[i].amount}</td>);
-            tr.append(<td>${vouchers[i].createdAt}</td>);
-        }
-    }
-
-</script>
 </body>
 
 </html>

@@ -72,11 +72,4 @@ public class VoucherViewController {
         return "redirect:/vouchers";
     }
 
-    @GetMapping("/api/v1/vouchers")
-    public @ResponseBody
-    ResponseEntity<?> getVoucher() {
-        List<Voucher> vouchers = voucherService.findAll();
-        return ResponseEntity.ok(vouchers);
-    }
-
 }

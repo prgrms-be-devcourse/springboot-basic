@@ -31,7 +31,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
@@ -43,7 +43,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="/vouchers">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -137,8 +137,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Status</th>
                 <th scope="col">createdAt</th>
-                <th scope="col">조회</th>
-                <th scope="col">할당</th>
+                <th scope="col">지갑 조회</th>
               </tr>
               </thead>
               <tbody>
@@ -150,10 +149,9 @@
                 <td th:text="${customer.customerStatus}"></td>
                 <td th:text="${customer.createdAt}"></td>
                 <td>
-                  <button class="btn btn-primary" type="submit">정보 조회</button>
-                </td>
-                <td>
-                  <button class="btn btn-primary" type="button" >지갑 조회</button>
+                  <button class="btn btn-primary" type="button"
+                          th:onclick="|location.href=' @{/customers/{customerId}/wallet(customerId=${customer.customerId})}'|"
+                  >지갑 조회</button>
                 </td>
 
               </tr>

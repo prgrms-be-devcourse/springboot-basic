@@ -12,13 +12,13 @@
   <title>바우처 관리 애플리케이션</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link
       href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
       rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -31,7 +31,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
@@ -43,7 +43,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="/vouchers">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -143,25 +143,21 @@
               <tbody>
               <tr th:each="voucher, index : ${vouchers}">
                 <td th:text="${index.index}">#</td>
-                <!--              <td th:text="${voucher.voucherId}" th:onclick="'location.href='+ '@{/vouchers/${voucher.voucherId}}'">123</td>-->
 
-                <td th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
-                    th:text="${voucher.voucherId}">123
+                <td th:text="${voucher.voucherId}">123
                 </td>
                 <td th:text="${voucher.voucherType}"></td>
                 <td th:text="${voucher.customerId}"></td>
                 <td th:text="${voucher.amount}"></td>
                 <td th:text="${voucher.createdAt}"></td>
-                <!--              <td th:text="조회" th:onclick="|location.href='@{/customers/assign/{customerId}(customerId=${voucher.customerId}})/{voucherId}(voucherId=${voucher.voucherId})}'|">-->
-                <td>
+               <td>
                   <button class="btn btn-primary" type="submit"
                           th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
                   >조회
                   </button>
 
                 </td>
-                <!--              </td>-->
-                <td>
+              <td>
                   <button class="btn btn-primary" type="button"
                           th:onclick="|location.href='@{/customers/assign
                         (voucherId=${voucher.voucherId})}' |"
@@ -201,54 +197,6 @@
   <i class="fas fa-angle-up"></i>
 </a>
 
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="text/javascript">
-
-  //  var vouchers;
-  //
-  //  function getVoucherList() {
-  //    $.ajax({
-  //      type: "GET",
-  //      url: "/api/v1/vouchers",
-  //      dataType: "json",
-  //      async: false,
-  //      success: function (result) {
-  //        alert("success");
-  //
-  //        $("#voucherListContent").append(result);
-  //        console.log(result);
-  //        vouchers = result;
-  //      },
-  //      error: function (request, error) {
-  //
-  //        alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + error);
-  //      },
-  //      // error : function (result) {
-  //      //     console.log(result.responseText);
-  //      //     alert("failed" + result);
-  //      //
-  //      // }
-  //    });
-  //    // .done()
-  //  }
-  //
-  //  function getVoucherListAxios() {
-  //
-  //    axios.get('/api/v1/vouchers')
-  //    .then(response => {
-  //      // alert(response);
-  //      console.log(response);
-  //      // document.getElementById("voucherListContent").append(JSON.stringify(response.data));
-  //      // document.getElementById("voucherListContent").append(JSON.stringify(response));
-  //
-  //      console.log(response.data);
-  //      return response.data;
-  //    })
-  //  }
-
-
-</script>
 </body>
 
 </html>

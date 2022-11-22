@@ -1,10 +1,14 @@
 package org.prgrms.springorder.domain.customer;
 
 import java.util.List;
+import java.util.UUID;
+import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
+import org.prgrms.springorder.domain.voucher.api.VoucherIdRequest;
 import org.prgrms.springorder.domain.voucher.api.request.AllocateVoucherRequest;
+import org.prgrms.springorder.domain.voucher.api.request.DeleteVoucherRequest;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,5 +64,21 @@ public class CustomerViewController {
         return "/block-customers";
     }
 
+    @GetMapping("/customers/{customerId}/wallet")
+    public String getCustomerWallet(@PathVariable UUID customerId, Model model) {
+
+        Wallet wallet = customerService.findAllVouchers(customerId);
+
+        model.addAttribute("customer", wallet.getCustomer());
+        model.addAttribute("vouchers", wallet.getVouchers());
+
+        return "/customer-wallet";
+    }
+
+    @PostMapping("/customers/{customerId}/vouchers/delete")
+    public String deleteVoucher(@PathVariable UUID customerId, VoucherIdRequest request) {
+        customerService.deleteVoucher(customerId, request.getVoucherId());
+        return "redirect:/customers/" + customerId.toString() + "/wallet";
+    }
 
 }

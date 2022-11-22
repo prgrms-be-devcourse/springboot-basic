@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>바우처 관리 애플리케이션</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">바우처!!!</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link" href="/vouchers">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Interface
+    </div>
+
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/block-customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>블랙리스트 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/vouchers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-voucher">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 생성</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers/assign">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 할당</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 조회</span></a>
+    </li>
+
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+  </ul>
+  <!-- End of Sidebar -->
+
+  <!-- Content Wrapper -->
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <!-- Main Content -->
+    <div id="content">
+
+      <!-- Topbar -->
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+        <!-- Sidebar Toggle (Topbar) -->
+        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+          <i class="fa fa-bars"></i>
+        </button>
+
+      </nav>
+      <!-- End of Topbar -->
+
+      <!-- Begin Page Content -->
+      <div class="container-fluid justify-content: center">
+
+        <!-- Content Row -->
+        <div class="row">
+          <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="d-sm-flex align-items-center justify-content-md-center">
+              <h1 class="h-100 mb-5 text-gray800">고객 바우처 지갑</h1>
+              <br>
+            </div>
+
+
+              <div class="row g-3 ">
+                <div class="col-md-4">
+
+
+                  <form class="row g-3">
+                    <div class="col-md-6">
+                      <label for="email" class="form-label">email</label>
+                      <input type="text" class="form-control text-center" id="email"
+                             th:value="${customer.email}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" class="form-control text-center" id="name" th:value="${customer.name}" disabled>
+                    </div>
+                    <div class="col-12">
+                      <label for="customerId" class="form-label">Customer Id</label>
+                      <input type="text" class="form-control text-center" id="customerId"
+                             th:value="${customer.customerId}" disabled>
+                    </div>
+                    <div class="col-12">
+                      <label for="customerStatus" class="form-label">Customer Status</label>
+                      <input type="text" class="form-control text-center" id="customerStatus"
+                             th:value="${customer.customerStatus}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="createdAt" class="form-label">Created At</label>
+                      <input type="text" class="form-control text-center" id="createdAt"
+                             th:value="${customer.createdAt}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="lastLoginAt" class="form-label">LastLogin At</label>
+                      <input type="text" class="form-control text-center" id="lastLoginAt"
+                             th:value="${customer.lastLoginAt}" disabled>
+                    </div>
+
+                  </form>
+
+
+
+                </div>
+
+                <div class="col-md-8">
+
+                  <table class="table table-dark table-striped">
+                    <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Voucher Id</th>
+                      <th scope="col">Voucher Type</th>
+                      <th scope="col">Customer Id</th>
+                      <th scope="col">amount</th>
+                      <th scope="col">created at</th>
+                      <th scope="col">바우처 조회</th>
+                      <th scope="col">바우처 삭제</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="voucher, index : ${vouchers}">
+                      <td th:text="${index.index}">#</td>
+                      <td th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                          th:text="${voucher.voucherId}">123
+                      </td>
+                      <td th:text="${voucher.voucherType}"></td>
+                      <td th:text="${voucher.customerId}"></td>
+                      <td th:text="${voucher.amount}"></td>
+                      <td th:text="${voucher.createdAt}"></td>
+                      <td>
+                        <button class="btn btn-primary" type="submit"
+                                th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                        > 조회
+                        </button>
+                      </td>
+                      <td>
+                        <form th:action="@{/customers/{customerId}/vouchers/delete(customerId=${customer.customerId})}" method="post">
+                          <input type="hidden" th:value="${voucher.voucherId}" name="voucherId" th:name="voucherId">
+                        <button class="btn btn-primary" type="submit">삭제
+                        </button>
+                        </form>
+                      </td>
+
+
+                    </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- End of Main Content -->
+
+
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; 김영수 2022</span>
+        </div>
+      </div>
+    </footer>
+    <!-- End of Footer -->
+  </div>
+</div>
+<!-- End of Content Wrapper -->
+
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+  <i class="fas fa-angle-up"></i>
+</a>
+
+</body>
+
+</html>

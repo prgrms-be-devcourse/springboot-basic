@@ -31,7 +31,7 @@
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-laugh-wink"></i>
       </div>
@@ -43,7 +43,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link" href="/vouchers">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -221,57 +221,6 @@
 <a class="scroll-to-top rounded" href="#page-top">
   <i class="fas fa-angle-up"></i>
 </a>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-<script type="text/javascript">
-  const voucherId = document.getElementById("voucherId").value;
-  const customerId = document.getElementById("customerId").value;
-
-  const deleteVoucherRequest = {
-    "voucherId": voucherId,
-    "customerId": customerId
-  };
-
-  function sendForm() {
-    const form = document.getElementById("voucherForm");
-
-    form.action = "/vouchers/delete";
-    form.method = 'POST';
-
-    form.set("voucherId", voucherId);
-    form.set("customerId", customerId);
-    form.submit();
-    // const xhr = new XMLHttpRequest();
-    // xhr.open("POST", "/vouchers/delete");
-    //
-    // const formData = new FormData();
-    // formData.set("voucherId", voucherId);
-    // formData.set("customerId", customerId);
-    //
-    // xhr.send(formData);
-
-  }
-
-  function deleteVoucher() {
-
-    axios.post('/vouchers/delete', {}, {
-      headers: {
-        "Content-Type": 'application/json'
-
-      },
-      params: deleteVoucherRequest
-    })
-    .then(function (response) {
-      location.href = "/voucher";
-    })
-    .catch(function (error) {
-      alert("delete error " + error);
-    });
-  }
-
-
-</script>
 
 </body>
 
