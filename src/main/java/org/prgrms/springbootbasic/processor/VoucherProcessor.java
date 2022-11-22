@@ -16,7 +16,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.prgrms.springbootbasic.type.MethodType.isCreateVoucher;
+import static org.prgrms.springbootbasic.type.MethodType.isCreate;
 import static org.prgrms.springbootbasic.type.MethodType.isLookupList;
 import static org.prgrms.springbootbasic.type.VoucherType.isFixed;
 import static org.prgrms.springbootbasic.type.VoucherType.isPercent;
@@ -41,7 +41,7 @@ public class VoucherProcessor implements Processor {
             method = CommandLineInput.getInput(notificationProperties.getVoucherPrompt());
         }
         List<Voucher> voucherList = new ArrayList<>();
-        if (isCreateVoucher(method)) {
+        if (isCreate(method)) {
             voucherList.add(createVoucherProcess());
         } else if (isLookupList(method)) {
             voucherList.addAll(voucherService.lookupVoucherList());
