@@ -12,11 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 import static org.prgrms.springbootbasic.type.MethodType.*;
 import static org.prgrms.springbootbasic.util.UUIDUtil.isUUID;
@@ -24,7 +22,6 @@ import static org.prgrms.springbootbasic.util.UUIDUtil.isUUID;
 
 @Component
 public class CustomerProcessor implements Processor {
-
     private static final Logger logger = LoggerFactory.getLogger(VoucherProcessor.class);
     private final NotificationProperties notificationProperties;
     private final CustomerService customerService;
@@ -94,10 +91,19 @@ public class CustomerProcessor implements Processor {
 
     private String getCustomerId() {
         String customerId;
+        boolean isValid = true;
         do {
-            customerId = CommandLineInput.getInput("what is customerId to change? : ");
+            isValid = noteNotValidUUID(isValid);
+            customerId = CommandLineInput.getInput(notificationProperties.getCustomerId());
         } while (!isUUID(customerId));
 
         return customerId;
+    }
+
+    private boolean noteNotValidUUID(boolean isValid) {
+        if (!isValid) {
+            logger.info("It's not valid UUID!");
+        }
+        return false;
     }
 }
