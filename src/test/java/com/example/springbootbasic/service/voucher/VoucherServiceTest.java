@@ -3,7 +3,7 @@ package com.example.springbootbasic.service.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +27,7 @@ class VoucherServiceTest {
     @Autowired
     private VoucherService voucherService;
 
-    @BeforeEach
+    @AfterEach
     void clearData() {
         voucherService.deleteAllVouchers();
     }

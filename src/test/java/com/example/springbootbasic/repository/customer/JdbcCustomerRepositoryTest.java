@@ -10,10 +10,7 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -53,7 +50,7 @@ class JdbcCustomerRepositoryTest {
                 .start();
     }
 
-    @BeforeEach
+    @AfterEach
     void clear() {
         customerRepository.deleteAllCustomerVoucher();
         customerRepository.deleteAllCustomers();
