@@ -3,11 +3,13 @@ package com.example.springbootbasic.controller.customer;
 import com.example.springbootbasic.controller.request.CreateCustomerRequest;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
+import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.dto.customer.CustomerDto;
 import com.example.springbootbasic.service.customer.JdbcCustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,12 +27,8 @@ public class ViewCustomerController {
 
     @GetMapping("/v1/customers")
     public String customerList(Model model) {
-        List<Customer> findAllCustomers = customerService.findAllCustomers();
-//        findAllCustomers.forEach(customer ->
-//                customerService.findVouchersByCustomerId(customer.getCustomerId())
-//                        .forEach(customer::receiveFrom));
-
-        List<CustomerDto> result = findAllCustomers.stream()
+        List<CustomerDto> result = customerService.findAllCustomers()
+                .stream()
                 .map(CustomerDto::newInstance)
                 .toList();
         model.addAttribute("customers", result);
@@ -47,5 +45,15 @@ public class ViewCustomerController {
         CustomerStatus customerStatus = CustomerStatus.of(request.status());
         customerService.saveCustomer(new Customer(customerStatus));
         return "redirect:customers";
+    }
+
+    @GetMapping("/v1/customer-vouchers/{customerId}")
+    public String customerVoucherList(@PathVariable Long customerId, Model model) {
+        Customer findCustomer = customerService.findCustomerById(customerId);
+        List<Voucher> findVouchers = customerService.findVouchersByCustomerId(customerId);
+        findVouchers.forEach(findCustomer::receiveFrom);
+        CustomerDto result = CustomerDto.newInstance(findCustomer);
+        model.addAttribute("customer", result);
+        return "customer-voucher-list";
     }
 }
