@@ -27,6 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private static Map<Long, Voucher> cache = new ConcurrentHashMap<>();
 
+    privtate static
+
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -80,7 +82,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .addValue("discountDegree", discountDegree)
                 .addValue("voucherId", voucherId);
 
-        jdbcTemplate.update(sql, param);
+        int result = jdbcTemplate.update(sql, param);
+
+        if(result = )
 
         if (cache.containsKey(voucherId)) {
             cache.remove(voucherId);

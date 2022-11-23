@@ -15,13 +15,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<Long, Voucher> storage = new ConcurrentHashMap<>();
-    private static long VOUCHER_ID = 0;
+    private static long id = 0;
 
     @Override
     public Voucher insert(String type, long discountDegree) {
         Voucher voucher;
         synchronized (this) {
-            voucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+            voucher = VoucherType.createVoucher(type, ++id, discountDegree);
         }
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;

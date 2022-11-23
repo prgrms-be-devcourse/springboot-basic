@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileVoucherRepository implements VoucherRepository {
     static private Map<Long, Voucher> cache = new ConcurrentHashMap<>();
 
-    private static long VOUCHER_ID = 0;
+    private static long id = 0;
 
     private final CSVInOut csvInOut;
 
@@ -31,7 +31,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher insert(String type, long discountDegree) {
         Voucher createVoucher;
         synchronized (this) {
-            createVoucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+            createVoucher = VoucherType.createVoucher(type, ++id, discountDegree);
         }
         csvInOut.writeCSV(createVoucher);
         cache.put(createVoucher.getVoucherId(), createVoucher);
@@ -85,8 +85,8 @@ public class FileVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = csvInOut.readAll();
         for (Voucher voucher : vouchers) {
             long current = voucher.getVoucherId();
-            if (current > VOUCHER_ID) {
-                VOUCHER_ID = current;
+            if (current > id) {
+                id = current;
             }
         }
     }
