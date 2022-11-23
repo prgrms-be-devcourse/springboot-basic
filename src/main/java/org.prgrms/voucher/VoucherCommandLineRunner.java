@@ -10,11 +10,8 @@ import org.prgrms.exception.NoSuchMenuTypeException;
 import org.prgrms.memory.CustomerBlackListFileMemory;
 import org.prgrms.memory.Memory;
 import org.prgrms.voucher.discountType.Amount;
-
 import org.prgrms.voucher.voucherType.Voucher;
 import org.prgrms.voucher.voucherType.VoucherType;
-
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -52,7 +49,7 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
 
       } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
-        logger.error("class: {}, message: {}", e.getClass().getName(), e.getMessage());
+        logger.error("message: " + e.getMessage(), e);
       }
     }
   }
@@ -96,20 +93,20 @@ public class VoucherCommandLineRunner implements CommandLineRunner {
       try {
         VoucherType voucherType = enteredVoucherType();
         long inputAmount = parseNum(console.enteredAmount(voucherType));
-        logger.info("input_amount: {}", inputAmount);
+        logger.info("voucher_type : {} input_amount: {}", voucherType, inputAmount);
 
         Amount amount = voucherType.generateAmount(inputAmount);
 
         return voucherMemory.save(voucherType.generateVoucher(amount));
       } catch (RuntimeException e) {
         console.printErrorMsg(e.getMessage());
-        logger.warn("class: {}, message: {}", e.getClass().getName(), e.getMessage());
+        logger.warn("message: " + e.getMessage(), e);
       }
     }
   }
 
   private VoucherType enteredVoucherType() {
-    long inputType = parseNum(console.chooseVoucherType());
+    int inputType = parseNum(console.chooseVoucherType());
     return VoucherType.of(inputType);
   }
 

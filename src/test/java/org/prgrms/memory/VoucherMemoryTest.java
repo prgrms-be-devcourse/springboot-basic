@@ -26,8 +26,8 @@ class VoucherMemoryTest {
   @Test
   void save() {
     //given
-    Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount("1000"));
-    Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate("10"));
+    Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
+    Voucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate(10L));
     //when
     Voucher savedFixed = voucherMemory.save(fixedVoucher);
     Voucher savedPercent = voucherMemory.save(percentVoucher);
@@ -43,12 +43,12 @@ class VoucherMemoryTest {
     final int VOUCHER_SIZE = 3;
 
     for (int i = 0; i < VOUCHER_SIZE; i++) {
-      Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount("1000"));
+      Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
       voucherMemory.save(voucher);
     }
 
     //when
-    List<String> vouchers = voucherMemory.findAll();
+    List<Voucher> vouchers = voucherMemory.findAll();
     //then
     assertEquals(VOUCHER_SIZE, vouchers.size());
 
@@ -58,7 +58,7 @@ class VoucherMemoryTest {
   @Test
   void withoutVoucher() {
     //when
-    List<String> vouchers = voucherMemory.findAll();
+    List<Voucher> vouchers = voucherMemory.findAll();
     //then
     assertTrue(vouchers.isEmpty());
   }

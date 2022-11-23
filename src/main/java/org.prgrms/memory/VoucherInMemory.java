@@ -24,4 +24,5 @@ public class VoucherInMemory implements Memory {
   public List<Voucher> findAll() {
     return new ArrayList<>(voucherMemory.values());
   }
+
 }

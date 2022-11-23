@@ -3,6 +3,12 @@ file:
   customer:
     file-path: src/customer_blacklist.csv
 
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/voucher_app
+    username: root
+    password: root1234!
+
 ---
 
 spring:
@@ -20,5 +26,13 @@ file:
   voucher:
     file-path: src/voucher_memory.csv
 
+---
 
 
+spring:
+  config:
+    activate:
+      on-profile: jdbc
+file:
+  voucher:
+    file-path: src/voucher_memory.csv

@@ -28,6 +28,8 @@ public class VoucherFileMemory implements Memory {
   private static final int AMOUNT_INDEX = 2;
   private static final int LENGTH = 3;
 
+  private static final String SPLIT_STANDARD = ",";
+
   public VoucherFileMemory(@Value("${file.voucher.file-path}") String filePath) {
     this.file = new File(filePath);
   }
@@ -51,7 +53,7 @@ public class VoucherFileMemory implements Memory {
         String line;
 
         while ((line = reader.readLine()) != null) {
-          voucherList.add(extractVoucherFromFile(verifyArrayLength(line.split(","))));
+          voucherList.add(extractVoucherFromFile(verifyArrayLength(List.of(line.split(SPLIT_STANDARD)))));
         }
       } catch (IOException e) {
         throw new FileNotExistException(e);
@@ -60,10 +62,10 @@ public class VoucherFileMemory implements Memory {
     return voucherList;
   }
 
-  public Voucher extractVoucherFromFile(String[] lineArray) {
-    String savedVoucherType = lineArray[TYPE_INDEX].toUpperCase();
-    UUID savedId = UUID.fromString(lineArray[ID_INDEX]);
-    int savedAmount = Integer.parseInt(lineArray[AMOUNT_INDEX]);
+  private Voucher extractVoucherFromFile(List<String> lineArray) {
+    String savedVoucherType = lineArray.get(TYPE_INDEX).toUpperCase();
+    UUID savedId = UUID.fromString(lineArray.get(ID_INDEX));
+    int savedAmount = Integer.parseInt(lineArray.get(AMOUNT_INDEX));
 
     return createVoucher(savedVoucherType, savedId, savedAmount);
 
@@ -73,11 +75,11 @@ public class VoucherFileMemory implements Memory {
     VoucherType voucherType = VoucherType.of(savedVoucherType);
     Amount amount = voucherType.generateAmount(savedAmount);
 
-    return voucherType.generateFileVoucher(savedId, amount);
+    return voucherType.generateVoucherWithId(savedId, amount);
   }
 
-  private String[] verifyArrayLength(String[] lineArray) {
-    if (lineArray.length == LENGTH) {
+  private List<String> verifyArrayLength(List<String> lineArray) {
+    if (lineArray.size() == LENGTH) {
       return lineArray;
     }
     throw new ArrayIndexOutOfBoundsException(

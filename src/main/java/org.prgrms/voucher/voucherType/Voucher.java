@@ -12,4 +12,8 @@ public interface Voucher {
 
   Amount getVoucherAmount();
 
+  VoucherType getVoucherType();
+
+  Voucher changeAmountValue(long amount);
+
 }

@@ -5,16 +5,16 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.prgrms.exception.NoSuchVoucherTypeException;
+import org.prgrms.voucher.discountType.Amount;
 import org.prgrms.voucher.discountType.DiscountAmount;
 import org.prgrms.voucher.discountType.DiscountRate;
-import org.prgrms.voucher.discountType.Amount;
 
 public enum VoucherType {
 
   FIXED(1, FixedAmountVoucher::new, DiscountAmount::new),
   PERCENT(2, PercentDiscountVoucher::new, DiscountRate::new);
 
-  private final long type;
+  private final int type;
 
   private final BiFunction<UUID ,Amount, Voucher> voucher;
 
@@ -27,7 +27,7 @@ public enum VoucherType {
     this.amount = amount;
   }
 
-  public static VoucherType of(long choice) {
+  public static VoucherType of(int choice) {
     return Stream.of(VoucherType.values())
         .filter(voucher -> voucher.type == choice)
         .findAny()
@@ -45,7 +45,7 @@ public enum VoucherType {
     return this.voucher.apply(UUID.randomUUID(),discount);
   }
 
-  public Voucher generateFileVoucher(UUID id, Amount discount) {
+  public Voucher generateVoucherWithId(UUID id, Amount discount) {
     return this.voucher.apply(id, discount);
   }
 
@@ -53,7 +53,7 @@ public enum VoucherType {
     return this.amount.apply(value);
   }
 
-  public long getType() {
+  public int getType() {
     return type;
   }
 
