@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 등록 페이지</title>
+</head>
+<body>
+<h1>고객 등록 페이지</h1>
+<a th:href="@{/view/v1/customers}">고객 관리 페이지</a>
+<form th:action="@{customer-add}" method="post">
+    <div>
+        <label for="status"></label>
+        <select name="status" id="status">
+            <option selected value="">==고객 상태 선택==</option>
+            <option value="normal">일반</option>
+            <option disabled value="black">블랙</option>
+        </select>
+    </div>
+    <button type="submit">등록</button>
+</form>
+</body>
+</html>
