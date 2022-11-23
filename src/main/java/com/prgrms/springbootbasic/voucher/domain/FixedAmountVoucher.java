@@ -33,16 +33,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(UUID uuid, int fixedAmount, VoucherType voucherType) {
-        validate(fixedAmount);
-        this.id = uuid;
-        this.fixedAmount = fixedAmount;
+        this(uuid, fixedAmount);
         this.voucherType = voucherType;
     }
 
     public FixedAmountVoucher(int fixedAmount, VoucherType voucherType) {
-        validate(fixedAmount);
-        this.id = UUID.randomUUID();
-        this.fixedAmount = fixedAmount;
+        this(fixedAmount);
         this.voucherType = voucherType;
     }
 
@@ -60,7 +56,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int getDiscountRate() {
+    public int getDiscountAmount() {
         return fixedAmount;
     }
 
