@@ -2,26 +2,24 @@ package org.prgrms.kdt.domain;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 public class Voucher {
 
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID voucherId;
+    @Column
+    private long id = 0;
     @Enumerated(EnumType.STRING)
     private VoucherType voucherType;
     private double discountAmount;
 
     public Voucher(VoucherType voucherType, double discountAmount) {
-        this.voucherId = UUID.randomUUID();
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
 
-    public Voucher(UUID voucherId, VoucherType voucherType, double discountAmount) {
-        this.voucherId = voucherId;
+    public Voucher(Long id, VoucherType voucherType, double discountAmount) {
+        this.id = id;
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
@@ -30,12 +28,12 @@ public class Voucher {
 
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
+    public long getId() {
+        return id;
     }
 
-    public void setVoucherId(UUID voucherId) {
-        this.voucherId = voucherId;
+    public void setId(long voucherId) {
+        this.id = voucherId;
     }
 
     public VoucherType getVoucherType() {
@@ -56,17 +54,17 @@ public class Voucher {
 
     @Override
     public String toString() {
-        return "<ID : " + voucherId + " , VoucherType : " + voucherType + " , DiscountAmount : " + discountAmount + " >";
+        return "<ID : " + id + " , VoucherType : " + voucherType + " , DiscountAmount : " + discountAmount + " >";
     }
 
     @Override
     public boolean equals(Object v) {
         if (!(v instanceof Voucher)) return false;
-        return this.voucherId == ((Voucher) v).getVoucherId();
+        return this.id == ((Voucher) v).getId();
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(voucherId);
+        return Objects.hash(id);
     }
 }

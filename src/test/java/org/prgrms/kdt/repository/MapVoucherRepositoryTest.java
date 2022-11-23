@@ -9,7 +9,6 @@ import org.prgrms.kdt.domain.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public class MapVoucherRepositoryTest {
 
@@ -38,18 +37,18 @@ public class MapVoucherRepositoryTest {
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
-        UUID voucherId = newVoucher.getVoucherId();
+        Long voucherId = newVoucher.getId();
         memory.saveVoucher(newVoucher);
 
         Optional<Voucher> voucherById = memory.getVoucherById(voucherId);
 
-        Assertions.assertEquals(voucherById.get().getVoucherId(), voucherId);
+        Assertions.assertEquals(voucherById.get().getId(), voucherId);
     }
 
     @Test
     @DisplayName("[실패] 존재하지 않는 바우처 아이디로 조회하기")
     void getById_withInvalidId() {
-        UUID invalidVoucherId = UUID.randomUUID();
+        long invalidVoucherId = 0;
 
         Optional<Voucher> voucherById = memory.getVoucherById(invalidVoucherId);
 

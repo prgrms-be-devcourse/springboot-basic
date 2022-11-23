@@ -9,14 +9,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Profile("jpa")
-public interface VoucherJPARepository extends JpaRepository<Voucher, UUID>, VoucherRepository {
+public interface VoucherJPARepository extends JpaRepository<Voucher, Long>, VoucherRepository {
 
     default boolean saveVoucher(Voucher voucher) {
         Voucher saveVoucher = save(voucher);
-        return saveVoucher.getVoucherId().equals(voucher.getVoucherId());
+        return saveVoucher.equals(voucher);
     }
 
-    default Optional<Voucher> getVoucherById(UUID voucherId) {
+    default Optional<Voucher> getVoucherById(long voucherId) {
         return findById(voucherId);
     }
 

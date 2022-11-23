@@ -12,7 +12,7 @@ import java.util.*;
 @Repository
 public class MapVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> memory;
+    private final Map<Long, Voucher> memory;
     private static final Logger logger = LoggerFactory.getLogger(MapVoucherRepository.class);
 
     public MapVoucherRepository(){
@@ -20,16 +20,16 @@ public class MapVoucherRepository implements VoucherRepository {
     }
 
     public boolean saveVoucher(Voucher voucher){
-        memory.put(voucher.getVoucherId(), voucher);
-        if(memory.containsKey(voucher.getVoucherId())) {
+        memory.put(voucher.getId(), voucher);
+        if(memory.containsKey(voucher.getId())) {
             logger.info("[Repository] save {}", voucher);
             return true;
         }
-        logger.info("[Repository] can't save the voucher id, {}", voucher.getVoucherId());
+        logger.info("[Repository] can't save the voucher id, {}", voucher.getId());
         return false;
     }
 
-    public Optional<Voucher> getVoucherById(UUID voucherId) {
+    public Optional<Voucher> getVoucherById(long voucherId) {
         Optional<Voucher> voucher = Optional.ofNullable(memory.get(voucherId));
         if (voucher.isPresent()){
             logger.info("[Repository] find voucher {}", voucher);

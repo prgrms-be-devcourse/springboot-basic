@@ -8,6 +8,6 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     boolean saveVoucher(Voucher voucher);
-    Optional<Voucher> getVoucherById(UUID voucherId);
+    Optional<Voucher> getVoucherById(long voucherId);
     List<Voucher> getAllVouchers();
 }
