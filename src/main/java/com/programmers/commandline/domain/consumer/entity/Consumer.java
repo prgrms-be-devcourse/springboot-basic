@@ -1,32 +1,33 @@
 package com.programmers.commandline.domain.consumer.entity;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public class Consumer {
 
-    private final UUID consumerId;
+    private String consumerId;
     private String name;
     private String email;
-    private LocalDateTime lastLoginAt;
-    private final LocalDateTime createdAt;
+    private String createdAt;
+    private String lastLoginAt;
 
     public Consumer(UUID consumerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
-        this.consumerId = consumerId;
+        this.consumerId = consumerId.toString();
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.toString();
     }
 
     public Consumer(UUID consumerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateName(name);
-        this.consumerId = consumerId;
+        this.consumerId = consumerId.toString();
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
+        this.lastLoginAt = lastLoginAt.toString();
+        this.createdAt = createdAt != null ? createdAt.toString() : null;
+
     }
     private void validateName(String name) {
         if (name.isBlank()) {
@@ -34,7 +35,7 @@ public class Consumer {
         }
     }
 
-    public UUID getConsumerId() {
+    public String getConsumerId() {
         return consumerId;
     }
 
@@ -47,11 +48,11 @@ public class Consumer {
     }
 
     public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
+        return LocalDateTime.parse(lastLoginAt);
     }
 
     public LocalDateTime getCreatedAt() {
-        return createdAt;
+        return LocalDateTime.parse(createdAt);
     }
 
     public void update(String name, String email) {

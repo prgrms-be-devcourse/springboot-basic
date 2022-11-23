@@ -15,9 +15,11 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
+@Profile("jdbc")
 public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
@@ -32,15 +34,15 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
         var consumerId = toUUID(resultSet.getBytes("consumer_id"));
         var consumerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Consumer(consumerId, consumerName, email, lastLoginAt, createdAt);
+        LocalDateTime createdAt = LocalDateTime.parse(resultSet.getString("created_at"));
+        LocalDateTime lastLoginAt = resultSet.getString("last_login_at") != null ?
+                LocalDateTime.parse(resultSet.getString("last_login_at")) : null;
+        return new Consumer(consumerId, consumerName, email, createdAt, lastLoginAt);
     };
 
     private Map<String, Object> toParamMap(Consumer consumer) {
         return new HashMap<>() {{
-            put("consumerId", consumer.getConsumerId().toString().getBytes());
+            put("consumerId", consumer.getConsumerId());
             put("name", consumer.getName());
             put("email", consumer.getEmail());
             put("createdAt", Timestamp.valueOf(consumer.getCreatedAt()));
@@ -51,9 +53,9 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     @Override
     public Consumer insert(Consumer consumer) {
         String sql = "INSERT INTO consumer(consumer_id, name, email, created_at, last_login_at) " +
-                "VALUES (UUID_TO_BIN(:consumerId), :name, :email, :createdAt, :lastLoginAt)";
+                "VALUES (:consumerId, :name, :email, :createdAt, :lastLoginAt)";
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
-                .addValue("consumerId", consumer.getConsumerId().toString().getBytes())
+                .addValue("consumerId", consumer.getConsumerId())
                 .addValue("name", consumer.getName())
                 .addValue("email", consumer.getEmail())
                 .addValue("createdAt", Timestamp.valueOf(consumer.getCreatedAt()).toLocalDateTime())
@@ -70,9 +72,10 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     @Override
     public Consumer update(Consumer consumer) {
-        var update = namedParameterJdbcTemplate.update("UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE consumer_id = UUID_TO_BIN(:consumerId)",
+        int update = namedParameterJdbcTemplate.update("UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE consumer_id = :consumerId",
                 toParamMap(consumer)
         );
+
         if (update != 1) {
             throw new RuntimeException("Noting was updated");
         }
@@ -90,10 +93,10 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     }
 
     @Override
-    public Optional<Consumer> findById(UUID consumerId) {
+    public Optional<Consumer> findById(String consumerId) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from consumer WHERE consumer_id = UUID_TO_BIN(:consumerId)",
-                    Collections.singletonMap("consumerId", consumerId.toString().getBytes()),
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from consumer WHERE consumer_id = :consumerId",
+                    Collections.singletonMap("consumerId", consumerId),
                     consumerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);

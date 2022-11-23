@@ -27,6 +27,7 @@ public enum Message {
     INSERT_CONSUMER_NAME("이름 : "),
     INSERT_CONSUMER_EMAIL("이메일 : "),
     NULL_POINT("값이 없습니다."),
+    CONSUMER_FILE_WRITE_ERROR("소비자를 파일에 저장하지 못했습니다."),
     ;
 
     private String message;

@@ -16,7 +16,7 @@ public interface ConsumerRepository {
 
     List<Consumer> findAll();
 
-    Optional<Consumer> findById(UUID consumerId);
+    Optional<Consumer> findById(String consumerId);
 
     Optional<Consumer> findByName(String name);
 

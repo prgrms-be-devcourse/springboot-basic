@@ -111,7 +111,7 @@ class ConsumerNamedJdbcRepositoryTest {
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findById(uuid);
+        Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findById(uuid.toString());
 
         //then
         assertThat(foundConsumer.get().getConsumerId(), is(uuid));

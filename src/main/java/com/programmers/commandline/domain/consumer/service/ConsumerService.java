@@ -33,9 +33,9 @@ public class ConsumerService {
         return consumers.toString();
     }
 
-    public String update(UUID uuid, String name, String email) {
+    public String update(String consumerId, String name, String email) {
 
-        Consumer consumer = consumerRepository.findById(uuid).orElseThrow(() -> {
+        Consumer consumer = consumerRepository.findById(consumerId).orElseThrow(() -> {
             throw new NullPointerException(Message.NULL_POINT.getMessage());
         });
         consumer.update(name, email);
@@ -43,8 +43,8 @@ public class ConsumerService {
         return consumerRepository.update(consumer).getConsumerId().toString();
     }
 
-    public Consumer findById(UUID uuid) {
-        return consumerRepository.findById(uuid).orElseThrow(() -> {
+    public Consumer findById(String consumerId) {
+        return consumerRepository.findById(consumerId).orElseThrow(() -> {
             throw new NullPointerException(Message.NULL_POINT.getMessage());
         });
     }
