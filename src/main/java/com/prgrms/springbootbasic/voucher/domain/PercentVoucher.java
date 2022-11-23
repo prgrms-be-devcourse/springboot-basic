@@ -6,6 +6,7 @@ import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 
 import java.math.BigDecimal;
 
+import com.prgrms.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +16,11 @@ public class PercentVoucher implements Voucher {
 
     private static final int MAX_AMOUNT_BOUNDARY = 99;
     private static final int MIN_AMOUNT_BOUNDARY = 1;
-
     private static final Logger logger = LoggerFactory.getLogger(PercentVoucher.class);
 
-    UUID id;
-    int percent;
+    private final UUID id;
+    private int percent;
+    private VoucherType voucherType;
 
     public PercentVoucher(int percent) {
         validate(percent);
@@ -28,14 +29,25 @@ public class PercentVoucher implements Voucher {
     }
 
     public PercentVoucher(UUID uuid, int percent) {
+        validate(percent);
         this.id = uuid;
         this.percent = percent;
     }
 
+    public PercentVoucher(UUID uuid, int percent, VoucherType voucherType) {
+        this(uuid, percent);
+        this.voucherType = voucherType;
+    }
+
+    public PercentVoucher(int percent, VoucherType voucherType) {
+        this(percent);
+        this.voucherType = voucherType;
+    }
+
     @Override
     public void validate(int discountAmount) {
-        logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {
+            logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");
             throw new AmountOutOfBoundException(this.getClass().getSimpleName(), MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
         }
     }
@@ -46,8 +58,13 @@ public class PercentVoucher implements Voucher {
     }
 
     @Override
-    public int getDiscountRate() {
+    public int getDiscountAmount() {
         return percent;
+    }
+
+    @Override
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     @Override
@@ -57,5 +74,11 @@ public class PercentVoucher implements Voucher {
             throw new IllegalStateException(ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT);
         }
         return afterDiscount;
+    }
+
+    @Override
+    public void update(int discountAmount) {
+        validate(discountAmount);
+        this.percent = discountAmount;
     }
 }

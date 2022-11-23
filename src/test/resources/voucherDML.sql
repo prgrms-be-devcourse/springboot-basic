@@ -1,0 +1,1 @@
+delete from voucher where voucher_id = UNHEX(REPLACE('bc7bb26c-f262-42d3-bf86-00748276f539', '-', ''));

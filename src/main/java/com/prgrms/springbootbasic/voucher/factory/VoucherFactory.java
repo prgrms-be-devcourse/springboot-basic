@@ -6,16 +6,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.UUID;
 
 public interface VoucherFactory {
 
     Logger logger = LoggerFactory.getLogger(VoucherFactory.class);
 
-    default Voucher requestVoucher(String discountAmountInput) {
+    default Voucher generateVoucher(String discountAmountInput) {
         validate(discountAmountInput);
         int discountAmount = parseAmount(discountAmountInput);
         return createVoucher(discountAmount);
     }
+
+    Voucher mapToVoucher(UUID id, int discountAmount);
 
     default void validate(String amountInput) {
         try {

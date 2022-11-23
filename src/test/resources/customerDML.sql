@@ -1,0 +1,1 @@
+insert into customer(customer_id, name) VALUES(UNHEX(REPLACE('8db01ce0-eb96-473b-8b7f-b903c3054dd9', '-', '')), 'test');
