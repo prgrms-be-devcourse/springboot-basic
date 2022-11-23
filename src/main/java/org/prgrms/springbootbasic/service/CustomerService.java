@@ -3,7 +3,6 @@ package org.prgrms.springbootbasic.service;
 import org.prgrms.springbootbasic.CustomerInputDto;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.repository.CustomerRepository;
-import org.prgrms.springbootbasic.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +28,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer findCustomerById(String customerId) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(UUID.fromString(customerId));
-        if (optionalCustomer.isEmpty()) {
-            return null;
-        }
-
-        return optionalCustomer.get();
+    public Optional<Customer> findCustomerById(String customerId) {
+        return customerRepository.findById(UUID.fromString(customerId));
     }
 
     public Optional<Customer> updateCustomer(Customer customer) {

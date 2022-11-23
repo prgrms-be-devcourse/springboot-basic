@@ -12,8 +12,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 import static org.prgrms.springbootbasic.type.MethodType.*;
 import static org.prgrms.springbootbasic.util.UUIDUtil.isUUID;
@@ -64,29 +67,29 @@ public class CustomerProcessor implements Processor {
 
     private Customer updateProcess() {
         String customerId;
-        Customer targetCustomer;
+        Optional<Customer> targetCustomer;
         do {
             customerId = getCustomerId();
             targetCustomer = customerService.findCustomerById(customerId);
-        } while (targetCustomer == null);
+        } while (targetCustomer.isEmpty());
 
         String name = CommandLineInput.getInput("name : ");
-        targetCustomer.changeName(name);
-        customerService.updateCustomer(targetCustomer);
+        Customer updateCustomer = targetCustomer.get();
+        updateCustomer.changeName(name);
+        customerService.updateCustomer(updateCustomer);
 
-        return targetCustomer;
+        return updateCustomer;
     }
 
     private Customer deleteProcess() {
         String customerId;
-        Customer targetCustomer;
+        Optional<Customer> targetCustomer;
         do {
             customerId = getCustomerId();
             targetCustomer = customerService.findCustomerById(customerId);
-        } while (targetCustomer == null);
-        customerService.deleteCustomerById(targetCustomer);
-
-        return targetCustomer;
+        } while (targetCustomer.isEmpty());
+        customerService.deleteCustomerById(targetCustomer.get());
+        return targetCustomer.get();
     }
 
     private String getCustomerId() {
