@@ -78,6 +78,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자를 생성하고 생성된 파일 갯수를 검증하라")
     void count() {
         //given
         Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
@@ -112,6 +113,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자를 아이디를 활용해서 찾고 검증하라")
     void findById() {
         //given
         UUID uuid = UUID.randomUUID();
@@ -127,6 +129,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자를 이름을 활용해서 찾고 검증하라")
     void findByName() {
         //given
         String name = "test_user";
@@ -141,6 +144,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자를 이메일을 활용해서 찾고 검증하라")
     void findByEmail() {
         //given
         String email = "test_user@naver.com";
@@ -155,6 +159,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
+    @DisplayName("소비자 전체를 삭제하고 검증하라")
     void deleteAll() {
         //given
         Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
