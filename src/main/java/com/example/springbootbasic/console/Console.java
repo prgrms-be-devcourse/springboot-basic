@@ -6,7 +6,6 @@ import com.example.springbootbasic.controller.request.RequestBody;
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.dto.customer.CustomerDto;
 import com.example.springbootbasic.dto.voucher.VoucherDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +20,6 @@ public class Console {
     private final ConsoleOutput consoleOutput;
     private final ConsoleManager consoleManager;
 
-    @Autowired
     public Console(ConsoleInput consoleInput, ConsoleOutput consoleOutput, ConsoleManager consoleManager) {
         this.consoleInput = consoleInput;
         this.consoleOutput = consoleOutput;
