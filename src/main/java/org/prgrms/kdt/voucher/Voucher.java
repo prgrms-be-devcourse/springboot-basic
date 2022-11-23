@@ -4,15 +4,17 @@ public interface Voucher {
 
     static Voucher newInstance(VoucherType type, VoucherAmount amount) {
         return switch (type) {
-            case FIXED -> new FixedAmountVoucher(VoucherId.increase(), amount);
-            case PERCENT -> new PercentDiscountVoucher(VoucherId.increase(), amount);
+            case FIXED -> new FixedAmountVoucher(amount);
+            case PERCENT -> new PercentDiscountVoucher(amount);
+            default -> throw new IllegalArgumentException("Unknown Type. [argument type]: " + type.getType());
         };
     }
 
-    static Voucher getInstance(long id, VoucherType type, VoucherAmount amount) {
+    static Voucher from(long id, VoucherType type, VoucherAmount amount) {
         return switch (type) {
             case FIXED -> new FixedAmountVoucher(id, amount);
             case PERCENT -> new PercentDiscountVoucher(id, amount);
+            default -> throw new IllegalArgumentException("Unknown Type. [argument type]: " + type.getType());
         };
     }
 
@@ -21,6 +23,4 @@ public interface Voucher {
     VoucherType getType();
 
     VoucherAmount getAmount();
-
-
 }

@@ -1,9 +1,6 @@
 package org.prgrms.kdt.command;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.prgrms.kdt.voucher.*;
@@ -14,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -26,6 +24,7 @@ class VoucherExecutorTest {
     @Nested
     @DisplayName("메모리를 통해,")
     class memory {
+
         @BeforeEach
         void init() {
             voucherManager = new InMemoryVoucherManager();
@@ -34,23 +33,18 @@ class VoucherExecutorTest {
 
         @DisplayName("바우처를 저장할 수 있다.")
         @ParameterizedTest
-        @CsvSource(value = {"FIXED, 10", "FIXED, 1000", "FIXED, 10000", "FIXED, 0", "PERCENT, 10", "PERCENT, 20", "PERCENT, 100", "PERCENT, 0"})
+        @CsvSource(value = {"FIXED, 0", "FIXED, 10", "FIXED, 1000", "FIXED, 10000", "PERCENT, 0", "PERCENT, 10", "PERCENT, 100", "PERCENT, 20"})
         void saveTest(String type, String amount) {
             // given
-            Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
+
 
             // when
-            voucherExecutor.create(type, amount);
-            List<Voucher> actualVouchers = voucherManager.findAll();
+            Voucher createdVoucher = voucherExecutor.create(type, amount);
+            Optional<Voucher> actual = voucherManager.findById(createdVoucher.getId());
 
             // then
-            actualVouchers.stream().findFirst()
-                    .ifPresent(actual -> {
-                        assertThat(actual)
-                                .extracting(Voucher::getType, Voucher::getAmount)
-                                .containsExactly(VoucherType.of(type), new VoucherAmount(amount));
-                    });
-
+            assertThat(actual.isPresent())
+                    .isTrue();
         }
 
         @DisplayName("저장된 바우처를 조회할 수 있다.")
@@ -91,31 +85,25 @@ class VoucherExecutorTest {
 
         @DisplayName("바우처를 저장할 수 있다.")
         @ParameterizedTest
-        @CsvSource(value = {"FIXED, 10", "FIXED, 1000", "FIXED, 10000", "FIXED, 0", "PERCENT, 10", "PERCENT, 20", "PERCENT, 100", "PERCENT, 0"})
+        @CsvSource(value = {"FIXED, 0", "FIXED, 10", "FIXED, 1000", "FIXED, 10000", "PERCENT, 0", "PERCENT, 10", "PERCENT, 100", "PERCENT, 20"})
         void saveTest(String type, String amount) {
             // given
-            Voucher voucher = Voucher.newInstance(VoucherType.of(type), new VoucherAmount(amount));
 
             // when
-            voucherExecutor.create(type, amount);
-            List<Voucher> actualVouchers = voucherManager.findAll();
+            Voucher createdVoucher = voucherExecutor.create(type, amount);
+            Optional<Voucher> actual = voucherManager.findById(createdVoucher.getId());
 
             // then
-            actualVouchers.stream().findFirst()
-                    .ifPresent(actual -> {
-                        assertThat(actual)
-                                .extracting(Voucher::getType, Voucher::getAmount)
-                                .containsExactly(VoucherType.of(type), new VoucherAmount(amount));
-                    });
-
+            assertThat(actual.isPresent())
+                    .isTrue();
         }
 
         @DisplayName("저장된 바우처를 조회할 수 있다.")
         @Test
         void listTest() {
             // given
-            Voucher voucher1 = Voucher.newInstance(VoucherType.of("Fixed"), new VoucherAmount("10"));
-            Voucher voucher2 = Voucher.newInstance(VoucherType.of("percent"), new VoucherAmount("20"));
+            Voucher voucher1 = Voucher.from(1L, VoucherType.of("Fixed"), new VoucherAmount("10"));
+            Voucher voucher2 = Voucher.from(2L, VoucherType.of("percent"), new VoucherAmount("20"));
             voucherManager.save(voucher1);
             voucherManager.save(voucher2);
 
@@ -124,12 +112,8 @@ class VoucherExecutorTest {
 
             // then
             assertThat(actualVouchers)
-                    .extracting(Voucher::getType, Voucher::getAmount)
-                    .containsExactlyInAnyOrder(
-                            tuple(VoucherType.of("FIXED"), new VoucherAmount("10")),
-                            tuple(VoucherType.of("PERCENT"), new VoucherAmount("20"))
-                    );
-
+                    .usingRecursiveComparison()
+                    .isEqualTo(List.of(voucher1, voucher2));
         }
     }
 

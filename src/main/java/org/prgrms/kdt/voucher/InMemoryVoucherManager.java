@@ -18,8 +18,9 @@ public class InMemoryVoucherManager implements VoucherManager {
     private final Map<Long, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
-        vouchers.put(voucher.getId(), voucher);
+    public Voucher save(Voucher voucher) {
+        vouchers.put(InMemoryVoucherId.increase(), voucher);
+        return Voucher.from(InMemoryVoucherId.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override
@@ -34,6 +35,20 @@ public class InMemoryVoucherManager implements VoucherManager {
         return Optional.ofNullable(vouchers.get(id));
     }
 
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
 
     private static Collector<Voucher, Object, List<Voucher>> getUnmodifiableListCollector() {
         return Collectors.collectingAndThen(

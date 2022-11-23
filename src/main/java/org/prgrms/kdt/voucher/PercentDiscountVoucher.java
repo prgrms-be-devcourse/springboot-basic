@@ -14,6 +14,10 @@ public class PercentDiscountVoucher implements Voucher {
         this.amount = amount;
     }
 
+    public PercentDiscountVoucher(VoucherAmount amount) {
+        this(0, amount);
+    }
+
     private void validate(VoucherAmount amount) {
         if (!isValidAmount(amount)) {
             throw new NumberFormatException("Please enter a value between " + PERCENT_DISCOUNT_VOUCHER_MIN_VALUE + " and " + PERCENT_DISCOUNT_VOUCHER_MAX_VALUE + "." + System.lineSeparator());

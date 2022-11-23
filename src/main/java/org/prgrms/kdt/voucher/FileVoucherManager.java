@@ -16,7 +16,7 @@ public class FileVoucherManager implements VoucherManager {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherManager.class);
 
-    public static final String DELIMITER = ", ";
+    private static final String DELIMITER = ", ";
     private final String filePath;
 
     public FileVoucherManager(@Value("${voucher.file-path}") String filePath) {
@@ -24,10 +24,12 @@ public class FileVoucherManager implements VoucherManager {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         File vouchersCsv = loadFile();
 
-        write(voucher, vouchersCsv);
+        Voucher savedVoucher = Voucher.from(getNextLineNumber(vouchersCsv), voucher.getType(), voucher.getAmount());
+        write(savedVoucher, vouchersCsv);
+        return savedVoucher;
     }
 
     private File loadFile() {
@@ -40,6 +42,15 @@ public class FileVoucherManager implements VoucherManager {
             throw new IllegalArgumentException("Cannot find file. Please check there is file those name is " + file.getName() + ".[File Path]: " + filePath, exception);
         }
         return file;
+    }
+
+    private long getNextLineNumber(File file) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            return bufferedReader.lines()
+                    .count() + 1;
+        } catch (IOException exception) {
+            throw new IllegalStateException("Cannot find file. Please check there is file those name is " + file.getName(), exception);
+        }
     }
 
     private void write(Voucher voucher, File file) {
@@ -82,10 +93,29 @@ public class FileVoucherManager implements VoucherManager {
         }
     }
 
+    @Override
+    public void deleteAll() {
+        try {
+            new FileOutputStream(filePath).close();
+        } catch (IOException exception) {
+            logger.error(exception.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        throw new UnsupportedOperationException("Unsupported command.");
+    }
+
     private static Voucher mapToVoucher(String line) {
         try {
             String[] tokens = line.split(DELIMITER);
-            return Voucher.getInstance(Long.parseLong(tokens[0]), VoucherType.of(tokens[1]), new VoucherAmount(tokens[2]));
+            return Voucher.from(Long.parseLong(tokens[0]), VoucherType.of(tokens[1]), new VoucherAmount(tokens[2]));
         } catch (ArrayIndexOutOfBoundsException exception) {
             throw new RuntimeException("Invalid File. Please write the file in following format. [Format]: Id, Type, Amount", exception);
         }
