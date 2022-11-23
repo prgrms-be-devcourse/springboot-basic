@@ -9,14 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Primary
-public class FileVoucherRepository implements VoucherRepository, DisposableBean {
+public class FileVoucherRepository implements VoucherRepository, InitializingBean ,DisposableBean {
     static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final String voucherFilePath;
@@ -42,42 +41,27 @@ public class FileVoucherRepository implements VoucherRepository, DisposableBean 
         return Optional.ofNullable(storage.get(voucherId));
     }
 
-//    @Override
-//    public void afterPropertiesSet() {
-//        try {
-//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(voucherFilePath));
-//            List<Voucher> vouchers = new ArrayList<>();
-//
-//            while ((vouchers = (List<Voucher>) objectInputStream.readObject()) != null) {
-//                vouchers.forEach(voucher -> storage.put(voucher.getVoucherId(), voucher));
-//            }
-//
-//            objectInputStream.close();
-//        } catch (Exception exception) {
-//            logger.error("Got error while reading voucher file", exception);
-//        }
-//    }
-
-    @PostConstruct
-    public void executeFileToMap() {
+    @Override
+    public void afterPropertiesSet() {
         try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(voucherFilePath));
-            List<Voucher> vouchers = new ArrayList<>();
-
+            FileInputStream fileInputStream = new FileInputStream(voucherFilePath);
+            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+            List<Voucher> vouchers;
             while ((vouchers = (List<Voucher>) objectInputStream.readObject()) != null) {
                 vouchers.forEach(voucher -> storage.put(voucher.getVoucherId(), voucher));
             }
-
-            objectInputStream.close();
+        } catch (EOFException e) {
+            logger.info("End to read a voucher file.");
         } catch (Exception exception) {
             logger.error("Got error while reading voucher file", exception);
         }
     }
 
+
     @Override
     public void destroy() throws Exception {
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(voucherFilePath));
+        FileOutputStream fileOutputStream = new FileOutputStream(voucherFilePath);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(new ArrayList<>(storage.values()));
-        objectOutputStream.close();
     }
 }
