@@ -43,7 +43,7 @@ public enum VoucherFactory {
         return findVoucherFactory.generate(voucherId, discountValue);
     }
 
-    private synchronized Voucher generate(long voucherId, long discountValue) {
+    private Voucher generate(long voucherId, long discountValue) {
         return voucherGenerator.apply(voucherId, discountValue);
     }
 }
