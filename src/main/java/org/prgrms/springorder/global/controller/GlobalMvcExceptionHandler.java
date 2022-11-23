@@ -1,6 +1,8 @@
 package org.prgrms.springorder.global.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import org.prgrms.springorder.domain.customer.view.CustomerViewController;
+import org.prgrms.springorder.domain.voucher.view.VoucherViewController;
 import org.prgrms.springorder.global.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = {CustomerViewController.class, VoucherViewController.class})
 @Order(Ordered.LOWEST_PRECEDENCE)
 public class GlobalMvcExceptionHandler {
 
