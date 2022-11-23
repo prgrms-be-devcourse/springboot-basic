@@ -72,6 +72,22 @@ public class FileVoucherRepository implements VoucherRepository {
         cache.clear();
     }
 
+    @Override
+    public void deleteById(long voucherId) {
+        List<Voucher> vouchers = csvInOut.readAll();
+        for (int i = 0; i < vouchers.size(); i++) {
+            Voucher voucher = vouchers.get(i);
+            if (matchId(voucher, voucherId)) {
+                vouchers.remove(i);
+                cache.remove(voucherId);
+                csvInOut.voucherUpdate(vouchers);
+                return;
+            }
+        }
+
+        throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+    }
+
     private boolean matchId(Voucher compareVoucher, long newVoucherId) {
         return compareVoucher.getVoucherId() == newVoucherId;
     }

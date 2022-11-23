@@ -31,7 +31,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String getTypeName() {
-        return null;
+        return typeName;
     }
 
     @Override

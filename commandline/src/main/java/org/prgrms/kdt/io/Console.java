@@ -62,7 +62,11 @@ public class Console {
         System.out.println(ConstantMessageUtil.TERMINATE);
     }
 
-    public void delete() {
+    public void initialize() {
+        System.out.println(ConstantMessageUtil.INITIALIZE);
+    }
+
+    public void delete(){
         System.out.println(ConstantMessageUtil.DELETE);
     }
 

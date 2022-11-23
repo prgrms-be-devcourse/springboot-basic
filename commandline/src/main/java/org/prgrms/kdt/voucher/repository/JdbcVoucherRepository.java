@@ -27,6 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private static Map<Long, Voucher> cache = new ConcurrentHashMap<>();
 
+    private static final int NOT_AFFECT_RESULT = 0;
+
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -94,6 +96,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         jdbcTemplate.update("delete from voucher", Collections.EMPTY_MAP);
         cache.clear();
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        String sql ="delete from voucher where voucher_id = :voucherId";
+        Map<String, Object> param = Map.of("voucherId", voucherId);
+        int result = jdbcTemplate.update(sql, param);
+        if(result == NOT_AFFECT_RESULT){
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+        cache.remove(voucherId);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

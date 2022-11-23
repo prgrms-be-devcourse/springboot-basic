@@ -60,7 +60,7 @@ public class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("findById에서 잘못된 ID값을 넣어주면 에러가 발생한다.")
+    @DisplayName("findById에서 잘못된 ID값을 넣어주면 예외가 발생한다.")
     void findByIdIncorrectTest() {
         assertThatThrownBy(() -> {
             voucherRepository.findById(999999L);

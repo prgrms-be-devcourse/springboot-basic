@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>voucherDetail</title>
+</head>
+<body>
+<a th:href="@{/}">home</a>
+<div>
+    <form action="">
+        <input th:value="${findVoucher.getTypeName()}" disabled />
+        <input th:value="${findVoucher.getVoucherId()}" disabled />
+        <input th:value="${findVoucher.getDiscountDegree()}" disabled />
+    </form>
+
+    <form th:action="@{/voucher/updateForm/{id} (id=${findVoucher.getVoucherId()})}" method="get">
+        <button type="submit" > update </button>
+    </form>
+    <form th:action="@{/api/voucher/delete/{id} (id=${findVoucher.getVoucherId()})}" method="post">
+        <button type="submit" > remove </button>
+    </form>
+</div>
+
+</body>
+</html>

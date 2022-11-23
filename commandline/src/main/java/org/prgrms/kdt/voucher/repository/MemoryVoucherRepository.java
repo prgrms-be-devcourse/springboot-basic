@@ -56,4 +56,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         storage.clear();
     }
+
+    @Override
+    public void deleteById(long voucherId) {
+        if(!storage.containsKey(voucherId)){
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+        storage.remove(voucherId);
+    }
 }

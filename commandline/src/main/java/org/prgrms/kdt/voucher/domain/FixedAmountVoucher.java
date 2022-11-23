@@ -36,7 +36,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher{" +
+        return "FixedAmountVoucher{" +
                 "voucherId="+getVoucherId()+", "+
                 "typeName=" + typeName + ", " +
                 "discountDegree="+ getDiscountDegree()+

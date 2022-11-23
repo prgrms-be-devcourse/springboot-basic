@@ -15,4 +15,6 @@ public interface VoucherRepository {
     void update(long voucherId, long discountDegree);
 
     void deleteAll();
+
+    void deleteById(long voucherId);
 }
