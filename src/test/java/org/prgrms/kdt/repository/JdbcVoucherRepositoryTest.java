@@ -31,7 +31,7 @@ public class JdbcVoucherRepositoryTest {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator(resource);
         databasePopulator.execute(dataSource);
         this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.repository = new VoucherJdbcRepository(new NamedParameterJdbcTemplate(jdbcTemplate));
+        this.repository = new JdbcVoucherRepository(new NamedParameterJdbcTemplate(jdbcTemplate));
     }
 
     @BeforeEach
@@ -71,7 +71,9 @@ public class JdbcVoucherRepositoryTest {
     void getById_withInvalidId() {
         long invalidVoucherId = 0;
 
-        Assertions.assertThrows(DataAccessException.class, () -> repository.getVoucherById(invalidVoucherId));
+        Optional<Voucher> voucherById = repository.getVoucherById(invalidVoucherId);
+
+        Assertions.assertFalse(voucherById.isPresent());
     }
 
     @Test

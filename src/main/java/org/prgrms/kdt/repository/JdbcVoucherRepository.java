@@ -75,14 +75,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .addValue("voucher_type", voucher.getVoucherType().toString())
                 .addValue("discount_amount", voucher.getDiscountAmount());
     }
-}
-
-class VoucherMapper implements RowMapper<Voucher> {
-    public Voucher mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        Voucher voucher = new Voucher();
-        voucher.setId(resultSet.getInt("id"));
-        voucher.setDiscountAmount(resultSet.getDouble("discount_amount"));
-        voucher.setVoucherType(VoucherType.valueOf(resultSet.getString("voucher_type")));
-        return voucher;
+    class VoucherMapper implements RowMapper<Voucher> {
+        public Voucher mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+            Voucher voucher = new Voucher();
+            voucher.setId(resultSet.getLong("id"));
+            voucher.setDiscountAmount(resultSet.getDouble("discount_amount"));
+            voucher.setVoucherType(VoucherType.valueOf(resultSet.getString("voucher_type")));
+            return voucher;
+        }
     }
 }
