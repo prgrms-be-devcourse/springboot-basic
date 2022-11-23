@@ -37,9 +37,9 @@ public class MapVoucherRepository implements VoucherRepository {
     public Optional<Voucher> getVoucherById(long voucherId) {
         Optional<Voucher> voucher = Optional.ofNullable(memory.get(voucherId));
         if (voucher.isPresent()){
-            logger.info("[Repository] find voucher {}", voucher);
+            logger.info("[Repository] get voucher {}", voucher);
         }
-        logger.info("[Repository] can't find the voucher id, {}", voucherId);
+        logger.info("[Repository] can't get the voucher id, {}", voucherId);
         return voucher;
     }
 

@@ -2,7 +2,10 @@ package org.prgrms.kdt.repository;
 
 import org.prgrms.kdt.domain.Voucher;
 import org.prgrms.kdt.domain.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,33 +21,52 @@ import java.util.Optional;
 
 @Profile("dev")
 @Repository
-public class VoucherJdbcRepository implements VoucherRepository {
+public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private static final Logger logger = LoggerFactory.getLogger(MapVoucherRepository.class);
 
-    public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Optional<Voucher> saveVoucher(Voucher voucher) {
         GeneratedKeyHolder voucherIdHolder = new GeneratedKeyHolder();
-        String sql = "insert into voucher (discount_amount, voucher_type) values (:discount_amount, :voucher_type)";
-        jdbcTemplate.update(sql, toParamSource(voucher), voucherIdHolder);
-        return Optional.ofNullable(new Voucher(voucherIdHolder.getKey().longValue(), voucher.getVoucherType(), voucher.getDiscountAmount()));
+        try {
+            String sql = "insert into voucher (discount_amount, voucher_type) values (:discount_amount, :voucher_type)";
+            jdbcTemplate.update(sql, toParamSource(voucher), voucherIdHolder);
+        } catch(DataAccessException e){
+            logger.error("[Repository] <saveVoucher> : ", e);
+        }
+        Voucher savedVoucher = new Voucher(voucherIdHolder.getKey().longValue(), voucher.getVoucherType(), voucher.getDiscountAmount());
+        logger.info("[Repository] save {}", savedVoucher);
+        return Optional.ofNullable(savedVoucher);
     }
 
     @Override
     public Optional<Voucher> getVoucherById(long voucherId) {
-        String sql = "select id, discount_amount, voucher_type from voucher where id = :id";
-        Voucher voucher = jdbcTemplate.queryForObject(sql, Collections.singletonMap("id", voucherId), new VoucherMapper());
-        return Optional.ofNullable(voucher);
+        Voucher returnedVoucher = null;
+        try {
+            String sql = "select id, discount_amount, voucher_type from voucher where id = :id";
+            returnedVoucher = jdbcTemplate.queryForObject(sql, Collections.singletonMap("id", voucherId), new VoucherMapper());
+        } catch(DataAccessException e){
+            logger.error("[Repository] <getVoucherById> : ", e);
+        }
+        logger.info("[Repository] get voucher {}", returnedVoucher);
+        return Optional.ofNullable(returnedVoucher);
     }
 
     @Override
     public List<Voucher> getAllVouchers() {
-        String sql = "select * from voucher";
-        List<Voucher> list = jdbcTemplate.query(sql, new VoucherMapper());
-        return list;
+        List<Voucher> returnedVouchers = List.of();
+        try {
+            String sql = "select * from voucher";
+            returnedVouchers = jdbcTemplate.query(sql, new VoucherMapper());
+        } catch(DataAccessException e){
+            logger.error("[Repository] <getAllVouchers> : ", e);
+        }
+        logger.info("[Repository] get all voucher {}", returnedVouchers);
+        return returnedVouchers;
     }
 
     private SqlParameterSource toParamSource(Voucher voucher) {

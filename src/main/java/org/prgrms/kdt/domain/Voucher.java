@@ -8,7 +8,7 @@ public class Voucher {
 
     @Id
     @Column
-    private long id = 0;
+    private long id;
     @Enumerated(EnumType.STRING)
     private VoucherType voucherType;
     private double discountAmount;

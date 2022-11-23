@@ -6,10 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Profile("jpa")
-public interface VoucherJPARepository extends JpaRepository<Voucher, Long>, VoucherRepository {
+public interface JpaVoucherRepository extends JpaRepository<Voucher, Long>, VoucherRepository {
 
     default Optional<Voucher> saveVoucher(Voucher voucher) {
         return Optional.of(save(voucher));
