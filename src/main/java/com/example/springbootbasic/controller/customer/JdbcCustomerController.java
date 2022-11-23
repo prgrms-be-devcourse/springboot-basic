@@ -36,7 +36,7 @@ public class JdbcCustomerController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllCustomers.stream()
-                .map(CustomerDto::of)
+                .map(CustomerDto::newInstance)
                 .toList());
     }
 
@@ -93,7 +93,7 @@ public class JdbcCustomerController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findCustomers.stream()
-                .map(CustomerDto::of)
+                .map(CustomerDto::newInstance)
                 .toList());
     }
 }

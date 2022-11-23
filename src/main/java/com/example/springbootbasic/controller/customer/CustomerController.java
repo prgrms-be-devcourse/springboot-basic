@@ -30,7 +30,7 @@ public class CustomerController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllCustomers.stream()
-                .map(CustomerDto::of)
+                .map(CustomerDto::newInstance)
                 .toList());
     }
 }

@@ -19,7 +19,7 @@ public class CustomerDto {
         this.vouchers = vouchers;
     }
 
-    public static CustomerDto of(Customer customer) {
+    public static CustomerDto newInstance(Customer customer) {
         List<VoucherDto> voucherDtos = customer.getVouchers()
                 .stream()
                 .map(VoucherDto::newInstance)
