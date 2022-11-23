@@ -24,14 +24,12 @@ class VoucherFactoryTest {
 
     static Stream<Arguments> whenGenerateVoucherThenSuccessDummy() {
         return Stream.of(
-                Arguments.arguments(0L, FIXED_AMOUNT),
                 Arguments.arguments(1L, FIXED_AMOUNT),
                 Arguments.arguments(10L, FIXED_AMOUNT),
                 Arguments.arguments(100L, FIXED_AMOUNT),
                 Arguments.arguments(10000L, FIXED_AMOUNT),
                 Arguments.arguments(49999L, FIXED_AMOUNT),
                 Arguments.arguments(50000L, FIXED_AMOUNT),
-                Arguments.arguments(0L, PERCENT_DISCOUNT),
                 Arguments.arguments(10L, PERCENT_DISCOUNT),
                 Arguments.arguments(99L, PERCENT_DISCOUNT),
                 Arguments.arguments(100L, PERCENT_DISCOUNT)

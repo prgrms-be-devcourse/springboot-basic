@@ -80,7 +80,6 @@ class MemoryVoucherRepositoryTest {
 
     static Stream<Arguments> voucherDummy() {
         return Stream.of(
-                Arguments.arguments(0L, FIXED_AMOUNT),
                 Arguments.arguments(1L, FIXED_AMOUNT),
                 Arguments.arguments(10L, FIXED_AMOUNT),
                 Arguments.arguments(100L, FIXED_AMOUNT),
@@ -91,7 +90,6 @@ class MemoryVoucherRepositoryTest {
                 Arguments.arguments(40000L, FIXED_AMOUNT),
                 Arguments.arguments(49999L, FIXED_AMOUNT),
                 Arguments.arguments(50000L, FIXED_AMOUNT),
-                Arguments.arguments(0L, PERCENT_DISCOUNT),
                 Arguments.arguments(1L, PERCENT_DISCOUNT),
                 Arguments.arguments(10L, PERCENT_DISCOUNT),
                 Arguments.arguments(20L, PERCENT_DISCOUNT),

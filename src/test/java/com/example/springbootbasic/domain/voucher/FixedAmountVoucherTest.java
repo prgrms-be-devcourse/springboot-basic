@@ -30,7 +30,6 @@ class FixedAmountVoucherTest {
 
     static Stream<Arguments> whenConstructFixedAmountThenSuccessDummy() {
         return Stream.of(
-                Arguments.arguments(0L),
                 Arguments.arguments(10L),
                 Arguments.arguments(100L),
                 Arguments.arguments(1000L),
@@ -46,6 +45,7 @@ class FixedAmountVoucherTest {
                 Arguments.arguments(-1000L),
                 Arguments.arguments(-100L),
                 Arguments.arguments(-10L),
+                Arguments.arguments(0L),
                 Arguments.arguments(-1L),
                 Arguments.arguments(50001L),
                 Arguments.arguments(50001L),

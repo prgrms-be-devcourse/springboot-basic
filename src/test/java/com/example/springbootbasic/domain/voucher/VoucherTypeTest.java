@@ -18,7 +18,7 @@ class VoucherTypeTest {
     @MethodSource("whenFindVoucherTypeThenSuccessDummy")
     @DisplayName("바우처 타입 정확한 입력값으로 검색 성공")
     void whenFindVoucherTypeThenSuccessTest(String inputVoucherType, VoucherType voucherType) {
-        VoucherType findVoucherType = of(inputVoucherType);
+        VoucherType findVoucherType = VoucherType.of(inputVoucherType);
         assertThat(findVoucherType, is(voucherType));
     }
 

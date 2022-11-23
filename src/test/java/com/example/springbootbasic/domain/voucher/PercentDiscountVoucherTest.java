@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 class PercentDiscountVoucherTest {
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}")
-    @ValueSource(longs = {0L, 1L, 2L, 10L, 20L, 99L, 100L})
+    @ValueSource(longs = {1L, 2L, 10L, 20L, 99L, 100L})
     @DisplayName("할인율 바우처 생성시 성공")
     void whenConstructPercentDiscountThenSuccessTest(Long discountValue) {
         PercentDiscountVoucher createdVoucher = new PercentDiscountVoucher(1L, discountValue);

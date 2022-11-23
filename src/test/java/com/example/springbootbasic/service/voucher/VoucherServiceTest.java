@@ -105,12 +105,12 @@ class VoucherServiceTest {
     static Stream<Arguments> voucherDummy() {
         return Stream.of(
                 Arguments.arguments(
-                        List.of(0L, 1L, 10L, 100L, 1000L, 10000L, 20000L),
-                        List.of(FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT)
+                        List.of(1L, 10L, 100L, 1000L, 10000L, 20000L),
+                        List.of(FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT)
                 ),
                 Arguments.arguments(
-                        List.of(30000L, 40000L, 49999L, 50000L, 0L, 1L, 10L),
-                        List.of(FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, PERCENT_DISCOUNT, PERCENT_DISCOUNT, PERCENT_DISCOUNT)
+                        List.of(30000L, 40000L, 49999L, 50L, 1L, 10L),
+                        List.of(FIXED_AMOUNT, FIXED_AMOUNT, FIXED_AMOUNT, PERCENT_DISCOUNT, PERCENT_DISCOUNT, PERCENT_DISCOUNT)
                 ),
                 Arguments.arguments(
                         List.of(10L, 20L, 30L, 40L, 99L, 100L),
