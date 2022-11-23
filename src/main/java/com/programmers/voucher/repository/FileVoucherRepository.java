@@ -70,4 +70,9 @@ public class FileVoucherRepository implements VoucherRepository {
         wini.clear();
         cacheMap.clear();
     }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        wini.remove(voucherId);
+    }
 }

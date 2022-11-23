@@ -1,6 +1,7 @@
 package com.programmers.customer.controller;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerJoinForm;
 import com.programmers.customer.service.CustomerService;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
@@ -42,8 +43,12 @@ public class CustomerController {
     }
 
     @PostMapping("/new")
-    public String join(String name, String email) {
+    public String join(CustomerJoinForm joinForm) {
+        String name = joinForm.getName();
+        String email = joinForm.getEmail();
+
         validateForJoin(name, email);
+
         customerService.join(name, email);
 
         return "redirect:/customers";

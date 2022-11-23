@@ -1,61 +1,73 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.view.View;
+import com.programmers.voucher.dto.VoucherRegisterForm;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.message.Message.*;
+import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
 
-@Component
+@Controller
+@RequestMapping("/vouchers")
 public class VoucherController {
     private final VoucherService voucherService;
-    private final View view;
 
-    public VoucherController(VoucherService voucherService, View view) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.view = view;
     }
 
-    public void showCustomerVouchers() {
-        view.printMessage(VOUCHER_CUSTOMER_ID);
-        String customerId = view.getUserCommand();
-        UUID customerUUID = UUID.fromString(customerId);
 
-        List<Voucher> vouchers = voucherService.searchVouchersByCustomerId(customerUUID);
-
-        for (Voucher voucher : vouchers) {
-            view.printVoucher(voucher);
-        }
-    }
-
-    public void showVoucherList() {
+    @GetMapping
+    public String showVoucherList(Model model) {
         List<Voucher> vouchers = voucherService.findAll();
 
-        view.printList(vouchers);
+        model.addAttribute("vouchers", vouchers);
+        return "/vouchers";
     }
 
-    public void createVoucher() {
-        view.printMessage(VOUCHER_TYPE_MESSAGE);
-        String voucherTypeInput = view.getUserCommand();
-
-        view.printMessage(VOUCHER_VALUE_MESSAGE);
-        String value = view.getUserCommand();
-
-        voucherService.register(voucherTypeInput, value);
-        view.printMessage(VOUCHER_CREATE_SUCCESS);
-
+    @GetMapping("/new")
+    public String showCreatePage() {
+        return "/new-vouchers";
     }
 
-    public void findVoucher() {
-        view.printMessage(VOUCHER_ID);
-        String userCommand = view.getUserCommand();
-        UUID voucherId = UUID.fromString(userCommand);
+    @PostMapping("/new")
+    public String createVoucher(VoucherRegisterForm registerForm) {
+        String type = registerForm.getType();
+        String value = registerForm.getValue();
 
+        validateVoucherForm(type, value);
+        voucherService.register(type, value);
+
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping("/{voucherId}")
+    public String voucherDetailPage(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(voucherId);
-        view.printVoucher(voucher);
+        model.addAttribute("voucher", voucher);
+        return "voucherDetail";
+    }
+
+    @PostMapping("/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable String voucherId) {
+        UUID uuid = UUID.fromString(voucherId);
+        voucherService.deleteVoucher(uuid);
+
+        return "redirect:/vouchers";
+    }
+
+    private void validateVoucherForm(String type, String value) {
+        if (!StringUtils.hasText(type) || !StringUtils.hasText(value)) {
+            throw new RuntimeException(ERROR_INPUT_MESSAGE.getMessage());
+        }
     }
 }

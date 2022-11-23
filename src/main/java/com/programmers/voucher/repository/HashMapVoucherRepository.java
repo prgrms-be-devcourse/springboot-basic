@@ -33,4 +33,9 @@ public class HashMapVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         map.clear();
     }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        map.remove(voucherId);
+    }
 }
