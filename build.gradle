@@ -13,8 +13,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.h2database:h2:2.1.214'
     runtimeOnly 'mysql:mysql-connector-java:8.0.11'
     testImplementation group: 'com.wix', name: 'wix-embedded-mysql', version: '4.6.1'
