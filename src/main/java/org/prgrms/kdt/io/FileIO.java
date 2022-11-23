@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,16 +29,13 @@ public class FileIO {
 
     public List<String> readFileList(){
         File voucherFolder = getDirectory();
-        return Arrays.asList(
-                Objects.requireNonNullElseGet(
-                        voucherFolder.list(), () -> new String[]{}));
+        return List.of(Objects.requireNonNull(voucherFolder.list()));
     }
 
     public void write(Voucher voucher) {
-        String filePath = MessageFormat.format("{0}{1}.txt", VOUCHER_FILE_DIRECTORY, voucher.getVoucherId().toString());
+        String filePath = MessageFormat.format("{0}{1}.txt", VOUCHER_FILE_DIRECTORY, voucher.getVoucherId());
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.write(getVoucherInfo(voucher));
-            bufferedWriter.flush();
         } catch (IOException fileWriteException) {
             logger.error("파일에 바우처를 저장하는 것을 실패하였습니다.", fileWriteException);
         }

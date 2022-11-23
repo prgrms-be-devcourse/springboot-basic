@@ -14,8 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class CommandLineApplication implements CommandLineRunner {
 
-    private final VoucherAppManager voucherAppManager;
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
+    private final VoucherAppManager voucherAppManager;
     private final IOManager ioManager;
 
     public CommandLineApplication(VoucherAppManager voucherAppManager, IOManager ioManager) {

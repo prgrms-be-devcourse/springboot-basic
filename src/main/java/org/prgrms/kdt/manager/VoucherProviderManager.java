@@ -1,7 +1,9 @@
 package org.prgrms.kdt.manager;
 
 import org.prgrms.kdt.exceptions.AmountException;
+import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
+import org.prgrms.kdt.exceptions.InvalidParameterException;
 import org.prgrms.kdt.io.IOManager;
 import org.prgrms.kdt.utils.Power;
 import org.prgrms.kdt.utils.VoucherType;
@@ -21,6 +23,7 @@ public class VoucherProviderManager {
     private static final String CREATE_VOUCHER = "성공적으로 바우처가 형성되었습니다.";
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherProviderManager.class);
+
     private final IOManager ioManager;
     private final VoucherProvider voucherProvider;
     private Power power;
@@ -40,8 +43,8 @@ public class VoucherProviderManager {
             vouchers.forEach(ioManager::writeVoucherInfo);
             logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
 
-        } catch (RuntimeException runtimeException) {
-            logger.error(runtimeException.getMessage());
+        } catch (InvalidDBAccessException dbAccessException) {
+            logger.error(dbAccessException.getMessage());
             AppPower.stop();
             AppPower.stopByException();
         }
@@ -57,12 +60,12 @@ public class VoucherProviderManager {
             }
             try {
                 VoucherType voucherType = VoucherType.findVoucherTypeByInput(createTypeInput);
-                double amount = ioManager.getAmountInput();
+                int amount = ioManager.getAmountInput();
                 voucherProvider.create(voucherType, amount);
                 ioManager.writeMessage(CREATE_VOUCHER);
                 logger.info("바우처가 성공적으로 생성되었습니다.");
                 power.stop();
-            } catch (InvalidITypeInputException | AmountException e) {
+            } catch (InvalidITypeInputException | AmountException | InvalidParameterException e) {
                 logger.error("사용자가 유효하지 않은 값을 입력하였습니다.");
                 ioManager.writeExceptionMessage(e.getMessage());
             }

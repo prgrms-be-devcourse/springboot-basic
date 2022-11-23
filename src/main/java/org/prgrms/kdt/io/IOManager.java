@@ -22,7 +22,7 @@ public class IOManager {
             Type 'g' to go back to main.""";
 
     private static final String AMOUNT_MESSAGE = "할인하고자 하는 만큼의 수를 입력해주세요.";
-    private static final String AMOUNT_ERROR = "할인 정도는 정수나 실수로만 입력 가능합니다.";
+    private static final String AMOUNT_ERROR = "할인 정도는 0보다 큰 정수만 가능합니다.";
     private static final String EXIT_APP = "Exit Program. Good Bye.";
 
     private final Console console;
@@ -51,10 +51,10 @@ public class IOManager {
                 .strip();
     }
 
-    public double getAmountInput() {
+    public int getAmountInput() {
         console.write(AMOUNT_MESSAGE);
         try {
-            return Double.parseDouble(console.read()
+            return Integer.parseInt(console.read()
                     .strip());
         } catch (NumberFormatException e) {
             throw new AmountException(AMOUNT_ERROR);

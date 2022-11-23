@@ -4,7 +4,6 @@ import org.prgrms.kdt.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherStorage {
 
@@ -12,5 +11,7 @@ public interface VoucherStorage {
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findById(String voucherId);
+
+    void deleteById(String voucherId);
 }

@@ -1,12 +1,16 @@
 package org.prgrms.kdt.voucher;
 
-import java.util.UUID;
+import java.util.Optional;
 
 public interface Voucher {
 
-    double discount(double beforeDiscount);
+    int discount(int beforeDiscount);
 
-    UUID getVoucherId();
+    String getVoucherId();
 
-    double getAmount();
+    int getAmount();
+
+    String getVoucherType();
+
+    Optional<String> getOwnerId();
 }
