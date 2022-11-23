@@ -74,7 +74,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                             Collections.singletonMap("customerId", customerId.toString().getBytes()),
                             customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("got empty result", e);
+            logger.error("got empty result");
             return Optional.empty();
         }
     }
