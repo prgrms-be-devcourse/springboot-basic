@@ -19,5 +19,7 @@ public interface CustomerService {
     Customer update(Customer customer);
 
     List<Customer> findAll();
+
+    void deleteCustomer(UUID customerId);
 }
 

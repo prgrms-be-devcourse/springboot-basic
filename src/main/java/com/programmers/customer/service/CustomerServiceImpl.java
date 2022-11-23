@@ -81,4 +81,10 @@ public class CustomerServiceImpl implements CustomerService {
         return customerRepository.findAll();
     }
 
+    @Override
+    @Transactional
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteCustomer(customerId);
+    }
+
 }

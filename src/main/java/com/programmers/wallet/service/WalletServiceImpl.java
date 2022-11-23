@@ -20,13 +20,11 @@ public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
     private final CustomerRepository customerRepository;
     private final VoucherRepository voucherRepository;
-    private final CustomerService customerService;
 
-    public WalletServiceImpl(WalletRepository walletRepository, CustomerRepository customerRepository, VoucherRepository voucherRepository, CustomerService customerService) {
+    public WalletServiceImpl(WalletRepository walletRepository, CustomerRepository customerRepository, VoucherRepository voucherRepository) {
         this.walletRepository = walletRepository;
         this.customerRepository = customerRepository;
         this.voucherRepository = voucherRepository;
-        this.customerService = customerService;
     }
 
     @Override
@@ -35,8 +33,11 @@ public class WalletServiceImpl implements WalletService {
         Customer customer = getCustomer(customerId);
 
         Voucher voucher = getVoucher(voucherId);
+        voucher.changeAssigned(true);
 
         walletRepository.assignVoucher(customer, voucher);
+
+
         customer.addVoucher(voucher);
 
         return customer;
@@ -59,6 +60,7 @@ public class WalletServiceImpl implements WalletService {
         Customer customer = getCustomer(customerId);
 
         Voucher findVoucher = getVoucher(voucherId);
+        findVoucher.changeAssigned(false);
 
         customer.removeVoucher(findVoucher);
 
