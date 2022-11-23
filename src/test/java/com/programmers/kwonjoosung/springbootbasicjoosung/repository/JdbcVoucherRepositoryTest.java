@@ -1,13 +1,13 @@
-package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
+package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
+import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.JdbcVoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -22,11 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class JdbcVoucherRepositoryTest {
 
-    JdbcVoucherRepository jdbcVoucherRepository;
+    private JdbcVoucherRepository jdbcVoucherRepository;
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 

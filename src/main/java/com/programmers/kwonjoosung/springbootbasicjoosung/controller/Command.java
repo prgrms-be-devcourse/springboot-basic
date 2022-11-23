@@ -1,7 +1,5 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommandException;
-
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -24,6 +22,6 @@ public enum Command {
         return Stream.of(Command.values())
                 .filter(value -> Objects.equals(value.command, input.toLowerCase()))
                 .findFirst()
-                .orElseThrow(() -> new WrongCommandException(input));
+                .orElseThrow(() -> new IllegalArgumentException("올바른 명령어가 아닙니다."));
     }
 }

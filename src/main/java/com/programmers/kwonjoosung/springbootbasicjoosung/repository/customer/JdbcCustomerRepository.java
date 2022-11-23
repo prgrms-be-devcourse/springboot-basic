@@ -1,7 +1,6 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +14,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("release")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String TABLE_FIELD_CUSTOMER_ID = "customer_id";
@@ -81,7 +79,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlockCustomer() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
 }

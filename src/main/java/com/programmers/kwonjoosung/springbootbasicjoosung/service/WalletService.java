@@ -5,14 +5,15 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.CustomerRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet.JdbcWalletRepository;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Component
+@Service
 public class WalletService {
 
     private final JdbcWalletRepository jdbcWalletRepository;
@@ -33,10 +34,13 @@ public class WalletService {
 
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         if (customerIsEmpty(customerId)) return List.of();
-        List<Voucher> vouchers = new ArrayList<>();
-        for (UUID uuid : jdbcWalletRepository.findVoucherIdsByCustomerId(customerId))
-            voucherRepository.findById(uuid).ifPresent(vouchers::add);
-        return vouchers;
+        return jdbcWalletRepository
+                .findVoucherIdsByCustomerId(customerId)
+                .stream()
+                .map(voucherRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toList());
     }
 
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {

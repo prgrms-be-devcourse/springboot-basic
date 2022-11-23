@@ -15,7 +15,7 @@ public class FixedAmountDiscountVoucher implements Voucher {
     private final long discountAmount;
 
     public FixedAmountDiscountVoucher(UUID voucherId, long discountAmount) {
-        valid(discountAmount);
+        checkRange(discountAmount);
         this.voucherId = voucherId;
         this.discountAmount = discountAmount;
         logger.debug("create Voucher voucherId = {}, discountAmount ={}", voucherId, discountAmount);
@@ -25,10 +25,10 @@ public class FixedAmountDiscountVoucher implements Voucher {
         this(UUID.randomUUID(), discountAmount);
     }
 
-    private void valid(long discountAmount) {
+    private void checkRange(long discountAmount) {
         if (MIN_AMOUNT >= discountAmount || discountAmount >= MAX_AMOUNT) {
             logger.error("범위 초과 에러 입력 => {}", discountAmount);
-            throw new RuntimeException("적절한 할인 범위를 넘어갔습니다.");
+            throw new IllegalArgumentException("할인 금액은 0원 이상 100,000원 이하 입니다.");
         }
     }
 

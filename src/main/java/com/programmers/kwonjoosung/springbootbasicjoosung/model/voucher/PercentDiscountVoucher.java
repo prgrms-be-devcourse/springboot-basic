@@ -15,7 +15,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final long discountPercent;
 
     public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        valid(discountPercent);
+        checkRange(discountPercent);
         this.voucherId = voucherId;
         this.discountPercent = discountPercent;
         logger.debug("create Voucher voucherId = {}, discountPercent ={}", voucherId, discountPercent);
@@ -25,10 +25,10 @@ public class PercentDiscountVoucher implements Voucher {
         this(UUID.randomUUID(), discountPercent);
     }
 
-    private void valid(long discountAmount) {
+    private void checkRange(long discountAmount) {
         if (MIN_PERCENT >= discountAmount || discountAmount >= MAX_PERCENT) {
             logger.error("범위 초과 에러 입력 => {}", discountAmount);
-            throw new RuntimeException("적절한 할인 범위를 넘어갔습니다.");
+            throw new IllegalArgumentException("할인 가능한 할인율은 0% 이상 100% 이하 입니다.");
         }
     }
 

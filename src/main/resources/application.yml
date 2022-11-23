@@ -9,15 +9,11 @@ file:
   voucher-list:
     name: voucherList.txt
     path: resources/
----
 
 spring:
-  config:
-    activate:
-      on-profile: release
   datasource:
-    url: ${datasource.url} # jdbc:mysql://localhost:3306/VoucherManagementApplication
-    username: ${datasource.username}
-    password: ${datasource.password}
+    url: jdbc:mysql://localhost:3306/VoucherManagementApplication # ${datasource.url}
+    username: root # ${datasource.username}
+    password: 1234 # ${datasource.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 암호화 어떻게 해야 하나요?

@@ -1,11 +1,11 @@
-package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
+package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
+import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.JdbcCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,11 +21,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 class JdbcCustomerRepositoryTest {
 
-    JdbcCustomerRepository jdbcCustomerRepository;
+    private JdbcCustomerRepository jdbcCustomerRepository;
+
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -44,8 +44,7 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
         assertThat(insertResult).isTrue();
-        assertThat(customerOptional).isNotEmpty();
-        assertThat(customerOptional.get()).isEqualTo(customer);
+        assertThat(customerOptional).contains(customer);
     }
 
     @Test

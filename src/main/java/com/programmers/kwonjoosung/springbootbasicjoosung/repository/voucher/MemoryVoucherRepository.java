@@ -18,8 +18,23 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public boolean update(Voucher voucher) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean deleteById(UUID voucherId) {
+        throw new UnsupportedOperationException();
     }
 
 }

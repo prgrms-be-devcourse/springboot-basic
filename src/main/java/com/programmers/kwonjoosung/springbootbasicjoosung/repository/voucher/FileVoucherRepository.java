@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -24,7 +26,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final File voucherListTextFile;
 
-    FileVoucherRepository(FileVoucherProperties fileVoucherProperties) {
+    public FileVoucherRepository(FileVoucherProperties fileVoucherProperties) {
         voucherListTextFile = new File(fileVoucherProperties.getFilePath() + fileVoucherProperties.getFileName());
     }
 
@@ -41,6 +43,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         try {
             List<String> voucherList = Files.readAllLines(voucherListTextFile.toPath());
@@ -51,5 +58,15 @@ public class FileVoucherRepository implements VoucherRepository {
             logger.error("findAll error message -> {}", e.getMessage());
             return List.of();
         }
+    }
+
+    @Override
+    public boolean update(Voucher voucher) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean deleteById(UUID voucherId) {
+        throw new UnsupportedOperationException();
     }
 }

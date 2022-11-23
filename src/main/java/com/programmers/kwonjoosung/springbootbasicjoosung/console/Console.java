@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static com.programmers.kwonjoosung.springbootbasicjoosung.console.message.RequestMessage.*;
+
 @Component
 public class Console {
 
@@ -18,12 +20,6 @@ public class Console {
     private static final String DELIMITER = " ";
     private static final String START_MESSAGE = "=== Voucher Program ===";
     private static final String EXIT_MESSAGE = "=== Exit Program ===";
-    private static final String INPUT_COMMAND = "command >> ";
-    private static final String INPUT_VOUCHER_TYPE = "voucherType >> ";
-    private static final String INPUT_DISCOUNT = "discount >> ";
-    private static final String INPUT_VOUCHER_ID = "voucherId >> ";
-    private static final String INPUT_CUSTOMER_ID = "customerId >> ";
-    private static final String INPUT_CUSTOMER_NAME = "name >>";
     private static final String PARSE_ERROR_MESSAGE = "숫자를 입력해 주세요";
     private static final String ERROR = "오류입니다!";
 
@@ -38,7 +34,7 @@ public class Console {
 
     public Request getRequest() {
         System.out.print(INPUT_COMMAND);
-        return RequestMapper.map(scanner.nextLine().trim(), DELIMITER);
+        return Request.of(scanner.nextLine().trim(), DELIMITER);
     }
 
     public void printMessage(ResponseMessage message) {
@@ -89,6 +85,7 @@ public class Console {
     }
 
     public void printHelpMessage() {
+        System.out.println("=== Help ===");
     }
 
     public void print(String message) {

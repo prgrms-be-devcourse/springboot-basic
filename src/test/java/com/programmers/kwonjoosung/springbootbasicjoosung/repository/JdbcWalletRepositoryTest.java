@@ -1,4 +1,4 @@
-package com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet;
+package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
@@ -9,10 +9,10 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.Cu
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.JdbcCustomerRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.JdbcVoucherRepository;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherRepository;
+import com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet.JdbcWalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -29,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Transactional
 public class JdbcWalletRepositoryTest {
 

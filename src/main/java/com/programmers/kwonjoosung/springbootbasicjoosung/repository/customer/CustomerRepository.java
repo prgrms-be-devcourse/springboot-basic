@@ -8,25 +8,15 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    default boolean insert(Customer customer) {
-        return false;
-    }
+    boolean insert(Customer customer);
 
-    default Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
-    }
+    Optional<Customer> findById(UUID customerId);
 
-    default List<Customer> findAll() {
-        return null;
-    }
+    List<Customer> findAll();
 
-    default boolean update(Customer customer) {
-        return false;
-    }
+    boolean update(Customer customer);
 
-    default boolean delete(UUID customerId) {
-        return false;
-    }
+    boolean delete(UUID customerId);
 
     List<Customer> findAllBlockCustomer();
 }

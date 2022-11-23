@@ -1,6 +1,5 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.controller;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongCommandException;
 
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -23,7 +22,7 @@ public enum Domain {
         return Stream.of(Domain.values())
                 .filter(value -> Objects.equals(value.domain,domainType.toLowerCase()))
                 .findFirst()
-                .orElseThrow(() -> new WrongCommandException(domainType));
+                .orElseThrow(() -> new IllegalArgumentException("올바른 도메인이 아닙니다."));
     }
     
 }
