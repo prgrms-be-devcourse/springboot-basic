@@ -27,9 +27,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    @Autowired
     private final ResourceLoader resourceLoader;
 
+    @Autowired
     public FileVoucherRepository(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
@@ -79,7 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Path getPath() throws IOException {
-        return resourceLoader.getResource("fileVoucherRepository.csv").getFile().toPath();
+        return resourceLoader.getResource("classpath:fileVoucherRepository.csv").getFile().toPath();
     }
 
     private List<String> getLines() {
