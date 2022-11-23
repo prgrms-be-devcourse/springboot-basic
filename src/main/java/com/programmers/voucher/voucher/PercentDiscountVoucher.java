@@ -4,13 +4,23 @@ package com.programmers.voucher.voucher;
 import java.util.Objects;
 import java.util.UUID;
 
+import static com.programmers.voucher.voucher.VoucherType.PercentDiscount;
+
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percentage;
+    private boolean isAssigned;
 
     PercentDiscountVoucher(UUID voucherId, long percentage) {
         this.voucherId = voucherId;
         this.percentage = percentage;
+        this.isAssigned = false;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, long percentage, boolean isAssigned) {
+        this.voucherId = voucherId;
+        this.percentage = percentage;
+        this.isAssigned = isAssigned;
     }
 
     @Override
@@ -33,6 +43,21 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public long getValue() {
         return percentage;
+    }
+
+    @Override
+    public VoucherType getType() {
+        return PercentDiscount;
+    }
+
+    @Override
+    public void changeAssigned(boolean isAssigned) {
+        this.isAssigned = isAssigned;
+    }
+
+    @Override
+    public boolean isAssigned() {
+        return isAssigned;
     }
 
     @Override

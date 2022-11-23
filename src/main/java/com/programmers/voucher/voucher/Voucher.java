@@ -10,4 +10,10 @@ public interface Voucher {
     String toString();
 
     long getValue();
+
+    VoucherType getType();
+
+    void changeAssigned(boolean isAssigned);
+
+    boolean isAssigned();
 }
