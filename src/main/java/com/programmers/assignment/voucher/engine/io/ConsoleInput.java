@@ -24,7 +24,11 @@ public class ConsoleInput {
 
     public String inputVoucherInfo(String voucherInfo) {
         System.out.println(voucherInfo);
-        var inputVoucherInfo = scanner.nextLine();
-        return inputVoucherInfo;
+        return scanner.nextLine();
+    }
+
+    public String inputCustomerInfo(String customerInfo) {
+        System.out.print(customerInfo);
+        return scanner.nextLine();
     }
 }

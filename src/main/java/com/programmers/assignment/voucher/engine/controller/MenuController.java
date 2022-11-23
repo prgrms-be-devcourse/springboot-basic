@@ -1,5 +1,6 @@
 package com.programmers.assignment.voucher.engine.controller;
 
+import com.programmers.assignment.voucher.engine.service.CustomerService;
 import com.programmers.assignment.voucher.engine.service.MenuService;
 import org.springframework.stereotype.Controller;
 
@@ -7,10 +8,12 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MenuController {
     private final MenuService menuService;
+    private final CustomerService customerService;
 
 
-    public MenuController(MenuService menuService) {
+    public MenuController(MenuService menuService, CustomerService customerService) {
         this.menuService = menuService;
+        this.customerService = customerService;
     }
 
 
@@ -19,7 +22,7 @@ public class MenuController {
     }
 
 
-    public String createCommand() {
+    public String createVoucherCommand() {
         String discountWay = menuService.createVoucher();
         return discountWay;
     }
@@ -30,5 +33,9 @@ public class MenuController {
 
     public void exitCommand() {
         menuService.exitApplication();
+    }
+
+    public void createCustomerCommand() {
+        customerService.createCustomer();
     }
 }

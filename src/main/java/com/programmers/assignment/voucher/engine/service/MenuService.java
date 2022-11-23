@@ -5,6 +5,7 @@ import com.programmers.assignment.voucher.engine.io.ConsoleOutput;
 import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
 import com.programmers.assignment.voucher.util.domain.Menu;
 import com.programmers.assignment.voucher.util.domain.VoucherVariable;
+import com.programmers.assignment.voucher.util.dto.CustomerDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +25,8 @@ public class MenuService {
     private static final String MENU_MESSAGE =
             "===Voucher Program===\n" +
                     "Type exit to exit the program.\n" +
-                    "Type create to create a new voucher.\n" +
+                    "Type create voucher to create voucher a new voucher.\n" +
+                    "Type create customer to create customer new customer.\n" +
                     "Type list to list all vouchers";
 
     private static final String VOUCHER_MESSAGE =
@@ -55,4 +57,6 @@ public class MenuService {
         }
         output.showVoucherList(voucherList);
     }
+
+
 }

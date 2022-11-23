@@ -27,20 +27,23 @@ public class CliApplication {
         String command = "";
         while (!command.equals(Menu.EXIT)) {
             command = menuController.startMenu();
+            Menu menuCommand = Menu.getMenu(command);
             logger.info("Command input : " + command);
 
-            switch (command) {
-                case "CREATE" -> {
-                    String inputDiscountWay = menuController.createCommand();
+            switch (menuCommand) {
+                case CREATE_VOUCHER -> {
+                    String inputDiscountWay = menuController.createVoucherCommand();
                     logger.info("Voucher select : " + inputDiscountWay);
                     runCreate(inputDiscountWay);
                 }
-                case "LIST" -> {
+                case LIST -> {
                     menuController.listCommand();
                 }
-                case "EXIT" -> {
+                case EXIT -> {
                     menuController.exitCommand();
-
+                }
+                case CREATE_CUSTOMER -> {
+                    menuController.createCustomerCommand();
                 }
             }
         }
