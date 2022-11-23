@@ -1,6 +1,8 @@
 package org.prgrms.springorder.domain.customer.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import org.prgrms.springorder.domain.customer.api.response.CustomerResponse;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,19 @@ public class CustomerRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.findAllCustomers();
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        List<CustomerResponse> customerResponses = customerService.findAllCustomers()
+            .stream()
+            .map(customer -> new CustomerResponse(
+                customer.getCustomerId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getLastLoginAt(),
+                customer.getCreatedAt(),
+                customer.getCustomerStatus()))
+            .collect(Collectors.toList());
 
-        return ResponseEntity.ok(customers);
+        return ResponseEntity.ok(customerResponses);
     }
 
 

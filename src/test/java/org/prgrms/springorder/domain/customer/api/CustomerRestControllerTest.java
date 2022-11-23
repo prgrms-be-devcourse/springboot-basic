@@ -50,7 +50,6 @@ class CustomerRestControllerTest {
         List<Customer> save = saveAll(saveCount);
 
         //then & when
-
         mockMvc.perform(get("/api/v1/customers")
                 .accept(MediaType.APPLICATION_XML_VALUE))
             .andExpect(status().isOk())
@@ -70,7 +69,6 @@ class CustomerRestControllerTest {
         List<Customer> save = saveAll(saveCount);
 
         //then & when
-
         mockMvc.perform(get("/api/v1/customers")
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 )
@@ -79,11 +77,16 @@ class CustomerRestControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.*").exists())
             .andExpect(jsonPath("$.length()").value(saveCount))
+            .andExpect(jsonPath("$[*].customerId").exists())
+            .andExpect(jsonPath("$[*].name").exists())
+            .andExpect(jsonPath("$[*].email").exists())
+            .andExpect(jsonPath("$[*].createdAt").exists())
+            .andExpect(jsonPath("$[*].customerStatus").exists())
+
             .andDo(print());
     }
 
     private List<Customer> saveAll(int saveCount) {
-
         String name = "name";
         String email = "email@gmail.com";
         return IntStream.range(0, saveCount)
