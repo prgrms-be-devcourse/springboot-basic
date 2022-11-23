@@ -37,7 +37,7 @@ public class CustomerProcessor implements Processor {
         String method = CommandLineInput.getInput(notificationProperties.getCustomerPrompt());
         while (!MethodType.validate(method)) {
             System.out.println(notificationProperties.getWrongInput());
-            method = CommandLineInput.getInput(notificationProperties.getVoucherPrompt());
+            method = CommandLineInput.getInput(notificationProperties.getCustomerPrompt());
         }
 
         List<Customer> customerList = new ArrayList<>();

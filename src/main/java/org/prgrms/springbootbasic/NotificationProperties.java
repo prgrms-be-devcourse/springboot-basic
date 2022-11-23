@@ -11,6 +11,7 @@ public class NotificationProperties {
     private String customerPrompt;
     private String wrongInput;
     private String voucherTypeChoice;
+    private String customerId;
     private String exit;
 
     public String getVoucherPrompt() {
@@ -29,6 +30,10 @@ public class NotificationProperties {
         return voucherTypeChoice;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
     public String getExit() {
         return exit;
     }
@@ -43,6 +48,10 @@ public class NotificationProperties {
 
     public void setVoucherTypeChoice(String voucherTypeChoice) {
         this.voucherTypeChoice = voucherTypeChoice;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public void setWrongInput(String wrongInput) {

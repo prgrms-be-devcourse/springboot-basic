@@ -18,6 +18,7 @@ notification:
     Choose one!
     fixedVoucher: 1
     PercentVoucher: 2
+  customerId: what is customerId to change?
   wrongInput: It's wrong input
   exit: Good bye!
 
