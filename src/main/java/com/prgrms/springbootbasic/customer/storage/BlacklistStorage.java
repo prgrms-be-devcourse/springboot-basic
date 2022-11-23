@@ -15,12 +15,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Repository;
 
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.*;
 
+@Profile("dev")
 @Repository
 public class BlacklistStorage {
 

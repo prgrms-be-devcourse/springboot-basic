@@ -3,10 +3,12 @@ package com.prgrms.springbootbasic.voucher.factory;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 import com.prgrms.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.prgrms.springbootbasic.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Profile("prod | test")
 @Component
 public class FixedAmountVoucherFactory implements VoucherFactory {
     @Override

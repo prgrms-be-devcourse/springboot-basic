@@ -14,8 +14,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("dev")
 @Component
 public class VoucherApplication {
 
@@ -42,17 +44,17 @@ public class VoucherApplication {
     }
 
     private void getCommand() {
-        console.printMenu();
+        console.printVoucherMenu();
         String inputCommand = console.getCommand();
         try {
-            CommandType commandType = CommandType.from(inputCommand);
-            controlMenu(commandType);
+            VoucherCommandType voucherCommandType = VoucherCommandType.from(inputCommand);
+            controlMenu(voucherCommandType);
         } catch (InvalidCommandTypeException e) {
             console.printExceptionMessage(e.getMessage());
         }
     }
 
-    private void controlMenu(CommandType command) {
+    private void controlMenu(VoucherCommandType command) {
         switch (command) {
             case EXIT -> exit();
             case CREATE -> create();
@@ -76,7 +78,6 @@ public class VoucherApplication {
 
     private void exit() {
         applicationStatus.exit();
-        console.printExitMessage();
         logger.info("Exit Voucher application.");
     }
 
