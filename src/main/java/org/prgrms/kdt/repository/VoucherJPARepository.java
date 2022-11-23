@@ -11,9 +11,8 @@ import java.util.UUID;
 @Profile("jpa")
 public interface VoucherJPARepository extends JpaRepository<Voucher, Long>, VoucherRepository {
 
-    default boolean saveVoucher(Voucher voucher) {
-        Voucher saveVoucher = save(voucher);
-        return saveVoucher.equals(voucher);
+    default Optional<Voucher> saveVoucher(Voucher voucher) {
+        return Optional.of(save(voucher));
     }
 
     default Optional<Voucher> getVoucherById(long voucherId) {

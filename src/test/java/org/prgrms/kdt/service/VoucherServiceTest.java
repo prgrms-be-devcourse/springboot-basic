@@ -10,6 +10,7 @@ import org.prgrms.kdt.repository.VoucherRepository;
 import org.prgrms.kdt.service.dto.CreateVoucherDto;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -29,10 +30,11 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("[성공] 바우처 저장하기")
     void createVoucherTest() {
-        when(voucherRepository.saveVoucher(any())).thenReturn(true);
-
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
+        Voucher voucher = new Voucher(1L, voucherType, discountAmount);
+        when(voucherRepository.saveVoucher(any())).thenReturn(Optional.of(voucher));
+
         CreateVoucherDto dto = new CreateVoucherDto(voucherType, discountAmount);
 
         boolean result = voucherService.createVoucher(dto);
@@ -43,7 +45,7 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("[실패] 바우처 저장 실패한 경우")
     void createVoucherTest_fail() {
-        when(voucherRepository.saveVoucher(any())).thenReturn(false);
+        when(voucherRepository.saveVoucher(any())).thenReturn(Optional.empty());
 
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;

@@ -51,9 +51,9 @@ public class JdbcVoucherRepositoryTest {
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
 
-        boolean result = repository.saveVoucher(newVoucher);
+        Optional<Voucher> returnedVoucher = repository.saveVoucher(newVoucher);
 
-        Assertions.assertTrue(result);
+        Assertions.assertTrue(returnedVoucher.isPresent());
     }
 
     @Test

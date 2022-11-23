@@ -19,14 +19,19 @@ public class MapVoucherRepository implements VoucherRepository {
         this.memory = new HashMap<>();
     }
 
-    public boolean saveVoucher(Voucher voucher){
-        memory.put(voucher.getId(), voucher);
+    public Optional<Voucher> saveVoucher(Voucher voucher){
+        long voucherId = voucher.getId();
+        if(voucher.getId() == 0){
+            voucherId = memory.size() + 1;
+            voucher.setId(voucherId);
+        }
+        memory.put(voucherId, voucher);
         if(memory.containsKey(voucher.getId())) {
             logger.info("[Repository] save {}", voucher);
-            return true;
+            return Optional.of(voucher);
         }
         logger.info("[Repository] can't save the voucher id, {}", voucher.getId());
-        return false;
+        return Optional.empty();
     }
 
     public Optional<Voucher> getVoucherById(long voucherId) {

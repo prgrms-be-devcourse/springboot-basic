@@ -26,10 +26,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public boolean saveVoucher(Voucher voucher) {
+    public Optional<Voucher> saveVoucher(Voucher voucher) {
+        GeneratedKeyHolder voucherIdHolder = new GeneratedKeyHolder();
         String sql = "insert into voucher (discount_amount, voucher_type) values (:discount_amount, :voucher_type)";
-        jdbcTemplate.update(sql, toParamSource(voucher));
-        return true;
+        jdbcTemplate.update(sql, toParamSource(voucher), voucherIdHolder);
+        return Optional.ofNullable(new Voucher(voucherIdHolder.getKey().longValue(), voucher.getVoucherType(), voucher.getDiscountAmount()));
     }
 
     @Override

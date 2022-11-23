@@ -4,10 +4,9 @@ import org.prgrms.kdt.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherRepository {
-    boolean saveVoucher(Voucher voucher);
+    Optional<Voucher> saveVoucher(Voucher voucher);
     Optional<Voucher> getVoucherById(long voucherId);
     List<Voucher> getAllVouchers();
 }
