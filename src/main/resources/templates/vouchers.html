@@ -12,30 +12,34 @@
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
-<p th:text="'The time on the server is' + ${serverTime}"></p>
+<h2>바우처 목록</h2>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
         <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Email</th>
-        <th scope="col">CreateAt</th>
-        <th scope="col">LastLogin</th>
+        <th scope="col">type</th>
+        <th scope="col">value</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="customer : ${customer}" th:object="${customer}">
-        <th scope="row" th:text="${customer.customer_id}"></th>
-        <th scope="row" th:text="${customer.name}"></th>
-        <th scope="row" th:text="${customer.email}"></th>
-        <th scope="row" th:text="${customer.createAt}"></th>
-        <th scope="row" th:text="${customer.lastLoginAt}"></th>
+    <tr th:each="voucher : ${vouchers}" th:object="${vouchers}">
+        <th scope="row" th:text="${voucher.voucherId}"></th>
+        <th scope="row" th:text="${voucher.type}"></th>
+        <th scope="row" th:text="${voucher.value}"></th>
+        <th>
+            <a btn btn-primary me-md-2 th:href="@{/vouchers/{id}(id = ${voucher.voucherId})}" type="button">관리</a>
+        </th>
     </tr>
     </tbody>
 </table>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a btn btn-primary me-md-2 th:href="@{/customers/new}" type="button">Button</a>
+    <a btn btn-primary me-md-2 th:href="@{/vouchers/new}">
+        <button>바우처 생성하기</button>
+    </a>
+    <a btn btn-primary me-md-2 th:href="@{/customers}">
+        <button>회원 바우처 검색하기</button>
+    </a>
 </div>
 </body>
 </html>

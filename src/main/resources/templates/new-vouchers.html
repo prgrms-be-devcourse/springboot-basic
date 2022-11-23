@@ -14,17 +14,20 @@
 </head>
 <body class="container-fluid">
 <h1>KDT Spring App</h1>
-<h2>New Customer</h2>
-<form method="post" th:action="@{/customers/new}">
+<h2>바우처 등록</h2>
+<form method="post" th:action="@{/vouchers/new}">
     <div class="mb-3">
-        <label class="form-label" for="exampleInputEmail1">Email address</label>
-        <input aria-describedby="emailHelp" class="form-control" id="exampleInputEmail1" name="email" type="email">
+        <label class="form-label">type</label>
+        <select name="type">
+            <option value="F">FixedAmount</option>
+            <option value="P">PercentDiscount</option>
+        </select>
     </div>
     <div class="mb-3">
-        <label class="form-label" for="exampleInputPassword1">Name</label>
-        <input class="form-control" id="exampleInputPassword1" name="name" type="text">
+        <label class="form-label" for="exampleInputPassword1">value</label>
+        <input class="form-control" id="exampleInputPassword1" name="value" type="number">
     </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
+    <button class="btn btn-primary" type="submit">생성</button>
 </form>
 </body>
 </html>
