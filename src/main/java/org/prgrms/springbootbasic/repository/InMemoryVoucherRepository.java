@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.repository;
 
+
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

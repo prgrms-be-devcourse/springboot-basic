@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic;
 
+
 import org.prgrms.springbootbasic.processor.Processor;
 import org.prgrms.springbootbasic.util.CommandLineInput;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,9 @@ import java.util.Objects;
 import static org.prgrms.springbootbasic.type.MethodType.isExit;
 import static org.prgrms.springbootbasic.type.ServiceType.number2ProcessorClass;
 
+
 @Component
 public class Console {
-
     @Value(value = "${notification.service}")
     private String serviceNotification;
 

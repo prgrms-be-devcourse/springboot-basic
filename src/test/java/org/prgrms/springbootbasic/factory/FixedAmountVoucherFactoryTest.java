@@ -8,6 +8,7 @@ import org.prgrms.springbootbasic.entity.voucher.Voucher;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 class FixedAmountVoucherFactoryTest {
     final FixedAmountVoucherFactory fixedAmountVoucherFactory = new FixedAmountVoucherFactory();
 
@@ -25,5 +26,4 @@ class FixedAmountVoucherFactoryTest {
         long amount = -1;
         assertThrows(IllegalArgumentException.class, () -> fixedAmountVoucherFactory.createVoucher(amount));
     }
-
 }

@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.repository;
 
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
@@ -9,6 +10,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 class InMemoryVoucherRepositoryTest {
 
@@ -45,7 +47,6 @@ class InMemoryVoucherRepositoryTest {
                         .equals(percentAmountVoucher.getVoucherId())
                 )
         );
-
         assertEquals(inMemoryVoucherRepository.findAll().size(), 2);
     }
 }

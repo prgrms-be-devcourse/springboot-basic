@@ -1,5 +1,6 @@
 package org.prgrms.springbootbasic.factory;
 
+
 import org.prgrms.springbootbasic.entity.voucher.PercentAmountVoucher;
 import org.prgrms.springbootbasic.entity.voucher.Voucher;
 

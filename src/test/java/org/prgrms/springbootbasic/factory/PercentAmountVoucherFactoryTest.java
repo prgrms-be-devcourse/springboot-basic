@@ -33,5 +33,4 @@ class PercentAmountVoucherFactoryTest {
         long percent = -1;
         assertThrows(IllegalArgumentException.class, () -> percentAmountVoucherFactory.createVoucher(percent));
     }
-
 }
