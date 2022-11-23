@@ -4,7 +4,7 @@ import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.customer.Customer;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
@@ -13,9 +13,6 @@ import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
-    private static final String insertSql
-            = "INSERT INTO customers(customer_name, email) " +
-            "VALUES(:customerName, :email)";
     private static final String findByEmailSql
             = "SELECT * FROM customers WHERE email = :email";
     private static final String findByVoucherSql
@@ -31,14 +28,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert jdbcInsert;
 
     public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        jdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getJdbcTemplate())
+                .withTableName("customers")
+                .usingGeneratedKeyColumns("customer_id");
     }
 
     @Override
-    public int save(CustomerDto customerDto) {
-        return jdbcTemplate.update(insertSql, toCustomerMap(customerDto), new GeneratedKeyHolder());
+    public Customer save(CustomerDto customerDto) {
+        Long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerDto)).longValue();
+        return new Customer(id, customerDto.customerName(), customerDto.email());
     }
 
     @Override

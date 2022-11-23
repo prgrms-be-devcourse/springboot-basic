@@ -17,8 +17,7 @@ public class CustomerService {
     }
 
     public Customer create(CustomerDto customerDto) {
-        int customerId = customerRepository.save(customerDto);
-        return new Customer(customerId, customerDto.customerName(), customerDto.email());
+        return customerRepository.save(customerDto);
     }
 
     public Customer findByEmail(String email) {

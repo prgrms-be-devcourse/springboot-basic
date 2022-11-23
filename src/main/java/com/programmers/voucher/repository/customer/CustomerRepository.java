@@ -6,7 +6,7 @@ import com.programmers.voucher.model.customer.Customer;
 import java.util.UUID;
 
 public interface CustomerRepository {
-    int save(CustomerDto customerDto);
+    Customer save(CustomerDto customerDto);
 
     Customer findByEmail(String email);
 
