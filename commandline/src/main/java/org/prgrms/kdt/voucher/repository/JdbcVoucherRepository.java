@@ -27,7 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private static Map<Long, Voucher> cache = new ConcurrentHashMap<>();
 
-    privtate static
+    private static final int NOT_AFFECT_RESULT = 0;
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -84,7 +84,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         int result = jdbcTemplate.update(sql, param);
 
-        if(result = )
+        if (result == NOT_AFFECT_RESULT) {
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
 
         if (cache.containsKey(voucherId)) {
             cache.remove(voucherId);

@@ -10,8 +10,8 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1","FixedAmountVoucher",   (voucherId, discountDegree) -> new FixedAmountVoucher(voucherId,  discountDegree)),
-    PERCENTAGE("2", "PercentDiscountVoucher",  (voucherId, discountDegree) -> new PercentDiscountVoucher(voucherId, discountDegree));
+    FIXED_AMOUNT("1", "FixedAmountVoucher", (voucherId, discountDegree) -> new FixedAmountVoucher(voucherId, discountDegree)),
+    PERCENTAGE("2", "PercentDiscountVoucher", (voucherId, discountDegree) -> new PercentDiscountVoucher(voucherId, discountDegree));
 
     private final String typeValue;
     private final String typeName;
@@ -23,14 +23,14 @@ public enum VoucherType {
         return this.voucherBiFunction.apply(voucherId, discountDegree);
     }
 
-    VoucherType(String typeValue,String typeName, BiFunction<Long, Long, Voucher> voucherBiFunction) {
+    VoucherType(String typeValue, String typeName, BiFunction<Long, Long, Voucher> voucherBiFunction) {
         this.typeValue = typeValue;
         this.typeName = typeName;
         this.voucherBiFunction = voucherBiFunction;
     }
 
     public static String getTypeName(String typeValue) {
-        VoucherType voucherType =  selectVoucherTypeByTypeNumber(typeValue);
+        VoucherType voucherType = selectVoucherTypeByTypeNumber(typeValue);
         return voucherType.typeName;
     }
 
@@ -42,11 +42,6 @@ public enum VoucherType {
     public static Voucher createVoucher(VoucherType voucherType, long voucherId, long discountDegree) {
         return voucherType.create(voucherId, discountDegree);
     }
-
-//    public static String getVoucherTypeName(String type) {
-//        VoucherType voucherType = selectVoucherTypeByTypeNumber(type);
-//        return "잠시만안녕..";
-//    }
 
     private static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
         return Stream.of(values())
