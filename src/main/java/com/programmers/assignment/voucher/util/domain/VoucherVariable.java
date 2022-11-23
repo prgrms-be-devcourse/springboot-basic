@@ -21,7 +21,7 @@ public enum VoucherVariable {
         return getVoucher(command).toString();
     }
 
-    private static VoucherVariable getVoucher(String command) {
+    public static VoucherVariable getVoucher(String command) {
         return Arrays.stream(values())
                 .filter(o -> o.discountWay.equals(command))
                 .findFirst().orElseThrow(() -> new IllegalArgumentException(command + "는 존재하지 않는 바우처 입니다."));

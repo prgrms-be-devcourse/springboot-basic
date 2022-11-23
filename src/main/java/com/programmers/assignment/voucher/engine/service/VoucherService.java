@@ -2,17 +2,13 @@ package com.programmers.assignment.voucher.engine.service;
 
 import com.programmers.assignment.voucher.engine.io.ConsoleInput;
 import com.programmers.assignment.voucher.engine.io.ConsoleOutput;
+import com.programmers.assignment.voucher.engine.model.Voucher;
 import com.programmers.assignment.voucher.engine.repository.VoucherRepository;
-import com.programmers.assignment.voucher.engine.voucher.FixedAmountVoucher;
-import com.programmers.assignment.voucher.engine.voucher.PercentDiscountVoucher;
-import com.programmers.assignment.voucher.engine.voucher.Voucher;
 import com.programmers.assignment.voucher.util.domain.VoucherVariable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +19,8 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
+    private final CustomerService customerService;
+
     private static final String FIXED_VOUCHER_MESSAGE =
             "===Fixed amount voucher===\n" +
                     "Type FixedVoucher amount.";
@@ -31,33 +29,22 @@ public class VoucherService {
             "===Percent discount voucher===\n" +
                     "Type PercentVoucher discount.";
 
+    private static final String CUSTOMER_NAME_INPUT = "Type customer name";
 
-    public VoucherService(ConsoleInput input, ConsoleOutput output, VoucherRepository voucherRepository) {
+    public VoucherService(ConsoleInput input, ConsoleOutput output, VoucherRepository voucherRepository, CustomerService customerService) {
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;
-    }
-
-
-    public void makeFixedVoucher() {
-        var amount = Long.parseLong(input.inputVoucherInfo(FIXED_VOUCHER_MESSAGE));
-        var voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
-        voucherRepository.insert(voucher);
-    }
-
-    public void makePercentVoucher() {
-        var percent = Long.parseLong(input.inputVoucherInfo(PERCENT_VOUCHER_MESSAGE));
-        var voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
-        voucherRepository.insert(voucher);
+        this.customerService = customerService;
     }
 
     public Voucher getVoucherById(UUID voucherId) {
         return voucherRepository
-                        .findById(voucherId)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        MessageFormat.format("Can not find a voucher for {0}", voucherId))
-        );
+                .findById(voucherId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                MessageFormat.format("Can not find a voucher for {0}", voucherId))
+                );
     }
 
     public List<Voucher> getAllVouchers() {
@@ -65,13 +52,19 @@ public class VoucherService {
     }
 
     public void makeVoucher(String discountWay) {
+        var discountValue = getDiscountValue(discountWay);
+        var customer = customerService.findCustomerByName(input.inputCustomerInfo(CUSTOMER_NAME_INPUT));
+        var voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customer.getCustomerId());
+        voucherRepository.insert(voucher);
+    }
+
+    private long getDiscountValue(String discountWay) {
         if (discountWay.equals(VoucherVariable.PERCENT.toString())) {
-            makePercentVoucher();
-            return;
+            return Long.parseLong(input.inputVoucherInfo(PERCENT_VOUCHER_MESSAGE));
         }
         if (discountWay.equals(VoucherVariable.FIXED.toString())) {
-            makeFixedVoucher();
-            return;
+            return Long.parseLong(input.inputVoucherInfo(FIXED_VOUCHER_MESSAGE));
         }
+        throw new IllegalArgumentException(discountWay + " is wrong discountWay");
     }
 }

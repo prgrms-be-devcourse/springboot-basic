@@ -1,6 +1,6 @@
 package com.programmers.assignment.voucher.engine.repository;
 
-import com.programmers.assignment.voucher.engine.voucher.Voucher;
+import com.programmers.assignment.voucher.engine.model.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,5 +11,12 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    void insert(Voucher voucher);
+    List<Voucher> findByDiscountWay(String discountWay);
+
+    Voucher insert(Voucher voucher);
+
+    Voucher update(Voucher voucher);
+
+    void deleteAll();
+
 }
