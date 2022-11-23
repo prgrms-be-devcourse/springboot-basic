@@ -1,11 +1,15 @@
 package com.example.springbootbasic.controller.voucher;
 
+import com.example.springbootbasic.controller.request.CreateVoucherRequest;
 import com.example.springbootbasic.domain.voucher.Voucher;
+import com.example.springbootbasic.domain.voucher.VoucherFactory;
+import com.example.springbootbasic.domain.voucher.VoucherType;
 import com.example.springbootbasic.dto.voucher.VoucherDto;
 import com.example.springbootbasic.service.voucher.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -28,5 +32,18 @@ public class ViewVoucherController {
                 .toList();
         model.addAttribute("vouchers", result);
         return "voucher-list";
+    }
+
+    @GetMapping("/v1/voucher-add")
+    public String voucherAddForm() {
+        return "voucher-add";
+    }
+
+    @PostMapping("/v1/voucher-add")
+    public String voucherAddForm(CreateVoucherRequest request) {
+        long discountValue = request.discountValue();
+        VoucherType voucherType = VoucherType.of(request.voucherType());
+        voucherService.saveVoucher(VoucherFactory.of(discountValue, voucherType));
+        return "redirect:vouchers";
     }
 }
