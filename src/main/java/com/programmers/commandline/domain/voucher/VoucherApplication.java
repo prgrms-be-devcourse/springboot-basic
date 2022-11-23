@@ -9,6 +9,7 @@ import com.programmers.commandline.global.entity.Power;
 import com.programmers.commandline.global.io.Console;
 import com.programmers.commandline.global.io.Message;
 import com.programmers.commandline.global.util.Verification;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -58,7 +59,7 @@ public class VoucherApplication {
         console.print(Message.INSERT_CONSUMER_EMAIL.getMessage());
         String email = console.read();
 
-        String consumerId = consumerService.insert(UUID.randomUUID(), name, email).getConsumerId().toString();
+        String consumerId = consumerService.insert(UUID.randomUUID(), name, email);
         console.print(consumerId + "\n");
     }
 

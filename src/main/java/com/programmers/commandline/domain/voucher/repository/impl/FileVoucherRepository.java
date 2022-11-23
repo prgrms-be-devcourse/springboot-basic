@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("prod")
+@Profile({"file"})
 public class FileVoucherRepository implements VoucherRepository {
 
     private final String filePath;

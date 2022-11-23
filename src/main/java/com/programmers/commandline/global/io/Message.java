@@ -26,6 +26,7 @@ public enum Message {
     BAD_DISCOUNT("잘못된 할인 정책입니다."),
     INSERT_CONSUMER_NAME("이름 : "),
     INSERT_CONSUMER_EMAIL("이메일 : "),
+    NULL_POINT("값이 없습니다."),
     ;
 
     private String message;

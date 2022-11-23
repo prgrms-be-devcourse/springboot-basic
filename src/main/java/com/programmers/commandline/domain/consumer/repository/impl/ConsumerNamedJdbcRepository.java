@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
@@ -16,7 +18,6 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
-@Profile("local")
 public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
@@ -28,9 +29,9 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     }
 
     private static final RowMapper<Consumer> consumerRowMapper = (resultSet, i) -> {
+        var consumerId = toUUID(resultSet.getBytes("consumer_id"));
         var consumerName = resultSet.getString("name");
         var email = resultSet.getString("email");
-        var consumerId = toUUID(resultSet.getBytes("consumer_id"));
         var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                 resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
@@ -42,15 +43,25 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
             put("consumerId", consumer.getConsumerId().toString().getBytes());
             put("name", consumer.getName());
             put("email", consumer.getEmail());
-            put("cratedAt", Timestamp.valueOf(consumer.getCreatedAt()));
+            put("createdAt", Timestamp.valueOf(consumer.getCreatedAt()));
             put("lastLoginAt", consumer.getLastLoginAt() != null ? Timestamp.valueOf(consumer.getLastLoginAt()) : null);
         }};
     }
 
     @Override
     public Consumer insert(Consumer consumer) {
-        var update = namedParameterJdbcTemplate.update("INSERT INTO consumer(consumer_id, name, email, created_at) VALUES (UUID_TO_BIN(:consumerId), :name, :email, :cratedAt)",
-                toParamMap(consumer));
+        String sql = "INSERT INTO consumer(consumer_id, name, email, created_at, last_login_at) " +
+                "VALUES (UUID_TO_BIN(:consumerId), :name, :email, :createdAt, :lastLoginAt)";
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+                .addValue("consumerId", consumer.getConsumerId().toString().getBytes())
+                .addValue("name", consumer.getName())
+                .addValue("email", consumer.getEmail())
+                .addValue("createdAt", Timestamp.valueOf(consumer.getCreatedAt()).toLocalDateTime())
+                .addValue("lastLoginAt", consumer.getLastLoginAt() != null ?
+                        Timestamp.valueOf(consumer.getLastLoginAt()) : null);
+
+        var update = namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
@@ -59,7 +70,7 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     @Override
     public Consumer update(Consumer consumer) {
-        var update = namedParameterJdbcTemplate.update("UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)",
+        var update = namedParameterJdbcTemplate.update("UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE consumer_id = UUID_TO_BIN(:consumerId)",
                 toParamMap(consumer)
         );
         if (update != 1) {

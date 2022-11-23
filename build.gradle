@@ -22,7 +22,6 @@ dependencies {
 	implementation 'com.moandjiezana.toml:toml4j:0.7.2'
 	//database
 	implementation 'com.h2database:h2'
-	runtimeOnly 'com.h2database:h2'
 	implementation 'mysql:mysql-connector-java'
 	//jdbc
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'

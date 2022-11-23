@@ -3,6 +3,7 @@ package com.programmers.commandline.domain.voucher.service;
 import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import com.programmers.commandline.domain.voucher.repository.VoucherRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

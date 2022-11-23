@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@Profile("local")
+@Profile({"local"})
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private List<Voucher> memory = new ArrayList<>();

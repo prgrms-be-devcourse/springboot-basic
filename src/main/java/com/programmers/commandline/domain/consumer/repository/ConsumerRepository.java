@@ -12,8 +12,6 @@ public interface ConsumerRepository {
 
     Consumer update(Consumer customer);
 
-    // Customer save(Customer customer);
-
     int count();
 
     List<Consumer> findAll();

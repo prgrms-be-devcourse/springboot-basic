@@ -1,13 +1,14 @@
 package com.programmers.commandline.domain.consumer.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Consumer {
 
     private final UUID consumerId;
     private String name;
-    private final String email;
+    private String email;
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
@@ -19,12 +20,6 @@ public class Consumer {
         this.createdAt = createdAt;
     }
 
-    private void validateName(String name) {
-        if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
-        }
-    }
-
     public Consumer(UUID consumerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateName(name);
         this.consumerId = consumerId;
@@ -33,14 +28,10 @@ public class Consumer {
         this.lastLoginAt = lastLoginAt;
         this.createdAt = createdAt;
     }
-
-    public void changeName(String name) {
-        validateName(name);
-        this.name = name;
-    }
-
-    public void login() {
-        this.lastLoginAt = LocalDateTime.now();
+    private void validateName(String name) {
+        if (name.isBlank()) {
+            throw new RuntimeException("Name should not be blank");
+        }
     }
 
     public UUID getConsumerId() {
@@ -61,5 +52,10 @@ public class Consumer {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void update(String name, String email) {
+        this.name = name;
+        this.email = email;
     }
 }
