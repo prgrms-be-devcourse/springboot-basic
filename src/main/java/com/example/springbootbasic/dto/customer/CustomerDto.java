@@ -22,7 +22,7 @@ public class CustomerDto {
     public static CustomerDto of(Customer customer) {
         List<VoucherDto> voucherDtos = customer.getVouchers()
                 .stream()
-                .map(VoucherDto::of)
+                .map(VoucherDto::newInstance)
                 .collect(Collectors.toList());
         return new CustomerDto(customer.getCustomerId(), customer.getStatus(), voucherDtos);
     }

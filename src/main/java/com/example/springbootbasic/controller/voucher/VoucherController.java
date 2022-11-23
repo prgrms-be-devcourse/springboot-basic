@@ -31,7 +31,7 @@ public class VoucherController {
         try {
             Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
-            return ResponseBody.success(VoucherDto.of(savedVoucher));
+            return ResponseBody.success(VoucherDto.newInstance(savedVoucher));
         } catch (NullPointerException e) {
             logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(voucherDto);
@@ -47,7 +47,7 @@ public class VoucherController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllVouchers.stream()
-                .map(VoucherDto::of)
+                .map(VoucherDto::newInstance)
                 .toList());
     }
 }

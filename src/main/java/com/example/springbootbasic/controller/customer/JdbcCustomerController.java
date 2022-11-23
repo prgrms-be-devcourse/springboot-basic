@@ -67,7 +67,7 @@ public class JdbcCustomerController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findVouchers.stream()
-                .map(VoucherDto::of)
+                .map(VoucherDto::newInstance)
                 .toList());
     }
 

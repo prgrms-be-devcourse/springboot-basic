@@ -36,7 +36,7 @@ public class JdbcVoucherController {
         try {
             Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
-            return ResponseBody.success(VoucherDto.of(savedVoucher));
+            return ResponseBody.success(VoucherDto.newInstance(savedVoucher));
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(voucherDto);
@@ -52,7 +52,7 @@ public class JdbcVoucherController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllVouchers.stream()
-                .map(VoucherDto::of)
+                .map(VoucherDto::newInstance)
                 .toList());
     }
 
@@ -67,7 +67,7 @@ public class JdbcVoucherController {
             return ResponseBody.fail(Collections.emptyList());
         }
         return ResponseBody.success(findAllVouchers.stream()
-                .map(VoucherDto::of)
+                .map(VoucherDto::newInstance)
                 .toList());
     }
 
@@ -81,7 +81,7 @@ public class JdbcVoucherController {
             logger.error("Fail - {}", e.getMessage());
             return ResponseBody.fail(voucherDto);
         }
-        return ResponseBody.success(VoucherDto.of(updatedVoucher));
+        return ResponseBody.success(VoucherDto.newInstance(updatedVoucher));
     }
 
     public ResponseBody<VoucherDto> findVoucherById(RequestBody<Long> request) {
@@ -91,8 +91,8 @@ public class JdbcVoucherController {
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
             Voucher emptyVoucher = VoucherFactory.of(request.getData(), 0L, FIXED_AMOUNT);
-            return ResponseBody.fail(VoucherDto.of(emptyVoucher));
+            return ResponseBody.fail(VoucherDto.newInstance(emptyVoucher));
         }
-        return ResponseBody.success(VoucherDto.of(findVoucher));
+        return ResponseBody.success(VoucherDto.newInstance(findVoucher));
     }
 }
