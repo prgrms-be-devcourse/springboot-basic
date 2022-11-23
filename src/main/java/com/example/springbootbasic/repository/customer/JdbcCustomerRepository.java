@@ -158,6 +158,14 @@ public class JdbcCustomerRepository {
         }
     }
 
+    public void deleteCustomerById(long customerId) {
+        try {
+            jdbcTemplate.update(DELETE_CUSTOMER.getSql(), Collections.singletonMap("customerId", customerId));
+        } catch (DataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+    }
+
     private void validateVoucherNull(Voucher voucher) {
         if (voucher == null) {
             throw new IllegalArgumentException(CUSTOMER_VOUCHER_NULL_EXCEPTION.getMessage());

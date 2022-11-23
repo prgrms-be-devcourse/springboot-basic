@@ -19,6 +19,7 @@
         <td>고객 번호</td>
         <td>고객 상태</td>
         <td>고객 상세 페이지</td>
+        <td>고객 삭제</td>
     </tr>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@
             <a th:href="@{/view/v1/customer-vouchers/{customerId}(customerId = ${customer.customerId})}"
                th:inline="text">
                 [[${customer.customerId}]]번 고객 상세 페이지
+            </a>
+        </td>
+        <td>
+            <a th:href="@{/view/v1/customers/{customerId}(customerId = ${customer.customerId})}"
+               th:inline="text">
+                [[${customer.customerId}]]번 고객 삭제
             </a>
         </td>
     </tr>
