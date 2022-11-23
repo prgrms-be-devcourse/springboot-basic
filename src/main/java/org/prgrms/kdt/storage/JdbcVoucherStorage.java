@@ -1,8 +1,8 @@
 package org.prgrms.kdt.storage;
 
+import org.prgrms.kdt.exceptions.GetResultFailedException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.exceptions.InvalidParameterException;
-import org.prgrms.kdt.exceptions.InvalidDBAccessException;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
@@ -37,7 +37,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
             voucherType = findVoucherTypeByInput(type);
         } catch (InvalidITypeInputException invalidTypeException) {
             throw new InvalidParameterException(
-                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type),
+                    MessageFormat.format("저장소 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type),
                     invalidTypeException);
         }
 
@@ -58,7 +58,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
                 return new PercentDiscountVoucher(voucherId, amount, customerId);
             }
             default -> throw new InvalidParameterException(
-                    MessageFormat.format("파일 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type));
+                    MessageFormat.format("저장소 내의 파라미터 [voucher Type -> {0}] 가 잘못되어 프로그램이 정상 동작할 수 없습니다. ", type));
         }
     };
 
@@ -68,19 +68,18 @@ public class JdbcVoucherStorage implements VoucherStorage {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    private static Map<String, Object> createParaMap(Voucher voucher) {
-        Map<String, Object> paraMap = new HashMap<>();
-        paraMap.put("voucherId", voucher.getVoucherId());
-        paraMap.put("type", voucher.getVoucherType());
-        paraMap.put("amount", voucher.getAmount());
-        paraMap.put("customerId", voucher.getOwnerId().orElse(null));
-
-        return paraMap;
+    private static Map<String, Object> createParamMap(Voucher voucher) {
+        return Map.of(
+                "voucherId", voucher.getVoucherId(),
+                "type", voucher.getVoucherType(),
+                "amount", voucher.getAmount(),
+                "customerId", voucher.getOwnerId().orElse(null)
+        );
     }
 
     @Override
     public void save(Voucher voucher) {
-        Map<String, Object> voucherParaMap = createParaMap(voucher);
+        Map<String, Object> voucherParaMap = createParamMap(voucher);
         int update = namedParameterJdbcTemplate.update(
                 "INSERT INTO voucher(voucher_id, type, amount, customer_id) VALUES (:voucherId, :type, :amount, :customerId)",
                 voucherParaMap);
@@ -97,7 +96,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         try {
             return namedParameterJdbcTemplate.query("select * from voucher", voucherRowMapper);
         } catch (InvalidITypeInputException invalidITypeInputException) {
-            throw new InvalidDBAccessException("파일내부 문제로 결과를 가져올 수 없습니다.", invalidITypeInputException);
+            throw new GetResultFailedException("저장소 내부 문제로 결과를 가져올 수 없습니다.", invalidITypeInputException);
         }
     }
 
@@ -109,7 +108,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
         } catch (EmptyResultDataAccessException noResult) {
             logger.info("{} 로 해당되는 바우처가 존재하지 않습니다.", voucherId, noResult);
         } catch (InvalidParameterException invalidVoucherType) {
-            throw new InvalidDBAccessException("바우처를 생성할 수 없습니다.", invalidVoucherType);
+            throw new GetResultFailedException("저장소 내부 문제로 결과를 가져올 수 없습니다.", invalidVoucherType);
         }
         return Optional.empty();
     }

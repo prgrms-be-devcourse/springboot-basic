@@ -1,7 +1,7 @@
 package org.prgrms.kdt.manager;
 
 import org.prgrms.kdt.exceptions.AmountException;
-import org.prgrms.kdt.exceptions.InvalidDBAccessException;
+import org.prgrms.kdt.exceptions.GetResultFailedException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.exceptions.InvalidParameterException;
 import org.prgrms.kdt.io.IOManager;
@@ -43,8 +43,8 @@ public class VoucherProviderManager {
             vouchers.forEach(ioManager::writeVoucherInfo);
             logger.info("생성되었던 바우처 목록이 성공적으로 실행됩니다.");
 
-        } catch (InvalidDBAccessException dbAccessException) {
-            logger.error(dbAccessException.getMessage());
+        } catch (GetResultFailedException getResultFailedException) {
+            logger.error(getResultFailedException.getMessage(), getResultFailedException);
             AppPower.stop();
             AppPower.stopByException();
         }
@@ -66,7 +66,7 @@ public class VoucherProviderManager {
                 logger.info("바우처가 성공적으로 생성되었습니다.");
                 power.stop();
             } catch (InvalidITypeInputException | AmountException | InvalidParameterException e) {
-                logger.error("사용자가 유효하지 않은 값을 입력하였습니다.");
+                logger.info("사용자가 유효하지 않은 값을 입력하였습니다.");
                 ioManager.writeExceptionMessage(e.getMessage());
             }
         }
