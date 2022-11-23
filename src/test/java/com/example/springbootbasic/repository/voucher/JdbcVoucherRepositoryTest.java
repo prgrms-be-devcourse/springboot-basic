@@ -7,7 +7,6 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import com.wix.mysql.distribution.Version;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -25,6 +24,7 @@ import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
+import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -37,7 +37,7 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     static void setup() {
-        MysqldConfig config = MysqldConfig.aMysqldConfig(Version.v8_0_11)
+        MysqldConfig config = MysqldConfig.aMysqldConfig(v8_0_11)
                 .withCharset(Charset.UTF8)
                 .withPort(2215)
                 .withUser("test", "test1234!")
