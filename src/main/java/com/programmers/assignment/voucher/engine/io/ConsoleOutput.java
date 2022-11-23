@@ -1,6 +1,6 @@
 package com.programmers.assignment.voucher.engine.io;
 
-import com.programmers.assignment.voucher.engine.voucher.Voucher;
+import com.programmers.assignment.voucher.engine.model.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
