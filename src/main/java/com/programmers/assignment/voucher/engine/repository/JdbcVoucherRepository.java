@@ -82,6 +82,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findByDiscountWay(String discountWay) {
         return jdbcTemplate.query(
                 "select * from vouchers where discount_way =:discountWay",
+                Collections.singletonMap("discountWay", discountWay),
                 customerRowMapper);
     }
 

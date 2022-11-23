@@ -51,4 +51,8 @@ public class Customer {
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

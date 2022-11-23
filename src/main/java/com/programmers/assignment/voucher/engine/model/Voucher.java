@@ -25,8 +25,10 @@ public class Voucher {
         switch (VoucherVariable.getVoucher(discountWay)) {
             case FIXED:
                 validateAmountValue(discountValue);
+                break;
             case PERCENT:
                 validatePercentValue(discountValue);
+                break;
         }
         this.voucherId = voucherId;
         this.discountWay = discountWay;
