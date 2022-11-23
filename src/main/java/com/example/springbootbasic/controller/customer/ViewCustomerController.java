@@ -8,10 +8,7 @@ import com.example.springbootbasic.dto.customer.CustomerDto;
 import com.example.springbootbasic.service.customer.JdbcCustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,5 +52,10 @@ public class ViewCustomerController {
         CustomerDto result = CustomerDto.newInstance(findCustomer);
         model.addAttribute("customer", result);
         return "customer-voucher-list";
+    }
+
+    @GetMapping("/v1/customer-vouchers")
+    public String findCustomerDetailPage(@RequestParam Long customerId) {
+        return  "redirect:customer-vouchers/" + customerId;
     }
 }

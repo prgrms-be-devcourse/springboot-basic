@@ -7,8 +7,12 @@
 <body>
 
 <h1>고객 관리 페이지</h1>
-<a th:href="@{/view/v1/vouchers}">바우처 관리 페이지</a>
-<a th:href="@{/view/v1/customer-add}">고객 등록 페이지</a>
+<a th:href="@{/view/v1/home}">메인 페이지</a>
+<form th:action="@{customer-vouchers}" method="get">
+    <label for="customerId"></label>
+    <input type="text" name="customerId" id="customerId"/>
+    <button type="submit">고객 검색</button>
+</form>
 <table border="1">
     <thead>
     <tr>
@@ -24,7 +28,8 @@
         </td>
         <td th:text="${customer.customerId}">고객 상태</td>
         <td>
-            <a th:href="@{/view/v1/customer-vouchers/{customerId}(customerId = ${customer.customerId})}" th:inline="text">
+            <a th:href="@{/view/v1/customer-vouchers/{customerId}(customerId = ${customer.customerId})}"
+               th:inline="text">
                 [[${customer.customerId}]]번 고객 상세 페이지
             </a>
         </td>
