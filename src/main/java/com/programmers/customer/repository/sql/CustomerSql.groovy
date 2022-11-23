@@ -11,7 +11,7 @@ class CustomerSql {
     """
 
     public static final String SELECT_ALL_BY_ID = """
-        SELECT c.customer_id, c.name, c.email, c.create_at, c.last_login_at, v.voucher_id, r.voucher_type, r.voucher_value
+        SELECT c.customer_id, c.name, c.email, c.create_at, c.last_login_at, v.voucher_id, v.assigned, r.voucher_type, r.voucher_value
         FROM customer c
         LEFT JOIN wallet w
         ON c.customer_id = w.customer_id
@@ -46,4 +46,9 @@ class CustomerSql {
     public static final String DELETE_ALL = """
         delete from customer
     """
+
+    public static final String DELETE_CUSTOMER = """
+        delete from customer where customer_id = UUID_TO_BIN(:customerId)
+    """
+
 }

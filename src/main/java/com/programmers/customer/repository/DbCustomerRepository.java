@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -59,18 +60,15 @@ public class DbCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            SELECT_BY_EMAIL,
-                            singletonMap(CUSTOMER_EMAIL, email),
-                            customerRowMapper
-                    )
-            );
-        } catch (DataAccessException e) {
-            log.error(DB_ERROR_LOG.getMessage(), e);
-            throw new RuntimeException(DB_ERROR_LOG.getMessage());
-        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        jdbcTemplate.query(
+                                SELECT_BY_EMAIL,
+                                singletonMap(CUSTOMER_EMAIL, email),
+                                customerRowMapper
+                        )
+                ));
+
     }
 
     @Override
@@ -126,6 +124,11 @@ public class DbCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
+    }
+
+    @Override
+    public void deleteCustomer(UUID customerId) {
+        jdbcTemplate.update(DELETE_CUSTOMER, Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
