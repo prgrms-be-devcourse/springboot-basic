@@ -1,10 +1,10 @@
 package org.programmers.program.voucher.service;
 
+import org.programmers.program.voucher.controller.VoucherDto;
 import org.programmers.program.voucher.model.*;
 import org.programmers.program.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;

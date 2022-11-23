@@ -4,7 +4,7 @@ import org.programmers.program.customer.service.CustomerService;
 import org.programmers.program.io.Input;
 import org.programmers.program.io.Output;
 
-import org.programmers.program.voucher.model.VoucherDto;
+import org.programmers.program.voucher.controller.VoucherDto;
 import org.programmers.program.voucher.model.VoucherType;
 import org.programmers.program.voucher.service.VoucherService;
 import org.slf4j.Logger;

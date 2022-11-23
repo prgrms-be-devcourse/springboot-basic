@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.program.customer.model.Customer;
+import org.programmers.program.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -64,15 +65,15 @@ class NameJdbcCustomerRepositoryTest {
         public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
-        @Bean
-        public PlatformTransactionManager platformTransactionManager(DataSource dataSource){
-            return new DataSourceTransactionManager(dataSource);
-        }
-
-        @Bean
-        public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager){
-            return new TransactionTemplate(transactionManager);
-        }
+//        @Bean
+//        public PlatformTransactionManager platformTransactionManager(DataSource dataSource){
+//            return new DataSourceTransactionManager(dataSource);
+//        }
+//
+//        @Bean
+//        public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager){
+//            return new TransactionTemplate(transactionManager);
+//        }
     }
 
     @Autowired

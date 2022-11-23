@@ -1,6 +1,7 @@
 package org.programmers.program.voucher.model;
 
-import java.time.LocalDate;
+import org.programmers.program.voucher.controller.VoucherDto;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
