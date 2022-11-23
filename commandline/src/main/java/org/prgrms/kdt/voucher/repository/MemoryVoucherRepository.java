@@ -18,8 +18,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private static long VOUCHER_ID = 0;
 
     @Override
-    public synchronized Voucher insert(String type, long discountDegree) {
-        Voucher voucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+    public Voucher insert(String type, long discountDegree) {
+        Voucher voucher;
+        synchronized (this) {
+            voucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+        }
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }

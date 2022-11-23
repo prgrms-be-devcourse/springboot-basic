@@ -19,7 +19,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     void validateVoucher(long discountDegree) {
-        if (!(discountDegree >= MIN_PERCENT && discountDegree <= MAX_PERCENT)) {
+        if (discountDegree < MIN_PERCENT || discountDegree > MAX_PERCENT) {
             throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
         }
     }
@@ -31,15 +31,15 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String getTypeName() {
-        return null;
+        return this.typeName;
     }
 
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-                "voucherId="+getVoucherId()+", "+
+                "voucherId=" + getVoucherId() + ", " +
                 "typeName=" + typeName + ", " +
-                "discountDegree="+ getDiscountDegree()+
+                "discountDegree=" + getDiscountDegree() +
                 '}';
     }
 

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.util.CommandType;
+import org.prgrms.kdt.io.CommandType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.*;
 import org.prgrms.kdt.io.Console;

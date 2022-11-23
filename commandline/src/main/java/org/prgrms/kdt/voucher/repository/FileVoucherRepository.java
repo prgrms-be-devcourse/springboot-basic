@@ -28,8 +28,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public synchronized Voucher insert(String type, long discountDegree) {
-        Voucher createVoucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+    public Voucher insert(String type, long discountDegree) {
+        Voucher createVoucher;
+        synchronized (this) {
+            createVoucher = VoucherType.createVoucher(type, ++VOUCHER_ID, discountDegree);
+        }
         csvInOut.writeCSV(createVoucher);
         cache.put(createVoucher.getVoucherId(), createVoucher);
         return createVoucher;
@@ -50,7 +53,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public synchronized void update(long voucherId, long discountDegree) {
+    public void update(long voucherId, long discountDegree) {
         List<Voucher> vouchers = csvInOut.readAll();
         for (int i = 0; i < vouchers.size(); i++) {
             Voucher voucher = vouchers.get(i);
@@ -58,7 +61,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 Voucher newVoucher = voucher.changeDiscountDegree(discountDegree);
                 vouchers.set(i, newVoucher);
                 cache.replace(voucherId, newVoucher);
-                csvInOut.voucherUpdate(vouchers);
+                synchronized (this) {
+                    csvInOut.voucherUpdate(vouchers);
+                }
                 return;
             }
         }

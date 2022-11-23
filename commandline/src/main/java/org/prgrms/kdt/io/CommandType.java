@@ -1,4 +1,4 @@
-package org.prgrms.kdt.util;
+package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.WrongCommandException;

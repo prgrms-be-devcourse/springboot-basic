@@ -26,7 +26,7 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public Voucher changeDiscountDegree(long discountDegree) {
         validateVoucher(discountDegree);
-        return new FixedAmountVoucher(getVoucherId(),discountDegree);
+        return new FixedAmountVoucher(getVoucherId(), discountDegree);
     }
 
     @Override
@@ -36,10 +36,10 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId="+getVoucherId()+", "+
+        return "FixedAmountVoucher{" +
+                "voucherId=" + getVoucherId() + ", " +
                 "typeName=" + typeName + ", " +
-                "discountDegree="+ getDiscountDegree()+
+                "discountDegree=" + getDiscountDegree() +
                 '}';
     }
 
