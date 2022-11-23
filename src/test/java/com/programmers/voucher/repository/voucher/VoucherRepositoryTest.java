@@ -1,9 +1,12 @@
 package com.programmers.voucher.repository.voucher;
 
+import com.programmers.voucher.controller.dto.CustomerDto;
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
+import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
@@ -32,11 +35,13 @@ class VoucherRepositoryTest {
     @Autowired
     private VoucherRepository voucherRepository;
     @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
     DataSource dataSource;
     private static EmbeddedMysql embeddedMysql;
 
     @Configuration
-    @ComponentScan(basePackages = {"com.programmers.voucher.repository.voucher"})
+    @ComponentScan(basePackages = {"com.programmers.voucher.repository"})
     static class Config {
 
         @Bean
@@ -78,13 +83,20 @@ class VoucherRepositoryTest {
         embeddedMysql.stop();
     }
 
-    private Voucher getSingleVoucherData() {
+    private Customer insertSingleCustomerData() {
+        String email = "taehee@gmail.com";
+        CustomerDto customerDto = new CustomerDto("taehee", email);
+        customerRepository.save(customerDto);
+        return customerRepository.findByEmail(email);
+    }
+
+    private Voucher insertSingleVoucherData() {
         Voucher voucher = getVoucher();
         voucher.setVoucherType(getVoucherType());
         return voucherRepository.save(voucher);
     }
 
-    private void getAllVouchersData() {
+    private void insertAllVouchersData() {
         VoucherType voucherType = getVoucherType();
         for (Voucher voucher : getVouchers()) {
             voucher.setVoucherType(voucherType);
@@ -119,40 +131,63 @@ class VoucherRepositoryTest {
         Voucher result = voucherRepository.save(newVoucher);
 
         //then
-        assertThat(result.getVoucherId()).isEqualTo(newVoucher.getVoucherId());
+        assertThat(result.getVoucherId())
+                .isEqualTo(newVoucher.getVoucherId());
     }
 
     @Test
     @DisplayName("데이터베이스에서 모든 바우처 목록을 조회한다.")
     void findAll() {
         //given
-        getAllVouchersData();
+        insertAllVouchersData();
 
         //when
         List<Voucher> result = voucherRepository.findAll();
 
         //then
-        assertThat(result.size()).isEqualTo(2);
+        assertThat(result.size())
+                .isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("데이터베이스에서 해당 고객이 가진 모든 바우처 목록을 조회한다.")
+    void findAllByEmail() {
+        //given
+        insertAllVouchersData();
+        Customer customer = insertSingleCustomerData();
+        List<Voucher> vouchers = voucherRepository.findAll();
+        for (Voucher voucher : vouchers) {
+            voucher.setCustomer(customer);
+            voucherRepository.assign(voucher);
+        }
+
+        //when
+        List<Voucher> result = voucherRepository.findAllByEmail("taehee@gmail.com");
+
+        //then
+        assertThat(result.size())
+                .isEqualTo(2);
     }
 
     @Test
     @DisplayName("데이터베이스에서 바우처 아이디를 통해 조회한다.")
     void findById() {
         //given
-        Voucher voucher = getSingleVoucherData();
+        Voucher voucher = insertSingleVoucherData();
 
         //when
         Voucher result = voucherRepository.findById(voucher.getVoucherId());
 
         //then
-        assertThat(result.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(result.getVoucherId())
+                .isEqualTo(voucher.getVoucherId());
     }
 
     @Test
     @DisplayName("데이터베이스에서 바우처 아이디를 통해 수정한다.")
     void update() {
         //given
-        Voucher voucher = getSingleVoucherData();
+        Voucher voucher = insertSingleVoucherData();
         VoucherType updatedType = VoucherType.toVoucherType("2");
         Voucher updatedVoucher = new PercentDiscountVoucher(voucher.getVoucherId(), 30);
         updatedVoucher.setVoucherType(updatedType);
@@ -162,19 +197,37 @@ class VoucherRepositoryTest {
         Voucher result = voucherRepository.findById(voucher.getVoucherId());
 
         //then
-        assertThat(result.getDiscountValue()).isEqualTo(30);
+        assertThat(result.getDiscountValue())
+                .isEqualTo(30);
     }
 
     @Test
     @DisplayName("데이터베이스에서 모든 바우처 목록을 삭제한다.")
     void deleteALL() {
         //given
-        getAllVouchersData();
+        insertAllVouchersData();
 
         //when
         voucherRepository.deleteAll();
 
         //then
-        assertThat(voucherRepository.findAll().isEmpty()).isTrue();
+        assertThat(voucherRepository.findAll().isEmpty())
+                .isTrue();
+    }
+
+    @Test
+    @DisplayName("데이터베이스에 저장된 바우처를 고객에게 할당한다.")
+    void assign() {
+        //given
+        Voucher voucher = insertSingleVoucherData();
+        Customer customer = insertSingleCustomerData();
+        voucher.setCustomer(customer);
+
+        //when
+        voucherRepository.assign(voucher);
+
+        //then
+        assertThat(voucherRepository.findAllByEmail("taehee@gmail.com").size())
+                .isEqualTo(1);
     }
 }
