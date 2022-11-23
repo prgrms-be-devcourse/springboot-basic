@@ -25,7 +25,7 @@ public enum VoucherType {
     }
 
     public String getRange(){
-        return this.lowerBound + " ~ " + this.upperBound;
+        return this.lowerBound + " ~ " + this.upperBound + " ";
     }
     public Long getLowerBound(){
         return lowerBound;

@@ -1,9 +1,6 @@
 package org.programmers.program.voucher.service;
 
-import org.programmers.program.voucher.model.FixedAmountVoucher;
-import org.programmers.program.voucher.model.PercentDiscountVoucher;
-import org.programmers.program.voucher.model.Voucher;
-import org.programmers.program.voucher.model.VoucherType;
+import org.programmers.program.voucher.model.*;
 import org.programmers.program.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +20,10 @@ public class VoucherService {
 
     public Optional<Voucher> findById(UUID id){
         return voucherRepository.findById(id);
+    }
+
+    public Voucher createVoucher(VoucherDto dto){
+        return dto.to();
     }
 
     public Voucher createVoucher(VoucherType type, UUID id, long discountAmount){

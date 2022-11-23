@@ -28,6 +28,14 @@ public abstract class Voucher {
         isUsed = false;
     }
 
+    protected Voucher(VoucherDto dto){
+        this.id = dto.getId();
+        this.discountAmount = dto.getAmount();
+        this.voucherType = dto.getType();
+        this.createdAt = LocalDateTime.now();
+        this.expirationDate = dto.getExpirationDate();
+    }
+
     public UUID getVoucherId(){
         return this.id;
     }
@@ -53,6 +61,7 @@ public abstract class Voucher {
     public boolean getIsUsed(){
         return isUsed;
     }
+
 
     @Override
     public String toString() {

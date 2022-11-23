@@ -1,19 +1,20 @@
 package org.programmers.program;
 
+import org.programmers.program.customer.service.CustomerService;
 import org.programmers.program.io.Input;
 import org.programmers.program.io.Output;
 
-import org.programmers.program.voucher.model.FixedAmountVoucher;
+import org.programmers.program.voucher.model.VoucherDto;
 import org.programmers.program.voucher.model.VoucherType;
 import org.programmers.program.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.programmers.program.io.Message.*;
@@ -25,9 +26,11 @@ public class VoucherProgram implements CommandLineRunner {
     private final Input input = new Input();
     private final Output output = new Output();
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherProgram(VoucherService voucherService){
+    public VoucherProgram(VoucherService voucherService, CustomerService customerService){
          this.voucherService = voucherService;
+         this.customerService = customerService;
     }
 
     @Override
@@ -37,25 +40,41 @@ public class VoucherProgram implements CommandLineRunner {
             output.printString(SELECTION_MESSAGE.getMessage());
             String in = null;
             try {
-                in = input.input("Instruction : ");
-                voucherService.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 30L);
-                if(in.equals("exit"))
+                in = input.input(INSTRUCTION_SELECTION.getMessage());
+                if(in.equals("create"))
+                    create();
+                else if (in.equals("list"))
+                    list();
+                else if(in.equals("exit"))
                     break;
-//                if(in.equals("create"))
-//                    create();
-//                else if (in.equals("list"))
-//                    list();
-//                else if(in.equals("exit"))
-//                    break;
-//                else{
-//                    output.printString("wrong instruction");
-//                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                else{
+                    output.printString(WRONG_INSTRUCTION_MESSAGE.getMessage());
+                }
+            } catch (IOException io) {
+                throw new RuntimeException(io);
             }
         }
     }
     private void create(){
+        String in = null;
+        Optional<VoucherType> type;
+        Long discountAmount;
+        try {
+            in = input.input(VOUCHER_TYPE.getMessage());
+            type = VoucherType.getVoucherType(in);
+            if (type.isEmpty()){
+                output.printString(WRONG_VOUCHER_TYPE.getMessage());
+                return;
+            }
+            in = input.input(type.get().getRange());
+            discountAmount = Long.parseLong(in);
+
+        }catch (IOException io){
+            throw new RuntimeException(io);
+        }
+
+        VoucherDto dto = new VoucherDto(UUID.randomUUID(), type.get(), discountAmount);
+        voucherService.createVoucher(dto);
     }
 
     private void list(){

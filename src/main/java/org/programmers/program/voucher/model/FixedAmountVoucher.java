@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher{
+    public FixedAmountVoucher(VoucherDto dto) {
+        super(dto);
+        this.voucherType = VoucherType.FIXED;
+    }
     public FixedAmountVoucher(UUID id, Long discountAmount){
         super(id, discountAmount);
         this.voucherType = VoucherType.FIXED;
