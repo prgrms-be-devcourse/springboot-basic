@@ -32,13 +32,15 @@ public class ConsoleOutput {
     }
 
     public void printSaveVoucher(ResponseBody<VoucherDto> responseBody) {
-        VoucherDto voucherDto = responseBody.getData();
-        try {
-            bw.write(MessageFormat.format("{0} {1} {2} {3} {4} {5}",
-                    SAVE_VOUCHER_SUCCESS.message(), ENTER.unit(), voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
-            bw.flush();
-        } catch (IOException e) {
-            logger.error("Fail - {}", e.getMessage());
+        if (responseBody.isSuccess()) {
+            VoucherDto voucherDto = responseBody.getData();
+            try {
+                bw.write(MessageFormat.format("{0} {1} {2} {3} {4} {5}",
+                        SAVE_VOUCHER_SUCCESS.message(), ENTER.unit(), voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
+                bw.flush();
+            } catch (IOException e) {
+                logger.error("Fail - {}", e.getMessage());
+            }
         }
     }
 

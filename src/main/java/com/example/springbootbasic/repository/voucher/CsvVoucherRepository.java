@@ -8,6 +8,7 @@ import com.example.springbootbasic.parser.voucher.CsvVoucherParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.FileWriter;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 import static com.example.springbootbasic.util.CharacterUnit.EMPTY;
 
 @Repository
+@Profile("csv")
 public class CsvVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CsvVoucherRepository.class);

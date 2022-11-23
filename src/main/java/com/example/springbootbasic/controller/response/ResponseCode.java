@@ -15,4 +15,12 @@ public enum ResponseCode {
     public Integer code() {
         return code;
     }
+
+    public boolean isSuccess() {
+        return this == SUCCESS;
+    }
+
+    public boolean isFail() {
+        return this == FAIL;
+    }
 }
