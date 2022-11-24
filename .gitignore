@@ -39,4 +39,8 @@ out/
 ### VS Code ###
 .vscode/
 
+### Add
 target
+errorLogs
+voucher.ser
+

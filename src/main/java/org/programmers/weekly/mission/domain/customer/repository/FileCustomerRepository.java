@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,17 +22,16 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public List<BlackCustomer> getBlackList() {
         List<BlackCustomer> blackCustomers = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(blackListFilePath));) {
 
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(blackListFilePath))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 String[] customerInfo = line.split(",");
                 blackCustomers.add(new BlackCustomer(Integer.parseInt(customerInfo[0]), customerInfo[1]));
             }
-        } catch (IOException ioException) {
-            throw new RuntimeException(ioException);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
-
         return blackCustomers;
     }
 }

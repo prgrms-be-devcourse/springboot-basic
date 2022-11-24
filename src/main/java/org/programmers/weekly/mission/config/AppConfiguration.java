@@ -8,7 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = {"org.programmers.kdtspringdemo.voucher", "org.programmers.kdtspringdemo.customer"})
 public class AppConfiguration {
 
     @Bean

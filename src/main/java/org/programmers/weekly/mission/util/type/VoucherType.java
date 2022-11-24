@@ -1,6 +1,6 @@
 package org.programmers.weekly.mission.util.type;
 
-import java.util.Optional;
+import java.util.stream.Stream;
 
 public enum VoucherType {
     FIXED("FixedAmountVoucher"),
@@ -12,10 +12,10 @@ public enum VoucherType {
         this.voucher = voucher;
     }
 
-    public static Optional<VoucherType> checkVoucherType(String input) {
-        for (VoucherType voucherType : VoucherType.values()) {
-            if (voucherType.voucher.equalsIgnoreCase(input)) return Optional.of(voucherType);
-        }
-        return Optional.empty();
+    public static VoucherType checkVoucherType(String input) {
+        return Stream.of(VoucherType.values())
+                .filter(voucherType -> voucherType.voucher.equalsIgnoreCase(input))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력값"));
     }
 }

@@ -3,6 +3,7 @@ package org.programmers.weekly.mission.domain.voucher.model;
 import java.io.Serializable;
 import java.util.UUID;
 
+// Serializable 왜 붙였나
 public class FixedAmountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long amount;
@@ -19,6 +20,9 @@ public class FixedAmountVoucher implements Voucher, Serializable {
 
     @Override
     public long discount(long beforeDiscount) {
+        if (beforeDiscount < amount) {
+            return 0;
+        }
         return beforeDiscount - amount;
     }
 
