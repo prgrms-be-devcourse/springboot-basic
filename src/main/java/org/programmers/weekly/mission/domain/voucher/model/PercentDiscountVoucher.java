@@ -6,6 +6,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher, Serializable {
     private final UUID voucherId;
     private final long percent;
+    private int TOTAL_PERCENT_NUM = 100;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent < 0) {
@@ -24,7 +25,7 @@ public class PercentDiscountVoucher implements Voucher, Serializable {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+        return beforeDiscount * (percent / TOTAL_PERCENT_NUM);
     }
 
     public long getPercent() {
