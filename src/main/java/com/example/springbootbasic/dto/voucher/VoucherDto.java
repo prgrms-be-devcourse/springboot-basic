@@ -38,4 +38,20 @@ public class VoucherDto {
     public VoucherType getVoucherType() {
         return voucherType;
     }
+
+    public void setVoucherId(Long voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    public void setDiscountValue(Long discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public void setVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
+    }
+
+    public boolean isEmpty() {
+        return voucherId == 0L || voucherType == null;
+    }
 }

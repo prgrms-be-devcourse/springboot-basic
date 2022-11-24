@@ -98,7 +98,7 @@ public class JdbcVoucherRepository {
                     Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
-            return VoucherFactory.of(0L, FIXED_AMOUNT);
+            return VoucherFactory.of(0L, 1L, FIXED_AMOUNT);
         }
     }
 
