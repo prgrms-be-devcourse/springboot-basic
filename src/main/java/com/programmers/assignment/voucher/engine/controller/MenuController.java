@@ -21,7 +21,6 @@ public class MenuController {
         return menuService.inputCommand();
     }
 
-
     public String createVoucherCommand() {
         String discountWay = menuService.createVoucher();
         return discountWay;
@@ -34,7 +33,7 @@ public class MenuController {
     public void exitCommand() {
         menuService.exitApplication();
     }
-
+    
     public void createCustomerCommand() {
         customerService.createCustomer();
     }

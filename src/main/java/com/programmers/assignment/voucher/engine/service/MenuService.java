@@ -57,6 +57,4 @@ public class MenuService {
         }
         output.showVoucherList(voucherList);
     }
-
-
 }

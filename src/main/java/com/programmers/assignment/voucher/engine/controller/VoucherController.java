@@ -16,11 +16,8 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-
     public void makeVoucher(String inputDiscountWay) {
         String discountWay = VoucherVariable.chooseDiscountWay(inputDiscountWay);
         voucherService.makeVoucher(discountWay);
     }
-
-
 }
