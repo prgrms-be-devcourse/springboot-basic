@@ -1,6 +1,5 @@
 package com.prgrms.springbootbasic.customer.domain;
 
-import com.prgrms.springbootbasic.voucher.domain.FixedAmountVoucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,7 +9,7 @@ import java.util.UUID;
 public class Customer {
     private static final int NAME_LENGTH_MAX = 50;
     private static final int NAME_LENGTH_MIN = 1;
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final Logger logger = LoggerFactory.getLogger(Customer.class);
 
     private final UUID id;
     private final LocalDateTime createdAt;
