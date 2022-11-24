@@ -15,4 +15,6 @@ public interface VoucherService {
     List<Voucher> searchVouchersByCustomerId(UUID customerId);
 
     void deleteAll();
+
+    void deleteVoucher(UUID voucherId);
 }

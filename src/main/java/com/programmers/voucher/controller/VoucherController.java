@@ -31,12 +31,12 @@ public class VoucherController {
         List<Voucher> vouchers = voucherService.findAll();
 
         model.addAttribute("vouchers", vouchers);
-        return "/vouchers";
+        return "/voucher/vouchers";
     }
 
     @GetMapping("/new")
     public String showCreatePage() {
-        return "/new-vouchers";
+        return "/voucher/newVouchers";
     }
 
     @PostMapping("/new")
@@ -54,7 +54,7 @@ public class VoucherController {
     public String voucherDetailPage(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
-        return "voucherDetail";
+        return "/voucher/voucherDetail";
     }
 
     @PostMapping("/delete/{voucherId}")

@@ -56,4 +56,10 @@ public class VoucherServiceImpl implements VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+
+    @Override
+    @Transactional
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteVoucher(voucherId);
+    }
 }

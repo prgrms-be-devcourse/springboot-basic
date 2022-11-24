@@ -34,12 +34,12 @@ public class CustomerController {
         List<Customer> customers = customerService.findAll();
 
         model.addAttribute("customers", customers);
-        return "customers";
+        return "/customer/customers";
     }
 
     @GetMapping("/new")
     public String joinPage() {
-        return "new-customers";
+        return "/customer/newCustomers";
     }
 
     @PostMapping("/new")
@@ -62,7 +62,7 @@ public class CustomerController {
         model.addAttribute("customer", customer);
         model.addAttribute("vouchers", vouchers);
 
-        return "customerDetail";
+        return "/customer/customerDetail";
     }
 
     @PostMapping("/delete/{customerId}")

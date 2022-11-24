@@ -37,8 +37,9 @@ public class WalletController {
 
         model.addAttribute("vouchers", vouchers);
 
-        return "assignVoucher";
+        return "/customer/assignVoucher";
     }
+
     @PostMapping("/assign/{customerId}/{voucherId}")
     public String assign(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
         walletService.assignVoucher(customerId, voucherId);
