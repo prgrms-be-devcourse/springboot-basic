@@ -63,7 +63,7 @@ public class CustomerRepositoryTest extends JdbcConfig{
         voucherRepository.assign(voucher);
 
         //when
-        Customer result = customerRepository.findByVoucher(voucher.getVoucherId());
+        Customer result = customerRepository.findByVoucher(voucher.getVoucherId()).get();
 
         //then
         assertThat(result.getEmail())

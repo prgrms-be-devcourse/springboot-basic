@@ -21,7 +21,8 @@ public class CustomerService {
     }
 
     public Customer findByVoucher(UUID voucherId) {
-        return customerRepository.findByVoucher(voucherId);
+        return customerRepository.findByVoucher(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처입니다."));
     }
 }
 

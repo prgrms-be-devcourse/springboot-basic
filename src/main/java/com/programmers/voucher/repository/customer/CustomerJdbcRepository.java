@@ -57,8 +57,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer findByVoucher(UUID voucherId) {
-        return jdbcTemplate.queryForObject(findByVoucherSql, toVoucherIdMap(voucherId), rowMapper);
+    public Optional<Customer> findByVoucher(UUID voucherId) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(findByVoucherSql, toVoucherIdMap(voucherId), rowMapper));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
     }
 }
 

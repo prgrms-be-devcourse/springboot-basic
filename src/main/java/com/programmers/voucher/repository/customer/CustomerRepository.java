@@ -11,6 +11,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findByEmail(String email);
 
-    Customer findByVoucher(UUID voucherId);
+    Optional<Customer> findByVoucher(UUID voucherId);
 }
 
