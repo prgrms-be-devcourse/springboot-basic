@@ -20,14 +20,17 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<BlackCustomer> getBlackList() throws IOException {
+    public List<BlackCustomer> getBlackList() {
         List<BlackCustomer> blackCustomers = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(blackListFilePath));) {
 
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(blackListFilePath));
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            String[] customerInfo = line.split(",");
-            blackCustomers.add(new BlackCustomer(Integer.parseInt(customerInfo[0]), customerInfo[1]));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] customerInfo = line.split(",");
+                blackCustomers.add(new BlackCustomer(Integer.parseInt(customerInfo[0]), customerInfo[1]));
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
         }
         return blackCustomers;
     }
