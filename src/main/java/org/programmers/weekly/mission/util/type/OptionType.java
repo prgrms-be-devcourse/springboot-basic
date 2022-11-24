@@ -1,6 +1,8 @@
 package org.programmers.weekly.mission.util.type;
 
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public enum OptionType {
     EXIT("exit"),
@@ -14,11 +16,10 @@ public enum OptionType {
         this.option = option;
     }
 
-    public static Optional<OptionType> checkType(String input) {
-        // stream 변경
-        for (OptionType optionType : OptionType.values()) {
-            if (optionType.option.equalsIgnoreCase(input)) return Optional.of(optionType);
-        }
-        return Optional.empty();
+    public static OptionType checkType(String input) {
+        return Stream.of(OptionType.values())
+                .filter(optionType -> optionType.option.equalsIgnoreCase(input))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 입력값"));
     }
 }

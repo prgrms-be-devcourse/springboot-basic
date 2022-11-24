@@ -7,12 +7,9 @@ import org.programmers.weekly.mission.util.type.Message;
 import org.programmers.weekly.mission.util.type.OptionType;
 import org.programmers.weekly.mission.util.type.VoucherType;
 import org.programmers.weekly.mission.domain.voucher.service.VoucherService;
-import org.programmers.weekly.mission.domain.voucher.repository.VoucherRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Optional;
 
 @Component
 public class CommandLine implements Runnable {
@@ -45,24 +42,12 @@ public class CommandLine implements Runnable {
 
     private OptionType selectOptionType() {
         output.printMessage(Message.SELECT_OPTION_MESSAGE.getMessage());
-        Optional<OptionType> optionType = OptionType.checkType(input.getInput());
-
-        if (optionType.isEmpty()) {
-            throw new RuntimeException(Message.INPUT_ERROR_MESSAGE.getMessage());
-        }
-
-        return optionType.get();
+        return OptionType.checkType(input.getInput());
     }
 
     private VoucherType selectVoucherType() {
         output.printMessage(Message.SELECT_VOUCHER_MESSAGE.getMessage());
-        Optional<VoucherType> voucherType = VoucherType.checkVoucherType(input.getInput());
-
-        if (voucherType.isEmpty()) {
-            throw new RuntimeException(Message.INPUT_ERROR_MESSAGE.getMessage());
-        }
-
-        return voucherType.get();
+        return VoucherType.checkVoucherType(input.getInput());
     }
 
     private Long selectVoucherDiscount() {
