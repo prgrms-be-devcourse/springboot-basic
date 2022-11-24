@@ -55,15 +55,6 @@ public class WalletRepository {
 		return new Customer(customerId, customerName, email, createdAt, customerType);
 	};
 
-	private Map<String, Object> toParamMap(Voucher voucher) {
-		return new HashMap<>() {{
-			put("voucherId", voucher.getVoucherId().toString().getBytes());
-			put("value", voucher.getValue());
-			put("createdAt", voucher.getCreatedAt());
-			put("voucherType", voucher.getVoucherType().getName());
-		}};
-	}
-
 	public Optional<Customer> findByVoucherId(UUID voucherId) {
 		try {
 			return Optional.ofNullable(jdbcTemplate.queryForObject(
