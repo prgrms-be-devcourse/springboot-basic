@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Optional;
 
-@Profile("dev")
+@Profile("prod")
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
@@ -37,10 +37,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
             jdbcTemplate.update(sql, toParamSource(customer), customerIdHolder);
         } catch (DataAccessException e) {
             logger.error("[Repository] <saveCustomer> : ", e);
+            return Optional.empty();
         }
         Customer savedCustomer = new Customer(customerIdHolder.getKey().longValue(), customer.getEmail());
         logger.info("[Repository] save {}", savedCustomer);
-        return Optional.ofNullable(savedCustomer);
+        return Optional.of(savedCustomer);
     }
 
     @Override
@@ -51,6 +52,21 @@ public class JdbcCustomerRepository implements CustomerRepository {
             returnedCustomer = jdbcTemplate.queryForObject(sql, Collections.singletonMap("id", customerId), new CustomerMapper());
         } catch (DataAccessException e) {
             logger.error("[Repository] <getCustomerById> : ", e);
+            return Optional.empty();
+        }
+        logger.info("[Repository] get customer {}", returnedCustomer);
+        return Optional.ofNullable(returnedCustomer);
+    }
+
+    @Override
+    public Optional<Customer> getCustomerByEmail(String email) {
+        Customer returnedCustomer = null;
+        try {
+            String sql = "select id, email from customer where email = :email";
+            returnedCustomer = jdbcTemplate.queryForObject(sql, Collections.singletonMap("email", email), new CustomerMapper());
+        } catch (DataAccessException e) {
+            logger.error("[Repository] <getCustomerByEmail> : ", e);
+            return Optional.empty();
         }
         logger.info("[Repository] get customer {}", returnedCustomer);
         return Optional.ofNullable(returnedCustomer);

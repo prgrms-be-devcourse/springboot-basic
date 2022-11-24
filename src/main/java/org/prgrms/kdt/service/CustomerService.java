@@ -22,7 +22,15 @@ public class CustomerService {
         return returnedCustomer.isPresent();
     }
 
-    public Optional<Customer> getCustomerById(long customerId){
+    public Optional<Customer> getCustomerByEmail(String email){
+        return customerRepository.getCustomerByEmail(email);
+    }
+
+    public Optional<Customer> getCustomerById(long customerId) {
         return customerRepository.getCustomerById(customerId);
+    }
+
+    public boolean isDuplicated(String email){
+        return getCustomerByEmail(email).isPresent();
     }
 }

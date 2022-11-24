@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface CustomerRepository {
     Optional<Customer> saveCustomer(Customer customer);
     Optional<Customer> getCustomerById(long customerId);
+    Optional<Customer> getCustomerByEmail(String email);
 }
