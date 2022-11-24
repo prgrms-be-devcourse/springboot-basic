@@ -118,4 +118,12 @@ public class JdbcVoucherRepository {
             logger.error("Fail - {}", e.getMessage());
         }
     }
+
+    public void deleteVoucherById(long voucherId) {
+        try {
+            jdbcTemplate.update(DELETE_VOUCHER_BY_ID.getSql(), Collections.singletonMap("voucherId", voucherId));
+        } catch (DataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+    }
 }

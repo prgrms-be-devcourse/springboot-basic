@@ -35,10 +35,9 @@
             </a>
         </td>
         <td>
-            <a th:href="@{/view/v1/customers/{customerId}(customerId = ${customer.customerId})}"
-               th:inline="text">
-                [[${customer.customerId}]]번 고객 삭제
-            </a>
+            <form th:action="@{/view/v1/customers/{customerId}(customerId = ${customer.customerId})}" th:method="DELETE">
+                <button type="submit">삭제</button>
+            </form>
         </td>
     </tr>
     </tbody>

@@ -59,7 +59,7 @@ public class ViewCustomerController {
         return  "redirect:customer-vouchers/" + customerId;
     }
 
-    @GetMapping("/v1/customers/{customerId}")
+    @DeleteMapping("/v1/customers/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteCustomerById(customerId);
         return "redirect:";

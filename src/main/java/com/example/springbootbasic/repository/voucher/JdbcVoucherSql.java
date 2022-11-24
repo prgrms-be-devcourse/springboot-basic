@@ -11,7 +11,8 @@ public enum JdbcVoucherSql {
     UPDATE_VOUCHER_TYPE_BY_VOUCHER_ID("UPDATE VOUCHER SET voucher_type = :voucherType, voucher_discount_value = :voucherDiscountValue WHERE voucher_id = :voucherId"),
 
     DELETE_ALL_VOUCHERS("DELETE FROM VOUCHER"),
-    DELETE_VOUCHERS_BY_TYPE("DELETE FROM VOUCHER WHERE voucher_type = :voucherType");
+    DELETE_VOUCHERS_BY_TYPE("DELETE FROM VOUCHER WHERE voucher_type = :voucherType"),
+    DELETE_VOUCHER_BY_ID("DELETE FROM VOUCHER WHERE voucher_id = :voucherId");
 
     private final String sql;
 

@@ -27,6 +27,10 @@ public class JdbcVoucherService {
         return voucherRepository.findAllVouchersByVoucherType(voucherType);
     }
 
+    public Voucher findById(long voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
+
     public Voucher update(Voucher voucher) {
         return voucherRepository.update(voucher);
     }
@@ -39,7 +43,7 @@ public class JdbcVoucherService {
         voucherRepository.deleteVouchersByVoucherType(voucherType);
     }
 
-    public Voucher findById(long voucherId) {
-        return voucherRepository.findById(voucherId);
+    public void deleteVoucherById(long voucherId) {
+        voucherRepository.deleteVoucherById(voucherId);
     }
 }
