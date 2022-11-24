@@ -36,7 +36,6 @@ public class VoucherServiceTest {
         when(voucherRepository.saveVoucher(any())).thenReturn(Optional.of(voucher));
 
         CreateVoucherDto dto = new CreateVoucherDto(voucherType, discountAmount);
-
         boolean result = voucherService.createVoucher(dto);
 
         Assertions.assertTrue(result);
