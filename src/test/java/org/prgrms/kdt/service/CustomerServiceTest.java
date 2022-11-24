@@ -73,4 +73,27 @@ public class CustomerServiceTest {
 
         Assertions.assertFalse(customerById.isPresent());
     }
+
+    @Test
+    @DisplayName("[성공] email을 통해 유저 가져오기")
+    void getCustomerByEmailTest() {
+        String email = "asdf@naver.com";
+        Customer customer = new Customer(email);
+        when(customerRepository.getCustomerByEmail(email)).thenReturn(Optional.of(customer));
+
+        Optional<Customer> customerByEmail = customerService.getCustomerByEmail(email);
+
+        Assertions.assertTrue(customerByEmail.isPresent());
+    }
+
+    @Test
+    @DisplayName("[실패] 존재하지 않는 email을 통해 유저 가져오는 경우")
+    void getCustomerByEmailTest_fail() {
+        String email = "asdf@naver.com";
+        when(customerRepository.getCustomerByEmail(email)).thenReturn(Optional.empty());
+
+        Optional<Customer> customerByEmail = customerService.getCustomerByEmail(email);
+
+        Assertions.assertFalse(customerByEmail.isPresent());
+    }
 }
