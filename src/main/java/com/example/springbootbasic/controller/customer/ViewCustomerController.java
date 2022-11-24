@@ -56,12 +56,18 @@ public class ViewCustomerController {
 
     @GetMapping("/v1/customer-vouchers")
     public String findCustomerDetailPage(@RequestParam Long customerId) {
-        return  "redirect:customer-vouchers/" + customerId;
+        return "redirect:customer-vouchers/" + customerId;
     }
 
     @DeleteMapping("/v1/customers/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteCustomerById(customerId);
+        return "redirect:";
+    }
+
+    @DeleteMapping("/v1/customer-vouchers/{customerId}/{voucherId}")
+    public String deleteCustomerVoucher(@PathVariable Long customerId, @PathVariable Long voucherId) {
+        customerService.deleteCustomerVoucherByIds(customerId, voucherId);
         return "redirect:";
     }
 }

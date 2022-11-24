@@ -12,7 +12,8 @@ public enum JdbcCustomerSql {
     DELETE_ALL_CUSTOMERS("DELETE FROM CUSTOMER"),
     DELETE_CUSTOMER_ALL_VOUCHERS("DELETE FROM CUSTOMER_VOUCHER WHERE customer_id = :customerId"),
     DELETE_ALL_CUSTOMER_VOUCHER("DELETE FROM CUSTOMER_VOUCHER"),
-    DELETE_CUSTOMER("DELETE FROM CUSTOMER WHERE customer_id = :customerId");
+    DELETE_CUSTOMER("DELETE FROM CUSTOMER WHERE customer_id = :customerId"),
+    DELETE_CUSTOMER_VOUCHER_BY_IDS("DELETE FROM CUSTOMER_VOUCHER WHERE customer_id = :customerId AND voucher_id = :voucherId");
 
     private final String sql;
 

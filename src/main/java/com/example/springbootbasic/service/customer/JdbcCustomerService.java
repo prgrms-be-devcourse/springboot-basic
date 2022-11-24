@@ -81,4 +81,8 @@ public class JdbcCustomerService {
     public void deleteCustomerById(long customerId) {
         customerRepository.deleteCustomerById(customerId);
     }
+
+    public void deleteCustomerVoucherByIds(long customerId, long voucherId) {
+        customerRepository.deleteCustomerVoucherByIds(customerId, voucherId);
+    }
 }

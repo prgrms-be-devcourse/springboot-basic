@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.example.springbootbasic.exception.customer.JdbcCustomerRepositoryExceptionMessage.*;
@@ -161,6 +162,18 @@ public class JdbcCustomerRepository {
     public void deleteCustomerById(long customerId) {
         try {
             jdbcTemplate.update(DELETE_CUSTOMER.getSql(), Collections.singletonMap("customerId", customerId));
+        } catch (DataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+    }
+
+    public void deleteCustomerVoucherByIds(long customerId, long voucherId) {
+        try {
+            jdbcTemplate.update(DELETE_CUSTOMER_VOUCHER_BY_IDS.getSql(),
+                    new HashMap<>() {{
+                        put("customerId", customerId);
+                        put("voucherId", voucherId);
+                    }});
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }

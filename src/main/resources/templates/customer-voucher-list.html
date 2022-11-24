@@ -19,6 +19,7 @@
         <td>바우처 번호</td>
         <td>바우처 할인 금액</td>
         <td>바우처 타입</td>
+        <td>바우처 삭제</td>
     </tr>
     </thead>
     <tbody>
@@ -26,6 +27,12 @@
         <td th:text="${voucher.voucherId}"></td>
         <td th:text="${voucher.discountValue}"></td>
         <td th:text="${voucher.voucherType}"></td>
+        <td>
+            <form th:action="@{/view/v1/customer-vouchers/{customerId}/{voucherId}(customerId = ${customer.customerId}, voucherId = ${voucher.voucherId})}"
+                  th:method="DELETE">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
