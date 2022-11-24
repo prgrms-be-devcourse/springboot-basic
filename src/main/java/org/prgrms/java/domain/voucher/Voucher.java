@@ -66,6 +66,6 @@ public abstract class Voucher {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %d, %s, %s, %s", voucherId, ownerId, amount, type, expiredAt, used);
+        return String.format("%s, %s, %d, %s, %s, %s, %s", voucherId, ownerId, amount, type, createdAt, expiredAt, used);
     }
 }
