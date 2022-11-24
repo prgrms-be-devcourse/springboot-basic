@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 바우처 등록 페이지</title>
+</head>
+<body>
+
+<h1>고객 바우처 등록 페이지</h1>
+
+<a th:href="@{/view/v1/home}">메인 페이지</a>
+<a th:href="@{/view/v1/customer-vouchers/{customerId}(customerId = ${customerId})}">고객 상세 페이지</a>
+
+<h3 th:inline="text">
+    [[${customerId}]]번 고객
+</h3>
+<p th:if="${saveResult == false}">바우처 등록에 실패 하였습니다.</p>
+<table border="1">
+    <thead>
+    <tr>
+        <td>선택</td>
+        <td>바우처 번호</td>
+        <td>바우처 할인 금액</td>
+        <td>바우처 타입</td>
+    </tr>
+    </thead>
+    <tbody>
+    <form th:action="@{/view/v1/customer-vouchers-add/{customerId}(customerId = ${customerId})}" method="post">
+        <tr th:each="voucher : ${vouchers}">
+            <td>
+                <label for="voucherId"></label>
+                <input name="voucherId" id="voucherId" th:value="${voucher.voucherId}" type="radio">
+            </td>
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:text="${voucher.discountValue}"></td>
+            <td th:text="${voucher.voucherType}"></td>
+        </tr>
+        <button type="submit">등록</button>
+    </form>
+    </tbody>
+</table>
+</body>
+</html>

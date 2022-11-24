@@ -55,7 +55,11 @@ public class JdbcCustomerService {
         return customerRepository.saveVoucher(customer, voucher);
     }
 
-    public Customer findCustomerById(Long customerId) {
+    public boolean saveVoucherById(long customerId, long voucherId) {
+        return customerRepository.saveVoucherById(customerId, voucherId);
+    }
+
+    public Customer findCustomerById(long customerId) {
         return customerRepository.findCustomerById(customerId);
     }
 
@@ -82,7 +86,7 @@ public class JdbcCustomerService {
         customerRepository.deleteCustomerById(customerId);
     }
 
-    public void deleteCustomerVoucherByIds(long customerId, long voucherId) {
-        customerRepository.deleteCustomerVoucherByIds(customerId, voucherId);
+    public boolean deleteCustomerVoucherByIds(long customerId, long voucherId) {
+        return customerRepository.deleteCustomerVoucherByIds(customerId, voucherId);
     }
 }

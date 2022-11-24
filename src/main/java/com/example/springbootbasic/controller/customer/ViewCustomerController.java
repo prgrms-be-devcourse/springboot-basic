@@ -5,10 +5,13 @@ import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.dto.customer.CustomerDto;
+import com.example.springbootbasic.dto.voucher.VoucherDto;
 import com.example.springbootbasic.service.customer.JdbcCustomerService;
+import com.example.springbootbasic.service.voucher.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -17,9 +20,11 @@ import java.util.List;
 public class ViewCustomerController {
 
     private final JdbcCustomerService customerService;
+    private final JdbcVoucherService voucherService;
 
-    public ViewCustomerController(JdbcCustomerService jdbcCustomerService) {
+    public ViewCustomerController(JdbcCustomerService jdbcCustomerService, JdbcVoucherService voucherService) {
         this.customerService = jdbcCustomerService;
+        this.voucherService = voucherService;
     }
 
     @GetMapping("/v1/customers")
@@ -59,6 +64,27 @@ public class ViewCustomerController {
         return "redirect:customer-vouchers/" + customerId;
     }
 
+    @GetMapping("/v1/customer-vouchers-add/{customerId}")
+    public String customerVouchersAddForm(@PathVariable Long customerId, Model model) {
+        List<VoucherDto> findVouchers = voucherService.findAllVouchers()
+                .stream()
+                .map(VoucherDto::newInstance)
+                .toList();
+        model.addAttribute("customerId", customerId);
+        model.addAttribute("vouchers", findVouchers);
+        return "customer-voucher-add";
+    }
+
+    @PostMapping("/v1/customer-vouchers-add/{customerId}")
+    public String customerVouchersAddForm(@PathVariable Long customerId, @RequestParam Long voucherId, RedirectAttributes re) {
+        boolean isSaveSuccess = customerService.saveVoucherById(customerId, voucherId);
+        re.addFlashAttribute("saveResult", isSaveSuccess);
+        if (isSaveSuccess) {
+            return "redirect:/view/v1/customer-vouchers/" + customerId;
+        }
+        return "redirect:" + customerId;
+    }
+
     @DeleteMapping("/v1/customers/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteCustomerById(customerId);
@@ -66,8 +92,9 @@ public class ViewCustomerController {
     }
 
     @DeleteMapping("/v1/customer-vouchers/{customerId}/{voucherId}")
-    public String deleteCustomerVoucher(@PathVariable Long customerId, @PathVariable Long voucherId) {
-        customerService.deleteCustomerVoucherByIds(customerId, voucherId);
-        return "redirect:";
+    public String deleteCustomerVoucher(@PathVariable Long customerId, @PathVariable Long voucherId, RedirectAttributes re) {
+        boolean isDeleteSuccess = customerService.deleteCustomerVoucherByIds(customerId, voucherId);
+        re.addFlashAttribute("deleteResult", isDeleteSuccess);
+        return "redirect:/view/v1/customer-vouchers/" + customerId;
     }
 }

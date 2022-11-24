@@ -17,14 +17,15 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.springbootbasic.exception.customer.JdbcCustomerRepositoryExceptionMessage.*;
 import static com.example.springbootbasic.repository.customer.JdbcCustomerSql.*;
 
 @Repository
 public class JdbcCustomerRepository {
-
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -44,6 +45,13 @@ public class JdbcCustomerRepository {
         return new MapSqlParameterSource()
                 .addValue("customerId", customer.getCustomerId())
                 .addValue("customerStatus", customer.getStatus().getType());
+    }
+
+    private Map<String, Object> toParamMap(long customerId, long voucherId) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("customerId", customerId);
+        param.put("voucherId", voucherId);
+        return param;
     }
 
     private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -114,6 +122,16 @@ public class JdbcCustomerRepository {
         return customer;
     }
 
+    public boolean saveVoucherById(long customerId, long voucherId) {
+        try {
+            int update = jdbcTemplate.update(INSERT_CUSTOMER_VOUCHER.getSql(), toParamMap(customerId, voucherId));
+            return update == 1;
+        } catch (DataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+            return false;
+        }
+    }
+
     public Customer findCustomerById(Long customerId) {
         try {
             return jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_ID.getSql(),
@@ -167,15 +185,14 @@ public class JdbcCustomerRepository {
         }
     }
 
-    public void deleteCustomerVoucherByIds(long customerId, long voucherId) {
+    public boolean deleteCustomerVoucherByIds(long customerId, long voucherId) {
         try {
-            jdbcTemplate.update(DELETE_CUSTOMER_VOUCHER_BY_IDS.getSql(),
-                    new HashMap<>() {{
-                        put("customerId", customerId);
-                        put("voucherId", voucherId);
-                    }});
+            int update = jdbcTemplate.update(DELETE_CUSTOMER_VOUCHER_BY_IDS.getSql(),
+                    toParamMap(customerId, voucherId));
+            return update == 1;
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
+            return false;
         }
     }
 

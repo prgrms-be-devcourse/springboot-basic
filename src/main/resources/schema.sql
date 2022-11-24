@@ -27,6 +27,8 @@ CREATE TABLE CUSTOMER_VOUCHER
     FOREIGN KEY (voucher_id) REFERENCES spb_basic.VOUCHER (voucher_id)
 );
 
+ALTER TABLE CUSTOMER_VOUCHER ADD UNIQUE (customer_id, voucher_id);
+
 INSERT INTO CUSTOMER(customer_status) VALUES ("normal");
 INSERT INTO VOUCHER(voucher_type, voucher_discount_value) VALUES ("fixed", 100);
 INSERT INTO VOUCHER(voucher_type, voucher_discount_value) VALUES ("fixed", 100);
