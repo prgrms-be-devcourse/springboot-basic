@@ -10,5 +10,5 @@ create table if not exists voucher(
 
 create table if not exists customer(
     id BIGINT not null auto_increment primary key,
-    email VARCHAR(255) not null,
+    email VARCHAR(255) not null
 ) engine=MyISAM;

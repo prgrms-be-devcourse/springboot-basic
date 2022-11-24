@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Profile("map")
+@Profile("test")
 @Repository
 public class MapVoucherRepository implements VoucherRepository {
 

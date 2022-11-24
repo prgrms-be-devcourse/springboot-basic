@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-@Profile("jpa")
+@Profile("dev")
 public interface JpaVoucherRepository extends JpaRepository<Voucher, Long>, VoucherRepository {
 
     default Optional<Voucher> saveVoucher(Voucher voucher) {
