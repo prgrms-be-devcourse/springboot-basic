@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <div class="jumbotron">
+        <table class="table table-striped">
+            <h1>바우처 목록</h1>
+            <thead>
+            <tr>
+                <th>아이디</th>
+                <th>바우처 유형</th>
+                <th>상세 정보</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td th:text="${voucher.id}"></td>
+                <td th:text="${voucher.voucherType}"></td>
+                <td>
+                    <a class="btn btn-primary" th:href="@{'/api/v1/voucher/' + ${voucher.id}}">상세 정보</a>
+                </td>
+                <td>
+                    <form th:action="@{'/api/v1/voucher/' + ${voucher.id}}" method="POST">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-lg btn-dark">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"/>
+
+</div> <!-- /container -->
+
+</body>
+</html>

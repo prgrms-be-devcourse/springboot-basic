@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    if([[${responseStatus.statusCode}]] !== 200){
+        var message = [[${responseStatus.message}]];
+        alert(message);
+    }
+
+    /*]]>*/
+</script>
+
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <h1>바우처 생성</h1>
+    <br><br>
+    <form role="form" th:object="${voucherForm}" method="post">
+        <div class="form-group">
+            <label th:for="voucherTypes">바우처 타입</label>
+            <select class="form-control" th:field="*{voucherType}">
+                <option value="선택"> 선택 </option>
+                <option th:each="voucherType : ${voucherTypes}"
+                        th:value="${voucherType.getInputValue()}"
+                        th:utext="${voucherType.getInputValue()}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label th:for="discountAmount">할인율</label>
+            <input type="number" th:field="*{discountAmount}" class="form-control" placeholder="할인율을 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+
+</body>
+</html>
