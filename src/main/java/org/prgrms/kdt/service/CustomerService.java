@@ -30,7 +30,7 @@ public class CustomerService {
         return customerRepository.getCustomerById(customerId);
     }
 
-    public boolean isDuplicated(String email){
+    public boolean hasDuplicatedCustomer(String email){
         return getCustomerByEmail(email).isPresent();
     }
 }

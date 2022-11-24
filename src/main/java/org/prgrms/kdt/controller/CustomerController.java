@@ -19,7 +19,7 @@ public class CustomerController {
 
     public boolean createCustomer(CreateCustomerRequest createCustomerRequest) {
         CreateCustomerDto createCustomerDto = new CreateCustomerDto(createCustomerRequest.email());
-        if (customerService.isDuplicated(createCustomerDto.email())) return false;
+        if (customerService.hasDuplicatedCustomer(createCustomerDto.email())) return false;
         else return customerService.createCustomer(createCustomerDto);
     }
 
