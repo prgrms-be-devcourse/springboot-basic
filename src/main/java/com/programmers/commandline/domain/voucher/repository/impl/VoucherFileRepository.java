@@ -64,19 +64,11 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        Toml toml = new Toml();
         List<Voucher> vouchers = new ArrayList<>();
         File[] voucherFiles = new File(filePath).listFiles();
 
         for (File voucherFile : voucherFiles) {
-            Toml voucherToml = toml.read(voucherFile);
-
-            UUID id = UUID.fromString(voucherToml.getString("id"));
-            VoucherType type = VoucherType.valueOf(voucherToml.getString("type"));
-            long discount = voucherToml.getLong("discount");
-            LocalDateTime createdAt = LocalDateTime.parse(voucherToml.getString("createdAt"));
-
-            Voucher voucher = type.createVoucher(id, discount, createdAt);
+            Voucher voucher = convertTomlToVoucher(voucherFile);
             vouchers.add(voucher);
         }
         return vouchers;
@@ -84,16 +76,8 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(String voucherId) {
-        Toml toml = new Toml();
         File voucherFile = new File(filePath + voucherId);
-        Toml voucherToml = toml.read(voucherFile);
-
-        UUID id = UUID.fromString(voucherToml.getString("id"));
-        VoucherType type = VoucherType.valueOf(voucherToml.getString("type"));
-        long discount = voucherToml.getLong("discount");
-        LocalDateTime createdAt = LocalDateTime.parse(voucherToml.getString("createdAt"));
-
-        Voucher voucher = type.createVoucher(id, discount, createdAt);
+        Voucher voucher = convertTomlToVoucher(voucherFile);
         return Optional.ofNullable(voucher);
     }
 
@@ -104,5 +88,17 @@ public class VoucherFileRepository implements VoucherRepository {
         for (File voucherFile : voucherFiles) {
             voucherFile.delete();
         }
+    }
+
+    private Voucher convertTomlToVoucher(File file) {
+        Toml toml = new Toml();
+        Toml voucherToml = toml.read(file);
+
+        UUID id = UUID.fromString(voucherToml.getString("id"));
+        VoucherType type = VoucherType.valueOf(voucherToml.getString("type"));
+        long discount = Long.parseLong(voucherToml.getString("discount"));
+        LocalDateTime createdAt = LocalDateTime.parse(voucherToml.getString("createdAt"));
+
+        return type.createVoucher(id, discount, createdAt);
     }
 }
