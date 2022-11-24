@@ -26,7 +26,7 @@ public class VoucherController {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    public VoucherService voucherService;
+    public final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService){
         this.voucherService = voucherService;
