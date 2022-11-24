@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="kdt-spring-demo:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="79a273a2-e4d0-4de1-a03f-089f73fcf626" name="Changes" comment="위클리 미션3" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2HLQ9WxhOad1SJ45Ji3virpc8OH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sohyeon/KDT/springboot-basic&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.general&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;17b70f6aa2fd66438b8aa581ff0350a9&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.programmers.weekly.mission.domain.voucher.service" />
+      <recent name="org.programmers.weekly.mission.config" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/file" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/webapp/WEB-INF/views" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="org.programmers.weekly.mission.domain.voucher.repository" />
+      <recent name="org.programmers.weekly.mission.domain.wallet" />
+      <recent name="org.programmers.weekly.mission.domain.customer.repository" />
+      <recent name="org.programmers.weekly.mission.domain.voucher.model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 8.5.83">
+    <configuration name="VoucherJdbcRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kdt-spring-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.programmers.weekly.mission.domain.voucher.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.programmers.weekly.mission.domain.voucher.repository" />
+      <option name="MAIN_CLASS_NAME" value="org.programmers.weekly.mission.domain.voucher.repository.VoucherJdbcRepositoryTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kdt-spring-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.programmers.weekly.mission.domain.voucher.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.programmers.weekly.mission.domain.voucher.repository" />
+      <option name="MAIN_CLASS_NAME" value="org.programmers.weekly.mission.domain.voucher.repository.VoucherRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherRepositoryTest.testInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kdt-spring-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.programmers.weekly.mission.domain.voucher.repository.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.programmers.weekly.mission.domain.voucher.repository" />
+      <option name="MAIN_CLASS_NAME" value="org.programmers.weekly.mission.domain.voucher.repository.VoucherRepositoryTest" />
+      <option name="METHOD_NAME" value="testInsert" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WalletRepositoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="kdt-spring-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.programmers.weekly.mission.domain.wallet.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.programmers.weekly.mission.domain.wallet" />
+      <option name="MAIN_CLASS_NAME" value="org.programmers.weekly.mission.domain.wallet.WalletRepositoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherProgramApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <option name="ACTIVE_PROFILES" />
+      <module name="kdt-spring-demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.programmers.weekly.mission.VoucherProgramApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherProgramApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <option name="ACTIVE_PROFILES" />
+      <module name="kdt-spring-demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.programmers.weekly.mission.VoucherProgramApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 8.5.83" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 8.5.83" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/voucher/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="kdt-spring-demo:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/kdt_spring_demo_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="a99b7a10-30dd-4230-8b02-b685d959d436" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="58645" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="kdt-spring-demo:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.VoucherJdbcRepositoryTest" />
+      <item itemvalue="JUnit.VoucherRepositoryTest" />
+      <item itemvalue="JUnit.VoucherRepositoryTest.testInsert" />
+      <item itemvalue="JUnit.WalletRepositoryTest" />
+      <item itemvalue="Spring Boot.VoucherProgramApplication" />
+      <item itemvalue="Spring Boot.VoucherProgramApplication (1)" />
+      <item itemvalue="Tomcat Server.Tomcat 8.5.83" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.VoucherProgramApplication (1)" />
+        <item itemvalue="JUnit.VoucherRepositoryTest" />
+        <item itemvalue="JUnit.VoucherRepositoryTest.testInsert" />
+        <item itemvalue="JUnit.WalletRepositoryTest" />
+        <item itemvalue="JUnit.VoucherJdbcRepositoryTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="79a273a2-e4d0-4de1-a03f-089f73fcf626" name="Changes" comment="" />
+      <created>1668061733183</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668061733183</updated>
+      <workItem from="1668061734652" duration="202000" />
+      <workItem from="1668061978961" duration="193000" />
+      <workItem from="1668063422854" duration="23654000" />
+      <workItem from="1668600682646" duration="46587000" />
+      <workItem from="1669187451249" duration="1338000" />
+      <workItem from="1669200463826" duration="5244000" />
+      <workItem from="1669213701526" duration="8200000" />
+      <workItem from="1669297316056" duration="3156000" />
+      <workItem from="1669301681750" duration="482000" />
+    </task>
+    <task id="LOCAL-00001" summary="폴더 리팩토링">
+      <created>1668086103374</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1668086103374</updated>
+    </task>
+    <task id="LOCAL-00002" summary="[FIX] voucherRepository 삭제 -&gt; voucherService">
+      <created>1668106663504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1668106663504</updated>
+    </task>
+    <task id="LOCAL-00003" summary="[DELETE] 미사용 메소드 삭제">
+      <created>1668107880595</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1668107880595</updated>
+    </task>
+    <task id="LOCAL-00004" summary="[FEAT] customers 테이블 정의 및 CRUD, 테스트">
+      <created>1668621005554</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1668621005554</updated>
+    </task>
+    <task id="LOCAL-00005" summary="[FEAT] Weekly Mission2">
+      <created>1668770406164</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1668770406164</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[코드리뷰] FIX: 바우처 파일 읽기 에러 예외처리">
+      <created>1669203568850</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1669203568850</updated>
+    </task>
+    <task id="LOCAL-00007" summary="[코드리뷰] ADD : 바우처 생성 및 입력값 예외처리 추가">
+      <created>1669213394964</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1669213394964</updated>
+    </task>
+    <task id="LOCAL-00008" summary="[코드리뷰] ADD : 바우처 레포지토리 테스트 코드 추가">
+      <created>1669221485425</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1669221485425</updated>
+    </task>
+    <task id="LOCAL-00009" summary="[코드리뷰] DEL: ComponentScan 삭제 (없어도 돌아가는 것 확인)">
+      <created>1669274900872</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1669274900872</updated>
+    </task>
+    <task id="LOCAL-00010" summary="[코드리뷰] FIX : 100(매직넘버)를 변수로 치환">
+      <created>1669275213532</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1669275213532</updated>
+    </task>
+    <task id="LOCAL-00011" summary="[코드리뷰] FIX : try with resource 구성으로 변경">
+      <created>1669275514524</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1669275514524</updated>
+    </task>
+    <task id="LOCAL-00012" summary="[코드리뷰] FIX : 의미있는 예외 throw">
+      <created>1669275923197</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1669275923197</updated>
+    </task>
+    <task id="LOCAL-00013" summary="[코드리뷰] FIX : IllegalStatementException 처리">
+      <created>1669276378389</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1669276378389</updated>
+    </task>
+    <task id="LOCAL-00014" summary="[UPDATE] voucher.ser 업데이트">
+      <created>1669276408814</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1669276408814</updated>
+    </task>
+    <task id="LOCAL-00015" summary="[코드리뷰] FIX : 반복문 stream 사용으로 변경">
+      <created>1669277395390</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1669277395390</updated>
+    </task>
+    <task id="LOCAL-00016" summary="위클리 미션3">
+      <created>1669300477410</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1669300477410</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="폴더 리팩토링" />
+    <MESSAGE value="[FIX] voucherRepository 삭제 -&gt; voucherService" />
+    <MESSAGE value="[DELETE] 미사용 메소드 삭제" />
+    <MESSAGE value="[FEAT] customers 테이블 정의 및 CRUD, 테스트" />
+    <MESSAGE value="[FEAT] Weekly Mission2" />
+    <MESSAGE value="[코드리뷰] FIX: 바우처 파일 읽기 에러 예외처리" />
+    <MESSAGE value="[코드리뷰] ADD : 바우처 생성 및 입력값 예외처리 추가" />
+    <MESSAGE value="[코드리뷰] ADD : 바우처 레포지토리 테스트 코드 추가" />
+    <MESSAGE value="[코드리뷰] DEL: ComponentScan 삭제 (없어도 돌아가는 것 확인)" />
+    <MESSAGE value="[코드리뷰] FIX : 100(매직넘버)를 변수로 치환" />
+    <MESSAGE value="[코드리뷰] FIX : try with resource 구성으로 변경" />
+    <MESSAGE value="[코드리뷰] FIX : 의미있는 예외 throw" />
+    <MESSAGE value="[코드리뷰] FIX : IllegalStatementException 처리" />
+    <MESSAGE value="[UPDATE] voucher.ser 업데이트" />
+    <MESSAGE value="[코드리뷰] FIX : 반복문 stream 사용으로 변경" />
+    <MESSAGE value="위클리 미션3" />
+    <option name="LAST_COMMIT_MESSAGE" value="위클리 미션3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
