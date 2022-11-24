@@ -28,11 +28,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	// private static UUID toUUID(byte[] bytes) {
-	// 	ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-	// 	return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-	// }
-
 	private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
 		var voucherId = UUID.fromString(resultSet.getString("voucher_id"));
 		var value = resultSet.getInt("voucher_value");
@@ -78,15 +73,26 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public void delete(UUID voucherId) {
-		jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.emptyMap());
+		jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString()));
 	}
 
 	@Override
 	public void update(Voucher voucher) {
-		Map<String, Object> paramMap = toParamMap(voucher);
+		Map<String, Object> paramMap = toUpdateParamMap(voucher);
 		jdbcTemplate.update(
-			"UPDATE voucher SET voucher_value = :value,voucher_type = :voucherType WHERE voucher_id = :voucherId",
+			"UPDATE voucher SET voucher_value = :value WHERE voucher_id = :voucherId",
 			paramMap);
+	}
+
+	private Map<String, Object> toUpdateParamMap(Voucher voucher) {
+		Map<String, Object> updateParamMap = new HashMap<>();
+		updateParamMap.put("voucherId", voucher.getVoucherId().toString());
+		updateParamMap.put("value", voucher.getValue());
+		return updateParamMap;
+	}
+
+	public void clear() {
+		jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
 	}
 
 }

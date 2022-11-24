@@ -7,8 +7,9 @@ import java.util.UUID;
 public abstract class Voucher {
 
 	private final UUID voucherId;
-	private final double value;
+	private double value;
 	private final LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	private final VoucherType voucherType;
 
 	public abstract int discount(double beforeDiscount);
@@ -40,11 +41,12 @@ public abstract class Voucher {
 		return createdAt;
 	}
 
-	// @Override
-	// public String toString() {
-	// 	return String.format("%s,%s,%d", getVoucherId(),voucherType.getName(),(int)getValue());
-	// }
-@Override
+	public void editVoucherValue(double value) {
+		this.value = value;
+		this.updatedAt = LocalDateTime.now();
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
@@ -59,5 +61,10 @@ public abstract class Voucher {
 	@Override
 	public int hashCode() {
 		return Objects.hash(getVoucherId(), getValue(), getCreatedAt(), getVoucherType());
+	}
+
+	@Override
+	public String toString() {
+		return String.format("%s,%s,%d", getVoucherId(), voucherType.getName(), (int)getValue());
 	}
 }
