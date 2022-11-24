@@ -28,6 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop:2.6.0'
 
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
