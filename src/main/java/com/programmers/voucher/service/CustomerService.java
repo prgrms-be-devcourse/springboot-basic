@@ -20,11 +20,8 @@ public class CustomerService {
         return customerRepository.save(customerDto);
     }
 
-    public Customer findByEmail(String email) {
-        return customerRepository.findByEmail(email);
-    }
-
     public Customer findByVoucher(UUID voucherId) {
         return customerRepository.findByVoucher(voucherId);
     }
 }
+

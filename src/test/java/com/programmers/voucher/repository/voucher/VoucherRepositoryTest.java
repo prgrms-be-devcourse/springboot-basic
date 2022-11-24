@@ -27,7 +27,7 @@ class VoucherRepositoryTest extends JdbcConfig {
         String email = "taehee@gmail.com";
         CustomerDto customerDto = new CustomerDto("taehee", email);
         customerRepository.save(customerDto);
-        return customerRepository.findByEmail(email);
+        return customerRepository.findByEmail(email).get();
     }
 
     private Voucher insertSingleVoucherData() {

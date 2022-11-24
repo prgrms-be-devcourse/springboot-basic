@@ -1,6 +1,5 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
@@ -54,8 +53,11 @@ public class VoucherService {
 
     public Voucher assign(UUID voucherId, String email) {
         Voucher voucher = voucherRepository.findById(voucherId);
-        Customer customer = customerRepository.findByEmail(email);
-        voucher.setCustomer(customer);
+        customerRepository.findByEmail(email)
+                .ifPresentOrElse(voucher::setCustomer,
+                        () -> {
+                            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+                        });
         voucherRepository.assign(voucher);
         return voucher;
     }

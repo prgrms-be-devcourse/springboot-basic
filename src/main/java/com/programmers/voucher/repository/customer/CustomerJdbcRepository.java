@@ -2,11 +2,13 @@ package com.programmers.voucher.repository.customer;
 
 import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.customer.Customer;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.programmers.voucher.utils.JdbcParamMapper.*;
@@ -39,13 +41,19 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer save(CustomerDto customerDto) {
-        Long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerDto)).longValue();
+        long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerDto)).longValue();
         return new Customer(id, customerDto.customerName(), customerDto.email());
     }
 
     @Override
-    public Customer findByEmail(String email) {
-        return jdbcTemplate.queryForObject(findByEmailSql, toEmailMap(email), rowMapper);
+    public Optional<Customer> findByEmail(String email) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(findByEmailSql, toEmailMap(email), rowMapper));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
+
     }
 
     @Override
@@ -53,3 +61,4 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return jdbcTemplate.queryForObject(findByVoucherSql, toVoucherIdMap(voucherId), rowMapper);
     }
 }
+

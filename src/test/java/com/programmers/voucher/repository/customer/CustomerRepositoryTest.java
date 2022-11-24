@@ -32,7 +32,7 @@ public class CustomerRepositoryTest extends JdbcConfig{
         customerRepository.save(customerDto);
 
         //then
-        assertThat(customerRepository.findByEmail(email).getEmail())
+        assertThat(customerRepository.findByEmail(email).get().getEmail())
                 .isEqualTo(email);
     }
 
@@ -44,7 +44,7 @@ public class CustomerRepositoryTest extends JdbcConfig{
         String email = "taehee@gmail.com";
 
         //when
-        Customer result = customerRepository.findByEmail(email);
+        Customer result = customerRepository.findByEmail(email).get();
 
         //then
         assertThat(result.getEmail())
@@ -57,7 +57,7 @@ public class CustomerRepositoryTest extends JdbcConfig{
     void findByVoucher() {
         //given
         String email = "taehee@gmail.com";
-        Customer customer = customerRepository.findByEmail(email);
+        Customer customer = customerRepository.findByEmail(email).get();
         Voucher voucher = insertSingleVoucherData();
         voucher.setCustomer(customer);
         voucherRepository.assign(voucher);
