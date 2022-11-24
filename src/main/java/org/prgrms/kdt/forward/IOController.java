@@ -1,7 +1,10 @@
 package org.prgrms.kdt.forward;
 
+import org.prgrms.kdt.controller.CustomerController;
 import org.prgrms.kdt.controller.VoucherController;
+import org.prgrms.kdt.controller.request.CreateCustomerRequest;
 import org.prgrms.kdt.controller.request.CreateVoucherRequest;
+import org.prgrms.kdt.controller.response.CustomerResponse;
 import org.prgrms.kdt.controller.response.VoucherResponse;
 import org.prgrms.kdt.forward.io.Input;
 import org.prgrms.kdt.forward.io.Output;
@@ -17,13 +20,16 @@ public class IOController {
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
+
+    private final CustomerController customerController;
     private final ConsoleView consoleView;
     private static final Logger logger = LoggerFactory.getLogger(IOController.class);
 
-    public IOController(Input input, Output output, VoucherController voucherController, ConsoleView consoleView) {
+    public IOController(Input input, Output output, VoucherController voucherController, CustomerController customerController, ConsoleView consoleView) {
         this.input = input;
         this.output = output;
         this.voucherController = voucherController;
+        this.customerController = customerController;
         this.consoleView = consoleView;
     }
 
@@ -36,9 +42,17 @@ public class IOController {
             try {
                 String command = input.readLine();
                 switch (command) {
-                    case "create" -> {
+                    case "create-customer" -> {
+                        logger.info("Request <create customer>");
+                        createCustomer();
+                    }
+                    case "get-customer" -> {
+                        logger.info("Request <get customer>");
+                        getCustomerByEmail();
+                    }
+                    case "create-voucher" -> {
                         logger.info("Request <create voucher>");
-                        create();
+                        createVoucher();
                     }
                     case "list" -> {
                         logger.info("Request <list voucher>");
@@ -65,21 +79,39 @@ public class IOController {
         logger.info("Finish : Voucher Manage Program");
     }
 
-    private void create() {
+    private void createVoucher() {
         output.write(consoleView.requestVoucherInfo());
         String requestedVoucherInfo = input.readLine();
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(requestedVoucherInfo);
         if (voucherController.createVoucher(createVoucherRequest)) {
             output.write(consoleView.saveVoucher());
+        } else output.write(consoleView.saveVoucherError());
+    }
+
+    private void createCustomer() {
+        output.write(consoleView.requestCustomerInfoToCreate());
+        String requestCustomerInfoToCreate = input.readLine();
+        CreateCustomerRequest createCustomerRequest = new CreateCustomerRequest(requestCustomerInfoToCreate);
+        if (customerController.createCustomer(createCustomerRequest)){
+            output.write(consoleView.saveCustomer());
         }
-        else output.write(consoleView.saveVoucherError());
+        else output.write(consoleView.saveCustomerError());
+    }
+
+    private void getCustomerByEmail(){
+        output.write(consoleView.requestCustomerInfoToGet());
+        String requestCustomerInfoToGet = input.readLine();
+        CustomerResponse customerResponse = customerController.getCustomerByEmail(requestCustomerInfoToGet);
+        if (customerResponse.customer() != null){
+            output.write(consoleView.getCustomer(customerResponse));
+        }
+        else output.write(consoleView.getCustomerError());
     }
 
     private void list() {
         List<VoucherResponse> list = voucherController.getAllVouchers();
         if (list.isEmpty()) {
             output.write(consoleView.emptyVoucherList());
-        }
-        else output.write(consoleView.listVoucher(list));
+        } else output.write(consoleView.listVoucher(list));
     }
 }
