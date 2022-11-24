@@ -3,6 +3,8 @@ package com.programmers.commandline.domain.consumer.service;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
 import com.programmers.commandline.global.io.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,6 +14,7 @@ import java.util.UUID;
 public class ConsumerService {
 
     private final ConsumerRepository consumerRepository;
+    Logger logger = LoggerFactory.getLogger(ConsumerService.class);
 
     ConsumerService(ConsumerRepository consumerRepository) {
         this.consumerRepository = consumerRepository;
@@ -36,7 +39,8 @@ public class ConsumerService {
     public String update(String consumerId, String name, String email) {
 
         Consumer consumer = consumerRepository.findById(consumerId).orElseThrow(() -> {
-            throw new NullPointerException(Message.NULL_POINT.getMessage());
+            logger.info(Message.OPTIONEL_NULL.getMessage());
+            throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
         consumer.update(name, email);
 
@@ -45,19 +49,22 @@ public class ConsumerService {
 
     public Consumer findById(String consumerId) {
         return consumerRepository.findById(consumerId).orElseThrow(() -> {
-            throw new NullPointerException(Message.NULL_POINT.getMessage());
+            logger.info(Message.OPTIONEL_NULL.getMessage());
+            throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }
 
     public Consumer findByName(String name) {
         return consumerRepository.findByName(name).orElseThrow(() -> {
-            throw new NullPointerException(Message.NULL_POINT.getMessage());
+            logger.info(Message.OPTIONEL_NULL.getMessage());
+            throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }
 
     public Consumer findByEmail(String email) {
         return consumerRepository.findByEmail(email).orElseThrow(() -> {
-            throw new NullPointerException(Message.NULL_POINT.getMessage());
+            logger.info(Message.OPTIONEL_NULL.getMessage());
+            throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }
 

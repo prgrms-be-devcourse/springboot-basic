@@ -44,7 +44,7 @@ public class VoucherApplication {
             case EXIT -> exit();
             case VOUCHER_CREATE -> create();
             case VOUCHER_LIST -> findVouchers();
-            case BLACK_CONSUMER_LIST -> findBlackConsumers();
+            case BLACK_CONSUMER_LIST -> findConsumers();
             case CONSUMER -> insertConsumer();
         }
     }
@@ -79,12 +79,14 @@ public class VoucherApplication {
         console.print(uuid);
     }
 
-    private void findBlackConsumers() {
-        console.print(consumerService.findAll());
+    private void findConsumers() {
+        String consumers = consumerService.findAll();
+        console.print(consumers);
     }
 
     private void findVouchers() {
-        console.print(voucherService.findVouchers());
+        String vouchers = voucherService.findVouchers();
+        console.print(vouchers);
     }
 
 
