@@ -23,8 +23,5 @@ public class PercentDiscountVoucher extends Voucher {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return String.format("%s,fixedAmount,%d", getVoucherId(), (int)getValue());
-	}
+
 }

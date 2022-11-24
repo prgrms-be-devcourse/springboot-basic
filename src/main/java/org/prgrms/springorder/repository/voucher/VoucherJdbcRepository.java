@@ -13,6 +13,7 @@ import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -61,9 +62,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public Optional<Voucher> findById(UUID voucherId) {
-		return Optional.ofNullable(
-			jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = :voucherId",
-				Collections.singletonMap("voucherId", voucherId.toString().getBytes()), voucherRowMapper));
+		try {
+			return Optional.ofNullable(
+				jdbcTemplate.queryForObject("SELECT * FROM voucher WHERE voucher_id = :voucherId",
+					Collections.singletonMap("voucherId", voucherId.toString()), voucherRowMapper));
+		} catch (DataAccessException e) {
+			return Optional.empty();
+		}
 	}
 
 	@Override

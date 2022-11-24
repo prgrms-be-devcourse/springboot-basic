@@ -1,6 +1,7 @@
 package org.prgrms.springorder.domain.voucher;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -37,5 +38,26 @@ public abstract class Voucher {
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
+	}
+
+	// @Override
+	// public String toString() {
+	// 	return String.format("%s,%s,%d", getVoucherId(),voucherType.getName(),(int)getValue());
+	// }
+@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Voucher voucher = (Voucher)o;
+		return Double.compare(voucher.getValue(), getValue()) == 0 && Objects.equals(getVoucherId(),
+			voucher.getVoucherId()) && Objects.equals(getCreatedAt(), voucher.getCreatedAt())
+			&& getVoucherType() == voucher.getVoucherType();
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getVoucherId(), getValue(), getCreatedAt(), getVoucherType());
 	}
 }
