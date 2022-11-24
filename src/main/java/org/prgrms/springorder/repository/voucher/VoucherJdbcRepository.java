@@ -1,6 +1,5 @@
 package org.prgrms.springorder.repository.voucher;
 
-import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.VoucherFactory;
-import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -33,7 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		var value = resultSet.getInt("voucher_value");
 		var createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 		var voucherType = VoucherType.getVoucherByName(resultSet.getString("voucher_type"));
-		return VoucherFactory.createVoucher(voucherType, voucherId, value,createAt);
+		return VoucherFactory.createVoucher(voucherType, voucherId, value, createAt);
 	};
 
 	private Map<String, Object> toParamMap(Voucher voucher) {
@@ -73,7 +71,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public void delete(UUID voucherId) {
-		jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId.toString()));
+		try {
+			jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId",
+				Collections.singletonMap("voucherId", voucherId.toString()));
+		} catch (DataAccessException e) {
+			throw e;
+		}
+
 	}
 
 	@Override
