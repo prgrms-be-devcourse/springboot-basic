@@ -54,8 +54,18 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Collection<Customer> findAll() {
-        Collection<Customer> customers = new ArrayList<>(Collections.emptyList());
+    public Optional<Customer> findByName(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String name) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        List<Customer> customers = new ArrayList<>();
         for (boolean isBlocked: List.of(true, false)) {
             try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
                 customers.addAll(reader.lines()
@@ -87,6 +97,10 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         return null;
+    }
+
+    @Override
+    public void delete(UUID customerId) {
     }
 
     @Override

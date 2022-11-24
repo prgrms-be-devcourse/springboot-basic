@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -17,8 +18,15 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
-        return storage.values();
+    public List<Voucher> findByCustomer(UUID customerId) {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getOwnerId().equals(customerId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
@@ -37,6 +45,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
         }
         storage.put(voucher.getVoucherId(), voucher);
         return storage.get(voucher.getVoucherId());
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        if (findById(voucherId).isEmpty()) {
+            throw new VoucherException(String.format("No exists voucher having id %s", voucherId));
+        }
+        storage.remove(voucherId);
     }
 
     @Override

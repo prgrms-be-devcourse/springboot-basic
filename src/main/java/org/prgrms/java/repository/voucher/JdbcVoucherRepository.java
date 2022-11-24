@@ -14,10 +14,12 @@ import java.util.*;
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, amount, type, expired_at, used) VALUES (UUID_TO_BIN(:voucherId), :amount, :type, :expiredAt, :used)";
+    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, owner_id, amount, type, created_at, expired_at, used) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:ownerId), :amount, :type, :createdAt, :expiredAt, :used)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String FIND_BY_OWNER_QUERY = "SELECT * FROM vouchers WHERE owner_id = UUID_TO_BIN(:ownerId)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM vouchers";
-    private static final String UPDATE_QUERY = "UPDATE vouchers SET amount = :amount, type = :type, expired_at = :expiredAt, used = :used WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String UPDATE_QUERY = "UPDATE vouchers SET owner_id = UUID_TO_BIN(:ownerId), amount = :amount, type = :type, expired_at = :expiredAt, used = :used WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String DELETE_QUERY = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_ROWS_QUERY = "DELETE FROM vouchers";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -39,7 +41,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
+    public List<Voucher> findByCustomer(UUID customerId) {
+        return namedParameterJdbcTemplate.query(
+                FIND_BY_OWNER_QUERY,
+                Collections.singletonMap("ownerId", customerId.toString().getBytes()),
+                Mapper.mapToVoucher);
+    }
+
+    @Override
+    public List<Voucher> findAll() {
         return namedParameterJdbcTemplate.query(FIND_ALL_QUERY, Collections.emptyMap(), Mapper.mapToVoucher);
     }
 
@@ -63,6 +73,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new VoucherException("Nothing was updated");
         }
         return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        int result = namedParameterJdbcTemplate.update(DELETE_QUERY, Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (result != 1) {
+            throw new VoucherException("Noting was deleted");
+        }
     }
 
     @Override

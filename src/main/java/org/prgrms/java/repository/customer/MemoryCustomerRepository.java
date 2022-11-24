@@ -4,10 +4,7 @@ import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -20,8 +17,22 @@ public class MemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Collection<Customer> findAll() {
-        return storage.values();
+    public Optional<Customer> findByName(String name) {
+        return storage.values().stream()
+                .filter(customer -> customer.getName().equals(name))
+                .findAny();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return storage.values().stream()
+                .filter(customer -> customer.getEmail().equals(email))
+                .findAny();
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override
@@ -39,7 +50,15 @@ public class MemoryCustomerRepository implements CustomerRepository {
             throw new CustomerException(String.format("No exists customer having id %s", customer.getCustomerId()));
         }
         storage.put(customer.getCustomerId(), customer);
-        return customer;
+        return storage.get(customer.getCustomerId());
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        if (findById(customerId).isEmpty()) {
+            throw new CustomerException(String.format("No exists customer having id %s", customerId));
+        }
+        storage.remove(customerId);
     }
 
     @Override

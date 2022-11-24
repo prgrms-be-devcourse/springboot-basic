@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,7 +47,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Collection<Voucher> findAll() {
+    public List<Voucher> findByCustomer(UUID customerId) {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<Voucher> findAll() {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
             return reader.lines()
                     .map(Mapper::mapToVoucher)
@@ -75,6 +81,11 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         return null;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
     }
 
     @Override

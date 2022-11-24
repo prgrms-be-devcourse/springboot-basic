@@ -1,23 +1,24 @@
 package org.prgrms.java.domain.customer;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
     private final UUID customerId;
     private String name;
     private String email;
-    private boolean isBlocked = false;
+    private final LocalDateTime createdAt;
+    private boolean isBlocked;
 
-    public Customer(UUID customerId, String name, String email) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        this(customerId, name, email, createdAt, false);
     }
 
-    public Customer(UUID customerId, String name, String email, boolean isBlocked) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, boolean isBlocked) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
+        this.createdAt = createdAt;
         this.isBlocked = isBlocked;
     }
 
@@ -31,6 +32,10 @@ public class Customer {
 
     public String getEmail() {
         return email;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setName(String name) {
@@ -51,6 +56,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s", customerId, name, email, isBlocked);
+        return String.format("%s, %s, %s, %s, %s", customerId, name, email, createdAt, isBlocked);
     }
 }

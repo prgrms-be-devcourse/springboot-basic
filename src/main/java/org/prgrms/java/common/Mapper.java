@@ -4,6 +4,7 @@ import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.exception.CustomerException;
 import org.prgrms.java.exception.VoucherException;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -19,21 +20,27 @@ public class Mapper {
 
     public static Voucher mapToVoucher(String object) {
         String[] atoms = object.split(",");
-        UUID voucherId = UUID.fromString(atoms[0].trim());
-        String amount = atoms[1].trim();
-        String type = atoms[2].trim();
-        LocalDateTime expiredAt = LocalDateTime.parse(atoms[3].trim());
-        boolean used = Boolean.parseBoolean(atoms[3].trim());
+        if (atoms.length != 7) {
+            throw new VoucherException("Corrupted voucher data! Please Check your data.");
+        }
 
-        return mapToVoucher(type, voucherId, Long.parseLong(amount), expiredAt, used);
+        UUID voucherId = UUID.fromString(atoms[0].trim());
+        UUID ownerId = (atoms[1].trim().equals("null"))? null: UUID.fromString(atoms[1].trim());
+        String amount = atoms[2].trim();
+        String type = atoms[3].trim();
+        LocalDateTime createdAt = LocalDateTime.parse(atoms[4].trim());
+        LocalDateTime expiredAt = LocalDateTime.parse(atoms[5].trim());
+        boolean used = Boolean.parseBoolean(atoms[6].trim());
+
+        return mapToVoucher(type, voucherId, ownerId, Long.parseLong(amount), createdAt, expiredAt, used);
     }
 
-    public static Voucher mapToVoucher(String type, UUID voucherId, long amount, LocalDateTime expiredAt, boolean used) {
+    public static Voucher mapToVoucher(String type, UUID voucherId, UUID ownerId, long amount, LocalDateTime createdAt, LocalDateTime expiredAt, boolean used) {
         switch (type) {
             case "PERCENT":
-                return new PercentDiscountVoucher(voucherId, amount, used, expiredAt);
+                return new PercentDiscountVoucher(voucherId, ownerId, amount, used, createdAt, expiredAt);
             case "FIXED":
-                return new FixedAmountVoucher(voucherId, amount, used, expiredAt);
+                return new FixedAmountVoucher(voucherId, ownerId, amount, used, createdAt, expiredAt);
             default:
                 throw new VoucherException("Unknown voucher type.");
         }
@@ -41,38 +48,48 @@ public class Mapper {
 
     public static Customer mapToCustomer(String object) {
         String[] atoms = object.split(",");
+        if (atoms.length != 5) {
+            throw new CustomerException("Corrupted voucher data! Please Check your data.");
+        }
+
         UUID customerId = UUID.fromString(atoms[0].trim());
         String name = atoms[1].trim();
         String email = atoms[2].trim();
-        boolean isBlocked = Boolean.parseBoolean(atoms[3].trim());
+        LocalDateTime createdAt = LocalDateTime.parse(atoms[3].trim());
+        boolean isBlocked = Boolean.parseBoolean(atoms[4].trim());
 
-        return new Customer(customerId, name, email, isBlocked);
+        return new Customer(customerId, name, email, createdAt, isBlocked);
     }
 
 
     public static final RowMapper<Voucher> mapToVoucher = (resultSet, rowNum) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID customerId = resultSet.getBytes("owner_id") == null? null: toUUID(resultSet.getBytes("owner_id"));
         long amount = resultSet.getLong("amount");
         String type = resultSet.getString("type");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         LocalDateTime expiredAt = resultSet.getTimestamp("expired_at").toLocalDateTime();
         boolean used = resultSet.getBoolean("used");
 
-        return Mapper.mapToVoucher(type, voucherId, amount, expiredAt, used);
+        return Mapper.mapToVoucher(type, voucherId, customerId, amount, createdAt, expiredAt, used);
     };
 
     public static final RowMapper<Customer> mapToCustomer = (resultSet, rowNum) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         boolean isBlocked = resultSet.getBoolean("is_blocked");
-        return new Customer(customerId, customerName, email, isBlocked);
+        return new Customer(customerId, customerName, email, createdAt, isBlocked);
     };
 
     public static Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("ownerId", voucher.getOwnerId() == null? null: voucher.getOwnerId().toString().getBytes());
             put("amount", voucher.getAmount());
             put("type", voucher.getType());
+            put("createdAt", (voucher.getCreatedAt()));
             put("expiredAt", voucher.getExpiredAt());
             put("used", voucher.isUsed());
         }};
@@ -83,6 +100,7 @@ public class Mapper {
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
             put("email", customer.getEmail());
+            put("createdAt", customer.getCreatedAt());
             put("isBlocked", customer.isBlocked());
         }};
     }
