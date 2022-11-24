@@ -71,7 +71,6 @@ class JdbcCustomerRepositoryTest {
         this.embeddedMysql = anEmbeddedMysql(mysqlConfig)
                 .addSchema("spring_basic", classPathScript("schema.sql"))
                 .start();
-//        customerRepository.deleteAll();
     }
 
     @AfterAll

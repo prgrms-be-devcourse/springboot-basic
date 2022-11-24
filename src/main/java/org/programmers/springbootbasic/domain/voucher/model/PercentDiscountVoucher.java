@@ -13,9 +13,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final VoucherType voucherType = VoucherType.PERCENT;
 
     public PercentDiscountVoucher(UUID voucherId, long amount) {
+        validateAmountRange(amount);
         this.voucherId = voucherId;
         this.amount = amount;
-        validateAmountRange();
     }
 
     @Override
@@ -46,8 +46,8 @@ public class PercentDiscountVoucher implements Voucher {
                 amount;
     }
 
-    private void validateAmountRange() {
-        if (!(MIN_PERCENT_AMOUNT <= amount && amount <= MAX_PERCENT_AMOUNT))
+    private void validateAmountRange(long amount) {
+        if (MIN_PERCENT_AMOUNT > amount || amount > MAX_PERCENT_AMOUNT)
             throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }

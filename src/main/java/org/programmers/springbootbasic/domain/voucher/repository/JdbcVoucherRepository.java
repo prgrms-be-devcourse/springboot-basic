@@ -9,16 +9,20 @@ import org.programmers.springbootbasic.exception.CanNotUpdateException;
 import org.programmers.springbootbasic.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Repository
+@Profile("local")
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
     private final JdbcTemplate jdbcTemplate;
@@ -48,11 +52,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucher.getVoucherType().getType(),
                     voucher.getAmount()
             );
-            if(insertRow != 1) throw new CanNotInsertException("Voucher를 데이터베이스에 쓸 수 없습니다.");
+            if (insertRow != 1) throw new CanNotInsertException("Voucher를 데이터베이스에 쓸 수 없습니다.");
             return voucher;
         } catch (DataAccessException e) {
-            logger.error("Voucher를 데이터베이스에 쓸 수 없습니다.");
-            throw new CanNotInsertException(e.getMessage(), e);
+            logger.warn(e.getMessage());
+            throw new CanNotInsertException("Voucher를 데이터베이스에 쓸 수 없습니다.", e);
         }
     }
 
@@ -63,7 +67,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try{
+        try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where voucher_id = UUID_TO_BIN(?)",
                     voucherDBOutputDtoRowMapperRowMapper,
                     voucherId.toString().getBytes()));
@@ -81,11 +85,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     voucher.getAmount(),
                     voucher.getVoucherId().toString().getBytes()
             );
-            if(updateRow != 1) {
+            if (updateRow != 1) {
                 throw new CanNotInsertException("Voucher를 업데이트할 수 없습니다.");
             }
         } catch (DataAccessException e) {
-            logger.error("Voucher를 업데이트할 수 없습니다.");
+            logger.warn("Voucher를 업데이트할 수 없습니다.");
             throw new CanNotUpdateException("Voucher를 업데이트할 수 없습니다.", e);
         }
 

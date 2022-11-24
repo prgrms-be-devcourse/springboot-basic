@@ -16,9 +16,9 @@ public class CustomerService {
     private final CustomerBlackListRepository customerBlackListRepository;
     private final JdbcCustomerRepository jdbcCustomerRepository;
 
-    public CustomerService(CustomerBlackListRepository customerBlackListRepository, JdbcCustomerRepository jdbcCustomerRepository, JdbcCustomerRepository jdbcCustomerRepository1) {
+    public CustomerService(CustomerBlackListRepository customerBlackListRepository, JdbcCustomerRepository jdbcCustomerRepository) {
         this.customerBlackListRepository = customerBlackListRepository;
-        this.jdbcCustomerRepository = jdbcCustomerRepository1;
+        this.jdbcCustomerRepository = jdbcCustomerRepository;
     }
 
     public List<CustomerOutputDto> collectBlacklists() {

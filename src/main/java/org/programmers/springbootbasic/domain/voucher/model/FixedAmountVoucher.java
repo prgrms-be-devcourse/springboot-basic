@@ -17,9 +17,9 @@ public class FixedAmountVoucher implements Voucher {
     private final VoucherType voucherType = VoucherType.FIXED;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
+        validateAmountRange(amount);
         this.voucherId = voucherId;
         this.amount = amount;
-        validateAmountRange();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class FixedAmountVoucher implements Voucher {
                 amount;
     }
 
-    private void validateAmountRange() {
-        if (!(MIN_FIXED_AMOUNT <= amount && amount <= MAX_FIXED_AMOUNT))
+    private void validateAmountRange(long amount) {
+        if (MIN_FIXED_AMOUNT > amount || amount > MAX_FIXED_AMOUNT)
             throw new WrongRangeInputException("올바르지 않은 Amount의 값 범위입니다.");
     }
 }

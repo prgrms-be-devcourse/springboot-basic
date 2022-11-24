@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/spring_basic?serverTimezone=Asia/Seoul
     username: root
-    password: 
+    password: cjdrn613
 
 ---
 spring.profiles.active: file

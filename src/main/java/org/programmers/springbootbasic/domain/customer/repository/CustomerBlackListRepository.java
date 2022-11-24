@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,10 @@ public class CustomerBlackListRepository {
     private final File csv;
     private static final int BLACKLIST_ID_INDEX = 0;
     private static final int BLACKLIST_NAME_INDEX = 1;
+    private static final int BLACKLIST_EMAIL_INDEX = 2;
+    private static final int BLACKLIST_CREATED_AT_INDEX = 3;
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
 
     public CustomerBlackListRepository(@Value("${files.location.blacklist}") String CSV_FILE_PATH) {
         this.csv = new File(CSV_FILE_PATH);
@@ -45,6 +51,10 @@ public class CustomerBlackListRepository {
     }
 
     private Customer assembleBlackList(String[] blackListInfo) {
-        return new Customer(Long.parseLong(blackListInfo[BLACKLIST_ID_INDEX]), blackListInfo[BLACKLIST_NAME_INDEX], null, null);
+        return new Customer(Long.parseLong(blackListInfo[BLACKLIST_ID_INDEX]),
+                blackListInfo[BLACKLIST_NAME_INDEX],
+                blackListInfo[BLACKLIST_EMAIL_INDEX],
+                LocalDateTime.parse(blackListInfo[BLACKLIST_CREATED_AT_INDEX], formatter));
     }
+
 }

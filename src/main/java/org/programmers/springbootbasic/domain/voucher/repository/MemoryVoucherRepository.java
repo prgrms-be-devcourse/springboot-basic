@@ -47,9 +47,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
         throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 
-    /**
-     * @param voucherId
-     */
     @Override
     public void deleteById(UUID voucherId) {
         throw new NotSupportedException("지원하지 않는 기능입니다.");
