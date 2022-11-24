@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
@@ -24,13 +25,12 @@ import static org.hamcrest.Matchers.isA;
 class ConsumerFileRepositoryTest {
 
     private String filePath;
+    @Autowired
+    private ConsumerFileRepository consumerFileRepository;
 
     ConsumerFileRepositoryTest(@Value("${file.consumerBlacklistPath}") String filePath) {
         this.filePath = filePath;
     }
-
-    @Autowired
-    private ConsumerFileRepository consumerFileRepository;
 
     @BeforeEach
     void setup() {
@@ -41,7 +41,6 @@ class ConsumerFileRepositoryTest {
         }
     }
 
-
     @Test
     @DisplayName("소비자를 파일로 저장하고 저장된 파일명과 소비자의 ID를 검증하라")
     void insert() {
@@ -50,10 +49,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        File consumerFile = new File(filePath + consumer.getConsumerId());
+        File consumerFile = new File(filePath + consumer.getId());
 
         //then
-        assertThat(consumerFile.getName(), is(consumer.getConsumerId()));
+        assertThat(consumerFile.getName(), is(consumer.getId()));
     }
 
     @Test
@@ -71,7 +70,7 @@ class ConsumerFileRepositoryTest {
         consumer.update(updateUsername, updateEmail);
         consumerFileRepository.update(consumer);
 
-        File consumerFile = new File(filePath + consumer.getConsumerId());
+        File consumerFile = new File(filePath + consumer.getId());
 
         //then
         assertThat(toml.read(consumerFile).getString("name"), is(updateUsername));
@@ -124,7 +123,7 @@ class ConsumerFileRepositoryTest {
         Optional<Consumer> optionalConsumer = consumerFileRepository.findById(uuid.toString());
 
         //then
-        assertThat(optionalConsumer.get().getConsumerId(), is(consumer.getConsumerId()));
+        assertThat(optionalConsumer.get().getId(), is(consumer.getId()));
 
     }
 
@@ -137,10 +136,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        Optional<Consumer> foundConsumer  = consumerFileRepository.findByName(name);
+        Optional<Consumer> foundConsumer = consumerFileRepository.findByName(name);
 
         //then
-        assertThat(foundConsumer.get().getConsumerId(), is(consumer.getConsumerId()));
+        assertThat(foundConsumer.get().getId(), is(consumer.getId()));
     }
 
     @Test
@@ -152,10 +151,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        Optional<Consumer> foundConsumer  = consumerFileRepository.findByEmail(email);
+        Optional<Consumer> foundConsumer = consumerFileRepository.findByEmail(email);
 
         //then
-        assertThat(foundConsumer.get().getConsumerId(), is(consumer.getConsumerId()));
+        assertThat(foundConsumer.get().getId(), is(consumer.getId()));
     }
 
     @Test

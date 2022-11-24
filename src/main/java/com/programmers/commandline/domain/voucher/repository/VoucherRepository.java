@@ -6,7 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface VoucherRepository {
-    String save(Voucher voucher);
+    Voucher insert(Voucher voucher);
+
+    Voucher update(Voucher voucher);
+
+    int count();
+
     List<Voucher> findAll();
+
     Optional<Voucher> findById(String voucherId);
+
+    void deleteAll();
 }

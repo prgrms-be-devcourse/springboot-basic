@@ -8,11 +8,8 @@ import com.programmers.commandline.global.entity.Menu;
 import com.programmers.commandline.global.entity.Power;
 import com.programmers.commandline.global.io.Console;
 import com.programmers.commandline.global.io.Message;
-import com.programmers.commandline.global.util.Verification;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -29,7 +26,7 @@ public class VoucherApplication {
     }
 
     public void run() {
-        power.powerOn(); // 전원을 켜기
+        power.powerOn();
         while (power.isPower()) {
             try {
                 console.print(Message.SELECT_MENU.getMessage());
@@ -49,8 +46,7 @@ public class VoucherApplication {
             case VOUCHER_LIST -> findVouchers();
             case BLACK_CONSUMER_LIST -> findBlackConsumers();
             case CONSUMER -> insertConsumer();
-            case ERROR -> error();
-        };
+        }
     }
 
     private void insertConsumer() {
@@ -71,20 +67,16 @@ public class VoucherApplication {
     private void create() {
         console.print(Message.SELECT_VOUCHER.getMessage());
 
-        final String input = console.read();
-        VoucherType voucherType = VoucherType.ofNumber(input);
+        final String input = console.readNumber();
+        int code = Integer.parseInt(input);
+        VoucherType voucherType = VoucherType.ofNumber(code);
 
         console.print(voucherType.getMessage());
 
-        String discount = console.read();
-        Verification.validateParseToNumber(discount);
-        String uuid = voucherService.create(voucherType, Long.parseLong(discount)).toString();
+        String discount = console.readNumber();
+        String uuid = voucherService.insert(voucherType, Long.parseLong(discount));
 
         console.print(uuid);
-    }
-
-    private void error() {
-        console.print(Message.MENU_ERROR.getMessage());
     }
 
     private void findBlackConsumers() {
@@ -94,4 +86,6 @@ public class VoucherApplication {
     private void findVouchers() {
         console.print(voucherService.findVouchers());
     }
+
+
 }

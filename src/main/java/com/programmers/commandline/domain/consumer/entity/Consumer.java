@@ -1,42 +1,41 @@
 package com.programmers.commandline.domain.consumer.entity;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Consumer {
-
-    private String consumerId;
+    private String id;
     private String name;
     private String email;
     private String createdAt;
     private String lastLoginAt;
 
-    public Consumer(UUID consumerId, String name, String email, LocalDateTime createdAt) {
+    public Consumer(UUID id, String name, String email, LocalDateTime createdAt) {
         validateName(name);
-        this.consumerId = consumerId.toString();
+        this.id = id.toString();
         this.name = name;
         this.email = email;
         this.createdAt = createdAt.toString();
     }
 
-    public Consumer(UUID consumerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Consumer(UUID id, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateName(name);
-        this.consumerId = consumerId.toString();
+        this.id = id.toString();
         this.name = name;
         this.email = email;
-        this.lastLoginAt = lastLoginAt.toString();
-        this.createdAt = createdAt != null ? createdAt.toString() : null;
+        this.createdAt = (createdAt != null) ? createdAt.toString() : null;
+        this.lastLoginAt = (lastLoginAt != null) ? lastLoginAt.toString() : null;
 
     }
+
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new RuntimeException("Name should not be blank");
+            throw new IllegalArgumentException("Name should not be blank");
         }
     }
 
-    public String getConsumerId() {
-        return consumerId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -47,16 +46,23 @@ public class Consumer {
         return email;
     }
 
-    public LocalDateTime getLastLoginAt() {
-        return LocalDateTime.parse(lastLoginAt);
+    public String getLastLoginAt() {
+        return this.lastLoginAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return LocalDateTime.parse(createdAt);
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     public void update(String name, String email) {
         this.name = name;
         this.email = email;
     }
+
+    @Override
+    public String toString() {
+        return String.format("ID: %s Name: %s Email: %s CreatedAt: %s LastLoginAt: %s"
+                , this.id, this.name, this.email, this.createdAt, this.lastLoginAt);
+    }
+
 }

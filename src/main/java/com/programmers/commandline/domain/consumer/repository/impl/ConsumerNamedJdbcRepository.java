@@ -13,8 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -22,47 +20,46 @@ import java.util.*;
 @Profile("jdbc")
 public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
-    Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
-
+    private final RowMapper<Consumer> consumerRowMapper = (resultSet, i) -> {
+        UUID id = UUID.fromString(resultSet.getString("id"));
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        LocalDateTime createdAt = LocalDateTime.parse(resultSet.getString("created_at"));
+        LocalDateTime lastLoginAt = resultSet.getString("last_login_at") != null ?
+                LocalDateTime.parse(resultSet.getString("last_login_at")) : null;
+        return new Consumer(id, name, email, createdAt, lastLoginAt);
+    };
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
 
     public ConsumerNamedJdbcRepository(MyDataSource myDataSource) {
         this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(myDataSource.getDataSource());
     }
 
-    private static final RowMapper<Consumer> consumerRowMapper = (resultSet, i) -> {
-        var consumerId = toUUID(resultSet.getBytes("consumer_id"));
-        var consumerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        LocalDateTime createdAt = LocalDateTime.parse(resultSet.getString("created_at"));
-        LocalDateTime lastLoginAt = resultSet.getString("last_login_at") != null ?
-                LocalDateTime.parse(resultSet.getString("last_login_at")) : null;
-        return new Consumer(consumerId, consumerName, email, createdAt, lastLoginAt);
-    };
-
     private Map<String, Object> toParamMap(Consumer consumer) {
-        return new HashMap<>() {{
-            put("consumerId", consumer.getConsumerId());
-            put("name", consumer.getName());
-            put("email", consumer.getEmail());
-            put("createdAt", Timestamp.valueOf(consumer.getCreatedAt()));
-            put("lastLoginAt", consumer.getLastLoginAt() != null ? Timestamp.valueOf(consumer.getLastLoginAt()) : null);
-        }};
+        return new HashMap<>() {
+            {
+                put("id", consumer.getId());
+                put("name", consumer.getName());
+                put("email", consumer.getEmail());
+                put("createdAt", consumer.getCreatedAt());
+                put("lastLoginAt", consumer.getLastLoginAt());
+            }
+        };
     }
 
     @Override
     public Consumer insert(Consumer consumer) {
-        String sql = "INSERT INTO consumer(consumer_id, name, email, created_at, last_login_at) " +
-                "VALUES (:consumerId, :name, :email, :createdAt, :lastLoginAt)";
+        String sql = "INSERT INTO consumer(id, name, email, created_at, last_login_at) " +
+                "VALUES (:id, :name, :email, :createdAt, :lastLoginAt)";
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
-                .addValue("consumerId", consumer.getConsumerId())
+                .addValue("id", consumer.getId())
                 .addValue("name", consumer.getName())
                 .addValue("email", consumer.getEmail())
-                .addValue("createdAt", Timestamp.valueOf(consumer.getCreatedAt()).toLocalDateTime())
-                .addValue("lastLoginAt", consumer.getLastLoginAt() != null ?
-                        Timestamp.valueOf(consumer.getLastLoginAt()) : null);
+                .addValue("createdAt", consumer.getCreatedAt())
+                .addValue("lastLoginAt", consumer.getLastLoginAt());
 
-        var update = namedParameterJdbcTemplate.update(sql, sqlParameterSource);
+        int update = namedParameterJdbcTemplate.update(sql, sqlParameterSource);
 
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
@@ -72,9 +69,8 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     @Override
     public Consumer update(Consumer consumer) {
-        int update = namedParameterJdbcTemplate.update("UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE consumer_id = :consumerId",
-                toParamMap(consumer)
-        );
+        String sql = "UPDATE consumer SET name = :name, email = :email, last_login_at = :lastLoginAt WHERE id = :id";
+        int update = namedParameterJdbcTemplate.update(sql, toParamMap(consumer));
 
         if (update != 1) {
             throw new RuntimeException("Noting was updated");
@@ -84,20 +80,25 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     @Override
     public int count() {
-        return namedParameterJdbcTemplate.queryForObject("select count(*) from consumer", Collections.emptyMap(), Integer.class);
+        String sql = "select count(*) from consumer";
+        return namedParameterJdbcTemplate.queryForObject(sql, Collections.emptyMap(), Integer.class);
     }
 
     @Override
     public List<Consumer> findAll() {
-        return namedParameterJdbcTemplate.query("select * from consumer", consumerRowMapper);
+        String sql = "select * from consumer";
+        return namedParameterJdbcTemplate.query(sql, consumerRowMapper);
     }
 
     @Override
     public Optional<Consumer> findById(String consumerId) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from consumer WHERE consumer_id = :consumerId",
-                    Collections.singletonMap("consumerId", consumerId),
-                    consumerRowMapper));
+            String sql = "select * from consumer WHERE id = :id";
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                    sql,
+                    Collections.singletonMap("id", consumerId),
+                    consumerRowMapper
+            ));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -107,9 +108,12 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     @Override
     public Optional<Consumer> findByName(String name) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from consumer WHERE name = :name",
+            String sql = "select * from consumer WHERE name = :name";
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                    sql,
                     Collections.singletonMap("name", name),
-                    consumerRowMapper));
+                    consumerRowMapper
+            ));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -119,9 +123,12 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     @Override
     public Optional<Consumer> findByEmail(String email) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * from consumer WHERE email = :email",
+            String sql = "select * from consumer WHERE email = :email";
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                    sql,
                     Collections.singletonMap("email", email),
-                    consumerRowMapper));
+                    consumerRowMapper
+            ));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -130,11 +137,7 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
 
     @Override
     public void deleteAll() {
-        namedParameterJdbcTemplate.update("DELETE FROM consumer", Collections.emptyMap());
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+        String sql = "DELETE FROM consumer";
+        namedParameterJdbcTemplate.update(sql, Collections.emptyMap());
     }
 }

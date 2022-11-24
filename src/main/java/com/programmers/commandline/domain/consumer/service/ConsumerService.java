@@ -3,7 +3,6 @@ package com.programmers.commandline.domain.consumer.service;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
 import com.programmers.commandline.global.io.Message;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,14 +19,15 @@ public class ConsumerService {
 
     public String insert(UUID uuid, String name, String email) {
         Consumer consumer = new Consumer(uuid, name, email, LocalDateTime.now());
-        return consumerRepository.insert(consumer).getConsumerId().toString();
+        return consumerRepository.insert(consumer).getId();
     }
 
     public String findAll() {
         StringBuilder consumers = new StringBuilder();
 
         consumerRepository.findAll().forEach(consumer -> {
-            consumers.append(consumer.toString());
+            consumers.append(consumer.getId());
+            consumers.append(consumer.getName());
         });
 
         return consumers.toString();
@@ -40,7 +40,7 @@ public class ConsumerService {
         });
         consumer.update(name, email);
 
-        return consumerRepository.update(consumer).getConsumerId().toString();
+        return consumerRepository.update(consumer).getId();
     }
 
     public Consumer findById(String consumerId) {

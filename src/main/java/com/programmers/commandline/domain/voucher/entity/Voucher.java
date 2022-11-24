@@ -1,23 +1,43 @@
 package com.programmers.commandline.domain.voucher.entity;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public abstract class Voucher {
-    private String voucherId;
-    private final VoucherType voucherType;
+    private String id;
+    private String type;
+    private long discount;
+    private String createdAt;
 
-    protected Voucher(UUID uuid, VoucherType type) {
-        this.voucherId = uuid.toString();
-        this.voucherType = type;
+    protected Voucher(UUID uuid, VoucherType type, long discount, LocalDateTime createdAt) {
+        this.id = uuid.toString();
+        this.type = type.toString();
+        this.discount = discount;
+        this.createdAt = createdAt.toString();
     }
 
-    public String getId() {
-        return this.voucherId;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
     public String getType() {
-        return this.voucherType.toString();
+        return type;
     }
 
-    public abstract Long getDiscount(Long price);
+    public String getId() {
+        return id;
+    }
+
+    public long getDiscount() {
+        return discount;
+    }
+
+    public void update(long discount) {
+        this.discount = discount;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("ID: %s Type: %s Discount: %s CreatedAt: %s", this.id, this.type, this.discount, this.createdAt);
+    }
 }

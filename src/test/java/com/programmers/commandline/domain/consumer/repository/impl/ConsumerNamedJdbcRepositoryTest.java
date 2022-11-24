@@ -1,10 +1,12 @@
 package com.programmers.commandline.domain.consumer.repository.impl;
 
 import com.programmers.commandline.domain.consumer.entity.Consumer;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @SpringBootTest
-@Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConsumerNamedJdbcRepositoryTest {
 
@@ -30,13 +31,13 @@ class ConsumerNamedJdbcRepositoryTest {
 
     @Test
     @DisplayName("소비자를 추가를 검증하라")
-    public void testInsert() {
+    public void Insert() {
         //given
         Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
-        Optional<Consumer> optionalConsumer = consumerNamedJdbcRepository.findById(consumer.getConsumerId());
+        Optional<Consumer> optionalConsumer = consumerNamedJdbcRepository.findById(consumer.getId());
 
         //then
         assertThat(optionalConsumer.isEmpty(), is(false));
@@ -46,12 +47,11 @@ class ConsumerNamedJdbcRepositoryTest {
     @DisplayName("소비자를 저장하고 해당 소비자를 업데이트 합니다, 그리고 업데이트 한 이름과 이메일을 검증하라")
     void update() {
         //given
+        String updateName = "update_user";
+        String updateEmail = "update_user@navr.com";
         Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
 
         //when
-        String updateName = "update_user";
-        String updateEmail = "update_user@navr.com";
-
         consumerNamedJdbcRepository.insert(consumer);
         consumer.update(updateName, updateEmail);
 
@@ -99,7 +99,9 @@ class ConsumerNamedJdbcRepositoryTest {
         List<Consumer> consumers = consumerNamedJdbcRepository.findAll();
 
         //then
-        consumers.forEach(foundConsumer -> {assertThat(foundConsumer.getConsumerId(),is(foundConsumer.getConsumerId()));});
+        consumers.forEach(foundConsumer -> {
+            assertThat(foundConsumer.getId(), is(consumer.getId()));
+        });
     }
 
     @Test
@@ -114,7 +116,7 @@ class ConsumerNamedJdbcRepositoryTest {
         Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findById(uuid.toString());
 
         //then
-        assertThat(foundConsumer.get().getConsumerId(), is(uuid));
+        assertThat(foundConsumer.get().getId(), is(uuid.toString()));
     }
 
     @Test
