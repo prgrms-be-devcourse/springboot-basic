@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -44,6 +45,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         };
     }
 
+    @Transactional
     @Override
     public Optional<Voucher> insert(Voucher voucher) {
         try {
@@ -55,6 +57,7 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         }
     }
 
+    @Transactional
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
@@ -71,17 +74,19 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         }
     }
 
+    @Transactional
     @Override
     public List<Voucher> findAllVaucher() {
         return namedParameterJdbcTemplate.query(FIND_ALL_SQL, rowMapper);
     }
 
-
+    @Transactional
     @Override
     public void deleteById(UUID voucherId) {
         namedParameterJdbcTemplate.update(DELETE_SQL, Collections.singletonMap("voucherId", voucherId.toString()));
     }
 
+    @Transactional
     @Override
     public void deleteAll() {
         namedParameterJdbcTemplate.update(DELETE_ALL_SQL, Collections.emptyMap());

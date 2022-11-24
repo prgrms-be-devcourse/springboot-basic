@@ -1,13 +1,42 @@
 <!DOCTYPE html>
-<html lang="kr">
+<html lang="kr"
+      layout:decorate="~{layout/voucher-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>바우쳐 조회 페이지</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" rel="stylesheet">
+    <title>바우쳐 생성 페이지</title>
 </head>
-<body>
+<section layout:fragment="content">
+    <form class="mb-3" method="post" th:action="@{/vouchers/new}">
+        <div class="mb-3">
+            <label class="form-label" for="voucherType">바우쳐 타입을 골라주세요</label>
+            <select aria-label="Default select example" class="form-select" id="voucherType" name="voucherType">
+                <!--            <option selected>Open this select menu</option>-->
+                <option th:each="voucherType:${voucherTypes}" th:text="${voucherType.name()}"
+                        th:value="${voucherType.name()}">One
+                </option>
+            </select>
+        </div>
 
-</body>
+        <div class="mb-3">
+            <label class="form-label" for="amountOrPercent">
+                값을 입력해 주세요
+            </label>
+            <input class="form-control" id="amountOrPercent" name="amountOrPercent" required type="number">
+            <!--            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>-->
+        </div>
+        <div class="d-grid gap-2 ">
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+    <div class="alert alert-danger d-flex align-items-center" role="alert" th:if="${createVoucherFail}">
+        <svg aria-label="Danger:" class="bi flex-shrink-0 me-2" height="24" role="img" width="24">
+            <use xlink:href="#exclamation-triangle-fill"/>
+        </svg>
+        <div>
+            바우쳐 생성에 실패했습니다. 다시 입력해 주세요
+        </div>
+    </div>
+</section>
+
 </html>
