@@ -54,7 +54,7 @@
         <th scope="row" th:text="${voucher.voucherId}"></th>
         <th scope="row" th:text="${voucher.type}"></th>
         <th scope="row" th:text="${voucher.value}"></th>
-        <th>
+        <th th:if="${!voucher.isAssigned}">
             <form method="post" th:action="@{/customers/assign/{customerId}/{voucherId} (customerId = ${customer.customerId}, voucherId = ${voucher.voucherId})}">
                 <button btn-primary>바우처 할당</button>
             </form>
