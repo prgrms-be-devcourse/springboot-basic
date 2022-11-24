@@ -43,9 +43,10 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 
     @Override
     public void afterPropertiesSet() {
-        try {
-            FileInputStream fileInputStream = new FileInputStream(voucherFilePath);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        try (
+                FileInputStream fileInputStream = new FileInputStream(voucherFilePath);
+                ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        ) {
             List<Voucher> vouchers;
             while ((vouchers = (List<Voucher>) objectInputStream.readObject()) != null) {
                 vouchers.forEach(voucher -> storage.put(voucher.getVoucherId(), voucher));
