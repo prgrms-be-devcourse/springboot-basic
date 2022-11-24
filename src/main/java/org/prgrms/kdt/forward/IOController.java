@@ -11,12 +11,13 @@ import org.prgrms.kdt.forward.io.Output;
 import org.prgrms.kdt.view.ConsoleView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class IOController {
+public class IOController implements CommandLineRunner {
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
@@ -33,7 +34,8 @@ public class IOController {
         this.consoleView = consoleView;
     }
 
-    public void run() {
+    @Override
+    public void run(String... args) throws Exception {
         boolean exit = false;
         logger.info("Start : Voucher Manage Program");
         output.write(consoleView.introduceCommand());
