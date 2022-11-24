@@ -38,4 +38,18 @@ public class HashMapVoucherRepository implements VoucherRepository {
     public void deleteVoucher(UUID voucherId) {
         map.remove(voucherId);
     }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        List<Voucher> vouchers = new ArrayList<>();
+        for (UUID id : map.keySet()) {
+            Voucher voucher = map.get(id);
+
+            if (voucher.getType().toString().equals(name)) {
+                vouchers.add(voucher);
+            }
+        }
+
+        return vouchers;
+    }
 }

@@ -83,4 +83,14 @@ public class DbVoucherRepository implements VoucherRepository {
     public void deleteVoucher(UUID voucherId) {
         jdbcTemplate.update(DELETE_VOUCHER, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
     }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        try {
+            return jdbcTemplate.query(SELECT_BY_TYPE, Collections.singletonMap("voucherType", name), voucherRowMapper);
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
+        }
+    }
 }

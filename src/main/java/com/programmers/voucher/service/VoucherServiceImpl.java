@@ -2,6 +2,7 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
+import com.programmers.voucher.voucher.VoucherType;
 import com.programmers.voucher.voucher.VoucherValidator;
 import com.programmers.wallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,11 @@ public class VoucherServiceImpl implements VoucherService {
     @Transactional
     public void deleteVoucher(UUID voucherId) {
         voucherRepository.deleteVoucher(voucherId);
+    }
+
+    @Override
+    public List<Voucher> getTypeVoucher(String type) {
+        VoucherType validateType = VoucherType.getValidateVoucherType(type);
+        return voucherRepository.findByType(validateType.name());
     }
 }

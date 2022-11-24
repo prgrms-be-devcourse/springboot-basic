@@ -17,4 +17,6 @@ public interface VoucherService {
     void deleteAll();
 
     void deleteVoucher(UUID voucherId);
+
+    List<Voucher> getTypeVoucher(String type);
 }

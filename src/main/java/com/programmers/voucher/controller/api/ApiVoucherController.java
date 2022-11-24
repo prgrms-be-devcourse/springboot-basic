@@ -52,4 +52,10 @@ public class ApiVoucherController {
         return new ResponseEntity<>(voucher, OK);
     }
 
+    @GetMapping("/api/vouchers/type/{type}")
+    public ResponseEntity<List<Voucher>> findByType(@RequestBody @PathVariable("type") String type) {
+        List<Voucher> vouchers = voucherService.getTypeVoucher(type);
+
+        return new ResponseEntity<>(vouchers, OK);
+    }
 }

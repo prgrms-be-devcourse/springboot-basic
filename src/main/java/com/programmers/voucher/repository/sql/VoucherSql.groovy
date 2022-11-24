@@ -25,16 +25,23 @@ class VoucherSql {
     """
 
     public static final String DELETE_ALL = """
-        delete from voucher
+        DELETE FROM voucher
     """
 
     public static final String DELETE_VOUCHER = """
-        delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)
+        DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)
     """
 
     public static final String UPDATE_ASSIGN = """
-        update voucher set assigned = :assigned
-        where voucher_id = UUID_TO_BIN(:voucherId)
+        UPDATE voucher SET assigned = :assigned
+        WHERE voucher_id = UUID_TO_BIN(:voucherId)
     """
 
+
+    public static final String SELECT_BY_TYPE = """
+        SELECT v.voucher_id, v.create_at, v.assigned, r.voucher_type, r.voucher_value
+        FROM voucher v join voucher_rule r
+        ON v.voucher_id = r.voucher_id
+        WHERE r.voucher_type = :voucherType 
+    """
 }

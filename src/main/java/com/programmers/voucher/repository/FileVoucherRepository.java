@@ -3,6 +3,7 @@ package com.programmers.voucher.repository;
 import com.programmers.voucher.repository.dumper.Dumper;
 import com.programmers.voucher.repository.loader.Loader;
 import com.programmers.voucher.voucher.Voucher;
+import com.programmers.voucher.voucher.VoucherType;
 import org.ini4j.Wini;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -74,5 +75,19 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteVoucher(UUID voucherId) {
         wini.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        List<Voucher> vouchers = new ArrayList<>();
+        
+        for (UUID key : cacheMap.keySet()) {
+            Voucher voucher = cacheMap.get(key);
+            if (voucher.getType().toString().equals(name)) {
+                vouchers.add(voucher);
+            }
+        }
+
+        return vouchers;
     }
 }
