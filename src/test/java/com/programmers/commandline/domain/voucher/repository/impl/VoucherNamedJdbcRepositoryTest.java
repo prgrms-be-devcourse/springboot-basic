@@ -30,7 +30,7 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("voucher 발급하고 검증하라")
+    @DisplayName("voucher 발급하고 voucher 를 조회하여 정상적으로 insert 되었는지 검증하자")
     void insert() {
         //given
         long discount = 100L;
@@ -46,8 +46,9 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("voucher discount 를 업데이트 하고 검증하라")
+    @DisplayName("voucher 생성하고 update를 통해서 discount를 update 하자 그리고 discount가 변경되었는지 검증하자")
     void update() {
+
         //given
         UUID id = UUID.randomUUID();
         long discount = 100L;
@@ -66,6 +67,7 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처를 생성하고 생성된 바우처의 숫자를 검증하자")
     void count() {
 
         //given
@@ -84,6 +86,7 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처를 생성하고 모든 바우처를 조회하자 그리고 조회된 바우처와 생성할때 바우처를 비교해서 검증하자")
     void findAll() {
         //given
         UUID id = UUID.randomUUID();
@@ -101,6 +104,7 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처를 생성하고 생성할때 사용한 ID를 활용하여 findById를 검증하자")
     void findById() {
         //given
         UUID id = UUID.randomUUID();
@@ -118,6 +122,7 @@ class VoucherNamedJdbcRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처를 생성하고 deleteAll 매서드를 이용해서 모두 삭제하자 그리고 findAll해서 조회된 voucher의 크기를 검증하자")
     void deleteAll() {
         //given
         UUID id = UUID.randomUUID();

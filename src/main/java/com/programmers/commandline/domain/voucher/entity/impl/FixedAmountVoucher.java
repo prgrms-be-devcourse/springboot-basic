@@ -14,7 +14,6 @@ public class FixedAmountVoucher extends Voucher {
 
     public static Voucher of(UUID uuid, long discount) {
         validation(discount);
-
         return new FixedAmountVoucher(uuid, discount);
     }
 
