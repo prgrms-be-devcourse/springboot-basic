@@ -1,12 +1,13 @@
 package org.programmers.springbootbasic.data;
 
+import org.programmers.springbootbasic.exception.WrongTypeInputException;
+
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED("fixed"), PERCENT("percent"), WRONG_INPUT("wrong");
+    FIXED("fixed"), PERCENT("percent");
 
     private final String type;
 
@@ -21,12 +22,12 @@ public enum VoucherType {
     private static final Map<String, VoucherType> BY_TYPE = Stream.of(values())
             .collect(Collectors.toMap(VoucherType::getType, e -> e));
 
-    private static VoucherType filterNullInput(Optional<VoucherType> optionalType) {
-        if(optionalType.isEmpty()) return VoucherType.WRONG_INPUT;
-        else return optionalType.get();
+    private static VoucherType filterNullInput(VoucherType voucherType) {
+        if (voucherType == null) throw new WrongTypeInputException("목록에 없는 Voucher 입력 커맨드입니다.");
+        return voucherType;
     }
 
     public static VoucherType valueOfType(String type) {
-        return filterNullInput(Optional.ofNullable(BY_TYPE.get(type)));
+        return filterNullInput(BY_TYPE.get(type));
     }
 }

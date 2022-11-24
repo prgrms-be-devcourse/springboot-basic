@@ -2,15 +2,16 @@ package org.programmers.springbootbasic.service;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springbootbasic.data.VoucherType;
-import org.programmers.springbootbasic.domain.FixedAmountVoucher;
-import org.programmers.springbootbasic.domain.PercentDiscountVoucher;
-import org.programmers.springbootbasic.domain.Voucher;
-import org.programmers.springbootbasic.domain.VoucherFactory;
-import org.programmers.springbootbasic.dto.VoucherDto;
-import org.programmers.springbootbasic.exception.WrongTypeInputException;
-import org.programmers.springbootbasic.repository.MemoryVoucherRepository;
+import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
+import org.programmers.springbootbasic.domain.voucher.model.Voucher;
+import org.programmers.springbootbasic.domain.voucher.VoucherFactory;
+import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
+import org.programmers.springbootbasic.domain.voucher.service.VoucherService;
+import org.programmers.springbootbasic.exception.WrongRangeInputException;
+import org.programmers.springbootbasic.domain.voucher.repository.MemoryVoucherRepository;
 
 class VoucherServiceTest {
     VoucherService voucherService;
@@ -22,12 +23,15 @@ class VoucherServiceTest {
 
 
     @Test
-    public void 바우처_생성_테스트() throws Exception {
+    @DisplayName("Voucher 타입 문자열에 맞게 Voucher를 생성해야 한다.")
+    void 바우처_생성_타입_확인_테스트() throws Exception {
         //given
+        VoucherInputDto fixedVoucherInputDto = new VoucherInputDto("fixed", 1000);
+        VoucherInputDto percentVoucherInputDto = new VoucherInputDto("percent", 10);
 
         // when
-        Voucher fixedVoucher = voucherService.createVoucher(new VoucherDto(VoucherType.FIXED, 10));
-        Voucher percentVoucher = voucherService.createVoucher(new VoucherDto(VoucherType.PERCENT, 10));
+        Voucher fixedVoucher = voucherService.createVoucher(fixedVoucherInputDto);
+        Voucher percentVoucher = voucherService.createVoucher(percentVoucherInputDto);
 
         //then
         Assertions.assertThat(fixedVoucher).isInstanceOf(FixedAmountVoucher.class);
@@ -36,26 +40,29 @@ class VoucherServiceTest {
     }
 
     @Test
-    public void 바우처_생성_실패_테스트() throws Exception {
+    @DisplayName("생성된 Voucher가 올바르게 저장되어야 한다.")
+    void 바우처_생성시_저장_테스트() throws Exception {
         //given
-        VoucherDto voucherDto = new VoucherDto(VoucherType.WRONG_INPUT, 20);
+        Voucher percentVoucher = voucherService.createVoucher(new VoucherInputDto("percent", 20));
+
+        //when
+        Voucher savedVoucher = voucherService.collectVouchers().get(0);
+
+        //then
+        Assertions.assertThat(percentVoucher).isEqualTo(savedVoucher);
+    }
+
+    @Test
+    @DisplayName("잘못된 바우처 amount 입력 시 WrongRangeInputException을 발생시켜야 한다.")
+    void 바우처_생성_실패_테스트() throws Exception {
+        //given
+        VoucherInputDto voucherDto = new VoucherInputDto("percent", 120);
         // when
 
         //then
         Assertions.assertThatThrownBy(() -> {
             voucherService.createVoucher(voucherDto);
-        }).isInstanceOf(WrongTypeInputException.class);
+        }).isInstanceOf(WrongRangeInputException.class);
     }
 
-    @Test
-    public void 바우처_저장_테스트() throws Exception {
-        //given
-
-        // when
-        Voucher percentVoucher = voucherService.createVoucher(new VoucherDto(VoucherType.PERCENT, 20));
-        Voucher savedVoucher = voucherService.lookupVoucher().get(0);
-
-        //then
-        Assertions.assertThat(percentVoucher).isEqualTo(savedVoucher);
-    }
 }
