@@ -28,7 +28,7 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("바우처를 파일로 등록할 수 있다.")
     void testInsert() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         Voucher insertedFixedAmountVoucher = voucherRepository.insert(fixedAmountVoucher);
 
@@ -40,8 +40,8 @@ class FileVoucherRepositoryTest {
     void testInsertSameIdVoucher() {
         assertThrows(VoucherException.class, () -> {
             UUID voucherId = UUID.randomUUID();
-            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 100, LocalDateTime.now());
-            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, 10, LocalDateTime.now());
+            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 100, LocalDateTime.now(), LocalDateTime.now());
+            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, 10, LocalDateTime.now(), LocalDateTime.now());
 
             voucherRepository.insert(fixedAmountVoucher);
             voucherRepository.insert(percentDiscountVoucher);
@@ -51,8 +51,8 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("등록한 바우처를 파일에서 찾을 수 있다.")
     void testFindById() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now(), LocalDateTime.now());
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
@@ -65,8 +65,8 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("파일에 등록한 바우처와 전체 인스턴스의 개수가 일치한다.")
     void testFindAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
@@ -78,8 +78,8 @@ class FileVoucherRepositoryTest {
     @Test
     @DisplayName("파일에 등록한 개수와 전체 삭제한 개수가 같다.")
     void testDeleteAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);

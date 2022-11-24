@@ -15,9 +15,9 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인 비율이 1~100 사이이면 정상적으로 바우처가 생성된다.")
     void testCreateVoucher() {
         assertDoesNotThrow(() -> {
-            new PercentDiscountVoucher(UUID.randomUUID(), 1, LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+            new PercentDiscountVoucher(UUID.randomUUID(), 1, LocalDateTime.now(), LocalDateTime.now());
+            new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now(), LocalDateTime.now());
+            new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
         });
     }
 
@@ -25,8 +25,8 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인 비율이 1 미만 100 초과이면 바우처가 생성될 수 없다.")
     void testCreateNegativeAmountVoucher() {
         assertThrows(VoucherException.class, () -> {
-            new PercentDiscountVoucher(UUID.randomUUID(), -1, LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 101, LocalDateTime.now());
+            new PercentDiscountVoucher(UUID.randomUUID(), -1, LocalDateTime.now(), LocalDateTime.now());
+            new PercentDiscountVoucher(UUID.randomUUID(), 101, LocalDateTime.now(), LocalDateTime.now());
         });
     }
 }

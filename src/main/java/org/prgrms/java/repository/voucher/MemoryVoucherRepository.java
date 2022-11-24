@@ -20,7 +20,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
         return storage.values().stream()
-                .filter(voucher -> voucher.getOwnerId().equals(customerId))
+                .filter(voucher -> voucher.getOwnerId() == customerId)
                 .collect(Collectors.toList());
     }
 

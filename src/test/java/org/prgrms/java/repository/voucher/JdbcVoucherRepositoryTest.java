@@ -60,9 +60,9 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처를 파일로 등록할 수 있다.")
+    @DisplayName("바우처를 등록할 수 있다.")
     void testInsert() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         Voucher insertedFixedAmountVoucher = voucherRepository.insert(fixedAmountVoucher);
 
@@ -70,12 +70,12 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("동일한 ID의 바우처는 파일에 등록할 수 없다.")
+    @DisplayName("동일한 ID의 바우처는 등록할 수 없다.")
     void testInsertSameIdVoucher() {
         assertThrows(VoucherException.class, () -> {
             UUID voucherId = UUID.randomUUID();
-            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 100, LocalDateTime.now());
-            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, 10, LocalDateTime.now());
+            Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 100, LocalDateTime.now(), LocalDateTime.now());
+            Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, 10, LocalDateTime.now(), LocalDateTime.now());
 
             voucherRepository.insert(fixedAmountVoucher);
             voucherRepository.insert(percentDiscountVoucher);
@@ -83,24 +83,27 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("등록한 바우처를 파일에서 찾을 수 있다.")
+    @DisplayName("등록한 바우처를 ID, 소유자 ID로 찾을 수 있다.")
     void testFindById() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now(), LocalDateTime.now());
+        UUID ownerId = UUID.randomUUID();
+        percentDiscountVoucher.setOwnerId(ownerId);
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
 
         assertThat(voucherRepository.findById(fixedAmountVoucher.getVoucherId()).get(), samePropertyValuesAs(fixedAmountVoucher));
-        assertThat(voucherRepository.findById(percentDiscountVoucher.getVoucherId()).get(), samePropertyValuesAs(percentDiscountVoucher));
+        assertThat(voucherRepository.findByCustomer(ownerId), hasSize(1));
+        assertThat(voucherRepository.findByCustomer(ownerId).get(0), samePropertyValuesAs(percentDiscountVoucher));
         assertThat(voucherRepository.findById(fixedAmountVoucher.getVoucherId()).get(), not(samePropertyValuesAs((percentDiscountVoucher))));
     }
 
     @Test
-    @DisplayName("파일에 등록한 바우처와 전체 인스턴스의 개수가 일치한다.")
+    @DisplayName("등록한 바우처와 전체 인스턴스의 개수가 일치한다.")
     void testFindAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
@@ -110,10 +113,10 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("파일에 등록한 개수와 전체 삭제한 개수가 같다.")
+    @DisplayName("등록한 개수와 전체 삭제한 개수가 같다.")
     void testDeleteAll() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
 
         voucherRepository.insert(fixedAmountVoucher);
         voucherRepository.insert(percentDiscountVoucher);
