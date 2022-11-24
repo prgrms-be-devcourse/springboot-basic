@@ -1,4 +1,4 @@
-package org.prgrms.java.service.customer;
+package org.prgrms.java.service;
 
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;

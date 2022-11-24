@@ -1,4 +1,4 @@
-package org.prgrms.java.service.voucher;
+package org.prgrms.java.service;
 
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;

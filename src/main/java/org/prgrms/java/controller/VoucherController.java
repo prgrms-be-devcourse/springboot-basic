@@ -2,7 +2,7 @@ package org.prgrms.java.controller;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.service.voucher.VoucherService;
+import org.prgrms.java.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;

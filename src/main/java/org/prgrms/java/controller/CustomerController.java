@@ -1,7 +1,7 @@
 package org.prgrms.java.controller;
 
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.service.customer.CustomerService;
+import org.prgrms.java.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDateTime;
