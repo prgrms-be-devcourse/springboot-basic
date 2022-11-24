@@ -37,7 +37,6 @@ public class MapVoucherRepositoryTest {
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
         Voucher newVoucher = new Voucher(voucherType, discountAmount);
-
         long voucherId = 1;
         memory.saveVoucher(newVoucher);
 

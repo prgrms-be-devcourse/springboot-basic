@@ -35,7 +35,6 @@ public class VoucherControllerTest {
         String request = "percent:10";
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(request);
         CreateVoucherDto createVoucherDto = new CreateVoucherDto(voucherType, discountAmount);
-
         when(voucherService.createVoucher(createVoucherDto)).thenReturn(true);
 
         boolean result = voucherController.createVoucher(createVoucherRequest);
@@ -48,7 +47,6 @@ public class VoucherControllerTest {
     void createVoucherTest_fail() {
         String request = "percent:10";
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(request);
-
         when(voucherService.createVoucher(any())).thenReturn(false);
 
         boolean result = voucherController.createVoucher(createVoucherRequest);
@@ -62,7 +60,6 @@ public class VoucherControllerTest {
         VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
         double discountAmount = 10;
         Voucher voucher = new Voucher(voucherType, discountAmount);
-
         when(voucherService.getAllVouchers()).thenReturn(List.of(voucher));
 
         List<VoucherResponse> allVouchers = voucherController.getAllVouchers();

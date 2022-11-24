@@ -31,8 +31,8 @@ public class CustomerServiceTest {
         String email = "asdf@naver.com";
         Customer customer = new Customer(email);
         when(customerRepository.saveCustomer(any())).thenReturn(Optional.of(customer));
-
         CreateCustomerDto dto = new CreateCustomerDto(email);
+
         boolean result = customerService.createCustomer(dto);
 
         Assertions.assertTrue(result);
@@ -43,8 +43,8 @@ public class CustomerServiceTest {
     void createCustomerTest_fail() {
         String email = "asdf@naver.com";
         when(customerRepository.saveCustomer(any())).thenReturn(Optional.empty());
-
         CreateCustomerDto dto = new CreateCustomerDto(email);
+
         boolean result = customerService.createCustomer(dto);
 
         Assertions.assertFalse(result);
