@@ -38,4 +38,8 @@ public class CustomerDto {
     public List<VoucherDto> getVouchers() {
         return vouchers;
     }
+
+    public boolean isEmpty() {
+        return  customerId == null || customerId == 0 || status == null;
+    }
 }

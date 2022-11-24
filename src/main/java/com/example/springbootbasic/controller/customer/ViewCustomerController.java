@@ -49,6 +49,17 @@ public class ViewCustomerController {
         return "redirect:customers";
     }
 
+    @GetMapping("/v1/customers-find")
+    public String findCustomerById(@RequestParam Long customerId, Model model, RedirectAttributes re) {
+        CustomerDto findCustomer = CustomerDto.newInstance(customerService.findCustomerById(customerId));
+        if (findCustomer.isEmpty()) {
+            re.addFlashAttribute("findResult", false);
+            return "redirect:customers";
+        }
+        model.addAttribute("customers", findCustomer);
+        return "customer-list";
+    }
+
     @GetMapping("/v1/customer-vouchers/{customerId}")
     public String customerVoucherList(@PathVariable Long customerId, Model model) {
         Customer findCustomer = customerService.findCustomerById(customerId);
