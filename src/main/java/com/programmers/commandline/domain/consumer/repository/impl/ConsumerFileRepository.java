@@ -61,21 +61,11 @@ public class ConsumerFileRepository implements ConsumerRepository {
 
     @Override
     public List<Consumer> findAll() {
-        Toml toml = new Toml();
         List<Consumer> consumers = new ArrayList<>();
         File[] consumerFiles = new File(filePath).listFiles();
 
         for (File consumerFile : consumerFiles) {
-            Toml consumerToml = toml.read(consumerFile);
-
-            UUID id = UUID.fromString(consumerToml.getString("id"));
-            String name = consumerToml.getString("name");
-            String email = consumerToml.getString("email");
-            LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
-            LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ?
-                    LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
-
-            Consumer consumer = new Consumer(id, name, email, createdAt, lastLoginAt);
+            Consumer consumer = convertTomlToConsumer(consumerFile);
             consumers.add(consumer);
         }
         return consumers;
@@ -83,34 +73,19 @@ public class ConsumerFileRepository implements ConsumerRepository {
 
     @Override
     public Optional<Consumer> findById(String consumerId) {
-        Toml toml = new Toml();
         File consumerFile = new File(filePath + consumerId);
-        Toml consumerToml = toml.read(consumerFile);
-
-        UUID id = UUID.fromString(consumerToml.getString("id"));
-        String name = consumerToml.getString("name");
-        String email = consumerToml.getString("email");
-        LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
-        LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ? LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
-
-        Consumer consumer = new Consumer(id, name, email, createdAt, lastLoginAt);
+        Consumer consumer = convertTomlToConsumer(consumerFile);
         return Optional.ofNullable(consumer);
     }
 
     @Override
     public Optional<Consumer> findByName(String name) {
-        Toml toml = new Toml();
         File[] consumerFiles = new File(filePath).listFiles();
 
-        for (File consumer : consumerFiles) {
-            Toml consumerToml = toml.read(consumer);
-            if (consumerToml.getString("name").equals(name)) {
-                UUID id = UUID.fromString(consumerToml.getString("id"));
-                String email = consumerToml.getString("email");
-                LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
-                LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ? LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
-
-                return Optional.ofNullable(new Consumer(id, name, email, createdAt, lastLoginAt));
+        for (File consumerFile : consumerFiles) {
+            Consumer consumer = convertTomlToConsumer(consumerFile);
+            if (consumer.getName().equals(name)) {
+                return Optional.ofNullable(consumer);
             }
         }
         return Optional.empty();
@@ -118,18 +93,12 @@ public class ConsumerFileRepository implements ConsumerRepository {
 
     @Override
     public Optional<Consumer> findByEmail(String email) {
-        Toml toml = new Toml();
         File[] consumerFiles = new File(filePath).listFiles();
 
-        for (File consumer : consumerFiles) {
-            Toml consumerToml = toml.read(consumer);
-            if (consumerToml.getString("email").equals(email)) {
-                UUID id = UUID.fromString(consumerToml.getString("id"));
-                String name = consumerToml.getString("name");
-                LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
-                LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ? LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
-
-                return Optional.ofNullable(new Consumer(id, name, email, createdAt, lastLoginAt));
+        for (File consumerFile : consumerFiles) {
+            Consumer consumer = convertTomlToConsumer(consumerFile);
+            if (consumer.getEmail().equals(email)) {
+                return Optional.ofNullable(consumer);
             }
         }
         return Optional.empty();
@@ -142,5 +111,18 @@ public class ConsumerFileRepository implements ConsumerRepository {
         for (File consumerFile : consumerFiles) {
             consumerFile.delete();
         }
+    }
+
+    private Consumer convertTomlToConsumer(File file) {
+        Toml toml = new Toml();
+        Toml consumerToml = toml.read(file);
+
+        UUID id = UUID.fromString(consumerToml.getString("id"));
+        String name = consumerToml.getString("name");
+        String email = consumerToml.getString("email");
+        LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
+        LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ? LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
+
+        return new Consumer(id, name, email, createdAt, lastLoginAt);
     }
 }

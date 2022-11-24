@@ -23,7 +23,7 @@ public class Consumer {
         this.id = id.toString();
         this.name = name;
         this.email = email;
-        this.createdAt = (createdAt != null) ? createdAt.toString() : null;
+        this.createdAt = createdAt.toString();
         this.lastLoginAt = (lastLoginAt != null) ? lastLoginAt.toString() : null;
 
     }
