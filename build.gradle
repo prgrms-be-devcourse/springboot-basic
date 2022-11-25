@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "16"
+sourceCompatibility = "17"
 
 repositories {
 	mavenCentral()
@@ -14,8 +14,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.projectlombok:lombok:1.18.22'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.projectlombok:lombok:1.18.22'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	//JDBC
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
@@ -27,4 +27,4 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-targetCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_17

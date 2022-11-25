@@ -11,7 +11,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    protected void validateZeroDiscount(long discountValue) {
+    protected void validateDiscountRange(long discountValue) {
         if (discountValue <= 0 || discountValue > 100) {
             throw new IllegalArgumentException(WRONG_DISCOUNT);
         }

@@ -1,9 +1,11 @@
 package com.programmers.voucher.model.voucher;
 
 import com.programmers.voucher.model.customer.Customer;
+import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 public abstract class Voucher {
     protected UUID voucherId;
     protected long discountValue;
@@ -11,33 +13,17 @@ public abstract class Voucher {
     protected Customer customer;
 
     protected Voucher(UUID voucherId, long discountValue) {
-        validateZeroDiscount(discountValue);
+        validateDiscountRange(discountValue);
         this.voucherId = voucherId;
         this.discountValue = discountValue;
     }
 
-    abstract void validateZeroDiscount(long discountValue);
+    abstract void validateDiscountRange(long discountValue);
 
     abstract long discount(long beforeDiscount);
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public long getDiscountValue() {
-        return discountValue;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
     public void setVoucherType(VoucherType voucherType) {
         this.voucherType = voucherType;
-    }
-
-    public Customer getCustomer() {
-        return customer;
     }
 
     public void setCustomer(Customer customer) {

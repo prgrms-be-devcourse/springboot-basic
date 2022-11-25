@@ -21,7 +21,7 @@ public enum CommandType {
         this.commandType = commandType;
     }
 
-    public Object getCommandType() {
+    public String getCommandType() {
         return commandType;
     }
 

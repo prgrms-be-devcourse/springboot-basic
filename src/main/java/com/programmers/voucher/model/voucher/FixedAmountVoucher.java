@@ -12,7 +12,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    protected void validateZeroDiscount(long discountValue) {
+    protected void validateDiscountRange(long discountValue) {
         if (discountValue <= 0) {
             throw new IllegalArgumentException(WRONG_DISCOUNT);
         }

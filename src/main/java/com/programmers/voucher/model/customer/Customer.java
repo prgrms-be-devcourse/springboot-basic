@@ -1,5 +1,8 @@
 package com.programmers.voucher.model.customer;
 
+import lombok.Getter;
+
+@Getter
 public class Customer {
     private final long customerId;
     private final String customerName;
@@ -9,17 +12,5 @@ public class Customer {
         this.customerId = customerId;
         this.customerName = customerName;
         this.email = email;
-    }
-
-    public long getCustomerId() {
-        return customerId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }
