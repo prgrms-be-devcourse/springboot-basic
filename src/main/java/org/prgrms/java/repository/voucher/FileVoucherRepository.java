@@ -52,6 +52,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findExpiredVouchers() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
             return reader.lines()

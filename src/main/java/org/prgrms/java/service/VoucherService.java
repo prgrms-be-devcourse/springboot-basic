@@ -29,6 +29,10 @@ public class VoucherService {
         return voucherRepository.findByCustomer(customerId);
     }
 
+    public List<Voucher> getExpiredVouchers() {
+        return voucherRepository.findExpiredVouchers();
+    }
+
     public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
     }

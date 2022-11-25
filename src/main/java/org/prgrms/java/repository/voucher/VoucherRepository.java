@@ -14,6 +14,8 @@ public interface VoucherRepository {
 
     List<Voucher> findByCustomer(UUID customerId);
 
+    List<Voucher> findExpiredVouchers();
+
     List<Voucher> findAll();
 
     Voucher update(Voucher voucher);
