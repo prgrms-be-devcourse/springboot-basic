@@ -1,4 +1,4 @@
-package org.prgrms.springorder.domain.customer;
+package org.prgrms.springorder.domain.voucher_wallet.model;
 
 import java.util.List;
 import java.util.stream.Collectors;

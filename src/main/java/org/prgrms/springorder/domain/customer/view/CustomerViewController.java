@@ -2,15 +2,12 @@ package org.prgrms.springorder.domain.customer.view;
 
 import java.util.List;
 import java.util.UUID;
-import org.prgrms.springorder.console.io.Response;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
 import org.prgrms.springorder.domain.voucher.api.VoucherIdRequest;
 import org.prgrms.springorder.domain.voucher.api.request.AllocateVoucherRequest;
-import org.prgrms.springorder.domain.voucher.api.request.DeleteVoucherRequest;
-import org.springframework.boot.Banner.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +35,17 @@ public class CustomerViewController {
         model.addAttribute("voucherId", voucherId);
 
         return "/assign-voucher";
+    }
+
+    @GetMapping("/new-customer")
+    public String newCustomerPage() {
+        return "/new-customer";
+    }
+
+    @PostMapping("/customers/create")
+    public String createCustomer(CustomerCreateRequest customerCreateRequest) {
+        customerService.createCustomer(customerCreateRequest.getEmail(), customerCreateRequest.getName());
+        return "redirect:/customers";
     }
 
     @PostMapping("/customers/assign")

@@ -14,9 +14,8 @@ public class PercentDiscountVoucher extends Voucher {
         super(voucherId, amount);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, long amount,
-        UUID customerId, LocalDateTime createdAt) {
-        super(voucherId, amount, customerId, createdAt);
+    public PercentDiscountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+        super(voucherId, amount, createdAt);
     }
 
     @Override

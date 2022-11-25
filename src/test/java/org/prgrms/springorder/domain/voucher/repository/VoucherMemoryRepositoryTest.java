@@ -270,15 +270,6 @@ class VoucherMemoryRepositoryTest {
         assertEquals(updateVoucherType, findUpdatedVoucher.getVoucherType());
     }
 
-    @DisplayName("findByIdWithCustomer Join 테스트 - 메모리 레포지토리를 지원하지 않으므로 예외를 던진다.")
-    @Test
-    void findByIdWithCustomerThrowException() {
-        //given
-        UUID voucherId = UUID.randomUUID();
-        //when & then
-        assertThrows(RuntimeException.class,
-            () -> voucherMemoryRepository.findByIdWithCustomer(voucherId));
-    }
 
     @DisplayName("deleteById 테스트 - voucherId로 저장된 Voucher가 제거된다.")
     @Test

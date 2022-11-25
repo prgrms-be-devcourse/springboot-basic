@@ -92,6 +92,12 @@
         <span>고객 조회</span></a>
     </li>
 
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-customer">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 생성</span></a>
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
@@ -178,7 +184,6 @@
                       <th scope="col">#</th>
                       <th scope="col">Voucher Id</th>
                       <th scope="col">Voucher Type</th>
-                      <th scope="col">Customer Id</th>
                       <th scope="col">amount</th>
                       <th scope="col">created at</th>
                       <th scope="col">바우처 조회</th>
@@ -189,10 +194,9 @@
                     <tr th:each="voucher, index : ${vouchers}">
                       <td th:text="${index.index}">#</td>
                       <td th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
-                          th:text="${voucher.voucherId}">123
+                          th:text="${voucher.voucherId}">
                       </td>
                       <td th:text="${voucher.voucherType}"></td>
-                      <td th:text="${voucher.customerId}"></td>
                       <td th:text="${voucher.amount}"></td>
                       <td th:text="${voucher.createdAt}"></td>
                       <td>

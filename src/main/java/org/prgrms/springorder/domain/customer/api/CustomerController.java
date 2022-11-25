@@ -4,7 +4,7 @@ import java.util.List;
 import org.prgrms.springorder.console.io.ListResponse;
 import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.console.io.StringResponse;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.api.request.CreateCustomerRequest;
 import org.prgrms.springorder.domain.customer.api.request.CustomerIdRequest;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;

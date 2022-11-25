@@ -91,6 +91,14 @@
         <i class="fas fa-fw fa-table"></i>
         <span>고객 조회</span></a>
     </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-customer">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 생성</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
@@ -124,7 +132,7 @@
           <br>
         </div>
 
-        <form th:action="@{/vouchers/delete}" method="post">
+        <form >
           <div class="form-group mb-4">
             <label for="voucherType" class="form-label">VoucherType</label>
             <input type="text" class="form-control" id="voucherType"
@@ -188,9 +196,6 @@
 
           </div>
 
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-primary" type="submit" value="바우처 삭제하기">바우처 삭제하기</button>
-          </div>
         </form>
 
         <!--        </div>-->

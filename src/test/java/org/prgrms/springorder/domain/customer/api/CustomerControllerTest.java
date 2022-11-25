@@ -24,7 +24,8 @@ import org.prgrms.springorder.domain.voucher.api.request.DeleteVoucherRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.repository.VoucherJdbcRepository;
-import org.prgrms.springorder.global.exception.BadAccessRequestException;
+import org.prgrms.springorder.domain.voucher_wallet.model.VoucherWallet;
+import org.prgrms.springorder.domain.voucher_wallet.repository.VoucherWalletRepository;
 import org.prgrms.springorder.global.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,6 +43,9 @@ class CustomerControllerTest extends ControllerIntegrationBase {
 
     @Autowired
     private VoucherJdbcRepository voucherJdbcRepository;
+
+    @Autowired
+    private VoucherWalletRepository voucherWalletRepository;
 
     @DisplayName("findAll BlockCustomer 테스트 - 비어있으면 예외가 발생한다. ")
     @Test
@@ -89,55 +93,21 @@ class CustomerControllerTest extends ControllerIntegrationBase {
         Customer customer = new Customer(UUID.randomUUID(), name, email);
         customerJdbcRepository.insert(customer);
 
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, customer.getCustomerId(),
-            LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, LocalDateTime.now());
         voucherJdbcRepository.insert(voucher);
+
+        voucherWalletRepository.insert(VoucherWallet.create(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
+
         //when
         Response response = customerController.deleteVoucher(
             new DeleteVoucherRequest(voucher.getVoucherId().toString(),
                 customer.getCustomerId().toString()));
 
-        Optional<Voucher> voucherOptional = voucherJdbcRepository.findById(voucher.getVoucherId());
+        boolean exists = voucherWalletRepository.existsByCustomerIdAndVoucherId(customer.getCustomerId(), voucher.getVoucherId());
 
         //then
         assertEquals("ok", response.getResponse());
-        assertTrue(voucherOptional.isEmpty());
-    }
-
-    @DisplayName("바우처 제거 실패 테스트 - 고객이 보유한 바우처가 아니라면 예외를 던진다.")
-    @Test
-    void deleteVoucherFailNotCustomerVoucherThrowsExceptionTest() {
-        //given
-        String email = "email@gmail.com";
-        String name = "name";
-        Customer customer = new Customer(UUID.randomUUID(), name, email);
-
-        UUID otherCustomerId = UUID.randomUUID();
-        String otherName = "otherName";
-        String otherEmail = "otherEmail@gamil.com";
-        Customer otherCustomer = new Customer(otherCustomerId, otherName, otherEmail);
-        customerJdbcRepository.insert(otherCustomer);
-        customerJdbcRepository.insert(customer);
-
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L, otherCustomerId,
-            LocalDateTime.now());
-        voucherJdbcRepository.insert(voucher);
-
-        DeleteVoucherRequest deleteVoucherRequest = new DeleteVoucherRequest(
-            voucher.getVoucherId().toString(),
-            customer.getCustomerId().toString());
-
-        //when
-        assertThrows(BadAccessRequestException.class,
-            () -> customerController.deleteVoucher(deleteVoucherRequest));
-
-        Optional<Voucher> voucherOptional = voucherJdbcRepository.findById(voucher.getVoucherId());
-
-        //then
-        assertTrue(voucherOptional.isPresent());
-        Voucher findVoucher = voucherOptional.get();
-        assertEquals(voucher, findVoucher);
-        assertNotEquals(customer.getCustomerId(), voucher.getCustomerId());
+        assertFalse(exists);
     }
 
     @DisplayName("바우처 제거 실패 테스트 - 고객이 존재하지 않는다면 예외를 던진다.")
@@ -162,38 +132,6 @@ class CustomerControllerTest extends ControllerIntegrationBase {
 
         //then
         assertTrue(customerOptional.isEmpty());
-    }
-
-    @DisplayName("바우처 할당 테스트 - 고객에게 바우처를 할당한다.")
-    @Test
-    void allocateVoucherSuccessTest() {
-        //given
-        String email = "email@gmail.com";
-        String name = "name";
-        UUID customerId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, name, email);
-
-        customerJdbcRepository.insert(customer);
-
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, 100L);
-
-        voucherJdbcRepository.insert(voucher);
-
-        AllocateVoucherRequest allocateVoucherRequest = new AllocateVoucherRequest(
-            voucherId.toString(), customerId.toString());
-
-        //when
-        Response response = customerController.allocateVoucher(allocateVoucherRequest);
-
-        Optional<Voucher> voucherOptional = voucherJdbcRepository.findById(voucherId);
-
-        //then
-        assertEquals("ok", response.getResponse());
-        assertTrue(voucherOptional.isPresent());
-        Voucher findVoucher = voucherOptional.get();
-
-        assertEquals(customerId, findVoucher.getCustomerId());
     }
 
     @DisplayName("바우처 할당 테스트 - 고객이 존재하지 않으면 예외를 던진다.")

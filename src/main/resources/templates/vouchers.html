@@ -92,6 +92,13 @@
         <span>고객 조회</span></a>
     </li>
 
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-customer">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 생성</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
@@ -133,11 +140,10 @@
                 <th scope="col">#</th>
                 <th scope="col">Voucher Id</th>
                 <th scope="col">Voucher Type</th>
-                <th scope="col">Customer Id</th>
                 <th scope="col">amount</th>
                 <th scope="col">created at</th>
-                <th scope="col">조회</th>
-                <th scope="col">할당</th>
+                <th scope="col">보유 고객 조회</th>
+                <th scope="col">고객에게 할당</th>
               </tr>
               </thead>
               <tbody>
@@ -147,18 +153,17 @@
                 <td th:text="${voucher.voucherId}">123
                 </td>
                 <td th:text="${voucher.voucherType}"></td>
-                <td th:text="${voucher.customerId}"></td>
                 <td th:text="${voucher.amount}"></td>
                 <td th:text="${voucher.createdAt}"></td>
-               <td>
-                  <button class="btn btn-primary" type="submit"
+                <td>
+                  <button class="btn btn-primary " type="submit"
                           th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
                   >조회
                   </button>
 
                 </td>
-              <td>
-                  <button class="btn btn-primary" type="button"
+                <td>
+                  <button class="btn btn-primary " type="button"
                           th:onclick="|location.href='@{/customers/assign
                         (voucherId=${voucher.voucherId})}' |"
 

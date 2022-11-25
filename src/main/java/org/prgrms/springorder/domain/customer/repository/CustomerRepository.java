@@ -3,7 +3,7 @@ package org.prgrms.springorder.domain.customer.repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.Customer;
 
 public interface CustomerRepository {

@@ -15,12 +15,13 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.MockedStatic;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.repository.CustomerRepository;
@@ -29,6 +30,7 @@ import org.prgrms.springorder.domain.voucher.model.PercentDiscountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.service.VoucherFactory;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
+import org.prgrms.springorder.domain.voucher_wallet.service.VoucherWalletService;
 import org.prgrms.springorder.global.exception.EntityNotFoundException;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -36,9 +38,27 @@ class CustomerServiceTest {
 
     private MockedStatic<VoucherFactory> voucherFactoryMockedStatic;
 
+    private CustomerRepository customerRepository = mock(CustomerRepository.class);
+    private VoucherWalletService voucherWalletService = mock(VoucherWalletService.class);
+    private BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
+    private VoucherService voucherService = mock(VoucherService.class);
+    private CustomerService customerService;
+
     @BeforeAll
     public void beforeAll() {
         voucherFactoryMockedStatic = mockStatic(VoucherFactory.class);
+        customerService = new CustomerService(customerRepository, voucherWalletService,
+            blockCustomerService, voucherService);
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        customerRepository = mock(CustomerRepository.class);
+        voucherWalletService = mock(VoucherWalletService.class);
+        blockCustomerService = mock(BlockCustomerService.class);
+        voucherService = mock(VoucherService.class);
+        customerService = new CustomerService(customerRepository, voucherWalletService,
+            blockCustomerService, voucherService);
     }
 
     @AfterAll
@@ -50,11 +70,6 @@ class CustomerServiceTest {
     @Test
     void findAllVouchersSuccessTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
 
         UUID customerId = UUID.randomUUID();
         String customerName = "name";
@@ -70,50 +85,40 @@ class CustomerServiceTest {
         List<Voucher> vouchers = List.of(fixedAmountVoucher, percentAmountVoucher);
         Wallet wallet = new Wallet(customer, vouchers);
 
-        when(customerRepository.findByIdWithVouchers(customerId))
-            .thenReturn(Optional.of(wallet));
-        //when
+        when(voucherWalletService.findAllVouchers(customerId))
+            .thenReturn(wallet);
 
+        //when
         Wallet findWallet = customerService.findAllVouchers(customerId);
 
         //then
         assertEquals(customer, findWallet.getCustomer());
         assertEquals(vouchers, findWallet.getVouchers());
 
-        verify(customerRepository).findByIdWithVouchers(customerId);
+        verify(voucherWalletService).findAllVouchers(customerId);
     }
 
     @DisplayName("findAll 테스트 - 지갑이 비어있따면 예외를 던진다.")
     @Test
     void findAllVouchersFailThrowsExceptionTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
-
         UUID customerId = UUID.randomUUID();
 
-        when(customerRepository.findByIdWithVouchers(customerId))
-            .thenReturn(Optional.empty());
+        when(voucherWalletService.findAllVouchers(customerId))
+            .thenThrow(EntityNotFoundException.class);
+
         //when
         assertThrows(EntityNotFoundException.class,
             () -> customerService.findAllVouchers(customerId));
-        //then
 
-        verify(customerRepository).findByIdWithVouchers(customerId);
+        //then
+        verify(voucherWalletService).findAllVouchers(customerId);
     }
 
     @DisplayName("delete 테스트 - 고객이 보유한 바우처를 제거한다")
     @Test
-    void deleteVoucherSucessTest() {
+    void deleteVoucherSuccessTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
 
         UUID customerId = UUID.randomUUID();
         String customerName = "name";
@@ -125,7 +130,7 @@ class CustomerServiceTest {
         when(customerRepository.findById(customerId))
             .thenReturn(Optional.of(customer));
 
-        doNothing().when(voucherService)
+        doNothing().when(voucherWalletService)
             .deleteVoucherByCustomerId(fixedVoucherId, customerId);
 
         customerService.deleteVoucher(customerId, fixedVoucherId);
@@ -133,18 +138,13 @@ class CustomerServiceTest {
 
         verify(customerRepository).findById(customerId);
 
-        verify(voucherService).deleteVoucherByCustomerId(fixedVoucherId, customerId);
+        verify(voucherWalletService).deleteVoucherByCustomerId(fixedVoucherId, customerId);
     }
 
     @DisplayName("delete 테스트 - 고객이 없다면 예외를 던진다")
     @Test
     void deleteVoucherFailThrowsExceptionTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
 
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
@@ -164,12 +164,6 @@ class CustomerServiceTest {
     @Test
     void allocateVoucherSuccessTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
-
         UUID customerId = UUID.randomUUID();
         String customerName = "name";
         String customerEmail = "email@naver.com";
@@ -180,26 +174,24 @@ class CustomerServiceTest {
         when(customerRepository.findById(customerId))
             .thenReturn(Optional.of(customer));
 
-        doNothing().when(voucherService).changeCustomerId(voucherId, customerId);
+        doNothing().when(voucherWalletService).allocateVoucher(customerId, voucherId);
+
+        when(voucherService.existsVoucher(voucherId))
+            .thenReturn(true);
         //when
 
         customerService.allocateVoucher(customerId, voucherId);
 
         //then
         verify(customerRepository).findById(customerId);
-        verify(voucherService).changeCustomerId(voucherId, customerId);
+        verify(voucherWalletService).allocateVoucher(customerId, voucherId);
+        verify(voucherService).existsVoucher(voucherId);
     }
 
     @DisplayName("할당 실패 테스트 - 고객이 없으면 예외를 던진다. ")
     @Test
     void allocateVoucherFailThrowsTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository, voucherService,
-            blockCustomerService);
-
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
 
@@ -207,7 +199,6 @@ class CustomerServiceTest {
             .thenReturn(Optional.empty());
 
         //when
-
         assertThrows(EntityNotFoundException.class, () ->
             customerService.allocateVoucher(customerId, voucherId));
 
@@ -215,16 +206,36 @@ class CustomerServiceTest {
         verify(customerRepository).findById(customerId);
     }
 
+    @DisplayName("할당 실패 테스트 - 바우처가없으면 없으면 예외를 던진다. ")
+    @Test
+    void allocateVoucherFailVoucherNullThrowsTest() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String customerName = "name";
+        String customerEmail = "email@naver.com";
+        Customer customer = new Customer(customerId, customerName, customerEmail);
+
+        UUID voucherId = UUID.randomUUID();
+
+        when(customerRepository.findById(customerId))
+            .thenReturn(Optional.of(customer));
+
+        when(voucherService.existsVoucher(voucherId))
+            .thenReturn(false);
+        //when
+
+        assertThrows(EntityNotFoundException.class, () ->
+            customerService.allocateVoucher(customerId, voucherId));
+
+        //then
+        verify(customerRepository).findById(customerId);
+        verify(voucherService).existsVoucher(voucherId);
+    }
+
     @DisplayName("블랙리스트 조회 테스트 - 저장된 모든 블랙리스트가 조회된다.")
     @Test
     void findAllBlockCustomersSuccessTest() {
         //given
-        CustomerRepository customerRepository = mock(CustomerRepository.class);
-        VoucherService voucherService = mock(VoucherService.class);
-        BlockCustomerService blockCustomerService = mock(BlockCustomerService.class);
-        CustomerService customerService = new CustomerService(customerRepository,
-            voucherService, blockCustomerService);
-
         BlockCustomer blockCustomer1 = new BlockCustomer(UUID.randomUUID(), UUID.randomUUID(),
             LocalDateTime.now());
 
@@ -239,20 +250,10 @@ class CustomerServiceTest {
         //when
         List<BlockCustomer> findBlockCustomers = customerService.findAllBlockCustomers();
 
-
         //then
         assertEquals(blockCustomers, findBlockCustomers);
         verify(blockCustomerService).findAll();
 
     }
 
-    @DisplayName("블랙리스트 조회 테스트 - 저장된 블랙리스트가 없으면 예외를 던진다. ")
-    @Test
-    void findAllBlockCustomersFailThrowsExceptionTest() {
-
-    }
-
-    @Test
-    void createCustomer() {
-    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.model.CustomerStatus;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
@@ -133,13 +133,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
                         long amount = rs.getLong("amount");
                         VoucherType voucherType = VoucherType.of(rs.getString("voucher_type"));
 
-                        UUID foreignCustomerId = UUID.fromString(rs.getString("customer_id"));
                         LocalDateTime createdAt = rs.getTimestamp("created_at")
                             .toLocalDateTime();
 
-                        Voucher voucher = VoucherFactory.toVoucher(voucherType, voucherId, amount,
-                            foreignCustomerId,
-                            createdAt);
+                        Voucher voucher = VoucherFactory.toVoucher(voucherType, voucherId, amount, createdAt);
 
                         vouchers.add(voucher);
 

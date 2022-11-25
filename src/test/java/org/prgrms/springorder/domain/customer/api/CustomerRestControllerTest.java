@@ -2,14 +2,15 @@ package org.prgrms.springorder.domain.customer.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -23,7 +24,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -56,8 +56,8 @@ class CustomerRestControllerTest {
             .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
             .andExpect(xpath("list").exists())
             .andExpect(xpath("list").nodeCount(1))
-            .andExpect(xpath("/list/org.prgrms.springorder.domain.customer.model.Customer").exists())
-            .andExpect(xpath("/list/org.prgrms.springorder.domain.customer.model.Customer").nodeCount(saveCount))
+            .andExpect(xpath("/list/org.prgrms.springorder.domain.customer.api.response.CustomerResponse").exists())
+            .andExpect(xpath("/list/org.prgrms.springorder.domain.customer.api.response.CustomerResponse").nodeCount(saveCount))
             .andDo(print());
     }
 

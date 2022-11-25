@@ -1,8 +1,6 @@
 package org.prgrms.springorder.domain.voucher.api;
 
 import static org.hamcrest.Matchers.both;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
@@ -75,7 +73,7 @@ class VoucherRestControllerTest {
 
         //then & when
         mockMvc.perform(get("/api/v1/vouchers")
-                    .accept(MediaType.APPLICATION_XML_VALUE)
+                .accept(MediaType.APPLICATION_XML_VALUE)
             )
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_XML_VALUE))
@@ -154,7 +152,7 @@ class VoucherRestControllerTest {
         int countForCondition = 50;
         int countNotMatchCondition = 50;
 
-        saveVouchersFromLocalDate(VoucherType.FIXED,2020, 12, 1, countForCondition);
+        saveVouchersFromLocalDate(VoucherType.FIXED, 2020, 12, 1, countForCondition);
         saveVouchersFromLocalDate(VoucherType.FIXED, 2021, 1, 1, countNotMatchCondition);
 
         //then & when
@@ -195,13 +193,13 @@ class VoucherRestControllerTest {
 
         int expectCount = countForCondition1 + countForCondition2 + countForCondition3;
 
-        saveVouchersFromLocalDate(expectVoucherType,2020, 12, 1, countForCondition1);
+        saveVouchersFromLocalDate(expectVoucherType, 2020, 12, 1, countForCondition1);
         saveVouchersFromLocalDate(expectVoucherType, 2020, 5, 5, countForCondition2);
         saveVouchersFromLocalDate(expectVoucherType, 2020, 1, 2, countForCondition3);
 
-        saveVouchersFromLocalDate(expectVoucherType,2021, 6, 1, countNotMatchCondition);
-        saveVouchersFromLocalDate(VoucherType.FIXED,2020, 12, 1, countNotMatchCondition);
-        saveVouchersFromLocalDate(VoucherType.FIXED,2021, 3, 1, countNotMatchCondition);
+        saveVouchersFromLocalDate(expectVoucherType, 2021, 6, 1, countNotMatchCondition);
+        saveVouchersFromLocalDate(VoucherType.FIXED, 2020, 12, 1, countNotMatchCondition);
+        saveVouchersFromLocalDate(VoucherType.FIXED, 2021, 3, 1, countNotMatchCondition);
         saveVouchersFromLocalDate(VoucherType.FIXED, 2022, 1, 1, countNotMatchCondition);
 
         //then & when
@@ -220,7 +218,8 @@ class VoucherRestControllerTest {
                 .value(everyItem(
                     is(both(greaterThan(startDate.toString())).and(lessThan(endDate.toString()))))))
             .andExpect(jsonPath("$[*].voucherId").exists())
-            .andExpect(jsonPath("$[*].voucherType").value(everyItem(equalTo(expectVoucherType.getType()))))
+            .andExpect(
+                jsonPath("$[*].voucherType").value(everyItem(equalTo(expectVoucherType.getType()))))
             .andExpect(jsonPath("$[*].createdAt").exists())
             .andExpect(jsonPath("$[*].amount").exists())
             .andDo(print());
@@ -349,7 +348,7 @@ class VoucherRestControllerTest {
         int dayOfMonth, int count) {
         IntStream.range(0, count).forEach(value -> {
 
-            Voucher voucher = VoucherFactory.toVoucher(voucherType, UUID.randomUUID(), 100L, null,
+            Voucher voucher = VoucherFactory.toVoucher(voucherType, UUID.randomUUID(), 100L,
                 LocalDateTime.of(year, month, dayOfMonth, 0, 0));
 
             voucherJdbcRepository.insert(voucher);

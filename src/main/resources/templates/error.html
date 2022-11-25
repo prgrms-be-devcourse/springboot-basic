@@ -23,35 +23,118 @@
 </head>
 
 <body>
-<div id="content-wrapper" class="d-flex flex-column">
+<div id="wrapper">
 
-  <div id="content" class="container-fluid justify-content-center align-items-center">
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <div class="container-fluid">
-      <div class="d-sm-flex align-items-center justify-content-md-center">
-        <h1 class="h3 mb-0 text-gray-800">에러 페이지</h1>
-
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
       </div>
-      <div class="container-fluid justify-content-md-center">
-        <form>
-          <div class="mb-3">
-            <label for="errorMessage" class="form-label">Error Message</label>
-            <input type="text" class="form-control" id="errorMessage"
-                   th:value="${errorResponse.errorMessage}" value="error" disabled>
-          </div>
+      <div class="sidebar-brand-text mx-3">바우처!!!</sup></div>
+    </a>
 
-          <div class="mb-3">
-            <label for="statusCode" class="form-label">Status Code</label>
-            <input type="text" class="form-control" id="statusCode"
-                   th:value="${errorResponse.statusCode}" value="error" disabled>
-          </div>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
 
-          <div class="mb-3">
-            <label for="requestUri" class="form-label">Request Uri</label>
-            <input type="text" class="form-control" id="requestUri"
-                   th:value="${errorResponse.requestUri}" value="error" disabled>
-          </div>
-        </form>
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link" href="/vouchers">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Interface
+    </div>
+
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/block-customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>블랙리스트 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/vouchers}">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-voucher">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 생성</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers/assign">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 할당</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-customer">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 생성</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+  </ul>
+  <!-- End of Sidebar -->
+
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <div id="content" class="container-fluid justify-content-center align-items-center">
+
+      <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-md-center">
+          <h1 class="h3 mb-0 text-gray-800">에러 페이지</h1>
+
+        </div>
+        <div class="container-fluid justify-content-md-center">
+          <form>
+            <div class="mb-3">
+              <label for="errorMessage" class="form-label">Error Message</label>
+              <input type="text" class="form-control" id="errorMessage"
+                     th:value="${errorResponse.errorMessage}" value="error" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="statusCode" class="form-label">Status Code</label>
+              <input type="text" class="form-control" id="statusCode"
+                     th:value="${errorResponse.statusCode}" value="error" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="requestUri" class="form-label">Request Uri</label>
+              <input type="text" class="form-control" id="requestUri"
+                     th:value="${errorResponse.requestUri}" value="error" disabled>
+            </div>
+          </form>
+        </div>
+
       </div>
 
     </div>

@@ -71,12 +71,6 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher;
     }
 
-    @Deprecated
-    @Override
-    public Optional<CustomerWithVoucher> findByIdWithCustomer(UUID voucherId) {
-        throw new RuntimeException("지원되지 않는 기능입니다.");
-    }
-
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
@@ -114,16 +108,14 @@ public class VoucherFileRepository implements VoucherRepository {
 
         long amount = Long.parseLong(split[2].trim());
 
-        UUID customerId = UUID.fromString(split[3].trim());
+        LocalDateTime createdAt = LocalDateTime.parse(split[3]);
 
-        LocalDateTime createdAt = LocalDateTime.parse(split[4]);
-
-        return VoucherFactory.toVoucher(voucherType, voucherId, amount, customerId, createdAt);
+        return VoucherFactory.toVoucher(voucherType, voucherId, amount, createdAt);
     }
 
     private String serialize(Voucher voucher) {
-        return String.format("%s, %s, %s, %s, %s", voucher.getVoucherType(),
-            voucher.getVoucherId(), voucher.getAmount(), voucher.getCustomerId(),
+        return String.format("%s, %s, %s, %s, ", voucher.getVoucherType(),
+            voucher.getVoucherId(), voucher.getAmount(),
             voucher.getCreatedAt());
     }
 

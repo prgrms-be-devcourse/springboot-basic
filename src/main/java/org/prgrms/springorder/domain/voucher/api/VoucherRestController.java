@@ -34,17 +34,17 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType. APPLICATION_JSON_VALUE})
+    @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<VoucherResponse>> getAllVouchers(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  LocalDateTime startDate,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)  LocalDateTime endDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
         @RequestParam(required = false) VoucherType voucherType
     ) {
 
-        List<VoucherResponse> voucherResponses = voucherService.findAllBy(startDate, endDate, voucherType).stream()
+        List<VoucherResponse> voucherResponses = voucherService.findAllBy(startDate, endDate,
+                voucherType).stream()
             .map(voucher -> new VoucherResponse(voucher.getVoucherId(),
                 voucher.getAmount(),
-                voucher.getCustomerId(),
                 voucher.getCreatedAt(), voucher.getVoucherType()))
             .collect(Collectors.toList());
 
@@ -71,7 +71,6 @@ public class VoucherRestController {
 
         return ResponseEntity.ok(new VoucherResponse(voucher.getVoucherId(),
             voucher.getAmount(),
-            voucher.getCustomerId(),
             voucher.getCreatedAt(),
             voucher.getVoucherType()));
     }

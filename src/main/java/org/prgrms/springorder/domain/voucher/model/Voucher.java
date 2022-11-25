@@ -10,8 +10,6 @@ public abstract class Voucher {
 
     private final long amount;
 
-    private UUID customerId;
-
     private final LocalDateTime createdAt;
 
     public UUID getVoucherId() {
@@ -25,28 +23,11 @@ public abstract class Voucher {
         this.createdAt = LocalDateTime.now();
     }
 
-    protected Voucher(UUID voucherId, long amount, UUID customerId, LocalDateTime createdAt) {
+    protected Voucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
-        this.customerId = customerId;
         this.createdAt = createdAt;
-    }
-
-    public UUID getCustomerId() {
-        return this.customerId;
-    }
-
-    public void changeCustomerId(UUID customerId) {
-        if (customerId == null) {
-            throw new IllegalArgumentException("customer Id is null");
-        }
-
-        this.customerId = customerId;
-    }
-
-    public void removeCustomerId() {
-        this.customerId = null;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -65,11 +46,7 @@ public abstract class Voucher {
 
     @Override
     public String toString() {
-        return String.format("voucherType = %s, id = %s, amount = %s, customerId = %s, createdAt = %s", getVoucherType(), getVoucherId(), getAmount(), getCustomerId(), getCreatedAt());
-    }
-
-    public boolean isOwned(UUID customerId) {
-        return Objects.equals(this.customerId, customerId);
+        return String.format("voucherType = %s, id = %s, amount = %s, createdAt = %s", getVoucherType(), getVoucherId(), getAmount(), getCreatedAt());
     }
 
 }

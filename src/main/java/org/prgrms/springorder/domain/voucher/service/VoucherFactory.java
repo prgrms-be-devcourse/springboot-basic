@@ -33,13 +33,13 @@ public class VoucherFactory {
         }
     }
 
-    public static Voucher toVoucher(VoucherType voucherType, UUID voucherId, long amount, UUID customerId, LocalDateTime createdAt) {
+    public static Voucher toVoucher(VoucherType voucherType, UUID voucherId, long amount, LocalDateTime createdAt) {
         switch (voucherType) {
             case FIXED:
-                return new FixedAmountVoucher(voucherId, amount, customerId, createdAt);
+                return new FixedAmountVoucher(voucherId, amount, createdAt);
 
             case PERCENT:
-                return new PercentDiscountVoucher(voucherId, amount, customerId, createdAt);
+                return new PercentDiscountVoucher(voucherId, amount, createdAt);
 
             default:
                 logger.error("invalid Voucher Type : {}", voucherType);

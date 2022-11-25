@@ -7,19 +7,20 @@ import org.prgrms.springorder.console.io.StringResponse;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.springorder.domain.voucher_wallet.service.VoucherWalletService;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class VoucherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
-
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    private final VoucherWalletService voucherWalletService;
+
+    public VoucherController(VoucherService voucherService,
+        VoucherWalletService voucherWalletService) {
         this.voucherService = voucherService;
+        this.voucherWalletService = voucherWalletService;
     }
 
     public Response createVoucher(VoucherCreateRequest voucherCreateRequest) {
@@ -34,9 +35,8 @@ public class VoucherController {
     }
 
     public Response findCustomerWithVoucher(VoucherIdRequest voucherIdRequest) {
-        CustomerWithVoucher customerWithVoucher = voucherService.findVoucherWithCustomerByVoucherId(
+        CustomerWithVoucher customerWithVoucher = voucherWalletService.findCustomerWithVoucherByVoucherId(
             voucherIdRequest.getVoucherId());
-
         return new StringResponse(customerWithVoucher);
     }
 

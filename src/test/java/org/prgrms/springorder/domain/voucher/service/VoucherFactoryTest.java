@@ -54,18 +54,15 @@ class VoucherFactoryTest {
         VoucherType fixedVoucherType = VoucherType.FIXED;
         long discountAmount = 1000L;
         UUID voucherId = UUID.randomUUID();
-        UUID customerId = UUID.randomUUID();
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when
-        Voucher fixedAmountVoucher = VoucherFactory.toVoucher(fixedVoucherType, voucherId, discountAmount,
-            customerId, createdAt);
+        Voucher fixedAmountVoucher = VoucherFactory.toVoucher(fixedVoucherType, voucherId, discountAmount, createdAt);
 
         //then
         assertEquals(FixedAmountVoucher.class, fixedAmountVoucher.getClass());
         assertEquals(fixedVoucherType, fixedAmountVoucher.getVoucherType());
         assertEquals(discountAmount, fixedAmountVoucher.getAmount());
-        assertEquals(customerId, fixedAmountVoucher.getCustomerId());
         assertEquals(createdAt, fixedAmountVoucher.getCreatedAt());
     }
 
@@ -77,18 +74,16 @@ class VoucherFactoryTest {
         VoucherType percentVoucherType = VoucherType.PERCENT;
         long discountAmount = 50L;
         UUID voucherId = UUID.randomUUID();
-        UUID customerId = UUID.randomUUID();
         LocalDateTime createdAt = LocalDateTime.now();
 
         //when
         Voucher percentDiscountVoucher = VoucherFactory.toVoucher(percentVoucherType, voucherId, discountAmount,
-            customerId, createdAt);
+         createdAt);
 
         //then
         assertEquals(PercentDiscountVoucher.class, percentDiscountVoucher.getClass());
         assertEquals(percentVoucherType, percentDiscountVoucher.getVoucherType());
         assertEquals(discountAmount, percentDiscountVoucher.getAmount());
-        assertEquals(customerId, percentDiscountVoucher.getCustomerId());
         assertEquals(createdAt, percentDiscountVoucher.getCreatedAt());
     }
 

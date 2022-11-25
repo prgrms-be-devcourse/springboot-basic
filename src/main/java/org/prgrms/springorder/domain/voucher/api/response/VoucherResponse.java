@@ -10,18 +10,15 @@ public class VoucherResponse {
 
     private final long amount;
 
-    private final UUID customerId;
 
     private final LocalDateTime createdAt;
 
     private final VoucherType voucherType;
 
-    public VoucherResponse(UUID voucherId, long amount, UUID customerId,
-        LocalDateTime createdAt,
+    public VoucherResponse(UUID voucherId, long amount, LocalDateTime createdAt,
         VoucherType voucherType) {
         this.voucherId = voucherId;
         this.amount = amount;
-        this.customerId = customerId;
         this.createdAt = createdAt;
         this.voucherType = voucherType;
     }
@@ -34,9 +31,6 @@ public class VoucherResponse {
         return amount;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

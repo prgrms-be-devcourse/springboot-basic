@@ -1,11 +1,9 @@
 package org.prgrms.springorder.domain.voucher.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.springorder.common.ControllerIntegrationBase;
 import org.prgrms.springorder.console.io.Response;
-import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.repository.CustomerJdbcRepository;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
@@ -93,7 +90,6 @@ class VoucherControllerTest extends ControllerIntegrationBase {
     @Test
     void findCustomerWithVoucherFailReturnEmptyThrowsExceptionTest() {
         //given & when
-
         VoucherIdRequest voucherIdRequest = new VoucherIdRequest(UUID.randomUUID().toString());
 
         assertThrows(EntityNotFoundException.class, () ->
@@ -103,33 +99,6 @@ class VoucherControllerTest extends ControllerIntegrationBase {
         //then
         List<Voucher> vouchers = voucherJdbcRepository.findAll();
         assertTrue(vouchers.isEmpty());
-    }
-
-    @DisplayName("findCustomerWithVoucher 테스트 - 저장된 바우처와 고객을 조인해서 조회해온다.")
-    @Test
-    void findCustomerWithVoucherSuccessExceptionTest() {
-        //given
-        UUID customerId = UUID.randomUUID();
-        String name = "name";
-        String email = "testEmail@gmail.com";
-        Customer customer = new Customer(customerId, name, email);
-
-        customerJdbcRepository.insert(customer);
-        UUID voucherId = UUID.randomUUID();
-        long amount = 100L;
-
-        Voucher voucher = new FixedAmountVoucher(voucherId, amount, customerId, LocalDateTime.now());
-
-        voucherJdbcRepository.insert(voucher);
-
-        //when
-        VoucherIdRequest voucherIdRequest = new VoucherIdRequest(voucherId.toString());
-
-        Response response = voucherController.findCustomerWithVoucher(voucherIdRequest);
-
-        //then
-        assertThat(response.getResponse())
-            .contains(customerId.toString(), voucherId.toString(), name, email, String.valueOf(amount));
     }
 
     private List<Voucher> createVouchers(int saveCount) {

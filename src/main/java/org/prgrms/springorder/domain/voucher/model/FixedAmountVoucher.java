@@ -13,9 +13,8 @@ public class FixedAmountVoucher extends Voucher {
         super(voucherId, amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount,
-        UUID customerId, LocalDateTime createdAt) {
-        super(voucherId, amount, customerId, createdAt);
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+        super(voucherId, amount, createdAt);
     }
 
     @Override

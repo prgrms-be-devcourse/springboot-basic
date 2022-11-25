@@ -2,13 +2,14 @@ package org.prgrms.springorder.domain.customer.service;
 
 import java.util.List;
 import java.util.UUID;
-import org.prgrms.springorder.domain.customer.Wallet;
+import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.repository.CustomerRepository;
+import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
+import org.prgrms.springorder.domain.voucher_wallet.service.VoucherWalletService;
 import org.prgrms.springorder.global.exception.EntityNotFoundException;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,23 +18,26 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    private final VoucherService voucherService;
+    private final VoucherWalletService voucherWalletService;
 
     private final BlockCustomerService blockCustomerService;
 
+    private final VoucherService voucherService;
+
     public CustomerService(
         CustomerRepository customerRepository,
-        VoucherService voucherService,
-        BlockCustomerService blockCustomerService) {
+        VoucherWalletService voucherWalletService,
+        BlockCustomerService blockCustomerService,
+        VoucherService voucherService) {
         this.customerRepository = customerRepository;
-        this.voucherService = voucherService;
+        this.voucherWalletService = voucherWalletService;
         this.blockCustomerService = blockCustomerService;
+        this.voucherService = voucherService;
     }
 
     @Transactional(readOnly = true)
     public Wallet findAllVouchers(UUID customerId) {
-        return customerRepository.findByIdWithVouchers(customerId)
-            .orElseThrow(() -> new EntityNotFoundException(Wallet.class, customerId));
+        return voucherWalletService.findAllVouchers(customerId);
     }
 
     @Transactional
@@ -41,15 +45,21 @@ public class CustomerService {
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class, customerId));
 
-        voucherService.deleteVoucherByCustomerId(voucherId, customer.getCustomerId());
+        voucherWalletService.deleteVoucherByCustomerId(voucherId, customer.getCustomerId());
     }
 
-     @Transactional
+    @Transactional
     public void allocateVoucher(UUID customerId, UUID voucherId) {
         Customer customer = customerRepository.findById(customerId)
             .orElseThrow(() -> new EntityNotFoundException(Customer.class, customerId));
 
-        voucherService.changeCustomerId(voucherId, customer.getCustomerId());
+        boolean existsVoucher = voucherService.existsVoucher(voucherId);
+
+        if (!existsVoucher) {
+            throw new EntityNotFoundException(Voucher.class, voucherId);
+        }
+
+        voucherWalletService.allocateVoucher(customer.getCustomerId(), voucherId);
     }
 
     @Transactional(readOnly = true)
