@@ -1,5 +1,6 @@
-package org.prgrms.voucherapplication.customer;
+package org.prgrms.voucherapplication.customer.controller;
 
+import org.prgrms.voucherapplication.customer.dto.CreateCustomerRequest;
 import org.prgrms.voucherapplication.customer.entity.Customer;
 import org.prgrms.voucherapplication.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -14,16 +15,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Controller
-public class CustomerController {
+public class CustomerViewController {
 
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerViewController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @GetMapping("/customers")
-    public String findCustomers(Model model) {
+    public String viewCustomersPage(Model model) {
         List<Customer> allCustomers = customerService.getAllCustomers();
         model.addAttribute("serverTime", LocalDateTime.now());
         model.addAttribute("customers", allCustomers);
