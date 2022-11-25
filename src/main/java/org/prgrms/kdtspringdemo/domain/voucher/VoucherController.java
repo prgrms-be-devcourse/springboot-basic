@@ -31,8 +31,8 @@ public class VoucherController {
     }
 
     @GetMapping("/vouchers/{voucherId}")
-    public String VoucherDetailPage(@PathVariable("voucherId") String userName, Model model) {
-        var voucher = voucherService.getVoucher(UUID.fromString(userName));
+    public String VoucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
+        var voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
     }

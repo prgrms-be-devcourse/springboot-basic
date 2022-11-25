@@ -27,27 +27,20 @@
             <td th:text="${voucher.getValue()}">Mark</td>
             <td th:text="${voucher.getVoucherType().name()}"></td>
             <td>
-                <button class="btn btn-primary" value="submit">삭제</button>
+                <button class="btn btn-primary delete" value="submit">삭제</button>
             </td>
         </tr>
         </tbody>
     </table>
 </section>
 <script layout:fragment="f-script" th:inline="javascript">
-    // let aomg="안녕하세요";
-    console.log(aomg);
-    $(document).ready(function () {
-        console.log(aomg);
-        console.log(1234);
-        if ([[${createVoucherFail}]]) {
-            alert("바우쳐 생성에 실패했습니다.");
+    $(".delete").on("click", (e) => {
+        e.stopPropagation();
+        if (confirm("삭제 클릭")) {
+            //삭제하기
+        } else {
+            //암것도 안하기
         }
     })
-
-
-    // $(document).ready(function () {
-    //     let testValue = "[[${createVoucherFail}}]]";
-    //     console.log(testValue);
-    // })
 </script>
 </html>

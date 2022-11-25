@@ -2,12 +2,42 @@
 <html lang="kr"
       layout:decorate="~{layout/voucher-layout}"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
 >
 <head>
     <meta charset="UTF-8">
     <title>바우쳐 상세 페이지</title>
 </head>
 <section layout:fragment="content">
-
+    <div>
+    </div>
+    <div th:text="${voucher.getVoucherType()}">
+    </div>
+    <div th:text="${voucher.getValue()}">
+    </div>
+    <div th:text="${voucher.getCreatedAt().toLocalDate()}">
+    </div>
+    <div class="card text-center">
+        <div class="card-header row">
+            <span class="col-2">ID</span>
+            <span class="col-8" th:text="${voucher.getVoucherId()}">
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a class="btn btn-primary" href="#">Go somewhere</a>
+        </div>
+        <div class="card-footer text-muted">
+            2 days ago
+        </div>
+    </div>
 </section>
+<script layout:fragment="f-script" th:inline="javascript">
+    console.log([[${fail}]]);
+    $(document).ready(() => {
+        if ([[${fail}]]) {
+            alert("잘못된 ID 입니다.")
+        }
+    });
+</script>
 </html>

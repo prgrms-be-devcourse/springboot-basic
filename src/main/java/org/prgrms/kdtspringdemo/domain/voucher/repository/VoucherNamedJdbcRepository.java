@@ -23,9 +23,9 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
     private static final String INSERT_SQL =
             "INSERT INTO vouchers_demo (voucher_id, voucher_type, value) VALUES (UUID_TO_BIN(:voucherId),:voucherType,:value);";
     private static final String FIND_BY_ID_SQL =
-            "SELECT v.voucher_id , vt.voucher_type , v.value  FROM vouchers_demo v JOIN voucher_type vt on vt.id = v.voucher_type WHERE voucher_id = UUID_TO_BIN(:voucherId);";
+            "SELECT v.voucher_id , vt.voucher_type , v.value,v.created_at  FROM vouchers_demo v JOIN voucher_type vt on vt.id = v.voucher_type WHERE voucher_id = UUID_TO_BIN(:voucherId);";
     private static final String FIND_ALL_SQL =
-            "SELECT v.voucher_id, vt.voucher_type, v.value  FROM vouchers_demo v JOIN voucher_type vt on vt.id = v.voucher_type;";
+            "SELECT v.voucher_id, vt.voucher_type, v.value,v.created_at  FROM vouchers_demo v JOIN voucher_type vt on vt.id = v.voucher_type;";
     //    private static final String UPDATE_SQL = "";
     private static final String DELETE_SQL = "DELETE FROM vouchers_demo WHERE voucher_id = UUID_TO_BIN(:voucherId);";
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers_demo";
@@ -40,7 +40,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
             var voucherId = toUUID(resultSet.getBytes("voucher_id"));
             var voucherType = VoucherType.getTypeByName(resultSet.getString("voucher_type"));
             var value = resultSet.getLong("value");
-            var voucher = this.voucherCreator.createVoucher(voucherId, voucherType, value);
+            var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+            var voucher = this.voucherCreator.createVoucher(voucherId, voucherType, value, createdAt);
             return voucher;
         };
     }

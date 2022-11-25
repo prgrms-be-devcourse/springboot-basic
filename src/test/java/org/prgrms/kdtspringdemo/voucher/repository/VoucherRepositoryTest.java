@@ -103,7 +103,7 @@ class VoucherRepositoryTest {
         @DisplayName("실패합니다.[중복된 ID]")
         void failEqualId() {
             var voucher1 = voucherCreator.createVoucher(VoucherType.FIXED, 10000L);
-            var voucher2 = voucherCreator.createVoucher(voucher1.getVoucherId(), VoucherType.PERCENT, 30L);
+            var voucher2 = voucherCreator.createVoucher(voucher1.getVoucherId(), VoucherType.PERCENT, 30L, voucher1.getCreatedAt());
             voucherRepository.insert(voucher1);
             assertThat(voucherRepository.insert(voucher2).isPresent()).isFalse();
         }

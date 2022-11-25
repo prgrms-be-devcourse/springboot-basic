@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.domain.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -11,13 +12,15 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
 
     private final long percent;
+    private final LocalDateTime createdAt;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent) throws IllegalArgumentException {
+    public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) throws IllegalArgumentException {
         if (!voucherAllow(percent)) {
             throw new IllegalArgumentException("허용되지 않는 숫자입니다.");
         }
         this.voucherId = voucherId;
         this.percent = percent;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -41,6 +44,12 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+
+    }
+
+    @Override
     public CsvDto makeCsvDtoFromVoucher() {
         return CsvDto.from(this);
     }
@@ -50,12 +59,12 @@ public class PercentDiscountVoucher implements Voucher {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PercentDiscountVoucher that = (PercentDiscountVoucher) o;
-        return percent == that.percent && Objects.equals(voucherId, that.voucherId);
+        return percent == that.percent && voucherId.equals(that.voucherId) && createdAt.equals(that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voucherId, percent);
+        return Objects.hash(voucherId, percent, createdAt);
     }
 
     private boolean voucherAllow(Long value) {

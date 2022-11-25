@@ -18,8 +18,9 @@ create table if not exists voucher_type
 create table if not exists vouchers_demo
 (
     voucher_id   BINARY(16) PRIMARY KEY,
-    voucher_type TINYINT NOT NULL,
-    value        BIGINT  NOT NULL,
+    voucher_type TINYINT     NOT NULL,
+    value        BIGINT      NOT NULL,
+    created_at   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     FOREIGN KEY (voucher_type) REFERENCES voucher_type (id) ON UPDATE CASCADE
 );
 

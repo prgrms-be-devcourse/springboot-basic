@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.domain.voucher.model;
 
 import org.prgrms.kdtspringdemo.io.file.CsvDto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,11 +11,13 @@ public class FixedAmountVoucher implements Voucher {
     private static final long MAX_AMOUNT = 1000000;
     private final UUID voucherId;
     private final long amount;
+    private final LocalDateTime createdAt;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) throws IllegalArgumentException {
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) throws IllegalArgumentException {
         if (!voucherAllow(amount)) throw new IllegalArgumentException("허용되지 않는 숫자입니다.");
         this.voucherId = voucherId;
         this.amount = amount;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -34,6 +37,11 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getValue() {
         return amount;
+    }
+
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 
     @Override

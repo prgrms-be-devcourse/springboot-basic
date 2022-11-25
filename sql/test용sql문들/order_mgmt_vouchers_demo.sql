@@ -24,9 +24,10 @@ DROP TABLE IF EXISTS `vouchers_demo`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `vouchers_demo`
 (
-    `voucher_id`   binary(16) NOT NULL,
-    `voucher_type` tinyint    NOT NULL,
-    `value`        bigint     NOT NULL,
+    `voucher_id`   binary(16)  NOT NULL,
+    `voucher_type` tinyint     NOT NULL,
+    `value`        bigint      NOT NULL,
+    `created_at`   datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`voucher_id`),
     KEY `voucher_type` (`voucher_type`),
     CONSTRAINT `vouchers_demo_ibfk_1` FOREIGN KEY (`voucher_type`) REFERENCES `voucher_type` (`id`) ON UPDATE CASCADE
@@ -43,11 +44,15 @@ LOCK TABLES `vouchers_demo` WRITE;
 /*!40000 ALTER TABLE `vouchers_demo`
     DISABLE KEYS */;
 INSERT INTO `vouchers_demo`
-VALUES (_binary '-�;GC$I��T\�ZO�', 2, 49),
-       (_binary '<˟2Iߏn\�>q`u', 2, 80),
-       (_binary '��\�w�\�A���Ņ�j', 2, 100),
-       (_binary '��M��O���B4�\"��', 1, 9900),
-       (_binary '�\r��@���N\�\'&\�*', 1, 50000);
+VALUES (_binary '-�;GC$I��T\�ZO�', 2, 49, '2022-11-25 07:45:16.034145'),
+       (_binary '<˟2Iߏn\�>q`u', 2, 80, '2022-11-25 07:45:16.034145'),
+       (_binary 'Mh\��\�M\� �q�\�', 1, 2341, '2022-11-25 07:45:16.034145'),
+       (_binary 'sjX�\�\�F��\�\�?�\�0\�', 1, 123, '2022-11-25 07:45:16.034145'),
+       (_binary '�\�#a\�?E(�\�Q�J�!v', 1, 12312, '2022-11-25 07:45:16.034145'),
+       (_binary '��\�w�\�A���Ņ�j', 2, 100, '2022-11-25 07:45:16.034145'),
+       (_binary '��\�\�\0�@.�ܳ��H\�', 2, 80, '2022-11-25 07:45:16.034145'),
+       (_binary '��M��O���B4�\"��', 1, 9900, '2022-11-25 07:45:16.034145'),
+       (_binary '�\r��@���N\�\'&\�*', 1, 50000, '2022-11-25 07:45:16.034145');
 /*!40000 ALTER TABLE `vouchers_demo`
     ENABLE KEYS */;
 UNLOCK TABLES;
@@ -61,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION = @OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-20 13:01:33
+-- Dump completed on 2022-11-25 22:02:33
