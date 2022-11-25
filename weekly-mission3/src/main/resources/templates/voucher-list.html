@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voucher Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h2>바우처 리스트</h2>
+<a th:href="@{/}" class="btn btn-primary" type="button">메인으로 돌아가기</a>
+<a th:href="@{/voucher-new}" class="btn btn-primary" type="button">바우처 추가</a>
+<table class="table table-hover, table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Type</th>
+        <th scope="col">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{type}"></td>
+        <td><a th:href="@{${'/voucher/'+voucher.voucherId}}" class="btn btn-secondary" tabindex="-1" role="button">상세보기</a></td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/voucher-delete}" th:method="delete" >
+    <button type="submit" class="btn btn-primary">바우처 전체 삭제</button>
+</form>
+</body>
+</html>

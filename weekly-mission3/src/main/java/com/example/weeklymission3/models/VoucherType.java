@@ -3,8 +3,8 @@ package com.example.weeklymission3.models;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED("FixedAmountVoucher"),
-    PERCENT("PercentDiscountVoucher");
+    FIXED("Fixed Amount Voucher"),
+    PERCENT("Percent Discount Voucher");
 
     private final String voucher;
 
@@ -17,5 +17,9 @@ public enum VoucherType {
                 .filter(voucherType -> voucherType.toString().equalsIgnoreCase(type))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 입력값"));
+    }
+
+    public static String transferVoucherType(VoucherType type) {
+        return type.voucher;
     }
 }

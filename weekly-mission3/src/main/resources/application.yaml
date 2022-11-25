@@ -1,4 +1,8 @@
 spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
   datasource:
     url: jdbc:mysql://localhost:3306/voucher_mgmt
     username: root
