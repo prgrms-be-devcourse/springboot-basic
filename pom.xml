@@ -66,6 +66,27 @@
 			<version>1.17.5</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- thymeleaf 설정하기 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+
+		<!-- web starter 설정하기 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+
+		<!-- devtools 설정 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
