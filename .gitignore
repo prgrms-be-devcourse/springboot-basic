@@ -1,5 +1,3 @@
-
-# CMake
 cmake-build-*/
 
 # log 파일 저장 안함
