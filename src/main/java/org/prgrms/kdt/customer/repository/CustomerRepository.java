@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.model.customer.Customer;
 
@@ -12,7 +12,6 @@ public interface CustomerRepository {
     Customer update(Customer customer);
 
     List<Customer> getAllStoredCustomer();
-
     void clear();
 
     Optional<Customer> findById(UUID customerId);

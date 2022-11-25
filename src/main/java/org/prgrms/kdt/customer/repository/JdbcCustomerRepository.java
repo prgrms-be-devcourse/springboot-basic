@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.exception.NotPresentInRepositoryException;
 import org.prgrms.kdt.model.customer.Customer;

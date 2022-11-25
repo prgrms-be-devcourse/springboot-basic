@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
@@ -37,6 +37,18 @@ public class MemoryVoucherRepository implements VoucherRepository {
         }
 
         return storedVoucher;
+    }
+
+    @Override
+    public UUID remove(UUID voucherId) {
+        Voucher remove = repository.get(voucherId);
+
+        if (Objects.equals(remove, null)) {
+            throw new IllegalArgumentException("삭제할 바우처가 없습니다.");
+        }
+
+        repository.remove(voucherId);
+        return voucherId;
     }
 
     @Override

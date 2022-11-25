@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 
 import org.prgrms.kdt.model.voucher.Voucher;
@@ -20,10 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Repository
@@ -116,6 +113,18 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAllStoredVoucher() {
         return voucherRepository;
+    }
+
+    @Override
+    public UUID remove(UUID voucherId) {
+        for (int i = 0; i < voucherRepository.size(); i++) {
+            if (Objects.equals(voucherRepository.get(i).getVoucherId(), voucherId)) {
+                voucherRepository.remove(i);
+                return voucherId;
+            }
+        }
+
+        throw new IllegalArgumentException("삭제할 바우처가 없습니다.");
     }
 
     @Override

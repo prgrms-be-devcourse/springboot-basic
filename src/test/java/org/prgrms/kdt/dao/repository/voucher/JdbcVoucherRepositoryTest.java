@@ -6,9 +6,14 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+<<<<<<< HEAD
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.voucher.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.VoucherRepository;
+=======
+import org.prgrms.kdt.voucher.repository.JdbcVoucherRepository;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+>>>>>>> 7b4babe (feat: 기존 애플리케이션에서 디렉토리 구조를 변경하고 바우처를 삭제하는 기능을 추가하다.)
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;
@@ -108,5 +113,16 @@ class JdbcVoucherRepositoryTest {
 
         // then
         assertThat(findVoucher.getOwnedCustomerId().isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("DB에 저장된 바우처를 삭제할 수 있다.")
+    void removeVoucher() {
+        // when
+        voucherRepository.remove(voucher.getVoucherId());
+        List<Voucher> allStoredVoucher = voucherRepository.getAllStoredVoucher();
+        // then
+        assertThat(allStoredVoucher.isEmpty(), is(true));
     }
 }

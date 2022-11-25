@@ -1,10 +1,10 @@
 package org.prgrms.kdt.presentation.controller;
 
-import org.prgrms.kdt.customer.CustomerService;
+import org.prgrms.kdt.customer.service.CustomerService;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.presentation.io.ConsoleIO;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.service.VoucherService;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -39,7 +39,7 @@ public enum CommandType {
             String assignCustomerId = consoleIO.inputId(CUSTOMER);
             Customer findCustomer = customerService.findCustomerById(assignCustomerId);
 
-            voucherService.assignVoucher(findVoucher, findCustomer);
+            voucherService.assignVoucher(findVoucher, findCustomer.getCustomerId());
             return true;
         }
     },

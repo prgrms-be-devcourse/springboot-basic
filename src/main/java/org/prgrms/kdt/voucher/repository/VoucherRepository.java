@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 
@@ -14,6 +14,8 @@ public interface VoucherRepository {
     void insert(Voucher voucher);
 
     List<Voucher> getAllStoredVoucher();
+
+    UUID remove(UUID voucherId);
 
     void clear();
 }

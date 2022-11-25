@@ -21,7 +21,7 @@
     <!--        <appender-ref ref="ROLLING_FILE_OUT" />-->
     <!--    </logger>-->
 
-    <root level="warn">
-        <appender-ref ref="ROLLING_FILE_OUT"/>
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

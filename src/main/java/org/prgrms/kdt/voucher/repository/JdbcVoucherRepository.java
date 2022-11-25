@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
@@ -62,6 +62,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> getAllStoredVoucher() {
         RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> mapToVoucher(resultSet);
         return jdbcTemplate.query("SELECT * FROM vouchers", voucherRowMapper);
+    }
+
+    @Override
+    public UUID remove(UUID voucherId) {
+        int deleteCount = jdbcTemplate.update(
+                "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes())
+        );
+
+        if (deleteCount != 1) {
+            throw new IllegalArgumentException("삭제할 바우처가 없습니다.");
+        }
+
+        return voucherId;
     }
 
     @Override

@@ -79,7 +79,6 @@ class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED), LocalDateTime.now());
 
         when(voucherRepository.update(voucher)).thenReturn(voucher);
-        Voucher assignVoucher = voucherService.assignVoucher(voucher, customer);
 
         verify(voucherRepository).update(voucher);
         assertThat(assignVoucher.getOwnedCustomerId().get(), is(customer.getCustomerId()));
@@ -116,5 +115,17 @@ class VoucherServiceTest {
 
         verify(voucherRepository).findById(voucherId);
         assertThat(removeVoucher.getOwnedCustomerId().isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("특정 바우처를 삭제할 수 있다.")
+    void 바우처_삭제하기() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, LocalDateTime.now());
+
+        when(voucherRepository.remove(voucherId)).thenReturn(voucherId);
+        voucherService.removeVoucher(voucherId.toString());
+
+        verify(voucherRepository).remove(voucherId);
     }
 }

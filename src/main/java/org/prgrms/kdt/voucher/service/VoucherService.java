@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.service;
 
 import org.prgrms.kdt.exception.NotPresentInRepositoryException;
 import org.prgrms.kdt.model.customer.Customer;
@@ -6,9 +6,11 @@ import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.util.ConvertUtil;
+import org.prgrms.kdt.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -45,8 +47,8 @@ public class VoucherService {
                 .orElseThrow(() -> new NotPresentInRepositoryException("입력된 voucher ID가 존재하지 않습니다."));
     }
 
-    public Voucher assignVoucher(Voucher voucher, Customer ownedCustomer) {
-        voucher.setOwnedCustomerId(ownedCustomer.getCustomerId());
+    public Voucher assignVoucher(Voucher voucher, UUID ownedCustomerId) {
+        voucher.setOwnedCustomerId(ownedCustomerId);
         return voucherRepository.update(voucher);
     }
 
@@ -61,5 +63,13 @@ public class VoucherService {
         Voucher voucher = findVoucherById(voucherId);
         voucher.removeOwnedCustomer();
         return voucherRepository.update(voucher);
+    }
+
+    public UUID removeVoucher(String voucherId) {
+        try {
+            return voucherRepository.remove(UUID.fromString(voucherId));
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("입력된 voucher ID가 UUID 형식이 아닙니다.", e);
+        }
     }
 }
