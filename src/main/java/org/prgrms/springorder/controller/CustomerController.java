@@ -3,8 +3,8 @@ package org.prgrms.springorder.controller;
 import java.util.List;
 
 import org.prgrms.springorder.domain.customer.Customer;
-import org.prgrms.springorder.service.BlackListService;
-import org.prgrms.springorder.service.CustomerService;
+import org.prgrms.springorder.service.customer.BlackListService;
+import org.prgrms.springorder.service.customer.CustomerService;
 import org.springframework.stereotype.Component;
 
 @Component

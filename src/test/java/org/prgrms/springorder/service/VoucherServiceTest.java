@@ -19,6 +19,7 @@ import org.prgrms.springorder.domain.voucher.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.repository.voucher.VoucherRepository;
+import org.prgrms.springorder.service.voucher.VoucherService;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {

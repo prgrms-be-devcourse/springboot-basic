@@ -1,4 +1,4 @@
-package org.prgrms.springorder.service;
+package org.prgrms.springorder.service.customer;
 
 import java.util.List;
 import java.util.stream.Collectors;

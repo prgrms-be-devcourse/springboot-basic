@@ -1,4 +1,4 @@
-package org.prgrms.springorder.repository.voucher;
+package org.prgrms.springorder.repository.wallet;
 
 import java.nio.ByteBuffer;
 import java.util.Collections;
