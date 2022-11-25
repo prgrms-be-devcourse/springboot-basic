@@ -25,13 +25,19 @@
         </thead>
         <tbody>
         <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
-            <td th:text="*{voucherId}"></td>
+            <td th:text="*{voucherId}" th:voucherId="*{voucherId}" onclick="voucherClicked(this.getAttribute('voucherId'))"></td>
             <td th:text="*{class.simpleName}"></td>
             <td th:text="*{discountValue}"></td>
         </tr>
         </tbody>
     </table>
 </div>
+
+<script>
+    function voucherClicked(value) {
+        location.href = "/voucher/onevoucher/" + value;
+    }
+</script>
 
 </body>
 </html>

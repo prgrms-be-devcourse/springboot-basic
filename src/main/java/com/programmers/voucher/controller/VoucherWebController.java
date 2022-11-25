@@ -6,10 +6,12 @@ import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/voucher/")
@@ -42,5 +44,12 @@ public class VoucherWebController {
         List<Voucher> vouchers = voucherService.findAll();
         model.addAttribute("vouchers", vouchers);
         return "voucher/listVoucher";
+    }
+
+    @GetMapping("onevoucher/{voucherId}")
+    public String findById(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = voucherService.findById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "voucher/oneVoucher";
     }
 }
