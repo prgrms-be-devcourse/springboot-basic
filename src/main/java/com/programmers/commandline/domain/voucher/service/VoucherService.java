@@ -29,7 +29,7 @@ public class VoucherService {
         StringBuilder sb = new StringBuilder();
         List<Voucher> findAll = voucherRepository.findAll();
 
-        findAll.forEach(voucher -> sb.append(voucher.toString() + "\n"));
+        findAll.forEach(voucher -> sb.append(voucher.toString()));
 
         return sb.toString();
     }
