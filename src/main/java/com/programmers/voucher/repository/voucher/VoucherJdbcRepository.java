@@ -18,27 +18,27 @@ import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
-    private static final String insertSql
-            = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) " +
-            "VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+    private static final String insertSql = """
+            INSERT INTO vouchers(voucher_id, discount_value, voucher_type)
+            VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)""";
     private static final String findAllSql = "SELECT * FROM vouchers";
-    private static final String findAllByEmailSql
-            = "SELECT vouchers.* FROM vouchers " +
-            "LEFT JOIN customers ON customers.customer_id = vouchers.customer_id " +
-            "WHERE customers.email = :email";
+    private static final String findAllByEmailSql = """
+            SELECT vouchers.* FROM vouchers 
+            LEFT JOIN customers ON customers.customer_id = vouchers.customer_id 
+            WHERE customers.email = :email""";
     private static final String findSql
             = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
-    private static final String updateSql
-            = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType " +
-            "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String updateSql = """
+            UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType 
+            WHERE voucher_id = UUID_TO_BIN(:voucherId)""";
     private static final String deleteSql = "DELETE FROM vouchers";
-    private static final String deleteByEmailSql
-            = "DELETE vouchers FROM vouchers " +
-            "LEFT JOIN customers ON customers.customer_id = vouchers.customer_id " +
-            "WHERE customers.email = :email";
-    private static final String assignSql
-            = "UPDATE vouchers SET customer_id = :customerId " +
-            "WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String deleteByEmailSql = """
+            DELETE vouchers FROM vouchers 
+            LEFT JOIN customers ON customers.customer_id = vouchers.customer_id 
+            WHERE customers.email = :email""";
+    private static final String assignSql = """
+            UPDATE vouchers SET customer_id = :customerId 
+            WHERE voucher_id = UUID_TO_BIN(:voucherId)""";
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));

@@ -17,10 +17,10 @@ import static com.programmers.voucher.utils.JdbcParamMapper.*;
 public class CustomerJdbcRepository implements CustomerRepository {
     private static final String findByEmailSql
             = "SELECT * FROM customers WHERE email = :email";
-    private static final String findByVoucherSql
-            = "SELECT customers.* FROM customers " +
-            "LEFT JOIN vouchers ON customers.customer_id = vouchers.customer_id " +
-            "WHERE vouchers.voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String findByVoucherSql = """
+            SELECT customers.* FROM customers 
+            LEFT JOIN vouchers ON customers.customer_id = vouchers.customer_id 
+            WHERE vouchers.voucher_id = UUID_TO_BIN(:voucherId)""";
 
     private static final RowMapper<Customer> rowMapper = (resultSet, count) -> {
         int customerId = resultSet.getInt("customer_id");
