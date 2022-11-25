@@ -3,6 +3,7 @@ package org.prgrms.kdt.storage;
 import org.prgrms.kdt.exceptions.GetResultFailedException;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 import org.prgrms.kdt.exceptions.InvalidParameterException;
+import org.prgrms.kdt.exceptions.NoVoucherException;
 import org.prgrms.kdt.utils.VoucherType;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.PercentDiscountVoucher;
@@ -41,7 +42,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
                     invalidTypeException);
         }
 
-        int amount = resultSet.getInt("amount");
+        Integer amount = resultSet.getInt("amount");
         String customerId = resultSet.getString("customer_id");
 
         switch (voucherType) {
@@ -73,8 +74,9 @@ public class JdbcVoucherStorage implements VoucherStorage {
                 "voucherId", voucher.getVoucherId(),
                 "type", voucher.getVoucherType(),
                 "amount", voucher.getAmount(),
-                "customerId", voucher.getOwnerId().orElse(null)
+                "customerId", voucher.getOwnerId().orElse("")
         );
+
     }
 
     @Override
@@ -116,7 +118,7 @@ public class JdbcVoucherStorage implements VoucherStorage {
     public void deleteById(String voucherId) {
         int update = namedParameterJdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId", Collections.singletonMap("voucherId", voucherId));
         if (update != UPDATE_SUCCESS) {
-            throw new InvalidParameterException(
+            throw new NoVoucherException(
                     MessageFormat.format(
                             "전달받은 ID에 대한 삭제를 할 수 없습니다. 사유: 해당 ID -> [{0}] 를 가진 바우처를 찾을 수 없음.", voucherId));
         }
