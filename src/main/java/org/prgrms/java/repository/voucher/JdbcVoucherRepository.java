@@ -17,6 +17,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, owner_id, amount, type, created_at, expired_at, used) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:ownerId), :amount, :type, :createdAt, :expiredAt, :used)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String FIND_BY_OWNER_QUERY = "SELECT * FROM vouchers WHERE owner_id = UUID_TO_BIN(:ownerId)";
+    private static final String FIND_EXPIRED_VOUCHER_QUERY = "SELECT * FROM vouchers WHERE expired_at < CURRENT_TIMESTAMP";
     private static final String FIND_ALL_QUERY = "SELECT * FROM vouchers";
     private static final String UPDATE_QUERY = "UPDATE vouchers SET owner_id = UUID_TO_BIN(:ownerId), amount = :amount, type = :type, expired_at = :expiredAt, used = :used WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_QUERY = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
@@ -46,6 +47,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 FIND_BY_OWNER_QUERY,
                 Collections.singletonMap("ownerId", customerId.toString().getBytes()),
                 Mapper.mapToVoucher);
+    }
+
+    @Override
+    public List<Voucher> findExpiredVouchers() {
+        return namedParameterJdbcTemplate.query(FIND_EXPIRED_VOUCHER_QUERY, Collections.emptyMap(), Mapper.mapToVoucher);
     }
 
     @Override

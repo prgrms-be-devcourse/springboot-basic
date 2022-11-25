@@ -4,6 +4,7 @@ import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,6 +22,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findByCustomer(UUID customerId) {
         return storage.values().stream()
                 .filter(voucher -> voucher.getOwnerId() == customerId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Voucher> findExpiredVouchers() {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getExpiredAt().isBefore(LocalDateTime.now()))
                 .collect(Collectors.toList());
     }
 
