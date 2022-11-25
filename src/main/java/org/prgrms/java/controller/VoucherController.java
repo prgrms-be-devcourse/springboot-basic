@@ -5,6 +5,8 @@ import org.prgrms.java.domain.voucher.CreateVoucherRequest;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.domain.voucher.VoucherDto;
 import org.prgrms.java.service.VoucherService;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,53 @@ public class VoucherController {
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
+
+    @GetMapping("/api/v1/vouchers")
+    @ResponseBody
+    public List<Voucher> findVouchersAPI() {
+        return voucherService.getAllVouchers();
+    }
+
+    @GetMapping("/api/v1/vouchers/owner/{customerId}")
+    @ResponseBody
+    public List<Voucher> findVouchersByOwnerAPI(@PathVariable("customerId") UUID customerId) {
+        return voucherService.getVoucherByOwner(customerId);
+    }
+
+    @GetMapping("/api/v1/vouchers/expired")
+    @ResponseBody
+    public List<Voucher> findExpiredVouchersAPI() {
+        return voucherService.getExpiredVouchers();
+    }
+
+    @GetMapping("/api/v1/vouchers/{voucherId}")
+    @ResponseBody
+    public Voucher findVoucherByIdAPI(@PathVariable("voucherId") UUID voucherId) {
+        return voucherService.getVoucher(voucherId);
+    }
+
+    @PostMapping("/api/v1/vouchers")
+    @ResponseBody
+    public Voucher createCustomer(@RequestBody CreateVoucherRequest createVoucherRequest) {
+        Voucher voucher = Mapper.mapToVoucher(
+                createVoucherRequest.getType(),
+                UUID.randomUUID(),
+                createVoucherRequest.getOwnerId(),
+                createVoucherRequest.getAmount(),
+                LocalDateTime.now(),
+                createVoucherRequest.getExpiredAt(),
+                false
+        );
+
+        return voucherService.saveVoucher(voucher);
+    }
+
+    @DeleteMapping("/api/v1/vouchers/{voucherId}")
+    public HttpEntity<?> deleteVoucherByIdAPI(@PathVariable("voucherId") UUID voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return new HttpEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping("/voucher")
     public String viewVoucherPage(Model model) {
