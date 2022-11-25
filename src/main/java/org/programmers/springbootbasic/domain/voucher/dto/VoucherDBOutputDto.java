@@ -19,7 +19,6 @@ public class VoucherDBOutputDto {
         this.voucherType = convertToVoucherType(type);
         this.voucherId = voucherId;
         this.amount = amount;
-
     }
 
     private VoucherType convertToVoucherType(String type) {
