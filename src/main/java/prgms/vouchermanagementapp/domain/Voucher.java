@@ -6,5 +6,7 @@ public interface Voucher {
 
     UUID getVoucherId();
 
+    long getFixedDiscountLevel();
+
     long discount(long amountBeforeDiscount);
 }

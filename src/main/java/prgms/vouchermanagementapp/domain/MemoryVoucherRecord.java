@@ -18,4 +18,6 @@ public class MemoryVoucherRecord implements VoucherRecord {
     public List<Voucher> getMemoryVouchers() {
         return this.memoryVouchers;
     }
+
+
 }

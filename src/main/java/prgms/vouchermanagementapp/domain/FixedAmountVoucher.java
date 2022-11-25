@@ -34,7 +34,8 @@ public class FixedAmountVoucher implements Voucher {
         return amountBeforeDiscount - discountAmount;
     }
 
-    public Amount getFixedDiscountAmount() {
-        return this.fixedDiscountAmount;
+    @Override
+    public long getFixedDiscountLevel() {
+        return this.fixedDiscountAmount.getAmount();
     }
 }

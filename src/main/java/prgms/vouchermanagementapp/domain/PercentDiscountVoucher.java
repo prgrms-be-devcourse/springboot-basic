@@ -7,6 +7,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
+
     private final Ratio fixedDiscountRatio;
 
     public PercentDiscountVoucher(UUID voucherId, Ratio fixedDiscountRatio) {
@@ -24,7 +25,8 @@ public class PercentDiscountVoucher implements Voucher {
         return amountBeforeDiscount - (amountBeforeDiscount * (fixedDiscountRatio.getRatio() / 100));
     }
 
-    public Ratio getFixedDiscountRatio() {
-        return this.fixedDiscountRatio;
+    @Override
+    public long getFixedDiscountLevel() {
+        return this.fixedDiscountRatio.getRatio();
     }
 }
