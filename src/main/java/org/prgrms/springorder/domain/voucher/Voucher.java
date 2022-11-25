@@ -8,7 +8,7 @@ public abstract class Voucher {
 
 	private final UUID voucherId;
 	private double value;
-	private final LocalDateTime createdAt;
+	private final LocalDateTime voucherCreatedAt;
 	private LocalDateTime updatedAt;
 	private final VoucherType voucherType;
 
@@ -16,12 +16,12 @@ public abstract class Voucher {
 
 	public abstract void validateValue(double value);
 
-	public Voucher(UUID voucherId, double value, LocalDateTime createdAt,
+	public Voucher(UUID voucherId, double value, LocalDateTime voucherCreatedAt,
 		VoucherType voucherType) {
 		validateValue(value);
 		this.voucherId = voucherId;
 		this.value = value;
-		this.createdAt = createdAt;
+		this.voucherCreatedAt = voucherCreatedAt;
 		this.voucherType = voucherType;
 	}
 
@@ -38,7 +38,7 @@ public abstract class Voucher {
 	}
 
 	public LocalDateTime getCreatedAt() {
-		return createdAt;
+		return voucherCreatedAt;
 	}
 
 	public void editVoucherValue(double value) {
