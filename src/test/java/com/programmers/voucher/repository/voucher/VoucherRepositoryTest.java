@@ -130,7 +130,7 @@ class VoucherRepositoryTest extends JdbcConfig {
         Voucher voucher = insertSingleVoucherData();
 
         //when
-        Voucher result = voucherRepository.findById(voucher.getVoucherId());
+        Voucher result = voucherRepository.findById(voucher.getVoucherId()).get();
 
         //then
         assertThat(result.getVoucherId())
@@ -148,7 +148,7 @@ class VoucherRepositoryTest extends JdbcConfig {
 
         //when
         voucherRepository.update(updatedVoucher);
-        Voucher result = voucherRepository.findById(voucher.getVoucherId());
+        Voucher result = voucherRepository.findById(voucher.getVoucherId()).get();
 
         //then
         assertThat(result.getDiscountValue())

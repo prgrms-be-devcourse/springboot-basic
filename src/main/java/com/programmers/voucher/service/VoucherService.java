@@ -40,7 +40,8 @@ public class VoucherService {
     }
 
     public Voucher findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
+        return voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처입니다."));
     }
 
     public Voucher update(UUID voucherId, long discountValue, VoucherType voucherType) {
@@ -52,7 +53,8 @@ public class VoucherService {
     }
 
     public Voucher assign(UUID voucherId, String email) {
-        Voucher voucher = voucherRepository.findById(voucherId);
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처입니다."));
         customerRepository.findByEmail(email)
                 .ifPresentOrElse(voucher::setCustomer,
                         () -> {

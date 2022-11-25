@@ -2,6 +2,7 @@ package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.programmers.voucher.utils.JdbcParamMapper.*;
@@ -72,8 +74,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        return jdbcTemplate.queryForObject(findSql, toVoucherIdMap(voucherId), rowMapper);
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(findSql, toVoucherIdMap(voucherId), rowMapper));
+        } catch (EmptyResultDataAccessException exception) {
+            return Optional.empty();
+        }
     }
 
     @Override
