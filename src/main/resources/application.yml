@@ -7,6 +7,10 @@ spring:
     username: kiseo
     password: 1234
 
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+
 file:
   voucher:
     save-path: ./sample.ini

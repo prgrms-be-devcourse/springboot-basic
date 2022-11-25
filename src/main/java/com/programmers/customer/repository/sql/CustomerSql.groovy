@@ -2,7 +2,14 @@ package com.programmers.customer.repository.sql
 
 class CustomerSql {
     public static final String SELECT_ALL = """
-        SELECT * FROM customer
+        SELECT c.customer_id, c.name, c.email, c.create_at, c.last_login_at, v.voucher_id, v.assigned, r.voucher_type, r.voucher_value
+        FROM customer c
+        LEFT JOIN wallet w
+        ON c.customer_id = w.customer_id
+        LEFT JOIN voucher v
+        on w.voucher_id = v.voucher_id
+        LEFT JOIN voucher_rule r
+        on v.voucher_id = r.voucher_id
     """
 
     public static final String SELECT_BY_EMAIL = """

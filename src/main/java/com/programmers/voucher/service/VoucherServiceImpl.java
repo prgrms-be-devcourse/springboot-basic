@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,5 +69,10 @@ public class VoucherServiceImpl implements VoucherService {
     public List<Voucher> getTypeVoucher(String type) {
         VoucherType validateType = VoucherType.getValidateVoucherType(type);
         return voucherRepository.findByType(validateType.name());
+    }
+
+    @Override
+    public List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime to) {
+        return voucherRepository.findByPeriod(from, to);
     }
 }

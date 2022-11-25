@@ -4,6 +4,7 @@ import com.programmers.voucher.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile("test")
@@ -51,5 +52,10 @@ public class HashMapVoucherRepository implements VoucherRepository {
         }
 
         return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        return null;
     }
 }

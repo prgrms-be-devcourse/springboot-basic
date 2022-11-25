@@ -3,6 +3,7 @@ package com.programmers.customer.repository;
 import com.programmers.customer.Customer;
 import com.programmers.customer.repository.sql.CustomerResultSetExtractor;
 import com.programmers.customer.repository.sql.CustomerRowMapper;
+import com.programmers.customer.repository.sql.ListCustomerResultSetExtractor;
 import com.programmers.voucher.repository.sql.VoucherRowMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,12 +35,14 @@ public class DbCustomerRepository implements CustomerRepository {
     private final CustomerRowMapper customerRowMapper;
     private final VoucherRowMapper voucherRowMapper;
     private final CustomerResultSetExtractor resultSetExtractor;
+    private final ListCustomerResultSetExtractor listExtractor;
 
     public DbCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.voucherRowMapper = new VoucherRowMapper();
         this.customerRowMapper = new CustomerRowMapper();
         this.resultSetExtractor = new CustomerResultSetExtractor(customerRowMapper, voucherRowMapper);
+        this.listExtractor  = new ListCustomerResultSetExtractor(resultSetExtractor);
     }
 
     @Override
@@ -123,7 +126,7 @@ public class DbCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
+        return jdbcTemplate.query(SELECT_ALL, emptyMap(), listExtractor);
     }
 
     @Override

@@ -93,4 +93,17 @@ public class DbVoucherRepository implements VoucherRepository {
             throw new RuntimeException(DB_ERROR_LOG.getMessage());
         }
     }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("from", from);
+        paramMap.put("to", to);
+        try {
+            return jdbcTemplate.query(SELECT_BY_PERIOD, paramMap, voucherRowMapper);
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
+        }
+    }
 }

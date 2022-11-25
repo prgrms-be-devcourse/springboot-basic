@@ -2,6 +2,7 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.voucher.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,4 +20,6 @@ public interface VoucherService {
     void deleteVoucher(UUID voucherId);
 
     List<Voucher> getTypeVoucher(String type);
+
+    List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime to);
 }

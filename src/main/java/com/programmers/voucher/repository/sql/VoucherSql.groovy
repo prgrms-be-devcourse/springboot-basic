@@ -44,4 +44,11 @@ class VoucherSql {
         ON v.voucher_id = r.voucher_id
         WHERE r.voucher_type = :voucherType 
     """
+
+    public static final String SELECT_BY_PERIOD = """
+        SELECT v.voucher_id, v.create_at, v.assigned, r.voucher_type, r.voucher_value
+        FROM voucher v join voucher_rule r
+        ON v.voucher_id = r.voucher_id
+        WHERE v.create_at BETWEEN :from AND :to
+    """
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -89,5 +90,10 @@ public class FileVoucherRepository implements VoucherRepository {
         }
 
         return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        return null;
     }
 }

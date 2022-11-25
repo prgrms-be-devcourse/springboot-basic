@@ -25,6 +25,5 @@ public class ApiCustomerController {
         List<Customer> customers = customerService.findAll();
         return new ResponseEntity<>(customers, HttpStatus.OK);
     }
-
-
+    
 }
