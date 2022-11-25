@@ -12,7 +12,7 @@ public class MyDataSource {
     private final String user;
     private final String password;
 
-    public MyDataSource(@Value("${db.url}") String url, @Value("${db.user}")String user, @Value("${db.password}")String password) {
+    public MyDataSource(@Value("${db.url}") String url, @Value("${db.user}") String user, @Value("${db.password}") String password) {
         this.url = url;
         this.user = user;
         this.password = password;

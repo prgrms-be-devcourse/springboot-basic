@@ -5,10 +5,9 @@ import com.programmers.commandline.domain.consumer.entity.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -20,17 +19,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isA;
 
-@SpringBootTest
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("file")
 class ConsumerFileRepositoryTest {
 
-    private String filePath;
-    @Autowired
-    private ConsumerFileRepository consumerFileRepository;
-
-    ConsumerFileRepositoryTest(@Value("${file.consumerBlacklistPath}") String filePath) {
-        this.filePath = filePath;
-    }
+    Logger logger = LoggerFactory.getLogger(ConsumerFileRepositoryTest.class);
+    private String filePath = "./src/test/resources/consumerResources/";
+    private ConsumerFileRepository consumerFileRepository = new ConsumerFileRepository(filePath);
 
     @BeforeEach
     void setup() {
@@ -42,7 +36,7 @@ class ConsumerFileRepositoryTest {
     }
 
     @Test
-    @DisplayName("소비자를 파일로 저장하고 저장된 파일명과 소비자의 ID를 검증하라")
+    @DisplayName("소비자를 파일로 저장하고 저장된 파일명과 소비자의 ID를 검증하자")
     void insert() {
         //given
         Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
@@ -66,7 +60,8 @@ class ConsumerFileRepositoryTest {
         String updateEmail = "update_user@naver.com";
 
         //when
-        consumerFileRepository.insert(consumer);
+        Consumer insert = consumerFileRepository.insert(consumer);
+        logger.info(String.format("잘나왔나요 insert씩 ? %s", insert.getId()));
         consumer.update(updateUsername, updateEmail);
         consumerFileRepository.update(consumer);
 

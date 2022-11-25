@@ -1,12 +1,12 @@
 spring:
   profiles:
-    active: jdbc
+    active: file
 
 file:
   voucherResourcesPath: ./src/main/resources/voucherResources/
-  consumerBlacklistPath: ./src/main/resources/consumerResources/
+  consumerPath: ./src/main/resources/consumerResources/
 
 db:
-  url: jdbc:mysql://localhost/voucherApplication
-  user: root
-  password: root1234!
+  url: ${DB_URL}
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}

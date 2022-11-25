@@ -23,7 +23,7 @@ public class VoucherService {
         return voucherRepository.insert(voucher).getId();
     }
 
-    public String findVouchers() {
+    public String findAll() {
         StringBuilder sb = new StringBuilder();
         List<Voucher> findAll = voucherRepository.findAll();
 

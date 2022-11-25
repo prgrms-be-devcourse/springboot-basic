@@ -30,8 +30,7 @@ public enum Message {
     CONSUMER_FILE_WRITE_ERROR("소비자를 파일에 저장하지 못했습니다."),
     INT_READ_EXCEPTION("int 타입 입력에서 에러가 발생하였습니다."),
     NULL_POINT_FILE("파일이 존제하지 않습니다."),
-    OPTIONEL_NULL("조회결과가 없습니다.");
-
+    OPTIONAL_NULL("조회결과가 없습니다.");
     private String message;
 
     Message(String message) {

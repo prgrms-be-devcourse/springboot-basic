@@ -5,6 +5,8 @@ import com.moandjiezana.toml.TomlWriter;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
 import com.programmers.commandline.global.io.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -21,8 +23,9 @@ import java.util.UUID;
 @Profile("file")
 public class ConsumerFileRepository implements ConsumerRepository {
     private final String filePath;
+    Logger logger = LoggerFactory.getLogger(ConsumerFileRepository.class);
 
-    public ConsumerFileRepository(@Value("${file.consumerBlacklistPath}") String filePath) {
+    public ConsumerFileRepository(@Value("${file.consumerPath}") String filePath) {
         this.filePath = filePath;
     }
 
@@ -30,6 +33,7 @@ public class ConsumerFileRepository implements ConsumerRepository {
     public Consumer insert(Consumer customer) {
         TomlWriter tomlWriter = new TomlWriter();
         File consumerFile = new File(filePath + customer.getId());
+
         try {
             tomlWriter.write(customer, consumerFile);
         } catch (IOException e) {

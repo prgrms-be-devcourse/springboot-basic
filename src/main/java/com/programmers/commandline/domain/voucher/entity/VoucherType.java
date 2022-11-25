@@ -15,13 +15,13 @@ public enum VoucherType {
 
     private final int code;
     private final String message;
-    private final LambdaCreateVoucher lambdaCreateVoucher;
+    private final voucherCreator voucherCreator;
 
 
-    VoucherType(int code, String message, LambdaCreateVoucher lambdaCreateVoucher) {
+    VoucherType(int code, String message, voucherCreator voucherCreator) {
         this.code = code;
         this.message = message;
-        this.lambdaCreateVoucher = lambdaCreateVoucher;
+        this.voucherCreator = voucherCreator;
     }
 
     public static VoucherType ofNumber(int code) {
@@ -35,7 +35,7 @@ public enum VoucherType {
     }
 
     public Voucher createVoucher(UUID uuid, long discount, LocalDateTime createdAt) {
-        return lambdaCreateVoucher.create(uuid, discount, createdAt);
+        return voucherCreator.create(uuid, discount, createdAt);
     }
 
     public String getMessage() {

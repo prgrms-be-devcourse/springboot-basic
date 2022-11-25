@@ -1,4 +1,4 @@
-package com.programmers.commandline.domain.voucher;
+package com.programmers.commandline;
 
 import com.programmers.commandline.domain.consumer.service.ConsumerService;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
@@ -85,7 +85,7 @@ public class VoucherApplication {
     }
 
     private void findVouchers() {
-        String vouchers = voucherService.findVouchers();
+        String vouchers = voucherService.findAll();
         console.print(vouchers);
     }
 

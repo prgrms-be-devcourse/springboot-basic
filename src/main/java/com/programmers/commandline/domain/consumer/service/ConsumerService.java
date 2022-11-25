@@ -39,7 +39,7 @@ public class ConsumerService {
     public String update(String consumerId, String name, String email) {
 
         Consumer consumer = consumerRepository.findById(consumerId).orElseThrow(() -> {
-            logger.info(Message.OPTIONEL_NULL.getMessage());
+            logger.info(Message.OPTIONAL_NULL.getMessage());
             throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
         consumer.update(name, email);
@@ -49,21 +49,21 @@ public class ConsumerService {
 
     public Consumer findById(String consumerId) {
         return consumerRepository.findById(consumerId).orElseThrow(() -> {
-            logger.info(Message.OPTIONEL_NULL.getMessage());
+            logger.info(Message.OPTIONAL_NULL.getMessage());
             throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }
 
     public Consumer findByName(String name) {
         return consumerRepository.findByName(name).orElseThrow(() -> {
-            logger.info(Message.OPTIONEL_NULL.getMessage());
+            logger.info(Message.OPTIONAL_NULL.getMessage());
             throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }
 
     public Consumer findByEmail(String email) {
         return consumerRepository.findByEmail(email).orElseThrow(() -> {
-            logger.info(Message.OPTIONEL_NULL.getMessage());
+            logger.info(Message.OPTIONAL_NULL.getMessage());
             throw new IllegalArgumentException(Message.NULL_POINT.getMessage());
         });
     }

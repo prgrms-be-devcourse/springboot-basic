@@ -16,9 +16,10 @@ public class Consumer {
         this.name = name;
         this.email = email;
         this.createdAt = createdAt.toString();
+        this.lastLoginAt = null;
     }
 
-    public Consumer(UUID id, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
+    public Consumer(UUID id, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
         validateName(name);
         this.id = id.toString();
         this.name = name;

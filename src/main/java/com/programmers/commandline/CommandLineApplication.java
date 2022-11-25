@@ -1,6 +1,5 @@
 package com.programmers.commandline;
 
-import com.programmers.commandline.domain.voucher.VoucherApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;

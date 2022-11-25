@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.5'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
 }
 
 group = 'com.programmers'
@@ -9,24 +9,27 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	//spring boot
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	//aop
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	//toml
-	implementation 'com.moandjiezana.toml:toml4j:0.7.2'
-	//database
-	implementation 'com.h2database:h2'
-	implementation 'mysql:mysql-connector-java'
-	//jdbc
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //spring boot
+    implementation 'org.springframework.boot:spring-boot-starter'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    //aop
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    //toml
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+    //database
+    implementation 'com.h2database:h2'
+    implementation 'mysql:mysql-connector-java'
+    //jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //mock
+    testImplementation "org.mockito:mockito-core"
+    //validation
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

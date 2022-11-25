@@ -4,6 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @FunctionalInterface
-public interface LambdaCreateVoucher {
+public interface voucherCreator {
     Voucher create(UUID id, Long discount, LocalDateTime createdAt);
 }
