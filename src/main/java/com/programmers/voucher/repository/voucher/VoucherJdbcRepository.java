@@ -1,5 +1,6 @@
 package com.programmers.voucher.repository.voucher;
 
+import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -95,7 +96,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public void deleteByEmail(String email) {
-        jdbcTemplate.update(deleteByEmailSql, toEmailMap(email));
+        int result = jdbcTemplate.update(deleteByEmailSql, toEmailMap(email));
+        if (result != 1) {
+            throw new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString());
+        }
     }
 
     @Override

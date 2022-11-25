@@ -1,5 +1,6 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
@@ -41,7 +42,7 @@ public class VoucherService {
 
     public Voucher findById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
     }
 
     public Voucher update(UUID voucherId, long discountValue, VoucherType voucherType) {
@@ -54,11 +55,11 @@ public class VoucherService {
 
     public Voucher assign(UUID voucherId, String email) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
         customerRepository.findByEmail(email)
                 .ifPresentOrElse(voucher::setCustomer,
                         () -> {
-                            throw new IllegalArgumentException("존재하지 않는 사용자입니다.");
+                            throw new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString());
                         });
         voucherRepository.assign(voucher);
         return voucher;

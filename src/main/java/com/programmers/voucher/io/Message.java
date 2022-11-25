@@ -23,7 +23,10 @@ public enum Message {
     REQUEST_CUSTOMER_NAME("사용자 이름을 입력해주세요."),
     REQUEST_CUSTOMER_EMAIL("이메일을 입력해주세요."),
     WELCOME_CUSTOMER("%s님 환영합니다.\n"),
-    OWN_VOUCHER("%s님이 보유한 바우처입니다.\n");
+    OWN_VOUCHER("%s님이 보유한 바우처입니다.\n"),
+    NOT_EXIST_VOUCHER("존재하지 않는 바우처입니다."),
+    NOT_EXIST_OR_NOT_ASSIGN_VOUCHER("존재하지 않거나 아직 할당되지 않은 바우처입니다."),
+    NOT_EXIST_CUSTOMER("존재하지 않는 사용자입니다.");
 
     private final String message;
 
