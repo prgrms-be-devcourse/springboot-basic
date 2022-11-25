@@ -1,12 +1,11 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.MysqlTestContainer;
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;
-import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +27,8 @@ class VoucherRepositoryTest extends MysqlTestContainer {
 
     private Customer insertSingleCustomerData() {
         String email = "taehee@gmail.com";
-        CustomerRequest customerRequest = new CustomerRequest("taehee", email);
-        customerRepository.save(customerRequest);
+        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("taehee", email);
+        customerRepository.save(customerCreateRequest);
         return customerRepository.findByEmail(email).get();
     }
 

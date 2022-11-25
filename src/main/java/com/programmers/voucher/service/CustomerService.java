@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.repository.customer.CustomerRepository;
@@ -17,8 +17,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer create(CustomerRequest customerRequest) {
-        return customerRepository.save(customerRequest);
+    public Customer create(CustomerCreateRequest customerCreateRequest) {
+        return customerRepository.save(customerCreateRequest);
     }
 
     public Customer findByVoucher(UUID voucherId) {

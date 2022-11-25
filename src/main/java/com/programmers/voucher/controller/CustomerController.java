@@ -1,6 +1,6 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.io.Output;
 import com.programmers.voucher.model.customer.Customer;
@@ -19,8 +19,8 @@ public class CustomerController {
         this.output = output;
     }
 
-    public void createCustomer(CustomerRequest customerRequest) {
-        Customer customer = customerService.create(customerRequest);
+    public void createCustomer(CustomerCreateRequest customerCreateRequest) {
+        Customer customer = customerService.create(customerCreateRequest);
         output.printFormat(Message.WELCOME_CUSTOMER, customer.getCustomerName());
     }
 

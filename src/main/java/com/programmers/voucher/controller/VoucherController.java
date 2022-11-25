@@ -1,6 +1,8 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.controller.dto.VoucherRequest;
+import com.programmers.voucher.controller.dto.VoucherAssignRequest;
+import com.programmers.voucher.controller.dto.VoucherCreateRequest;
+import com.programmers.voucher.controller.dto.VoucherUpdateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.io.Output;
 import com.programmers.voucher.model.voucher.Voucher;
@@ -20,8 +22,8 @@ public class VoucherController {
         this.output = output;
     }
 
-    public void create(VoucherRequest voucherRequest) {
-        Voucher voucher = voucherService.create(voucherRequest);
+    public void create(VoucherCreateRequest voucherCreateRequest) {
+        Voucher voucher = voucherService.create(voucherCreateRequest);
         output.printVoucher(voucher);
     }
 
@@ -38,13 +40,13 @@ public class VoucherController {
         output.printVoucher(selected);
     }
 
-    public void update(UUID inputVoucherId, long inputDiscountValue) {
-        Voucher updated = voucherService.update(inputVoucherId, inputDiscountValue);
+    public void update(VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher updated = voucherService.update(voucherUpdateRequest.voucherId(), voucherUpdateRequest.discountValue());
         output.printVoucher(updated);
     }
 
-    public void assign(UUID voucherId, String email) {
-        voucherService.assign(voucherId, email);
+    public void assign(VoucherAssignRequest voucherAssignRequest) {
+        voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());
     }
 
     public void deleteAll() {

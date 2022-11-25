@@ -1,6 +1,6 @@
 package com.programmers.voucher.repository.customer;
 
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -40,9 +40,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer save(CustomerRequest customerRequest) {
-        long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerRequest)).longValue();
-        return new Customer(id, customerRequest.customerName(), customerRequest.email());
+    public Customer save(CustomerCreateRequest customerCreateRequest) {
+        long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerCreateRequest)).longValue();
+        return new Customer(id, customerCreateRequest.customerName(), customerCreateRequest.email());
     }
 
     @Override

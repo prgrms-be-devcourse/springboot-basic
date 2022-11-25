@@ -1,7 +1,9 @@
 package com.programmers.voucher.controller;
 
-import com.programmers.voucher.controller.dto.CustomerRequest;
-import com.programmers.voucher.controller.dto.VoucherRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
+import com.programmers.voucher.controller.dto.VoucherAssignRequest;
+import com.programmers.voucher.controller.dto.VoucherCreateRequest;
+import com.programmers.voucher.controller.dto.VoucherUpdateRequest;
 import com.programmers.voucher.io.CommandType;
 import com.programmers.voucher.io.Input;
 import com.programmers.voucher.io.Message;
@@ -35,14 +37,14 @@ public class VoucherProgram {
             try {
                 switch (getInputCommandType()) {
                     case EXIT -> isRunning = false;
-                    case CREATE_VOUCHER -> voucherController.create(getVoucherDto());
+                    case CREATE_VOUCHER -> voucherController.create(getVoucherCreateDto());
                     case LIST_VOUCHER -> voucherController.findAll();
                     case SELECT_VOUCHER -> voucherController.findById(getInputVoucherId());
-                    case UPDATE_VOUCHER -> voucherController.update(getInputVoucherId(), getInputDiscountValue());
+                    case UPDATE_VOUCHER -> voucherController.update(getVoucherUpdateDto());
                     case DELETE_ALL_VOUCHER -> voucherController.deleteAll();
                     case CREATE_CUSTOMER -> customerController.createCustomer(getCustomerDto());
                     case SELECT_CUSTOMER_BY_VOUCHER -> customerController.findCustomerByVoucher(getInputVoucherId());
-                    case ASSIGN_VOUCHER -> voucherController.assign(getInputVoucherId(), getInputEmail());
+                    case ASSIGN_VOUCHER -> voucherController.assign(getVoucherAssignDto());
                     case LIST_VOUCHERS_OF_CUSTOMER -> voucherController.findAllByCustomer(getInputEmail());
                     case DELETE_VOUCHERS_OF_CUSTOMER -> voucherController.deleteByCustomer(getInputEmail());
                 }
@@ -74,14 +76,6 @@ public class VoucherProgram {
         return UUID.fromString(input.getInput());
     }
 
-    private VoucherRequest getVoucherDto() {
-        return new VoucherRequest(getInputVoucherType(), getInputDiscountValue());
-    }
-
-    private CustomerRequest getCustomerDto() {
-        return new CustomerRequest(getInputCustomerName(), getInputEmail());
-    }
-
     private String getInputCustomerName() {
         output.print(Message.REQUEST_CUSTOMER_NAME);
         return input.getInput();
@@ -90,5 +84,21 @@ public class VoucherProgram {
     private String getInputEmail() {
         output.print(Message.REQUEST_CUSTOMER_EMAIL);
         return input.getInput();
+    }
+
+    private VoucherCreateRequest getVoucherCreateDto() {
+        return new VoucherCreateRequest(getInputVoucherType(), getInputDiscountValue());
+    }
+
+    private VoucherUpdateRequest getVoucherUpdateDto() {
+        return new VoucherUpdateRequest(getInputVoucherId(), getInputDiscountValue());
+    }
+
+    private VoucherAssignRequest getVoucherAssignDto() {
+        return new VoucherAssignRequest(getInputVoucherId(), getInputEmail());
+    }
+
+    private CustomerCreateRequest getCustomerDto() {
+        return new CustomerCreateRequest(getInputCustomerName(), getInputEmail());
     }
 }

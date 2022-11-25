@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository.customer;
 
 import com.programmers.voucher.MysqlTestContainer;
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;
@@ -28,10 +28,10 @@ public class CustomerRepositoryTest extends MysqlTestContainer {
     void save() {
         //given
         String email = "taehee@gmail.com";
-        CustomerRequest customerRequest = new CustomerRequest("taehee", email);
+        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("taehee", email);
 
         //when
-        customerRepository.save(customerRequest);
+        customerRepository.save(customerCreateRequest);
 
         //then
         assertThat(customerRepository.findByEmail(email).get().getEmail())

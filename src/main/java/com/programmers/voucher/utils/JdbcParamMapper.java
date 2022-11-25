@@ -1,6 +1,6 @@
 package com.programmers.voucher.utils;
 
-import com.programmers.voucher.controller.dto.CustomerRequest;
+import com.programmers.voucher.controller.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.voucher.Voucher;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class JdbcParamMapper {
-    public static SqlParameterSource toCustomerMap(CustomerRequest customerRequest) {
+    public static SqlParameterSource toCustomerMap(CustomerCreateRequest customerCreateRequest) {
         return new MapSqlParameterSource()
-                .addValue("customerName", customerRequest.customerName())
-                .addValue("email", customerRequest.email());
+                .addValue("customerName", customerCreateRequest.customerName())
+                .addValue("email", customerCreateRequest.email());
     }
 
     public static SqlParameterSource toEmailMap(String email) {

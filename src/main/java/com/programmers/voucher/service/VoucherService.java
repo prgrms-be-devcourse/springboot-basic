@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.controller.dto.VoucherRequest;
+import com.programmers.voucher.controller.dto.VoucherCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.repository.customer.CustomerRepository;
@@ -23,8 +23,8 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
-    public Voucher create(VoucherRequest voucherRequest) {
-        Voucher newVoucher = voucherRequest.voucherType().convertToVoucher(UUID.randomUUID(), voucherRequest.discountValue());
+    public Voucher create(VoucherCreateRequest voucherCreateRequest) {
+        Voucher newVoucher = voucherCreateRequest.voucherType().convertToVoucher(UUID.randomUUID(), voucherCreateRequest.discountValue());
         logger.info("voucher create => {}", newVoucher);
         return voucherRepository.save(newVoucher);
     }
