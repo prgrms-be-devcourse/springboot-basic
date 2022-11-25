@@ -1,6 +1,7 @@
 package com.programmers.customer.service;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.repository.CustomerRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,45 +50,33 @@ class CustomerServiceTest {
 
     @Test
     @Transactional
-    @DisplayName("회원의 이름 정보를 변경할 수 있다.")
-    void 회원정보_업데이트() {
-        Customer customer = customerService.join("tester1", "test@test.com");
-
-        customer.changeName("tester2");
-        Customer updateCustomer = customerService.update(customer);
-
-        assertThat(customer.getName(), is("tester2"));
-        assertDoesNotThrow(() -> customerService.findByName("tester2"));
-    }
-
-    @Test
-    @Transactional
     @DisplayName("등록된 회원의 이름으로 조회 시 성공")
     void 회원_조회_이름() {
-        Customer customer = customerService.join("tester1", "test@test.com");
+        CustomerDto customer = customerService.join("tester1", "test@test.com");
 
-        Customer findOne = customerService.findByName(customer.getName());
-        assertEquals(customer, findOne);
+        CustomerDto findOne = customerService.findByName(customer.getName());
+
+        assertEquals(customer.getName(), findOne.getName());
     }
 
     @Test
     @Transactional
     @DisplayName("등록된 회원의 Id로 조회 시 성공")
     void 회원_조회_Id() {
-        Customer customer = customerService.join("tester1", "test@test.com");
+        CustomerDto customer = customerService.join("tester1", "test@test.com");
 
-        Customer findOne = customerService.findById(customer.getCustomerId());
-        assertEquals(customer, findOne);
+        CustomerDto findOne = customerService.findById(customer.getCustomerId());
+        assertEquals(customer.getCustomerId(), findOne.getCustomerId());
     }
 
     @Test
     @Transactional
     @DisplayName("등록된 회원의 Email로 조회 시 성공")
     void 회원_조회_Email() {
-        Customer customer = customerService.join("tester1", "test@test.com");
+        CustomerDto customer = customerService.join("tester1", "test@test.com");
 
-        Customer findOne = customerService.findByEmail(customer.getEmail());
-        assertEquals(customer, findOne);
+        CustomerDto findOne = customerService.findByEmail(customer.getEmail());
+        assertEquals(customer.getEmail(), findOne.getEmail());
     }
 
     @Test
@@ -118,7 +107,7 @@ class CustomerServiceTest {
         customerService.join("tester1", "test1@test.com");
         customerService.join("tester2", "test2@test.com");
 
-        List<Customer> customers = customerService.findAll();
+        List<CustomerDto> customers = customerService.findAll();
         assertThat(customers, hasSize(2));
     }
 }

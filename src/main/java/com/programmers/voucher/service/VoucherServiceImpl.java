@@ -1,5 +1,6 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherType;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.programmers.message.ErrorMessage.VOUCHER_ID_NOT_FOUND;
 
@@ -30,27 +32,36 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     @Transactional
-    public Voucher register(String voucherType, String value) {
+    public VoucherDto register(String voucherType, String value) {
         Voucher voucher = VoucherValidator.getValidateVoucher(voucherType, value);
-        return voucherRepository.registerVoucher(voucher);
+
+        voucherRepository.registerVoucher(voucher);
+
+        return entityToDto(voucher);
     }
 
     @Override
-    public Voucher getVoucher(UUID voucherId) {
+    public VoucherDto getVoucher(UUID voucherId) {
         Optional<Voucher> result = voucherRepository.findById(voucherId);
 
-        return result.orElseThrow(() ->
+        Voucher voucher = result.orElseThrow(() ->
                 new RuntimeException(VOUCHER_ID_NOT_FOUND.getMessage()));
+
+        return entityToDto(voucher);
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return voucherRepository.findAllVouchers();
+    public List<VoucherDto> findAll() {
+        List<Voucher> vouchers = voucherRepository.findAllVouchers();
+
+        return toDtoList(vouchers);
     }
 
     @Override
-    public List<Voucher> searchVouchersByCustomerId(UUID customerId) {
-        return walletRepository.findVouchersByCustomerId(customerId);
+    public List<VoucherDto> searchVouchersByCustomerId(UUID customerId) {
+        List<Voucher> vouchers = walletRepository.findVouchersByCustomerId(customerId);
+
+        return toDtoList(vouchers);
     }
 
     @Override
@@ -66,13 +77,24 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public List<Voucher> getTypeVoucher(String type) {
+    public List<VoucherDto> getTypeVoucher(String type) {
         VoucherType validateType = VoucherType.getValidateVoucherType(type);
-        return voucherRepository.findByType(validateType.name());
+        List<Voucher> vouchers = voucherRepository.findByType(validateType.name());
+
+        return toDtoList(vouchers);
     }
 
     @Override
-    public List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime to) {
-        return voucherRepository.findByPeriod(from, to);
+    public List<VoucherDto> findVoucherByPeriod(LocalDateTime from, LocalDateTime to) {
+        List<Voucher> vouchers = voucherRepository.findByPeriod(from, to);
+
+        return toDtoList(vouchers);
     }
+
+    private List<VoucherDto> toDtoList(List<Voucher> vouchers) {
+        return vouchers.stream()
+                .map(voucher -> entityToDto(voucher))
+                .collect(Collectors.toList());
+    }
+
 }

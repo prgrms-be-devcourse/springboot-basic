@@ -1,5 +1,6 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.voucher.Voucher;
 
 import java.time.LocalDateTime;
@@ -7,19 +8,28 @@ import java.util.List;
 import java.util.UUID;
 
 public interface VoucherService {
-    Voucher register(String voucherType, String value);
+    VoucherDto register(String voucherType, String value);
 
-    Voucher getVoucher(UUID voucherId);
+    VoucherDto getVoucher(UUID voucherId);
 
-    List<Voucher> findAll();
+    List<VoucherDto> findAll();
 
-    List<Voucher> searchVouchersByCustomerId(UUID customerId);
+    List<VoucherDto> searchVouchersByCustomerId(UUID customerId);
 
     void deleteAll();
 
     void deleteVoucher(UUID voucherId);
 
-    List<Voucher> getTypeVoucher(String type);
+    List<VoucherDto> getTypeVoucher(String type);
 
-    List<Voucher> findVoucherByPeriod(LocalDateTime from, LocalDateTime to);
+    List<VoucherDto> findVoucherByPeriod(LocalDateTime from, LocalDateTime to);
+
+    default VoucherDto entityToDto(Voucher voucher) {
+        return new VoucherDto(
+                voucher.getVoucherId(),
+                voucher.getType(),
+                voucher.getValue(),
+                voucher.isAssigned()
+        );
+    }
 }

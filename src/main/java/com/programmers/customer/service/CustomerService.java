@@ -1,25 +1,50 @@
 package com.programmers.customer.service;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
+import com.programmers.voucher.dto.VoucherDto;
+import com.programmers.voucher.voucher.Voucher;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public interface CustomerService {
-    Customer join(String name, String email);
+    CustomerDto join(String name, String email);
 
-    Customer findById(UUID customerId);
+    CustomerDto findById(UUID customerId);
 
-    Customer findByName(String name);
+    CustomerDto findByName(String name);
 
-    Customer findByEmail(String email);
+    CustomerDto findByEmail(String email);
 
-    Customer findCustomerByVoucherId(UUID voucherId);
+    CustomerDto findCustomerByVoucherId(UUID voucherId);
 
-    Customer update(Customer customer);
+    CustomerDto update(Customer customer);
 
-    List<Customer> findAll();
+    List<CustomerDto> findAll();
 
     void deleteCustomer(UUID customerId);
+
+    default CustomerDto entityToDto(Customer customer) {
+        List<Voucher> wallet = customer.getWallet();
+        List<VoucherDto> voucherDtoList = wallet.stream()
+                .map(voucher -> new VoucherDto(
+                        voucher.getVoucherId(),
+                        voucher.getType(),
+                        voucher.getValue(),
+                        voucher.isAssigned()))
+                .collect(Collectors.toList());
+
+        CustomerDto customerDto = new CustomerDto(
+                customer.getCustomerId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getCreateAt(),
+                voucherDtoList
+        );
+
+        return customerDto;
+    }
 }
 
