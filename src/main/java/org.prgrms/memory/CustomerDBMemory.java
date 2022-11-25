@@ -14,17 +14,20 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+
+@Profile("jdbc")
 @Repository
 public class CustomerDBMemory {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final int NO_RESULT = 0;
+    private static final int NO_RESULT = 0;
 
     public CustomerDBMemory(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -38,8 +41,9 @@ public class CustomerDBMemory {
     };
 
     public Customer save(Customer customer) {
-        Map<String, String> paramMap = Map.of("id", String.valueOf(customer.getId()), "name",
-            customer.getName());
+        Map<String, String> paramMap = Map.of(
+            "id", String.valueOf(customer.getId()),
+            "name", customer.getName());
         try {
             jdbcTemplate.update(INSERT.getSql(), paramMap);
         } catch (BadSqlGrammarException e) {
@@ -76,8 +80,9 @@ public class CustomerDBMemory {
     }
 
     public Customer update(Customer customer) {
-        Map<String, String> paramMap = Map.of("name", customer.getName(), "id",
-            String.valueOf(customer.getId()));
+        Map<String, String> paramMap = Map.of(
+            "name", customer.getName(),
+            "id", String.valueOf(customer.getId()));
         int updateNum = jdbcTemplate.update(UPDATE.getSql(), paramMap);
         if (updateNum == NO_RESULT) {
             throw new NoSuchElementException(
