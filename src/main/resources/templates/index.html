@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="kr"
+      layout:decorate="~{layout/voucher-layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>바우쳐 & 고객 관리 프로그램</title>
+
+</head>
+<nav class="navbar navbar-expand-lg bg-light" layout:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">바우쳐 & 고객 관리 프로그램</a>
+
+    </div>
+</nav>
+<section layout:fragment="content">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">바우쳐 & 고객 관리 프로그램 입니다.</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s
+                most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system,
+                extensive prebuilt components, and powerful JavaScript plugins.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a class="btn btn-primary btn-lg px-4 gap-3" href="/vouchers" type="button">바우쳐 관리</a>
+                <a class="btn btn-primary btn-lg px-4 gap-3" href="#" type="button">고객 관리</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+</html>

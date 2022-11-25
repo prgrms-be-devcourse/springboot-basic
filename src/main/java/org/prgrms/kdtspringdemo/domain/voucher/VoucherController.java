@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.UUID;
 
 @Controller
+@RequestMapping("/vouchers")
 public class VoucherController {
     private final VoucherService voucherService;
 
@@ -18,33 +20,28 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/")
-    public String StartPage() {
-        return "redirect:/vouchers";
-    }
-
-    @GetMapping("/vouchers")
+    @GetMapping("")
     public String VouchersPage(Model model) {
         var vouchers = voucherService.getAllVoucherList();
         model.addAttribute("vouchers", vouchers);
         return "vouchers";
     }
 
-    @GetMapping("/vouchers/{voucherId}")
+    @GetMapping("/{voucherId}")
     public String VoucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
         var voucher = voucherService.getVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
     }
 
-    @GetMapping("/vouchers/new")
+    @GetMapping("/new")
     public String createVoucherPage(Model model) {
         var voucherTypes = VoucherType.values();
         model.addAttribute("voucherTypes", voucherTypes);
         return "voucher-new";
     }
 
-    @PostMapping("/vouchers/new")
+    @PostMapping("/new")
     public String CreateVoucher(Model model, CreateVoucherRequest createVoucherRequest) {
         try {
             voucherService.createVoucher(VoucherType.getTypeByName(createVoucherRequest.voucherType()),

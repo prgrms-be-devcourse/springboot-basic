@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org"
 >
-<nav class="navbar navbar-expand-lg bg-light sticky-top" th:fragment="voucher-header-fragment">
+<nav class="navbar navbar-expand-lg bg-light sticky-top">
     <div class="container-fluid">
         <a class="navbar-brand" href="/vouchers">바우쳐 관리 프로그램</a>
         <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
@@ -18,9 +18,34 @@
                 </li>
             </ul>
 
+
         </nav>
     </div>
 </nav>
+<nav class="navbar navbar-expand-lg bg-light" th:fragment="voucher-header-fragment">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/vouchers">바우쳐 관리 프로그램</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a aria-current="page" class="nav-link active" href="/vouchers">바우쳐 조회</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/vouchers/new">바우쳐 추가</a>
+                </li>
+            </ul>
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">시작페이지로</a>
+                </li>
+            </ul>
 
+        </div>
+    </div>
+</nav>
 
 </html>
