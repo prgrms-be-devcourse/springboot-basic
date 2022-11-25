@@ -9,25 +9,33 @@
     <title>바우쳐 상세 페이지</title>
 </head>
 <section layout:fragment="content">
-    <div>
-    </div>
-    <div th:text="${voucher.getVoucherType()}">
-    </div>
-    <div th:text="${voucher.getValue()}">
-    </div>
-    <div th:text="${voucher.getCreatedAt().toLocalDate()}">
-    </div>
     <div class="card text-center">
         <div class="card-header row">
-            <span class="col-2">ID</span>
-            <span class="col-8" th:text="${voucher.getVoucherId()}">
+            <span th:text="${voucher.getVoucherId()}"/>
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
+            <h5 class="card-title" th:text="|${voucher.getVoucherType()} Voucher|">무슨 타입의 바우쳐?</h5>
             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a class="btn btn-primary" href="#">Go somewhere</a>
+            <p>
+                <a aria-controls="collapseExample" aria-expanded="false" class="btn btn-primary"
+                   data-bs-toggle="collapse" href="#customer-list" role="button">
+                    이 바우쳐를 가지고 있는 고객 보기
+                </a>
+            </p>
+            <div class="collapse" id="customer-list">
+                <div class="card card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">An item</li>
+                        <li class="list-group-item">A second item</li>
+                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">A fourth item</li>
+                        <li class="list-group-item">And a fifth one</li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted" th:text="|${voucher.getCreatedAt().toLocalDate()} 에 생성됨|">
             2 days ago
         </div>
     </div>
