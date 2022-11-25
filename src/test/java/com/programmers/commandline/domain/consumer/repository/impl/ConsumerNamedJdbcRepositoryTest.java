@@ -1,12 +1,12 @@
 package com.programmers.commandline.domain.consumer.repository.impl;
 
 import com.programmers.commandline.domain.consumer.entity.Consumer;
+import com.programmers.commandline.global.config.MyDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,13 +16,17 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
+@ActiveProfiles("jdbc")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ConsumerNamedJdbcRepositoryTest {
+    private final String dbUrl = "jdbc:mysql://localhost/voucherApplication";
+    private final String dbUser = "root";
+    private final String dbPassword = "root1234!";
+    private final MyDataSource myDataSource = new MyDataSource(dbUrl, dbUser, dbPassword);
 
-    @Autowired
-    private ConsumerNamedJdbcRepository consumerNamedJdbcRepository;
+    private ConsumerNamedJdbcRepository consumerNamedJdbcRepository = new ConsumerNamedJdbcRepository(myDataSource.getDataSource());
 
     @BeforeEach
     void setup() {
@@ -58,8 +62,11 @@ class ConsumerNamedJdbcRepositoryTest {
         Consumer updateConsumer = consumerNamedJdbcRepository.update(consumer);
 
         //then
-        assertThat(updateConsumer.getName(), is(updateName));
-        assertThat(updateConsumer.getEmail(), is(updateEmail));
+        assertAll(
+                () -> assertThat(updateConsumer.getName(), is(updateName)),
+                () -> assertThat(updateConsumer.getEmail(), is(updateEmail))
+        );
+
     }
 
     @Test

@@ -21,13 +21,16 @@ dependencies {
     //toml
     implementation 'com.moandjiezana.toml:toml4j:0.7.2'
     //database
-    implementation 'com.h2database:h2'
     implementation 'mysql:mysql-connector-java'
+    implementation 'com.h2database:h2'
     //jdbc
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     //mock
     testImplementation "org.mockito:mockito-core"
-    //validation
+    //web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {

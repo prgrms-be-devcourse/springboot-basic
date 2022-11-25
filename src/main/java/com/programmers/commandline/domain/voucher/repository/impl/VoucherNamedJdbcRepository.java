@@ -3,7 +3,6 @@ package com.programmers.commandline.domain.voucher.repository.impl;
 import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import com.programmers.commandline.domain.voucher.repository.VoucherRepository;
-import com.programmers.commandline.global.config.MyDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -14,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -34,9 +34,8 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
 
     Logger logger = LoggerFactory.getLogger(VoucherNamedJdbcRepository.class);
 
-
-    public VoucherNamedJdbcRepository(MyDataSource myDataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(myDataSource.getDataSource());
+    public VoucherNamedJdbcRepository(DataSource dataSource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {

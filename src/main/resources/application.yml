@@ -2,6 +2,12 @@ spring:
   profiles:
     active: jdbc
 
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
 file:
   voucherResourcesPath: ./src/main/resources/voucherResources/
   consumerPath: ./src/main/resources/consumerResources/

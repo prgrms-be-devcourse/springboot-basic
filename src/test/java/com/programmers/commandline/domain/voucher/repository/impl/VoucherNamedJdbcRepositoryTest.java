@@ -2,12 +2,11 @@ package com.programmers.commandline.domain.voucher.repository.impl;
 
 import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
+import com.programmers.commandline.global.config.MyDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,12 +16,14 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherNamedJdbcRepositoryTest {
 
-    @Autowired
-    private VoucherNamedJdbcRepository voucherNamedJdbcRepository;
+    private final String dbUrl = "jdbc:mysql://localhost/voucherApplication";
+    private final String dbUser = "root";
+    private final String dbPassword = "root1234!";
+    private final MyDataSource myDataSource = new MyDataSource(dbUrl, dbUser, dbPassword);
+    private VoucherNamedJdbcRepository voucherNamedJdbcRepository = new VoucherNamedJdbcRepository(myDataSource.getDataSource());
 
     @BeforeEach
     void setup() {

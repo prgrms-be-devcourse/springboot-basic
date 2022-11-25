@@ -3,9 +3,11 @@ package com.programmers.commandline.global.config;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("jdbc")
 public class MyDataSource {
 
     private final String url;

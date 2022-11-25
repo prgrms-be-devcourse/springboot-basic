@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 
 public class Verification {
 
-
     private Verification() {
     }
 
