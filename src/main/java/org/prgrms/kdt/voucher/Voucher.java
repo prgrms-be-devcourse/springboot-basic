@@ -4,11 +4,11 @@ import java.util.Optional;
 
 public interface Voucher {
 
-    int discount(int beforeDiscount);
+    Integer discount(int beforeDiscount);
 
     String getVoucherId();
 
-    int getAmount();
+    Integer getAmount();
 
     String getVoucherType();
 
