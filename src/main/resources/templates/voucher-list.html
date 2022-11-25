@@ -1,0 +1,84 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"/>
+    <meta name="author" content=""/>
+    <title>Voucher Manager Program</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/6a5f5c3c1d.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="container-fluid">
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand ps-3">Voucher Manager Program</a>
+        </nav>
+        <div class="container-fluid px-4">
+            <h1 class=""></h1>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end accordion-flush" style="padding-bottom: 10px">
+                <a th:href="@{/manage/voucher/new}" class="btn btn-primary me-md-2" type="button">Add Voucher</a>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Vouchers
+                </div>
+                <div>
+                    <table class="table table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col-6" th:align="center">Id</th>
+                            <th scope="col-2">Type</th>
+                            <th scope="col-2">Amount</th>
+                            <th scope="col-1">수정</th>
+                            <th scope="col-1">삭제</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+                            <td th:text="*{voucherId}" th:voucherId="*{voucherId}" onclick="voucherClicked(this.getAttribute('voucherId'))"></td>
+                            <td th:text="*{voucherType}" th:voucherId="*{voucherId}" onclick="voucherClicked(this.getAttribute('voucherId'))"></td>
+                            <td th:text="*{amount}" th:voucherId="*{voucherId}" onclick="voucherClicked(this.getAttribute('voucherId'))"></td>
+                            <td><i class="fa-regular fa-pen-to-square" ></i></td>
+                            <td th:voucherId="*{voucherId}" onclick="deleteBoxClicked(this.getAttribute('voucherId'))"><i class="fa-solid fa-trash"></i></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+<script>
+    function voucherClicked(value) {
+        location.href = "/manage/voucher/" + value;
+    }
+
+    function deleteBoxClicked(value) {
+        axios.delete('http://localhost:8080/api/v1/vouchers/' + value)
+            .then(() => {
+                alert("delete Success");
+                window.location = '/manage/voucher';
+            })
+            .catch((err) => {
+                alert("delete Error");
+            });
+
+    }
+</script>
+</body>
+</html>

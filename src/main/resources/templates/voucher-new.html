@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"/>
+    <meta name="author" content=""/>
+    <title>Voucher Manager Program</title>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
+    <link href="/css/styles.css" rel="stylesheet"/>
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body class="container-fluid">
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand ps-3">Voucher Manager Program</a>
+</nav>
+<div id="layoutSidenav_content">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Voucher</h3></div>
+                <div class="card-body">
+                    <form th:action="@{/manage/voucher}" th:method="post">
+                        <div class="form-floating mb-3" id="typeBox">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type" id="fixedRadio" value="fixed"
+                                       checked>
+                                <label class="form-check-label" for="fixedRadio">
+                                    fixed type voucher
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="type" id="percentRadio"
+                                       value="percent">
+                                <label class="form-check-label" for="percentRadio">
+                                    percent type voucher
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="amount" type="number" name="amount"/>
+                            <label for="amount">Amount</label>
+                        </div>
+                        <div class="mt-4 mb-0">
+                            <div class="d-block">
+                                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                <button type="reset" class="btn btn-primary btn-block">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
