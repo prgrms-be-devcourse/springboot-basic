@@ -1,3 +1,6 @@
+create database voucher_application;
+use voucher_application;
+
 CREATE TABLE customers
 (
     customer_id   BINARY(16) PRIMARY KEY,
