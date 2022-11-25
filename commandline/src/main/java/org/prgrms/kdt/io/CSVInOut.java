@@ -56,10 +56,12 @@ public class CSVInOut {
 
     public void writeCSV(Voucher voucher) {
         File csv = new File(path);
+
         try (
                 BufferedWriter bw = new BufferedWriter(new FileWriter(csv, true));
         ) {
             String data = voucher.toString();
+
             bw.write(data);
             bw.newLine();
         } catch (FileNotFoundException e) {

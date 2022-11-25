@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.service;
 
+import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,12 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public void deleteById(long voucherId){
+    public void deleteById(long voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    public List<Voucher> findByTypeName(String typeNumber) {
+        return voucherRepository.findByTypeName(typeNumber);
     }
 
 }

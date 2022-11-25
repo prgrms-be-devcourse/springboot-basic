@@ -18,35 +18,35 @@ public class VoucherController {
     }
 
     @GetMapping("/")
-    public String voucherAll(Model model){
+    public String voucherAll(Model model) {
         List<Voucher> voucherList = voucherService.getAllVoucher();
-        model.addAttribute("voucherList",voucherList);
+        model.addAttribute("voucherList", voucherList);
         return "vouchers";
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model){
+    public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
         Voucher findVoucher = voucherService.findById(voucherId);
-        model.addAttribute("findVoucher",findVoucher);
+        model.addAttribute("findVoucher", findVoucher);
         return "voucher";
     }
 
     @GetMapping("/voucher/insertForm")
-    public String voucherForm(){
+    public String voucherForm() {
         return "insertForm";
     }
 
     @GetMapping("/voucher/updateForm/{voucherId}")
-    public String updateForm(@PathVariable("voucherId")long voucherId, Model model){
+    public String updateForm(@PathVariable("voucherId") long voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "updateForm";
     }
 
     @PostMapping("/api/voucher/insert")
-    public String insertVoucher(@RequestParam("typeNumber") String typeNumber, @RequestParam("discountDegree")long discountDegree){
-        System.out.println("voucherTypeNum=>"+typeNumber);
-        System.out.println("discountDegree"+discountDegree);
+    public String insertVoucher(@RequestParam("typeNumber") String typeNumber, @RequestParam("discountDegree") long discountDegree) {
+        System.out.println("voucherTypeNum=>" + typeNumber);
+        System.out.println("discountDegree" + discountDegree);
         Voucher voucher = voucherService.createVoucher(typeNumber, discountDegree);
 
         System.out.println(voucher);
@@ -55,20 +55,20 @@ public class VoucherController {
     }
 
     @PostMapping("/api/voucher/delete/{voucherId}")
-    public String deleteVoucherById(@PathVariable("voucherId") Long voucherId){
+    public String deleteVoucherById(@PathVariable("voucherId") Long voucherId) {
 
-         voucherService.deleteById(voucherId);
+        voucherService.deleteById(voucherId);
 
-        return "redirect:/vouchers";
+        return "redirect:/";
     }
 
     @PostMapping("/api/voucher/update/{voucherId}")
-    public String updateVoucher(@PathVariable("voucherId")Long voucherId, @RequestParam("discountDegree")long discountDegree){
-        System.out.println("voucherId: "+voucherId);
-        System.out.println("discountDegree"+discountDegree);
+    public String updateVoucher(@PathVariable("voucherId") Long voucherId, @RequestParam("discountDegree") long discountDegree) {
+        System.out.println("voucherId: " + voucherId);
+        System.out.println("discountDegree" + discountDegree);
 
-        voucherService.updateVoucher(voucherId,discountDegree);
-        return "redirect:/voucher/"+voucherId;
+        voucherService.updateVoucher(voucherId, discountDegree);
+        return "redirect:/voucher/" + voucherId;
     }
 
 }

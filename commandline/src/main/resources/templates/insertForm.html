@@ -13,14 +13,14 @@
     </pre>
 </div>
 <form th:action="@{/api/voucher/insert}" method="post">
-  <div>
-    <label >typeNumber : </label>
-    <input id="typNumber" type="text" name="typeNumber"/> <br>
-    <label >discountDegree : </label>
-    <input id="discountDegree" type="text" name="discountDegree"/><br>
-    <button type="submit" > Submit </button>
-      <button type="button" th:onclick="|location.href='/'|">cancel</button>
-  </div>
+    <div>
+        <label>typeNumber : </label>
+        <input id="typNumber" type="text" name="typeNumber"/> <br>
+        <label>discountDegree : </label>
+        <input id="discountDegree" type="text" name="discountDegree"/><br>
+        <button type="submit"> submit</button>
+        <button type="button" th:onclick="|location.href='/'|">cancel</button>
+    </div>
 </form>
 
 </body>

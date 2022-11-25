@@ -17,4 +17,6 @@ public interface VoucherRepository {
     void deleteAll();
 
     void deleteById(long voucherId);
+
+    List<Voucher> findByTypeName(String typeNumber);
 }

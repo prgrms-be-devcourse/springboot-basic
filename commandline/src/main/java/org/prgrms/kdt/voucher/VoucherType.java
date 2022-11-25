@@ -10,8 +10,8 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED_AMOUNT("1","FixedAmountVoucher",   (voucherId, discountDegree) -> new FixedAmountVoucher(voucherId,  discountDegree)),
-    PERCENTAGE("2", "PercentDiscountVoucher",  (voucherId, discountDegree) -> new PercentDiscountVoucher(voucherId, discountDegree));
+    FIXED_AMOUNT("1", "FixedAmountVoucher", (voucherId, discountDegree) -> new FixedAmountVoucher(voucherId, discountDegree)),
+    PERCENTAGE("2", "PercentDiscountVoucher", (voucherId, discountDegree) -> new PercentDiscountVoucher(voucherId, discountDegree));
 
     private final String typeValue;
     private final String typeName;
@@ -23,14 +23,14 @@ public enum VoucherType {
         return this.voucherBiFunction.apply(voucherId, discountDegree);
     }
 
-    VoucherType(String typeValue,String typeName, BiFunction<Long, Long, Voucher> voucherBiFunction) {
+    VoucherType(String typeValue, String typeName, BiFunction<Long, Long, Voucher> voucherBiFunction) {
         this.typeValue = typeValue;
         this.typeName = typeName;
         this.voucherBiFunction = voucherBiFunction;
     }
 
     public static String getTypeName(String typeValue) {
-        VoucherType voucherType =  selectVoucherTypeByTypeNumber(typeValue);
+        VoucherType voucherType = selectVoucherTypeByTypeNumber(typeValue);
         return voucherType.typeName;
     }
 
@@ -71,5 +71,14 @@ public enum VoucherType {
                 .filter(voucherType -> type.indexOf(voucherType.typeName) != NOT_FOUND_RESULT)
                 .findFirst()
                 .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage()));
+    }
+
+    public static String getVoucherTypeName(String typeNumber) {
+        VoucherType type = Stream.of(VoucherType.values())
+                .filter(voucherType -> voucherType.typeValue.equals(typeNumber))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage()));
+
+        return type.typeName;
     }
 }
