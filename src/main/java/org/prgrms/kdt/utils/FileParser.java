@@ -44,7 +44,7 @@ public class FileParser {
 
     public static String getVoucherInfo(Voucher voucher) {
         String voucherInfo = MessageFormat.format("{0}/{1}/{2}\n",
-                voucher.getVoucherId().toString(), voucher.getClass().getSimpleName(), voucher.getAmount());
+                voucher.getVoucherId(), voucher.getClass().getSimpleName(), voucher.getAmount());
         logger.info("voucher 객체를 string으로 변환 -> {}", voucherInfo);
         return voucherInfo;
     }
@@ -94,14 +94,14 @@ public class FileParser {
 
         String voucherId = info.get(VOUCHER_ID_INDEX);
         String className = info.get(VOUCHER_CLASS_NAME_INDEX);
-        int amount = parseAmount(info.get(VOUCHER_AMOUNT_INDEX));
+        Integer amount = parseAmount(info.get(VOUCHER_AMOUNT_INDEX));
 
         VoucherType voucherType = VoucherType.findVoucherTypeByClassName(className);
 
         return getVoucher(voucherType, voucherId, amount);
     }
 
-    private int parseAmount(String amount) {
+    private Integer parseAmount(String amount) {
         try {
             return Integer.parseInt(
                     amount.replace(AMOUNT_BEFORE_REPLACE_STR, AMOUNT_AFTER_REPLACE_STR));
