@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.utils.JdbcParamMapper.*;
+import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.toEmailMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherIdMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.toAssignMap;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {

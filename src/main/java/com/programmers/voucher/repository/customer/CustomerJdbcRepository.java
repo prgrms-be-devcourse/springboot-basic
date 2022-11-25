@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.utils.JdbcParamMapper.*;
+import static com.programmers.voucher.utils.JdbcParamMapper.toCustomerMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.toEmailMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherIdMap;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -66,4 +68,3 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }
     }
 }
-
