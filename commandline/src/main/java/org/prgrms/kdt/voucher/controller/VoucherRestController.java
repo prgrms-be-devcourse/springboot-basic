@@ -1,11 +1,15 @@
 package org.prgrms.kdt.voucher.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgrms.kdt.exception.CustomerException;
+import org.prgrms.kdt.exception.ErrorResult;
+import org.prgrms.kdt.exception.ServerException;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.dto.InsertVoucherDto;
+import org.prgrms.kdt.voucher.dto.VoucherDto;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -37,17 +41,14 @@ public class VoucherRestController {
     public VoucherDto findByIdVoucher(@PathVariable("voucherId") long voucherId) {
         Voucher voucher = voucherService.findById(voucherId);
 
-        log.info("###voucher={}", voucher);
-
         VoucherDto voucherDto = voucherToVoucherDto(voucher);
 
         return voucherDto;
     }
 
     @PostMapping("/rest/insert")
-    public String insertVoucer(HttpEntity<InsertVoucherDto> httpEntity) {
+    public String insertVoucher(HttpEntity<InsertVoucherDto> httpEntity) {
         InsertVoucherDto insertVoucherDto = httpEntity.getBody();
-        log.info("inserVoucherDto, typeNumber ={}, discountDegree={}", insertVoucherDto.getTypeNumber(), insertVoucherDto.getDiscountDegree());
         voucherService.createVoucher(insertVoucherDto.getTypeNumber(), insertVoucherDto.getDiscountDegree());
         return "ok";
     }
@@ -61,22 +62,30 @@ public class VoucherRestController {
 
     @GetMapping("/rest/typeName/{typeNumber}")
     public List<VoucherDto> findByTypeName(@PathVariable("typeNumber") String typeNumber) {
-        try {
-            log.info("typeNumber={}", typeNumber);
-            List<VoucherDto> voucherDtoList = new ArrayList<>();
-            for (Voucher voucher : voucherService.findByTypeName(typeNumber)) {
-                log.info("voucher=>{}", voucher);
-                voucherDtoList.add(voucherToVoucherDto(voucher));
-            }
-            return voucherDtoList;
-        } catch (RuntimeException runtimeException) {
-            log.error(runtimeException.getMessage());
-            return null;
+        List<VoucherDto> voucherDtoList = new ArrayList<>();
+        for (Voucher voucher : voucherService.findByTypeName(typeNumber)) {
+            voucherDtoList.add(voucherToVoucherDto(voucher));
         }
+        return voucherDtoList;
     }
 
     private VoucherDto voucherToVoucherDto(Voucher voucher) {
         return new VoucherDto(voucher.getVoucherId(), voucher.getTypeName(), voucher.getDiscountDegree());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler()
+    public ErrorResult customerHandler(CustomerException customerException) {
+        log.error("[customerExceptionHandler] => {}", customerException);
+
+        return new ErrorResult("404", customerException.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler
+    public ErrorResult serverHandler(ServerException serverException) {
+        log.error("[customerExceptionHandler] => {}", serverException);
+
+        return new ErrorResult("500", serverException.getMessage());
+    }
 }

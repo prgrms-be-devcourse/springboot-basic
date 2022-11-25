@@ -43,11 +43,6 @@ public enum VoucherType {
         return voucherType.create(voucherId, discountDegree);
     }
 
-//    public static String getVoucherTypeName(String type) {
-//        VoucherType voucherType = selectVoucherTypeByTypeNumber(type);
-//        return "잠시만안녕..";
-//    }
-
     private static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
         return Stream.of(values())
                 .filter(voucherType -> voucherType.typeValue.equals(typeNumber))

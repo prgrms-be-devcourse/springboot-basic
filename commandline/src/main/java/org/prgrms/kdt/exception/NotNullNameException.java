@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class NotNullNameException extends RuntimeException {
+public class NotNullNameException extends CustomerException {
 
     public NotNullNameException() {
     }

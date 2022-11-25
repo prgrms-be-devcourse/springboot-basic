@@ -1,13 +1,19 @@
 package org.prgrms.kdt.voucher.controller;
 
+import lombok.extern.slf4j.Slf4j;
+import org.prgrms.kdt.exception.CustomerException;
+import org.prgrms.kdt.exception.ServerException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class VoucherController {
 
@@ -71,4 +77,17 @@ public class VoucherController {
         return "redirect:/voucher/" + voucherId;
     }
 
+    @ExceptionHandler()
+    public void customerHandler(CustomerException customerException, HttpServletResponse response) throws IOException {
+        log.error("[customerExceptionHandler] => {}", customerException);
+
+        response.sendError(404);
+    }
+
+
+    @ExceptionHandler
+    public void serverHandler(ServerException serverException, HttpServletResponse response) throws IOException {
+        log.error("[customerExceptionHandler] => {}", serverException);
+        response.sendError(500);
+    }
 }

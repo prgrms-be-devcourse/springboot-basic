@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class NotFoundVoucherException extends RuntimeException {
+public class NotFoundVoucherException extends CustomerException {
 
     public NotFoundVoucherException() {
     }

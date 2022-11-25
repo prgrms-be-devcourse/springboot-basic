@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.controller;
+package org.prgrms.kdt.voucher.dto;
 
 import lombok.Getter;
 import lombok.Setter;

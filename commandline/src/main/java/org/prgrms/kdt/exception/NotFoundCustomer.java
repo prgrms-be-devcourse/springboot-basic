@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class NotFoundCustomer extends RuntimeException {
+public class NotFoundCustomer extends CustomerException {
 
     public NotFoundCustomer() {
     }
