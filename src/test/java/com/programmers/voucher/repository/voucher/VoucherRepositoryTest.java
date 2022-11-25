@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -131,6 +133,19 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     }
 
     @Test
+    @DisplayName("데이터베이스에서 없는 바우처 아이디를 통해 조회 시 Optional empty를 반환한다.")
+    void findByIdWhenNull() {
+        //given
+
+        //when
+        Optional<Voucher> result = voucherRepository.findById(UUID.randomUUID());
+
+        //then
+        assertThat(result.isEmpty())
+                .isTrue();
+    }
+
+    @Test
     @DisplayName("데이터베이스에서 바우처 아이디를 통해 수정한다.")
     void update() {
         //given
@@ -158,5 +173,12 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         //then
         assertThat(voucherRepository.findAll().isEmpty())
                 .isTrue();
+    }
+
+    @Test
+    @DisplayName("데이터베이스에서 없는 바우처 아이디를 통해 조회 시 예외를 발생시킨다.")
+    void deleteByEmail() {
+        assertThatThrownBy(() -> voucherRepository.deleteByEmail("hello@gmail.com"))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
