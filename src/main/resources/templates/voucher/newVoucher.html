@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>바우처 생성</title>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <h1>Taehee's Voucher Program</h1>
+    <h2>바우처 생성</h2>
+</div>
+<br/>
+
+<form method="POST" th:action="@{/voucher/newvoucher}">
+
+    <div class="container">
+        <label class="form-label">Voucher Type</label>
+        <select class="form-control" id="voucherType" name="voucherType">
+            <option 력selected>Select Voucher Type</option>
+            <option value="1">FixedAmountVoucher</option>
+            <option value="2">PercentDiscountVoucher</option>
+        </select>
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">Discount Value</label><br/>
+        <input class="form-control" id="discountValue" name="discountValue" type="number">
+    </div>
+    <br/>
+    <div class="container">
+        <button class="btn btn-primary" type="submit">저장</button>
+    </div>
+
+</form>
+</body>
+</html>

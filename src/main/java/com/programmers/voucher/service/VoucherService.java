@@ -3,6 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.controller.dto.VoucherCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
+import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
@@ -24,7 +25,8 @@ public class VoucherService {
     }
 
     public Voucher create(VoucherCreateRequest voucherCreateRequest) {
-        Voucher newVoucher = voucherCreateRequest.voucherType().convertToVoucher(UUID.randomUUID(), voucherCreateRequest.discountValue());
+        VoucherType voucherType = VoucherType.toVoucherType(voucherCreateRequest.voucherType());
+        Voucher newVoucher = voucherType.convertToVoucher(UUID.randomUUID(), voucherCreateRequest.discountValue());
         logger.info("voucher create => {}", newVoucher);
         return voucherRepository.save(newVoucher);
     }
