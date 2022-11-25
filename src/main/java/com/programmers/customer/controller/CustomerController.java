@@ -1,54 +1,76 @@
 package com.programmers.customer.controller;
 
-import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
+import com.programmers.customer.dto.CustomerJoinForm;
 import com.programmers.customer.service.CustomerService;
-import com.programmers.view.View;
-import org.springframework.stereotype.Component;
+import com.programmers.voucher.dto.VoucherDto;
+import com.programmers.voucher.service.VoucherService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.message.ErrorMessage.ERROR_INPUT_MESSAGE;
-import static com.programmers.message.Message.*;
 
-@Component
+@Controller
+@RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
-    private final View view;
+    private final VoucherService voucherService;
 
-    public CustomerController(CustomerService customerService, View view) {
+    public CustomerController(CustomerService customerService, VoucherService voucherService) {
         this.customerService = customerService;
-        this.view = view;
+        this.voucherService = voucherService;
     }
 
-    public void findAllCustomers() {
-        List<Customer> customers = customerService.findAll();
+    @GetMapping
+    public String findAllCustomers(Model model) {
+        List<CustomerDto> customerDtoList = customerService.findAll();
 
-        view.printList(customers);
+        model.addAttribute("customers", customerDtoList);
+        return "/customer/customers";
     }
 
-    public void join() {
-        view.printMessage(CUSTOMER_NAME);
-        String name = view.getUserCommand();
+    @GetMapping("/new")
+    public String joinPage() {
+        return "/customer/newCustomers";
+    }
 
-        view.printMessage(CUSTOMER_EMAIL);
-        String email = view.getUserCommand();
+    @PostMapping("/new")
+    public String join(CustomerJoinForm joinForm) {
+        String name = joinForm.getName();
+        String email = joinForm.getEmail();
 
         validateForJoin(name, email);
 
         customerService.join(name, email);
+
+        return "redirect:/customers";
     }
 
-    public void findVoucherOwner() {
-        view.printMessage(VOUCHER_ID);
-        String voucherId = view.getUserCommand();
-        UUID voucherUUID = UUID.fromString(voucherId);
+    @GetMapping("/{customerId}")
+    public String customerDetailPage(@PathVariable UUID customerId, Model model) {
+        CustomerDto customerDto = customerService.findById(customerId);
+        List<VoucherDto> voucherDtoList = voucherService.searchVouchersByCustomerId(customerId);
 
-        Customer customer = customerService.findCustomerByVoucherId(voucherUUID);
-        view.printCustomer(customer);
+        model.addAttribute("customer", customerDto);
+        model.addAttribute("vouchers", voucherDtoList);
+
+        return "/customer/customerDetail";
     }
 
+    @PostMapping("/delete/{customerId}")
+    public String deleteCustomer(@PathVariable UUID customerId) {
+        customerService.deleteCustomer(customerId);
+
+        return "redirect:/customers";
+    }
 
     private void validateForJoin(String name, String email) {
         if (!StringUtils.hasText(name) || !StringUtils.hasText(email)) {

@@ -2,6 +2,7 @@ package com.programmers.voucher.repository;
 
 import com.programmers.voucher.voucher.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,4 +15,10 @@ public interface VoucherRepository {
     Voucher registerVoucher(Voucher voucher);
 
     void deleteAll();
+
+    void deleteVoucher(UUID voucherId);
+
+    List<Voucher> findByType(String name);
+
+    List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to);
 }

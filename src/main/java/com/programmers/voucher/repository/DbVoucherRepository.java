@@ -24,6 +24,7 @@ public class DbVoucherRepository implements VoucherRepository {
     public static final String VOUCHER_TYPE = "voucherType";
     public static final String VOUCHER_VALUE = "voucherValue";
     public static final String CREATE_AT = "createAt";
+    public static final String IS_ASSIGNED = "isAssigned";
     private final Logger log = LoggerFactory.getLogger(DbVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final VoucherRowMapper voucherRowMapper;
@@ -55,6 +56,7 @@ public class DbVoucherRepository implements VoucherRepository {
         Map<String, Object> voucherParamMap = new HashMap<>();
         voucherParamMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
         voucherParamMap.put(CREATE_AT, LocalDateTime.now());
+        voucherParamMap.put(IS_ASSIGNED, voucher.isAssigned());
 
         Map<String, Object> voucherRuleParamMap = new HashMap<>();
         voucherRuleParamMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
@@ -75,5 +77,33 @@ public class DbVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        jdbcTemplate.update(DELETE_VOUCHER, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
+    }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        try {
+            return jdbcTemplate.query(SELECT_BY_TYPE, Collections.singletonMap("voucherType", name), voucherRowMapper);
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
+        }
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("from", from);
+        paramMap.put("to", to);
+        try {
+            return jdbcTemplate.query(SELECT_BY_PERIOD, paramMap, voucherRowMapper);
+        } catch (DataAccessException e) {
+            log.error(DB_ERROR_LOG.getMessage());
+            throw new RuntimeException(DB_ERROR_LOG.getMessage());
+        }
     }
 }

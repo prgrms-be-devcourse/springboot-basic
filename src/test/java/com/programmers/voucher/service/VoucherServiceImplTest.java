@@ -1,7 +1,7 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.voucher.FixedAmountVoucher;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherType;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,9 +41,8 @@ class VoucherServiceImplTest {
         String userInputType = "F";
         String userInputValue = "5000";
 
-        Voucher voucher = service.register(userInputType, userInputValue);
+        VoucherDto voucher = service.register(userInputType, userInputValue);
 
-        assertThat(voucher).isInstanceOf(FixedAmountVoucher.class);
         assertThat(voucher.getValue()).isEqualTo(Long.parseLong(userInputValue));
     }
 
@@ -55,14 +54,15 @@ class VoucherServiceImplTest {
         Voucher voucher = createVoucher(id, type, 5);
 
         repository.registerVoucher(voucher);
-        Voucher findOne = service.getVoucher(id);
+        VoucherDto findOne = service.getVoucher(id);
 
-        assertEquals(voucher, findOne);
+        assertEquals(voucher.getValue(), findOne.getValue());
+        assertEquals(voucher.getType(), findOne.getType());
     }
 
     @Test
     void 모든_바우처_조회() {
-        List<Voucher> vouchers = service.findAll();
+        List<VoucherDto> vouchers = service.findAll();
         assertThat(vouchers.size()).isEqualTo(0);
 
         Voucher voucher1 = createVoucher(FixedAmount, 3000);
@@ -74,7 +74,6 @@ class VoucherServiceImplTest {
         vouchers = service.findAll();
 
         assertThat(vouchers.size()).isEqualTo(2);
-        assertThat(vouchers).contains(voucher1, voucher2);
     }
 
     @Test

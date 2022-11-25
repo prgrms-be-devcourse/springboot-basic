@@ -4,6 +4,7 @@ import com.programmers.voucher.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile("test")
@@ -32,5 +33,29 @@ public class HashMapVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         map.clear();
+    }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        map.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        List<Voucher> vouchers = new ArrayList<>();
+        for (UUID id : map.keySet()) {
+            Voucher voucher = map.get(id);
+
+            if (voucher.getType().toString().equals(name)) {
+                vouchers.add(voucher);
+            }
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        return null;
     }
 }

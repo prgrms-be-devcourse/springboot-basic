@@ -1,45 +1,56 @@
 package com.programmers.wallet.controller;
 
-import com.programmers.view.View;
+import com.programmers.customer.dto.CustomerDto;
+import com.programmers.customer.service.CustomerService;
+import com.programmers.voucher.dto.VoucherDto;
+import com.programmers.voucher.service.VoucherService;
 import com.programmers.wallet.service.WalletService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.message.Message.VOUCHER_CUSTOMER_ID;
-import static com.programmers.message.Message.VOUCHER_ID;
-
-@Component
+@Controller
+@RequestMapping("/customers")
 public class WalletController {
     private final WalletService walletService;
-    private final View view;
+    private final CustomerService customerService;
+    private final VoucherService voucherService;
 
-    public WalletController(WalletService walletService, View view) {
+    public WalletController(WalletService walletService, CustomerService customerService, VoucherService voucherService) {
         this.walletService = walletService;
-        this.view = view;
+        this.customerService = customerService;
+        this.voucherService = voucherService;
     }
 
-    public void assign() {
-        view.printMessage(VOUCHER_CUSTOMER_ID);
-        String customerId = view.getUserCommand();
-        UUID customerUUID = UUID.fromString(customerId);
+    @GetMapping("/assign/{customerId}")
+    public String assignPage(@PathVariable UUID customerId, Model model) {
+        CustomerDto customer = customerService.findById(customerId);
+        model.addAttribute("customer", customer);
 
-        view.printMessage(VOUCHER_ID);
-        String voucherId = view.getUserCommand();
-        UUID voucherUUID = UUID.fromString(voucherId);
+        List<VoucherDto> vouchers = voucherService.findAll();
 
-        walletService.assignVoucher(customerUUID, voucherUUID);
+        model.addAttribute("vouchers", vouchers);
+
+        return "/customer/assignVoucher";
     }
 
-    public void delete() {
-        view.printMessage(VOUCHER_CUSTOMER_ID);
-        String customerId = view.getUserCommand();
-        UUID customerUUID = UUID.fromString(customerId);
+    @PostMapping("/assign/{customerId}/{voucherId}")
+    public String assign(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
+        walletService.assignVoucher(customerId, voucherId);
 
-        view.printMessage(VOUCHER_ID);
-        String voucherId = view.getUserCommand();
-        UUID voucherUUID = UUID.fromString(voucherId);
+        return "redirect:/customers/" + customerId;
+    }
 
-        walletService.removeCustomerVoucher(customerUUID, voucherUUID);
+    @PostMapping("/{customerId}/{voucherId}")
+    public String delete(@PathVariable UUID customerId, @PathVariable UUID voucherId) {
+        walletService.removeCustomerVoucher(customerId, voucherId);
+
+        return "redirect:/customers/" + customerId;
     }
 }

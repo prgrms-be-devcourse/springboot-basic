@@ -53,36 +53,36 @@ public class CommandLineApplication implements Runnable {
     private void executeUserCommand(Menu userMenu) {
         switch (userMenu) {
             case JOIN:
-                customerController.join();
+//                customerController.join();
                 break;
 
             case REGISTER:
-                voucherController.createVoucher();
-                break;
+//                voucherController.createVoucher();
+//                break;
 
             case CUSTOMERS:
-                customerController.findAllCustomers();
-                break;
+//                customerController.findAllCustomers();
+//                break;
 
             case VOUCHERS:
-                voucherController.showVoucherList();
-                break;
+//                voucherController.showVoucherList();
+//                break;
 
             case ASSIGN:
-                walletController.assign();
-                break;
+//                walletController.assign();
+//                break;
 
             case WALLET:
-                voucherController.showCustomerVouchers();
-                break;
+//                voucherController.showCustomerVouchers();
+//                break;
 
             case VOUCHER_OWNER:
-                customerController.findVoucherOwner();
+//                customerController.findVoucherOwner();
                 break;
 
             case DELETE_W:
-                walletController.delete();
-                break;
+//                walletController.delete();
+//                break;
 
             case EXIT:
                 return;

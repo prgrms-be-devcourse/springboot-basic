@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.time.LocalDateTime;
 import java.util.*;
 
 
@@ -69,5 +70,29 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         wini.clear();
         cacheMap.clear();
+    }
+
+    @Override
+    public void deleteVoucher(UUID voucherId) {
+        wini.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(String name) {
+        List<Voucher> vouchers = new ArrayList<>();
+
+        for (UUID key : cacheMap.keySet()) {
+            Voucher voucher = cacheMap.get(key);
+            if (voucher.getType().toString().equals(name)) {
+                vouchers.add(voucher);
+            }
+        }
+
+        return vouchers;
+    }
+
+    @Override
+    public List<Voucher> findByPeriod(LocalDateTime from, LocalDateTime to) {
+        return null;
     }
 }

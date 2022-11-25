@@ -11,13 +11,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.customer.repository.DbCustomerRepository.CUSTOMER_ID;
 import static com.programmers.message.ErrorMessage.DB_ERROR_LOG;
 import static com.programmers.message.ErrorMessage.INSERT_ERROR;
 import static com.programmers.voucher.repository.DbVoucherRepository.VOUCHER_ID;
+import static com.programmers.voucher.repository.sql.VoucherSql.UPDATE_ASSIGN;
 import static com.programmers.wallet.repository.sql.WalletSql.*;
 import static java.util.Collections.emptyMap;
 
@@ -37,16 +37,24 @@ public class DbWalletRepository implements WalletRepository {
         this.resultSetExtractor = new CustomerResultSetExtractor(customerRowMapper, voucherRowMapper);
     }
 
+    private void updateAssignState(UUID voucherId, boolean assigned) {
+        Map<String, Object> updateMap = new HashMap<>();
+        updateMap.put(VOUCHER_ID, voucherId.toString().getBytes());
+        updateMap.put("assigned", assigned);
+
+        jdbcTemplate.update(UPDATE_ASSIGN, updateMap);
+    }
+
     @Override
     public Customer assignVoucher(Customer customer, Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
         paramMap.put(VOUCHER_ID, voucher.getVoucherId().toString().getBytes());
-        paramMap.put(ASSIGN_AT, LocalDateTime.now());
 
         try {
             jdbcTemplate.update(INSERT_WALLET, paramMap);
 
+            updateAssignState(voucher.getVoucherId(), true);
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage());
             throw new RuntimeException(INSERT_ERROR.getMessage());
@@ -91,6 +99,8 @@ public class DbWalletRepository implements WalletRepository {
                     DELETE_CUSTOMER_VOUCHER,
                     Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes())
             );
+
+            updateAssignState(voucherId, false);
         } catch (DataAccessException e) {
             log.error(DB_ERROR_LOG.getMessage(), e);
             throw new RuntimeException(DB_ERROR_LOG.getMessage());
