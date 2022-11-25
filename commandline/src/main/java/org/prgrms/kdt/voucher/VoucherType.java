@@ -43,7 +43,7 @@ public enum VoucherType {
         return voucherType.create(voucherId, discountDegree);
     }
 
-    private static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
+    public static VoucherType selectVoucherTypeByTypeNumber(String typeNumber) {
         return Stream.of(values())
                 .filter(voucherType -> voucherType.typeValue.equals(typeNumber))
                 .findFirst()

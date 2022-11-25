@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.exception.ErrorCode;
 import org.prgrms.kdt.exception.NotFoundVoucherException;
+import org.prgrms.kdt.exception.WrongRangeInputException;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
@@ -28,6 +29,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static Map<Long, Voucher> cache = new ConcurrentHashMap<>();
 
     private static final int NOT_AFFECT_RESULT = 0;
+    private static final int MAX_PERCENT = 100;
+    private static final int MIN_PERCENT = 0;
+    private static final int MIN_AMOUNT = 0;
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -35,6 +39,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(String type, long discountDegree) {
+        VoucherType voucherType = VoucherType.selectVoucherTypeByTypeNumber(type);
+        validateDiscountDegree(voucherType, discountDegree);
+
         String sql = "insert into voucher(type_name, discount_degree) values( :typeName,:discountDegree)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -76,6 +83,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(long voucherId, long discountDegree) {
+        Voucher voucher = findById(voucherId);
+        String typeName = voucher.getTypeName();
+        VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(typeName);
+        validateDiscountDegree(voucherType, discountDegree);
+
         String sql = "update voucher set discount_degree = :discountDegree where voucher_id = :voucherId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -131,5 +143,25 @@ public class JdbcVoucherRepository implements VoucherRepository {
             VoucherType voucherType = VoucherType.selectVoucherTypeFromTypeName(typeName);
             return VoucherType.createVoucher(voucherType, voucherId, discountDegree);
         });
+    }
+
+    private void validateDiscountDegree(VoucherType voucherType, long discountDegree) {
+        if (voucherType == VoucherType.FIXED_AMOUNT) {
+            validateFixedVoucher(discountDegree);
+            return;
+        }
+        validatePercentDiscountVoucher(discountDegree);
+    }
+
+    private void validateFixedVoucher(long discountDegree) {
+        if (MIN_AMOUNT > discountDegree) {
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
+        }
+    }
+
+    private void validatePercentDiscountVoucher(long discountDegree) {
+        if (MIN_PERCENT > discountDegree || MAX_PERCENT < discountDegree) {
+            throw new WrongRangeInputException(ErrorCode.WRONG_RANGE_INPUT_EXCEPTION.getMessage());
+        }
     }
 }
