@@ -1,7 +1,9 @@
 package com.programmers.wallet.controller;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.service.CustomerService;
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.wallet.service.WalletService;
@@ -30,10 +32,10 @@ public class WalletController {
 
     @GetMapping("/assign/{customerId}")
     public String assignPage(@PathVariable UUID customerId, Model model) {
-        Customer customer = customerService.findById(customerId);
+        CustomerDto customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
 
-        List<Voucher> vouchers = voucherService.findAll();
+        List<VoucherDto> vouchers = voucherService.findAll();
 
         model.addAttribute("vouchers", vouchers);
 

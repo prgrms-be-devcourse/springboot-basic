@@ -1,6 +1,7 @@
 package com.programmers.customer.controller.api;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,10 @@ public class ApiCustomerController {
 
     @GetMapping("/api/customers")
     @ResponseBody
-    public ResponseEntity<List<Customer>> findCustomers() {
+    public ResponseEntity<List<CustomerDto>> findCustomers() {
 
-        List<Customer> customers = customerService.findAll();
-        return new ResponseEntity<>(customers, HttpStatus.OK);
+        List<CustomerDto> customerDtoList = customerService.findAll();
+        return new ResponseEntity<>(customerDtoList, HttpStatus.OK);
     }
     
 }

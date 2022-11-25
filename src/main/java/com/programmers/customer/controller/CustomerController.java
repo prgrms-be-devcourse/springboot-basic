@@ -1,8 +1,10 @@
 package com.programmers.customer.controller;
 
 import com.programmers.customer.Customer;
+import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.dto.CustomerJoinForm;
 import com.programmers.customer.service.CustomerService;
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
 import org.springframework.stereotype.Controller;
@@ -31,9 +33,9 @@ public class CustomerController {
 
     @GetMapping
     public String findAllCustomers(Model model) {
-        List<Customer> customers = customerService.findAll();
+        List<CustomerDto> customerDtoList = customerService.findAll();
 
-        model.addAttribute("customers", customers);
+        model.addAttribute("customers", customerDtoList);
         return "/customer/customers";
     }
 
@@ -56,11 +58,11 @@ public class CustomerController {
 
     @GetMapping("/{customerId}")
     public String customerDetailPage(@PathVariable UUID customerId, Model model) {
-        Customer customer = customerService.findById(customerId);
-        List<Voucher> vouchers = voucherService.searchVouchersByCustomerId(customerId);
+        CustomerDto customerDto = customerService.findById(customerId);
+        List<VoucherDto> voucherDtoList = voucherService.searchVouchersByCustomerId(customerId);
 
-        model.addAttribute("customer", customer);
-        model.addAttribute("vouchers", vouchers);
+        model.addAttribute("customer", customerDto);
+        model.addAttribute("vouchers", voucherDtoList);
 
         return "/customer/customerDetail";
     }

@@ -1,5 +1,6 @@
 package com.programmers.voucher.controller;
 
+import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.dto.VoucherRegisterForm;
 import com.programmers.voucher.service.VoucherService;
 import com.programmers.voucher.voucher.Voucher;
@@ -28,9 +29,9 @@ public class VoucherController {
 
     @GetMapping
     public String showVoucherList(Model model) {
-        List<Voucher> vouchers = voucherService.findAll();
+        List<VoucherDto> voucherDtoList = voucherService.findAll();
 
-        model.addAttribute("vouchers", vouchers);
+        model.addAttribute("vouchers", voucherDtoList);
         return "/voucher/vouchers";
     }
 
@@ -52,8 +53,8 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}")
     public String voucherDetailPage(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        model.addAttribute("voucher", voucher);
+        VoucherDto voucherDto = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucherDto);
         return "/voucher/voucherDetail";
     }
 
