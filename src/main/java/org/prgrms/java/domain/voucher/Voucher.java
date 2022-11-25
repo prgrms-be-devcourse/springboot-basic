@@ -1,5 +1,7 @@
 package org.prgrms.java.domain.voucher;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,7 +11,9 @@ public abstract class Voucher {
     protected final long amount;
     protected final String type;
     protected boolean used;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected final LocalDateTime createdAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected LocalDateTime expiredAt;
 
     public Voucher(UUID voucherId, UUID ownerId, long amount, String type, boolean used, LocalDateTime createdAt, LocalDateTime expiredAt) {

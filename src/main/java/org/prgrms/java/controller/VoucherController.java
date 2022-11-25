@@ -1,9 +1,13 @@
 package org.prgrms.java.controller;
 
 import org.prgrms.java.common.Mapper;
+import org.prgrms.java.domain.voucher.CreateVoucherRequest;
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.domain.voucher.VoucherDto;
 import org.prgrms.java.service.VoucherService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +19,61 @@ public class VoucherController {
 
     public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
+    }
+
+    @GetMapping("/voucher")
+    public String viewVoucherPage(Model model) {
+        List<Voucher> vouchers = voucherService.getAllVouchers();
+        model.addAttribute("vouchers", vouchers);
+        return "voucher";
+    }
+
+    @GetMapping("/voucher/new")
+    public String createVoucherPage() {
+        return "new-voucher";
+    }
+
+    @GetMapping("/voucher/{voucherId}")
+    public String viewVoucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
+        Voucher voucher = voucherService.getVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "voucher-detail";
+    }
+
+    @PostMapping("/voucher")
+    public String createVoucher(CreateVoucherRequest createVoucherRequest) {
+        Voucher voucher = Mapper.mapToVoucher(
+                createVoucherRequest.getType(),
+                UUID.randomUUID(),
+                createVoucherRequest.getOwnerId(),
+                createVoucherRequest.getAmount(),
+                LocalDateTime.now(),
+                createVoucherRequest.getExpiredAt(),
+                false
+        );
+
+        voucherService.saveVoucher(voucher);
+
+        return "redirect:/voucher";
+    }
+
+    @PutMapping("/voucher")
+    public String putVoucher(VoucherDto voucherDto) {
+        Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
+
+        voucher.setOwnerId(voucherDto.getOwnerId());
+        voucher.setExpiredAt(voucherDto.getExpiredAt());
+        voucher.setUsed(voucherDto.isUsed());
+
+        voucherService.updateVoucher(voucher);
+
+        return "redirect:/voucher";
+    }
+
+    @DeleteMapping("/voucher/{voucherId}")
+    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/voucher";
     }
 
     public Voucher createVoucher(long amount, String type, LocalDateTime createdAt, LocalDateTime expiredAt) {
