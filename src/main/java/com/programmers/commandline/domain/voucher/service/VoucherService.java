@@ -20,7 +20,9 @@ public class VoucherService {
 
     public String insert(VoucherType voucherType, long discount) {
         Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount, LocalDateTime.now());
-        return voucherRepository.insert(voucher).getId();
+        // 따로작업을 하지 않으니 Test 중요도 극히 낮다.
+        Voucher voucher1 = voucherRepository.insert(voucher);
+        return voucher1.getId();
     }
 
     public String findAll() {

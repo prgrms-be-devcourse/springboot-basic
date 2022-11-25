@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: file
+    active: jdbc
 
 file:
   voucherResourcesPath: ./src/main/resources/voucherResources/
