@@ -52,4 +52,12 @@ public class VoucherWebController {
         model.addAttribute("voucher", voucher);
         return "voucher/voucher_detail";
     }
+
+    @GetMapping("vouchers/{email}")
+    public String findAllByCustomer(@PathVariable String email, Model model) {
+        List<Voucher> vouchers = voucherService.findAllByCustomer(email);
+        model.addAttribute("vouchers", vouchers);
+        return "voucher/voucher_list";
+    }
+
 }

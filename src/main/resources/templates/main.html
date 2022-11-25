@@ -3,18 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
-</head>
 
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+</head>
 <body>
 <div class="container">
     <h1>Taehee's Voucher Program</h1>
     <h2>환영합니다!</h2>
 </div>
-
 <div class="container">
     <button class="btn btn-primary" type="button" onClick="window.location.href='/voucher'">바우처 생성하기</button>
     <button class="btn btn-primary" type="button" onClick="window.location.href='/vouchers'">바우처 목록보기</button>
+    <button class="btn btn-primary" type="button" id="emailShow" data-bs-toggle="modal" data-bs-target="#emailModal">
+        내 바우처 목록보기
+    </button>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="emailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <br/>
+            <div class="modal-body">
+                <label class="form-label">My Email</label>
+                <input id="email" name="email" type="text">
+            </div>
+            <br/>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="close" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="listByCustomer()">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
+
+<script>
+    $('#emailShow').click(function(e){
+        e.preventDefault();
+        $('#emailModal').modal("show");
+    });
+
+    $('#close').click(function(e){
+        e.preventDefault();
+        $('#emailModal').modal("hide");
+    });
+
+    function listByCustomer(){
+        let email = $('#email').val();
+        window.location.href= "/vouchers/"+email;
+    }
+</script>
 </html>
