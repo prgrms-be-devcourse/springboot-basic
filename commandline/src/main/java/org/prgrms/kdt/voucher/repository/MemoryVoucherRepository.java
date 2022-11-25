@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("memory")
@@ -58,5 +59,24 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         storage.clear();
+    }
+
+    @Override
+    public void deleteById(long voucherId) {
+        if (!storage.containsKey(voucherId)) {
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+        storage.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByTypeName(String typeNumber) {
+        String voucherTypeName = VoucherType.getVoucherTypeName(typeNumber);
+
+        List<Voucher> vouchers = storage.values().stream()
+                .filter(voucher -> voucher.getTypeName().equals(voucherTypeName))
+                .collect(Collectors.toList());
+
+        return vouchers;
     }
 }

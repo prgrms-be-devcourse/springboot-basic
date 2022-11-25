@@ -67,4 +67,13 @@ public enum VoucherType {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_TYPE_EXCEPTION.getMessage()));
     }
+
+    public static String getVoucherTypeName(String typeNumber) {
+        VoucherType type = Stream.of(VoucherType.values())
+                .filter(voucherType -> voucherType.typeValue.equals(typeNumber))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundVoucherTypeException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage()));
+
+        return type.typeName;
+    }
 }

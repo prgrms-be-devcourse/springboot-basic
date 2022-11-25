@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class InputException extends RuntimeException {
+public class InputException extends CustomerException {
 
     public InputException() {
     }

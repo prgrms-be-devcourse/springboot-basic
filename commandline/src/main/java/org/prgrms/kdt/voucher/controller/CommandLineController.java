@@ -48,8 +48,8 @@ public class CommandLineController {
                         console.printVoucher(voucher);
                     }
                     case UPDATE -> {
-                        Long voucherId = console.inputVoucherId();
-                        Long discountDegree = console.inputDiscountDegree();
+                        long voucherId = console.inputVoucherId();
+                        long discountDegree = console.inputDiscountDegree();
                         voucherService.updateVoucher(voucherId, discountDegree);
                         console.updateComplete();
 
@@ -57,8 +57,13 @@ public class CommandLineController {
                         console.printVoucher(voucher);
                     }
                     case DELETE -> {
-                        voucherService.deleteAll();
+                        long voucherId = console.inputVoucherId();
+                        voucherService.deleteById(voucherId);
                         console.delete();
+                    }
+                    case INITIALIZE -> {
+                        voucherService.deleteAll();
+                        console.initialize();
                     }
                     default -> console.printError(ErrorCode.INPUT_EXCEPTION.getMessage());
                 }

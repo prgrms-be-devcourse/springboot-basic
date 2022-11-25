@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class WrongCommandException extends RuntimeException {
+public class WrongCommandException extends CustomerException {
     public WrongCommandException() {
     }
 

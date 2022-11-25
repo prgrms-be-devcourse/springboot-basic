@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class FileInOutException extends RuntimeException {
+public class FileInOutException extends ServerException {
 
     public FileInOutException() {
     }

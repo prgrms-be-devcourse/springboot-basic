@@ -1,4 +1,9 @@
 ---
+server:
+  error:
+    whitelabel:
+      enabled=false:
+
 spring:
   config:
     activate:
@@ -10,7 +15,13 @@ logging:
 
 voucher.path: "./VoucherList.csv"
 
+
 ---
+server:
+  error:
+    whitelabel:
+      enabled=false:
+
 spring:
   config:
     activate:

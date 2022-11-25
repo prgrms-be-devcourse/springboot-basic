@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class FileNotFoundCustomException extends RuntimeException {
+public class FileNotFoundCustomException extends ServerException {
 
     public FileNotFoundCustomException() {
     }

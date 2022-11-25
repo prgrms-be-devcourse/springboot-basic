@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class NotFoundValue extends RuntimeException {
+public class NotFoundValue extends CustomerException {
 
     public NotFoundValue() {
     }

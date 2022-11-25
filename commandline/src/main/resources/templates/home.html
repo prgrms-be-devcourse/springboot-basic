@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+<h1>vouchers</h1>
+<div >
+    <ul th:each="voucher:${voucherList}">
+        <li>
+            <a th:href="@{/voucher/{id} (id=${voucher.getVoucherId()})}" th:text="${voucher.toString()}"></a>
+        </li>
+    </ul>
+</div>
+<button type="button" th:href="/voucher/insertForm"> </button>
+
+</body>
+</html>

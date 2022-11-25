@@ -10,6 +10,7 @@ public class ConstantMessageUtil {
             "Type 'delete' to delete all voucher." + System.lineSeparator() +
             "Type 'find' to find one voucher by Id." + System.lineSeparator() +
             "Type 'update' to update selected voucher's discountDegree." + System.lineSeparator() +
+            "Type 'initialize' to list all voucher." + System.lineSeparator() +
             "Type 'exit' to exit the program.";
 
     public static final String TYPE_VOUCHER_INFO = "1. FixedAmountVoucher" + System.lineSeparator() +
@@ -21,6 +22,7 @@ public class ConstantMessageUtil {
 
     public static final String DISCOUNT_VALUE = "선택한 Voucher 형식에 맞는 discountDegree(정수): ";
     public static final String UPDATE = "Voucher 업데이트 완료!";
-    public static final String DELETE = "모든 Voucher들을 제거 합니다.";
+    public static final String INITIALIZE = "모든 Voucher를 초기화 합니다.";
+    public static final String DELETE = "선택한 voucher를 제거합니다.";
     public static final String TERMINATE = "프로그램을 종료합니다.";
 }

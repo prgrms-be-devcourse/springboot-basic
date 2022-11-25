@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class WrongRangeInputException extends RuntimeException {
+public class WrongRangeInputException extends CustomerException {
     public WrongRangeInputException() {
     }
 

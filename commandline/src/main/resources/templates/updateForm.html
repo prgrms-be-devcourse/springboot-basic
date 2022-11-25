@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+</head>
+<body>
+<a th:href="@{/}">home</a>
+<div>
+    <form th:action="@{/api/voucher/update/{id} (id=${voucher.getVoucherId()})}" method="post">
+        <input th:value="${voucher.getTypeName()}" name="typeName" disabled />
+        <input th:value="${voucher.getVoucherId()}" name="voucherId" disabled />
+        <input th:value="${voucher.getDiscountDegree()}" name="discountDegree" />
+        <br>
+        <button type="submit"> ok </button>
+    </form>
+    <form th:action="@{/voucher/{id} (id=${voucher.getVoucherId()})}" method="get">
+        <button type="submit" > 취소 </button>
+    </form>
+</div>
+</body>
+</html>

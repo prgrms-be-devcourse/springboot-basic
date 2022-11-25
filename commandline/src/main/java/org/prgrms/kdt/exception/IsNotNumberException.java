@@ -1,6 +1,6 @@
 package org.prgrms.kdt.exception;
 
-public class IsNotNumberException extends RuntimeException {
+public class IsNotNumberException extends CustomerException {
     public IsNotNumberException() {
     }
 

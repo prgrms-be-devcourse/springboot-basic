@@ -102,6 +102,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
         cache.clear();
     }
 
+    @Override
+    public void deleteById(long voucherId) {
+        String sql = "delete from voucher where voucher_id = :voucherId";
+        Map<String, Object> param = Map.of("voucherId", voucherId);
+        int result = jdbcTemplate.update(sql, param);
+        if (result == NOT_AFFECT_RESULT) {
+            throw new NotFoundVoucherException(ErrorCode.NOT_FOUND_VOUCHER_EXCEPTION.getMessage());
+        }
+        cache.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByTypeName(String typeNumber) {
+        String sql = "select voucher_id, type_name, discount_degree from voucher where type_name = :typeName";
+        String typeName = VoucherType.getVoucherTypeName(typeNumber);
+        Map<String, Object> param = Map.of("typeName", typeName);
+
+        return jdbcTemplate.query(sql, param, voucherRowMapper());
+    }
+
     private RowMapper<Voucher> voucherRowMapper() {
         return ((rs, rowNum) -> {
             long voucherId = rs.getLong("voucher_Id");

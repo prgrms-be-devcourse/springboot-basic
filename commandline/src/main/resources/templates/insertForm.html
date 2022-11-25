@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>insertFrom</title>
+</head>
+<body>
+<div>
+    <pre>
+원하는 타입의 번호와 할인 정도를 입력하세요.
+1.FixedAmountVoucher
+2.PercentDiscountVoucher
+    </pre>
+</div>
+<form th:action="@{/api/voucher/insert}" method="post">
+    <div>
+        <label>typeNumber : </label>
+        <input id="typNumber" type="text" name="typeNumber"/> <br>
+        <label>discountDegree : </label>
+        <input id="discountDegree" type="text" name="discountDegree"/><br>
+        <button type="submit"> submit</button>
+        <button type="button" th:onclick="|location.href='/'|">cancel</button>
+    </div>
+</form>
+
+</body>
+</html>
