@@ -19,7 +19,7 @@ class VoucherTypeTest {
         VoucherType result = VoucherType.toVoucherType(inputString);
 
         //then
-        assertThat(result.getVoucherType()).isEqualTo("1");
+        assertThat(result.getType()).isEqualTo("1");
     }
 
     @Test

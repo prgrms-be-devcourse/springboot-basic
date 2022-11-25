@@ -1,8 +1,8 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.controller.dto.VoucherRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
-import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
@@ -23,9 +23,8 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
-    public Voucher create(VoucherType voucherType, long discountValue) {
-        Voucher newVoucher = voucherType.convertToVoucher(UUID.randomUUID(), discountValue);
-        newVoucher.setVoucherType(voucherType);
+    public Voucher create(VoucherRequest voucherRequest) {
+        Voucher newVoucher = voucherRequest.voucherType().convertToVoucher(UUID.randomUUID(), voucherRequest.discountValue());
         logger.info("voucher create => {}", newVoucher);
         return voucherRepository.save(newVoucher);
     }
@@ -45,10 +44,9 @@ public class VoucherService {
                 .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
     }
 
-    public Voucher update(UUID voucherId, long discountValue, VoucherType voucherType) {
+    public Voucher update(UUID voucherId, long discountValue) {
         Voucher voucher = findById(voucherId);
         voucher.setDiscountValue(discountValue);
-        voucher.setVoucherType(voucherType);
         voucherRepository.update(voucher);
         return findById(voucherId);
     }

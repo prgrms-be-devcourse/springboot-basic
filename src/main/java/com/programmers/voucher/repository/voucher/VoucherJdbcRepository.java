@@ -19,8 +19,8 @@ import static com.programmers.voucher.utils.JdbcParamMapper.*;
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
     private static final String insertSql = """
-            INSERT INTO vouchers(voucher_id, discount_value, voucher_type)
-            VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)""";
+            INSERT INTO vouchers(voucher_id, discount_value, voucher_name)
+            VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherName)""";
     private static final String findAllSql = "SELECT * FROM vouchers";
     private static final String findAllByEmailSql = """
             SELECT vouchers.* FROM vouchers 
@@ -29,7 +29,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final String findSql
             = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String updateSql = """
-            UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType 
+            UPDATE vouchers SET discount_value = :discountValue, voucher_name = :voucherName
             WHERE voucher_id = UUID_TO_BIN(:voucherId)""";
     private static final String deleteSql = "DELETE FROM vouchers";
     private static final String deleteByEmailSql = """
@@ -43,8 +43,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final RowMapper<Voucher> rowMapper = (resultSet, count) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long discountValue = resultSet.getLong("discount_value");
-        String voucherType = resultSet.getString("voucher_type");
-        return VoucherType.toVoucherType(voucherType).convertToVoucher(voucherId, discountValue);
+        String voucherName = resultSet.getString("voucher_name");
+        return VoucherType.toVoucherTypeByName(voucherName).convertToVoucher(voucherId, discountValue);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

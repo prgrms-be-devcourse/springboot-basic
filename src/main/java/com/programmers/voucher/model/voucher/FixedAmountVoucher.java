@@ -28,6 +28,6 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%d$", VoucherType.FIXED_AMOUNT_VOUCHER, voucherId, discountValue);
+        return String.format("%s\t%s\t%d$", VoucherType.FIXED.getName(), voucherId, discountValue);
     }
 }

@@ -1,9 +1,9 @@
 package com.programmers.voucher.controller;
 
+import com.programmers.voucher.controller.dto.VoucherRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.io.Output;
 import com.programmers.voucher.model.voucher.Voucher;
-import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +20,8 @@ public class VoucherController {
         this.output = output;
     }
 
-    public void create(VoucherType inputVoucherType, long inputDiscountValue) {
-        Voucher voucher = voucherService.create(inputVoucherType, inputDiscountValue);
+    public void create(VoucherRequest voucherRequest) {
+        Voucher voucher = voucherService.create(voucherRequest);
         output.printVoucher(voucher);
     }
 
@@ -38,8 +38,8 @@ public class VoucherController {
         output.printVoucher(selected);
     }
 
-    public void update(UUID inputVoucherId, long inputDiscountValue, VoucherType inputVoucherType) {
-        Voucher updated = voucherService.update(inputVoucherId, inputDiscountValue, inputVoucherType);
+    public void update(UUID inputVoucherId, long inputDiscountValue) {
+        Voucher updated = voucherService.update(inputVoucherId, inputDiscountValue);
         output.printVoucher(updated);
     }
 

@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository.voucher;
 
 import com.programmers.voucher.MysqlTestContainer;
-import com.programmers.voucher.controller.dto.CustomerDto;
+import com.programmers.voucher.controller.dto.CustomerRequest;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.PercentDiscountVoucher;
@@ -28,27 +28,20 @@ class VoucherRepositoryTest extends MysqlTestContainer {
 
     private Customer insertSingleCustomerData() {
         String email = "taehee@gmail.com";
-        CustomerDto customerDto = new CustomerDto("taehee", email);
-        customerRepository.save(customerDto);
+        CustomerRequest customerRequest = new CustomerRequest("taehee", email);
+        customerRepository.save(customerRequest);
         return customerRepository.findByEmail(email).get();
     }
 
     private Voucher insertSingleVoucherData() {
         Voucher voucher = getVoucher();
-        voucher.setVoucherType(getVoucherType());
         return voucherRepository.save(voucher);
     }
 
     private void insertAllVouchersData() {
-        VoucherType voucherType = getVoucherType();
         for (Voucher voucher : getVouchers()) {
-            voucher.setVoucherType(voucherType);
             voucherRepository.save(voucher);
         }
-    }
-
-    private VoucherType getVoucherType() {
-        return VoucherType.toVoucherType("1");
     }
 
     private Voucher getVoucher() {
@@ -67,9 +60,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     @DisplayName("데이터베이스에 바우처를 저장한다.")
     void save() {
         //given
-        VoucherType voucherType = VoucherType.toVoucherType("1");
         Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
-        newVoucher.setVoucherType(voucherType);
 
         //when
         Voucher result = voucherRepository.save(newVoucher);
@@ -145,9 +136,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     void update() {
         //given
         Voucher voucher = insertSingleVoucherData();
-        VoucherType updatedType = VoucherType.toVoucherType("2");
         Voucher updatedVoucher = new PercentDiscountVoucher(voucher.getVoucherId(), 30);
-        updatedVoucher.setVoucherType(updatedType);
 
         //when
         voucherRepository.update(updatedVoucher);

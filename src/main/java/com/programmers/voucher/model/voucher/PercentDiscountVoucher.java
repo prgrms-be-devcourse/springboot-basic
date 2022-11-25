@@ -24,6 +24,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT_DISCOUNT_VOUCHER, voucherId, discountValue);
+        return String.format("%s\t%s\t%d%%", VoucherType.PERCENT.getName(), voucherId, discountValue);
     }
 }
