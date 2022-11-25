@@ -113,10 +113,10 @@ class ConsumerNamedJdbcRepositoryTest {
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findById(uuid.toString());
+        Consumer foundConsumer = consumerNamedJdbcRepository.findById(uuid.toString()).get();
 
         //then
-        assertThat(foundConsumer.get().getId(), is(uuid.toString()));
+        assertThat(foundConsumer.getId(), is(uuid.toString()));
     }
 
     @Test
@@ -128,10 +128,10 @@ class ConsumerNamedJdbcRepositoryTest {
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findByName(name);
+        Consumer foundConsumer = consumerNamedJdbcRepository.findByName(name).get();
 
         //then
-        assertThat(foundConsumer.get().getName(), is(name));
+        assertThat(foundConsumer.getName(), is(name));
     }
 
     @Test
@@ -143,10 +143,10 @@ class ConsumerNamedJdbcRepositoryTest {
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerNamedJdbcRepository.findByEmail(email);
+        Consumer foundConsumer = consumerNamedJdbcRepository.findByEmail(email).get();
 
         //then
-        assertThat(foundConsumer.get().getEmail(), is(email));
+        assertThat(foundConsumer.getEmail(), is(email));
     }
 
     @Test

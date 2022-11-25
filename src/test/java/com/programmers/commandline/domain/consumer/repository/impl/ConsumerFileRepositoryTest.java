@@ -12,7 +12,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -68,8 +67,9 @@ class ConsumerFileRepositoryTest {
         File consumerFile = new File(filePath + consumer.getId());
 
         //then
-        assertThat(toml.read(consumerFile).getString("name"), is(updateUsername));
+        assertThat(getName(toml, consumerFile), is(updateUsername));
     }
+
 
     @Test
     @DisplayName("소비자를 생성하고 생성된 파일 갯수를 검증하라")
@@ -115,10 +115,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        Optional<Consumer> optionalConsumer = consumerFileRepository.findById(uuid.toString());
+        Consumer foundConsumer = consumerFileRepository.findById(uuid.toString()).get();
 
         //then
-        assertThat(optionalConsumer.get().getId(), is(consumer.getId()));
+        assertThat(foundConsumer.getId(), is(consumer.getId()));
 
     }
 
@@ -131,10 +131,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerFileRepository.findByName(name);
+        Consumer foundConsumer = consumerFileRepository.findByName(name).get();
 
         //then
-        assertThat(foundConsumer.get().getId(), is(consumer.getId()));
+        assertThat(foundConsumer.getId(), is(consumer.getId()));
     }
 
     @Test
@@ -146,10 +146,10 @@ class ConsumerFileRepositoryTest {
 
         //when
         consumerFileRepository.insert(consumer);
-        Optional<Consumer> foundConsumer = consumerFileRepository.findByEmail(email);
+        Consumer foundConsumer = consumerFileRepository.findByEmail(email).get();
 
         //then
-        assertThat(foundConsumer.get().getId(), is(consumer.getId()));
+        assertThat(foundConsumer.getId(), is(consumer.getId()));
     }
 
     @Test
@@ -165,5 +165,9 @@ class ConsumerFileRepositoryTest {
 
         //then
         assertThat(consumers.size(), is(0));
+    }
+
+    private String getName(Toml toml, File consumerFile) {
+        return toml.read(consumerFile).getString("name");
     }
 }

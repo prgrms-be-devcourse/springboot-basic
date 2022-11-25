@@ -51,13 +51,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(String voucherId) {
-        for (Voucher voucher : memory) {
-            if (voucher.getId().equals(voucherId)) {
-                return Optional.ofNullable(voucher);
-            }
-        }
-
-        return Optional.empty();
+        return memory.stream()
+                .filter(voucher -> voucher.getId().equals(voucherId))
+                .findFirst();
     }
 
     @Override

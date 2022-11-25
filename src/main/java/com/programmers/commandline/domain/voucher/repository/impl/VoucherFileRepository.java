@@ -37,7 +37,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
             return voucher;
         } catch (IOException e) {
-            throw new RuntimeException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage());
+            throw new RuntimeException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage(), e);
         }
     }
 
@@ -52,7 +52,7 @@ public class VoucherFileRepository implements VoucherRepository {
             tomlWriter.write(voucher, voucherFile);
             return new Toml().to(Voucher.class);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage(), e);
         }
     }
 
