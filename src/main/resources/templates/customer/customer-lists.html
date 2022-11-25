@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Voucher Management Application</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+<h1>Voucher Management Application</h1>
+<h2>Customer Lists</h2>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<table class="table table-dark">
+    <thead>
+    <tr>
+        <th scope="col">CustomerId</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Created at</th>
+        <th scope="col">Is blacklist</th>
+        <th scope="col">Wallet</th>
+        <th scope="col">Assign</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer:${customers}" th:object="${customer}">
+        <td th:text="*{customerId}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td th:text="*{createdAt}"></td>
+        <td th:text="*{isBlacklist}"></td>
+        <td>
+            <form th:action="@{/customers/voucher_wallet}" method="post">
+                <input type="hidden" id="wallet_customerId" name="wallet_customerId" th:value="${customer.customerId}">
+                <button type="submit" class="btn btn-primary">SHOW VOUCHER WALLET</button>
+            </form>
+        </td>
+        <td>
+            <form th:action="@{/not-owned-lists}" method="post">
+                <input type="hidden" id="owned_customerId" name="owned_customerId" th:value="${customer.customerId}">
+                <button type="submit" class="btn btn-primary">ASSIGN VOUCHER</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
