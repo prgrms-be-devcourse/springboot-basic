@@ -1,18 +1,19 @@
 package com.programmers.voucher.controller;
 
 import com.programmers.voucher.controller.dto.CustomerDto;
-import com.programmers.voucher.io.*;
+import com.programmers.voucher.io.CommandType;
+import com.programmers.voucher.io.Input;
+import com.programmers.voucher.io.Message;
+import com.programmers.voucher.io.Output;
 import com.programmers.voucher.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class VoucherProgram implements ApplicationRunner {
+public class VoucherProgram {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final Input input;
     private final Output output;
@@ -26,8 +27,7 @@ public class VoucherProgram implements ApplicationRunner {
         this.customerController = customerController;
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
+    public void run() {
         boolean isRunning = true;
 
         while (isRunning) {

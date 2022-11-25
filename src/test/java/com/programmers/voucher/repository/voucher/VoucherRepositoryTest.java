@@ -1,6 +1,6 @@
 package com.programmers.voucher.repository.voucher;
 
-import com.programmers.voucher.JdbcConfig;
+import com.programmers.voucher.MysqlTestContainer;
 import com.programmers.voucher.controller.dto.CustomerDto;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
@@ -10,14 +10,17 @@ import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class VoucherRepositoryTest extends JdbcConfig {
+class VoucherRepositoryTest extends MysqlTestContainer {
+
     @Autowired
     private VoucherRepository voucherRepository;
     @Autowired

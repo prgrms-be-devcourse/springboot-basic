@@ -3,7 +3,3 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher
     username: voucher
     password: root1234!
-
-file:
-  path:
-    black: src/main/resources/file/customer_blacklist.csv
