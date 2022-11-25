@@ -3,6 +3,8 @@ package org.prgrms.kdt.utils;
 import org.prgrms.kdt.exceptions.InvalidITypeInputException;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.prgrms.kdt.io.IOManager.getSelectWrongMessage;
 
@@ -46,5 +48,11 @@ public enum VoucherType {
                             throw new InvalidITypeInputException(getSelectWrongMessage());
                         }
                 );
+    }
+
+    public static List<String> getVoucherTypes(){
+        return Arrays.stream(VoucherType.values())
+                .map(VoucherType::getVoucherType)
+                .collect(Collectors.toList());
     }
 }
