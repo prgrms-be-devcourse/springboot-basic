@@ -2,7 +2,6 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.repository.VoucherRepository;
-import com.programmers.voucher.voucher.FixedAmountVoucher;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.voucher.voucher.VoucherType;
 import org.junit.jupiter.api.BeforeEach;

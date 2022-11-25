@@ -2,7 +2,6 @@ package com.programmers.wallet.service;
 
 import com.programmers.customer.Customer;
 import com.programmers.customer.repository.CustomerRepository;
-import com.programmers.customer.service.CustomerService;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.voucher.Voucher;
 import com.programmers.wallet.repository.WalletRepository;

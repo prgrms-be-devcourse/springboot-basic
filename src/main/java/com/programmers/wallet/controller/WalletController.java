@@ -1,11 +1,9 @@
 package com.programmers.wallet.controller;
 
-import com.programmers.customer.Customer;
 import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.service.CustomerService;
 import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.service.VoucherService;
-import com.programmers.voucher.voucher.Voucher;
 import com.programmers.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

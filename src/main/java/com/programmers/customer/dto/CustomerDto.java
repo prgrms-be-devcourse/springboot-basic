@@ -1,7 +1,6 @@
 package com.programmers.customer.dto;
 
 import com.programmers.voucher.dto.VoucherDto;
-import com.programmers.voucher.voucher.Voucher;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -17,14 +16,6 @@ public class CustomerDto {
     private List<VoucherDto> wallet;
 
     public CustomerDto() {
-    }
-
-    public CustomerDto(UUID customerId, String name, String email, LocalDateTime createAt) {
-        this.name = name;
-        this.customerId = customerId;
-        this.email = email;
-        this.createAt = createAt;
-        this.wallet = new ArrayList<>();
     }
 
     public CustomerDto(UUID customerId, String name, String email, LocalDateTime createAt, List<VoucherDto> wallet) {

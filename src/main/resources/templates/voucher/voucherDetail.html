@@ -33,10 +33,12 @@
 </table>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <form method="post" th:action="@{/vouchers/delete/{id}(id = ${voucher.voucherId})}" />
-        <button btn-primary>바우처 삭제</button>
+    <form method="post" th:action="@{/vouchers/delete/{id}(id = ${voucher.voucherId})}"/>
+    <button btn-primary>바우처 삭제</button>
     </form>
-    <a th:href="@{/vouchers}"><button btn-primary>이전</button></a>
+    <a th:href="@{/vouchers}">
+        <button btn-primary>이전</button>
+    </a>
 </div>
 </body>
 </html>

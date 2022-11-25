@@ -1,12 +1,10 @@
 package com.programmers.customer.controller;
 
-import com.programmers.customer.Customer;
 import com.programmers.customer.dto.CustomerDto;
 import com.programmers.customer.dto.CustomerJoinForm;
 import com.programmers.customer.service.CustomerService;
 import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.service.VoucherService;
-import com.programmers.voucher.voucher.Voucher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;

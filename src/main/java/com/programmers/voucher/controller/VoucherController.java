@@ -3,7 +3,6 @@ package com.programmers.voucher.controller;
 import com.programmers.voucher.dto.VoucherDto;
 import com.programmers.voucher.dto.VoucherRegisterForm;
 import com.programmers.voucher.service.VoucherService;
-import com.programmers.voucher.voucher.Voucher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;

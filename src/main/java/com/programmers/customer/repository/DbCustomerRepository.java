@@ -42,7 +42,7 @@ public class DbCustomerRepository implements CustomerRepository {
         this.voucherRowMapper = new VoucherRowMapper();
         this.customerRowMapper = new CustomerRowMapper();
         this.resultSetExtractor = new CustomerResultSetExtractor(customerRowMapper, voucherRowMapper);
-        this.listExtractor  = new ListCustomerResultSetExtractor(resultSetExtractor);
+        this.listExtractor = new ListCustomerResultSetExtractor(resultSetExtractor);
     }
 
     @Override

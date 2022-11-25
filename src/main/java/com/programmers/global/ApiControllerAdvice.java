@@ -1,10 +1,5 @@
 package com.programmers.global;
 
-import com.programmers.customer.controller.CustomerController;
-import com.programmers.customer.controller.api.ApiCustomerController;
-import com.programmers.voucher.controller.VoucherController;
-import com.programmers.voucher.controller.api.ApiVoucherController;
-import com.programmers.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;

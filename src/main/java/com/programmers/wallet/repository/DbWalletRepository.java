@@ -4,7 +4,6 @@ import com.programmers.customer.Customer;
 import com.programmers.customer.repository.sql.CustomerResultSetExtractor;
 import com.programmers.customer.repository.sql.CustomerRowMapper;
 import com.programmers.voucher.repository.sql.VoucherRowMapper;
-import com.programmers.voucher.repository.sql.VoucherSql;
 import com.programmers.voucher.voucher.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

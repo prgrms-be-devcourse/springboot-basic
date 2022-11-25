@@ -10,7 +10,6 @@ public class VoucherDto {
     private long value;
     private boolean isAssigned;
 
-
     public VoucherDto(UUID voucherId, VoucherType type, long value, boolean isAssigned) {
         this.voucherId = voucherId;
         this.type = type;

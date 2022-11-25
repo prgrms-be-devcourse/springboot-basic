@@ -33,10 +33,12 @@
 </table>
 
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <form method="post" th:action="@{/customers/delete/{id}(id = ${customer.customerId})}" />
-        <button btn-primary>회원 삭제</button>
+    <form method="post" th:action="@{/customers/delete/{id}(id = ${customer.customerId})}"/>
+    <button btn-primary>회원 삭제</button>
     </form>
-    <a th:href="@{/customers}"><button btn-primary>이전</button></a>
+    <a th:href="@{/customers}">
+        <button btn-primary>이전</button>
+    </a>
 
 </div>
 
@@ -55,14 +57,17 @@
         <th scope="row" th:text="${voucher.type}"></th>
         <th scope="row" th:text="${voucher.value}"></th>
         <th>
-            <form method="post" th:action="@{/customers/{customerId}/{voucherId} (customerId = ${customer.customerId}, voucherId = ${voucher.voucherId})}">
+            <form method="post"
+                  th:action="@{/customers/{customerId}/{voucherId} (customerId = ${customer.customerId}, voucherId = ${voucher.voucherId})}">
                 <button btn-primary>바우처 제거</button>
             </form>
         </th>
     </tr>
     </tbody>
 </table>
-<a th:href="@{/customers/assign/{customerId} (customerId = ${customer.customerId})}"><button btn-primary>바우처 할당하기</button></a>
+<a th:href="@{/customers/assign/{customerId} (customerId = ${customer.customerId})}">
+    <button btn-primary>바우처 할당하기</button>
+</a>
 
 </body>
 </html>
