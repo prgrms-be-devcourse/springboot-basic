@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.domain.voucher.repository;
 
+import org.programmers.springbootbasic.data.VoucherType;
 import org.programmers.springbootbasic.domain.customer.repository.JdbcCustomerRepository;
 import org.programmers.springbootbasic.domain.voucher.dto.VoucherDBOutputDto;
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
@@ -75,6 +76,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
             logger.info("검색 결과가 없습니다.");
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
+        return jdbcTemplate.query("select * from vouchers where type = ?",
+                voucherDBOutputDtoRowMapperRowMapper,
+                voucherType);
     }
 
     @Override

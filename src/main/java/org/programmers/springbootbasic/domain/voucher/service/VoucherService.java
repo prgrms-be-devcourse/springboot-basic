@@ -1,6 +1,7 @@
 package org.programmers.springbootbasic.domain.voucher.service;
 
 import lombok.AllArgsConstructor;
+import org.programmers.springbootbasic.data.VoucherType;
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.programmers.springbootbasic.domain.voucher.VoucherFactory;
 import org.programmers.springbootbasic.domain.voucher.dto.VoucherInputDto;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,8 +34,16 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher findOne(UUID voucherId) {
+    public Voucher findOneById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NotFoundException("엔티티를 찾을 수 없습니다."));
+    }
+
+    public List<Voucher> findByType(String voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

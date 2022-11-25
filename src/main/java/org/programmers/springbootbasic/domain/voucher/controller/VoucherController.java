@@ -55,7 +55,7 @@ public class VoucherController {
     @GetMapping("/voucher/{voucherId}")
     public String voucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
-            Voucher voucher = voucherService.findOne(voucherId);
+            Voucher voucher = voucherService.findOneById(voucherId);
             model.addAttribute("voucher", voucher);
             return "voucher-detail";
         } catch (RuntimeException e) {

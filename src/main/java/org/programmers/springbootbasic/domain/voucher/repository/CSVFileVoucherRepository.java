@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.domain.voucher.repository;
 
+import org.programmers.springbootbasic.data.VoucherType;
 import org.programmers.springbootbasic.domain.voucher.model.FixedAmountVoucher;
 import org.programmers.springbootbasic.domain.voucher.model.PercentDiscountVoucher;
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
@@ -49,6 +50,11 @@ public class CSVFileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
         throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 

@@ -1,5 +1,6 @@
 package org.programmers.springbootbasic.domain.voucher.repository;
 
+import org.programmers.springbootbasic.data.VoucherType;
 import org.programmers.springbootbasic.domain.voucher.model.Voucher;
 import org.programmers.springbootbasic.exception.NotFoundException;
 import org.programmers.springbootbasic.exception.NotSupportedException;
@@ -35,6 +36,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         if(store.containsKey(voucherId)) return Optional.ofNullable(store.get(voucherId));
         else throw new NotFoundException("해당 Voucher를 찾을 수 없습니다.");
+    }
+
+    @Override
+    public List<Voucher> findByType(String voucherType) {
+        throw new NotSupportedException("지원하지 않는 기능입니다.");
     }
 
     @Override
