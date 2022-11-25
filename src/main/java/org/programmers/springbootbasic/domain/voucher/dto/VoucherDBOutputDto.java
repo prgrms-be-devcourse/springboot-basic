@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class VoucherDBOutputDto {
     UUID voucherId;
-    String type;
     VoucherType voucherType;
     long amount;
 
