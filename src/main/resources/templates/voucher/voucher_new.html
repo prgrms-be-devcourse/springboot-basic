@@ -15,12 +15,12 @@
 </div>
 <br/>
 
-<form method="POST" th:action="@{/voucher/newvoucher}">
+<form method="POST" th:action="@{/voucher}">
 
     <div class="container">
         <label class="form-label">Voucher Type</label>
         <select class="form-control" id="voucherType" name="voucherType">
-            <option 력selected>Select Voucher Type</option>
+            <option selected>Select Voucher Type</option>
             <option value="1">FixedAmountVoucher</option>
             <option value="2">PercentDiscountVoucher</option>
         </select>

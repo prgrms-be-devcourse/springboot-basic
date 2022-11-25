@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/voucher/")
+@RequestMapping("/")
 public class VoucherWebController {
 
     private final VoucherService voucherService;
@@ -23,33 +23,33 @@ public class VoucherWebController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping(value = {"", "/"})
+    @GetMapping
     public String main() {
         return "main";
     }
 
-    @GetMapping("newvoucher")
+    @GetMapping("voucher")
     public String create() {
-        return "voucher/newVoucher";
+        return "voucher/voucher_new";
     }
 
-    @PostMapping("newvoucher")
+    @PostMapping("voucher")
     public String create(VoucherCreateRequest voucherCreateRequest) {
         voucherService.create(voucherCreateRequest);
-        return "redirect:/voucher/";
+        return "redirect:/";
     }
 
-    @GetMapping("voucherlist")
+    @GetMapping("vouchers")
     public String findAll(Model model) {
         List<Voucher> vouchers = voucherService.findAll();
         model.addAttribute("vouchers", vouchers);
-        return "voucher/listVoucher";
+        return "voucher/voucher_list";
     }
 
-    @GetMapping("onevoucher/{voucherId}")
+    @GetMapping("voucher/{voucherId}")
     public String findById(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
-        return "voucher/oneVoucher";
+        return "voucher/voucher_detail";
     }
 }
