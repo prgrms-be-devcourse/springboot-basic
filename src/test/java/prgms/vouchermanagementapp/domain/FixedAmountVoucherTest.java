@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import prgms.vouchermanagementapp.domain.value.Amount;
-import prgms.vouchermanagementapp.service.VoucherCreationFactory;
+import prgms.vouchermanagementapp.service.VoucherFactory;
 
 class FixedAmountVoucherTest {
 
@@ -16,7 +16,7 @@ class FixedAmountVoucherTest {
         Amount fixedDiscountAmount = new Amount(3000);
 
         // when
-        Voucher voucher = VoucherCreationFactory.createVoucher(fixedDiscountAmount);
+        Voucher voucher = VoucherFactory.createVoucher(fixedDiscountAmount);
 
         // then
         Assertions.assertThrows(IllegalStateException.class, () -> {

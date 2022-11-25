@@ -15,12 +15,12 @@ import java.util.*;
 
 @Component
 @Profile("release | test")
-public class JdbcVouchers {
+public class JdbcVoucherRepository {
 
     private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert jdbcInsert;
 
-    public JdbcVouchers(DataSource dataSource) {
+    public JdbcVoucherRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("vouchers");

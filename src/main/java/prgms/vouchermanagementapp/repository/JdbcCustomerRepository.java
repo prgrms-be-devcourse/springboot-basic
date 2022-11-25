@@ -15,12 +15,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class Customers {
+public class JdbcCustomerRepository {
 
     private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert jdbcInsert;
 
-    public Customers(DataSource dataSource) {
+    public JdbcCustomerRepository(DataSource dataSource) {
         this.template = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("customer")

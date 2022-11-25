@@ -13,12 +13,12 @@ import java.util.UUID;
 
 @Component
 @Profile("memory")
-public class MemoryVouchers implements Vouchers {
+public class MemoryVoucherRepository implements VoucherRepository {
 
     private static final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     @Override
-    public void store(Voucher voucher) {
+    public void save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
     }
 

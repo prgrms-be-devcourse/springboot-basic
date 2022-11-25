@@ -15,7 +15,7 @@
   === Voucher Program ===
   Type **exit** to exit the program.
   Type **create** to create a new voucher.
-  Type **list** to list all vouchers.
+  Type **list** to list all voucherRepository.
   ```
 
 ## 커맨드
@@ -93,9 +93,9 @@
 ### 바우처를 DB로 관리
 
 - [x]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
-    - [x]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - [x]  바우처에 엔터티에 해당하는 voucherRepository 테이블을 한번 정의해보세요.
     - [x]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
-    - [x]  기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+    - [x]  기존의 파일에서 바우처를 관리한 것을 voucherRepository 테이블을 통해서 CRUD가 되게 해보세요.
         - [x]  Create: 바우처를 DB에 저장
         - [x]  Read: 저장된 모든 바우처 조회
         - [x]  Update: 바우처의 할인 금액 또는 비율 수정

@@ -8,7 +8,7 @@ import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
 import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
-import prgms.vouchermanagementapp.service.VoucherManager;
+import prgms.vouchermanagementapp.service.VoucherService;
 import prgms.vouchermanagementapp.view.CommandType;
 import prgms.vouchermanagementapp.view.IoManager;
 
@@ -21,12 +21,12 @@ public class CommandExecutor {
     private static final Logger log = LoggerFactory.getLogger(CommandExecutor.class);
 
     private final IoManager ioManager;
-    private final VoucherManager voucherManager;
+    private final VoucherService voucherService;
     private final CustomerController customerController;
 
-    public CommandExecutor(IoManager ioManager, VoucherManager voucherManager, CustomerController customerController) {
+    public CommandExecutor(IoManager ioManager, VoucherService voucherService, CustomerController customerController) {
         this.ioManager = ioManager;
-        this.voucherManager = voucherManager;
+        this.voucherService = voucherService;
         this.customerController = customerController;
     }
 
@@ -75,17 +75,17 @@ public class CommandExecutor {
     private void requestVoucherCreation(VoucherType voucherType) {
         if (voucherType.is(VoucherType.FixedAmountVoucher)) {
             Optional<Amount> fixedDiscountAmount = ioManager.askFixedDiscountAmount();
-            fixedDiscountAmount.ifPresent(voucherManager::createVoucher);
+            fixedDiscountAmount.ifPresent(voucherService::createVoucher);
         }
 
         if (voucherType.is(VoucherType.PercentDiscountVoucher)) {
             Optional<Ratio> fixedDiscountRatio = ioManager.askFixedDiscountRatio();
-            fixedDiscountRatio.ifPresent(voucherManager::createVoucher);
+            fixedDiscountRatio.ifPresent(voucherService::createVoucher);
         }
     }
 
     private void runList() {
-        ioManager.showVoucherRecord(voucherManager.findAllVouchers());
+        ioManager.showVoucherRecord(voucherService.findAllVouchers());
     }
 
     private void runBlacklist() {

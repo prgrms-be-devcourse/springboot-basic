@@ -11,8 +11,8 @@ import prgms.vouchermanagementapp.domain.VoucherEntity;
 import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
 import prgms.vouchermanagementapp.repository.util.EntityMapper;
-import prgms.vouchermanagementapp.service.CustomerManager;
-import prgms.vouchermanagementapp.service.VoucherCreationFactory;
+import prgms.vouchermanagementapp.service.CustomerService;
+import prgms.vouchermanagementapp.service.VoucherFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,34 +20,34 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class JdbcVouchersTest {
+class JdbcVoucherRepositoryTest {
 
     @Autowired
-    private CustomerManager customerManager;
+    private CustomerService customerService;
 
     @Autowired
-    private JdbcVouchers jdbcVouchers;
+    private JdbcVoucherRepository jdbcVoucherRepository;
 
     private Customer savedCustomer;
 
     @BeforeEach
     void beforeEach() {
-        savedCustomer = customerManager.save(new Customer("customer"));
+        savedCustomer = customerService.save(new Customer("customer"));
     }
 
     @DisplayName("고객에게 할당된 바우처를 저장할 수 있다.")
     @Test
     void save() {
         // given
-        Voucher voucher1 = VoucherCreationFactory.createVoucher(new Amount(3000));
-        Voucher voucher2 = VoucherCreationFactory.createVoucher(new Ratio(50));
+        Voucher voucher1 = VoucherFactory.createVoucher(new Amount(3000));
+        Voucher voucher2 = VoucherFactory.createVoucher(new Ratio(50));
         VoucherEntity voucherEntity1 = EntityMapper.toVoucher(voucher1, savedCustomer);
         VoucherEntity voucherEntity2 = EntityMapper.toVoucher(voucher2, savedCustomer);
 
         // when
-        jdbcVouchers.save(voucherEntity1);
-        jdbcVouchers.save(voucherEntity2);
-        List<VoucherEntity> voucherEntities = jdbcVouchers.findAll();
+        jdbcVoucherRepository.save(voucherEntity1);
+        jdbcVoucherRepository.save(voucherEntity2);
+        List<VoucherEntity> voucherEntities = jdbcVoucherRepository.findAll();
 
         // then
         assertThat(voucherEntities.size()).isEqualTo(2);
@@ -58,14 +58,14 @@ class JdbcVouchersTest {
     void updateFixedAmountVoucherById() {
         // given
         long originalAmount = 1000;
-        Voucher originalVoucher = VoucherCreationFactory.createVoucher(new Amount(originalAmount));
+        Voucher originalVoucher = VoucherFactory.createVoucher(new Amount(originalAmount));
         VoucherEntity originalVoucherEntity = EntityMapper.toVoucher(originalVoucher, savedCustomer);
-        jdbcVouchers.save(originalVoucherEntity);
+        jdbcVoucherRepository.save(originalVoucherEntity);
 
         // when
         long changedAmount = 2000;
-        jdbcVouchers.updateFixedAmountVoucherById(originalVoucherEntity.getId(), changedAmount);
-        Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
+        jdbcVoucherRepository.updateFixedAmountVoucherById(originalVoucherEntity.getId(), changedAmount);
+        Optional<VoucherEntity> foundVoucherEntity = jdbcVoucherRepository.findVoucherEntityById(originalVoucherEntity.getId());
         assert foundVoucherEntity.isPresent();
 
         // then
@@ -77,14 +77,14 @@ class JdbcVouchersTest {
     void updateRatioByCustomerName() {
         // given
         long originalRatio = 50;
-        Voucher originalVoucher = VoucherCreationFactory.createVoucher(new Ratio(originalRatio));
+        Voucher originalVoucher = VoucherFactory.createVoucher(new Ratio(originalRatio));
         VoucherEntity originalVoucherEntity = EntityMapper.toVoucher(originalVoucher, savedCustomer);
-        jdbcVouchers.save(originalVoucherEntity);
+        jdbcVoucherRepository.save(originalVoucherEntity);
 
         // when
         long changedRatio = 100;
-        jdbcVouchers.updatePercentDiscountVoucherById(originalVoucherEntity.getId(), changedRatio);
-        Optional<VoucherEntity> foundVoucherEntity = jdbcVouchers.findVoucherEntityById(originalVoucherEntity.getId());
+        jdbcVoucherRepository.updatePercentDiscountVoucherById(originalVoucherEntity.getId(), changedRatio);
+        Optional<VoucherEntity> foundVoucherEntity = jdbcVoucherRepository.findVoucherEntityById(originalVoucherEntity.getId());
         assert foundVoucherEntity.isPresent();
 
         // then
@@ -95,17 +95,17 @@ class JdbcVouchersTest {
     @Test
     void testMethodNameHere() {
         // given
-        Voucher voucher1 = VoucherCreationFactory.createVoucher(new Amount(3000));
-        Voucher voucher2 = VoucherCreationFactory.createVoucher(new Ratio(50));
+        Voucher voucher1 = VoucherFactory.createVoucher(new Amount(3000));
+        Voucher voucher2 = VoucherFactory.createVoucher(new Ratio(50));
         VoucherEntity voucherEntity1 = EntityMapper.toVoucher(voucher1, savedCustomer);
         VoucherEntity voucherEntity2 = EntityMapper.toVoucher(voucher2, savedCustomer);
-        jdbcVouchers.save(voucherEntity1);
-        jdbcVouchers.save(voucherEntity2);
+        jdbcVoucherRepository.save(voucherEntity1);
+        jdbcVoucherRepository.save(voucherEntity2);
 
         // when
-        jdbcVouchers.deleteAll();
+        jdbcVoucherRepository.deleteAll();
 
         // then
-        assertThat(jdbcVouchers.findAll()).isEmpty();
+        assertThat(jdbcVoucherRepository.findAll()).isEmpty();
     }
 }

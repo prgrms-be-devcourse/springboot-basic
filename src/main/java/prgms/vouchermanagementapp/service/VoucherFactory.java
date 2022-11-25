@@ -8,9 +8,9 @@ import prgms.vouchermanagementapp.domain.value.Ratio;
 
 import java.util.UUID;
 
-public class VoucherCreationFactory {
+public class VoucherFactory {
 
-    private VoucherCreationFactory() {
+    private VoucherFactory() {
     }
 
     public static Voucher createVoucher(Amount fixedDiscountAmount) {

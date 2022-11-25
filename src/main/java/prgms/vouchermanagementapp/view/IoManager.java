@@ -5,6 +5,7 @@ import prgms.vouchermanagementapp.configuration.FileConfig;
 import prgms.vouchermanagementapp.domain.VoucherRecord;
 import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.repository.util.FileManager;
 
 import java.util.Optional;
 
