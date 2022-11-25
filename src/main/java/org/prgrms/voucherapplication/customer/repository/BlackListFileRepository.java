@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.customer.repository;
 
-import org.prgrms.voucherapplication.customer.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.customer.controller.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.voucher.service.CsvFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;

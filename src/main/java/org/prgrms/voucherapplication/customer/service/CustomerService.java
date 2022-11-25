@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.customer.service;
 
-import org.prgrms.voucherapplication.customer.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.customer.controller.dto.ResponseBlacklist;
 import org.prgrms.voucherapplication.customer.entity.Customer;
 
 import java.util.List;

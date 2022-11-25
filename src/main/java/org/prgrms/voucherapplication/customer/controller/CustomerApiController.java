@@ -1,12 +1,10 @@
 package org.prgrms.voucherapplication.customer.controller;
 
+import org.prgrms.voucherapplication.customer.controller.dto.CustomerDto;
 import org.prgrms.voucherapplication.customer.entity.Customer;
 import org.prgrms.voucherapplication.customer.service.CustomerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,5 +31,13 @@ public class CustomerApiController {
         Optional<Customer> customer = customerService.getCustomer(customerId);
         return customer.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("api/v1/customers/{customerId}")
+    @ResponseBody
+    public CustomerDto saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer) {
+        Customer to = CustomerDto.to(customer);
+        customerService.createCustomer(to.getEmail(), to.getName());
+        return customer;
     }
 }

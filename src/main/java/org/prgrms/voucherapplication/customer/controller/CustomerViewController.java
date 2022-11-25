@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.customer.controller;
 
-import org.prgrms.voucherapplication.customer.dto.CreateCustomerRequest;
+import org.prgrms.voucherapplication.customer.controller.dto.CreateCustomerRequest;
 import org.prgrms.voucherapplication.customer.entity.Customer;
 import org.prgrms.voucherapplication.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;

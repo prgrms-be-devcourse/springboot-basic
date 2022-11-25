@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.customer.dto;
+package org.prgrms.voucherapplication.customer.controller.dto;
 
 public class CreateCustomerRequest {
 
