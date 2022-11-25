@@ -46,7 +46,7 @@ class VoucherServiceTest {
         Voucher percentVoucher = voucherService.createVoucher(new VoucherInputDto("percent", 20));
 
         //when
-        Voucher savedVoucher = voucherService.collectVouchers().get(0);
+        Voucher savedVoucher = voucherService.findAll().get(0);
 
         //then
         Assertions.assertThat(percentVoucher).isEqualTo(savedVoucher);

@@ -37,7 +37,7 @@ public class VoucherManagementExecutor {
                         createVoucher();
                     }
                     case LIST -> {
-                        List<Voucher> vouchers = voucherService.collectVouchers();
+                        List<Voucher> vouchers = voucherService.findAll();
                         output.printVouchers(vouchers);
                     }
                     case BLACKLIST -> {
