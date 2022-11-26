@@ -36,6 +36,7 @@ public abstract class Voucher {
     }
 
     public void setDiscountValue(long discountValue) {
+        validateDiscountRange(discountValue);
         this.discountValue = discountValue;
     }
 }
