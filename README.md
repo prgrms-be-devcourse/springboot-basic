@@ -29,30 +29,30 @@
 
 - [x] 조회 페이지
   - [x] 고객 검색
-    - `/view/v1/customers-find`
+    - GET `/view/v1/customers/search`
   - [x] 바우처 검색 
-    - `/view/v1/vouchers-find`
+    - GET `/view/v1/vouchers/search`
 - [x] 상세 페이지
   - [x] 고객 리스트 페이지 
-    - `/view/v1/customers`
+    - GET `/view/v1/customers`
   - [x] 바우처 리스트 페이지 
-    - `/view/v1/vouchers`
+    - GET `/view/v1/vouchers`
   - [x] 고객 바우처 상세 페이지 
-    - `/view/v1/customer-vouchers/{customerI\
+    - GET `/view/v1/customers/vouchers/{customerId}`
 - [x] 입력 페이지
   - [x] 고객 등록 페이지 
-    - `/view/v1/customer-add`
+    - GET, POST `/view/v1/customer/add`
   - [x] 바우처 등록 페이지 
-    - `/view/v1/voucher-add`
+    - GET, POST `/view/v1/vouchers/add`
   - [x] 고객 바우처(지갑) 등록 페이지 
-    - `/view/v1/customer-vouchers-add/{customerId}`
+    - GET, POST `/view/v1/customers/vouchers/add/{customerId}`
 - [x] 삭제 페이지
   - [x] 고객 삭제 페이지
-    - `/view/v1/customers/{customerId}`
+    - DELETE `/view/v1/customers/{customerId}`
   - [x] 바우처 삭제 페이지
     - `/view/v1/vouchers/{voucherId}`
   - [x] 고객 바우처(지갑) 삭제 페이지
-    - `/view/v1/customer-vouchers/{customerId}/{voucherId}`
+    - DELETE `/view/v1/customers/vouchers/{customerId}/{voucherId}`
 
 ### 🔥 JSON을 이용한 고객, 바우처 관리 애플리케이션 구현 🔥
 
