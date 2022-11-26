@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/view")
+@RequestMapping("/view/v1/customers")
 public class ViewCustomerController {
 
     private final JdbcCustomerService customerService;
@@ -27,7 +27,7 @@ public class ViewCustomerController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/v1/customers")
+    @GetMapping
     public String customerList(Model model) {
         List<CustomerDto> result = customerService.findAllCustomers()
                 .stream()
@@ -37,30 +37,30 @@ public class ViewCustomerController {
         return "customer-list";
     }
 
-    @GetMapping("/v1/customer-add")
+    @GetMapping("/add")
     public String customerAddForm() {
         return "customer-add";
     }
 
-    @PostMapping("/v1/customer-add")
+    @PostMapping("/add")
     public String customerAddForm(CreateCustomerRequest request) {
         CustomerStatus customerStatus = CustomerStatus.of(request.status());
         customerService.saveCustomer(new Customer(customerStatus));
-        return "redirect:customers";
+        return "redirect:";
     }
 
-    @GetMapping("/v1/customers-find")
+    @GetMapping("/search")
     public String findCustomerById(@RequestParam Long customerId, Model model, RedirectAttributes re) {
         CustomerDto findCustomer = CustomerDto.newInstance(customerService.findCustomerById(customerId));
         if (findCustomer.isEmpty()) {
             re.addFlashAttribute("findResult", false);
-            return "redirect:customers";
+            return "redirect:";
         }
         model.addAttribute("customers", findCustomer);
         return "customer-list";
     }
 
-    @GetMapping("/v1/customer-vouchers/{customerId}")
+    @GetMapping("/vouchers/{customerId}")
     public String findCustomerVoucherList(@PathVariable Long customerId, Model model) {
         Customer findCustomer = customerService.findCustomerById(customerId);
         List<Voucher> findVouchers = customerService.findVouchersByCustomerId(customerId);
@@ -70,12 +70,12 @@ public class ViewCustomerController {
         return "customer-voucher-list";
     }
 
-    @GetMapping("/v1/customer-vouchers")
+    @GetMapping("/vouchers")
     public String findCustomerDetailPage(@RequestParam Long customerId) {
-        return "redirect:customer-vouchers/" + customerId;
+        return "redirect:vouchers/" + customerId;
     }
 
-    @GetMapping("/v1/customer-vouchers-add/{customerId}")
+    @GetMapping("/vouchers/add/{customerId}")
     public String customerVouchersAddForm(@PathVariable Long customerId, Model model) {
         List<VoucherDto> findVouchers = voucherService.findAllVouchers()
                 .stream()
@@ -86,26 +86,26 @@ public class ViewCustomerController {
         return "customer-voucher-add";
     }
 
-    @PostMapping("/v1/customer-vouchers-add/{customerId}")
+    @PostMapping("/vouchers/add/{customerId}")
     public String customerVouchersAddForm(@PathVariable Long customerId, @RequestParam Long voucherId, RedirectAttributes re) {
         boolean isSaveSuccess = customerService.saveVoucherById(customerId, voucherId);
         re.addFlashAttribute("saveResult", isSaveSuccess);
         if (isSaveSuccess) {
-            return "redirect:/view/v1/customer-vouchers/" + customerId;
+            return "redirect:/view/v1/customers/vouchers/" + customerId;
         }
-        return "redirect:" + customerId;
+        return "redirect:/" + customerId;
     }
 
-    @DeleteMapping("/v1/customers/{customerId}")
+    @DeleteMapping("/{customerId}")
     public String deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteCustomerById(customerId);
         return "redirect:";
     }
 
-    @DeleteMapping("/v1/customer-vouchers/{customerId}/{voucherId}")
+    @DeleteMapping("/vouchers/{customerId}/{voucherId}")
     public String deleteCustomerVoucher(@PathVariable Long customerId, @PathVariable Long voucherId, RedirectAttributes re) {
         boolean isDeleteSuccess = customerService.deleteCustomerVoucherByIds(customerId, voucherId);
         re.addFlashAttribute("deleteResult", isDeleteSuccess);
-        return "redirect:/view/v1/customer-vouchers/" + customerId;
+        return "redirect:/view/v1/customers/vouchers/" + customerId;
     }
 }

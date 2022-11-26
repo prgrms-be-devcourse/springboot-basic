@@ -9,7 +9,7 @@
 <h1>고객 관리 페이지</h1>
 <a th:href="@{/view/v1/home}">메인 페이지</a>
 <p th:if="${findResult == false}">고객 검색에 실패 하였습니다.</p>
-<form th:action="@{customers-find}" method="get">
+<form th:action="@{customers/search}" method="get">
     <label for="customerId"></label>
     <input type="text" name="customerId" id="customerId" placeholder="고객 번호를 입력해주세요."/>
     <button type="submit">고객 검색</button>
@@ -30,7 +30,7 @@
         </td>
         <td th:text="${customer.status}">고객 상태</td>
         <td>
-            <a th:href="@{/view/v1/customer-vouchers/{customerId}(customerId = ${customer.customerId})}"
+            <a th:href="@{/view/v1/customers/vouchers/{customerId}(customerId = ${customer.customerId})}"
                th:inline="text">
                 [[${customer.customerId}]]번 고객 상세 페이지
             </a>

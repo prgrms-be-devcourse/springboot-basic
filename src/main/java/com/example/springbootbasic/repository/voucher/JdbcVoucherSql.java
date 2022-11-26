@@ -2,7 +2,7 @@ package com.example.springbootbasic.repository.voucher;
 
 public enum JdbcVoucherSql {
 
-    INPUT_VOUCHER_SQL("INSERT INTO VOUCHER(voucher_type, voucher_discount_value) VALUES(:voucherType, :voucherDiscountValue)"),
+    INPUT_VOUCHER_SQL("INSERT INTO VOUCHER(voucher_type, voucher_discount_value, created_at, start_at, end_at) VALUES(:voucherType, :voucherDiscountValue, :createdAt, :startAt, :endAt)"),
 
     SELECT_VOUCHER_BY_ID("SELECT * FROM VOUCHER WHERE voucher_id = :voucherId"),
     SELECT_ALL_VOUCHERS("SELECT * FROM VOUCHER"),

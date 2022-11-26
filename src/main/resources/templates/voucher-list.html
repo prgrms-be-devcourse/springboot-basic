@@ -10,7 +10,7 @@
 
 <a th:href="@{/view/v1/home}">메인 페이지</a>
 <p th:if="${findResult == false}">바우처 검색에 실패 하였습니다.</p>
-<form th:action="@{vouchers-find}" method="get">
+<form th:action="@{/view/v1/vouchers/search}" method="get">
     <label for="voucherId"></label>
     <input type="text" name="voucherId" id="voucherId" placeholder="바우처 번호를 입력해주세요."/>
     <button type="submit">바우처 검색</button>

@@ -7,7 +7,7 @@
 <body>
 <h1>바우처 등록 페이지</h1>
 <a th:href="@{/view/v1/vouchers}">바우처 관리 페이지</a>
-<form th:action="@{voucher-add}" method="post">
+<form th:action="@{/view/v1/vouchers/add}" method="post">
     <div>
         <label for="discountValue"></label>
         <input type="number" name="discountValue" id="discountValue" placeholder="할인 금액을 작성해주세요.">
@@ -19,6 +19,10 @@
             <option value="fixed">고정 할인</option>
             <option value="percent">퍼센트</option>
         </select>
+        <label for="startAt"></label>
+        <input type="datetime-local" id="startAt" name="startAt">
+        <label for="endAt"></label>
+        <input type="datetime-local" id="endAt" name="endAt">
     </div>
     <button type="submit">등록</button>
 </form>

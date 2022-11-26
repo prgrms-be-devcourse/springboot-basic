@@ -37,7 +37,10 @@ public class JdbcVoucherRepository {
         return new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId())
                 .addValue("voucherType", voucher.getVoucherType().getVoucherType())
-                .addValue("voucherDiscountValue", voucher.getDiscountValue());
+                .addValue("voucherDiscountValue", voucher.getDiscountValue())
+                .addValue("createdAt", LocalDateTime.now())
+                .addValue("startAt", voucher.getStartAt())
+                .addValue("endAt", voucher.getEndAt());
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -47,13 +50,8 @@ public class JdbcVoucherRepository {
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         LocalDateTime startAt = resultSet.getTimestamp("start_at").toLocalDateTime();
         LocalDateTime endAt = resultSet.getTimestamp("end_at").toLocalDateTime();
-        return VoucherFactory.of(
-                voucherId,
-                voucherDiscountValue,
-                VoucherType.of(voucherType),
-                createdAt,
-                startAt,
-                endAt);
+        return VoucherFactory.of(voucherId, voucherDiscountValue, VoucherType.of(voucherType),
+                createdAt, startAt, endAt);
     };
 
     public Voucher save(Voucher voucher) {
@@ -63,7 +61,8 @@ public class JdbcVoucherRepository {
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }
-        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType(),
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
     }
 
     public List<Voucher> findAllVouchers() {

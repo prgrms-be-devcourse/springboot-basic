@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/view")
+@RequestMapping("/view/v1/vouchers")
 public class ViewVoucherController {
 
     private final JdbcVoucherService voucherService;
@@ -24,7 +24,7 @@ public class ViewVoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/v1/vouchers")
+    @GetMapping
     public String voucherList(Model model) {
         List<Voucher> findAllVouchers = voucherService.findAllVouchers();
         List<VoucherDto> result = findAllVouchers.stream()
@@ -34,33 +34,34 @@ public class ViewVoucherController {
         return "voucher-list";
     }
 
-    @GetMapping("/v1/voucher-add")
+    @GetMapping("/add")
     public String voucherAddForm() {
         return "voucher-add";
     }
 
-    @GetMapping("/v1/vouchers-find")
+    @GetMapping("/search")
     public String findVoucherById(@RequestParam Long voucherId, Model model, RedirectAttributes re) {
         VoucherDto findVoucher = VoucherDto.newInstance(voucherService.findById(voucherId));
         if (findVoucher.isEmpty()) {
             re.addFlashAttribute("findResult", false);
-            return "redirect:vouchers";
+            return "redirect:";
         }
         model.addAttribute("vouchers", findVoucher);
         return "voucher-list";
     }
 
-    @PostMapping("/v1/voucher-add")
+    @PostMapping("/add")
     public String voucherAddForm(CreateVoucherRequest request) {
         long discountValue = request.discountValue();
         VoucherType voucherType = VoucherType.of(request.voucherType());
         voucherService.saveVoucher(VoucherFactory.of(discountValue, voucherType,
                 LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30)));
-        return "redirect:vouchers";
+        return "redirect:";
     }
 
-    @DeleteMapping("/v1/vouchers/{voucherId}")
+    @DeleteMapping("/{voucherId}")
     public String deleteVoucher(@PathVariable Long voucherId) {
+        System.out.println("voucherId = " + voucherId);
         voucherService.deleteVoucherById(voucherId);
         return "redirect:";
     }
