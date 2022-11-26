@@ -34,7 +34,8 @@ public class CustomerRepositoryTest extends MysqlTestContainer {
         customerRepository.save(customerCreateRequest);
 
         //then
-        assertThat(customerRepository.findByEmail(email).get().email())
+        Customer result = customerRepository.findByEmail(email).get();
+        assertThat(result.email())
                 .isEqualTo(email);
     }
 
