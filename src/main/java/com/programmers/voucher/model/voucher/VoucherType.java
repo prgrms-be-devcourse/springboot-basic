@@ -1,6 +1,6 @@
 package com.programmers.voucher.model.voucher;
 
-import com.programmers.voucher.io.Message;
+import com.programmers.voucher.exception.ErrorMessage;
 
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -32,14 +32,14 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(type -> type.getType().equals(inputString))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.WRONG_ORDER_MESSAGE.toString()));
     }
 
     public static VoucherType toVoucherTypeByName(String voucherName) {
         return Stream.of(VoucherType.values())
                 .filter(type -> type.getName().equals(voucherName))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(Message.WRONG_ORDER_MESSAGE.toString()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.WRONG_ORDER_MESSAGE.toString()));
     }
 
     public Voucher convertToVoucher(UUID voucherId, long discount) {

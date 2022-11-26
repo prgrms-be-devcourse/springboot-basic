@@ -2,13 +2,11 @@ package com.programmers.voucher.service;
 
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
-import com.programmers.voucher.io.Message;
+import com.programmers.voucher.exception.ErrorMessage;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +14,6 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 
@@ -28,13 +25,11 @@ public class VoucherService {
     public Voucher create(VoucherCreateRequest voucherCreateRequest) {
         VoucherType voucherType = VoucherType.toVoucherType(voucherCreateRequest.voucherType());
         Voucher newVoucher = voucherType.convertToVoucher(UUID.randomUUID(), voucherCreateRequest.discountValue());
-        logger.info("voucher create => {}", newVoucher);
         return voucherRepository.save(newVoucher);
     }
 
     public List<Voucher> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
-        logger.info("voucher findAll at repository => {}", vouchers);
         return vouchers;
     }
 
@@ -44,7 +39,7 @@ public class VoucherService {
 
     public Voucher findById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString()));
     }
 
     public Voucher update(VoucherUpdateRequest voucherUpdateRequest) {
@@ -57,11 +52,11 @@ public class VoucherService {
 
     public Voucher assign(UUID voucherId, String email) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString()));
         customerRepository.findByEmail(email)
                 .ifPresentOrElse(voucher::setCustomer,
                         () -> {
-                            throw new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString());
+                            throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString());
                         });
         voucherRepository.assign(voucher);
         return voucher;

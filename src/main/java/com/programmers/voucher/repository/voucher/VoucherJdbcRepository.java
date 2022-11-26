@@ -1,6 +1,6 @@
 package com.programmers.voucher.repository.voucher;
 
-import com.programmers.voucher.io.Message;
+import com.programmers.voucher.exception.ErrorMessage;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -14,10 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherMap;
-import static com.programmers.voucher.utils.JdbcParamMapper.toEmailMap;
-import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherIdMap;
-import static com.programmers.voucher.utils.JdbcParamMapper.toAssignMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository {
@@ -102,7 +99,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteByEmail(String email) {
         int result = jdbcTemplate.update(deleteByEmailSql, toEmailMap(email));
         if (result != 1) {
-            throw new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString());
+            throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString());
         }
     }
 
@@ -110,7 +107,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         int result = jdbcTemplate.update(deleteByIdSql, toVoucherIdMap(voucherId));
         if (result != 1) {
-            throw new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString());
+            throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString());
         }
     }
 

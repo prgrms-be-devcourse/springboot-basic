@@ -1,7 +1,9 @@
 package com.programmers.voucher.repository.customer;
 
 import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
+import com.programmers.voucher.exception.ErrorMessage;
 import com.programmers.voucher.model.customer.Customer;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,9 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.voucher.utils.JdbcParamMapper.toCustomerMap;
-import static com.programmers.voucher.utils.JdbcParamMapper.toEmailMap;
-import static com.programmers.voucher.utils.JdbcParamMapper.toVoucherIdMap;
+import static com.programmers.voucher.utils.JdbcParamMapper.*;
 
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -43,8 +43,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Customer save(CustomerCreateRequest customerCreateRequest) {
-        long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerCreateRequest)).longValue();
-        return new Customer(id, customerCreateRequest.customerName(), customerCreateRequest.email());
+        try {
+            long id = jdbcInsert.executeAndReturnKey(toCustomerMap(customerCreateRequest)).longValue();
+            return new Customer(id, customerCreateRequest.customerName(), customerCreateRequest.email());
+        } catch (DuplicateKeyException e) {
+            throw new IllegalArgumentException(ErrorMessage.ALREADY_EXIST_CUSTOMER.toString());
+        }
     }
 
     @Override
@@ -55,7 +59,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException exception) {
             return Optional.empty();
         }
-
     }
 
     @Override
