@@ -18,19 +18,19 @@ public class Mapper {
     private Mapper() {
     }
 
-    public static Voucher mapToVoucher(String object) {
-        String[] atoms = object.split(",");
-        if (atoms.length != 7) {
+    public static Voucher mapToVoucher(String line) {
+        String[] elements = line.split(",");
+        if (elements.length != 7) {
             throw new VoucherException("Corrupted voucher data! Please Check your data.");
         }
 
-        UUID voucherId = UUID.fromString(atoms[0].trim());
-        UUID ownerId = (atoms[1].trim().equals("null"))? null: UUID.fromString(atoms[1].trim());
-        String amount = atoms[2].trim();
-        String type = atoms[3].trim();
-        LocalDateTime createdAt = LocalDateTime.parse(atoms[4].trim());
-        LocalDateTime expiredAt = LocalDateTime.parse(atoms[5].trim());
-        boolean used = Boolean.parseBoolean(atoms[6].trim());
+        UUID voucherId = UUID.fromString(elements[0].trim());
+        UUID ownerId = (elements[1].trim().equals("null"))? null: UUID.fromString(elements[1].trim());
+        String amount = elements[2].trim();
+        String type = elements[3].trim();
+        LocalDateTime createdAt = LocalDateTime.parse(elements[4].trim());
+        LocalDateTime expiredAt = LocalDateTime.parse(elements[5].trim());
+        boolean used = Boolean.parseBoolean(elements[6].trim());
 
         return mapToVoucher(type, voucherId, ownerId, Long.parseLong(amount), createdAt, expiredAt, used);
     }
@@ -46,17 +46,17 @@ public class Mapper {
         }
     }
 
-    public static Customer mapToCustomer(String object) {
-        String[] atoms = object.split(",");
-        if (atoms.length != 5) {
+    public static Customer mapToCustomer(String line) {
+        String[] elements = line.split(",");
+        if (elements.length != 5) {
             throw new CustomerException("Corrupted voucher data! Please Check your data.");
         }
 
-        UUID customerId = UUID.fromString(atoms[0].trim());
-        String name = atoms[1].trim();
-        String email = atoms[2].trim();
-        LocalDateTime createdAt = LocalDateTime.parse(atoms[3].trim());
-        boolean isBlocked = Boolean.parseBoolean(atoms[4].trim());
+        UUID customerId = UUID.fromString(elements[0].trim());
+        String name = elements[1].trim();
+        String email = elements[2].trim();
+        LocalDateTime createdAt = LocalDateTime.parse(elements[3].trim());
+        boolean isBlocked = Boolean.parseBoolean(elements[4].trim());
 
         return new Customer(customerId, name, email, createdAt, isBlocked);
     }
