@@ -10,7 +10,6 @@ import org.programmers.program.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 
 import java.io.IOException;
@@ -19,7 +18,6 @@ import java.util.UUID;
 
 import static org.programmers.program.io.Message.*;
 
-@Component
 public class VoucherProgram implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherProgram.class);
@@ -73,7 +71,7 @@ public class VoucherProgram implements CommandLineRunner {
             throw new RuntimeException(io);
         }
 
-        VoucherDto dto = new VoucherDto(UUID.randomUUID(), type.get(), discountAmount);
+        VoucherDto dto = new VoucherDto(type.get(), discountAmount);
         voucherService.createVoucher(dto);
     }
 

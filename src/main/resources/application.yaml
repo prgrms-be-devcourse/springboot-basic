@@ -1,8 +1,11 @@
 sbp:
   version: "v1.0.0"
   description: |-
-    week 1 hw
-    simple voucher system
-    with SpringBoot
-    without web
-    just console io
+    creating voucher system
+    with spring boot
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/voucherDB
+    username: root
+    password: voucher1234!

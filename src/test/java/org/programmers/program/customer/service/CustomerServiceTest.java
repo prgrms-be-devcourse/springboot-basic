@@ -3,7 +3,6 @@ package org.programmers.program.customer.service;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.programmers.program.customer.controller.CustomerDto;
-import org.programmers.program.customer.repository.NameJdbcCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;

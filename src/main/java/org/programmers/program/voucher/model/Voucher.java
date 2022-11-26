@@ -32,8 +32,8 @@ public abstract class Voucher {
 
     protected Voucher(VoucherDto dto){
         this.id = dto.getId();
-        this.discountAmount = dto.getAmount();
-        this.voucherType = dto.getType();
+        this.discountAmount = dto.getDiscountAmount();
+        this.voucherType = dto.getVoucherType();
         this.createdAt = LocalDateTime.now();
         this.expirationDate = dto.getExpirationDate();
     }
