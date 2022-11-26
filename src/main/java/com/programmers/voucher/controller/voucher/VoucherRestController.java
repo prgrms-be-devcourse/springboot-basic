@@ -1,11 +1,10 @@
 package com.programmers.voucher.controller.voucher;
 
+import com.programmers.voucher.controller.voucher.dto.VoucherAssignRequest;
+import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.service.VoucherService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -28,5 +27,11 @@ public class VoucherRestController {
     public ResponseEntity<Void> deleteAll() {
         voucherService.deleteAll();
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("voucher")
+    public ResponseEntity<Voucher> assign(VoucherAssignRequest voucherAssignRequest) {
+        Voucher assigned = voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());
+        return ResponseEntity.ok(assigned);
     }
 }

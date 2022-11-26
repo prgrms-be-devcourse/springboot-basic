@@ -9,10 +9,10 @@
 
 </head>
 <body>
-<form th:method="put" th:action="@{/voucher}">
+<form method="POST" th:action="@{/assign}">
     <div class="container">
         <h1>Taehee's Voucher Program</h1>
-        <h2>바우처 상세</h2>
+        <h2>바우처 할당하기</h2>
     </div>
     <br/>
 
@@ -23,20 +23,14 @@
     <br/>
 
     <div class="container">
-        <label class="form-label">바우처 타입</label><br/>
-        <input class="form-control" id="voucherName" name="voucherName" th:field="${voucher.class.simpleName}" th:readonly="true">
+        <label class="form-label">할당할 사용자의 이메일</label><br/>
+        <input class="form-control" id="email" name="email">
     </div>
     <br/>
 
     <div class="container">
-        <label class="form-label" for="discountValue">할인값</label>
-        <input class="form-control" id="discountValue" name="discountValue" th:field="${voucher.discountValue}" type="number">
-    </div>
-    <br/>
-
-    <div class="container">
-        <button class="btn btn-primary" type="button" onclick="history.back(-1)">확인</button>
-        <button class="btn btn-primary" type="submit">수정</button>
+        <button class="btn btn-primary" type="button" onclick="history.back(-1)">취소</button>
+        <button class="btn btn-primary" type="submit">할당하기</button>
     </div>
 </form>
 </body>

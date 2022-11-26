@@ -1,5 +1,6 @@
 package com.programmers.voucher.controller.voucher;
 
+import com.programmers.voucher.controller.voucher.dto.VoucherAssignRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.model.voucher.Voucher;
@@ -61,6 +62,19 @@ public class VoucherController {
     @PutMapping("voucher")
     public String update(VoucherUpdateRequest voucherUpdateRequest) {
         voucherService.update(voucherUpdateRequest);
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping("assign/{voucherId}")
+    public String assign(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = voucherService.findById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "voucher/voucher_assign";
+    }
+
+    @PostMapping("assign")
+    public String assign(VoucherAssignRequest voucherAssignRequest) {
+        voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());
         return "redirect:/vouchers";
     }
 }
