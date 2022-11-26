@@ -1,7 +1,10 @@
 package prgms.vouchermanagementapp.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -22,6 +25,8 @@ import java.util.*;
 @Component
 @Profile({"jdbc", "release", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
+
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private final NamedParameterJdbcTemplate template;
     private final SimpleJdbcInsert jdbcInsert;
@@ -52,14 +57,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        String sql = "select * from vouchers " +
-                "where voucher_id=:voucher_id";
+        String sql = "select * from voucher " +
+                "where voucher_id=:voucherId";
 
         try {
-            Map<String, String> param = Map.of("voucher_id", voucherId.toString());
+            Map<String, String> param = Map.of("voucherId", voucherId.toString());
             Voucher voucher = template.queryForObject(sql, param, voucherRowMapper());
             return Optional.of(Objects.requireNonNull(voucher));
-        } catch (DataAccessException e) {
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
             return Optional.empty();
         }
     }
