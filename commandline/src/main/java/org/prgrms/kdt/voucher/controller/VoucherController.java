@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.kdt.exception.voucher.VoucherUserException;
 import org.prgrms.kdt.exception.voucher.VoucherServerException;
+import org.prgrms.kdt.util.ControllerResult;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -70,16 +71,16 @@ public class VoucherController {
     }
 
     @ExceptionHandler()
-    public void customerHandler(VoucherUserException userException, HttpServletResponse response) throws IOException {
+    public void userHandler(VoucherUserException userException, HttpServletResponse response) throws IOException {
         log.error("[customerExceptionHandler] => {}", userException);
 
-        response.sendError(404);
+        response.sendError(ControllerResult.USER_ERROR);
     }
 
 
     @ExceptionHandler
     public void serverHandler(VoucherServerException serverException, HttpServletResponse response) throws IOException {
         log.error("[customerExceptionHandler] => {}", serverException);
-        response.sendError(500);
+        response.sendError(ControllerResult.SERVER_ERROR);
     }
 }

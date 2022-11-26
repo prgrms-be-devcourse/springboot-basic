@@ -99,9 +99,10 @@ public class FileVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = csvInOut.readAll();
         for (int i = 0; i < vouchers.size(); i++) {
             Voucher voucher = vouchers.get(i);
-            if (!voucher.getTypeName().equals(typeName)) {
-                vouchers.remove(i);
+            if (voucher.getTypeName().equals(typeName)) {
+                continue;
             }
+            vouchers.remove(i);
         }
 
         return vouchers;

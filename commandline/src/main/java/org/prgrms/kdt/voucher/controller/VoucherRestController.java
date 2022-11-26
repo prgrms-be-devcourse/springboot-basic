@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.kdt.exception.voucher.VoucherUserException;
 import org.prgrms.kdt.exception.ErrorResult;
 import org.prgrms.kdt.exception.voucher.VoucherServerException;
+import org.prgrms.kdt.util.ControllerResult;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dto.InsertVoucherDto;
 import org.prgrms.kdt.voucher.dto.VoucherDto;
@@ -50,14 +51,14 @@ public class VoucherRestController {
     public String insertVoucher(HttpEntity<InsertVoucherDto> httpEntity) {
         InsertVoucherDto insertVoucherDto = httpEntity.getBody();
         voucherService.createVoucher(insertVoucherDto.getTypeNumber(), insertVoucherDto.getDiscountDegree());
-        return "ok";
+        return ControllerResult.OK;
     }
 
 
     @PostMapping("/rest/delete/{voucherId}")
     public String deleteVoucher(@PathVariable("voucherId") long voucherId) {
         voucherService.deleteById(voucherId);
-        return "ok";
+        return ControllerResult.OK;
     }
 
     @GetMapping("/rest/typeName/{typeNumber}")
@@ -75,10 +76,10 @@ public class VoucherRestController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler()
-    public ErrorResult customerHandler(VoucherUserException userException) {
+    public ErrorResult userHandler(VoucherUserException userException) {
         log.error("[customerExceptionHandler] => {}", userException);
 
-        return new ErrorResult("404", userException.getMessage());
+        return new ErrorResult(ControllerResult.USER_ERROR, userException.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -86,6 +87,6 @@ public class VoucherRestController {
     public ErrorResult serverHandler(VoucherServerException serverException) {
         log.error("[customerExceptionHandler] => {}", serverException);
 
-        return new ErrorResult("500", serverException.getMessage());
+        return new ErrorResult(ControllerResult.SERVER_ERROR, serverException.getMessage());
     }
 }
