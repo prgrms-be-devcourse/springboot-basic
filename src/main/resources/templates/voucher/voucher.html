@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../static/css/bootstrap.min.css"
+          rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>바우처 상세 정보</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 상세 정보</h2>
+    </div>
+    <div>
+        <label for="voucherId">바우처 ID</label>
+        <input class="form-control" id="voucherId" name="voucherId" readonly type="text" value="1">
+    </div>
+    <div>
+        <label for="voucherType">바우처 타입</label>
+        <input class="form-control" id="voucherType" name="voucherType" readonly type="text" value="FixedAmountVoucher">
+    </div>
+    <div>
+        <label for="discountLevel">할인 정도</label>
+        <input class="form-control" id="discountLevel" name="discountLevel" readonly type="text" value="30000원">
+    </div>
+    <div>
+        <label for="createdDateTime">생성 시각</label>
+        <input class="form-control" id="createdDateTime" name="createdDateTime" readonly type="text" value="22.11.25 10:34:51">
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" onclick="location.href='editForm.html'" type="button">바우처 수정</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='vouchers.html'" type="button">목록으로</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

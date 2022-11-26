@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../static/css/bootstrap.min.css"
+          rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <title>바우처 목록</title>
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'" type="button">
+                바우처 생성
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>바우처 종류</th>
+                <th>할인 정도</th>
+                <th>생성 시각</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><a href="voucher.html">1</a></td>
+                <td><a href="voucher.html">FixedAmountVoucher</a></td>
+                <td>10000원</td>
+                <td>22.11.25 10:34:51</td>
+            </tr>
+            <tr>
+                <td><a href="voucher.html">2</a></td>
+                <td><a href="voucher.html">PercentDiscountVoucher</a></td>
+                <td>30%</td>
+                <td>22.11.25 10:34:51</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
