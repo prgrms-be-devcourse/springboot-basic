@@ -204,26 +204,26 @@ public class VoucherProcessor implements ApplicationRunner {
         switch (view.read()) {
             case "1":
                 view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-                view.print(customerController.findCustomerById(UUID.fromString(view.read())));
+                view.print(customerController.findCustomer("id", view.read()));
                 break;
             case "2":
                 view.print(MessageGuide.REQUIRE_CUSTOMER_NAME);
-                view.print(customerController.findCustomerByName(view.read()));
+                view.print(customerController.findCustomer("name", view.read()));
                 break;
             case "3":
                 view.print(MessageGuide.REQUIRE_CUSTOMER_EMAIL);
-                view.print(customerController.findCustomerByEmail(view.read()));
+                view.print(customerController.findCustomer("email", view.read()));
                 break;
         }
     }
 
     private void invokeFindCustomers() {
-        customerController.findCustomers()
+        customerController.findCustomers(false)
                 .forEach(view::print);
     }
 
     private void invokeFindBlacklist() {
-        customerController.findBlacklist()
+        customerController.findCustomers(true)
                 .forEach(view::print);
     }
 
@@ -271,7 +271,7 @@ public class VoucherProcessor implements ApplicationRunner {
         Voucher voucher = voucherController.findVoucherById(UUID.fromString(view.read()));
 
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomerById(UUID.fromString(view.read()));
+        Customer customer = customerController.findCustomer("id", view.read());
 
         voucherController.allocateVoucher(voucher.getVoucherId(), customer.getCustomerId());
         view.print(MessageGuide.SUCCESS_MESSAGE);
@@ -280,14 +280,14 @@ public class VoucherProcessor implements ApplicationRunner {
     private void invokeFindCustomerHavingVoucher() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
         Voucher voucher = voucherController.findVoucherById(UUID.fromString(view.read()));
-        Customer customer = customerController.findCustomerById(voucher.getOwnerId());
+        Customer customer = customerController.findCustomer("id", voucher.getOwnerId().toString());
 
         view.print(customer);
     }
 
     private void invokeShowCustomerWallet() {
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomerById(UUID.fromString(view.read()));
+        Customer customer = customerController.findCustomer("id", view.read());
 
         voucherController.findVouchers().stream()
                 .filter(voucher -> customer.getCustomerId().equals(voucher.getOwnerId()))
@@ -304,7 +304,7 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void invokeRemoveAllVouchersFromWallet() {
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomerById(UUID.fromString(view.read()));
+        Customer customer = customerController.findCustomer("id", view.read());
 
         voucherController.findVouchersByOwner(customer.getCustomerId())
                 .forEach(voucher -> voucherController.detachOwnerFromVoucher(voucher.getVoucherId()));

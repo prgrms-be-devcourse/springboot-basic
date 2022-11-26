@@ -21,24 +21,17 @@ public class CustomerController {
         return customerService.saveCustomer(customer);
     }
 
-    public Customer findCustomerById(UUID customerId) {
-        return customerService.getCustomerById(customerId);
+    public Customer findCustomer(String column, String value) {
+        switch (column.toLowerCase()) {
+            case "id": return customerService.getCustomerById(UUID.fromString(value));
+            case "name": return customerService.getCustomerByName(value);
+            case "email": return customerService.getCustomerByEmail(value);
+        }
+        throw new IllegalArgumentException("Wrong column");
     }
 
-    public Customer findCustomerByName(String name) {
-        return customerService.getCustomerByName(name);
-    }
-
-    public Customer findCustomerByEmail(String email) {
-        return customerService.getCustomerByEmail(email);
-    }
-
-    public List<Customer> findCustomers() {
-        return customerService.getAllCustomers();
-    }
-
-    public List<Customer> findBlacklist() {
-        return customerService.getAllBlackCustomers();
+    public List<Customer> findCustomers(boolean blacklistOnly) {
+        return blacklistOnly ? customerService.getAllBlackCustomers() : customerService.getAllCustomers();
     }
 
     public Customer updateCustomer(UUID customerId, String name, String email, boolean isBlocked) {
