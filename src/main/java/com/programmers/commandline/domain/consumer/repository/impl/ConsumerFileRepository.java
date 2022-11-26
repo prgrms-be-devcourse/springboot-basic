@@ -117,6 +117,11 @@ public class ConsumerFileRepository implements ConsumerRepository {
         }
     }
 
+    @Override
+    public void deleteById(String id) {
+
+    }
+
     private Consumer convertTomlToConsumer(File file) {
         Toml toml = new Toml();
         Toml consumerToml = toml.read(file);

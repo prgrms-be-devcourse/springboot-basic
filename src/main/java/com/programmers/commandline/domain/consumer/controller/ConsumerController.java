@@ -32,4 +32,11 @@ public class ConsumerController {
         consumerService.insert(requestDto.name(), requestDto.email());
         return "redirect:/consumer";
     }
+
+    @PostMapping("/delete")
+    public String deleteById(String id) {
+        consumerService.deleteById(id);
+        return "redirect:/consumer";
+    }
+
 }

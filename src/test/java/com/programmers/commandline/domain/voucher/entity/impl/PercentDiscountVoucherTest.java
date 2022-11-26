@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -20,7 +21,7 @@ class PercentDiscountVoucherTest {
         long discount = 10L;
 
         //when
-        Voucher voucher = PercentDiscountVoucher.of(id, discount);
+        Voucher voucher = PercentDiscountVoucher.of(id, discount, LocalDateTime.now());
 
         //then
         assertThat(voucher.getId(), is(id.toString()));
@@ -36,6 +37,6 @@ class PercentDiscountVoucherTest {
 
         //when
         //then
-        Assertions.assertThrows(IllegalArgumentException.class, () -> PercentDiscountVoucher.of(id, discount));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PercentDiscountVoucher.of(id, discount, LocalDateTime.now()));
     }
 }

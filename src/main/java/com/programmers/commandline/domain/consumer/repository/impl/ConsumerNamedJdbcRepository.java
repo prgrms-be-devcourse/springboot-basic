@@ -91,12 +91,12 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     }
 
     @Override
-    public Optional<Consumer> findById(String consumerId) {
+    public Optional<Consumer> findById(String id) {
         try {
             String sql = "select * from consumer WHERE id = :id";
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     sql,
-                    Collections.singletonMap("id", consumerId),
+                    Collections.singletonMap("id", id),
                     consumerRowMapper
             ));
         } catch (EmptyResultDataAccessException e) {
@@ -139,5 +139,11 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     public void deleteAll() {
         String sql = "DELETE FROM consumer";
         namedParameterJdbcTemplate.update(sql, Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(String id) {
+        String sql = "DELETE FROM consumer WHERE id = :id";
+        namedParameterJdbcTemplate.update(sql, Collections.singletonMap("id", id));
     }
 }

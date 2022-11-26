@@ -34,7 +34,12 @@ public class VoucherController {
     @PostMapping()
     public String insert(VoucherInsetRequestDto requestDto) {
         voucherService.insert(requestDto.type(), requestDto.discount());
+        return "redirect:/voucher";
+    }
 
+    @PostMapping("/delete")
+    public String deleteById(String id) {
+        voucherService.deleteById(id);
         return "redirect:/voucher";
     }
 }

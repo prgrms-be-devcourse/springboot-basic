@@ -21,18 +21,24 @@ public class VoucherService {
 
     public String insert(VoucherInsetRequestDto requestDto) {
         VoucherType voucherType = VoucherType.valueOf(requestDto.type());
-        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), requestDto.discount(), LocalDateTime.now());
+        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), requestDto.discount(), LocalDateTime.now().withNano(0));
         return voucherRepository.insert(voucher).getId();
     }
 
     public List<Voucher> findAll() {
-        return voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
+        vouchers.sort((o1, o2) -> o2.getCreatedAt().compareToIgnoreCase(o1.getCreatedAt()));
+        return vouchers;
     }
 
 
     public String insert(String type, long discount) {
         VoucherType voucherType = VoucherType.valueOf(type);
-        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount, LocalDateTime.now());
+        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), discount, LocalDateTime.now().withNano(0));
         return voucherRepository.insert(voucher).getId();
+    }
+
+    public void deleteById(String id) {
+        voucherRepository.deleteById(id);
     }
 }

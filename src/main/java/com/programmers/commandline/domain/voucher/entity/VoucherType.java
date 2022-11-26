@@ -9,8 +9,8 @@ import java.util.Arrays;
 import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_AMOUNT(1, "할인금액 : ", ((id, discount, createdAt) -> FixedAmountVoucher.of(id, discount))),
-    PERCENT_DISCOUNT(2, "할인율 : ", ((id, discount, createdAt) -> PercentDiscountVoucher.of(id, discount))),
+    FIXED_AMOUNT(1, "할인금액 : ", ((id, discount, createdAt) -> FixedAmountVoucher.of(id, discount, createdAt))),
+    PERCENT_DISCOUNT(2, "할인율 : ", ((id, discount, createdAt) -> PercentDiscountVoucher.of(id, discount, createdAt))),
     ;
 
     private final int code;

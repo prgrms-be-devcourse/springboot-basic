@@ -90,6 +90,11 @@ public class VoucherFileRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public void deleteById(String id) {
+
+    }
+
     private Voucher convertTomlToVoucher(File file) {
         Toml toml = new Toml();
         Toml voucherToml = toml.read(file);

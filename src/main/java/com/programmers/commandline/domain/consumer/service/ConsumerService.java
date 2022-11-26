@@ -27,7 +27,9 @@ public class ConsumerService {
     }
 
     public List<Consumer> findAll() {
-        return consumerRepository.findAll();
+        List<Consumer> consumers = consumerRepository.findAll();
+        consumers.sort((o1, o2) -> o2.getCreatedAt().compareToIgnoreCase(o1.getCreatedAt()));
+        return consumers;
     }
 
     public String update(String consumerId, String name, String email) {
@@ -69,5 +71,9 @@ public class ConsumerService {
     public String insert(String name, String email) {
         Consumer consumer = new Consumer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
         return consumerRepository.insert(consumer).getId();
+    }
+
+    public void deleteById(String id) {
+        consumerRepository.deleteById(id);
     }
 }

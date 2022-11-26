@@ -17,4 +17,6 @@ public interface VoucherRepository {
     Optional<Voucher> findById(String voucherId);
 
     void deleteAll();
+
+    void deleteById(String id);
 }

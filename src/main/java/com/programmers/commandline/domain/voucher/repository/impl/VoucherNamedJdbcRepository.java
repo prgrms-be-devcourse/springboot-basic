@@ -110,4 +110,10 @@ public class VoucherNamedJdbcRepository implements VoucherRepository {
         String sql = "DELETE FROM voucher";
         namedParameterJdbcTemplate.update(sql, Collections.emptyMap());
     }
+
+    @Override
+    public void deleteById(String id) {
+        String sql = "DELETE FROM voucher WHERE id = :id";
+        namedParameterJdbcTemplate.update(sql, Collections.singletonMap("id", id));
+    }
 }

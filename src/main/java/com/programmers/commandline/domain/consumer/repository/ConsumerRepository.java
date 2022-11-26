@@ -4,7 +4,6 @@ import com.programmers.commandline.domain.consumer.entity.Consumer;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ConsumerRepository {
 
@@ -24,4 +23,5 @@ public interface ConsumerRepository {
 
     void deleteAll();
 
+    void deleteById(String id);
 }

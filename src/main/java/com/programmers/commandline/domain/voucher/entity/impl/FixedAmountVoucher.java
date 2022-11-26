@@ -12,13 +12,13 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
-    private FixedAmountVoucher(UUID uuid, long discount) {
-        super(uuid, VoucherType.FIXED_AMOUNT, discount, LocalDateTime.now());
+    private FixedAmountVoucher(UUID uuid, long discount, LocalDateTime createdAt) {
+        super(uuid, VoucherType.FIXED_AMOUNT, discount, createdAt);
     }
 
-    public static Voucher of(UUID uuid, long discount) {
+    public static Voucher of(UUID uuid, long discount, LocalDateTime createdAt) {
         validation(discount);
-        return new FixedAmountVoucher(uuid, discount);
+        return new FixedAmountVoucher(uuid, discount, createdAt);
     }
 
     private static void validation(long discount) {

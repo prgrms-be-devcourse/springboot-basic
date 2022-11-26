@@ -9,14 +9,14 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    public PercentDiscountVoucher(UUID uuid, long discount) {
-        super(uuid, VoucherType.PERCENT_DISCOUNT, discount, LocalDateTime.now());
+    public PercentDiscountVoucher(UUID uuid, long discount, LocalDateTime createdAt) {
+        super(uuid, VoucherType.PERCENT_DISCOUNT, discount, createdAt);
     }
 
-    public static Voucher of(UUID uuid, long discount) {
+    public static Voucher of(UUID uuid, long discount, LocalDateTime createdAt) {
         validation(discount);
 
-        return new PercentDiscountVoucher(uuid, discount);
+        return new PercentDiscountVoucher(uuid, discount, createdAt);
     }
 
     private static void validation(long discount) {

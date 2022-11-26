@@ -62,4 +62,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
             memory.remove(0);
         }
     }
+
+    @Override
+    public void deleteById(String id) {
+
+    }
 }
