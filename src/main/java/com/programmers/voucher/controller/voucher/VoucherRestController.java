@@ -23,4 +23,10 @@ public class VoucherRestController {
         voucherService.deleteById(voucherId);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("voucher")
+    public ResponseEntity<Void> deleteAll() {
+        voucherService.deleteAll();
+        return ResponseEntity.ok().build();
+    }
 }

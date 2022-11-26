@@ -41,7 +41,8 @@
     </div>
 
     <div class="container">
-        <button class="btn btn-primary" type="button" onClick="history.back(-1)">확인</button>
+        <button class="btn btn-primary" type="button" onclick="deleteAll()">전체삭제</button>
+        <button class="btn btn-primary" type="button" onclick="history.back(-1)">확인</button>
     </div>
 
 <script>
@@ -53,6 +54,20 @@
         let answer = confirm("삭제할까요?");
         if(answer){
             axios.delete('http://localhost:8080/api/v1/voucher/' + value)
+                .then(() => {
+                    alert("삭제되었습니다.");
+                    window.location = '/vouchers';
+                })
+                .catch(() => {
+                    alert("삭제에 실패하였습니다.");
+                });
+        }
+    }
+
+    function deleteAll() {
+        let answer = confirm("모든 바우처를 삭제할까요?");
+        if(answer){
+            axios.delete('http://localhost:8080/api/v1/voucher')
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';
