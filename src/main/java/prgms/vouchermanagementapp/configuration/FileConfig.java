@@ -15,11 +15,11 @@ public class FileConfig {
         this.voucherRecord = voucherRecord;
     }
 
-    public String getCustomerBlacklist() {
+    public String getCustomerBlacklistPath() {
         return this.customerBlacklist;
     }
 
-    public String getVoucherRecord() {
+    public String getVoucherRecordPath() {
         return this.voucherRecord;
     }
 }

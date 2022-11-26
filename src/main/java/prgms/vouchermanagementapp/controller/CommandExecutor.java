@@ -73,12 +73,12 @@ public class CommandExecutor {
     }
 
     private void requestVoucherCreation(VoucherType voucherType) {
-        if (voucherType.is(VoucherType.FixedAmountVoucher)) {
+        if (voucherType.is(VoucherType.FIXED_AMOUNT_VOUCHER)) {
             Optional<Amount> fixedDiscountAmount = ioManager.askFixedDiscountAmount();
             fixedDiscountAmount.ifPresent(voucherService::createVoucher);
         }
 
-        if (voucherType.is(VoucherType.PercentDiscountVoucher)) {
+        if (voucherType.is(VoucherType.PERCENT_DISCOUNT_VOUCHER)) {
             Optional<Ratio> fixedDiscountRatio = ioManager.askFixedDiscountRatio();
             fixedDiscountRatio.ifPresent(voucherService::createVoucher);
         }

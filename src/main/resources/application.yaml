@@ -1,0 +1,3 @@
+files:
+  customer-blacklist: src/main/resources/data/customer_blacklist.csv
+  voucher-record: src/main/resources/data/voucher_record.csv

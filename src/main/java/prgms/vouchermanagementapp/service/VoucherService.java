@@ -2,10 +2,11 @@ package prgms.vouchermanagementapp.service;
 
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.VoucherRecord;
 import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
 import prgms.vouchermanagementapp.repository.VoucherRepository;
+
+import java.util.List;
 
 @Component
 public class VoucherService {
@@ -26,7 +27,7 @@ public class VoucherService {
         voucherRepository.save(percentDiscountVoucher);
     }
 
-    public VoucherRecord findAllVouchers() {
-        return voucherRepository.getVoucherRecord();
+    public List<Voucher> findAllVouchers() {
+        return voucherRepository.findAll();
     }
 }

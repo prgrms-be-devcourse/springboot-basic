@@ -1,7 +1,10 @@
 package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.*;
+import prgms.vouchermanagementapp.domain.FileVoucherRecord;
+import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.repository.util.VoucherContentConverter;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -87,14 +90,12 @@ public class Writer {
         System.out.println(ERROR + errorMessage);
     }
 
-    public void printVoucherRecord(VoucherRecord voucherRecord) {
+    public void printVoucherRecord(List<Voucher> voucherRecords) {
         printBlankLine();
 
-        if (voucherRecord.isFile()) {
-            printFileVoucherRecord((FileVoucherRecord) voucherRecord);
-            return;
-        }
-        printMemoryVoucherRecord(((MemoryVoucherRecord) voucherRecord).getMemoryVouchers());
+        voucherRecords.stream()
+                .map(VoucherContentConverter::toContent)
+                .forEach(System.out::println);
     }
 
     private void printFileVoucherRecord(FileVoucherRecord voucherRecord) {
@@ -126,11 +127,9 @@ public class Writer {
     }
 
     public void printFileContents(File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            bufferedReader.lines()
+                    .forEach(System.out::println);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
