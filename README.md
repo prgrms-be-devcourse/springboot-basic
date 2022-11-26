@@ -38,7 +38,7 @@
   - [x] 바우처 리스트 페이지 
     - `/view/v1/vouchers`
   - [x] 고객 바우처 상세 페이지 
-    - `/view/v1/customer-vouchers/{customerId}`
+    - `/view/v1/customer-vouchers/{customerI\
 - [x] 입력 페이지
   - [x] 고객 등록 페이지 
     - `/view/v1/customer-add`
@@ -56,17 +56,70 @@
 
 ### 🔥 JSON을 이용한 고객, 바우처 관리 애플리케이션 구현 🔥
 
-- [ ]  전체 조회기능
-  - [ ] 고객 전체 조회
-  - [ ] 바우처 전체 조회
-  - [ ] 고객과 고객 바우처(지갑) 전체 조회
-- [ ]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
-  - [ ] 조건 조회 : 바우처 생성 기간
-  - [ ] 조건 조회 : 바우처 할인 타입별
-  - [ ] 조건 조회 : 바우처 아이디
-- [ ]  바우처 추가기능
-- [ ]  바우처 삭제기능
+- [x] 전체 조회기능
+  - [x] 고객 전체 조회
+    - GET, `/api/v1/customers`
+  - [x] 바우처 전체 조회
+    - GET, `api/v1/vouchers`
+  - [x] 고객, 바우처(지갑) 전체 조회
+    - GET, `api/v1/customers/vouchers`
+  - [x] 조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+    - [x] 조건 조회 : 바우처 생성 기간
+    - [x] 조건 조회 : 바우처 할인 타입별
+    - [x] 조건 조회 : 바우처 아이디
+    - `api/v1/vouchers/search`
+      ```
+      // Query Params
+      
+      voucherId
+      voucherType
+      findStartAt
+      findEndAt
+      
+      ---
+      
+      - 바우처 검색 조건 : 바우처 아이디
+      /api/v1/vouchers/search?voucherId=1
+      
+      - 바우처 검색 조건 : 바우처 타입
+      /api/v1/vouchers/search?voucherType=fixed
+      
+      - 바우처 검색 조건 : 바우처 생성기간
+      /api/v1/vouchers/search?findEndAt=2022-12-31T01:30&findStartAt=2022-11-01T01:30      
+      
+      - 바우처 검색 조건 : 바우처 아이디, 바우처 생성기간
+      /api/v1/vouchers/search?findEndAt=2022-12-31T01:30&findStartAt=2022-11-01T01:30&voucherId=1
 
+      - 바우처 검색 조건 : 바우처 타입, 바우처 생성기간
+      /api/v1/vouchers/search?voucherType=fixed&findStartAt=2022-11-01T01:30&voucherId=1
+      
+      - 바우처 검색 조건 : 바우처 아이디, 바우처 타입
+      /api/v1/vouchers/search?voucherId=1&voucherType=fixed
+      
+      - 바우처 검색 조건 : 바우처 아이디, 바우처 타입, 바우처 생성 기간 
+      /api/v1/vouchers/search?voucherId=1&voucherType=fixed&findEndAt=2022-12-31T01:30&findStartAt=2022-11-01T01:30
+      ```
+- [x] 바우처 추가기능
+  - POST, `/api/v1/vouchers`
+    ```json
+    {
+      "discountValue": 100,
+      "voucherType": "fixed",
+      "startAt": "2022-11-30T00:00",
+      "endAt": "2022-12-31T00:00"
+    }
+    ```
+- [x] 바우처 삭제기능
+  - DELETE, `/api/v1/vouchers`
+      ```
+      // Query Params
+      
+      voucherId
+      
+      ---
+    
+      - 바우처 삭제 조건 : 바우처 아이디 
+      /api/v1/vouchers?voucherId=1
 ---
 
 ## SpringBoot Part2 Weekly Mission(~11/18)
