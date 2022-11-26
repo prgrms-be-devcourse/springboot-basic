@@ -3,7 +3,6 @@ package prgms.vouchermanagementapp.repository.util;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +21,7 @@ public class FileManager {
         try (FileWriter writer = new FileWriter(file, true)) {
             writer.append(content).append(System.lineSeparator());
         } catch (IOException ioException) {
-            throw new IllegalArgumentException(
-                    MessageFormat.format("Cannot writing content ''{0}'' to file ''{1}''", content, file),
-                    ioException
-            );
+            throw new IllegalArgumentException(ioException.getMessage(), ioException);
         }
     }
 
@@ -34,10 +30,7 @@ public class FileManager {
             return bufferedReader.lines()
                     .collect(Collectors.toList());
         } catch (IOException ioException) {
-            throw new IllegalArgumentException(
-                    MessageFormat.format("Cannot read from file: ''{0}''", file),
-                    ioException
-            );
+            throw new IllegalArgumentException(ioException.getMessage(), ioException);
         }
     }
 
@@ -45,10 +38,7 @@ public class FileManager {
         try {
             file.createNewFile();
         } catch (IOException ioException) {
-            throw new IllegalArgumentException(
-                    MessageFormat.format("Cannot create file ''{0}''", file),
-                    ioException
-            );
+            throw new IllegalArgumentException(ioException.getMessage(), ioException);
         }
     }
 }
