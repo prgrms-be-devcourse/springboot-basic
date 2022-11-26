@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
-//@ContextConfiguration(classes = WebDemoApplication.class)
 class JdbcCustomerRepositoryTest {
 
     private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
@@ -44,12 +43,6 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcVoucherRepository voucherRepository;
 
-//    private final DataSource dataSource;
-
-//    public JdbcCustomerRepositoryTest(DataSource dataSource) {
-//        this.dataSource = dataSource;
-//    }
-
     @BeforeAll
     static void setup() {
         MysqldConfig config = MysqldConfig.aMysqldConfig(Version.v8_0_11)
@@ -60,18 +53,9 @@ class JdbcCustomerRepositoryTest {
                 .build();
 
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
-
-//    @BeforeEach
-//    void setupEach() {
-//        customerRepository = new JdbcCustomerRepository(
-//                new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource)));
-//
-//        voucherRepository = new JdbcVoucherRepository(
-//                new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource)));
-//    }
 
     @AfterEach
     void clear() {

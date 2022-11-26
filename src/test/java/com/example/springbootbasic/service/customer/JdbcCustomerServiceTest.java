@@ -50,7 +50,7 @@ class JdbcCustomerServiceTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
 

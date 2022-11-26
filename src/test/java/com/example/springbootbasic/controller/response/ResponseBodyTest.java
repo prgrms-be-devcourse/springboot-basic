@@ -1,7 +1,7 @@
 package com.example.springbootbasic.controller.response;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,16 +18,16 @@ import static org.hamcrest.Matchers.is;
 
 class ResponseBodyTest {
 
-    @RepeatedTest(100)
+    @Test
     @DisplayName("응답 실패 판별 성공")
     void whenFailResponseBodyThenSuccessTest() {
-        assertThat(ResponseBody.fail(1).getCode(), is(FAIL.code()));
+        assertThat(ResponseBody.fail(1).getCode(), is(FAIL));
     }
 
-    @RepeatedTest(100)
+    @Test
     @DisplayName("응답 성공 판별 성공")
     void whenSuccessResponseBodyThenSuccessTest() {
-        assertThat(ResponseBody.success(1).getCode(), is(SUCCESS.code()));
+        assertThat(ResponseBody.success(1).getCode(), is(SUCCESS));
     }
 
 

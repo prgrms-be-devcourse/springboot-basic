@@ -32,7 +32,6 @@ public class RestCustomerController {
         return ResponseBody.success(findCustomers);
     }
 
-
     @GetMapping("/vouchers")
     public ResponseBody<List<CustomerDto>> allCustomersWithVouchers() {
         List<Customer> customers = customerService.findAllCustomers();
