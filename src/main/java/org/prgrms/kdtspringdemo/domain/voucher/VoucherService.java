@@ -28,11 +28,11 @@ public class VoucherService {
     public Voucher createVoucher(VoucherType voucherType, Long number) throws IllegalArgumentException, IllegalStateException {
         Voucher newVoucher = voucherCreator.createVoucher(voucherType, number);
         var voucher = voucherRepository.insert(newVoucher);
-        if (voucher.isPresent()) {
-            return voucher.get();
-        } else {
-            return null;
-        }
+        return voucher.orElse(null);
+    }
+
+    public void deleteVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 
     public List<Voucher> getAllVoucherList() {

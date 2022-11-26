@@ -40,12 +40,4 @@
         </div>
     </div>
 </section>
-<script layout:fragment="f-script" th:inline="javascript">
-    console.log([[${fail}]]);
-    $(document).ready(() => {
-        if ([[${fail}]]) {
-            alert("잘못된 ID 입니다.")
-        }
-    });
-</script>
 </html>

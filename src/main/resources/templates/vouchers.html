@@ -27,20 +27,28 @@
             <td th:text="${voucher.getValue()}">Mark</td>
             <td th:text="${voucher.getVoucherType().name()}"></td>
             <td>
-                <button class="btn btn-primary delete" value="submit">삭제</button>
+                <button class="btn btn-primary delete" th:attr="data-arg1=${voucher.getVoucherId()}" value="submit">삭제
+                </button>
             </td>
         </tr>
         </tbody>
     </table>
 </section>
 <script layout:fragment="f-script" th:inline="javascript">
-    $(".delete").on("click", (e) => {
-        e.stopPropagation();
-        if (confirm("삭제 클릭")) {
-            //삭제하기
-        } else {
-            //암것도 안하기
-        }
-    })
+    document.querySelectorAll(".delete").forEach(
+        (element) => element.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (confirm("바우쳐를 삭제하시겠습니까?")) {
+                const voucherId = e.target.getAttribute("data-arg1");
+                axios.delete(`/vouchers/${voucherId}`)
+                    .then(
+                        () => {
+                            alert("삭제에 성공했습니다");
+                            location.reload();
+                        })
+                    .error(() => alert("삭제에 실패했습니다."));
+            }
+        })
+    )
 </script>
 </html>
