@@ -1,6 +1,10 @@
 spring:
   profiles:
     active: jdbc
+
+logging:
+  config:
+    classpath: logback-${spring.profiles.active}.xml
 ---
 spring:
   config:
@@ -22,4 +26,8 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher_management?characterEncoding=UTF-8
     username: user
     password: programmers1234
+
+logging:
+  level:
+    org.springframework: trace
 ---
