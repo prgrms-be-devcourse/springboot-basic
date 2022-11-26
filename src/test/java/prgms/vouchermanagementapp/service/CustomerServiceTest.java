@@ -27,7 +27,6 @@ class CustomerServiceTest {
 
         // then
         assertThat(savedCustomer.getCustomerName()).isEqualTo(customer1.getCustomerName());
-        System.out.println(savedCustomer.getCustomerName());
     }
 
     @DisplayName("DB에 저장된 이름을 조회할 수 있다.")

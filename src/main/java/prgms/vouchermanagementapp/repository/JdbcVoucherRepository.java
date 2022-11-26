@@ -70,45 +70,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         throw new UnsupportedOperationException();
     }
 
-//    public Optional<VoucherEntity> findVoucherEntityById(String id) {
-//        String sql = "select * from vouchers " +
-//                "where id=:id";
-//
-//        try {
-//            Map<String, String> param = Map.of("id", id);
-//            VoucherEntity voucherEntity = template.queryForObject(sql, param, voucherRowMapper());
-//            return Optional.of(Objects.requireNonNull(voucherEntity));
-//        } catch (DataAccessException dataAccessException) {
-//            return Optional.empty();
-//        }
-//    }
-
-//    public void updateFixedAmountVoucherById(String id, long amount) {
-//        String sql = "update vouchers " +
-//                "set amount=:amount " +
-//                "where id=:id";
-//
-//        Map<String, Object> param = Map.of(
-//                "id", id,
-//                "amount", amount
-//        );
-//
-//        template.update(sql, param);
-//    }
-//
-//    public void updatePercentDiscountVoucherById(String id, long ratio) {
-//        String sql = "update vouchers " +
-//                "set ratio=:ratio " +
-//                "where id=:id";
-//
-//        Map<String, Object> param = Map.of(
-//                "id", id,
-//                "ratio", ratio
-//        );
-//
-//        template.update(sql, param);
-//    }
-
     public void deleteAll() {
         String sql = "delete from voucher";
         Map<String, String> param = Collections.emptyMap();
