@@ -1,7 +1,7 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.WrongCommandException;
+import org.prgrms.kdt.exception.voucher.WrongCommandException;
 
 import java.util.stream.Stream;
 

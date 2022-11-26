@@ -1,7 +1,7 @@
 package org.prgrms.kdt.voucher.repository;
 
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.NotFoundVoucherException;
+import org.prgrms.kdt.exception.voucher.NotFoundVoucherException;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;

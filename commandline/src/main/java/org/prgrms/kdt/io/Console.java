@@ -2,8 +2,8 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.InputException;
-import org.prgrms.kdt.exception.IsNotNumberException;
+import org.prgrms.kdt.exception.voucher.InputException;
+import org.prgrms.kdt.exception.voucher.IsNotNumberException;
 import org.prgrms.kdt.util.ConstantMessageUtil;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.springframework.stereotype.Component;
@@ -66,7 +66,7 @@ public class Console {
         System.out.println(ConstantMessageUtil.INITIALIZE);
     }
 
-    public void delete(){
+    public void delete() {
         System.out.println(ConstantMessageUtil.DELETE);
     }
 

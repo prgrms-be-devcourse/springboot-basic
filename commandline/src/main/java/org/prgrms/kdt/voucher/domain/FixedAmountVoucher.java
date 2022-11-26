@@ -1,7 +1,7 @@
 package org.prgrms.kdt.voucher.domain;
 
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.WrongRangeInputException;
+import org.prgrms.kdt.exception.voucher.WrongRangeInputException;
 
 import java.util.Objects;
 

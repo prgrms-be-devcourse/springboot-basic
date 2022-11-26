@@ -4,7 +4,7 @@ import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
+import org.prgrms.kdt.exception.voucher.NotFoundVoucherTypeException;
 
 import java.util.function.BiFunction;
 import java.util.stream.Stream;

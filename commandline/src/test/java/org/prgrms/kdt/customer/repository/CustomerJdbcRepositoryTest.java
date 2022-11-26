@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.exception.NotFoundCustomer;
+import org.prgrms.kdt.exception.customer.NotFoundCustomerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -62,7 +62,7 @@ public class CustomerJdbcRepositoryTest {
     void findByIdIncorrectTest() {
         assertThatThrownBy(() -> {
             customerRepository.findById(999999L);
-        }).isInstanceOf(NotFoundCustomer.class);
+        }).isInstanceOf(NotFoundCustomerException.class);
     }
 
     @Test
@@ -71,6 +71,6 @@ public class CustomerJdbcRepositoryTest {
 
         assertThatThrownBy(() -> {
             customerRepository.update(99999L, "hi", "exception");
-        }).isInstanceOf(NotFoundCustomer.class);
+        }).isInstanceOf(NotFoundCustomerException.class);
     }
 }

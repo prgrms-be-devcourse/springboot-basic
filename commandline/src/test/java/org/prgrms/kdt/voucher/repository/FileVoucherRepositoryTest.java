@@ -3,7 +3,7 @@ package org.prgrms.kdt.voucher.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.exception.NotFoundVoucherException;
+import org.prgrms.kdt.exception.voucher.NotFoundVoucherException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;

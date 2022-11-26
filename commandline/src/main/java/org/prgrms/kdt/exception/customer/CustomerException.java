@@ -1,6 +1,6 @@
-package org.prgrms.kdt.exception;
+package org.prgrms.kdt.exception.customer;
 
-public class CustomerException extends VoucherException {
+public class CustomerException extends RuntimeException {
 
     public CustomerException() {
     }

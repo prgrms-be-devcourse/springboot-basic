@@ -1,9 +1,9 @@
 package org.prgrms.kdt.voucher.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.kdt.exception.CustomerException;
+import org.prgrms.kdt.exception.voucher.VoucherUserException;
 import org.prgrms.kdt.exception.ErrorResult;
-import org.prgrms.kdt.exception.ServerException;
+import org.prgrms.kdt.exception.voucher.VoucherServerException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dto.InsertVoucherDto;
 import org.prgrms.kdt.voucher.dto.VoucherDto;
@@ -75,15 +75,15 @@ public class VoucherRestController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler()
-    public ErrorResult customerHandler(CustomerException customerException) {
-        log.error("[customerExceptionHandler] => {}", customerException);
+    public ErrorResult customerHandler(VoucherUserException userException) {
+        log.error("[customerExceptionHandler] => {}", userException);
 
-        return new ErrorResult("404", customerException.getMessage());
+        return new ErrorResult("404", userException.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
-    public ErrorResult serverHandler(ServerException serverException) {
+    public ErrorResult serverHandler(VoucherServerException serverException) {
         log.error("[customerExceptionHandler] => {}", serverException);
 
         return new ErrorResult("500", serverException.getMessage());

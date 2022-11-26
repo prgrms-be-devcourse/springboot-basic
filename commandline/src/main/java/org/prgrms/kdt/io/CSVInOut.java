@@ -1,6 +1,10 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.exception.*;
+import org.prgrms.kdt.exception.voucher.FileInOutException;
+import org.prgrms.kdt.exception.voucher.FileNotFoundCustomException;
+import org.prgrms.kdt.exception.voucher.NotFoundValueException;
+import org.prgrms.kdt.exception.voucher.NotFoundVoucherException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.VoucherType;
 
@@ -108,7 +112,7 @@ public class CSVInOut {
 
     private static String parsingData(String input, String key) {
         if (input.indexOf(key) == NOT_FOUND_RESULT) {
-            throw new NotFoundValue(ErrorCode.NOT_FOUND_VALUE_EXCEPTION.getMessage());
+            throw new NotFoundValueException(ErrorCode.NOT_FOUND_VALUE_EXCEPTION.getMessage());
         }
 
         int startIndex = input.indexOf(key);

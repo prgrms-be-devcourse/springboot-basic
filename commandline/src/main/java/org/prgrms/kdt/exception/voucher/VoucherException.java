@@ -1,4 +1,4 @@
-package org.prgrms.kdt.exception;
+package org.prgrms.kdt.exception.voucher;
 
 public class VoucherException extends RuntimeException {
 

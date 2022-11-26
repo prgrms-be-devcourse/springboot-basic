@@ -1,7 +1,7 @@
 package org.prgrms.kdt.customer.domain;
 
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.NotNullNameException;
+import org.prgrms.kdt.exception.customer.NotNullNameException;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

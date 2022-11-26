@@ -2,9 +2,7 @@ package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.exception.ErrorCode;
-import org.prgrms.kdt.exception.NotFoundCustomer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.kdt.exception.customer.NotFoundCustomerException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -22,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
     Map<Long, Customer> cache = new ConcurrentHashMap<>();
-    
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public CustomerJdbcRepository(DataSource dataSource) {
@@ -80,7 +78,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             Customer customer = jdbcTemplate.queryForObject(sql, param, customerRowMapper());
             return customer;
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundCustomer(ErrorCode.NOT_FOUND_CUSTOMER_EXCEPTION.getMessage());
+            throw new NotFoundCustomerException(ErrorCode.NOT_FOUND_CUSTOMER_EXCEPTION.getMessage());
         }
     }
 

@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.kdt.voucher.VoucherType;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.exception.NotFoundVoucherTypeException;
+import org.prgrms.kdt.exception.voucher.NotFoundVoucherTypeException;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 
 import java.util.stream.Stream;
@@ -73,7 +73,7 @@ class VoucherTypeTest {
     @Test
     @DisplayName("파일에서 읽어온 String 값으로 해당하는 타입의 Voucher를 만들 수 있다.")
     void createVoucherV2CorrectTest() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1L,  20L);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(1L, 20L);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(2L, 50L);
 
         assertThat(VoucherType.createVoucher(VoucherType.FIXED_AMOUNT, 1L, 20L), samePropertyValuesAs(fixedAmountVoucher));

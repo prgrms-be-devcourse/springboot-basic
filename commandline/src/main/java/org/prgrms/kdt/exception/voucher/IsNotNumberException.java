@@ -1,6 +1,6 @@
-package org.prgrms.kdt.exception;
+package org.prgrms.kdt.exception.voucher;
 
-public class IsNotNumberException extends CustomerException {
+public class IsNotNumberException extends VoucherUserException {
     public IsNotNumberException() {
     }
 

@@ -1,8 +1,8 @@
 package org.prgrms.kdt.voucher.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.kdt.exception.CustomerException;
-import org.prgrms.kdt.exception.ServerException;
+import org.prgrms.kdt.exception.voucher.VoucherUserException;
+import org.prgrms.kdt.exception.voucher.VoucherServerException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -51,18 +51,13 @@ public class VoucherController {
 
     @PostMapping("/api/voucher/insert")
     public String insertVoucher(@RequestParam("typeNumber") String typeNumber, @RequestParam("discountDegree") long discountDegree) {
-        System.out.println("voucherTypeNum=>" + typeNumber);
-        System.out.println("discountDegree" + discountDegree);
-        Voucher voucher = voucherService.createVoucher(typeNumber, discountDegree);
-
-        System.out.println(voucher);
+        voucherService.createVoucher(typeNumber, discountDegree);
 
         return "redirect:/";
     }
 
     @PostMapping("/api/voucher/delete/{voucherId}")
     public String deleteVoucherById(@PathVariable("voucherId") Long voucherId) {
-
         voucherService.deleteById(voucherId);
 
         return "redirect:/";
@@ -70,23 +65,20 @@ public class VoucherController {
 
     @PostMapping("/api/voucher/update/{voucherId}")
     public String updateVoucher(@PathVariable("voucherId") Long voucherId, @RequestParam("discountDegree") long discountDegree) {
-        System.out.println("voucherId: " + voucherId);
-        System.out.println("discountDegree" + discountDegree);
-
         voucherService.updateVoucher(voucherId, discountDegree);
         return "redirect:/voucher/" + voucherId;
     }
 
     @ExceptionHandler()
-    public void customerHandler(CustomerException customerException, HttpServletResponse response) throws IOException {
-        log.error("[customerExceptionHandler] => {}", customerException);
+    public void customerHandler(VoucherUserException userException, HttpServletResponse response) throws IOException {
+        log.error("[customerExceptionHandler] => {}", userException);
 
         response.sendError(404);
     }
 
 
     @ExceptionHandler
-    public void serverHandler(ServerException serverException, HttpServletResponse response) throws IOException {
+    public void serverHandler(VoucherServerException serverException, HttpServletResponse response) throws IOException {
         log.error("[customerExceptionHandler] => {}", serverException);
         response.sendError(500);
     }
