@@ -1,4 +1,4 @@
-package com.program.commandLine.voucher;
+package com.program.commandLine.model.voucher;
 
 import java.util.UUID;
 
@@ -10,15 +10,10 @@ public interface Voucher {
 
     int getVoucherDiscount();
 
-    UUID getAssignedCustomerId();
-
     boolean getUsed();
 
     int discountPrice(int beforeDiscount);
 
     void used();
 
-    void assignCustomer(UUID customerId);
-
-    void retrieved();
 }

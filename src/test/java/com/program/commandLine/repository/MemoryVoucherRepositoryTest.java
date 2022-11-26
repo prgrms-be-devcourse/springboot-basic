@@ -1,8 +1,8 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.FixedAmountVoucher;
-import com.program.commandLine.voucher.VoucherType;
+import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.FixedAmountVoucher;
+import com.program.commandLine.model.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

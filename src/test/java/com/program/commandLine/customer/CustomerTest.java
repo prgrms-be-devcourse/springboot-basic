@@ -1,5 +1,6 @@
 package com.program.commandLine.customer;
 
+import com.program.commandLine.model.customer.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

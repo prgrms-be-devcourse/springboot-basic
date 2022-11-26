@@ -1,4 +1,4 @@
-package com.program.commandLine.customer;
+package com.program.commandLine.model.customer;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -16,7 +16,7 @@ public enum CustomerType {
         return Arrays.stream(values())
                 .filter(type -> Objects.equals(type.stringType,stringType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("! Wrong type input. Please enter only given number"));
+                .orElseThrow(() -> new IllegalArgumentException("! 잘못된 입력입니다. 바우처 타입을 숫자로 입력해주세요."));
     }
 
     public String getString(){

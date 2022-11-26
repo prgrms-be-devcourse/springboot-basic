@@ -1,14 +1,15 @@
 package com.program.commandLine.service;
 
+import com.program.commandLine.model.VoucherInputData;
+import com.program.commandLine.model.VoucherWallet;
+import com.program.commandLine.model.voucher.Voucher;
+import com.program.commandLine.model.voucher.VoucherFactory;
 import com.program.commandLine.repository.VoucherRepository;
-import com.program.commandLine.voucher.Voucher;
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.VoucherType;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 
 @Service
@@ -22,9 +23,8 @@ public class VoucherService {
         this.voucherFactory = voucherFactory;
     }
 
-    public Voucher createVoucher(String voucherTypeNumber, UUID voucherId, int discount) {
-        VoucherType voucherType = VoucherType.getType(voucherTypeNumber);
-        Voucher newVoucher = voucherFactory.createVoucher(voucherType, voucherId, discount);
+    public Voucher createVoucher(VoucherInputData inputData) {
+        Voucher newVoucher = voucherFactory.createVoucher(inputData.getVoucherType(), inputData.getVoucherId(), inputData.getDiscount());
         return voucherRepository.insert(newVoucher);
     }
 
@@ -32,24 +32,14 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher assignCustomer(Voucher voucher, UUID customerId) {
-        voucher.assignCustomer(customerId);
-        voucherRepository.update(voucher);
-        return voucher;
+    public List<Voucher> getVouchersByWallet(List<VoucherWallet> wallets) {
+        List<Voucher> vouchers = new ArrayList<>();
+        wallets.forEach(wallet -> {
+            Optional<Voucher> findVoucher = voucherRepository.findById(wallet.voucherId());
+            findVoucher.ifPresent(vouchers::add);
+        });
+        return vouchers;
     }
 
-    public List<Voucher> getAssignedVouchersByCustomer(UUID customerId) {
-        return voucherRepository.findByAssignedCustomer(customerId);
-    }
 
-    public Voucher retrieveVoucher(Voucher voucher) {
-        voucher.retrieved();
-        voucherRepository.update(voucher);
-        return voucher;
-    }
-
-    public Optional<UUID> getAssignedCustomer(Voucher voucher) {
-        return Optional.ofNullable(voucher.getAssignedCustomerId());
-
-    }
 }

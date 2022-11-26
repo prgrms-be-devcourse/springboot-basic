@@ -1,4 +1,4 @@
-package com.program.commandLine.voucher;
+package com.program.commandLine.model.voucher;
 
 import java.util.UUID;
 
@@ -7,7 +7,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherID;
     private final int percent;
-    private UUID assignedCustomerId;
     private boolean used = false;
 
 
@@ -20,10 +19,9 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherID, int percent, UUID assignedCustomerId, boolean used) {
+    public PercentDiscountVoucher(UUID voucherID, int percent, boolean used) {
         this.voucherID = voucherID;
         this.percent = percent;
-        this.assignedCustomerId = assignedCustomerId;
         this.used = used;
     }
 
@@ -42,10 +40,6 @@ public class PercentDiscountVoucher implements Voucher {
         return percent;
     }
 
-    @Override
-    public UUID getAssignedCustomerId() {
-        return assignedCustomerId;
-    }
 
     @Override
     public boolean getUsed() {
@@ -61,16 +55,5 @@ public class PercentDiscountVoucher implements Voucher {
     public void used() {
         if (used) throw new IllegalArgumentException("! 이미 사용된 바우처 입니다.");
         used = true;
-    }
-
-    @Override
-    public void assignCustomer(UUID customerId) {
-        if (assignedCustomerId != null) throw new IllegalArgumentException("! 이미 할당된 바우처 입니다.");
-        assignedCustomerId = customerId;
-    }
-
-    @Override
-    public void retrieved() {
-        assignedCustomerId = null;
     }
 }

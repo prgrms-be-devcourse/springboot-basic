@@ -1,6 +1,8 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.model.VoucherWallet;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,11 +15,10 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Voucher update(Voucher voucher);
-
-    List<Voucher> findByAssignedCustomer(UUID customerId);
+    Voucher usedUpdate(Voucher voucher);
 
     void deleteAll();
 
     int count();
+
 }

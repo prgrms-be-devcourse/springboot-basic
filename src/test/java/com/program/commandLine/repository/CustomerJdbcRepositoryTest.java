@@ -1,7 +1,7 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.customer.RegularCustomer;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.customer.RegularCustomer;
 import com.wix.mysql.EmbeddedMysql;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
@@ -14,7 +14,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -34,7 +33,7 @@ class CustomerJdbcRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.program.commandLine.customer", "com.program.commandLine.repository"}
+            basePackages = {"com.program.commandLine.model.customer", "com.program.commandLine.repository"}
     )
     static class Config {
 
@@ -71,10 +70,10 @@ class CustomerJdbcRepositoryTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
-                .addSchema("test-customer_mgmt", classPathScript("customerSchema.sql"))
+                .addSchema("test-customer_mgmt", classPathScript("schema.sql"))
                 .start();
 
-        newCustomers = new RegularCustomer(UUID.randomUUID(), "test-user", "test_user@gmail.com", LocalDateTime.now());
+        newCustomers = new RegularCustomer(UUID.randomUUID(), "test-user", "test_user@gmail.com");
     }
 
     @AfterAll
@@ -111,16 +110,9 @@ class CustomerJdbcRepositoryTest {
         assertThrows(DataAccessException.class, () -> customerJdbcRepository.insert(emailOverlap));
     }
 
-    @Test
-    @Order(4)
-    @DisplayName("전체 고객을 조회할 수 있다.")
-    public void testFindAll() {
-        var customers = customerJdbcRepository.findAll();
-        assertThat(customers.isEmpty(), is(false));
-    }
 
     @Test
-    @Order(5)
+    @Order(4)
     @DisplayName("이름으로 고객을 조회할 수 있다.")
     public void testFindByName() {
         var customers = customerJdbcRepository.findByName(newCustomers.getName());
@@ -131,7 +123,7 @@ class CustomerJdbcRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     @DisplayName("이메일로 고객을 조회할 수 있다.")
     public void testFindByEmail() {
         var customers = customerJdbcRepository.findByEmail(newCustomers.getEmail());

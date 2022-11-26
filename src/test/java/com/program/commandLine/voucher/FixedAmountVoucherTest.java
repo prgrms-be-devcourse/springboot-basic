@@ -1,5 +1,7 @@
 package com.program.commandLine.voucher;
 
+import com.program.commandLine.model.voucher.FixedAmountVoucher;
+import com.program.commandLine.model.voucher.Voucher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

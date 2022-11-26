@@ -1,7 +1,6 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.model.customer.Customer;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,11 +9,9 @@ import java.util.UUID;
 public interface CustomerRepository {
     Customer insert(Customer customer);
 
-    Customer update(Customer customer);
+    Customer lastLoginUpdate(Customer customer);
 
     int count();
-
-    List<Customer> findAll();
 
     Optional<Customer> findById(UUID customerId);
 

@@ -1,9 +1,11 @@
-package com.program.commandLine.customer;
+package com.program.commandLine.model.customer;
 
+import com.program.commandLine.model.VoucherWallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class BlackListCustomer implements Customer {
@@ -27,6 +29,12 @@ public class BlackListCustomer implements Customer {
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
+    }
+
+
+    @Override
+    public List<VoucherWallet> getVoucherWallets() {
+        return null;
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.program.commandLine.service;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.customer.CustomerFactory;
-import com.program.commandLine.customer.CustomerType;
+import com.program.commandLine.model.CustomerInputData;
+import com.program.commandLine.model.VoucherWallet;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.customer.CustomerFactory;
+import com.program.commandLine.model.customer.CustomerType;
 import com.program.commandLine.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -53,19 +56,22 @@ public class CustomerService {
         return List.copyOf(blackListConsumers);
     }
 
-    public Customer createCustomer(String stringCustomerType,UUID customerId, String name, String email){
-        CustomerType customerType = CustomerType.getType(stringCustomerType);
-        Customer newCustomer = customerFactory.createCustomer(customerType,customerId,name,email);
+    @Transactional
+    public Customer createCustomer(CustomerInputData inputData){
+        Customer newCustomer = customerFactory.createCustomer(inputData.getCustomerType(),inputData.getCustomerId(),inputData.getName(),inputData.getEmail());
         return customerRepository.insert(newCustomer);
     }
 
+    @Transactional
     public Customer getCustomerByName(String customerName) {
         return customerRepository.findByName(customerName).orElseThrow(()-> new IllegalArgumentException("!! 존재하지 않는 고객입니다."));
     }
 
+    @Transactional
     public Customer getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId).orElseThrow(()-> new IllegalArgumentException("!! 존재하지 않는 고객입니다."));
     }
+
 
     public void deleteAll() {
         customerRepository.deleteAll();

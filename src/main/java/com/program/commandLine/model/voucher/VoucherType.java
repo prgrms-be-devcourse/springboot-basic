@@ -1,4 +1,4 @@
-package com.program.commandLine.voucher;
+package com.program.commandLine.model.voucher;
 
 import java.util.Arrays;
 import java.util.Objects;

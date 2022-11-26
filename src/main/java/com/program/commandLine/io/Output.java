@@ -1,7 +1,7 @@
 package com.program.commandLine.io;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.voucher.Voucher;
 
 import java.util.List;
 

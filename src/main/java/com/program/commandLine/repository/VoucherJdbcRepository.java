@@ -1,9 +1,10 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.voucher.Voucher;
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.VoucherType;
-import org.springframework.context.annotation.Primary;
+import com.program.commandLine.model.VoucherWallet;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.voucher.Voucher;
+import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,8 +35,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("type", voucher.getVoucherType().getString());
             put("discount", voucher.getVoucherDiscount());
-            put("AssignedCustomerId", voucher.getAssignedCustomerId() != null ?
-                    voucher.getAssignedCustomerId().toString().getBytes() : null);
             put("used", voucher.getUsed());
         }};
     }
@@ -46,10 +45,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
             UUID voucherId = toUUID(rs.getBytes("voucher_id"));
             VoucherType type = VoucherType.getType(rs.getString("type"));
             int discount = rs.getInt("discount");
-            UUID AssignedCustomerId = rs.getBytes("assigned_customer_id") != null ? toUUID(rs.getBytes("assigned_customer_id")) : null;
             boolean used = rs.getBoolean("used");
 
-            return voucherFactory.createVoucher(type, voucherId, discount, AssignedCustomerId, used);
+            return voucherFactory.createVoucher(type, voucherId, discount, used);
         }
     };
 
@@ -65,18 +63,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        String sql = "UPDATE vouchers SET assigned_customer_id= UUID_TO_BIN(:AssignedCustomerId), used= :used WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    public Voucher usedUpdate(Voucher voucher) {
+        String sql = "UPDATE vouchers SET  used= :used WHERE voucher_id = UUID_TO_BIN(:voucherId)";
         int update = jdbcTemplate.update(sql, toParamMap(voucher));
         if (update != 1) throw new RuntimeException("Nothing was updated!");
         return voucher;
     }
 
-
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "INSERT INTO vouchers(voucher_id, type, discount, assigned_customer_id, used)" +
-                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount,UUID_TO_BIN(:AssignedCustomerId) ,:used )";
+        String sql = "INSERT INTO vouchers(voucher_id, type, discount, used)" +
+                "  VALUES (UUID_TO_BIN(:voucherId),:type,:discount ,:used )";
         int update = jdbcTemplate.update(sql, toParamMap(voucher));
         if (update != 1) throw new RuntimeException("Nothing was inserted!");
         return voucher;
@@ -88,19 +85,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.query(sql, voucherRowMapper);
     }
 
-    @Override
-    public List<Voucher> findByAssignedCustomer(UUID customerId) {
-        String sql;
-        if (customerId == null) {
-            sql = "select * from vouchers WHERE assigned_customer_id is null";
-            return jdbcTemplate.query(sql,voucherRowMapper);
-        }
-        else {
-            sql = "select * from vouchers WHERE assigned_customer_id = UUID_TO_BIN(:customerId)";
-            return jdbcTemplate.query(sql,
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()), voucherRowMapper);
-        }
-    }
 
     @Override
     public void deleteAll() {
@@ -110,7 +94,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public int count() {
-        String sql = "select count(*) from customers";
+        String sql = "select count(*) from vouchers";
         return jdbcTemplate.getJdbcTemplate().queryForObject(sql, Integer.class);
     }
+
 }

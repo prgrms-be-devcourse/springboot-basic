@@ -1,10 +1,11 @@
 package com.program.commandLine.service;
 
+import com.program.commandLine.model.VoucherInputData;
+import com.program.commandLine.model.voucher.FixedAmountVoucher;
+import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.VoucherType;
 import com.program.commandLine.repository.MemoryVoucherRepository;
 import com.program.commandLine.repository.VoucherRepository;
-import com.program.commandLine.voucher.FixedAmountVoucher;
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -26,14 +27,14 @@ class VoucherServiceTest {
         // Given
         var voucherRepositoryMock = mock(VoucherRepository.class);
         var voucherFactoryMock = mock(VoucherFactory.class);
-        UUID voucherId = UUID.randomUUID();
+        var inputData = new VoucherInputData(NUMBER_FIXED_TYPE, "20");
         var sut = new VoucherService(voucherRepositoryMock, voucherFactoryMock);
 
         // When
-        var voucher = sut.createVoucher(NUMBER_FIXED_TYPE, voucherId, 20);
+        var voucher = sut.createVoucher(inputData);
 
         // Then
-        verify(voucherFactoryMock).createVoucher(VoucherType.FIXED_AMOUNT_DISCOUNT, voucherId, 20);
+        verify(voucherFactoryMock).createVoucher(VoucherType.FIXED_AMOUNT_DISCOUNT, inputData.getVoucherId(), 20);
         verify(voucherRepositoryMock).insert(voucher);
 
     }
@@ -44,14 +45,14 @@ class VoucherServiceTest {
         // Given
         var voucherRepositoryMock = mock(VoucherRepository.class);
         var voucherFactoryMock = mock(VoucherFactory.class);
-        UUID voucherId = UUID.randomUUID();
+        var inputData = new VoucherInputData(NUMBER_PERCENT_TYPE, "20");
         var sut = new VoucherService(voucherRepositoryMock, voucherFactoryMock);
 
         // When
-        var voucher = sut.createVoucher(NUMBER_PERCENT_TYPE, voucherId, 20);
+        var voucher = sut.createVoucher(inputData);
 
         // Then
-        verify(voucherFactoryMock).createVoucher(VoucherType.PERCENT_DISCOUNT, voucherId, 20);
+        verify(voucherFactoryMock).createVoucher(VoucherType.PERCENT_DISCOUNT, inputData.getVoucherId(), 20);
         verify(voucherRepositoryMock).insert(voucher);
 
     }

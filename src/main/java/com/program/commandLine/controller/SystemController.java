@@ -14,36 +14,27 @@ public class SystemController implements Runnable {
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
-    private final VoucherWalletController voucherWalletController;
 
     final Logger logger = LoggerFactory.getLogger(CommandLineProgramApplication.class);
 
-    public SystemController(Console console, VoucherController voucherController, CustomerController customerController, VoucherWalletController voucherWalletController) {
+    public SystemController(Console console, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
         this.voucherController = voucherController;
         this.customerController = customerController;
-        this.voucherWalletController = voucherWalletController;
     }
 
-    private enum CustomerMenuType {
-        CREATE, SEARCH, BLACKLIST, DELETE
-    }
-
-    private enum VoucherMenuType {
-        CREATE, ALLOCATE, RETRIEVE, LIST, CUSTOMER
-    }
 
     @Override
     public void run() {
-        Boolean systemFlag = true;
+        boolean systemFlag = true;
         while (systemFlag) {
             console.menuView(MenuType.MAIN);
             String choseMenu = console.input();
             try {
                 MenuType menuType = MenuType.valueOf(choseMenu.toUpperCase());
                 switch (menuType) {
-                    case CUSTOMER -> customerServiceRun();
-                    case VOUCHER -> voucherServiceRun();
+                    case CUSTOMER -> customerController.run();
+                    case VOUCHER -> voucherController.run();
                     case EXIT -> {
                         console.successMessageView("* 프로그램 종료 * ");
                         systemFlag = false;
@@ -54,32 +45,6 @@ public class SystemController implements Runnable {
                 console.errorMessageView(e.getMessage());
             }
 
-        }
-    }
-
-    private void customerServiceRun() {
-        console.menuView(MenuType.CUSTOMER);
-        String choseMenu = console.input();
-        CustomerMenuType customerMenuType = CustomerMenuType.valueOf(choseMenu.toUpperCase());
-        switch (customerMenuType) {
-            case CREATE -> customerController.createCustomer();
-            case SEARCH -> customerController.searchCustomerByName();
-            case BLACKLIST -> customerController.LookupCustomerBlackList();
-            case DELETE -> customerController.deleteAllCustomer();
-        }
-
-    }
-
-    private void voucherServiceRun() {
-        console.menuView(MenuType.VOUCHER);
-        String choseMenu = console.input();
-        VoucherMenuType voucherMenuType = VoucherMenuType.valueOf(choseMenu.toUpperCase());
-        switch (voucherMenuType) {
-            case CREATE -> voucherController.createVoucher();
-            case ALLOCATE -> voucherWalletController.assignCustomer();
-            case RETRIEVE -> voucherWalletController.retrieveVoucher();
-            case LIST -> voucherWalletController.lookupAssignedVouchersByCustomer();
-            case CUSTOMER -> voucherWalletController.lookupCustomerWithVoucher();
         }
     }
 

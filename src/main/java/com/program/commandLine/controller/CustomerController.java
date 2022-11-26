@@ -1,6 +1,8 @@
 package com.program.commandLine.controller;
 
-import com.program.commandLine.customer.Customer;
+import com.program.commandLine.io.MenuType;
+import com.program.commandLine.model.CustomerInputData;
+import com.program.commandLine.model.customer.Customer;
 import com.program.commandLine.io.Console;
 import com.program.commandLine.service.CustomerService;
 import org.springframework.stereotype.Component;
@@ -11,9 +13,14 @@ import java.util.UUID;
 @Component(value = "customerController")
 public class CustomerController {
 
-    private final String regularType = "regular";
+    private final String REGULAR_TYPE  = "regular";
     private final CustomerService customerService;
     private final Console console;
+
+    private enum CustomerMenuType {
+        CREATE, SEARCH, BLACKLIST, DELETE
+    }
+
 
     public CustomerController(CustomerService customerService, Console console) {
         this.customerService = customerService;
@@ -29,7 +36,7 @@ public class CustomerController {
         String name = console.input("고객 이름을 입력하세요 : ");
         String email = console.input("고객 email을 입력하세요 : ");
 
-        customerService.createCustomer(regularType, UUID.randomUUID(), name, email);
+        customerService.createCustomer(new CustomerInputData(REGULAR_TYPE,name,email));
         console.successMessageView("고객이 정상적으로 생성되었습니다.");
     }
 
@@ -40,13 +47,25 @@ public class CustomerController {
     }
 
     public void deleteAllCustomer() {
-        String recheck = console.input("정말 삭제 하시겠습니까?(Y/N) :");
-        switch (recheck.toUpperCase()) {
-            case "Y" -> customerService.deleteAll();
-            case "N" -> {
-                return;
-            }
-            default -> console.errorMessageView("잘못된 입력입니다.");
+        boolean recheck = console.recheckInput("정말 삭제 하시겠습니까?(Y/N) :");
+        if (recheck) {
+            customerService.deleteAll();
+            console.successMessageView("정상적으로 삭제되었습니다.");
         }
+        else console.successMessageView("삭제를 취소합니다.");
+    }
+
+
+    public void run() {
+        console.menuView(MenuType.CUSTOMER);
+        String choseMenu = console.input();
+        CustomerMenuType customerMenuType = CustomerMenuType.valueOf(choseMenu.toUpperCase());
+        switch (customerMenuType) {
+            case CREATE -> createCustomer();
+            case SEARCH -> searchCustomerByName();
+            case BLACKLIST -> LookupCustomerBlackList();
+            case DELETE -> deleteAllCustomer();
+        }
+
     }
 }

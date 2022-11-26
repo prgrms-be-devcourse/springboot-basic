@@ -1,10 +1,9 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.customer.CustomerFactory;
-import com.program.commandLine.customer.CustomerType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.program.commandLine.model.VoucherWallet;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.customer.CustomerFactory;
+import com.program.commandLine.model.customer.CustomerType;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -25,6 +24,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final CustomerFactory customerFactory;
 
+    private static String sqlWallet = "select * from voucher_wallet WHERE customer_id = UUID_TO_BIN(:customerId) ";
+
+
     public CustomerJdbcRepository(DataSource dataSource, CustomerFactory customerFactory) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.customerFactory = customerFactory;
@@ -40,12 +42,21 @@ public class CustomerJdbcRepository implements CustomerRepository {
             LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at") != null ?
                     rs.getTimestamp("last_login_at").toLocalDateTime() : null;
 
-            return customerFactory.createCustomer(customerType, customerId, customerName, email, lastLoginAt);
+            return customerFactory.createCustomer(customerType, customerId, customerName, email, lastLoginAt, new ArrayList<>());
+        }
+    };
+
+    private final RowMapper<VoucherWallet> WalletRowMapper = new RowMapper<VoucherWallet>() {
+        @Override
+        public VoucherWallet mapRow(ResultSet rs, int rowNum) throws SQLException {
+            UUID voucherId = toUUID(rs.getBytes("voucher_id"));
+            LocalDateTime createAt = rs.getTimestamp("create_at").toLocalDateTime();
+            return new VoucherWallet(voucherId, createAt);
         }
     };
 
 
-    private Map<String, Object> toParamMap(Customer customer) {
+    private Map<String, Object> toCustomerParamMap(Customer customer) {
         return new HashMap<>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
@@ -55,19 +66,32 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }};
     }
 
+    private Map<String, Object> toWalletParamMap(UUID customerId, UUID voucherId) {
+        return new HashMap<>() {{
+            put("customerId", customerId.toString().getBytes());
+            put("voucherId", voucherId.toString().getBytes());
+        }};
+    }
+
     @Override
     public Customer insert(Customer customer) {
-        String sql = "INSERT INTO customers(customer_id,type,name,email, last_login_at)" +
+        String customerSql = "INSERT INTO customers(customer_id,type,name,email, last_login_at)" +
                 "  VALUES (UUID_TO_BIN(:customerId),:type,:name,:email,:lastLoginAt)";
-        int update = jdbcTemplate.update(sql, toParamMap(customer));
+        String walletSql = "INSERT INTO customers(customer_id,type,name,email, last_login_at)" +
+                "  VALUES (UUID_TO_BIN(:customerId),:type,:name,:email,:lastLoginAt)";
+
+        int update = jdbcTemplate.update(customerSql, toCustomerParamMap(customer));
+        customer.getVoucherWallets().forEach(wallet ->
+                jdbcTemplate.update(walletSql, toWalletParamMap(customer.getCustomerId(), wallet.voucherId()))
+        );
         if (update != 1) throw new RuntimeException("Nothing was inserted!");
         return customer;
     }
 
     @Override
-    public Customer update(Customer customer) {
-        String sql = "UPDATE customers SET name= :name, email= :email, last_login_at= :lastLoginAt  WHERE customer_id = UUID_TO_BIN(:customerId)";
-        int update = jdbcTemplate.update(sql, toParamMap(customer));
+    public Customer lastLoginUpdate(Customer customer) {
+        String sql = "UPDATE customers SET last_login_at= :lastLoginAt  WHERE customer_id = UUID_TO_BIN(:customerId)";
+        int update = jdbcTemplate.update(sql, toCustomerParamMap(customer));
         if (update != 1) throw new RuntimeException("Nothing was updated!");
         return customer;
     }
@@ -79,17 +103,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAll() {
-        String sql = "select * from customers";
-        return jdbcTemplate.query(sql, customerRowMapper);
-    }
-
-    @Override
     public Optional<Customer> findById(UUID customerId) {
-        String sql = "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)";
+        String customerSql = "select * from customers WHERE customer_id = UUID_TO_BIN(:customerId)";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper));
+            Customer customer = jdbcTemplate.queryForObject(customerSql,
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()), customerRowMapper);
+            List<VoucherWallet> wallets = jdbcTemplate.query(sqlWallet,
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()), WalletRowMapper);
+            wallets.forEach(wallet -> customer.getVoucherWallets().add(wallet));
+            return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -97,9 +119,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByName(String name) {
-        String sql = "select * from customers WHERE name = :name";
+        String customerSql = "select * from customers WHERE name = :name";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Collections.singletonMap("name", name), customerRowMapper));
+            Customer customer = jdbcTemplate.queryForObject(customerSql,
+                    Collections.singletonMap("name", name), customerRowMapper);
+            List<VoucherWallet> wallets = jdbcTemplate.query(sqlWallet,
+                    Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()), WalletRowMapper);
+            wallets.forEach(wallet -> customer.getVoucherWallets().add(wallet));
+            return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -107,9 +134,14 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        String sql = "select * from customers WHERE email = :email";
+        String customerSql = "select * from customers WHERE email = :email";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, Collections.singletonMap("email", email), customerRowMapper));
+            Customer customer = jdbcTemplate.queryForObject(customerSql,
+                    Collections.singletonMap("email", email), customerRowMapper);
+            List<VoucherWallet> wallets = jdbcTemplate.query(sqlWallet,
+                    Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()), WalletRowMapper);
+            wallets.forEach(wallet -> customer.getVoucherWallets().add(wallet));
+            return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -1,6 +1,6 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.model.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -33,17 +33,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return storage.values().stream().toList();
     }
 
+
     @Override
-    public Voucher update(Voucher voucher) {
+    public Voucher usedUpdate(Voucher voucher) {
         return voucher;
     }
 
-    @Override
-    public List<Voucher> findByAssignedCustomer(UUID customerId) {
-        return storage.values()
-                .stream()
-                .filter(voucher -> voucher.getAssignedCustomerId() == customerId).toList();
-    }
 
     @Override
     public void deleteAll() {

@@ -1,15 +1,16 @@
 package com.program.commandLine.repository;
 
 import com.program.commandLine.CommandLineProgramApplication;
-import com.program.commandLine.voucher.Voucher;
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.VoucherType;
+import com.program.commandLine.model.voucher.Voucher;
+import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
 import java.util.List;
@@ -30,15 +31,15 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-    private final String voucherFilePath;
+    @Value("${voucher.file_repository.path}")
+    private String voucherFilePath;
 
-    public FileVoucherRepository(VoucherFactory voucherFactory, @Value("${voucher.file_repository.path}") String voucherFilePath) {
+    public FileVoucherRepository(VoucherFactory voucherFactory) {
         this.voucherFactory = voucherFactory;
-        this.voucherFilePath = voucherFilePath;
-        readVoucherFile();
     }
 
-    private void readVoucherFile(){
+    @PostConstruct
+    private void readVoucherFile() {
         voucherFile = new File(voucherFilePath);
         if (voucherFile.exists()) {
             try {
@@ -68,15 +69,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
+    public Voucher usedUpdate(Voucher voucher) {
         return voucher;
-    }
-
-    @Override
-    public List<Voucher> findByAssignedCustomer(UUID customerId) {
-        return storage.values()
-                .stream()
-                .filter(voucher -> voucher.getAssignedCustomerId() == customerId).toList();
     }
 
 
@@ -99,7 +93,7 @@ public class FileVoucherRepository implements VoucherRepository {
             UUID voucherId = UUID.fromString(readVoucher[0]);
             VoucherType voucherType = VoucherType.getType(readVoucher[1]);
             int voucherDiscount = Integer.parseInt(readVoucher[2]);
-            Voucher voucher = voucherFactory.createVoucher(voucherType,voucherId, voucherDiscount);
+            Voucher voucher = voucherFactory.createVoucher(voucherType, voucherId, voucherDiscount);
             storage.put(voucherId, voucher);
         }
         reader.close();

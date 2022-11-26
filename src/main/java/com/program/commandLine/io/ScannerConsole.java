@@ -1,10 +1,11 @@
 package com.program.commandLine.io;
 
-import com.program.commandLine.customer.Customer;
-import com.program.commandLine.voucher.Voucher;
+import com.program.commandLine.model.customer.Customer;
+import com.program.commandLine.model.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class ScannerConsole implements Console {
@@ -29,6 +30,13 @@ public class ScannerConsole implements Console {
     }
 
     @Override
+    public boolean recheckInput(String message) {
+        String answer = input.input(message);
+        return Recheck.get(answer);
+    }
+
+
+    @Override
     public void menuView(MenuType menuType) {
         output.menuView(menuType);
     }
@@ -45,7 +53,7 @@ public class ScannerConsole implements Console {
 
     @Override
     public void voucherListView(List<Voucher> vouchers) {
-        if (vouchers.size() == 0) {
+        if (vouchers.isEmpty()) {
             output.messageView("empty");
             return;
         }
@@ -54,7 +62,7 @@ public class ScannerConsole implements Console {
 
     @Override
     public void customerBlackListView(List<Customer> blackList) {
-        if (blackList.size() == 0) {
+        if (blackList.isEmpty()) {
             output.messageView("empty");
             return;
         }

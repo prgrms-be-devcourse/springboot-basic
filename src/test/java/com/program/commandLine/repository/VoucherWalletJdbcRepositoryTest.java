@@ -25,16 +25,18 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("release")
-class VoucherJdbcRepositoryTest {
+class VoucherWalletJdbcRepositoryTest {
+
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.program.commandLine.model.voucher", "com.program.commandLine.repository"}
+            basePackages = {"com.program.commandLine.model.voucher","com.program.commandLine.repository"}
     )
     static class Config {
 
@@ -55,13 +57,16 @@ class VoucherJdbcRepositoryTest {
     DataSource dataSource;
 
     @Autowired
-    VoucherJdbcRepository voucherJdbcRepository;
+    VoucherWalletJdbcRepository voucherWalletJdbcRepository;
 
     @Autowired
     CustomerJdbcRepository customerJdbcRepository;
 
+    @Autowired
+    VoucherJdbcRepository voucherJdbcRepository;
+
     Customer customer;
-    Voucher newVoucher;
+    Voucher voucher;
 
     EmbeddedMysql embeddedMysql;
 
@@ -77,8 +82,8 @@ class VoucherJdbcRepositoryTest {
                 .addSchema("test-voucher_mgmt", classPathScript("schema.sql"))
                 .start();
 
-        customer = customerJdbcRepository.insert(new RegularCustomer(UUID.randomUUID(), "test", "test@naver.com"));
-        newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000, false);
+        customer = customerJdbcRepository.insert(new RegularCustomer(UUID.randomUUID(),"test","test@naver.com"));
+        voucher = voucherJdbcRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 3000,  false));
     }
 
     @AfterAll
@@ -95,36 +100,51 @@ class VoucherJdbcRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("바우처을 추가할 수 있다.")
-    public void testInsert() {
+    @DisplayName("vocher를 할당할 수 있다.")
+    public void  testCreateWallet(){
+        voucherWalletJdbcRepository.createWallet(voucher.getVoucherId(),customer.getCustomerId());
 
-        voucherJdbcRepository.insert(newVoucher);
+        var findCustomer = customerJdbcRepository.findById(customer.getCustomerId());
+        assertThat(findCustomer.isPresent(),is(true));
+        var findWallet = findCustomer.get().getVoucherWallets();
+        assertThat(findWallet.isEmpty(),is(false));
+        assertThat(findWallet.get(0).voucherId(), is(voucher.getVoucherId()));
 
-        var retrievedCustomer = voucherJdbcRepository.findById(newVoucher.getVoucherId());
-        assertThat(retrievedCustomer.isEmpty(), is(false));
-        assertThat(retrievedCustomer.get(), samePropertyValuesAs(newVoucher));
     }
 
 
     @Test
     @Order(3)
-    @DisplayName("전체 바우처를 조회할 수 있다.")
-    public void testFindAll() {
-        var vouchers = voucherJdbcRepository.findAll();
-        assertThat(vouchers.isEmpty(), is(false));
-    }
+    @DisplayName("특정 vocher를 할당받은 고객을 찾을 수 있다.")
+    public void  testFindWalletByVoucher(){
+        var assignedCustomerId =voucherWalletJdbcRepository.findCustomerWalletByVoucher(voucher.getVoucherId());
 
+        assertThat(assignedCustomerId,notNullValue());
+        assertThat(assignedCustomerId,is(customer.getCustomerId()));
+    }
 
     @Test
-    @Order(6)
-    @DisplayName("바우처 정보를 변경할 수 있다.")
-    public void testUpdateVoucher() {
-        var beforeUsed = newVoucher.getUsed();
+    @Order(4)
+    @DisplayName("vocher를 회수할 수 있다.")
+    public void  testDeleteWallet(){
+        voucherWalletJdbcRepository.deleteWallet(voucher.getVoucherId());
 
-        newVoucher.used();
-        var changed = voucherJdbcRepository.usedUpdate(newVoucher);
-
-        assertThat(changed.getUsed(), not(beforeUsed));
+        var findCustomer = customerJdbcRepository.findById(customer.getCustomerId());
+        assertThat(findCustomer.isPresent(),is(true));
+        assertThat(findCustomer.get().getVoucherWallets().isEmpty(),is(true));
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("할당되지 않은 바우처를 얻을 수 있다.")
+    public void testFindByEmptyAssignedCustomer() {
+        var newVoucher = voucherJdbcRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 5500,  false));
+        var vouchers = voucherWalletJdbcRepository.findNotIncludeWallet();
+
+        assertThat(vouchers.isEmpty(),is(false));
+        assertThat(vouchers.size(),is(2));
+        assertThrows(IllegalArgumentException.class,()->voucherWalletJdbcRepository.findCustomerWalletByVoucher(vouchers.get(0).getVoucherId()));
+    }
+
 
 }

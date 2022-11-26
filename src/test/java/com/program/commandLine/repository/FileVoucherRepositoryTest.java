@@ -1,8 +1,8 @@
 package com.program.commandLine.repository;
 
-import com.program.commandLine.voucher.VoucherFactory;
-import com.program.commandLine.voucher.FixedAmountVoucher;
-import com.program.commandLine.voucher.VoucherType;
+import com.program.commandLine.model.voucher.FixedAmountVoucher;
+import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,9 +14,8 @@ import static org.hamcrest.Matchers.*;
 class FileVoucherRepositoryTest {
 
     // Given
-    private String path = "././file_voucher_repo/voucher_file_repository.txt";
     VoucherFactory voucherFactory = new VoucherFactory();
-    FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(voucherFactory, path);
+    FileVoucherRepository fileVoucherRepository = new FileVoucherRepository(voucherFactory);
 
 
     @DisplayName("올바른 id 조회시 voucher를 리턴한다.")
@@ -65,7 +64,7 @@ class FileVoucherRepositoryTest {
     @Test
     void testFindAll() {
         // Given
-        var newVoucher = new FixedAmountVoucher(UUID.randomUUID(),  3000);
+        var newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
         fileVoucherRepository.insert(newVoucher);
         // When
         var vouchers = fileVoucherRepository.findAll();
