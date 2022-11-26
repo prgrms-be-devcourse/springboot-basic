@@ -1,4 +1,4 @@
-package com.programmers.voucher.web.controller.voucher.dto;
+package com.programmers.voucher.web.voucher.dto;
 
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 

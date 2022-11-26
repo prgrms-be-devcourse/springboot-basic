@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.programmers.voucher.domain.voucher.model.Voucher;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
-import com.programmers.voucher.web.controller.voucher.dto.VoucherRequestDto;
-import com.programmers.voucher.web.controller.voucher.dto.VoucherResponseDto;
+import com.programmers.voucher.web.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.web.voucher.dto.VoucherResponseDto;
 
 @Service
 public class VoucherWebService {

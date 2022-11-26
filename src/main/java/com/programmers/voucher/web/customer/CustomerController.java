@@ -1,4 +1,4 @@
-package com.programmers.voucher.web.controller.customer;
+package com.programmers.voucher.web.customer;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.programmers.voucher.domain.customer.model.CustomerType;
 import com.programmers.voucher.domain.customer.service.CustomerWebService;
-import com.programmers.voucher.web.controller.customer.dto.CustomerRequestDto;
-import com.programmers.voucher.web.controller.customer.dto.CustomerResponseDto;
+import com.programmers.voucher.web.customer.dto.CustomerRequestDto;
+import com.programmers.voucher.web.customer.dto.CustomerResponseDto;
 
 @Controller
 @RequestMapping("/customer")

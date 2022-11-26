@@ -1,4 +1,4 @@
-package com.programmers.voucher.web.controller.customer.dto;
+package com.programmers.voucher.web.customer.dto;
 
 import com.programmers.voucher.domain.customer.model.CustomerType;
 

@@ -1,4 +1,4 @@
-package com.programmers.voucher.web.controller.voucher.dto;
+package com.programmers.voucher.web.voucher.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

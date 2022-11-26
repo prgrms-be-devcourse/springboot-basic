@@ -1,4 +1,4 @@
-package com.programmers.voucher.web.controller.voucher;
+package com.programmers.voucher.web.voucher;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.service.VoucherWebService;
-import com.programmers.voucher.web.controller.voucher.dto.VoucherRequestDto;
-import com.programmers.voucher.web.controller.voucher.dto.VoucherResponseDto;
+import com.programmers.voucher.web.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.web.voucher.dto.VoucherResponseDto;
 
 @Controller
 @RequestMapping("/voucher")
