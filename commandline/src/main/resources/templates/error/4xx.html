@@ -2,11 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>error</title>
+    <title>UserError</title>
 </head>
 <body>
+<div th:value="${errorMessage}">
+    <p th:value="${errorMessage}"></p>
+</div>
 
-CustomerError 페이지입니다.
 
 </body>
 </html>

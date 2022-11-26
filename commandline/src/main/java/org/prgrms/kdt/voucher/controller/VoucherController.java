@@ -1,20 +1,14 @@
 package org.prgrms.kdt.voucher.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.kdt.exception.voucher.VoucherUserException;
-import org.prgrms.kdt.exception.voucher.VoucherServerException;
-import org.prgrms.kdt.util.ControllerResult;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
-@Slf4j
 @Controller
 public class VoucherController {
 
@@ -68,19 +62,5 @@ public class VoucherController {
     public String updateVoucher(@PathVariable("voucherId") Long voucherId, @RequestParam("discountDegree") long discountDegree) {
         voucherService.updateVoucher(voucherId, discountDegree);
         return "redirect:/voucher/" + voucherId;
-    }
-
-    @ExceptionHandler()
-    public void userHandler(VoucherUserException userException, HttpServletResponse response) throws IOException {
-        log.error("[customerExceptionHandler] => {}", userException);
-
-        response.sendError(ControllerResult.USER_ERROR);
-    }
-
-
-    @ExceptionHandler
-    public void serverHandler(VoucherServerException serverException, HttpServletResponse response) throws IOException {
-        log.error("[customerExceptionHandler] => {}", serverException);
-        response.sendError(ControllerResult.SERVER_ERROR);
     }
 }
