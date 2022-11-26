@@ -29,10 +29,8 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}")
     public String voucher(@PathVariable long voucherId, Model model) {
-
-        Optional<Voucher> maybeVoucher = voucherExecutor.findVoucher(voucherId);
-
-        model.addAttribute("voucher", maybeVoucher.get());
+        Voucher voucher = voucherExecutor.findVoucher(voucherId);
+        model.addAttribute("voucher", voucher);
         return "app/voucher";
     }
 
