@@ -1,4 +1,4 @@
-package com.programmers.voucher.controller.dto;
+package com.programmers.voucher.controller.customer.dto;
 
 public record CustomerCreateRequest(String customerName, String email) {
 }

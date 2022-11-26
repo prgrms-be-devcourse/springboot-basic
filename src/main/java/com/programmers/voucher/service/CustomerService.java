@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.controller.dto.CustomerCreateRequest;
+import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.repository.customer.CustomerRepository;

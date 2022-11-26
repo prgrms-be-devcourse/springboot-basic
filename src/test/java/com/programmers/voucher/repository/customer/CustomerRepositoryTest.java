@@ -1,7 +1,7 @@
 package com.programmers.voucher.repository.customer;
 
 import com.programmers.voucher.MysqlTestContainer;
-import com.programmers.voucher.controller.dto.CustomerCreateRequest;
+import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;

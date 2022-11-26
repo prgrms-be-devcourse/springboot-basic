@@ -1,6 +1,6 @@
 package com.programmers.voucher.repository.customer;
 
-import com.programmers.voucher.controller.dto.CustomerCreateRequest;
+import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;

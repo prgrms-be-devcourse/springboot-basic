@@ -1,6 +1,6 @@
 package com.programmers.voucher.utils;
 
-import com.programmers.voucher.controller.dto.CustomerCreateRequest;
+import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.voucher.Voucher;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
