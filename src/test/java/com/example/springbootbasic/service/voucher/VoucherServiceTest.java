@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -23,6 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("csv")
 class VoucherServiceTest {
+
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
 
     @Autowired
     private VoucherService voucherService;
@@ -39,7 +44,7 @@ class VoucherServiceTest {
         // given
         int voucherSize = discountValues.size();
         for (int currVoucherIndex = 0; currVoucherIndex < voucherSize; currVoucherIndex++) {
-            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex));
+            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex), LocalDateTime.now(), startAt, endAt);
             voucherService.saveVoucher(voucher);
         }
 
@@ -57,7 +62,7 @@ class VoucherServiceTest {
         // given
         int voucherSize = discountValues.size();
         for (int currVoucherIndex = 0; currVoucherIndex < voucherSize; currVoucherIndex++) {
-            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex));
+            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex), LocalDateTime.now(), startAt, endAt);
             voucherService.saveVoucher(voucher);
         }
 
@@ -87,9 +92,9 @@ class VoucherServiceTest {
     @DisplayName("바우처 타입을 통해서 모든 바우처 검색에 성공한다.")
     void whenFindAllVoucherByVoucherTypeThenSuccessTest() {
         // given
-        Voucher voucher1 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(1000L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(40000L, FIXED_AMOUNT);
+        Voucher voucher1 = VoucherFactory.of(10L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(1000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher3 = VoucherFactory.of(40000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
 
         // when
         voucherService.saveVoucher(voucher1);

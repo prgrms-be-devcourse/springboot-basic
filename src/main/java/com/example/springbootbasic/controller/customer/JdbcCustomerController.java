@@ -14,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,7 +46,8 @@ public class JdbcCustomerController {
         Customer customer = new Customer(customerDto.getCustomerId(), customerDto.getStatus());
         List<Voucher> vouchers = customerDto.getVouchers()
                 .stream()
-                .map(voucherDto -> VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType()))
+                .map(voucherDto -> VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType(),
+                        LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30)))
                 .toList();
         try {
             vouchers.forEach(voucher -> customerService.saveVoucher(customer, voucher));

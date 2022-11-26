@@ -5,6 +5,7 @@ import com.example.springbootbasic.domain.voucher.VoucherType;
 import com.example.springbootbasic.repository.voucher.JdbcVoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,14 @@ public class JdbcVoucherService {
         return voucherRepository.findAllVouchersByVoucherType(voucherType);
     }
 
+    public List<Voucher> findVouchersBy(Long voucherId,
+                                        VoucherType voucherType,
+                                        LocalDateTime findStartAt,
+                                        LocalDateTime findEndAt
+    ) {
+        return voucherRepository.findVouchersBy(voucherId, voucherType, findStartAt, findEndAt);
+    }
+
     public Voucher findById(long voucherId) {
         return voucherRepository.findById(voucherId);
     }
@@ -43,7 +52,7 @@ public class JdbcVoucherService {
         voucherRepository.deleteVouchersByVoucherType(voucherType);
     }
 
-    public void deleteVoucherById(long voucherId) {
-        voucherRepository.deleteVoucherById(voucherId);
+    public boolean deleteVoucherById(long voucherId) {
+        return voucherRepository.deleteVoucherById(voucherId);
     }
 }

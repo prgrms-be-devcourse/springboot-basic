@@ -61,7 +61,7 @@ public class ViewCustomerController {
     }
 
     @GetMapping("/v1/customer-vouchers/{customerId}")
-    public String customerVoucherList(@PathVariable Long customerId, Model model) {
+    public String findCustomerVoucherList(@PathVariable Long customerId, Model model) {
         Customer findCustomer = customerService.findCustomerById(customerId);
         List<Voucher> findVouchers = customerService.findVouchersByCustomerId(customerId);
         findVouchers.forEach(findCustomer::receiveFrom);

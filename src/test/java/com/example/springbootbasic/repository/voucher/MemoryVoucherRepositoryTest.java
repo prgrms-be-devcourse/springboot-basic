@@ -8,6 +8,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -20,6 +22,9 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class MemoryVoucherRepositoryTest {
+
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
 
     private MemoryVoucherRepository voucherRepository;
 
@@ -38,7 +43,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("저장된 바우처 할인값, 바우처 타입 확인 성공")
     void whenSaveVoucherThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
-        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType, LocalDateTime.now(), startAt, endAt);
 
         // when
         Voucher savedVoucher = voucherRepository.save(voucher);
@@ -54,7 +59,7 @@ class MemoryVoucherRepositoryTest {
     void whenFindAllVouchersThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
         final int maxCount = 100;
-        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType, LocalDateTime.now(), startAt, endAt);
         for(int count = 0; count < maxCount; count++) {
             voucherRepository.save(voucher);
         }

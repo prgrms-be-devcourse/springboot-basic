@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class VoucherController {
         Long discountValue = voucherDto.getDiscountValue();
         VoucherType voucherType = voucherDto.getVoucherType();
         try {
-            Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
+            Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType,
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
             return ResponseBody.success(VoucherDto.newInstance(savedVoucher));
         } catch (NullPointerException e) {

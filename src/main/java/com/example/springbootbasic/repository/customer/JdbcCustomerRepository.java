@@ -54,13 +54,13 @@ public class JdbcCustomerRepository {
         return param;
     }
 
-    private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         long customerId = resultSet.getLong("customer_id");
         String customerStatus = resultSet.getString("customer_status");
         return new Customer(customerId, CustomerStatus.of(customerStatus));
     };
 
-    private RowMapper<Long> customerVoucherRowMapper = (resultSet, i) -> {
+    private final RowMapper<Long> customerVoucherRowMapper = (resultSet, i) -> {
         return resultSet.getLong("voucher_id");
     };
 
@@ -207,6 +207,5 @@ public class JdbcCustomerRepository {
             throw new IllegalArgumentException(CUSTOMER_STATUS_NULL_EXCEPTION.getMessage());
         }
     }
-
 
 }

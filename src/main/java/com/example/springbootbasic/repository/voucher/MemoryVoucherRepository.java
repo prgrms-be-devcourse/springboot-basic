@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public synchronized Voucher save(Voucher voucher) {
         try {
             Voucher generatedVoucher = VoucherFactory.of(
-                    ++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+                    ++sequence, voucher.getDiscountValue(), voucher.getVoucherType(),
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
             storage.put(generatedVoucher.getVoucherId(), generatedVoucher);
             return generatedVoucher;
         } catch (IllegalArgumentException e) {

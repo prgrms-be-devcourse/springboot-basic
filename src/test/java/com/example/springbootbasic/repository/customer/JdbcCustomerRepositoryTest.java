@@ -10,12 +10,16 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,15 +31,24 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@Transactional
 @ActiveProfiles("test")
+//@ContextConfiguration(classes = WebDemoApplication.class)
 class JdbcCustomerRepositoryTest {
+
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
 
     @Autowired
     private JdbcCustomerRepository customerRepository;
 
     @Autowired
     private JdbcVoucherRepository voucherRepository;
+
+//    private final DataSource dataSource;
+
+//    public JdbcCustomerRepositoryTest(DataSource dataSource) {
+//        this.dataSource = dataSource;
+//    }
 
     @BeforeAll
     static void setup() {
@@ -45,10 +58,20 @@ class JdbcCustomerRepositoryTest {
                 .withUser("test", "test1234!")
                 .withTimeZone("Asia/Seoul")
                 .build();
+
         EmbeddedMysql.anEmbeddedMysql(config)
                 .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
+
+//    @BeforeEach
+//    void setupEach() {
+//        customerRepository = new JdbcCustomerRepository(
+//                new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource)));
+//
+//        voucherRepository = new JdbcVoucherRepository(
+//                new NamedParameterJdbcTemplate(new JdbcTemplate(dataSource)));
+//    }
 
     @AfterEach
     void clear() {
@@ -165,8 +188,8 @@ class JdbcCustomerRepositoryTest {
     void whenCustomerSaveVoucherThenSuccessTest() {
         // given
         Customer customer = new Customer(0L, NORMAL);
-        Voucher fixedVoucher = VoucherFactory.of(10000L, FIXED_AMOUNT);
-        Voucher percentVoucher = VoucherFactory.of(10L, PERCENT_DISCOUNT);
+        Voucher fixedVoucher = VoucherFactory.of(10000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher percentVoucher = VoucherFactory.of(10L, PERCENT_DISCOUNT, LocalDateTime.now(), startAt, endAt);
 
         Customer savedCustomer = customerRepository.saveCustomer(customer);
         Voucher savedFixedVoucher = voucherRepository.save(fixedVoucher);
@@ -189,7 +212,7 @@ class JdbcCustomerRepositoryTest {
         Customer customer2 = new Customer(NORMAL);
         Customer customer3 = new Customer(NORMAL);
         Customer customer4 = new Customer(NORMAL);
-        Voucher fixedVoucher1 = VoucherFactory.of(1000L, FIXED_AMOUNT);
+        Voucher fixedVoucher1 = VoucherFactory.of(1000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
 
         Customer savedCustomer1 = customerRepository.saveCustomer(customer1);
         Customer savedCustomer2 = customerRepository.saveCustomer(customer2);
@@ -223,7 +246,7 @@ class JdbcCustomerRepositoryTest {
     void whenDeleteAllVouchersByCustomerIdThenSuccessTest() {
         // given
         Customer customer = new Customer(NORMAL);
-        Voucher fixedVoucher = VoucherFactory.of(1000L, FIXED_AMOUNT);
+        Voucher fixedVoucher = VoucherFactory.of(1000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
 
         Customer savedCustomer = customerRepository.saveCustomer(customer);
         Voucher savedFixedVoucher = voucherRepository.save(fixedVoucher);

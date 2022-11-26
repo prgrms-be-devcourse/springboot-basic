@@ -14,10 +14,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.springbootbasic.domain.voucher.VoucherType.*;
+import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 
 @Controller
 public class JdbcVoucherController {
@@ -34,7 +35,8 @@ public class JdbcVoucherController {
         Long discountValue = voucherDto.getDiscountValue();
         VoucherType voucherType = voucherDto.getVoucherType();
         try {
-            Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
+            Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType,
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
             Voucher savedVoucher = voucherService.saveVoucher(generatedVoucher);
             return ResponseBody.success(VoucherDto.newInstance(savedVoucher));
         } catch (DataAccessException e) {
@@ -75,7 +77,8 @@ public class JdbcVoucherController {
         VoucherDto voucherDto = request.getData();
         Voucher updatedVoucher;
         try {
-            Voucher toBeVoucher = VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType());
+            Voucher toBeVoucher = VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType(),
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
             updatedVoucher = voucherService.update(toBeVoucher);
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
@@ -90,7 +93,8 @@ public class JdbcVoucherController {
             findVoucher = voucherService.findById(request.getData());
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
-            Voucher emptyVoucher = VoucherFactory.of(request.getData(), 0L, FIXED_AMOUNT);
+            Voucher emptyVoucher = VoucherFactory.of(request.getData(), 0L, FIXED_AMOUNT,
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
             return ResponseBody.fail(VoucherDto.newInstance(emptyVoucher));
         }
         return ResponseBody.success(VoucherDto.newInstance(findVoucher));

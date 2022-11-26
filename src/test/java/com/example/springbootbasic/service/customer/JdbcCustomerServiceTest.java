@@ -9,11 +9,16 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 
 import static com.example.springbootbasic.domain.customer.CustomerStatus.BLACK;
@@ -26,6 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 class JdbcCustomerServiceTest {
+
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
 
     @Autowired
     private JdbcCustomerService customerService;
@@ -112,7 +120,7 @@ class JdbcCustomerServiceTest {
     @DisplayName("해당하는 바우처를 가지고 있는 모든 고객 검색에 성공한다.")
     void whenFindCustomersWhoHasSelectedVoucherThenSuccessTest() {
         // given
-        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
         Customer customer1 = new Customer(NORMAL);
         Customer customer2 = new Customer(NORMAL);
         Customer customer3 = new Customer(NORMAL);
@@ -141,8 +149,8 @@ class JdbcCustomerServiceTest {
     @DisplayName("고객 아이디를 통해 고객이 지닌 모든 바우처 검색을 성공한다.")
     void whenFindVoucherIdsByCustomerIdThenSuccessTest() {
         // given
-        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT);
+        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
         Customer customer = new Customer(NORMAL);
 
         // when
@@ -176,9 +184,9 @@ class JdbcCustomerServiceTest {
     @DisplayName("고객 아이디를 통해서 찾은 고객이 갖은 모든 바우처 삭제에 성공한다.")
     void whenDeleteAllVouchersByCustomerIdThenSuccessTest() {
         // given
-        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT);
+        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT, LocalDateTime.now(), startAt, endAt);
         Customer customer = new Customer(NORMAL);
 
         // when

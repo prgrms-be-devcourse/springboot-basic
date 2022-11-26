@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -53,7 +54,8 @@ public class ViewVoucherController {
     public String voucherAddForm(CreateVoucherRequest request) {
         long discountValue = request.discountValue();
         VoucherType voucherType = VoucherType.of(request.voucherType());
-        voucherService.saveVoucher(VoucherFactory.of(discountValue, voucherType));
+        voucherService.saveVoucher(VoucherFactory.of(discountValue, voucherType,
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30)));
         return "redirect:vouchers";
     }
 

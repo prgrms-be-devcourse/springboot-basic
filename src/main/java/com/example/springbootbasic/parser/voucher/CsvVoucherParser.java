@@ -6,6 +6,8 @@ import com.example.springbootbasic.domain.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
+
 import static com.example.springbootbasic.exception.ParserExceptionMessage.CSV_VOUCHER_PARSER_EXCEPTION;
 import static com.example.springbootbasic.util.CharacterUnit.ENTER;
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
@@ -28,7 +30,8 @@ public class CsvVoucherParser {
         long voucherId = Long.parseLong(inputVoucherId);
         VoucherType voucherType = VoucherType.of(inputVoucherType);
         long discountValue = Long.parseLong(inputDiscountValue);
-        return VoucherFactory.of(voucherId, discountValue, voucherType);
+        return VoucherFactory.of(voucherId, discountValue, voucherType,
+                LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
     }
 
     public String toCsvFrom(Voucher voucher) {

@@ -11,6 +11,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,12 +24,14 @@ import static org.hamcrest.Matchers.*;
 @ActiveProfiles("csv")
 class CsvVoucherRepositoryTest {
 
-    private final String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
-    private final String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
     private final CsvVoucherRepository voucherRepository;
 
 
     public CsvVoucherRepositoryTest() {
+        String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
+        String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
         this.voucherRepository = new CsvVoucherRepository(new CsvProperties(voucherCsvResource, customerCsvResource));
     }
 
@@ -41,7 +45,7 @@ class CsvVoucherRepositoryTest {
     @DisplayName("저장된 바우처 할인값, 바우처 타입 확인 성공")
     void whenSaveCsvVoucherThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
-        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType, LocalDateTime.now(), startAt, endAt);
 
         // when
         Voucher savedVoucher = voucherRepository.save(voucher);
@@ -57,7 +61,7 @@ class CsvVoucherRepositoryTest {
     void whenFindAllVouchersThenSuccessTest(long discountValue, VoucherType voucherType) {
         // given
         final int maxCount = 100;
-        Voucher voucher = VoucherFactory.of(discountValue, voucherType);
+        Voucher voucher = VoucherFactory.of(discountValue, voucherType, LocalDateTime.now(), startAt, endAt);
         for (int count = 0; count < maxCount; count++) {
             voucherRepository.save(voucher);
         }

@@ -14,11 +14,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
-import static com.example.springbootbasic.domain.voucher.VoucherType.of;
 import static com.example.springbootbasic.exception.voucher.JdbcVoucherRepositoryExceptionMessage.VOUCHER_TYPE_NULL_EXCEPTION;
 import static com.example.springbootbasic.repository.voucher.JdbcVoucherSql.*;
 
@@ -44,7 +44,16 @@ public class JdbcVoucherRepository {
         long voucherId = resultSet.getLong("voucher_id");
         long voucherDiscountValue = resultSet.getLong("voucher_discount_value");
         String voucherType = resultSet.getString("voucher_type");
-        return VoucherFactory.of(voucherId, voucherDiscountValue, of(voucherType));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime startAt = resultSet.getTimestamp("start_at").toLocalDateTime();
+        LocalDateTime endAt = resultSet.getTimestamp("end_at").toLocalDateTime();
+        return VoucherFactory.of(
+                voucherId,
+                voucherDiscountValue,
+                VoucherType.of(voucherType),
+                createdAt,
+                startAt,
+                endAt);
     };
 
     public Voucher save(Voucher voucher) {
@@ -54,7 +63,7 @@ public class JdbcVoucherRepository {
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }
-        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
+        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType(), LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
     }
 
     public List<Voucher> findAllVouchers() {
@@ -98,8 +107,39 @@ public class JdbcVoucherRepository {
                     Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
-            return VoucherFactory.of(0L, 1L, FIXED_AMOUNT);
+            return VoucherFactory.of(0L, 1L, FIXED_AMOUNT,
+                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
         }
+    }
+
+    public List<Voucher> findVouchersBy(Long voucherId,
+                                        VoucherType voucherType,
+                                        LocalDateTime findStartAt,
+                                        LocalDateTime findEndAt
+    ) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        String sql = "SELECT * FROM VOUCHER WHERE 1=1 ";
+        if (voucherId != null) {
+            sql += "AND voucher_id = :voucherId ";
+            paramSource.addValue("voucherId", voucherId);
+        }
+        if (voucherType != null) {
+            sql += "AND voucher_type = :voucherType ";
+            paramSource.addValue("voucherType", voucherType.getVoucherType());
+        }
+
+        if (findStartAt != null && findEndAt != null) {
+            sql += "AND created_at BETWEEN :findStartAt AND :findEndAt";
+            paramSource.addValue("findStartAt", findStartAt)
+                    .addValue("findEndAt", findEndAt);
+        }
+
+        try {
+            return jdbcTemplate.query(sql, paramSource, voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Fail - {}", e.getMessage());
+        }
+        return Collections.emptyList();
     }
 
     public void deleteAllVouchers() {
@@ -119,11 +159,13 @@ public class JdbcVoucherRepository {
         }
     }
 
-    public void deleteVoucherById(long voucherId) {
+    public boolean deleteVoucherById(long voucherId) {
         try {
-            jdbcTemplate.update(DELETE_VOUCHER_BY_ID.getSql(), Collections.singletonMap("voucherId", voucherId));
+            int update = jdbcTemplate.update(DELETE_VOUCHER_BY_ID.getSql(), Collections.singletonMap("voucherId", voucherId));
+            return update == 1;
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
+            return false;
         }
     }
 }

@@ -8,7 +8,10 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -16,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -26,6 +31,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 class JdbcVoucherServiceTest {
+
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
 
     @Autowired
     private JdbcVoucherService voucherService;
@@ -55,7 +63,7 @@ class JdbcVoucherServiceTest {
         // given
         int voucherSize = discountValues.size();
         for (int currVoucherIndex = 0; currVoucherIndex < voucherSize; currVoucherIndex++) {
-            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex));
+            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex), LocalDateTime.now(), startAt, endAt);
             voucherService.saveVoucher(voucher);
         }
 
@@ -73,7 +81,7 @@ class JdbcVoucherServiceTest {
         // given
         int voucherSize = discountValues.size();
         for (int currVoucherIndex = 0; currVoucherIndex < voucherSize; currVoucherIndex++) {
-            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex));
+            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex), LocalDateTime.now(), startAt, endAt);
             voucherService.saveVoucher(voucher);
         }
 
@@ -103,10 +111,10 @@ class JdbcVoucherServiceTest {
     @DisplayName("바우처 타입을 이용해서 같은 타입의 모든 바우처 검색에 성공한다.")
     void whenFindAllVoucherByVoucherTypeThenSuccessTest() {
         // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher4 = VoucherFactory.of(1000L, FIXED_AMOUNT);
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher4 = VoucherFactory.of(1000L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
 
         // when
         voucherService.saveVoucher(voucher1);
@@ -123,7 +131,7 @@ class JdbcVoucherServiceTest {
     @DisplayName("바우처 아이디를 이용해서 저장된 바우처 검색에 성공한다.")
     void whenFindVoucherByIdThenSuccessTest() {
         // given
-        Voucher voucher = VoucherFactory.of(12345L, FIXED_AMOUNT);
+        Voucher voucher = VoucherFactory.of(12345L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
         Voucher savedVoucher = voucherService.saveVoucher(voucher);
 
         // when
@@ -138,10 +146,10 @@ class JdbcVoucherServiceTest {
     @DisplayName("기존에 저장된 바우처 수정에 성공한다.")
     void whenUpdateVoucherThenSuccessTest() {
         // given
-        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
         Voucher savedVoucher = voucherService.saveVoucher(voucher);
         Voucher goingToUpdateVoucher =
-                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT, LocalDateTime.now(), startAt, endAt);
 
         // when
         Voucher updatedVoucher = voucherService.update(goingToUpdateVoucher);
@@ -154,9 +162,9 @@ class JdbcVoucherServiceTest {
     @DisplayName("모든 바우처 삭제에 성공한다.")
     void whenDeleteAllVouchersThenSuccessTest() {
         // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT);
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT, LocalDateTime.now(), startAt, endAt);
         voucherService.saveVoucher(voucher1);
         voucherService.saveVoucher(voucher2);
         voucherService.saveVoucher(voucher3);
@@ -173,9 +181,9 @@ class JdbcVoucherServiceTest {
     @DisplayName("입력된 바우처 타입과 같은 모든 바우처 타입 삭제에 성공한다.")
     void deleteVouchersByVoucherType() {
         // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
+        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
+        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT, LocalDateTime.now(), startAt, endAt);
 
         // when
         voucherService.saveVoucher(voucher1);

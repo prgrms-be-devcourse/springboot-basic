@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static com.example.springbootbasic.util.CharacterUnit.SPACE;
+import static java.time.LocalDateTime.now;
 
 @Component
 public class ConsoleInput {
@@ -39,7 +40,7 @@ public class ConsoleInput {
             String[] voucherPieces = br.readLine().split(SPACE.unit());
             VoucherType voucherType = VoucherType.of(voucherPieces[VOUCHER_TYPE_INDEX]);
             long discountValue = Long.parseLong(voucherPieces[VOUCHER_DISCOUNT_VALUE_INDEX]);
-            return RequestBody.success(new VoucherDto(discountValue, voucherType));
+            return RequestBody.success(new VoucherDto(discountValue, voucherType, now()));
         } catch (IOException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return RequestBody.fail(voucherDto);

@@ -4,7 +4,6 @@ import com.example.springbootbasic.config.CsvProperties;
 import com.example.springbootbasic.domain.customer.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -13,16 +12,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
-@ActiveProfiles("csv")
 class CsvCustomerRepositoryTest {
 
-    private final String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
-    private final String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
     private final CsvCustomerRepository customerRepository;
-    private final CsvProperties appConfiguration;
 
     public CsvCustomerRepositoryTest() {
-        this.appConfiguration = new CsvProperties(voucherCsvResource, customerCsvResource);
+        String voucherCsvResource = "src/test/resources/csv/voucher/voucher.csv";
+        String customerCsvResource = "src/test/resources/csv/customer/customer_blacklist.csv";
+        CsvProperties appConfiguration = new CsvProperties(voucherCsvResource, customerCsvResource);
         this.customerRepository = new CsvCustomerRepository(appConfiguration);
     }
 

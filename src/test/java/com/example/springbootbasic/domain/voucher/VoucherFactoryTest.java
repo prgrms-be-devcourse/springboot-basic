@@ -5,6 +5,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
@@ -14,11 +16,14 @@ import static org.hamcrest.Matchers.is;
 
 class VoucherFactoryTest {
 
+    private final LocalDateTime startAt = LocalDateTime.of(2022, Month.OCTOBER, 25, 0, 0);
+    private final LocalDateTime endAt = LocalDateTime.of(2022, Month.DECEMBER, 25, 0, 0);
+
     @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")
     @MethodSource("whenGenerateVoucherThenSuccessDummy")
     @DisplayName("바우처 타입과 할인 금액을 이용한 바우처 생성 성공")
     void whenGenerateVoucherThenSuccessTest(Long discountValue, VoucherType voucherType) {
-        Voucher generateVoucher = VoucherFactory.of(discountValue, voucherType);
+        Voucher generateVoucher = VoucherFactory.of(discountValue, voucherType, LocalDateTime.now(), startAt, endAt);
         assertThat(generateVoucher.getVoucherType(), is(voucherType));
     }
 
