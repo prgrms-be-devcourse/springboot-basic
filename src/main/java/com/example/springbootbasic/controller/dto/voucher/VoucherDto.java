@@ -1,4 +1,4 @@
-package com.example.springbootbasic.dto.voucher;
+package com.example.springbootbasic.controller.dto.voucher;
 
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherType;
@@ -7,22 +7,12 @@ import java.time.LocalDateTime;
 
 public class VoucherDto {
 
-    private Long voucherId;
-    private Long discountValue;
-    private VoucherType voucherType;
-    private LocalDateTime createdAt;
-    private LocalDateTime startAt;
-    private LocalDateTime endAt;
-
-    public VoucherDto() {
-    }
-
-    public VoucherDto(Long discountValue, VoucherType voucherType, LocalDateTime createdAt) {
-        this.discountValue = discountValue;
-        this.voucherType = voucherType;
-        this.createdAt = createdAt;
-
-    }
+    private final Long voucherId;
+    private final Long discountValue;
+    private final VoucherType voucherType;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime startAt;
+    private final LocalDateTime endAt;
 
     public VoucherDto(Long voucherId,
                       Long discountValue,

@@ -1,10 +1,10 @@
 package com.example.springbootbasic.controller.voucher;
 
+import com.example.springbootbasic.controller.dto.voucher.VoucherDto;
 import com.example.springbootbasic.controller.request.CreateVoucherRequest;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
-import com.example.springbootbasic.dto.voucher.VoucherDto;
 import com.example.springbootbasic.service.voucher.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,10 +1,10 @@
 package com.example.springbootbasic.controller.customer;
 
+import com.example.springbootbasic.controller.dto.customer.CustomerDto;
 import com.example.springbootbasic.controller.request.CreateCustomerRequest;
 import com.example.springbootbasic.controller.response.ResponseBody;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
-import com.example.springbootbasic.dto.customer.CustomerDto;
 import com.example.springbootbasic.service.customer.JdbcCustomerService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

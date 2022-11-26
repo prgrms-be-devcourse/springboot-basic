@@ -1,11 +1,11 @@
 package com.example.springbootbasic.controller.customer;
 
+import com.example.springbootbasic.controller.dto.customer.CustomerDto;
+import com.example.springbootbasic.controller.dto.voucher.VoucherDto;
 import com.example.springbootbasic.controller.request.CreateCustomerRequest;
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.customer.CustomerStatus;
 import com.example.springbootbasic.domain.voucher.Voucher;
-import com.example.springbootbasic.dto.customer.CustomerDto;
-import com.example.springbootbasic.dto.voucher.VoucherDto;
 import com.example.springbootbasic.service.customer.JdbcCustomerService;
 import com.example.springbootbasic.service.voucher.JdbcVoucherService;
 import org.springframework.stereotype.Controller;
