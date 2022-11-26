@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container" style="max-width: 550px">
+    <div class="py-5 text-center">
+        <h2>고객 삭제</h2>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-secondary float-start"
+                    onclick="location.href='customerHome.html.html'"
+                    th:onclick="|location.href='@{/customer}'|"
+                    type="button">고객 홈
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>고객 ID</th>
+                <th>고객 타입</th>
+                <th>생성 시간</th>
+                <th>최종 수정 시간</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer:${customers}" th:object="${customer}">
+                <td>
+                    <form th:action="@{/customer/delete/{customerId}(customerId=*{customerId})}" th:method="delete">
+                        <button th:text="*{customerId}" type="submit"></button>
+                    </form>
+                </td>
+                <td th:text="*{customerType}">고객 타입</td>
+                <td th:text="*{createdAt}">생성 시간</td>
+                <td th:text="*{lastModifiedAt}">최종 수정 시간</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

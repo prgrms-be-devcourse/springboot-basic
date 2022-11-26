@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 550px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>고객 정보</h2>
+    </div>
+
+    <div>
+        <label>고객 ID</label>
+        <input type="text" class="form-control" th:value="${customer.customerId}" readonly>
+    </div>
+    <div>
+        <label>고객 타입</label>
+        <input type="text" class="form-control" th:value="${customer.customerType}" readonly>
+    </div>
+    <div>
+        <label>생성 시간</label>
+        <input type="text" class="form-control" th:value="${customer.createdAt}" readonly>
+    </div>
+    <div>
+        <label>최종 수정 시간</label>
+        <input type="text" class="form-control" th:value="${customer.lastModifiedAt}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="col my-5">
+        <button class="w-100 btn btn-primary btn-lg"
+                onclick="location.href='editForm.html'"
+                th:onclick="|location.href='@{/customer/{customerId}/edit(customerId=${customer.customerId})}'|"
+                type="button">고객 수정
+        </button>
+    </div>
+
+    <div class="col my-5">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='customers.html'"
+                th:onclick="|location.href='@{/customer/all}'|"
+                type="button">고객 목록
+        </button>
+    </div>
+</div>
+</body>
+</html>
