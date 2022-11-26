@@ -10,7 +10,9 @@ public class CreateVoucherRequest {
 
     public CreateVoucherRequest(String requestVoucherInfo) {
         String[] request = requestVoucherInfo.split(":");
-        if (request.length < 2) throw new InvalidRequestException();
+        if (request.length != 2) {
+            throw new InvalidRequestException();
+        }
         this.voucherType = VoucherType.getVoucherTypeByCode(request[0]);
         this.discountAmount = Double.parseDouble(request[1]);
     }

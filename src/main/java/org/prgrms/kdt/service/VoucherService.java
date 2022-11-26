@@ -6,6 +6,7 @@ import org.prgrms.kdt.service.dto.CreateVoucherDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VoucherService {
@@ -17,10 +18,11 @@ public class VoucherService {
 
     public boolean createVoucher(CreateVoucherDto createVoucherDto) {
         Voucher newVoucher = new Voucher(createVoucherDto.voucherType(), createVoucherDto.discountAmount());
-        return voucherRepository.save(newVoucher);
+        Optional<Voucher> returnedVoucher = voucherRepository.saveVoucher(newVoucher);
+        return returnedVoucher.isPresent();
     }
 
     public List<Voucher> getAllVouchers() {
-        return voucherRepository.getAll();
+        return voucherRepository.getAllVouchers();
     }
 }

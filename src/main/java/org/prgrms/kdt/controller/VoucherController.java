@@ -17,12 +17,12 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public boolean create(CreateVoucherRequest createVoucherRequest) {
+    public boolean createVoucher(CreateVoucherRequest createVoucherRequest) {
         CreateVoucherDto createVoucherDto = new CreateVoucherDto(createVoucherRequest.getVoucherType(), createVoucherRequest.getDiscountAmount());
         return voucherService.createVoucher(createVoucherDto);
     }
 
-    public List<VoucherResponse> list() {
+    public List<VoucherResponse> getAllVouchers() {
         List<Voucher> vouchers = voucherService.getAllVouchers();
         return vouchers.stream().map(VoucherResponse::new).toList();
     }
