@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 550px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>바우처 생성</h2>
+    </div>
+
+    <form action="voucher.html" th:action="@{/voucher/add}" th:object="${voucher}" method="post">
+        <div>
+            <label>바우처 타입</label>
+            <select class="form-select" th:field="*{voucherType}">
+                <option value="">바우처 타입을 선택하세요.</option>
+                <option th:each="voucherType:${voucherTypes}"
+                        th:value="${voucherType}"
+                        th:text="${voucherType}">
+                    FIXED
+                </option>
+            </select>
+        </div>
+        <div>
+            <label>할인량</label>
+            <input type="text" id="discount" th:field="*{discount}"
+                   class="form-control" placeholder="할인량을 입력하세요">
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">바우처 생성</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='voucherHome.html'"
+                        th:onclick="|location.href='@{/voucher}'|"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

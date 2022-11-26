@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css}"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 550px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 정보</h2>
+    </div>
+
+    <div>
+        <label>바우처 ID</label>
+        <input type="text" class="form-control" th:value="${voucher.voucherId}" readonly>
+    </div>
+    <div>
+        <label>바우처 타입</label>
+        <input type="text" class="form-control" th:value="${voucher.voucherType}" readonly>
+    </div>
+    <div>
+        <label>할인량</label>
+        <input type="text" class="form-control" th:value="${voucher.discount}" readonly>
+    </div>
+    <div>
+        <label>생성 시간</label>
+        <input type="text" class="form-control" th:value="${voucher.createdAt}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="col my-5">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='vouchers.html'"
+                th:onclick="|location.href='@{/voucher/all}'|"
+                type="button">바우처 목록
+        </button>
+    </div>
+
+    <div class="col my-5">
+        <form th:action="@{/voucher/delete/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
+            <button class="w-100 btn btn-secondary btn-lg" type="submit">바우처 삭제</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
