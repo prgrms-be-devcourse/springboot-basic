@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,13 +18,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("jdbc")
 class VoucherNamedJdbcRepositoryTest {
 
     private final String dbUrl = "jdbc:mysql://localhost/voucherApplication";
     private final String dbUser = "root";
     private final String dbPassword = "root1234!";
     private final MyDataSource myDataSource = new MyDataSource(dbUrl, dbUser, dbPassword);
-    private VoucherNamedJdbcRepository voucherNamedJdbcRepository = new VoucherNamedJdbcRepository(myDataSource.getDataSource());
+    private VoucherNamedJdbcRepository voucherNamedJdbcRepository = new VoucherNamedJdbcRepository(myDataSource);
 
     @BeforeEach
     void setup() {

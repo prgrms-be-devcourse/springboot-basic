@@ -30,7 +30,7 @@ public enum Menu {
     }
 
     private static int toCode(String input) {
-        Verification.validateParseToInt(input);
+        Verification.validateParseToNumber(input);
         return Integer.parseInt(input);
     }
 }

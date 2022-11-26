@@ -1,5 +1,7 @@
 package com.programmers.commandline.domain.voucher.entity;
 
+import com.programmers.commandline.domain.voucher.dto.VoucherInsetRequestDto;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,6 +16,13 @@ public abstract class Voucher {
         this.type = type.toString();
         this.discount = discount;
         this.createdAt = createdAt.toString();
+    }
+
+    protected Voucher(VoucherInsetRequestDto requestDto) {
+        this.id = UUID.randomUUID().toString();
+        this.type = VoucherType.valueOf(requestDto.type()).toString();
+        this.discount = requestDto.discount();
+        this.createdAt = LocalDateTime.now().toString();
     }
 
     public String getCreatedAt() {

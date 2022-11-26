@@ -2,6 +2,7 @@ package com.programmers.commandline.domain.consumer.repository.impl;
 
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
+import com.programmers.commandline.global.config.MyDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -12,7 +13,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -32,8 +32,8 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
 
-    public ConsumerNamedJdbcRepository(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public ConsumerNamedJdbcRepository(MyDataSource myDataSource) {
+        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(myDataSource.getDataSource());
     }
 
     private Map<String, Object> toParamMap(Consumer consumer) {

@@ -23,7 +23,7 @@ class VoucherServiceUnitTest {
     private VoucherRepository voucherRepositoryMock = mock(VoucherRepository.class);
     private VoucherService voucherService = new VoucherService(voucherRepositoryMock);
     private UUID id;
-    private VoucherType type;
+    private String type;
     private long discount;
     private Voucher voucher;
     private LocalDateTime createdAt;
@@ -31,10 +31,10 @@ class VoucherServiceUnitTest {
     @BeforeAll
     void setup() {
         this.id = UUID.randomUUID();
-        this.type = VoucherType.FIXED_AMOUNT;
+        this.type = VoucherType.FIXED_AMOUNT.toString();
         this.discount = 100L;
         this.createdAt = LocalDateTime.now();
-        this.voucher = type.createVoucher(id, discount, createdAt);
+        this.voucher = VoucherType.valueOf(type).createVoucher(id, discount, createdAt);
     }
 
     @Test
@@ -43,7 +43,7 @@ class VoucherServiceUnitTest {
         //given
         //when
         when(voucherRepositoryMock.insert(any())).thenReturn(voucher);
-        String insert = voucherService.insert(type, discount);
+        String insert = voucherService.insert(String.valueOf(type), discount);
 
         //then
         verify(voucherRepositoryMock, times(1)).insert(any());
@@ -57,7 +57,7 @@ class VoucherServiceUnitTest {
         vouchers.add(voucher);
         //when
         when(voucherRepositoryMock.findAll()).thenReturn(vouchers);
-        String findAllVouchers = voucherService.findAll();
+        List<Voucher> findAllVouchers = voucherService.findAll();
 
         //then
         verify(voucherRepositoryMock, times(1)).findAll();

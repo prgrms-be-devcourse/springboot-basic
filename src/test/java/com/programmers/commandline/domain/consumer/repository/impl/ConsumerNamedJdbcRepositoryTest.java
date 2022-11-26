@@ -26,7 +26,7 @@ class ConsumerNamedJdbcRepositoryTest {
     private final String dbPassword = "root1234!";
     private final MyDataSource myDataSource = new MyDataSource(dbUrl, dbUser, dbPassword);
 
-    private ConsumerNamedJdbcRepository consumerNamedJdbcRepository = new ConsumerNamedJdbcRepository(myDataSource.getDataSource());
+    private ConsumerNamedJdbcRepository consumerNamedJdbcRepository = new ConsumerNamedJdbcRepository(myDataSource);
 
     @BeforeEach
     void setup() {

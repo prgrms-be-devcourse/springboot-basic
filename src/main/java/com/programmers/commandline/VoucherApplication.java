@@ -1,6 +1,7 @@
 package com.programmers.commandline;
 
 import com.programmers.commandline.domain.consumer.service.ConsumerService;
+import com.programmers.commandline.domain.voucher.entity.Voucher;
 import com.programmers.commandline.domain.voucher.entity.VoucherType;
 import com.programmers.commandline.domain.voucher.service.VoucherService;
 import com.programmers.commandline.global.aop.LogAspect;
@@ -10,6 +11,7 @@ import com.programmers.commandline.global.io.Console;
 import com.programmers.commandline.global.io.Message;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -44,7 +46,7 @@ public class VoucherApplication {
             case EXIT -> exit();
             case VOUCHER_CREATE -> create();
             case VOUCHER_LIST -> findVouchers();
-            case BLACK_CONSUMER_LIST -> findConsumers();
+            case BLACK_CONSUMER_LIST -> findVouchers();
             case CONSUMER -> insertConsumer();
         }
     }
@@ -74,19 +76,17 @@ public class VoucherApplication {
         console.print(voucherType.getMessage());
 
         String discount = console.readNumber();
-        String uuid = voucherService.insert(voucherType, Long.parseLong(discount));
+        String uuid = voucherService.insert(String.valueOf(voucherType), Long.parseLong(discount));
 
         console.print(uuid);
     }
 
-    private void findConsumers() {
-        String consumers = consumerService.findAll();
-        console.print(consumers);
-    }
-
     private void findVouchers() {
-        String vouchers = voucherService.findAll();
-        console.print(vouchers);
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Voucher> vouchers = voucherService.findAll();
+        vouchers.forEach(voucher -> stringBuilder.append(voucher.toString()));
+
+        console.print(stringBuilder.toString());
     }
 
 

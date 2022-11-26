@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,15 +26,8 @@ public class ConsumerService {
         return consumerRepository.insert(consumer).getId();
     }
 
-    public String findAll() {
-        StringBuilder consumers = new StringBuilder();
-
-        consumerRepository.findAll().forEach(consumer -> {
-            consumers.append(consumer.getId());
-            consumers.append(consumer.getName());
-        });
-
-        return consumers.toString();
+    public List<Consumer> findAll() {
+        return consumerRepository.findAll();
     }
 
     public String update(String consumerId, String name, String email) {
@@ -70,5 +64,10 @@ public class ConsumerService {
 
     public void deleteAll() {
         consumerRepository.deleteAll();
+    }
+
+    public String insert(String name, String email) {
+        Consumer consumer = new Consumer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+        return consumerRepository.insert(consumer).getId();
     }
 }

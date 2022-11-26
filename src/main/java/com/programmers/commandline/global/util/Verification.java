@@ -9,11 +9,10 @@ public class Verification {
     private Verification() {
     }
 
-    public static final void validateParseToInt(String input) {
+    public static final void validateParseToNumber(String input) {
         Pattern numberPattern = Pattern.compile("^[0-9]*$");
         if (!numberPattern.matcher(input).matches()) {
             throw new IllegalArgumentException(Message.VALIDATE_PARSE_TO_NUMBER_ERROR.getMessage());
         }
     }
-
 }
