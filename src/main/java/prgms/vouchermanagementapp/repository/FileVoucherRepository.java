@@ -46,7 +46,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucher(UUID voucherId, long fixedDiscountLevel) {
+    public void updateDiscountLevel(UUID voucherId, long fixedDiscountLevel) {
         throw new UnsupportedOperationException("FileVoucherRepository doesn't support updateVoucher()");
     }
 

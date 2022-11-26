@@ -29,7 +29,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucher(UUID voucherId, long fixedDiscountLevel) {
+    public void updateDiscountLevel(UUID voucherId, long fixedDiscountLevel) {
         throw new UnsupportedOperationException("MemoryVoucherRepository doesn't support updateVoucher()");
     }
 

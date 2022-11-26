@@ -8,6 +8,8 @@ create table customer
     unique (customer_name)
 );
 
+drop table if exists voucher CASCADE;
+
 create table voucher
 (
     voucher_id        varchar(50),
@@ -15,4 +17,4 @@ create table voucher
     discount_level    bigint,
     created_date_time timestamp,
     primary key (voucher_id)
-);
+)

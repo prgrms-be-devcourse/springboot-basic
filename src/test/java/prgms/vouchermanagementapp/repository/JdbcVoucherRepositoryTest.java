@@ -51,4 +51,22 @@ class JdbcVoucherRepositoryTest {
         UUID expected = savedVoucher.getVoucherId();
         assertThat(actual).isEqualTo(expected);
     }
+
+    @DisplayName("바우처의 할인 정도(금액 또는 비율)를 수정할 수 있다.")
+    @Test
+    void updateDiscountLevel() {
+        // given
+        Voucher savedVoucher = VoucherFactory.createVoucher(new Ratio(100L));
+        jdbcVoucherRepository.save(savedVoucher);
+        long expectedDiscountLevel = 0L;
+
+        // when
+        jdbcVoucherRepository.updateDiscountLevel(savedVoucher.getVoucherId(), expectedDiscountLevel);
+
+        // then
+        long actualDiscountLevel = jdbcVoucherRepository.findById(savedVoucher.getVoucherId())
+                .get()
+                .getDiscountLevel();
+        assertThat(actualDiscountLevel).isEqualTo(expectedDiscountLevel);
+    }
 }

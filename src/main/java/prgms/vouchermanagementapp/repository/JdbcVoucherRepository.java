@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -70,9 +71,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateVoucher(UUID voucherId, long fixedDiscountLevel) {
-        // TODO: 업데이트 기능 추가
-        throw new UnsupportedOperationException();
+    public void updateDiscountLevel(UUID voucherId, long discountLevel) {
+        String sql = "update voucher " +
+                "set discount_level=:discountLevel " +
+                "where voucher_id=:voucherId";
+
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("voucherId", voucherId.toString())
+                .addValue("discountLevel", discountLevel);
+
+        template.update(sql, parameterSource);
     }
 
     public void deleteAll() {
