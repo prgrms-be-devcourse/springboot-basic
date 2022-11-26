@@ -1,4 +1,4 @@
-package org.prgrms.springorder.controller;
+package org.prgrms.springorder.controller.customer;
 
 import java.util.List;
 

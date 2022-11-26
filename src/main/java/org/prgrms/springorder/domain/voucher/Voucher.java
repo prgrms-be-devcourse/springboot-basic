@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import org.prgrms.springorder.controller.dto.VoucherResponseDto;
+
 public abstract class Voucher {
 
 	private final UUID voucherId;
@@ -44,6 +46,14 @@ public abstract class Voucher {
 	public void editVoucherValue(double value) {
 		this.value = value;
 		this.updatedAt = LocalDateTime.now();
+	}
+
+	public VoucherResponseDto toVoucherResponseDto() {
+		return new VoucherResponseDto(this.getVoucherId()
+			, this.getValue()
+			, this.voucherCreatedAt
+			, this.updatedAt
+			, this.getVoucherType());
 	}
 
 	@Override

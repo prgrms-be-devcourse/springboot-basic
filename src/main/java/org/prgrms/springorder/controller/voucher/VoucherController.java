@@ -1,9 +1,10 @@
-package org.prgrms.springorder.controller;
+package org.prgrms.springorder.controller.voucher;
 
 import java.util.List;
 
+import org.prgrms.springorder.controller.dto.VoucherResponseDto;
 import org.prgrms.springorder.domain.voucher.VoucherType;
-import org.prgrms.springorder.service.VoucherService;
+import org.prgrms.springorder.service.voucher.VoucherService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +20,7 @@ public class VoucherController {
 		voucherService.createVoucher(voucherType,value);
 	}
 
-	public List<String> getVoucherList() {
+	public List<VoucherResponseDto> getVoucherList() {
 		return voucherService.getList();
 	}
 

@@ -5,7 +5,12 @@ import static org.prgrms.springorder.domain.customer.CustomerType.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.prgrms.springorder.controller.customer.CustomerController;
+import org.prgrms.springorder.controller.dto.VoucherResponseDto;
+import org.prgrms.springorder.controller.voucher.VoucherController;
+import org.prgrms.springorder.controller.wallet.WalletController;
 import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.voucher.VoucherType;
@@ -60,12 +65,14 @@ public class CommandLineApp {
 				Customer customer = new Customer(customerId,name,email, LocalDateTime.now(), NORMAL);
 				customerController.createCustomer(customer);
 			}
-			case LIST -> io.writeList(voucherController.getVoucherList());
+			case LIST -> io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
+				Collectors.toList()));
 			case BLACK_LIST -> io.writeList(customerController.getBlackList());
 			case ALLOCATE -> {
 				io.writeList(customerController.getCustomerList());
 				UUID customerId = UUID.fromString(io.read(CUSTOMER_ID_MESSAGE));
-				io.writeList(voucherController.getVoucherList());
+				io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
+					Collectors.toList()));
 				UUID voucherId = UUID.fromString(io.read(VOUCHER_ID_MESSAGE));
 				walletController.allocateVoucher(customerId, voucherId);
 			}
@@ -84,7 +91,8 @@ public class CommandLineApp {
 			}
 
 			case SEARCH ->{
-				io.writeList(voucherController.getVoucherList());
+				io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
+					Collectors.toList()));
 				UUID voucherId = UUID.fromString(io.read(VOUCHER_ID_MESSAGE));
 				io.write(walletController.findByVoucherId(voucherId).toString());
 

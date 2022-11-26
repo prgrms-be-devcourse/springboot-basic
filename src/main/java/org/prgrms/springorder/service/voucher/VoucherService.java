@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.prgrms.springorder.controller.dto.VoucherResponseDto;
 import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.VoucherFactory;
 import org.prgrms.springorder.domain.voucher.Voucher;
@@ -27,12 +28,14 @@ public class VoucherService {
 		voucherRepository.save(voucher);
 	}
 
-	public List<String> getList() {
-		return voucherRepository.findAll().stream().map(Voucher::toString).collect(Collectors.toList());
+	public List<VoucherResponseDto> getList() {
+		return voucherRepository.findAll().stream().map(Voucher::toVoucherResponseDto).collect(Collectors.toList());
 	}
 
-	public Voucher findById(UUID uuid) {
-		return voucherRepository.findById(uuid).orElseThrow(() -> new NoSuchVoucherException(ErrorMessage.NO_SUCH_VOUCHER_MESSAGE));
+	public VoucherResponseDto findById(UUID uuid) {
+		return voucherRepository.findById(uuid)
+			.orElseThrow(() -> new NoSuchVoucherException(ErrorMessage.NO_SUCH_VOUCHER_MESSAGE))
+			.toVoucherResponseDto();
 	}
 
 	public void deleteById(UUID uuid) {
