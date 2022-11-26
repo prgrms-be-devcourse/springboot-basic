@@ -69,7 +69,7 @@ public class VoucherController {
 		return "voucher/deleteForm";
 	}
 
-	@DeleteMapping("/delete/{voucherId}")
+	@DeleteMapping("/{voucherId}")
 	public String removeVoucher(@PathVariable UUID voucherId) {
 		voucherWebService.removeVoucher(voucherId);
 		return "redirect:/voucher/delete";

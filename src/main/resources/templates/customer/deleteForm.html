@@ -36,7 +36,7 @@
             <tbody>
             <tr th:each="customer:${customers}" th:object="${customer}">
                 <td>
-                    <form th:action="@{/customer/delete/{customerId}(customerId=*{customerId})}" th:method="delete">
+                    <form th:action="@{/customer/{customerId}(customerId=*{customerId})}" th:method="delete">
                         <button th:text="*{customerId}" type="submit"></button>
                     </form>
                 </td>

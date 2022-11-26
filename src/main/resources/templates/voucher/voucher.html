@@ -44,7 +44,7 @@
     </div>
 
     <div class="col my-5">
-        <form th:action="@{/voucher/delete/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
+        <form th:action="@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
             <button class="w-100 btn btn-secondary btn-lg" type="submit">바우처 삭제</button>
         </form>
     </div>

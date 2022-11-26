@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +57,7 @@ public class CustomerController {
 		return "customer/editForm";
 	}
 
-	@PostMapping("/{customerId}/edit")
+	@PatchMapping("/{customerId}")
 	public String editCustomer(@PathVariable UUID customerId,
 		@ModelAttribute("customer") CustomerRequestDto customerRequestDto, RedirectAttributes redirectAttributes) {
 		customerWebService.modifyCustomer(customerId, customerRequestDto);
@@ -92,7 +93,7 @@ public class CustomerController {
 		return "customer/deleteForm";
 	}
 
-	@DeleteMapping("/delete/{customerId}")
+	@DeleteMapping("/{customerId}")
 	public String removeCustomer(@PathVariable UUID customerId) {
 		customerWebService.removeCustomer(customerId);
 		return "redirect:/customer/delete";

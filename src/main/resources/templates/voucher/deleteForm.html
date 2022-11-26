@@ -36,7 +36,7 @@
             <tbody>
             <tr th:each="voucher:${vouchers}" th:object="${voucher}">
                 <td>
-                    <form th:action="@{/voucher/delete/{voucherId}(voucherId=*{voucherId})}" th:method="delete">
+                    <form th:action="@{/voucher/{voucherId}(voucherId=*{voucherId})}" th:method="delete">
                         <button th:text="*{voucherId}" type="submit"></button>
                     </form>
                 </td>

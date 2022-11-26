@@ -18,8 +18,8 @@
         <h2>고객 수정</h2>
     </div>
 
-    <form action="customer.html" th:action="@{/customer/{customerId}/edit(customerId=${customer.customerId})}"
-          th:object="${customer}" method="post">
+    <form action="customer.html" th:action="@{/customer/{customerId}(customerId=${customer.customerId})}"
+          th:object="${customer}" th:method="patch">
         <div>
             <div>
                 <label>고객 ID</label>
