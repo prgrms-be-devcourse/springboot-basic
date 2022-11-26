@@ -120,9 +120,10 @@
 
 ## 리팩터링
 
-- JdbcVoucherRepository 인터페이스 적용. 기존 레포 변경
-- 테스트코드 트랜잭션 적용
-- 바우처 테이블 변경: 통합 엔티티 -> 각 바우처 엔티티
+- [x] JdbcVoucherRepository 인터페이스 적용.
+    - [x] 기존 MemoryVoucherRepository, FileVoucherRepository 리팩터링
+- [ ] 테스트코드 트랜잭션 적용
+- [ ] 바우처 테이블 변경: 통합 엔티티 -> 각 바우처 엔티티
 
 ## **(기본) 바우처 서비스 관리페이지 개발하기**
 
