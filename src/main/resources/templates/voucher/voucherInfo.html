@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<main>
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    </div>
+</main>
+
+<div class="container">
+    <div>
+        <td th:text="'바우처 ID : ' + ${voucher.voucherId}"></td>
+    </div>
+    <div>
+        <td th:text="'바우처 값 : '+ ${voucher.value}"></td>
+    </div>
+
+    <div class="col-auto">
+        <form id="delete-form" th:action="@{'/voucher/' + ${voucher.voucherId}}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button id="delete-btn" type="submit" class="btn btn-danger">삭제</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

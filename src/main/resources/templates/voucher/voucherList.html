@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body data-new-gr-c-s-check-loaded="14.1087.0" data-gr-ext-installed="">
+
+<main>
+
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    </div>
+
+</main>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>바우처 ID</th>
+            <th>바우처 타입</th>
+            <th>할인</th>
+            <th>생성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${voucherList}">
+            <td>
+                <a th:href="@{/voucher/{id} (id=${voucher.voucherId})}">
+                    <span th:text="${voucher.voucherId}"></span>
+                </a>
+            </td>
+            <td th:text="${voucher.voucherType}"></td>
+            <td th:text="${voucher.value}"></td>
+            <td th:text="${voucher.voucherCreatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="#" th:href="@{/voucher}" class="btn btn-primary" role="button">바우처 만들기</a>
+
+</div>
+
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+

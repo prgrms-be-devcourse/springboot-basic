@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+
+<body>
+<main>
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    </div>
+</main>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <form th:action="@{/voucher}" method="post">
+                <div class="form-group">
+                    <label th:for="value">바우처 값</label>
+                    <input type="text" id="value" name="value" class="form-control" placeholder="값을 입력하세요">
+                </div>
+                <div class="form-group">
+                    <label th:for="voucherType">바우처 타입</label>
+                    <input type="text" id="voucherType" name="voucherType" class="form-control"
+                           placeholder="바우처 타입을 입력하세요">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">생성</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

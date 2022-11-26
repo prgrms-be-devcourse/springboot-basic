@@ -5,24 +5,20 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @ConfigurationPropertiesScan("org.prgrms.springorder.properties")
 @SpringBootApplication
-public class SpringorderApplication implements CommandLineRunner {
-
-	private final CommandLineApp commandLineApp;
-
-	public SpringorderApplication(CommandLineApp voucherController) {
-		this.commandLineApp = voucherController;
-	}
+public class SpringorderApplication  {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SpringorderApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		commandLineApp.run();
+	@Bean
+	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
+		return new HiddenHttpMethodFilter();
 	}
 }
 
