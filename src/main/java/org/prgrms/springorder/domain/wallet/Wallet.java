@@ -1,6 +1,7 @@
 package org.prgrms.springorder.domain.wallet;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.customer.Customer;
@@ -32,7 +33,22 @@ public class Wallet {
 		return customer;
 	}
 
-	public LocalDateTime getCreatedAt() {
+	public LocalDateTime getWalletCreatedAt() {
 		return walletCreatedAt;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Wallet wallet = (Wallet)o;
+		return Objects.equals(getWalletId(), wallet.getWalletId());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getWalletId());
 	}
 }

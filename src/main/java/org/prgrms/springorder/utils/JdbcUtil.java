@@ -84,7 +84,7 @@ public class JdbcUtil {
 		paramMap.put("walletId", wallet.getWalletId().toString());
 		paramMap.put("customerId", wallet.getCustomer().getCustomerId().toString());
 		paramMap.put("voucherId", wallet.getVoucher().getVoucherId().toString());
-		paramMap.put("walletCreatedAt", Timestamp.valueOf(wallet.getCreatedAt()));
+		paramMap.put("walletCreatedAt", Timestamp.valueOf(wallet.getWalletCreatedAt()));
 		return paramMap;
 	}
 
