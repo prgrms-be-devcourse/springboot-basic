@@ -9,7 +9,7 @@
 
 </head>
 <body>
-<form method="POST">
+<form th:method="put" th:action="@{/voucher}">
     <div class="container">
         <h1>Taehee's Voucher Program</h1>
         <h2>바우처 상세</h2>
@@ -24,10 +24,7 @@
 
     <div class="container">
         <label class="form-label">바우처 타입</label><br/>
-        <select class="form-control" id="voucherType" name="type">
-            <option th:selected="${voucher.class.simpleName} == 'FixedAmountVoucher'" value="1">FixedAmountVoucher</option>
-            <option th:selected="${voucher.class.simpleName} == 'PercentDiscountVoucher'" value="2">PercentDiscountVoucher</option>
-        </select>
+        <input class="form-control" id="voucherName" name="voucherName" th:field="${voucher.class.simpleName}" th:readonly="true">
     </div>
     <br/>
 

@@ -1,6 +1,7 @@
 package com.programmers.voucher.service;
 
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
+import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
@@ -46,9 +47,10 @@ public class VoucherService {
                 .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString()));
     }
 
-    public Voucher update(UUID voucherId, long discountValue) {
+    public Voucher update(VoucherUpdateRequest voucherUpdateRequest) {
+        UUID voucherId = voucherUpdateRequest.voucherId();
         Voucher voucher = findById(voucherId);
-        voucher.setDiscountValue(discountValue);
+        voucher.setDiscountValue(voucherUpdateRequest.discountValue());
         voucherRepository.update(voucher);
         return findById(voucherId);
     }
