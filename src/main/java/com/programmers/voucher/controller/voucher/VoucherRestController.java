@@ -29,6 +29,12 @@ public class VoucherRestController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("vouchers/{email}")
+    public ResponseEntity<Void> deleteByCustomer(@PathVariable String email) {
+        voucherService.deleteByCustomer(email);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("voucher")
     public ResponseEntity<Voucher> assign(VoucherAssignRequest voucherAssignRequest) {
         Voucher assigned = voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());

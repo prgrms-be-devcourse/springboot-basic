@@ -25,5 +25,10 @@ public class CustomerService {
         return customerRepository.findByVoucher(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_OR_NOT_ASSIGN_VOUCHER.toString()));
     }
+
+    public Customer findByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString()));
+    }
 }
 

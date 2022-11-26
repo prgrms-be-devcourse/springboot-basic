@@ -34,6 +34,12 @@
     </div>
     <br/>
 
+    <div class="container" th:unless="${customer == null}">
+        <label class="form-label">할당받은 사용자</label><br/>
+        <input class="form-control" id="customerName" name="customerName" th:field="${customer.customerName}" th:readonly="true">
+    </div>
+    <br/>
+
     <div class="container">
         <button class="btn btn-primary" type="button" onclick="history.back(-1)">확인</button>
         <button class="btn btn-primary" type="submit">수정</button>

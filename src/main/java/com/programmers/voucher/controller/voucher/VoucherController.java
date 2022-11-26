@@ -3,7 +3,9 @@ package com.programmers.voucher.controller.voucher;
 import com.programmers.voucher.controller.voucher.dto.VoucherAssignRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
+import com.programmers.voucher.service.CustomerService;
 import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +19,11 @@ import java.util.UUID;
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final CustomerService customerService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
+        this.customerService = customerService;
     }
 
     @GetMapping
@@ -49,13 +53,21 @@ public class VoucherController {
     public String findById(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
+        try {
+            Customer customer = customerService.findByVoucher(voucherId);
+            model.addAttribute("customer", customer);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("customer", null);
+        }
         return "voucher/voucher_detail";
     }
 
     @GetMapping("vouchers/{email}")
     public String findAllByCustomer(@PathVariable String email, Model model) {
         List<Voucher> vouchers = voucherService.findAllByCustomer(email);
+        Customer customer = customerService.findByEmail(email);
         model.addAttribute("vouchers", vouchers);
+        model.addAttribute("customer", customer);
         return "voucher/voucher_list";
     }
 
