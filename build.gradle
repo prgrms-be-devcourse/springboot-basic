@@ -1,0 +1,26 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'java'
+}
+
+group = 'com.programmers'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '2.7.5'
+	implementation 'mysql:mysql-connector-java'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.assertj:assertj-core:3.21.0'
+	testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
