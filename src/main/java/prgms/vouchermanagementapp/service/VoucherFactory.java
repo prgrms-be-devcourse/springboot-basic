@@ -6,6 +6,9 @@ import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class VoucherFactory {
@@ -15,11 +18,13 @@ public class VoucherFactory {
 
     public static Voucher createVoucher(Amount fixedDiscountAmount) {
         UUID voucherId = UUID.randomUUID();
-        return new FixedAmountVoucher(voucherId, fixedDiscountAmount);
+        LocalDateTime createdDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+        return new FixedAmountVoucher(voucherId, fixedDiscountAmount, createdDateTime);
     }
 
     public static Voucher createVoucher(Ratio fixedDiscountRatio) {
         UUID voucherId = UUID.randomUUID();
-        return new PercentDiscountVoucher(voucherId, fixedDiscountRatio);
+        LocalDateTime createdDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+        return new PercentDiscountVoucher(voucherId, fixedDiscountRatio, createdDateTime);
     }
 }

@@ -9,7 +9,11 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    long getFixedDiscountLevel();
+    long getDiscountLevel();
+
+    default String getVoucherType() {
+        return this.getClass().getSimpleName();
+    }
 
     LocalDateTime getCreatedDateTime();
 }

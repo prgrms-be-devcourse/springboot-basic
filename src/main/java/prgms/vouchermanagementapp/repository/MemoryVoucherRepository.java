@@ -4,10 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.domain.Voucher;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -27,13 +24,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         throw new UnsupportedOperationException("MemoryVoucherRepository doesn't support findById()");
-    }
-
-    @Override
-    public List<Voucher> findAllByCustomerName() {
-        throw new UnsupportedOperationException("MemoryVoucherRepository doesn't support findAllByCustomerName()");
     }
 
     @Override

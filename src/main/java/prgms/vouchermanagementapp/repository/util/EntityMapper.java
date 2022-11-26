@@ -19,11 +19,11 @@ public class EntityMapper {
 
     private static VoucherEntity createVoucherEntity(Voucher voucher, String uuid, String voucherType, String customerName) {
         if (voucher instanceof FixedAmountVoucher) {
-            Long amount = ((FixedAmountVoucher) voucher).getFixedDiscountLevel();
+            Long amount = ((FixedAmountVoucher) voucher).getDiscountLevel();
             return new VoucherEntity(uuid, voucherType, amount, 0L, customerName);
         }
         if (voucher instanceof PercentDiscountVoucher) {
-            Long ratio = ((PercentDiscountVoucher) voucher).getFixedDiscountLevel();
+            Long ratio = ((PercentDiscountVoucher) voucher).getDiscountLevel();
             return new VoucherEntity(uuid, voucherType, 0L, ratio, customerName);
         }
 

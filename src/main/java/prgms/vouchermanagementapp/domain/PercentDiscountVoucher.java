@@ -3,8 +3,6 @@ package prgms.vouchermanagementapp.domain;
 import prgms.vouchermanagementapp.domain.value.Ratio;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -13,10 +11,10 @@ public class PercentDiscountVoucher implements Voucher {
     private final Ratio fixedDiscountRatio;
     private final LocalDateTime createdDateTime;
 
-    public PercentDiscountVoucher(UUID voucherId, Ratio fixedDiscountRatio) {
+    public PercentDiscountVoucher(UUID voucherId, Ratio fixedDiscountRatio, LocalDateTime createdDateTime) {
         this.voucherId = voucherId;
         this.fixedDiscountRatio = fixedDiscountRatio;
-        this.createdDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
+        this.createdDateTime = createdDateTime;
     }
 
     @Override
@@ -30,7 +28,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long getFixedDiscountLevel() {
+    public long getDiscountLevel() {
         return this.fixedDiscountRatio.getFixedDiscountLevel();
     }
 

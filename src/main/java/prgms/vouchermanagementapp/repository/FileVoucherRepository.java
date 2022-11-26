@@ -9,6 +9,7 @@ import prgms.vouchermanagementapp.repository.util.VoucherContentConverter;
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -40,13 +41,8 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         throw new UnsupportedOperationException("FileVoucherRepository doesn't support findById()");
-    }
-
-    @Override
-    public List<Voucher> findAllByCustomerName() {
-        throw new UnsupportedOperationException("FileVoucherRepository doesn't support findAllByCustomerName()");
     }
 
     @Override

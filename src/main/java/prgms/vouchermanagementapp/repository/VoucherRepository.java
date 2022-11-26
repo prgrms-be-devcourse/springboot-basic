@@ -3,17 +3,16 @@ package prgms.vouchermanagementapp.repository;
 import prgms.vouchermanagementapp.domain.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
 
     void save(Voucher voucher);
 
-    List<Voucher> findById(UUID voucherId);
-
     List<Voucher> findAll();
 
-    List<Voucher> findAllByCustomerName();
+    Optional<Voucher> findById(UUID voucherId);
 
     void updateVoucher(UUID voucherId, long fixedDiscountLevel);
 
