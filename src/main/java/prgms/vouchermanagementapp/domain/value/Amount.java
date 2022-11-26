@@ -3,7 +3,7 @@ package prgms.vouchermanagementapp.domain.value;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-public class Amount {
+public class Amount implements FixedDiscountLevel {
 
     private final long amount;
 
@@ -16,7 +16,8 @@ public class Amount {
         this.amount = amount;
     }
 
-    public long getAmount() {
+    @Override
+    public long getFixedDiscountLevel() {
         return this.amount;
     }
 
@@ -33,3 +34,4 @@ public class Amount {
         return Objects.hash(amount);
     }
 }
+

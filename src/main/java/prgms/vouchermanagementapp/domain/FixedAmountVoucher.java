@@ -22,7 +22,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long amountBeforeDiscount) {
-        long discountAmount = this.fixedDiscountAmount.getAmount();
+        long discountAmount = this.fixedDiscountAmount.getFixedDiscountLevel();
         if (amountBeforeDiscount < discountAmount) {
             throw new IllegalStateException(
                     MessageFormat.format("amount({0}) should be greater than discount amount({1}).",
@@ -36,6 +36,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long getFixedDiscountLevel() {
-        return this.fixedDiscountAmount.getAmount();
+        return this.fixedDiscountAmount.getFixedDiscountLevel();
     }
 }

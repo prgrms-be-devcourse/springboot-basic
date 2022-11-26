@@ -22,11 +22,11 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long amountBeforeDiscount) {
-        return amountBeforeDiscount - (amountBeforeDiscount * (fixedDiscountRatio.getRatio() / 100));
+        return amountBeforeDiscount - (amountBeforeDiscount * (fixedDiscountRatio.getFixedDiscountLevel() / 100));
     }
 
     @Override
     public long getFixedDiscountLevel() {
-        return this.fixedDiscountRatio.getRatio();
+        return this.fixedDiscountRatio.getFixedDiscountLevel();
     }
 }
