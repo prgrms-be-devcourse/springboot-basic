@@ -19,12 +19,16 @@ public class VoucherService {
 
     public void createVoucher(Amount fixedDiscountAmount) {
         Voucher fixedAmountVoucher = VoucherFactory.createVoucher(fixedDiscountAmount);
-        voucherRepository.save(fixedAmountVoucher);
+        save(fixedAmountVoucher);
     }
 
     public void createVoucher(Ratio fixedDiscountRatio) {
         Voucher percentDiscountVoucher = VoucherFactory.createVoucher(fixedDiscountRatio);
-        voucherRepository.save(percentDiscountVoucher);
+        save(percentDiscountVoucher);
+    }
+
+    public void save(Voucher voucher) {
+        voucherRepository.save(voucher);
     }
 
     public List<Voucher> findAllVouchers() {

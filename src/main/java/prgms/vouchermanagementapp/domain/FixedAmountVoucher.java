@@ -3,16 +3,21 @@ package prgms.vouchermanagementapp.domain;
 import prgms.vouchermanagementapp.domain.value.Amount;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final Amount fixedDiscountAmount;
+    private final LocalDateTime createdDateTime;
 
     public FixedAmountVoucher(UUID voucherId, Amount fixedDiscountAmount) {
         this.voucherId = voucherId;
         this.fixedDiscountAmount = fixedDiscountAmount;
+        this.createdDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toLocalDateTime();
     }
 
     @Override
@@ -37,5 +42,10 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long getFixedDiscountLevel() {
         return this.fixedDiscountAmount.getFixedDiscountLevel();
+    }
+
+    @Override
+    public LocalDateTime getCreatedDateTime() {
+        return this.createdDateTime;
     }
 }
