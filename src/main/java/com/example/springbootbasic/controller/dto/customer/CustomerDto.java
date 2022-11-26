@@ -34,4 +34,12 @@ public class CustomerDto {
     public boolean isEmpty() {
         return  customerId == null || customerId == 0 || status == null;
     }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public CustomerStatus getStatus() {
+        return status;
+    }
 }

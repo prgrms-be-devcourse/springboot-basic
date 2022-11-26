@@ -58,6 +58,10 @@ public class VoucherDto {
         return endAt;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
     public boolean isEmpty() {
         return voucherId == 0L || voucherType == null;
     }
