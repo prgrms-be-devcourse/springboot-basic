@@ -18,7 +18,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final FileConfig fileConfig;
     private final FileManager fileManager;
-    private static final String filepath = "src/main/resources/data/voucher_records.csv";
 
     public FileVoucherRepository(FileConfig fileConfig, FileManager fileManager) {
         this.fileConfig = fileConfig;
