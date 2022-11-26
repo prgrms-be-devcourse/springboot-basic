@@ -22,4 +22,6 @@ public interface VoucherRepository {
     void deleteByEmail(String email);
 
     void assign(Voucher voucher);
+
+    void deleteById(UUID voucherId);
 }

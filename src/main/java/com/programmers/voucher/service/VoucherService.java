@@ -1,6 +1,6 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.controller.dto.VoucherCreateRequest;
+import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.io.Message;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
@@ -71,5 +71,9 @@ public class VoucherService {
 
     public void deleteByCustomer(String email) {
         voucherRepository.deleteByEmail(email);
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

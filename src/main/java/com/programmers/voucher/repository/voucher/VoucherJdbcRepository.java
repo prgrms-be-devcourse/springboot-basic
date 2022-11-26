@@ -39,6 +39,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             DELETE vouchers FROM vouchers 
             LEFT JOIN customers ON customers.customer_id = vouchers.customer_id 
             WHERE customers.email = :email""";
+    private static final String deleteByIdSql = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String assignSql = """
             UPDATE vouchers SET customer_id = :customerId 
             WHERE voucher_id = UUID_TO_BIN(:voucherId)""";
@@ -102,6 +103,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
         int result = jdbcTemplate.update(deleteByEmailSql, toEmailMap(email));
         if (result != 1) {
             throw new IllegalArgumentException(Message.NOT_EXIST_CUSTOMER.toString());
+        }
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        int result = jdbcTemplate.update(deleteByIdSql, toVoucherIdMap(voucherId));
+        if (result != 1) {
+            throw new IllegalArgumentException(Message.NOT_EXIST_VOUCHER.toString());
         }
     }
 

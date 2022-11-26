@@ -1,6 +1,6 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.controller.voucher;
 
-import com.programmers.voucher.controller.dto.VoucherCreateRequest;
+import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -15,11 +15,11 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/")
-public class VoucherWebController {
+public class VoucherController {
 
     private final VoucherService voucherService;
 
-    public VoucherWebController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
@@ -59,5 +59,4 @@ public class VoucherWebController {
         model.addAttribute("vouchers", vouchers);
         return "voucher/voucher_list";
     }
-
 }

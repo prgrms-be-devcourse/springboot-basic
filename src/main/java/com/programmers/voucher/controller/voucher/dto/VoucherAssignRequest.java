@@ -1,4 +1,4 @@
-package com.programmers.voucher.controller.dto;
+package com.programmers.voucher.controller.voucher.dto;
 
 import java.util.UUID;
 
