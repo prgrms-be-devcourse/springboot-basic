@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.io.Serializable;
 import java.util.*;
 
 import static org.prgrms.kdt.customer.utils.CustomerSql.*;
@@ -34,9 +35,9 @@ public class JdbcCustomerManager implements CustomerManager {
         );
     }
 
-    public JdbcCustomerManager(NamedParameterJdbcTemplate namedParameterJdbcTemplate, DataSource dataSource) {
+    public JdbcCustomerManager(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+        this.simpleJdbcInsert = new SimpleJdbcInsert(namedParameterJdbcTemplate.getJdbcTemplate())
                 .withTableName("customers")
                 .usingGeneratedKeyColumns("customer_id");
     }

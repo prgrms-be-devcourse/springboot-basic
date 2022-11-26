@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class VoucherExecutor {
@@ -27,5 +28,13 @@ public class VoucherExecutor {
 
     public List<Voucher> list() {
         return voucherManager.findAll();
+    }
+
+    public Optional<Voucher> findVoucher(Long voucherId) {
+        return voucherManager.findById(voucherId);
+    }
+
+    public void deleteVoucher(long voucherId) {
+        voucherManager.deleteById(voucherId);
     }
 }

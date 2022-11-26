@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container" style="max-width: 1000px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/app/vouchers/add}'|" type="button">바우처 등록</button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead class="">
+                <tr>
+                    <th>ID</th>
+                    <th>타입</th>
+                    <th>값</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="voucher : ${vouchers}">
+                    <td><a href="voucher.html" th:href="@{/app/vouchers/{voucherId} (voucherId=${voucher.id})}"
+                           th:text="${voucher.id}">바우처 id</a></td>
+                    <td th:text="${voucher.type}">NONE</td>
+                    <td th:text="${voucher.amount.value}">0</td>
+                    <td></td>
+                    <td>
+                        <form action="#" th:method="post" th:action="@{'/app/vouchers/{voucherId}/delete' (voucherId=${voucher.id})}">
+                            <button type="submit" class="btn bg-light btn-sm" onclick="btn()"><img src="../image/trash.svg"></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+<script>
+    function btn(){
+        alert('바우처가 삭제되었습니다.');
+    }
+</script>
+</html>
