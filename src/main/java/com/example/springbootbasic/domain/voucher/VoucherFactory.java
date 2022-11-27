@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
+import static com.example.springbootbasic.exception.voucher.VoucherFactoryExceptionMessage.VOUCHER_FACTORY_EXCEPTION_MESSAGE;
 
 public class VoucherFactory {
 
@@ -23,7 +24,7 @@ public class VoucherFactory {
         if (voucherType == PERCENT_DISCOUNT) {
             return new PercentDiscountVoucher(voucherId, discountValue, createdAt, startAt, endAt);
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(VOUCHER_FACTORY_EXCEPTION_MESSAGE.getMessage());
     }
 
     public static Voucher of(long discountValue,
@@ -38,6 +39,6 @@ public class VoucherFactory {
         if (voucherType == PERCENT_DISCOUNT) {
             return new PercentDiscountVoucher(discountValue, createdAt, startAt, endAt);
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException(VOUCHER_FACTORY_EXCEPTION_MESSAGE.getMessage());
     }
 }
