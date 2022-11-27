@@ -40,10 +40,25 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-primary btn-lg" onclick="location.href='editForm.html'" type="button">바우처 수정</button>
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/{voucherId}/edit(voucherId=${voucher.voucherId})}'|"
+                    type="button">바우처 수정
+            </button>
         </div>
         <div class="col">
-            <button class="w-100 btn btn-secondary btn-lg" onclick="location.href='vouchers.html'" type="button">목록으로</button>
+            <button class="w-100 btn btn-danger btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
+                    type="button">바우처 삭제
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='voucherList.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList}'|"
+                    type="button">목록으로
+            </button>
         </div>
     </div>
 </div> <!-- /container -->

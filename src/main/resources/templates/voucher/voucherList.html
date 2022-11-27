@@ -38,8 +38,8 @@
             <tbody>
             <tr th:each="voucher: ${vouchers}">
                 <td>
-                    <a href="voucher.html"
-                       th:href="@{/voucher/vouchers/{voucherId}(voucherId=${voucher.voucherId})}"
+                    <a href="voucherDetail.html"
+                       th:href="@{/voucher/voucherList/{voucherId}(voucherId=${voucher.voucherId})}"
                        th:text="${voucher.voucherId}">1</a>
                 </td>
                 <td><a th:text="${voucher.voucherType}">FixedAmountVoucher</a></td>
