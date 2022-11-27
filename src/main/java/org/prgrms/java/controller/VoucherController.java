@@ -1,6 +1,5 @@
 package org.prgrms.java.controller;
 
-import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.CreateVoucherRequest;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.domain.voucher.VoucherDto;
@@ -50,17 +49,11 @@ public class VoucherController {
     @PostMapping("/api/v1/vouchers")
     @ResponseBody
     public Voucher createCustomer(@RequestBody CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = Mapper.mapToVoucher(
-                createVoucherRequest.getType(),
-                UUID.randomUUID(),
+        return voucherService.saveVoucher(
                 createVoucherRequest.getOwnerId(),
+                createVoucherRequest.getType(),
                 createVoucherRequest.getAmount(),
-                LocalDateTime.now(),
-                createVoucherRequest.getExpiredAt(),
-                false
-        );
-
-        return voucherService.saveVoucher(voucher);
+                createVoucherRequest.getExpiredAt());
     }
 
     @DeleteMapping("/api/v1/vouchers/{voucherId}")
@@ -91,30 +84,18 @@ public class VoucherController {
 
     @PostMapping("/voucher")
     public String createVoucher(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = Mapper.mapToVoucher(
-                createVoucherRequest.getType(),
-                UUID.randomUUID(),
+        voucherService.saveVoucher(
                 createVoucherRequest.getOwnerId(),
+                createVoucherRequest.getType(),
                 createVoucherRequest.getAmount(),
-                LocalDateTime.now(),
-                createVoucherRequest.getExpiredAt(),
-                false
-        );
-
-        voucherService.saveVoucher(voucher);
+                createVoucherRequest.getExpiredAt());
 
         return "redirect:/voucher";
     }
 
     @PutMapping("/voucher")
     public String putVoucher(VoucherDto voucherDto) {
-        Voucher voucher = voucherService.getVoucher(voucherDto.getVoucherId());
-
-        voucher.setOwnerId(voucherDto.getOwnerId());
-        voucher.setExpiredAt(voucherDto.getExpiredAt());
-        voucher.setUsed(voucherDto.isUsed());
-
-        voucherService.updateVoucher(voucher);
+        voucherService.updateVoucher(voucherDto.getVoucherId(), voucherDto.getOwnerId(), voucherDto.getExpiredAt(), voucherDto.isUsed());
 
         return "redirect:/voucher";
     }
@@ -125,9 +106,8 @@ public class VoucherController {
         return "redirect:/voucher";
     }
 
-    public Voucher createVoucher(long amount, String type, LocalDateTime createdAt, LocalDateTime expiredAt) {
-        Voucher voucher = Mapper.mapToVoucher(type, UUID.randomUUID(), null, amount, createdAt, expiredAt, false);
-        return voucherService.saveVoucher(voucher);
+    public Voucher createVoucher(long amount, String type, LocalDateTime expiredAt) {
+        return voucherService.saveVoucher(null, type, amount, expiredAt);
     }
 
     public Voucher findVoucherById(UUID voucherId) {
@@ -143,27 +123,19 @@ public class VoucherController {
     }
 
     public Voucher updateVoucher(UUID voucherId, UUID ownerId, LocalDateTime expiredAt, boolean used) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        voucher.setOwnerId(ownerId);
-        voucher.setExpiredAt(expiredAt);
-        voucher.setUsed(used);
-
-        return voucherService.updateVoucher(voucher);
+        return voucherService.updateVoucher(voucherId, ownerId, expiredAt, used);
     }
 
     public Voucher useVoucher(UUID voucherId) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        return voucherService.useVoucher(voucher);
+        return voucherService.useVoucher(voucherId);
     }
 
     public Voucher allocateVoucher(UUID voucherId, UUID customerId) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        return voucherService.allocateVoucher(voucher, customerId);
+        return voucherService.allocateVoucher(voucherId, customerId);
     }
 
     public Voucher detachOwnerFromVoucher(UUID voucherId) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
-        return voucherService.detachOwnerFromVoucher(voucher);
+        return voucherService.detachOwnerFromVoucher(voucherId);
     }
 
     public void deleteVoucher(UUID voucherId) {

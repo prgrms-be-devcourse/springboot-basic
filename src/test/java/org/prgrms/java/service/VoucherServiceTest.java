@@ -35,7 +35,7 @@ public class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10000, LocalDateTime.now(), LocalDateTime.now());
         when(voucherRepository.insert(any())).thenReturn(voucher);
 
-        Voucher insertedVoucher = voucherService.saveVoucher(voucher);
+        Voucher insertedVoucher = voucherService.saveVoucher(voucher.getOwnerId(), voucher.getType(), voucher.getAmount(), voucher.getExpiredAt());
 
         assertThat(insertedVoucher, samePropertyValuesAs(voucher));
     }

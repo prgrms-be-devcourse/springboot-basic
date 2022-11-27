@@ -4,7 +4,6 @@ import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,8 +16,7 @@ public class CustomerController {
     }
 
     public Customer createCustomer(String name, String email) {
-        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
-        return customerService.saveCustomer(customer);
+        return customerService.saveCustomer(name, email);
     }
 
     public Customer findCustomer(String column, String value) {
@@ -35,11 +33,7 @@ public class CustomerController {
     }
 
     public Customer updateCustomer(UUID customerId, String name, String email, boolean isBlocked) {
-        Customer customer = customerService.getCustomerById(customerId);
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setBlocked(isBlocked);
-        return customerService.updateCustomer(customer);
+        return customerService.updateCustomer(customerId, name, email, isBlocked);
     }
 
     public void deleteCustomer(UUID customerId) {

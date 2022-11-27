@@ -5,6 +5,7 @@ import org.prgrms.java.exception.CustomerException;
 import org.prgrms.java.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,7 +18,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer saveCustomer(Customer customer) {
+    public Customer saveCustomer(String name, String email) {
+        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
         return customerRepository.insert(customer);
     }
 
@@ -57,7 +59,12 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public Customer updateCustomer(Customer customer) {
+    public Customer updateCustomer(UUID customerId, String name, String email, boolean isBlocked) {
+        Customer customer = getCustomerById(customerId);
+        customer.setName(name);
+        customer.setEmail(email);
+        customer.setBlocked(isBlocked);
+
         return customerRepository.update(customer);
     }
 

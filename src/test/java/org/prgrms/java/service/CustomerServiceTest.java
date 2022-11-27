@@ -30,10 +30,14 @@ public class CustomerServiceTest {
     @Test
     @DisplayName("서비스를 통해 정상/블랙 유저를 등록할 수 있다.")
     void testCreateCustomer() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
+        String name = "test";
+        String email = "test@gmail.com";
+        LocalDateTime createdAt = LocalDateTime.now();
+
+        Customer customer = new Customer(UUID.randomUUID(), name, email, createdAt);
         when(customerRepository.insert(any())).thenReturn(customer);
 
-        Customer insertedCustomer = customerService.saveCustomer(customer);
+        Customer insertedCustomer = customerService.saveCustomer(name, email);
 
         assertThat(insertedCustomer, samePropertyValuesAs(customer));
     }

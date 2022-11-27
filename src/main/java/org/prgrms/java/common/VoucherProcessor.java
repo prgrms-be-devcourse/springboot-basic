@@ -122,7 +122,7 @@ public class VoucherProcessor implements ApplicationRunner {
                 return;
         }
 
-        voucherController.createVoucher(voucherAmount, voucherType, LocalDateTime.now(), LocalDateTime.now().plusDays(7));
+        voucherController.createVoucher(voucherAmount, voucherType, LocalDateTime.now().plusDays(7));
     }
 
     private void invokeFindVoucher() {
@@ -268,12 +268,12 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void invokeAllocateVoucherToWallet() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
-        Voucher voucher = voucherController.findVoucherById(UUID.fromString(view.read()));
+        UUID voucherId = UUID.fromString(view.read());
 
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomer("id", view.read());
+        UUID customerId = UUID.fromString(view.read());
 
-        voucherController.allocateVoucher(voucher.getVoucherId(), customer.getCustomerId());
+        voucherController.allocateVoucher(voucherId, customerId);
         view.print(MessageGuide.SUCCESS_MESSAGE);
     }
 
@@ -287,26 +287,25 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void invokeShowCustomerWallet() {
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomer("id", view.read());
+        UUID customerId = UUID.fromString(view.read());
 
         voucherController.findVouchers().stream()
-                .filter(voucher -> customer.getCustomerId().equals(voucher.getOwnerId()))
+                .filter(voucher -> customerId.equals(voucher.getOwnerId()))
                 .forEach(view::print);
     }
 
     private void invokeRemoveVoucherFromWallet() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
-        Voucher voucher = voucherController.findVoucherById(UUID.fromString(view.read()));
 
-        voucherController.detachOwnerFromVoucher(voucher.getVoucherId());
+        voucherController.detachOwnerFromVoucher(UUID.fromString(view.read()));
         view.print(MessageGuide.SUCCESS_MESSAGE);
     }
 
     private void invokeRemoveAllVouchersFromWallet() {
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        Customer customer = customerController.findCustomer("id", view.read());
+        UUID customerId = UUID.fromString(view.read());
 
-        voucherController.findVouchersByOwner(customer.getCustomerId())
+        voucherController.findVouchersByOwner(customerId)
                 .forEach(voucher -> voucherController.detachOwnerFromVoucher(voucher.getVoucherId()));
 
         view.print(MessageGuide.SUCCESS_MESSAGE);
