@@ -5,10 +5,15 @@
     <link href="../../static/css/bootstrap.min.css"
           rel="stylesheet"
           th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .container {
+            max-width: 900px;
+        }
+    </style>
     <title>바우처 목록</title>
 </head>
 <body>
-<div class="container" style="max-width: 600px">
+<div class="container" style="max-width: 900px">
     <div class="py-5 text-center">
         <h2>바우처 목록</h2></div>
     <div class="row">
@@ -29,18 +34,17 @@
                 <th>생성 시각</th>
             </tr>
             </thead>
+            <!-- 바우처 목록 -->
             <tbody>
-            <tr>
-                <td><a href="voucher.html">1</a></td>
-                <td><a href="voucher.html">FixedAmountVoucher</a></td>
-                <td>10000원</td>
-                <td>22.11.25 10:34:51</td>
-            </tr>
-            <tr>
-                <td><a href="voucher.html">2</a></td>
-                <td><a href="voucher.html">PercentDiscountVoucher</a></td>
-                <td>30%</td>
-                <td>22.11.25 10:34:51</td>
+            <tr th:each="voucherDTO: ${voucherDTOs}">
+                <td>
+                    <a href="voucher.html"
+                       th:href="@{/voucher/vouchers/{voucherId}(voucherId=${voucherDTO.voucherId})}"
+                       th:text="${voucherDTO.voucherId}">1</a>
+                </td>
+                <td><a th:text="${voucherDTO.voucherType}">FixedAmountVoucher</a></td>
+                <td th:text="${voucherDTO.discountLevel}">10000원</td>
+                <td th:text="${voucherDTO.createdDateTime}">22.11.25 10:34:51</td>
             </tr>
             </tbody>
         </table>
