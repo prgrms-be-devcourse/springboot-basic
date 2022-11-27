@@ -39,14 +39,12 @@ public class VoucherProgram implements CommandLineRunner {
             String in = null;
             try {
                 in = input.input(INSTRUCTION_SELECTION.getMessage());
-                if(in.equals("create"))
-                    create();
-                else if (in.equals("list"))
-                    list();
-                else if(in.equals("exit"))
-                    break;
-                else{
-                    output.printString(WRONG_INSTRUCTION_MESSAGE.getMessage());
+
+                switch (in) {
+                    case "create"   :   create();
+                    case "list"     :   list();
+                    case "exit"     :   break;
+                    default         :   output.printString(WRONG_INSTRUCTION_MESSAGE.getMessage());
                 }
             } catch (IOException io) {
                 throw new RuntimeException(io);
@@ -71,8 +69,7 @@ public class VoucherProgram implements CommandLineRunner {
             throw new RuntimeException(io);
         }
 
-        VoucherDto dto = new VoucherDto(type.get(), discountAmount);
-        voucherService.createVoucher(dto);
+        voucherService.createVoucher(type.get(), UUID.randomUUID(), discountAmount);
     }
 
     private void list(){

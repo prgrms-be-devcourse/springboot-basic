@@ -5,6 +5,15 @@ sbp:
     with spring boot
 
 spring:
+  config.activate.on-profile: default
+  datasource:
+    url: jdbc:mysql://localhost/voucherDB
+    username: root
+    password: voucher1234!
+
+---
+spring:
+  config.activate.on-profile: test
   datasource:
     url: jdbc:mysql://localhost/voucherDB
     username: root

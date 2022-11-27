@@ -22,25 +22,22 @@ public class VoucherService {
         return voucherRepository.findById(id);
     }
 
-    public Voucher createVoucher(VoucherDto dto){
-        return dto.to();
-    }
 
     public Voucher createVoucher(VoucherType type, UUID id, long discountAmount){
         if(type.equals(VoucherType.FIXED))
-            return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount));
-        return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount));
+            return voucherRepository.save(new FixedAmountVoucher(id, discountAmount));
+        return voucherRepository.save(new PercentDiscountVoucher(id, discountAmount));
     }
 
     public Voucher createVoucher(VoucherType type, UUID id, long discountAmount, LocalDateTime expirationDate) {
         if (type.equals(VoucherType.FIXED))
-            return voucherRepository.insert(new FixedAmountVoucher(id, discountAmount, expirationDate));
-        return voucherRepository.insert(new PercentDiscountVoucher(id, discountAmount, expirationDate));
+            return voucherRepository.save(new FixedAmountVoucher(id, discountAmount, expirationDate));
+        return voucherRepository.save(new PercentDiscountVoucher(id, discountAmount, expirationDate));
     }
 
     public List<Voucher> getAllVouchers(){
         return voucherRepository.findAll();
     }
 
-    public int count(){return voucherRepository.count();}
+    public int count(){return voucherRepository.countAll();}
 }

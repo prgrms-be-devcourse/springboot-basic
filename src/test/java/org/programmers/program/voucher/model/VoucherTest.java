@@ -20,8 +20,8 @@ class VoucherTest {
         Voucher v1 = new FixedAmountVoucher(id1, 100L);
         Voucher v2 = new PercentDiscountVoucher(id2, 100L);
 
-        assertThat(v1.getVoucherId()).isEqualTo(id1);
-        assertThat(v2.getVoucherId()).isEqualTo(id2);
+        assertThat(v1.getId()).isEqualTo(id1);
+        assertThat(v2.getId()).isEqualTo(id2);
     }
 
     @Test

@@ -20,15 +20,15 @@ import javax.sql.DataSource;
         basePackages = {"org.programmers.program.customer", "org.programmers.program.voucher"}
 )
 class VoucherProgramConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucherDB")
-                    .username("root")
-                    .password("voucher1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-        }
+//        @Bean
+//        public DataSource dataSource() {
+//            return DataSourceBuilder.create()
+//                    .url("jdbc:mysql://localhost/voucherDB")
+//                    .username("root")
+//                    .password("voucher1234!")
+//                    .type(HikariDataSource.class)
+//                    .build();
+//        }
 
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {

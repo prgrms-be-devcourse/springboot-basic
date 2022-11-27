@@ -11,7 +11,7 @@ import static org.programmers.program.voucher.model.VoucherType.*;
 public class VoucherValidator implements Predicate<Voucher> {
     @Override
     public boolean test(Voucher voucher) {
-        if (voucher.getIsUsed())
+        if (voucher.isUsed())
             return false;
         if(voucher.getExpirationDate().isBefore(LocalDateTime.now()))
             return false;

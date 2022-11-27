@@ -18,16 +18,16 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+    public Voucher save(Voucher voucher) {
+        storage.put(voucher.getId(), voucher);
         return voucher;
     }
 
     @Override
     public int update(Voucher voucher) {
-        if (!storage.containsKey(voucher.getVoucherId()))
+        if (!storage.containsKey(voucher.getId()))
             return -1;
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
         return 1;
     }
 
@@ -49,7 +49,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public int count() {
+    public int countAll() {
         return storage.size();
     }
 }

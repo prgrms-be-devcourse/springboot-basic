@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherRepository {
-    Voucher insert(Voucher voucher);
+    Voucher save(Voucher voucher);
     int update(Voucher voucher);
     Optional<Voucher> findById(UUID id);
     List<Voucher> findAll();
     void deleteAll();
-    int count();
+    int countAll();
 
 }

@@ -1,16 +1,19 @@
 package org.programmers.program.voucher.model;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
 import org.programmers.program.voucher.controller.VoucherDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter(AccessLevel.PUBLIC)
 public abstract class Voucher {
     protected final UUID id;
-    protected final Long discountAmount;
-
-    private final LocalDateTime createdAt;
-    protected final LocalDateTime expirationDate;
+    protected Long discountAmount;
+    @Builder.Default protected final LocalDateTime createdAt = LocalDateTime.now();
+    protected LocalDateTime expirationDate;
 
     protected VoucherType voucherType = null;
     protected boolean isUsed;
@@ -18,7 +21,6 @@ public abstract class Voucher {
     protected Voucher(UUID id, Long discountAmount){
         this.id = id;
         this.discountAmount = discountAmount;
-        createdAt = LocalDateTime.now();
         expirationDate = LocalDateTime.now().plusWeeks(1);
         isUsed = false;
     }
@@ -26,7 +28,6 @@ public abstract class Voucher {
         this.id = id;
         this.discountAmount = discountAmount;
         this.expirationDate = expirationDate;
-        createdAt = LocalDateTime.now();
         isUsed = false;
     }
 
@@ -34,35 +35,34 @@ public abstract class Voucher {
         this.id = dto.getId();
         this.discountAmount = dto.getDiscountAmount();
         this.voucherType = dto.getVoucherType();
-        this.createdAt = LocalDateTime.now();
         this.expirationDate = dto.getExpirationDate();
     }
 
-    public UUID getVoucherId(){
-        return this.id;
-    }
-
-    public LocalDateTime getExpirationDate() {
-        return expirationDate;
-    }
-
-    public Long getDiscountAmount(){
-        return this.discountAmount;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
+//    public UUID getVoucherId(){
+//        return this.id;
+//    }
+//
+//    public LocalDateTime getExpirationDate() {
+//        return expirationDate;
+//    }
+//
+//    public Long getDiscountAmount(){
+//        return this.discountAmount;
+//    }
+//
+//    public LocalDateTime getCreatedAt() {
+//        return createdAt;
+//    }
+//
     abstract Long discount(Long price);
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public boolean getIsUsed(){
-        return isUsed;
-    }
+//
+//    public VoucherType getVoucherType() {
+//        return voucherType;
+//    }
+//
+//    public boolean getIsUsed(){
+//        return isUsed;
+//    }
 
 
     @Override

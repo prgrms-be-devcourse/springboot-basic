@@ -7,10 +7,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher{
-    public PercentDiscountVoucher(VoucherDto dto){
-        super(dto);
-        this.voucherType = VoucherType.PERCENT;
-    }
     public PercentDiscountVoucher(UUID id, Long discountAmount){
         super(id, discountAmount);
         this.voucherType = VoucherType.PERCENT;

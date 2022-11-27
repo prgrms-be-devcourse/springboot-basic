@@ -1,15 +1,14 @@
 package org.programmers.program.voucher.model;
 
+import lombok.Builder;
 import org.programmers.program.voucher.controller.VoucherDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
+// @Builder
 public class FixedAmountVoucher extends Voucher{
-    public FixedAmountVoucher(VoucherDto dto) {
-        super(dto);
-        this.voucherType = VoucherType.FIXED;
-    }
     public FixedAmountVoucher(UUID id, Long discountAmount){
         super(id, discountAmount);
         this.voucherType = VoucherType.FIXED;

@@ -42,17 +42,17 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
 
     private Map<String, Object> toParamMap(Voucher voucher){
         return new HashMap<>(){{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("voucherId", voucher.getId().toString().getBytes());
             put("voucherType", voucher.getVoucherType().toString());
             put("discountAmount", voucher.getDiscountAmount());
-            put("isUsed", voucher.getIsUsed());
+            put("isUsed", voucher.isUsed());
             put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
             put("expirationDate", Timestamp.valueOf(voucher.getExpirationDate()));
         }};
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         var updateState = namedJdbcTemplate.update(
                 "insert into vouchers(voucher_id, voucher_type, discount_amount, is_used, created_at, expiration_date) values " +
                         " (UUID_TO_BIN(:voucherId), :voucherType, :discountAmount, :isUsed, :createdAt, :expirationDate)",
@@ -101,7 +101,7 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public int count() {
+    public int countAll() {
         return namedJdbcTemplate.queryForObject("select count(*) from vouchers", Collections.emptyMap(),Integer.class);
     }
 }

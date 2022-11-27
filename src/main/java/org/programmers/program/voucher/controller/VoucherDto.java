@@ -50,10 +50,4 @@ public class VoucherDto {
         return expirationDate;
     }
 
-    public Voucher to(){
-        if (voucherType.equals(VoucherType.FIXED))
-            return new FixedAmountVoucher(this);
-        else
-            return new PercentDiscountVoucher(this);
-    }
 }

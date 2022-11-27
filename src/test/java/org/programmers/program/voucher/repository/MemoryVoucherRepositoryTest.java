@@ -2,7 +2,6 @@ package org.programmers.program.voucher.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.programmers.program.voucher.model.FixedAmountVoucher;
 import org.programmers.program.voucher.model.PercentDiscountVoucher;
@@ -25,20 +24,20 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("데이터 삽입 테스트")
     void insertTest(){
         Voucher v1 = new PercentDiscountVoucher(UUID.randomUUID(), 30L);
-        Voucher v2 = repository.insert(v1);
+        Voucher v2 = repository.save(v1);
 
-        assertThat(v1.getVoucherId()).isEqualTo(v2.getVoucherId());
+        assertThat(v1.getId()).isEqualTo(v2.getId());
     }
 
     @Test
     @DisplayName("ID로 찾기 테스트")
     void findByIdTest(){
         UUID id = UUID.randomUUID();
-        repository.insert(new PercentDiscountVoucher(id, 30L));
+        repository.save(new PercentDiscountVoucher(id, 30L));
         Voucher v1 = repository.findById(id).isPresent() ? repository.findById(id).get() : null;
 
         assertThat(v1).isNotNull();
-        assertThat(v1.getVoucherId()).isEqualTo(id);
+        assertThat(v1.getId()).isEqualTo(id);
     }
 
 
@@ -47,7 +46,7 @@ class MemoryVoucherRepositoryTest {
     void findAllTest(){
         int expected_size = 10;
         for(int i = 0; i < expected_size; i++)
-            repository.insert(new FixedAmountVoucher(UUID.randomUUID(), (long)i));
+            repository.save(new FixedAmountVoucher(UUID.randomUUID(), (long)i));
 
         assertThat(repository.findAll().size()).isEqualTo(expected_size);}
 }
