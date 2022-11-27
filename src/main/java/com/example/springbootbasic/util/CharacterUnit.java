@@ -2,7 +2,7 @@ package com.example.springbootbasic.util;
 
 public enum CharacterUnit {
     SPACE(" "),
-    ENTER("\n"),
+    ENTER(System.lineSeparator()),
     PERCENT("%"),
     EMPTY(""),
     STICK("-");
