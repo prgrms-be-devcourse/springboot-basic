@@ -2,7 +2,7 @@ package org.prgrms.voucherapplication;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.voucherapplication.config.VoucherProperties;
+import org.prgrms.voucherapplication.global.config.VoucherProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;

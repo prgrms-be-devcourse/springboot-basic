@@ -1,7 +1,7 @@
 package org.prgrms.voucherapplication;
 
-import org.prgrms.voucherapplication.config.VoucherProperties;
-import org.prgrms.voucherapplication.voucher.controller.VoucherController;
+import org.prgrms.voucherapplication.global.config.VoucherProperties;
+import org.prgrms.voucherapplication.domain.voucher.controller.VoucherController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

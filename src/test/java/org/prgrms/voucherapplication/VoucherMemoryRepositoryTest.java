@@ -8,10 +8,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.voucherapplication.voucher.entity.FixedAmountVoucher;
-import org.prgrms.voucherapplication.voucher.entity.PercentDiscountVoucher;
-import org.prgrms.voucherapplication.voucher.entity.Voucher;
-import org.prgrms.voucherapplication.voucher.repository.VoucherMemoryRepository;
+import org.prgrms.voucherapplication.domain.voucher.entity.FixedAmountVoucher;
+import org.prgrms.voucherapplication.domain.voucher.entity.PercentDiscountVoucher;
+import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.domain.voucher.repository.VoucherMemoryRepository;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
