@@ -3,15 +3,16 @@ package prgms.vouchermanagementapp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.domain.value.Ratio;
 import prgms.vouchermanagementapp.exception.IllegalCommandException;
 import prgms.vouchermanagementapp.exception.IllegalVoucherTypeIndexException;
-import prgms.vouchermanagementapp.io.CommandType;
-import prgms.vouchermanagementapp.io.IOManager;
-import prgms.vouchermanagementapp.io.model.Amount;
-import prgms.vouchermanagementapp.io.model.Ratio;
-import prgms.vouchermanagementapp.voucher.VoucherManager;
-import prgms.vouchermanagementapp.voucher.VoucherType;
+import prgms.vouchermanagementapp.service.VoucherManager;
+import prgms.vouchermanagementapp.view.CommandType;
+import prgms.vouchermanagementapp.view.IoManager;
 
+import java.text.MessageFormat;
 import java.util.Optional;
 
 @Component
@@ -19,43 +20,44 @@ public class CommandExecutor {
 
     private static final Logger log = LoggerFactory.getLogger(CommandExecutor.class);
 
-    private final IOManager ioManager;
+    private final IoManager ioManager;
     private final VoucherManager voucherManager;
-    private final RunningState runningState;
+    private final CustomerController customerController;
 
-    public CommandExecutor(IOManager ioManager, VoucherManager voucherManager) {
+    public CommandExecutor(IoManager ioManager, VoucherManager voucherManager, CustomerController customerController) {
         this.ioManager = ioManager;
         this.voucherManager = voucherManager;
-        this.runningState = new RunningState();
+        this.customerController = customerController;
     }
 
-    public void run() {
+    public void run(RunningState runningState) {
+
         while (runningState.isRunning()) {
             try {
                 String command = ioManager.askCommand();
                 CommandType.of(command)
-                        .ifPresent(this::executeCommand);
-            } catch (IllegalCommandException e) {
-                log.warn("command input error occurred: {}", e.getMessage());
-                ioManager.notifyErrorOccurred(e.getMessage());
+                        .ifPresent(commandType -> executeCommand(commandType, runningState));
+            } catch (IllegalCommandException illegalCommandException) {
+                ioManager.notifyErrorOccurred(illegalCommandException.getMessage());
             }
         }
     }
 
-    public void executeCommand(CommandType commandType) {
+    public void executeCommand(CommandType commandType, RunningState runningState) {
         switch (commandType) {
-            case EXIT -> runExit();
+            case EXIT -> runExit(runningState);
             case CREATE -> runCreate();
             case LIST -> runList();
             case BLACKLIST -> runBlacklist();
             default -> {
-                log.error("Error: commandType mismatch error occurred while executing command");
-                throw new RuntimeException();
+                throw new IllegalArgumentException(
+                        MessageFormat.format("Command Type ''{0}'' is invalid.", commandType)
+                );
             }
         }
     }
 
-    private void runExit() {
+    private void runExit(RunningState runningState) {
         ioManager.notifyExit();
         runningState.exit();
     }
