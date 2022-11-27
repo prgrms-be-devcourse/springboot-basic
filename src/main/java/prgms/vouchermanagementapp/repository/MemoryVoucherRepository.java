@@ -37,4 +37,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         throw new UnsupportedOperationException("MemoryVoucherRepository doesn't support deleteAll()");
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        throw new UnsupportedOperationException("MemoryVoucherRepository doesn't support deleteById()");
+    }
 }

@@ -54,4 +54,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         throw new UnsupportedOperationException("FileVoucherRepository doesn't support deleteAll()");
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        throw new UnsupportedOperationException("FileVoucherRepository doesn't support deleteById()");
+    }
 }

@@ -17,4 +17,6 @@ public interface VoucherRepository {
     void updateDiscountLevel(UUID voucherId, long fixedDiscountLevel);
 
     void deleteAll();
+
+    void deleteById(UUID voucherId);
 }

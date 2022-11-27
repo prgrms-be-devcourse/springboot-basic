@@ -83,9 +83,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
         template.update(sql, parameterSource);
     }
 
+    @Override
     public void deleteAll() {
         String sql = "delete from voucher";
         Map<String, String> param = Collections.emptyMap();
+        template.update(sql, param);
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "delete from voucher " +
+                "where voucher_id=:voucherId";
+
+        Map<String, String> param = Map.of("voucherId", voucherId.toString());
+
         template.update(sql, param);
     }
 

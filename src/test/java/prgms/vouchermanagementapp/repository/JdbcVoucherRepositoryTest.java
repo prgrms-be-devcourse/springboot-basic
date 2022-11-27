@@ -36,7 +36,7 @@ class JdbcVoucherRepositoryTest {
         assertThat(vouchers.size()).isEqualTo(2);
     }
 
-    @DisplayName("voucher id 를 이용하여 바우처를 조회할 수 있다.")
+    @DisplayName("바우처의 ID를 이용하여 바우처를 조회할 수 있다.")
     @Test
     void findById() {
         // given
@@ -68,5 +68,20 @@ class JdbcVoucherRepositoryTest {
                 .get()
                 .getDiscountLevel();
         assertThat(actualDiscountLevel).isEqualTo(expectedDiscountLevel);
+    }
+
+    @DisplayName("바우처의 ID를 이용하여 바우처를 삭제할 수 있다.")
+    @Test
+    void deleteById() {
+        // given
+        Voucher savedVoucher = VoucherFactory.createVoucher(new Amount(3000));
+        jdbcVoucherRepository.save(savedVoucher);
+
+        // when
+        jdbcVoucherRepository.deleteById(savedVoucher.getVoucherId());
+
+        // then
+        int actualTupleSize = jdbcVoucherRepository.findAll().size();
+        assertThat(actualTupleSize).isEqualTo(0);
     }
 }
