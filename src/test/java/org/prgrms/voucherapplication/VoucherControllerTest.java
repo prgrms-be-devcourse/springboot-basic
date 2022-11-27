@@ -6,7 +6,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.voucherapplication.console.Console;
 import org.prgrms.voucherapplication.domain.customer.service.CustomerService;
-import org.prgrms.voucherapplication.domain.customer.service.CustomerServiceImpl;
 import org.prgrms.voucherapplication.domain.voucher.controller.VoucherController;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.service.VoucherService;
@@ -25,7 +24,7 @@ public class VoucherControllerTest {
 
     private static final VoucherService voucherService = mock(VoucherService.class);
     private static VoucherController voucherController;
-    private static final CustomerService customerService = mock(CustomerServiceImpl.class);
+    private static final CustomerService customerService = mock(CustomerService.class);
 
     @BeforeAll
     static void constructor() {

@@ -12,7 +12,6 @@ import org.prgrms.voucherapplication.domain.customer.repository.BlackListReposit
 import org.prgrms.voucherapplication.domain.customer.repository.CustomerNamedJdbcRepository;
 import org.prgrms.voucherapplication.domain.customer.repository.CustomerRepository;
 import org.prgrms.voucherapplication.domain.customer.service.CustomerService;
-import org.prgrms.voucherapplication.domain.customer.service.CustomerServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +107,7 @@ class CustomerServiceTest {
 
         @Bean
         public CustomerService customerService(CustomerRepository customerRepository, BlackListRepository blackListRepository) {
-            return new CustomerServiceImpl(customerRepository, blackListRepository);
+            return new CustomerService(customerRepository, blackListRepository);
         }
     }
 
