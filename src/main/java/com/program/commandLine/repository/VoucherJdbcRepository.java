@@ -101,8 +101,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public int count() {
-        String sql = "select count(*) from vouchers";
+        String sql = "SELECT count(*) FROM vouchers";
         return jdbcTemplate.getJdbcTemplate().queryForObject(sql, Integer.class);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String sql = "SELECT * FROM vouchers WHERE type = :type ";
+        return jdbcTemplate.query(sql,Collections.singletonMap("type", voucherType.toString()), voucherRowMapper);
     }
 
 }

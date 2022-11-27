@@ -42,7 +42,6 @@ public class VoucherViewController {
 
     @PostMapping( "new-voucher")
     public String saveVoucher(VoucherInputData voucherInputData){
-        logger.info(voucherInputData.getVoucherType().getString());
         voucherService.createVoucher(voucherInputData);
         return "redirect:/vouchers";
     }
@@ -59,7 +58,6 @@ public class VoucherViewController {
 
     @DeleteMapping( "vouchers/{voucherId}")
     public String deleteVoucher(@PathVariable("voucherId")UUID voucherId){
-        logger.info(voucherId.toString());
         voucherService.deleteVoucher(voucherId);
         return "redirect:/vouchers";
     }

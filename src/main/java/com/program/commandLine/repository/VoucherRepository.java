@@ -3,6 +3,7 @@ package com.program.commandLine.repository;
 import com.program.commandLine.model.VoucherWallet;
 import com.program.commandLine.model.customer.Customer;
 import com.program.commandLine.model.voucher.Voucher;
+import com.program.commandLine.model.voucher.VoucherType;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +24,5 @@ public interface VoucherRepository {
 
     int count();
 
+    List<Voucher> findByType(VoucherType voucherType);
 }

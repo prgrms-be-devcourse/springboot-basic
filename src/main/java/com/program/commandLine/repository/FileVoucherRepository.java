@@ -13,10 +13,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.io.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component(value = "voucherRepository")
@@ -87,6 +84,16 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public int count() {
         return storage.size();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        List<Voucher> vouchers = new ArrayList<>();
+        storage.forEach((uuid, voucher) -> {
+            if(Objects.equals(voucher.getVoucherType(),voucherType))
+                vouchers.add(voucher);
+        });
+        return vouchers;
     }
 
     private void fileRead() throws Exception {

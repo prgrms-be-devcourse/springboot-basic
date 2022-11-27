@@ -4,6 +4,7 @@ import com.program.commandLine.model.VoucherInputData;
 import com.program.commandLine.model.VoucherWallet;
 import com.program.commandLine.model.voucher.Voucher;
 import com.program.commandLine.model.voucher.VoucherFactory;
+import com.program.commandLine.model.voucher.VoucherType;
 import com.program.commandLine.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -51,4 +52,7 @@ public class VoucherService {
     }
 
 
+    public List<Voucher> getVouchersByType(VoucherType voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
 }
