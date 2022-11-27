@@ -7,6 +7,9 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DIS
 
 public class VoucherFactory {
 
+    private VoucherFactory(){
+    }
+
     public static Voucher of(long voucherId,
                              long discountValue,
                              VoucherType voucherType,
