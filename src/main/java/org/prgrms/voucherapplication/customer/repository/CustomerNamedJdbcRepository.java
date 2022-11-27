@@ -45,7 +45,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
         paramMap.put("customerId", customer.getCustomerId().toString().getBytes());
         paramMap.put("name", customer.getName());
         paramMap.put("email", customer.getEmail());
-        paramMap.put("createdAt", Timestamp.valueOf(customer.getCreateAt()));
+        paramMap.put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
 
         int update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)",
                 paramMap);
@@ -121,6 +121,12 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes) {

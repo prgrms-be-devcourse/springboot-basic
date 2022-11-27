@@ -50,7 +50,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),
-                Timestamp.valueOf(customer.getCreateAt())
+                Timestamp.valueOf(customer.getCreatedAt())
         );
         if (update != 1) {
             throw new NothingInsertException(NOTHING_INSERT);
@@ -121,6 +121,12 @@ public class CustomerJdbcRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(?)",
+                (Object) customerId.toString().getBytes());
     }
 
     static UUID toUUID(byte[] bytes) {

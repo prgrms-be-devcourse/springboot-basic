@@ -13,23 +13,23 @@ public class Customer {
     private String name;
     private final String email;
     private LocalDateTime lastLoginAt;
-    private final LocalDateTime createAt;
+    private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime createAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createAt) {
+    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt) {
         validateName(name);
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
-        this.createAt = createAt;
+        this.createdAt = createdAt;
     }
 
     private void validateName(String name) {
@@ -63,7 +63,7 @@ public class Customer {
         return lastLoginAt;
     }
 
-    public LocalDateTime getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }
