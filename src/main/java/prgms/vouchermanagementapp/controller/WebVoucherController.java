@@ -1,14 +1,17 @@
 package prgms.vouchermanagementapp.controller;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.domain.dto.VoucherDTO;
 import prgms.vouchermanagementapp.repository.VoucherRepository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/voucher/vouchers")
@@ -25,24 +28,32 @@ public class WebVoucherController {
      * 바우처 삭제 deleteVoucher() : POST, "/{voucherId}/delete
      */
 
-    private final VoucherRepository repository;
+    private final VoucherRepository voucherRepository;
 
-    public WebVoucherController(VoucherRepository repository) {
-        this.repository = repository;
+    public WebVoucherController(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
     @GetMapping
     public String vouchers(Model model) {
-        List<Voucher> vouchers = repository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
         List<VoucherDTO> voucherDTOs = vouchers.stream()
                 .map(VoucherDTO::new)
                 .toList();
+
         model.addAttribute("voucherDTOs", voucherDTOs);
         return "voucher/vouchers";
     }
 
-//    @GetMapping("/{voucherId}")
-//    public String voucher() {
-//
-//    }
+    @GetMapping("/{voucherId}")
+    public String voucher(@PathVariable UUID voucherId, Model model) {
+        Voucher foundVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() ->
+                        new EmptyResultDataAccessException("cannot find voucher for voucherId=" + voucherId, 1)
+                );
+        VoucherDTO voucherDTO = new VoucherDTO(foundVoucher);
+
+        model.addAttribute("voucher", voucherDTO);
+        return "voucher/voucher";
+    }
 }
