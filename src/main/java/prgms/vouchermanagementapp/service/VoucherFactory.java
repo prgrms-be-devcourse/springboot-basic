@@ -13,7 +13,18 @@ import java.util.UUID;
 
 public class VoucherFactory {
 
+    private static final String FIXED_AMOUNT_VOUCHER = "FixedAmountVoucher";
+    private static final String PERCENT_DISCOUNT_VOUCHER = "PercentDiscountVoucher";
+
     private VoucherFactory() {
+    }
+
+    public static Voucher createVoucher(String voucherType, long discountLevel) {
+        return switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> createVoucher(new Amount(discountLevel));
+            case PERCENT_DISCOUNT_VOUCHER -> createVoucher(new Ratio(discountLevel));
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     public static Voucher createVoucher(Amount fixedDiscountAmount) {
