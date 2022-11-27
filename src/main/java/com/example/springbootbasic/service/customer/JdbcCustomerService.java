@@ -7,7 +7,9 @@ import com.example.springbootbasic.repository.customer.JdbcCustomerRepository;
 import com.example.springbootbasic.repository.voucher.JdbcVoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.springbootbasic.exception.customer.CustomerServiceExceptionMessage.CUSTOMER_NULL_EXCEPTION;
@@ -31,12 +33,15 @@ public class JdbcCustomerService {
     }
 
     public List<Customer> findCustomersWhoHasSelectedVoucher(Long voucherId) {
-        Voucher findVoucher = voucherRepository.findById(voucherId);
+        Optional<Voucher> findVoucher = voucherRepository.findById(voucherId);
+        if (findVoucher.isEmpty()) {
+            return Collections.emptyList();
+        }
         List<Long> customerIds = customerRepository.findCustomerIdsByVoucherId(voucherId);
         List<Customer> findCustomers = customerIds.stream()
                 .map(customerRepository::findCustomerById)
                 .collect(Collectors.toList());
-        findCustomers.forEach(customer -> customer.receiveFrom(findVoucher));
+        findCustomers.forEach(customer -> customer.receiveFrom(findVoucher.get()));
         return findCustomers;
     }
 
@@ -67,6 +72,8 @@ public class JdbcCustomerService {
         List<Long> findVoucherIds = customerRepository.findVoucherIdsByCustomerId(customerId);
         return findVoucherIds.stream()
                 .map(voucherRepository::findById)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .collect(Collectors.toList());
     }
 

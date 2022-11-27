@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.exception.voucher.JdbcVoucherRepositoryExceptionMessage.VOUCHER_TYPE_NULL_EXCEPTION;
 import static com.example.springbootbasic.repository.voucher.JdbcVoucherSql.*;
 
@@ -100,14 +100,13 @@ public class JdbcVoucherRepository {
         return voucher;
     }
 
-    public Voucher findById(long voucherId) {
+    public Optional<Voucher> findById(long voucherId) {
         try {
-            return jdbcTemplate.queryForObject(SELECT_VOUCHER_BY_ID.getSql(),
-                    Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_VOUCHER_BY_ID.getSql(),
+                    Collections.singletonMap("voucherId", voucherId), voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
-            return VoucherFactory.of(0L, 1L, FIXED_AMOUNT,
-                    LocalDateTime.now(), LocalDateTime.now(), LocalDateTime.now().plusDays(30));
+            return Optional.empty();
         }
     }
 

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/view/v1/vouchers")
@@ -41,12 +42,13 @@ public class ViewVoucherController {
 
     @GetMapping("/search")
     public String findVoucherById(@RequestParam Long voucherId, Model model, RedirectAttributes re) {
-        VoucherDto findVoucher = VoucherDto.newInstance(voucherService.findById(voucherId));
+        Optional<Voucher> findVoucher = voucherService.findById(voucherId);
         if (findVoucher.isEmpty()) {
             re.addFlashAttribute("findResult", false);
             return "redirect:";
         }
-        model.addAttribute("vouchers", findVoucher);
+        VoucherDto voucher = VoucherDto.newInstance(findVoucher.get());
+        model.addAttribute("vouchers", voucher);
         return "voucher-list";
     }
 

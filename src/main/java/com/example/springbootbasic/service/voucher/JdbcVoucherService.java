@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JdbcVoucherService {
@@ -36,7 +37,7 @@ public class JdbcVoucherService {
         return voucherRepository.findVouchersBy(voucherId, voucherType, findStartAt, findEndAt);
     }
 
-    public Voucher findById(long voucherId) {
+    public Optional<Voucher> findById(long voucherId) {
         return voucherRepository.findById(voucherId);
     }
 
