@@ -40,7 +40,7 @@
             e.stopPropagation();
             if (confirm("바우쳐를 삭제하시겠습니까?")) {
                 const voucherId = e.target.getAttribute("data-arg1");
-                axios.delete(`/vouchers/${voucherId}`)
+                axios.delete(`/vouchers/api/${voucherId}`)
                     .then(
                         () => {
                             alert("삭제에 성공했습니다");
