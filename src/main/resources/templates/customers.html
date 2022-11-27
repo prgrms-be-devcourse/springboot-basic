@@ -53,8 +53,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="customer, stat: ${customers}"
-            th:id="${customer.customerId}" onmouseover="this.style.cursor='pointer'" th:object="${customer}">
+        <tr th:each="customer, stat: ${customers}" onmouseover="this.style.cursor='pointer'" th:object="${customer}">
             <td th:customerId="*{customerId}" onclick="rowClick(this.getAttribute('customerId'))" th:text="${stat.count}"></td>
             <td th:customerId="*{customerId}" onclick="rowClick(this.getAttribute('customerId'))" th:text="${customer.customerId}"></td>
             <td th:customerId="*{customerId}" onclick="rowClick(this.getAttribute('customerId'))" th:text="${customer.name}"></td>
