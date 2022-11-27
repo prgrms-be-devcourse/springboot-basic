@@ -1,0 +1,34 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>New Voucher!!</h1>
+<!--<img th:src= "@{/resources/overwatch_league.png}" class="img-fluid">-->
+<form th:action="@{/vouchers}" method="post">
+
+  <label for="voucherType" class="form-label">Category</label>
+  <select id="voucherType" name="voucherType" class="form-select">
+    <option selected>Voucher type</option>
+    <option value="FIXED">Fixed Amount</option>
+    <option value="PERCENT">Percent</option>
+  </select>
+
+  <div class="mb-3">
+    <label for="discountAmount" class="form-label">Discount Amount</label>
+    <input type="number" name="discountAmount" class="form-control" id="discountAmount">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+</body>
+</html>
