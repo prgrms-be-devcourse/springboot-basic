@@ -1,9 +1,6 @@
 package org.prgrms.java.repository.voucher;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
@@ -20,8 +17,10 @@ class FileVoucherRepositoryTest {
     private static final VoucherRepository voucherRepository = new FileVoucherRepository("data", "voucher_test.csv");
 
     @BeforeEach
-    @AfterEach
-    void clean() {
+    void clean() { cleanup(); }
+
+    @AfterAll
+    static void cleanup() {
         voucherRepository.deleteAll();
     }
 

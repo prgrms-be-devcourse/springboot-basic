@@ -1,9 +1,6 @@
 package org.prgrms.java.repository.customer;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;
 
@@ -18,8 +15,10 @@ class FileCustomerRepositoryTest {
     private static final CustomerRepository customerRepository = new FileCustomerRepository("data", "customer_test.csv", "customer_blacklist_test.csv");
 
     @BeforeEach
-    @AfterEach
-    void clean() {
+    void clean() { cleanup(); }
+
+    @AfterAll
+    static void cleanup() {
         customerRepository.deleteAll();
     }
 
