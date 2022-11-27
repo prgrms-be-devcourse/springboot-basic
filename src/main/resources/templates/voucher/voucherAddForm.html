@@ -16,14 +16,18 @@
     <div class="py-5 text-center">
         <h2>바우처 생성 폼</h2></div>
     <h4 class="mb-3">바우처 입력</h4>
-    <form action="voucherDetail.html" method="post">
+    <form action="voucherDetail.html" method="post" th:action>
         <div>
-            <label for="voucherType">바우처 타입</label>
-            <input class="form-control" id="voucherType" name="voucherType" placeholder="바우처 타입 선택" type="text">
+            <label for="voucherType">바우처 타입
+                <select id="voucherType" name="voucherType">
+                    <option value="FixedAmountVoucher">고정 금액 할인</option>
+                    <option value="PercentDiscountVoucher">비율 할인</option>
+                </select>
+            </label>
         </div>
         <div>
             <label for="discountLevel">할인 정도</label>
-            <input class="form-control" id="discountLevel" name="discountLevel" placeholder="할인 정도를 입력하세요(원 또는 %)" type="text">
+            <input class="form-control" id="discountLevel" name="discountLevel" placeholder="할인 정도를 입력하세요(원 단위 또는 백분율)" type="text">
         </div>
         <hr class="my-4">
         <div class="row">

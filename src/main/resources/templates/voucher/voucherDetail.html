@@ -17,6 +17,10 @@
     <div class="py-5 text-center">
         <h2>바우처 상세 정보</h2>
     </div>
+
+    <!-- 저장 완료 확인 텍스트-->
+    <h2 th:if="${param.status}" th:text="'바우처 생성 완료!'"></h2>
+
     <div>
         <label for="voucherId">바우처 ID</label>
         <input class="form-control" id="voucherId" name="voucherId" readonly th:value="${voucher.voucherId}" type="text"

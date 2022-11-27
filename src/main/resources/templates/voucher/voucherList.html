@@ -18,7 +18,10 @@
         <h2>바우처 목록</h2></div>
     <div class="row">
         <div class="col">
-            <button class="btn btn-primary float-end" onclick="location.href='addForm.html'" type="button">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='voucherAddForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/add}'|"
+                    type="button">
                 바우처 생성
             </button>
         </div>
