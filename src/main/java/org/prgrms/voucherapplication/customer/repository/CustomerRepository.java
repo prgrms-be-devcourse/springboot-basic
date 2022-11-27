@@ -18,4 +18,6 @@ public interface CustomerRepository {
     Optional<Customer> findByName(String name);
     Optional<Customer> findByEmail(String email);
     void deleteAll();
+
+    void delete(UUID customerId);
 }

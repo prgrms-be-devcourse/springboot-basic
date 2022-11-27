@@ -45,7 +45,7 @@ public class CustomerDto {
                 customer.getName(),
                 customer.getEmail(),
                 customer.getLastLoginAt(),
-                customer.getCreateAt());
+                customer.getCreatedAt());
     }
 
     public static Customer to(CustomerDto dto) {

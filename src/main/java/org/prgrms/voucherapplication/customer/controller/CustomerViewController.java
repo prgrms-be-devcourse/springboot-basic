@@ -52,4 +52,10 @@ public class CustomerViewController {
         customerService.createCustomer(createCustomerRequest.getEmail(), createCustomerRequest.getName());
         return "redirect:/customers";
     }
+
+    @PostMapping("/customers/{customerId}/delete")
+    public String deleteCustomer(@PathVariable("customerId") UUID customerId) {
+        customerService.deleteCustomer(customerId);
+        return "redirect:/customers";
+    }
 }

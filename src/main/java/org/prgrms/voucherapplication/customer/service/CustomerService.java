@@ -18,4 +18,6 @@ public interface CustomerService {
     Customer createCustomer(String email, String name);
 
     Optional<Customer> getCustomer(UUID customerId);
+
+    void deleteCustomer(UUID customerId);
 }
