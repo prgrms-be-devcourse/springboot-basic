@@ -18,7 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.example.springbootbasic.exception.customer.JdbcCustomerRepositoryExceptionMessage.*;
+import static com.example.springbootbasic.repository.customer.CustomerParam.*;
 import static com.example.springbootbasic.repository.customer.JdbcCustomerSql.*;
+import static com.example.springbootbasic.repository.voucher.VoucherParam.*;
 
 @Repository
 public class JdbcCustomerRepository {
@@ -32,27 +34,27 @@ public class JdbcCustomerRepository {
 
     private SqlParameterSource toParamSource(Customer customer, Voucher voucher) {
         return new MapSqlParameterSource()
-                .addValue("customerId", customer.getCustomerId())
-                .addValue("customerStatus", customer.getStatus().getType())
-                .addValue("voucherId", voucher.getVoucherId())
-                .addValue("voucherType", voucher.getVoucherType().getVoucherType())
-                .addValue("voucherDiscountValue", voucher.getDiscountValue());
+                .addValue(CUSTOMER_ID.getParam(),  customer.getCustomerId())
+                .addValue(CUSTOMER_STATUS.getParam(), customer.getStatus().getType())
+                .addValue(VOUCHER_ID.getParam(), voucher.getVoucherId())
+                .addValue(VOUCHER_TYPE.getParam(), voucher.getVoucherType().getVoucherType())
+                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getDiscountValue());
     }
 
     private SqlParameterSource toParamSource(Customer customer) {
         return new MapSqlParameterSource()
-                .addValue("customerId", customer.getCustomerId())
-                .addValue("customerStatus", customer.getStatus().getType());
+                .addValue(CUSTOMER_ID.getParam(), customer.getCustomerId())
+                .addValue(CUSTOMER_STATUS.getParam(), customer.getStatus().getType());
     }
 
     private RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        long customerId = resultSet.getLong("customer_id");
-        String customerStatus = resultSet.getString("customer_status");
+        long customerId = resultSet.getLong(CUSTOMER_ID.getColumn());
+        String customerStatus = resultSet.getString(CUSTOMER_STATUS.getColumn());
         return new Customer(customerId, CustomerStatus.of(customerStatus));
     };
 
     private RowMapper<Long> customerVoucherRowMapper = (resultSet, i) -> {
-        return resultSet.getLong("voucher_id");
+        return resultSet.getLong(VOUCHER_ID.getColumn());
     };
 
     public List<Customer> findAllCustomers() {
@@ -68,7 +70,7 @@ public class JdbcCustomerRepository {
         try {
             validateCustomerStatusNull(status);
             return jdbcTemplate.query(FIND_ALL_CUSTOMERS_BY_STATUS.getSql(),
-                    Collections.singletonMap("customerStatus", status.getType()), customerRowMapper);
+                    Collections.singletonMap(CUSTOMER_STATUS.getParam(), status.getType()), customerRowMapper);
         } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
@@ -78,7 +80,7 @@ public class JdbcCustomerRepository {
     public List<Long> findCustomerIdsByVoucherId(Long voucherId) {
         try {
             return jdbcTemplate.query(FIND_CUSTOMERS_ID_BY_VOUCHER_ID.getSql(),
-                    Collections.singletonMap("voucherId", voucherId), (resultSet, i) -> resultSet.getLong("customer_id"));
+                    Collections.singletonMap(VOUCHER_ID.getParam(), voucherId), (resultSet, i) -> resultSet.getLong(CUSTOMER_ID.getColumn()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
@@ -116,7 +118,7 @@ public class JdbcCustomerRepository {
     public Customer findCustomerById(Long customerId) {
         try {
             return jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_ID.getSql(),
-                    Collections.singletonMap("customerId", customerId), customerRowMapper);
+                    Collections.singletonMap(CUSTOMER_ID.getParam(), customerId), customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }
@@ -126,7 +128,7 @@ public class JdbcCustomerRepository {
     public List<Long> findVoucherIdsByCustomerId(long customerId) {
         try {
             return jdbcTemplate.query(FIND_CUSTOMER_ALL_VOUCHERS_ID.getSql(),
-                    Collections.singletonMap("customerId", customerId), customerVoucherRowMapper);
+                    Collections.singletonMap(CUSTOMER_ID.getParam(), customerId), customerVoucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
@@ -152,7 +154,7 @@ public class JdbcCustomerRepository {
     public void deleteAllVouchersByCustomerId(long customerId) {
         try {
             jdbcTemplate.update(DELETE_CUSTOMER_ALL_VOUCHERS.getSql(),
-                    Collections.singletonMap("customerId", customerId));
+                    Collections.singletonMap(CUSTOMER_ID.getParam(), customerId));
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }

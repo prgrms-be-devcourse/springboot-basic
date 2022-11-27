@@ -21,6 +21,7 @@ import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUN
 import static com.example.springbootbasic.domain.voucher.VoucherType.of;
 import static com.example.springbootbasic.exception.voucher.JdbcVoucherRepositoryExceptionMessage.VOUCHER_TYPE_NULL_EXCEPTION;
 import static com.example.springbootbasic.repository.voucher.JdbcVoucherSql.*;
+import static com.example.springbootbasic.repository.voucher.VoucherParam.*;
 
 @Repository
 public class JdbcVoucherRepository {
@@ -35,15 +36,15 @@ public class JdbcVoucherRepository {
 
     private SqlParameterSource toParamSource(Voucher voucher) {
         return new MapSqlParameterSource()
-                .addValue("voucherId", voucher.getVoucherId())
-                .addValue("voucherType", voucher.getVoucherType().getVoucherType())
-                .addValue("voucherDiscountValue", voucher.getDiscountValue());
+                .addValue(VOUCHER_ID.getParam(), voucher.getVoucherId())
+                .addValue(VOUCHER_ID.getParam(), voucher.getVoucherType().getVoucherType())
+                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getDiscountValue());
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        long voucherId = resultSet.getLong("voucher_id");
-        long voucherDiscountValue = resultSet.getLong("voucher_discount_value");
-        String voucherType = resultSet.getString("voucher_type");
+        long voucherId = resultSet.getLong(VOUCHER_ID.getColumn());
+        long voucherDiscountValue = resultSet.getLong(VOUCHER_DISCOUNT_VALUE.getColumn());
+        String voucherType = resultSet.getString(VOUCHER_TYPE.getColumn());
         return VoucherFactory.of(voucherId, voucherDiscountValue, of(voucherType));
     };
 
@@ -70,7 +71,7 @@ public class JdbcVoucherRepository {
         try {
             validateVoucherTypeNull(type);
             return jdbcTemplate.query(SELECT_ALL_VOUCHERS_BY_TYPE.getSql(),
-                    Collections.singletonMap("voucherType", type.getVoucherType()), voucherRowMapper);
+                    Collections.singletonMap(VOUCHER_ID.getParam(), type.getVoucherType()), voucherRowMapper);
         } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
@@ -95,7 +96,7 @@ public class JdbcVoucherRepository {
     public Voucher findById(long voucherId) {
         try {
             return jdbcTemplate.queryForObject(SELECT_VOUCHER_BY_ID.getSql(),
-                    Collections.singletonMap("voucherId", voucherId), voucherRowMapper);
+                    Collections.singletonMap(VOUCHER_ID.getParam(), voucherId), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
             return VoucherFactory.of(0L, FIXED_AMOUNT);
@@ -113,7 +114,7 @@ public class JdbcVoucherRepository {
     public void deleteVouchersByVoucherType(VoucherType voucherType) {
         try {
             jdbcTemplate.update(DELETE_VOUCHERS_BY_TYPE.getSql(),
-                    Collections.singletonMap("voucherType", voucherType.getVoucherType()));
+                    Collections.singletonMap(VOUCHER_ID.getParam(), voucherType.getVoucherType()));
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }
