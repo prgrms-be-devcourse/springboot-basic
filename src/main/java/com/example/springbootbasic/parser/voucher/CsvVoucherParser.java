@@ -33,7 +33,7 @@ public class CsvVoucherParser {
 
     public String toCsvFrom(Voucher voucher) {
         return String.format("%s %s %s %s",
-                voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue(), ENTER.unit());
+                voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherDiscountValue(), ENTER.unit());
     }
 
     private void validateDigit(String inputVoucher) {

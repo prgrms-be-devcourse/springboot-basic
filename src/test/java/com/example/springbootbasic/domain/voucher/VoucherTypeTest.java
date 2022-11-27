@@ -8,7 +8,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static com.example.springbootbasic.domain.voucher.VoucherType.*;
+import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
+import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 

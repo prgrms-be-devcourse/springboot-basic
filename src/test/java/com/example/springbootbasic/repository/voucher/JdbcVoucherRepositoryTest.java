@@ -7,7 +7,10 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,7 +44,7 @@ class JdbcVoucherRepositoryTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
 
@@ -87,7 +90,7 @@ class JdbcVoucherRepositoryTest {
         // when
         Voucher savedVoucher = voucherRepository.save(voucher);
         Voucher goingToUpdateVoucher =
-                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getVoucherDiscountValue(), PERCENT_DISCOUNT);
         Voucher updatedVoucher = voucherRepository.update(goingToUpdateVoucher);
 
         // then
@@ -106,7 +109,7 @@ class JdbcVoucherRepositoryTest {
         Voucher savedAnotherVoucher = voucherRepository.save(anotherVoucher);
 
         Voucher goingToUpdateVoucher =
-                VoucherFactory.of(savedAnotherVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+                VoucherFactory.of(savedAnotherVoucher.getVoucherId(), savedVoucher.getVoucherDiscountValue(), PERCENT_DISCOUNT);
         Voucher updatedVoucher = voucherRepository.update(goingToUpdateVoucher);
 
         // then
@@ -176,7 +179,7 @@ class JdbcVoucherRepositoryTest {
 
         // then
         assertThat(findVoucher.getVoucherType()).isEqualTo(savedVoucher.getVoucherType());
-        assertThat(findVoucher.getDiscountValue()).isEqualTo(savedVoucher.getDiscountValue());
+        assertThat(findVoucher.getVoucherDiscountValue()).isEqualTo(savedVoucher.getVoucherDiscountValue());
     }
 
     @Test

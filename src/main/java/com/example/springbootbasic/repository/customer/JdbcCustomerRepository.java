@@ -18,7 +18,8 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.example.springbootbasic.exception.customer.JdbcCustomerRepositoryExceptionMessage.*;
-import static com.example.springbootbasic.repository.customer.CustomerParam.*;
+import static com.example.springbootbasic.repository.customer.CustomerParam.CUSTOMER_ID;
+import static com.example.springbootbasic.repository.customer.CustomerParam.CUSTOMER_STATUS;
 import static com.example.springbootbasic.repository.customer.JdbcCustomerSql.*;
 import static com.example.springbootbasic.repository.voucher.VoucherParam.*;
 
@@ -38,7 +39,7 @@ public class JdbcCustomerRepository {
                 .addValue(CUSTOMER_STATUS.getParam(), customer.getStatus().getType())
                 .addValue(VOUCHER_ID.getParam(), voucher.getVoucherId())
                 .addValue(VOUCHER_TYPE.getParam(), voucher.getVoucherType().getVoucherType())
-                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getDiscountValue());
+                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getVoucherDiscountValue());
     }
 
     private SqlParameterSource toParamSource(Customer customer) {

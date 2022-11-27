@@ -45,7 +45,7 @@ public class JdbcCustomerController {
         Customer customer = new Customer(customerDto.getCustomerId(), customerDto.getStatus());
         List<Voucher> vouchers = customerDto.getVouchers()
                 .stream()
-                .map(voucherDto -> VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType()))
+                .map(voucherDto -> VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getVoucherDiscountValue(), voucherDto.getVoucherType()))
                 .toList();
         try {
             vouchers.forEach(voucher -> customerService.saveVoucher(customer, voucher));

@@ -15,7 +15,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인율 바우처 생성시 성공")
     void whenConstructPercentDiscountThenSuccessTest(Long discountValue) {
         PercentDiscountVoucher createdVoucher = new PercentDiscountVoucher(1L, discountValue);
-        assertThat(createdVoucher.getDiscountValue(), is(discountValue));
+        assertThat(createdVoucher.getVoucherDiscountValue(), is(discountValue));
     }
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}")

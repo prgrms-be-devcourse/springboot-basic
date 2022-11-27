@@ -36,7 +36,7 @@ public class ConsoleOutput {
             VoucherDto voucherDto = responseBody.getData();
             try {
                 bw.write(MessageFormat.format("{0} {1} {2} {3} {4} {5}",
-                        SAVE_VOUCHER_SUCCESS.message(), ENTER.unit(), voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
+                        SAVE_VOUCHER_SUCCESS.message(), ENTER.unit(), voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getVoucherDiscountValue(), ENTER.unit()));
                 bw.flush();
             } catch (IOException e) {
                 logger.error("Fail - {}", e.getMessage());
@@ -48,7 +48,7 @@ public class ConsoleOutput {
         List<VoucherDto> voucherDtos = responseBody.getData();
         voucherDtos.forEach(voucherDto -> {
             try {
-                bw.write(MessageFormat.format("{0} {1} {2} {3}", voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getDiscountValue(), ENTER.unit()));
+                bw.write(MessageFormat.format("{0} {1} {2} {3}", voucherDto.getVoucherId(), voucherDto.getVoucherType(), voucherDto.getVoucherDiscountValue(), ENTER.unit()));
             } catch (IOException e) {
                 logger.error("Fail - {}", e.getMessage());
             }

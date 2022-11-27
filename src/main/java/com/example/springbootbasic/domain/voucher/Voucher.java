@@ -5,15 +5,15 @@ import static com.example.springbootbasic.exception.voucher.VoucherExceptionMess
 public abstract class Voucher {
 
     private final Long voucherId;
-    private final Long discountValue;
+    private final Long voucherDiscountValue;
     private final VoucherType voucherType;
 
-    Voucher(Long voucherId, Long discountValue, VoucherType voucherType) {
+    protected Voucher(Long voucherId, Long voucherDiscountValue, VoucherType voucherType) {
         validateVoucherId(voucherId);
-        validateDiscountValue(discountValue);
+        validateDiscountValue(voucherDiscountValue);
         validateVoucherType(voucherType);
         this.voucherId = voucherId;
-        this.discountValue = discountValue;
+        this.voucherDiscountValue = voucherDiscountValue;
         this.voucherType = voucherType;
     }
 
@@ -23,8 +23,8 @@ public abstract class Voucher {
         }
     }
 
-    private void validateDiscountValue(Long discountValue) {
-        if (discountValue <= 0) {
+    private void validateDiscountValue(Long voucherDiscountValue) {
+        if (voucherDiscountValue <= 0) {
             throw new IllegalArgumentException(WRONG_VOUCHER_DISCOUNT_VALUE_EXCEPTION.getMessage());
         }
 
@@ -40,8 +40,8 @@ public abstract class Voucher {
         return voucherId;
     }
 
-    public Long getDiscountValue() {
-        return discountValue;
+    public Long getVoucherDiscountValue() {
+        return voucherDiscountValue;
     }
 
     public VoucherType getVoucherType() { return voucherType; }
@@ -50,7 +50,7 @@ public abstract class Voucher {
     public String toString() {
         return "Voucher{" +
                 "voucherId=" + voucherId +
-                ", discountValue=" + discountValue +
+                ", voucherDiscountValue=" + voucherDiscountValue +
                 ", voucherType=" + voucherType +
                 '}';
     }

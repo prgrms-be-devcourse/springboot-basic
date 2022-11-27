@@ -10,7 +10,10 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -46,7 +49,7 @@ class JdbcCustomerRepositoryTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
 

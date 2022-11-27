@@ -70,7 +70,6 @@ class VoucherServiceTest {
                 .count();
 
         List<Voucher> allVouchers = voucherService.findAllVouchers();
-        System.out.println("allVouchers = " + allVouchers);
         int fixedVoucherCount = (int) allVouchers.stream()
                 .filter(voucher -> voucher.getVoucherType() == FIXED_AMOUNT)
                 .count();

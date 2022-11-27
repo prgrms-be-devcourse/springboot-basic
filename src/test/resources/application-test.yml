@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:2215/test_voucher
+    username: test
+    password: test1234!
+
+csv:
+  version: "1.0"
+  voucher-csv-resource: src/main/resources/csv/voucher/voucher.csv
+  customer-csv-resource: src/main/resources/csv/customer/customer_blacklist.csv

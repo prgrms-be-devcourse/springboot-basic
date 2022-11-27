@@ -37,8 +37,8 @@ public class JdbcVoucherRepository {
     private SqlParameterSource toParamSource(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue(VOUCHER_ID.getParam(), voucher.getVoucherId())
-                .addValue(VOUCHER_ID.getParam(), voucher.getVoucherType().getVoucherType())
-                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getDiscountValue());
+                .addValue(VOUCHER_TYPE.getParam(), voucher.getVoucherType().getVoucherType())
+                .addValue(VOUCHER_DISCOUNT_VALUE.getParam(), voucher.getVoucherDiscountValue());
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
@@ -55,7 +55,7 @@ public class JdbcVoucherRepository {
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }
-        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getDiscountValue(), voucher.getVoucherType());
+        return VoucherFactory.of(voucherIdHolder.getKey().longValue(), voucher.getVoucherDiscountValue(), voucher.getVoucherType());
     }
 
     public List<Voucher> findAllVouchers() {
@@ -71,7 +71,7 @@ public class JdbcVoucherRepository {
         try {
             validateVoucherTypeNull(type);
             return jdbcTemplate.query(SELECT_ALL_VOUCHERS_BY_TYPE.getSql(),
-                    Collections.singletonMap(VOUCHER_ID.getParam(), type.getVoucherType()), voucherRowMapper);
+                    Collections.singletonMap(VOUCHER_TYPE.getParam(), type.getVoucherType()), voucherRowMapper);
         } catch (EmptyResultDataAccessException | IllegalArgumentException e) {
             logger.error("Fail - {}", e.getMessage());
             return Collections.emptyList();
@@ -114,7 +114,7 @@ public class JdbcVoucherRepository {
     public void deleteVouchersByVoucherType(VoucherType voucherType) {
         try {
             jdbcTemplate.update(DELETE_VOUCHERS_BY_TYPE.getSql(),
-                    Collections.singletonMap(VOUCHER_ID.getParam(), voucherType.getVoucherType()));
+                    Collections.singletonMap(VOUCHER_TYPE.getParam(), voucherType.getVoucherType()));
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());
         }

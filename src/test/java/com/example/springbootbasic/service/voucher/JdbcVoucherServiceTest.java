@@ -3,24 +3,30 @@ package com.example.springbootbasic.service.voucher;
 import com.example.springbootbasic.domain.voucher.Voucher;
 import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.domain.voucher.VoucherType;
+import com.example.springbootbasic.service.customer.JdbcCustomerService;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
+import static com.example.springbootbasic.repository.voucher.VoucherParam.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -29,6 +35,8 @@ class JdbcVoucherServiceTest {
 
     @Autowired
     private JdbcVoucherService voucherService;
+    @Autowired
+    private JdbcCustomerService customerService;
 
     @BeforeAll
     static void setup() {
@@ -39,12 +47,14 @@ class JdbcVoucherServiceTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
 
     @AfterEach
     void clearData() {
+        customerService.deleteAllCustomerVoucher();
+        customerService.deleteAllCustomers();
         voucherService.deleteAllVouchers();
     }
 
@@ -66,57 +76,32 @@ class JdbcVoucherServiceTest {
         assertThat(allVouchers.size()).isEqualTo(voucherSize);
     }
 
-    @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")
-    @MethodSource("voucherDummy")
-    @DisplayName("여러 타입의 바우처 저장 후 바우처 타입별 검색을 성공한다.")
-    void whenFindAllVouchersByTypeThenSuccessTest(List<Long> discountValues, List<VoucherType> voucherTypes) {
-        // given
-        int voucherSize = discountValues.size();
-        for (int currVoucherIndex = 0; currVoucherIndex < voucherSize; currVoucherIndex++) {
-            Voucher voucher = VoucherFactory.of(discountValues.get(currVoucherIndex), voucherTypes.get(currVoucherIndex));
-            voucherService.saveVoucher(voucher);
-        }
+    @Test
+    @DisplayName(" 바우처 타입별 검색을 성공한다.")
+    @Sql(value = {"classpath:vouchers-dummy.sql", "classpath:customers-dummy.sql"})
 
-        // when
-        int inputFixedVoucherCount = (int) voucherTypes.stream()
-                .filter(voucherType -> voucherType == FIXED_AMOUNT)
-                .count();
-        int inputPercentVoucherCount = (int) voucherTypes.stream()
-                .filter(voucherType -> voucherType == PERCENT_DISCOUNT)
-                .count();
-
-        List<Voucher> allVouchers = voucherService.findAllVouchers();
-        System.out.println("allVouchers = " + allVouchers);
-        int fixedVoucherCount = (int) allVouchers.stream()
-                .filter(voucher -> voucher.getVoucherType() == FIXED_AMOUNT)
-                .count();
-        int percentVoucherCount = (int) allVouchers.stream()
-                .filter(voucher -> voucher.getVoucherType() == PERCENT_DISCOUNT)
-                .count();
+    void whenFindAllVouchersByTypeThenSuccessTest() {
+        boolean isAllFixedAmount = voucherService.findAllVoucherByVoucherType(FIXED_AMOUNT)
+                .stream()
+                .allMatch(voucher -> voucher.getVoucherType() == FIXED_AMOUNT);
+        boolean isAllPercent = voucherService.findAllVoucherByVoucherType(PERCENT_DISCOUNT)
+                .stream()
+                .allMatch(voucher -> voucher.getVoucherType() == PERCENT_DISCOUNT);
 
         //then
-        assertThat(fixedVoucherCount).isEqualTo(inputFixedVoucherCount);
-        assertThat(percentVoucherCount).isEqualTo(inputPercentVoucherCount);
+        assertThat(isAllFixedAmount).isTrue();
+        assertThat(isAllPercent).isTrue();
     }
 
     @Test
     @DisplayName("바우처 타입을 이용해서 같은 타입의 모든 바우처 검색에 성공한다.")
+    @Sql(value = "classpath:vouchers-dummy.sql")
     void whenFindAllVoucherByVoucherTypeThenSuccessTest() {
-        // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher4 = VoucherFactory.of(1000L, FIXED_AMOUNT);
-
         // when
-        voucherService.saveVoucher(voucher1);
-        voucherService.saveVoucher(voucher2);
-        voucherService.saveVoucher(voucher3);
-        voucherService.saveVoucher(voucher4);
         List<Voucher> findVouchers = voucherService.findAllVoucherByVoucherType(FIXED_AMOUNT);
 
         // then
-        assertThat(findVouchers).hasSize(4);
+        assertThat(findVouchers).hasSize(3);
     }
 
     @Test
@@ -128,39 +113,34 @@ class JdbcVoucherServiceTest {
 
         // when
         Voucher findVoucher = voucherService.findById(savedVoucher.getVoucherId());
-        System.out.println("findVoucher = " + findVoucher);
 
         // then
-        assertThat(savedVoucher.getDiscountValue()).isEqualTo(findVoucher.getDiscountValue());
+        assertThat(savedVoucher.getVoucherDiscountValue()).isEqualTo(findVoucher.getVoucherDiscountValue());
     }
 
     @Test
     @DisplayName("기존에 저장된 바우처 수정에 성공한다.")
+    @Sql(value = "classpath:vouchers-dummy.sql")
     void whenUpdateVoucherThenSuccessTest() {
         // given
-        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher savedVoucher = voucherService.saveVoucher(voucher);
         Voucher goingToUpdateVoucher =
-                VoucherFactory.of(savedVoucher.getVoucherId(), savedVoucher.getDiscountValue(), PERCENT_DISCOUNT);
+                VoucherFactory.of(1L, 50000L, FIXED_AMOUNT);
 
         // when
         Voucher updatedVoucher = voucherService.update(goingToUpdateVoucher);
 
         // then
-        assertThat(updatedVoucher.getVoucherType()).isEqualTo(PERCENT_DISCOUNT);
+        assertThat(updatedVoucher)
+                .hasFieldOrPropertyWithValue(VOUCHER_ID.getParam(), 1L)
+                .hasFieldOrPropertyWithValue(VOUCHER_DISCOUNT_VALUE.getParam(), 50000L)
+                .hasFieldOrPropertyWithValue(VOUCHER_TYPE.getParam(), FIXED_AMOUNT);
+
     }
 
     @Test
     @DisplayName("모든 바우처 삭제에 성공한다.")
+    @Sql(value = "classpath:vouchers-dummy.sql")
     void whenDeleteAllVouchersThenSuccessTest() {
-        // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT);
-        voucherService.saveVoucher(voucher1);
-        voucherService.saveVoucher(voucher2);
-        voucherService.saveVoucher(voucher3);
-
         // when
         voucherService.deleteAllVouchers();
         List<Voucher> allVouchers = voucherService.findAllVouchers();
@@ -171,16 +151,9 @@ class JdbcVoucherServiceTest {
 
     @Test
     @DisplayName("입력된 바우처 타입과 같은 모든 바우처 타입 삭제에 성공한다.")
+    @Sql(value = "classpath:vouchers-dummy.sql")
     void deleteVouchersByVoucherType() {
-        // given
-        Voucher voucher1 = VoucherFactory.of(1L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(100L, FIXED_AMOUNT);
-
         // when
-        voucherService.saveVoucher(voucher1);
-        voucherService.saveVoucher(voucher2);
-        voucherService.saveVoucher(voucher3);
         voucherService.deleteVouchersByVoucherType(FIXED_AMOUNT);
         List<Voucher> findAllVouchers = voucherService.findAllVouchers();
 

@@ -26,7 +26,7 @@ public class VoucherController {
 
     public ResponseBody<VoucherDto> saveVoucher(RequestBody<VoucherDto> request) {
         VoucherDto voucherDto = request.getData();
-        Long discountValue = voucherDto.getDiscountValue();
+        Long discountValue = voucherDto.getVoucherDiscountValue();
         VoucherType voucherType = voucherDto.getVoucherType();
         try {
             Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);

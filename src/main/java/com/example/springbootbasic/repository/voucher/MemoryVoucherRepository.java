@@ -24,7 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public synchronized Voucher save(Voucher voucher) {
         try {
             Voucher generatedVoucher = VoucherFactory.of(
-                    ++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+                    ++sequence, voucher.getVoucherDiscountValue(), voucher.getVoucherType());
             storage.put(generatedVoucher.getVoucherId(), generatedVoucher);
             return generatedVoucher;
         } catch (IllegalArgumentException e) {

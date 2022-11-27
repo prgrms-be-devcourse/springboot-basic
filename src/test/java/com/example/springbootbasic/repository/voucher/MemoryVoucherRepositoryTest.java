@@ -45,7 +45,7 @@ class MemoryVoucherRepositoryTest {
 
         // then
         assertThat(savedVoucher.getVoucherType(), is(voucherType));
-        assertThat(savedVoucher.getDiscountValue(), is(discountValue));
+        assertThat(savedVoucher.getVoucherDiscountValue(), is(discountValue));
     }
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}, voucherType = {1}")

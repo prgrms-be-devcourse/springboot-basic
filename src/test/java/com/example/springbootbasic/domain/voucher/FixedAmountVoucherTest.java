@@ -18,7 +18,7 @@ class FixedAmountVoucherTest {
     @DisplayName("고정 할인 바우처 생성시 성공")
     void whenConstructFixedAmountThenSuccessTest(Long discountValue) {
         FixedAmountVoucher createdVoucher = new FixedAmountVoucher(1L, discountValue);
-        assertThat(createdVoucher.getDiscountValue(), is(discountValue));
+        assertThat(createdVoucher.getVoucherDiscountValue(), is(discountValue));
     }
 
     @ParameterizedTest(name = "[{index}] discountValue = {0}")

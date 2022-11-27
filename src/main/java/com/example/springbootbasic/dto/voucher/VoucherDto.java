@@ -6,33 +6,33 @@ import com.example.springbootbasic.domain.voucher.VoucherType;
 public class VoucherDto {
 
     private Long voucherId;
-    private Long discountValue;
+    private Long voucherDiscountValue;
     private VoucherType voucherType;
 
     public VoucherDto() {
     }
 
-    public VoucherDto(Long discountValue, VoucherType voucherType) {
-        this.discountValue = discountValue;
+    public VoucherDto(Long voucherDiscountValue, VoucherType voucherType) {
+        this.voucherDiscountValue = voucherDiscountValue;
         this.voucherType = voucherType;
     }
 
-    public VoucherDto(Long voucherId, Long discountValue, VoucherType voucherType) {
+    public VoucherDto(Long voucherId, Long voucherDiscountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
-        this.discountValue = discountValue;
+        this.voucherDiscountValue = voucherDiscountValue;
         this.voucherType = voucherType;
     }
 
     public static VoucherDto newInstance(Voucher voucher) {
-        return new VoucherDto(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherDiscountValue(), voucher.getVoucherType());
     }
 
     public Long getVoucherId() {
         return voucherId;
     }
 
-    public Long getDiscountValue() {
-        return discountValue;
+    public Long getVoucherDiscountValue() {
+        return voucherDiscountValue;
     }
 
     public VoucherType getVoucherType() {

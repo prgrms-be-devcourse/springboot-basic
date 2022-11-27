@@ -2,24 +2,25 @@ package com.example.springbootbasic.service.customer;
 
 import com.example.springbootbasic.domain.customer.Customer;
 import com.example.springbootbasic.domain.voucher.Voucher;
-import com.example.springbootbasic.domain.voucher.VoucherFactory;
 import com.example.springbootbasic.repository.voucher.JdbcVoucherRepository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.wix.mysql.distribution.Version;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 
 import static com.example.springbootbasic.domain.customer.CustomerStatus.BLACK;
 import static com.example.springbootbasic.domain.customer.CustomerStatus.NORMAL;
-import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
-import static com.example.springbootbasic.domain.voucher.VoucherType.PERCENT_DISCOUNT;
 import static java.util.Collections.EMPTY_LIST;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,7 +43,7 @@ class JdbcCustomerServiceTest {
                 .withTimeZone("Asia/Seoul")
                 .build();
         EmbeddedMysql.anEmbeddedMysql(config)
-                .addSchema("test-voucher", ScriptResolver.classPathScript("schema.sql"))
+                .addSchema("test_voucher", ScriptResolver.classPathScript("schema.sql"))
                 .start();
     }
 
@@ -50,6 +51,7 @@ class JdbcCustomerServiceTest {
     void clear() {
         customerService.deleteAllCustomerVoucher();
         customerService.deleteAllCustomers();
+        voucherRepository.deleteAllVouchers();
     }
 
     @Test
@@ -110,28 +112,13 @@ class JdbcCustomerServiceTest {
 
     @Test
     @DisplayName("해당하는 바우처를 가지고 있는 모든 고객 검색에 성공한다.")
+    @Sql(value ="classpath:customers-vouchers-dummy.sql")
     void whenFindCustomersWhoHasSelectedVoucherThenSuccessTest() {
-        // given
-        Voucher voucher = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Customer customer1 = new Customer(NORMAL);
-        Customer customer2 = new Customer(NORMAL);
-        Customer customer3 = new Customer(NORMAL);
-        Customer customer4 = new Customer(NORMAL);
-
         // when
-        Voucher savedVoucher = voucherRepository.save(voucher);
-        customer1 = customerService.saveCustomer(customer1);
-        customer2 = customerService.saveCustomer(customer2);
-        customer3 = customerService.saveCustomer(customer3);
-        customer4 = customerService.saveCustomer(customer4);
-        customerService.saveVoucher(customer1, savedVoucher);
-        customerService.saveVoucher(customer2, savedVoucher);
-        customerService.saveVoucher(customer3, savedVoucher);
-        customerService.saveVoucher(customer4, savedVoucher);
-
-        List<Customer> findAllCustomers = customerService.findCustomersWhoHasSelectedVoucher(savedVoucher.getVoucherId());
+        List<Customer> findAllCustomers = customerService.findCustomersWhoHasSelectedVoucher(1L);
+        Voucher findVoucher = voucherRepository.findById(1L);
         boolean checkAllCustomersHaveSelectedVoucher =
-                findAllCustomers.stream().allMatch(customer -> customer.hasVoucher(savedVoucher));
+                findAllCustomers.stream().allMatch(customer -> customer.hasVoucher(findVoucher));
 
         // then
         assertThat(checkAllCustomersHaveSelectedVoucher).isTrue();
@@ -139,28 +126,18 @@ class JdbcCustomerServiceTest {
 
     @Test
     @DisplayName("고객 아이디를 통해 고객이 지닌 모든 바우처 검색을 성공한다.")
+    @Sql(value ="classpath:customers-vouchers-dummy.sql")
     void whenFindVoucherIdsByCustomerIdThenSuccessTest() {
-        // given
-        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT);
-        Customer customer = new Customer(NORMAL);
-
         // when
-        Customer savedCustomer = customerService.saveCustomer(customer);
-        Voucher savedVoucher1 = voucherRepository.save(voucher1);
-        Voucher savedVoucher2 = voucherRepository.save(voucher2);
-        customerService.saveVoucher(savedCustomer, savedVoucher1);
-        customerService.saveVoucher(savedCustomer, savedVoucher2);
-        List<Voucher> vouchers = customerService.findVouchersByCustomerId(savedCustomer.getCustomerId());
+        List<Voucher> vouchers = customerService.findVouchersByCustomerId(1L);
 
         // then
-        assertThat(vouchers).hasSize(2);
+        assertThat(vouchers).hasSize(3);
     }
 
     @Test
     @DisplayName("저장된 고객을 고객 아이디를 이용하여 검색에 성공한다.")
     void whenFindCustomerByIdThenSuccessTest() {
-        // given
         Customer customer = new Customer(NORMAL);
 
         // when
@@ -174,25 +151,13 @@ class JdbcCustomerServiceTest {
 
     @Test
     @DisplayName("고객 아이디를 통해서 찾은 고객이 갖은 모든 바우처 삭제에 성공한다.")
+    @Sql(value ="classpath:customers-vouchers-dummy.sql")
     void whenDeleteAllVouchersByCustomerIdThenSuccessTest() {
-        // given
-        Voucher voucher1 = VoucherFactory.of(100L, FIXED_AMOUNT);
-        Voucher voucher2 = VoucherFactory.of(10000L, FIXED_AMOUNT);
-        Voucher voucher3 = VoucherFactory.of(50L, PERCENT_DISCOUNT);
-        Customer customer = new Customer(NORMAL);
-
         // when
-        Customer savedCustomer = customerService.saveCustomer(customer);
-        Voucher savedVoucher1 = voucherRepository.save(voucher1);
-        Voucher savedVoucher2 = voucherRepository.save(voucher2);
-        Voucher savedVoucher3 = voucherRepository.save(voucher3);
-        customerService.saveVoucher(savedCustomer, savedVoucher1);
-        customerService.saveVoucher(savedCustomer, savedVoucher2);
-        customerService.saveVoucher(savedCustomer, savedVoucher3);
-        customerService.deleteAllVouchersByCustomerId(savedCustomer.getCustomerId());
-        List<Voucher> vouchers = customerService.findVouchersByCustomerId(savedCustomer.getCustomerId());
+        customerService.deleteAllVouchersByCustomerId(1L);
+        List<Voucher> vouchers = customerService.findVouchersByCustomerId(1L);
 
         // then
-        assertThat(vouchers).isEmpty();
+        assertThat(vouchers).hasSize(0);
     }
 }

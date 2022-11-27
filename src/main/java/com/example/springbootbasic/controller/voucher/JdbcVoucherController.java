@@ -17,7 +17,7 @@ import org.springframework.stereotype.Controller;
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.springbootbasic.domain.voucher.VoucherType.*;
+import static com.example.springbootbasic.domain.voucher.VoucherType.FIXED_AMOUNT;
 
 @Controller
 public class JdbcVoucherController {
@@ -31,7 +31,7 @@ public class JdbcVoucherController {
 
     public ResponseBody<VoucherDto> saveVoucher(RequestBody<VoucherDto> request) {
         VoucherDto voucherDto = request.getData();
-        Long discountValue = voucherDto.getDiscountValue();
+        Long discountValue = voucherDto.getVoucherDiscountValue();
         VoucherType voucherType = voucherDto.getVoucherType();
         try {
             Voucher generatedVoucher = VoucherFactory.of(discountValue, voucherType);
@@ -75,7 +75,7 @@ public class JdbcVoucherController {
         VoucherDto voucherDto = request.getData();
         Voucher updatedVoucher;
         try {
-            Voucher toBeVoucher = VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getDiscountValue(), voucherDto.getVoucherType());
+            Voucher toBeVoucher = VoucherFactory.of(voucherDto.getVoucherId(), voucherDto.getVoucherDiscountValue(), voucherDto.getVoucherType());
             updatedVoucher = voucherService.update(toBeVoucher);
         } catch (DataAccessException e) {
             logger.error("Fail - {}", e.getMessage());

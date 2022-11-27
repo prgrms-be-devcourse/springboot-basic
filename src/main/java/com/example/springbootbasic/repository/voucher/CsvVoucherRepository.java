@@ -49,7 +49,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     public synchronized Voucher save(Voucher voucher) {
         try (Writer writer = new FileWriter(csvProperties.getVoucherCsvResource(), true)) {
             Voucher generatedVoucher =
-                    VoucherFactory.of(++sequence, voucher.getDiscountValue(), voucher.getVoucherType());
+                    VoucherFactory.of(++sequence, voucher.getVoucherDiscountValue(), voucher.getVoucherType());
             writer.write(csvParser.toCsvFrom(generatedVoucher));
             writer.flush();
         } catch (IOException e) {

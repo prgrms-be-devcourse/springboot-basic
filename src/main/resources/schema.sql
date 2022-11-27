@@ -16,7 +16,7 @@ CREATE TABLE CUSTOMER_VOUCHER
     customer_voucher_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     customer_id         BIGINT    not null,
     voucher_id          BIGINT    not null,
-    FOREIGN KEY (customer_id) REFERENCES CUSTOMER(customer_id),
-    FOREIGN KEY (voucher_id) REFERENCES VOUCHER(voucher_id)
+    FOREIGN KEY (customer_id) REFERENCES CUSTOMER (customer_id),
+    FOREIGN KEY (voucher_id) REFERENCES VOUCHER (voucher_id)
 );
 
