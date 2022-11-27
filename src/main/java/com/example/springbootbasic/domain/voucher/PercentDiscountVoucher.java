@@ -34,10 +34,6 @@ public class PercentDiscountVoucher extends Voucher {
         validateDiscountValue(discountValue);
     }
 
-    public VoucherType getVoucherType() {
-        return PERCENT_DISCOUNT;
-    }
-
     private void validateDiscountValue(Long discountValue) {
         if (MIN_DISCOUNT_PERCENT > discountValue || discountValue > MAX_DISCOUNT_PERCENT) {
             logger.error("Fail - {}", MessageFormat.format(PERCENT_DISCOUNT_RANGE_EXCEPTION.getMessage(), MIN_DISCOUNT_PERCENT, MAX_DISCOUNT_PERCENT));
