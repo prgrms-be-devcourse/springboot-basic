@@ -32,7 +32,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return new ArrayList<>(storage.values());
+        return List.copyOf(storage.values());
     }
 
     @Override
