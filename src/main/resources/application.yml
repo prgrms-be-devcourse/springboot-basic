@@ -12,8 +12,9 @@ spring:
     cache: false
 
 file:
-  voucherResourcesPath: ./src/main/resources/voucherResources/
-  consumerPath: ./src/main/resources/consumerResources/
+  path:
+  voucherResources: ./src/main/resources/voucherResources/
+  consumer: ./src/main/resources/consumerResources/
 
 db:
   url: ${DB_URL}

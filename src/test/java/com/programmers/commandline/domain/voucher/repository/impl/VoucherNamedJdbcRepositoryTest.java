@@ -59,10 +59,10 @@ class VoucherNamedJdbcRepositoryTest {
 
         long updateDiscount = 200L;
         Voucher voucher = VoucherType.FIXED_AMOUNT.createVoucher(id, discount, createdAt);
+        voucherNamedJdbcRepository.insert(voucher);
 
         //when
-        voucherNamedJdbcRepository.insert(voucher);
-        voucher.update(updateDiscount);
+        voucher.updateDiscount(updateDiscount);
         Voucher updateVoucher = voucherNamedJdbcRepository.update(voucher);
 
         //then

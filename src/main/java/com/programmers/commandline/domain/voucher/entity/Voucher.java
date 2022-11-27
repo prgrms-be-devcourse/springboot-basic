@@ -41,7 +41,7 @@ public abstract class Voucher {
         return discount;
     }
 
-    public void update(long discount) {
+    public void updateDiscount(long discount) {
         this.discount = discount;
     }
 

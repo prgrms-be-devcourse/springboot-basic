@@ -28,12 +28,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        for (int i = 0; i < memory.size(); i++) {
-            if (memory.get(i).getId().equals(voucher.getId())) {
-                memory.get(i).update(voucher.getDiscount());
+        memory.forEach(i -> {
+            if (i.getId().equals(voucher.getId())) {
+                i.updateDiscount(voucher.getDiscount());
             }
-        }
-        return null;
+        });
+        return voucher;
     }
 
     @Override
@@ -45,7 +45,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
         memory.forEach(vouchers::add);
-
         return vouchers;
     }
 
@@ -58,9 +57,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        while (!memory.isEmpty()) {
-            memory.remove(0);
-        }
+        memory.clear();
     }
 
     @Override

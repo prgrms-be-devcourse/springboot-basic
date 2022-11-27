@@ -30,16 +30,16 @@ public class ConsumerFileRepository implements ConsumerRepository {
     }
 
     @Override
-    public Consumer insert(Consumer customer) {
+    public Consumer insert(Consumer consumer) {
         TomlWriter tomlWriter = new TomlWriter();
-        File consumerFile = new File(filePath + customer.getId());
+        File consumerFile = new File(filePath + consumer.getId());
 
         try {
-            tomlWriter.write(customer, consumerFile);
+            tomlWriter.write(consumer, consumerFile);
         } catch (IOException e) {
             throw new IllegalArgumentException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage());
         }
-        return customer;
+        return consumer;
     }
 
     @Override

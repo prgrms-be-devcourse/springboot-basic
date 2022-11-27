@@ -5,8 +5,6 @@ import com.programmers.commandline.domain.consumer.entity.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.File;
@@ -21,14 +19,14 @@ import static org.hamcrest.Matchers.isA;
 @ActiveProfiles("file")
 class ConsumerFileRepositoryTest {
 
-    Logger logger = LoggerFactory.getLogger(ConsumerFileRepositoryTest.class);
-    private String filePath = "./src/test/resources/consumerResources/";
-    private ConsumerFileRepository consumerFileRepository = new ConsumerFileRepository(filePath);
+    private final String filePath = "./src/test/resources/consumerResources/";
+    private final ConsumerFileRepository consumerFileRepository = new ConsumerFileRepository(filePath);
 
     @BeforeEach
     void setup() {
         File[] consumerFiles = new File(filePath).listFiles();
 
+        assert consumerFiles != null;
         for (File consumerFile : consumerFiles) {
             consumerFile.delete();
         }
@@ -59,15 +57,15 @@ class ConsumerFileRepositoryTest {
         String updateEmail = "update_user@naver.com";
 
         //when
-        Consumer insert = consumerFileRepository.insert(consumer);
-        logger.info(String.format("잘나왔나요 insert씩 ? %s", insert.getId()));
+        consumerFileRepository.insert(consumer);
         consumer.update(updateUsername, updateEmail);
         consumerFileRepository.update(consumer);
 
         File consumerFile = new File(filePath + consumer.getId());
 
+        String name = toml.read(consumerFile).getString("name");
         //then
-        assertThat(getName(toml, consumerFile), is(updateUsername));
+        assertThat(name, is(updateUsername));
     }
 
 
@@ -82,6 +80,7 @@ class ConsumerFileRepositoryTest {
         File[] consumerFiles = new File(filePath).listFiles();
 
         //then
+        assert consumerFiles != null;
         assertThat(consumerFiles.length, is(1));
 
     }
@@ -99,9 +98,7 @@ class ConsumerFileRepositoryTest {
         List<Consumer> consumers = consumerFileRepository.findAll();
 
         //then
-        consumers.forEach(answer -> {
-            assertThat(answer, isA(Consumer.class));
-        });
+        consumers.forEach(answer -> assertThat(answer, isA(Consumer.class)));
         assertThat(consumers.isEmpty(), is(false));
         assertThat(consumers.size(), is(2));
     }
@@ -165,9 +162,5 @@ class ConsumerFileRepositoryTest {
 
         //then
         assertThat(consumers.size(), is(0));
-    }
-
-    private String getName(Toml toml, File consumerFile) {
-        return toml.read(consumerFile).getString("name");
     }
 }

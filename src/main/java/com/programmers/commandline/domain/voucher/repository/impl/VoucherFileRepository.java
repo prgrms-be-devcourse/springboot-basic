@@ -13,10 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("file")
@@ -65,12 +62,12 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
-        File[] voucherFiles = new File(filePath).listFiles();
+        List<File> voucherFiles = Arrays.stream(new File(filePath).listFiles()).toList();
 
-        for (File voucherFile : voucherFiles) {
-            Voucher voucher = convertTomlToVoucher(voucherFile);
-            vouchers.add(voucher);
-        }
+        voucherFiles.forEach(voucherFile -> {
+            vouchers.add(convertTomlToVoucher(voucherFile));
+        });
+
         return vouchers;
     }
 

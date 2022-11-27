@@ -1,12 +1,17 @@
 package com.programmers.commandline.domain.consumer.entity;
 
+import com.programmers.commandline.domain.voucher.entity.Voucher;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class Consumer {
     private String id;
     private String name;
     private String email;
+    private List<Voucher> vouchers = new ArrayList<>();
     private String createdAt;
     private String lastLoginAt;
 

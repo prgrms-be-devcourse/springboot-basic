@@ -35,9 +35,9 @@ public class Console {
             String input = scanner.next();
             validateNumber(input);
             return input;
-        } catch (NoSuchElementException | IllegalStateException exception) {
-            logger.error(Message.INT_READ_EXCEPTION.getMessage());
-            throw new IllegalArgumentException(Message.INT_READ_EXCEPTION.getMessage(), exception);
+        } catch (NoSuchElementException | IllegalStateException e) {
+            logger.info(Message.INT_READ_EXCEPTION.getMessage());
+            throw new ConsoleException(Message.READ_LINE.getMessage(), e);
         }
     }
 

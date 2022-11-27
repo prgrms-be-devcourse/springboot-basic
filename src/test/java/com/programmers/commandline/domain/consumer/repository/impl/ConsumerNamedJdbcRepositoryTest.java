@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @ActiveProfiles("jdbc")
@@ -95,20 +96,22 @@ class ConsumerNamedJdbcRepositoryTest {
     @DisplayName("소비자를 저장하고 모든 소비자를 찾습니다. 그리고 소비자의 ID를 검증하라")
     void findAll() {
         //given
+        List<Consumer> consumerList = new ArrayList<>();
         Consumer consumer = new Consumer(
                 UUID.randomUUID(),
                 "test_user",
                 "test_user@naver.com",
                 LocalDateTime.now());
 
+        consumerList.add(consumer);
+
         //when
         consumerNamedJdbcRepository.insert(consumer);
         List<Consumer> consumers = consumerNamedJdbcRepository.findAll();
 
         //then
-        consumers.forEach(foundConsumer -> {
-            assertThat(foundConsumer.getId(), is(consumer.getId()));
-        });
+        assertThat(consumers, samePropertyValuesAs(consumerList));
+
     }
 
     @Test

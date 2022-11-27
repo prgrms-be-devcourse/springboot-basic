@@ -17,11 +17,11 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     public static Voucher of(UUID uuid, long discount, LocalDateTime createdAt) {
-        validation(discount);
+        validationDiscout(discount);
         return new FixedAmountVoucher(uuid, discount, createdAt);
     }
 
-    private static void validation(long discount) {
+    private static void validationDiscout(long discount) {
         if (discount < 0) {
             logger.info(Message.BAD_DISCOUNT.getMessage());
             throw new IllegalArgumentException(Message.BAD_DISCOUNT.getMessage());
