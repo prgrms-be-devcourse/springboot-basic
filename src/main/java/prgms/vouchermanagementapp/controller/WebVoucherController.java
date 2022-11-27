@@ -78,6 +78,30 @@ public class WebVoucherController {
         return "redirect:/voucher/voucherList/{voucherId}";
     }
 
+    @GetMapping("/{voucherId}/edit")
+    public String voucherEditForm(@PathVariable UUID voucherId, Model model) {
+        Voucher foundVoucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() ->
+                        new EmptyResultDataAccessException("cannot find voucher for voucherId=" + voucherId, 1)
+                );
+        VoucherViewDTO voucherViewDTO = new VoucherViewDTO(foundVoucher);
+
+        model.addAttribute("voucher", voucherViewDTO);
+        return "voucher/voucherEditForm";
+    }
+
+    @PostMapping("/{voucherId}/edit")
+    public String updateVoucher(
+            @PathVariable UUID voucherId,
+            @RequestParam long discountLevel,
+            RedirectAttributes redirectAttributes
+    ) {
+        voucherRepository.updateDiscountLevel(voucherId, discountLevel);
+
+        redirectAttributes.addAttribute("updateStatus", true);
+        return "redirect:/voucher/voucherList/{voucherId}";
+    }
+
     @GetMapping("/{voucherId}/delete")
     public String deleteVoucher(@PathVariable UUID voucherId) {
         voucherRepository.deleteById(voucherId);

@@ -20,6 +20,7 @@
 
     <!-- 저장 완료 확인 텍스트-->
     <h2 th:if="${param.status}" th:text="'바우처 생성 완료!'"></h2>
+    <h2 th:if="${param.updateStatus}" th:text="'바우처 수정 완료!'"></h2>
 
     <div>
         <label for="voucherId">바우처 ID</label>
