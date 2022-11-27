@@ -61,7 +61,6 @@ public class ViewVoucherController {
 
     @DeleteMapping("/{voucherId}")
     public String deleteVoucher(@PathVariable Long voucherId) {
-        System.out.println("voucherId = " + voucherId);
         voucherService.deleteVoucherById(voucherId);
         return "redirect:";
     }
