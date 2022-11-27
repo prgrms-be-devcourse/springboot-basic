@@ -43,7 +43,7 @@ public class RestCustomerController {
         return ResponseBody.success(findCustomers);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseBody<CustomerDto> customerAddForm(CreateCustomerRequest request) {
         CustomerStatus customerStatus = CustomerStatus.of(request.status());
         CustomerDto savedCustomer = CustomerDto.newInstance(customerService.saveCustomer(new Customer(customerStatus)));
