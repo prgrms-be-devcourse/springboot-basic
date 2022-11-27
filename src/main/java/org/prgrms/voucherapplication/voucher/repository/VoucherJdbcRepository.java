@@ -3,7 +3,10 @@ package org.prgrms.voucherapplication.voucher.repository;
 import org.prgrms.voucherapplication.customer.NothingInsertException;
 import org.prgrms.voucherapplication.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.voucher.entity.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,7 +20,9 @@ import java.util.*;
 @Profile("prod")
 public class VoucherJdbcRepository implements VoucherRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
     private static final String NOTHING_INSERT = "Nothing was inserted";
+    private static final String EMPTY_RESULT = "Got empty result";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -43,7 +48,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         Map<String, Object> paraMap = new HashMap<>();
-        paraMap.put("voucherId", voucher.getUuid().toString().getBytes());
+        paraMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         paraMap.put("discount", voucher.getDiscount());
         paraMap.put("voucherType", voucher.getVoucherType().name());
         paraMap.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
@@ -65,5 +70,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public int deleteAll() {
         return namedParameterJdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        try {
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.info(EMPTY_RESULT, e);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
     }
 }

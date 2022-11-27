@@ -7,10 +7,10 @@ import java.util.UUID;
 public class CreateVoucherRequest {
     private final UUID voucherId;
     private final int discount;
-    private final VoucherType voucherType;
+    private final String voucherType;
 
-    public CreateVoucherRequest(UUID voucherId, int discount, VoucherType voucherType) {
-        this.voucherId = voucherId;
+    public CreateVoucherRequest(int discount, String voucherType) {
+        this.voucherId = UUID.randomUUID();
         this.discount = discount;
         this.voucherType = voucherType;
     }
@@ -24,6 +24,6 @@ public class CreateVoucherRequest {
     }
 
     public VoucherType getVoucherType() {
-        return voucherType;
+        return VoucherType.of(this.voucherType);
     }
 }

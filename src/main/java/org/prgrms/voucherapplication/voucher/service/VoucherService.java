@@ -5,6 +5,8 @@ import org.prgrms.voucherapplication.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -23,7 +25,15 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public Optional<Voucher> findById(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
+    }
+
     public int deleteAll() {
         return voucherRepository.deleteAll();
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

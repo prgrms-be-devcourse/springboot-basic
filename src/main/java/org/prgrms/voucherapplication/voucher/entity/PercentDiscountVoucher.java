@@ -24,7 +24,7 @@ public class PercentDiscountVoucher extends Voucher{
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-                "uuid=" + uuid +
+                "uuid=" + voucherId +
                 ", discount=" + discount +
                 ", voucherType=" + voucherType +
                 ", createdAt=" + createdAt +

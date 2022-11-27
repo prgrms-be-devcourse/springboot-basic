@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Profile("file")
@@ -45,6 +46,20 @@ public class VoucherFileRepository implements VoucherRepository {
         return 0;
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        List<String> readFileLines = csvFileService.readFileLines(voucherFile);
+
+        List<Voucher> voucherList = fileLinesIntoVouchers(readFileLines);
+        return voucherList.stream()
+                .filter(voucher -> voucher.getVoucherId().equals(voucherId))
+                .findFirst();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+    }
+
     private List<Voucher> fileLinesIntoVouchers(List<String> readFileLines) {
         List<Voucher> voucherList = new ArrayList<>();
 
@@ -53,7 +68,7 @@ public class VoucherFileRepository implements VoucherRepository {
             String voucherTypeName = voucherToString.substring(0, voucherTypeNameEndIndex);
             VoucherType voucherType = VoucherType.of(voucherTypeName);
 
-            String voucherId = parseIndexOf(voucherToString, "uuid=", ", discount=");
+            String voucherId = parseIndexOf(voucherToString, "voucherId=", ", discount=");
             String discountStr = parseIndexOf(voucherToString, "discount=", ", voucherType=");
             String createdAtStr = parseIndexOf(voucherToString, "createdAt=", "}");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
