@@ -4,6 +4,7 @@ import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
+import com.programmers.commandline.global.exception.FileWriteException;
 import com.programmers.commandline.global.io.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ public class ConsumerFileRepository implements ConsumerRepository {
         try {
             tomlWriter.write(consumer, consumerFile);
         } catch (IOException e) {
-            throw new IllegalArgumentException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage());
+            throw new FileWriteException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage(), e);
         }
         return consumer;
     }

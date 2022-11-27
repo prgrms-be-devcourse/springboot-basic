@@ -1,5 +1,6 @@
 package com.programmers.commandline.global.io;
 
+import com.programmers.commandline.global.exception.ConsoleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
+
+    private static final int MIN_Amount = 0;
+
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
     private FixedAmountVoucher(UUID uuid, long discount, LocalDateTime createdAt) {
@@ -22,7 +25,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     private static void validationDiscout(long discount) {
-        if (discount < 0) {
+        if (discount < MIN_Amount) {
             logger.info(Message.BAD_DISCOUNT.getMessage());
             throw new IllegalArgumentException(Message.BAD_DISCOUNT.getMessage());
         }

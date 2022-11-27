@@ -9,6 +9,10 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
+    private static final int MAX_PERCENT = 100;
+    private static final int MIN_PERCENT = 0;
+
+
     public PercentDiscountVoucher(UUID uuid, long discount, LocalDateTime createdAt) {
         super(uuid, VoucherType.PERCENT_DISCOUNT, discount, createdAt);
     }
@@ -20,7 +24,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private static void validation(long discount) {
-        if (discount > 100 || discount < 0) {
+        if (discount > MAX_PERCENT || discount <= MIN_PERCENT) {
             throw new IllegalArgumentException(Message.BAD_DISCOUNT.getMessage());
         }
     }

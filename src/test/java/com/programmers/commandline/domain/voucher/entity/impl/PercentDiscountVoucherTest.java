@@ -40,4 +40,28 @@ class PercentDiscountVoucherTest {
         //then
         Assertions.assertThrows(IllegalArgumentException.class, () -> PercentDiscountVoucher.of(id, discount, LocalDateTime.now()));
     }
+
+    @Test
+    @DisplayName("PercentDiscount 바우처를 생성할 때 잘못된 discount = 0 를 입력 받았을때 에러가 발생하는지 검증하자")
+    void of2() {
+        //given
+        UUID id = UUID.randomUUID();
+        long discount = 0L;
+
+        //when
+        //then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PercentDiscountVoucher.of(id, discount, LocalDateTime.now()));
+    }
+
+    @Test
+    @DisplayName("PercentDiscount 바우처를 생성할 때 잘못된 discount = 101 를 입력 받았을때 에러가 발생하는지 검증하자")
+    void of4() {
+        //given
+        UUID id = UUID.randomUUID();
+        long discount = 101L;
+
+        //when
+        //then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> PercentDiscountVoucher.of(id, discount, LocalDateTime.now()));
+    }
 }
