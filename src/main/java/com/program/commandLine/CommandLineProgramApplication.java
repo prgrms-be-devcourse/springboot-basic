@@ -26,9 +26,9 @@ public class CommandLineProgramApplication {
         logger.info("프로그램 끝");
     }
 
-    @PostConstruct
-    public void start() {
-        systemController.run();
-    }
+//    @PostConstruct
+//    public void start() {
+//        systemController.run();
+//    }
 
 }

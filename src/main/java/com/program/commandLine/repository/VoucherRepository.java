@@ -13,6 +13,8 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
+    void deleteById(UUID voucherId);
+
     List<Voucher> findAll();
 
     Voucher usedUpdate(Voucher voucher);

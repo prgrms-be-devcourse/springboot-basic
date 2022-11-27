@@ -80,6 +80,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteById(UUID voucherId) {
+        String sql = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        int update = jdbcTemplate.update(sql, Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+        if (update != 1) throw new RuntimeException("Nothing was inserted!");
+    }
+
+    @Override
     public List<Voucher> findAll() {
         String sql = "select * from vouchers";
         return jdbcTemplate.query(sql, voucherRowMapper);

@@ -18,6 +18,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
     runtimeOnly 'mysql:mysql-connector-java'
     testImplementation 'com.wix:wix-embedded-mysql:4.6.2'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.2.0.RELEASE'
+    //thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {
