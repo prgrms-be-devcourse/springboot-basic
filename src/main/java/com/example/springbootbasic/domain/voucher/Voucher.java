@@ -14,19 +14,17 @@ public abstract class Voucher {
     private final LocalDateTime endAt;
 
     Voucher(Long discountValue, VoucherType voucherType, LocalDateTime createdAt, LocalDateTime startAt, LocalDateTime endAt) {
-        this.startAt = startAt;
-        this.endAt = endAt;
         validateDiscountValue(discountValue);
         validateVoucherType(voucherType);
         this.voucherId = 0L;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
         this.createdAt = createdAt;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 
     Voucher(Long voucherId, Long discountValue, VoucherType voucherType, LocalDateTime localDateTime, LocalDateTime startAt, LocalDateTime endAt) {
-        this.startAt = startAt;
-        this.endAt = endAt;
         validateVoucherId(voucherId);
         validateDiscountValue(discountValue);
         validateVoucherType(voucherType);
@@ -34,6 +32,8 @@ public abstract class Voucher {
         this.discountValue = discountValue;
         this.voucherType = voucherType;
         this.createdAt = localDateTime;
+        this.startAt = startAt;
+        this.endAt = endAt;
     }
 
     private void validateVoucherType(VoucherType voucherType) {
