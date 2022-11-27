@@ -55,11 +55,35 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByName(String name) {
+        for (boolean isBlocked: List.of(true, false)) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                Optional<String> str = reader.lines()
+                        .filter(line -> line.split(",")[1].trim().equals(name))
+                        .findAny();
+                if (str.isPresent()) {
+                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return Optional.empty();
     }
 
     @Override
-    public Optional<Customer> findByEmail(String name) {
+    public Optional<Customer> findByEmail(String email) {
+        for (boolean isBlocked: List.of(true, false)) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                Optional<String> str = reader.lines()
+                        .filter(line -> line.split(",")[2].trim().equals(email))
+                        .findAny();
+                if (str.isPresent()) {
+                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return Optional.empty();
     }
 
@@ -96,11 +120,53 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        for (boolean isBlocked: List.of(true, false)) {
+            List<String> lines;
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                lines = reader.lines().collect(Collectors.toList());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                for (String line : lines) {
+                    if (line.contains(customer.getCustomerId().toString())) {
+                        writer.write(customer.toString());
+                    } else {
+                        writer.write(line);
+                    }
+                    writer.newLine();
+                }
+                writer.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return customer;
     }
 
     @Override
     public void delete(UUID customerId) {
+        for (boolean isBlocked: List.of(true, false)) {
+            List<String> lines;
+            try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                lines = reader.lines().collect(Collectors.toList());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
+                for (String line : lines) {
+                    if (!line.contains(customerId.toString())) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
+                }
+                writer.flush();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override

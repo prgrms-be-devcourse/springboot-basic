@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.Collections;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,12 +48,26 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByCustomer(UUID customerId) {
-        return Collections.emptyList();
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            return reader.lines()
+                    .filter(line -> line.contains(customerId.toString()))
+                    .map(Mapper::mapToVoucher)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public List<Voucher> findExpiredVouchers() {
-        return Collections.emptyList();
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            return reader.lines()
+                    .filter(line -> LocalDateTime.parse(line.split(",")[5].trim()).isBefore(LocalDateTime.now()))
+                    .map(Mapper::mapToVoucher)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -85,12 +99,49 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        List<String> lines;
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            for (String line : lines) {
+                if (line.contains(voucher.getVoucherId().toString())) {
+                    writer.write(voucher.toString());
+                } else {
+                    writer.write(line);
+                }
+                writer.newLine();
+            }
+            writer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return voucher;
     }
 
     @Override
     public void delete(UUID voucherId) {
+        List<String> lines;
+        try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            lines = reader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
+            for (String line : lines) {
+                if (!line.contains(voucherId.toString())) {
+                    writer.write(line);
+                    writer.newLine();
+                }
+            }
+            writer.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
