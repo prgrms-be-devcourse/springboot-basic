@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,13 +21,13 @@ public class ConsumerService {
     }
 
     public String insert(UUID uuid, String name, String email) {
-        Consumer consumer = new Consumer(uuid, name, email, LocalDateTime.now());
+        Consumer consumer = new Consumer(uuid, name, email);
         return consumerRepository.insert(consumer).getId();
     }
 
     public List<Consumer> findAll() {
         List<Consumer> consumers = consumerRepository.findAll();
-        consumers.sort((o1, o2) -> o2.getCreatedAt().compareToIgnoreCase(o1.getCreatedAt()));
+        consumers.sort((o1, o2) -> o2.getCreatedAt().compareTo(o1.getCreatedAt()));
         return consumers;
     }
 
@@ -69,7 +68,7 @@ public class ConsumerService {
     }
 
     public String insert(String name, String email) {
-        Consumer consumer = new Consumer(UUID.randomUUID(), name, email, LocalDateTime.now().withNano(0), LocalDateTime.now().withNano(0));
+        Consumer consumer = new Consumer(UUID.randomUUID(), name, email);
         return consumerRepository.insert(consumer).getId();
     }
 

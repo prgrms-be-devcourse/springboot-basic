@@ -12,26 +12,23 @@ public class Consumer {
     private String name;
     private String email;
     private List<Voucher> vouchers = new ArrayList<>();
-    private String createdAt;
-    private String lastLoginAt;
+    private LocalDateTime createdAt = LocalDateTime.now().withNano(0);
+    private LocalDateTime lastLoginAt = LocalDateTime.now().withNano(0);
 
-    public Consumer(UUID id, String name, String email, LocalDateTime createdAt) {
+    public Consumer(UUID id, String name, String email) {
         validateName(name);
         this.id = id.toString();
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt.toString();
-        this.lastLoginAt = null;
     }
 
-    public Consumer(UUID id, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt) {
+    public Consumer(UUID id, String name, String email, LocalDateTime createdAt, LocalDateTime localDateTime) {
         validateName(name);
         this.id = id.toString();
         this.name = name;
         this.email = email;
-        this.createdAt = createdAt.toString();
-        this.lastLoginAt = (lastLoginAt != null) ? lastLoginAt.toString() : null;
-
+        this.createdAt = createdAt;
+        this.lastLoginAt = localDateTime;
     }
 
     private void validateName(String name) {
@@ -52,12 +49,16 @@ public class Consumer {
         return email;
     }
 
-    public String getLastLoginAt() {
+    public LocalDateTime getLastLoginAt() {
         return this.lastLoginAt;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void login(LocalDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
     }
 
     public void update(String name, String email) {
@@ -68,7 +69,6 @@ public class Consumer {
     @Override
     public String toString() {
         return String.format("ID: %s Name: %s Email: %s CreatedAt: %s LastLoginAt: %s"
-                , this.id, this.name, this.email, this.createdAt, this.lastLoginAt);
+                , this.id, this.name, this.email, this.createdAt.toString(), this.lastLoginAt.toString());
     }
-
 }

@@ -2,12 +2,12 @@ package com.programmers.commandline.domain.consumer.repository.impl;
 
 import com.moandjiezana.toml.Toml;
 import com.moandjiezana.toml.TomlWriter;
+import com.programmers.commandline.domain.consumer.dto.ConsumerFileInsertResponseDto;
 import com.programmers.commandline.domain.consumer.entity.Consumer;
 import com.programmers.commandline.domain.consumer.repository.ConsumerRepository;
+import com.programmers.commandline.global.exception.FileReadNotFoundException;
 import com.programmers.commandline.global.exception.FileWriteException;
 import com.programmers.commandline.global.io.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -15,16 +15,12 @@ import org.springframework.stereotype.Repository;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("file")
 public class ConsumerFileRepository implements ConsumerRepository {
     private final String filePath;
-    Logger logger = LoggerFactory.getLogger(ConsumerFileRepository.class);
 
     public ConsumerFileRepository(@Value("${file.consumerPath}") String filePath) {
         this.filePath = filePath;
@@ -34,27 +30,35 @@ public class ConsumerFileRepository implements ConsumerRepository {
     public Consumer insert(Consumer consumer) {
         TomlWriter tomlWriter = new TomlWriter();
         File consumerFile = new File(filePath + consumer.getId());
-
+        ConsumerFileInsertResponseDto consumerFileInsertResponseDto = new ConsumerFileInsertResponseDto(consumer);
         try {
-            tomlWriter.write(consumer, consumerFile);
+            tomlWriter.write(consumerFileInsertResponseDto, consumerFile);
         } catch (IOException e) {
             throw new FileWriteException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage(), e);
         }
+
         return consumer;
     }
 
     @Override
-    public Consumer update(Consumer customer) {
+    public Consumer update(Consumer updateCustomer) {
         TomlWriter tomlWriter = new TomlWriter();
         try {
-            File consumerFile = new File(filePath + customer.getId());
+            File consumerFile = new File(filePath + updateCustomer.getId());
+
             if (!consumerFile.exists()) {
-                throw new NullPointerException(Message.NULL_POINT_FILE.getMessage());
+                throw new FileReadNotFoundException(Message.NULL_POINT_FILE.getMessage());
             }
-            tomlWriter.write(customer, consumerFile);
-            return new Toml().to(Consumer.class);
+
+            Consumer consumer = convertTomlToConsumer(consumerFile);
+            consumer.update(updateCustomer.getName(), updateCustomer.getEmail());
+            ConsumerFileInsertResponseDto consumerFileInsertResponseDto = new ConsumerFileInsertResponseDto(consumer);
+
+            tomlWriter.write(consumerFileInsertResponseDto, consumerFile);
+
+            return consumer;
         } catch (IOException e) {
-            throw new RuntimeException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage());
+            throw new FileWriteException(Message.CONSUMER_FILE_WRITE_ERROR.getMessage(), e);
         }
     }
 
@@ -67,25 +71,26 @@ public class ConsumerFileRepository implements ConsumerRepository {
     @Override
     public List<Consumer> findAll() {
         List<Consumer> consumers = new ArrayList<>();
-        File[] consumerFiles = new File(filePath).listFiles();
+        List<File> consumerFiles = Arrays.stream(new File(filePath).listFiles()).toList();
 
-        for (File consumerFile : consumerFiles) {
+        consumerFiles.forEach(consumerFile -> {
             Consumer consumer = convertTomlToConsumer(consumerFile);
             consumers.add(consumer);
-        }
+        });
+
         return consumers;
     }
 
     @Override
-    public Optional<Consumer> findById(String consumerId) {
-        File consumerFile = new File(filePath + consumerId);
+    public Optional<Consumer> findById(String id) {
+        File consumerFile = new File(filePath + id);
         Consumer consumer = convertTomlToConsumer(consumerFile);
         return Optional.ofNullable(consumer);
     }
 
     @Override
     public Optional<Consumer> findByName(String name) {
-        File[] consumerFiles = new File(filePath).listFiles();
+        List<File> consumerFiles = Arrays.stream(new File(filePath).listFiles()).toList();
 
         for (File consumerFile : consumerFiles) {
             Consumer consumer = convertTomlToConsumer(consumerFile);
@@ -98,7 +103,7 @@ public class ConsumerFileRepository implements ConsumerRepository {
 
     @Override
     public Optional<Consumer> findByEmail(String email) {
-        File[] consumerFiles = new File(filePath).listFiles();
+        List<File> consumerFiles = Arrays.stream(new File(filePath).listFiles()).toList();
 
         for (File consumerFile : consumerFiles) {
             Consumer consumer = convertTomlToConsumer(consumerFile);
@@ -111,16 +116,14 @@ public class ConsumerFileRepository implements ConsumerRepository {
 
     @Override
     public void deleteAll() {
-        File[] consumerFiles = new File(filePath).listFiles();
-
-        for (File consumerFile : consumerFiles) {
-            consumerFile.delete();
-        }
+        List<File> consumerFiles = Arrays.stream(new File(filePath).listFiles()).toList();
+        consumerFiles.forEach(consumerFile -> consumerFile.delete());
     }
 
     @Override
     public void deleteById(String id) {
-
+        File consumerFile = new File(filePath + id);
+        consumerFile.delete();
     }
 
     private Consumer convertTomlToConsumer(File file) {
@@ -131,7 +134,7 @@ public class ConsumerFileRepository implements ConsumerRepository {
         String name = consumerToml.getString("name");
         String email = consumerToml.getString("email");
         LocalDateTime createdAt = LocalDateTime.parse(consumerToml.getString("createdAt"));
-        LocalDateTime lastLoginAt = consumerToml.getString("lastLoginAt") != null ? LocalDateTime.parse(consumerToml.getString("lastLoginAt")) : null;
+        LocalDateTime lastLoginAt = LocalDateTime.parse(consumerToml.getString("lastLoginAt"));
 
         return new Consumer(id, name, email, createdAt, lastLoginAt);
     }

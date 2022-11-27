@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +37,7 @@ class ConsumerNamedJdbcRepositoryTest {
     @DisplayName("소비자를 추가를 검증하라")
     public void Insert() {
         //given
-        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
+        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com");
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
@@ -54,7 +53,7 @@ class ConsumerNamedJdbcRepositoryTest {
         //given
         String updateName = "update_user";
         String updateEmail = "update_user@navr.com";
-        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
+        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com");
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
@@ -78,8 +77,8 @@ class ConsumerNamedJdbcRepositoryTest {
         Consumer consumer = new Consumer(
                 UUID.randomUUID(),
                 "test_user",
-                "test_user@naver.com",
-                LocalDateTime.now());
+                "test_user@naver.com"
+        );
         consumers.add(consumer);
         //when
         consumers.forEach(consumerInList -> {
@@ -100,8 +99,8 @@ class ConsumerNamedJdbcRepositoryTest {
         Consumer consumer = new Consumer(
                 UUID.randomUUID(),
                 "test_user",
-                "test_user@naver.com",
-                LocalDateTime.now());
+                "test_user@naver.com"
+        );
 
         consumerList.add(consumer);
 
@@ -119,7 +118,7 @@ class ConsumerNamedJdbcRepositoryTest {
     void findById() {
         //given
         UUID uuid = UUID.randomUUID();
-        Consumer consumer = new Consumer(uuid, "test_user", "test_user@naver.com", LocalDateTime.now());
+        Consumer consumer = new Consumer(uuid, "test_user", "test_user@naver.com");
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
@@ -134,7 +133,7 @@ class ConsumerNamedJdbcRepositoryTest {
     void findByName() {
         //given
         String name = "test_user";
-        Consumer consumer = new Consumer(UUID.randomUUID(), name, "test_user@naver.com", LocalDateTime.now());
+        Consumer consumer = new Consumer(UUID.randomUUID(), name, "test_user@naver.com");
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
@@ -149,7 +148,7 @@ class ConsumerNamedJdbcRepositoryTest {
     void findByEmail() {
         //given
         String email = "test_user@naver.com";
-        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", email, LocalDateTime.now());
+        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", email);
 
         //when
         consumerNamedJdbcRepository.insert(consumer);
@@ -163,7 +162,7 @@ class ConsumerNamedJdbcRepositoryTest {
     @DisplayName("소비자를 저장하고 삭제하라 그리고 조회한 결과를 검증하라")
     void deleteAll() {
         //given
-        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com", LocalDateTime.now());
+        Consumer consumer = new Consumer(UUID.randomUUID(), "test_user", "test_user@naver.com");
 
         //when
         consumerNamedJdbcRepository.insert(consumer);

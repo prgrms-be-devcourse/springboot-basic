@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.*;
 
 @Repository
@@ -24,10 +24,7 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
         UUID id = UUID.fromString(resultSet.getString("id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
-        LocalDateTime createdAt = LocalDateTime.parse(resultSet.getString("created_at"));
-        LocalDateTime lastLoginAt = resultSet.getString("last_login_at") != null ?
-                LocalDateTime.parse(resultSet.getString("last_login_at")) : null;
-        return new Consumer(id, name, email, createdAt, lastLoginAt);
+        return new Consumer(id, name, email);
     };
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     Logger logger = LoggerFactory.getLogger(ConsumerNamedJdbcRepository.class);
@@ -42,8 +39,8 @@ public class ConsumerNamedJdbcRepository implements ConsumerRepository {
                 put("id", consumer.getId());
                 put("name", consumer.getName());
                 put("email", consumer.getEmail());
-                put("createdAt", consumer.getCreatedAt());
-                put("lastLoginAt", consumer.getLastLoginAt());
+                put("createdAt", Timestamp.valueOf(consumer.getCreatedAt()));
+                put("lastLoginAt", consumer.getLastLoginAt() != null ? Timestamp.valueOf(consumer.getLastLoginAt()) : null);
             }
         };
     }
