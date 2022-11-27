@@ -1,16 +1,13 @@
 package org.prgrms.java.repository.customer;
 
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.ScriptResolver;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.wix.mysql.distribution.Version;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.CustomerException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.sql.DataSource;
 
@@ -21,38 +18,24 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Testcontainers
 class JdbcCustomerRepositoryTest {
-    private static final DataSource dataSource = DataSourceBuilder.create()
-            .url("jdbc:mysql://localhost:2215/test-voucher_mgmt")
-            .username("test")
-            .password("test1234!")
-            .type(HikariDataSource.class)
+    @Container
+    private static final MySQLContainer<?> MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8.0.24")
+            .withInitScript("schema.sql")
+            .withUsername("test")
+            .withPassword("test1234!");
+
+    public DataSource dataSource = DataSourceBuilder.create()
+            .driverClassName(MY_SQL_CONTAINER.getDriverClassName())
+            .url(MY_SQL_CONTAINER.getJdbcUrl())
+            .username(MY_SQL_CONTAINER.getUsername())
+            .password(MY_SQL_CONTAINER.getPassword())
             .build();
 
-    private static final NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 
-    private static final CustomerRepository customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate);
-
-    EmbeddedMysql embeddedMysql;
-
-    @BeforeAll
-    void setup() {
-        MysqldConfig mysqldConfig = MysqldConfig.aMysqldConfig(Version.v8_latest)
-                .withCharset(Charset.UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = EmbeddedMysql.anEmbeddedMysql(mysqldConfig)
-                .addSchema("test-voucher_mgmt", ScriptResolver.classPathScript("schema.sql"))
-                .start();
-    }
-
-    @AfterAll
-    void cleanup() {
-        embeddedMysql.stop();
-    }
+    public CustomerRepository customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate);
 
     @BeforeEach
     void clean() {
