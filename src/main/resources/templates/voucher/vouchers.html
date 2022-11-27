@@ -36,15 +36,15 @@
             </thead>
             <!-- 바우처 목록 -->
             <tbody>
-            <tr th:each="voucherDTO: ${voucherDTOs}">
+            <tr th:each="voucher: ${vouchers}">
                 <td>
                     <a href="voucher.html"
-                       th:href="@{/voucher/vouchers/{voucherId}(voucherId=${voucherDTO.voucherId})}"
-                       th:text="${voucherDTO.voucherId}">1</a>
+                       th:href="@{/voucher/vouchers/{voucherId}(voucherId=${voucher.voucherId})}"
+                       th:text="${voucher.voucherId}">1</a>
                 </td>
-                <td><a th:text="${voucherDTO.voucherType}">FixedAmountVoucher</a></td>
-                <td th:text="${voucherDTO.discountLevel}">10000원</td>
-                <td th:text="${voucherDTO.createdDateTime}">22.11.25 10:34:51</td>
+                <td><a th:text="${voucher.voucherType}">FixedAmountVoucher</a></td>
+                <td th:text="${voucher.discountLevel}">10000원</td>
+                <td th:text="${voucher.createdDateTime}">22.11.25 10:34:51</td>
             </tr>
             </tbody>
         </table>

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.dto.VoucherDTO;
+import prgms.vouchermanagementapp.domain.dto.VoucherViewDTO;
 import prgms.vouchermanagementapp.repository.VoucherRepository;
 
 import java.util.List;
@@ -37,11 +37,11 @@ public class WebVoucherController {
     @GetMapping
     public String vouchers(Model model) {
         List<Voucher> vouchers = voucherRepository.findAll();
-        List<VoucherDTO> voucherDTOs = vouchers.stream()
-                .map(VoucherDTO::new)
+        List<VoucherViewDTO> voucherViewDTOs = vouchers.stream()
+                .map(VoucherViewDTO::new)
                 .toList();
 
-        model.addAttribute("voucherDTOs", voucherDTOs);
+        model.addAttribute("vouchers", voucherViewDTOs);
         return "voucher/vouchers";
     }
 
@@ -51,9 +51,9 @@ public class WebVoucherController {
                 .orElseThrow(() ->
                         new EmptyResultDataAccessException("cannot find voucher for voucherId=" + voucherId, 1)
                 );
-        VoucherDTO voucherDTO = new VoucherDTO(foundVoucher);
+        VoucherViewDTO voucherViewDTO = new VoucherViewDTO(foundVoucher);
 
-        model.addAttribute("voucher", voucherDTO);
+        model.addAttribute("voucher", voucherViewDTO);
         return "voucher/voucher";
     }
 }
