@@ -112,7 +112,7 @@ class VoucherJdbcRepositoryTest {
 
 		//when
 		voucherJdbcRepository.save(fixedAmountVoucher);
-		voucherJdbcRepository.delete(fixedAmountVoucher.getVoucherId());
+		voucherJdbcRepository.deleteById(fixedAmountVoucher.getVoucherId());
 		Optional<Voucher> deletedVoucher = voucherJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
 
 		//then
@@ -131,7 +131,7 @@ class VoucherJdbcRepositoryTest {
 		voucherJdbcRepository.save(fixedAmountVoucher);
 
 		//then
-		assertThatThrownBy(() -> voucherJdbcRepository.delete(UUID.randomUUID()))
+		assertThatThrownBy(() -> voucherJdbcRepository.deleteById(UUID.randomUUID()))
 			.isInstanceOf(DataAccessException.class);
 	}
 
@@ -147,7 +147,7 @@ class VoucherJdbcRepositoryTest {
 		//when
 		voucherJdbcRepository.save(fixedAmountVoucher);
 		fixedAmountVoucher.editVoucherValue(updateValue);
-		voucherJdbcRepository.update(fixedAmountVoucher);
+		voucherJdbcRepository.updateByObject(fixedAmountVoucher);
 		Optional<Voucher> savedVoucher = voucherJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
 
 		//then
@@ -170,7 +170,7 @@ class VoucherJdbcRepositoryTest {
 		voucherJdbcRepository.save(fixedAmountVoucher1);
 
 		//then
-		assertThatThrownBy(() -> voucherJdbcRepository.update(fixedAmountVoucher2))
+		assertThatThrownBy(() -> voucherJdbcRepository.updateByObject(fixedAmountVoucher2))
 			.isInstanceOf(DataAccessException.class);
 
 	}

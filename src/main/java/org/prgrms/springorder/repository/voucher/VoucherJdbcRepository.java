@@ -51,24 +51,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void delete(UUID voucherId) {
+	public void deleteById(UUID voucherId) {
 		try {
 			jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucherId",
 				Collections.singletonMap("voucherId", voucherId.toString()));
 		} catch (DataAccessException e) {
 			throw e;
 		}
-
 	}
 
 	@Override
-	public void update(Voucher voucher) {
+	public void updateByObject(Voucher voucher) {
 		Map<String, Object> paramMap = toUpdateParamMap(voucher);
 		jdbcTemplate.update(
 			"UPDATE voucher SET voucher_value = :value WHERE voucher_id = :voucherId",
 			paramMap);
+
 	}
 
+	@Override
 	public void clear() {
 		jdbcTemplate.update("DELETE FROM voucher", Collections.emptyMap());
 	}

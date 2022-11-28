@@ -104,12 +104,12 @@ class VoucherServiceTest {
 		double value = 50;
 		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value);
 
-		doNothing().when(voucherRepository).delete(voucher.getVoucherId());
+		doNothing().when(voucherRepository).deleteById(voucher.getVoucherId());
 
 		//when
 		voucherService.deleteById(voucher.getVoucherId());
 
 		//then
-		verify(voucherRepository).delete(voucher.getVoucherId());
+		verify(voucherRepository).deleteById(voucher.getVoucherId());
 	}
 }

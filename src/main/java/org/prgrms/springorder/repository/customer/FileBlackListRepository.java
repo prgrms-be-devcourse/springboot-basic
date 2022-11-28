@@ -48,7 +48,7 @@ public class FileBlackListRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void update(Customer customer) {
+	public void updateByObject(Customer customer) {
 		memory.replace(customer.getCustomerId(), customer);
 	}
 

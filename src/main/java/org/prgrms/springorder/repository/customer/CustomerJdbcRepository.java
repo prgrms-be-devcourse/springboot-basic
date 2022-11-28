@@ -30,12 +30,13 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void update(Customer customer) {
+	public void updateByObject(Customer customer) {
 		Map<String, Object> paramMap = toParamMap(customer);
 		jdbcTemplate.update(
 			"UPDATE customer SET customer_name = :name, email = :email, customer_type = :customerType WHERE customer_id = :customerId",
 			paramMap);
 	}
+
 
 	@Override
 	public List<Customer> findAll() {

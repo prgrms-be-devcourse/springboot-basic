@@ -10,7 +10,7 @@ public interface CustomerRepository {
 
 	void save(Customer customer);
 
-	void update(Customer customer);
+	void updateByObject(Customer customer);
 
 	List<Customer> findAll();
 
