@@ -3,7 +3,6 @@ package org.prgrms.springorder.repository.wallet;
 import static org.prgrms.springorder.utils.JdbcUtil.*;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Repository;
 
 @Profile("jdbc")
 @Repository
-public class WalletJdbcRepository {
+public class WalletJdbcRepository implements WalletRepository {
 
 	private final Logger log = LoggerFactory.getLogger(WalletJdbcRepository.class);
 	private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -30,6 +29,7 @@ public class WalletJdbcRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	@Override
 	public void allocate(Wallet wallet) {
 		Map<String, Object> paramMap = toParamMap(wallet);
 		jdbcTemplate.update(
@@ -37,6 +37,7 @@ public class WalletJdbcRepository {
 			paramMap);
 	}
 
+	@Override
 	public List<Voucher> findVoucherByCustomerId(UUID customerId) {
 		try {
 			return jdbcTemplate.query(
@@ -50,6 +51,7 @@ public class WalletJdbcRepository {
 
 	}
 
+	@Override
 	public void delete(Wallet wallet) {
 
 		try {
@@ -62,6 +64,7 @@ public class WalletJdbcRepository {
 
 	}
 
+	@Override
 	public List<Customer> findCustomerByVoucherId(UUID voucherId) {
 		try {
 			return jdbcTemplate.query(
@@ -78,15 +81,9 @@ public class WalletJdbcRepository {
 
 	}
 
+	@Override
 	public void clear() {
 		jdbcTemplate.update("DELETE FROM wallet", Collections.emptyMap());
-	}
-
-	private Map<String, Object> toIdParamMap(Wallet wallet) {
-		return new HashMap<>() {{
-			put("customerId", wallet.getCustomer().getCustomerId().toString());
-			put("voucherId", wallet.getVoucher().getVoucherId().toString());
-		}};
 	}
 
 }
