@@ -1,8 +1,5 @@
 package org.programmers.program.voucher.controller;
 
-import org.programmers.program.voucher.model.FixedAmountVoucher;
-import org.programmers.program.voucher.model.PercentDiscountVoucher;
-import org.programmers.program.voucher.model.Voucher;
 import org.programmers.program.voucher.model.VoucherType;
 
 import java.time.LocalDateTime;
@@ -49,5 +46,4 @@ public class VoucherDto {
     public LocalDateTime getExpirationDate() {
         return expirationDate;
     }
-
 }

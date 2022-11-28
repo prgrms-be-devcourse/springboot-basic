@@ -1,22 +1,24 @@
 package org.programmers.program.voucher.model;
 
 
-import org.programmers.program.voucher.controller.VoucherDto;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher{
     public PercentDiscountVoucher(UUID id, Long discountAmount){
-        super(id, discountAmount);
+        super(id, discountAmount, LocalDateTime.now());
         this.voucherType = VoucherType.PERCENT;
     }
     public PercentDiscountVoucher(UUID id, Long discountAmount, LocalDateTime expirationDate){
-        super(id, discountAmount, expirationDate);
+        super(id, discountAmount, LocalDateTime.now(),expirationDate);
         this.voucherType = VoucherType.PERCENT;
 
     }
 
+    public PercentDiscountVoucher(UUID id, Long discountAmount, LocalDateTime createdAt, LocalDateTime expirationDate){
+        super(id, discountAmount, createdAt, expirationDate);
+        this.voucherType = VoucherType.FIXED;
+    }
 
     @Override
     Long discount(Long price) {

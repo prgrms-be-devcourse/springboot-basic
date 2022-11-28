@@ -27,6 +27,7 @@
         <th scope="col">Is Used?</th>
         <th scope="col">Created At</th>
         <th scope="col">Expire At</th>
+        <th scope="col">detail button</th>
     </tr>
     </thead>
     <tbody>
@@ -37,6 +38,7 @@
         <td th:text="*{isUsed}"></td>
         <td th:text="*{createdAt}"></td>
         <td th:text="*{expirationDate}"></td>
+        <td th:href="@{/vouchers/*{id}}" type="button" class="btn btn-primary">Detail</td>
     </tr>
     </tbody>
 </table>

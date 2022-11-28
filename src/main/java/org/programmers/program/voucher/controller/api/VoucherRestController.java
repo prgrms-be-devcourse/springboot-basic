@@ -19,5 +19,4 @@ public class VoucherRestController {
     public List<Voucher> voucherLists(){
         var allVouchers = voucherService.getAllVouchers();
         return allVouchers;
-    }
-}
+    }}

@@ -34,10 +34,11 @@ public class NamedJdbcVoucherRepository implements VoucherRepository{
         var voucherType = resultSet.getString("voucher_type");
         var discountAmount = resultSet.getLong("discount_amount");
         var expirationDate = resultSet.getTimestamp("expiration_date").toLocalDateTime();
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         if (voucherType.equals(VoucherType.PERCENT.toString()))
-            return new PercentDiscountVoucher(voucherId, discountAmount, expirationDate);
-        return new FixedAmountVoucher(voucherId, discountAmount, expirationDate);
+            return new PercentDiscountVoucher(voucherId, discountAmount, createdAt, expirationDate);
+        return new FixedAmountVoucher(voucherId, discountAmount, createdAt,expirationDate);
     };
 
     private Map<String, Object> toParamMap(Voucher voucher){

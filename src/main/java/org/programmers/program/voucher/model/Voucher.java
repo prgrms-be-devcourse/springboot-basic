@@ -1,7 +1,6 @@
 package org.programmers.program.voucher.model;
 
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import org.programmers.program.voucher.controller.VoucherDto;
 
@@ -12,21 +11,23 @@ import java.util.UUID;
 public abstract class Voucher {
     protected final UUID id;
     protected Long discountAmount;
-    @Builder.Default protected final LocalDateTime createdAt = LocalDateTime.now();
+    protected final LocalDateTime createdAt;
     protected LocalDateTime expirationDate;
 
     protected VoucherType voucherType = null;
     protected boolean isUsed;
 
-    protected Voucher(UUID id, Long discountAmount){
+    protected Voucher(UUID id, Long discountAmount, LocalDateTime createdAt){
         this.id = id;
         this.discountAmount = discountAmount;
-        expirationDate = LocalDateTime.now().plusWeeks(1);
+        this.createdAt = createdAt;
+        expirationDate = createdAt.plusWeeks(1);
         isUsed = false;
     }
-    protected Voucher(UUID id, Long discountAmount, LocalDateTime expirationDate) {
+    protected Voucher(UUID id, Long discountAmount, LocalDateTime createdAt, LocalDateTime expirationDate) {
         this.id = id;
         this.discountAmount = discountAmount;
+        this.createdAt = createdAt;
         this.expirationDate = expirationDate;
         isUsed = false;
     }
@@ -36,33 +37,10 @@ public abstract class Voucher {
         this.discountAmount = dto.getDiscountAmount();
         this.voucherType = dto.getVoucherType();
         this.expirationDate = dto.getExpirationDate();
+        createdAt = LocalDateTime.now();
     }
 
-//    public UUID getVoucherId(){
-//        return this.id;
-//    }
-//
-//    public LocalDateTime getExpirationDate() {
-//        return expirationDate;
-//    }
-//
-//    public Long getDiscountAmount(){
-//        return this.discountAmount;
-//    }
-//
-//    public LocalDateTime getCreatedAt() {
-//        return createdAt;
-//    }
-//
     abstract Long discount(Long price);
-//
-//    public VoucherType getVoucherType() {
-//        return voucherType;
-//    }
-//
-//    public boolean getIsUsed(){
-//        return isUsed;
-//    }
 
 
     @Override

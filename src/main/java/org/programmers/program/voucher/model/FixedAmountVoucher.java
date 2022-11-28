@@ -10,11 +10,16 @@ import java.util.UUID;
 // @Builder
 public class FixedAmountVoucher extends Voucher{
     public FixedAmountVoucher(UUID id, Long discountAmount){
-        super(id, discountAmount);
+        super(id, discountAmount, LocalDateTime.now());
         this.voucherType = VoucherType.FIXED;
     }
     public FixedAmountVoucher(UUID id, Long discountAmount, LocalDateTime expirationDate){
-        super(id, discountAmount, expirationDate);
+        super(id, discountAmount, LocalDateTime.now(), expirationDate);
+        this.voucherType = VoucherType.FIXED;
+    }
+
+    public FixedAmountVoucher(UUID id, Long discountAmount, LocalDateTime createdAt, LocalDateTime expirationDate){
+        super(id, discountAmount, createdAt, expirationDate);
         this.voucherType = VoucherType.FIXED;
     }
 
