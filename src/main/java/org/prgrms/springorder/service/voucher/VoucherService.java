@@ -13,8 +13,9 @@ import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.NoSuchVoucherException;
 import org.prgrms.springorder.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
@@ -39,7 +40,7 @@ public class VoucherService {
 	}
 
 	public void deleteById(UUID uuid) {
-		voucherRepository.delete(uuid);
+		voucherRepository.deleteById(uuid);
 	}
 
 }

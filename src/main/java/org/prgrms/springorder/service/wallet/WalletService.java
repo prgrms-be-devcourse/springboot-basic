@@ -19,8 +19,9 @@ import org.prgrms.springorder.repository.voucher.VoucherJdbcRepository;
 import org.prgrms.springorder.repository.voucher.VoucherRepository;
 import org.prgrms.springorder.repository.wallet.WalletJdbcRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class WalletService {
 
 	private final WalletJdbcRepository walletRepository;

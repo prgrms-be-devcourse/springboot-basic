@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.repository.customer.FileBlackListRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class BlackListService {
 
 	private final FileBlackListRepository fileBlackListRepository;
