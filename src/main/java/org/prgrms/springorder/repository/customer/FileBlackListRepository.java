@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,7 @@ import org.prgrms.springorder.utils.FIleUtil;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FileBlackListRepository {
+public class FileBlackListRepository implements CustomerRepository {
 
 	private final File file;
 
@@ -41,12 +42,24 @@ public class FileBlackListRepository {
 		}
 	}
 
+	@Override
 	public void save(Customer customer) {
 		memory.put(customer.getCustomerId(), customer);
 	}
 
+	@Override
+	public void update(Customer customer) {
+		memory.replace(customer.getCustomerId(), customer);
+	}
+
+	@Override
 	public List<Customer> findAll() {
 		return new ArrayList<>(memory.values());
+	}
+
+	@Override
+	public Optional<Customer> findById(UUID customerId) {
+		return Optional.ofNullable(memory.get(customerId));
 	}
 
 }
