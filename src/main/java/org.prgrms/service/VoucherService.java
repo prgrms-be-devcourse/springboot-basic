@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.prgrms.memory.VoucherDBMemory;
 import org.prgrms.voucher.voucherType.Voucher;
+import org.prgrms.voucherDTO.VoucherDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,8 @@ public class VoucherService {
         this.voucherDBMemory = voucherDBMemory;
     }
 
-    public Voucher save(Voucher voucher) {
+    public Voucher save(VoucherDTO voucherDTO) {
+        Voucher voucher = voucherDTO.getType().generateVoucher(voucherDTO.getAmount());
         return voucherDBMemory.save(voucher);
     }
 
