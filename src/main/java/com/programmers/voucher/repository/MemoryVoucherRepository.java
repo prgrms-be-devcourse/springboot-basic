@@ -3,34 +3,57 @@ package com.programmers.voucher.repository;
 import com.programmers.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Repository
-public class MemoryVoucherRepository {
+@Qualifier("Memory")
+public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
+    private final List<Voucher> storage = new ArrayList<>();
     private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
-
-    public Optional<Voucher> findByID(UUID voucherID) {
-        return Optional.ofNullable(storage.get(voucherID));
-    }
-
-    public Voucher insert(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+    @Override
+    public void insert(Voucher voucher) {
+        storage.add(voucher);
         logger.info("voucher 가 저장되었습니다.");
-        return voucher;
     }
 
-
-    public Map<UUID, Voucher> findAll() {
+    @Override
+    public List<Voucher> findAll() {
         return storage;
     }
 
+    @Override
+    public List<Voucher> findByCustomerEmail(String customerEmail) {
+        return null;
+    }
 
+    @Override
+    public List<Voucher> findByDate(String customerEmail, LocalDateTime date) {
+        return null;
+    }
+
+    @Override
+    public Optional<Voucher> findByVoucherId(UUID voucherId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void update(UUID voucherId, long discount) {
+
+    }
+
+    @Override
+    public void deleteByVoucherId(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }
