@@ -1,19 +1,23 @@
 package com.programmers.customer.domain;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class Customer {
-    private final UUID customerId;
     private final String email;
-    private final String password;
+    private String password;
     private String name;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String email, String password, String name, LocalDateTime createdAt) {
-        this.customerId = customerId;
+
+    public Customer(String email, String password, String name, LocalDateTime createdAt) {
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.createdAt = createdAt;
+    }
+
+    public Customer(String email, String name, LocalDateTime createdAt) {
+        this.email = email;
         this.name = name;
         this.createdAt = createdAt;
     }
@@ -22,9 +26,7 @@ public class Customer {
         this.name = newName;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
+
 
     public String getEmail() {
         return email;
