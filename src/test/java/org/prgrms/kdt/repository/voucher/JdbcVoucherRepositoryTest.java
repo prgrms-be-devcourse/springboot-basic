@@ -1,4 +1,4 @@
-package org.prgrms.kdt.dao.repository.voucher;
+package org.prgrms.kdt.repository.voucher;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,14 +6,6 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
-<<<<<<< HEAD
-import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.voucher.JdbcVoucherRepository;
-import org.prgrms.kdt.voucher.VoucherRepository;
-=======
-import org.prgrms.kdt.voucher.repository.JdbcVoucherRepository;
-import org.prgrms.kdt.voucher.repository.VoucherRepository;
->>>>>>> 7b4babe (feat: 기존 애플리케이션에서 디렉토리 구조를 변경하고 바우처를 삭제하는 기능을 추가하다.)
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;
@@ -45,7 +37,7 @@ class JdbcVoucherRepositoryTest {
 
     private static VoucherRepository voucherRepository;
 
-    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
+    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
 
     @BeforeAll
     public static void beforeAll() {

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.dao.repository.customer;
+package org.prgrms.kdt.repository.customer;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,8 +6,6 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.repository.customer.CustomerRepository;
-import org.prgrms.kdt.repository.customer.JdbcCustomerRepository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;
