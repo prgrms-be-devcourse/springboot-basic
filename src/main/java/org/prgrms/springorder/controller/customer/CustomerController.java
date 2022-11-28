@@ -12,16 +12,9 @@ import org.springframework.stereotype.Component;
 public class CustomerController {
 
 	private final CustomerService customerService;
-	private final BlackListService blackListService;
 
-	public CustomerController(CustomerService customerService,
-		BlackListService blackListService) {
+	public CustomerController(CustomerService customerService) {
 		this.customerService = customerService;
-		this.blackListService = blackListService;
-	}
-
-	public List<String> getBlackList() {
-		return blackListService.getBlackList();
 	}
 
 	public List<String> getCustomerList() {

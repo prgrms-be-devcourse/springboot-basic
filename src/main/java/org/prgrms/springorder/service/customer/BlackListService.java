@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.repository.customer.FileBlackListRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

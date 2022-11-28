@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.prgrms.springorder.controller.customer.BlackListController;
 import org.prgrms.springorder.controller.customer.CustomerController;
 import org.prgrms.springorder.controller.dto.CustomerRequestDto;
 import org.prgrms.springorder.controller.dto.VoucherResponseDto;
@@ -29,13 +30,15 @@ public class CommandLineApp {
 	private final IO io;
 	private final VoucherController voucherController;
 	private final CustomerController customerController;
+	private final BlackListController blackListController;
 	private final WalletController walletController;
 
 	public CommandLineApp(IO io, VoucherController voucherController,
-		CustomerController customerController, WalletController walletController) {
+		CustomerController customerController, BlackListController blackListController, WalletController walletController) {
 		this.io = io;
 		this.voucherController = voucherController;
 		this.customerController = customerController;
+		this.blackListController = blackListController;
 		this.walletController = walletController;
 	}
 
@@ -70,7 +73,7 @@ public class CommandLineApp {
 			}
 			case LIST -> io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
 				Collectors.toList()));
-			case BLACK_LIST -> io.writeList(customerController.getBlackList());
+			case BLACK_LIST -> io.writeList(blackListController.getBlackList());
 			case ALLOCATE -> {
 				io.writeList(customerController.getCustomerList());
 				UUID customerId = UUID.fromString(io.read(CUSTOMER_ID_MESSAGE));
