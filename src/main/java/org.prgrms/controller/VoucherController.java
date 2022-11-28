@@ -48,8 +48,7 @@ public class VoucherController {
 
     @PostMapping("/createVoucher")
     public String createVoucher(VoucherDTO voucherDTO, Model model) {
-        voucherService.save(voucherDTO);
-        Voucher voucher = voucherDTO.getType().generateVoucher(voucherDTO.getAmount());
+        Voucher voucher = voucherService.save(voucherDTO);
 
         model.addAttribute("voucher", voucher);
         return  "redirect:/voucher/" + voucher.getVoucherId();
