@@ -1,17 +1,16 @@
 package com.programmers;
 
-import com.programmers.io.Output;
 import com.programmers.io.Input;
+import com.programmers.io.Output;
 import com.programmers.voucher.domain.TypeOfVoucher;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.service.VoucherCommandLineService;
+import com.programmers.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 
 
@@ -20,18 +19,17 @@ public class CommandLineApplication {
 
     private final Output output;
     private final Input input;
-    private final VoucherCommandLineService voucherCommandLineService;
+    private final VoucherService voucherService;
     private final ApplicationManager applicationManager = new ApplicationManager(true);
 
 
     private final static Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
-    public CommandLineApplication(Output output, Input input, VoucherCommandLineService voucherCommandLineService) {
+    public CommandLineApplication(Output output, Input input, VoucherService voucherService) {
         this.output = output;
         this.input = input;
-        this.voucherCommandLineService = voucherCommandLineService;
+        this.voucherService = voucherService;
     }
-
 
     public void run() throws IOException {
         output.printDescription();
@@ -53,7 +51,7 @@ public class CommandLineApplication {
             case CREATE -> createVoucher();
 
             case LIST -> {
-                Map<UUID, Voucher> history = voucherCommandLineService.findAll();
+                List<Voucher> history = voucherService.getAllVouchers();
                 logger.info("voucher 가 전체 조회되었습니다.");
                 output.printStorage(history);
             }
@@ -68,13 +66,12 @@ public class CommandLineApplication {
 
     private void createVoucher() throws IOException {
         output.printSelectVoucher();
-        String typeNumber = input.input();
+        String type = input.input();
         try {
-            TypeOfVoucher typeOfVoucher = TypeOfVoucher.getType(typeNumber);
+            TypeOfVoucher typeOfVoucher = TypeOfVoucher.getType(type);
             output.printSelectDiscount(TypeOfVoucher.getGuideMessage(typeOfVoucher));
             long inputDiscount = input.inputNumber();
-            Voucher voucher = TypeOfVoucher.createVoucher(typeOfVoucher, inputDiscount);
-            voucherCommandLineService.saveVoucher(voucher);
+            voucherService.createVoucher("dark@gmail.com", type, inputDiscount);
         } catch (NumberFormatException e) {
             logger.error("할인금액 또는 할인율이 숫자가 아닙니다.");
         } catch (IllegalArgumentException e) {

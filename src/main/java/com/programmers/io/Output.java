@@ -3,8 +3,7 @@ package com.programmers.io;
 import com.programmers.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 @Component
 public class Output {
@@ -26,15 +25,15 @@ public class Output {
     public void printSelectVoucher() {
         System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
-        System.out.println("Type number to select voucher");
+        System.out.println("Type type to select voucher");
     }
 
     public void printSelectDiscount(String guideMessage) {
         System.out.println(guideMessage);
     }
 
-    public void printStorage(Map<UUID, Voucher> history) {
-        history.forEach((key, value) -> System.out.println(value.toString()));
+    public void printStorage(List<Voucher> history) {
+        history.forEach((v) -> System.out.println(v.toString()));
     }
 
     public void printError(String errorMessage) {
