@@ -17,6 +17,9 @@ public class VoucherResponseDto {
 
 	private VoucherType voucherType;
 
+	public VoucherResponseDto() {
+	}
+
 	public VoucherResponseDto(UUID voucherId, double value, LocalDateTime voucherCreatedAt,
 		LocalDateTime updatedAt, VoucherType voucherType) {
 		this.voucherId = voucherId;
