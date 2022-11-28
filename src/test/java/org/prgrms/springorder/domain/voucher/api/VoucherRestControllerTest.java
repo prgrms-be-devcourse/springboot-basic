@@ -225,7 +225,6 @@ class VoucherRestControllerTest {
             .andDo(print());
     }
 
-
     @DisplayName("Create Voucher 테스트 - 바우처가 생성되고 ID를 반환한다")
     @Test
     void createVoucherSuccessTest() throws Exception {
