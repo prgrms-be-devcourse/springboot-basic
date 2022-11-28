@@ -7,13 +7,13 @@ import java.util.Optional;
 
 public interface CustomerService {
 
-    Customer createCustomer(String email, String password, String name);
+    void createCustomer(String email, String password, String name);
 
     List<Customer> getAllCustomers();
 
     Optional<Customer> getCustomerByEmail(String email);
 
-    Customer updateByName(Customer customer);
+    void updateByName(Customer customer);
 
     void deleteAll();
 }
