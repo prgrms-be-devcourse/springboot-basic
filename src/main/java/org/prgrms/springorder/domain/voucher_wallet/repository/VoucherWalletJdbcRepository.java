@@ -205,18 +205,21 @@ public class VoucherWalletJdbcRepository implements
         = "DELETE FROM voucher_wallet WHERE customer_id = :customerId";
 
     private static final String FIND_ALL_BY_CUSTOMER_ID_WITH_VOUCHERS
-        = "SELECT * FROM voucher_wallet w "
-        + "INNER JOIN customers c "
-        + "ON w.customer_id = c.customer_id "
-        + "INNER JOIN vouchers v "
-        + "ON w.voucher_id = v. voucher_id "
-        + "WHERE w.customer_id = :customerId";
+        =
+        "SELECT w.wallet_id, c.customer_id, c.name, c.email, c.customer_status, c.last_login_at, c.created_at, "
+            + "v.voucher_id, v.amount, v.voucher_type, v.created_at "
+            + "FROM voucher_wallet w "
+            + "INNER JOIN customers c "
+            + "ON w.customer_id = c.customer_id "
+            + "INNER JOIN vouchers v "
+            + "ON w.voucher_id = v. voucher_id "
+            + "WHERE w.customer_id = :customerId";
 
-    private static final String FIND_BY_VOUCHER_ID_WITH_CUSTOMER = "SELECT "
-        + " * FROM vouchers v "
-        + "INNER JOIN voucher_wallet vw on v.voucher_id = vw.voucher_id "
-        + "INNER JOIN customers c ON vw.customer_id = c.customer_id  "
-        + "WHERE v.voucher_id = :voucherId";
+    private static final String FIND_BY_VOUCHER_ID_WITH_CUSTOMER =
+        "SELECT * FROM vouchers v "
+            + "INNER JOIN voucher_wallet vw on v.voucher_id = vw.voucher_id "
+            + "INNER JOIN customers c ON vw.customer_id = c.customer_id  "
+            + "WHERE v.voucher_id = :voucherId";
 
     private static final String FIND_BY_CUSTOMER_ID_AND_VOUCHER_ID
         = "SELECT * FROM voucher_wallet "
