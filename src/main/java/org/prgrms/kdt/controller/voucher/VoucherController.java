@@ -2,7 +2,7 @@ package org.prgrms.kdt.controller.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.dto.AssignVoucherRequest;
-import org.prgrms.kdt.model.voucher.dto.CreateVoucherRquest;
+import org.prgrms.kdt.model.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,7 +48,7 @@ public class VoucherController {
     }
 
     @PostMapping("/new-voucher")
-    public String newVoucher(CreateVoucherRquest request) {
+    public String newVoucher(CreateVoucherRequest request) {
         voucherService.create(request.voucherType(), Double.toString(request.discountAmount()));
         return "redirect:/vouchers";
     }
