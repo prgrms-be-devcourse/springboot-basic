@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
     public static void main(String[] args) {
-        var springApplication = new SpringApplication(Application.class);
-        springApplication.setAdditionalProfiles("release");
-        springApplication.run(args);
+        SpringApplication.run(Application.class, args);
     }
 }

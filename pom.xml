@@ -81,6 +81,18 @@
 			<version>${parent.version}</version>
 		</dependency>
 
+		<!-- xstream -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-oxm</artifactId>
+			<version>5.3.23</version>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.17</version>
+		</dependency>
+
 		<!-- devtools 설정 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
