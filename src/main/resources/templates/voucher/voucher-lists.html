@@ -17,15 +17,24 @@
     <tr>
         <th scope="col">Voucher Id</th>
         <th scope="col">Owned Customer Id</th>
+        <th scope="col">Show Voucher Detail Info</th>
+        <th scope="col">Remove Voucher</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="voucher:${vouchers}" th:object="${voucher}">
         <td th:text="*{voucherId}"></td>
         <td th:text="*{voucherType}"></td>
-        <td class="btn btn-primary" type="button"><a th:href="@{/vouchers/details(voucherId=${voucher.voucherId})}">DETAIL</a>
+        <td>
+            <a th:href="@{/vouchers/details/{voucherId}(voucherId=${voucher.voucherId})}">
+                <button class="btn btn-primary">DETAILS</button>
+            </a>
         </td>
-        <td class="btn btn-primary" type="button"><a th:href="@{/vouchers/remove(voucherId=${voucher.voucherId})}">REMOVE</a>
+        <td>
+            <form th:action="@{/vouchers}" th:method="delete">
+                <input id="voucherId" name="voucherId" th:value="${voucher.voucherId}" type="hidden">
+                <button class="btn btn-primary" type="submit">REMOVE</button>
+            </form>
         </td>
     </tr>
     </tbody>

@@ -4,13 +4,9 @@ import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.voucher.AssignVoucherRequest;
 import org.prgrms.kdt.voucher.CreateVoucherRquest;
 import org.prgrms.kdt.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +16,6 @@ import java.util.stream.Collectors;
 @Controller
 public class VoucherController {
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherController.class);
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {
@@ -34,20 +29,14 @@ public class VoucherController {
         return "/voucher/voucher-lists";
     }
 
-    @PostMapping("/vouchers")
-    public String newVoucher(CreateVoucherRquest request) {
-        voucherService.create(request.voucherType(), Double.toString(request.discountAmount()));
-        return "redirect:/vouchers";
-    }
-
-    @GetMapping("/vouchers/details")
-    public String voucherDetailsPage(Model model, String voucherId) {
+    @GetMapping("/vouchers/details/{voucherId}")
+    public String voucherDetailsPage(Model model, @PathVariable String voucherId) {
         Voucher findVoucher = voucherService.findVoucherById(voucherId);
         model.addAttribute("voucher", findVoucher);
         return "/voucher/voucher_details";
     }
 
-    @GetMapping("/vouchers/remove")
+    @DeleteMapping("/vouchers")
     public String voucherRemovePage(String voucherId) {
         voucherService.removeVoucher(voucherId);
         return "redirect:/vouchers";
@@ -58,6 +47,12 @@ public class VoucherController {
         return "voucher/new-voucher";
     }
 
+    @PostMapping("/new-voucher")
+    public String newVoucher(CreateVoucherRquest request) {
+        voucherService.create(request.voucherType(), Double.toString(request.discountAmount()));
+        return "redirect:/vouchers";
+    }
+
     @PostMapping("customers/voucher_wallet")
     public String customerVoucherWalletPage(Model model, String wallet_customerId) {
         List<Voucher> ownedVouchers = voucherService.getOwnedVouchers(wallet_customerId);
@@ -65,7 +60,7 @@ public class VoucherController {
         return "/customer/voucher-wallet";
     }
 
-    @GetMapping("customers/voucher_wallet")
+    @DeleteMapping("customers/voucher_wallet")
     public String customerOwnedVoucherRemovePage(String voucherId) {
         voucherService.removeAssignment(voucherId);
         return "redirect:/customers";

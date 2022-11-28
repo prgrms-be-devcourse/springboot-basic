@@ -9,6 +9,10 @@ spring:
     url: jdbc:mysql://localhost:3306/order_mgmt?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root1234!
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 blacklist:
   file: "blacklist.csv"
