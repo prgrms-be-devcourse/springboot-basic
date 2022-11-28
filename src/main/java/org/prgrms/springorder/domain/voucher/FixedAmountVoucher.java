@@ -8,7 +8,7 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
 
 	public FixedAmountVoucher(UUID voucherId, double value, LocalDateTime createdAt) {
-		super(voucherId, value,createdAt,VoucherType.FIXED_AMOUNT);
+		super(voucherId, value, createdAt, VoucherType.FIXED_AMOUNT);
 	}
 
 	@Override
@@ -22,6 +22,5 @@ public class FixedAmountVoucher extends Voucher {
 			throw new IllegalArgumentException(WRONG_AMOUNT_MESSAGE.toString());
 		}
 	}
-
 
 }

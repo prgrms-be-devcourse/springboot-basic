@@ -13,19 +13,16 @@ public class VoucherResponseDto {
 
 	private LocalDateTime voucherCreatedAt;
 
-	private LocalDateTime updatedAt;
-
 	private VoucherType voucherType;
 
 	public VoucherResponseDto() {
 	}
 
 	public VoucherResponseDto(UUID voucherId, double value, LocalDateTime voucherCreatedAt,
-		LocalDateTime updatedAt, VoucherType voucherType) {
+		VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.value = value;
 		this.voucherCreatedAt = voucherCreatedAt;
-		this.updatedAt = updatedAt;
 		this.voucherType = voucherType;
 	}
 
@@ -39,10 +36,6 @@ public class VoucherResponseDto {
 
 	public LocalDateTime getVoucherCreatedAt() {
 		return voucherCreatedAt;
-	}
-
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
 	}
 
 	public VoucherType getVoucherType() {

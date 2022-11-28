@@ -39,7 +39,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 			paramMap);
 	}
 
-
 	@Override
 	public List<Customer> findAll() {
 		return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);

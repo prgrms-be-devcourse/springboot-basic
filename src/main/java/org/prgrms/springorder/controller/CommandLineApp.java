@@ -14,8 +14,6 @@ import org.prgrms.springorder.controller.dto.VoucherResponseDto;
 import org.prgrms.springorder.controller.voucher.VoucherController;
 import org.prgrms.springorder.controller.wallet.WalletController;
 import org.prgrms.springorder.domain.ErrorMessage;
-import org.prgrms.springorder.domain.customer.Customer;
-import org.prgrms.springorder.domain.customer.CustomerType;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.NoSuchCommandException;
 import org.prgrms.springorder.io.IO;
@@ -34,7 +32,8 @@ public class CommandLineApp {
 	private final WalletController walletController;
 
 	public CommandLineApp(IO io, VoucherController voucherController,
-		CustomerController customerController, BlackListController blackListController, WalletController walletController) {
+		CustomerController customerController, BlackListController blackListController,
+		WalletController walletController) {
 		this.io = io;
 		this.voucherController = voucherController;
 		this.customerController = customerController;
@@ -67,12 +66,14 @@ public class CommandLineApp {
 				UUID customerId = UUID.randomUUID();
 				String name = io.read(REQUEST_NAME_MESSAGE);
 				String email = io.read(REQUEST_EMAIL_MESSAGE);
-				CustomerRequestDto customerRequestDto = new CustomerRequestDto(customerId,name,email,LocalDateTime.now(),
+				CustomerRequestDto customerRequestDto = new CustomerRequestDto(customerId, name, email,
+					LocalDateTime.now(),
 					NORMAL);
 				customerController.createCustomer(customerRequestDto);
 			}
-			case LIST -> io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
-				Collectors.toList()));
+			case LIST -> io.writeList(
+				voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
+					Collectors.toList()));
 			case BLACK_LIST -> io.writeList(blackListController.getBlackList());
 			case ALLOCATE -> {
 				io.writeList(customerController.getCustomerList());
@@ -96,7 +97,7 @@ public class CommandLineApp {
 				walletController.deleteByVoucherId(customerId, voucherId);
 			}
 
-			case SEARCH ->{
+			case SEARCH -> {
 				io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
 					Collectors.toList()));
 				UUID voucherId = UUID.fromString(io.read(VOUCHER_ID_MESSAGE));

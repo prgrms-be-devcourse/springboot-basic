@@ -17,14 +17,11 @@ public class VoucherController {
 	}
 
 	public void createVoucher(VoucherType voucherType, double value) {
-		voucherService.createVoucher(voucherType,value);
+		voucherService.createVoucher(voucherType, value);
 	}
 
 	public List<VoucherResponseDto> getVoucherList() {
 		return voucherService.getList();
 	}
-
-
-
 
 }

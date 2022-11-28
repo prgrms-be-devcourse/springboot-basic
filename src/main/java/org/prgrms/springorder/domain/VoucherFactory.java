@@ -3,7 +3,6 @@ package org.prgrms.springorder.domain;
 import static org.prgrms.springorder.domain.ErrorMessage.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.voucher.FixedAmountVoucher;

@@ -8,7 +8,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(UUID voucherId, double value, LocalDateTime createdAt) {
-		super(voucherId, value,createdAt,VoucherType.PERCENT_DISCOUNT);
+		super(voucherId, value, createdAt, VoucherType.PERCENT_DISCOUNT);
 	}
 
 	@Override
@@ -22,6 +22,5 @@ public class PercentDiscountVoucher extends Voucher {
 			throw new IllegalArgumentException(WRONG_PERCENT_MESSAGE.toString());
 		}
 	}
-
 
 }

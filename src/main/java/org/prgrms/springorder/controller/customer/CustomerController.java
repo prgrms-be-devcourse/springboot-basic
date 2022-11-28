@@ -3,8 +3,6 @@ package org.prgrms.springorder.controller.customer;
 import java.util.List;
 
 import org.prgrms.springorder.controller.dto.CustomerRequestDto;
-import org.prgrms.springorder.domain.customer.Customer;
-import org.prgrms.springorder.service.customer.BlackListService;
 import org.prgrms.springorder.service.customer.CustomerService;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +22,5 @@ public class CustomerController {
 	public void createCustomer(CustomerRequestDto customerRequestDto) {
 		customerService.createCustomer(customerRequestDto);
 	}
-
-
-
 
 }

@@ -41,9 +41,6 @@ public class JdbcUtil {
 		return new Customer(customerId, customerName, email, createdAt, customerType);
 	};
 
-
-
-
 	public static Map<String, Object> toParamMap(Customer customer) {
 		Map<String, Object> paramMap = new HashMap<>();
 		paramMap.put("customerId", customer.getCustomerId().toString());
@@ -76,7 +73,8 @@ public class JdbcUtil {
 		var customerType = CustomerType.getCustomerTypeByRating(resultSet.getString("customer_type"));
 
 		var walletCreatedAt = resultSet.getTimestamp("wallet_created_at").toLocalDateTime();
-		return new Wallet(walletId,VoucherFactory.createVoucher(voucherType, voucherId, value, voucherCreatedAt),new Customer(customerId, customerName, email, customerCreatedAt, customerType),walletCreatedAt);
+		return new Wallet(walletId, VoucherFactory.createVoucher(voucherType, voucherId, value, voucherCreatedAt),
+			new Customer(customerId, customerName, email, customerCreatedAt, customerType), walletCreatedAt);
 	};
 
 	public static Map<String, Object> toParamMap(Wallet wallet) {

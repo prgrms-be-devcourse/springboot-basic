@@ -53,7 +53,7 @@ public class Customer {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		Customer customer = (Customer)o;
-		return Objects.equals(getCustomerId(), customer.getCustomerId()) ;
+		return Objects.equals(getCustomerId(), customer.getCustomerId());
 	}
 
 	@Override

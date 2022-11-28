@@ -20,7 +20,7 @@ public enum CustomerType {
 		return Arrays.stream(values())
 			.filter(a -> Objects.equals(a.rating, rating))
 			.findAny()
-			.orElseThrow(()->new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
+			.orElseThrow(() -> new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
 	}
 
 	public String getRating() {

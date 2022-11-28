@@ -11,7 +11,6 @@ public abstract class Voucher {
 	private final UUID voucherId;
 	private double value;
 	private final LocalDateTime voucherCreatedAt;
-	private LocalDateTime updatedAt;
 	private final VoucherType voucherType;
 
 	public abstract int discount(double beforeDiscount);
@@ -45,12 +44,10 @@ public abstract class Voucher {
 
 	public void editVoucherValue(double value) {
 		this.value = value;
-		this.updatedAt = LocalDateTime.now();
 	}
 
 	public VoucherResponseDto toVoucherResponseDto() {
-		return new VoucherResponseDto(this.getVoucherId(), this.getValue(), this.voucherCreatedAt, this.updatedAt,
-			this.getVoucherType());
+		return new VoucherResponseDto(this.getVoucherId(), this.getValue(), this.voucherCreatedAt, this.getVoucherType());
 	}
 
 	@Override

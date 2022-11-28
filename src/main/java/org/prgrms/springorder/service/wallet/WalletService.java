@@ -41,7 +41,7 @@ public class WalletService {
 			.orElseThrow(() -> new NoSuchCustomerException(ErrorMessage.NO_SUCH_CUSTOMER_MESSAGE));
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchVoucherException(ErrorMessage.NO_SUCH_VOUCHER_MESSAGE));
-		walletRepository.allocate(WalletFactory.createWallet(voucher,customer));
+		walletRepository.allocate(WalletFactory.createWallet(voucher, customer));
 	}
 
 	public List<String> findVoucherByCustomerId(UUID customerId) {

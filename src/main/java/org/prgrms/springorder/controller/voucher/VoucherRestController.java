@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,7 +36,7 @@ public class VoucherRestController {
 
 	@PostMapping("/api/v1/voucher")
 	public ResponseEntity<Void> post(@RequestBody VoucherResponseDto voucherResponseDto) {
-		voucherService.createVoucher(voucherResponseDto.getVoucherType(),voucherResponseDto.getValue());
+		voucherService.createVoucher(voucherResponseDto.getVoucherType(), voucherResponseDto.getValue());
 		return ResponseEntity.ok().build();
 	}
 
