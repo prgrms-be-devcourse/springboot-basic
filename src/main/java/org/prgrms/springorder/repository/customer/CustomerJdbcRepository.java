@@ -9,9 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.prgrms.springorder.domain.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+@Profile("jdbc")
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository {
 

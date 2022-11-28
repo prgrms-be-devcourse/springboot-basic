@@ -16,8 +16,11 @@ import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.customer.CustomerType;
 import org.prgrms.springorder.properties.BlackListProperties;
 import org.prgrms.springorder.utils.FIleUtil;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+@Profile("file")
 @Component
 public class FileBlackListRepository implements CustomerRepository {
 
