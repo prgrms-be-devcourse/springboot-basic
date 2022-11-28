@@ -56,7 +56,7 @@ public class WalletJdbcRepository implements WalletRepository {
 
 		try {
 			jdbcTemplate.update(
-				"DELETE FROM wallet WHERE wallet.wallet_id = :walletId AND wallet.wallet_id = :walletId",
+				"DELETE FROM wallet WHERE wallet.wallet_id = :walletId",
 				Collections.singletonMap("walletId", wallet.getWalletId().toString()));
 		} catch (DataAccessException e) {
 			log.error(ErrorMessage.DATA_ACCESS_MESSAGE.toString());
@@ -68,7 +68,7 @@ public class WalletJdbcRepository implements WalletRepository {
 	public List<Customer> findCustomerByVoucherId(UUID voucherId) {
 		try {
 			return jdbcTemplate.query(
-				"SELECT * from wallet "
+				"SELECT customer.* from wallet "
 					+ "INNER JOIN voucher ON wallet.voucher_id = voucher.voucher_id "
 					+ "INNER JOIN customer ON wallet.customer_id = customer.customer_id "
 					+ "WHERE wallet.voucher_id = :voucherId",
