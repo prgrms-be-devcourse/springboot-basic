@@ -8,11 +8,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.prgrms.springorder.controller.customer.CustomerController;
+import org.prgrms.springorder.controller.dto.CustomerRequestDto;
 import org.prgrms.springorder.controller.dto.VoucherResponseDto;
 import org.prgrms.springorder.controller.voucher.VoucherController;
 import org.prgrms.springorder.controller.wallet.WalletController;
 import org.prgrms.springorder.domain.ErrorMessage;
 import org.prgrms.springorder.domain.customer.Customer;
+import org.prgrms.springorder.domain.customer.CustomerType;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.exception.NoSuchCommandException;
 import org.prgrms.springorder.io.IO;
@@ -62,8 +64,9 @@ public class CommandLineApp {
 				UUID customerId = UUID.randomUUID();
 				String name = io.read(REQUEST_NAME_MESSAGE);
 				String email = io.read(REQUEST_EMAIL_MESSAGE);
-				Customer customer = new Customer(customerId,name,email, LocalDateTime.now(), NORMAL);
-				customerController.createCustomer(customer);
+				CustomerRequestDto customerRequestDto = new CustomerRequestDto(customerId,name,email,LocalDateTime.now(),
+					NORMAL);
+				customerController.createCustomer(customerRequestDto);
 			}
 			case LIST -> io.writeList(voucherController.getVoucherList().stream().map(VoucherResponseDto::toString).collect(
 				Collectors.toList()));

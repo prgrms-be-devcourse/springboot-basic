@@ -49,11 +49,8 @@ public abstract class Voucher {
 	}
 
 	public VoucherResponseDto toVoucherResponseDto() {
-		return new VoucherResponseDto(this.getVoucherId()
-			, this.getValue()
-			, this.voucherCreatedAt
-			, this.updatedAt
-			, this.getVoucherType());
+		return new VoucherResponseDto(this.getVoucherId(), this.getValue(), this.voucherCreatedAt, this.updatedAt,
+			this.getVoucherType());
 	}
 
 	@Override

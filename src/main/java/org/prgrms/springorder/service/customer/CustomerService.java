@@ -3,6 +3,7 @@ package org.prgrms.springorder.service.customer;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.prgrms.springorder.controller.dto.CustomerRequestDto;
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class CustomerService {
 		return customerRepository.findAll().stream().map(Customer::toString).collect(Collectors.toList());
 	}
 
-	public void createCustomer(Customer customer) {
-		customerRepository.save(customer);
+	public void createCustomer(CustomerRequestDto customerRequestDto) {
+		customerRepository.save(customerRequestDto.toCustomer());
 	}
 }
