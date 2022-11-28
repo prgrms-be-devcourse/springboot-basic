@@ -2,9 +2,11 @@ package org.prgrms.springorder.domain.customer.api.request;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.Getter;
 import org.prgrms.springorder.console.io.Request;
 import org.springframework.util.StringUtils;
 
+@Getter
 public class CreateCustomerRequest implements Request {
 
     private final String name;
@@ -33,11 +35,4 @@ public class CreateCustomerRequest implements Request {
         }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

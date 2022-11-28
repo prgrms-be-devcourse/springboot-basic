@@ -15,6 +15,7 @@ import org.prgrms.springorder.common.ControllerIntegrationBase;
 import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.domain.customer.repository.CustomerJdbcRepository;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherIdRequest;
 import org.prgrms.springorder.domain.voucher.model.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;

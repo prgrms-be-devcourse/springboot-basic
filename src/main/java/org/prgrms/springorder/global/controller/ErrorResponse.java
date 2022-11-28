@@ -1,5 +1,10 @@
 package org.prgrms.springorder.global.controller;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public class ErrorResponse {
 
     private String errorMessage;
@@ -8,21 +13,4 @@ public class ErrorResponse {
 
     private String requestUri;
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public int getStatusCode() {
-        return statusCode;
-    }
-
-    public String getRequestUri() {
-        return requestUri;
-    }
-
-    public ErrorResponse(String errorMessage, int statusCode, String uri) {
-        this.errorMessage = errorMessage;
-        this.statusCode = statusCode;
-        this.requestUri = uri;
-    }
 }

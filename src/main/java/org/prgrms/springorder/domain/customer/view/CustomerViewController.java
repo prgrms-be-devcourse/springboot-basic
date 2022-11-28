@@ -6,7 +6,7 @@ import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
 import org.prgrms.springorder.domain.customer.service.CustomerService;
-import org.prgrms.springorder.domain.voucher.api.VoucherIdRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherIdRequest;
 import org.prgrms.springorder.domain.voucher.api.request.AllocateVoucherRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

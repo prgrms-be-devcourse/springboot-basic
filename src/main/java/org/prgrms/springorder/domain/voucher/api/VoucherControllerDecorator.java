@@ -3,6 +3,7 @@ package org.prgrms.springorder.domain.voucher.api;
 import org.prgrms.springorder.console.io.Request;
 import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherIdRequest;
 import org.prgrms.springorder.global.exception.IllegalRequestException;
 import org.springframework.stereotype.Component;
 

@@ -5,6 +5,7 @@ import org.prgrms.springorder.console.io.ListResponse;
 import org.prgrms.springorder.console.io.Response;
 import org.prgrms.springorder.console.io.StringResponse;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.request.VoucherIdRequest;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
 import org.prgrms.springorder.domain.voucher_wallet.service.VoucherWalletService;

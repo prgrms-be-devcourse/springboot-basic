@@ -2,8 +2,12 @@ package org.prgrms.springorder.domain.customer.api.response;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.prgrms.springorder.domain.customer.model.CustomerStatus;
 
+@Getter
+@AllArgsConstructor
 public class CustomerResponse {
 
     private final UUID customerId;
@@ -18,38 +22,4 @@ public class CustomerResponse {
 
     private final CustomerStatus customerStatus;
 
-    public CustomerResponse(UUID customerId, String name, String email,
-        LocalDateTime lastLoginAt, LocalDateTime createdAt,
-        CustomerStatus customerStatus) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
-        this.customerStatus = customerStatus;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public CustomerStatus getCustomerStatus() {
-        return customerStatus;
-    }
 }

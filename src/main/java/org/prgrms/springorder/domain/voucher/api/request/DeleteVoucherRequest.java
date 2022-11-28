@@ -1,8 +1,12 @@
 package org.prgrms.springorder.domain.voucher.api.request;
 
 import java.util.UUID;
+import lombok.Getter;
+import lombok.ToString;
 import org.prgrms.springorder.util.UUIDValidator;
 
+@Getter
+@ToString
 public class DeleteVoucherRequest {
 
     private UUID voucherId;
@@ -16,19 +20,4 @@ public class DeleteVoucherRequest {
         this.customerId = UUID.fromString(customerId);
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    @Override
-    public String toString() {
-        return "DeleteVoucherRequest{" +
-            "voucherId=" + voucherId +
-            ", customerId=" + customerId +
-            '}';
-    }
 }

@@ -1,9 +1,11 @@
 package org.prgrms.springorder.domain.voucher.api.request;
 
 import java.util.UUID;
+import lombok.Getter;
 import org.prgrms.springorder.console.io.Request;
 import org.prgrms.springorder.util.UUIDValidator;
 
+@Getter
 public class AllocateVoucherRequest implements Request {
 
     private final UUID voucherId;
@@ -17,11 +19,4 @@ public class AllocateVoucherRequest implements Request {
         this.customerId = UUID.fromString(customerId);
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public UUID getCustomerId() {
-        return customerId;
-    }
 }

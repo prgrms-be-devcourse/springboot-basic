@@ -3,7 +3,6 @@ package org.prgrms.springorder.domain.voucher.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
-import org.prgrms.springorder.domain.customer.model.Customer;
 
 public class PercentDiscountVoucher extends Voucher {
 

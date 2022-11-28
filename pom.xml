@@ -98,6 +98,15 @@
       <version>1.4.17</version>
     </dependency>
 
+    <!-- lombok -->
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.24</version>
+    </dependency>
+
+
   </dependencies>
 
   <build>

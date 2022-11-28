@@ -3,9 +3,17 @@ package org.prgrms.springorder.domain.customer.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode(of = "customerId")
+@ToString
 public class Customer {
 
     private final UUID customerId;
@@ -22,16 +30,6 @@ public class Customer {
 
     protected Customer(UUID customerId) {
         this.customerId = customerId;
-    }
-
-    public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt,
-        LocalDateTime createdAt, CustomerStatus customerStatus) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
-        this.customerStatus = customerStatus;
     }
 
     public Customer(UUID customerId, String name, String email) {
@@ -62,56 +60,4 @@ public class Customer {
         this.customerStatus = blockStatus;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public LocalDateTime getLastLoginAt() {
-        return lastLoginAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public CustomerStatus getCustomerStatus() {
-        return customerStatus;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Customer customer = (Customer) o;
-        return Objects.equals(customerId, customer.customerId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(customerId);
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-            "customerId=" + customerId +
-            ", name='" + name + '\'' +
-            ", email='" + email + '\'' +
-            ", lastLoginAt=" + lastLoginAt +
-            ", createdAt=" + createdAt +
-            ", customerStatus=" + customerStatus +
-            '}';
-    }
 }

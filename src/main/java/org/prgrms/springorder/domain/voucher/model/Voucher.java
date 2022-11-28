@@ -3,7 +3,11 @@ package org.prgrms.springorder.domain.voucher.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public abstract class Voucher {
 
     private final UUID voucherId;
@@ -23,22 +27,7 @@ public abstract class Voucher {
         this.createdAt = LocalDateTime.now();
     }
 
-    protected Voucher(UUID voucherId, long amount, LocalDateTime createdAt) {
-        validateAmount(amount);
-        this.voucherId = voucherId;
-        this.amount = amount;
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
     protected abstract void validateAmount(long amount);
-
-    public long getAmount() {
-        return amount;
-    }
 
     public abstract VoucherType getVoucherType();
 
