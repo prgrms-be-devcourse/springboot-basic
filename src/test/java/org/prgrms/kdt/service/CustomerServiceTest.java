@@ -9,6 +9,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.repository.customer.CustomerRepository;
+import org.prgrms.kdt.service.customer.CustomerService;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
