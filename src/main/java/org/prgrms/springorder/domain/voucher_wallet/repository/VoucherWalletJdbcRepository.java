@@ -230,7 +230,7 @@ public class VoucherWalletJdbcRepository implements
 
     private static final String EXISTS_BY_CUSTOMER_ID_AND_VOUCHER_ID
         = "SELECT EXISTS "
-        + "(SELECT * FROM voucher_wallet "
+        + "(SELECT 1 FROM voucher_wallet "
         + "WHERE customer_id = :customerId "
         + "AND "
         + "voucher_id = :voucherId)";
