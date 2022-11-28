@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -40,6 +41,7 @@ public class WalletServiceTest {
 	WalletService walletService;
 
 	@Test
+	@DisplayName("아이디를 통해 고객과 바우처를 성공적으로 반환받고 respository에 allocate 메서드를 성공적으로 실행한다.")
 	void allocateTest() {
 		//given
 		MockedStatic<WalletFactory> walletFactoryMockedStatic = mockStatic(WalletFactory.class);
@@ -66,8 +68,9 @@ public class WalletServiceTest {
 	}
 
 	@Test
+	@DisplayName("고객 아디를 통해 바우처를 성공적으로 반환 받는다.")
 	void findVoucherByCustomerIdTest() {
-
+		//given
 		double value = 150;
 		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), value, LocalDateTime.now());
 		Customer customer = new Customer(UUID.randomUUID(), "이건우", "1234", LocalDateTime.now(), CustomerType.NORMAL);
@@ -75,12 +78,15 @@ public class WalletServiceTest {
 		when(walletJdbcRepository.findVoucherByCustomerId(customer.getCustomerId()))
 			.thenReturn(List.of(voucher));
 
+		//when
 		walletService.findVoucherByCustomerId(customer.getCustomerId());
 
+		//then
 		verify(walletJdbcRepository).findVoucherByCustomerId(customer.getCustomerId());
 	}
 
 	@Test
+	@DisplayName("아이디를 통해 성공적으로 바우처와 고객을 받아 지갑 객체를 만들어 delete 메서드를 성공적으로 실행한다.")
 	void deleteByVoucherId() {
 
 		//given
@@ -105,6 +111,7 @@ public class WalletServiceTest {
 	}
 
 	@Test
+	@DisplayName("바우처 아이디를 통해 고객을 성공적으로 조회한다.")
 	void findCustomerByVoucherIdTest() {
 
 		//given
@@ -115,8 +122,10 @@ public class WalletServiceTest {
 		when(walletJdbcRepository.findCustomerByVoucherId(voucher.getVoucherId()))
 			.thenReturn(List.of(customer));
 
+		//when
 		walletService.findCustomerByVoucherId(voucher.getVoucherId());
 
+		//then
 		verify(walletJdbcRepository).findCustomerByVoucherId(voucher.getVoucherId());
 	}
 }

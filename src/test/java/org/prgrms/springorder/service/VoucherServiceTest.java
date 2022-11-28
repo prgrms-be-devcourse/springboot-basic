@@ -32,7 +32,7 @@ class VoucherServiceTest {
 	VoucherService voucherService;
 
 	@Test
-	@DisplayName("주어진 voucherType, value로 바우처를 생성하고 저장한다.")
+	@DisplayName("주어진 voucherType, value로 바우처를 생성하고 성공적으로 저장한다.")
 	void createVoucherTest() {
 
 		MockedStatic<VoucherFactory> voucherFactory = mockStatic(VoucherFactory.class);
@@ -55,7 +55,7 @@ class VoucherServiceTest {
 	}
 
 	@Test
-	@DisplayName("주어진 UUID로 바우처를 단건조회한다.")
+	@DisplayName("주어진 UUID로 바우처를 성공적으로 단건조회한다.")
 	void findByIdTest() {
 
 		//given
@@ -75,7 +75,7 @@ class VoucherServiceTest {
 	}
 
 	@Test
-	@DisplayName("전체 바우처를 조회한다.")
+	@DisplayName("전체 바우처를 성공적으로 조회한다.")
 	void getListTest() {
 
 		//given
@@ -97,7 +97,7 @@ class VoucherServiceTest {
 	}
 
 	@Test
-	@DisplayName("바우처를 삭제한다.")
+	@DisplayName("바우처를 성공적으로 삭제한다.")
 	void deleteById() {
 
 		//given

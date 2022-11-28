@@ -120,22 +120,6 @@ class VoucherJdbcRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("바우처 삭제를 실패한다.")
-	void deleteFailTest() {
-
-		//given
-		double value1 = 100;
-		Voucher fixedAmountVoucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value1);
-
-		//when
-		voucherJdbcRepository.save(fixedAmountVoucher);
-
-		//then
-		assertThatThrownBy(() -> voucherJdbcRepository.deleteById(UUID.randomUUID()))
-			.isInstanceOf(DataAccessException.class);
-	}
-
-	@Test
 	@DisplayName("바우처를 성공적으로 업데이트한다.")
 	void updateTest() {
 
@@ -154,25 +138,6 @@ class VoucherJdbcRepositoryTest {
 		assertThat(savedVoucher).isPresent();
 		Voucher voucher = savedVoucher.get();
 		assertThat(voucher).isEqualTo(fixedAmountVoucher);
-	}
-
-	@Test
-	@DisplayName("바우처를 업데이트를 실패한다.")
-	void updateFailTest() {
-
-		//given
-		double value1 = 100;
-		double value2 = 50;
-		Voucher fixedAmountVoucher1 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value1);
-		Voucher fixedAmountVoucher2 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value2);
-
-		//when
-		voucherJdbcRepository.save(fixedAmountVoucher1);
-
-		//then
-		assertThatThrownBy(() -> voucherJdbcRepository.updateByObject(fixedAmountVoucher2))
-			.isInstanceOf(DataAccessException.class);
-
 	}
 
 }

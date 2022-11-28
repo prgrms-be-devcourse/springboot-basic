@@ -51,7 +51,6 @@ class VoucherRestControllerTest {
 			UUID.randomUUID(),
 			150,
 			LocalDateTime.now(),
-			LocalDateTime.now(),
 			VoucherType.FIXED_AMOUNT
 		);
 
@@ -71,7 +70,7 @@ class VoucherRestControllerTest {
 	}
 
 	@Test
-	@DisplayName("바우처를 조회한다.")
+	@DisplayName("바우처를 성공적으로 조회한다.")
 	void getTest() throws Exception {
 
 		double value = 150;
@@ -86,8 +85,6 @@ class VoucherRestControllerTest {
 			.andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
 			.andExpect(MockMvcResultMatchers.jsonPath("$.voucherId").value(voucher.getVoucherId().toString()))
 			.andExpect(MockMvcResultMatchers.jsonPath("$.value").value(voucher.getValue()))
-			// .andExpect(MockMvcResultMatchers.jsonPath("$.voucherCreatedAt").value(voucher.getCreatedAt().toString()))
-			// .andExpect(MockMvcResultMatchers.jsonPath("$.voucherType").value(voucher.getVoucherType().toString()))
 			.andDo(MockMvcResultHandlers.print());
 	}
 }

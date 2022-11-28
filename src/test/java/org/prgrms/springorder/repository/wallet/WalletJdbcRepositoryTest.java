@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.prgrms.springorder.domain.VoucherFactory;
@@ -57,6 +58,7 @@ class WalletJdbcRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("바우처를 고객에게 할당하고 성공적으로 결과를 조회한다.")
 	void allocateTest() {
 
 		double value = 150;
@@ -82,6 +84,7 @@ class WalletJdbcRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("고객 아이디로 바우처를 성공적으로 조회한다.")
 	void findVoucherByCustomerIdTest() {
 		double value = 150;
 		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value);
@@ -105,6 +108,7 @@ class WalletJdbcRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("지갑 아이디로 지갑을 성공적으로 삭제한다.")
 	void deleteTest() {
 		double value = 150;
 		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value);

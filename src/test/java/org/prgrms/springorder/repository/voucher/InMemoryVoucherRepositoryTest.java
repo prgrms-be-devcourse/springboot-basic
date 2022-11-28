@@ -28,7 +28,7 @@ class InMemoryVoucherRepositoryTest {
 	void test1() {
 		//given
 		UUID uuid = UUID.randomUUID();
-		Voucher voucher = new FixedAmountVoucher(uuid, 1500,LocalDateTime.now());
+		Voucher voucher = new FixedAmountVoucher(uuid, 1500, LocalDateTime.now());
 		//when
 		inMemoryVoucherRepository.save(voucher);
 		Optional<Voucher> savedVoucher = inMemoryVoucherRepository.findById(uuid);
