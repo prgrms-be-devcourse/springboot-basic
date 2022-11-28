@@ -1,5 +1,7 @@
 package org.prgrms.springorder.service;
 
+import static org.mockito.Mockito.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.springorder.domain.VoucherFactory;
 import org.prgrms.springorder.domain.voucher.FixedAmountVoucher;
@@ -34,22 +35,22 @@ class VoucherServiceTest {
 	@DisplayName("주어진 voucherType, value로 바우처를 생성하고 저장한다.")
 	void createVoucherTest() {
 
-		MockedStatic<VoucherFactory> voucherFactory = Mockito.mockStatic(VoucherFactory.class);
+		MockedStatic<VoucherFactory> voucherFactory = mockStatic(VoucherFactory.class);
 		//given
 		VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 		double value = 50;
 
 		FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), value, LocalDateTime.now());
 
-		Mockito.when(VoucherFactory.createVoucher(voucherType, value)).thenReturn(fixedAmountVoucher);
-		Mockito.doNothing().when(voucherRepository).save(fixedAmountVoucher);
+		when(VoucherFactory.createVoucher(voucherType, value)).thenReturn(fixedAmountVoucher);
+		doNothing().when(voucherRepository).save(fixedAmountVoucher);
 
 		//when
 		voucherService.createVoucher(voucherType, value);
 
 		//then
-		Mockito.verify(voucherRepository).save(fixedAmountVoucher);
-		voucherFactory.verify(() -> VoucherFactory.createVoucher(voucherType, value), Mockito.times(1));
+		verify(voucherRepository).save(fixedAmountVoucher);
+		voucherFactory.verify(() -> VoucherFactory.createVoucher(voucherType, value), times(1));
 
 	}
 
@@ -63,13 +64,13 @@ class VoucherServiceTest {
 		Optional<Voucher> fixedAmountVoucher = Optional.of(
 			new FixedAmountVoucher(UUID.randomUUID(), value, LocalDateTime.now()));
 
-		Mockito.when(voucherRepository.findById(uuid)).thenReturn(fixedAmountVoucher);
+		when(voucherRepository.findById(uuid)).thenReturn(fixedAmountVoucher);
 
 		//when
 		voucherService.findById(uuid);
 
 		//then
-		Mockito.verify(voucherRepository).findById(uuid);
+		verify(voucherRepository).findById(uuid);
 
 	}
 
@@ -87,11 +88,11 @@ class VoucherServiceTest {
 		voucherList.add(voucher1);
 		voucherList.add(voucher2);
 
-		Mockito.when(voucherRepository.findAll()).thenReturn(voucherList);
+		when(voucherRepository.findAll()).thenReturn(voucherList);
 
 		voucherService.getList();
 
-		Mockito.verify(voucherRepository).findAll();
+		verify(voucherRepository).findAll();
 
 	}
 
@@ -103,12 +104,12 @@ class VoucherServiceTest {
 		double value = 50;
 		Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, value);
 
-		Mockito.doNothing().when(voucherRepository).delete(voucher.getVoucherId());
+		doNothing().when(voucherRepository).delete(voucher.getVoucherId());
 
 		//when
 		voucherService.deleteById(voucher.getVoucherId());
 
 		//then
-		Mockito.verify(voucherRepository).delete(voucher.getVoucherId());
+		verify(voucherRepository).delete(voucher.getVoucherId());
 	}
 }

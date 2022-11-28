@@ -1,11 +1,12 @@
 package org.prgrms.springorder.repository.voucher;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,8 +33,8 @@ class InMemoryVoucherRepositoryTest {
 		inMemoryVoucherRepository.save(voucher);
 		Optional<Voucher> savedVoucher = inMemoryVoucherRepository.findById(uuid);
 		//then
-		Assertions.assertTrue(savedVoucher.isPresent());
-		Assertions.assertEquals(voucher, savedVoucher.get());
+		assertTrue(savedVoucher.isPresent());
+		assertEquals(voucher, savedVoucher.get());
 	}
 
 	@Test
@@ -51,7 +52,7 @@ class InMemoryVoucherRepositoryTest {
 		//when
 		List<Voucher> savedVouchers = inMemoryVoucherRepository.findAll();
 		//then
-		Assertions.assertEquals(savedVouchers.size(), expectSize);
+		assertEquals(savedVouchers.size(), expectSize);
 
 	}
 }

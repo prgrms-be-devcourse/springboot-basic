@@ -1,8 +1,9 @@
 package org.prgrms.springorder.repository.customer;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class FileCustomerRepositoryTest {
 		//when
 		List<Customer> blackList = fileBlackListRepository.findAll();
 		//then
-		Assertions.assertEquals(expectSize, blackList.size());
+		assertEquals(expectSize, blackList.size());
 	}
 
 }

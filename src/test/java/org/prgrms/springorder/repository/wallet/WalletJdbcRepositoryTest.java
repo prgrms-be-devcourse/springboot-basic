@@ -1,12 +1,13 @@
 package org.prgrms.springorder.repository.wallet;
 
+import static org.assertj.core.api.Assertions.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,12 +15,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.prgrms.springorder.domain.VoucherFactory;
 import org.prgrms.springorder.domain.customer.Customer;
 import org.prgrms.springorder.domain.customer.CustomerType;
-import org.prgrms.springorder.domain.voucher.FixedAmountVoucher;
 import org.prgrms.springorder.domain.voucher.Voucher;
 import org.prgrms.springorder.domain.voucher.VoucherType;
 import org.prgrms.springorder.domain.wallet.Wallet;
 import org.prgrms.springorder.repository.customer.CustomerJdbcRepository;
-import org.prgrms.springorder.repository.customer.CustomerRepository;
 import org.prgrms.springorder.repository.voucher.VoucherJdbcRepository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -78,7 +77,7 @@ class WalletJdbcRepositoryTest {
 
 		List<Customer> customerList = walletJdbcRepository.findCustomerByVoucherId(voucher.getVoucherId());
 
-		Assertions.assertThat(customerList).contains(customer);
+		assertThat(customerList).contains(customer);
 
 	}
 
@@ -102,7 +101,7 @@ class WalletJdbcRepositoryTest {
 
 		List<Voucher> customerList = walletJdbcRepository.findVoucherByCustomerId(customerId);
 
-		Assertions.assertThat(customerList).contains(voucher);
+		assertThat(customerList).contains(voucher);
 	}
 
 	@Test
@@ -125,7 +124,7 @@ class WalletJdbcRepositoryTest {
 		walletJdbcRepository.delete(wallet);
 
 		List<Voucher> customerList = walletJdbcRepository.findVoucherByCustomerId(customerId);
-		Assertions.assertThat(customerList).doesNotContain(voucher);
+		assertThat(customerList).doesNotContain(voucher);
 	}
 
 
