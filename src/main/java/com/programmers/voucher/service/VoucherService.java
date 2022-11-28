@@ -1,20 +1,21 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.domain.VoucherEntity;
+import com.programmers.voucher.domain.Voucher;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherService {
-    void createVoucher(String type, int discount);
+    void createVoucher(String customerEmail, String type, long discount);
 
-    List<VoucherEntity> getAllVouchers();
+    List<Voucher> getAllVouchers();
 
-    List<VoucherEntity> findByType(String type);
+    List<Voucher> getVouchersByCustomerEmail(String customerEmail);
 
-    Optional<VoucherEntity> findById(UUID id);
+    List<Voucher> getVouchersByDate(String customerEmail, String date);
 
-    void deleteAll();
+    void update(UUID voucherId, long discount);
+
+    void deleteById(UUID voucherId);
 
 }
