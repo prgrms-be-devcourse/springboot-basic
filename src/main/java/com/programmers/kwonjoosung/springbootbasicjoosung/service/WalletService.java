@@ -1,66 +1,39 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.service;
 
-import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
-import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.CustomerRepository;
-import com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherRepository;
+import com.programmers.kwonjoosung.springbootbasicjoosung.controller.customer.CustomerDto;
+import com.programmers.kwonjoosung.springbootbasicjoosung.controller.voucher.request.VoucherDto;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.wallet.JdbcWalletRepository;
 
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class WalletService {
 
     private final JdbcWalletRepository jdbcWalletRepository;
-    private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
 
-    public WalletService(JdbcWalletRepository jdbcWalletRepository, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public WalletService(JdbcWalletRepository jdbcWalletRepository) {
         this.jdbcWalletRepository = jdbcWalletRepository;
-        this.voucherRepository = voucherRepository; // walletService가 voucherRepository & customerRepository 를 주입받아도 되나요..?
-        this.customerRepository = customerRepository;
     }
 
-    public boolean insertToWallet(UUID customerId, UUID voucherId) {
-        if (customerIsEmpty(customerId) || voucherIsEmpty(voucherId)) return false;
-        if (jdbcWalletRepository.findCustomerIdByVoucherId(voucherId).isPresent()) return false;
-        return jdbcWalletRepository.insertToWallet(customerId, voucherId);
+    public void insertToWallet(UUID customerId, UUID voucherId) {
+        jdbcWalletRepository.insertToWallet(customerId, voucherId);
     }
 
-    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        if (customerIsEmpty(customerId)) return List.of();
-        return jdbcWalletRepository
-                .findVoucherIdsByCustomerId(customerId)
+    public List<VoucherDto> findWalletByCustomerId(UUID customerId) {
+        return jdbcWalletRepository.findVouchersByCustomerId(customerId)
                 .stream()
-                .map(voucherRepository::findById)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .collect(Collectors.toList());
+                .map(VoucherDto::new)
+                .toList();
     }
 
-    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
-        if (voucherIsEmpty(voucherId)) return Optional.empty();
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucherId);
-        if (customerIdByVoucherId.isEmpty()) return Optional.empty();
-        return customerRepository.findById(customerIdByVoucherId.get());
+    public CustomerDto findCustomerByVoucherId(UUID voucherId) {
+        return new CustomerDto(jdbcWalletRepository.findCustomerByVoucherId(voucherId));
     }
 
-    public boolean deleteVoucherFromWallet(UUID voucherId) {
-        if (voucherIsEmpty(voucherId)) return false;
-        return jdbcWalletRepository.deleteVoucher(voucherId);
+    public void deleteVoucherFromWallet(UUID voucherId) {
+        jdbcWalletRepository.deleteVoucher(voucherId);
     }
-
-    private boolean voucherIsEmpty(UUID voucherId) {
-        return voucherRepository.findById(voucherId).isEmpty();
-    }
-
-    private boolean customerIsEmpty(UUID customerId) {
-        return customerRepository.findById(customerId).isEmpty();
-    }
-
 }
