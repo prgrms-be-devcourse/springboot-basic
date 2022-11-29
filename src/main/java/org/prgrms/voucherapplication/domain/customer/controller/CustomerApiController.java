@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/v1/customers")
 public class CustomerApiController {
 
     private final CustomerService customerService;
@@ -19,19 +20,19 @@ public class CustomerApiController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/api/v1/customers")
+    @GetMapping()
     public List<Customer> findCustomers() {
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/api/v1/customers/{customerId}")
+    @GetMapping("/{customerId}")
     public ResponseEntity<Customer> findCustomer(@PathVariable("customerId") UUID customerId) {
         Optional<Customer> customer = customerService.getCustomer(customerId);
         return customer.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/api/v1/customers/{customerId}")
+    @PostMapping("/{customerId}")
     public CustomerDto saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer) {
         Customer to = CustomerDto.to(customer);
         customerService.createCustomer(to.getEmail(), to.getName());
