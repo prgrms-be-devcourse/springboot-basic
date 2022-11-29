@@ -113,12 +113,7 @@ public class VoucherApplication {
         console.printChoosingVoucher();
         String voucherTypeInput = console.getInput();
         VoucherType voucherType = VoucherType.fromInputValue(voucherTypeInput);
-        switch (voucherType) {
-            case FIXED_AMOUNT, PERCENT -> {
-                return voucherType;
-            }
-            default -> throw new InvalidVoucherTypeException(VOUCHER_NOT_SUPPORTED);
-        }
+        return voucherType;
     }
 
     private String getAmount(VoucherType voucherType) {
