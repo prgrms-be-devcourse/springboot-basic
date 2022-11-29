@@ -6,13 +6,12 @@ import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
-import org.prgrms.voucherapplication.customer.entity.Customer;
-import org.prgrms.voucherapplication.customer.repository.BlackListFileRepository;
-import org.prgrms.voucherapplication.customer.repository.BlackListRepository;
-import org.prgrms.voucherapplication.customer.repository.CustomerNamedJdbcRepository;
-import org.prgrms.voucherapplication.customer.repository.CustomerRepository;
-import org.prgrms.voucherapplication.customer.service.CustomerService;
-import org.prgrms.voucherapplication.customer.service.CustomerServiceImpl;
+import org.prgrms.voucherapplication.domain.customer.entity.Customer;
+import org.prgrms.voucherapplication.domain.customer.repository.BlackListFileRepository;
+import org.prgrms.voucherapplication.domain.customer.repository.BlackListRepository;
+import org.prgrms.voucherapplication.domain.customer.repository.CustomerNamedJdbcRepository;
+import org.prgrms.voucherapplication.domain.customer.repository.CustomerRepository;
+import org.prgrms.voucherapplication.domain.customer.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +107,7 @@ class CustomerServiceTest {
 
         @Bean
         public CustomerService customerService(CustomerRepository customerRepository, BlackListRepository blackListRepository) {
-            return new CustomerServiceImpl(customerRepository, blackListRepository);
+            return new CustomerService(customerRepository, blackListRepository);
         }
     }
 

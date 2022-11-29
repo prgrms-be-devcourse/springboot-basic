@@ -5,9 +5,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.prgrms.voucherapplication.customer.repository.BlackListFileRepository;
-import org.prgrms.voucherapplication.customer.controller.dto.ResponseBlacklist;
-import org.prgrms.voucherapplication.voucher.service.CsvFileService;
+import org.prgrms.voucherapplication.domain.customer.repository.BlackListFileRepository;
+import org.prgrms.voucherapplication.domain.customer.controller.dto.ResponseBlacklist;
+import org.prgrms.voucherapplication.domain.voucher.service.CsvFileService;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.File;
