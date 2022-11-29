@@ -6,6 +6,7 @@ import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
 
 import java.math.BigDecimal;
 
+import com.prgrms.springbootbasic.common.exception.VoucherErrorCode;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,12 @@ public class PercentVoucher implements Voucher {
     public void validate(int discountAmount) {
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {
             logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");
-            throw new AmountOutOfBoundException(this.getClass().getSimpleName(), MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
+            throw new AmountOutOfBoundException(
+                    this.getClass().getSimpleName(),
+                    discountAmount,
+                    MIN_AMOUNT_BOUNDARY,
+                    MAX_AMOUNT_BOUNDARY,
+                    VoucherErrorCode.AMOUNT_OUT_OF_BOUND);
         }
     }
 

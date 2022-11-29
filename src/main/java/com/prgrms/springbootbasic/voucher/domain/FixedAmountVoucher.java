@@ -3,6 +3,7 @@ package com.prgrms.springbootbasic.voucher.domain;
 import static com.prgrms.springbootbasic.common.exception.ExceptionMessage.ILLEGAL_STATE_EXCEPTION_WHEN_DISCOUNT;
 
 import com.prgrms.springbootbasic.common.exception.AmountOutOfBoundException;
+import com.prgrms.springbootbasic.common.exception.VoucherErrorCode;
 import com.prgrms.springbootbasic.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,12 @@ public class FixedAmountVoucher implements Voucher {
     public void validate(int discountAmount) {
         if (discountAmount < MIN_AMOUNT_BOUNDARY || discountAmount > MAX_AMOUNT_BOUNDARY) {
             logger.warn("AmountOutOfBoundException occurred when creating new Voucher. Amount dut of boundary.");
-            throw new AmountOutOfBoundException(this.getClass().getSimpleName(), MIN_AMOUNT_BOUNDARY, MAX_AMOUNT_BOUNDARY);
+            throw new AmountOutOfBoundException(
+                    this.getClass().getSimpleName(),
+                    discountAmount,
+                    MIN_AMOUNT_BOUNDARY,
+                    MAX_AMOUNT_BOUNDARY,
+                    VoucherErrorCode.AMOUNT_OUT_OF_BOUND);
         }
     }
 
