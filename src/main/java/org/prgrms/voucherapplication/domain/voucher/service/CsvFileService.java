@@ -1,5 +1,8 @@
 package org.prgrms.voucherapplication.domain.voucher.service;
 
+import org.prgrms.voucherapplication.domain.voucher.exception.FileDeleteException;
+import org.prgrms.voucherapplication.domain.voucher.exception.FileReadException;
+import org.prgrms.voucherapplication.domain.voucher.exception.FileWriteException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,20 +14,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.FILE_DELETE_FAIL;
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.FILE_IO_ERROR;
+
 @Service
 public class CsvFileService {
 
     private final Logger logger = LoggerFactory.getLogger(CsvFileService.class);
-    private static final String FILE_ERROR = "csv 파일 처리 과정에서 오류가 발생했습니다. 확인 후 프로그램을 재실행 시켜주세요.";
-    private static final String FILE_DELETE_FAIL = "파일 삭제가 실패했습니다.";
 
     public List<String> readFileLines(File file) {
         List<String> strings;
         try {
             strings = Files.readAllLines(file.toPath());
         } catch (IOException e) {
-            logger.error(FILE_ERROR);
-            throw new FileReadException(FILE_ERROR);
+            logger.info(FILE_IO_ERROR.getMessege());
+            throw new FileReadException(FILE_IO_ERROR);
         }
 
         return strings;
@@ -36,8 +40,8 @@ public class CsvFileService {
             writer.write(line);
             writer.close();
         } catch (IOException e) {
-            logger.error(FILE_ERROR);
-            throw new FileWriteException(FILE_ERROR);
+            logger.info(FILE_IO_ERROR.getMessege());
+            throw new FileWriteException(FILE_IO_ERROR);
         }
     }
 
@@ -45,7 +49,7 @@ public class CsvFileService {
         try {
             Files.delete(file.toPath());
         } catch (IOException e) {
-            logger.error(FILE_DELETE_FAIL);
+            logger.info(FILE_DELETE_FAIL.getMessege());
             throw new FileDeleteException(FILE_DELETE_FAIL);
         }
     }

@@ -1,7 +1,7 @@
 package org.prgrms.voucherapplication.domain.customer.repository;
 
 import org.prgrms.voucherapplication.domain.customer.entity.Customer;
-import org.prgrms.voucherapplication.domain.customer.NothingInsertException;
+import org.prgrms.voucherapplication.domain.customer.exception.NothingInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -15,13 +15,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.NOTHING_INSERT;
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.EMPTY_RESULT;
+
 @Repository
 @Primary
 public class CustomerNamedJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerNamedJdbcRepository.class);
-    private static final String NOTHING_INSERT = "Nothing was inserted";
-    private static final String EMPTY_RESULT = "Got empty result";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -89,7 +90,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }
@@ -101,7 +102,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("name", name),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }
@@ -113,7 +114,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
                     Collections.singletonMap("email", email),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }

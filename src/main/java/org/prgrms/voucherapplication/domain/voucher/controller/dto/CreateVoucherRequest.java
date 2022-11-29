@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication.domain.voucher.controller;
+package org.prgrms.voucherapplication.domain.voucher.controller.dto;
 
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 

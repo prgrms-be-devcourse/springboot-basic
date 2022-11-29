@@ -1,5 +1,6 @@
 package org.prgrms.voucherapplication.domain.voucher.controller;
 
+import org.prgrms.voucherapplication.domain.voucher.controller.dto.CreateVoucherRequest;
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.service.VoucherService;

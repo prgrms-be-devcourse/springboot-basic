@@ -1,13 +1,13 @@
 package org.prgrms.voucherapplication.domain.customer.entity;
 
-import org.prgrms.voucherapplication.domain.customer.CustomerNameException;
+import org.prgrms.voucherapplication.domain.customer.exception.CustomerNameException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Customer {
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.NAME_NOT_BLANK;
 
-    private static final String NAME_NOT_BLANK = "이름은 빈값이 불가능합니다.";
+public class Customer {
 
     private final UUID customerId;
     private String name;

@@ -1,7 +1,7 @@
 package org.prgrms.voucherapplication.domain.customer.repository;
 
 import org.prgrms.voucherapplication.domain.customer.entity.Customer;
-import org.prgrms.voucherapplication.domain.customer.NothingInsertException;
+import org.prgrms.voucherapplication.domain.customer.exception.NothingInsertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -18,13 +18,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.EMPTY_RESULT;
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.NOTHING_INSERT;
+
 @Repository
 @Profile("dev")
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
-    private static final String NOTHING_INSERT = "Nothing was inserted";
-    private static final String EMPTY_RESULT = "Got empty result";
 
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
@@ -89,7 +90,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                     customerRowMapper,
                     (Object) customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }
@@ -101,7 +102,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                     customerRowMapper,
                     name));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }
@@ -113,7 +114,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
                     customerRowMapper,
                     email));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(EMPTY_RESULT, e);
+            logger.error(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }

@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.domain.voucher.repository;
 
-import org.prgrms.voucherapplication.domain.customer.NothingInsertException;
+import org.prgrms.voucherapplication.domain.customer.exception.NothingInsertException;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
 import org.slf4j.Logger;
@@ -16,13 +16,14 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.EMPTY_RESULT;
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.NOTHING_INSERT;
+
 @Repository
 @Profile("prod")
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
-    private static final String NOTHING_INSERT = "Nothing was inserted";
-    private static final String EMPTY_RESULT = "Got empty result";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -79,7 +80,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.info(EMPTY_RESULT, e);
+            logger.info(EMPTY_RESULT.getMessege(), e);
             return Optional.empty();
         }
     }
