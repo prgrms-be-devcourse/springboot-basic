@@ -87,7 +87,7 @@ public class FileVoucherStorage implements VoucherStorage {
         try (FileWriter fileWriter = new FileWriter(file, true)) {
             fileWriter.write(voucher.getUUID().toString() + DELIMITER);
             fileWriter.write(voucher.getVoucherType().getInputValue() + DELIMITER);
-            fileWriter.write(voucher.getDiscountRate() + System.lineSeparator());
+            fileWriter.write(voucher.getDiscountAmount() + System.lineSeparator());
             fileWriter.flush();
         }
     }
