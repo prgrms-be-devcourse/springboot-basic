@@ -65,6 +65,16 @@ public class VoucherFileRepository implements VoucherRepository {
         return List.of();
     }
 
+    @Override
+    public List<Voucher> findByTypeAndCreatedAt(VoucherType type, LocalDateTime createdAt) {
+        return List.of();
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAtAfter(LocalDateTime createdAt) {
+        return null;
+    }
+
     private List<Voucher> fileLinesIntoVouchers(List<String> readFileLines) {
         List<Voucher> voucherList = new ArrayList<>();
 

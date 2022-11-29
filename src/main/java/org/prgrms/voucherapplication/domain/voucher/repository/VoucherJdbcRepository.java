@@ -103,4 +103,30 @@ public class VoucherJdbcRepository implements VoucherRepository {
         }
         return voucherList;
     }
+
+    @Override
+    public List<Voucher> findByTypeAndCreatedAt(VoucherType type, LocalDateTime createdAt) {
+        Map<String, Object> paraMap = new HashMap<>();
+        paraMap.put("voucherType", type.name());
+        paraMap.put("createdAt", Timestamp.valueOf(createdAt));
+
+        List<Voucher> voucherList = namedParameterJdbcTemplate.query("select * from vouchers where voucher_type = :voucherType and created_at >= :createdAt",
+                paraMap, voucherRowMapper);
+        if (voucherList.isEmpty()) {
+            logger.info(EMPTY_RESULT.getMessege(), EmptyResultException.class);
+            throw new EmptyResultException(EMPTY_RESULT);
+        }
+        return voucherList;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAtAfter(LocalDateTime createdAt) {
+        List<Voucher> voucherList = namedParameterJdbcTemplate.query("select * from vouchers where created_at >= :createdAt",
+                Collections.singletonMap("createdAt", createdAt), voucherRowMapper);
+        if (voucherList.isEmpty()) {
+            logger.info(EMPTY_RESULT.getMessege(), EmptyResultException.class);
+            throw new EmptyResultException(EMPTY_RESULT);
+        }
+        return voucherList;
+    }
 }

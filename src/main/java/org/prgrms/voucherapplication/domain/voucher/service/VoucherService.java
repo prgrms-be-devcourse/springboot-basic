@@ -5,6 +5,7 @@ import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -40,5 +41,13 @@ public class VoucherService {
 
     public List<Voucher> findByType(VoucherType type) {
         return voucherRepository.findByType(type);
+    }
+
+    public List<Voucher> findByTypeAndCreatedAt(VoucherType voucherType, LocalDateTime createdAt) {
+        return voucherRepository.findByTypeAndCreatedAt(voucherType, createdAt);
+    }
+
+    public List<Voucher> findByCreatedAtAfter(LocalDateTime createdAt) {
+        return voucherRepository.findByCreatedAtAfter(createdAt);
     }
 }
