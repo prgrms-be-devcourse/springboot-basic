@@ -8,14 +8,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
@@ -28,12 +31,12 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("customer가 db에 잘 들어가야 한다.")
-    void insert() {
+    void save() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
 
         //when
-        customerRepository.insert(customer);
+        customerRepository.save(customer);
 
         //then
         var insertedCustomer = customerRepository.findByName("test").get();
@@ -47,7 +50,7 @@ class JdbcCustomerRepositoryTest {
     void update() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        customerRepository.insert(customer);
+        customerRepository.save(customer);
         Customer updateCustomer = customerRepository.findByName("test").get();
         var updateName = "test-update";
         updateCustomer.setName(updateName);
@@ -64,10 +67,10 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("customer 모두 찾기 가능")
     void findAll() {
         //given
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
         Customer test1 = customerRepository.findByName("test1").get();
         Customer test2 = customerRepository.findByName("test2").get();
         Customer test3 = customerRepository.findByName("test3").get();
@@ -90,7 +93,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("uuid로 customer를 조회할 수 있다.")
     void findByUuid() {
         //given
-        Customer customer = customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
 
         //when
         Customer findCustomer = customerRepository.findByUuid(customer.getCustomerUuid()).get();
@@ -105,7 +108,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("name으로 customer를 조회할 수 있다.")
     void findByName() {//given
-        Customer customer = customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
 
         //when
         Customer findCustomer = customerRepository.findByName(customer.getName()).get();
@@ -121,7 +124,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("email로 customer를 조회할 수 있다.")
     void findByEmail() {
         //given
-        Customer customer = customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
 
         //when
         Customer findCustomer = customerRepository.findByEmail(customer.getEmail()).get();
@@ -137,10 +140,10 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("customer를 모두 삭제한다.")
     void deleteAll() {
         //given
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
 
         //when
         customerRepository.deleteAll();
@@ -153,15 +156,31 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("customer의 수를 센다")
     void count() {
         //given
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
-        customerRepository.insert(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test2", "2@2", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test3", "3@3", LocalDateTime.now()));
+        customerRepository.save(new Customer(UUID.randomUUID(), "test4", "4@4", LocalDateTime.now()));
 
         //when
         int count = customerRepository.count();
 
         //then
         assertThat(4, is(count));
+    }
+
+
+    @Test
+    @DisplayName("없는 uuid로 customer를 조회하면 오류가 난다.")
+    void findByNothingUuid() {
+        //given
+        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+
+        //when
+        Customer findCustomer = customerRepository.findByUuid(customer.getCustomerUuid()).get();
+        customerRepository.deleteAll();
+
+
+        //then
+//        assertThrows(EmptyResultDataAccessException.class, () -> customerRepository.findByUuid(findCustomer.getCustomerUuid()));
     }
 }

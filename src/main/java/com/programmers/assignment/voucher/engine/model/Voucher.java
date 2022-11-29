@@ -9,10 +9,10 @@ import java.util.UUID;
 
 public class Voucher {
 
-    UUID voucherId;
-    String discountWay;
-    long discountValue;
-    long customerId;
+    private final UUID voucherId;
+    private String discountWay;
+    private long discountValue;
+    private long customerId;
     private static final Logger logger = LoggerFactory.getLogger(Voucher.class);
 
     private static final long MAX_VOUCHER_AMOUNT = 10000;

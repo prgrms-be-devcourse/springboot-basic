@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
@@ -23,14 +23,9 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired JdbcVoucherRepository voucherRepository;
 
-    @Test
-    void findById() {
-
-    }
-
-    @Test
-    void findAll() {
-    }
+//    @Test
+//    void findAll() {
+//    }
 
     @Test
     void insert() {

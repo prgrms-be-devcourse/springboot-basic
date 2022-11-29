@@ -36,7 +36,7 @@ public class CustomerService {
 
     public Customer createCustomer() {
         var customerDto = inputCustomerInfo();
-        return customerRepository.insert(
+        return customerRepository.save(
                 new Customer(UUID.randomUUID(), customerDto.name(), customerDto.email(), LocalDateTime.now())
         );
     }

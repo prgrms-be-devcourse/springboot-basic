@@ -20,14 +20,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerId = resultSet.getLong("customer_id");
+//        var customerId = resultSet.getLong("customer_id");
         var customerName = resultSet.getString("name");
         var customerEmail = resultSet.getString("email");
         var customerUuid = toUUID(resultSet.getBytes("customer_uuid"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        var lastLogin = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        return new Customer(customerId, customerUuid, customerName, customerEmail, lastLogin, createdAt);
+//        var lastLogin = resultSet.getTimestamp("last_login_at") != null ?
+//                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        return new Customer(customerUuid, customerName, customerEmail, createdAt);
     };
 
     static UUID toUUID(byte[] bytes) {
@@ -47,7 +47,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) {
+    public Customer save(Customer customer) {
         var update = jdbcTemplate.update("insert into customers(customer_uuid, name, email, created_at) values (UUID_TO_BIN(:customerUuid), :name, :email, :createdAt)",
                 toParamMap(customer));
         if (update != 1) {
@@ -58,7 +58,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        var update = jdbcTemplate.update("update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_id = :customerId",
+        var update = jdbcTemplate.update("update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_uuid = UUID_TO_BIN(:customerUuid)",
                 toParamMap(customer)
         );
         if (update != 1) {
@@ -72,20 +72,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
-    @Override
-    public Optional<Customer> findById(long customerId) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "select * from customers where customer_id = :customerId",
-                            Collections.singletonMap("customerId", customerId),
-                            customerRowMapper
-                    )
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
+//    @Override
+//    public Optional<Customer> findById(long customerId) {
+//        try {
+//            return Optional.ofNullable(
+//                    jdbcTemplate.queryForObject(
+//                            "select * from customers where customer_id = :customerId",
+//                            Collections.singletonMap("customerId", customerId),
+//                            customerRowMapper
+//                    )
+//            );
+//        } catch (EmptyResultDataAccessException e) {
+//            return Optional.empty();
+//        }
+//    }
 
     @Override
     public Optional<Customer> findByUuid(UUID customerUuid) {
