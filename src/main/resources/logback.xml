@@ -3,11 +3,11 @@
 
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
 
-<!--    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
-<!--        <encoder>-->
-<!--            <pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
 
 
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -25,7 +25,7 @@
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-<!--    <root level="debug">-->
-<!--        <appender-ref ref="STDOUT"/>-->
-<!--    </root>-->
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
 </configuration>

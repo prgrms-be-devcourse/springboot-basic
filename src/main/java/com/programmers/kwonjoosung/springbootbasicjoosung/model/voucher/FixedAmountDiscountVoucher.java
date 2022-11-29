@@ -1,40 +1,38 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.OutOfRangeException;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public class FixedAmountDiscountVoucher implements Voucher {
 
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountDiscountVoucher.class);
     private static final long MIN_AMOUNT = 0L;
     private static final long MAX_AMOUNT = 100_000L;
     private final UUID voucherId;
     private final long discountAmount;
-
-    public FixedAmountDiscountVoucher(UUID voucherId, long discountAmount) {
-        checkRange(discountAmount);
-        this.voucherId = voucherId;
-        this.discountAmount = discountAmount;
-        logger.debug("create Voucher voucherId = {}, discountAmount ={}", voucherId, discountAmount);
-    }
+    private final VoucherType voucherType = VoucherType.FIXED;
+    private static final String WRONG_RANGE_MESSAGE = "The discount amount is 0 won or more and 100,000 won or less.";
 
     public FixedAmountDiscountVoucher(long discountAmount) {
         this(UUID.randomUUID(), discountAmount);
     }
 
+    public FixedAmountDiscountVoucher(UUID voucherId, long discountAmount) {
+        checkRange(discountAmount);
+        this.voucherId = voucherId;
+        this.discountAmount = discountAmount;
+    }
+
     private void checkRange(long discountAmount) {
         if (MIN_AMOUNT >= discountAmount || discountAmount >= MAX_AMOUNT) {
-            logger.error("범위 초과 에러 입력 => {}", discountAmount);
-            throw new IllegalArgumentException("할인 금액은 0원 이상 100,000원 이하 입니다.");
+            throw new OutOfRangeException(discountAmount,WRONG_RANGE_MESSAGE);
         }
     }
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.FIXED;
+        return voucherType;
     }
 
     @Override
@@ -49,8 +47,8 @@ public class FixedAmountDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "VoucherType: FixedAmountDiscountVoucher, " +
-                "voucherId: " + voucherId +
+        return "VoucherType: " + voucherType +
+                ", voucherId: " + voucherId +
                 ", discountPercent: " + discountAmount + "$";
     }
 

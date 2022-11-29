@@ -1,40 +1,38 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.OutOfRangeException;
 
 import java.util.Objects;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
 
-    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final long MIN_PERCENT = 0L;
     private static final long MAX_PERCENT = 100L;
     private final UUID voucherId;
     private final long discountPercent;
-
-    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
-        checkRange(discountPercent);
-        this.voucherId = voucherId;
-        this.discountPercent = discountPercent;
-        logger.debug("create Voucher voucherId = {}, discountPercent ={}", voucherId, discountPercent);
-    }
+    private final VoucherType voucherType = VoucherType.PERCENT;
+    private static final String WRONG_RANGE_MESSAGE = "The discount percent is 0% or more and 100% or less.";
 
     public PercentDiscountVoucher(long discountPercent) {
         this(UUID.randomUUID(), discountPercent);
     }
 
-    private void checkRange(long discountAmount) {
-        if (MIN_PERCENT >= discountAmount || discountAmount >= MAX_PERCENT) {
-            logger.error("범위 초과 에러 입력 => {}", discountAmount);
-            throw new IllegalArgumentException("할인 가능한 할인율은 0% 이상 100% 이하 입니다.");
+    public PercentDiscountVoucher(UUID voucherId, long discountPercent) {
+        checkRange(discountPercent);
+        this.voucherId = voucherId;
+        this.discountPercent = discountPercent;
+    }
+
+    private void checkRange(long discountPercent) {
+        if (MIN_PERCENT >= discountPercent || discountPercent >= MAX_PERCENT) {
+            throw new OutOfRangeException(discountPercent, WRONG_RANGE_MESSAGE);
         }
     }
 
     @Override
     public VoucherType getVoucherType() {
-        return VoucherType.PERCENT;
+        return voucherType;
     }
 
     @Override
@@ -49,8 +47,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public String toString() {
-        return "VoucherType: PercentDiscountVoucher, " +
-                "voucherId: " + voucherId +
+        return "VoucherType: " + voucherType +
+                ", voucherId: " + voucherId +
                 ", discountPercent: " + discountPercent + "%";
     }
 

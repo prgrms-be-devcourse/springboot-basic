@@ -1,6 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
+import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +14,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new LinkedHashMap<>();
 
     @Override
-    public boolean insert(Voucher voucher) {
-        return storage.put(voucher.getVoucherId(), voucher) != null;
+    public Voucher insert(Voucher voucher) {
+        return storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
         throw new UnsupportedOperationException();
     }
 
@@ -28,12 +34,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public boolean update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean deleteById(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         throw new UnsupportedOperationException();
     }
 

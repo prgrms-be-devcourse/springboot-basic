@@ -1,19 +1,11 @@
-# FileBlackListProperties 라는 class getFileName, getFilePath
-# FileVoucherProperties 라는 class getFileName, getFilePath
-
-file:
-  customer-black-list:
-    name: customer_blacklist.csv
-    path: resources/
-
-  voucher-list:
-    name: voucherList.txt
-    path: resources/
-
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/VoucherManagementApplication # ${datasource.url}
     username: root # ${datasource.username}
     password: 1234 # ${datasource.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # 암호화 어떻게 해야 하나요?
+
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true

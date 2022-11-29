@@ -1,5 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.WrongVoucherTypeException;
+
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -18,6 +20,6 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(value -> Objects.equals(value.type, inputVoucherType.toLowerCase()))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("올바른 할인종류가 아닙니다."));
+                .orElseThrow(() -> new WrongVoucherTypeException(inputVoucherType));
     }
 }
