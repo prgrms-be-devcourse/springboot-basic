@@ -8,15 +8,14 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    boolean insert(Customer customer);
+    Customer insert(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
 
     List<Customer> findAll();
 
-    boolean update(Customer customer);
+    Customer update(Customer customer);
 
-    boolean delete(UUID customerId);
+    void delete(UUID customerId);
 
-    List<Customer> findAllBlockCustomer();
 }

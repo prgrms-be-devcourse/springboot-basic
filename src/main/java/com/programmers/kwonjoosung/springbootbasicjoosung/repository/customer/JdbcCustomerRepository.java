@@ -1,8 +1,10 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataAlreadyExistException;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,32 +15,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.CustomerTable.CUSTOMER_ID;
+import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.CustomerTable.NAME;
+
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final String TABLE_FIELD_CUSTOMER_ID = "customer_id";
-    private static final String TABLE_FIELD_NAME = "name";
+    public static final String CUSTOMER = "customer";
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final RowMapper<Customer> customerRowMapper =
-            (rs, rowNum) -> new Customer(
-                    UUID.fromString(rs.getString(TABLE_FIELD_CUSTOMER_ID)),
-                    rs.getString(TABLE_FIELD_NAME)
-            );
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static final RowMapper<Customer> customerRowMapper = (rs, rowNum) -> new Customer(
+                    UUID.fromString(rs.getString(CUSTOMER_ID.getColumnName())),
+                    rs.getString(NAME.getColumnName())
+    );
+
     @Override
-    public boolean insert(Customer customer) {
+    public Customer insert(Customer customer) {
         final String sql = "INSERT INTO customers (customer_id, name) VALUES (:customer_id,:name)";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId().toString())
-                .addValue(TABLE_FIELD_NAME, customer.getName());
+                .addValue(CUSTOMER_ID.getColumnName(), customer.getCustomerId().toString())
+                .addValue(NAME.getColumnName(), customer.getName());
         try {
-            return jdbcTemplate.update(sql, parameters) == 1;
+            jdbcTemplate.update(sql, parameters); // FAIL이 나올 수 있나?
+            return customer;
         } catch (DuplicateKeyException e) {
-            return false;
+            throw new DataAlreadyExistException(customer.getCustomerId().toString(), CUSTOMER);
         }
     }
 
@@ -46,10 +51,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         final String sql = "SELECT * FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString());
+                .addValue(CUSTOMER_ID.getColumnName(), customerId.toString());
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameters, customerRowMapper));
-        } catch (DataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -57,29 +62,37 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         final String sql = "SELECT * FROM customers";
-        return jdbcTemplate.query(sql, customerRowMapper);
+        try {
+            return jdbcTemplate.query(sql, customerRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return List.of();
+        }
     }
 
     @Override
-    public boolean update(Customer customer) {
+    public Customer update(Customer customer) {
         final String sql = "UPDATE customers SET name = :name WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customer.getCustomerId().toString())
-                .addValue(TABLE_FIELD_NAME, customer.getName());
-        return jdbcTemplate.update(sql, parameters) == 1;
+                .addValue(CUSTOMER_ID.getColumnName(), customer.getCustomerId().toString())
+                .addValue(NAME.getColumnName(), customer.getName());
+        try {
+            jdbcTemplate.update(sql, parameters);
+            return customer;
+        } catch (EmptyResultDataAccessException e) {
+            throw new DataNotExistException(customer.getCustomerId().toString(), CUSTOMER);
+        }
     }
 
     @Override
-    public boolean delete(UUID customerId) {
+    public void delete(UUID customerId) {
         final String sql = "DELETE FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_CUSTOMER_ID, customerId.toString());
-        return jdbcTemplate.update(sql, parameters) == 1;
-    }
-
-    @Override
-    public List<Customer> findAllBlockCustomer() {
-        throw new UnsupportedOperationException();
+                .addValue(CUSTOMER_ID.getColumnName(), customerId.toString());
+        try {
+            jdbcTemplate.update(sql, parameters);
+        } catch (EmptyResultDataAccessException e) {
+            throw new DataNotExistException(customerId.toString(), CUSTOMER);
+        }
     }
 
 }

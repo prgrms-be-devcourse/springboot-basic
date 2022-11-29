@@ -1,10 +1,12 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher;
 
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataAlreadyExistException;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
-import org.springframework.context.annotation.Profile;
-import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,46 +17,50 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherTable.*;
+import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherTable.DISCOUNT;
+import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.voucher.VoucherTable.VOUCHER_TYPE;
+
+/* 예외 처리 및 Logging에 대해서 다시 생각해 보자!
+ * AOP를 적용할 수도 있고, CustomException을 어떻게 활용할지..
+ * SQL 명령어를 따로 빼는게 나을지?
+ */
 @Repository
-@Profile("release")
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private static final String TABLE_FIELD_VOUCHER_ID = "voucher_id";
-    private static final String TABLE_FIELD_VOUCHER_TYPE = "voucher_type";
-    private static final String TABLE_FIELD_DISCOUNT = "discount";
-
+    public static final String VOUCHER = "voucher";
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> VoucherFactory.createVoucher(
-            VoucherType.of(rs.getString(TABLE_FIELD_VOUCHER_TYPE)),
-            UUID.fromString(rs.getString(TABLE_FIELD_VOUCHER_ID)),
-            rs.getLong(TABLE_FIELD_DISCOUNT));
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public static final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> VoucherFactory.createVoucher(
+            VoucherType.of(rs.getString(VOUCHER_TYPE.getColumnName())),
+            UUID.fromString(rs.getString(VOUCHER_ID.getColumnName())),
+            rs.getLong(DISCOUNT.getColumnName()));
+
     private static SqlParameterSource getFullSqlParametersSource(Voucher voucher) {
         return new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucher.getVoucherId().toString())
-                .addValue(TABLE_FIELD_VOUCHER_TYPE, voucher.getVoucherType().toString())
-                .addValue(TABLE_FIELD_DISCOUNT, voucher.getDiscount());
+                .addValue(VOUCHER_ID.getColumnName(), voucher.getVoucherId().toString())
+                .addValue(VOUCHER_TYPE.getColumnName(), voucher.getVoucherType().toString())
+                .addValue(DISCOUNT.getColumnName(), voucher.getDiscount());
     }
-
 
     private static SqlParameterSource getVoucherIdSqlParameterSource(UUID voucherId) {
         return new MapSqlParameterSource()
-                .addValue(TABLE_FIELD_VOUCHER_ID, voucherId.toString());
+                .addValue(VOUCHER_ID.getColumnName(), voucherId.toString());
     }
 
     @Override
-    public boolean insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         final String sql = "INSERT INTO vouchers(voucher_id, voucher_type, discount) VALUES (:voucher_id, :voucher_type, :discount)";
         SqlParameterSource parameters = getFullSqlParametersSource(voucher);
-        try { // 각 메서드에 예외를 잡아서 처리하는게 맞는지?
-            return jdbcTemplate.update(sql, parameters) == 1;
-        } catch (DataAccessException e) {
-            return false;
+        try {
+            jdbcTemplate.update(sql, parameters); // FAIL이 나올 수 있나?
+            return voucher;
+        } catch (DuplicateKeyException e) {
+            throw new DataAlreadyExistException(voucher.getVoucherId().toString(), VOUCHER);
         }
     }
 
@@ -64,8 +70,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
         SqlParameterSource parameter = getVoucherIdSqlParameterSource(voucherId);
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, parameter, voucherRowMapper));
-        } catch (DataAccessException e) {
-            return Optional.empty();
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty(); // 이렇게 굳이 하는 이유가 무엇일까? 예외를 던져도 되지 않나?
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        final String sql = "SELECT * FROM vouchers WHERE voucher_type = :voucher_type";
+        SqlParameterSource parameter = new MapSqlParameterSource()
+                .addValue(VOUCHER_TYPE.getColumnName(), voucherType.toString());
+        try {
+            return jdbcTemplate.query(sql, parameter, voucherRowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            return List.of();
         }
     }
 
@@ -74,30 +92,31 @@ public class JdbcVoucherRepository implements VoucherRepository {
         final String sql = "SELECT * FROM vouchers";
         try {
             return jdbcTemplate.query(sql, voucherRowMapper);
-        } catch (DataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             return List.of();
         }
     }
 
     @Override
-    public boolean update(Voucher voucher) {
+    public Voucher update(Voucher voucher) {
         final String sql = "UPDATE vouchers SET voucher_type = :voucher_type, discount = :discount WHERE voucher_id = :voucher_id";
         SqlParameterSource parameters = getFullSqlParametersSource(voucher);
         try {
-            return jdbcTemplate.update(sql, parameters) == 1;
-        } catch (DataAccessException e) {
-            return false;
+            jdbcTemplate.update(sql, parameters);
+            return voucher;
+        } catch (EmptyResultDataAccessException e) {
+            throw new DataNotExistException(voucher.getVoucherId().toString(), VOUCHER); // 이게 맞나?
         }
     }
 
     @Override
-    public boolean deleteById(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         final String sql = "DELETE FROM vouchers WHERE voucher_id = :voucher_id";
         SqlParameterSource parameter = getVoucherIdSqlParameterSource(voucherId);
         try {
-            return jdbcTemplate.update(sql, parameter) == 1;
-        } catch (DataAccessException e) {
-            return false;
+            jdbcTemplate.update(sql, parameter);
+        } catch (EmptyResultDataAccessException e) {
+            throw new DataNotExistException(voucherId.toString(), VOUCHER);
         }
     }
 
