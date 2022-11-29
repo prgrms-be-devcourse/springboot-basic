@@ -23,7 +23,6 @@ import org.prgrms.voucher.discountType.DiscountRate;
 import org.prgrms.voucher.voucherType.FixedAmountVoucher;
 import org.prgrms.voucher.voucherType.PercentDiscountVoucher;
 import org.prgrms.voucher.voucherType.Voucher;
-import org.prgrms.voucherDTO.VoucherDTO;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
@@ -34,20 +33,17 @@ class VoucherServiceTest {
     @Mock
     private VoucherDBMemory voucherDBMemory;
 
-
 //    @DisplayName("바우처를 생성한다")
 //    @Test
 //    void createVoucher() {
 //        //given
-//        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(200L),
-//            LocalDateTime.now().withNano(0));
-//        VoucherDTO voucherDTO = new VoucherDTO(voucher.getVoucherType().name(), voucher.getVoucherAmount().getValue());
-//        Voucher save = voucherService.save(voucherDTO);
-//
+//        VoucherDTO voucherDTO = new VoucherDTO("fixed", 100L);
+//        VoucherType voucherType = VoucherType.of(voucherDTO.getType());
+//        Voucher voucher =voucherType.generateVoucher(voucherType.generateAmount(voucherDTO.getAmount()));
 //        //mocking
-//        when(voucherDBMemory.save(save)).thenReturn(save);
+//        when(voucherDBMemory.save(voucher)).thenReturn(voucher);
 //
-//        assertEquals(voucherService.save(voucherDTO), save);
+//        assertEquals(voucherService.save(voucherDTO), voucher);
 //    }
 
     @DisplayName("id로 바우처를 찾아 리턴한다")
