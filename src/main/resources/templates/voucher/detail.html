@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>Voucher Management</title>
+</head>
+<body>
+<form th:action="@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}" th:method="POST">
+    <div class="content">
+        <div class="mb-3">
+            <label for="voucherId" class="form-label">VoucherId</label>
+            <input type="text" class="form-control" id="voucherId" th:placeholder="${voucher.voucherId}">
+        </div>
+        <div class="mb-3">
+            <label for="voucherType" class="form-label">VoucherType</label>
+            <input type="text" class="form-control" id="voucherType" name="voucherType" th:value="${voucher.voucherType}">
+        </div>
+        <div class="mb-3">
+            <label for="discount" class="form-label">discount</label>
+            <input type="number" class="form-control" id="discount" name="discount" th:value="${voucher.discount}">
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit" aria-describedby="submitHelp">수정</button>
+        </div>
+    </div>
+</form>
+<div class="mb-3">
+    <form th:action="@{/voucher/delete/{voucherId}(voucherId=${voucher.voucherId})}" th:method="POST">
+        <button class="btn btn-primary" type="submit" aria-describedby="submitHelp">삭제</button>
+    </form>
+</div>
+</body>
+</html>

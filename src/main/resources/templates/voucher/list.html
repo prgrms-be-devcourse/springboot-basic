@@ -1,0 +1,56 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="/icomoon/style.css">
+
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <title>Voucher Management</title>
+</head>
+<body>
+<div class="content">
+    <div class="container">
+        <h2 class="mb-5">Voucher List</h2>
+        <div class="table-responsive">
+            <table class="table table-striped custom-table">
+                <thead>
+                <tr>
+                    <th scope="col">voucherId</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">discount</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="voucher : ${vouchers}">
+                        <td th:onclick="|location.href='@{/voucher/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                            th:text="${voucher.voucherId} "> voucherId</td>
+                        <td th:text="${voucher.voucherType}">Type</td>
+                        <td th:text="${voucher.discount}">discount</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: center">
+                            <a href="/voucher/new" role="button">추가하기</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
