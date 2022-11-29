@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication;
+package org.prgrms.voucherapplication.voucher;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

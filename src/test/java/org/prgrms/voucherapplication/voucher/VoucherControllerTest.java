@@ -1,4 +1,4 @@
-package org.prgrms.voucherapplication;
+package org.prgrms.voucherapplication.voucher;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
