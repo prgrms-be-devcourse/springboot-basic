@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class VoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
 
-
     public static void main(String[] args) {
         var applicationContext = SpringApplication.run(VoucherApplication.class, args);
 
