@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -169,18 +168,17 @@ class JdbcCustomerRepositoryTest {
     }
 
 
-    @Test
-    @DisplayName("없는 uuid로 customer를 조회하면 오류가 난다.")
-    void findByNothingUuid() {
-        //given
-        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
-
-        //when
-        Customer findCustomer = customerRepository.findByUuid(customer.getCustomerUuid()).get();
-        customerRepository.deleteAll();
-
-
-        //then
+//    @Test
+//    @DisplayName("없는 uuid로 customer를 조회하면 오류가 난다.")
+//    void findByNothingUuid() {
+//        //given
+//        Customer customer = customerRepository.save(new Customer(UUID.randomUUID(), "test1", "1@1", LocalDateTime.now()));
+//
+//        //when
+//        Customer findCustomer = customerRepository.findByUuid(customer.getCustomerUuid()).get();
+//        customerRepository.deleteAll();
+//
+//        //then
 //        assertThrows(EmptyResultDataAccessException.class, () -> customerRepository.findByUuid(findCustomer.getCustomerUuid()));
-    }
+//    }
 }
