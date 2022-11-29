@@ -20,21 +20,18 @@ public class CustomerApiController {
     }
 
     @GetMapping("/api/v1/customers")
-    @ResponseBody
     public List<Customer> findCustomers() {
         return customerService.getAllCustomers();
     }
 
     @GetMapping("/api/v1/customers/{customerId}")
-    @ResponseBody
     public ResponseEntity<Customer> findCustomer(@PathVariable("customerId") UUID customerId) {
         Optional<Customer> customer = customerService.getCustomer(customerId);
         return customer.map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("api/v1/customers/{customerId}")
-    @ResponseBody
+    @PostMapping("/api/v1/customers/{customerId}")
     public CustomerDto saveCustomer(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDto customer) {
         Customer to = CustomerDto.to(customer);
         customerService.createCustomer(to.getEmail(), to.getName());
