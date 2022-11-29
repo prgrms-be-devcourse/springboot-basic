@@ -3,6 +3,7 @@ package org.prgrms.voucherapplication.domain.voucher.repository;
 import org.prgrms.voucherapplication.domain.customer.exception.NothingInsertException;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.domain.voucher.exception.EmptyResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -89,5 +90,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         namedParameterJdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        List<Voucher> voucherList = namedParameterJdbcTemplate.query("select * from vouchers where voucher_type = :voucherType",
+                Collections.singletonMap("voucherType", type.name()),
+                voucherRowMapper);
+        if (voucherList.isEmpty()) {
+            logger.info(EMPTY_RESULT.getMessege(), EmptyResultException.class);
+            throw new EmptyResultException(EMPTY_RESULT);
+        }
+        return voucherList;
     }
 }

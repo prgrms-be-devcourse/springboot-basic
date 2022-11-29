@@ -1,6 +1,7 @@
 package org.prgrms.voucherapplication.domain.voucher.service;
 
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.prgrms.voucherapplication.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,9 @@ public class VoucherService {
 
     public void deleteById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    public List<Voucher> findByType(VoucherType type) {
+        return voucherRepository.findByType(type);
     }
 }

@@ -9,9 +9,12 @@ public enum ExceptionCode {
     // customer
     NAME_NOT_BLANK(400, "이름은 빈값이 불가능합니다."),
 
+    // voucher
+    NOT_EXIST(400, "없는 바우처 종류입니다."),
+
     // DB
     NOTHING_INSERT(400, "Nothing was inserted"),
-    EMPTY_RESULT(400, "Got empty result");
+    EMPTY_RESULT(404, "Got empty result");
 
     int status;
     String messege;

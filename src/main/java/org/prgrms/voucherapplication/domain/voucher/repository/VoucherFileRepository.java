@@ -60,6 +60,11 @@ public class VoucherFileRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
     }
 
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return List.of();
+    }
+
     private List<Voucher> fileLinesIntoVouchers(List<String> readFileLines) {
         List<Voucher> voucherList = new ArrayList<>();
 

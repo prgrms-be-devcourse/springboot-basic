@@ -39,7 +39,7 @@ public class VoucherViewController {
     @PostMapping("/vouchers/new")
     public String viewCreateVoucher(CreateVoucherRequest createVoucherRequest) {
         VoucherType voucherType = createVoucherRequest.getVoucherType();
-        Voucher voucher = voucherType.createVoucher(createVoucherRequest.getVoucherId(), createVoucherRequest.getDiscount(), LocalDateTime.now());
+        Voucher voucher = voucherType.createVoucher(UUID.randomUUID(), createVoucherRequest.getDiscount(), LocalDateTime.now());
         voucherService.create(voucher);
         return "redirect:/vouchers";
     }

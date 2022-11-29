@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+import static org.prgrms.voucherapplication.global.exception.ExceptionCode.NOT_EXIST;
+
 public enum VoucherType {
     FIXED(1,"원하시는 할인 금액을 입력해주세요.", FixedAmountVoucher::new),
     PERCENT(2,"원하시는 할인 퍼센트를 입력해주세요.", PercentDiscountVoucher::new);
-
-    private static final String NOT_EXIST = "없는 바우처 종류입니다.";
 
     private final int order;
     private final String discountGuide;

@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     protected ResponseEntity<String> handledException(BusinessException e) {
-        logger.warn(e.getMessage(), e);
+        logger.info(e.getMessage(), e);
         HttpStatus httpStatus = HttpStatus.valueOf(e.getStatus());
         return ResponseEntity.status(httpStatus).body(e.getMessage());
     }

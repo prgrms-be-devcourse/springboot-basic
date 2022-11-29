@@ -1,6 +1,7 @@
 package org.prgrms.voucherapplication.domain.voucher.repository;
 
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
+import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherMemoryRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-
-    private final String NOT_FOUND = "바우처를 찾을 수 없습니다. Id값을 확인해주세요.";
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -43,5 +42,10 @@ public class VoucherMemoryRepository implements VoucherRepository{
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return List.of();
     }
 }

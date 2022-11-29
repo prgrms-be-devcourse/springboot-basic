@@ -1,7 +1,10 @@
 package org.prgrms.voucherapplication.domain.voucher.entity;
 
-public class VoucherTypeOfException extends RuntimeException {
-    public VoucherTypeOfException(String message) {
-        super(message);
+import org.prgrms.voucherapplication.global.exception.BusinessException;
+import org.prgrms.voucherapplication.global.exception.ExceptionCode;
+
+public class VoucherTypeOfException extends BusinessException {
+    public VoucherTypeOfException(ExceptionCode exceptionCode) {
+        super(exceptionCode);
     }
 }
