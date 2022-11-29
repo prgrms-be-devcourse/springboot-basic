@@ -16,7 +16,7 @@ public class PercentDiscountVoucher extends Voucher{
 
         final int MAX_PERCENT = 100;
         if (percent > MAX_PERCENT) {
-            logger.error(PERCENT_MAX);
+            logger.info(PERCENT_MAX);
             throw new VoucherConstructorException(PERCENT_MAX);
         }
     }

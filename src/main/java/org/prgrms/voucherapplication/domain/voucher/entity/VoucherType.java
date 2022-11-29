@@ -1,5 +1,7 @@
 package org.prgrms.voucherapplication.domain.voucher.entity;
 
+import org.prgrms.voucherapplication.domain.voucher.exception.VoucherTypeNotExistException;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -37,7 +39,7 @@ public enum VoucherType {
         return Stream.of(VoucherType.values())
                 .filter(voucherType -> voucherType.name().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new VoucherTypeOfException(NOT_EXIST));
+                .orElseThrow(() -> new VoucherTypeNotExistException(NOT_EXIST));
     }
 
     public Voucher createVoucher(UUID uuid, int discount, LocalDateTime createdAt) {

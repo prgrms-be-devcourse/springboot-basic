@@ -55,7 +55,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         paraMap.put("voucherType", voucher.getVoucherType().name());
         paraMap.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
 
-        int update = namedParameterJdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount, voucher_type, created_at) VALUES (UUID_TO_BIN(:voucherId), :discount, :voucherType, :createdAt)",
+        int update = namedParameterJdbcTemplate.update(
+                "INSERT INTO vouchers(voucher_id, discount, voucher_type, created_at) " +
+                        "VALUES (UUID_TO_BIN(:voucherId), :discount, :voucherType, :createdAt)",
                 paraMap);
         if (update != 1) {
             throw new NothingInsertException(NOTHING_INSERT);
@@ -77,7 +79,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject("select * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
+                    "select * FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {

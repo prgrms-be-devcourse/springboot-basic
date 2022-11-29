@@ -8,7 +8,7 @@ import org.prgrms.voucherapplication.domain.customer.service.CustomerService;
 import org.prgrms.voucherapplication.domain.voucher.entity.Voucher;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherConstructorException;
 import org.prgrms.voucherapplication.domain.voucher.entity.VoucherType;
-import org.prgrms.voucherapplication.domain.voucher.entity.VoucherTypeOfException;
+import org.prgrms.voucherapplication.domain.voucher.exception.VoucherTypeNotExistException;
 import org.prgrms.voucherapplication.domain.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +113,7 @@ public class VoucherController {
 
             try {
                 voucherType = VoucherType.of(voucherNameInput);
-            } catch (VoucherTypeOfException e) {
+            } catch (VoucherTypeNotExistException e) {
                 continue;
             }
 

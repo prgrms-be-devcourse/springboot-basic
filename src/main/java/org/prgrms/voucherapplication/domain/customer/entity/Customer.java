@@ -1,6 +1,6 @@
 package org.prgrms.voucherapplication.domain.customer.entity;
 
-import org.prgrms.voucherapplication.domain.customer.exception.CustomerNameException;
+import org.prgrms.voucherapplication.domain.customer.exception.CustomerValidationFailException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,7 +34,7 @@ public class Customer {
 
     private void validateName(String name) {
         if (name.isBlank()) {
-            throw new CustomerNameException(NAME_NOT_BLANK);
+            throw new CustomerValidationFailException(NAME_NOT_BLANK);
         }
     }
 
