@@ -1,6 +1,8 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataAlreadyExistException;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherType;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
@@ -64,9 +67,9 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when
-        boolean insertResult = jdbcVoucherRepository.insert(voucher);
+        Voucher insertedVoucher = jdbcVoucherRepository.insert(voucher);
         //then
-        assertThat(insertResult).isTrue();
+        assertThat(insertedVoucher).isEqualTo(voucher);
     }
 
     @Test
@@ -76,21 +79,22 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when
-        boolean insertResult1 = jdbcVoucherRepository.insert(voucher1);
-        boolean insertResult2 = jdbcVoucherRepository.insert(voucher2);
+        Voucher insertedVoucher1 = jdbcVoucherRepository.insert(voucher1);
+        Voucher insertedVoucher2 = jdbcVoucherRepository.insert(voucher2);
         //then
-        assertThat(insertResult1).isTrue();
-        assertThat(insertResult2).isTrue();
+        assertThat(insertedVoucher1).isEqualTo(voucher1);
+        assertThat(insertedVoucher2).isEqualTo(voucher2);
     }
 
     @Test
     @DisplayName("[실패] 같은 바우처id는 저장할 수 없다.")
     void insertSameVoucherTest() {
         //given
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
-        jdbcVoucherRepository.insert(voucher1);
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
+        jdbcVoucherRepository.insert(voucher);
         //when & then
-        assertThat(jdbcVoucherRepository.insert(voucher1)).isFalse();
+        assertThatThrownBy(() -> jdbcVoucherRepository.insert(voucher))
+                .isInstanceOf(DataAlreadyExistException.class);
     }
 
 
@@ -116,21 +120,19 @@ class JdbcVoucherRepositoryTest {
         jdbcVoucherRepository.insert(voucher);
         Voucher newVoucher = VoucherFactory.createVoucher(VoucherType.PERCENT, voucher.getVoucherId(), 10);
         //when
-        boolean updateResult = jdbcVoucherRepository.update(newVoucher);
-        Optional<Voucher> foundVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+        Voucher updatedVoucher = jdbcVoucherRepository.update(newVoucher);
         //then
-        assertThat(updateResult).isTrue();
-        assertThat(foundVoucher.isPresent()).isTrue();
-        assertThat(foundVoucher.get()).isEqualTo(newVoucher);
+        assertThat(updatedVoucher).isEqualTo(newVoucher);
     }
 
     @Test
-    @DisplayName("[실패] 앖는 바우처는 업데이트를 할 수 없다.")
+    @DisplayName("[실패] 없는 바우처는 업데이트를 할 수 없다.")
     void updateNotExistVoucherTest() {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         //when & then
-        assertThat(jdbcVoucherRepository.update(voucher)).isFalse();
+        assertThatThrownBy(() -> jdbcVoucherRepository.update(voucher))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -139,8 +141,9 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         jdbcVoucherRepository.insert(voucher);
-        //when & then
-        assertThat(jdbcVoucherRepository.deleteById(voucher.getVoucherId())).isTrue();
+        //when
+        jdbcVoucherRepository.deleteById(voucher.getVoucherId());
+        //then
         assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId())).isEmpty();
     }
 
@@ -150,6 +153,7 @@ class JdbcVoucherRepositoryTest {
         //given
         UUID uuid = UUID.randomUUID();
         //when & then
-        assertThat(jdbcVoucherRepository.deleteById(uuid)).isFalse();
+        assertThatThrownBy(() -> jdbcVoucherRepository.deleteById(uuid))
+                .isInstanceOf(DataNotExistException.class);
     }
 }

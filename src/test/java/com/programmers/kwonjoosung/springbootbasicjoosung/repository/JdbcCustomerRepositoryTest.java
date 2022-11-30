@@ -1,6 +1,8 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataAlreadyExistException;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.repository.customer.JdbcCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @SpringJUnitConfig
@@ -40,11 +43,9 @@ class JdbcCustomerRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test1");
         //when
-        boolean insertResult = jdbcCustomerRepository.insert(customer);
-        Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
+        Customer insertedCustomer = jdbcCustomerRepository.insert(customer);
         //then
-        assertThat(insertResult).isTrue();
-        assertThat(customerOptional).contains(customer);
+        assertThat(insertedCustomer).isEqualTo(customer);
     }
 
     @Test
@@ -53,10 +54,9 @@ class JdbcCustomerRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test2");
         jdbcCustomerRepository.insert(customer);
-        //when
-        boolean insertResult = jdbcCustomerRepository.insert(customer);
-        //then
-        assertThat(insertResult).isFalse();
+        //when & then
+        assertThatThrownBy(() -> jdbcCustomerRepository.insert(customer))
+                .isInstanceOf(DataAlreadyExistException.class);
     }
 
     @Test
@@ -114,13 +114,9 @@ class JdbcCustomerRepositoryTest {
         jdbcCustomerRepository.insert(customer);
         Customer newCustomer = new Customer(customer.getCustomerId(), "test8");
         //when
-        boolean updateResult = jdbcCustomerRepository.update(newCustomer);
-        Optional<Customer> newCustomerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
+        Customer updatedCustomer = jdbcCustomerRepository.update(newCustomer);
         //then
-        assertThat(updateResult).isTrue();
-        assertThat(newCustomerOptional).isNotEmpty();
-        assertThat(newCustomerOptional.get()).isEqualTo(newCustomer);
-        assertThat(newCustomerOptional.get().getName()).isEqualTo(newCustomer.getName());
+        assertThat(updatedCustomer).isEqualTo(newCustomer);
     }
 
     @Test
@@ -128,10 +124,9 @@ class JdbcCustomerRepositoryTest {
     void updateNotExistCustomerNameTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test9");
-        //when
-        boolean updateResult = jdbcCustomerRepository.update(customer);
-        //then
-        assertThat(updateResult).isFalse();
+        //when & then
+        assertThatThrownBy(() -> jdbcCustomerRepository.update(customer))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -141,10 +136,9 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test10");
         jdbcCustomerRepository.insert(customer);
         //when
-        boolean result = jdbcCustomerRepository.delete(customer.getCustomerId());
+        jdbcCustomerRepository.delete(customer.getCustomerId());
         Optional<Customer> customerOptional = jdbcCustomerRepository.findById(customer.getCustomerId());
         //then
-        assertThat(result).isTrue();
         assertThat(customerOptional).isEmpty();
     }
 
@@ -153,10 +147,9 @@ class JdbcCustomerRepositoryTest {
     void deleteNotExistCustomerTest() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test11");
-        //when
-        boolean result = jdbcCustomerRepository.delete(customer.getCustomerId());
-        //then
-        assertThat(result).isFalse();
+        //when & then
+        assertThatThrownBy(() -> jdbcCustomerRepository.delete(customer.getCustomerId()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
 }

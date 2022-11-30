@@ -1,6 +1,7 @@
 package com.programmers.kwonjoosung.springbootbasicjoosung.repository;
 
 import com.programmers.kwonjoosung.springbootbasicjoosung.config.TestDataSourceConfig;
+import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.VoucherFactory;
@@ -20,12 +21,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 @Import(TestDataSourceConfig.class)
@@ -56,22 +55,18 @@ public class JdbcWalletRepositoryTest {
         customerRepository.insert(customer);
         // when
         jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher.getVoucherId());
-        Optional<UUID> customerIdOptional = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
-        List<UUID> voucherIdOptional = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
+        Customer foundCustomer = jdbcWalletRepository.findCustomerByVoucherId(voucher.getVoucherId());
+        List<Voucher> foundVouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        assertTrue(customerIdOptional.isPresent());
-        assertThat(voucherIdOptional).isNotEmpty();
-        assertThat(customerIdOptional.get()).isEqualTo(customer.getCustomerId());
-        assertThat(voucherIdOptional).contains(voucher.getVoucherId());
+        assertThat(foundCustomer).isEqualTo(customer);
+        assertThat(foundVouchers).contains(voucher);
     }
 
     @Test
     @DisplayName("[실패] 고객id와 바우처id가 없는 경우에는 지갑에 바우처를 추가할 수 없다.")
-    void insertWalletByNotExistCustomerIdAndNotExistVoucherIdTest() {
-        //when
-        boolean insertResult = jdbcWalletRepository.insertToWallet(UUID.randomUUID(), UUID.randomUUID());
-        //then
-        assertFalse(insertResult);
+    void insertWalletByNotExistCustomerIdAndNotExistVoucherIdTest() { // TODO: 2021-08-03
+        assertThatThrownBy(() -> jdbcWalletRepository.insertToWallet(UUID.randomUUID(), UUID.randomUUID()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -80,10 +75,9 @@ public class JdbcWalletRepositoryTest {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "joosung");
         customerRepository.insert(customer);
-        //when
-        boolean insertResult = jdbcWalletRepository.insertToWallet(customer.getCustomerId(), UUID.randomUUID());
-        //then
-        assertFalse(insertResult);
+        //when & then
+        assertThatThrownBy(() -> jdbcWalletRepository.insertToWallet(customer.getCustomerId(), UUID.randomUUID()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -92,10 +86,9 @@ public class JdbcWalletRepositoryTest {
         //given
         Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         voucherRepository.insert(voucher);
-        //when
-        boolean insertResult = jdbcWalletRepository.insertToWallet(UUID.randomUUID(), voucher.getVoucherId());
-        //then
-        assertFalse(insertResult);
+        //when & then
+        assertThatThrownBy(() -> jdbcWalletRepository.insertToWallet(UUID.randomUUID(), voucher.getVoucherId()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -111,10 +104,10 @@ public class JdbcWalletRepositoryTest {
         jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher1.getVoucherId());
         jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher2.getVoucherId());
         // when
-        List<UUID> vouchersByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        assertThat(vouchersByCustomerId).contains(voucher1.getVoucherId(), voucher2.getVoucherId());
-        assertThat(vouchersByCustomerId).hasSize(2);
+        assertThat(vouchers).contains(voucher1, voucher2);
+        assertThat(vouchers).hasSize(2);
     }
 
     @Test
@@ -127,73 +120,51 @@ public class JdbcWalletRepositoryTest {
         customerRepository.insert(customer);
         jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher.getVoucherId());
         //when
-        Optional<UUID> customerIdOptional = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
+        Customer foundCustomer = jdbcWalletRepository.findCustomerByVoucherId(voucher.getVoucherId());
         //then
-        assertTrue(customerIdOptional.isPresent());
-        assertThat(customerIdOptional.get()).isEqualTo(customer.getCustomerId());
+        assertThat(foundCustomer).isEqualTo(customer);
     }
 
     @Test
     @DisplayName("[실패] 바우처에 할당된 고객이 없는 경우 소유 고객을 조회할 수 없다.")
     void findCustomerIdByNotExistVoucherIdTest() {
-        //given &when
-        Optional<UUID> customerIdOptional = jdbcWalletRepository.findCustomerIdByVoucherId(UUID.randomUUID());
-        //then
-        assertFalse(customerIdOptional.isPresent());
+        assertThatThrownBy(() -> jdbcWalletRepository.findCustomerByVoucherId(UUID.randomUUID()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
-    @DisplayName("[실패] 고객이 소유한 바우처가 없다면 조회할 수 없다.")
+    @DisplayName("[성공] 고객이 소유한 바우처가 없다면 빈 리스트를 반환한다.")
     void find_VoucherIds_By_CustomerId_If_Has_NotThing_Test() {
         //given
-        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
         Customer customer = new Customer(UUID.randomUUID(), "joosung");
         customerRepository.insert(customer);
         // when
-        Optional<UUID> customerIdOptional = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
-        List<UUID> voucherIdOptional = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        assertFalse(customerIdOptional.isPresent());
-        assertThat(voucherIdOptional).isEmpty();
+        assertThat(vouchers).isEmpty();
     }
 
     @Test
     @DisplayName("[성공] 고객이 가진 바우처를 삭제할 수 있다.")
     void deleteVoucherTest() {
         //given
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
-        voucherRepository.insert(voucher1);
-        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10);
-        voucherRepository.insert(voucher2);
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
+        voucherRepository.insert(voucher);
         Customer customer = new Customer(UUID.randomUUID(), "joosung");
         customerRepository.insert(customer);
-        jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher1.getVoucherId());
-        jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher2.getVoucherId());
+        jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher.getVoucherId());
         // when
-        jdbcWalletRepository.deleteVoucher(voucher1.getVoucherId());
-        List<UUID> vouchersByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
+        jdbcWalletRepository.deleteVoucher(voucher.getVoucherId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        assertThat(vouchersByCustomerId).contains(voucher2.getVoucherId());
-        assertThat(vouchersByCustomerId).hasSize(1);
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucher1.getVoucherId());
-        assertFalse(customerIdByVoucherId.isPresent());
+        assertThat(vouchers).isEmpty();
     }
 
     @Test
     @DisplayName("[실패] 바우처 id가 지갑에 없는 경우 바우처를 삭제할 수 없다.")
     void deleteNotExistVoucherTest() {
-        //given
-        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED, UUID.randomUUID(), 1000);
-        voucherRepository.insert(voucher1);
-        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT, UUID.randomUUID(), 10);
-        voucherRepository.insert(voucher2);
-        Customer customer = new Customer(UUID.randomUUID(), "joosung");
-        customerRepository.insert(customer);
-        jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher1.getVoucherId());
-        // when
-        boolean deleteResult = jdbcWalletRepository.deleteVoucher(voucher2.getVoucherId());
-        //then
-        assertFalse(deleteResult);
+        assertThatThrownBy(() -> jdbcWalletRepository.deleteVoucher(UUID.randomUUID()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -209,12 +180,8 @@ public class JdbcWalletRepositoryTest {
         Voucher newVoucher = VoucherFactory.createVoucher(VoucherType.PERCENT, oldVoucher.getVoucherId(), 10);
         voucherRepository.update(newVoucher);
         //then
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(newVoucher.getVoucherId());
-        assertTrue(customerIdByVoucherId.isPresent());
-        assertThat(customerIdByVoucherId.get()).isEqualTo(customer.getCustomerId());
-        List<UUID> voucherIdsByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
-        assertThat(voucherIdsByCustomerId).contains(newVoucher.getVoucherId());
-        assertThat(voucherIdsByCustomerId.get(0)).isEqualTo(newVoucher.getVoucherId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
+        assertThat(vouchers.get(0)).isEqualTo(newVoucher);
     }
 
     @Test
@@ -230,11 +197,8 @@ public class JdbcWalletRepositoryTest {
         Customer newCustomer = new Customer(oldCustomer.getCustomerId(), "joosung2");
         customerRepository.update(newCustomer);
         //then
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
-        assertTrue(customerIdByVoucherId.isPresent());
-        assertThat(customerIdByVoucherId.get()).isEqualTo(newCustomer.getCustomerId());
-        List<UUID> voucherIdsByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(newCustomer.getCustomerId());
-        assertThat(voucherIdsByCustomerId.get(0)).isEqualTo(voucher.getVoucherId());
+        Customer foundCustomer = jdbcWalletRepository.findCustomerByVoucherId(voucher.getVoucherId());
+        assertThat(foundCustomer).isEqualTo(newCustomer);
     }
 
     @Test
@@ -249,10 +213,8 @@ public class JdbcWalletRepositoryTest {
         //when
         voucherRepository.deleteById(voucher.getVoucherId());
         //then
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
-        assertFalse(customerIdByVoucherId.isPresent());
-        List<UUID> voucherIdsByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
-        assertThat(voucherIdsByCustomerId).isEmpty();
+        assertThatThrownBy(() -> jdbcWalletRepository.findCustomerByVoucherId(voucher.getVoucherId()))
+                .isInstanceOf(DataNotExistException.class);
     }
 
     @Test
@@ -266,11 +228,9 @@ public class JdbcWalletRepositoryTest {
         jdbcWalletRepository.insertToWallet(customer.getCustomerId(), voucher.getVoucherId());
         //when
         customerRepository.delete(customer.getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
         //then
-        Optional<UUID> customerIdByVoucherId = jdbcWalletRepository.findCustomerIdByVoucherId(voucher.getVoucherId());
-        assertFalse(customerIdByVoucherId.isPresent());
-        List<UUID> voucherIdsByCustomerId = jdbcWalletRepository.findVoucherIdsByCustomerId(customer.getCustomerId());
-        assertThat(voucherIdsByCustomerId).isEmpty();
+        assertThat(vouchers).isEmpty();
     }
-
 }
+

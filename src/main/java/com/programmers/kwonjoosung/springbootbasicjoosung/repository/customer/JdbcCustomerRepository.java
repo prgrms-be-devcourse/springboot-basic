@@ -21,8 +21,9 @@ import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.cust
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    public static final String CUSTOMER = "customer";
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    public static final String CUSTOMER = "customer";
+    private static final int FAIL = 0;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -75,12 +76,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue(CUSTOMER_ID.getColumnName(), customer.getCustomerId().toString())
                 .addValue(NAME.getColumnName(), customer.getName());
-        try {
-            jdbcTemplate.update(sql, parameters);
-            return customer;
-        } catch (EmptyResultDataAccessException e) {
+        if(jdbcTemplate.update(sql, parameters) == FAIL) {
             throw new DataNotExistException(customer.getCustomerId().toString(), CUSTOMER);
         }
+        return customer;
+
     }
 
     @Override
@@ -88,9 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         final String sql = "DELETE FROM customers WHERE customer_id = :customer_id";
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue(CUSTOMER_ID.getColumnName(), customerId.toString());
-        try {
-            jdbcTemplate.update(sql, parameters);
-        } catch (EmptyResultDataAccessException e) {
+        if(jdbcTemplate.update(sql, parameters) == FAIL) {
             throw new DataNotExistException(customerId.toString(), CUSTOMER);
         }
     }

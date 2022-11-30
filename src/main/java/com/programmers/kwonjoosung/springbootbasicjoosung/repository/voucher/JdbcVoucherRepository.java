@@ -28,8 +28,9 @@ import static com.programmers.kwonjoosung.springbootbasicjoosung.repository.vouc
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    public static final String VOUCHER = "voucher";
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    public static final String VOUCHER = "voucher";
+    private static final int FAIL = 0;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -101,21 +102,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher update(Voucher voucher) {
         final String sql = "UPDATE vouchers SET voucher_type = :voucher_type, discount = :discount WHERE voucher_id = :voucher_id";
         SqlParameterSource parameters = getFullSqlParametersSource(voucher);
-        try {
-            jdbcTemplate.update(sql, parameters);
-            return voucher;
-        } catch (EmptyResultDataAccessException e) {
-            throw new DataNotExistException(voucher.getVoucherId().toString(), VOUCHER); // 이게 맞나?
+        if(jdbcTemplate.update(sql, parameters) == FAIL) {
+            throw new DataNotExistException(voucher.getVoucherId().toString(), VOUCHER);
         }
+        return voucher;
     }
 
     @Override
     public void deleteById(UUID voucherId) {
         final String sql = "DELETE FROM vouchers WHERE voucher_id = :voucher_id";
         SqlParameterSource parameter = getVoucherIdSqlParameterSource(voucherId);
-        try {
-            jdbcTemplate.update(sql, parameter);
-        } catch (EmptyResultDataAccessException e) {
+        if(jdbcTemplate.update(sql, parameter) == FAIL) {
             throw new DataNotExistException(voucherId.toString(), VOUCHER);
         }
     }

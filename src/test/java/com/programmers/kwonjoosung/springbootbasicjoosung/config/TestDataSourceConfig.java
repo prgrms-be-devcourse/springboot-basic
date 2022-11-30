@@ -13,7 +13,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @TestConfiguration
-@ComponentScan(basePackages = "com.programmers.kwonjoosung.springbootbasicjoosung")
+@ComponentScan(basePackages = "com.programmers.kwonjoosung.springbootbasicjoosung.repository")
 public class TestDataSourceConfig {
 
     @Bean

@@ -5,6 +5,7 @@ import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataAlreadyE
 import com.programmers.kwonjoosung.springbootbasicjoosung.exception.DataNotExistException;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.customer.Customer;
 import com.programmers.kwonjoosung.springbootbasicjoosung.model.voucher.Voucher;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -26,6 +27,7 @@ public class JdbcWalletRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private static final String WALLET = "wallet";
+    private static final int FAIL = 0;
 
     public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -40,6 +42,8 @@ public class JdbcWalletRepository {
             jdbcTemplate.update(sql, parameters);
         } catch (DuplicateKeyException e) {
             throw new DataAlreadyExistException(voucherId.toString(), WALLET);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataNotExistException();
         }
     }
 
@@ -69,11 +73,8 @@ public class JdbcWalletRepository {
         final String sql = "DELETE FROM wallets WHERE voucher_id = :voucher_id";
         SqlParameterSource parameter = new MapSqlParameterSource()
                 .addValue(VOUCHER_ID.getColumnName(), voucherId.toString());
-        try {
-            jdbcTemplate.update(sql, parameter);
-        } catch (EmptyResultDataAccessException e) {
+        if (jdbcTemplate.update(sql, parameter) == FAIL) {
             throw new DataNotExistException(voucherId.toString(), WALLET);
         }
     }
-
 }
