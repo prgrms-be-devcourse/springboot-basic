@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/font.css}" rel="stylesheet">
+    <title>오류 발생 !</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+
+        .box {
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+    </style>
+</head>
+<body class="web-font">
+<div class="container">
+    <div class="align-content-center text-center">
+        <div class="row mt-5 text-center"><h1>잘못된 요청입니다!</h1>
+        </div>
+        <div class="row mt-2"><h1>해당되는 바우처가 없어 요청하신 작업을 수행할 수 없습니다!</h1></div>
+        <div class="row mt-5">
+            <div class="col">
+                <button class="w-100 btn btn-outline-secondary btn-lg"
+                        onclick="location.href='vouchers.html'"
+                        th:onclick="|location.href='@{/voucher/vouchers}'|" type="button">목록으로
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

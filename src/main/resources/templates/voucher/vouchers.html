@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/font.css}" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+    </style>
+</head>
+<body class="web-font">
+
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-outline-secondary float-end"
+                    onclick="location.href='addForm.html'"
+                    th:onclick="|location.href='@{/voucher/vouchers/add}'|"
+                    type="button">바우처 생성하기
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>바우처 할인 타입</th>
+                <th>할인 정도</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td><a href="item.html" th:href="@{|/voucher/vouchers/${voucher.voucherId}|}"
+                       th:text="${voucher.voucherId}" style="color: #002752">바우처 id</a></td>
+                <td><a href="item.html" th:href="@{|/voucher/vouchers/${voucher.voucherId}|}"
+                       th:text="${voucher.voucherType}" style="color: #002752">바우처 타입</a></td>
+                <td th:if="${voucher.voucherType == 'fix'}" th:text="|${voucher.amount} WON|">바우처 할인 정도</td>
+                <td th:if="${voucher.voucherType == 'percent'}" th:text="|${voucher.amount}%|">바우처 할인 정도</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.exceptions.CustomerException;
+import org.prgrms.kdt.exceptions.InvalidParameterException;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -34,7 +34,7 @@ public class Customer {
 
     private void validateName(String input){
         if(input.isBlank()){
-            throw new CustomerException(NAME_EXCEPTION);
+            throw new InvalidParameterException(NAME_EXCEPTION);
         }
     }
 

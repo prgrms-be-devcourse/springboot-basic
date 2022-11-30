@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/font.css}" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap');
+
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body class="web-font">
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>상품 상세</h2></div>
+<!--    <h2 th:if="${param.status}" th:text="'바우처가 성공적으로 저장되었습니다!'"/>-->
+    <div>
+        <label for="voucherId">바우처 ID</label>
+        <input type="text" id="voucherId" name="voucherId" class="form-control"
+               value="1" th:value="${voucher.voucherId}" readonly>
+    </div>
+    <div>
+        <label for="voucherType">바우처 타입</label>
+        <input type="text" id="voucherType" name="voucherType" class="form-control"
+               value="상품A" th:value="${voucher.voucherType}" readonly>
+    </div>
+    <div>
+        <label th:if="${voucher.voucherType== 'fix'}" for="fix-amount">할인 금액</label>
+        <label th:if="${voucher.voucherType == 'percent'}" for="fix-amount">할인 비율</label>
+        <input th:if="${voucher.voucherType == 'fix'}" type="text" id="fix-amount" name="price" class="form-control"
+               value="10000" th:value="|${voucher.amount} WON|" readonly>
+        <input th:if="${voucher.voucherType == 'percent'}" type="text" id="percent-amount" name="price" class="form-control"
+               value="10000" th:value="|${voucher.amount} %|" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='delete.html'"
+                    th:onclick="|location.href='@{/voucher/vouchers/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
+                    type="button">삭제하기
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='vouchers.html'"
+                    th:onclick="|location.href='@{/voucher/vouchers}'|"
+                    type="button">목록으로
+            </button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

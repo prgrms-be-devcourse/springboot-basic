@@ -51,7 +51,7 @@ public class IOManager {
                 .strip();
     }
 
-    public int getAmountInput() {
+    public Integer getAmountInput() {
         console.write(AMOUNT_MESSAGE);
         try {
             return Integer.parseInt(console.read()

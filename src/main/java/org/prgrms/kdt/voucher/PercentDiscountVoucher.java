@@ -10,19 +10,19 @@ public class PercentDiscountVoucher implements Voucher {
     private static final int MAX_PERCENT_LIMIT = 100;
     private static final int MIN_PERCENT_LIMIT = 1;
 
+    private final Integer percent;
     private final String voucherId;
-    private final int percent;
 
 
     private String customerId;
 
-    public PercentDiscountVoucher(String voucherId, int percent) {
+    public PercentDiscountVoucher(String voucherId, Integer percent) {
         validateAmount(percent);
         this.voucherId = voucherId;
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(String voucherId, int percent, String customerId) {
+    public PercentDiscountVoucher(String voucherId, Integer percent, String customerId) {
         this(voucherId, percent);
         this.customerId = customerId;
     }
@@ -38,7 +38,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public int discount(int beforeDiscount) {
+    public Integer discount(int beforeDiscount) {
         Double afterDiscount = beforeDiscount * (1 - percent / 100.0);
         return afterDiscount.intValue();
     }
@@ -49,7 +49,7 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public int getAmount() {
+    public Integer getAmount() {
         return percent;
     }
 

@@ -10,17 +10,18 @@ public class FixedAmountVoucher implements Voucher {
     private static final long MIN_VOUCHER_LIMIT = 10;
 
     private final String voucherId;
-    private final int amount;
+    private final Integer amount;
 
     private String customerId;
 
-    public FixedAmountVoucher(String voucherId, int amount) {
+
+    public FixedAmountVoucher(String voucherId, Integer amount) {
         validateAmount(amount);
         this.voucherId = voucherId;
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(String voucherId, int amount, String customerId) {
+    public FixedAmountVoucher(String voucherId, Integer amount, String customerId) {
         this(voucherId, amount);
         this.customerId = customerId;
     }
@@ -30,12 +31,12 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 
     @Override
-    public int discount(int beforeDiscount) {
+    public Integer discount(int beforeDiscount) {
         int discountedAmount = beforeDiscount - amount;
         return Integer.max(discountedAmount, 0);
     }
