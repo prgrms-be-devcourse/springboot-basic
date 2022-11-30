@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"/>
+  <style>
+    .container {
+      max-width: 560px;
+    }
+
+    .voucherType {
+      display: flex;
+      margin-top: 3px;
+      margin-bottom: 6px;
+      border: 1.3px solid #8080804a;
+      padding: 7px;
+      padding-left: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="py-5 text-center">
+    <h2>바우처 등록 폼</h2>
+  </div>
+
+  <h4 class="mb-3">바우처 입력</h4>
+
+  <form th:action method="post" class="form">
+    <span>voucher Type</span>
+    <div class="voucherType">
+      <div class="form-check" style="margin-right: 105px;">
+        <input class="form-check-input check" type="radio" value="FIXED" id="flexCheckDefault"
+               name="type">
+        <label class="form-check-label" for="flexCheckDefault">
+          FixedAmount Voucher
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input check" type="radio" value="PERCENT" id="flexCheckChecked"
+               name="type">
+        <label class="form-check-label" for="flexCheckChecked">
+          PercentAmount Voucher
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <label for="amount">가격</label>
+      <input type="number" id="amount" min="1" class="form-control amount" placeholder="가격을 입력하세요"
+             name="amount">
+    </div>
+
+
+    <hr class="my-4">
+
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg create " type="submit">바우처 등록</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/voucher}'|"
+                type="button">취소
+        </button>
+      </div>
+    </div>
+
+  </form>
+
+</div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script th:inline="javascript">
+
+  $(document).ready(function () {
+
+    $('input[type="radio"]').change(function () {
+      let $check_val = $('input[type="radio"]:checked').val();
+      console.log($check_val);
+      if ($check_val === "PERCENT") {
+        console.log("ddd");
+        $(".amount").attr("max", 100);
+      } else {
+        $(".amount").removeAttr("max");
+      }
+    });
+
+    $(".form").submit(function (event) {
+
+      let $amount = $('.amount').val();
+
+      if ($('.check').is(':checked') === false) {
+        alert("바우처 타입을 선택해주세요");
+        event.preventDefault();
+        return;
+      }
+
+      if ($amount == "") {
+        alert("할인금액을 입력해주세요");
+        event.preventDefault();
+        return;
+      }
+
+    });
+
+  });
+
+
+</script>
+</html>

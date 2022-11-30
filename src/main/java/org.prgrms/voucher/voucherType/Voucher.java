@@ -1,5 +1,6 @@
 package org.prgrms.voucher.voucherType;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 import org.prgrms.voucher.discountType.Amount;
 import org.springframework.stereotype.Component;
@@ -15,5 +16,7 @@ public interface Voucher {
   VoucherType getVoucherType();
 
   Voucher changeAmountValue(long amount);
+
+  LocalDateTime getDate();
 
 }

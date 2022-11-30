@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.wix.mysql.EmbeddedMysql;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -72,18 +73,20 @@ public class VoucherDBMemoryTest {
     @Test
     void test1() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(300L));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(300L),
+            LocalDateTime.now());
         //when
         Voucher saved = memory.save(voucher);
         //then
-        assertThat(voucher).usingRecursiveComparison().isEqualTo(saved);
+        assertThat(voucher).isEqualTo(saved);
     }
 
     @DisplayName("새로 저장하는 바우처의 id가 이미 있을 경우 에러를 던진다")
     @Test
     void test1_1() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(300L));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(300L),
+            LocalDateTime.now());
         memory.save(voucher);
         //when&then
         assertThrows(DuplicateKeyException.class, () -> memory.save(voucher));
@@ -93,15 +96,17 @@ public class VoucherDBMemoryTest {
     @Test
     void test2() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(100L));
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate(10L));
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(100L),
+            LocalDateTime.now().withNano(0));
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate(10L),
+            LocalDateTime.now().withNano(0));
         memory.save(voucher1);
         memory.save(voucher2);
         //when
         List<Voucher> voucherList = memory.findAll();
         //then
         assertEquals(voucherList.size(), 2);
-        assertThat(voucherList).usingRecursiveFieldByFieldElementComparator().contains(voucher1, voucher2);
+        assertThat(voucherList).contains(voucher1, voucher2);
 
     }
 
@@ -109,19 +114,21 @@ public class VoucherDBMemoryTest {
     @Test
     void test3() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(600L));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(600L),
+            LocalDateTime.now().withNano(0));
         Voucher saved = memory.save(voucher);
         //when
         Optional<Voucher> foundVoucher = memory.findById(saved.getVoucherId());
         //then
-        assertThat(saved).usingRecursiveComparison().isEqualTo(foundVoucher.get());
+        assertThat(saved).isEqualTo(foundVoucher.get());
     }
 
     @DisplayName("바우처의 id로 해당 바우처 정보를 삭제한다")
     @Test
     void test4() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(50L));
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(50L),
+            LocalDateTime.now().withNano(0));
         Voucher saved = memory.save(voucher);
         //when
         memory.deleteById(saved.getVoucherId());
@@ -133,8 +140,10 @@ public class VoucherDBMemoryTest {
     @Test
     void test5() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(100L));
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate(10L));
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(100L),
+            LocalDateTime.now());
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountRate(10L),
+            LocalDateTime.now());
         memory.save(voucher1);
         memory.save(voucher2);
         //when
@@ -147,22 +156,25 @@ public class VoucherDBMemoryTest {
     @DisplayName("할인 금액을 업데이트한 바우처 정보를 리턴한다")
     @Test
     void test6() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
+        //given
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
         memory.save(voucher);
-
+        //when
         Voucher updateAmount = voucher.changeAmountValue(3000L);
         Voucher updatedVoucher = memory.update(updateAmount);
-
+        //then
         assertEquals(updateAmount, updatedVoucher);
     }
 
     @DisplayName("존재하지 않는 Id로 업데이트 시 NoSuchElementException을 던진다.")
     @Test
     void test6_1() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L));
-
+        //given
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
         Voucher updateAmount = voucher.changeAmountValue(300L);
-
+        //when&then
         assertThrows(NoSuchElementException.class, () -> memory.update(updateAmount));
     }
 
