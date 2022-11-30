@@ -22,7 +22,7 @@ class InMemoryVoucherStorageTest {
     @Mock
     private Voucher voucher;
     @Mock
-    List<Voucher> voucherList;
+    private List<Voucher> voucherList;
 
     @BeforeEach
     public void init() {
@@ -49,7 +49,7 @@ class InMemoryVoucherStorageTest {
         assertThat(found.isPresent()).isTrue();
         Voucher foundVoucher = found.get();
 
-        assertThat(foundVoucher.getDiscountRate()).isEqualTo(10);
+        assertThat(foundVoucher.getDiscountAmount()).isEqualTo(10);
     }
 
     @Test

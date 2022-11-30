@@ -9,9 +9,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -38,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(Lifecycle.PER_CLASS)
 class CustomerRepositoryTest {
 
-    @Configuration
+    @TestConfiguration
     @ComponentScan(
             basePackages = "com.prgrms.springbootbasic.customer.storage"
     )
@@ -61,13 +61,10 @@ class CustomerRepositoryTest {
     }
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    JdbcCustomerRepository jdbcCustomerRepository;
-
-    @Autowired
-    DataSource dataSource;
+    private JdbcCustomerRepository jdbcCustomerRepository;
 
     private Customer customer;
     private List<Customer> customerList;
@@ -170,11 +167,10 @@ class CustomerRepositoryTest {
     void update() {
         //given
         jdbcCustomerRepository.save(customer);
-
-        //when
         String newName = "new_name";
         customer.update(newName);
 
+        //when
         jdbcCustomerRepository.update(customer);
         Optional<Customer> found = jdbcCustomerRepository.findById(customer.getId());
 

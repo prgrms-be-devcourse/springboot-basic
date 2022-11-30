@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<div class="container">
+
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <h1>바우처 상세 조회</h1>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>바우처 타입</th>
+            <th>할인율</th>
+        </tr>
+        </thead>
+        <tbody>
+        <td th:text="${details.id}">아이디</td>
+        <td th:text="${details.voucherType}">바우처 타입</td>
+        <td th:text="${details.discountAmount}">할인율</td>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

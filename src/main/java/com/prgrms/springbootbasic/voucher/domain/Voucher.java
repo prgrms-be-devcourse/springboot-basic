@@ -11,7 +11,7 @@ public interface Voucher {
 
     UUID getUUID();
 
-    int getDiscountRate();
+    int getDiscountAmount();
 
     VoucherType getVoucherType();
 

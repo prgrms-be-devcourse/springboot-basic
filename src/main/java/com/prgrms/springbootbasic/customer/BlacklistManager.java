@@ -5,8 +5,10 @@ import com.prgrms.springbootbasic.customer.domain.Customer;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("dev")
 @Component
 public class BlacklistManager {
     private final BlacklistStorage blacklistStorage;

@@ -1,6 +1,7 @@
 package com.prgrms.springbootbasic.voucher;
 
 import com.prgrms.springbootbasic.common.exception.InvalidVoucherTypeException;
+import com.prgrms.springbootbasic.common.exception.VoucherErrorCode;
 import com.prgrms.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.prgrms.springbootbasic.voucher.domain.PercentVoucher;
 import org.slf4j.Logger;
@@ -36,7 +37,8 @@ public enum VoucherType {
                 .orElseThrow(() -> {
                     logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
                     return new InvalidVoucherTypeException(
-                            MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue));
+                            MessageFormat.format("Input voucher {0} is invalid. Please select again.", inputValue),
+                            VoucherErrorCode.INVALID_VOUCHER_TYPE);
                 });
     }
 
@@ -47,7 +49,8 @@ public enum VoucherType {
                 .orElseThrow(() -> {
                     logger.warn("InvalidVoucherTypeException occurred when getting voucher type from console. Invalid voucher type input was provided");
                     return new InvalidVoucherTypeException(
-                            MessageFormat.format("class name {0} doesn" + "'" + "t match.", className));
+                            MessageFormat.format("class name {0} doesn" + "'" + "t match.", className),
+                            VoucherErrorCode.INVALID_VOUCHER_TYPE);
                 });
     }
 }
