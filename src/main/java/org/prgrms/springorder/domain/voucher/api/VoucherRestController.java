@@ -1,16 +1,16 @@
 package org.prgrms.springorder.domain.voucher.api;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
 import org.prgrms.springorder.domain.voucher.api.response.VoucherCreateResponse;
 import org.prgrms.springorder.domain.voucher.api.response.VoucherResponse;
+import org.prgrms.springorder.domain.voucher.api.response.VoucherResponses;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.service.VoucherService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,26 +35,24 @@ public class VoucherRestController {
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<List<VoucherResponse>> getAllVouchers(
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+    public ResponseEntity<VoucherResponses> getAllVouchers(
+        @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime startDate,
+        @RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime endDate,
         @RequestParam(required = false) VoucherType voucherType
     ) {
-
-        List<VoucherResponse> voucherResponses = voucherService.findAllBy(startDate, endDate,
-                voucherType).stream()
-            .map(voucher -> new VoucherResponse(voucher.getVoucherId(),
-                voucher.getAmount(),
-                voucher.getCreatedAt(), voucher.getVoucherType()))
-            .collect(Collectors.toList());
+        
+        VoucherResponses voucherResponses = voucherService.findAllBy(startDate, endDate,
+            voucherType);
 
         return ResponseEntity.ok(voucherResponses);
     }
 
-    @PostMapping
+    @PostMapping// contentType을 반드시 정의하고 - 스펙을 보여줘서 약속해야한다. - 표준
     public ResponseEntity<VoucherCreateResponse> createVoucher(
         @RequestBody VoucherCreateRequest request) {
         Voucher voucher = voucherService.createVoucher(request);
+
+        // prg - post redirect get - hateoas
         return new ResponseEntity<>(new VoucherCreateResponse(voucher.getVoucherId()),
             HttpStatus.CREATED);
     }
@@ -74,5 +72,7 @@ public class VoucherRestController {
             voucher.getCreatedAt(),
             voucher.getVoucherType()));
     }
+
+
 
 }
