@@ -26,6 +26,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        Jackson2ObjectMapperBuilder modules = Jackson2ObjectMapperBuilder.json()
+            .modules(javaTimeModule);
+
+        converters.add(0, new MappingJackson2HttpMessageConverter(modules.build()));
+
         MarshallingHttpMessageConverter xmlMessageConverter = new MarshallingHttpMessageConverter();
 
         XStreamMarshaller xStreamMarshaller = new XStreamMarshaller();
@@ -34,15 +43,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         xmlMessageConverter.setMarshaller(xStreamMarshaller);
         xmlMessageConverter.setUnmarshaller(xStreamMarshaller);
 
-        converters.add( xmlMessageConverter);
+        converters.add(1, xmlMessageConverter);
 
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(
-            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        Jackson2ObjectMapperBuilder modules = Jackson2ObjectMapperBuilder.json()
-            .modules(javaTimeModule);
-
-        converters.add(new MappingJackson2HttpMessageConverter(modules.build()));
     }
 
 }

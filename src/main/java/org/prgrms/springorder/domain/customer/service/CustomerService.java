@@ -2,6 +2,9 @@ package org.prgrms.springorder.domain.customer.service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import org.prgrms.springorder.domain.customer.api.response.CustomerResponse;
+import org.prgrms.springorder.domain.customer.api.response.CustomerResponses;
 import org.prgrms.springorder.domain.voucher_wallet.model.Wallet;
 import org.prgrms.springorder.domain.customer.model.BlockCustomer;
 import org.prgrms.springorder.domain.customer.model.Customer;
@@ -76,6 +79,23 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public CustomerResponses findAllCustomersResponses() {
+
+        List<CustomerResponse> customerResponses =  customerRepository.findAll()
+            .stream()
+            .map(customer -> new CustomerResponse(
+                customer.getCustomerId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getLastLoginAt(),
+                customer.getCreatedAt(),
+                customer.getCustomerStatus()))
+            .collect(Collectors.toList());
+
+        return new CustomerResponses(customerResponses);
     }
 
 }
