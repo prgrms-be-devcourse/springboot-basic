@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
+import org.prgrms.springorder.domain.voucher.api.response.VoucherResponse;
+import org.prgrms.springorder.domain.voucher.api.response.VoucherResponses;
 import org.prgrms.springorder.domain.voucher.model.Voucher;
 import org.prgrms.springorder.domain.voucher.model.VoucherType;
 import org.prgrms.springorder.domain.voucher.repository.VoucherRepository;
@@ -58,8 +60,15 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public List<Voucher> findAllBy(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
-        return voucherRepository.findAllBy(startDate, endDate, voucherType);
+    public VoucherResponses findAllBy(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
+
+        List<VoucherResponse> voucherResponses = voucherRepository.findAllBy(startDate, endDate, voucherType).stream()
+            .map(voucher -> new VoucherResponse(voucher.getVoucherId(),
+                voucher.getAmount(),
+                voucher.getCreatedAt(), voucher.getVoucherType()))
+            .collect(Collectors.toList());
+
+        return new VoucherResponses(voucherResponses);
     }
 
     @Transactional(readOnly = true)

@@ -1,5 +1,6 @@
 package org.prgrms.springorder.domain.voucher.api;
 
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import org.prgrms.springorder.domain.voucher.api.request.VoucherCreateRequest;
@@ -49,7 +50,7 @@ public class VoucherRestController {
 
     @PostMapping// contentType을 반드시 정의하고 - 스펙을 보여줘서 약속해야한다. - 표준
     public ResponseEntity<VoucherCreateResponse> createVoucher(
-        @RequestBody VoucherCreateRequest request) {
+        @RequestBody @Valid VoucherCreateRequest request) {
         Voucher voucher = voucherService.createVoucher(request);
 
         // prg - post redirect get - hateoas

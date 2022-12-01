@@ -242,7 +242,6 @@ class VoucherRestControllerTest {
             .andDo(print());
     }
 
-
     @DisplayName("delete Voucher 테스트 - 바우처가 존재하면 바우처를 삭제한다")
     @Test
     void deleteVoucherSuccessTest() throws Exception {
@@ -255,13 +254,8 @@ class VoucherRestControllerTest {
         //then & when
         mockMvc.perform(delete("/api/v1/vouchers/{voucherId}", voucherId.toString())
                 .contentType(MediaType.APPLICATION_JSON))
-
             .andExpect(status().isOk())
             .andDo(print());
-
-        Optional<Voucher> findVoucher = voucherJdbcRepository.findById(voucherId);
-        assertTrue(findVoucher.isEmpty());
-
     }
 
     @DisplayName("delete Voucher 테스트 - 바우처가 존재하지 않으면 404 응답이 온다.")
