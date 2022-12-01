@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class VoucherExecutor {
@@ -27,5 +28,17 @@ public class VoucherExecutor {
 
     public List<Voucher> list() {
         return voucherManager.findAll();
+    }
+
+    public Voucher findVoucher(Long voucherId) {
+        Optional<Voucher> maybeVoucher = voucherManager.findById(voucherId);
+        if (maybeVoucher.isEmpty()) {
+            throw new IllegalArgumentException("Cannot find Voucher. Please Check Voucher Id.");
+        }
+        return maybeVoucher.get();
+    }
+
+    public void deleteVoucher(long voucherId) {
+        voucherManager.deleteById(voucherId);
     }
 }

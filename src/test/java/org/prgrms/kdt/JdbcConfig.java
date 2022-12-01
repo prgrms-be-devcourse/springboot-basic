@@ -38,6 +38,6 @@ public class JdbcConfig {
 
     @Bean
     public JdbcCustomerManager jdbcCustomerManager(NamedParameterJdbcTemplate namedParameterJdbcTemplate, DataSource dataSource) {
-        return new JdbcCustomerManager(namedParameterJdbcTemplate, dataSource);
+        return new JdbcCustomerManager(namedParameterJdbcTemplate);
     }
 }

@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500 Error page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 1000px">
+    <div class="d-flex align-items-center justify-content-center vh-100">
+        <div class="text-center">
+            <h1 class="display-1 fw-bold" th:text="${errorResponse.status}"></h1>
+            <p class="fs-3" th:text="${errorResponse.code}"> <span class="text-danger">Opps!</span></p>
+            <p class="lead" th:text="${errorResponse.message}"></p>
+            <a href="/app/vouchers" class="btn btn-primary">Go Home</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

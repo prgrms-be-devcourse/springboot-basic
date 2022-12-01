@@ -7,20 +7,22 @@ import org.prgrms.kdt.io.ConsoleManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.security.InvalidParameterException;
 
+@Profile("local")
 @Controller
-public class VoucherApp implements CommandLineRunner {
+public class VoucherCommandLineApp implements CommandLineRunner {
 
     private final ConsoleManager consoleManager;
     private final VoucherExecutor voucherExecutor;
     private final CustomerExecutor customerExecutor;
-    private VoucherAppStatus voucherAppStatus;
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApp.class);
+    private VoucherCommandLineAppStatus voucherCommandLineAppStatus;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherCommandLineApp.class);
 
-    public VoucherApp(ConsoleManager consoleManager, VoucherExecutor voucherExecutor, CustomerExecutor customerExecutor) {
+    public VoucherCommandLineApp(ConsoleManager consoleManager, VoucherExecutor voucherExecutor, CustomerExecutor customerExecutor) {
         this.consoleManager = consoleManager;
         this.voucherExecutor = voucherExecutor;
         this.customerExecutor = customerExecutor;
@@ -28,8 +30,8 @@ public class VoucherApp implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        voucherAppStatus = new VoucherAppStatus();
-        while (voucherAppStatus.isRunning()) {
+        voucherCommandLineAppStatus = new VoucherCommandLineAppStatus();
+        while (voucherCommandLineAppStatus.isRunning()) {
             String userInput = consoleManager.getCommand();
             try {
                 runCommand(CommandType.of(userInput));
@@ -49,7 +51,7 @@ public class VoucherApp implements CommandLineRunner {
             );
             case LIST -> consoleManager.printVouchers(voucherExecutor.list());
             case BLACK -> consoleManager.printBlackList(customerExecutor.blacklist());
-            case EXIT -> voucherAppStatus.quit();
+            case EXIT -> voucherCommandLineAppStatus.quit();
             default -> throw new InvalidParameterException("Unknown command. CommandType: " + commandType.getCommand());
         }
     }
