@@ -17,7 +17,7 @@ class RatioTest {
         Ratio ratio = new Ratio(number);
 
         // then
-        assertThat(ratio.getRatio()).isEqualTo(number);
+        assertThat(ratio.getFixedDiscountLevel()).isEqualTo(number);
     }
 
     @DisplayName("비율은 0이상 100이하여야 한다. 그 외의 경우 IllegalArgumentException이 발생한다.")

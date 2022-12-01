@@ -3,16 +3,19 @@ package prgms.vouchermanagementapp.domain;
 import prgms.vouchermanagementapp.domain.value.Amount;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final Amount fixedDiscountAmount;
+    private final LocalDateTime createdDateTime;
 
-    public FixedAmountVoucher(UUID voucherId, Amount fixedDiscountAmount) {
+    public FixedAmountVoucher(UUID voucherId, Amount fixedDiscountAmount, LocalDateTime createdDateTime) {
         this.voucherId = voucherId;
         this.fixedDiscountAmount = fixedDiscountAmount;
+        this.createdDateTime = createdDateTime;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long amountBeforeDiscount) {
-        long discountAmount = this.fixedDiscountAmount.getAmount();
+        long discountAmount = this.fixedDiscountAmount.getFixedDiscountLevel();
         if (amountBeforeDiscount < discountAmount) {
             throw new IllegalStateException(
                     MessageFormat.format("amount({0}) should be greater than discount amount({1}).",
@@ -34,7 +37,13 @@ public class FixedAmountVoucher implements Voucher {
         return amountBeforeDiscount - discountAmount;
     }
 
-    public Amount getFixedDiscountAmount() {
-        return this.fixedDiscountAmount;
+    @Override
+    public long getDiscountLevel() {
+        return this.fixedDiscountAmount.getFixedDiscountLevel();
+    }
+
+    @Override
+    public LocalDateTime getCreatedDateTime() {
+        return this.createdDateTime;
     }
 }

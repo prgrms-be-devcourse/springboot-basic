@@ -15,7 +15,7 @@
   === Voucher Program ===
   Type **exit** to exit the program.
   Type **create** to create a new voucher.
-  Type **list** to list all vouchers.
+  Type **list** to list all voucherRepository.
   ```
 
 ## 커맨드
@@ -93,9 +93,9 @@
 ### 바우처를 DB로 관리
 
 - [x]  (1주차를 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
-    - [x]  바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - [x]  바우처에 엔터티에 해당하는 voucherRepository 테이블을 한번 정의해보세요.
     - [x]  바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
-    - [x]  기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+    - [x]  기존의 파일에서 바우처를 관리한 것을 voucherRepository 테이블을 통해서 CRUD가 되게 해보세요.
         - [x]  Create: 바우처를 DB에 저장
         - [x]  Read: 저장된 모든 바우처 조회
         - [x]  Update: 바우처의 할인 금액 또는 비율 수정
@@ -115,3 +115,34 @@
     - [ ] Delete: `deleteByCustomerName()`
 - [ ] 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
     - [ ] Read: `findCustomerByVoucherType()`
+
+# Part 3. Spring MVC
+
+## 리팩터링
+
+- [x] JdbcVoucherRepository 인터페이스 적용.
+    - [x] 기존 MemoryVoucherRepository, FileVoucherRepository 리팩터링
+- [x] 바우처 테이블 변경: 통합 엔티티 -> 각 바우처 엔티티
+- [ ] 테스트코드 트랜잭션 적용
+- [ ] 바우처 타입 확인에 사용되는 중복 switch문 리팩터링
+- [ ] yaml 프로퍼티 적용시 로컬 DB사용하는 문제
+- [ ] DELETE 메서드 사용해보기
+
+## **(기본) 바우처 서비스 관리페이지 개발하기**
+
+- Spring MVC를 적용해서 thymeleaf 템플릿을 설정해보세요.
+- 커맨드로 지원했던 기능을 thymeleaf를 이용해서 관리페이지를 만들고 다음 기능을 지원가능하게 해보세요
+    - [x]  조회페이지
+    - [x]  상세페이지
+    - [x]  입력(생성)페이지
+    - [x]  수정 페이지
+    - [x]  삭제기능
+
+## **(기본) 바우처 서비스의 API 개발하기**
+
+- Spring MVC를 적용해서 JSON과 XML을 지원하는 REST API를 개발해보세요
+    - [ ]  전체 조회기능
+    - [ ]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+    - [ ]  바우처 추가기능
+    - [ ]  바우처 삭제기능
+    - [ ]  바우처 아이디로 조회 기능

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("release")
+@Profile({"console", "file"})
 public class MainController implements CommandLineRunner {
 
     private final CommandExecutor commandExecutor;

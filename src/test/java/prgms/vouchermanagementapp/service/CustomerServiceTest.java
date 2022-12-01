@@ -11,10 +11,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class CustomerManagerTest {
+class CustomerServiceTest {
 
     @Autowired
-    private CustomerManager customerManager;
+    private CustomerService customerService;
 
     @DisplayName("이름을 기반으로 고객을 저장할 수 있다.")
     @Test
@@ -23,21 +23,20 @@ class CustomerManagerTest {
         Customer customer1 = new Customer("test1");
 
         // when
-        Customer savedCustomer = customerManager.save(customer1);
+        Customer savedCustomer = customerService.save(customer1);
 
         // then
         assertThat(savedCustomer.getCustomerName()).isEqualTo(customer1.getCustomerName());
-        System.out.println(savedCustomer.getCustomerName());
     }
 
     @DisplayName("DB에 저장된 이름을 조회할 수 있다.")
     @Test
     void findCustomerByName() {
         // given
-        Customer savedCustomer1 = customerManager.save(new Customer("test1"));
+        Customer savedCustomer1 = customerService.save(new Customer("test1"));
 
         // when
-        Optional<Customer> optionalCustomer = customerManager.findCustomerByName("test1");
+        Optional<Customer> optionalCustomer = customerService.findCustomerByName("test1");
         assert optionalCustomer.isPresent();
 
         // then

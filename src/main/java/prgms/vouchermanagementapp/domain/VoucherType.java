@@ -1,17 +1,20 @@
 package prgms.vouchermanagementapp.domain;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 public enum VoucherType {
-    FixedAmountVoucher(1),
-    PercentDiscountVoucher(2);
+    FIXED_AMOUNT_VOUCHER(1, "FixedAmountVoucher"),
+    PERCENT_DISCOUNT_VOUCHER(2, "PercentDiscountVoucher");
 
     private final int index;
+    private final String typeLiteral;
 
-    VoucherType(int index) {
+    VoucherType(int index, String typeLiteral) {
         this.index = index;
+        this.typeLiteral = typeLiteral;
     }
 
     public static List<VoucherType> getValues() {
@@ -22,6 +25,16 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> index.equals(String.valueOf(voucherType.index)))
                 .findFirst();
+    }
+
+    public static String toTypeLiteral(String voucherTypeLiteral) {
+        return Arrays.stream(VoucherType.values())
+                .map(voucherType -> voucherType.typeLiteral)
+                .filter(typeLiteral -> typeLiteral.equals(voucherTypeLiteral))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        MessageFormat.format("voucherType ''{0}'' doesn't exist!", voucherTypeLiteral))
+                );
     }
 
     public boolean is(VoucherType voucherType) {

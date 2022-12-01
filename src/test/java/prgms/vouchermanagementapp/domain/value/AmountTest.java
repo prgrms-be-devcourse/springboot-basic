@@ -27,7 +27,7 @@ class AmountTest {
         Amount amount = new Amount(number);
 
         // then
-        assertThat(amount.getAmount()).isEqualTo(number);
+        assertThat(amount.getFixedDiscountLevel()).isEqualTo(number);
     }
 
     @DisplayName("음의 정수에 대해 금액 객체를 생성할 수 없다. (생성 시 IllegalArgumentException 발생)")

@@ -2,10 +2,12 @@ package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
-import prgms.vouchermanagementapp.domain.VoucherRecord;
+import prgms.vouchermanagementapp.domain.Voucher;
 import prgms.vouchermanagementapp.domain.value.Amount;
 import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.repository.util.FileManager;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -68,8 +70,8 @@ public class IoManager {
         writer.printExitMessage();
     }
 
-    public void showVoucherRecord(VoucherRecord voucherRecord) {
-        writer.printVoucherRecord(voucherRecord);
+    public void showVoucherRecord(List<Voucher> voucherRecords) {
+        writer.printVoucherRecord(voucherRecords);
     }
 
     public void notifyErrorOccurred(String errorMessage) {
@@ -77,7 +79,7 @@ public class IoManager {
     }
 
     public void showBlacklist() {
-        writer.printFileContents(fileManager.getFileByPath(fileConfig.getCustomerBlacklist()));
+//        writer.printFileContents(fileManager.getFileByPath(fileConfig.getCustomerBlacklist()));
     }
 
     public String askCustomerName() {

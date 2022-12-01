@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../static/css/bootstrap.min.css"
+          rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .container {
+            max-width: 900px;
+        }
+    </style>
+    <title>바우처 목록</title>
+</head>
+<body>
+<div class="container" style="max-width: 900px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='voucherAddForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/add}'|"
+                    type="button">
+                바우처 생성
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>바우처 종류</th>
+                <th>할인 정도</th>
+                <th>생성 시각</th>
+            </tr>
+            </thead>
+            <!-- 바우처 목록 -->
+            <tbody>
+            <tr th:each="voucher: ${vouchers}">
+                <td>
+                    <a href="voucherDetail.html"
+                       th:href="@{/voucher/voucherList/{voucherId}(voucherId=${voucher.voucherId})}"
+                       th:text="${voucher.voucherId}">1</a>
+                </td>
+                <td><a th:text="${voucher.voucherType}">FixedAmountVoucher</a></td>
+                <td th:text="${voucher.discountLevel}">10000원</td>
+                <td th:text="${voucher.createdDateTime}">22.11.25 10:34:51</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../../static/css/bootstrap.min.css"
+          rel="stylesheet"
+          th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>바우처 상세 정보</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 상세 정보</h2>
+    </div>
+
+    <!-- 저장 완료 확인 텍스트-->
+    <h2 th:if="${param.status}" th:text="'바우처 생성 완료!'"></h2>
+    <h2 th:if="${param.updateStatus}" th:text="'바우처 수정 완료!'"></h2>
+
+    <div>
+        <label for="voucherId">바우처 ID</label>
+        <input class="form-control" id="voucherId" name="voucherId" readonly th:value="${voucher.voucherId}" type="text"
+               value="1">
+    </div>
+    <div>
+        <label for="voucherType">바우처 타입</label>
+        <input class="form-control" id="voucherType" name="voucherType" readonly th:value="${voucher.voucherType}" type="text"
+               value="FixedAmountVoucher">
+    </div>
+    <div>
+        <label for="discountLevel">할인 정도</label>
+        <input class="form-control" id="discountLevel" name="discountLevel" readonly th:value="${voucher.discountLevel}" type="text"
+               value="30000원">
+    </div>
+    <div>
+        <label for="createdDateTime">생성 시각</label>
+        <input class="form-control" id="createdDateTime" name="createdDateTime" readonly th:value="${voucher.createdDateTime}" type="text"
+               value="22.11.25 10:34:51">
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/{voucherId}/edit(voucherId=${voucher.voucherId})}'|"
+                    type="button">바우처 수정
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-danger btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList/{voucherId}/delete(voucherId=${voucher.voucherId})}'|"
+                    type="button">바우처 삭제
+            </button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='voucherList.html'"
+                    th:onclick="|location.href='@{/voucher/voucherList}'|"
+                    type="button">목록으로
+            </button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -1,14 +1,11 @@
 package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.*;
+import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.repository.util.VoucherContentConverter;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class Writer {
@@ -87,53 +84,12 @@ public class Writer {
         System.out.println(ERROR + errorMessage);
     }
 
-    public void printVoucherRecord(VoucherRecord voucherRecord) {
+    public void printVoucherRecord(List<Voucher> voucherRecords) {
         printBlankLine();
 
-        if (voucherRecord.isFile()) {
-            printFileVoucherRecord((FileVoucherRecord) voucherRecord);
-            return;
-        }
-        printMemoryVoucherRecord(((MemoryVoucherRecord) voucherRecord).getMemoryVouchers());
-    }
-
-    private void printFileVoucherRecord(FileVoucherRecord voucherRecord) {
-        File file = new File(voucherRecord.getFilePath());
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-//        Objects.requireNonNull()
-    }
-
-    public void printMemoryVoucherRecord(List<Voucher> list) {
-        if (list.isEmpty()) {
-            System.out.println(NO_VOUCHER_EXISTS);
-            return;
-        }
-
-        AtomicInteger index = new AtomicInteger();
-        list.forEach((voucher) -> {
-            String prompt = index.incrementAndGet() + BLANK + voucher.getClass().toString();
-            System.out.println(prompt);
-        });
-    }
-
-    public void printFileContents(File file) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        voucherRecords.stream()
+                .map(VoucherContentConverter::toContent)
+                .forEach(System.out::println);
     }
 
     public void printCustomerGuide() {

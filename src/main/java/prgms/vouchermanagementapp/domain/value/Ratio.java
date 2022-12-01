@@ -3,7 +3,7 @@ package prgms.vouchermanagementapp.domain.value;
 import java.text.MessageFormat;
 import java.util.Objects;
 
-public class Ratio {
+public class Ratio implements FixedDiscountLevel {
 
     private final long ratio;
 
@@ -17,7 +17,8 @@ public class Ratio {
         this.ratio = ratio;
     }
 
-    public long getRatio() {
+    @Override
+    public long getFixedDiscountLevel() {
         return this.ratio;
     }
 
