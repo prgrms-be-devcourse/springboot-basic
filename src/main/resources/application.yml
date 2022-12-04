@@ -10,6 +10,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root1234!
+    hikari:
+      maximum-pool-size: 20
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  thymeleaf:
+    prefix: classpath:/static/
 logging:
   level:
     com:
@@ -21,7 +29,7 @@ logging:
     jdbc:
       audit: OFF
     root:
-      error
+      debug
 ---
 # local
 spring:
