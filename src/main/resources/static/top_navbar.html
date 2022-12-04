@@ -1,0 +1,15 @@
+<div th:fragment="navbar">
+<nav class="navbar navbar-expand-xl navbar-light">
+    <a class="navbar-brand" th:href="@{/}"><img th:src="@{/img/logo.png}" class="img-fluid rounded" width="192" height="108" alt="배경"></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/customers">Customer List</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/vouchers">Voucher List</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+</div>

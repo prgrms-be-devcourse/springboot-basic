@@ -31,6 +31,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     private final ObjectMapper objectMapper;
     private final Logger logger = LoggerFactory.getLogger(JdbcTemplateVoucherRepository.class);
 
+
     public JdbcTemplateVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         this.jdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getJdbcTemplate())
@@ -42,15 +43,14 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM VOUCHERS", voucherRowMapper());
+        return jdbcTemplate.query("SELECT VOUCHER_ID, VOUCHER_TYPE, AMOUNT, CREATED_AT FROM VOUCHERS", voucherRowMapper());
     }
-
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject
-                    ("SELECT * FROM VOUCHERS WHERE VOUCHER_ID = :voucherId"
+                    ("SELECT VOUCHER_ID, VOUCHER_TYPE, AMOUNT, CREATED_AT FROM VOUCHERS WHERE VOUCHER_ID = :voucherId"
                             , Collections.singletonMap("voucherId", voucherId.toString())
                             , voucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -63,7 +63,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         try {
             return jdbcTemplate.query
-                    ("SELECT * FROM VOUCHERS WHERE CUSTOMER_ID = :customerId"
+                    ("SELECT V.VOUCHER_TYPE, V.AMOUNT, V.CREATED_AT, V.VOUCHER_ID, W.CUSTOMER_ID FROM VOUCHERS V JOIN WALLET W on V.VOUCHER_ID = W.VOUCHER_ID WHERE W.CUSTOMER_ID = :customerId"
                             , Collections.singletonMap("customerId", customerId.toString())
                             , voucherRowMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -77,10 +77,11 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         try {
             jdbcInsert.execute(new BeanPropertySqlParameterSource(voucher));
         } catch (DuplicateKeyException e) {
-            logger.error("duplicated key exception occurred");
+            logger.error("Duplicated key exception occurred");
         }
         return voucher;
     }
+
 
     @Override
     public UUID deleteById(UUID voucherId) {
@@ -91,16 +92,29 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public UUID deleteByCustomerId(UUID customerId) {
-        jdbcTemplate.update("DELETE FROM VOUCHERS WHERE CUSTOMER_ID =:customerId",
+        jdbcTemplate.update("DELETE V FROM VOUCHERS AS V JOIN WALLET W " +
+                        "ON V.VOUCHER_ID = W.VOUCHER_ID " +
+                        "WHERE W.CUSTOMER_ID =:customerId",
                 Collections.singletonMap("customerId", customerId.toString()));
         return customerId;
     }
 
     @Override
     public Voucher updateByCustomerId(Voucher voucher) {
-        jdbcTemplate.update("UPDATE VOUCHERS SET CUSTOMER_ID =:customerId WHERE VOUCHER_ID =:voucherId",
+        jdbcTemplate.update("INSERT INTO WALLET(VOUCHER_ID,CUSTOMER_ID) VALUES(:voucherId,:customerId)",
                 objectMapper.convertValue(voucher, Map.class));
         return voucher;
+    }
+
+
+    @Override
+    public UUID updateByCustomerId(UUID customerId, UUID voucherID) {
+        jdbcTemplate.update("INSERT INTO WALLET(VOUCHER_ID,CUSTOMER_ID) VALUES(:voucherId,:customerId)",
+                Map.of(
+                        "customerId", customerId.toString(),
+                        "voucherID", voucherID.toString()
+                ));
+        return customerId;
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

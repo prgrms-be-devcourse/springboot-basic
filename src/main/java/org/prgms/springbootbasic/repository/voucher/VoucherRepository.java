@@ -19,4 +19,6 @@ public interface VoucherRepository {
     UUID deleteByCustomerId(UUID customerId);
 
     Voucher updateByCustomerId(Voucher voucher);
+
+    UUID updateByCustomerId(UUID customerId, UUID voucherID);
 }

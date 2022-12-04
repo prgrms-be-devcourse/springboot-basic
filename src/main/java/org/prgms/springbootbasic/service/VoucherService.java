@@ -55,4 +55,8 @@ public class VoucherService {
     public Voucher allocateVoucher(Voucher voucher) {
         return voucherRepository.updateByCustomerId(voucher);
     }
+
+    public UUID allocateVoucher(UUID customerId, UUID voucherId) {
+        return voucherRepository.updateByCustomerId(customerId, voucherId);
+    }
 }

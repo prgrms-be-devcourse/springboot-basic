@@ -1,0 +1,1 @@
+document.getElementById("clock").style.backgroundImage = "url('https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg')";

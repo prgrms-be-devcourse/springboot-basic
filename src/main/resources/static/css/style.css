@@ -1,0 +1,14 @@
+#clock {
+    font-size: 36px;
+    text-align: center;
+    color: darkturquoise;
+    width: 100%;
+    min-height: 400px;
+    height:400px;
+    margin-top: 50px;
+}
+
+#clock img {
+    width: 100%;
+    height: 100%;
+}

@@ -1,11 +1,14 @@
 package org.prgms.springbootbasic.repository.voucher;
 
 import org.prgms.springbootbasic.domain.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+
 @Repository
+@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> memoryCache = new HashMap<>();
@@ -60,5 +63,10 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public Voucher updateByCustomerId(Voucher voucher) {
         return voucher;
+    }
+
+    @Override
+    public UUID updateByCustomerId(UUID customerId, UUID voucherID) {
+        return customerId;
     }
 }

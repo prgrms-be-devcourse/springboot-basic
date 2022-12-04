@@ -1,50 +1,67 @@
 package org.prgms.springbootbasic.controller;
 
 
-import org.prgms.springbootbasic.domain.customer.BlacklistedCustomer;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.customer.CustomerCreateDTO;
-import org.prgms.springbootbasic.service.BlacklistedCustomerService;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Controller
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final BlacklistedCustomerService blacklistedCustomerService;
 
 
-    public CustomerController(CustomerService customerService, BlacklistedCustomerService blacklistedCustomerService) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.blacklistedCustomerService = blacklistedCustomerService;
     }
 
-    public List<Customer> customerList() {
-        return customerService.findAll();
+    @GetMapping("/customers")
+    public String customerList(Model model) {
+        model.addAttribute("customers", customerService.findAll());
+        return "customer";
     }
 
-    public Customer createCustomer(CustomerCreateDTO customerCreateDTO) {
-        return customerService.createCustomer(customerCreateDTO);
+    @GetMapping("/customers/new")
+    public String createCustomerForm() {
+        return "create_customer";
     }
 
-    public Customer updateLastLoginTime(Customer customer) {
-        return customerService.updateLastLoginAt(customer);
+    @PostMapping("/customers/new")
+    public String createCustomer(CustomerCreateDTO customerCreateDTO) {
+        customerService.createCustomer(customerCreateDTO);
+        return "redirect:/customers";
     }
 
-    public Optional<Customer> findOneCustomer(UUID customerId) {
-        return customerService.findOneCustomer(customerId);
+    public void updateLastLoginTime(Customer customer) {
+        customerService.updateLastLoginAt(customer);
     }
 
-    public List<BlacklistedCustomer> blacklistedCustomerList() {
-        return blacklistedCustomerService.findAll();
+    @GetMapping("customers/detail/{customerId}")
+    public String findOneCustomer(@PathVariable UUID customerId, Model model) {
+        Customer customer = customerService.findOneCustomer(customerId).orElseThrow(NoSuchElementException::new);
+        this.updateLastLoginTime(customer);
+        model.addAttribute("customer", customer);
+        return "customer_detail";
     }
 
-    public List<Customer> findCustomers(UUID voucherId) {
-        return customerService.findCustomers(voucherId);
+    @GetMapping("customers/{voucherId}")
+    public String findCustomers(@PathVariable UUID voucherId, Model model) {
+        model.addAttribute("customers", customerService.findCustomers(voucherId));
+        return "voucher_detail";
+    }
+
+    @DeleteMapping("/customers/detail/{customerId}")
+    public String deleteCustomer(@PathVariable String customerId) {
+        customerService.deleteCustomer(UUID.fromString(customerId));
+        return "redirect:/customers";
     }
 }

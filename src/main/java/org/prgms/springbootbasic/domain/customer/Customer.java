@@ -42,6 +42,30 @@ public class Customer {
         return lastLoginAt;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this) {
+            return true;
+        }
+
+        if(!(obj instanceof Customer)) {
+            return false;
+        }
+
+        Customer c = (Customer) obj;
+
+        return c.customerId.equals(((Customer) obj).customerId) && c.email.equals(((Customer) obj).email);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     @Override
     public String toString() {
         return "Customer{" +

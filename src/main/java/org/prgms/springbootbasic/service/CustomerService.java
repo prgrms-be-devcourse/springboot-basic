@@ -39,4 +39,8 @@ public class CustomerService {
     public List<Customer> findCustomers(UUID voucherId) {
         return customerRepository.findByVoucherId(voucherId);
     }
+
+    public UUID deleteCustomer(UUID customerId) {
+        return customerRepository.deleteById(customerId);
+    }
 }

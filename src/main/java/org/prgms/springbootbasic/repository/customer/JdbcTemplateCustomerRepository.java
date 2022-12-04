@@ -6,6 +6,7 @@ import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.exception.NoAffectedRowException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +20,7 @@ import javax.sql.DataSource;
 import java.util.*;
 
 @Repository
+@Primary
 public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     private static final String[] CUSTOMERS_COLUMNS = {"customer_id", "name", "email", "created_at", "last_login_at"};
@@ -36,6 +38,7 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
     private final ObjectMapper objectMapper;
     private final SimpleJdbcInsert jdbcInsert;
     private final Logger logger = LoggerFactory.getLogger(JdbcTemplateCustomerRepository.class);
@@ -92,14 +95,15 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM CUSTOMERS", customerRowMapper);
+        return jdbcTemplate.query("SELECT CUSTOMER_ID, NAME, EMAIL, LAST_LOGIN_AT, CREATED_AT FROM CUSTOMERS", customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject
-                    ("SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = :customerId"
+                    ("SELECT CUSTOMER_ID, NAME, EMAIL, LAST_LOGIN_AT, CREATED_AT " +
+                                    "FROM CUSTOMERS WHERE CUSTOMER_ID = :customerId"
                             , Collections.singletonMap("customerId", customerId.toString())
                             , customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -112,7 +116,8 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     public Optional<Customer> findByEmail(String email) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject
-                    ("SELECT * FROM CUSTOMERS WHERE EMAIL = :email"
+                    ("SELECT CUSTOMER_ID, NAME, EMAIL, LAST_LOGIN_AT, CREATED_AT " +
+                                    "FROM CUSTOMERS WHERE EMAIL = :email"
                             , Collections.singletonMap("email", email)
                             , customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -125,22 +130,27 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findByVoucherId(UUID voucherId) {
+        List<Customer> customerList = Collections.emptyList();
         try {
-            return jdbcTemplate.query
+            customerList = jdbcTemplate.query
                     ("""
-                                    SELECT
-                                        C.CUSTOMER_ID, C.NAME, C.EMAIL, C.LAST_LOGIN_AT, C.CREATED_AT
-                                    FROM voucher.VOUCHERS V
-                                        LEFT JOIN voucher.CUSTOMERS C
-                                        ON C.CUSTOMER_ID = V.CUSTOMER_ID
-                                    WHERE V.VOUCHER_ID = :voucherId;
-                                    """
-                            , Collections.singletonMap("voucherId", voucherId.toString())
-                            , customerRowMapper);
+                        SELECT
+                            C.CUSTOMER_ID, C.NAME, C.EMAIL, C.LAST_LOGIN_AT, C.CREATED_AT
+                        FROM voucher.VOUCHERS V
+                            LEFT JOIN WALLET W
+                                ON V.VOUCHER_ID = W.VOUCHER_ID
+                            LEFT JOIN voucher.CUSTOMERS C
+                                ON C.CUSTOMER_ID = W.CUSTOMER_ID
+                        WHERE V.VOUCHER_ID = :voucherId;
+                        """
+                        , Collections.singletonMap("voucherId", voucherId.toString())
+                        , customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Collections.emptyList();
         }
+
+        return customerList;
     }
 
     @Override
