@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.repository.voucher;
 
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.util.VoucherFileManipulator;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PreDestroy;
@@ -9,6 +10,7 @@ import java.util.*;
 
 
 @Repository
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> memoryCache;
@@ -77,5 +79,10 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher updateByCustomerId(Voucher voucher) {
         return voucher;
+    }
+
+    @Override
+    public UUID updateByCustomerId(UUID customerId, UUID voucherID) {
+        return customerId;
     }
 }
