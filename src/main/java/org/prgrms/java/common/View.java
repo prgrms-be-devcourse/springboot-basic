@@ -12,7 +12,7 @@ public class View {
         return scanner.nextLine();
     }
 
-    public <T> void print(T object) {
+    public void print(Object object) {
         System.out.println(object.toString());
     }
 }
