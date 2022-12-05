@@ -14,17 +14,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework:spring-oxm'
-	implementation 'com.thoughtworks.xstream:xstream:1.4.19'
-	implementation 'com.wix:wix-embedded-mysql:4.6.2'
-	implementation 'mysql:mysql-connector-java'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.testcontainers:testcontainers:1.17.6'
-	testImplementation 'org.testcontainers:junit-jupiter:1.17.6'
-	testImplementation 'org.testcontainers:mysql:1.17.6'
 }
 
 tasks.named('test') {
