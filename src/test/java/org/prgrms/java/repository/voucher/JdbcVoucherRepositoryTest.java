@@ -1,27 +1,44 @@
 package org.prgrms.java.repository.voucher;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import static org.junit.jupiter.api.Assertions.*;
+@Testcontainers
+class JdbcVoucherRepositoryTest {
+    @Container
+    private static final MySQLContainer<?> MY_SQL_CONTAINER = new MySQLContainer<>("mysql:8.0.24")
+            .withInitScript("schema.sql")
+            .withUsername("test")
+            .withPassword("test1234!");
 
-class MemoryVoucherRepositoryTest {
-    private static final VoucherRepository voucherRepository = new MemoryVoucherRepository();
+    public DataSource dataSource = DataSourceBuilder.create()
+            .driverClassName(MY_SQL_CONTAINER.getDriverClassName())
+            .url(MY_SQL_CONTAINER.getJdbcUrl())
+            .username(MY_SQL_CONTAINER.getUsername())
+            .password(MY_SQL_CONTAINER.getPassword())
+            .build();
+
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+
+    public VoucherRepository voucherRepository = new JdbcVoucherRepository(namedParameterJdbcTemplate);
 
     @BeforeEach
-    @AfterEach
     void clean() {
         voucherRepository.deleteAll();
     }
