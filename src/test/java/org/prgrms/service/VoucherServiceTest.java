@@ -33,22 +33,6 @@ class VoucherServiceTest {
     @Mock
     private VoucherDBMemory voucherDBMemory;
 
-
-    @DisplayName("바우처를 생성한다")
-    @Test
-    void createVoucher() {
-        //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(200L),
-            LocalDateTime.now().withNano(0));
-
-        //mocking
-        when(voucherService.save(voucher)).thenReturn(voucher);
-
-        //when&then
-        Voucher save = voucherService.save(voucher);
-        assertEquals(voucher, save);
-    }
-
     @DisplayName("id로 바우처를 찾아 리턴한다")
     @Test
     void findById() {
@@ -57,7 +41,7 @@ class VoucherServiceTest {
             LocalDateTime.now().withNano(0));
 
         //mocking
-        when(voucherService.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+        when(voucherDBMemory.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
 
         //when&then
         Optional<Voucher> byId = voucherService.findById(voucher.getVoucherId());
@@ -74,7 +58,7 @@ class VoucherServiceTest {
             LocalDateTime.now().withNano(0));
 
         //mocking
-        when(voucherService.findAll()).thenReturn(List.of(voucher1, voucher2));
+        when(voucherDBMemory.findAll()).thenReturn(List.of(voucher1, voucher2));
 
         //when&then
         List<Voucher> all = voucherService.findAll();
