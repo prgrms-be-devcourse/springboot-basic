@@ -1,5 +1,6 @@
 package org.prgrms.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.prgrms.exception.NotFoundVoucherException;
@@ -48,7 +49,7 @@ public class VoucherController {
     }
 
     @PostMapping("/createVoucher")
-    public String createVoucher(VoucherDTO voucherDTO, Model model) {
+    public String createVoucher(@Valid VoucherDTO voucherDTO, Model model) {
         Voucher voucher = voucherService.save(voucherDTO);
 
         model.addAttribute("voucher", voucher);

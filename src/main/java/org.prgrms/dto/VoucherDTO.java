@@ -1,3 +1,5 @@
 package org.prgrms.dto;
 
-public record VoucherDTO(String type, long amount) { }
+import jakarta.validation.constraints.NotNull;
+
+public record VoucherDTO(@NotNull String type, @NotNull long amount) { }

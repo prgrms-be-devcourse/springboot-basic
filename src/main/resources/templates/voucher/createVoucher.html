@@ -30,19 +30,19 @@
 
   <h4 class="mb-3">바우처 입력</h4>
 
-  <form th:action method="post">
+  <form th:action method="post" class="form">
     <span>voucher Type</span>
     <div class="voucherType">
       <div class="form-check" style="margin-right: 105px;">
-        <input class="form-check-input" type="checkbox" value="FIXED" id="flexCheckDefault"
-               onclick="checkOnlyOne(this)" name="type">
+        <input class="form-check-input check" type="radio" value="FIXED" id="flexCheckDefault"
+               name="type">
         <label class="form-check-label" for="flexCheckDefault">
           FixedAmount Voucher
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="PERCENT" id="flexCheckChecked"
-               onclick="checkOnlyOne(this)" name="type">
+        <input class="form-check-input check" type="radio" value="PERCENT" id="flexCheckChecked"
+               name="type">
         <label class="form-check-label" for="flexCheckChecked">
           PercentAmount Voucher
         </label>
@@ -51,7 +51,8 @@
 
     <div>
       <label for="amount">가격</label>
-      <input type="text" id="amount" class="form-control" placeholder="가격을 입력하세요" name="amount">
+      <input type="number" id="amount" min="1" class="form-control amount" placeholder="가격을 입력하세요"
+             name="amount">
     </div>
 
 
@@ -59,7 +60,7 @@
 
     <div class="row">
       <div class="col">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">바우처 등록</button>
+        <button class="w-100 btn btn-primary btn-lg create " type="submit">바우처 등록</button>
       </div>
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
@@ -71,20 +72,45 @@
 
   </form>
 
-</div> <!-- /container -->
+</div>
 </body>
-<script>
-  function checkOnlyOne(element) {
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-    const checkboxes
-        = document.getElementsByName("voucher");
+<script th:inline="javascript">
 
-    checkboxes.forEach((cb) => {
-      cb.checked = false;
-    })
+  $(document).ready(function () {
 
-    element.checked = true;
-  }
+    $('input[type="radio"]').change(function () {
+      let $check_val = $('input[type="radio"]:checked').val();
+      console.log($check_val);
+      if ($check_val === "PERCENT") {
+        console.log("ddd");
+        $(".amount").attr("max", 100);
+      } else {
+        $(".amount").removeAttr("max");
+      }
+    });
+
+    $(".form").submit(function (event) {
+
+      let $amount = $('.amount').val();
+
+      if ($('.check').is(':checked') === false) {
+        alert("바우처 타입을 선택해주세요");
+        event.preventDefault();
+        return;
+      }
+
+      if ($amount == "") {
+        alert("할인금액을 입력해주세요");
+        event.preventDefault();
+        return;
+      }
+
+    });
+
+  });
+
 
 </script>
 </html>
