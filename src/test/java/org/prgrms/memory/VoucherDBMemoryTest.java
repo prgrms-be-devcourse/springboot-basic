@@ -40,7 +40,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ActiveProfiles("jdbc")
 public class VoucherDBMemoryTest {
 
-    EmbeddedMysql embeddedMysql;
+    private EmbeddedMysql embeddedMysql;
 
     @BeforeAll
     void setup() {
@@ -167,7 +167,7 @@ public class VoucherDBMemoryTest {
         assertEquals(updateAmount, updatedVoucher);
     }
 
-    @DisplayName("존재하지 않는 Id로 업데이트 시 NoSuchElementException을 던진다.")
+    @DisplayName("존재하지 않는 Id로 업데이트 시 NoSuchElementException 을 던진다.")
     @Test
     void test6_1() {
         //given
@@ -178,5 +178,38 @@ public class VoucherDBMemoryTest {
         assertThrows(NoSuchElementException.class, () -> memory.update(updateAmount));
     }
 
+    @DisplayName("정해진 기간범주에 해당하는 바우처를 리턴한다")
+    @Test
+    void test7() {
+        //given
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
+        Voucher voucher2 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
+        memory.save(voucher1);
+        memory.save(voucher2);
+        //when
+        List<Voucher> byCreateDate = memory.findByCreateDate(voucher1.getDate().toString(),
+            voucher2.getDate().toString());
+        //then
+        assertThat(byCreateDate).contains(voucher1, voucher2);
+    }
+
+    @DisplayName("타입별 바우처를 리턴한다")
+    @Test
+    void test8() {
+        //given
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), new DiscountAmount(1000L),
+            LocalDateTime.now());
+        String fixed = "FIXED";
+        memory.save(voucher1);
+        memory.save(voucher2);
+        //when
+        List<Voucher> byType = memory.findByType(fixed);
+        //then
+        assertEquals(byType.size(), 1);
+    }
 
 }

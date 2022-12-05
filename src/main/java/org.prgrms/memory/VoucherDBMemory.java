@@ -4,6 +4,8 @@ import static org.prgrms.memory.query.VoucherSQL.DELETE_ALL;
 import static org.prgrms.memory.query.VoucherSQL.DELETE_BY_ID;
 import static org.prgrms.memory.query.VoucherSQL.FIND_ALL;
 import static org.prgrms.memory.query.VoucherSQL.FIND_BY_ID;
+import static org.prgrms.memory.query.VoucherSQL.FIND_BY_PERIOD;
+import static org.prgrms.memory.query.VoucherSQL.FIND_BY_TYPE;
 import static org.prgrms.memory.query.VoucherSQL.INSERT;
 import static org.prgrms.memory.query.VoucherSQL.UPDATE;
 
@@ -107,4 +109,17 @@ public class VoucherDBMemory implements Memory {
         }
         return voucher;
     }
+
+    public List<Voucher> findByCreateDate(String startDate, String endDate) {
+        Map<String, String> paramMap = Map.of(
+            "startDate", startDate,
+            "endDate", endDate
+        );
+        return jdbcTemplate.query(FIND_BY_PERIOD.getSql(), paramMap, voucherRowMapper);
+    }
+
+    public List<Voucher> findByType(String type) {
+        return jdbcTemplate.query(FIND_BY_TYPE.getSql(), Map.of("type", type.toUpperCase()), voucherRowMapper);
+    }
+
 }
