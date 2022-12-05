@@ -40,7 +40,7 @@ public enum VoucherType {
 
     public static VoucherType of(String choice) {
         return Stream.of(VoucherType.values())
-            .filter(voucher -> choice.contains(voucher.name()))
+            .filter(voucher -> choice.toUpperCase().contains(voucher.name()))
             .findAny()
             .orElseThrow(() -> new NoSuchVoucherTypeException(choice));
     }
