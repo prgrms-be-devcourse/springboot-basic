@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>에러페이지</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+      href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+      rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/vouchers">
+      <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+      </div>
+      <div class="sidebar-brand-text mx-3">바우처!!!</sup></div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link" href="/vouchers">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>Dashboard</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+      Interface
+    </div>
+
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/block-customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>블랙리스트 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" th:href="@{/vouchers}">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-voucher">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 생성</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers/assign">
+        <i class="fas fa-fw fa-table"></i>
+        <span>바우처 할당</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/customers">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 조회</span></a>
+    </li>
+
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+      <a class="nav-link" href="/new-customer">
+        <i class="fas fa-fw fa-table"></i>
+        <span>고객 생성</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+
+  </ul>
+  <!-- End of Sidebar -->
+
+  <div id="content-wrapper" class="d-flex flex-column">
+
+    <div id="content" class="container-fluid justify-content-center align-items-center">
+
+      <div class="container-fluid">
+        <div class="d-sm-flex align-items-center justify-content-md-center">
+          <h1 class="h3 mb-0 text-gray-800">에러 페이지</h1>
+
+        </div>
+        <div class="container-fluid justify-content-md-center">
+          <form>
+            <div class="mb-3">
+              <label for="errorMessage" class="form-label">Error Message</label>
+              <input type="text" class="form-control" id="errorMessage"
+                     th:value="${errorResponse.errorMessage}" value="error" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="statusCode" class="form-label">Status Code</label>
+              <input type="text" class="form-control" id="statusCode"
+                     th:value="${errorResponse.statusCode}" value="error" disabled>
+            </div>
+
+            <div class="mb-3">
+              <label for="requestUri" class="form-label">Request Uri</label>
+              <input type="text" class="form-control" id="requestUri"
+                     th:value="${errorResponse.requestUri}" value="error" disabled>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

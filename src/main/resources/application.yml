@@ -1,25 +1,14 @@
 
 
-spring:
-  config:
-    activate:
-      on-profile: local
-
-
----
 
 spring:
-  config:
-    activate:
-      on-profile: dev
+  profiles:
+    include:
+      - db
+  main:
+    allow-bean-definition-overriding: true
 
-file:
-  block-customer:
-    path: store/
-    stored-name: customer_blacklist
-    stored-extension: .csv
 
-  voucher:
-    path: store/
-    stored-name: voucher
-    stored-extension: .csv
+  thymeleaf:
+    cache: false
+
