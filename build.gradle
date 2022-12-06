@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '16'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
