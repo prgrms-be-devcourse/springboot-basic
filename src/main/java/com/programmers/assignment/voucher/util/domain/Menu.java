@@ -4,8 +4,9 @@ import java.util.Arrays;
 
 public enum Menu {
     EXIT("EXIT"),
-    CREATE("CREATE"),
-    LIST("LIST");
+    CREATE_VOUCHER("CREATE VOUCHER"),
+    LIST("LIST"),
+    CREATE_CUSTOMER("CREATE CUSTOMER");
 
     private final String commandInput;
 
@@ -22,7 +23,7 @@ public enum Menu {
         return getMenu(commandInput).toString();
     }
 
-    private static Menu getMenu(String command) {
+    public static Menu getMenu(String command) {
         return Arrays.stream(values())
                 .filter(o -> o.commandInput.equals(command))
                 .findFirst()

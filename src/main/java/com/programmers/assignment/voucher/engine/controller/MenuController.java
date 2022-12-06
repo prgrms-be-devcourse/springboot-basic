@@ -1,17 +1,19 @@
 package com.programmers.assignment.voucher.engine.controller;
 
-import com.programmers.assignment.voucher.VoucherApplication;
+import com.programmers.assignment.voucher.engine.service.CustomerService;
 import com.programmers.assignment.voucher.engine.service.MenuService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 
 
+@Controller
 public class MenuController {
     private final MenuService menuService;
+    private final CustomerService customerService;
 
 
-    public MenuController(MenuService menuService) {
+    public MenuController(MenuService menuService, CustomerService customerService) {
         this.menuService = menuService;
+        this.customerService = customerService;
     }
 
 
@@ -19,9 +21,9 @@ public class MenuController {
         return menuService.inputCommand();
     }
 
-
-    public void createCommand() {
-        menuService.createVoucher();
+    public String createVoucherCommand() {
+        String discountWay = menuService.createVoucher();
+        return discountWay;
     }
 
     public void listCommand() {
@@ -30,5 +32,9 @@ public class MenuController {
 
     public void exitCommand() {
         menuService.exitApplication();
+    }
+    
+    public void createCustomerCommand() {
+        customerService.createCustomer();
     }
 }
