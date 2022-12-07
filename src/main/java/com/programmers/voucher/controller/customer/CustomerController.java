@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/customer/")
+@RequestMapping("/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -25,6 +25,6 @@ public class CustomerController {
     @PostMapping
     public String create(CustomerCreateRequest customerCreateRequest) {
         customerService.create(customerCreateRequest);
-        return "redirect:/";
+        return "redirect:/vouchers";
     }
 }

@@ -34,7 +34,7 @@
             <td th:text="*{class.simpleName}"></td>
             <td th:text="*{discountValue}"></td>
             <td th:if="${customer == null}">
-                <a th:href="@{/assign/{id}(id=${voucher.voucherId})}">
+                <a th:href="@{/vouchers/assign/{id}(id=${voucher.voucherId})}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-bag-check" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -59,18 +59,18 @@
     <button th:unless="${customer == null}" th:email="${customer.email}" class="btn btn-primary" type="button" onclick="deleteByEmail(this.getAttribute('email'))">
         내 바우처 전체삭제
     </button>
-    <button class="btn btn-primary" type="button" onclick="window.location.href='/'">확인</button>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers'">확인</button>
 </div>
 
 <script type="text/javascript">
     function findById(value) {
-        location.href = "/voucher/" + value;
+        location.href = "/vouchers/" + value;
     }
 
     function deleteById(value) {
         let answer = confirm("삭제할까요?");
         if (answer) {
-            axios.delete('/api/v1/voucher/' + value)
+            axios.delete('/api/v1/vouchers/' + value)
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';
@@ -84,7 +84,7 @@
     function deleteAll() {
         let answer = confirm("모든 바우처를 삭제할까요?");
         if (answer) {
-            axios.delete('/api/v1/voucher')
+            axios.delete('/api/v1/vouchers')
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';
@@ -98,7 +98,7 @@
     function deleteByEmail(value) {
         let answer = confirm("보유한 바우처를 모두 삭제할까요?");
         if (answer) {
-            axios.delete('/api/v1/vouchers/' + value)
+            axios.delete('/api/v1/vouchers/email=' + value)
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';

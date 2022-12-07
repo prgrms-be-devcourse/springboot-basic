@@ -18,9 +18,9 @@
     <h2>환영합니다!</h2>
 </div>
 <div class="container">
-    <button class="btn btn-primary" type="button" onclick="window.location.href='/customer/'">회원가입</button>
-    <button class="btn btn-primary" type="button" onclick="window.location.href='/voucher'">바우처 생성하기</button>
-    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers'">바우처 목록보기</button>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='/customers'">회원가입</button>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers/add'">바우처 생성하기</button>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers/list'">바우처 목록보기</button>
     <button class="btn btn-primary" type="button" id="emailShow" data-bs-toggle="modal" data-bs-target="#emailModal">
         내 바우처 목록보기
     </button>
@@ -58,7 +58,7 @@
 
     function listByCustomer(){
         let email = $('#email').val();
-        window.location.href= "/vouchers/"+email;
+        window.location.href= "/vouchers/email="+email;
     }
 </script>
 </html>

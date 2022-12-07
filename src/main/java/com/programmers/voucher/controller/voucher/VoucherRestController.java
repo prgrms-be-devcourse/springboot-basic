@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherRestController {
     private final VoucherService voucherService;
 
@@ -19,50 +19,50 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("voucher")
-    public ResponseEntity<Voucher> create(VoucherCreateRequest voucherCreateRequest) {
+    @PostMapping("/add")
+    public ResponseEntity<Voucher> create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
         Voucher newVoucher = voucherService.create(voucherCreateRequest);
         return ResponseEntity.ok(newVoucher);
     }
 
-    @GetMapping("vouchers")
+    @GetMapping("/list")
     public ResponseEntity<List<Voucher>> findAll() {
         List<Voucher> vouchers = voucherService.findAll();
         return ResponseEntity.ok(vouchers);
     }
 
-    @GetMapping("voucher/{voucherId}")
+    @GetMapping("/{voucherId}")
     public ResponseEntity<Voucher> findById(@PathVariable UUID voucherId) {
         Voucher voucher = voucherService.findById(voucherId);
         return ResponseEntity.ok(voucher);
     }
 
-    @GetMapping("vouchers/{email}")
-    public ResponseEntity<List<Voucher>> findAllByCustomer(@PathVariable String email) {
+    @GetMapping
+    public ResponseEntity<List<Voucher>> findAllByCustomer(@RequestParam String email) {
         List<Voucher> vouchers = voucherService.findAllByCustomer(email);
         return ResponseEntity.ok(vouchers);
     }
 
-    @DeleteMapping("voucher/{voucherId}")
+    @DeleteMapping("/{voucherId}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID voucherId) {
         voucherService.deleteById(voucherId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("voucher")
+    @DeleteMapping
     public ResponseEntity<Void> deleteAll() {
         voucherService.deleteAll();
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("vouchers/{email}")
-    public ResponseEntity<Void> deleteByCustomer(@PathVariable String email) {
+    @DeleteMapping
+    public ResponseEntity<Void> deleteByCustomer(@RequestParam String email) {
         voucherService.deleteByCustomer(email);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("assign")
-    public ResponseEntity<Voucher> assign(VoucherAssignRequest voucherAssignRequest) {
+    @PostMapping("/assign")
+    public ResponseEntity<Voucher> assign(@RequestBody VoucherAssignRequest voucherAssignRequest) {
         Voucher assigned = voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());
         return ResponseEntity.ok(assigned);
     }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/vouchers")
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -31,25 +31,25 @@ public class VoucherController {
         return "main";
     }
 
-    @GetMapping("voucher")
+    @GetMapping("/add")
     public String create() {
         return "voucher/voucher_new";
     }
 
-    @PostMapping("voucher")
+    @PostMapping("/add")
     public String create(VoucherCreateRequest voucherCreateRequest) {
         voucherService.create(voucherCreateRequest);
-        return "redirect:/";
+        return "redirect:/vouchers";
     }
 
-    @GetMapping("vouchers")
+    @GetMapping("/list")
     public String findAll(Model model) {
         List<Voucher> vouchers = voucherService.findAll();
         model.addAttribute("vouchers", vouchers);
         return "voucher/voucher_list";
     }
 
-    @GetMapping("voucher/{voucherId}")
+    @GetMapping("/{voucherId}")
     public String findById(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
@@ -62,8 +62,8 @@ public class VoucherController {
         return "voucher/voucher_detail";
     }
 
-    @GetMapping("vouchers/{email}")
-    public String findAllByCustomer(@PathVariable String email, Model model) {
+    @GetMapping
+    public String findAllByCustomer(@RequestParam String email, Model model) {
         List<Voucher> vouchers = voucherService.findAllByCustomer(email);
         Customer customer = customerService.findByEmail(email);
         model.addAttribute("vouchers", vouchers);
@@ -71,22 +71,22 @@ public class VoucherController {
         return "voucher/voucher_list";
     }
 
-    @PutMapping("voucher")
+    @PutMapping
     public String update(VoucherUpdateRequest voucherUpdateRequest) {
         voucherService.update(voucherUpdateRequest);
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/list";
     }
 
-    @GetMapping("assign/{voucherId}")
+    @GetMapping("/assign/{voucherId}")
     public String assign(@PathVariable UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher/voucher_assign";
     }
 
-    @PostMapping("assign")
+    @PostMapping("/assign")
     public String assign(VoucherAssignRequest voucherAssignRequest) {
         voucherService.assign(voucherAssignRequest.voucherId(), voucherAssignRequest.email());
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/list";
     }
 }
