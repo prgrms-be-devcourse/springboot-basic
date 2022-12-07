@@ -12,6 +12,7 @@ public class Customer {
     private LocalDateTime lastLoginAt;
     private final LocalDateTime createdAt;
 
+
     public Customer(UUID customerUuid, String name, String email, LocalDateTime createdAt) {
         this.customerUuid = customerUuid;
         this.name = name;
@@ -52,7 +53,4 @@ public class Customer {
         return createdAt;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
