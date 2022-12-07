@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 바우처 상세 페이지</title>
+</head>
+<body>
+
+<h1>고객 바우처 상세 페이지</h1>
+
+<a th:href="@{/view/v1/home}">메인 페이지</a>
+<a th:href="@{add/{customerId}(customerId = ${customer.customerId})}">고객 바우처 등록 페이지</a>
+
+<h3 th:inline="text">
+    [[${customer.customerId}]]번 고객
+</h3>
+<p th:if="${saveResult}">바우처 등록에 성공 하였습니다.</p>
+<p th:if="${deleteResult}">바우처 삭제에 성공 하였습니다.</p>
+<p th:if="${deleteResult == false}">바우처 삭제에 실패 하였습니다.</p>
+<table border="1">
+    <thead>
+    <tr>
+        <td>바우처 번호</td>
+        <td>바우처 할인 금액</td>
+        <td>바우처 타입</td>
+        <td>바우처 삭제</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${customer.vouchers}">
+        <td th:text="${voucher.voucherId}"></td>
+        <td th:text="${voucher.discountValue}"></td>
+        <td th:text="${voucher.voucherType}"></td>
+        <td>
+            <form th:action="@{{customerId}/{voucherId}(customerId = ${customer.customerId}, voucherId = ${voucher.voucherId})}"
+                  th:method="DELETE">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

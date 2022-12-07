@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 관리 페이지</title>
+</head>
+<body>
+
+<h1>고객 관리 페이지</h1>
+<a th:href="@{/view/v1/home}">메인 페이지</a>
+<p th:if="${findResult == false}">고객 검색에 실패 하였습니다.</p>
+<form th:action="@{customers/search}" method="get">
+    <label for="customerId"></label>
+    <input type="text" name="customerId" id="customerId" placeholder="고객 번호를 입력해주세요."/>
+    <button type="submit">고객 검색</button>
+</form>
+<table border="1">
+    <thead>
+    <tr>
+        <td>고객 번호</td>
+        <td>고객 상태</td>
+        <td>고객 상세 페이지</td>
+        <td>고객 삭제</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.customerId}">
+            고객 번호
+        </td>
+        <td th:text="${customer.status}">고객 상태</td>
+        <td>
+            <a th:href="@{/view/v1/customers/vouchers/{customerId}(customerId = ${customer.customerId})}"
+               th:inline="text">
+                [[${customer.customerId}]]번 고객 상세 페이지
+            </a>
+        </td>
+        <td>
+            <form th:action="@{/view/v1/customers/{customerId}(customerId = ${customer.customerId})}" th:method="DELETE">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
