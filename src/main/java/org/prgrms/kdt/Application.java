@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
     public static void main(String[] args) {
         var springApplication = new SpringApplication(Application.class);
-        springApplication.setAdditionalProfiles("dev");
+        springApplication.setAdditionalProfiles("release");
         springApplication.run(args);
     }
 }
