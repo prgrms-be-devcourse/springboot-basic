@@ -13,7 +13,7 @@
 <div class="container">
     <h1>Taehee's Voucher Program</h1>
     <h2>바우처 목록</h2>
-    <h2 th:unless="${customer == null}" th:text="${customer.customerName}"/>
+    <h2 th:unless="${vouchers.get(0).customer == null}" th:text="${vouchers.get(0).customer.customerName}"/>
 </div>
 
 <div class="container">
@@ -59,7 +59,7 @@
     <button th:unless="${vouchers.get(0).customer == null}" th:email="${vouchers.get(0).customer.email}" class="btn btn-primary" type="button" onclick="deleteByEmail(this.getAttribute('email'))">
         내 바우처 전체삭제
     </button>
-    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers'">확인</button>
+    <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers/main'">확인</button>
 </div>
 
 <script type="text/javascript">
@@ -84,7 +84,7 @@
     function deleteAll() {
         let answer = confirm("모든 바우처를 삭제할까요?");
         if (answer) {
-            axios.delete('/api/v1/vouchers')
+            axios.delete('/api/v1/vouchers/delete')
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';
@@ -98,7 +98,7 @@
     function deleteByEmail(value) {
         let answer = confirm("보유한 바우처를 모두 삭제할까요?");
         if (answer) {
-            axios.delete('/api/v1/vouchers/email=' + value)
+            axios.delete('/api/v1/vouchers/delete/email?email=' + value)
                 .then(() => {
                     alert("삭제되었습니다.");
                     window.location = '/vouchers';

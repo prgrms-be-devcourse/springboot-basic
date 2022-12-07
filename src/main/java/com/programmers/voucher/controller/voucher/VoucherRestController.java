@@ -37,25 +37,25 @@ public class VoucherRestController {
         return ResponseEntity.ok(voucher);
     }
 
-    @GetMapping
+    @GetMapping("/list/email")
     public ResponseEntity<List<Voucher>> findAllByCustomer(@RequestParam String email) {
         List<Voucher> vouchers = voucherService.findAllByCustomer(email);
         return ResponseEntity.ok(vouchers);
     }
 
-    @DeleteMapping("/{voucherId}")
+    @DeleteMapping("/delete/{voucherId}")
     public ResponseEntity<Void> deleteById(@PathVariable UUID voucherId) {
         voucherService.deleteById(voucherId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteAll() {
         voucherService.deleteAll();
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete/email")
     public ResponseEntity<Void> deleteByCustomer(@RequestParam String email) {
         voucherService.deleteByCustomer(email);
         return ResponseEntity.ok().build();

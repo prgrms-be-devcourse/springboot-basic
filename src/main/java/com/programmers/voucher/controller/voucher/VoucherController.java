@@ -22,7 +22,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping
+    @GetMapping("/main")
     public String main() {
         return "main";
     }
@@ -52,7 +52,7 @@ public class VoucherController {
         return "voucher/voucher_detail";
     }
 
-    @GetMapping
+    @GetMapping("/list/email")
     public String findAllByCustomer(@RequestParam String email, Model model) {
         List<Voucher> vouchers = voucherService.findAllByCustomer(email);
         model.addAttribute("vouchers", vouchers);

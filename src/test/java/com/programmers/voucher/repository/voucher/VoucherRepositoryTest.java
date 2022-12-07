@@ -7,9 +7,13 @@ import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.repository.customer.CustomerRepository;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@ActiveProfiles("test")
 class VoucherRepositoryTest extends MysqlTestContainer {
 
     @Autowired
@@ -27,38 +31,22 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     @Autowired
     private CustomerRepository customerRepository;
 
-    private Customer insertSingleCustomerData() {
-        String email = "taehee@gmail.com";
-        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("taehee", email);
+    private static final UUID voucherId = UUID.randomUUID();
+
+    @BeforeEach
+    void insertCustomerData() {
+        CustomerCreateRequest customerCreateRequest = new CustomerCreateRequest("taehee", "taehee@gmail.com");
         customerRepository.save(customerCreateRequest);
-        return customerRepository.findByEmail(email).get();
     }
 
-    private Voucher insertSingleVoucherData() {
-        Voucher voucher = getVoucher();
-        return voucherRepository.save(voucher);
-    }
-
-    private void insertAllVouchersData() {
-        for (Voucher voucher : getVouchers()) {
-            voucherRepository.save(voucher);
-        }
-    }
-
-    private Voucher getVoucher() {
-        return new FixedAmountVoucher(UUID.randomUUID(), 5000);
-    }
-
-    private List<Voucher> getVouchers() {
-        return List.of(
-                new FixedAmountVoucher(UUID.randomUUID(), 5000),
-                new PercentDiscountVoucher(UUID.randomUUID(), 40)
-        );
+    @BeforeEach
+    void insertVoucherData() {
+        voucherRepository.save(new FixedAmountVoucher(voucherId, 5000));
     }
 
     @Test
-    @Order(1)
     @DisplayName("데이터베이스에 바우처를 저장한다.")
+    @Sql("classpath:schema.sql")
     void save() {
         //given
         Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
@@ -72,43 +60,49 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     }
 
     @Test
-    @Order(2)
     @DisplayName("데이터베이스에서 모든 바우처 목록을 조회한다.")
+    @Sql("classpath:schema.sql")
     void findAll() {
         //given
-        insertAllVouchersData();
+        Voucher newVoucher = new FixedAmountVoucher(UUID.randomUUID(), 5000);
+        voucherRepository.save(newVoucher);
 
         //when
         List<Voucher> result = voucherRepository.findAll();
 
         //then
         assertThat(result)
-                .hasSize(3);
+                .hasSize(2);
     }
 
     @Test
-    @Order(3)
     @DisplayName("데이터베이스에 저장된 바우처를 고객에게 할당한다.")
+    @Sql("classpath:schema.sql")
     void assign() {
         //given
-        Voucher voucher = insertSingleVoucherData();
-        Customer customer = insertSingleCustomerData();
+        String email = "taehee@gmail.com";
+        Voucher voucher = voucherRepository.findById(voucherId).get();
+        Customer customer = customerRepository.findByEmail(email).get();
         voucher.setCustomer(customer);
 
         //when
         voucherRepository.assign(voucher);
 
         //then
-        assertThat(voucherRepository.findAllByEmail("taehee@gmail.com"))
+        assertThat(voucherRepository.findAllByEmail(email))
                 .hasSize(1);
     }
 
     @Test
-    @Order(4)
     @DisplayName("데이터베이스에서 해당 고객이 가진 모든 바우처 목록을 조회한다.")
+    @Sql("classpath:schema.sql")
     void findAllByEmail() {
         //given
         String email = "taehee@gmail.com";
+        Voucher voucher = voucherRepository.findById(voucherId).get();
+        Customer customer = customerRepository.findByEmail(email).get();
+        voucher.setCustomer(customer);
+        voucherRepository.assign(voucher);
 
         //when
         List<Voucher> result = voucherRepository.findAllByEmail(email);
@@ -120,20 +114,21 @@ class VoucherRepositoryTest extends MysqlTestContainer {
 
     @Test
     @DisplayName("데이터베이스에서 바우처 아이디를 통해 조회한다.")
+    @Sql("classpath:schema.sql")
     void findById() {
         //given
-        Voucher voucher = insertSingleVoucherData();
 
         //when
-        Voucher result = voucherRepository.findById(voucher.getVoucherId()).get();
+        Voucher result = voucherRepository.findById(voucherId).get();
 
         //then
-        assertThat(result.getVoucherId())
-                .isEqualTo(voucher.getVoucherId());
+        assertThat(result)
+                .isNotNull();
     }
 
     @Test
     @DisplayName("데이터베이스에서 없는 바우처 아이디를 통해 조회 시 Optional empty를 반환한다.")
+    @Sql("classpath:schema.sql")
     void findByIdWhenNull() {
         //given
 
@@ -147,14 +142,14 @@ class VoucherRepositoryTest extends MysqlTestContainer {
 
     @Test
     @DisplayName("데이터베이스에서 바우처 아이디를 통해 수정한다.")
+    @Sql("classpath:schema.sql")
     void update() {
         //given
-        Voucher voucher = insertSingleVoucherData();
-        Voucher updatedVoucher = new PercentDiscountVoucher(voucher.getVoucherId(), 30);
+        Voucher updatedVoucher = new PercentDiscountVoucher(voucherId, 30);
 
         //when
         voucherRepository.update(updatedVoucher);
-        Voucher result = voucherRepository.findById(voucher.getVoucherId()).get();
+        Voucher result = voucherRepository.findById(voucherId).get();
 
         //then
         assertThat(result.getDiscountValue())
@@ -162,8 +157,8 @@ class VoucherRepositoryTest extends MysqlTestContainer {
     }
 
     @Test
-    @Order(5)
     @DisplayName("데이터베이스에서 모든 바우처 목록을 삭제한다.")
+    @Sql("classpath:schema.sql")
     void deleteALL() {
         //given
 
@@ -177,6 +172,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
 
     @Test
     @DisplayName("데이터베이스에서 없는 바우처 아이디를 통해 조회 시 예외를 발생시킨다.")
+    @Sql("classpath:schema.sql")
     void deleteByEmail() {
         assertThatThrownBy(() -> voucherRepository.deleteByEmail("hello@gmail.com"))
                 .isInstanceOf(IllegalArgumentException.class);
