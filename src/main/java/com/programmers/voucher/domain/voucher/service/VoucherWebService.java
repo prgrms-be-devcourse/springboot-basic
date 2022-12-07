@@ -1,12 +1,15 @@
 package com.programmers.voucher.domain.voucher.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 import com.programmers.voucher.domain.voucher.repository.VoucherRepository;
 import com.programmers.voucher.domain.voucher.util.VoucherFactory;
 import com.programmers.voucher.web.voucher.dto.VoucherRequestDto;
@@ -32,6 +35,17 @@ public class VoucherWebService {
 		Voucher voucher = repository.findById(voucherId);
 		VoucherResponseDto voucherResponseDto = convertVoucherToDto(voucher);
 		return voucherResponseDto;
+	}
+
+	public List<VoucherResponseDto> getVouchersBy(
+		VoucherType voucherType,
+		LocalDateTime startTime,
+		LocalDateTime endTime
+	) {
+		return repository.findBy(voucherType, startTime, endTime)
+			.stream()
+			.map(this::convertVoucherToDto)
+			.collect(Collectors.toList());
 	}
 
 	public List<VoucherResponseDto> getAllVoucher() {

@@ -2,6 +2,7 @@ package com.programmers.voucher.domain.voucher.repository;
 
 import static com.programmers.voucher.core.exception.ExceptionMessage.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.voucher.core.exception.NotFoundException;
 import com.programmers.voucher.domain.voucher.model.Voucher;
+import com.programmers.voucher.domain.voucher.model.VoucherType;
 
 @Repository
 @Profile("local")
@@ -47,6 +49,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
 					throw new NotFoundException(VOUCHER_NOT_FOUND.getMessage());
 				}
 			);
+	}
+
+	@Deprecated
+	@Override
+	public List<Voucher> findBy(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+		throw new RuntimeException("지원하지 않는 기능입니다.");
 	}
 
 	@Override

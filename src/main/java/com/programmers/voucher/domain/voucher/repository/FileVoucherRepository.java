@@ -104,6 +104,12 @@ public class FileVoucherRepository implements VoucherRepository {
 			);
 	}
 
+	@Deprecated
+	@Override
+	public List<Voucher> findBy(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+		throw new RuntimeException("지원하지 않는 기능입니다.");
+	}
+
 	@Override
 	public List<Voucher> findAll() {
 		return new ArrayList<>(vouchers.values());
