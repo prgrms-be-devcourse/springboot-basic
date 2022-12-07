@@ -3,6 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.voucher.controller.voucher.dto.VoucherCreateRequest;
 import com.programmers.voucher.controller.voucher.dto.VoucherUpdateRequest;
 import com.programmers.voucher.exception.ErrorMessage;
+import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.Voucher;
 import com.programmers.voucher.model.voucher.VoucherType;
 import com.programmers.voucher.repository.customer.CustomerRepository;
@@ -29,17 +30,24 @@ public class VoucherService {
     }
 
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = voucherRepository.findAll();
-        return vouchers;
+        return voucherRepository.findAll();
     }
 
     public List<Voucher> findAllByCustomer(String email) {
-        return voucherRepository.findAllByEmail(email);
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString()));
+        List<Voucher> vouchers = voucherRepository.findAllByEmail(email);
+        vouchers.forEach(voucher -> voucher.setCustomer(customer));
+        return vouchers;
     }
 
     public Voucher findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
+        Customer customer = customerRepository.findByVoucher(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString()));
+        Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString()));
+        voucher.setCustomer(customer);
+        return voucher;
     }
 
     public Voucher update(VoucherUpdateRequest voucherUpdateRequest) {

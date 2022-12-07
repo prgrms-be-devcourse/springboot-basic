@@ -23,7 +23,7 @@
             <th scope="col">ID</th>
             <th scope="col">Voucher Type</th>
             <th scope="col">Discount Value</th>
-            <th scope="col" th:if="${customer == null}">assign</th>
+            <th scope="col" th:if="${vouchers.get(0).customer  == null}">assign</th>
             <th scope="col">delete</th>
         </tr>
         </thead>
@@ -55,8 +55,8 @@
 </div>
 
 <div class="container">
-    <button th:if="${customer == null}" class="btn btn-primary" type="button" onclick="deleteAll()">전체삭제</button>
-    <button th:unless="${customer == null}" th:email="${customer.email}" class="btn btn-primary" type="button" onclick="deleteByEmail(this.getAttribute('email'))">
+    <button th:if="${vouchers.get(0).customer  == null}" class="btn btn-primary" type="button" onclick="deleteAll()">전체삭제</button>
+    <button th:unless="${vouchers.get(0).customer == null}" th:email="${vouchers.get(0).customer.email}" class="btn btn-primary" type="button" onclick="deleteByEmail(this.getAttribute('email'))">
         내 바우처 전체삭제
     </button>
     <button class="btn btn-primary" type="button" onclick="window.location.href='/vouchers'">확인</button>

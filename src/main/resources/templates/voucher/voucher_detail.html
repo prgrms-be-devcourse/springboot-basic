@@ -34,9 +34,9 @@
     </div>
     <br/>
 
-    <div class="container" th:unless="${customer == null}">
+    <div class="container" th:unless="${voucher.customer == null}">
         <label class="form-label">할당받은 사용자</label><br/>
-        <input class="form-control" id="customerName" name="customerName" th:field="${customer.customerName}" th:readonly="true">
+        <input class="form-control" id="customerName" name="customerName" th:field="${voucher.customer.customerName}" th:readonly="true">
     </div>
     <br/>
 
