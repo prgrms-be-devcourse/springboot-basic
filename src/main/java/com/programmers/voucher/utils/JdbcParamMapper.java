@@ -37,7 +37,7 @@ public class JdbcParamMapper {
     public static Map<String, Object> toAssignMap(Voucher voucher) {
         return Map.of(
                 "voucherId", voucher.getVoucherId().toString().getBytes(),
-                "customerId", voucher.getCustomer().customerId()
+                "customerId", voucher.getCustomer().getCustomerId()
         );
     }
 }
