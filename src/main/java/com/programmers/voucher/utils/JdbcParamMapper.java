@@ -9,6 +9,10 @@ import java.util.Map;
 import java.util.UUID;
 
 public class JdbcParamMapper {
+
+    private JdbcParamMapper() {
+    }
+
     public static SqlParameterSource toCustomerMap(CustomerCreateRequest customerCreateRequest) {
         return new MapSqlParameterSource()
                 .addValue("customerName", customerCreateRequest.customerName())
