@@ -51,10 +51,11 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void makeVoucher(String discountWay) {
-        var discountValue = getDiscountValue(discountWay);
-        var customer = customerService.findCustomerByName(input.inputCustomerInfo(CUSTOMER_NAME_INPUT));
-        var voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customer.getCustomerId());
+    public void makeVoucher(String strCustomerId, String discountWay, String strDiscountValue) {
+        var discountValue = Long.parseLong(strDiscountValue);
+        var customerId = Long.parseLong(strCustomerId);
+        System.out.println(customerId);
+        var voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customerId);
         voucherRepository.insert(voucher);
     }
 

@@ -89,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select * from customers", customerRowMapper);
+        return jdbcTemplate.query("select * from customers", customerRowMapperWithId);
     }
 
     @Override

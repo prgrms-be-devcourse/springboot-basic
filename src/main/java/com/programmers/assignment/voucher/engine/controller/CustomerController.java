@@ -35,7 +35,6 @@ public class CustomerController {
     public String customerDetails(Model model, @PathVariable UUID customerUuid) {
         var customer = customerService.findCustomerByUuid(customerUuid);
         model.addAttribute("customer", customer);
-        System.out.println("###########" + customer.getCustomerId());
         return "customer-details";
     }
 
