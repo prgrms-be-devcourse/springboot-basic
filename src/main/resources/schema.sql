@@ -10,6 +10,4 @@ CREATE TABLE IF NOT EXISTS vouchers
     voucher_id 	BINARY(16)	        PRIMARY KEY,
     discount_value	long 		    NOT NULL,
     voucher_name    varchar(50)	    NOT NULL,
-    customer_id		int(5),
-    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
-);
+    customer_id		int(5)
