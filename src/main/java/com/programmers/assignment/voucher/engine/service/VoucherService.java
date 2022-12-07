@@ -31,11 +31,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public void makeVoucher(String strCustomerId, String discountWay, String strDiscountValue) {
+    public Voucher makeVoucher(String strCustomerId, String discountWay, String strDiscountValue) {
         var discountValue = Long.parseLong(strDiscountValue);
         var customerId = Long.parseLong(strCustomerId);
-        System.out.println(customerId);
         var voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customerId);
-        voucherRepository.insert(voucher);
+        return voucherRepository.insert(voucher);
     }
 }

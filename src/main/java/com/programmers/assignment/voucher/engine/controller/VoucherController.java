@@ -40,7 +40,6 @@ public class VoucherController {
     @PostMapping("/vouchers/new")
     public String createVoucher(HttpServletRequest request) {
         var customerId = request.getParameter("customerId");
-        System.out.println(customerId + "controller ID");
         var discountWay = request.getParameter("discountWay");
         var discountValue = request.getParameter("discountValue");
         voucherService.makeVoucher(customerId, discountWay, discountValue);
