@@ -8,6 +8,7 @@ import com.programmers.assignment.voucher.util.dto.CustomerDto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,8 +35,7 @@ public class CustomerService {
         return new CustomerDto(customerName, customerEmail);
     }
 
-    public Customer createCustomer() {
-        var customerDto = inputCustomerInfo();
+    public Customer createCustomer(CustomerDto customerDto) {
         return customerRepository.save(
                 new Customer(UUID.randomUUID(), customerDto.name(), customerDto.email(), LocalDateTime.now())
         );
@@ -45,5 +45,25 @@ public class CustomerService {
         var customer = customerRepository.findByName(name);
         if (customer.isEmpty()) throw new IllegalArgumentException(name + " is wrong customer name");
         return customer.get();
+    }
+
+    public List<Customer> findCustomers() {
+        return customerRepository.findAll();
+    }
+
+    public Customer findCustomerById(Long customerId) {
+        var customer = customerRepository.findById(customerId);
+        if (customer.isEmpty()) throw new IllegalArgumentException(customerId + " is wrong customer Id");
+        return customer.get();
+    }
+
+    public Customer findCustomerByUuid(UUID uuid) {
+        var customer = customerRepository.findByUuid(uuid);
+        if (customer.isEmpty()) throw new IllegalArgumentException(uuid + " is wrong customer UUID");
+        return customer.get();
+    }
+
+    public Customer updateCustomer(CustomerDto customerDto, Long customerId) {
+        return customerRepository.update(customerDto, customerId);
     }
 }
