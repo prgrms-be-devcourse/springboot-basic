@@ -36,7 +36,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) {
+    public Customer save(Customer customer) {
         if (findById(customer.getCustomerId()).isPresent()) {
             throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
         }

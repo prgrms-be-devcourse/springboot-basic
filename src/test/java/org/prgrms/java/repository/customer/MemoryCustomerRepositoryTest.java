@@ -27,11 +27,23 @@ class MemoryCustomerRepositoryTest {
     @Test
     @DisplayName("정상/블랙 유저를 등록할 수 있다.")
     void testInsert() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        Customer blockedCustomer = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now(), true);
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer blockedCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("other-test")
+                .email("other-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
 
-        Customer insertedCustomer = customerRepository.insert(customer);
-        Customer insertedBlockedCustomer = customerRepository.insert(blockedCustomer);
+        Customer insertedCustomer = customerRepository.save(customer);
+        Customer insertedBlockedCustomer = customerRepository.save(blockedCustomer);
 
         assertThat(customer, samePropertyValuesAs(insertedCustomer));
         assertThat(blockedCustomer, samePropertyValuesAs(insertedBlockedCustomer));
@@ -42,65 +54,137 @@ class MemoryCustomerRepositoryTest {
     void testInsertSameIdCustomer() {
         assertThrows(CustomerException.class, () -> {
             UUID customerId = UUID.randomUUID();
-            Customer customer = new Customer(customerId, "test", "test@gmail.com", LocalDateTime.now());
-            Customer customer2 = new Customer(customerId, "test2", "test2@gmail.com", LocalDateTime.now());
+            Customer customer = Customer.builder()
+                    .customerId(customerId)
+                    .name("test")
+                    .email("test@gmail.com")
+                    .createdAt(LocalDateTime.now())
+                    .isBlocked(false)
+                    .build();
+            Customer otherCustomer = Customer.builder()
+                    .customerId(customerId)
+                    .name("other-test")
+                    .email("other-test@gmail.com")
+                    .createdAt(LocalDateTime.now())
+                    .isBlocked(false)
+                    .build();
 
-            customerRepository.insert(customer);
-            customerRepository.insert(customer2);
+            customerRepository.save(customer);
+            customerRepository.save(otherCustomer);
         });
     }
 
     @Test
     @DisplayName("등록한 유저를 ID, 이름, 이메일로 찾을 수 있다.")
     void testFindById() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now());
-        Customer customer3 = new Customer(UUID.randomUUID(), "test3", "test3@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer otherCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("other-test")
+                .email("other-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer anotherCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("another-test")
+                .email("another-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
 
-        customerRepository.insert(customer);
-        customerRepository.insert(customer2);
-        customerRepository.insert(customer3);
+        customerRepository.save(customer);
+        customerRepository.save(otherCustomer);
+        customerRepository.save(anotherCustomer);
 
         assertThat(customerRepository.findById(customer.getCustomerId()).get(), samePropertyValuesAs(customer));
-        assertThat(customerRepository.findByName(customer2.getName()).get(), samePropertyValuesAs(customer2));
-        assertThat(customerRepository.findByEmail(customer3.getEmail()).get(), samePropertyValuesAs((customer3)));
+        assertThat(customerRepository.findByName(otherCustomer.getName()).get(), samePropertyValuesAs(otherCustomer));
+        assertThat(customerRepository.findByEmail(anotherCustomer.getEmail()).get(), samePropertyValuesAs((anotherCustomer)));
     }
 
     @Test
     @DisplayName("등록한 유저와 전체 인스턴스의 개수가 일치한다.")
     void testFindAll() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer otherCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("other-test")
+                .email("other-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
 
-        customerRepository.insert(customer);
-        customerRepository.insert(customer2);
+        customerRepository.save(customer);
+        customerRepository.save(otherCustomer);
 
         assertThat(customerRepository.findAll().isEmpty(), is(false));
         assertThat(customerRepository.findAll(), hasSize(2));
     }
 
+
     @Test
     @DisplayName("유저를 등록한 후에 필드를 변경할 수 있다.")
     void testUpdate() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        customerRepository.insert(customer);
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        customerRepository.save(customer);
 
-        Customer updatedCustomer = new Customer(customer.getCustomerId(), "update-test", customer.getEmail(), customer.getCreatedAt());
-        Customer insertedUpdatedCustomer = customerRepository.update(updatedCustomer);
+        Customer update = Customer.builder()
+                .customerId(customer.getCustomerId())
+                .name("updated-test")
+                .email("updated-test@gmail.com")
+                .isBlocked(customer.isBlocked())
+                .build();
+        update = customerRepository.update(update);
 
-        assertThat(customer, not(samePropertyValuesAs(insertedUpdatedCustomer)));
+        assertThat(customer, not(samePropertyValuesAs(update)));
     }
 
     @Test
     @DisplayName("등록한 유저와 전체 삭제한 개수가 같다.")
     void testDeleteAll() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now());
-        Customer blackCustomer = new Customer(UUID.randomUUID(), "unknown", "spam@spam.com", LocalDateTime.now(), true);
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer otherCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("other-test")
+                .email("other-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer blockedCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("unknown")
+                .email("spam@spam.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(true)
+                .build();
 
-        customerRepository.insert(customer);
-        customerRepository.insert(customer2);
-        customerRepository.insert(blackCustomer);
+        customerRepository.save(customer);
+        customerRepository.save(otherCustomer);
+        customerRepository.save(blockedCustomer);
 
         assertThat(customerRepository.deleteAll(), is(3L));
     }

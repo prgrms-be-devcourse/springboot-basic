@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Customer insert(Customer customer);
+    Customer save(Customer customer);
 
     Optional<Customer> findById(UUID customerId);
 

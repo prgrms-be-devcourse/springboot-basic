@@ -71,7 +71,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer insert(Customer customer) {
+    public Customer save(Customer customer) {
         try {
             int result = namedParameterJdbcTemplate.update(INSERT_QUERY, Mapper.toParamMap(customer));
             if (result != 1) {

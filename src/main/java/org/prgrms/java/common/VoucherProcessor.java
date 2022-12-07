@@ -235,7 +235,8 @@ public class VoucherProcessor implements ApplicationRunner {
     }
 
     private void invokeDeleteCustomers() {
-        view.print("Deleted " + customerController.deleteCustomers() + " customers.");
+        customerController.deleteCustomers();
+        view.print("Deleted All customers.");
     }
 
     private void processWalletCommand() {

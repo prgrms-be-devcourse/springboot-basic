@@ -16,7 +16,7 @@ public class CustomerController {
     }
 
     public Customer createCustomer(String name, String email) {
-        return customerService.saveCustomer(name, email);
+        return customerService.createCustomer(name, email);
     }
 
     public Customer findCustomer(String column, String value) {
@@ -40,7 +40,7 @@ public class CustomerController {
         customerService.deleteCustomer(customerId);
     }
 
-    public long deleteCustomers() {
-        return customerService.deleteAllCustomers();
+    public void deleteCustomers() {
+        customerService.deleteAllCustomers();
     }
 }

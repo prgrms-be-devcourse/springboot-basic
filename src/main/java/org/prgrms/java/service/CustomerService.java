@@ -18,9 +18,16 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer saveCustomer(String name, String email) {
-        Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
-        return customerRepository.insert(customer);
+    public Customer createCustomer(String name, String email) {
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name(name)
+                .email(email)
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+
+        return customerRepository.save(customer);
     }
 
     public Customer getCustomerById(UUID customerId) {
@@ -41,16 +48,16 @@ public class CustomerService {
                 .orElseThrow(() -> new CustomerException(String.format("Can not find a customer for %s", email)));
     }
 
-    public Customer getBlackCustomer(UUID customerId) {
-        return customerRepository.findById(customerId)
-                .filter(Customer::isBlocked)
-                .orElseThrow(() -> new CustomerException(String.format("Can not find a black customer for %s", customerId)));
-    }
-
     public List<Customer> getAllCustomers() {
         return customerRepository.findAll().stream()
                 .filter(customer -> !customer.isBlocked())
                 .collect(Collectors.toList());
+    }
+
+    public Customer getBlackCustomerById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .filter(Customer::isBlocked)
+                .orElseThrow(() -> new CustomerException(String.format("Can not find a black customer for %s", customerId)));
     }
 
     public List<Customer> getAllBlackCustomers() {
@@ -72,7 +79,7 @@ public class CustomerService {
         customerRepository.delete(customerId);
     }
 
-    public long deleteAllCustomers() {
-        return customerRepository.deleteAll();
+    public void deleteAllCustomers() {
+        customerRepository.deleteAll();
     }
 }

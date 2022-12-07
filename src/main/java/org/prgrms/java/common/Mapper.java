@@ -58,7 +58,13 @@ public class Mapper {
         LocalDateTime createdAt = LocalDateTime.parse(fields[3].trim());
         boolean isBlocked = Boolean.parseBoolean(fields[4].trim());
 
-        return new Customer(customerId, name, email, createdAt, isBlocked);
+        return Customer.builder()
+                .customerId(customerId)
+                .name(name)
+                .email(email)
+                .createdAt(createdAt)
+                .isBlocked(isBlocked)
+                .build();
     }
 
 
@@ -76,11 +82,17 @@ public class Mapper {
 
     public static final RowMapper<Customer> mapToCustomer = (resultSet, rowNum) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        String customerName = resultSet.getString("name");
+        String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         boolean isBlocked = resultSet.getBoolean("is_blocked");
-        return new Customer(customerId, customerName, email, createdAt, isBlocked);
+        return Customer.builder()
+                .customerId(customerId)
+                .name(name)
+                .email(email)
+                .createdAt(createdAt)
+                .isBlocked(isBlocked)
+                .build();
     };
 
     public static Map<String, Object> toParamMap(Voucher voucher) {

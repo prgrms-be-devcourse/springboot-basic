@@ -30,22 +30,30 @@ public class CustomerServiceTest {
     @Test
     @DisplayName("서비스를 통해 정상/블랙 유저를 등록할 수 있다.")
     void testCreateCustomer() {
-        String name = "test";
-        String email = "test@gmail.com";
-        LocalDateTime createdAt = LocalDateTime.now();
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        when(customerRepository.save(any())).thenReturn(customer);
 
-        Customer customer = new Customer(UUID.randomUUID(), name, email, createdAt);
-        when(customerRepository.insert(any())).thenReturn(customer);
+        Customer insert = customerService.createCustomer("test", "test@gmail.com");
 
-        Customer insertedCustomer = customerService.saveCustomer(name, email);
-
-        assertThat(insertedCustomer, samePropertyValuesAs(customer));
+        assertThat(insert, samePropertyValuesAs(customer));
     }
 
     @Test
     @DisplayName("서비스를 통해 유저를 조회할 수 있다.")
     void testGetCustomer() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
         when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
 
         Customer testCustomer = customerService.getCustomerById(customer.getCustomerId());
@@ -73,12 +81,24 @@ public class CustomerServiceTest {
     @Test
     @DisplayName("서비스를 통해 모든 유저를 조회할 수 있다.")
     void testGetAllCustomers() {
-        Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com", LocalDateTime.now());
-        Customer customer2 = new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now());
+        Customer customer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("test")
+                .email("test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
+        Customer otherCustomer = Customer.builder()
+                .customerId(UUID.randomUUID())
+                .name("other-test")
+                .email("other-test@gmail.com")
+                .createdAt(LocalDateTime.now())
+                .isBlocked(false)
+                .build();
 
-        when(customerRepository.findAll()).thenReturn(List.of(customer, customer2));
+        when(customerRepository.findAll()).thenReturn(List.of(customer, otherCustomer));
 
         assertThat(customerService.getAllCustomers(), hasSize(2));
-        assertThat(customerService.getAllCustomers(), containsInAnyOrder(samePropertyValuesAs(customer), samePropertyValuesAs(customer2)));
+        assertThat(customerService.getAllCustomers(), containsInAnyOrder(samePropertyValuesAs(customer), samePropertyValuesAs(otherCustomer)));
     }
 }
