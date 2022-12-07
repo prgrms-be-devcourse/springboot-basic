@@ -11,21 +11,23 @@
 <form th:method="POST" th:action="@{/vouchers/new}">
   <div class="mb-3">
     <label for="exampleInputCustomer" class="form-label">Voucher Owner</label>
-    <select class="form-select" aria-label="Default select example" id="exampleInputCustomer">
+    <select class="form-select" aria-label="Default select example" id="exampleInputCustomer" name="customerId">
       <option selected>Open this select customer</option>
-      <option th:each="customer : ${customers}" th:value="${customer}" th:text="${customer}"></option>
+      <
+      <option th:each="customer : ${customers}" th:object="${customer}" th:value="${customer.customerId}" th:text="${customer.name}"></option>
     </select>
   </div>
   <div class="mb-3">
     <label for="exampleInputDiscountWay" class="form-label">Discount Way</label>
-    <select class="form-select" aria-label="Default select example" id="exampleInputDiscountWay">
+    <select class="form-select" aria-label="Default select example" id="exampleInputDiscountWay" name="discountWay">
       <option selected>Open this select discount way</option>
-      <option th:each="discountWay : ${discountWays}" th:value="${discountWay}" th:text="${discountWay}"></option>
+      <option value="FIXED" th:text="FIEXED"></option>
+      <option value="PERCENT" th:text="PERCENT"></option>
     </select>
   </div>
   <div class="mb-3">
     <label for="exampleInputDiscountValue" class="form-label">Discount Value</label>
-    <input type="number" class="form-control" id="exampleInputDiscountValue">
+    <input type="number" class="form-control" id="exampleInputDiscountValue" name="discountValue">
   </div>
   <button type="submit" class="btn btn-outline-dark">Create Voucher</button>
 </form>

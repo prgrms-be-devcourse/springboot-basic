@@ -26,7 +26,8 @@
     <td><a th:text="${voucher.voucherId}" th:href="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}">Details</a></td>
     <td th:text="*{discountWay}"></td>
     <td th:text="*{discountValue}"></td>
-    <td><a th:text="*{customerId}" th:href="@{/customers/{customerId}(customerId=${customer.customerId})">Details</a></td>
+    <td th:text="*{customerId}"></td>
+
   </tr>
 
 </table>
