@@ -1,6 +1,6 @@
 package com.programmers.assignment.voucher;
 
-import com.programmers.assignment.voucher.engine.controller.MenuController;
+import com.programmers.assignment.voucher.engine.controller.CustomerController;
 import com.programmers.assignment.voucher.engine.controller.VoucherController;
 import com.programmers.assignment.voucher.engine.io.ConsoleInput;
 import com.programmers.assignment.voucher.util.domain.Menu;
@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CliApplication {
-    private final MenuController menuController;
+    private final CustomerController menuController;
 
     private final VoucherController voucherController;
 
     private static final Logger logger = LoggerFactory.getLogger(ConsoleInput.class);
 
     @Autowired
-    public CliApplication(MenuController menuController, VoucherController voucherController) {
+    public CliApplication(CustomerController menuController, VoucherController voucherController) {
         this.menuController = menuController;
         this.voucherController = voucherController;
     }
