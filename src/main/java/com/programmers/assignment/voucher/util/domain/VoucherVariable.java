@@ -18,12 +18,16 @@ public enum VoucherVariable {
     }
 
     public static String chooseDiscountWay(String command) {
-        return getVoucher(command).toString();
+        try {
+            return getVoucher(command).toString();
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static VoucherVariable getVoucher(String command) {
+    public static VoucherVariable getVoucher(String command) throws NoSuchFieldException {
         return Arrays.stream(values())
                 .filter(o -> o.discountWay.equals(command))
-                .findFirst().orElseThrow(() -> new IllegalArgumentException(command + "는 존재하지 않는 바우처 입니다."));
+                .findFirst().orElseThrow(() -> new NoSuchFieldException(command + "는 존재하지 않는 바우처 입니다."));
     }
 }

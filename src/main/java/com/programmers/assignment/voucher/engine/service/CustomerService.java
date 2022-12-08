@@ -7,15 +7,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
-
-    private static final String CUSTOMER_NAME = "Type your name: ";
-
-    private static final String CUSTOMER_EMAIL = "Type your email: ";
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -33,7 +30,7 @@ public class CustomerService {
 
     public Customer findCustomerByUuid(UUID uuid) {
         var customer = customerRepository.findByUuid(uuid);
-        if (customer.isEmpty()) throw new IllegalArgumentException(uuid + " is wrong customer UUID");
+        if (customer.isEmpty()) throw new NoSuchElementException(uuid + " is wrong customer UUID");
         return customer.get();
     }
 }

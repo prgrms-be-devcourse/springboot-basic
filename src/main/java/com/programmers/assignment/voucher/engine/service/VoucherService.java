@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -22,7 +23,7 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() ->
-                        new RuntimeException(
+                        new NoSuchElementException(
                                 MessageFormat.format("Can not find a voucher for {0}", voucherId))
                 );
     }

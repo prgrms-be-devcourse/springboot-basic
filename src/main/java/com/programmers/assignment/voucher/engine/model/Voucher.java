@@ -21,7 +21,7 @@ public class Voucher {
 
     private static final long MIN_VOUCHER_AMOUNT = 0;
 
-    public Voucher(UUID voucherId, String discountWay, long discountValue, long customerId) {
+    public Voucher(UUID voucherId, String discountWay, long discountValue, long customerId) throws NoSuchFieldException {
         switch (VoucherVariable.getVoucher(discountWay)) {
             case FIXED:
                 validateAmountValue(discountValue);
@@ -75,7 +75,7 @@ public class Voucher {
         return customerId;
     }
 
-    public long discount(long beforeDiscount) {
+    public long discount(long beforeDiscount) throws NoSuchFieldException {
         switch (VoucherVariable.getVoucher(discountWay)) {
             case FIXED:
                 var discountedAmount = beforeDiscount - discountValue;
@@ -83,16 +83,20 @@ public class Voucher {
             case PERCENT:
                 return beforeDiscount * (discountValue / 100);
         }
-        throw new IllegalArgumentException("There is not available voucher");
+        throw new NoSuchFieldException("There is not available voucher");
     }
 
     public String toString() {
-        return switch (VoucherVariable.getVoucher(discountWay)) {
-            case FIXED ->
-                    MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Amount -> {2}", discountWay, voucherId, discountValue);
-            case PERCENT ->
-                    MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Percentage -> {2}", discountWay, voucherId, discountValue);
-        };
+        try {
+            return switch (VoucherVariable.getVoucher(discountWay)) {
+                case FIXED ->
+                        MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Amount -> {2}", discountWay, voucherId, discountValue);
+                case PERCENT ->
+                        MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Percentage -> {2}", discountWay, voucherId, discountValue);
+            };
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
