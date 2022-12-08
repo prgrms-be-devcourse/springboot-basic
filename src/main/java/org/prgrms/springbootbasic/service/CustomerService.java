@@ -1,14 +1,13 @@
 package org.prgrms.springbootbasic.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.springbootbasic.mapper.CustomerDtoMapper;
 import org.prgrms.springbootbasic.dto.CustomerInputDto;
 import org.prgrms.springbootbasic.dto.CustomerUpdateDto;
 import org.prgrms.springbootbasic.entity.Customer;
 import org.prgrms.springbootbasic.exception.CustomerNotFoundException;
 import org.prgrms.springbootbasic.exception.DuplicatedEmailException;
+import org.prgrms.springbootbasic.mapper.CustomerDtoMapper;
 import org.prgrms.springbootbasic.repository.CustomerRepository;
-import org.prgrms.springbootbasic.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -41,13 +40,11 @@ public class CustomerService {
     }
 
     public Customer lookupCustomerById(String customerId) {
-//        validate(customerId);
         return customerRepository.findById(UUID.fromString(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer editCustomer(CustomerUpdateDto customerUpdateDto) {
-//        validate(customerUpdateDto.getCustomerId());
         Customer targetCustomer = customerRepository.findById(
                         UUID.fromString(customerUpdateDto.getCustomerId()))
                 .orElseThrow(CustomerNotFoundException::new);
@@ -56,16 +53,9 @@ public class CustomerService {
     }
 
     public int removeCustomerById(String customerId) {
-//        validate(customerId);
         customerRepository.findById(UUID.fromString(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
         return customerRepository.deleteById(UUID.fromString(customerId));
-    }
-
-    private void validate(String customerId) {
-        if (!UUIDUtil.isUUID(customerId)) {
-            throw new CustomerNotFoundException();
-        }
     }
 
     public boolean isDuplicatedEmail(String email) {
