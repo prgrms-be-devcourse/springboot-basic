@@ -42,7 +42,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers/new")
-    public String createCustomer(@ModelAttribute CustomerDto customerDto) {
+    public String createCustomer(CustomerDto customerDto) {
         customerService.createCustomer(customerDto);
         return "redirect:/customers";
     }

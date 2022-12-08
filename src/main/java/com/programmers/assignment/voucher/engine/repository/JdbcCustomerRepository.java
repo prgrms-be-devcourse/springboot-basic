@@ -32,13 +32,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     };
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-//        var customerId = resultSet.getLong("customer_id");
         var customerName = resultSet.getString("name");
         var customerEmail = resultSet.getString("email");
         var customerUuid = toUUID(resultSet.getBytes("customer_uuid"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-//        var lastLogin = resultSet.getTimestamp("last_login_at") != null ?
-//                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
         return new Customer(customerUuid, customerName, customerEmail, createdAt);
     };
 

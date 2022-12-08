@@ -38,10 +38,7 @@ public class VoucherController {
     }
 
     @PostMapping("/vouchers/new")
-    public String createVoucher(HttpServletRequest request) {
-        var customerId = request.getParameter("customerId");
-        var discountWay = request.getParameter("discountWay");
-        var discountValue = request.getParameter("discountValue");
+    public String createVoucher(String customerId, String discountWay, String discountValue) {
         voucherService.makeVoucher(customerId, discountWay, discountValue);
         return "redirect:/vouchers";
     }
