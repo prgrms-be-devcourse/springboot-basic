@@ -85,7 +85,7 @@ class CustomerRepositoryImplTest {
             UUID customerId = UUID.randomUUID();
             customerIdList.add(customerId);
 
-            Customer customer = new Customer.Builder()
+            Customer customer = Customer.builder()
                     .customerId(customerId)
                     .name("ch" + i)
                     .email("ch" + i + "@email.com")
@@ -122,7 +122,7 @@ class CustomerRepositoryImplTest {
     @DisplayName("추가 - 성공")
     void insert_success() {
         // given
-        Customer newCustomer = new Customer.Builder()
+        Customer newCustomer = Customer.builder()
                 .customerId(UUID.randomUUID())
                 .name("FeH2O")
                 .email("FeH2OH2O@gmail.com")
@@ -149,10 +149,6 @@ class CustomerRepositoryImplTest {
     @Test
     @DisplayName("수정 - 성공")
     void testUpdate_success() {
-
-        System.out.println(customerMap);
-        System.out.println(customerIdList);
-
         // given
         Customer beforeUpdateCustomer = customerRepository.findById(customerIdList.get(0)).get();
         beforeUpdateCustomer.changeName("updatedName");
@@ -170,9 +166,6 @@ class CustomerRepositoryImplTest {
     void testFindAll_success() {
         // when
         List<Customer> all = customerRepository.findAll();
-
-//        System.out.println(customerMap.get(all.get(0).getCustomerId()).getCustomerId());
-//        System.out.println(all.get(0).getCustomerId());
 
         // then
         assertThat(customerMap.get(all.get(0).getCustomerId()), samePropertyValuesAs(all.get(0)));
