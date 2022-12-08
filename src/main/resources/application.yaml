@@ -1,0 +1,31 @@
+notification:
+  service: |
+    voucherService : 1
+    blackListManagementService : 2
+    CustomerManagementService : 3
+    (type exist if you want to exist)
+  voucherPrompt: |
+    ==== Voucher Program ====
+    Type **create** to create a new voucher.
+    Type **lookup** to lookup list all vouchers.
+  customerPrompt: |
+    ==== Customer Program ====
+    Type **create** to create a new customer.
+    Type **lookup** to lookup list all customers.
+    Type **update** to update a customer name.
+    Type **delete** to delete a customer.
+  voucherTypeChoice: |
+    Choose one!
+    fixedVoucher: 1
+    PercentVoucher: 2
+  customerId: what is customerId to change?
+  wrongInput: It's wrong input
+  exit: Good bye!
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: root1234!
+    type: com.zaxxer.hikari.HikariDataSource

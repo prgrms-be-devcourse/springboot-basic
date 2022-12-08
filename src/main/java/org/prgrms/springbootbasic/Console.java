@@ -1,81 +1,62 @@
 package org.prgrms.springbootbasic;
 
-import org.prgrms.springbootbasic.message.Request;
-import org.prgrms.springbootbasic.service.VoucherService;
-import org.prgrms.springbootbasic.type.Menu;
-import org.prgrms.springbootbasic.type.TypeOption;
+
+import org.prgrms.springbootbasic.processor.Processor;
+import org.prgrms.springbootbasic.util.CommandLineInput;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Scanner;
+import java.util.List;
+import java.util.Objects;
 
-import static org.prgrms.springbootbasic.type.TypeOption.FIXED;
-import static org.prgrms.springbootbasic.type.TypeOption.PERCENT;
+import static org.prgrms.springbootbasic.type.MethodType.isExit;
+import static org.prgrms.springbootbasic.type.ServiceType.number2ProcessorClass;
+
 
 @Component
 public class Console {
+    @Value(value = "${notification.service}")
+    private String serviceNotification;
 
-    private boolean Running = true;
-    private final Scanner scanner = new Scanner(System.in);
-    private final VoucherService voucherService;
+    @Value(value = "${notification.exit}")
+    private String exitNotification;
 
     @Autowired
-    public Console(VoucherService voucherService) {
-        this.voucherService = voucherService;
-    }
+    NotificationProperties notificationProperties;
+    private final List<Processor> processorList;
 
-    private String getInput(String prompt) {
-        System.out.println(prompt);
-        return scanner.nextLine();
+    @Autowired
+    public Console(List<Processor> controllerList) {
+        this.processorList = controllerList;
     }
-
-//    private void output(String output) {
-//        System.out.println(output);
-//    }
 
     public void run() {
-        while (Running) {
-            String menu = getInput("=== Voucher Program === \n" +
-                    "Type **exit** to exit the program.\n" +
-                    "Type **create** to create a new voucher.\n" +
-                    "Type **list** to list all vouchers.");
-            if (Menu.isExist(menu)) {
-                Running = false;
-                System.out.println("어플리케이션을 종료합니다");
-                continue;
-            } else if (!Menu.validate(menu)) {
-                System.out.println("잘못된 입력입니다.");
-                continue;
-            }
-
-            Request request = Request.GenerateRequest(menu);
-            if (Menu.isCreateVoucher(menu)) {
-                String option = getOption();
-                String quantity = chooseOption(request, option);
-                request.insertArgument("quantity", Long.parseLong(quantity));
-            }
-
-            System.out.println(voucherService.process(request));
-        }
-    }
-
-    private String chooseOption(Request request, String option) {
-        String quantity = "0";
-        if (TypeOption.isFixed(option)) {
-            quantity = getInput("amount: ");
-            request.setOption(FIXED);
-        } else if (TypeOption.isPercent(option)) {
-            quantity = getInput("percent: ");
-            request.setOption(PERCENT);
-        }
-        return quantity;
-    }
-
-    private String getOption() {
-        String option;
+        String selected;
+        Processor processor;
         do {
-            option = getInput("Choose one! fixedVoucher: 1 \nPercentVoucher: 2");
-        } while (TypeOption.isFixed(option) && TypeOption.isPercent(option));
-        return option;
+            selected = CommandLineInput.getInput(serviceNotification);
+            if (isExit(selected)) {
+                System.out.println(exitNotification);
+                return;
+            }
+            processor = searchProcessor(number2ProcessorClass(selected));
+        } while (processor == null);
+
+        System.out.println(processor.process());
+        run();
+    }
+
+    private Processor searchProcessor(Class<? extends Processor> processorClass) {
+        if (processorClass == null) {
+            return null;
+        }
+        return processorList.stream()
+                .filter(x -> isSelected(x, processorClass))
+                .findFirst().get();
+    }
+
+    private boolean isSelected(Processor processor, Class<? extends Processor> selected) {
+        return Objects.equals(processor.getClass(), selected);
     }
 }

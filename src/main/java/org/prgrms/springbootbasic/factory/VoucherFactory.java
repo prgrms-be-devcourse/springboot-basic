@@ -1,7 +1,9 @@
 package org.prgrms.springbootbasic.factory;
 
-import org.prgrms.springbootbasic.voucher.Voucher;
+
+import org.prgrms.springbootbasic.entity.voucher.Voucher;
 
 public interface VoucherFactory {
-    Voucher createVoucher(long factor);
+
+    Voucher createVoucher(long quantity);
 }
