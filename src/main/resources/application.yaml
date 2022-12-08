@@ -4,3 +4,11 @@ spring:
     username: root
     password: root1234!
     type: com.zaxxer.hikari.HikariDataSource
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

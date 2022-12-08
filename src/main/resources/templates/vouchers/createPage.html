@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{voucher.create}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <div>
+        <h2 th:text="#{voucher.create}">등록</h2>
+    </div>
+
+    <form action="createPage.html" th:action th:object="${voucherInputDto}" method="post">
+        <div class="button-group align-center">
+            <a class="btn btn-primary" th:text="#{voucher.home}" th:href="@{/vouchers/home}"></a>
+            <a class="btn btn-primary" th:text="#{voucher.create}" th:href="@{/vouchers/new}"></a>
+            <a class="btn btn-primary" th:text="#{voucher.list}" th:href="@{/vouchers/list}"></a>
+        </div>
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+        </div>
+
+        <div class="mb-3">
+            <label for="voucherType">voucherType</label>
+            <select class="form-select" name="voucherType" id="voucherType" th:field="*{voucherType}">
+                <option value="FIXED">FixedAmountVoucher</option>
+                <option value="PERCENT">PercentAmountVoucher</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="discountQuantity">discountQuantity</label>
+            <input type="text" id="discountQuantity" th:field="*{discountQuantity}" class="form-control"
+                   th:errorclass="field-error" placeholder="discountQuantity를 입력하세요">
+            <div class="field-error" th:errors="*{discountQuantity}">quantity 오류</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="discountRatio">discountRatio</label>
+            <input type="text" id="discountRatio" th:field="*{discountRatio}" class="form-control"
+                   th:errorclass="field-error" placeholder="discountRatio를 입력하세요">
+            <div class="field-error" th:errors="*{discountRatio}">ratio 오류</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="voucherCount">voucherCount</label>
+            <input type="text" id="voucherCount" th:field="*{voucherCount}" class="form-control"
+                   th:errorclass="field-error" placeholder="voucherCount를 입력하세요">
+            <div class="field-error" th:errors="*{voucherCount}">voucherCount 오류</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="createdAt">createdAt</label>
+            <input type="date" id="createdAt" th:field="*{createdAt}" class="form-control"
+                   th:errorclass="field-error" placeholder="createdAt를 입력하세요">
+            <div class="field-error" th:errors="*{createdAt}">createdAt 오류</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="endedAt">endedAt</label>
+            <input type="date" id="endedAt" th:field="*{endedAt}" class="form-control"
+                   th:errorclass="field-error" placeholder="endedAt를 입력">
+            <div class="field-error" th:errors="*{endedAt}">endedAt 오류</div>
+        </div>
+        <button class="btn btn-primary" type="submit">submit</button>
+    </form>
+</div>
+</body>
+</html>
