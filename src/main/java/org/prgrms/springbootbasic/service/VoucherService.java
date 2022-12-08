@@ -1,44 +1,33 @@
 package org.prgrms.springbootbasic.service;
 
-
-import org.prgrms.springbootbasic.entity.voucher.Voucher;
-import org.prgrms.springbootbasic.factory.VoucherFactory;
+import lombok.RequiredArgsConstructor;
+import org.prgrms.springbootbasic.dto.VoucherInputDto;
+import org.prgrms.springbootbasic.entity.Voucher;
+import org.prgrms.springbootbasic.exception.VoucherNotFoundException;
+import org.prgrms.springbootbasic.mapper.VoucherDtoMapper;
 import org.prgrms.springbootbasic.repository.VoucherRepository;
-import org.prgrms.springbootbasic.type.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final List<VoucherFactory> voucherFactoryList;
 
-    @Autowired
-    public VoucherService(VoucherRepository voucherRepository, List<VoucherFactory> voucherFactoryList) {
-        this.voucherRepository = voucherRepository;
-        this.voucherFactoryList = voucherFactoryList;
+    public Voucher createVoucher(VoucherInputDto voucherInputDto) {
+        Voucher voucher = VoucherDtoMapper.VoucherInputDtoToVoucher(voucherInputDto);
+        voucherRepository.insert(voucher);
+        return voucher;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, long quantity) {
-        Voucher voucher = null;
-        for (VoucherFactory voucherFactory : voucherFactoryList) {
-            if (isTypeEquals(voucherType, voucherFactory)) {
-                voucher = voucherFactory.createVoucher(quantity);
-                voucherRepository.insert(voucher);
-                break;
-            }
-        }
-        return voucher;
+    public Voucher lookupVoucherById(String voucherId) {
+        return voucherRepository.findById(UUID.fromString(voucherId))
+                .orElseThrow(VoucherNotFoundException::new);
     }
 
     public List<Voucher> lookupVoucherList() {
         return voucherRepository.findAll();
-    }
-
-    private boolean isTypeEquals(VoucherType voucherType, VoucherFactory factory) {
-        return Objects.equals(factory.getClass(), voucherType.getVoucherFactoryClass());
     }
 }
