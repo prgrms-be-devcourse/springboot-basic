@@ -19,6 +19,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
     public static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, last_login_at, created_at) VALUES(UUID_TO_BIN(:customerId), :name, :email, :lastLoginAt, :createdAt)";
     public static final String UPDATE_SQL = "UPDATE customers SET name= :name, last_login_at = :lastLoginAt WHERE customer_id = UUID_TO_BIN(:customerId)";
     public static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
+    public static final String SELECT_BY_EMAIL_SQL = "SELECT * FROM customers WHERE email = :email";
     public static final String SELECT_ALL = "SELECT * FROM customers";
     public static final String DELETE_SQL = "DELETE FROM customers";
     public static final String DELETE_BY_ID = "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
@@ -29,7 +30,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> new Customer.Builder()
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> Customer.builder()
             .customerId(toUUID(resultSet.getBytes("customer_id")))
             .name(resultSet.getString("name"))
             .email(resultSet.getString("email"))
@@ -72,6 +73,20 @@ public class CustomerRepositoryImpl implements CustomerRepository {
                     jdbcTemplate.queryForObject(
                             SELECT_BY_ID_SQL,
                             Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                            customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("got empty result");
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            SELECT_BY_EMAIL_SQL,
+                            Collections.singletonMap("email", email),
                             customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("got empty result");
