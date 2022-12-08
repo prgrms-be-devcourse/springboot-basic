@@ -29,24 +29,21 @@ public class VoucherService {
         return voucherRepository.save(newVoucher);
     }
 
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
-    }
-
-    public List<Voucher> findAllByCustomer(String email) {
-        Customer customer = customerRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString()));
-        List<Voucher> vouchers = voucherRepository.findAllByEmail(email);
-        vouchers.forEach(voucher -> voucher.setCustomer(customer));
+    public List<Voucher> findAll(String email) {
+        List<Voucher> vouchers = voucherRepository.findAll(email);
+        if (email != null) {
+            Customer customer = customerRepository.findByEmail(email)
+                    .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString()));
+            vouchers.forEach(voucher -> voucher.setCustomer(customer));
+        }
         return vouchers;
     }
 
     public Voucher findById(UUID voucherId) {
-        Customer customer = customerRepository.findByVoucher(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString()));
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString()));
-        voucher.setCustomer(customer);
+        customerRepository.findByVoucher(voucherId)
+                .ifPresent(voucher::setCustomer);
         return voucher;
     }
 
@@ -63,19 +60,17 @@ public class VoucherService {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.NOT_EXIST_VOUCHER.toString()));
         customerRepository.findByEmail(email)
                 .ifPresentOrElse(voucher::setCustomer,
-                        () -> {
-                            throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString());
-                        });
+                        () -> {throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_CUSTOMER.toString());});
         voucherRepository.assign(voucher);
         return voucher;
     }
 
-    public void deleteAll() {
+    public void deleteAll(String email) {
+        if (email != null) {
+            voucherRepository.deleteByEmail(email);
+            return;
+        }
         voucherRepository.deleteAll();
-    }
-
-    public void deleteByCustomer(String email) {
-        voucherRepository.deleteByEmail(email);
     }
 
     public void deleteById(UUID voucherId) {

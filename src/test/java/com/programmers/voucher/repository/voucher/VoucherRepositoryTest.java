@@ -76,7 +76,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         voucherRepository.save(newVoucher);
 
         //when
-        List<Voucher> result = voucherRepository.findAll();
+        List<Voucher> result = voucherRepository.findAll("");
 
         //then
         assertThat(result)
@@ -97,7 +97,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         voucherRepository.assign(voucher);
 
         //then
-        assertThat(voucherRepository.findAllByEmail(email))
+        assertThat(voucherRepository.findAll(email))
                 .hasSize(1);
     }
 
@@ -113,7 +113,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         voucherRepository.assign(voucher);
 
         //when
-        List<Voucher> result = voucherRepository.findAllByEmail(email);
+        List<Voucher> result = voucherRepository.findAll(email);
 
         //then
         assertThat(result)
@@ -174,7 +174,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         voucherRepository.deleteAll();
 
         //then
-        assertThat(voucherRepository.findAll())
+        assertThat(voucherRepository.findAll(""))
                 .isEmpty();
     }
 

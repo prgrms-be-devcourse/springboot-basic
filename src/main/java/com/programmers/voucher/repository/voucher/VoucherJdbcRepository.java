@@ -66,13 +66,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll(String email) {
+        if (email != null) {
+            return jdbcTemplate.query(findAllByEmailSql, toEmailMap(email), rowMapper);
+        }
         return jdbcTemplate.query(findAllSql, rowMapper);
-    }
-
-    @Override
-    public List<Voucher> findAllByEmail(String email) {
-        return jdbcTemplate.query(findAllByEmailSql, toEmailMap(email), rowMapper);
     }
 
     @Override

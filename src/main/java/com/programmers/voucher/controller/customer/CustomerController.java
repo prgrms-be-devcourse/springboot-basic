@@ -25,6 +25,6 @@ public class CustomerController {
     @PostMapping
     public String create(CustomerCreateRequest customerCreateRequest) {
         customerService.create(customerCreateRequest);
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/main";
     }
 }

@@ -9,9 +9,7 @@ import java.util.UUID;
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
-    List<Voucher> findAll();
-
-    List<Voucher> findAllByEmail(String email);
+    List<Voucher> findAll(String email);
 
     Optional<Voucher> findById(UUID voucherId);
 
