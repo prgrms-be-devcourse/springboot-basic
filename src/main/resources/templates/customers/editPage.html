@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{customer.detail}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            width: 560px;
+        }
+
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <div class="mb-3 text-center">
+        <h2 th:text="#{customer.detail}"></h2>
+    </div>
+
+    <div class="button-group align-center">
+        <a class="btn btn-primary" th:text="#{customer.home}" th:href="@{/customers/home}"></a>
+        <a class="btn btn-primary" th:text="#{customer.create}" th:href="@{/customers/new}"></a>
+        <a class="btn btn-primary" th:text="#{customer.list}" th:href="@{/customers/list}"></a>
+    </div>
+
+    <form action="editPage.html" th:action th:object="${customer}" th:method="patch">
+        <div class="mb-3">
+            <label for="customerId">customerId</label>
+            <input type="text" id="customerId" th:field="*{customerId}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name">name</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control">
+            <div class="field-error" th:errors="*{name}">name 오류</div>
+        </div>
+        <div class="mb-3">
+            <label for="email">email</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="createdAt">createdAt</label>
+            <input type="text" id="createdAt" th:field="*{createdAt}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="lastLoginAt">lastLoginAt</label>
+            <input type="text" id="lastLoginAt" th:field="*{lastLoginAt}" class="form-control" readonly>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        onclick="location.href='editPage.html'"
+                        th:onclick="|location.href='@{/customers/{customerId}(customerId=${customer.customerId})}'|"
+                        type="button">취소
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
