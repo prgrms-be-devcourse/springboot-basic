@@ -5,20 +5,28 @@ import com.programmers.voucher.controller.customer.dto.CustomerCreateRequest;
 import com.programmers.voucher.model.customer.Customer;
 import com.programmers.voucher.model.voucher.FixedAmountVoucher;
 import com.programmers.voucher.model.voucher.Voucher;
+import com.programmers.voucher.repository.voucher.VoucherJdbcRepository;
 import com.programmers.voucher.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({VoucherJdbcRepository.class, CustomerJdbcRepository.class})
 @ActiveProfiles("test")
 public class CustomerRepositoryTest extends MysqlTestContainer {
 
