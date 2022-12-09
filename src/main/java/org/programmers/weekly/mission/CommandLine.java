@@ -38,14 +38,20 @@ public class CommandLine implements Runnable {
 
     @Override
     public void run() {
-        while (isRunnable) {
-            switch (selectOptionType()) {
-                case CREATE -> createVoucher();
-                case LIST -> getListVoucher();
-                case EXIT -> exitVoucherProgram();
-                case WALLET -> selectWallet();
+        try {
+            while (isRunnable) {
+                switch (selectOptionType()) {
+                    case CREATE -> createVoucher();
+                    case LIST -> getListVoucher();
+                    case EXIT -> exitVoucherProgram();
+                    case WALLET -> selectWallet();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
+        System.exit(0);
     }
 
     private void selectWallet() {
