@@ -48,7 +48,7 @@ public class VoucherProcessor implements ApplicationRunner {
     private boolean processCommand() {
         view.print(MessageGuide.COMMAND_OPTION);
         try {
-            switch (Command.get(view.read())) {
+            switch (MenuCommand.get(view.read())) {
                 case EXIT -> {
                     view.print("Terminates the program...");
                     return false;
@@ -68,7 +68,7 @@ public class VoucherProcessor implements ApplicationRunner {
     private void processVoucherCommand() {
         view.print(MessageGuide.VOUCHER_COMMAND_OPTION);
         try {
-            switch (Command.get(view.read())) {
+            switch (HandlingCommand.get(view.read())) {
                 case CREATE -> invokeCreateVoucher();
                 case FIND -> invokeFindVoucher();
                 case LIST -> invokeFindVouchers();
@@ -138,7 +138,7 @@ public class VoucherProcessor implements ApplicationRunner {
     private void processCustomerCommand() {
         view.print(MessageGuide.CUSTOMER_COMMAND_OPTION);
         try {
-            switch (Command.get(view.read())) {
+            switch (HandlingCommand.get(view.read())) {
                 case CREATE -> invokeCreateCustomer();
                 case FIND -> invokeFindCustomer();
                 case LIST -> invokeFindCustomers();
@@ -209,7 +209,7 @@ public class VoucherProcessor implements ApplicationRunner {
         view.print(MessageGuide.WALLET_COMMAND_OPTION);
 
         try {
-            switch (Command.get(view.read())) {
+            switch (HandlingCommand.get(view.read())) {
                 case ALLOCATE -> invokeAllocateVoucherToWallet();
                 case SHOW -> invokeShowCustomerWallet();
                 case FIND -> invokeFindCustomerHavingVoucher();

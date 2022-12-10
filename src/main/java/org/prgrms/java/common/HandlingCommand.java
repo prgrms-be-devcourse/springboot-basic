@@ -4,11 +4,7 @@ import org.prgrms.java.exception.CommandException;
 
 import java.util.Arrays;
 
-public enum Command {
-    EXIT,
-    VOUCHER,
-    CUSTOMER,
-    WALLET,
+public enum HandlingCommand {
     CREATE,
     FIND,
     LIST,
@@ -18,10 +14,10 @@ public enum Command {
     DELETE,
     DELETE_ALL;
 
-    public static Command get(String command) {
-        return Arrays.stream(Command.values())
+    public static HandlingCommand get(String command) {
+        return Arrays.stream(HandlingCommand.values())
                 .filter((item) -> item.toString().equals(command.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new CommandException("Please enter a valid command."));
+                .orElseThrow(() -> new CommandException("Please enter a valid handling command."));
     }
 }
