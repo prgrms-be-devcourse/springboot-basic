@@ -13,12 +13,24 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("금액이 0보다 크면 정상적으로 고정 할인 바우처가 생성된다.")
     void testCreateVoucher() {
-        assertDoesNotThrow(() -> new FixedAmountVoucher(UUID.randomUUID(), 10000, LocalDateTime.now(), LocalDateTime.now()));
+        assertDoesNotThrow(() -> FixedAmountVoucher.builder()
+                .voucherId(UUID.randomUUID())
+                .ownerId(UUID.randomUUID())
+                .amount(10000)
+                .createdAt(LocalDateTime.now())
+                .expiredAt(LocalDateTime.now())
+                .build());
     }
 
     @Test
     @DisplayName("금액이 0보다 작으면 고정 할인 바우처가 생성될 수 없다.")
     void testCreateNegativeAmountVoucher() {
-        assertThrows(VoucherException.class, () -> new FixedAmountVoucher(UUID.randomUUID(), -1, LocalDateTime.now(), LocalDateTime.now()));
+        assertThrows(VoucherException.class, () -> FixedAmountVoucher.builder()
+                .voucherId(UUID.randomUUID())
+                .ownerId(UUID.randomUUID())
+                .amount(-1)
+                .createdAt(LocalDateTime.now())
+                .expiredAt(LocalDateTime.now())
+                .build());
     }
 }

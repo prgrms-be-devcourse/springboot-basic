@@ -90,7 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public long deleteAll() {
-        return namedParameterJdbcTemplate.update(DELETE_ALL_ROWS_QUERY, Collections.emptyMap());
+    public void deleteAll() {
+        namedParameterJdbcTemplate.update(DELETE_ALL_ROWS_QUERY, Collections.emptyMap());
     }
 }

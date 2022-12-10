@@ -32,7 +32,7 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("서비스를 통해 바우처를 등록할 수 있다.")
     void testCreateVoucher() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10000, LocalDateTime.now(), LocalDateTime.now());
+        Voucher voucher = createFixedAmountVoucher(UUID.randomUUID());
         when(voucherRepository.insert(any())).thenReturn(voucher);
 
         Voucher insertedVoucher = voucherService.saveVoucher(voucher.getOwnerId(), voucher.getType(), voucher.getAmount(), voucher.getExpiredAt());
@@ -43,10 +43,10 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("서비스를 통해 바우처를 조회할 수 있다.")
     void testGetVoucher() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 10000, LocalDateTime.now(), LocalDateTime.now());
+        Voucher voucher = createFixedAmountVoucher(UUID.randomUUID());
         when(voucherRepository.findById(any())).thenReturn(Optional.of(voucher));
 
-        Voucher fixedAmountVoucher = voucherService.getVoucher(voucher.getVoucherId());
+        Voucher fixedAmountVoucher = voucherService.getVoucherById(voucher.getVoucherId());
 
         assertThat(fixedAmountVoucher, samePropertyValuesAs(voucher));
     }
@@ -56,7 +56,7 @@ public class VoucherServiceTest {
     void testGetNonExistVoucher() {
         when(voucherRepository.findById(any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(VoucherException.class, () -> voucherService.getVoucher(UUID.randomUUID()));
+        Assertions.assertThrows(VoucherException.class, () -> voucherService.getVoucherById(UUID.randomUUID()));
     }
 
     @Test
@@ -70,12 +70,32 @@ public class VoucherServiceTest {
     @Test
     @DisplayName("서비스를 통해 모든 바우처를 조회할 수 있다.")
     void testGetAllVouchers() {
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10000, LocalDateTime.now(), LocalDateTime.now());
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now(), LocalDateTime.now());
+        Voucher fixedAmountVoucher = createFixedAmountVoucher(UUID.randomUUID());
+        Voucher percentDiscountVoucher = createPercentDiscountVoucher(UUID.randomUUID());
 
         when(voucherRepository.findAll()).thenReturn(List.of(fixedAmountVoucher, percentDiscountVoucher));
 
         assertThat(voucherService.getAllVouchers(), hasSize(2));
         assertThat(voucherService.getAllVouchers(), containsInAnyOrder(samePropertyValuesAs(fixedAmountVoucher), samePropertyValuesAs(percentDiscountVoucher)));
+    }
+
+    private Voucher createFixedAmountVoucher(UUID voucherId) {
+        return FixedAmountVoucher.builder()
+                .voucherId((voucherId != null) ? voucherId : UUID.randomUUID())
+                .amount(1000)
+                .isUsed(false)
+                .createdAt(LocalDateTime.now())
+                .expiredAt(LocalDateTime.now())
+                .build();
+    }
+
+    private Voucher createPercentDiscountVoucher(UUID voucherId) {
+        return PercentDiscountVoucher.builder()
+                .voucherId((voucherId != null) ? voucherId : UUID.randomUUID())
+                .amount(50)
+                .isUsed(false)
+                .createdAt(LocalDateTime.now())
+                .expiredAt(LocalDateTime.now())
+                .build();
     }
 }

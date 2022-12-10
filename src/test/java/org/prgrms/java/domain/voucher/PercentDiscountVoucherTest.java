@@ -15,9 +15,27 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인 비율이 1~100 사이이면 정상적으로 바우처가 생성된다.")
     void testCreateVoucher() {
         assertDoesNotThrow(() -> {
-            new PercentDiscountVoucher(UUID.randomUUID(), 1, LocalDateTime.now(), LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 50, LocalDateTime.now(), LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 100, LocalDateTime.now(), LocalDateTime.now());
+            PercentDiscountVoucher.builder()
+                    .voucherId(UUID.randomUUID())
+                    .ownerId(UUID.randomUUID())
+                    .amount(1)
+                    .createdAt(LocalDateTime.now())
+                    .expiredAt(LocalDateTime.now())
+                    .build();
+            PercentDiscountVoucher.builder()
+                    .voucherId(UUID.randomUUID())
+                    .ownerId(UUID.randomUUID())
+                    .amount(50)
+                    .createdAt(LocalDateTime.now())
+                    .expiredAt(LocalDateTime.now())
+                    .build();
+            PercentDiscountVoucher.builder()
+                    .voucherId(UUID.randomUUID())
+                    .ownerId(UUID.randomUUID())
+                    .amount(100)
+                    .createdAt(LocalDateTime.now())
+                    .expiredAt(LocalDateTime.now())
+                    .build();
         });
     }
 
@@ -25,8 +43,20 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인 비율이 1 미만 100 초과이면 바우처가 생성될 수 없다.")
     void testCreateNegativeAmountVoucher() {
         assertThrows(VoucherException.class, () -> {
-            new PercentDiscountVoucher(UUID.randomUUID(), -1, LocalDateTime.now(), LocalDateTime.now());
-            new PercentDiscountVoucher(UUID.randomUUID(), 101, LocalDateTime.now(), LocalDateTime.now());
+            PercentDiscountVoucher.builder()
+                    .voucherId(UUID.randomUUID())
+                    .ownerId(UUID.randomUUID())
+                    .amount(-1)
+                    .createdAt(LocalDateTime.now())
+                    .expiredAt(LocalDateTime.now())
+                    .build();
+            PercentDiscountVoucher.builder()
+                    .voucherId(UUID.randomUUID())
+                    .ownerId(UUID.randomUUID())
+                    .amount(101)
+                    .createdAt(LocalDateTime.now())
+                    .expiredAt(LocalDateTime.now())
+                    .build();
         });
     }
 }

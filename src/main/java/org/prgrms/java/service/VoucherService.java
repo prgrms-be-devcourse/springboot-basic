@@ -5,12 +5,14 @@ import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.VoucherException;
 import org.prgrms.java.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -23,16 +25,16 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher getVoucherById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherException(String.format("Can not find a voucher for %s", voucherId)));
     }
 
-    public List<Voucher> getVoucherByOwner(UUID customerId) {
+    public List<Voucher> getVoucherByOwnerId(UUID customerId) {
         return voucherRepository.findByCustomer(customerId);
     }
 
-    public List<Voucher> getExpiredVouchers() {
+    public List<Voucher> getAllExpiredVouchers() {
         return voucherRepository.findExpiredVouchers();
     }
 
@@ -41,7 +43,7 @@ public class VoucherService {
     }
 
     public Voucher updateVoucher(UUID voucherId, UUID ownerId, LocalDateTime expiredAt, boolean used) {
-        Voucher voucher = getVoucher(voucherId);
+        Voucher voucher = getVoucherById(voucherId);
         voucher.setOwnerId(ownerId);
         voucher.setExpiredAt(expiredAt);
         voucher.setUsed(used);
@@ -50,7 +52,7 @@ public class VoucherService {
     }
 
     public Voucher useVoucher(UUID voucherId) {
-        Voucher voucher = getVoucher(voucherId);
+        Voucher voucher = getVoucherById(voucherId);
         if (voucher.isUsed()) {
             throw new VoucherException("This voucher has been already used.");
         }
@@ -60,7 +62,7 @@ public class VoucherService {
     }
 
     public Voucher allocateVoucher(UUID voucherId, UUID ownerId) {
-        Voucher voucher = getVoucher(voucherId);
+        Voucher voucher = getVoucherById(voucherId);
         if (voucher.getOwnerId() != null) {
             throw new VoucherException("This voucher has been already allocated.");
         }
@@ -70,7 +72,7 @@ public class VoucherService {
     }
 
     public Voucher detachOwnerFromVoucher(UUID voucherId) {
-        Voucher voucher = getVoucher(voucherId);
+        Voucher voucher = getVoucherById(voucherId);
         voucher.setOwnerId(null);
         return voucherRepository.update(voucher);
     }
@@ -79,7 +81,7 @@ public class VoucherService {
         voucherRepository.delete(voucherId);
     }
 
-    public long deleteAllVouchers() {
-        return voucherRepository.deleteAll();
+    public void deleteAllVouchers() {
+        voucherRepository.deleteAll();
     }
 }

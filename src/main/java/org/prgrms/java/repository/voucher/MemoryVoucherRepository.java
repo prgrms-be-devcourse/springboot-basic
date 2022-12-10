@@ -64,10 +64,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public long deleteAll() {
-        long count = storage.size();
+    public void deleteAll() {
         storage.clear();
-
-        return count;
     }
 }

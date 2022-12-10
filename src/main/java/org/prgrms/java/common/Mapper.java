@@ -37,12 +37,27 @@ public class Mapper {
 
     public static Voucher mapToVoucher(String type, UUID voucherId, UUID ownerId, long amount, LocalDateTime createdAt, LocalDateTime expiredAt, boolean used) {
         switch (type) {
-            case "PERCENT":
-                return new PercentDiscountVoucher(voucherId, ownerId, amount, used, createdAt, expiredAt);
-            case "FIXED":
-                return new FixedAmountVoucher(voucherId, ownerId, amount, used, createdAt, expiredAt);
-            default:
-                throw new VoucherException("Unknown voucher type.");
+            case "PERCENT" -> {
+                return PercentDiscountVoucher.builder()
+                        .voucherId(voucherId)
+                        .ownerId(ownerId)
+                        .amount(amount)
+                        .isUsed(used)
+                        .createdAt(createdAt)
+                        .expiredAt(expiredAt)
+                        .build();
+            }
+            case "FIXED" -> {
+                return FixedAmountVoucher.builder()
+                        .voucherId(voucherId)
+                        .ownerId(ownerId)
+                        .amount(amount)
+                        .isUsed(used)
+                        .createdAt(createdAt)
+                        .expiredAt(expiredAt)
+                        .build();
+            }
+            default -> throw new VoucherException("Unknown voucher type.");
         }
     }
 
@@ -66,7 +81,6 @@ public class Mapper {
                 .isBlocked(isBlocked)
                 .build();
     }
-
 
     public static final RowMapper<Voucher> mapToVoucher = (resultSet, rowNum) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
