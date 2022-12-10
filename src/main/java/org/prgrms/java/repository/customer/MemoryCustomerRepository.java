@@ -62,10 +62,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public long deleteAll() {
-        long count = storage.size();
+    public void deleteAll() {
         storage.clear();
-
-        return count;
     }
 }

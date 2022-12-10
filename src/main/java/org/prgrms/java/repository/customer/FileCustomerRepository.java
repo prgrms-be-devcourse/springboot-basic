@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.text.MessageFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Repository
@@ -93,8 +92,7 @@ public class FileCustomerRepository implements CustomerRepository {
         for (boolean isBlocked: List.of(true, false)) {
             try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
                 customers.addAll(reader.lines()
-                        .map(Mapper::mapToCustomer)
-                        .collect(Collectors.toList()));
+                        .map(Mapper::mapToCustomer).toList());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -170,8 +168,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public long deleteAll() {
-        AtomicLong count = new AtomicLong(0L);
+    public void deleteAll() {
         List<String> fileName = new ArrayList<>() {{
                 add(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(true)));
                 add(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(false)));
@@ -179,16 +176,11 @@ public class FileCustomerRepository implements CustomerRepository {
 
         fileName.forEach(file -> {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                count.addAndGet(reader.lines()
-                        .filter(line -> !line.isBlank())
-                        .count());
                 new FileOutputStream(file).close();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         });
-
-        return count.get();
     }
 
     private String getDataName(boolean isBlocked) {

@@ -22,5 +22,5 @@ public interface CustomerRepository {
 
     void delete(UUID customerId);
 
-    long deleteAll();
+    void deleteAll();
 }
