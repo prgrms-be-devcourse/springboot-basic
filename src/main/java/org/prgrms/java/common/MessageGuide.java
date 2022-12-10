@@ -1,61 +1,89 @@
 package org.prgrms.java.common;
 
+import java.text.MessageFormat;
+
 public enum MessageGuide {
     COMMAND_OPTION(
-            "=== Voucher Program ===\n" +
-            "Type " + MessageGuide.ANSI_BOLD + MessageGuide.ANSI_RED + "exit" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + MessageGuide.ANSI_RED + "exit" + MessageGuide.ANSI_RESET + " the program.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "voucher" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "manipulate" + MessageGuide.ANSI_RESET + " all vouchers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "customer" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "manipulate" + MessageGuide.ANSI_RESET + " all customers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "wallet" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "manipulate" + MessageGuide.ANSI_RESET + " all wallet commands."
+            MessageFormat.format(
+                    """
+                    === Voucher Program ===
+                    Type {0}{1}exit {2}to {0}{1}exit {2}the program.
+                    Type {0}voucher {2}to {0}manipulate {2}all vouchers.
+                    Type {0}customer {2}to {0}manipulate {2}all customers.
+                    Type {0}wallet {2}to {0}manipulate {2}all wallet commands.
+                    """
+                    , MessageGuide.ANSI_BOLD, MessageGuide.ANSI_RED, MessageGuide.ANSI_RESET
+            )
     ),
     VOUCHER_COMMAND_OPTION(
-            "=== Voucher Service ===\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " a new voucher.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " a voucher.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " all vouchers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " a voucher.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete_all" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " all vouchers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "any unlisted command" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "go back" + MessageGuide.ANSI_RESET + " to main menu."
+            MessageFormat.format(
+                    """
+                        === Voucher Service ===
+                        Type {0}create {1}to {0}create {1}a new voucher.
+                        Type {0}find {1}to {0}find {1}a voucher.
+                        Type {0}list {1}to {0}list {1}all vouchers.
+                        Type {0}delete {1}to {0}delete {1}a voucher.
+                        Type {0}delete_all {1}to {0}delete {1}all vouchers.
+                        Type {0}any unlisted command {1}to {0}go back {1}to main menu.
+                        """
+                    , MessageGuide.ANSI_BOLD, MessageGuide.ANSI_RESET
+            )
     ),
     VOUCHER_FIND_COMMAND_OPTION(
-            "=== Select Search Option ===\n" +
-            "1. VOUCHER ID\n" +
-            "2. OWNER ID"
+            """
+            === Select Search Option ===
+            1. VOUCHER ID
+            2. OWNER ID
+            """
     ),
     REQUIRE_VOUCHER_TYPE(
-            "=== Select Voucher Type ===\n" +
-            "1. Fixed Discount Voucher (0~)\n" +
-            "2. Percentage Discount Voucher (1~100)"
+            """
+            === Select Voucher Type ===
+            1. Fixed Discount Voucher (0~)
+            2. Percentage Discount Voucher (1~100)
+            """
     ),
     REQUIRE_VOUCHER_DISCOUNT_AMOUNT("=== Enter The Amount ==="),
     REQUIRE_VOUCHER_ID("=== Type Voucher ID ==="),
     CUSTOMER_COMMAND_OPTION(
-            "=== Customer Service ===\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "create" + MessageGuide.ANSI_RESET + " a new customer.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " a customer.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "list" + MessageGuide.ANSI_RESET + " all customers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "blacklist" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "blacklist" + MessageGuide.ANSI_RESET + " all black customers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " a customer.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete_all" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " all customers.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "any unlisted command" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "go back" + MessageGuide.ANSI_RESET + " to main menu."
+            MessageFormat.format(
+                    """
+                    === Customer Service ===
+                    Type {0}create {1}to {0}create {1}a new customer.
+                    Type {0}find {1}to {0}find {1}a customer.
+                    Type {0}list {1}to {0}list {1}all customers.
+                    Type {0}blacklist {1}to {0}list {1}all black customers.
+                    Type {0}delete {1}to {0}delete {1}a customer.
+                    Type {0}delete_all {1}to {0}delete {1}all customers.
+                    Type {0}any unlisted command {1}to {0}go back {1}to main menu.
+                    """
+                    , MessageGuide.ANSI_BOLD, MessageGuide.ANSI_RESET
+            )
     ),
     CUSTOMER_FIND_COMMAND_OPTION(
-            "=== Select Search Option ===\n" +
-            "1. ID\n" +
-            "2. NAME\n" +
-            "3. EMAIL"
+            """
+            === Select Search Option ===
+            1. ID
+            2. NAME
+            3. EMAIL
+            """
     ),
     REQUIRE_CUSTOMER_ID("=== Type Customer ID ==="),
     REQUIRE_CUSTOMER_NAME("=== Type Customer Name ==="),
     REQUIRE_CUSTOMER_EMAIL("=== Type Customer Email ==="),
     WALLET_COMMAND_OPTION(
-            "=== Wallet Service ===\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "allocate" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "allocate" + MessageGuide.ANSI_RESET + " a voucher to a customer.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "show" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "show" + MessageGuide.ANSI_RESET + " the vouchers of a customer.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "find" + MessageGuide.ANSI_RESET + " a customer with a voucher.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "remove" + MessageGuide.ANSI_RESET + " a voucher from a customer's wallet.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "delete_all" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "remove" + MessageGuide.ANSI_RESET + " all vouchers from a customer's wallet.\n" +
-            "Type " + MessageGuide.ANSI_BOLD + "any unlisted command" + MessageGuide.ANSI_RESET + " to " + MessageGuide.ANSI_BOLD + "go back" + MessageGuide.ANSI_RESET + " to main menu."
+            MessageFormat.format(
+                    """
+                    === Wallet Service ===
+                    Type {0}allocate {1}to {0}allocate {1}a voucher to a customer.
+                    Type {0}show {1}to {0}show {1}all vouchers of a customer.
+                    Type {0}find {1}to {0}find {1}a customer with a voucher.
+                    Type {0}delete {1}to {0}remove {1}a vouchers from a customer's wallet.
+                    Type {0}delete_all {1}to {0}remove {1}all vouchers from a customer's wallet.
+                    Type {0}any unlisted command {1}to {0}allocate {1}to main menu.
+                    """
+                    , MessageGuide.ANSI_BOLD, MessageGuide.ANSI_RESET
+            )
     ),
     SUCCESS_MESSAGE("Successfully Applied.");
 

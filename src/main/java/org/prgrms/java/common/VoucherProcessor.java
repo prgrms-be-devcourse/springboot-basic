@@ -46,50 +46,34 @@ public class VoucherProcessor implements ApplicationRunner {
     }
 
     private boolean processCommand() {
-        boolean isRunning = true;
         view.print(MessageGuide.COMMAND_OPTION);
         try {
             switch (Command.get(view.read())) {
-                case EXIT:
+                case EXIT -> {
                     view.print("Terminates the program...");
-                    return isRunning = false;
-                case VOUCHER:
-                    processVoucherCommand();
-                    break;
-                case CUSTOMER:
-                    processCustomerCommand();
-                    break;
-                case WALLET:
-                    processWalletCommand();
-                    break;
+                    return false;
+                }
+                case VOUCHER -> processVoucherCommand();
+                case CUSTOMER -> processCustomerCommand();
+                case WALLET -> processWalletCommand();
             }
             return true;
         } catch (CommandException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }
-        return isRunning;
+        return true;
     }
 
     private void processVoucherCommand() {
         view.print(MessageGuide.VOUCHER_COMMAND_OPTION);
         try {
             switch (Command.get(view.read())) {
-                case CREATE:
-                    invokeCreateVoucher();
-                    break;
-                case FIND:
-                    invokeFindVoucher();
-                    break;
-                case LIST:
-                    invokeFindVouchers();
-                    break;
-                case DELETE:
-                    invokeDeleteVoucher();
-                    break;
-                case DELETE_ALL:
-                    invokeDeleteVouchers();
-                    break;
+                case CREATE -> invokeCreateVoucher();
+                case FIND -> invokeFindVoucher();
+                case LIST -> invokeFindVouchers();
+                case DELETE -> invokeDeleteVoucher();
+                case DELETE_ALL -> invokeDeleteVouchers();
             }
         } catch (CommandException e) {
             // Nothing
@@ -111,15 +95,9 @@ public class VoucherProcessor implements ApplicationRunner {
         }
 
         switch (voucherType) {
-            case "1":
-                voucherType = "FIXED";
-                break;
-            case "2":
-                voucherType = "PERCENT";
-                break;
-            default:
-                view.print(voucherType + " is an Invalid Voucher Type.");
-                return;
+            case "1" -> voucherType = "FIXED";
+            case "2" -> voucherType = "PERCENT";
+            default -> view.print(voucherType + " is an Invalid Voucher Type.");
         }
 
         voucherController.createVoucher(voucherAmount, voucherType, LocalDateTime.now().plusDays(7));
@@ -129,15 +107,15 @@ public class VoucherProcessor implements ApplicationRunner {
         view.print(MessageGuide.VOUCHER_FIND_COMMAND_OPTION);
 
         switch (view.read()) {
-            case "1":
+            case "1" -> {
                 view.print(MessageGuide.REQUIRE_VOUCHER_ID);
                 view.print(voucherController.findVoucherById(UUID.fromString(view.read())));
-                break;
-            case "2":
+            }
+            case "2" -> {
                 view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
                 voucherController.findVouchersByOwner(UUID.fromString(view.read()))
                         .forEach(view::print);
-                break;
+            }
         }
     }
 
@@ -154,31 +132,19 @@ public class VoucherProcessor implements ApplicationRunner {
     }
 
     private void invokeDeleteVouchers() {
-        view.print("Deleted " + voucherController.deleteVouchers() + " vouchers.");
+        view.print("Deleted All vouchers.");
     }
 
     private void processCustomerCommand() {
         view.print(MessageGuide.CUSTOMER_COMMAND_OPTION);
         try {
             switch (Command.get(view.read())) {
-                case CREATE:
-                    invokeCreateCustomer();
-                    break;
-                case FIND:
-                    invokeFindCustomer();
-                    break;
-                case LIST:
-                    invokeFindCustomers();
-                    break;
-                case BLACKLIST:
-                    invokeFindBlacklist();
-                    break;
-                case DELETE:
-                    invokeDeleteCustomer();
-                    break;
-                case DELETE_ALL:
-                    invokeDeleteCustomers();
-                    break;
+                case CREATE -> invokeCreateCustomer();
+                case FIND -> invokeFindCustomer();
+                case LIST -> invokeFindCustomers();
+                case BLACKLIST -> invokeFindBlacklist();
+                case DELETE -> invokeDeleteCustomer();
+                case DELETE_ALL -> invokeDeleteCustomers();
             }
         } catch (CommandException e) {
             // Nothing
@@ -202,18 +168,18 @@ public class VoucherProcessor implements ApplicationRunner {
         view.print(MessageGuide.CUSTOMER_FIND_COMMAND_OPTION);
 
         switch (view.read()) {
-            case "1":
+            case "1" -> {
                 view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
                 view.print(customerController.findCustomer("id", view.read()));
-                break;
-            case "2":
+            }
+            case "2" -> {
                 view.print(MessageGuide.REQUIRE_CUSTOMER_NAME);
                 view.print(customerController.findCustomer("name", view.read()));
-                break;
-            case "3":
+            }
+            case "3" -> {
                 view.print(MessageGuide.REQUIRE_CUSTOMER_EMAIL);
                 view.print(customerController.findCustomer("email", view.read()));
-                break;
+            }
         }
     }
 
@@ -244,21 +210,11 @@ public class VoucherProcessor implements ApplicationRunner {
 
         try {
             switch (Command.get(view.read())) {
-                case ALLOCATE:
-                    invokeAllocateVoucherToWallet();
-                    break;
-                case SHOW:
-                    invokeShowCustomerWallet();
-                    break;
-                case FIND:
-                    invokeFindCustomerHavingVoucher();
-                    break;
-                case DELETE:
-                    invokeRemoveVoucherFromWallet();
-                    break;
-                case DELETE_ALL:
-                    invokeRemoveAllVouchersFromWallet();
-                    break;
+                case ALLOCATE -> invokeAllocateVoucherToWallet();
+                case SHOW -> invokeShowCustomerWallet();
+                case FIND -> invokeFindCustomerHavingVoucher();
+                case DELETE -> invokeRemoveVoucherFromWallet();
+                case DELETE_ALL -> invokeRemoveAllVouchersFromWallet();
             }
         } catch (CommandException e) {
             // Nothing
