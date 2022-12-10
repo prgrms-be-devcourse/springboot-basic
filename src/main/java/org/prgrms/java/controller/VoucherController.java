@@ -4,8 +4,6 @@ import org.prgrms.java.domain.voucher.CreateVoucherRequest;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.domain.voucher.VoucherDto;
 import org.prgrms.java.service.VoucherService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,47 +20,6 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/api/v1/vouchers")
-    @ResponseBody
-    public List<Voucher> findVouchersAPI() {
-        return voucherService.getAllVouchers();
-    }
-
-    @GetMapping("/api/v1/vouchers/owner/{customerId}")
-    @ResponseBody
-    public List<Voucher> findVouchersByOwnerAPI(@PathVariable("customerId") UUID customerId) {
-        return voucherService.getVoucherByOwner(customerId);
-    }
-
-    @GetMapping("/api/v1/vouchers/expired")
-    @ResponseBody
-    public List<Voucher> findExpiredVouchersAPI() {
-        return voucherService.getExpiredVouchers();
-    }
-
-    @GetMapping("/api/v1/vouchers/{voucherId}")
-    @ResponseBody
-    public Voucher findVoucherByIdAPI(@PathVariable("voucherId") UUID voucherId) {
-        return voucherService.getVoucher(voucherId);
-    }
-
-    @PostMapping("/api/v1/vouchers")
-    @ResponseBody
-    public Voucher createCustomer(@RequestBody CreateVoucherRequest createVoucherRequest) {
-        return voucherService.saveVoucher(
-                createVoucherRequest.getOwnerId(),
-                createVoucherRequest.getType(),
-                createVoucherRequest.getAmount(),
-                createVoucherRequest.getExpiredAt());
-    }
-
-    @DeleteMapping("/api/v1/vouchers/{voucherId}")
-    public HttpEntity<?> deleteVoucherByIdAPI(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.deleteVoucher(voucherId);
-        return new HttpEntity<>(HttpStatus.OK);
-    }
-
-
     @GetMapping("/voucher")
     public String viewVoucherPage(Model model) {
         List<Voucher> vouchers = voucherService.getAllVouchers();
@@ -77,7 +34,7 @@ public class VoucherController {
 
     @GetMapping("/voucher/{voucherId}")
     public String viewVoucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
-        Voucher voucher = voucherService.getVoucher(voucherId);
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
     }
@@ -111,11 +68,11 @@ public class VoucherController {
     }
 
     public Voucher findVoucherById(UUID voucherId) {
-        return voucherService.getVoucher(voucherId);
+        return voucherService.getVoucherById(voucherId);
     }
 
     public List<Voucher> findVouchersByOwner(UUID customerId) {
-        return voucherService.getVoucherByOwner(customerId);
+        return voucherService.getVoucherByOwnerId(customerId);
     }
 
     public List<Voucher> findVouchers() {
@@ -142,7 +99,7 @@ public class VoucherController {
         voucherService.deleteVoucher(voucherId);
     }
 
-    public long deleteVouchers() {
-        return voucherService.deleteAllVouchers();
+    public void deleteVouchers() {
+        voucherService.deleteAllVouchers();
     }
 }
