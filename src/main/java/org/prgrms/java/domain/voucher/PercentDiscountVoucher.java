@@ -3,7 +3,7 @@ package org.prgrms.java.domain.voucher;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,8 +17,8 @@ public class PercentDiscountVoucher extends Voucher {
     @Builder
     public PercentDiscountVoucher(UUID voucherId, UUID ownerId, long amount, boolean isUsed, LocalDateTime createdAt, LocalDateTime expiredAt) {
         super(voucherId, ownerId, amount, "PERCENT", isUsed, createdAt, expiredAt);
-        if (amount <= MIN_AMOUNT) throw new VoucherException("Voucher discount percent should be positive.");
-        if (amount > MAX_AMOUNT) throw new VoucherException("Voucher discount percent cannot be bigger than 100.");
+        if (amount <= MIN_AMOUNT) throw new VoucherBadRequestException("Voucher discount percent should be positive.");
+        if (amount > MAX_AMOUNT) throw new VoucherBadRequestException("Voucher discount percent cannot be bigger than 100.");
     }
 
     @Override

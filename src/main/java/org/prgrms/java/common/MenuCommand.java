@@ -1,6 +1,6 @@
 package org.prgrms.java.common;
 
-import org.prgrms.java.exception.CommandException;
+import org.prgrms.java.exception.notfound.CommandNotFoundException;
 
 import java.util.Arrays;
 
@@ -11,6 +11,6 @@ public enum MenuCommand {
         return Arrays.stream(MenuCommand.values())
                 .filter((item) -> item.toString().equals(command.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new CommandException("Please enter a valid menu command."));
+                .orElseThrow(CommandNotFoundException::new);
     }
 }

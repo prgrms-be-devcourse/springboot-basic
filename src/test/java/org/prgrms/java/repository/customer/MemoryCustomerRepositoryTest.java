@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -40,7 +40,7 @@ class MemoryCustomerRepositoryTest {
     @Test
     @DisplayName("동일한 ID의 유저는 등록할 수 없다.")
     void testInsertSameIdCustomer() {
-        assertThrows(CustomerException.class, () -> {
+        assertThrows(CustomerBadRequestException.class, () -> {
             UUID customerId = UUID.randomUUID();
             Customer customer = createCustomer(customerId);
             Customer otherCustomer = createOtherCustomer(customerId);

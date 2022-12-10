@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.notfound.CustomerNotFoundException;
 import org.prgrms.java.repository.customer.CustomerRepository;
 
 import java.time.LocalDateTime;
@@ -54,7 +54,7 @@ public class CustomerServiceTest {
     void testGetNonExistCustomer() {
         when(customerRepository.findById(any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(CustomerException.class, () -> customerService.getCustomerById(UUID.randomUUID()));
+        Assertions.assertThrows(CustomerNotFoundException.class, () -> customerService.getCustomerById(UUID.randomUUID()));
     }
 
     @Test

@@ -1,7 +1,7 @@
 package org.prgrms.java.service;
 
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.notfound.CustomerNotFoundException;
 import org.prgrms.java.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,19 +35,19 @@ public class CustomerService {
     public Customer getCustomerById(UUID customerId) {
         return customerRepository.findById(customerId)
                 .filter(customer -> !customer.isBlocked())
-                .orElseThrow(() -> new CustomerException(String.format("Can not find a customer for %s", customerId)));
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer getCustomerByName(String name) {
         return customerRepository.findByName(name)
                 .filter(customer -> !customer.isBlocked())
-                .orElseThrow(() -> new CustomerException(String.format("Can not find a customer for %s", name)));
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer getCustomerByEmail(String email) {
         return customerRepository.findByEmail(email)
                 .filter(customer -> !customer.isBlocked())
-                .orElseThrow(() -> new CustomerException(String.format("Can not find a customer for %s", email)));
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> getAllCustomers() {
@@ -59,7 +59,7 @@ public class CustomerService {
     public Customer getBlackCustomerById(UUID customerId) {
         return customerRepository.findById(customerId)
                 .filter(Customer::isBlocked)
-                .orElseThrow(() -> new CustomerException(String.format("Can not find a black customer for %s", customerId)));
+                .orElseThrow(CustomerNotFoundException::new);
     }
 
     public List<Customer> getAllBlackCustomers() {

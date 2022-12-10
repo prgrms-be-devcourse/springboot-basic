@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.notfound.VoucherNotFoundException;
 import org.prgrms.java.repository.voucher.VoucherRepository;
 
 import java.time.LocalDateTime;
@@ -46,7 +46,7 @@ public class VoucherServiceTest {
         Voucher voucher = createFixedAmountVoucher(UUID.randomUUID());
         when(voucherRepository.findById(any())).thenReturn(Optional.of(voucher));
 
-        Voucher fixedAmountVoucher = voucherService.getVoucherById(voucher.getVoucherId());
+        Voucher fixedAmountVoucher = voucherService.getVoucherById(voucher.getVoucherId().toString());
 
         assertThat(fixedAmountVoucher, samePropertyValuesAs(voucher));
     }
@@ -56,7 +56,7 @@ public class VoucherServiceTest {
     void testGetNonExistVoucher() {
         when(voucherRepository.findById(any())).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(VoucherException.class, () -> voucherService.getVoucherById(UUID.randomUUID()));
+        Assertions.assertThrows(VoucherNotFoundException.class, () -> voucherService.getVoucherById(UUID.randomUUID().toString()));
     }
 
     @Test

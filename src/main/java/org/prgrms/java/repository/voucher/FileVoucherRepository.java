@@ -2,7 +2,7 @@ package org.prgrms.java.repository.voucher;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -84,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         if (findById(voucher.getVoucherId()).isPresent()) {
-            throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
+            throw new VoucherBadRequestException("이미 존재하는 아이디입니다.");
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME), true))) {

@@ -2,7 +2,7 @@ package org.prgrms.java.repository.voucher;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -64,11 +64,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             int result = namedParameterJdbcTemplate.update(INSERT_QUERY, Mapper.toParamMap(voucher));
             if (result != 1) {
-                throw new VoucherException("Nothing was inserted.");
+                throw new VoucherBadRequestException("바우처 생성 과정에서 문제가 발생했습니다.");
             }
             return voucher;
         } catch (DuplicateKeyException e) {
-            throw new VoucherException(voucher.getVoucherId() + " is already exists.");
+            throw new VoucherBadRequestException("이미 존재하는 아이디입니다.");
         }
     }
 
@@ -76,7 +76,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher update(Voucher voucher) {
         int result = namedParameterJdbcTemplate.update(UPDATE_QUERY, Mapper.toParamMap(voucher));
         if (result != 1) {
-            throw new VoucherException("Nothing was updated");
+            throw new VoucherBadRequestException("바우처 수정 과정에서 문제가 발생했습니다.");
         }
         return voucher;
     }
@@ -85,7 +85,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void delete(UUID voucherId) {
         int result = namedParameterJdbcTemplate.update(DELETE_QUERY, Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
         if (result != 1) {
-            throw new VoucherException("Noting was deleted");
+            throw new VoucherBadRequestException("바우처 삭제 과정에서 문제가 발생했습니다.");
         }
     }
 

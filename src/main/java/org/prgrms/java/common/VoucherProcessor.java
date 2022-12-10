@@ -4,9 +4,11 @@ import org.prgrms.java.controller.CustomerController;
 import org.prgrms.java.controller.VoucherController;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.CommandException;
-import org.prgrms.java.exception.CustomerException;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
+import org.prgrms.java.exception.notfound.CommandNotFoundException;
+import org.prgrms.java.exception.notfound.CustomerNotFoundException;
+import org.prgrms.java.exception.notfound.VoucherNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -58,7 +60,7 @@ public class VoucherProcessor implements ApplicationRunner {
                 case WALLET -> processWalletCommand();
             }
             return true;
-        } catch (CommandException e) {
+        } catch (CommandNotFoundException e) {
             view.print(e.getMessage());
             logger.warn(e.getMessage());
         }
@@ -75,9 +77,7 @@ public class VoucherProcessor implements ApplicationRunner {
                 case DELETE -> invokeDeleteVoucher();
                 case DELETE_ALL -> invokeDeleteVouchers();
             }
-        } catch (CommandException e) {
-            // Nothing
-        } catch (VoucherException | IllegalArgumentException e) {
+        } catch (VoucherNotFoundException | VoucherBadRequestException e) {
             view.print(e.getMessage());
         }
     }
@@ -109,11 +109,11 @@ public class VoucherProcessor implements ApplicationRunner {
         switch (view.read()) {
             case "1" -> {
                 view.print(MessageGuide.REQUIRE_VOUCHER_ID);
-                view.print(voucherController.findVoucherById(UUID.fromString(view.read())));
+                view.print(voucherController.findVoucherById(view.read()));
             }
             case "2" -> {
                 view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-                voucherController.findVouchersByOwner(UUID.fromString(view.read()))
+                voucherController.findVouchersByOwner(view.read())
                         .forEach(view::print);
             }
         }
@@ -127,7 +127,7 @@ public class VoucherProcessor implements ApplicationRunner {
     private void invokeDeleteVoucher() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
 
-        voucherController.deleteVoucher(UUID.fromString(view.read()));
+        voucherController.deleteVoucher(view.read());
         view.print(MessageGuide.SUCCESS_MESSAGE);
     }
 
@@ -146,9 +146,7 @@ public class VoucherProcessor implements ApplicationRunner {
                 case DELETE -> invokeDeleteCustomer();
                 case DELETE_ALL -> invokeDeleteCustomers();
             }
-        } catch (CommandException e) {
-            // Nothing
-        } catch (CustomerException | IllegalArgumentException e) {
+        } catch (CustomerNotFoundException | CustomerBadRequestException e) {
             view.print(e.getMessage());
         }
     }
@@ -207,7 +205,6 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void processWalletCommand() {
         view.print(MessageGuide.WALLET_COMMAND_OPTION);
-
         try {
             switch (HandlingCommand.get(view.read())) {
                 case ALLOCATE -> invokeAllocateVoucherToWallet();
@@ -216,19 +213,17 @@ public class VoucherProcessor implements ApplicationRunner {
                 case DELETE -> invokeRemoveVoucherFromWallet();
                 case DELETE_ALL -> invokeRemoveAllVouchersFromWallet();
             }
-        } catch (CommandException e) {
-            // Nothing
-        } catch (CustomerException | VoucherException | IllegalArgumentException e) {
+        } catch (CustomerBadRequestException | CustomerNotFoundException | VoucherBadRequestException | VoucherNotFoundException e) {
             view.print(e.getMessage());
         }
     }
 
     private void invokeAllocateVoucherToWallet() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
-        UUID voucherId = UUID.fromString(view.read());
+        String voucherId = view.read();
 
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        UUID customerId = UUID.fromString(view.read());
+        String customerId = view.read();
 
         voucherController.allocateVoucher(voucherId, customerId);
         view.print(MessageGuide.SUCCESS_MESSAGE);
@@ -236,7 +231,7 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void invokeFindCustomerHavingVoucher() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
-        Voucher voucher = voucherController.findVoucherById(UUID.fromString(view.read()));
+        Voucher voucher = voucherController.findVoucherById(view.read());
         Customer customer = customerController.findCustomer("id", voucher.getOwnerId().toString());
 
         view.print(customer);
@@ -254,16 +249,16 @@ public class VoucherProcessor implements ApplicationRunner {
     private void invokeRemoveVoucherFromWallet() {
         view.print(MessageGuide.REQUIRE_VOUCHER_ID);
 
-        voucherController.detachOwnerFromVoucher(UUID.fromString(view.read()));
+        voucherController.detachOwnerFromVoucher(view.read());
         view.print(MessageGuide.SUCCESS_MESSAGE);
     }
 
     private void invokeRemoveAllVouchersFromWallet() {
         view.print(MessageGuide.REQUIRE_CUSTOMER_ID);
-        UUID customerId = UUID.fromString(view.read());
+        String customerId = view.read();
 
         voucherController.findVouchersByOwner(customerId)
-                .forEach(voucher -> voucherController.detachOwnerFromVoucher(voucher.getVoucherId()));
+                .forEach(voucher -> voucherController.detachOwnerFromVoucher(voucher.getVoucherId().toString()));
 
         view.print(MessageGuide.SUCCESS_MESSAGE);
     }

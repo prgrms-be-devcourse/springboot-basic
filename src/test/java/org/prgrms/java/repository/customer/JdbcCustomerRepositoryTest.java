@@ -2,7 +2,7 @@ package org.prgrms.java.repository.customer;
 
 import org.junit.jupiter.api.*;
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.testcontainers.containers.MySQLContainer;
@@ -58,7 +58,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     @DisplayName("동일한 ID의 유저는 등록할 수 없다.")
     void testInsertSameIdCustomer() {
-        assertThrows(CustomerException.class, () -> {
+        assertThrows(CustomerBadRequestException.class, () -> {
             UUID customerId = UUID.randomUUID();
             Customer customer = createCustomer(customerId);
             Customer otherCustomer = createOtherCustomer(customerId);

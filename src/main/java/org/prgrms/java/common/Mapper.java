@@ -4,8 +4,9 @@ import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.CustomerException;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
+import org.prgrms.java.exception.notfound.CustomerNotFoundException;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.nio.ByteBuffer;
@@ -21,7 +22,7 @@ public class Mapper {
     public static Voucher mapToVoucher(String line) {
         String[] fields = line.split(",");
         if (fields.length != 7) {
-            throw new VoucherException("Corrupted voucher data! Please Check your data.");
+            throw new VoucherBadRequestException("손상된 바우처 데이터입니다.");
         }
 
         UUID voucherId = UUID.fromString(fields[0].trim());
@@ -57,14 +58,14 @@ public class Mapper {
                         .expiredAt(expiredAt)
                         .build();
             }
-            default -> throw new VoucherException("Unknown voucher type.");
+            default -> throw new VoucherBadRequestException("잘못된 바우처 타입입니다.");
         }
     }
 
     public static Customer mapToCustomer(String line) {
         String[] fields = line.split(",");
         if (fields.length != 5) {
-            throw new CustomerException("Corrupted voucher data! Please Check your data.");
+            throw new CustomerBadRequestException("손상된 사용자 데이터입니다.");
         }
 
         UUID customerId = UUID.fromString(fields[0].trim());

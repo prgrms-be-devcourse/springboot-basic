@@ -2,7 +2,8 @@ package org.prgrms.java.service;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
+import org.prgrms.java.exception.notfound.VoucherNotFoundException;
 import org.prgrms.java.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +26,21 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public Voucher getVoucherById(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new VoucherException(String.format("Can not find a voucher for %s", voucherId)));
+    public Voucher getVoucherById(String voucherId) {
+        try {
+            return voucherRepository.findById(UUID.fromString(voucherId))
+                    .orElseThrow(VoucherNotFoundException::new);
+        } catch (IllegalArgumentException e) {
+            throw new VoucherBadRequestException();
+        }
     }
 
-    public List<Voucher> getVoucherByOwnerId(UUID customerId) {
-        return voucherRepository.findByCustomer(customerId);
+    public List<Voucher> getVoucherByOwnerId(String customerId) {
+        try {
+            return voucherRepository.findByCustomer(UUID.fromString(customerId));
+        } catch (IllegalArgumentException e) {
+            throw new VoucherBadRequestException();
+        }
     }
 
     public List<Voucher> getAllExpiredVouchers() {
@@ -42,43 +51,55 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher updateVoucher(UUID voucherId, UUID ownerId, LocalDateTime expiredAt, boolean used) {
+    public Voucher updateVoucher(String voucherId, String ownerId, LocalDateTime expiredAt, boolean used) {
         Voucher voucher = getVoucherById(voucherId);
-        voucher.setOwnerId(ownerId);
+        try {
+            voucher.setOwnerId(UUID.fromString(ownerId));
+        } catch (IllegalArgumentException e) {
+            throw new VoucherBadRequestException();
+        }
         voucher.setExpiredAt(expiredAt);
         voucher.setUsed(used);
 
         return voucherRepository.update(voucher);
     }
 
-    public Voucher useVoucher(UUID voucherId) {
+    public Voucher useVoucher(String voucherId) {
         Voucher voucher = getVoucherById(voucherId);
         if (voucher.isUsed()) {
-            throw new VoucherException("This voucher has been already used.");
+            throw new VoucherBadRequestException("이미 사용된 바우처입니다.");
         }
 
         voucher.setUsed(true);
         return voucherRepository.update(voucher);
     }
 
-    public Voucher allocateVoucher(UUID voucherId, UUID ownerId) {
+    public Voucher allocateVoucher(String voucherId, String ownerId) {
         Voucher voucher = getVoucherById(voucherId);
         if (voucher.getOwnerId() != null) {
-            throw new VoucherException("This voucher has been already allocated.");
+            throw new VoucherBadRequestException("다른 사용자가 보유 중인 바우처입니다.");
         }
 
-        voucher.setOwnerId(ownerId);
+        try {
+            voucher.setOwnerId(UUID.fromString(ownerId));
+        } catch (IllegalArgumentException e) {
+            throw new VoucherBadRequestException();
+        }
         return voucherRepository.update(voucher);
     }
 
-    public Voucher detachOwnerFromVoucher(UUID voucherId) {
+    public Voucher detachOwnerFromVoucher(String voucherId) {
         Voucher voucher = getVoucherById(voucherId);
         voucher.setOwnerId(null);
         return voucherRepository.update(voucher);
     }
 
-    public void deleteVoucher(UUID voucherId) {
-        voucherRepository.delete(voucherId);
+    public void deleteVoucher(String voucherId) {
+        try {
+            voucherRepository.delete(UUID.fromString(voucherId));
+        } catch (IllegalArgumentException e) {
+            throw new VoucherBadRequestException();
+        }
     }
 
     public void deleteAllVouchers() {

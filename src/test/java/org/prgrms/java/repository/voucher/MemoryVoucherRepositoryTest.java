@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.java.domain.voucher.FixedAmountVoucher;
 import org.prgrms.java.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -42,7 +42,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("동일한 ID의 바우처는 등록할 수 없다.")
     void testInsertSameIdVoucher() {
-        assertThrows(VoucherException.class, () -> {
+        assertThrows(VoucherBadRequestException.class, () -> {
             UUID voucherId = UUID.randomUUID();
             Voucher fixedAmountVoucher = createFixedAmountVoucher(voucherId);
             Voucher percentDiscountVoucher = createPercentDiscountVoucher(voucherId);

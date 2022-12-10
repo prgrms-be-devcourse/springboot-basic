@@ -1,7 +1,8 @@
 package org.prgrms.java.repository.voucher;
 
 import org.prgrms.java.domain.voucher.Voucher;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
+import org.prgrms.java.exception.notfound.VoucherNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -40,7 +41,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         if (findById(voucher.getVoucherId()).isPresent()) {
-            throw new VoucherException(String.format("Already exists voucher having id %s", voucher.getVoucherId()));
+            throw new VoucherBadRequestException("이미 존재하는 아이디입니다.");
         }
         storage.put(voucher.getVoucherId(), voucher);
         return storage.get(voucher.getVoucherId());
@@ -49,7 +50,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher update(Voucher voucher) {
         if (findById(voucher.getVoucherId()).isEmpty()) {
-            throw new VoucherException(String.format("No exists voucher having id %s", voucher.getVoucherId()));
+            throw new VoucherNotFoundException();
         }
         storage.put(voucher.getVoucherId(), voucher);
         return storage.get(voucher.getVoucherId());
@@ -58,7 +59,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void delete(UUID voucherId) {
         if (findById(voucherId).isEmpty()) {
-            throw new VoucherException(String.format("No exists voucher having id %s", voucherId));
+            throw new VoucherNotFoundException();
         }
         storage.remove(voucherId);
     }

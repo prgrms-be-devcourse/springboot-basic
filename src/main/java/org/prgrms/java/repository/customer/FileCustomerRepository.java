@@ -2,7 +2,7 @@ package org.prgrms.java.repository.customer;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -103,7 +103,7 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public Customer save(Customer customer) {
         if (findById(customer.getCustomerId()).isPresent()) {
-            throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
+            throw new CustomerBadRequestException("이미 존재하는 아이디입니다.");
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(customer.isBlocked())), true))) {

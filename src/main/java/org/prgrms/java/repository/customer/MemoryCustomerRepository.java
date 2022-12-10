@@ -1,7 +1,8 @@
 package org.prgrms.java.repository.customer;
 
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
+import org.prgrms.java.exception.notfound.CustomerNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -38,7 +39,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
     @Override
     public Customer save(Customer customer) {
         if (findById(customer.getCustomerId()).isPresent()) {
-            throw new CustomerException(String.format("Already exists customer having id %s", customer.getCustomerId()));
+            throw new CustomerBadRequestException("이미 존재하는 아이디입니다.");
         }
         storage.put(customer.getCustomerId(), customer);
         return storage.get(customer.getCustomerId());
@@ -47,7 +48,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
     @Override
     public Customer update(Customer customer) {
         if (findById(customer.getCustomerId()).isEmpty()) {
-            throw new CustomerException(String.format("No exists customer having id %s", customer.getCustomerId()));
+            throw new CustomerNotFoundException();
         }
         storage.put(customer.getCustomerId(), customer);
         return storage.get(customer.getCustomerId());
@@ -56,7 +57,7 @@ public class MemoryCustomerRepository implements CustomerRepository {
     @Override
     public void delete(UUID customerId) {
         if (findById(customerId).isEmpty()) {
-            throw new CustomerException(String.format("No exists customer having id %s", customerId));
+            throw new CustomerNotFoundException();
         }
         storage.remove(customerId);
     }

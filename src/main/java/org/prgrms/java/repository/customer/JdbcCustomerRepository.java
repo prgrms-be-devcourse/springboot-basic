@@ -2,7 +2,7 @@ package org.prgrms.java.repository.customer;
 
 import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.customer.Customer;
-import org.prgrms.java.exception.CustomerException;
+import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -75,11 +75,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             int result = namedParameterJdbcTemplate.update(INSERT_QUERY, Mapper.toParamMap(customer));
             if (result != 1) {
-                throw new CustomerException("Nothing was inserted.");
+                throw new CustomerBadRequestException("사용자 생성 과정에서 문제가 발생했습니다.");
             }
             return customer;
         } catch (DuplicateKeyException e) {
-            throw new CustomerException(customer + " is already exists.");
+            throw new CustomerBadRequestException("이미 존재하는 아이디입니다.");
         }
     }
 
@@ -87,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         int result = namedParameterJdbcTemplate.update(UPDATE_QUERY, Mapper.toParamMap(customer));
         if (result != 1) {
-            throw new CustomerException("Nothing was updated");
+            throw new CustomerBadRequestException("사용자 수정 과정에서 문제가 발생했습니다.");
         }
         return customer;
     }
@@ -96,7 +96,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void delete(UUID customerId) {
         int result = namedParameterJdbcTemplate.update(DELETE_QUERY, Collections.singletonMap("customerId", customerId.toString().getBytes()));
         if (result != 1) {
-            throw new CustomerException("Nothing was deleted");
+            throw new CustomerBadRequestException("사용자 삭제 과정에서 문제가 발생했습니다.");
         }
     }
 

@@ -2,7 +2,7 @@ package org.prgrms.java.domain.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.java.exception.VoucherException;
+import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -25,7 +25,7 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("금액이 0보다 작으면 고정 할인 바우처가 생성될 수 없다.")
     void testCreateNegativeAmountVoucher() {
-        assertThrows(VoucherException.class, () -> FixedAmountVoucher.builder()
+        assertThrows(VoucherBadRequestException.class, () -> FixedAmountVoucher.builder()
                 .voucherId(UUID.randomUUID())
                 .ownerId(UUID.randomUUID())
                 .amount(-1)

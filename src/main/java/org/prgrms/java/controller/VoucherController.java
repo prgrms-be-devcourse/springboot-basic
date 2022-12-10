@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -33,7 +32,7 @@ public class VoucherController {
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public String viewVoucherDetailPage(@PathVariable("voucherId") UUID voucherId, Model model) {
+    public String viewVoucherDetailPage(@PathVariable("voucherId") String voucherId, Model model) {
         Voucher voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
@@ -52,13 +51,13 @@ public class VoucherController {
 
     @PutMapping("/voucher")
     public String putVoucher(VoucherDto voucherDto) {
-        voucherService.updateVoucher(voucherDto.getVoucherId(), voucherDto.getOwnerId(), voucherDto.getExpiredAt(), voucherDto.isUsed());
+        voucherService.updateVoucher(voucherDto.getVoucherId().toString(), voucherDto.getOwnerId().toString(), voucherDto.getExpiredAt(), voucherDto.isUsed());
 
         return "redirect:/voucher";
     }
 
     @DeleteMapping("/voucher/{voucherId}")
-    public String deleteVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+    public String deleteVoucher(@PathVariable("voucherId") String voucherId, Model model) {
         voucherService.deleteVoucher(voucherId);
         return "redirect:/voucher";
     }
@@ -67,11 +66,11 @@ public class VoucherController {
         return voucherService.saveVoucher(null, type, amount, expiredAt);
     }
 
-    public Voucher findVoucherById(UUID voucherId) {
+    public Voucher findVoucherById(String voucherId) {
         return voucherService.getVoucherById(voucherId);
     }
 
-    public List<Voucher> findVouchersByOwner(UUID customerId) {
+    public List<Voucher> findVouchersByOwner(String customerId) {
         return voucherService.getVoucherByOwnerId(customerId);
     }
 
@@ -79,23 +78,23 @@ public class VoucherController {
         return voucherService.getAllVouchers();
     }
 
-    public Voucher updateVoucher(UUID voucherId, UUID ownerId, LocalDateTime expiredAt, boolean used) {
+    public Voucher updateVoucher(String voucherId, String ownerId, LocalDateTime expiredAt, boolean used) {
         return voucherService.updateVoucher(voucherId, ownerId, expiredAt, used);
     }
 
-    public Voucher useVoucher(UUID voucherId) {
+    public Voucher useVoucher(String voucherId) {
         return voucherService.useVoucher(voucherId);
     }
 
-    public Voucher allocateVoucher(UUID voucherId, UUID customerId) {
+    public Voucher allocateVoucher(String voucherId, String customerId) {
         return voucherService.allocateVoucher(voucherId, customerId);
     }
 
-    public Voucher detachOwnerFromVoucher(UUID voucherId) {
+    public Voucher detachOwnerFromVoucher(String voucherId) {
         return voucherService.detachOwnerFromVoucher(voucherId);
     }
 
-    public void deleteVoucher(UUID voucherId) {
+    public void deleteVoucher(String voucherId) {
         voucherService.deleteVoucher(voucherId);
     }
 
