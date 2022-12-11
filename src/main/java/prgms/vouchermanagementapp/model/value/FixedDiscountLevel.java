@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.domain.value;
+package prgms.vouchermanagementapp.model.value;
 
 public interface FixedDiscountLevel {
 

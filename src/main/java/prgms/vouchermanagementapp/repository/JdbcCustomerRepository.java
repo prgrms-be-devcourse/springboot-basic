@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.Customer;
+import prgms.vouchermanagementapp.model.Customer;
 
 import javax.sql.DataSource;
 import java.util.Map;

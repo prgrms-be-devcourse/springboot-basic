@@ -1,6 +1,6 @@
-package prgms.vouchermanagementapp.domain;
+package prgms.vouchermanagementapp.model;
 
-import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.model.value.Ratio;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

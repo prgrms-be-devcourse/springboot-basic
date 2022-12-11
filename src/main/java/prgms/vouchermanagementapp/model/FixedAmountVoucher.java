@@ -1,6 +1,6 @@
-package prgms.vouchermanagementapp.domain;
+package prgms.vouchermanagementapp.model;
 
-import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.model.value.Amount;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;

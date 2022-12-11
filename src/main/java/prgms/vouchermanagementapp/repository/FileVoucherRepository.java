@@ -3,7 +3,7 @@ package prgms.vouchermanagementapp.repository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import prgms.vouchermanagementapp.configuration.FileConfig;
-import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.model.Voucher;
 import prgms.vouchermanagementapp.repository.util.FileManager;
 import prgms.vouchermanagementapp.repository.util.VoucherContentConverter;
 

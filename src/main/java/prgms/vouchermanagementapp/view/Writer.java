@@ -1,8 +1,8 @@
 package prgms.vouchermanagementapp.view;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.VoucherType;
+import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.VoucherType;
 import prgms.vouchermanagementapp.repository.util.VoucherContentConverter;
 
 import java.util.List;

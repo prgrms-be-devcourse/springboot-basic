@@ -2,7 +2,7 @@ package prgms.vouchermanagementapp.repository;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.model.Voucher;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

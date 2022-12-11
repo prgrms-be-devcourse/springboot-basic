@@ -1,10 +1,10 @@
 package prgms.vouchermanagementapp.service;
 
-import prgms.vouchermanagementapp.domain.FixedAmountVoucher;
-import prgms.vouchermanagementapp.domain.PercentDiscountVoucher;
-import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.value.Amount;
-import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.model.FixedAmountVoucher;
+import prgms.vouchermanagementapp.model.PercentDiscountVoucher;
+import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.value.Amount;
+import prgms.vouchermanagementapp.model.value.Ratio;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
