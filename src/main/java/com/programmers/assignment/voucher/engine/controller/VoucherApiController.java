@@ -3,9 +3,8 @@ package com.programmers.assignment.voucher.engine.controller;
 import com.programmers.assignment.voucher.engine.model.Voucher;
 import com.programmers.assignment.voucher.engine.service.CustomerService;
 import com.programmers.assignment.voucher.engine.service.VoucherService;
-import com.programmers.assignment.voucher.util.response.CommonResponse;
-import com.programmers.assignment.voucher.util.response.ResponseCode;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import com.programmers.assignment.voucher.common.response.CommonResponse;
+import com.programmers.assignment.voucher.common.response.ResponseCode;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 

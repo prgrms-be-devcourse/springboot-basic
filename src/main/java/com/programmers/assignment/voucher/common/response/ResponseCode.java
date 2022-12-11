@@ -1,4 +1,4 @@
-package com.programmers.assignment.voucher.util.response;
+package com.programmers.assignment.voucher.common.response;
 
 import org.springframework.http.HttpStatus;
 

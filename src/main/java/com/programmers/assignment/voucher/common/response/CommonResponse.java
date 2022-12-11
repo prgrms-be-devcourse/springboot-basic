@@ -1,4 +1,4 @@
-package com.programmers.assignment.voucher.util.response;
+package com.programmers.assignment.voucher.common.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;

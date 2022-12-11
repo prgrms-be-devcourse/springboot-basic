@@ -3,8 +3,8 @@ package com.programmers.assignment.voucher.engine.controller;
 import com.programmers.assignment.voucher.engine.model.Customer;
 import com.programmers.assignment.voucher.engine.service.CustomerService;
 import com.programmers.assignment.voucher.util.dto.CustomerDto;
-import com.programmers.assignment.voucher.util.response.CommonResponse;
-import com.programmers.assignment.voucher.util.response.ResponseCode;
+import com.programmers.assignment.voucher.common.response.CommonResponse;
+import com.programmers.assignment.voucher.common.response.ResponseCode;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
