@@ -20,19 +20,19 @@ public class CustomerApiController {
         this.service = service;
     }
 
-    @GetMapping("/api/v1/customers")
+    @GetMapping("/api/customers")
     public CommonResponse<List<Customer>> customerList() {
         var customers = service.findCustomers();
         return new CommonResponse<>(customers);
     }
 
-    @GetMapping("/api/v1/customers/{customerUuid}")
+    @GetMapping("/api/customers/{customerUuid}")
     public CommonResponse<Customer> customerDetails(@PathVariable UUID customerUuid) {
         var customer = service.findCustomerByUuid(customerUuid);
         return new CommonResponse<>(customer);
     }
 
-    @PostMapping("/api/v1/customers/new")
+    @PostMapping("/api/customers")
     public CommonResponse<?> createCustomer(CustomerDto customerDto) {
         service.createCustomer(customerDto);
         return new CommonResponse<>(ResponseCode.SUCCESS);

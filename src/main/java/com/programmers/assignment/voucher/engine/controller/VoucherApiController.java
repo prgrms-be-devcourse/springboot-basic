@@ -22,19 +22,19 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/api/v1/vouchers")
+    @GetMapping("/api/vouchers")
     public CommonResponse<List<Voucher>> getVoucherList() {
         var vouchers = voucherService.getAllVouchers();
         return new CommonResponse<>(vouchers);
     }
 
-    @PostMapping("/api/v1/vouchers/new")
+    @PostMapping("/api/vouchers")
     public CommonResponse<?> createVoucher(String customerId, String discountWay, String discountValue) {
         voucherService.makeVoucher(customerId, discountWay, discountValue);
         return new CommonResponse<>(ResponseCode.SUCCESS);
     }
 
-    @GetMapping("/api/v1/vouchers/{voucherId}")
+    @GetMapping("/api/vouchers/{voucherId}")
     public CommonResponse<Voucher> voucherDetails(Model model, @PathVariable UUID voucherId) {
         var voucher = voucherService.getVoucherById(voucherId);
         return new CommonResponse<>(voucher);

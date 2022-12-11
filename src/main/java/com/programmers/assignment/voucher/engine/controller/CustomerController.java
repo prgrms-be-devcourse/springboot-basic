@@ -41,7 +41,7 @@ public class CustomerController {
         return "customer-form";
     }
 
-    @PostMapping("/customers/new")
+    @PostMapping("/customers")
     public String createCustomer(CustomerDto customerDto) {
         customerService.createCustomer(customerDto);
         return "redirect:/customers";
