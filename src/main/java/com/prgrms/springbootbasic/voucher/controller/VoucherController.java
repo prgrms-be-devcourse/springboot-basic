@@ -19,7 +19,7 @@ import java.util.UUID;
 import static com.prgrms.springbootbasic.voucher.controller.VoucherResponse.*;
 import static org.springframework.http.HttpStatus.*;
 
-@Profile("prod | test")
+@Profile({"prod", "test"})
 @Controller
 @RequestMapping("/api/v1/voucher")
 public class VoucherController {
@@ -61,7 +61,7 @@ public class VoucherController {
                     "voucherTypes", VoucherType.values(),
                     "responseStatus", new ResponseStatus(BAD_REQUEST.value(), e.getMessage()));
             model.addAllAttributes(attributes);
-            return "voucher/newForm";
+            return "redirect:/api/v1/voucher/new";
         }
         logger.info("New Voucher created. input info : {}", voucherForm);
         return "redirect:/api/v1/voucher";
