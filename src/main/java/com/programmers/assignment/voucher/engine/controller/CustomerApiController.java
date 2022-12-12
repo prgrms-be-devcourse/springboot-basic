@@ -37,9 +37,4 @@ public class CustomerApiController {
         service.createCustomer(customerDto);
         return new CommonResponse<>(ResponseCode.SUCCESS);
     }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public CommonResponse<?> handleNoSuchElementException(NoSuchElementException exception) {
-        return new CommonResponse<>(ResponseCode.NOT_FOUND_CUSTOMER);
-    }
 }

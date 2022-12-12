@@ -38,19 +38,4 @@ public class VoucherApiController {
         var voucher = voucherService.getVoucherById(voucherId);
         return new CommonResponse<>(voucher);
     }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public CommonResponse<?> handleNoSuchElementException(NoSuchElementException exception) {
-        return new CommonResponse<>(ResponseCode.NOT_FOUND_VOUCHER);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public CommonResponse<?> handleIllegalArgumentException(IllegalArgumentException exception) {
-        return new CommonResponse<>(ResponseCode.INVALID_DISCOUNT_VALUE);
-    }
-
-    @ExceptionHandler(NoSuchFieldException.class)
-    public CommonResponse<?> handleNoSuchFieldException(NoSuchFieldException exception) {
-        return new CommonResponse<>(ResponseCode.NOT_AVAILABLE_VOUCHER);
-    }
 }
