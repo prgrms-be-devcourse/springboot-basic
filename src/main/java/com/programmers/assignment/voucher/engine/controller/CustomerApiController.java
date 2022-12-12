@@ -1,14 +1,15 @@
 package com.programmers.assignment.voucher.engine.controller;
 
+import com.programmers.assignment.voucher.common.response.CommonResponse;
 import com.programmers.assignment.voucher.engine.model.Customer;
 import com.programmers.assignment.voucher.engine.service.CustomerService;
 import com.programmers.assignment.voucher.util.dto.CustomerDto;
-import com.programmers.assignment.voucher.common.response.CommonResponse;
-import com.programmers.assignment.voucher.common.response.ResponseCode;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
@@ -33,8 +34,8 @@ public class CustomerApiController {
     }
 
     @PostMapping("/api/customers")
-    public CommonResponse<?> createCustomer(CustomerDto customerDto) {
-        service.createCustomer(customerDto);
-        return new CommonResponse<>(ResponseCode.SUCCESS);
+    public CommonResponse<Customer> createCustomer(CustomerDto customerDto) {
+        var customer = service.createCustomer(customerDto);
+        return new CommonResponse<>(customer);
     }
 }
