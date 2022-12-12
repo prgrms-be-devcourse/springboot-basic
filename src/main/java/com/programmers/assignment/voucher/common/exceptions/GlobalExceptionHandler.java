@@ -13,16 +13,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public CommonResponse<?> handleNoSuchElementException(NoSuchElementException exception) {
-        return new CommonResponse<>(ResponseCode.NOT_FOUND_CUSTOMER);
+        return new CommonResponse<>(ResponseCode.NOT_FOUND);
     }
 
     @ExceptionHandler(InputMismatchException.class)
     public CommonResponse<?> handleInputMismatchException(InputMismatchException exception) {
-        return new CommonResponse<>(ResponseCode.NOT_FOUND_VOUCHER);
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public CommonResponse<?> handleIllegalArgumentException(IllegalArgumentException exception) {
         return new CommonResponse<>(ResponseCode.INVALID_DISCOUNT_VALUE);
     }
 
