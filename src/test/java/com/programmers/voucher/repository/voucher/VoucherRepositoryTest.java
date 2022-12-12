@@ -11,14 +11,13 @@ import com.programmers.voucher.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,11 +26,10 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @JdbcTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({VoucherJdbcRepository.class, CustomerJdbcRepository.class})
-@ActiveProfiles("test")
 class VoucherRepositoryTest extends MysqlTestContainer {
 
     @Autowired
@@ -76,7 +74,7 @@ class VoucherRepositoryTest extends MysqlTestContainer {
         voucherRepository.save(newVoucher);
 
         //when
-        List<Voucher> result = voucherRepository.findAll("");
+        List<Voucher> result = voucherRepository.findAll(null);
 
         //then
         assertThat(result)
