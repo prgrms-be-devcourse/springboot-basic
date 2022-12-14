@@ -68,8 +68,8 @@ public class JdbcTemplateUtil {
 
 	public static Map<String, Object> toWalletParamMap(Wallet wallet) {
 		return Map.of(
-			"voucherId", wallet.getVoucher().getVoucherId().toString(),
-			"customerId", wallet.getCustomer().getCustomerId().toString(),
+			"voucherId", wallet.getVoucherId().toString(),
+			"customerId", wallet.getCustomerId().toString(),
 			"createdAt", wallet.getCreatedAt()
 		);
 	}

@@ -2,28 +2,26 @@ package com.programmers.voucher.domain.wallet.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import com.programmers.voucher.domain.customer.model.Customer;
-import com.programmers.voucher.domain.voucher.model.Voucher;
+import java.util.UUID;
 
 public class Wallet {
 
-	private final Voucher voucher;
-	private final Customer customer;
+	private final UUID customerId;
+	private final UUID voucherId;
 	private final LocalDateTime createdAt;
 
-	public Wallet(Voucher voucher, Customer customer, LocalDateTime createdAt) {
-		this.voucher = voucher;
-		this.customer = customer;
+	public Wallet(UUID customerId, UUID voucherId, LocalDateTime createdAt) {
+		this.customerId = customerId;
+		this.voucherId = voucherId;
 		this.createdAt = createdAt;
 	}
 
-	public Voucher getVoucher() {
-		return voucher;
+	public UUID getCustomerId() {
+		return customerId;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public UUID getVoucherId() {
+		return voucherId;
 	}
 
 	public LocalDateTime getCreatedAt() {
@@ -32,8 +30,8 @@ public class Wallet {
 
 	@Override
 	public String toString() {
-		return "voucherId: " + voucher.getVoucherId().toString() +
-			", customerId" + customer.getCustomerId().toString() +
+		return "customerId" + customerId.toString() +
+			", voucherId: " + voucherId.toString() +
 			", createdAt: " + createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
 }

@@ -20,8 +20,8 @@ public class WalletService {
 		this.walletRepository = walletRepository;
 	}
 
-	public Wallet register(Voucher voucher, Customer customer) {
-		Wallet wallet = new Wallet(voucher, customer, LocalDateTime.now());
+	public Wallet register(UUID customerId, UUID voucherId) {
+		Wallet wallet = new Wallet(customerId, voucherId, LocalDateTime.now());
 		walletRepository.save(wallet);
 		return wallet;
 	}

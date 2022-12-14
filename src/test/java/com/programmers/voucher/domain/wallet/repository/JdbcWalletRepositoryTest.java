@@ -78,8 +78,7 @@ class JdbcWalletRepositoryTest {
 
 	@Test
 	void save() {
-		Wallet wallet = new Wallet(voucherRepository.findById(voucherId), customerRepository.findById(customerId),
-			LocalDateTime.now());
+		Wallet wallet = new Wallet(customerId, voucherId, LocalDateTime.now());
 
 		Wallet createdWallet = walletRepository.save(wallet);
 
@@ -89,8 +88,7 @@ class JdbcWalletRepositoryTest {
 	@Test
 	void findVouchersByCustomerId() {
 		List<Voucher> before = walletRepository.findVouchersByCustomerId(customerId);
-		Wallet wallet = new Wallet(voucherRepository.findById(voucherId), customerRepository.findById(customerId),
-			LocalDateTime.now());
+		Wallet wallet = new Wallet(customerId, voucherId, LocalDateTime.now());
 		walletRepository.save(wallet);
 
 		List<Voucher> after = walletRepository.findVouchersByCustomerId(customerId);
@@ -101,8 +99,7 @@ class JdbcWalletRepositoryTest {
 	@Test
 	void findCustomersByVoucherId() {
 		List<Customer> before = walletRepository.findCustomersByVoucherId(voucherId);
-		Wallet wallet = new Wallet(voucherRepository.findById(voucherId), customerRepository.findById(customerId),
-			LocalDateTime.now());
+		Wallet wallet = new Wallet(customerId, voucherId, LocalDateTime.now());
 		walletRepository.save(wallet);
 
 		List<Customer> after = walletRepository.findCustomersByVoucherId(voucherId);

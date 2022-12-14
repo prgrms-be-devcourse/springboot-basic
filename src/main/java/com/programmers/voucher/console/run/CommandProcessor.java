@@ -64,12 +64,10 @@ public class CommandProcessor {
 		getAllCustomer(output);
 		output.write(CUSTOMER_SELECT_OPTION.getMessage());
 		UUID customerId = UUID.fromString(input.read());
-		Customer customer = customerService.findById(customerId);
 		getAllVoucher(output);
 		output.write(VOUCHER_SELECT_OPTION.getMessage());
 		UUID voucherId = UUID.fromString(input.read());
-		Voucher voucher = voucherService.findById(voucherId);
-		walletService.register(voucher, customer);
+		walletService.register(customerId, voucherId);
 	}
 
 	private void removeVoucher(Input input, Output output) {
