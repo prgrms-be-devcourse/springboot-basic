@@ -1,3 +1,7 @@
+spring:
+  profiles:
+    active: release
+
 files:
   customer-blacklist: src/main/resources/data/customer_blacklist.csv
   voucher-record: src/main/resources/data/voucher_record.csv
@@ -5,19 +9,40 @@ files:
 ---
 
 spring:
-  profiles:
-    active: release
+  config:
+    activate:
+      on-profile: release
 
   thymeleaf:
     cache: false
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/mission1
+    url: jdbc:h2:tcp://localhost/~/mission_springboot
     username: sa
-    password: 5643
+    password:
 
-#logging:
-#  level:
-#    org:
-#      springframework:
-#        level: debug
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test_db;MODE=MySQL;
+    username: sa
+    password:
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  output:
+    ansi:
+      enabled: always
