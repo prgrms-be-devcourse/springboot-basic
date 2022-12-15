@@ -1,25 +1,20 @@
 package prgms.vouchermanagementapp.model.dto;
 
-import java.text.MessageFormat;
+import javax.validation.constraints.NotEmpty;
 
 public class VoucherCreationDto {
 
+    @NotEmpty
     private String voucherType;
+
+    @NotEmpty
     private long discountLevel;
 
     public VoucherCreationDto() {
     }
 
     public VoucherCreationDto(String voucherType, long discountLevel) {
-        this.voucherType = switch (voucherType) {
-            case "fixed" -> "FixedAmountVoucher";
-            case "percent" -> "PercentDiscountVoucher";
-            default -> throw new IllegalArgumentException(
-                    MessageFormat.format(
-                            "[ERROR] Voucher Type should be 'fixed' or 'percent'. You entered ''{0}''.", voucherType
-                    )
-            );
-        };
+        this.voucherType = voucherType;
         this.discountLevel = discountLevel;
     }
 
