@@ -27,13 +27,15 @@ public enum VoucherType {
                 .findFirst();
     }
 
-    public static String toTypeLiteral(String voucherTypeLiteral) {
-        return Arrays.stream(VoucherType.values())
-                .map(voucherType -> voucherType.typeLiteral)
-                .filter(typeLiteral -> typeLiteral.equals(voucherTypeLiteral))
+    public static VoucherType from(String typeLiteral) {
+        return getValues().stream()
+                .filter(voucherType -> voucherType.getTypeLiteral().equals(typeLiteral))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        MessageFormat.format("voucherType ''{0}'' doesn't exist!", voucherTypeLiteral))
+                                MessageFormat.format(
+                                        "No Matching Voucher Type exists for typeLiteral ''{0}''", typeLiteral
+                                )
+                        )
                 );
     }
 
@@ -43,5 +45,9 @@ public enum VoucherType {
 
     public int getIndex() {
         return this.index;
+    }
+
+    public String getTypeLiteral() {
+        return this.typeLiteral;
     }
 }
