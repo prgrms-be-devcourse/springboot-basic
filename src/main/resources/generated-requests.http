@@ -1,0 +1,25 @@
+### [생성] 바우처 생성: POST "/vouchers"
+### Request: VoucherCreationDto
+### Response: 200, UUID 타입의 바우처 아이디
+POST http://localhost:8080/vouchers
+Content-Type: application/json
+
+{
+  "voucherType": "percent",
+  "discountLevel": 35
+}
+
+<> 2022-12-16T155213.200.json
+
+### [조회] 전체 바우처 조회: GET "/vouchers"
+### Response: 200, List<VoucherResponseDto>
+GET http://localhost:8080/vouchers
+
+<> 2022-12-16T161727.200.json
+
+### [조회] 바우처 개별 조회: GET "/vouchers/{voucherId}"
+### Response: 200, VoucherResponseDto
+GET http://localhost:8080/vouchers/4b689870-4ea7-4de0-9538-9c9bfed7
+
+<> 2022-12-16T161958.400.json
+<> 2022-12-16T161840.200.json
