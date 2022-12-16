@@ -58,18 +58,18 @@ public class VoucherController {
     }
 
     @GetMapping(value = "/{voucherId}")
-    public String lookupVoucher(@PathVariable String voucherId, Model model) {
+    public String getVoucher(@PathVariable String voucherId, Model model) {
         if (!UUIDUtil.isUUID(voucherId)) {
             throw new VoucherNotFoundException();
         }
-        Voucher voucher = voucherService.lookupVoucherById(voucherId);
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("voucher", voucher);
         return "vouchers/detailPage";
     }
 
     @GetMapping(value = "/list")
-    public String lookupVoucherList(Model model) {
-        List<Voucher> voucherList = voucherService.lookupVoucherList();
+    public String getVoucherList(Model model) {
+        List<Voucher> voucherList = voucherService.getVoucherList();
         model.addAttribute("voucherList", voucherList);
         return "vouchers/lookupPage";
     }

@@ -35,11 +35,11 @@ public class CustomerService {
         }
     }
 
-    public List<Customer> lookupCustomerList() {
+    public List<Customer> getCustomerList() {
         return customerRepository.findAll();
     }
 
-    public Customer lookupCustomerById(String customerId) {
+    public Customer getCustomerById(String customerId) {
         return customerRepository.findById(UUID.fromString(customerId))
                 .orElseThrow(CustomerNotFoundException::new);
     }

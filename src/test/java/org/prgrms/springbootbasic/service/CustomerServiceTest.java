@@ -66,7 +66,7 @@ class CustomerServiceTest {
         }
 
         when(customerRepository.findAll()).thenReturn(customerList);
-        List<Customer> lookedUpList = customerService.lookupCustomerList();
+        List<Customer> lookedUpList = customerService.getCustomerList();
 
         assertThat(lookedUpList, samePropertyValuesAs(customerList));
         verify(customerRepository, times(1)).findAll();
@@ -87,7 +87,7 @@ class CustomerServiceTest {
 
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(targetCustomer));
 
-        Customer customerById = customerService.lookupCustomerById(customerId.toString());
+        Customer customerById = customerService.getCustomerById(customerId.toString());
 
         assertThat(customerById, samePropertyValuesAs(targetCustomer));
         verify(customerRepository, times(1)).findById(customerId);
@@ -102,7 +102,7 @@ class CustomerServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(CustomerNotFoundException.class,
-                () -> customerService.lookupCustomerById(customerId.toString()));
+                () -> customerService.getCustomerById(customerId.toString()));
         verify(customerRepository, times(1)).findById(customerId);
     }
 

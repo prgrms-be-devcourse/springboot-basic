@@ -34,15 +34,15 @@ public class VoucherRestController {
     }
 
     @GetMapping(value = "/{voucherId}")
-    public Voucher lookupVoucher(@PathVariable String voucherId) {
+    public Voucher getVoucher(@PathVariable String voucherId) {
         if (!UUIDUtil.isUUID(voucherId)) {
             throw new VoucherNotFoundException();
         }
-        return voucherService.lookupVoucherById(voucherId);
+        return voucherService.getVoucherById(voucherId);
     }
 
     @GetMapping(value = "/list")
-    public List<Voucher> lookupVoucherList() {
-        return voucherService.lookupVoucherList();
+    public List<Voucher> getVoucherList() {
+        return voucherService.getVoucherList();
     }
 }

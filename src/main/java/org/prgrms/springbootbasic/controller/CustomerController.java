@@ -53,7 +53,7 @@ public class CustomerController {
 
     @GetMapping(value = "/{customerId}/edit-form")
     public String editCustomer(@PathVariable String customerId, Model model) {
-        Customer customerById = customerService.lookupCustomerById(customerId);
+        Customer customerById = customerService.getCustomerById(customerId);
         model.addAttribute("customer", customerById);
         return "customers/editPage";
     }
@@ -66,7 +66,7 @@ public class CustomerController {
             return "customers/editPage";
         }
 
-        Customer customer = customerService.lookupCustomerById(customerId);
+        Customer customer = customerService.getCustomerById(customerId);
         customer.changeName(customerUpdate.getName());
         customerService.editCustomer(customerUpdate);
 
@@ -75,15 +75,15 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{customerId}")
-    public String lookupCustomer(@PathVariable String customerId, Model model) {
-        Customer customerById = customerService.lookupCustomerById(customerId);
+    public String getCustomer(@PathVariable String customerId, Model model) {
+        Customer customerById = customerService.getCustomerById(customerId);
         model.addAttribute("customer", customerById);
         return "customers/detailPage";
     }
 
     @GetMapping(value = "/list")
-    public String lookupCustomerList(Model model) {
-        List<Customer> customerList = customerService.lookupCustomerList();
+    public String getCustomerList(Model model) {
+        List<Customer> customerList = customerService.getCustomerList();
         model.addAttribute("customerList", customerList);
         return "customers/lookupPage";
     }

@@ -22,12 +22,12 @@ public class VoucherService {
         return voucher;
     }
 
-    public Voucher lookupVoucherById(String voucherId) {
+    public Voucher getVoucherById(String voucherId) {
         return voucherRepository.findById(UUID.fromString(voucherId))
                 .orElseThrow(VoucherNotFoundException::new);
     }
 
-    public List<Voucher> lookupVoucherList() {
+    public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 }

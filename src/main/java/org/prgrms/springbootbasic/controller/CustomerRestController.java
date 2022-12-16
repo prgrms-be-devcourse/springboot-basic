@@ -33,9 +33,9 @@ public class CustomerRestController {
     }
 
     @GetMapping("/{customerId}")
-    public Customer lookupCustomer(@PathVariable String customerId) {
+    public Customer getCustomer(@PathVariable String customerId) {
         validate(customerId);
-        return customerService.lookupCustomerById(customerId);
+        return customerService.getCustomerById(customerId);
     }
 
     @DeleteMapping("/{customerId}")
@@ -46,8 +46,8 @@ public class CustomerRestController {
     }
 
     @GetMapping("/list")
-    public List<Customer> lookupCustomerList() {
-        return customerService.lookupCustomerList();
+    public List<Customer> getCustomerList() {
+        return customerService.getCustomerList();
     }
 
     private void validate(String customerId) {
