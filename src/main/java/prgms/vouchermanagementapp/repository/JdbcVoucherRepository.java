@@ -97,7 +97,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         Map<String, String> param = Map.of("voucherId", voucherId.toString());
 
-        template.update(sql, param);
+        int updateCount = template.update(sql, param);
+        if (updateCount == 0) {
+            throw new IllegalArgumentException(
+                    MessageFormat.format("Can't Delete voucher '''{0}'''. Because it doesn't exists.", voucherId)
+            );
+        }
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

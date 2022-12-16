@@ -8,6 +8,7 @@ import prgms.vouchermanagementapp.model.dto.VoucherCreationDto;
 import prgms.vouchermanagementapp.model.dto.VoucherResponseDto;
 import prgms.vouchermanagementapp.service.VoucherApiService;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,5 +45,16 @@ public class VoucherApiController {
         log.info("voucherCreationDto: {}", voucherCreationDto);
         return ResponseEntity.ok()
                 .body(voucherApiService.save(voucherCreationDto));
+    }
+
+    @DeleteMapping("/{voucherId}")
+    public ResponseEntity<CommonResponse> deleteVoucherById(
+            @PathVariable UUID voucherId
+    ) {
+        voucherApiService.deleteById(voucherId);
+        return ResponseEntity.ok()
+                .body(new CommonResponse(
+                        MessageFormat.format("Voucher ''{0}'' has been deleted.", voucherId))
+                );
     }
 }
