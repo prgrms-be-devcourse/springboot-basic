@@ -27,13 +27,13 @@ public class CustomerController {
         return "customers/home";
     }
 
-    @GetMapping(value = "/new")
+    @GetMapping(value = "")
     public String createCustomer(Model model) {
         model.addAttribute("customerInput", new CustomerInputDto());
         return "customers/createPage";
     }
 
-    @PostMapping(value = "/new")
+    @PostMapping(value = "")
     public String createCustomer(@Validated @ModelAttribute("customerInput") CustomerInputDto customerInput,
                                  BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 

@@ -38,13 +38,13 @@ public class VoucherController {
         return "vouchers/home";
     }
 
-    @GetMapping(value = "/new")
+    @GetMapping(value = "")
     public String createVoucher(Model model) {
         model.addAttribute("voucherInputDto", new VoucherInputDto());
         return "vouchers/createPage";
     }
 
-    @PostMapping(value = "/new")
+    @PostMapping(value = "")
     public String createVoucher(@Validated @ModelAttribute("voucherInputDto") VoucherInputDto voucherInputDto,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {

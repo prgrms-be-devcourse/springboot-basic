@@ -28,7 +28,7 @@ public class VoucherRestController {
         dataBinder.addValidators(voucherInputDtoValidator);
     }
 
-    @PostMapping(value = "/new")
+    @PostMapping(value = "")
     public Voucher createVoucher(@Validated @RequestBody VoucherInputDto voucherInputDto) {
         return voucherService.createVoucher(voucherInputDto);
     }

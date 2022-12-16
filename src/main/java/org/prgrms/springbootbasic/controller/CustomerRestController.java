@@ -20,7 +20,7 @@ import java.util.List;
 public class CustomerRestController {
     private final CustomerService customerService;
 
-    @PostMapping("/new")
+    @PostMapping("")
     public Customer createCustomer(@RequestBody CustomerInputDto customerInputDto) {
         return customerService.createCustomer(customerInputDto);
     }
