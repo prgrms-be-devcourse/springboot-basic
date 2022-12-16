@@ -6,6 +6,7 @@ import prgms.vouchermanagementapp.model.Voucher;
 import prgms.vouchermanagementapp.model.value.Amount;
 import prgms.vouchermanagementapp.model.value.Ratio;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -25,7 +26,12 @@ public class VoucherFactory {
         return switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER, FIXED -> createVoucher(new Amount(discountLevel));
             case PERCENT_DISCOUNT_VOUCHER, PERCENT -> createVoucher(new Ratio(discountLevel));
-            default -> throw new IllegalArgumentException();
+            default -> throw new IllegalArgumentException(
+                    MessageFormat.format(
+                            "''{0}'' is invalid Voucher Type. Valid Voucher Type: [{1}, {2}, {3}, {4}]",
+                            voucherType, FIXED, PERCENT, FIXED_AMOUNT_VOUCHER, PERCENT_DISCOUNT_VOUCHER
+                    )
+            );
         };
     }
 
