@@ -41,7 +41,7 @@ public class VoucherRestController {
         return voucherService.getVoucherById(voucherId);
     }
 
-    @GetMapping(value = "/list")
+    @GetMapping(value = "")
     public List<Voucher> getVoucherList() {
         return voucherService.getVoucherList();
     }

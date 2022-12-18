@@ -42,7 +42,7 @@ class CustomerRestControllerTest {
 
     @Test
     @DisplayName("customer 생성 test")
-    void testCreateCustomer() throws Exception {
+    void createCustomer_test_success() throws Exception {
         // given
         UUID customerId = UUID.randomUUID();
 
@@ -76,7 +76,7 @@ class CustomerRestControllerTest {
 
     @Test
     @DisplayName("customer 목록 조회 - 성공")
-    void testLookupCustomerList() throws Exception {
+    void getCustomerList_test_success() throws Exception {
         // given
         UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
@@ -113,7 +113,7 @@ class CustomerRestControllerTest {
                 .thenReturn(List.of(customer1, customer2, customer3));
 
         //expected
-        mockMvc.perform(get("/api/v1/customers/list")
+        mockMvc.perform(get("/api/v1/customers")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].customerId").value(customer1.getCustomerId().toString()))
@@ -136,7 +136,7 @@ class CustomerRestControllerTest {
 
     @Test
     @DisplayName("customer 조회 - 성공")
-    void testLookupCustomer() throws Exception {
+    void getCustomer_test_success() throws Exception {
         // given
         UUID customerId = UUID.randomUUID();
         LocalDateTime now = LocalDateTime.now()

@@ -45,7 +45,7 @@ public class CustomerRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public List<Customer> getCustomerList() {
         return customerService.getCustomerList();
     }

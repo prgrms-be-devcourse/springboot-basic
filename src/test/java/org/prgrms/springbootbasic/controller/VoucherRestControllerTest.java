@@ -45,7 +45,7 @@ class VoucherRestControllerTest {
 
     @Test
     @DisplayName("voucher 생성 test")
-    void testCreateVoucher() throws Exception {
+    void createVoucher_test_success() throws Exception {
         // given
         UUID voucherId = UUID.randomUUID();
 
@@ -88,7 +88,7 @@ class VoucherRestControllerTest {
 
     @Test
     @DisplayName("customer 목록 조회 - 성공")
-    void testLookupCustomerList() throws Exception {
+    void getVoucherList_test_success() throws Exception {
         // given
         UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
@@ -131,7 +131,7 @@ class VoucherRestControllerTest {
                 .thenReturn(List.of(voucher1, voucher2, voucher3));
 
         //expected
-        mockMvc.perform(get("/api/v1/vouchers/list")
+        mockMvc.perform(get("/api/v1/vouchers")
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].voucherId").value(id1.toString()))
@@ -160,7 +160,7 @@ class VoucherRestControllerTest {
 
     @Test
     @DisplayName("customer 조회 - 성공")
-    void getCustomer() throws Exception {
+    void getVoucher_test_success() throws Exception {
         // given
         UUID voucherId = UUID.randomUUID();
         LocalDate now = LocalDate.now();
