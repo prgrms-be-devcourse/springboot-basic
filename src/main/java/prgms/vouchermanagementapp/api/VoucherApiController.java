@@ -27,7 +27,7 @@ public class VoucherApiController {
     @GetMapping
     public ResponseEntity<List<VoucherResponseDto>> findAllVouchers() {
         return ResponseEntity.ok()
-                .body(voucherApiService.findAll());
+                .body(voucherApiService.findAllAsDto());
     }
 
     @GetMapping("/{voucherId}")
@@ -36,6 +36,14 @@ public class VoucherApiController {
     ) {
         return ResponseEntity.ok()
                 .body(voucherApiService.findById(voucherId));
+    }
+
+    @GetMapping("/vouchers")
+    public ResponseEntity<List<VoucherResponseDto>> findVoucherByType(
+            @RequestParam String type
+    ) {
+        return ResponseEntity.ok()
+                .body(voucherApiService.findAllByTypeAsDto(type));
     }
 
     @PostMapping

@@ -49,7 +49,7 @@ class VoucherApiServiceTest {
         );
 
         // when
-        List<VoucherResponseDto> findAllVoucherResponseDtos = voucherApiService.findAll();
+        List<VoucherResponseDto> findAllVoucherResponseDtos = voucherApiService.findAllAsDto();
 
         // then
         int actualSize = findAllVoucherResponseDtos.size();

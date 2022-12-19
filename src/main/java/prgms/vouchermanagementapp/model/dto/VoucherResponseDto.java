@@ -15,7 +15,7 @@ public record VoucherResponseDto(
 
     public VoucherResponseDto(Voucher voucher) {
         this(
-                VoucherType.from(voucher.getVoucherType()),
+                VoucherType.fromSpecificType(voucher.getVoucherType()),
                 voucher.getVoucherId(),
                 voucher.getDiscountLevel(),
                 voucher.getCreatedDateTime()

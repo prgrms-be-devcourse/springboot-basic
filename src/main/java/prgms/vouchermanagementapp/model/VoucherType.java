@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Optional;
 
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER(1, "FixedAmountVoucher"),
-    PERCENT_DISCOUNT_VOUCHER(2, "PercentDiscountVoucher");
+    FIXED_AMOUNT_VOUCHER(1, "FixedAmountVoucher", "fixed"),
+    PERCENT_DISCOUNT_VOUCHER(2, "PercentDiscountVoucher", "percent");
 
     private final int index;
-    private final String typeLiteral;
+    private final String specificType;
+    private final String simpleType;
 
-    VoucherType(int index, String typeLiteral) {
+    VoucherType(int index, String specificType, String simpleType) {
         this.index = index;
-        this.typeLiteral = typeLiteral;
+        this.specificType = specificType;
+        this.simpleType = simpleType;
     }
 
     public static List<VoucherType> getValues() {
@@ -27,13 +29,25 @@ public enum VoucherType {
                 .findFirst();
     }
 
-    public static VoucherType from(String typeLiteral) {
+    public static VoucherType fromSpecificType(String typeLiteral) {
         return getValues().stream()
-                .filter(voucherType -> voucherType.getTypeLiteral().equals(typeLiteral))
+                .filter(voucherType -> voucherType.getSpecificType().equals(typeLiteral))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                                 MessageFormat.format(
                                         "No Matching Voucher Type exists for typeLiteral ''{0}''", typeLiteral
+                                )
+                        )
+                );
+    }
+
+    public static VoucherType fromSimpleType(String simpleType) {
+        return getValues().stream()
+                .filter(voucherType -> voucherType.getSimpleType().equals(simpleType))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                                MessageFormat.format(
+                                        "No Matching Voucher Type exists for simpleType ''{0}''", simpleType
                                 )
                         )
                 );
@@ -47,7 +61,11 @@ public enum VoucherType {
         return this.index;
     }
 
-    public String getTypeLiteral() {
-        return this.typeLiteral;
+    public String getSpecificType() {
+        return this.specificType;
+    }
+
+    public String getSimpleType() {
+        return this.simpleType;
     }
 }

@@ -2,6 +2,7 @@ package prgms.vouchermanagementapp.service;
 
 import org.springframework.stereotype.Service;
 import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.VoucherType;
 import prgms.vouchermanagementapp.model.dto.VoucherCreationDto;
 import prgms.vouchermanagementapp.model.dto.VoucherResponseDto;
 import prgms.vouchermanagementapp.repository.JdbcVoucherRepository;
@@ -37,14 +38,25 @@ public class VoucherApiService {
                 ));
     }
 
-    public List<VoucherResponseDto> findAll() {
-        return voucherRepository.findAll()
-                .stream()
+    public List<VoucherResponseDto> findAllAsDto() {
+        return findAll().stream()
+                .map(VoucherResponseDto::new)
+                .toList();
+    }
+
+    public List<VoucherResponseDto> findAllByTypeAsDto(String voucherType) {
+        return findAll().stream()
+                .filter(voucher -> VoucherType.fromSpecificType(voucher.getVoucherType())
+                        == VoucherType.fromSimpleType(voucherType))
                 .map(VoucherResponseDto::new)
                 .toList();
     }
 
     public void deleteById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    private List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 }
