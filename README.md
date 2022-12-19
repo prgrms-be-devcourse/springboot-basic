@@ -141,8 +141,23 @@
 ## **(기본) 바우처 서비스의 API 개발하기**
 
 - Spring MVC를 적용해서 JSON과 XML을 지원하는 REST API를 개발해보세요
-    - [ ]  전체 조회기능
-    - [ ]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
-    - [ ]  바우처 추가기능
-    - [ ]  바우처 삭제기능
-    - [ ]  바우처 아이디로 조회 기능
+
+- [API 명세](src/main/resources/generated-requests.http)
+
+- [x] 바우처 추가기능
+    - [x] POST "/vouchers"
+- [x]  바우처 아이디로 조회 기능
+    - [x] GET "/vouchers/{voucherId}"
+    - [x] (예외 처리) 잘못된 바우처 아이디
+- [x]  전체 조회기능
+    - [x] GET "/vouchers"
+- [x]  바우처 삭제기능
+    - [x] DELETE "/vouchers/{voucherId}"
+    - [x] (예외 처리) 존재 하지 않는 바우처에 대한 삭제
+- [x]  조건별 조회기능 (바우처 생성기간 및 특정 할인타입별)
+    - [x] 특정 할인 타입별 조회 GET "/vouchers/vouchers?type="
+        - [x] 고정 금액 할인 바우처 조회: GET "/vouchers/vouchers?type=fixed"
+        - [x] 비율 할인 바우처 조회: GET "/vouchers/vouchers?type=percent"
+    - [x] 생성 기간별 바우처 조회: GET "/vouchers/created-at"
+
+

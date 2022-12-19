@@ -5,19 +5,27 @@ POST http://localhost:8080/vouchers
 Content-Type: application/json
 
 {
-  "voucherType": "percent",
-  "discountLevel": 35
+  "voucherType": "fixed",
+  "discountLevel": 1000
 }
 
 ### [조회] 전체 바우처 조회: GET "/vouchers"
-### Response: 200, List<VoucherResponseDto>
 GET http://localhost:8080/vouchers
 
-
 ### [조회] 바우처 개별 조회: GET "/vouchers/{voucherId}"
-### Response: 200, VoucherResponseDto
 GET http://localhost:8080/vouchers/4b689870-4ea7-4de0-9538-9c9bfed7
 
+### [조회] 타입별 바우처 조회
+GET http://localhost:8080/vouchers/vouchers?type=fixed
+
+### [조회] 기간별 바우처 조회
+GET http://localhost:8080/vouchers/created-at
+Content-Type: application/json
+
+{
+  "start": "22-12-18",
+  "end": "22-12-19"
+}
 
 ### [삭제] 바우처 조회: DELETE "/vouchers/{voucherId}"
 DELETE http://localhost:8080/vouchers/3b9421e8-7479-4139-8d40-5418bffec267
