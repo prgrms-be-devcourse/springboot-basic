@@ -4,9 +4,12 @@ import org.springframework.stereotype.Service;
 import prgms.vouchermanagementapp.model.Voucher;
 import prgms.vouchermanagementapp.model.VoucherType;
 import prgms.vouchermanagementapp.model.dto.VoucherCreationDto;
+import prgms.vouchermanagementapp.model.dto.VoucherQueryDto;
 import prgms.vouchermanagementapp.model.dto.VoucherResponseDto;
 import prgms.vouchermanagementapp.repository.JdbcVoucherRepository;
+import prgms.vouchermanagementapp.util.DateTimeConverter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +51,17 @@ public class VoucherApiService {
         return findAll().stream()
                 .filter(voucher -> VoucherType.fromSpecificType(voucher.getVoucherType())
                         == VoucherType.fromSimpleType(voucherType))
+                .map(VoucherResponseDto::new)
+                .toList();
+    }
+
+    public List<VoucherResponseDto> findAllByCreatedAtAsDto(VoucherQueryDto.ByCreatedAt queryDto) {
+        LocalDateTime start = DateTimeConverter.toStartOfDay(queryDto.getStart());
+        LocalDateTime end = DateTimeConverter.toEndOfDay(queryDto.getEnd());
+
+        return findAll().stream()
+                .filter(voucher -> voucher.getCreatedDateTime().isAfter(start)
+                        && voucher.getCreatedDateTime().isBefore(end))
                 .map(VoucherResponseDto::new)
                 .toList();
     }

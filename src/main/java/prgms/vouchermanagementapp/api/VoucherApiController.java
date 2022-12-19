@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import prgms.vouchermanagementapp.model.dto.VoucherCreationDto;
+import prgms.vouchermanagementapp.model.dto.VoucherQueryDto;
 import prgms.vouchermanagementapp.model.dto.VoucherResponseDto;
 import prgms.vouchermanagementapp.service.VoucherApiService;
 
@@ -44,6 +45,14 @@ public class VoucherApiController {
     ) {
         return ResponseEntity.ok()
                 .body(voucherApiService.findAllByTypeAsDto(type));
+    }
+
+    @GetMapping("/created-at")
+    public ResponseEntity<List<VoucherResponseDto>> findVoucherByCreatedAt(
+            @RequestBody VoucherQueryDto.ByCreatedAt queryDto
+    ) {
+        return ResponseEntity.ok()
+                .body(voucherApiService.findAllByCreatedAtAsDto(queryDto));
     }
 
     @PostMapping
