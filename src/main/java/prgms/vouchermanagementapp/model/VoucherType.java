@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.domain;
+package prgms.vouchermanagementapp.model;
 
 import java.text.MessageFormat;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
-package prgms.vouchermanagementapp.domain.dto;
+package prgms.vouchermanagementapp.model.dto;
 
-import prgms.vouchermanagementapp.domain.Voucher;
+import prgms.vouchermanagementapp.model.Voucher;
 
 import java.text.MessageFormat;
 import java.time.format.DateTimeFormatter;

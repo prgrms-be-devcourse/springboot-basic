@@ -1,7 +1,7 @@
 package prgms.vouchermanagementapp.service;
 
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.Customer;
+import prgms.vouchermanagementapp.model.Customer;
 import prgms.vouchermanagementapp.repository.JdbcCustomerRepository;
 
 import java.util.Optional;

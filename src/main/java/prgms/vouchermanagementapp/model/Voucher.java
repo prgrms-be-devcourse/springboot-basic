@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.domain;
+package prgms.vouchermanagementapp.model;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

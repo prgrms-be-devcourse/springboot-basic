@@ -12,11 +12,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.FixedAmountVoucher;
-import prgms.vouchermanagementapp.domain.PercentDiscountVoucher;
-import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.value.Amount;
-import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.model.FixedAmountVoucher;
+import prgms.vouchermanagementapp.model.PercentDiscountVoucher;
+import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.value.Amount;
+import prgms.vouchermanagementapp.model.value.Ratio;
 
 import javax.sql.DataSource;
 import java.text.MessageFormat;

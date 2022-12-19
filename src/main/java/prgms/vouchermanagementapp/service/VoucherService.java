@@ -2,10 +2,10 @@ package prgms.vouchermanagementapp.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
-import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.dto.VoucherViewDTO;
-import prgms.vouchermanagementapp.domain.value.Amount;
-import prgms.vouchermanagementapp.domain.value.Ratio;
+import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.dto.VoucherViewDTO;
+import prgms.vouchermanagementapp.model.value.Amount;
+import prgms.vouchermanagementapp.model.value.Ratio;
 import prgms.vouchermanagementapp.repository.VoucherRepository;
 
 import java.util.List;

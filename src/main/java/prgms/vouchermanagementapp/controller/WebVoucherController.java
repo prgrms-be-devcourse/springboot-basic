@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import prgms.vouchermanagementapp.domain.Voucher;
-import prgms.vouchermanagementapp.domain.dto.VoucherViewDTO;
+import prgms.vouchermanagementapp.model.Voucher;
+import prgms.vouchermanagementapp.model.dto.VoucherViewDTO;
 import prgms.vouchermanagementapp.service.VoucherService;
 
 import java.util.List;

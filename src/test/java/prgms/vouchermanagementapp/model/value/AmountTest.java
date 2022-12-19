@@ -1,4 +1,4 @@
-package prgms.vouchermanagementapp.domain.value;
+package prgms.vouchermanagementapp.model.value;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

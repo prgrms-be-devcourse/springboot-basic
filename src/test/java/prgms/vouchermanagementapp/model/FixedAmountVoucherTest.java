@@ -1,9 +1,9 @@
-package prgms.vouchermanagementapp.domain;
+package prgms.vouchermanagementapp.model;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import prgms.vouchermanagementapp.domain.value.Amount;
+import prgms.vouchermanagementapp.model.value.Amount;
 import prgms.vouchermanagementapp.service.VoucherFactory;
 
 class FixedAmountVoucherTest {
