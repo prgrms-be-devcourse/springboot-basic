@@ -110,8 +110,9 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             List<String> voucherInfos = Files.readAllLines(Paths.get(path));
             return voucherInfos.stream()
-                    .filter(voucherInfo -> voucherInfo.split(",")[3].equals(customerId.toString()))
-                    .map(voucherInfo -> createVoucher(voucherInfo.split(",")))
+                    .map(infoStr -> infoStr.split(","))
+                    .filter(infoArr -> infoArr[3].equals(customerId.toString()))
+                    .map(this::createVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             logger.error(e.getMessage());
