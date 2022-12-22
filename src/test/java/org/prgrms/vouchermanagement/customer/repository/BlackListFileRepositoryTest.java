@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 
+import static java.awt.Color.black;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
@@ -40,13 +41,13 @@ class BlackListFileRepositoryTest {
                 makeBlackCustomer("Joe", "Joe@google.com"));
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
-            for (int i = 0; i < blackCustomers.size(); i++) {
-                Customer blackCustomer = blackCustomers.get(i);
+            for (Customer blackCustomer : blackCustomers) {
                 writer.write(blackCustomer.getCustomerId() + "," + blackCustomer.getName() + "," + blackCustomer.getEmail() + "\n");
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
-        }
+        };
+
 
         // when
         List<Customer> blackList = blackListFileRepository.findAll();
