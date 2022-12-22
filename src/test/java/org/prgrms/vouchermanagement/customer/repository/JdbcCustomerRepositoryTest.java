@@ -242,7 +242,7 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("찾는 아이디가 없는 경우")
+    @DisplayName("찾는 이메일이 없는 경우")
     void findByEmailNotExist() {
         // given
         Customer customer1 = makeCustomer(UUID.randomUUID(), "nameA", "customer1@google.com");
