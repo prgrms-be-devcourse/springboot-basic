@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,7 +39,7 @@ class BlackListFileRepositoryTest {
                 makeBlackCustomer("Park", "Park@google.com"),
                 makeBlackCustomer("Joe", "Joe@google.com"));
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
             for (int i = 0; i < blackCustomers.size(); i++) {
                 Customer blackCustomer = blackCustomers.get(i);
                 writer.write(blackCustomer.getCustomerId() + "," + blackCustomer.getName() + "," + blackCustomer.getEmail() + "\n");

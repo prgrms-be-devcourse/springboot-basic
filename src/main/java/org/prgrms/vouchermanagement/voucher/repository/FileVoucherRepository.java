@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -60,7 +59,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File(path), true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
             writer.write(parseCsvFormat(voucher.getVoucherId().toString(),
                     voucher.getVoucherType().name(),
                     String.valueOf(voucher.getDiscountAmount()),
