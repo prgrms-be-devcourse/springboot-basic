@@ -54,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try {
-            return Optional.of(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, Map.of("voucherId", voucherId.toString().getBytes()), voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, Map.of("voucherId", voucherId.toString().getBytes()), voucherRowMapper));
         } catch (DataAccessException e) {
             logger.error("예외 발생 : {}", e.getMessage());
             System.out.println("존재하지 않는 바우처입니다.");

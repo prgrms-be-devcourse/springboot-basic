@@ -77,7 +77,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
 
         try {
-            return Optional.of(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, Map.of("customerId", customerId.toString().getBytes()), customerRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL, Map.of("customerId", customerId.toString().getBytes()), customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("[ERROR] data not exist error : {}", e.getMessage());
         }
@@ -92,7 +92,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByEmail(String email) {
         try {
-            return Optional.of(jdbcTemplate.queryForObject(FIND_BY_EMAIL_SQL, Map.of("email", email), customerRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL_SQL, Map.of("email", email), customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("[ERROR] data not exist error : {}", e.getMessage());
         }
