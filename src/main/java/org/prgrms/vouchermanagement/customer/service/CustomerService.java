@@ -46,10 +46,6 @@ public class CustomerService {
                 .orElseThrow(CustomerNotFoundException::new);
     }
 
-    public List<Customer> findByName(String name) {
-        return customerRepository.findByName(name);
-    }
-
     public Customer findByEmail(String email) {
         return customerRepository.findByEmail(email)
                 .orElseThrow(CustomerNotFoundException::new);
