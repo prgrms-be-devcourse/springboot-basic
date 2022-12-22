@@ -128,7 +128,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<String> voucherInfos = Files.readAllLines(Paths.get(path));
             voucherInfos.stream()
                     .filter(voucherInfo -> !voucherInfo.split(",")[3].equals(customerId.toString()))
-                    .forEach(voucherInfo -> voucherListTemp.append(voucherInfo).append("\n"));
+                    .forEach(voucherInfo -> voucherListTemp.append(voucherInfo).append(System.lineSeparator()));
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
                 writer.write(voucherListTemp.toString());
             }
