@@ -25,6 +25,12 @@ import java.util.stream.Collectors;
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
+    private static final int VOUCHER_ID_IDX = 0;
+    private static final int VOUCHER_TYPE_IDX = 1;
+    private static final int VOUCHER_DISCOUNT_AMOUNT_IDX = 2;
+    private static final int VOUCHER_CUSTOMER_ID_IDX = 3;
+
     private final String path;
 
     public FileVoucherRepository(@Value("${repository.file.voucher.path}") String path) {
@@ -38,7 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<String> vouchers = Files.readAllLines(Paths.get(path));
             Optional<String> findVoucher = vouchers.stream()
                     .filter(voucherInfo -> {
-                        String voucherIdCandidate = voucherInfo.split(",")[0];
+                        String voucherIdCandidate = voucherInfo.split(",")[VOUCHER_ID_IDX];
                         return voucherIdCandidate.equals(voucherId.toString());
                     }).findFirst();
 
@@ -47,7 +53,14 @@ public class FileVoucherRepository implements VoucherRepository {
             String[] infoArr = findVoucher.get().split(",");
             return Optional.of(
                     VoucherType.createVoucher(
-                            VoucherVO.of(UUID.fromString(infoArr[0]), infoArr[1], Integer.parseInt(infoArr[2]), UUID.fromString(infoArr[3]))));
+                            VoucherVO.of(
+                                    UUID.fromString(infoArr[VOUCHER_ID_IDX]),
+                                    infoArr[VOUCHER_TYPE_IDX],
+                                    Integer.parseInt(infoArr[VOUCHER_DISCOUNT_AMOUNT_IDX]),
+                                    UUID.fromString(infoArr[VOUCHER_CUSTOMER_ID_IDX])
+                            )
+                    )
+            );
 
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -88,10 +101,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher createVoucher(String[] voucherInfos) {
-        UUID uuid = UUID.fromString(voucherInfos[0]);
-        String voucherType = voucherInfos[1];
-        int discountAmount = Integer.parseInt(voucherInfos[2]);
-        UUID customerId = UUID.fromString(voucherInfos[3]);
+        UUID uuid = UUID.fromString(voucherInfos[VOUCHER_ID_IDX]);
+        String voucherType = voucherInfos[VOUCHER_TYPE_IDX];
+        int discountAmount = Integer.parseInt(voucherInfos[VOUCHER_DISCOUNT_AMOUNT_IDX]);
+        UUID customerId = UUID.fromString(voucherInfos[VOUCHER_CUSTOMER_ID_IDX]);
 
         return VoucherType.createVoucher(VoucherVO.of(uuid, voucherType, discountAmount, customerId));
     }
@@ -111,7 +124,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<String> voucherInfos = Files.readAllLines(Paths.get(path));
             return voucherInfos.stream()
                     .map(infoStr -> infoStr.split(","))
-                    .filter(infoArr -> infoArr[3].equals(customerId.toString()))
+                    .filter(infoArr -> infoArr[VOUCHER_CUSTOMER_ID_IDX].equals(customerId.toString()))
                     .map(this::createVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
@@ -127,7 +140,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try {
             List<String> voucherInfos = Files.readAllLines(Paths.get(path));
             voucherInfos.stream()
-                    .filter(voucherInfo -> !voucherInfo.split(",")[3].equals(customerId.toString()))
+                    .filter(voucherInfo -> !voucherInfo.split(",")[VOUCHER_CUSTOMER_ID_IDX].equals(customerId.toString()))
                     .forEach(voucherInfo -> voucherListTemp.append(voucherInfo).append(System.lineSeparator()));
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
                 writer.write(voucherListTemp.toString());
