@@ -15,7 +15,7 @@ public abstract class Voucher {
     protected final UUID voucherId;
     protected UUID ownerId;
     protected final long amount;
-    protected final String type;
+    protected final VoucherType type;
     protected boolean isUsed;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     protected final LocalDateTime createdAt;

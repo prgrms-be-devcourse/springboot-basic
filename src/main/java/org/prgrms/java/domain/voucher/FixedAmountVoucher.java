@@ -15,7 +15,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Builder
     public FixedAmountVoucher(UUID voucherId, UUID ownerId, long amount, boolean isUsed, LocalDateTime createdAt, LocalDateTime expiredAt) {
-        super(voucherId, ownerId, amount, "FIXED", isUsed, createdAt, expiredAt);
+        super(voucherId, ownerId, amount, VoucherType.FIXED, isUsed, createdAt, expiredAt);
         if (amount <= MIN_AMOUNT) throw new VoucherBadRequestException("Voucher discount amount should be positive.");
     }
 

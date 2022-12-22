@@ -1,4 +1,4 @@
-package org.prgrms.java.common;
+package org.prgrms.java.common.command;
 
 import java.util.Arrays;
 

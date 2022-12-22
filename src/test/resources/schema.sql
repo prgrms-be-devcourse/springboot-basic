@@ -13,7 +13,7 @@ CREATE TABLE if NOT EXISTS vouchers
     voucher_id      BINARY(16)      PRIMARY KEY NOT NULL,
     owner_id        BINARY(16)      DEFAULT NULL,
     amount          BIGINT          NOT NULL,
-    type            VARCHAR(20)     NOT NULL,
+    type            VARCHAR(50)     NOT NULL,
     created_at      DATETIME(6)     NOT NULL,
     expired_at      DATETIME(6)     NOT NULL,
     used            BOOLEAN         DEFAULT FALSE NOT NULL

@@ -5,13 +5,12 @@ import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 public class VoucherDto {
-    private final UUID voucherId;
-    private final UUID ownerId;
+    private final String voucherId;
+    private final String ownerId;
     private final long amount;
     private final String type;
     private final boolean used;

@@ -2,6 +2,7 @@ package org.prgrms.java.service;
 
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.notfound.CustomerNotFoundException;
+import org.prgrms.java.exception.notfound.NotFoundException;
 import org.prgrms.java.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,15 @@ public class CustomerService {
                 .build();
 
         return customerRepository.save(customer);
+    }
+
+    public Customer getCustomer(String column, String value) {
+        return switch (column) {
+            case "id" -> getCustomerById(UUID.fromString(value));
+            case "name" -> getCustomerByName(value);
+            case "email" -> getCustomerByEmail(value);
+            default -> throw new NotFoundException(column + "은(는) 찾을 수 없는 컬럼입니다.");
+        };
     }
 
     public Customer getCustomerById(UUID customerId) {

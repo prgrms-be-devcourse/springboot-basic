@@ -20,12 +20,7 @@ public class CustomerController {
     }
 
     public Customer findCustomer(String column, String value) {
-        switch (column.toLowerCase()) {
-            case "id": return customerService.getCustomerById(UUID.fromString(value));
-            case "name": return customerService.getCustomerByName(value);
-            case "email": return customerService.getCustomerByEmail(value);
-        }
-        throw new IllegalArgumentException("Wrong column");
+        return customerService.getCustomer(column, value);
     }
 
     public List<Customer> findCustomers(boolean blacklistOnly) {

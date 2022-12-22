@@ -1,8 +1,10 @@
 package org.prgrms.java.repository.voucher;
 
-import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
 import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
+import org.prgrms.java.service.mapper.VoucherMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +20,10 @@ import java.util.stream.Collectors;
 public class FileVoucherRepository implements VoucherRepository {
     private final String DATA_PATH;
     private final String DATA_NAME;
+    private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.voucher}") String DATA_NAME) {
+        logger.debug("저장 파일 생성 중...");
         try {
             new File(DATA_PATH).mkdirs();
             new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)).createNewFile();
@@ -38,7 +42,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     .filter(line -> line.contains(voucherId.toString()))
                     .findAny();
             if (str.isPresent()) {
-                return Optional.of(Mapper.mapToVoucher(str.get()));
+                return Optional.of(VoucherMapper.mapToVoucher(str.get()));
             }
             return Optional.empty();
         } catch (IOException e) {
@@ -51,7 +55,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
             return reader.lines()
                     .filter(line -> line.contains(customerId.toString()))
-                    .map(Mapper::mapToVoucher)
+                    .map(VoucherMapper::mapToVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -63,7 +67,7 @@ public class FileVoucherRepository implements VoucherRepository {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
             return reader.lines()
                     .filter(line -> LocalDateTime.parse(line.split(",")[5].trim()).isBefore(LocalDateTime.now()))
-                    .map(Mapper::mapToVoucher)
+                    .map(VoucherMapper::mapToVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -74,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME)))) {
             return reader.lines()
-                    .map(Mapper::mapToVoucher)
+                    .map(VoucherMapper::mapToVoucher)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);

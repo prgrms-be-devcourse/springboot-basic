@@ -1,10 +1,11 @@
 package org.prgrms.java.service;
 
-import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.domain.voucher.VoucherType;
 import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 import org.prgrms.java.exception.notfound.VoucherNotFoundException;
 import org.prgrms.java.repository.voucher.VoucherRepository;
+import org.prgrms.java.service.mapper.VoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +22,16 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher saveVoucher(UUID ownerId, String type, long amount, LocalDateTime expiredAt) {
-        Voucher voucher = Mapper.mapToVoucher(type, UUID.randomUUID(), ownerId, amount, LocalDateTime.now(), expiredAt, false);
+    public Voucher saveVoucher(String ownerId, String type, long amount, LocalDateTime expiredAt) {
+        Voucher voucher = VoucherMapper.mapToVoucher(
+                VoucherType.of(type),
+                UUID.randomUUID(),
+                (ownerId == null) ? null : UUID.fromString(ownerId),
+                amount,
+                LocalDateTime.now(),
+                expiredAt,
+                false
+        );
         return voucherRepository.insert(voucher);
     }
 

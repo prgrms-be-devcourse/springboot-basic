@@ -16,7 +16,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Builder
     public PercentDiscountVoucher(UUID voucherId, UUID ownerId, long amount, boolean isUsed, LocalDateTime createdAt, LocalDateTime expiredAt) {
-        super(voucherId, ownerId, amount, "PERCENT", isUsed, createdAt, expiredAt);
+        super(voucherId, ownerId, amount, VoucherType.PERCENT, isUsed, createdAt, expiredAt);
         if (amount <= MIN_AMOUNT) throw new VoucherBadRequestException("Voucher discount percent should be positive.");
         if (amount > MAX_AMOUNT) throw new VoucherBadRequestException("Voucher discount percent cannot be bigger than 100.");
     }

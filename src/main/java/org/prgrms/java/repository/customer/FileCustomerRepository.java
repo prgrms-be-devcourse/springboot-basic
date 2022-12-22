@@ -1,8 +1,8 @@
 package org.prgrms.java.repository.customer;
 
-import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
+import org.prgrms.java.service.mapper.CustomerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +18,10 @@ public class FileCustomerRepository implements CustomerRepository {
     private final String DATA_PATH;
     private final String DATA_NAME_FOR_CUSTOMER;
     private final String DATA_NAME_FOR_BLACKLIST;
-
     private final static Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+
     public FileCustomerRepository(@Value("${prgrms.data.path}") String DATA_PATH, @Value("${prgrms.data.name.customer}") String DATA_NAME_FOR_CUSTOMER, @Value("${prgrms.data.name.blacklist}") String DATA_NAME_FOR_BLACKLIST) {
-        logger.error("생성 중...");
+        logger.debug("저장 파일 생성 중...");
         try {
             new File(DATA_PATH).mkdirs();
             new File(MessageFormat.format("{0}/{1}", DATA_PATH, DATA_NAME_FOR_CUSTOMER)).createNewFile();
@@ -43,7 +43,7 @@ public class FileCustomerRepository implements CustomerRepository {
                         .filter(line -> line.contains(customerId.toString()))
                         .findAny();
                 if (str.isPresent()) {
-                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                    return Optional.of(CustomerMapper.mapToCustomer(str.get()));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -60,7 +60,7 @@ public class FileCustomerRepository implements CustomerRepository {
                         .filter(line -> line.split(",")[1].trim().equals(name))
                         .findAny();
                 if (str.isPresent()) {
-                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                    return Optional.of(CustomerMapper.mapToCustomer(str.get()));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -77,7 +77,7 @@ public class FileCustomerRepository implements CustomerRepository {
                         .filter(line -> line.split(",")[2].trim().equals(email))
                         .findAny();
                 if (str.isPresent()) {
-                    return Optional.of(Mapper.mapToCustomer(str.get()));
+                    return Optional.of(CustomerMapper.mapToCustomer(str.get()));
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -92,7 +92,7 @@ public class FileCustomerRepository implements CustomerRepository {
         for (boolean isBlocked: List.of(true, false)) {
             try (BufferedReader reader = new BufferedReader(new FileReader(MessageFormat.format("{0}/{1}", DATA_PATH, getDataName(isBlocked))))) {
                 customers.addAll(reader.lines()
-                        .map(Mapper::mapToCustomer).toList());
+                        .map(CustomerMapper::mapToCustomer).toList());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -1,15 +1,18 @@
 package org.prgrms.java.repository.customer;
 
-import org.prgrms.java.common.Mapper;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.prgrms.java.common.TypeConversionUtils.toUUID;
 
 @Repository
 @Primary
@@ -35,7 +38,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     FIND_BY_ID_QUERY,
                     Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    Mapper.mapToCustomer));
+                    mapToCustomer));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -47,7 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     FIND_BY_NAME_QUERY,
                     Collections.singletonMap("name", name),
-                    Mapper.mapToCustomer));
+                    mapToCustomer));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -59,7 +62,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     FIND_BY_EMAIL_QUERY,
                     Collections.singletonMap("email", email),
-                    Mapper.mapToCustomer));
+                    mapToCustomer));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -67,13 +70,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return namedParameterJdbcTemplate.query(FIND_ALL_QUERY, Collections.emptyMap(), Mapper.mapToCustomer);
+        return namedParameterJdbcTemplate.query(FIND_ALL_QUERY, Collections.emptyMap(), mapToCustomer);
     }
 
     @Override
     public Customer save(Customer customer) {
         try {
-            int result = namedParameterJdbcTemplate.update(INSERT_QUERY, Mapper.toParamMap(customer));
+            int result = namedParameterJdbcTemplate.update(INSERT_QUERY, toParamMap(customer));
             if (result != 1) {
                 throw new CustomerBadRequestException("사용자 생성 과정에서 문제가 발생했습니다.");
             }
@@ -85,7 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int result = namedParameterJdbcTemplate.update(UPDATE_QUERY, Mapper.toParamMap(customer));
+        int result = namedParameterJdbcTemplate.update(UPDATE_QUERY, toParamMap(customer));
         if (result != 1) {
             throw new CustomerBadRequestException("사용자 수정 과정에서 문제가 발생했습니다.");
         }
@@ -103,5 +106,30 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         namedParameterJdbcTemplate.update(DELETE_ALL_ROWS_QUERY, Collections.emptyMap());
+    }
+
+    private static final RowMapper<Customer> mapToCustomer = (resultSet, rowNum) -> {
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        boolean isBlocked = resultSet.getBoolean("is_blocked");
+        return Customer.builder()
+                .customerId(customerId)
+                .name(name)
+                .email(email)
+                .createdAt(createdAt)
+                .isBlocked(isBlocked)
+                .build();
+    };
+
+    private static Map<String, Object> toParamMap(Customer customer) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("name", customer.getName());
+            put("email", customer.getEmail());
+            put("createdAt", customer.getCreatedAt());
+            put("isBlocked", customer.isBlocked());
+        }};
     }
 }

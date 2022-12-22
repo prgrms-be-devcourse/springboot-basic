@@ -1,9 +1,12 @@
 package org.prgrms.java.common;
 
+import org.prgrms.java.common.command.HandlingCommand;
+import org.prgrms.java.common.command.MenuCommand;
 import org.prgrms.java.controller.CustomerController;
 import org.prgrms.java.controller.VoucherController;
 import org.prgrms.java.domain.customer.Customer;
 import org.prgrms.java.domain.voucher.Voucher;
+import org.prgrms.java.domain.voucher.VoucherType;
 import org.prgrms.java.exception.badrequest.CustomerBadRequestException;
 import org.prgrms.java.exception.badrequest.VoucherBadRequestException;
 import org.prgrms.java.exception.notfound.CommandNotFoundException;
@@ -84,23 +87,17 @@ public class VoucherProcessor implements ApplicationRunner {
 
     private void invokeCreateVoucher() {
         view.print(MessageGuide.REQUIRE_VOUCHER_TYPE);
-        String voucherType = view.read();
+        VoucherType voucherType = VoucherType.of(Integer.parseInt(view.read()));
 
         view.print(MessageGuide.REQUIRE_VOUCHER_DISCOUNT_AMOUNT);
         long voucherAmount;
         try {
             voucherAmount = Long.parseLong(view.read());
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Please enter a number.");
+            throw new IllegalArgumentException("숫자로 입력해주세요.");
         }
 
-        switch (voucherType) {
-            case "1" -> voucherType = "FIXED";
-            case "2" -> voucherType = "PERCENT";
-            default -> view.print(voucherType + " is an Invalid Voucher Type.");
-        }
-
-        voucherController.createVoucher(voucherAmount, voucherType, LocalDateTime.now().plusDays(7));
+        voucherController.createVoucher(voucherAmount, voucherType.toString(), LocalDateTime.now().plusDays(7));
     }
 
     private void invokeFindVoucher() {
