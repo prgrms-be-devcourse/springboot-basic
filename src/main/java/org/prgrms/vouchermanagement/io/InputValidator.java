@@ -17,7 +17,7 @@ public class InputValidator {
     Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
     protected int validateNumber(String discountAmountInput) {
-        if (!discountAmountInput.matches(RegexConstant.NUMBER_REGEX)) {
+        if (!discountAmountInput.matches(RegexConstant.NUMBER_REGEX.getRegex())) {
             logger.error("[ERROR] Not Number Error");
             throw new NotNumberException();
         }
@@ -41,7 +41,7 @@ public class InputValidator {
     }
 
     protected String validateName(String customerName) {
-        if (!customerName.matches(RegexConstant.NAME_REGEX)) {
+        if (!customerName.matches(RegexConstant.NAME_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal Name Format Error");
             throw new AbnormalCustomerValueException();
         }
@@ -49,7 +49,7 @@ public class InputValidator {
     }
 
     protected String validateEmail(String customerEmail) {
-        if (!customerEmail.matches(RegexConstant.EMAIL_REGEX)) {
+        if (!customerEmail.matches(RegexConstant.EMAIL_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal Email Format Error");
             throw new AbnormalCustomerValueException();
         }
@@ -57,7 +57,7 @@ public class InputValidator {
     }
 
     protected String validateUUID(String uuid) {
-        if (!uuid.matches(RegexConstant.UUID_REGEX)) {
+        if (!uuid.matches(RegexConstant.UUID_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal UUID Format Error");
             throw new AbnormalUUIDFormatException();
         }
