@@ -31,17 +31,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        return Customer.createNormalCustomer(
-                toUUID(resultSet.getBytes("customer_id")),
-                resultSet.getString("name"),
-                resultSet.getString("email"),
-                resultSet.getTimestamp("createdAt").toLocalDateTime());
-    };
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) ->
+            Customer.createNormalCustomer(
+                    toUUID(resultSet.getBytes("customer_id")),
+                    resultSet.getString("name"),
+                    resultSet.getString("email"),
+                    resultSet.getTimestamp("createdAt").toLocalDateTime()
+            );
 
-    private final RowMapper<Integer> countRowMapper = (resultSet, i) -> {
-        return resultSet.getInt(1);
-    };
+    private final RowMapper<Integer> countRowMapper = (resultSet, i) -> resultSet.getInt(1);
 
     @Autowired
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {

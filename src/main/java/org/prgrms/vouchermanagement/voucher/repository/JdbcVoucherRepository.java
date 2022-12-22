@@ -30,14 +30,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String DELETE_VOUCHERS_BY_CUSTOMER_ID_SQL = "DELETE FROM vouchers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
     private static final String FIND_VOUCHERS_BY_CUSTOMER_ID_SQL = "SELECT * FROM vouchers WHERE customer_id = UNHEX(REPLACE(:customerId,'-',''))";
 
-    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        return VoucherType.createVoucher(
-                VoucherVO.of(
-                        toUUID(resultSet.getBytes("voucher_id")),
-                        resultSet.getString("voucher_type"),
-                        resultSet.getInt("discount_amount"),
-                        toUUID(resultSet.getBytes("customer_id"))));
-    };
+    private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) ->
+            VoucherType.createVoucher(
+                    VoucherVO.of(
+                            toUUID(resultSet.getBytes("voucher_id")),
+                            resultSet.getString("voucher_type"),
+                            resultSet.getInt("discount_amount"),
+                            toUUID(resultSet.getBytes("customer_id")))
+            );
 
     @Autowired
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
