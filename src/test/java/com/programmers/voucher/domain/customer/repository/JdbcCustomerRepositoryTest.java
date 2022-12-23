@@ -52,7 +52,7 @@ class JdbcCustomerRepositoryTest {
 
 	@AfterEach
 	void clearRepository() {
-		customerRepository.clear();
+		customerRepository.deleteAll();
 	}
 
 	@Test

@@ -49,7 +49,7 @@ class JdbcVoucherRepositoryTest {
 
 	@AfterEach
 	void clearRepository() {
-		voucherRepository.clear();
+		voucherRepository.deleteAll();
 	}
 
 	@Test

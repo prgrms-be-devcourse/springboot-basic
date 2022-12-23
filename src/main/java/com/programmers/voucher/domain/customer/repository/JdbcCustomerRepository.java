@@ -90,7 +90,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void clear() {
+	public void deleteAll() {
 		jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
 	}
 }

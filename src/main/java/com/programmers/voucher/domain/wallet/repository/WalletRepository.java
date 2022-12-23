@@ -17,5 +17,5 @@ public interface WalletRepository {
 
 	void deleteByCustomerId(UUID customerId);
 
-	void clear();
+	void deleteAll();
 }

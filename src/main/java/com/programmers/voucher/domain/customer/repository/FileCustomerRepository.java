@@ -132,7 +132,7 @@ public class FileCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public void clear() {
+	public void deleteAll() {
 		customers.clear();
 	}
 }

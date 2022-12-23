@@ -60,7 +60,7 @@ public class JdbcWalletRepository implements WalletRepository {
 	}
 
 	@Override
-	public void clear() {
+	public void deleteAll() {
 		jdbcTemplate.update(DELETE_ALL.getSql(), Collections.emptyMap());
 	}
 }

@@ -55,7 +55,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void clear() {
+	public void deleteAll() {
 		repository.clear();
 	}
 }

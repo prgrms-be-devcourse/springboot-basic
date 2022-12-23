@@ -17,7 +17,7 @@ class MemoryVoucherRepositoryTest {
 
 	@BeforeEach
 	public void beforeEach() {
-		repository.clear();
+		repository.deleteAll();
 	}
 
 	@Test

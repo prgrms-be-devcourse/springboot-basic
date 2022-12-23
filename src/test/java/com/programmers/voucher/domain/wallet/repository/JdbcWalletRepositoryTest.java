@@ -73,7 +73,7 @@ class JdbcWalletRepositoryTest {
 
 	@AfterEach
 	void clearRepository() {
-		walletRepository.clear();
+		walletRepository.deleteAll();
 	}
 
 	@Test

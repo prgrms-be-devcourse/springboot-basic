@@ -19,5 +19,5 @@ public interface CustomerRepository {
 
 	List<Customer> findAllBlacklist();
 
-	void clear();
+	void deleteAll();
 }

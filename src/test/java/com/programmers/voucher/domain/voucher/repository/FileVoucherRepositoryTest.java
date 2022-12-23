@@ -19,7 +19,7 @@ class FileVoucherRepositoryTest {
 
 	@AfterEach
 	void afterEach() {
-		repository.clear();
+		repository.deleteAll();
 	}
 
 	@Test

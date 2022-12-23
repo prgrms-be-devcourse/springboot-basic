@@ -110,7 +110,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void clear() {
+	public void deleteAll() {
 		vouchers.clear();
 	}
 }

@@ -22,7 +22,7 @@ class VoucherServiceTest {
 
 	@AfterEach
 	void afterEach() {
-		repository.clear();
+		repository.deleteAll();
 	}
 
 	@Test
