@@ -14,17 +14,21 @@ public class VoucherFactory {
 	}
 
 	public static Voucher createVoucher(VoucherType voucherType, String discount) {
-		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
-		}
-		return new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
+		return switch (voucherType) {
+			case FIXED -> new FixedDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
+			case PERCENT -> new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType, LocalDateTime.now());
+		};
 	}
 
-	public static Voucher createVoucher(UUID voucherId, VoucherType voucherType, String discount,
-		LocalDateTime createdAt) {
-		if (voucherType.equals(VoucherType.FIXED)) {
-			return new FixedDiscountVoucher(voucherId, discount, voucherType, createdAt);
-		}
-		return new PercentDiscountVoucher(voucherId, discount, voucherType, createdAt);
+	public static Voucher createVoucher(
+		UUID voucherId,
+		VoucherType voucherType,
+		String discount,
+		LocalDateTime createdAt
+	) {
+		return switch (voucherType) {
+			case FIXED -> new FixedDiscountVoucher(voucherId, discount, voucherType, createdAt);
+			case PERCENT -> new PercentDiscountVoucher(voucherId, discount, voucherType, createdAt);
+		};
 	}
 }
