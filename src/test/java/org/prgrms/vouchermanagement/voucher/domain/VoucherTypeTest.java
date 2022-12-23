@@ -84,45 +84,6 @@ class VoucherTypeTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1", "FIXED_AMOUNT"})
-    @DisplayName("FixedAmountVoucher 타입이 입력값과 일치하는지 확인")
-    void isFixedAmountVoucherTypeMatch(String voucherTypeInput) {
-
-        // when
-        boolean result = VoucherType.FIXED_AMOUNT.isMatchVoucherType(voucherTypeInput);
-
-        // then
-        assertTrue(result);
-    }
-
-    @ParameterizedTest
-    @ValueSource(strings = {"2", "PERCENT_DISCOUNT"})
-    @DisplayName("PercentDiscountVoucher 타입이 입력값과 일치하는지 확인")
-    void isPercentDiscountVoucherTypeMatch(String voucherTypeInput) {
-
-        // when
-        boolean result = VoucherType.PERCENT_DISCOUNT.isMatchVoucherType(voucherTypeInput);
-
-        // then
-        assertTrue(result);
-    }
-
-    @Test
-    @DisplayName("바우처 타입 입력 실패")
-    void failVoucherTypeMatch() {
-        // given
-        String fixedAmountVoucherType = "1";
-        String percentDiscountVoucherType = "2";
-        String abnormalVoucherType = "3";
-
-        // when, then
-        assertFalse(VoucherType.FIXED_AMOUNT.isMatchVoucherType(percentDiscountVoucherType));
-        assertFalse(VoucherType.PERCENT_DISCOUNT.isMatchVoucherType(fixedAmountVoucherType));
-        assertFalse(VoucherType.FIXED_AMOUNT.isMatchVoucherType(abnormalVoucherType));
-        assertFalse(VoucherType.PERCENT_DISCOUNT.isMatchVoucherType(abnormalVoucherType));
-    }
-
-    @ParameterizedTest
     @ValueSource(strings = {"1", "2", "FIXED_AMOUNT", "PERCENT_DISCOUNT"})
     @DisplayName("입력값이 올바른 바우처타입인지 확인")
     void isCorrectVoucherType(String voucherType) {

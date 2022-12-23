@@ -47,7 +47,7 @@ public enum VoucherType {
         return discountAmountInput >= 0 && discountAmountInput <= maximumDiscountAmount;
     }
 
-    public boolean isMatchVoucherType(String voucherTypeInput) {
+    private boolean isMatchVoucherType(String voucherTypeInput) {
         return voucherTypeNumber.equals(voucherTypeInput) || name().equals(voucherTypeInput);
     }
 
