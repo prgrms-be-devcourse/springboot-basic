@@ -5,7 +5,7 @@ import org.prgrms.vouchermanagement.exception.validation.NotNumberException;
 import org.prgrms.vouchermanagement.exception.voucher.AbnormalUUIDFormatException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectDiscountAmountException;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
-import org.prgrms.vouchermanagement.util.RegexConstant;
+import org.prgrms.vouchermanagement.util.RegexPatterns;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ public class InputValidator {
     Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
     protected void validateNumber(String discountAmountInput) {
-        if (!discountAmountInput.matches(RegexConstant.NUMBER_REGEX.getRegex())) {
+        if (!RegexPatterns.NUMBER_REGEX.isMatch(discountAmountInput)) {
             logger.error("[ERROR] Not Number Error");
             throw new NotNumberException();
         }
@@ -38,21 +38,21 @@ public class InputValidator {
     }
 
     protected void validateName(String customerName) {
-        if (!customerName.matches(RegexConstant.NAME_REGEX.getRegex())) {
+        if (!RegexPatterns.NAME_REGEX.isMatch(customerName)) {
             logger.error("[ERROR] Abnormal Name Format Error");
             throw new AbnormalCustomerValueException();
         }
     }
 
     protected void validateEmail(String customerEmail) {
-        if (!customerEmail.matches(RegexConstant.EMAIL_REGEX.getRegex())) {
+        if (!RegexPatterns.EMAIL_REGEX.isMatch(customerEmail)) {
             logger.error("[ERROR] Abnormal Email Format Error");
             throw new AbnormalCustomerValueException();
         }
     }
 
     protected void validateUUID(String uuid) {
-        if (!uuid.matches(RegexConstant.UUID_REGEX.getRegex())) {
+        if (!RegexPatterns.UUID_REGEX.isMatch(uuid)) {
             logger.error("[ERROR] Abnormal UUID Format Error");
             throw new AbnormalUUIDFormatException();
         }
