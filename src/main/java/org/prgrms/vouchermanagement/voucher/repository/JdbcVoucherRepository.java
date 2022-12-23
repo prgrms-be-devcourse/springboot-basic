@@ -5,7 +5,6 @@ import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
 import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,7 +38,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                             toUUID(resultSet.getBytes("customer_id")))
             );
 
-    @Autowired
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

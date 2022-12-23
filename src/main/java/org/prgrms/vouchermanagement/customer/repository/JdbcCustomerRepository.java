@@ -3,7 +3,6 @@ package org.prgrms.vouchermanagement.customer.repository;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -41,7 +40,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final RowMapper<Integer> countRowMapper = (resultSet, i) -> resultSet.getInt(1);
 
-    @Autowired
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

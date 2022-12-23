@@ -3,7 +3,6 @@ package org.prgrms.vouchermanagement.voucher.service;
 import org.prgrms.vouchermanagement.exception.voucher.VoucherNotFoundException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +13,6 @@ public class VoucherFindService {
 
     private final VoucherRepository voucherRepository;
 
-    @Autowired
     public VoucherFindService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }

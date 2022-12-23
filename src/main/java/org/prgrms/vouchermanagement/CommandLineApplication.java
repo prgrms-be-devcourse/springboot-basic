@@ -11,7 +11,6 @@ import org.prgrms.vouchermanagement.voucher.service.VoucherCreateService;
 import org.prgrms.vouchermanagement.voucher.service.VoucherDeleteService;
 import org.prgrms.vouchermanagement.voucher.service.VoucherFindService;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -32,7 +31,6 @@ public class CommandLineApplication {
     private final BlackListFindService blackListFindService;
     private final CustomerService customerService;
 
-    @Autowired
     public CommandLineApplication(Input input,
                                   Output output,
                                   VoucherCreateService voucherCreateService,

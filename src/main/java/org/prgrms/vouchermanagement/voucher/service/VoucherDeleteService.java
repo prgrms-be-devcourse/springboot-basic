@@ -1,7 +1,6 @@
 package org.prgrms.vouchermanagement.voucher.service;
 
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -11,7 +10,6 @@ public class VoucherDeleteService {
 
     private final VoucherRepository voucherRepository;
 
-    @Autowired
     public VoucherDeleteService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }

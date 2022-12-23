@@ -7,7 +7,6 @@ import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
 import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -18,7 +17,6 @@ public class VoucherCreateService {
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 
-    @Autowired
     public VoucherCreateService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
