@@ -1,7 +1,5 @@
 package org.prgrms.vouchermanagement.io;
 
-import org.prgrms.vouchermanagement.customer.domain.Customer;
-import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,7 +29,6 @@ public class Console implements Input, Output {
     private static final String VOUCHER_CREATE_MESSAGE = "바우처 생성이 완료되었습니다.";
     private static final String CUSTOMER_NAME_INPUT_MESSAGE = "생성할 Customer의 이름을 입력해주세요.";
     private static final String CUSTOMER_EMAIL_INPUT_MESSAGE = "Customer의 이메일을 입력해주세요.";
-    private static final String VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE = "바우처를 할당하기 위한 고객의 이메일을 입력해주세요.";
     private static final String DELETE_VOUCHERS_MESSAGE = "바우처 삭제가 완료되었습니다.";
     private static final String VOUCHER_ID_INPUT_MESSAGE = "바우처 ID를 입력해주세요.";
 
@@ -114,18 +111,8 @@ public class Console implements Input, Output {
     }
 
     @Override
-    public void printAllVouchers(List<Voucher> vouchers) {
-        vouchers.forEach(System.out::println);
-    }
-
-    @Override
-    public void printCustomers(List<Customer> customers) {
-        customers.forEach(System.out::println);
-    }
-
-    @Override
-    public void printVoucherAssignCustomerEmail() {
-        System.out.println(VOUCHER_ASSIGN_CUSTOMER_EMAIL_MESSAGE);
+    public void printList(List<?> list) {
+        list.forEach(System.out::println);
     }
 
     @Override

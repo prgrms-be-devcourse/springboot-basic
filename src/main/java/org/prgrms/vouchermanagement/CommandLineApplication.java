@@ -99,7 +99,7 @@ public class CommandLineApplication {
 
     private void printVouchers() {
         List<Voucher> vouchers = voucherFindService.findAllVouchers();
-        output.printAllVouchers(vouchers);
+        output.printList(vouchers);
     }
 
     private void createCustomer() {
@@ -111,14 +111,14 @@ public class CommandLineApplication {
 
     private void printCustomers() {
         List<Customer> customers = customerService.findAll();
-        output.printCustomers(customers);
+        output.printList(customers);
     }
 
     private void printCustomerVouchers() {
         String email = input.receiveCustomerEmail();
         Customer customer = customerService.findByEmail(email);
         List<Voucher> vouchers = voucherFindService.findVouchersByCustomerId(customer.getCustomerId());
-        output.printAllVouchers(vouchers);
+        output.printList(vouchers);
     }
 
     private void deleteCustomerVoucher() {
@@ -130,14 +130,14 @@ public class CommandLineApplication {
 
     private void printBlacklist() {
         List<Customer> blackList = blackListFindService.findAllBlackList();
-        output.printCustomers(blackList);
+        output.printList(blackList);
     }
 
     private void printVoucherOwner() {
         UUID voucherId = UUID.fromString(input.receiveVoucherId());
         Voucher voucher = voucherFindService.findVoucherByVoucherId(voucherId);
         Customer customer = customerService.findById(voucher.getCustomerId());
-        output.printCustomers(List.of(customer));
+        output.printList(List.of(customer));
     }
 
     private void exit(Command command) {
