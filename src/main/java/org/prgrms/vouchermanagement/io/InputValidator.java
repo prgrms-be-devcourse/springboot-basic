@@ -16,51 +16,45 @@ public class InputValidator {
 
     Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
-    protected int validateNumber(String discountAmountInput) {
+    protected void validateNumber(String discountAmountInput) {
         if (!discountAmountInput.matches(RegexConstant.NUMBER_REGEX.getRegex())) {
             logger.error("[ERROR] Not Number Error");
             throw new NotNumberException();
         }
-        return Integer.parseInt(discountAmountInput);
     }
 
-    protected int validateDiscountAmount(String voucherTypeNumberInput, int discountAmountInput) {
+    protected void validateDiscountAmount(String voucherTypeNumberInput, int discountAmountInput) {
         if (!VoucherType.isCorrectDiscountAmount(voucherTypeNumberInput, discountAmountInput)) {
             logger.error("[ERROR] Incorrect Range Discount Amount Error");
             throw new InCorrectDiscountAmountException();
         }
-        return discountAmountInput;
     }
 
-    protected String validateVoucherType(String voucherTypeNumberInput) {
+    protected void validateVoucherType(String voucherTypeNumberInput) {
         if (!VoucherType.isCorrectVoucherType(voucherTypeNumberInput)) {
             logger.error("[ERROR] InCorrect Voucher Type Error");
             throw new InCorrectVoucherTypeException();
         }
-        return voucherTypeNumberInput;
     }
 
-    protected String validateName(String customerName) {
+    protected void validateName(String customerName) {
         if (!customerName.matches(RegexConstant.NAME_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal Name Format Error");
             throw new AbnormalCustomerValueException();
         }
-        return customerName;
     }
 
-    protected String validateEmail(String customerEmail) {
+    protected void validateEmail(String customerEmail) {
         if (!customerEmail.matches(RegexConstant.EMAIL_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal Email Format Error");
             throw new AbnormalCustomerValueException();
         }
-        return customerEmail;
     }
 
-    protected String validateUUID(String uuid) {
+    protected void validateUUID(String uuid) {
         if (!uuid.matches(RegexConstant.UUID_REGEX.getRegex())) {
             logger.error("[ERROR] Abnormal UUID Format Error");
             throw new AbnormalUUIDFormatException();
         }
-        return uuid;
     }
 }

@@ -14,7 +14,6 @@ import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeExcept
 
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -62,11 +61,8 @@ class InputValidatorTest {
         // given
         String numberInput = "10";
 
-        // when
-        int validateNumber = inputValidator.validateNumber(numberInput);
-
-        // then
-        assertThat(Integer.parseInt(numberInput)).isEqualTo(validateNumber);
+        // when, then
+        assertDoesNotThrow(() -> inputValidator.validateNumber(numberInput));
     }
 
     @Test
@@ -84,22 +80,16 @@ class InputValidatorTest {
     @DisplayName("FixedAmountVoucher의 올바른 할인금액일 경우 검증")
     void correctFixedAmountVoucherDiscountAmount(String fixedAmountVoucherNumberInput, int discountAmount) {
 
-        // when
-        int resultDiscountAmount = inputValidator.validateDiscountAmount(fixedAmountVoucherNumberInput, discountAmount);
-
-        // then
-        assertThat(discountAmount).isEqualTo(resultDiscountAmount);
+        // when, then
+        assertDoesNotThrow(() -> inputValidator.validateDiscountAmount(fixedAmountVoucherNumberInput, discountAmount));
     }
 
     @ParameterizedTest
     @MethodSource("correctPercentAmountVoucherDiscountAmountParameters")
     @DisplayName("PercentDiscountVoucher의 올바른 할인률일 경우 검증")
     void correctPercentDiscountVoucherDiscountAmount(String percentDiscountVoucherNumberInput, int discountAmount) {
-        // when
-        int resultDiscountAmount = inputValidator.validateDiscountAmount(percentDiscountVoucherNumberInput, discountAmount);
-
-        // then
-        assertThat(discountAmount).isEqualTo(resultDiscountAmount);
+        // when, then
+        assertDoesNotThrow(() -> inputValidator.validateDiscountAmount(percentDiscountVoucherNumberInput, discountAmount));
     }
 
     @ParameterizedTest

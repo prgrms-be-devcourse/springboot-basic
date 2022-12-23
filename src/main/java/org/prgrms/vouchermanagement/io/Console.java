@@ -53,32 +53,43 @@ public class Console implements Input, Output {
         this.printSelectVoucherDiscountAmount();
         String discountAmountInput = scanner.nextLine();
 
-        int discountAmount = inputValidator.validateNumber(discountAmountInput);
-        return inputValidator.validateDiscountAmount(voucherTypeNumberInput, discountAmount);
+        inputValidator.validateNumber(discountAmountInput);
+        int discountAmount = Integer.parseInt(discountAmountInput);
+        inputValidator.validateDiscountAmount(voucherTypeNumberInput, discountAmount);
+
+        return discountAmount;
     }
 
     @Override
     public String receiveVoucherType() {
         this.printSelectVoucherType();
-        return inputValidator.validateVoucherType(scanner.nextLine());
+        String voucherType = scanner.nextLine();
+        inputValidator.validateVoucherType(voucherType);
+        return voucherType;
     }
 
     @Override
     public String receiveCustomerName() {
         this.printCustomerName();
-        return inputValidator.validateName(scanner.nextLine());
+        String customerName = scanner.nextLine();
+        inputValidator.validateName(customerName);
+        return customerName;
     }
 
     @Override
     public String receiveCustomerEmail() {
         this.printCustomerEmail();
-        return inputValidator.validateEmail(scanner.nextLine());
+        String customerEmail = scanner.nextLine();
+        inputValidator.validateEmail(customerEmail);
+        return customerEmail;
     }
 
     @Override
     public String receiveVoucherId() {
         this.printVoucherId();
-        return inputValidator.validateUUID(scanner.nextLine());
+        String voucherId = scanner.nextLine();
+        inputValidator.validateUUID(voucherId);
+        return voucherId;
     }
 
     // OUTPUT
