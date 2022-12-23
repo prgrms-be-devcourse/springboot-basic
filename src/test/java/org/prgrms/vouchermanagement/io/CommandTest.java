@@ -2,24 +2,22 @@ package org.prgrms.vouchermanagement.io;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.vouchermanagement.exception.command.InCorrectCommandException;
+
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CommandTest {
 
-    @Test
+    @ParameterizedTest
+    @MethodSource(value = "commandArguments")
     @DisplayName("입력값이 유효한 값인 경우 Command 반환 확인")
-    void correctInputMatch() {
-        // given
-        String noneInput = "none";
-        String exitInput = "exit";
-        String createInput = "create";
-        String listInput = "list";
-        String blackListInput = "blacklist";
-        String createCustomerInput = "create customer";
-        String customerListInput = "show customers";
+    void correctInputMatch(String noneInput, String exitInput, String createInput, String listInput, String blackListInput, String createCustomerInput, String customerListInput) {
 
         // when
         Command noneCommand = Command.findCommand(noneInput);
@@ -38,6 +36,12 @@ class CommandTest {
         assertThat(blackListCommand).isEqualTo(Command.BLACKLIST);
         assertThat(createCustomerCommand).isEqualTo(Command.CREATE_CUSTOMER);
         assertThat(customerListCommand).isEqualTo(Command.CUSTOMER_LIST);
+    }
+
+    private static Stream<Arguments> commandArguments() {
+        return Stream.of(
+                Arguments.of("none", "exit", "create", "list", "blacklist", "create customer", "show customers")
+        );
     }
 
     @Test

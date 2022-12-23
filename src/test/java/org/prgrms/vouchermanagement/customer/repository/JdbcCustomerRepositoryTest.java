@@ -5,6 +5,9 @@ import com.wix.mysql.ScriptResolver;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -22,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
 import static com.wix.mysql.config.Charset.UTF8;
@@ -258,21 +262,15 @@ class JdbcCustomerRepositoryTest {
         assertThat(findCustomer).isEmpty();
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("customerArguments")
     @DisplayName("수정 성공")
-    void updateName() {
+    void updateName(Customer beforeChangeNameCustomer, Customer beforeChangeEmailCustomer, Customer beforeChangeBothCustomer,
+                    Customer afterChangeNameCustomer, Customer afterChangeEmailCustomer, Customer afterChangeBothCustomer) {
         // given
-        Customer beforeChangeNameCustomer = makeCustomer(UUID.randomUUID(), "nameA", "customer1@google.com");
-        Customer beforeChangeEmailCustomer = makeCustomer(UUID.randomUUID(), "nameB", "customer2@google.com");
-        Customer beforeChangeBothCustomer = makeCustomer(UUID.randomUUID(), "nameC", "customer3@google.com");
-
         jdbcCustomerRepository.save(beforeChangeNameCustomer);
         jdbcCustomerRepository.save(beforeChangeEmailCustomer);
         jdbcCustomerRepository.save(beforeChangeBothCustomer);
-
-        Customer afterChangeNameCustomer = makeCustomer(beforeChangeNameCustomer.getCustomerId(), "changeName", beforeChangeNameCustomer.getEmail());
-        Customer afterChangeEmailCustomer = makeCustomer(beforeChangeEmailCustomer.getCustomerId(), beforeChangeEmailCustomer.getName(), "changeEmail@google.com");
-        Customer afterChangeBothCustomer = makeCustomer(beforeChangeBothCustomer.getCustomerId(), "changeBothName", "changeBothEmail@google.com");
 
         // when
         jdbcCustomerRepository.update(afterChangeNameCustomer);
@@ -295,6 +293,21 @@ class JdbcCustomerRepositoryTest {
         assertThat(resultChangeBothCustomer)
                 .usingRecursiveComparison()
                 .isEqualTo(afterChangeBothCustomer);
+    }
+
+    private static Stream<Arguments> customerArguments() {
+        Customer beforeChangeNameCustomer = makeCustomer(UUID.randomUUID(), "nameA", "customer1@google.com");
+        Customer beforeChangeEmailCustomer = makeCustomer(UUID.randomUUID(), "nameB", "customer2@google.com");
+        Customer beforeChangeBothCustomer = makeCustomer(UUID.randomUUID(), "nameC", "customer3@google.com");
+
+        Customer afterChangeNameCustomer = makeCustomer(beforeChangeNameCustomer.getCustomerId(), "changeName", beforeChangeNameCustomer.getEmail());
+        Customer afterChangeEmailCustomer = makeCustomer(beforeChangeEmailCustomer.getCustomerId(), beforeChangeEmailCustomer.getName(), "changeEmail@google.com");
+        Customer afterChangeBothCustomer = makeCustomer(beforeChangeBothCustomer.getCustomerId(), "changeBothName", "changeBothEmail@google.com");
+
+        return Stream.of(
+                Arguments.of(beforeChangeNameCustomer, beforeChangeEmailCustomer, beforeChangeBothCustomer,
+                        afterChangeNameCustomer, afterChangeEmailCustomer, afterChangeBothCustomer)
+        );
     }
 
     @Test
@@ -324,7 +337,7 @@ class JdbcCustomerRepositoryTest {
         assertFalse(result);
     }
 
-    private Customer makeCustomer(UUID customerId, String name, String email) {
+    private static Customer makeCustomer(UUID customerId, String name, String email) {
         return Customer.createNormalCustomer(customerId, name, email, LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 }
