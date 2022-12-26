@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -53,9 +52,11 @@ class VoucherTypeTest {
 
         // when
         Voucher fixedAmountVoucher = VoucherType.createVoucher(
-                VoucherVO.of(fixedAmountVoucherId, fixedAmountVoucherTypeInput, fixedAmountVoucherDiscountAmount, fixedCustomerId));
+                fixedAmountVoucherId, fixedAmountVoucherTypeInput, fixedAmountVoucherDiscountAmount, fixedCustomerId
+        );
         Voucher percentDiscountVoucher = VoucherType.createVoucher(
-                VoucherVO.of(percentDiscountVoucherId, percentDiscountVoucherTypeInput, percentDiscountVoucherDiscountAmount, percentCustomerId));
+                percentDiscountVoucherId, percentDiscountVoucherTypeInput, percentDiscountVoucherDiscountAmount, percentCustomerId
+        );
 
         // then
         assertThat(fixedAmountVoucher)
@@ -78,9 +79,8 @@ class VoucherTypeTest {
         int discountAmount = 100;
         String voucherTypeInput = "3";
         UUID customerId = UUID.randomUUID();
-        VoucherVO voucherVO = VoucherVO.of(voucherId, voucherTypeInput, discountAmount, customerId);
         // when, then
-        assertThrows(InCorrectVoucherTypeException.class, () -> VoucherType.createVoucher(voucherVO));
+        assertThrows(InCorrectVoucherTypeException.class, () -> VoucherType.createVoucher(voucherId, voucherTypeInput, discountAmount, customerId));
     }
 
     @ParameterizedTest

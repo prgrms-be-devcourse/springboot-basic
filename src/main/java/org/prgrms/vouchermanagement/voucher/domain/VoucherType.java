@@ -2,7 +2,6 @@ package org.prgrms.vouchermanagement.voucher.domain;
 
 import org.prgrms.vouchermanagement.exception.voucher.InCorrectVoucherTypeException;
 import org.prgrms.vouchermanagement.util.func.TriFunction;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -22,12 +21,12 @@ public enum VoucherType {
         this.voucherConstructor = voucherConstructor;
     }
 
-    public static Voucher createVoucher(VoucherVO voucherVO) {
+    public static Voucher createVoucher(UUID voucherId, String voucherTypeInput, int discountAmount, UUID customerId) {
         return Arrays.stream(values())
-                .filter(voucherType -> voucherType.isMatchVoucherType(voucherVO.getVoucherType()))
+                .filter(voucherType -> voucherType.isMatchVoucherType(voucherTypeInput))
                 .findAny()
                 .orElseThrow(InCorrectVoucherTypeException::new)
-                .voucherConstructor.apply(voucherVO.getVoucherId(), voucherVO.getDiscountAmount(), voucherVO.getCustomerId());
+                .voucherConstructor.apply(voucherId, discountAmount, customerId);
     }
 
     public static boolean isCorrectVoucherType(String voucherTypeInput) {

@@ -2,7 +2,6 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,12 +52,10 @@ public class FileVoucherRepository implements VoucherRepository {
             String[] infoArr = findVoucher.get().split(",");
             return Optional.of(
                     VoucherType.createVoucher(
-                            VoucherVO.of(
-                                    UUID.fromString(infoArr[VOUCHER_ID_IDX]),
-                                    infoArr[VOUCHER_TYPE_IDX],
-                                    Integer.parseInt(infoArr[VOUCHER_DISCOUNT_AMOUNT_IDX]),
-                                    UUID.fromString(infoArr[VOUCHER_CUSTOMER_ID_IDX])
-                            )
+                            UUID.fromString(infoArr[VOUCHER_ID_IDX]),
+                            infoArr[VOUCHER_TYPE_IDX],
+                            Integer.parseInt(infoArr[VOUCHER_DISCOUNT_AMOUNT_IDX]),
+                            UUID.fromString(infoArr[VOUCHER_CUSTOMER_ID_IDX])
                     )
             );
 
@@ -106,7 +103,7 @@ public class FileVoucherRepository implements VoucherRepository {
         int discountAmount = Integer.parseInt(voucherInfos[VOUCHER_DISCOUNT_AMOUNT_IDX]);
         UUID customerId = UUID.fromString(voucherInfos[VOUCHER_CUSTOMER_ID_IDX]);
 
-        return VoucherType.createVoucher(VoucherVO.of(uuid, voucherType, discountAmount, customerId));
+        return VoucherType.createVoucher(uuid, voucherType, discountAmount, customerId);
     }
 
     @Override

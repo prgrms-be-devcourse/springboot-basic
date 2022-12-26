@@ -9,7 +9,6 @@ import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.domain.VoucherType;
-import org.prgrms.vouchermanagement.voucher.domain.dto.VoucherVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -239,7 +238,7 @@ class JdbcVoucherRepositoryTest {
     }
 
     private Voucher createVoucher(UUID uuid, VoucherType voucherType, int discountAmount, UUID customerId) {
-        return VoucherType.createVoucher(VoucherVO.of(uuid, voucherType.name(), discountAmount, customerId));
+        return VoucherType.createVoucher(uuid, voucherType.name(), discountAmount, customerId);
     }
 
     @Configuration
