@@ -43,7 +43,8 @@ public enum Message {
             customerId와 voucherId를 입력하세요. (ex. customerId voucherId)
             =>\s"""),
     INPUT_CUSTOMER_ID("고객 id를 입력해주세요 : "),
-    INPUT_VOUCHER_ID("바우처 id를 입력해주세요 : ");
+    INPUT_VOUCHER_ID("바우처 id를 입력해주세요 : "),
+    BLACK_LIST("블랙리스트 조회 : 수정 필요");
 
 
     private final String message;

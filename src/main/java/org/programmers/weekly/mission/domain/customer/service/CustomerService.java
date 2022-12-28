@@ -13,4 +13,10 @@ public class CustomerService {
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
+
+
+    public <T> Iterable<T> getBlackList() {
+        // 수정 필요
+        return null;
+    }
 }

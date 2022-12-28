@@ -25,7 +25,8 @@ public class CommandLine implements Runnable {
     private final WalletService walletService;
     private final Input input;
     private final Output output;
-    private Boolean isRunnable = true;
+
+    private boolean isRunnable = true;
 
     @Autowired
     public CommandLine(VoucherService voucherService, CustomerService customerService, WalletService walletService, Input input, Output output) {
@@ -45,6 +46,7 @@ public class CommandLine implements Runnable {
                     case LIST -> getListVoucher();
                     case EXIT -> exitVoucherProgram();
                     case WALLET -> selectWallet();
+                    case BLACK_LIST -> getBlackList();
                 }
             }
         } catch (Exception e) {
@@ -149,6 +151,11 @@ public class CommandLine implements Runnable {
 
     private void exitVoucherProgram() {
         isRunnable = false;
+    }
+
+    private void getBlackList() {
+        output.printMessage(Message.BLACK_LIST.getMessage());
+        customerService.getBlackList().forEach(output::printObject);
     }
 
 }
