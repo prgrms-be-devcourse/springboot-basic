@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -46,7 +45,6 @@ public class CommandLine implements Runnable {
                     case LIST -> getListVoucher();
                     case EXIT -> exitVoucherProgram();
                     case WALLET -> selectWallet();
-                    case BLACK_LIST -> getBlackList();
                 }
             }
         } catch (Exception e) {
@@ -102,35 +100,17 @@ public class CommandLine implements Runnable {
 
     private OptionType selectWalletType() {
         output.printMessage(Message.SELECT_WALLET_MESSAGE.getMessage());
-        Optional<OptionType> walletType = OptionType.checkType(input.getInput());
-
-        if (walletType.isEmpty()) {
-            throw new RuntimeException(Message.INPUT_ERROR_MESSAGE.getMessage());
-        }
-
-        return walletType.get();
+        return OptionType.checkType(input.getInput());
     }
 
     private OptionType selectOptionType() {
         output.printMessage(Message.SELECT_OPTION_MESSAGE.getMessage());
-        Optional<OptionType> optionType = OptionType.checkType(input.getInput());
-
-        if (optionType.isEmpty()) {
-            throw new RuntimeException(Message.INPUT_ERROR_MESSAGE.getMessage());
-        }
-
-        return optionType.get();
+        return OptionType.checkType(input.getInput());
     }
 
     private VoucherType selectVoucherType() {
         output.printMessage(Message.SELECT_VOUCHER_MESSAGE.getMessage());
-        Optional<VoucherType> voucherType = VoucherType.checkVoucherType(input.getInput());
-
-        if (voucherType.isEmpty()) {
-            throw new RuntimeException(Message.INPUT_ERROR_MESSAGE.getMessage());
-        }
-
-        return voucherType.get();
+        return VoucherType.checkVoucherType(input.getInput());
     }
 
     private Long selectVoucherDiscount() {
@@ -151,11 +131,6 @@ public class CommandLine implements Runnable {
 
     private void exitVoucherProgram() {
         isRunnable = false;
-    }
-
-    private void getBlackList() {
-        output.printMessage(Message.BLACK_LIST.getMessage());
-        customerService.getBlackList().forEach(output::printObject);
     }
 
 }

@@ -8,9 +8,14 @@ import java.util.UUID;
 
 public interface CustomerRepository {
     Customer insert(Customer customer);
+
     List<Customer> getAllCustomers();
+
     Optional<Customer> getCustomerById(UUID customerId);
+
     Customer update(Customer customer);
+
     void deleteAll();
+
     void delete(UUID customerId);
 }

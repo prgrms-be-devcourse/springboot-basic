@@ -19,7 +19,6 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-
     public Voucher createVoucher(VoucherType voucherType, Long discount) {
         Optional<Voucher> voucher = makeVoucher(voucherType, discount);
 
