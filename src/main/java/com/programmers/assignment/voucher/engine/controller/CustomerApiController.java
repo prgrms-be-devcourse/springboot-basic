@@ -23,19 +23,16 @@ public class CustomerApiController {
 
     @GetMapping("/api/customers")
     public CommonResponse<List<Customer>> customerList() {
-        var customers = service.findCustomers();
-        return new CommonResponse<>(customers);
+        return new CommonResponse<>(service.findCustomers());
     }
 
     @GetMapping("/api/customers/{customerUuid}")
     public CommonResponse<Customer> customerDetails(@PathVariable UUID customerUuid) {
-        var customer = service.findCustomerByUuid(customerUuid);
-        return new CommonResponse<>(customer);
+        return new CommonResponse<>(service.findCustomerByUuid(customerUuid));
     }
 
     @PostMapping("/api/customers")
     public CommonResponse<Customer> createCustomer(CustomerDto customerDto) {
-        var customer = service.createCustomer(customerDto);
-        return new CommonResponse<>(customer);
+        return new CommonResponse<>(service.createCustomer(customerDto));
     }
 }
