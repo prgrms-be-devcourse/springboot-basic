@@ -35,12 +35,8 @@ public class VoucherService {
     public Voucher makeVoucher(String strCustomerId, String discountWay, String strDiscountValue) {
         var discountValue = Long.parseLong(strDiscountValue);
         var customerId = Long.parseLong(strCustomerId);
-        Voucher voucher = null;
-        try {
-            voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customerId);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
+        var voucher = new Voucher(UUID.randomUUID(), VoucherVariable.chooseDiscountWay(discountWay), discountValue, customerId);
+
         return voucherRepository.insert(voucher);
     }
 }

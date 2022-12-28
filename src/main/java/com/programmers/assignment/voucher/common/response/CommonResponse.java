@@ -16,7 +16,7 @@ public class CommonResponse<T> {
         serverDatetime = LocalDateTime.now();
     }
 
-    public CommonResponse(ResponseCode responseCode) {
+    public CommonResponse(ResponseMessage responseCode) {
         serverDatetime = LocalDateTime.now();
     }
 

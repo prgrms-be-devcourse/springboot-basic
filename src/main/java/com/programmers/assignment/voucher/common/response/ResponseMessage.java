@@ -1,6 +1,6 @@
 package com.programmers.assignment.voucher.common.response;
 
-public enum ResponseCode {
+public enum ResponseMessage {
     SUCCESS,
     NOT_FOUND_CUSTOMER,
     NOT_FOUND_VOUCHER,

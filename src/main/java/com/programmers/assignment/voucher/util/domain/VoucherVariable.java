@@ -1,6 +1,7 @@
 package com.programmers.assignment.voucher.util.domain;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum VoucherVariable {
     FIXED("FIXED"),
@@ -18,16 +19,13 @@ public enum VoucherVariable {
     }
 
     public static String chooseDiscountWay(String command) {
-        try {
-            return getVoucher(command).toString();
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
+        return getVoucher(command).toString();
     }
 
-    public static VoucherVariable getVoucher(String command) throws NoSuchFieldException {
+    public static VoucherVariable getVoucher(String command) {
         return Arrays.stream(values())
-                .filter(o -> o.discountWay.equals(command))
-                .findFirst().orElseThrow(() -> new NoSuchFieldException(command + "는 존재하지 않는 바우처 입니다."));
+            .filter(o -> o.discountWay.equals(command))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(command + "는 존재하지 않는 바우처 입니다."));
     }
 }

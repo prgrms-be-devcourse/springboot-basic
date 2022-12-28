@@ -23,14 +23,10 @@ public class Voucher {
 
     private static final long MIN_VOUCHER_AMOUNT = 0;
 
-    public Voucher(UUID voucherId, String discountWay, long discountValue, long customerId) throws NoSuchFieldException {
+    public Voucher(UUID voucherId, String discountWay, long discountValue, long customerId) {
         switch (VoucherVariable.getVoucher(discountWay)) {
-            case FIXED:
-                validateAmountValue(discountValue);
-                break;
-            case PERCENT:
-                validatePercentValue(discountValue);
-                break;
+            case FIXED -> validateAmountValue(discountValue);
+            case PERCENT -> validatePercentValue(discountValue);
         }
         this.voucherId = voucherId;
         this.discountWay = discountWay;
@@ -89,16 +85,12 @@ public class Voucher {
     }
 
     public String toString() {
-        try {
-            return switch (VoucherVariable.getVoucher(discountWay)) {
-                case FIXED ->
-                        MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Amount -> {2}", discountWay, voucherId, discountValue);
-                case PERCENT ->
-                        MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Percentage -> {2}", discountWay, voucherId, discountValue);
-            };
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
+        return switch (VoucherVariable.getVoucher(discountWay)) {
+            case FIXED ->
+                    MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Amount -> {2}", discountWay, voucherId, discountValue);
+            case PERCENT ->
+                    MessageFormat.format("voucher type -> {0}, voucherId -> {1}, Discount Percentage -> {2}", discountWay, voucherId, discountValue);
+        };
     }
 }
 
