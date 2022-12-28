@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public class Voucher {
@@ -23,12 +25,8 @@ public class Voucher {
 
     public Voucher(UUID voucherId, String discountWay, long discountValue, long customerId) {
         switch (VoucherVariable.getVoucher(discountWay)) {
-            case FIXED:
-                validateAmountValue(discountValue);
-                break;
-            case PERCENT:
-                validatePercentValue(discountValue);
-                break;
+            case FIXED -> validateAmountValue(discountValue);
+            case PERCENT -> validatePercentValue(discountValue);
         }
         this.voucherId = voucherId;
         this.discountWay = discountWay;
@@ -39,22 +37,22 @@ public class Voucher {
     private static void validateAmountValue(long discountValue) {
         if (discountValue <= MIN_VOUCHER_AMOUNT) {
             logger.error("illegal fixed amount input : " + discountValue);
-            throw new IllegalArgumentException("Amount should be over zero");
+            throw new InputMismatchException("Amount should be over zero");
         }
         if (discountValue > MAX_VOUCHER_AMOUNT) {
             logger.error("illegal fixed amount input : " + discountValue);
-            throw new IllegalArgumentException(String.format("Amount should be less than %d", MAX_VOUCHER_AMOUNT));
+            throw new InputMismatchException(String.format("Amount should be less than %d", MAX_VOUCHER_AMOUNT));
         }
     }
 
     private static void validatePercentValue(long discountValue) {
         if (discountValue <= MIN_VOUCHER_AMOUNT) {
             logger.error("illegal percent discount input : " + discountValue);
-            throw new IllegalArgumentException("Percent should be over zero");
+            throw new InputMismatchException("Percent should be over zero");
         }
         if (discountValue > MAX_VOUCHER_PERCENT) {
             logger.error("illegal percent discount input : " + discountValue);
-            throw new IllegalArgumentException(String.format("Percent should be less than %d", MAX_VOUCHER_PERCENT));
+            throw new InputMismatchException(String.format("Percent should be less than %d", MAX_VOUCHER_PERCENT));
         }
     }
 
@@ -75,7 +73,7 @@ public class Voucher {
         return customerId;
     }
 
-    public long discount(long beforeDiscount) {
+    public long discount(long beforeDiscount) throws NoSuchFieldException {
         switch (VoucherVariable.getVoucher(discountWay)) {
             case FIXED:
                 var discountedAmount = beforeDiscount - discountValue;
@@ -83,7 +81,7 @@ public class Voucher {
             case PERCENT:
                 return beforeDiscount * (discountValue / 100);
         }
-        throw new IllegalArgumentException("There is not available voucher");
+        throw new NoSuchElementException("There is not available voucher");
     }
 
     public String toString() {

@@ -1,6 +1,7 @@
 package com.programmers.assignment.voucher.engine.repository;
 
 import com.programmers.assignment.voucher.engine.model.Customer;
+import com.programmers.assignment.voucher.util.dto.CustomerDto;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -19,14 +20,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-//        var customerId = resultSet.getLong("customer_id");
+    private static final RowMapper<Customer> customerRowMapperWithId = (resultSet, i) -> {
+        var customerId = resultSet.getLong("customer_id");
         var customerName = resultSet.getString("name");
         var customerEmail = resultSet.getString("email");
         var customerUuid = toUUID(resultSet.getBytes("customer_uuid"));
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-//        var lastLogin = resultSet.getTimestamp("last_login_at") != null ?
-//                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        var lastLogin = resultSet.getTimestamp("last_login_at") != null ?
+                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        return new Customer(customerId, customerUuid, customerName, customerEmail, createdAt, lastLogin);
+    };
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        var customerName = resultSet.getString("name");
+        var customerEmail = resultSet.getString("email");
+        var customerUuid = toUUID(resultSet.getBytes("customer_uuid"));
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customerUuid, customerName, customerEmail, createdAt);
     };
 
@@ -46,6 +55,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }};
     }
 
+    private Map<String, Object> dtoToParamMap(CustomerDto customerDto, Long customerId) {
+        return new HashMap<>() {{
+            put("customerId", customerId);
+            put("name", customerDto.name());
+            put("email", customerDto.email());
+        }};
+    }
+
     @Override
     public Customer save(Customer customer) {
         var update = jdbcTemplate.update("insert into customers(customer_uuid, name, email, created_at) values (UUID_TO_BIN(:customerUuid), :name, :email, :createdAt)",
@@ -57,35 +74,35 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer update(Customer customer) {
-        var update = jdbcTemplate.update("update customers set name = :name, email = :email, last_login_at = :lastLoginAt where customer_uuid = UUID_TO_BIN(:customerUuid)",
-                toParamMap(customer)
+    public Customer update(CustomerDto customerDto, Long customerId) {
+        var update = jdbcTemplate.update("update customers set name = :name, email = :email where customer_id = :customerId",
+                dtoToParamMap(customerDto, customerId)
         );
         if (update != 1) {
             throw new RuntimeException("Nothing was updated");
         }
-        return customer;
+        return findById(customerId).get();
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select * from customers", customerRowMapper);
+        return jdbcTemplate.query("select * from customers", customerRowMapperWithId);
     }
 
-//    @Override
-//    public Optional<Customer> findById(long customerId) {
-//        try {
-//            return Optional.ofNullable(
-//                    jdbcTemplate.queryForObject(
-//                            "select * from customers where customer_id = :customerId",
-//                            Collections.singletonMap("customerId", customerId),
-//                            customerRowMapper
-//                    )
-//            );
-//        } catch (EmptyResultDataAccessException e) {
-//            return Optional.empty();
-//        }
-//    }
+    @Override
+    public Optional<Customer> findById(Long customerId) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(
+                            "select * from customers where customer_id = :customerId",
+                            Collections.singletonMap("customerId", customerId),
+                            customerRowMapper
+                    )
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
 
     @Override
     public Optional<Customer> findByUuid(UUID customerUuid) {
@@ -94,7 +111,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     jdbcTemplate.queryForObject(
                             "select * from customers where customer_uuid = UUID_TO_BIN(:customerUuid)",
                             Collections.singletonMap("customerUuid", customerUuid.toString().getBytes()),
-                            customerRowMapper
+                            customerRowMapperWithId
                     )
             );
         } catch (EmptyResultDataAccessException e) {
@@ -142,4 +159,3 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.queryForObject("select count(*) from customers", Collections.EMPTY_MAP, Integer.class);
     }
 }
-

@@ -1,6 +1,7 @@
 package com.programmers.assignment.voucher.engine.repository;
 
 import com.programmers.assignment.voucher.engine.model.Customer;
+import com.programmers.assignment.voucher.util.dto.CustomerDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,11 +11,11 @@ public interface CustomerRepository {
 
     Customer save(Customer customer);
 
-    Customer update(Customer customer);
+    Customer update(CustomerDto customerDto, Long customerId);
 
     List<Customer> findAll();
 
-//    Optional<Customer> findById(long customerId);
+    Optional<Customer> findById(Long customerId);
 
     Optional<Customer> findByUuid(UUID customerUuid);
 
@@ -25,5 +26,4 @@ public interface CustomerRepository {
     void deleteAll();
 
     int count();
-
 }

@@ -1,6 +1,7 @@
 package com.programmers.assignment.voucher.engine.repository;
 
 import com.programmers.assignment.voucher.engine.model.Customer;
+import com.programmers.assignment.voucher.util.dto.CustomerDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,11 +53,12 @@ class JdbcCustomerRepositoryTest {
         customerRepository.save(customer);
         Customer updateCustomer = customerRepository.findByName("test").get();
         var updateName = "test-update";
-        updateCustomer.setName(updateName);
+
+        var customerDto = new CustomerDto(updateName, customer.getEmail());
 
 
         //when
-        var updatedCustomer = customerRepository.update(updateCustomer);
+        var updatedCustomer = customerRepository.update(customerDto, customer.getCustomerId());
 
         //then
         assertThat(updatedCustomer, samePropertyValuesAs(updateCustomer));
