@@ -1,6 +1,7 @@
 package org.prgrms.kdt.model.customer;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 public class Customer {
@@ -13,11 +14,8 @@ public class Customer {
     private LocalDateTime lastLoginAt;
 
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, boolean isBlacklist) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.createdAt = createdAt;
-        this.isBlacklist = isBlacklist;
+        this(customerId, name, email, null, createdAt, isBlacklist);
+
     }
 
     public Customer(UUID customerId, String name, String email, LocalDateTime lastLoginAt, LocalDateTime createdAt, boolean isBlacklist) {
@@ -25,7 +23,7 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.lastLoginAt = lastLoginAt;
-        this.createdAt = createdAt;
+        this.createdAt = createdAt.truncatedTo(ChronoUnit.MILLIS);
         this.isBlacklist = isBlacklist;
     }
 
