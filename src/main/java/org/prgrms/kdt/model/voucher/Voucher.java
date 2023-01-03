@@ -5,15 +5,15 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
-abstract public class Voucher {
+public abstract class Voucher {
 
     private final UUID voucherId;
     private final double discountAmount;
-    private final String voucherType;
+    private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     private UUID ownedCustomerId;
 
-    public Voucher(UUID voucherId, String discountAmount, String voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
+    public Voucher(UUID voucherId, String discountAmount, VoucherType voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
         validate(discountAmount);
         this.voucherId = voucherId;
         this.discountAmount = Double.parseDouble(discountAmount);
@@ -30,7 +30,7 @@ abstract public class Voucher {
         return discountAmount;
     }
 
-    public String getVoucherType() {
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 
@@ -40,6 +40,10 @@ abstract public class Voucher {
 
     public void setOwnedCustomerId(UUID ownedCustomerId) {
         this.ownedCustomerId = ownedCustomerId;
+    }
+
+    public void removeOwnedCustomer() {
+        this.ownedCustomerId = null;
     }
 
     public LocalDateTime getCreatedAt() {

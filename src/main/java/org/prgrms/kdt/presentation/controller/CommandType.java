@@ -98,9 +98,9 @@ public enum CommandType {
         }
     };
 
-    private final static String VOUCHER = "Voucher";
-    private final static String CUSTOMER = "Customer";
-    public final String command;
+    private static final String VOUCHER = "Voucher";
+    private static final String CUSTOMER = "Customer";
+    private final String command;
     private final String expression;
 
     CommandType(String command, String expression) {

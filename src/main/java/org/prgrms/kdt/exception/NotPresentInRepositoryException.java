@@ -1,4 +1,4 @@
-package org.prgrms.kdt.customer.exception;
+package org.prgrms.kdt.exception;
 
 public class NotPresentInRepositoryException extends RuntimeException {
 
