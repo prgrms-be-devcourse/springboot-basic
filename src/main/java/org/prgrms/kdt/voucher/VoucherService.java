@@ -1,15 +1,14 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
+import org.prgrms.kdt.exception.NotPresentInRepositoryException;
 import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.util.ConvertUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
@@ -31,7 +30,7 @@ public class VoucherService {
     }
 
     public Voucher create(String voucherTypeNumber, String discountValue) {
-        String voucherType = VoucherType.getStringClassName(voucherTypeNumber);
+        VoucherType voucherType = VoucherType.getStringClassName(voucherTypeNumber);
         Voucher voucher = voucherBuilder.create()
                 .setDiscountAmount(discountValue)
                 .setVoucherType(voucherType)
@@ -42,12 +41,8 @@ public class VoucherService {
     }
 
     public Voucher findVoucherById(String voucherId) {
-        try {
-            return voucherRepository.findById(UUID.fromString(voucherId))
-                    .orElseThrow(() -> new NotPresentInRepositoryException("입력된 voucher ID가 존재하지 않습니다."));
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("입력된 voucher ID가 UUID 형식이 아닙니다.", e);
-        }
+        return voucherRepository.findById(ConvertUtil.toUUID(voucherId))
+                .orElseThrow(() -> new NotPresentInRepositoryException("입력된 voucher ID가 존재하지 않습니다."));
     }
 
     public Voucher assignVoucher(Voucher voucher, Customer ownedCustomer) {
@@ -56,22 +51,15 @@ public class VoucherService {
     }
 
     public List<Voucher> getOwnedVouchers(String customerId) {
-        try {
-            return voucherRepository.getAllStoredVoucher().stream()
-                    .filter(voucher -> voucher.getOwnedCustomerId().isPresent() && voucher.getOwnedCustomerId().get().equals(UUID.fromString(customerId)))
-                    .collect(Collectors.toList());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("입력된 voucher ID가 UUID 형식이 아닙니다.", e);
-        }
+        return voucherRepository.getAllStoredVoucher().stream()
+                .filter(voucher -> voucher.getOwnedCustomerId().isPresent() && voucher.getOwnedCustomerId().get().equals(ConvertUtil.toUUID(customerId)))
+                .toList();
+
     }
 
     public Voucher removeAssignment(String voucherId) {
-        try {
-            Voucher voucherById = findVoucherById(voucherId);
-            voucherById.setOwnedCustomerId(null);
-            return voucherRepository.update(voucherById);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("입력된 voucher ID가 UUID 형식이 아닙니다.", e);
-        }
+        Voucher voucher = findVoucherById(voucherId);
+        voucher.removeOwnedCustomer();
+        return voucherRepository.update(voucher);
     }
 }
