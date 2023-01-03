@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.PercentDiscountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.voucher.MemoryVoucherRepository;
 import org.prgrms.kdt.voucher.VoucherRepository;
 
@@ -31,7 +32,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("저장된 바우처를 voucherId를 이용해 찾는 기능 검증")
     void voucherId_이용한_바우처찾기() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
 
         // when
         voucherRepository.insert(voucher);
@@ -45,7 +46,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처가 제대로 들어갔는지 repository 내부 바우처의 갯수로 검증")
     void insert() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
 
         // when
         voucherRepository.insert(voucher);
@@ -59,9 +60,9 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("저장된 바우처들이 제대로 나오는지 바우처 갯수를 이용한 검증")
     void getAllStoredVoucher() {
         // given
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now()));
-        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), "50", PERCENT_TYPE, LocalDateTime.now()));
-        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), "3000", FIXED_TYPE, LocalDateTime.now()));
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now()));
+        voucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), "50", VoucherType.of(PERCENT_TYPE), LocalDateTime.now()));
+        voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), "3000", VoucherType.of(FIXED_TYPE), LocalDateTime.now()));
 
         // when
         int getVoucherCount = voucherRepository.getAllStoredVoucher().size();
@@ -74,7 +75,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("DB에 저장된 바우처의 소유한 고객 ID 정보를 변경할 수 있다.")
     void updateVoucher() {
         // given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
         UUID ownedCustomerId = UUID.randomUUID();
         voucher.setOwnedCustomerId(ownedCustomerId);
 

@@ -12,6 +12,7 @@ import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.voucher.VoucherRepository;
 import org.prgrms.kdt.voucher.VoucherService;
 
@@ -36,13 +37,13 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 생성할 수 있다.")
     void 바우처_생성하기() {
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, LocalDateTime.now());
-        when(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(FIXED).build()).thenReturn(voucher);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED), LocalDateTime.now());
+        when(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(VoucherType.FIXED_AMOUNT).build()).thenReturn(voucher);
         doNothing().when(voucherRepository).insert(voucher);
 
         Voucher createVoucher = voucherService.create("1", "1000");
 
-        verify(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(FIXED)).build();
+        verify(voucherBuilder.create().setDiscountAmount("1000").setVoucherType(VoucherType.FIXED_AMOUNT)).build();
         verify(voucherRepository).insert(voucher);
         assertThat(voucher, samePropertyValuesAs(createVoucher));
     }
@@ -62,7 +63,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 Id를 이용하여 바우처를 조회할 수 있다.")
     void 바우처_ID_조회하기() {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", VoucherType.of(FIXED), LocalDateTime.now());
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
         Voucher voucherById = voucherService.findVoucherById(voucherId.toString());
@@ -75,7 +76,7 @@ class VoucherServiceTest {
     @DisplayName("특정 손님 ID를 이용하여 해당 손님에게 바우처 할당하기")
     void 바우처_할당하기() {
         Customer customer = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com", LocalDateTime.now(), false);
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED), LocalDateTime.now());
 
         when(voucherRepository.update(voucher)).thenReturn(voucher);
         Voucher assignVoucher = voucherService.assignVoucher(voucher, customer);
@@ -89,10 +90,10 @@ class VoucherServiceTest {
     void 보유한_바우처_조회하기() {
         UUID customerId = UUID.randomUUID();
         List<Voucher> voucherList = new ArrayList<>();
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED, customerId, LocalDateTime.now()));
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "2000", FIXED, LocalDateTime.now()));
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "3000", FIXED, customerId, LocalDateTime.now()));
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "4000", FIXED, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED), customerId, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "2000", VoucherType.of(FIXED), LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "3000", VoucherType.of(FIXED), customerId, LocalDateTime.now()));
+        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), "4000", VoucherType.of(FIXED), LocalDateTime.now()));
 
         when(voucherRepository.getAllStoredVoucher()).thenReturn(voucherList);
         List<Voucher> ownedVouchers = voucherService.getOwnedVouchers(customerId.toString());
@@ -106,7 +107,7 @@ class VoucherServiceTest {
     void 바우처_할당해제() {
         UUID voucherId = UUID.randomUUID();
         Customer customer = new Customer(UUID.randomUUID(), "test01", "test01@gmail.com", LocalDateTime.now(), false);
-        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, customer.getCustomerId(), LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", VoucherType.of(FIXED), customer.getCustomerId(), LocalDateTime.now());
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher));
         voucher.setOwnedCustomerId(null);

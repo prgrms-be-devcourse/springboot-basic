@@ -11,7 +11,7 @@ public class VoucherBuilder {
 
     private UUID voucherId;
     private String discountAmount;
-    private String voucherType;
+    private VoucherType voucherType;
     private UUID ownedCustomerId;
     private LocalDateTime createdAt;
 
@@ -32,7 +32,7 @@ public class VoucherBuilder {
         return this;
     }
 
-    public VoucherBuilder setVoucherType(String voucherType) {
+    public VoucherBuilder setVoucherType(VoucherType voucherType) {
         this.voucherType = voucherType;
         return this;
     }
@@ -50,7 +50,7 @@ public class VoucherBuilder {
     }
 
     public Voucher build() {
-        if (Objects.equals(voucherType, VoucherType.FIXED_AMOUNT.getClassName())) {
+        if (Objects.equals(voucherType.getClassName(), VoucherType.FIXED_AMOUNT.getClassName())) {
             return new FixedAmountVoucher(voucherId, discountAmount, voucherType, ownedCustomerId, createdAt);
         }
 

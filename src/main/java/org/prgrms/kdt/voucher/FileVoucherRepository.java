@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.presentation.io.exception.WrongInputDataException;
 import org.prgrms.kdt.presentation.io.exception.WrongOutputDataException;
 import org.springframework.beans.factory.annotation.Value;
@@ -80,7 +81,7 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucherBuilder.create()
                 .setVoucherId(UUID.fromString(voucherId))
                 .setDiscountAmount(discountValue)
-                .setVoucherType(voucherType)
+                .setVoucherType(VoucherType.of(voucherType))
                 .setOwnedCustomerId(ownedCustomerId)
                 .setCreatedAt(Timestamp.valueOf(createdAt).toLocalDateTime())
                 .build();

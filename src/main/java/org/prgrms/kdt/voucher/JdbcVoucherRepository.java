@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -97,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return voucherBuilder.create()
                 .setVoucherId(voucherId)
                 .setDiscountAmount(discountValue)
-                .setVoucherType(voucherType)
+                .setVoucherType(VoucherType.of(voucherType))
                 .setOwnedCustomerId(ownedCustomerId)
                 .setCreatedAt(createdAt)
                 .build();
@@ -107,7 +108,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         hashMap.put("discountValue", voucher.getDiscountAmount());
-        hashMap.put("voucherType", voucher.getVoucherType());
+        hashMap.put("voucherType", voucher.getVoucherType().getClassName());
         hashMap.put("ownedCustomerId", voucher.getOwnedCustomerId().isPresent() ? voucher.getOwnedCustomerId().get().toString().getBytes() : null);
         hashMap.put("createdAt", voucher.getCreatedAt());
 

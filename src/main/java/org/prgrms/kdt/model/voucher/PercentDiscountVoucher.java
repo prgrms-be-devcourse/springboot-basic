@@ -10,11 +10,11 @@ public class PercentDiscountVoucher extends Voucher {
     private static final double MIN_PERCENT = 0.0;
     private static final double MAX_PERCENT = 100.0;
 
-    public PercentDiscountVoucher(UUID voucherId, String discountAmount, String voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, String discountAmount, VoucherType voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
         super(voucherId, discountAmount, voucherType, ownedCustomerId, createdAt);
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String discountAmount, String voucherType, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, String discountAmount, VoucherType voucherType, LocalDateTime createdAt) {
         super(voucherId, discountAmount, voucherType, null, createdAt);
     }
 

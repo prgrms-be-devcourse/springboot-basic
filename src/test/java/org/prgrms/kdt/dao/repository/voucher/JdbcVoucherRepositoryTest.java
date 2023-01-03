@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
 import org.prgrms.kdt.voucher.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.VoucherRepository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -39,7 +40,7 @@ class JdbcVoucherRepositoryTest {
 
     private static VoucherRepository voucherRepository;
 
-    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
+    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
 
     @BeforeAll
     public static void beforeAll() {

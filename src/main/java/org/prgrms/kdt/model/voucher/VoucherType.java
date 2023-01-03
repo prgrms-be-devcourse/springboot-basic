@@ -23,11 +23,10 @@ public enum VoucherType {
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 Voucher 형식입니다."));
     }
 
-    public static String getStringClassName(String num) {
+    public static VoucherType getStringClassName(String num) {
         return Stream.of(values())
                 .filter(type -> type.typeNumber.equals(num))
                 .findFirst()
-                .map(type -> type.expression)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 Voucher 형식입니다."));
     }
 

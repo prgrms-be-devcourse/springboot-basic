@@ -6,18 +6,18 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    public FixedAmountVoucher(UUID voucherId, String discountAmount, String voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
+    public FixedAmountVoucher(UUID voucherId, String discountAmount, VoucherType voucherType, UUID ownedCustomerId, LocalDateTime createdAt) {
         super(voucherId, discountAmount, voucherType, ownedCustomerId, createdAt);
     }
 
-    public FixedAmountVoucher(UUID voucherId, String discountAmount, String voucherType, LocalDateTime createdAt) {
+    public FixedAmountVoucher(UUID voucherId, String discountAmount, VoucherType voucherType, LocalDateTime createdAt) {
         super(voucherId, discountAmount, voucherType, null, createdAt);
     }
 
     @Override
     protected void validate(String discountAmount) {
         if (ValidatorUtil.isNumeric(discountAmount)) {
-            Double discountValue = Double.parseDouble(discountAmount);
+            double discountValue = Double.parseDouble(discountAmount);
 
             if (discountValue != Math.floor(discountValue)) {
                 throw new IllegalArgumentException("할인 금액이 정수가 아닙니다.");
