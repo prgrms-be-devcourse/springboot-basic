@@ -55,7 +55,8 @@ class CustomerServiceTest {
 
         verify(customerRepository).getAllStoredCustomer();
         MatcherAssert.assertThat(allBlacklist.size(), is(2));
-        Assertions.assertThat(allBlacklist).filteredOn(Customer::isBlacklist);
+        Assertions.assertThat(allBlacklist).filteredOn(Customer::isBlacklist)
+                .hasSize(2);
     }
 
     @Test
