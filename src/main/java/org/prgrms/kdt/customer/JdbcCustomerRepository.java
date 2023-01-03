@@ -1,13 +1,13 @@
 package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
+import org.prgrms.kdt.exception.NotPresentInRepositoryException;
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.util.ConvertUtil;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -25,7 +25,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static Customer mapToCustomer(ResultSet resultSet) throws SQLException {
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = ConvertUtil.toUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null
@@ -34,11 +34,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         boolean isBlacklist = resultSet.getBoolean("is_blacklist");
 
         return new Customer(customerId, name, email, lastLoginAt, createdAt, isBlacklist);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     @Override
@@ -52,18 +47,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
 
         return customer;
-    }
-
-    private Map<String, Object> toParamMap(Customer customer) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("customerId", customer.getCustomerId().toString().getBytes());
-        hashMap.put("name", customer.getName());
-        hashMap.put("email", customer.getEmail());
-        hashMap.put("createdAt", customer.getCreatedAt());
-        hashMap.put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
-        hashMap.put("isBlacklist", customer.isBlacklist());
-
-        return hashMap;
     }
 
     @Override
@@ -87,7 +70,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void clear() {
-        jdbcTemplate.update("TRUNCATE FROM customers", Collections.emptyMap());
+        jdbcTemplate.update("DELETE FROM customers", Collections.emptyMap());
     }
 
     @Override
@@ -99,5 +82,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         } catch (EmptyResultDataAccessException e) {
             throw new NotPresentInRepositoryException("해당 customer가 존재하지 않습니다.", e);
         }
+    }
+
+    private Map<String, Object> toParamMap(Customer customer) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("customerId", customer.getCustomerId().toString().getBytes());
+        hashMap.put("name", customer.getName());
+        hashMap.put("email", customer.getEmail());
+        hashMap.put("createdAt", customer.getCreatedAt());
+        hashMap.put("lastLoginAt", customer.getLastLoginAt() != null ? Timestamp.valueOf(customer.getLastLoginAt()) : null);
+        hashMap.put("isBlacklist", customer.isBlacklist());
+
+        return hashMap;
     }
 }

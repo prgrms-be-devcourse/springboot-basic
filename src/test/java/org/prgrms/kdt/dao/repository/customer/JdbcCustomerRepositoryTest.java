@@ -17,6 +17,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -59,9 +60,11 @@ class JdbcCustomerRepositoryTest {
     void customer_삽입하기() {
         // when
         Customer insertCustomer = customerRepository.insert(customer);
+        Optional<Customer> findCustomer = customerRepository.findById(insertCustomer.getCustomerId());
+        assertThat(findCustomer.isPresent(), is(true));
 
         // then
-        assertThat(insertCustomer.getCustomerId(), is(customer.getCustomerId()));
+        assertThat(insertCustomer, samePropertyValuesAs(findCustomer.get()));
     }
 
     @Test
@@ -95,8 +98,10 @@ class JdbcCustomerRepositoryTest {
 
         // when
         Customer updateCustomer = customerRepository.update(customer);
+        Optional<Customer> findCustomer = customerRepository.findById(updateCustomer.getCustomerId());
+        assertThat(findCustomer.isPresent(), is(true));
 
         // then
-        assertThat(updateCustomer, samePropertyValuesAs(customer));
+        assertThat(updateCustomer, samePropertyValuesAs(findCustomer.get()));
     }
 }
