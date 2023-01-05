@@ -11,11 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class SpringbootBasicApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext configurableApplicationContext = SpringApplication
-                .run(SpringbootBasicApplication.class, args);
-
-        Console console = configurableApplicationContext.getBean(Console.class);
-        console.run();
+        SpringApplication.run(SpringbootBasicApplication.class, args);
     }
 
 }

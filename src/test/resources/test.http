@@ -1,0 +1,97 @@
+### 중복된 이메일
+POST http://localhost:8080/api/v1/customers/new
+content-Type: application/json
+
+{
+  "name": "name",
+  "email": "email@naver.com"
+}
+
+
+### 잘못된 id 조회
+GET http://localhost:8080/api/v1/customers/asdfasdfas
+
+
+### 잘못된 id 업데이트
+PATCH http://localhost:8080/api/v1/customers/asdfasdf
+content-Type: application/json
+
+{
+  "name": "updatedaa"
+}
+
+
+### 올바른 업데이트
+PATCH http://localhost:8080/api/v1/customers/a6ce4101-72f6-4165-875d-850db3672aa4
+content-Type: application/json
+
+{
+  "name": "updatedName"
+}
+
+### Voucher 생성 - 잘못된 타입
+POST http://localhost:8080/api/v1/vouchers/new
+content-Type: application/json
+
+{
+  "voucherType": "NotValidType",
+  "discountQuantity": 9999,
+  "discountRatio": 0,
+  "voucherCount": 30,
+  "createdAt": "2022-11-08",
+  "endedAt": "2022-11-11"
+}
+
+### Voucher 생성 - 잘못된 Quantity
+POST http://localhost:8080/api/v1/vouchers/new
+content-Type: application/json
+
+{
+  "voucherType": "FIXED",
+  "discountQuantity": -10,
+  "discountRatio": 0,
+  "voucherCount": 30,
+  "createdAt": "2022-11-08",
+  "endedAt": "2022-11-11"
+}
+
+### Voucher 생성 - 잘못된 Ratio
+POST http://localhost:8080/api/v1/vouchers/new
+content-Type: application/json
+
+{
+  "voucherType": "PERCENT",
+  "discountQuantity": 0,
+  "discountRatio": 200,
+  "voucherCount": 30,
+  "createdAt": "2022-11-08",
+  "endedAt": "2022-11-11"
+}
+
+### Voucher 생성 - 잘못된 날짜 형식
+POST http://localhost:8080/api/v1/vouchers/new
+content-Type: application/json
+
+{
+  "voucherType": "FIXED",
+  "discountQuantity": 10,
+  "discountRatio": 0,
+  "voucherCount": 30,
+  "createdAt": "2022-11-11",
+  "endedAt": "2022-11-08"
+}
+
+
+### Voucher list 조회
+GET http://localhost:8080/api/v1/vouchers/list
+content-Type: application/json
+
+
+### Voucher 조회
+GET http://localhost:8080/api/v1/vouchers/asdfasdf
+content-Type: application/json
+
+
+### Voucher 조회
+GET http://localhost:8080/api/v1/vouchers/56f864d5-e159-4fdd-ac77-9ad2a6ad8141
+content-Type: application/json

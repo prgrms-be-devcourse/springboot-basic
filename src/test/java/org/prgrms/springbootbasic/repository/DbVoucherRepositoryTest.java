@@ -9,9 +9,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.prgrms.springbootbasic.entity.voucher.FixedAmountVoucher;
-import org.prgrms.springbootbasic.entity.voucher.PercentAmountVoucher;
-import org.prgrms.springbootbasic.entity.voucher.Voucher;
+import org.prgrms.springbootbasic.entity.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +20,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +32,8 @@ import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.prgrms.springbootbasic.type.VoucherType.FIXED;
+import static org.prgrms.springbootbasic.type.VoucherType.PERCENT;
 
 
 @SpringJUnitConfig
@@ -72,22 +74,6 @@ class DbVoucherRepositoryTest {
 
     EmbeddedMysql embeddedMysql;
 
-    UUID fixedId1;
-    long amount1;
-    FixedAmountVoucher fixedAmountVoucher1;
-
-    UUID fixedId2;
-    long amount2;
-    FixedAmountVoucher fixedAmountVoucher2;
-
-    UUID percentId1;
-    long percent1;
-    PercentAmountVoucher percentAmountVoucher1;
-
-    UUID percentId2;
-    long percent2;
-    PercentAmountVoucher percentAmountVoucher2;
-
     @BeforeAll
     void setUp() {
         MysqldConfig mysqlConfig = aMysqldConfig(v8_0_11)
@@ -99,27 +85,6 @@ class DbVoucherRepositoryTest {
         embeddedMysql = anEmbeddedMysql(mysqlConfig)
                 .addSchema("test-voucher_mgmt", classPathScripts("schema.sql"))
                 .start();
-
-        fixedId1 = UUID.randomUUID();
-        amount1 = 100L;
-        fixedAmountVoucher1 = new FixedAmountVoucher(fixedId1, amount1);
-
-        fixedId2 = UUID.randomUUID();
-        amount2 = 200L;
-        fixedAmountVoucher2 = new FixedAmountVoucher(fixedId2, amount2);
-        dbVoucherRepository.insert(fixedAmountVoucher1);
-        dbVoucherRepository.insert(fixedAmountVoucher2);
-
-        percentId1 = UUID.randomUUID();
-        percent1 = 10L;
-        percentAmountVoucher1 = new PercentAmountVoucher(percentId1, percent1);
-
-        percentId2 = UUID.randomUUID();
-        percent2 = 20L;
-        percentAmountVoucher2 = new PercentAmountVoucher(percentId2, percent2);
-
-        dbVoucherRepository.insert(percentAmountVoucher1);
-        dbVoucherRepository.insert(percentAmountVoucher2);
     }
 
     @AfterAll
@@ -129,26 +94,82 @@ class DbVoucherRepositoryTest {
 
     @Test
     public void testHikariConnectionPool() {
+        System.out.println(UUID.randomUUID());
         assertThat(dataSource.getClass().getName(), is("com.zaxxer.hikari.HikariDataSource"));
     }
 
     @Test
     void testInsert() {
-        UUID uuid = UUID.randomUUID();
-        FixedAmountVoucher insertedFixedAmountVoucher = new FixedAmountVoucher(uuid, 100L);
+        UUID voucherId = UUID.randomUUID();
+
+        Voucher insertedFixedAmountVoucher = Voucher.builder()
+                .voucherId(voucherId)
+                .voucherType(FIXED)
+                .discountQuantity(100L)
+                .discountRatio(0)
+                .createdAt(LocalDate.now())
+                .endedAt(LocalDate.now().plusDays(10))
+                .build();
 
         dbVoucherRepository.insert(insertedFixedAmountVoucher);
-        assertThat(insertedFixedAmountVoucher.getVoucherId(), is(uuid));
+        assertThat(insertedFixedAmountVoucher.getVoucherId(), is(voucherId));
     }
+
 
     @Test
     void testFindAll() {
         List<Voucher> allVouchers = dbVoucherRepository.findAll();
 
-        Assertions.assertThat(allVouchers).extracting("voucherId", "quantity")
-                .contains(Tuple.tuple(fixedAmountVoucher1.getVoucherId(), fixedAmountVoucher1.getQuantity()))
-                .contains(Tuple.tuple(fixedAmountVoucher2.getVoucherId(), fixedAmountVoucher2.getQuantity()))
-                .contains(Tuple.tuple(percentAmountVoucher1.getVoucherId(), percentAmountVoucher1.getQuantity()))
-                .contains(Tuple.tuple(percentAmountVoucher2.getVoucherId(), percentAmountVoucher2.getQuantity()));
+        Voucher fixed1 = Voucher.builder()
+                .voucherId(UUID.fromString("67c45e69-2523-4097-8100-c8a8de3e2260"))
+                .voucherType(FIXED)
+                .discountQuantity(100L)
+                .discountRatio(0)
+                .voucherCount(1)
+                .createdAt(LocalDate.of(2022, 11, 24))
+                .endedAt(LocalDate.of(2022, 11, 27))
+                .build();
+
+        Voucher fixed2 = Voucher.builder()
+                .voucherId(UUID.fromString("beb30b22-e81c-4a76-97e4-4a929fc28800"))
+                .voucherType(FIXED)
+                .discountQuantity(200L)
+                .discountRatio(0)
+                .voucherCount(2)
+                .createdAt(LocalDate.of(2022, 11, 24))
+                .endedAt(LocalDate.of(2022, 11, 28))
+                .build();
+
+        Voucher percent1 = Voucher.builder()
+                .voucherId(UUID.fromString("fb90b145-8bae-46e5-8600-172fd5491588"))
+                .voucherType(PERCENT)
+                .discountQuantity(0)
+                .discountRatio(10L)
+                .voucherCount(11)
+                .createdAt(LocalDate.of(2022, 11, 24))
+                .endedAt(LocalDate.of(2022, 11, 24).plusDays(5))
+                .build();
+
+        Voucher percent2 = Voucher.builder()
+                .voucherId(UUID.fromString("4fda8f8c-b249-4dfb-b5f4-9304d2725a97"))
+                .voucherType(PERCENT)
+                .discountQuantity(0)
+                .discountRatio(20L)
+                .voucherCount(22L)
+                .createdAt(LocalDate.of(2022, 11, 24))
+                .endedAt(LocalDate.of(2022, 11, 30))
+                .build();
+
+        List<Voucher> vouchers = new ArrayList<>();
+        vouchers.add(fixed1);
+        vouchers.add(fixed2);
+        vouchers.add(percent1);
+        vouchers.add(percent2);
+
+        Assertions.assertThat(allVouchers).extracting("voucherId", "voucherType", "discountQuantity", "discountRatio", "voucherCount", "createdAt", "endedAt")
+                .contains(Tuple.tuple(fixed1.getVoucherId(), fixed1.getVoucherType(), fixed1.getDiscountQuantity(), fixed1.getDiscountRatio(), fixed1.getVoucherCount(), fixed1.getCreatedAt(), fixed1.getEndedAt()))
+                .contains(Tuple.tuple(fixed2.getVoucherId(), fixed2.getVoucherType(), fixed2.getDiscountQuantity(), fixed2.getDiscountRatio(), fixed2.getVoucherCount(), fixed2.getCreatedAt(), fixed2.getEndedAt()))
+                .contains(Tuple.tuple(percent1.getVoucherId(), percent1.getVoucherType(), percent1.getDiscountQuantity(), percent1.getDiscountRatio(), percent1.getVoucherCount(), percent1.getCreatedAt(), percent1.getEndedAt()))
+                .contains(Tuple.tuple(percent2.getVoucherId(), percent2.getVoucherType(), percent2.getDiscountQuantity(), percent2.getDiscountRatio(), percent2.getVoucherCount(), percent2.getCreatedAt(), percent2.getEndedAt()));
     }
 }

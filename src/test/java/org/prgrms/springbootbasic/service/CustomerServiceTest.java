@@ -3,10 +3,12 @@ package org.prgrms.springbootbasic.service;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.prgrms.springbootbasic.CustomerInputDto;
+import org.prgrms.springbootbasic.mapper.CustomerDtoMapper;
+import org.prgrms.springbootbasic.dto.CustomerInputDto;
+import org.prgrms.springbootbasic.dto.CustomerUpdateDto;
 import org.prgrms.springbootbasic.entity.Customer;
+import org.prgrms.springbootbasic.exception.CustomerNotFoundException;
 import org.prgrms.springbootbasic.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,45 +23,30 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
-
-    @Mock
-    CustomerInputDto customerInputDto;
-
     @MockBean
     CustomerRepository customerRepository;
 
     @Autowired
     CustomerService customerService;
 
-
     @Test
     @DisplayName("customer 생성")
     void testCreateCustomer() {
+        CustomerInputDto customerInputDto = new CustomerInputDto("name", "email@naver.com");
+        Customer newCustomer = CustomerDtoMapper.inputDtoToCustomer(customerInputDto);
 
-        UUID uuid = UUID.randomUUID();
-        LocalDateTime now = LocalDateTime.now();
-
-        Customer newCustomer = new Customer.Builder()
-                .customerId(uuid)
-                .email("email1")
-                .name("name1")
-                .createdAt(now)
-                .lastLoginAt(now)
-                .build();
-
-        when(customerInputDto.toCustomer()).thenReturn(newCustomer);
-        when(customerRepository.insert(newCustomer)).thenReturn(newCustomer);
-
+        when(customerRepository.insert(isA(Customer.class)))
+                .thenReturn(newCustomer);
         Customer createdCustomer = customerService.createCustomer(customerInputDto);
 
-        assertThat(createdCustomer, is(newCustomer));
-        verify(customerInputDto, times(1)).toCustomer();
-        verify(customerRepository, times(1)).insert(newCustomer);
+        assertThat(createdCustomer, samePropertyValuesAs(newCustomer));
+        verify(customerRepository, times(1)).insert(isA(Customer.class));
     }
 
     @Test
@@ -69,7 +56,7 @@ class CustomerServiceTest {
 
         for (int i = 0; i < 4; i++) {
             customerList.add(
-                    new Customer.Builder()
+                    Customer.builder()
                             .customerId(UUID.randomUUID())
                             .name("name" + i)
                             .email("email" + i)
@@ -79,7 +66,7 @@ class CustomerServiceTest {
         }
 
         when(customerRepository.findAll()).thenReturn(customerList);
-        List<Customer> lookedUpList = customerService.lookupCustomerList();
+        List<Customer> lookedUpList = customerService.getCustomerList();
 
         assertThat(lookedUpList, samePropertyValuesAs(customerList));
         verify(customerRepository, times(1)).findAll();
@@ -91,7 +78,7 @@ class CustomerServiceTest {
 
         UUID customerId = UUID.randomUUID();
 
-        Customer targetCustomer = new Customer.Builder()
+        Customer targetCustomer = Customer.builder()
                 .customerId(customerId)
                 .name("name1")
                 .email("email1")
@@ -100,61 +87,123 @@ class CustomerServiceTest {
 
         when(customerRepository.findById(customerId)).thenReturn(Optional.of(targetCustomer));
 
-        Optional<Customer> customerById = customerService.findCustomerById(customerId.toString());
+        Customer customerById = customerService.getCustomerById(customerId.toString());
 
-        assertThat(customerById.isPresent(), is(true));
+        assertThat(customerById, samePropertyValuesAs(targetCustomer));
         verify(customerRepository, times(1)).findById(customerId);
     }
 
     @Test
-    @DisplayName(" customerId로 조회 - id에 해당하는 customer 존재하지 않음")
+    @DisplayName("customerId로 조회 - id에 해당하는 customer 존재하지 않음")
     void testFindCustomerById_not_exist() {
-
         UUID customerId = UUID.randomUUID();
 
-        when(customerRepository.findById(customerId)).thenReturn(Optional.empty());
+        when(customerRepository.findById(customerId))
+                .thenReturn(Optional.empty());
 
-        Optional<Customer> customerById = customerService.findCustomerById(customerId.toString());
-
-        assertThat(customerById.isEmpty(), is(true));
+        assertThrows(CustomerNotFoundException.class,
+                () -> customerService.getCustomerById(customerId.toString()));
         verify(customerRepository, times(1)).findById(customerId);
     }
 
     @Test
-    void testUpdateCustomer() {
+    @DisplayName("update 성공")
+    void testUpdateCustomer_success() {
         UUID customerId = UUID.randomUUID();
 
-        Customer updatedCustomer = new Customer.Builder()
+        Customer updatedCustomer = Customer.builder()
                 .customerId(customerId)
                 .name("updatedName")
-                .email("email1")
+                .email("email1@naver.com")
                 .createdAt(LocalDateTime.now())
                 .lastLoginAt(LocalDateTime.now())
                 .build();
 
-        when(customerRepository.update(updatedCustomer)).thenReturn(Optional.of(updatedCustomer));
-        Optional<Customer> optionalCustomer = customerService.updateCustomer(updatedCustomer);
+        when(customerRepository.findById(any(UUID.class)))
+                .thenReturn(Optional.of(updatedCustomer));
 
-        assertThat(updatedCustomer, samePropertyValuesAs(optionalCustomer.get()));
-        verify(customerRepository, times(1)).update(updatedCustomer);
+        when(customerRepository.update(isA(Customer.class)))
+                .thenReturn(Optional.of(updatedCustomer));
+
+        Customer customer = customerService.editCustomer(
+                new CustomerUpdateDto(
+                        updatedCustomer.getCustomerId().toString(),
+                        updatedCustomer.getName(),
+                        updatedCustomer.getEmail(),
+                        updatedCustomer.getCreatedAt(),
+                        updatedCustomer.getLastLoginAt()
+                ));
+
+        assertThat(updatedCustomer, samePropertyValuesAs(customer));
+        verify(customerRepository, times(1)).findById(any(UUID.class));
+        verify(customerRepository, times(1)).update(any(Customer.class));
     }
 
     @Test
-    void deleteCustomerById() {
+    @DisplayName("update 실패 - 해당하는 customer 조회 실패")
+    void testUpdateCustomer_fail() {
         UUID customerId = UUID.randomUUID();
 
-        Customer targetCustomer = new Customer.Builder()
+        Customer updatedCustomer = Customer.builder()
                 .customerId(customerId)
                 .name("updatedName")
-                .email("email1")
+                .email("email1@naver.com")
                 .createdAt(LocalDateTime.now())
                 .lastLoginAt(LocalDateTime.now())
                 .build();
 
-        when(customerRepository.deleteById(targetCustomer.getCustomerId())).thenReturn(1);
-        int affectedRow = customerService.deleteCustomerById(targetCustomer);
+        when(customerRepository.findById(any(UUID.class)))
+                .thenReturn(Optional.empty());
+
+        assertThrows(CustomerNotFoundException.class, () ->
+                customerService.editCustomer(
+                        new CustomerUpdateDto(
+                                updatedCustomer.getCustomerId().toString(),
+                                updatedCustomer.getName(),
+                                updatedCustomer.getEmail(),
+                                updatedCustomer.getCreatedAt(),
+                                updatedCustomer.getLastLoginAt()
+                        ))
+        );
+        verify(customerRepository, times(1)).findById(any(UUID.class));
+        verify(customerRepository, times(0)).update(any(Customer.class));
+    }
+
+    @Test
+    @DisplayName("customer 삭제 성공")
+    void deleteCustomerById_success() {
+        UUID customerId = UUID.randomUUID();
+
+        Customer targetCustomer = Customer.builder()
+                .customerId(customerId)
+                .name("updatedName")
+                .email("email")
+                .createdAt(LocalDateTime.now())
+                .lastLoginAt(LocalDateTime.now())
+                .build();
+
+        when(customerRepository.findById(customerId))
+                .thenReturn(Optional.of(targetCustomer));
+        when(customerRepository.deleteById(customerId))
+                .thenReturn(1);
+
+        int affectedRow = customerService.removeCustomerById(customerId.toString());
 
         assertThat(affectedRow, is(1));
-        verify(customerRepository, times(1)).deleteById(targetCustomer.getCustomerId());
+        verify(customerRepository, times(1)).deleteById(customerId);
+    }
+
+    @Test
+    @DisplayName("customer 삭제 실패")
+    void deleteCustomerById_fail() {
+        UUID customerId = UUID.randomUUID();
+
+        when(customerRepository.deleteById(any(UUID.class)))
+                .thenReturn(1);
+        assertThrows(CustomerNotFoundException.class,
+                () -> customerService.removeCustomerById(customerId.toString()));
+
+        verify(customerRepository, times(1)).findById(any(UUID.class));
+        verify(customerRepository, times(0)).deleteById(any(UUID.class));
     }
 }

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{customer.detail}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div>
+        <h2 th:text="#{customer.detail}"></h2>
+    </div>
+
+    <div class="button-group align-center">
+        <a class="btn btn-primary" th:text="#{customer.home}" th:href="@{/customers/home}"></a>
+        <a class="btn btn-primary" th:text="#{customer.create}" th:href="@{/customers}"></a>
+        <a class="btn btn-primary" th:text="#{customer.list}" th:href="@{/customers/list}"></a>
+    </div>
+
+    <div class="mb-3">
+        <label for="customerId">customerId</label>
+        <input type="text" id="customerId" th:value="*{customer.customerId}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="name">name</label>
+        <input type="text" id="name" th:value="*{customer.name}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="email">email</label>
+        <input type="text" id="email" th:value="*{customer.email}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="createdAt">createdAt</label>
+        <input type="text" id="createdAt" th:value="*{customer.createdAt}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="lastLoginAt">lastLoginAt</label>
+        <input type="text" id="lastLoginAt" th:value="*{customer.lastLoginAt}" class="form-control" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:onclick="|location.href='@{/customers/{customerId}/edit-form(customerId=${customer.customerId})}'|"
+                    type="button">상품 수정
+            </button>
+        </div>
+    </div>
+
+    <!--    <hr class="row">-->
+    <!--        <hr class="col">-->
+    <!--            <button class="btn btn-primary" type="submit">submit</button>-->
+</div>
+</body>
+</html>

@@ -10,6 +10,7 @@ public interface CustomerRepository {
     Customer insert(Customer customer);
     Optional<Customer> update(Customer customer);
     Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByEmail(String email);
     List<Customer> findAll();
     int deleteAll();
     int deleteById(UUID customerId);

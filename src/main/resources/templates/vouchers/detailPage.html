@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{voucher.detail}"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .container {
+            width: 560px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+
+    <div>
+        <h2 th:text="#{voucher.detail}"></h2>
+    </div>
+
+    <div class="button-group align-center">
+        <a class="btn btn-primary" th:text="#{voucher.home}" th:href="@{/vouchers/home}"></a>
+        <a class="btn btn-primary" th:text="#{voucher.create}" th:href="@{/vouchers}"></a>
+        <a class="btn btn-primary" th:text="#{voucher.list}" th:href="@{/vouchers/list}"></a>
+    </div>
+
+    <div class="mb-3">
+        <label for="voucherType">voucherType</label>
+        <input type="text" id="voucherType" name="voucherType" th:value="*{voucher.voucherType}" class="form-control" readonly>
+
+    </div>
+    <div class="mb-3">
+        <label for="discountQuantity">discountQuantity</label>
+        <input type="text" id="discountQuantity" name="discountQuantity" th:value="*{voucher.discountQuantity}" class="form-control" readonly>
+
+    </div>
+    <div class="mb-3">
+        <label for="discountRatio">discountRatio</label>
+        <input type="text" id="discountRatio" name="discountRatio" th:value="*{voucher.discountRatio}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="voucherCount">voucherCount</label>
+        <input type="text" id="voucherCount" name="voucherCount" th:value="*{voucher.voucherCount}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="createdAt">createdAt</label>
+        <input type="text" id="createdAt" name="createdAt" th:value="*{voucher.createdAt}" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="endedAt">endedAt</label>
+        <input type="text" id="endedAt" name="endedAt" th:value="*{voucher.endedAt}" class="form-control" readonly>
+    </div>
+</div>
+</body>
+</html>

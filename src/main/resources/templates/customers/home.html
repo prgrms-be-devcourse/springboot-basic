@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{customer.home}">Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <style>
+        .button-box {
+            flex-flow: column;
+        }
+    </style>
+</head>
+<body>
+<div class="container text-center">
+    <div>
+        <h2 th:text="#{customer.home}">Home</h2>
+    </div>
+    <div class="button-group align-center">
+        <a class="btn btn-primary" th:text="#{customer.home}" th:href="@{/customers/home}"></a>
+        <a class="btn btn-primary" th:text="#{customer.create}" th:href="@{/customers}"></a>
+        <a class="btn btn-primary" th:text="#{customer.list}" th:href="@{/customers/list}"></a>
+    </div>
+</div>
+</body>
+</html>
