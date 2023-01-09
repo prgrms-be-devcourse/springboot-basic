@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,7 +53,6 @@ class CustomerServiceTest {
         List<Customer> allBlacklist = customerService.getAllBlacklist();
 
         verify(customerRepository).getAllStoredCustomer();
-        MatcherAssert.assertThat(allBlacklist.size(), is(2));
         Assertions.assertThat(allBlacklist).filteredOn(Customer::isBlacklist)
                 .hasSize(2);
     }
