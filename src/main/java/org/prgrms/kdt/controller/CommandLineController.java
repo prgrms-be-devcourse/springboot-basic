@@ -1,8 +1,8 @@
 package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.io.ConsoleIO;
-import org.prgrms.kdt.service.customer.CustomerService;
-import org.prgrms.kdt.service.voucher.VoucherService;
+import org.prgrms.kdt.model.customer.service.CustomerService;
+import org.prgrms.kdt.model.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

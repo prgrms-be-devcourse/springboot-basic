@@ -13,8 +13,8 @@ import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.voucher.VoucherRepository;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.model.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.model.voucher.service.VoucherService;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -79,9 +79,11 @@ class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED), LocalDateTime.now());
 
         when(voucherRepository.update(voucher)).thenReturn(voucher);
+        Voucher assignedVoucher = voucherService.assignVoucher(voucher, customer.getCustomerId());
 
         verify(voucherRepository).update(voucher);
-        assertThat(assignVoucher.getOwnedCustomerId().get(), is(customer.getCustomerId()));
+        Assertions.assertThat(assignedVoucher.getOwnedCustomerId()).isPresent();
+        assertThat(assignedVoucher.getOwnedCustomerId().get(), is(customer.getCustomerId()));
     }
 
     @Test
@@ -98,7 +100,8 @@ class VoucherServiceTest {
         List<Voucher> ownedVouchers = voucherService.getOwnedVouchers(customerId.toString());
 
         verify(voucherRepository).getAllStoredVoucher();
-        Assertions.assertThat(ownedVouchers).filteredOn(voucher -> Objects.equals(voucher.getOwnedCustomerId().get(), customerId));
+        Assertions.assertThat(ownedVouchers).filteredOn(voucher -> voucher.getOwnedCustomerId().isPresent() && Objects.equals(voucher.getOwnedCustomerId().get(), customerId))
+                .hasSize(2);
     }
 
     @Test
@@ -121,7 +124,7 @@ class VoucherServiceTest {
     @DisplayName("특정 바우처를 삭제할 수 있다.")
     void 바우처_삭제하기() {
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", FIXED, LocalDateTime.now());
+        Voucher voucher = new FixedAmountVoucher(voucherId, "1000", VoucherType.of(FIXED), LocalDateTime.now());
 
         when(voucherRepository.remove(voucherId)).thenReturn(voucherId);
         voucherService.removeVoucher(voucherId.toString());

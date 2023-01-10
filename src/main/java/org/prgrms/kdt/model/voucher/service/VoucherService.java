@@ -1,20 +1,11 @@
-package org.prgrms.kdt.service.voucher;
+package org.prgrms.kdt.model.voucher.service;
 
-<<<<<<< HEAD:src/main/java/org/prgrms/kdt/voucher/service/VoucherService.java
 import org.prgrms.kdt.exception.NotPresentInRepositoryException;
-import org.prgrms.kdt.model.customer.Customer;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.model.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.util.ConvertUtil;
-import org.prgrms.kdt.voucher.VoucherRepository;
-=======
-import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.model.voucher.VoucherBuilder;
-import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.repository.exception.NotPresentInRepositoryException;
-import org.prgrms.kdt.repository.voucher.VoucherRepository;
->>>>>>> 91e357b (refactor: 디렉토리 구조를 바꾸다.):src/main/java/org/prgrms/kdt/service/voucher/VoucherService.java
 import org.springframework.stereotype.Service;
 
 import java.util.List;

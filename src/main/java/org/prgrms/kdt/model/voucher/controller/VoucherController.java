@@ -1,9 +1,9 @@
-package org.prgrms.kdt.controller.voucher;
+package org.prgrms.kdt.model.voucher.controller;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.dto.AssignVoucherRequest;
 import org.prgrms.kdt.model.voucher.dto.CreateVoucherRequest;
-import org.prgrms.kdt.service.voucher.VoucherService;
+import org.prgrms.kdt.model.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

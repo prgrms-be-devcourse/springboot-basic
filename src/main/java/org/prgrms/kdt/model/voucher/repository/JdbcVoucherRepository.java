@@ -1,9 +1,8 @@
-package org.prgrms.kdt.repository.voucher;
+package org.prgrms.kdt.model.voucher.repository;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-@Primary
 @Profile("release")
 public class JdbcVoucherRepository implements VoucherRepository {
 

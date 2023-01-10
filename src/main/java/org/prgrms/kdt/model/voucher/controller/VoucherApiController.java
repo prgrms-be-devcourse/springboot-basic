@@ -1,9 +1,9 @@
-package org.prgrms.kdt.controller.voucher.api;
+package org.prgrms.kdt.model.voucher.controller;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.dto.AssignVoucherRequest;
 import org.prgrms.kdt.model.voucher.dto.CreateVoucherRequest;
-import org.prgrms.kdt.service.voucher.VoucherService;
+import org.prgrms.kdt.model.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -14,11 +14,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-public class VoucherRestController {
+public class VoucherApiController {
 
     private final VoucherService voucherService;
 
-    public VoucherRestController(VoucherService voucherService) {
+    public VoucherApiController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 

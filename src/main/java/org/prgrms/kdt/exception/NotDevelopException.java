@@ -1,4 +1,4 @@
-package org.prgrms.kdt.util.exception;
+package org.prgrms.kdt.exception;
 
 public class NotDevelopException extends RuntimeException {
     public NotDevelopException() {

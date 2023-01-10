@@ -1,19 +1,9 @@
-package org.prgrms.kdt.service.customer;
+package org.prgrms.kdt.model.customer.service;
 
-<<<<<<< HEAD:src/main/java/org/prgrms/kdt/customer/service/CustomerService.java
-<<<<<<< HEAD:src/main/java/org/prgrms/kdt/customer/CustomerService.java
 import org.prgrms.kdt.exception.NotPresentInRepositoryException;
-=======
-import org.prgrms.kdt.customer.exception.NotPresentInRepositoryException;
-import org.prgrms.kdt.customer.repository.CustomerRepository;
->>>>>>> 7b4babe (feat: 기존 애플리케이션에서 디렉토리 구조를 변경하고 바우처를 삭제하는 기능을 추가하다.):src/main/java/org/prgrms/kdt/customer/service/CustomerService.java
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.repository.CustomerRepository;
 import org.prgrms.kdt.util.ConvertUtil;
-=======
-import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.repository.customer.CustomerRepository;
-import org.prgrms.kdt.repository.exception.NotPresentInRepositoryException;
->>>>>>> 91e357b (refactor: 디렉토리 구조를 바꾸다.):src/main/java/org/prgrms/kdt/service/customer/CustomerService.java
 import org.springframework.stereotype.Service;
 
 import java.util.List;

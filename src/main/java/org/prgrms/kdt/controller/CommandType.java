@@ -2,9 +2,9 @@ package org.prgrms.kdt.controller;
 
 import org.prgrms.kdt.io.ConsoleIO;
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.service.CustomerService;
 import org.prgrms.kdt.model.voucher.Voucher;
-import org.prgrms.kdt.service.customer.CustomerService;
-import org.prgrms.kdt.service.voucher.VoucherService;
+import org.prgrms.kdt.model.voucher.service.VoucherService;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;

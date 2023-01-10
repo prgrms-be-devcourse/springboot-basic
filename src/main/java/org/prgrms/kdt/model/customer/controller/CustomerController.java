@@ -1,7 +1,7 @@
-package org.prgrms.kdt.controller.customer;
+package org.prgrms.kdt.model.customer.controller;
 
 import org.prgrms.kdt.model.customer.Customer;
-import org.prgrms.kdt.service.customer.CustomerService;
+import org.prgrms.kdt.model.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

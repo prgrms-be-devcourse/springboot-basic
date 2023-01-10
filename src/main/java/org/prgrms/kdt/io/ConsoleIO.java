@@ -1,7 +1,7 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.controller.CommandType;
-import org.prgrms.kdt.io.exception.WrongInputDataException;
+import org.prgrms.kdt.exception.WrongInputDataException;
 import org.prgrms.kdt.model.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 

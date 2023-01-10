@@ -6,6 +6,8 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.model.customer.Customer;
+import org.prgrms.kdt.model.customer.repository.CustomerRepository;
+import org.prgrms.kdt.model.customer.repository.JdbcCustomerRepository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;

@@ -1,4 +1,4 @@
-package org.prgrms.kdt.repository.voucher;
+package org.prgrms.kdt.model.voucher.repository;
 
 import org.prgrms.kdt.model.voucher.Voucher;
 

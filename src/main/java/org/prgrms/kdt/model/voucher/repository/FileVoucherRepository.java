@@ -1,16 +1,11 @@
-package org.prgrms.kdt.repository.voucher;
+package org.prgrms.kdt.model.voucher.repository;
 
 
-import org.prgrms.kdt.io.exception.WrongInputDataException;
-import org.prgrms.kdt.io.exception.WrongOutputDataException;
+import org.prgrms.kdt.exception.WrongInputDataException;
+import org.prgrms.kdt.exception.WrongOutputDataException;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
-<<<<<<< HEAD:src/main/java/org/prgrms/kdt/voucher/repository/FileVoucherRepository.java
 import org.prgrms.kdt.model.voucher.VoucherType;
-import org.prgrms.kdt.presentation.io.exception.WrongInputDataException;
-import org.prgrms.kdt.presentation.io.exception.WrongOutputDataException;
-=======
->>>>>>> 91e357b (refactor: 디렉토리 구조를 바꾸다.):src/main/java/org/prgrms/kdt/repository/voucher/FileVoucherRepository.java
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
