@@ -2,10 +2,14 @@ package org.prgrms.kdt.repository.voucher;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.prgrms.kdt.model.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.model.voucher.Voucher;
 import org.prgrms.kdt.model.voucher.VoucherBuilder;
+import org.prgrms.kdt.model.voucher.VoucherType;
+import org.prgrms.kdt.model.voucher.repository.JdbcVoucherRepository;
+import org.prgrms.kdt.model.voucher.repository.VoucherRepository;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.testcontainers.containers.MySQLContainer;
@@ -15,6 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +42,7 @@ class JdbcVoucherRepositoryTest {
 
     private static VoucherRepository voucherRepository;
 
-    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", FIXED_TYPE, LocalDateTime.now());
+    private static Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), "1000", VoucherType.of(FIXED_TYPE), LocalDateTime.now());
 
     @BeforeAll
     public static void beforeAll() {
@@ -59,9 +64,11 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.insert(voucher);
 
         // when
-        Voucher findVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucher.getVoucherId());
+        Assertions.assertThat(optionalVoucher).isPresent();
 
         // then
+        Voucher findVoucher = optionalVoucher.get();
         assertThat(findVoucher, samePropertyValuesAs(voucher));
     }
 
@@ -86,10 +93,13 @@ class JdbcVoucherRepositoryTest {
 
         // when
         Voucher updateVoucher = voucherRepository.update(voucher);
-        Voucher findVoucher = voucherRepository.findById(updateVoucher.getVoucherId()).get();
+        Optional<Voucher> findVoucher = voucherRepository.findById(updateVoucher.getVoucherId());
+        Assertions.assertThat(findVoucher).isPresent();
 
         // then
-        assertThat(findVoucher.getOwnedCustomerId().get(), is(newOwnedCustomerId));
+        Voucher newFindVoucher = findVoucher.get();
+        Assertions.assertThat(newFindVoucher.getOwnedCustomerId()).isPresent();
+        assertThat(newFindVoucher.getOwnedCustomerId().get(), is(newOwnedCustomerId));
     }
 
     @Test
@@ -101,9 +111,11 @@ class JdbcVoucherRepositoryTest {
 
         // when
         Voucher updateVoucher = voucherRepository.update(voucher);
-        Voucher findVoucher = voucherRepository.findById(updateVoucher.getVoucherId()).get();
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(updateVoucher.getVoucherId());
+        Assertions.assertThat(optionalVoucher).isPresent();
 
         // then
+        Voucher findVoucher = optionalVoucher.get();
         assertThat(findVoucher.getOwnedCustomerId().isEmpty(), is(true));
     }
 
