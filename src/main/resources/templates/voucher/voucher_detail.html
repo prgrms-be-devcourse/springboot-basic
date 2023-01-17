@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>바우처 상세</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<form th:method="put" th:action="@{/vouchers/update}">
+    <div class="container">
+        <h1>Taehee's Voucher Program</h1>
+        <h2>바우처 상세</h2>
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">바우처 번호</label>
+        <input class="form-control" id="voucherId" name="voucherId" th:field="${voucher.voucherId}" th:readonly="true">
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">바우처 타입</label><br/>
+        <input class="form-control" id="voucherName" name="voucherName" th:field="${voucher.class.simpleName}" th:readonly="true">
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label" for="discountValue">할인값</label>
+        <input class="form-control" id="discountValue" name="discountValue" th:field="${voucher.discountValue}" type="number">
+    </div>
+    <br/>
+
+    <div class="container" th:unless="${voucher.customer == null}">
+        <label class="form-label">할당받은 사용자</label><br/>
+        <input class="form-control" id="customerName" name="customerName" th:field="${voucher.customer.customerName}" th:readonly="true">
+    </div>
+    <br/>
+
+    <div class="container">
+        <button class="btn btn-primary" type="button" onclick="history.back(-1)">확인</button>
+        <button class="btn btn-primary" type="submit">수정</button>
+    </div>
+</form>
+</body>
+</html>

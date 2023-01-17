@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<div class="container">
+    <h1>Taehee's Voucher Program</h1>
+    <h2>회원가입</h2>
+</div>
+<br/>
+
+<form method="POST" th:action="@{/customers}">
+
+    <div class="container">
+        <label class="form-label">Customer Name</label><br/>
+        <input class="form-control" id="customerName" name="customerName">
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">Email</label><br/>
+        <input class="form-control" id="email" name="email">
+    </div>
+    <br/>
+
+    <div class="container">
+        <button class="btn btn-primary" type="submit">저장</button>
+    </div>
+
+</form>
+</body>
+</html>

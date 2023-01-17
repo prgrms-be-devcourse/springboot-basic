@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>바우처 할당하기</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+<form method="POST" th:action="@{/vouchers/assign}">
+    <div class="container">
+        <h1>Taehee's Voucher Program</h1>
+        <h2>바우처 할당하기</h2>
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">바우처 번호</label>
+        <input class="form-control" id="voucherId" name="voucherId" th:field="${voucher.voucherId}" th:readonly="true">
+    </div>
+    <br/>
+
+    <div class="container">
+        <label class="form-label">할당할 사용자의 이메일</label><br/>
+        <input class="form-control" id="email" name="email">
+    </div>
+    <br/>
+
+    <div class="container">
+        <button class="btn btn-primary" type="button" onclick="history.back(-1)">취소</button>
+        <button class="btn btn-primary" type="submit">할당하기</button>
+    </div>
+</form>
+</body>
+</html>

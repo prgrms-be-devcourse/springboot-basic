@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/voucher
+    username: voucher
+    password: root1234!
+
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
