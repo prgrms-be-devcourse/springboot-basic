@@ -13,4 +13,8 @@ public enum Menu {
     Menu(String message) {
         this.message = message;
     }
+
+    public String getMessage() {
+        return message;
+    }
 }

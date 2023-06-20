@@ -1,13 +1,12 @@
 package com.programmers.voucher.view;
 
-public class OutputView {
 
-    public void println(String message) {
-        System.out.println(message);
-    }
+public interface OutputView {
 
-    public void print(String message) {
-        System.out.println(message);
-        
-    }
+    void println(String message);
+
+    void print(String message);
+
+    void printMenu();
+
 }
