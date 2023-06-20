@@ -1,5 +1,7 @@
 package com.programmers.voucher.uitl;
 
+import java.util.Arrays;
+
 public enum MenuType {
     LIST("list"),
     CREATE("create"),
@@ -11,7 +13,10 @@ public enum MenuType {
         this.command = command;
     }
 
-    public String getCommand() {
-        return command;
+    public static MenuType getCommand(String command) {
+        return Arrays.stream(MenuType.values())
+                .filter(menuType -> menuType.command.equals(command))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
     }
 }

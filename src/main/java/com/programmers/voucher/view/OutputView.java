@@ -7,6 +7,5 @@ public interface OutputView {
 
     void print(String message);
 
-    void printMenu();
 
 }

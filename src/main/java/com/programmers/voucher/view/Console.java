@@ -1,17 +1,19 @@
 package com.programmers.voucher.view;
 
 import com.programmers.voucher.uitl.Menu;
-
 import java.util.Scanner;
 
 public class Console implements InputView, OutputView {
+
+    private final String arrow = "> ";
     private final Scanner scanner = new Scanner(System.in);
 
 
     @Override
     public String getRequest() {
-        String userInput = scanner.nextLine();
-        return userInput;
+        println(Menu.COMMAND_MESSAGE.getMessage());
+        print(arrow);
+        return scanner.nextLine().trim().toLowerCase();
     }
 
     @Override
@@ -22,11 +24,6 @@ public class Console implements InputView, OutputView {
     @Override
     public void print(String message) {
         System.out.print(message);
-    }
-
-    @Override
-    public void printMenu() {
-        println(Menu.COMMAND_MESSAGE.getMessage());
     }
 
 }
