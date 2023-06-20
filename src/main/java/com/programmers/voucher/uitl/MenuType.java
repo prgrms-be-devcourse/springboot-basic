@@ -1,5 +1,7 @@
 package com.programmers.voucher.uitl;
 
+import com.programmers.voucher.exception.MenuTypeFormatException;
+
 import java.util.Arrays;
 
 public enum MenuType {
@@ -17,6 +19,6 @@ public enum MenuType {
         return Arrays.stream(MenuType.values())
                 .filter(menuType -> menuType.command.equals(command))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(MenuTypeFormatException::new);
     }
 }

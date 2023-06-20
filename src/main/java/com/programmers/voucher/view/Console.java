@@ -8,12 +8,15 @@ public class Console implements InputView, OutputView {
     private final String arrow = "> ";
     private final Scanner scanner = new Scanner(System.in);
 
-
     @Override
     public String getRequest() {
+        return scanner.nextLine().trim().toLowerCase();
+    }
+
+    @Override
+    public void printMenu() {
         println(Menu.COMMAND_MESSAGE.getMessage());
         print(arrow);
-        return scanner.nextLine().trim().toLowerCase();
     }
 
     @Override
