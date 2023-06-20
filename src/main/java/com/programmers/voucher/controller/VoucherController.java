@@ -33,7 +33,7 @@ public class VoucherController {
                 console.print(Menu.CREATE_VOUCHER_TYPE_MESSAGE.getMessage()+ "\n> ");
                 console.getRequest();
             }
-            case LIST -> console.print("개발 중");
+            case LIST -> console.println("개발 중");
         }
     }
 }
