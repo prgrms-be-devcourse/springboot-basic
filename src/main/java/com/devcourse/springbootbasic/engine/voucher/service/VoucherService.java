@@ -1,11 +1,13 @@
-package com.devcourse.springbootbasic.engine.voucher;
+package com.devcourse.springbootbasic.engine.voucher.service;
 
+import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import com.devcourse.springbootbasic.engine.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//@Service
+@Service
 public class VoucherService {
 
     @Autowired
