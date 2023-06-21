@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import com.example.voucher.domain.FixedAmountVoucher;
 import com.example.voucher.domain.Voucher;
 
-class MemoryVoucherRepositoryTest {
+class MemoryVoucherServiceTest {
 	VoucherRepository voucherRepository;
 
 	@BeforeEach
@@ -22,13 +22,13 @@ class MemoryVoucherRepositoryTest {
 		voucherRepository = new MemoryVoucherRepository();
 	}
 
-	@DisplayName("insert 메서드 동작확인")
+	@DisplayName("save 메서드 동작확인")
 	@Test
-	void insert() {
+	void save() {
 		Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100L);
 		UUID expected = voucher.getVoucherId();
 
-		UUID actual = voucherRepository.insert(voucher);
+		UUID actual = voucherRepository.save(voucher);
 
 		assertEquals(expected, actual);
 
@@ -43,7 +43,7 @@ class MemoryVoucherRepositoryTest {
 		int expectedSize = vouchers.size();
 
 		for (Voucher voucher : vouchers) {
-			voucherRepository.insert(voucher);
+			voucherRepository.save(voucher);
 		}
 
 		int actualSize = voucherRepository.findAll().size();
