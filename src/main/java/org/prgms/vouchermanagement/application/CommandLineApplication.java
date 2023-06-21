@@ -53,6 +53,7 @@ public class CommandLineApplication implements CommandLineRunner {
         }
 
         voucherService.createNewVoucher(voucherType, amountOrPercent);
+        console.printSavedFinished();
     }
 
     private long getPercentDiscount() {

@@ -37,7 +37,7 @@ public class Console {
     }
 
     public void printGetPercentDiscount() {
-        System.out.print("PercentDiscountVoucher의 Percent 값을 입력해주세요: ");
+        System.out.print("PercentDiscountVoucher의 Percent 값을 입력해주세요 (1 ~ 99): ");
     }
 
     public String getCommand() {
@@ -63,5 +63,9 @@ public class Console {
         validator.checkPercent(percent);
 
         return Long.parseLong(percent);
+    }
+
+    public void printSavedFinished() {
+        System.out.println("Voucher saved Successfully!!!");
     }
 }

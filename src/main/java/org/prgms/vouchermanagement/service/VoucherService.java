@@ -22,10 +22,12 @@ public class VoucherService {
     public void createNewVoucher(VoucherType voucherType, long amountOrPercent) {
         if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID(), amountOrPercent);
+            fixedAmountVoucherRepository.saveVoucher(voucher.getVoucherId(), voucher);
         }
 
         else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
             PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), amountOrPercent);
+            percentDiscountVoucherRepository.saveVoucher(voucher.getVoucherId(), voucher);
         }
     }
 }
