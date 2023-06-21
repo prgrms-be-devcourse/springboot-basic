@@ -2,26 +2,30 @@ package com.devcourse.springbootbasic.engine.io;
 
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.voucher.Voucher;
+import org.beryx.textio.TextIoFactory;
+import org.beryx.textio.TextTerminal;
 
 public class OutputConsole {
 
+    private TextTerminal output = TextIoFactory.getTextTerminal();
+
     public void printLine() {
-        System.out.println();
+        output.println();
     }
 
     public void printMessage(String message) {
-        System.out.println(message);
+        output.println(message);
     }
 
     public void printVouchers(Voucher voucher) {
-        System.out.println(voucher.toString());
+        printMessage(voucher.toString());
     }
 
     public void printError(InvalidDataException e) {
-        System.out.println(e.getMessage());
+        printMessage(e.getMessage());
     }
 
     public void endPlatform() {
-        System.out.println("프로그램을 종료합니다.");
+        printMessage("프로그램을 종료합니다.");
     }
 }

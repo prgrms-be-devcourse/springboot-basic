@@ -26,7 +26,7 @@ public class Platform implements Runnable {
 
     private boolean getUserMenuInput() {
         try {
-            Menu menu = Menu.getMenu(input.inputMenu());
+            Menu menu = input.inputMenu();
             return branchByMenu(menu);
         } catch (InvalidDataException e) {
             output.printError(e);
