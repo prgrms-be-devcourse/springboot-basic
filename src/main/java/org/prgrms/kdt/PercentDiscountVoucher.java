@@ -3,7 +3,7 @@ package org.prgrms.kdt;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
+    private UUID voucherId;
     private final long percent;
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
