@@ -1,4 +1,4 @@
-package com.devmission.springbootbasic.view;
+package com.devmission.springbootbasic.voucher;
 
 public class VoucherRequest {
 

@@ -1,6 +1,8 @@
-package com.devmission.springbootbasic.view;
+package com.devmission.springbootbasic.view.console;
 
-import com.devmission.springbootbasic.Command;
+import com.devmission.springbootbasic.view.View;
+import com.devmission.springbootbasic.voucher.VoucherRequest;
+import com.devmission.springbootbasic.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

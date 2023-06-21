@@ -1,4 +1,4 @@
-package com.devmission.springbootbasic;
+package com.devmission.springbootbasic.view.console;
 
 import java.util.Arrays;
 
