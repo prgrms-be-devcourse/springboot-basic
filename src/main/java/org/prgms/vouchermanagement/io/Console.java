@@ -1,9 +1,15 @@
 package org.prgms.vouchermanagement.io;
 
 import org.prgms.vouchermanagement.validator.VoucherInputValidator;
+import org.prgms.vouchermanagement.voucher.Voucher;
+import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class Console {
@@ -40,11 +46,39 @@ public class Console {
         System.out.print("PercentDiscountVoucher의 Percent 값을 입력해주세요 (1 ~ 99): ");
     }
 
+    public void printSavedFinished() {
+        System.out.println("Voucher saved Successfully!!!");
+    }
+
+    public void printSelectVoucherListType() {
+        System.out.println();
+        System.out.println("조회할 Voucher 리스트의 Type을 입력하세요.");
+        System.out.println("1. FixedAmountVoucher");
+        System.out.println("2. PercentDiscountVoucher");
+        System.out.print("Select 1 or 2: ");
+    }
+
+    public void printVoucherList(Optional<Map<UUID, Voucher>> voucherList, VoucherType listVoucherType) {
+        if (voucherList.isEmpty()) {
+            System.out.println("조회할 Voucher가 없습니다!!!");
+            return;
+        }
+
+        switch (listVoucherType) {
+            case FIXED_AMOUNT_VOUCHER_TYPE -> System.out.println("=== Fixed Amount Voucher List ===");
+            case PERCENT_DISCOUNT_VOUCHER_TYPE -> System.out.println("=== Percent Discount Voucher List ===");
+        }
+
+        voucherList.get().forEach((k, v) -> {
+            System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
+        });
+    }
+
     public String getCommand() {
         return scanner.nextLine();
     }
 
-    public int getVoucherType() {
+    public int getVoucherTypeInput() {
         String input = scanner.nextLine();
         validator.checkVoucherTypeInput(input);
 
@@ -63,9 +97,5 @@ public class Console {
         validator.checkPercent(percent);
 
         return Long.parseLong(percent);
-    }
-
-    public void printSavedFinished() {
-        System.out.println("Voucher saved Successfully!!!");
     }
 }

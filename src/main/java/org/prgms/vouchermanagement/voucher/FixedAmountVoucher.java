@@ -17,7 +17,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+    public long returnDiscount() {
+        return amount;
     }
 }

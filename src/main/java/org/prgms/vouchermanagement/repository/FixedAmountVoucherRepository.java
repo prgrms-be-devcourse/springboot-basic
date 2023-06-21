@@ -3,6 +3,7 @@ package org.prgms.vouchermanagement.repository;
 import org.prgms.vouchermanagement.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,5 +21,13 @@ public class FixedAmountVoucherRepository implements VoucherRepository{
     @Override
     public void saveVoucher(UUID voucherId, Voucher voucher) {
         fixedVoucherStorage.put(voucherId, voucher);
+    }
+
+    @Override
+    public Optional<Map<UUID, Voucher>> getVoucherList() {
+        if (!fixedVoucherStorage.isEmpty()) {
+            return Optional.of(Collections.unmodifiableMap(fixedVoucherStorage));
+        }
+        return Optional.empty();
     }
 }

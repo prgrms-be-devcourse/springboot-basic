@@ -4,7 +4,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.vouchermanagement.voucher.FixedAmountVoucher;
 import org.prgms.vouchermanagement.voucher.PercentDiscountVoucher;
 import org.prgms.vouchermanagement.voucher.Voucher;
 
