@@ -1,5 +1,8 @@
 package com.devcourse.springbootbasic.engine.voucher;
 
-public interface Voucher {
+import java.util.UUID;
 
+public interface Voucher {
+    double discountedPrice(long originalPrice);
+    UUID getVoucherId();
 }
