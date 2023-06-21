@@ -16,6 +16,9 @@ repositories {
 }
 
 dependencies {
+    //text io
+    implementation 'org.beryx:text-io:3.4.1'
+
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
