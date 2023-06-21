@@ -22,15 +22,15 @@ class CommandMenuTest {
         //when, then
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input1))
                 .isInstanceOf(InputMismatchException.class)
-                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_NOT_AVAILABLE);
+                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input2))
                 .isInstanceOf(InputMismatchException.class)
-                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_NOT_AVAILABLE);
+                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input3))
                 .isInstanceOf(InputMismatchException.class)
-                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_NOT_AVAILABLE);
+                .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
     }
 
@@ -43,13 +43,13 @@ class CommandMenuTest {
         String input3 = "exit";
 
         //when
-        CommandMenu commandMenu1= CommandMenu.getCommandMenu(input1);
-        CommandMenu commandMenu2= CommandMenu.getCommandMenu(input2);
-        CommandMenu commandMenu3= CommandMenu.getCommandMenu(input3);
+        CommandMenu command1= CommandMenu.getCommandMenu(input1);
+        CommandMenu command2= CommandMenu.getCommandMenu(input2);
+        CommandMenu command3= CommandMenu.getCommandMenu(input3);
 
         //then
-        assertThat(commandMenu1).isEqualTo(CommandMenu.CREATE_NEW_VOUCHER);
-        assertThat(commandMenu2).isEqualTo(CommandMenu.SHOW_VOUCHER_LIST);
-        assertThat(commandMenu3).isEqualTo(CommandMenu.EXIT);
+        assertThat(command1).isEqualTo(CommandMenu.CREATE_NEW_VOUCHER);
+        assertThat(command2).isEqualTo(CommandMenu.SHOW_VOUCHER_LIST);
+        assertThat(command3).isEqualTo(CommandMenu.EXIT);
     }
 }

@@ -6,6 +6,7 @@ import java.util.InputMismatchException;
 
 public enum CommandMenu {
 
+    START("start"),
     EXIT("exit"),
     CREATE_NEW_VOUCHER("create"),
     SHOW_VOUCHER_LIST("list");
@@ -21,7 +22,7 @@ public enum CommandMenu {
             case "exit" -> EXIT;
             case "create" -> CREATE_NEW_VOUCHER;
             case "list" -> SHOW_VOUCHER_LIST;
-            default -> throw new InputMismatchException(ExceptionMessageConstant.COMMAND_INPUT_NOT_AVAILABLE);
+            default -> throw new InputMismatchException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
         };
     }
 }
