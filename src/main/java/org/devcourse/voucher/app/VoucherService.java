@@ -1,13 +1,12 @@
 package org.devcourse.voucher.app;
 
-import org.devcourse.voucher.domain.voucher.Voucher;
-import org.devcourse.voucher.domain.voucher.VoucherType;
-
-import java.util.List;
+import org.devcourse.voucher.app.dto.VoucherDto.VoucherListResponse;
+import org.devcourse.voucher.app.dto.VoucherDto.VoucherSaveRequest;
+import org.devcourse.voucher.app.dto.VoucherDto.VoucherSaveResponse;
 
 public interface VoucherService {
 
-    void save(VoucherType voucherType, int amount);
+    VoucherSaveResponse save(VoucherSaveRequest request);
 
-    List<Voucher> findAll();
+    VoucherListResponse findAll();
 }
