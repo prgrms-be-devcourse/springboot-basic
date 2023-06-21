@@ -22,4 +22,9 @@ public class MemoryVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
         return Optional.of(store.get(voucherId));
     }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
 }
