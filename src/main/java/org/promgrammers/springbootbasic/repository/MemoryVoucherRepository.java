@@ -2,6 +2,7 @@ package org.promgrammers.springbootbasic.repository;
 
 import org.promgrammers.springbootbasic.domain.Voucher;
 import org.promgrammers.springbootbasic.exception.DuplicateIDException;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
