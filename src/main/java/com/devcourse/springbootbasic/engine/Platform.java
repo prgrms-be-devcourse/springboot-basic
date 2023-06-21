@@ -4,18 +4,26 @@ import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.io.InputConsole;
 import com.devcourse.springbootbasic.engine.io.OutputConsole;
 import com.devcourse.springbootbasic.engine.model.Menu;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Platform implements Runnable {
+@SpringBootApplication
+public class Platform {
 
     private final InputConsole input;
     private final OutputConsole output;
 
-    public Platform(InputConsole inputConsole, OutputConsole outputConsole) {
-        this.input = inputConsole;
-        this.output = outputConsole;
+    public Platform(InputConsole input, OutputConsole output) {
+        this.input = input;
+        this.output = output;
     }
 
-    @Override
+    public static void main(String[] args) {
+        SpringApplication.run(Platform.class, args)
+                .getBean(Platform.class)
+                .run();
+    }
+
     public void run() {
         while (true) {
             if (getUserMenuInput()) {
@@ -26,6 +34,7 @@ public class Platform implements Runnable {
 
     private boolean getUserMenuInput() {
         try {
+            output.printMenus();
             Menu menu = input.inputMenu();
             return branchByMenu(menu);
         } catch (InvalidDataException e) {
