@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface VoucherRepository {
 
-    String save(Voucher voucher);
+    Voucher save(Voucher voucher);
 
     Map<String, Voucher> findAll();
 }

@@ -11,9 +11,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final HashMap<String, Voucher> voucherList = new HashMap<>();
 
     @Override
-    public String save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherList.put(voucher.getVoucherId(), voucher);
-        return voucher.getVoucherId();
+        return voucher;
     }
 
     @Override
