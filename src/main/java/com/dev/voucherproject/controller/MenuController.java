@@ -1,8 +1,8 @@
-package com.dev.voucherproject.service;
+package com.dev.voucherproject.controller;
 
 
-import com.dev.voucherproject.service.menus.Menu;
-import com.dev.voucherproject.service.menus.SelectMenuExecutor;
+import com.dev.voucherproject.model.Menu;
+import com.dev.voucherproject.controller.menus.SelectMenuExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class MenuService {
+public class MenuController {
     private final List<SelectMenuExecutor> executors;
 
-    public MenuService(SelectMenuExecutor... executors) {
+    public MenuController(SelectMenuExecutor... executors) {
         this.executors = new ArrayList<>(Arrays.asList(executors));
     }
 

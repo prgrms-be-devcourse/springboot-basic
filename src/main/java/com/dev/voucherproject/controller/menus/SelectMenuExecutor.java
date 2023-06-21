@@ -1,5 +1,6 @@
-package com.dev.voucherproject.service.menus;
+package com.dev.voucherproject.controller.menus;
 
+import com.dev.voucherproject.model.Menu;
 import com.dev.voucherproject.service.VoucherService;
 import com.dev.voucherproject.view.Console;
 

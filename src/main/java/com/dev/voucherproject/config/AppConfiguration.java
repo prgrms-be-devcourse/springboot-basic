@@ -1,9 +1,9 @@
 package com.dev.voucherproject.config;
 
 
-import com.dev.voucherproject.service.menus.CreateMenuExecutor;
-import com.dev.voucherproject.service.menus.ListMenuExecutor;
-import com.dev.voucherproject.service.menus.Menu;
+import com.dev.voucherproject.controller.menus.CreateMenuExecutor;
+import com.dev.voucherproject.controller.menus.ListMenuExecutor;
+import com.dev.voucherproject.model.Menu;
 import com.dev.voucherproject.service.VoucherService;
 import com.dev.voucherproject.view.Console;
 import org.springframework.context.annotation.Bean;

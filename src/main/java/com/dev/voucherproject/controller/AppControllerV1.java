@@ -1,20 +1,19 @@
 package com.dev.voucherproject.controller;
 
 
-import com.dev.voucherproject.service.MenuService;
 import com.dev.voucherproject.view.Console;
-import com.dev.voucherproject.service.menus.Menu;
+import com.dev.voucherproject.model.Menu;
 import org.springframework.stereotype.Controller;
 
 
 @Controller
 public class AppControllerV1 {
     private final Console console;
-    private final MenuService menuService;
+    private final MenuController menuController;
 
-    public AppControllerV1(Console console, MenuService menuService) {
+    public AppControllerV1(Console console, MenuController menuController) {
         this.console = console;
-        this.menuService = menuService;
+        this.menuController = menuController;
     }
 
     public void run() {
@@ -28,7 +27,7 @@ public class AppControllerV1 {
                 System.exit(0);
             }
 
-            menuService.menuExecute(menu);
+            menuController.menuExecute(menu);
         }
     }
 }
