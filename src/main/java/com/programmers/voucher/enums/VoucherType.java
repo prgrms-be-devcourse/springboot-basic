@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum VoucherType {
+
     FIXED("fixed"), PERCENT("percent");
 
     private final String type;

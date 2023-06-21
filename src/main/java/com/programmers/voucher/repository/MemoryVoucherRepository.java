@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MemoryVoucherRepository implements VoucherRepository{
+
     private static final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
 
     @Override

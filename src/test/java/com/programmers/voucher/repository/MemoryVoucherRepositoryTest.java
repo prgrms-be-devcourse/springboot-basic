@@ -14,6 +14,7 @@ class MemoryVoucherRepositoryTest {
 
     public static final int FIXED_DISCOUNT_AMOUNT = 100;
     public static final int PERCENT_DISCOUNT_AMOUNT = 10;
+
     VoucherRepository voucherRepository;
 
     @BeforeEach

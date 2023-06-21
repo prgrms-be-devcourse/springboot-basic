@@ -3,6 +3,7 @@ package com.programmers.voucher.domain;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
+
     private final UUID voucherId;
     private final long percent;
 

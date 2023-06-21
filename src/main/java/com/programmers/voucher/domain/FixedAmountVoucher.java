@@ -3,6 +3,7 @@ package com.programmers.voucher.domain;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long amount;
 

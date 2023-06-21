@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 class VoucherServiceTest {
 
+    public static final int FIXED_DISCOUNT_AMOUNT = 100;
+    public static final int PERCENT_DISCOUNT_AMOUNT = 10;
     VoucherRepository voucherRepository;
     VoucherService voucherService;
 
@@ -22,25 +24,25 @@ class VoucherServiceTest {
 
     @Test
     void createFixedAmountVoucher() {
-        voucherService.createVoucher("fixed", 100);
+        voucherService.createVoucher("fixed", FIXED_DISCOUNT_AMOUNT);
     }
 
     @Test
     void createPercentDiscountVoucher() {
-        voucherService.createVoucher("percent", 100);
+        voucherService.createVoucher("percent", PERCENT_DISCOUNT_AMOUNT);
     }
 
     @Test
     void 잘못된_바우처_타입_입력시_예외_발생() {
-        Assertions.assertThatThrownBy(() -> voucherService.createVoucher("wrongType", 100))
+        Assertions.assertThatThrownBy(() -> voucherService.createVoucher("wrongType", FIXED_DISCOUNT_AMOUNT))
                 .isInstanceOf(VoucherException.class)
                 .hasMessage(VoucherErrorCode.NOT_SUPPORTED_TYPE.getErrorMessage());
     }
 
     @Test
     void findVoucherList() {
-        voucherService.createVoucher("fixed", 100);
-        voucherService.createVoucher("percent", 100);
+        voucherService.createVoucher("fixed", FIXED_DISCOUNT_AMOUNT);
+        voucherService.createVoucher("percent", PERCENT_DISCOUNT_AMOUNT);
         Assertions.assertThat(voucherService.findVoucherList().size()).isEqualTo(2);
     }
 }
