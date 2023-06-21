@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/maven,macos,intellij,java
-# Edit at https://www.toptal.com/developers/gitignore?templates=maven,macos,intellij,java
+# Created by https://www.toptal.com/developers/gitignore/api/macos,intellij,maven,java
+# Edit at https://www.toptal.com/developers/gitignore?templates=macos,intellij,maven,java
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
@@ -192,4 +192,4 @@ buildNumber.properties
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
-# End of https://www.toptal.com/developers/gitignore/api/maven,macos,intellij,java
+# End of https://www.toptal.com/developers/gitignore/api/macos,intellij,maven,java
