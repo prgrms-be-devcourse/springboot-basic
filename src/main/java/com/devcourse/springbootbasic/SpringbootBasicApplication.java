@@ -11,10 +11,6 @@ public class SpringbootBasicApplication {
 
 	public static void main(String[] args) {
 //		SpringApplication.run(SpringbootBasicApplication.class, args);
-		new Platform(
-				new InputConsole(),
-				new OutputConsole()
-		).run();
 	}
 
 }
