@@ -7,12 +7,12 @@
 	- [x] CLI로 제작한다.
 	- [x] 스프링 부트 애플리케이션으로 만든다.
 	- [ ] 프로그램이 시작하면 다음과 같이 지원 가능한 명령어를 알려준다.
-	``` shell
+``` shell
 === Voucher Program === 
 Type exit to exit the program. 
 Type create to create a new voucher.
 Type list to list all vouchers.
-	```
+```
 	- [x] create, list 커맨드를 지원한다.
 		- [ ] create 커맨드를 통해 바우처를 생성할 수 있다.(FixedAmountVoucher, PercentDiscountVoucher)
 		- [ ] list 커맨드를 통해 만들어진 바우처를 조회할 수 있다.
