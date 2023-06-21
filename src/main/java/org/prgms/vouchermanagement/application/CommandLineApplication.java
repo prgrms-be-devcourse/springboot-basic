@@ -7,8 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
-import java.util.InputMismatchException;
-
 @Component
 public class CommandLineApplication implements CommandLineRunner {
 
@@ -28,28 +26,43 @@ public class CommandLineApplication implements CommandLineRunner {
             console.printCommandMenu();
             try {
                 currentCommand = CommandMenu.getCommandMenu(console.getCommand());
-            } catch (InputMismatchException e) {
+                switch (currentCommand) {
+                    case EXIT -> { return; }
+                    case CREATE_NEW_VOUCHER -> selectNewVoucher();
+                    case SHOW_VOUCHER_LIST -> showVoucherList();
+                }
+            } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
-            }
-
-            switch (currentCommand) {
-                case EXIT -> { return; }
-                case CREATE_NEW_VOUCHER -> selectNewVoucher();
-                case SHOW_VOUCHER_LIST -> showVoucherList();
             }
         }
     }
 
     public void selectNewVoucher() {
+        long amountOrPercent = 0;
         VoucherType voucherType;
-        console.printSelectVoucherType();
 
-        try {
-            voucherType = VoucherType.getVoucherType(console.getVoucherType());
-            voucherService.createNewVoucher(voucherType);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
+        console.printSelectVoucherType();
+        voucherType = VoucherType.getVoucherType(console.getVoucherType());
+
+        if (voucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
+            amountOrPercent = getFixedVoucherAmount();
         }
+
+        else if (voucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+            amountOrPercent = getPercentDiscount();
+        }
+
+        voucherService.createNewVoucher(voucherType, amountOrPercent);
+    }
+
+    private long getPercentDiscount() {
+        console.printGetPercentDiscount();
+        return console.getPercentDiscount();
+    }
+
+    public long getFixedVoucherAmount() {
+        console.printGetFixedVoucherAmount();
+        return console.getFixedVoucherAmount();
     }
 
     public void showVoucherList() {
