@@ -27,7 +27,7 @@ public class OrderTester {
         System.out.println(MessageFormat.format("voucherRepository == voucherRepository2 => {0}", voucherRepository == voucherRepository2));
 
         var voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-
+        System.out.println("for git test");
         var orderService = applicationContext.getBean(OrderService.class);
         var order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
             add(new OrderItem(UUID.randomUUID(), 100L, 1));
