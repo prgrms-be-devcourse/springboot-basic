@@ -4,8 +4,7 @@
 
 **Weekly1 - Basic**
 
-![스크린샷 2023-06-22 오전 1.24.49.png](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2FDesktop%2F%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-06-22%20%EC%98%A4%EC%A0%84%201.24.49.png)
-
+![스크린샷 2023-06-22 오전 1 24 49](https://github.com/Hchanghyeon/springboot-basic/assets/92444744/1d392610-649f-4ced-b7c2-85f32b38ef27)
 
 ### 콘솔
 > - 바우처 프로그램의 입, 출력  기능을 담당하는 부분
