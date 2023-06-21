@@ -1,6 +1,6 @@
-package org.prgrms.kdt.io;
+package org.prgrms.kdt.voucher.io;
 
-import org.prgrms.kdt.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

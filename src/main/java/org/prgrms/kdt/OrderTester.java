@@ -1,7 +1,8 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.OrderService;
+import org.prgrms.kdt.common.config.AppConfiguration;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;

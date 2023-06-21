@@ -1,15 +1,13 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.prgrms.kdt.service.VoucherService;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.prgrms.kdt.voucher.domain.Option;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.io.Console;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component
 public class VoucherManagement {

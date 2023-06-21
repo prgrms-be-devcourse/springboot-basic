@@ -1,8 +1,8 @@
-package org.prgrms.kdt.repository;
+package org.prgrms.kdt.voucher.repository;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import org.prgrms.kdt.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,7 +15,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("memory")
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
 
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();

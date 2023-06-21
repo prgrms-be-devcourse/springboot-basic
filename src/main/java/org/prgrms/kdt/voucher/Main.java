@@ -1,13 +1,8 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.io.Console;
-import org.prgrms.kdt.repository.MemoryVoucherRepository;
-import org.prgrms.kdt.repository.VoucherRepository;
-import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
+import org.prgrms.kdt.common.config.AppConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
-import java.util.UUID;
 
 @SpringBootApplication
 public class Main {

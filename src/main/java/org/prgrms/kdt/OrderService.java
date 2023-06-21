@@ -1,8 +1,9 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt;
 
 import org.prgrms.kdt.Order;
 import org.prgrms.kdt.OrderItem;
-import org.prgrms.kdt.repository.OrderRepository;
+import org.prgrms.kdt.OrderRepository;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
