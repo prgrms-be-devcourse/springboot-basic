@@ -1,5 +1,8 @@
 package com.programmers.voucher.enums;
 
+import com.programmers.voucher.exception.VoucherErrorCode;
+import com.programmers.voucher.exception.VoucherException;
+
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -16,6 +19,6 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(VoucherType -> Objects.equals(VoucherType.type, type))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 바우처입니다."));
+                .orElseThrow(() -> new VoucherException(VoucherErrorCode.NOT_SUPPORTED_TYPE));
     }
 }

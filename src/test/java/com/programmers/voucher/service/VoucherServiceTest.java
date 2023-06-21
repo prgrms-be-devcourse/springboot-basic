@@ -1,5 +1,7 @@
 package com.programmers.voucher.service;
 
+import com.programmers.voucher.exception.VoucherErrorCode;
+import com.programmers.voucher.exception.VoucherException;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.assertj.core.api.Assertions;
@@ -31,7 +33,8 @@ class VoucherServiceTest {
     @Test
     void 잘못된_바우처_타입_입력시_예외_발생() {
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher("wrongType", 100))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(VoucherException.class)
+                .hasMessage(VoucherErrorCode.NOT_SUPPORTED_TYPE.getErrorMessage());
     }
 
     @Test
