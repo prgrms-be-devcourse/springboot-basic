@@ -11,7 +11,7 @@ public class ConsoleManager {
     private static final String INPUT_COMMAND_MESSAGE = "=== Voucher Program ===\n" +
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
-            "Type list to list all vouchers.";
+            "Type list to list all vouchers.\n";
 
     private final View view;
 
