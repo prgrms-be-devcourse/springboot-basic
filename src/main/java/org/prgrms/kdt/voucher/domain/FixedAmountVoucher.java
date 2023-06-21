@@ -1,8 +1,8 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.voucher.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 

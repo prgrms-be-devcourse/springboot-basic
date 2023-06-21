@@ -1,10 +1,11 @@
-package org.prgrms.kdt.service;
+package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.FixedAmountVoucher;
-import org.prgrms.kdt.PercentDiscountVoucher;
-import org.prgrms.kdt.Voucher;
-import org.prgrms.kdt.VoucherType;
-import org.prgrms.kdt.repository.VoucherRepository;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
+
+    @Qualifier("file")
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
