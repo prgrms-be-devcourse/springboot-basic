@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 class MemoryVoucherRepositoryTest {
+
     public static final int FIXED_DISCOUNT_AMOUNT = 100;
     public static final int PERCENT_DISCOUNT_AMOUNT = 10;
     VoucherRepository voucherRepository;
@@ -18,6 +19,7 @@ class MemoryVoucherRepositoryTest {
     @BeforeEach
     void 초기화() {
         voucherRepository = new MemoryVoucherRepository();
+        voucherRepository.clear();
     }
 
     @Test
