@@ -5,4 +5,6 @@ import java.io.IOException;
 public interface View {
 
     String inputReadLine() throws IOException;
+
+    void printMessage(String message);
 }
