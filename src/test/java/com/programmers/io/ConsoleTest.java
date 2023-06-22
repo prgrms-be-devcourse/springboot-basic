@@ -6,7 +6,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -41,5 +44,18 @@ class ConsoleTest {
 
         //then
         assertThat(outputStream.toString()).contains(MENU_MESSAGE);
+    }
+
+    @DisplayName("값을 입력받는다")
+    @ValueSource(strings = {"1", "2", "3"})
+    @ParameterizedTest
+    void readInput(String input) {
+        //given
+        //when
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
+        String result = console.readInput();
+
+        //then
+        assertThat(result).contains(input);
     }
 }
