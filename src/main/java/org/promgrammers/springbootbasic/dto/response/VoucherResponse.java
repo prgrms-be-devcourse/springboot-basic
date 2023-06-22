@@ -4,26 +4,14 @@ import org.promgrammers.springbootbasic.domain.VoucherType;
 
 import java.util.UUID;
 
-public class VoucherResponse {
-    private final UUID voucherId;
-    private final VoucherType voucherType;
-    private final long amount;
+public record VoucherResponse(UUID voucherId, VoucherType voucherType, long amount) {
 
-    public VoucherResponse(UUID voucherId, VoucherType voucherType, long amount) {
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.amount = amount;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public long getAmount() {
-        return amount;
+    @Override
+    public String toString() {
+        return "VoucherResponse{" +
+                "voucherId=" + voucherId +
+                ", voucherType=" + voucherType +
+                ", amount=" + amount +
+                '}';
     }
 }
