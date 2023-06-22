@@ -6,7 +6,7 @@ import com.programmers.voucher.view.Console;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherController {
+public class CommandLineApplication {
     private boolean isRunning = true;
     private Console console = new Console();
 
@@ -27,6 +27,7 @@ public class VoucherController {
     }
 
     public void execute(MenuType menuType) {
+
         switch (menuType) {
             case EXIT -> isRunning = false;
             case CREATE -> {
