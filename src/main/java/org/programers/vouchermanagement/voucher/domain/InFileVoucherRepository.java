@@ -1,7 +1,7 @@
 package org.programers.vouchermanagement.voucher.domain;
 
 import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
-import org.programers.vouchermanagement.util.VoucherConverter;
+import org.programers.vouchermanagement.util.Converter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +15,13 @@ import java.util.UUID;
 @Profile("dev")
 public class InFileVoucherRepository implements VoucherRepository {
 
-    private static final File file = new File("src/main/resources/file_repository.txt");
+    private static final File file = new File("src/main/resources/voucher.txt");
 
     @Override
     public Voucher save(Voucher voucher) {
         try {
             Writer writer = new FileWriter(file, true);
-            writer.write(VoucherConverter.toString(voucher));
+            writer.write(Converter.toString(voucher));
             writer.flush();
             writer.close();
             return voucher;
@@ -36,7 +36,7 @@ public class InFileVoucherRepository implements VoucherRepository {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
-                Voucher voucher = VoucherConverter.toVoucher(line);
+                Voucher voucher = Converter.toVoucher(line);
                 if (voucher.getId() == id) {
                     return Optional.of(voucher);
                 }
@@ -55,7 +55,7 @@ public class InFileVoucherRepository implements VoucherRepository {
             BufferedReader reader = new BufferedReader(new FileReader(file));
             String line;
             while ((line = reader.readLine()) != null) {
-                Voucher voucher = VoucherConverter.toVoucher(line);
+                Voucher voucher = Converter.toVoucher(line);
                 result.add(voucher);
             }
             reader.close();
