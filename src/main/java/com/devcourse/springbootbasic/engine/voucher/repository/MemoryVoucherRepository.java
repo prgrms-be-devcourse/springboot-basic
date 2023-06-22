@@ -3,15 +3,15 @@ package com.devcourse.springbootbasic.engine.voucher.repository;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
+    private Map<UUID, Voucher> voucherMap = new HashMap<>();
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -24,5 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return voucherMap.values().stream().toList();
     }
 
-
+    public void setVoucherMap(Map<UUID, Voucher> voucherMap) {
+        this.voucherMap = voucherMap;
+    }
 }

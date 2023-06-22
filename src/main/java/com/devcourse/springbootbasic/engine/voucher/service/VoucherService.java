@@ -13,6 +13,10 @@ public class VoucherService {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
     public Voucher createVoucher(Voucher voucher) {
         return voucherRepository.insert(voucher);
     }
