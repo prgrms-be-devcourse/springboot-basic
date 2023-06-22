@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public abstract class Voucher {
 
-    private UUID voucherId;
-    private long amount;
+    private final UUID voucherId;
+    private final long amount;
 
     public abstract VoucherType getVoucherType();
 
