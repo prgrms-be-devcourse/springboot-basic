@@ -1,7 +1,6 @@
 package com.programmers.voucher.exception;
 
 public enum VoucherErrorCode {
-
     NOT_SUPPORTED_TYPE("지원하지 않는 바우처입니다.");
 
     private String errorMessage;
