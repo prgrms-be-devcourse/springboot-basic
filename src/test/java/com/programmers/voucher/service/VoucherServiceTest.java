@@ -1,6 +1,7 @@
 package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.request.VoucherCreateRequest;
 import org.junit.jupiter.api.Test;
@@ -28,21 +29,9 @@ class VoucherServiceTest {
     VoucherService voucherService;
 
     @Test
-    void createVoucherButInvalidType_Then_Exception() {
-        //given
-        VoucherCreateRequest request = new VoucherCreateRequest("invalid", 10);
-
-        //when
-
-        //then
-        assertThatThrownBy(() -> voucherService.createVoucher(request))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
     void createFixedAmountVoucher() {
         //given
-        VoucherCreateRequest request = new VoucherCreateRequest("fixed", 10);
+        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, 10);
 
         //when
         voucherService.createVoucher(request);
@@ -53,7 +42,7 @@ class VoucherServiceTest {
     @Test
     void createPercentDiscountVoucher() {
         //given
-        VoucherCreateRequest request = new VoucherCreateRequest("percent", 10);
+        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.PERCENT, 10);
 
         //when
         voucherService.createVoucher(request);
