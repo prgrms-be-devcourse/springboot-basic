@@ -2,7 +2,7 @@ package kr.co.springbootweeklymission.domain.voucher.entity;
 
 import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.domain.voucher.exception.WrongVoucherPolicyException;
-import kr.co.springbootweeklymission.global.error.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

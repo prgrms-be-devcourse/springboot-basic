@@ -1,8 +1,10 @@
 package kr.co.springbootweeklymission.domain.voucher.entity;
 
 import kr.co.springbootweeklymission.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.domain.voucher.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.domain.voucher.dto.response.VoucherResDTO;
 import kr.co.springbootweeklymission.domain.voucher.exception.WrongVoucherPolicyException;
-import kr.co.springbootweeklymission.global.error.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -19,11 +21,28 @@ public class Voucher {
     private VoucherPolicy voucherPolicy;
 
     @Builder
-    private Voucher(int amount,
+    private Voucher(UUID voucherId,
+                    int amount,
                     VoucherPolicy voucherPolicy) {
-        this.voucherId = UUID.randomUUID();
+        this.voucherId = voucherId;
         this.amount = amount;
         this.voucherPolicy = voucherPolicy;
+    }
+
+    public static Voucher toVoucher(VoucherReqDTO.CREATE create) {
+        return Voucher.builder()
+                .voucherId(UUID.randomUUID())
+                .amount(create.getAmount())
+                .voucherPolicy(create.getVoucherPolicy())
+                .build();
+    }
+
+    public static VoucherResDTO.READ toVoucherReadDto(Voucher voucher){
+        return VoucherResDTO.READ.builder()
+                .voucherId(voucher.voucherId)
+                .amount(voucher.amount)
+                .voucherPolicy(voucher.voucherPolicy)
+                .build();
     }
 
     public int discount(int price) {
