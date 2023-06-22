@@ -1,5 +1,6 @@
 package org.programers.vouchermanagement.domain;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -10,8 +11,13 @@ public class Voucher {
     private final UUID id;
     private final VoucherPolicy policy;
 
+    @Autowired
     public Voucher(VoucherPolicy policy) {
-        this.id = UUID.randomUUID();
+        this(UUID.randomUUID(), policy);
+    }
+
+    public Voucher(UUID id, VoucherPolicy policy) {
+        this.id = id;
         this.policy = policy;
     }
 
