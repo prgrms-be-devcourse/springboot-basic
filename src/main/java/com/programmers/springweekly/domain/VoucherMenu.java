@@ -11,7 +11,7 @@ public enum VoucherMenu {
         this.menu = voucherMenu;
     }
 
-    public VoucherMenu findVoucherMenu(VoucherMenu voucherMenu){
+    public static VoucherMenu findVoucherMenu(String voucherMenu){
         return Arrays.stream(VoucherMenu.values())
                 .filter(voucher -> voucher.menu.equals(voucherMenu))
                 .findAny()

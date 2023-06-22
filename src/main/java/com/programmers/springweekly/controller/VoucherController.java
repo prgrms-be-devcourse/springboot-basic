@@ -4,30 +4,40 @@ import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.domain.Voucher;
 import com.programmers.springweekly.domain.VoucherMenu;
 import com.programmers.springweekly.service.VoucherService;
+import com.programmers.springweekly.view.Console;
+import org.springframework.stereotype.Controller;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@Controller
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final Console console;
 
-    public VoucherController(VoucherService voucherService){
+    public VoucherController(VoucherService voucherService, Console console){
         this.voucherService = voucherService;
+        this.console = console;
     }
 
     public void createVoucher(){
-        // 어떤 바우처를 생성할 것인지에 대한 Input값 받기
+        console.outputSelectCreateVoucherGuide();
+        VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
+        console.outputDiscountGuide();
+        long number = Integer.parseInt(console.inputMessage());
 
-        voucherService.saveVoucher(VoucherMenu.FIXED, 100);
+        voucherService.saveVoucher(voucherMenu, number);
     }
 
     public void getVoucherList(){
-        Optional<Map<UUID, Voucher>> voucherMap= voucherService.findVoucherAll();
+        Map<UUID, Voucher> voucherMap= voucherService.findVoucherAll();
 
-        voucherMap.orElseThrow(() -> new NullPointerException("저장된 값이 없습니다"));
-
-        // print
+        if(voucherMap.isEmpty()){
+            console.outputErrorMessage("저장된 바우처가 없습니다");
+            return;
+        }
+        console.outputGetVoucherAll(voucherMap);
     }
 }

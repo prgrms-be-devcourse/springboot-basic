@@ -8,5 +8,5 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     void saveVoucher(Voucher voucher);
-    Optional<Map<UUID, Voucher>> getVoucherMap();
+    Map<UUID, Voucher> getVoucherMap();
 }

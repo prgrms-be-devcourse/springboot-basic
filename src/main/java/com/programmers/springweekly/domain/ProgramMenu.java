@@ -11,7 +11,7 @@ public enum ProgramMenu {
         this.menu = menu;
     }
 
-    public ProgramMenu findProgramMenu(ProgramMenu programMenu){
+    public static ProgramMenu findProgramMenu(String programMenu){
         return Arrays.stream(ProgramMenu.values())
                 .filter(program -> program.menu.equals(programMenu))
                 .findAny()

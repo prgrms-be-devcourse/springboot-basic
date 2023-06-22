@@ -11,4 +11,6 @@ public interface Output {
     void outputDiscountGuide();
     void outputExitMessage();
     void outputGetVoucherAll(Map<UUID, Voucher> voucherMap);
+
+    void outputErrorMessage(String errorText);
 }
