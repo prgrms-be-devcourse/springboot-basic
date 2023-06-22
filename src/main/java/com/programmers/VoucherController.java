@@ -1,9 +1,10 @@
 package com.programmers;
 
-import com.programmers.domain.Menu;
-import com.programmers.domain.VoucherType;
+import com.programmers.domain.*;
 import com.programmers.io.Console;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -26,7 +27,24 @@ public class VoucherController {
         }
     }
 
-    private void createVoucher() {
+    public VoucherType getVoucherType() {
+        String voucherTypeInput = console.readVoucherName();
+
+        if (isNumeric(voucherTypeInput)) {
+            return VoucherType.findVoucherTypeByNumber(voucherTypeInput);
+        }
+
+        return VoucherType.findVoucherTypeByName(voucherTypeInput);
+    }
+
+    private Voucher createVoucher() {
+        Voucher voucher = makeVoucher();
+        console.printVoucherCreated();
+
+        return voucher;
+    }
+
+    public Voucher makeVoucher() {
         console.printVoucherType();
         VoucherType voucherType = getVoucherType();
 
@@ -36,17 +54,11 @@ public class VoucherController {
         console.printVoucherNameInput();
         String voucherName = console.readInput();
 
-        System.out.println("voucherType : " + voucherType.toString() + "  discountValue : " + discountValue + "  voucherName : " + voucherName);
-    }
-
-    public VoucherType getVoucherType() {
-        String voucherTypeInput = console.readVoucherName();
-
-        if (isNumeric(voucherTypeInput)) {
-            return VoucherType.findVoucherTypeByNumber(voucherTypeInput);
+        if (voucherType == VoucherType.FixedAmountVoucher) {
+            return new FixedAmountVoucher(UUID.randomUUID(), voucherName, discountValue);
         }
 
-        return VoucherType.findVoucherTypeByName(voucherTypeInput);
+        return new PercentDiscountVoucher(UUID.randomUUID(), voucherName, discountValue);
     }
 
     public boolean isNumeric(String str) {

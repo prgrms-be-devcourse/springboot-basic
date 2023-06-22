@@ -16,6 +16,7 @@ public class Console implements Input, Output {
             "2. Percent Discount Voucher";
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
+    private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
 
     @Override
     public void printMenu() {
@@ -51,5 +52,9 @@ public class Console implements Input, Output {
     @Override
     public void printVoucherNameInput() {
         System.out.println(VOUCHER_NAME_MESSAGE);
+    }
+
+    public void printVoucherCreated() {
+        System.out.println(VOUCHER_CREATED_MESSAGE);
     }
 }
