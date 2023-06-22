@@ -2,6 +2,7 @@ package com.programmers;
 
 import com.programmers.domain.*;
 import com.programmers.io.Console;
+import com.programmers.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
@@ -10,6 +11,7 @@ import java.util.UUID;
 public class VoucherController {
 
     private final Console console = new Console();
+    private final VoucherService voucherService = new VoucherService();
 
     public void run() {
         boolean activated = true;
@@ -39,6 +41,7 @@ public class VoucherController {
 
     public Voucher createVoucher() {
         Voucher voucher = makeVoucher();
+        voucherService.save(voucher);
         console.printVoucherCreated();
 
         return voucher;
