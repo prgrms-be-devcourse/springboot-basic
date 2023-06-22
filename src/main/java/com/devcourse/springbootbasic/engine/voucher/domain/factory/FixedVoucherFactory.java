@@ -9,10 +9,10 @@ import java.util.UUID;
 public class FixedVoucherFactory implements VoucherFactory {
 
     @Override
-    public Voucher create(VoucherType voucherType, double voucherDiscount) {
+    public Voucher create(double voucherDiscount) {
         return new FixedAmountVoucher(
                 UUID.randomUUID(),
-                voucherType,
+                VoucherType.FIXED_AMOUNT,
                 voucherDiscount
         );
     }

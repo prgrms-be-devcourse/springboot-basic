@@ -5,5 +5,5 @@ import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 
 public interface VoucherFactory {
 
-    Voucher create(VoucherType voucherType, double voucherDiscount);
+    Voucher create(double voucherDiscount);
 }

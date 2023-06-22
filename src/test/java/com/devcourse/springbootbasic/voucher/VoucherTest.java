@@ -74,4 +74,24 @@ public class VoucherTest {
         InputConsole inputConsole = new InputConsole();
         Assertions.assertThrows(InvalidDataException.class, inputConsole::inputVoucherType);
     }
+
+    static Stream<Arguments> provideVoucher() {
+        List<Voucher> list = List.of(
+            VoucherType.FIXED_AMOUNT.getVoucherFactory().create(10),
+            VoucherType.PERCENT_DISCOUNT.getVoucherFactory().create(5)
+        );
+        return Stream.of(
+                Arguments.of(list.get(0), list.get(0)),
+                Arguments.of(list.get(1), list.get(1))
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideVoucher")
+    void voucherCreationTest(Voucher input, Voucher expect) {
+        VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
+        Voucher result = voucherService.createVoucher(input);
+        Assertions.assertEquals(expect, result);
+    }
+
 }

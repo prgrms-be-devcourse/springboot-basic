@@ -8,10 +8,10 @@ import java.util.UUID;
 
 public class PercentVoucherFactory implements VoucherFactory {
     @Override
-    public Voucher create(VoucherType voucherType, double voucherDiscount) {
+    public Voucher create(double voucherDiscount) {
         return new PercentDiscountVoucher(
                 UUID.randomUUID(),
-                voucherType,
+                VoucherType.PERCENT_DISCOUNT,
                 voucherDiscount
         );
     }

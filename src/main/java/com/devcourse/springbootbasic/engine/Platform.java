@@ -73,7 +73,7 @@ public class Platform {
         VoucherType voucherType = voucherTypeInput();
         double voucherDiscount = voucherDiscountInput(voucherType);
         Voucher voucher = voucherType.getVoucherFactory()
-                .create(voucherType, voucherDiscount);
+                .create(voucherDiscount);
         return voucherService.createVoucher(voucher);
     }
 
