@@ -5,16 +5,16 @@ import com.programmers.voucher.domain.Type;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.VoucherFactory;
-import com.programmers.voucher.repository.VoucherRepository;
+import com.programmers.voucher.stream.VoucherStream;
 
 public class CommandLineApplication implements Runnable{
     private final Console console;
-    private final VoucherRepository voucherRepository;
+    private final VoucherStream voucherStream;
     private final VoucherFactory voucherFactory;
 
-    public CommandLineApplication(Console console, VoucherRepository voucherRepository, VoucherFactory voucherFactory) {
+    public CommandLineApplication(Console console, VoucherStream voucherStream, VoucherFactory voucherFactory) {
         this.console = console;
-        this.voucherRepository = voucherRepository;
+        this.voucherStream = voucherStream;
         this.voucherFactory = voucherFactory;
     }
 
@@ -39,7 +39,7 @@ public class CommandLineApplication implements Runnable{
 
     private void showListOfVouchers(Type type) {
         if (type == Type.LIST) {
-            voucherRepository.findAll().forEach(
+            voucherStream.findAll().forEach(
                     (k, v) -> {
                         if (v instanceof FixedAmountVoucher) {
                             System.out.println("[FixedAmountVoucher | Voucher ID] : " + k + " | discount amount : " + ((FixedAmountVoucher) v).getAmount());

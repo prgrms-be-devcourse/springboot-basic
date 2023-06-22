@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.stream;
 
 import com.programmers.voucher.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Repository
 @Profile(value = "local")
-public class MemoryVoucherRepository implements VoucherRepository {
+public class MemoryVoucherStream implements VoucherStream {
     private final HashMap<String, Voucher> voucherList = new HashMap<>();
 
     @Override

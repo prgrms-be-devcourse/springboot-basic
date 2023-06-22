@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.stream;
 
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
@@ -10,23 +10,23 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MemoryVoucherRepositoryTest {
+class MemoryVoucherStreamTest {
 
-    private final VoucherRepository repository = new MemoryVoucherRepository();
+    private final VoucherStream voucherStream = new MemoryVoucherStream();
     @Test
     @DisplayName("데이터 저장 로직 정상 작동 검증")
-    void memoryVoucherRepository() {
+    void memoryVoucherStream() {
         // given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID().toString(), 10000);
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID().toString(), 70);
 
         // when
-        repository.save(voucher1);
-        repository.save(voucher2);
+        voucherStream.save(voucher1);
+        voucherStream.save(voucher2);
 
         // then
-        assertThat(repository.findAll().size()).isEqualTo(2);
-        assertThat(repository.findAll().keySet()).contains(voucher1.getVoucherId());
+        assertThat(voucherStream.findAll().size()).isEqualTo(2);
+        assertThat(voucherStream.findAll().keySet()).contains(voucher1.getVoucherId());
 
     }
 

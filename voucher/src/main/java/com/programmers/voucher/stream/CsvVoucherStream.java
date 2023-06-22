@@ -1,4 +1,4 @@
-package com.programmers.voucher.repository;
+package com.programmers.voucher.stream;
 
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
@@ -11,7 +11,7 @@ import java.util.*;
 
 @Repository
 @Profile(value = "dev")
-public class CsvVoucherRepository implements VoucherRepository {
+public class CsvVoucherStream implements VoucherStream {
     private static final String SAMPLE_CSV_FILE_PATH = "/Users/tommy/Desktop/dev course/과제/SpringBootBasic/voucher/src/main/resources/sample.csv";
     File file = new File(SAMPLE_CSV_FILE_PATH);
     BufferedWriter bw;
