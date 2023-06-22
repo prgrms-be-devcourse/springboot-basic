@@ -1,6 +1,7 @@
 package com.prgms.VoucherApp.controller;
 
 import com.prgms.VoucherApp.domain.VoucherCreator;
+import com.prgms.VoucherApp.domain.VoucherPolicy;
 import com.prgms.VoucherApp.domain.VoucherReader;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
@@ -32,9 +33,30 @@ public class VoucherApp implements Runnable {
                 case EXIT:
                     return;
                 case CREATE:
+                    VoucherPolicy policy = getVoucherPolicyType();
+                    long amount = getDiscountAmount(policy);
+                    if (voucherCreator.createVoucher(policy, amount).isEmpty()) {
+                        output.outputNotCreatedMsg();
+                        break;
+                    }
+                    voucherCreator.createVoucher(policy, amount).ifPresent(output::outputCreatedMsg);
                     break;
                 case LIST:
+                    break;
+                default:
+                    break;
             }
         }
+    }
+
+    private VoucherPolicy getVoucherPolicyType() {
+        output.outputDisplayVoucherPolicy();
+        String inputVoucherPolicy = input.inputVoucherPolicy();
+        return VoucherPolicy.findByPolicy(inputVoucherPolicy);
+    }
+
+    private long getDiscountAmount(VoucherPolicy policy) {
+        output.outputDisplayDiscountCondition(policy);
+        return input.inputDiscountAmount(policy);
     }
 }

@@ -17,4 +17,9 @@ public class PercentDiscountVoucher implements Voucher {
         double discountAmount = beforeAmount * (percent / 100.0);
         return (long) (beforeAmount - discountAmount);
     }
+
+    @Override
+    public String toString() {
+        return "퍼센트 할인권, 할인비율 : [" + percent + "%]";
+    }
 }

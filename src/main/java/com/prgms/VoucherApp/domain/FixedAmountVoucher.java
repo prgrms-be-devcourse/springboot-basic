@@ -23,4 +23,9 @@ public class FixedAmountVoucher implements Voucher {
     private boolean isResultNegative(long beforeAmount) {
         return beforeAmount - fixedAmount < 0;
     }
+
+    @Override
+    public String toString() {
+        return "고정 비용 할인권, 할인금액 : [" + fixedAmount + "]";
+    }
 }

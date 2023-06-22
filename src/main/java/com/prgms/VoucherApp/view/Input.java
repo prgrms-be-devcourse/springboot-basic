@@ -1,9 +1,11 @@
 package com.prgms.VoucherApp.view;
 
+import com.prgms.VoucherApp.domain.VoucherPolicy;
+
 public interface Input {
     String inputCommand();
 
     String inputVoucherPolicy();
 
-    String inputDiscountAmount();
+    Long inputDiscountAmount(VoucherPolicy policy);
 }
