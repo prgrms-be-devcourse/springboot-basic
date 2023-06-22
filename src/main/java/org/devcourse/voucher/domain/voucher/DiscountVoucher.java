@@ -7,7 +7,7 @@ public abstract class DiscountVoucher implements Voucher{
 
     public DiscountVoucher(long id, VoucherType type) {
         this.id = id;
-        this.type = type;
+        this.type = setType(type);
     }
 
     @Override
@@ -23,4 +23,13 @@ public abstract class DiscountVoucher implements Voucher{
     }
 
     protected abstract int discount(Money originPrice);
+
+    private VoucherType setType(VoucherType type) {
+        if (validateType(type)) {
+            return type;
+        }
+        throw new RuntimeException("일치하지 않은 바우처 타입입니다");
+    }
+
+    protected abstract boolean validateType(VoucherType type);
 }

@@ -13,4 +13,10 @@ public class PercentDiscountVoucher extends DiscountVoucher{
     protected int discount(Money originPrice) {
         return originPrice.amount() * percent / 100;
     }
+
+    @Override
+    protected boolean validateType(VoucherType type) {
+        return type.equals(VoucherType.PERCENT);
+    }
+
 }

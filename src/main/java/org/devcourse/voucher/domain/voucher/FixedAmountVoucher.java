@@ -13,4 +13,10 @@ public class FixedAmountVoucher extends DiscountVoucher{
     protected int discount(Money originPrice) {
         return originPrice.amount() - amount;
     }
+
+    @Override
+    protected boolean validateType(VoucherType type) {
+        return type.equals(VoucherType.FIX);
+    }
+
 }
