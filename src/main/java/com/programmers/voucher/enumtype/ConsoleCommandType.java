@@ -6,6 +6,7 @@ import java.util.Objects;
 public enum ConsoleCommandType {
     CREATE("create"),
     LIST("list"),
+    HELP("help"),
     EXIT("exit");
 
     private final String input;
