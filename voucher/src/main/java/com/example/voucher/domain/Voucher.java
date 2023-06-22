@@ -7,4 +7,6 @@ public interface Voucher {
 
 	long discount(long beforeAmount);
 
+	void printInfo();
+
 }

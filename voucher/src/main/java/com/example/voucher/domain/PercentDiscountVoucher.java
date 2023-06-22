@@ -2,9 +2,12 @@ package com.example.voucher.domain;
 
 import java.util.UUID;
 
+import com.example.voucher.domain.enums.VoucherType;
+
 public class PercentDiscountVoucher implements Voucher {
 	private final UUID voucherId;
 	private final long percent;
+	VoucherType voucherType = VoucherType.PercentDiscount;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
 		this.voucherId = voucherId;
@@ -19,5 +22,10 @@ public class PercentDiscountVoucher implements Voucher {
 	@Override
 	public long discount(long beforeAmount) {
 		return beforeAmount * (percent / 100);
+	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(String.format("VoucherType : %s, discountPercent : %d", voucherType.getTypeName(), percent));
 	}
 }
