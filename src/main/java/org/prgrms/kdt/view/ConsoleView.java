@@ -35,7 +35,7 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	@Override
-	public VoucherType getVoucher() {
+	public VoucherType getVoucherType() {
 		int voucherTypeIdx = this.textIo.newIntInputReader()
 			.withMinVal(1)
 			.read("voucher type idx input: ");
@@ -44,7 +44,7 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	@Override
-	public void displayGuideMessage() {
+	public void displayCommandGuideMessage() {
 		System.out.println("=== Voucher Program ===");
 		printCommandDescriptions();
 	}

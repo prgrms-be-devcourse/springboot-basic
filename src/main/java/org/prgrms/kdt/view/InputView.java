@@ -9,5 +9,5 @@ public interface InputView {
 
 	Command getCommand();
 
-	VoucherType getVoucher();
+	VoucherType getVoucherType();
 }
