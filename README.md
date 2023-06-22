@@ -18,9 +18,9 @@
     - [ ] 명령어 출력 및 Voucher 리스트를 출력한다. - Output
     - [ ] 지원가능한 명령어를 Enum 으로 관리한다. - Command
 - [ ] Voucher는 여러가지 종류로 확장이 가능하다. - Voucher
-    - [ ] Voucher는 할인을 하는 기능을 가지고 있다. - Voucher.discount()
+    - [ ] Voucher는 할인을 하는 기능을 가지고 있다. - Voucher#discount()
     - [ ] 고정된 금액을 할인하는 Voucher - FixedAmountVoucher
     - [ ] 비율로 할인을 하는 Voucher - PercentDiscountVoucher
-- [ ] Voucher를 생성 할 수 있다. - VoucherService#CreateVoucher()
-    - [ ] Voucher는 메모리에 저장한다. - VoucherRepository#save(Voucher voucher)
-- [ ] Voucher를 조회 할 수 있다. - VoucherService#findVoucherList()
+- [ ] Voucher를 생성 할 수 있다. - VoucherCreator#createVoucher()
+    - [ ] Voucher는 메모리에 저장한다. - VoucherHistory#save(Voucher voucher)
+- [ ] Voucher를 조회 할 수 있다. - VoucherReader#findVoucherList()
