@@ -22,6 +22,8 @@ public class ConsoleClient implements VoucherController {
     }
 
     public void start() {
+        console.printCommandSet();
+
         boolean isRun = true;
         while(isRun) {
             isRun = runClient();
@@ -29,7 +31,7 @@ public class ConsoleClient implements VoucherController {
     }
 
     public boolean runClient() {
-        ConsoleCommandType commandType = console.init();
+        ConsoleCommandType commandType = console.inputInitialCommand();
 
         switch (commandType) {
             case CREATE -> {

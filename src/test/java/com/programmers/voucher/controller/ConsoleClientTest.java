@@ -32,7 +32,7 @@ class ConsoleClientTest {
     @Test
     public void commandType_Create() {
         //given
-        given(console.init()).willReturn(ConsoleCommandType.CREATE);
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.CREATE);
         given(console.input(anyString())).willReturn("fixed");
         given(console.intInput(anyString())).willReturn(10);
 
@@ -51,7 +51,7 @@ class ConsoleClientTest {
         Voucher fixedVoucher2 = createFixedVoucher(UUID.randomUUID(), 10);
         List<Voucher> testVouchers = List.of(fixedVoucher1, fixedVoucher2);
 
-        given(console.init()).willReturn(ConsoleCommandType.LIST);
+        given(console.inputInitialCommand()).willReturn(ConsoleCommandType.LIST);
         given(voucherService.findVouchers()).willReturn(testVouchers);
 
         //when

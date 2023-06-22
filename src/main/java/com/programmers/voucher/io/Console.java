@@ -3,7 +3,9 @@ package com.programmers.voucher.io;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 
 public interface Console {
-    ConsoleCommandType init();
+    ConsoleCommandType inputInitialCommand();
+
+    void printCommandSet();
 
     String input(String hint);
 
