@@ -14,12 +14,7 @@ public abstract class DiscountVoucher implements Voucher{
     public Money retrievePostBalance(Money targetMoney) {
         int remainMoneyAmount = discount(targetMoney);
 
-        return Money.of(remainMoneyAmount);
-    }
-
-    @Override
-    public long getId() {
-        return this.id;
+        return postProcessMoney(remainMoneyAmount);
     }
 
     protected abstract int discount(Money originPrice);
@@ -29,6 +24,13 @@ public abstract class DiscountVoucher implements Voucher{
             return type;
         }
         throw new RuntimeException("일치하지 않은 바우처 타입입니다");
+    }
+
+    private Money postProcessMoney(int amount) {
+        if (amount < 0) {
+            return Money.ZERO_AMOUNT;
+        }
+        return Money.of(amount);
     }
 
     protected abstract boolean validateType(VoucherType type);
