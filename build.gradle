@@ -18,7 +18,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	compileOnly('org.beryx:text-io:3.4.1')
+//	compileOnly('org.beryx:text-io:3.4.1')
 }
 
 tasks.named('test') {
