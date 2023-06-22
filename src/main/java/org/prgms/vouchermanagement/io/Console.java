@@ -5,7 +5,13 @@ import org.prgms.vouchermanagement.voucher.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
@@ -28,6 +34,7 @@ public class Console {
         System.out.println("Type 'exit' to exit the program.");
         System.out.println("Type 'create' to create a new voucher.");
         System.out.println("Type 'list' to list all vouchers.");
+        System.out.println("Type 'black' to list customer blacklist.");
         System.out.print("Input: ");
     }
 
@@ -72,6 +79,22 @@ public class Console {
         voucherList.get().forEach((k, v) -> {
             System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
         });
+    }
+
+    public void printCustomerBlackList(String path) throws IOException {
+        System.out.println("=== Customer Blacklist ===");
+        List<List<String>> records = new ArrayList<>();
+
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] values = line.split(",");
+            records.add(Arrays.asList(values));
+        }
+
+        for (List<String> eachRecord: records) {
+            System.out.println(eachRecord.toString());
+        }
     }
 
     public String getCommand() {

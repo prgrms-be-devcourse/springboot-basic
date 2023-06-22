@@ -4,22 +4,33 @@ import org.prgms.vouchermanagement.io.Console;
 import org.prgms.vouchermanagement.service.VoucherService;
 import org.prgms.vouchermanagement.voucher.Voucher;
 import org.prgms.vouchermanagement.voucher.VoucherType;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
-public class CommandLineApplication implements CommandLineRunner {
+public class CommandLineApplication implements CommandLineRunner, ApplicationContextAware {
 
     private final Console console;
     private final VoucherService voucherService;
+    private ApplicationContext applicationContext;
 
     public CommandLineApplication(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     @Override
@@ -34,8 +45,9 @@ public class CommandLineApplication implements CommandLineRunner {
                     case EXIT -> { return; }
                     case CREATE_NEW_VOUCHER -> selectNewVoucher();
                     case SHOW_VOUCHER_LIST -> showVoucherList();
+                    case SHOW_BLACK_LIST -> showBlackList();
                 }
-            } catch (RuntimeException e) {
+            } catch (RuntimeException | IOException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -78,4 +90,10 @@ public class CommandLineApplication implements CommandLineRunner {
         Optional<Map<UUID, Voucher>> voucherList = voucherService.getVoucherList(listVoucherType);
         console.printVoucherList(voucherList, listVoucherType);
     }
+
+    private void showBlackList() throws IOException {
+        Resource resource = applicationContext.getResource("customer_blacklist.csv");
+        console.printCustomerBlackList(resource.getFile().toPath().toString());
+    }
+
 }
