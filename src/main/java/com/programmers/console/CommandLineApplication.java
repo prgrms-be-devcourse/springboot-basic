@@ -1,8 +1,8 @@
-package com.programmers.voucher.controller;
+package com.programmers.console;
 
-import com.programmers.voucher.uitl.Menu;
-import com.programmers.voucher.uitl.Command;
-import com.programmers.voucher.view.Console;
+import com.programmers.console.util.Menu;
+import com.programmers.console.util.Command;
+import com.programmers.console.view.Console;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +23,7 @@ public class CommandLineApplication {
     }
 
     private Command getRequest() {
-        return Command.getCommand(console.getRequest());
+        return Command.findByCommand(console.getRequest());
     }
 
     public void execute(Command command) {

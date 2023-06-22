@@ -1,4 +1,4 @@
-package com.programmers.voucher.view;
+package com.programmers.console.view;
 
 
 public interface InputView {

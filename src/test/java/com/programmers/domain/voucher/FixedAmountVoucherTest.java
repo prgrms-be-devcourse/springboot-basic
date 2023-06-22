@@ -1,4 +1,4 @@
-package com.programmers.voucher.domain;
+package com.programmers.domain.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

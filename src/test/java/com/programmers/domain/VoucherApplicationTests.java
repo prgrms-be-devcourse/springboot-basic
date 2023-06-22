@@ -1,4 +1,4 @@
-package com.programmers.voucher;
+package com.programmers.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
-package com.programmers.voucher;
+package com.programmers.domain;
 
-import com.programmers.voucher.controller.CommandLineApplication;
+import com.programmers.console.CommandLineApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

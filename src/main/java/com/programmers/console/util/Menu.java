@@ -1,4 +1,4 @@
-package com.programmers.voucher.uitl;
+package com.programmers.console.util;
 
 public enum Menu {
     COMMAND_MESSAGE("=== Voucher Program ===\n" +

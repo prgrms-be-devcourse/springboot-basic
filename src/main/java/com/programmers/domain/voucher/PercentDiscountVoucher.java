@@ -1,19 +1,19 @@
-package com.programmers.voucher.domain;
+package com.programmers.domain.voucher;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
-    private final long amount;
+    private final DiscountPercent discountPercent;
     private final LocalDateTime createdDate = LocalDateTime.now();
     private final Integer expirationDate;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public PercentDiscountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountPercent = new DiscountPercent(amount);
         this.expirationDate = expirationDate();
     }
 
@@ -24,7 +24,7 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        return discountPercent.discount(beforeDiscount);
     }
 
     @Override
