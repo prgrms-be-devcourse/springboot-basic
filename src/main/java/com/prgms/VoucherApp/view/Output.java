@@ -6,15 +6,15 @@ import com.prgms.VoucherApp.domain.VoucherPolicy;
 import java.util.List;
 
 public interface Output {
-    void outputDisplayMenu();
+    void printDisplayMenu();
 
-    void outputDisplayVoucherPolicy();
+    void printDisplayVoucherPolicy();
 
-    void outputDisplayDiscountCondition(VoucherPolicy policy);
+    void printDisplayDiscountCondition(VoucherPolicy policy);
 
-    void outputNotCreatedMsg();
+    void printNotCreatedMsg();
 
-    void outputCreatedMsg(Voucher voucher);
+    void printCreatedMsg(Voucher voucher);
 
-    void outputVoucherHistory(List<Voucher> voucher);
+    void printVoucherList(List<Voucher> voucher);
 }

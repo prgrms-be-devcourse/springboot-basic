@@ -7,8 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public enum VoucherPolicy {
-    FIXED_VOUCHER("fix", "고정된 금액으로 할인되는 할인권", "(0 이상으로 입력해주세요.)"),
-    PERCENT_VOUCHER("percent", "비율로 할인되는 할인권", "(100 이하로 입력해주세요.)");
+    FIXED_VOUCHER("fix", "a Fixed Amount Voucher", "(0 이상으로 입력해주세요.)"),
+    PERCENT_VOUCHER("percent", "a Percent Voucher", "(100 이하로 입력해주세요.)");
 
     private final String voucherPolicy;
     private final String policyDescription;

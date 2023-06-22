@@ -3,7 +3,6 @@ package com.prgms.VoucherApp.domain;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -15,17 +14,18 @@ public class VoucherCreator {
         this.voucherStorage = voucherStorage;
     }
 
-    public Optional<Voucher> createVoucher(VoucherPolicy voucherPolicy, long amount) {
-        Optional<Voucher> voucher = Optional.empty();
+    public Voucher createVoucher(VoucherPolicy voucherPolicy, long amount) {
+        Voucher voucher = null;
         switch (voucherPolicy) {
             case FIXED_VOUCHER:
-                voucher = Optional.of(new FixedAmountVoucher(UUID.randomUUID(), amount));
+                voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
                 break;
             case PERCENT_VOUCHER:
-                voucher = Optional.of(new PercentDiscountVoucher(UUID.randomUUID(), amount));
+                voucher = new PercentDiscountVoucher(UUID.randomUUID(), amount);
         }
-
-        voucher.ifPresent(voucherStorage::save);
+        if (voucher != null) {
+            voucherStorage.save(voucher);
+        }
         return voucher;
     }
 }

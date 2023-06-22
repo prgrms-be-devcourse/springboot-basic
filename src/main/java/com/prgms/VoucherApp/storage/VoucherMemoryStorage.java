@@ -17,7 +17,10 @@ public class VoucherMemoryStorage implements VoucherStorage {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        return voucherLinkedMap
+                .values()
+                .stream()
+                .toList();
     }
 
     @Override
