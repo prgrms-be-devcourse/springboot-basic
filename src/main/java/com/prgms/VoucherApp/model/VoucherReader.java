@@ -1,5 +1,6 @@
-package com.prgms.VoucherApp.domain;
+package com.prgms.VoucherApp.model;
 
+import com.prgms.VoucherApp.domain.Voucher;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.springframework.stereotype.Service;
 

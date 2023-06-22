@@ -1,5 +1,6 @@
 package com.prgms.VoucherApp.domain;
 
+import com.prgms.VoucherApp.model.VoucherCreator;
 import com.prgms.VoucherApp.storage.VoucherStorage;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

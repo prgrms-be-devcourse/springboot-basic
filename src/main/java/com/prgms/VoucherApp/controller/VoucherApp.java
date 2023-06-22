@@ -1,9 +1,9 @@
 package com.prgms.VoucherApp.controller;
 
 import com.prgms.VoucherApp.domain.Voucher;
-import com.prgms.VoucherApp.domain.VoucherCreator;
 import com.prgms.VoucherApp.domain.VoucherPolicy;
-import com.prgms.VoucherApp.domain.VoucherReader;
+import com.prgms.VoucherApp.model.VoucherCreator;
+import com.prgms.VoucherApp.model.VoucherReader;
 import com.prgms.VoucherApp.view.Command;
 import com.prgms.VoucherApp.view.Input;
 import com.prgms.VoucherApp.view.Output;
