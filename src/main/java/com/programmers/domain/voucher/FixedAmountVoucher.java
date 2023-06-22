@@ -13,7 +13,6 @@ public class FixedAmountVoucher implements Voucher {
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         this.voucherId = voucherId;
-//        this.amount = amount;
         this.discountAmount = new DiscountAmount(discountAmount);
         this.expirationDate = expirationDate();
     }
