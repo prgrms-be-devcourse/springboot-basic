@@ -4,6 +4,7 @@ import com.programmers.springweekly.domain.ProgramMenu;
 import com.programmers.springweekly.domain.Voucher;
 import com.programmers.springweekly.domain.VoucherMenu;
 import com.programmers.springweekly.service.VoucherService;
+import com.programmers.springweekly.util.Validator;
 import com.programmers.springweekly.view.Console;
 import org.springframework.stereotype.Controller;
 
@@ -25,10 +26,19 @@ public class VoucherController {
     public void createVoucher(){
         console.outputSelectCreateVoucherGuide();
         VoucherMenu voucherMenu = VoucherMenu.findVoucherMenu(console.inputMessage());
-        console.outputDiscountGuide();
-        long number = Integer.parseInt(console.inputMessage());
 
-        voucherService.saveVoucher(voucherMenu, number);
+        console.outputDiscountGuide();
+        String inputNumber = console.inputMessage();
+
+        if(voucherMenu == VoucherMenu.FIXED){
+            Validator.fixedAmountValidate(inputNumber);
+        }
+
+        if(voucherMenu == VoucherMenu.PERCENT){
+            Validator.percentValidate(inputNumber);
+        }
+
+        voucherService.saveVoucher(voucherMenu, Long.parseLong(inputNumber));
     }
 
     public void getVoucherList(){
