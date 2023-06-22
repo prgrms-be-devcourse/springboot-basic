@@ -2,11 +2,11 @@ package org.prgrms.kdt.view;
 
 import java.util.List;
 
-import org.prgrms.kdt.enums.Voucher;
+import org.prgrms.kdt.model.dto.VoucherDTO;
 
-public interface Output {
+public interface OutputView {
 	public void displayGuideMessage();
 	public void displayExitMessage();
 	public void displayCreateVoucherMessage();
-	public void displayVoucherList(List<Voucher> vouchers);
+	public void displayVoucherList(List<VoucherDTO> voucherTypes);
 }

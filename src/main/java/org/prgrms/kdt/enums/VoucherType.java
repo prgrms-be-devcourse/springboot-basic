@@ -1,25 +1,20 @@
 package org.prgrms.kdt.enums;
 
 import java.util.Arrays;
-import java.util.Optional;
 
-import javax.lang.model.element.UnknownElementException;
-
-import org.springframework.beans.factory.annotation.Value;
-
-public enum Voucher {
+public enum VoucherType {
 	FixedAmountVoucher(1),
 	PercentDiscountVoucher(2);
 
 	private int voucherIdx;
 
-	private final String unSupportedVoucherMessage= "잘 못된 입력 입니다.";
-	Voucher(int voucherIdx) {
+	private final static String unSupportedVoucherMessage= "잘 못된 입력 입니다.";
+	VoucherType(int voucherIdx) {
 		this.voucherIdx = voucherIdx;
 	}
 
-	public Voucher valueOf(int voucherIdx) {
-		return Arrays.stream(Voucher.values())
+	public static VoucherType valueOf(int voucherIdx) {
+		return Arrays.stream(VoucherType.values())
 			.filter(voucher -> voucher.getVoucherIdx() == voucherIdx)
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException(unSupportedVoucherMessage));
