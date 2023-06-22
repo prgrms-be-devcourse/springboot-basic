@@ -21,4 +21,11 @@ public class PercentDiscountPolicy implements VoucherPolicy {
             throw new WrongVoucherPolicyException("기존 금액을 초과해서 할인할 수 없습니다.");
         }
     }
+
+    @Override
+    public String toString() {
+        return "PercentDiscountPolicy{" +
+                "percent=" + percent +
+                '}';
+    }
 }
