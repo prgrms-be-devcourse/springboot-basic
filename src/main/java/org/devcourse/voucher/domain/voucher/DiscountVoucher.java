@@ -17,8 +17,6 @@ public abstract class DiscountVoucher implements Voucher{
         return postProcessMoney(remainMoneyAmount);
     }
 
-    protected abstract int discount(Money originPrice);
-
     private VoucherType setType(VoucherType type) {
         if (validateType(type)) {
             return type;
@@ -32,6 +30,8 @@ public abstract class DiscountVoucher implements Voucher{
         }
         return Money.of(amount);
     }
+
+    protected abstract int discount(Money originPrice);
 
     protected abstract boolean validateType(VoucherType type);
 }
