@@ -93,6 +93,10 @@ public class ConsoleOutputView implements Output {
 
     @Override
     public void printVoucherList(List<Voucher> voucher) {
+        if (voucher.isEmpty()) {
+            textTerminal.println("저장되어있는 할인권이 없습니다.");
+            return;
+        }
         voucher.forEach((item -> textTerminal.println(item.toString())));
     }
 }
