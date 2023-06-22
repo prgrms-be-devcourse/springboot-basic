@@ -16,11 +16,11 @@ public class VoucherReader {
         this.voucherStorage = voucherStorage;
     }
 
-    public Optional<Voucher> findOne(UUID voucherId) {
+    public Optional<Voucher> readOne(UUID voucherId) {
         return voucherStorage.findByVoucherId(voucherId);
     }
 
-    public List<Voucher> findAll() {
+    public List<Voucher> readVoucherList() {
         return voucherStorage.findAll();
     }
 }

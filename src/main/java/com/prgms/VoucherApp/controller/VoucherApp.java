@@ -49,7 +49,7 @@ public class VoucherApp implements Runnable {
                 }
 
                 case LIST -> {
-                    List<Voucher> vouchers = voucherReader.findAll();
+                    List<Voucher> vouchers = voucherReader.readVoucherList();
                     output.printVoucherList(vouchers);
                 }
             }
