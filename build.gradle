@@ -32,6 +32,12 @@ dependencies {
 
     //devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //Assertj
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+
+    //JUnit 5
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 
 tasks.named('test') {
