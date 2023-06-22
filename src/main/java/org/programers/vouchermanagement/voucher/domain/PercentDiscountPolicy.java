@@ -17,7 +17,7 @@ public class PercentDiscountPolicy implements VoucherPolicy {
     }
 
     private void validateDiscountPercent(int percent) {
-        if (percent > 100) {
+        if (percent < 0 || percent > 100) {
             throw new WrongVoucherPolicyException("기존 금액을 초과해서 할인할 수 없습니다.");
         }
     }
