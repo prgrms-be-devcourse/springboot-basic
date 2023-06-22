@@ -17,6 +17,12 @@ public class FixedAmountVoucher extends AbstractVoucher {
         return new FixedAmountVoucher(id, discountAmount);
     }
 
+    private static void validateAmount(int discountAmount) {
+        if (discountAmount < FIXED_MINIMUM_DISCOUNT_AMOUNT || FIXED_MAXIMUM_DISCOUNT_AMOUNT < discountAmount) {
+            throw new IllegalArgumentException(FIXED_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE);
+        }
+    }
+
     @Override
     public int discount(int productPrice) {
         int discountedPrice = productPrice - discountAmount;
@@ -24,12 +30,6 @@ public class FixedAmountVoucher extends AbstractVoucher {
             return 0;
         }
         return discountedPrice;
-    }
-
-    private static void validateAmount(int discountAmount) {
-        if (discountAmount < FIXED_MINIMUM_DISCOUNT_AMOUNT || FIXED_MAXIMUM_DISCOUNT_AMOUNT < discountAmount) {
-            throw new IllegalArgumentException(FIXED_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE);
-        }
     }
 
 }
