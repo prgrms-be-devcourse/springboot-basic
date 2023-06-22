@@ -36,6 +36,15 @@ public class ConsoleClient implements VoucherController {
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());
             }
+            case LIST -> {
+                List<Voucher> vouchers = findVouchers();
+
+                String vouchersForPrint = vouchers.stream()
+                        .map(Voucher::fullInfoString)
+                        .reduce("", (a, b) -> a + "\n" + b);
+
+                console.print(vouchersForPrint);
+            }
         }
     }
 
@@ -46,6 +55,6 @@ public class ConsoleClient implements VoucherController {
 
     @Override
     public List<Voucher> findVouchers() {
-        return null;
+        return voucherService.findVouchers();
     }
 }

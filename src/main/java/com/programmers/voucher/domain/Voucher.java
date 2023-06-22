@@ -7,4 +7,6 @@ public interface Voucher {
     long totalAmount(long beforeAmount);
 
     UUID getVoucherId();
+
+    String fullInfoString();
 }
