@@ -1,4 +1,4 @@
-package org.prgrms.kdt.view;
+package org.prgrms.kdt.enums;
 
 public enum Command {
 
