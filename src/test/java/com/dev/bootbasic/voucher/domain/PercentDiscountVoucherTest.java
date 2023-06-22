@@ -1,7 +1,9 @@
 package com.dev.bootbasic.voucher.domain;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.UUID;
@@ -34,6 +36,20 @@ class PercentDiscountVoucherTest {
         assertThatThrownBy(() -> PercentDiscountVoucher.of(id, discountAmount))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(PERCENT_DISCOUNT_AMOUNT_VALIDATION_EXCEPTION_MESSAGE);
+    }
+
+    @DisplayName("백분율 할인 후 금액 테스트")
+    @ParameterizedTest
+    @CsvSource({
+            "10, 10000, 9000",
+            "20, 50000, 40000",
+            "100, 8000, 0"
+    })
+    void discountTest(int discountAmount, int price, int expected) {
+        UUID id = UUID.randomUUID();
+        Voucher voucher = PercentDiscountVoucher.of(id, discountAmount);
+
+        assertThat(voucher.discount(price)).isEqualTo(expected);
     }
 
 }
