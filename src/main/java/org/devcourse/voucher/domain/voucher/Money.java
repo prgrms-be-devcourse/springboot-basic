@@ -1,4 +1,5 @@
 package org.devcourse.voucher.domain.voucher;
 
-public class DiscountAmount {
+public record Money(int amount) {
+
 }
