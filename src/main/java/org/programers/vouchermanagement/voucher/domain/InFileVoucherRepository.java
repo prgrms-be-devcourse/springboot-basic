@@ -1,11 +1,13 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.exception.NoSuchVoucherException;
+import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 import org.programers.vouchermanagement.util.VoucherConverter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,6 +43,23 @@ public class InFileVoucherRepository implements VoucherRepository {
             }
             reader.close();
             return Optional.empty();
+        } catch (IOException e) {
+            throw new NoSuchVoucherException("IO 문제로 바우처가 조회되지 않았습니다.");
+        }
+    }
+
+    @Override
+    public List<Voucher> findAll() {
+        List<Voucher> result = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Voucher voucher = VoucherConverter.toVoucher(line);
+                result.add(voucher);
+            }
+            reader.close();
+            return result;
         } catch (IOException e) {
             throw new NoSuchVoucherException("IO 문제로 바우처가 조회되지 않았습니다.");
         }
