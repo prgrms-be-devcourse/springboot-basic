@@ -10,10 +10,17 @@ public class VoucherController {
     private final Console console = new Console();
 
     public void run() {
-        console.printMenu();
+        boolean activated = true;
 
-        String command = console.readInput();
-        Menu menu = Menu.findMenu(command);
-        System.out.println(menu.toString());
+        while (activated) {
+            console.printMenu();
+            String command = console.readInput();
+            Menu menu = Menu.findMenu(command);
+
+            switch (menu) {
+                case EXIT -> activated = false;
+                default -> throw new IllegalArgumentException();
+            }
+        }
     }
 }
