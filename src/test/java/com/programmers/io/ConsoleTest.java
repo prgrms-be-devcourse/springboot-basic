@@ -2,6 +2,8 @@ package com.programmers.io;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.programmers.domain.FixedAmountVoucher;
+import com.programmers.domain.Voucher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +15,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 class ConsoleTest {
 
@@ -27,6 +32,7 @@ class ConsoleTest {
     private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
+    private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream printStream = System.out;
@@ -140,5 +146,32 @@ class ConsoleTest {
 
         //then
         assertThat(outputStream.toString()).contains(VOUCHER_CREATED_MESSAGE);
+    }
+
+    @DisplayName("바우처 리스트 제목을 출력한다")
+    @Test
+    void printVoucherList() {
+        //given
+        //when
+        console.printVoucherListTitle();
+
+        //then
+        assertThat(outputStream.toString()).contains(VOUCHER_LIST_TITLE_MESSAGE);
+    }
+
+    @DisplayName("바우처 목록을 출력한다")
+    @Test
+    void printVouchers() {
+        //given
+        FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
+        FixedAmountVoucher f2 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName2", 12L);
+        List<Voucher> vouchers = Arrays.asList(f1, f2);
+
+        //when
+        console.printVouchers(vouchers);
+
+        //then
+        assertThat(outputStream.toString()).contains("voucherName1");
+        assertThat(outputStream.toString()).contains("voucherName2");
     }
 }
