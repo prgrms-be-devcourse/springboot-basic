@@ -1,31 +1,32 @@
 package org.prgrms.kdt.voucher.repository;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.io.FileIO;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Qualifier("file")
 @Primary
 public class FileVoucherRepository implements VoucherRepository {
 
-    private static final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
-    private final FileIO fileIO;
+    private static final Map<UUID, Voucher> voucherStorage = new HashMap<>();
 
-    public FileVoucherRepository(@Qualifier("file-object-io") FileIO<Object> fileIO){
-        this.fileIO = fileIO;
-    }
-
+    @Value(value = "${kdt.file-path}")
+    private String FILE_PATH;
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher insert(Voucher voucher) throws IOException {
+        FileOutputStream fileStream = new FileOutputStream(FILE_PATH);
+
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileStream);
         voucherStorage.put(voucher.getVoucherId(), voucher);
+        objectOutputStream.writeObject(voucherStorage);
+
+        objectOutputStream.close();
         return voucher;
     }
 
@@ -35,22 +36,26 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return new ArrayList<>(voucherStorage.values());
-    }
+    public List<Voucher> findAll() throws IOException, ClassNotFoundException {
+        FileInputStream fileStream = new FileInputStream(FILE_PATH);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileStream);
 
-    @PostConstruct
-    public void postConstruct() {
-        List<Object> list = fileIO.readAllLines();
-        list.forEach(o -> {
-            Voucher voucher = (Voucher)o;
-            voucherStorage.put(voucher.getVoucherId(), voucher);
-        });
-    }
+        Object object = objectInputStream.readObject();
 
-    @PreDestroy
-    public void destroy() throws Exception{
-        ArrayList<Object> vouchers = new ArrayList<>(voucherStorage.values());
-        fileIO.write(vouchers);
+        objectInputStream.close();
+
+        HashMap hashMap = (HashMap) object;
+        Iterator<String> it = hashMap.keySet().iterator();
+
+        ArrayList<Voucher> values = new ArrayList<>();
+
+        while (it.hasNext()) {
+            String key = it.next();
+            Voucher value = (Voucher) hashMap.get(key);
+
+            values.add(value);
+        }
+
+        return values;
     }
 }
