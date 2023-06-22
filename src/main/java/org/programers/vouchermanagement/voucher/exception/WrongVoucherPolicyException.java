@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.exception;
+package org.programers.vouchermanagement.voucher.exception;
 
 public class WrongVoucherPolicyException extends RuntimeException {
 

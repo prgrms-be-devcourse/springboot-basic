@@ -1,6 +1,6 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.exception.WrongVoucherPolicyException;
+import org.programers.vouchermanagement.voucher.exception.WrongVoucherPolicyException;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,6 +1,9 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
 import org.junit.jupiter.api.Test;
+import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
+import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
+import org.programers.vouchermanagement.voucher.domain.Voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

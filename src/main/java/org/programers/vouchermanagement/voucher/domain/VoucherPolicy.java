@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
 public interface VoucherPolicy {
 
