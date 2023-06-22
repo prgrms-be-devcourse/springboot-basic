@@ -8,7 +8,7 @@ group = 'com.prgms'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '11'
+    sourceCompatibility = '17'
 }
 
 repositories {
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.beryx:text-io:3.1.0'
+    implementation 'org.beryx:text-io:3.3.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
