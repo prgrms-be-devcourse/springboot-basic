@@ -5,6 +5,7 @@ import com.programmers.io.Console;
 import com.programmers.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -24,6 +25,7 @@ public class VoucherController {
             switch (menu) {
                 case EXIT -> activated = false;
                 case CREATE -> createVoucher();
+                case LIST -> getList();
                 default -> throw new IllegalArgumentException();
             }
         }
@@ -84,5 +86,11 @@ public class VoucherController {
             throw new IllegalArgumentException();
         }
         return Long.parseLong(str);
+    }
+
+    public List<Voucher> getList() {
+        console.printVoucherListTitle();
+
+        return voucherService.findAll();
     }
 }

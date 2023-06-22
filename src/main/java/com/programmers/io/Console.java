@@ -1,7 +1,9 @@
 package com.programmers.io;
 
+import com.programmers.domain.Voucher;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -17,6 +19,7 @@ public class Console implements Input, Output {
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
     private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
+    private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
 
     @Override
     public void printMenu() {
@@ -56,5 +59,18 @@ public class Console implements Input, Output {
 
     public void printVoucherCreated() {
         System.out.println(VOUCHER_CREATED_MESSAGE);
+    }
+
+    @Override
+    public void printVoucherListTitle() {
+        System.out.println(VOUCHER_LIST_TITLE_MESSAGE);
+    }
+
+    public void printVouchers(List<Voucher> vouchers) {
+        for (Voucher voucher : vouchers) {
+            System.out.println(voucher);
+        }
+
+        System.out.println();
     }
 }

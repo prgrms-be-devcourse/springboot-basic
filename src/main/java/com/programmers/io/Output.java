@@ -9,4 +9,6 @@ public interface Output {
     void printDiscountValueInput();
 
     void printVoucherNameInput();
+
+    void printVoucherListTitle();
 }

@@ -5,6 +5,8 @@ import com.programmers.io.Console;
 import com.programmers.repository.MemoryVoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
 
@@ -13,5 +15,13 @@ public class VoucherService {
 
     public void save(Voucher voucher) {
         memoryVoucherRepository.save(voucher);
+    }
+
+    public List<Voucher> findAll() {
+        List<Voucher> vouchers = memoryVoucherRepository.findAll();
+
+        console.printVouchers(vouchers);
+
+        return vouchers;
     }
 }
