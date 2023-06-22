@@ -45,6 +45,9 @@ public class ConsoleClient implements VoucherController {
 
                 console.print(vouchersForPrint);
             }
+            case EXIT -> {
+                console.exit();
+            }
         }
     }
 

@@ -10,4 +10,6 @@ public interface Console {
     Integer intInput(String hint);
 
     void print(String result);
+
+    void exit();
 }
