@@ -37,7 +37,7 @@ public class VoucherController {
         return VoucherType.findVoucherTypeByName(voucherTypeInput);
     }
 
-    private Voucher createVoucher() {
+    public Voucher createVoucher() {
         Voucher voucher = makeVoucher();
         console.printVoucherCreated();
 
