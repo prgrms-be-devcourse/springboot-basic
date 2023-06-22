@@ -23,6 +23,4 @@ public class FixedAmountVoucher extends Voucher {
         }
         return priceBeforeDiscount - amount;
     }
-
-    private boolean
 }
