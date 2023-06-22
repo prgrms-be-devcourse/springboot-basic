@@ -1,7 +1,7 @@
 package com.programmers.voucher.controller;
 
 import com.programmers.voucher.uitl.Menu;
-import com.programmers.voucher.uitl.MenuType;
+import com.programmers.voucher.uitl.Command;
 import com.programmers.voucher.view.Console;
 import org.springframework.stereotype.Component;
 
@@ -14,21 +14,21 @@ public class CommandLineApplication {
         while (isRunning) {
             try {
                 console.printMenu();
-                MenuType menuType = getRequest();
-                execute(menuType);
+                Command command = getRequest();
+                execute(command);
             } catch (RuntimeException e) {
                 console.println(e.getMessage() + "\n");
             }
         }
     }
 
-    private MenuType getRequest() {
-        return MenuType.getCommand(console.getRequest());
+    private Command getRequest() {
+        return Command.getCommand(console.getRequest());
     }
 
-    public void execute(MenuType menuType) {
+    public void execute(Command command) {
 
-        switch (menuType) {
+        switch (command) {
             case EXIT -> isRunning = false;
             case CREATE -> {
                 console.print(Menu.CREATE_VOUCHER_TYPE_MESSAGE.getMessage()+ "\n> ");

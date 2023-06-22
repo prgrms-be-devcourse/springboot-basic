@@ -4,19 +4,19 @@ import com.programmers.voucher.exception.MenuTypeFormatException;
 
 import java.util.Arrays;
 
-public enum MenuType {
+public enum Command {
     LIST("list"),
     CREATE("create"),
     EXIT("exit");
 
     private final String command;
 
-    MenuType(String command) {
+    Command(String command) {
         this.command = command;
     }
 
-    public static MenuType getCommand(String command) {
-        return Arrays.stream(MenuType.values())
+    public static Command getCommand(String command) {
+        return Arrays.stream(Command.values())
                 .filter(menuType -> menuType.command.equals(command))
                 .findFirst()
                 .orElseThrow(MenuTypeFormatException::new);
