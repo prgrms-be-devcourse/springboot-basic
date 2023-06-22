@@ -10,6 +10,12 @@ public class Console implements Input, Output {
             "Type exit to exit the program.\n" +
             "Type create to create a new voucher.\n" +
             "Type list to list all vouchers.";
+    private static final String VOUCHER_TYPE_MESSAGE = "\n=== Voucher Type ===\n" +
+            "Select voucher. (Type voucher name or number.)\n" +
+            "1. Fixed Amount Voucher\n" +
+            "2. Percent Discount Voucher";
+    private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
+    private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
 
     @Override
     public void printMenu() {
@@ -19,5 +25,31 @@ public class Console implements Input, Output {
     @Override
     public String readInput() {
         return new Scanner(System.in).nextLine();
+    }
+
+    @Override
+    public void printVoucherType() {
+        System.out.println(VOUCHER_TYPE_MESSAGE);
+    }
+
+    @Override
+    public String readVoucherName() {
+        String voucherType = readInput();
+
+        return reformatVoucherName(voucherType);
+    }
+
+    public String reformatVoucherName(String input) {
+        return input.trim().replace(" ", "").toLowerCase();
+    }
+
+    @Override
+    public void printDiscountValueInput() {
+        System.out.println(DISCOUNT_VALUE_MESSAGE);
+    }
+
+    @Override
+    public void printVoucherNameInput() {
+        System.out.println(VOUCHER_NAME_MESSAGE);
     }
 }
