@@ -11,8 +11,10 @@ public abstract class DiscountVoucher implements Voucher{
     }
 
     @Override
-    public int checkBalance(Money targetMoney) {
-        return discount(targetMoney);
+    public Money checkBalance(Money targetMoney) {
+        int remainMoneyAmount = discount(targetMoney);
+
+        return Money.of(remainMoneyAmount);
     }
 
     @Override
