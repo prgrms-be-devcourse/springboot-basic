@@ -89,16 +89,16 @@ class VoucherServiceTest {
 
         //then
         assertNotNull(voucherList);
-        List<VoucherResponse> voucherResponseList = voucherList.getVoucherResponseList();
-        assertThat(voucherList.getVoucherResponseList()).hasSize(requestList.size());
+        List<VoucherResponse> voucherResponseList = voucherList.voucherResponseList();
+        assertThat(voucherList.voucherResponseList()).hasSize(requestList.size());
 
         VoucherResponse firstResponse = voucherResponseList.get(0);
-        assertThat(firstResponse.getVoucherType()).isEqualTo(request1.voucherType());
-        assertThat(firstResponse.getAmount()).isEqualTo(request1.discountAmount());
+        assertThat(firstResponse.voucherType()).isEqualTo(request1.voucherType());
+        assertThat(firstResponse.amount()).isEqualTo(request1.discountAmount());
 
         VoucherResponse secondResponse = voucherResponseList.get(1);
-        assertThat(secondResponse.getVoucherType()).isEqualTo(request2.voucherType());
-        assertThat(secondResponse.getAmount()).isEqualTo(request2.discountAmount());
+        assertThat(secondResponse.voucherType()).isEqualTo(request2.voucherType());
+        assertThat(secondResponse.amount()).isEqualTo(request2.discountAmount());
     }
 
     @Test
@@ -116,8 +116,8 @@ class VoucherServiceTest {
 
         //then
         assertTrue(findVoucher.isPresent());
-        assertThat(findVoucher.get().getAmount()).isEqualTo(amount);
-        assertThat(findVoucher.get().getVoucherId()).isEqualTo(voucherId);
+        assertThat(findVoucher.get().amount()).isEqualTo(amount);
+        assertThat(findVoucher.get().voucherId()).isEqualTo(voucherId);
     }
 
     @Test
