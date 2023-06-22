@@ -24,7 +24,7 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String toString() {
         return voucherType.name() + " -> id: " + voucherId +
-                ", discount" + voucherType.getTypeString() +
+                "\ndiscount" + voucherType.getTypeString() +
                 ": " + discountPercent;
     }
 

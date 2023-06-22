@@ -42,7 +42,6 @@ public class Platform {
 
     private boolean getUserMenuInput() {
         try {
-            output.printMenus();
             Menu menu = input.inputMenu();
             return branchByMenu(menu);
         } catch (InvalidDataException e) {
@@ -82,12 +81,10 @@ public class Platform {
     }
 
     private VoucherType voucherTypeInput() {
-        output.printVoucherTypes();
         return input.inputVoucherType();
     }
 
     private double voucherDiscountInput(VoucherType voucherType) {
-        output.printVoucherDiscount(voucherType);
-        return input.inputVoucherDiscount();
+        return input.inputVoucherDiscount(voucherType);
     }
 }
