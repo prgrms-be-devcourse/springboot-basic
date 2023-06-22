@@ -60,11 +60,11 @@ public class ConsoleClient implements VoucherController {
             case EXIT -> {
                 console.exit();
 
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override
