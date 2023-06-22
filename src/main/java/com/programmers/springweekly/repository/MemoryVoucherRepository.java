@@ -17,7 +17,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherMap() {
-        return voucherMap;
+    public Optional<Map<UUID, Voucher>> getVoucherMap() {
+        return Optional.ofNullable(voucherMap);
     }
 }

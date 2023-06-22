@@ -4,24 +4,26 @@ import com.programmers.springweekly.domain.Voucher;
 import com.programmers.springweekly.domain.VoucherFactory;
 import com.programmers.springweekly.domain.VoucherMenu;
 import com.programmers.springweekly.repository.MemoryVoucherRepository;
+import com.programmers.springweekly.repository.VoucherRepository;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VoucherService {
 
-    private final MemoryVoucherRepository memoryVoucherRepository;
+    private final VoucherRepository voucherRepository;
 
-    public VoucherService(MemoryVoucherRepository memoryVoucherRepository) {
-        this.memoryVoucherRepository = memoryVoucherRepository;
+    public VoucherService(MemoryVoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
     }
 
-    void saveVoucher(VoucherMenu voucherMenu, long discount){
+    public void saveVoucher(VoucherMenu voucherMenu, long discount){
         Voucher voucher = new VoucherFactory().createVoucher(voucherMenu, discount);
-        memoryVoucherRepository.saveVoucher(voucher);
+        voucherRepository.saveVoucher(voucher);
     }
 
-    Map<UUID, Voucher> findVoucherAll(){
-       return memoryVoucherRepository.getVoucherMap();
+    public Optional<Map<UUID, Voucher>> findVoucherAll(){
+       return voucherRepository.getVoucherMap();
     }
 }
