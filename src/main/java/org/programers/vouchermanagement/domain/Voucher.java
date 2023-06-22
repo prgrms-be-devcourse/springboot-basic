@@ -18,4 +18,12 @@ public class Voucher {
     public int discount(int price) {
         return policy.discount(price);
     }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public VoucherPolicy getPolicy() {
+        return policy;
+    }
 }
