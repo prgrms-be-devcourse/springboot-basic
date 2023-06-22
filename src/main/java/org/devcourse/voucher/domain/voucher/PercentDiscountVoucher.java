@@ -11,7 +11,7 @@ public class PercentDiscountVoucher extends DiscountVoucher{
 
     @Override
     protected int discount(Money originPrice) {
-        return originPrice.amount() * percent / 100;
+        return originPrice.amount() * (100 - percent) / 100;
     }
 
     @Override
