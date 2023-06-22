@@ -1,5 +1,6 @@
 package org.promgrammers.springbootbasic.service;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,10 +29,15 @@ class VoucherServiceTest {
     private MemoryVoucherRepository voucherRepository;
     private VoucherService voucherService;
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    void beforeAll() {
         voucherRepository = new MemoryVoucherRepository();
         voucherService = new VoucherService(voucherRepository);
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        voucherRepository.deleteAll();
     }
 
     @Test
@@ -81,12 +88,17 @@ class VoucherServiceTest {
         VoucherListResponse voucherList = voucherService.findAll();
 
         //then
-        assertTrue(voucherList != null);
-        assertThat(voucherList.getVoucherResponseList().size()).isEqualTo(2);
-        assertThat(voucherList.getVoucherResponseList().get(0).getVoucherType()).isSameAs(request1.voucherType());
-        assertThat(voucherList.getVoucherResponseList().get(0).getAmount()).isEqualTo(request1.discountAmount());
-        assertThat(voucherList.getVoucherResponseList().get(1).getVoucherType()).isEqualTo(request2.voucherType());
-        assertThat(voucherList.getVoucherResponseList().get(1).getAmount()).isSameAs(request2.discountAmount());
+        assertNotNull(voucherList);
+        List<VoucherResponse> voucherResponseList = voucherList.getVoucherResponseList();
+        assertThat(voucherList.getVoucherResponseList()).hasSize(requestList.size());
+
+        VoucherResponse firstResponse = voucherResponseList.get(0);
+        assertThat(firstResponse.getVoucherType()).isEqualTo(request1.voucherType());
+        assertThat(firstResponse.getAmount()).isEqualTo(request1.discountAmount());
+
+        VoucherResponse secondResponse = voucherResponseList.get(1);
+        assertThat(secondResponse.getVoucherType()).isEqualTo(request2.voucherType());
+        assertThat(secondResponse.getAmount()).isEqualTo(request2.discountAmount());
     }
 
     @Test
@@ -134,6 +146,5 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherRepository.findAll().size()).isEqualTo(0);
-
     }
 }
