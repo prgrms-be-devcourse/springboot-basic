@@ -1,6 +1,6 @@
-package org.devcourse.voucher.app.dto;
+package org.devcourse.voucher.console.dto;
 
-import org.devcourse.voucher.domain.voucher.DiscountAmount;
+import org.devcourse.voucher.domain.voucher.Money;
 import org.devcourse.voucher.domain.voucher.VoucherType;
 
 import java.util.List;
@@ -24,11 +24,11 @@ public class VoucherDto {
 
     public static class VoucherSaveRequest {
         private final VoucherType voucherType;
-        private final DiscountAmount amount;
+        private final Money discountAmount;
 
-        public VoucherSaveRequest(VoucherType voucherType, DiscountAmount amount) {
+        public VoucherSaveRequest(VoucherType voucherType, Money discountAmount) {
             this.voucherType = voucherType;
-            this.amount = amount;
+            this.discountAmount = discountAmount;
         }
     }
 }

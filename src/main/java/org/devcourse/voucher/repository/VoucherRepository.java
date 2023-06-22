@@ -1,4 +1,4 @@
-package org.devcourse.voucher.domain.voucher.repository;
+package org.devcourse.voucher.repository;
 
 import org.devcourse.voucher.domain.voucher.Voucher;
 
