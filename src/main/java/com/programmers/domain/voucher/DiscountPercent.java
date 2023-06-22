@@ -1,0 +1,32 @@
+package com.programmers.domain.voucher;
+
+import com.programmers.exception.AmountValueException;
+
+public class DiscountPercent {
+
+    private final long MIN_AMOUNT = 1;
+    private final long MAX_AMOUNT = 100;
+
+    private final long percent;
+
+    public DiscountPercent(long percent) {
+        validateDiscountAmount(percent);
+        this.percent = percent;
+    }
+
+    public long getPercent() {
+        return percent;
+    }
+
+    private void validateDiscountAmount(long amount) {
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
+            throw new AmountValueException();
+        }
+    }
+
+    public long discount(long beforeDiscount) {
+        return beforeDiscount * (percent / MAX_AMOUNT);
+    }
+
+
+}
