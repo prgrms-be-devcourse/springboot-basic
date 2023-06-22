@@ -1,10 +1,6 @@
 package org.prgrms.kdt.voucher.repository;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -13,12 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Qualifier("memory")
-public class MemoryVoucherRepository implements VoucherRepository, InitializingBean, DisposableBean {
+public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
-
-
-
     @Override
     public Voucher insert(Voucher voucher) {
         store.put(voucher.getVoucherId(), voucher);
@@ -35,24 +28,4 @@ public class MemoryVoucherRepository implements VoucherRepository, InitializingB
         return new ArrayList<>(store.values());
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        System.out.println("postConstrict called!");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        System.out.println("afterPropertiesSet called!");
-
-    }
-
-    @PreDestroy
-    public void preDestroy() throws Exception {
-        System.out.println("predestroy called!");
-    }
-
-    @Override
-    public void destroy() throws Exception {
-        System.out.println("destroy called!");
-    }
 }
