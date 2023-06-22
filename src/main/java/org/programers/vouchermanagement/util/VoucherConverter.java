@@ -1,8 +1,9 @@
 package org.programers.vouchermanagement.util;
 
-import org.programers.vouchermanagement.domain.FixedAmountPolicy;
-import org.programers.vouchermanagement.domain.PercentDiscountPolicy;
-import org.programers.vouchermanagement.domain.Voucher;
+import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
+import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
+import org.programers.vouchermanagement.voucher.domain.Voucher;
+import org.programers.vouchermanagement.voucher.dto.VoucherResponse;
 
 import java.util.UUID;
 
@@ -11,6 +12,10 @@ public class VoucherConverter {
     private static String DELIMINATOR = " ";
 
     public static String toString(Voucher voucher) {
+        return voucher.getId() + DELIMINATOR + voucher.getPolicy().toString();
+    }
+
+    public static String toString(VoucherResponse voucher) {
         return voucher.getId() + DELIMINATOR + voucher.getPolicy().toString();
     }
 
