@@ -1,5 +1,7 @@
 package org.programers.vouchermanagement.voucher.presentation;
 
+import org.programers.vouchermanagement.member.application.MemberService;
+import org.programers.vouchermanagement.member.dto.MembersResponse;
 import org.programers.vouchermanagement.voucher.application.VoucherService;
 import org.programers.vouchermanagement.voucher.domain.FixedAmountPolicy;
 import org.programers.vouchermanagement.voucher.domain.PercentDiscountPolicy;
@@ -17,9 +19,11 @@ import org.springframework.stereotype.Controller;
 public class VoucherController implements CommandLineRunner {
 
     private final VoucherService voucherService;
+    private final MemberService memberService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, MemberService memberService) {
         this.voucherService = voucherService;
+        this.memberService = memberService;
     }
 
     @Override
@@ -30,7 +34,9 @@ public class VoucherController implements CommandLineRunner {
 
             Command command = InputView.inputCommand();
             if (command.isBlacklist()) {
-
+                MembersResponse response = memberService.findAll();
+                OutputView.outputMembers(response);
+                continue;
             }
 
             if (command.isCreateVoucher()) {
