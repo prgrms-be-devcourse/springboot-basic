@@ -4,7 +4,6 @@ import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.service.VoucherService;
-import com.programmers.voucher.testutil.VoucherTestUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucher;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 
@@ -41,7 +39,7 @@ class ConsoleClientTest {
         given(voucherService.createVoucher(any())).willReturn(UUID.randomUUID());
 
         //when
-        consoleClient.start();
+        consoleClient.runClient();
 
         //then
     }
@@ -57,7 +55,7 @@ class ConsoleClientTest {
         given(voucherService.findVouchers()).willReturn(testVouchers);
 
         //when
-        consoleClient.start();
+        consoleClient.runClient();
 
         //then
 

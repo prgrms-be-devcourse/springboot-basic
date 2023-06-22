@@ -22,6 +22,13 @@ public class ConsoleClient implements VoucherController {
     }
 
     public void start() {
+        boolean isRun = true;
+        while(isRun) {
+            isRun = runClient();
+        }
+    }
+
+    public boolean runClient() {
         ConsoleCommandType commandType = console.init();
 
         switch (commandType) {
@@ -47,8 +54,12 @@ public class ConsoleClient implements VoucherController {
             }
             case EXIT -> {
                 console.exit();
+
+                return true;
             }
         }
+
+        return false;
     }
 
     @Override
@@ -60,4 +71,6 @@ public class ConsoleClient implements VoucherController {
     public List<Voucher> findVouchers() {
         return voucherService.findVouchers();
     }
+
+
 }
