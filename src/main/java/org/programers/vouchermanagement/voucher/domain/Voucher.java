@@ -1,4 +1,4 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
