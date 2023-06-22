@@ -31,9 +31,9 @@ class VoucherControllerTest {
             "1. Fixed Amount Voucher\n" +
             "2. Percent Discount Voucher";
     private static final String VOUCHER_CREATED_MESSAGE = "--- Voucher Created !! ---\n";
-    private static final String VOUCHER_LIST_MESSAGE = "\n=== Voucher List ===";
     private static final String DISCOUNT_VALUE_MESSAGE = "\n=== Type discount amount or rate ===";
     private static final String VOUCHER_NAME_MESSAGE = "\n=== Type voucher name ===";
+    private static final String VOUCHER_LIST_TITLE_MESSAGE = "\n=== Voucher List ===";
 
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final InputStream inputStream = System.in;
@@ -50,6 +50,31 @@ class VoucherControllerTest {
     public void after() {
         System.setOut(printStream);
         System.setIn(inputStream);
+    }
+
+    @DisplayName("바우처 컨트롤러 테스트")
+    @Test
+    void run() {
+        //given
+        String[] inputs = {"create", "1", "20", "f1", "create", "2", "50", "d1", "list", "exit"};
+        System.setIn(new ByteArrayInputStream(String.join("\n", inputs).getBytes()));
+
+        try {
+            //when
+            voucherController.run();
+            String output = outputStream.toString();
+
+            //then
+            assertTrue(output.contains(MENU_MESSAGE));
+            assertTrue(output.contains(VOUCHER_TYPE_MESSAGE));
+            assertTrue(output.contains(DISCOUNT_VALUE_MESSAGE));
+            assertTrue(output.contains(VOUCHER_NAME_MESSAGE));
+            assertTrue(output.contains(VOUCHER_CREATED_MESSAGE));
+            assertTrue(output.contains(VOUCHER_LIST_TITLE_MESSAGE));
+            assertTrue(output.contains("Fixed Amount Voucher [Id = c18696c5-1529-463e-9e61-e9033b302405, voucher name = f1, discount amount = 20]"));
+            assertTrue(output.contains("Percent Discount Voucher [Id = d480e556-e132-4e41-9a32-85d84f8f454b, voucher name = d1, discount percent = 50]"));
+        } catch (NoSuchElementException ignore) {
+        }
     }
 
     @DisplayName("바우처 이름 또는 숫자를 입력받는다")
