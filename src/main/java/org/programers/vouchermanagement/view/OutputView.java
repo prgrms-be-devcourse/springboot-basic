@@ -13,6 +13,14 @@ public class OutputView {
         }
     }
 
+    public static void outputDiscountPolicyType() {
+        System.out.println("할인정책 리스트");
+        for (DiscountPolicyType value : DiscountPolicyType.values()) {
+            System.out.println(value.getNumber() + " " + value);
+        }
+        System.out.print("번호 입력 : ");
+    }
+
     public static void outputVouchers(VouchersResponse response) {
         for (VoucherResponse voucher : response.getVouchers()) {
             System.out.println(VoucherConverter.toString(voucher));

@@ -51,6 +51,7 @@ public class VoucherController implements CommandLineRunner {
     }
 
     private void createVoucher() {
+        OutputView.outputDiscountPolicyType();
         DiscountPolicyType type = InputView.inputDiscountPolicy();
         if (type.isAmount()) {
             VoucherCreationRequest request = new VoucherCreationRequest(new FixedAmountPolicy());

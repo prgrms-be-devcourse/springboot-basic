@@ -25,4 +25,8 @@ public enum DiscountPolicyType {
     public boolean isPercent() {
         return this == DiscountPolicyType.PERCENT;
     }
+
+    public int getNumber() {
+        return number;
+    }
 }
