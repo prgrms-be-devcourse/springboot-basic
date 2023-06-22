@@ -1,4 +1,4 @@
-package org.devcourse.voucher.app.dto;
+package org.devcourse.voucher.console.dto;
 
 import org.devcourse.voucher.domain.voucher.Money;
 import org.devcourse.voucher.domain.voucher.VoucherType;
