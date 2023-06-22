@@ -1,7 +1,8 @@
-package org.programers.vouchermanagement.domain;
+package org.programers.vouchermanagement.voucher.domain;
 
-import org.programers.vouchermanagement.exception.NoSuchVoucherException;
+import org.programers.vouchermanagement.voucher.exception.NoSuchVoucherException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,4 +15,6 @@ public interface VoucherRepository {
     default Voucher getById(UUID id) {
         return findById(id).orElseThrow(NoSuchVoucherException::new);
     }
+
+    List<Voucher> findAll();
 }
