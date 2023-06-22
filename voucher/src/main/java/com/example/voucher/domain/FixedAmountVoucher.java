@@ -26,7 +26,7 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public void printInfo() {
-		System.out.println(String.format("VoucherType : %s, discountAmount : %d", voucherType.getTypeName(), amount));
+	public String getInfo() {
+		return String.format("VoucherType : %s, discountAmount : %d", voucherType.getTypeName(), amount);
 	}
 }

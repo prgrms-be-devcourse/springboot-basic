@@ -25,7 +25,7 @@ public class PercentDiscountVoucher implements Voucher {
 	}
 
 	@Override
-	public void printInfo() {
-		System.out.println(String.format("VoucherType : %s, discountPercent : %d", voucherType.getTypeName(), percent));
+	public String getInfo() {
+		return String.format("VoucherType : %s, discountPercent : %d", voucherType.getTypeName(), percent);
 	}
 }
