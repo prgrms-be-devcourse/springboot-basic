@@ -9,7 +9,8 @@ public enum CommandMenu {
     START("start"),
     EXIT("exit"),
     CREATE_NEW_VOUCHER("create"),
-    SHOW_VOUCHER_LIST("list");
+    SHOW_VOUCHER_LIST("list"),
+    SHOW_BLACK_LIST("black");
 
     private final String command;
 
@@ -22,6 +23,7 @@ public enum CommandMenu {
             case "exit" -> EXIT;
             case "create" -> CREATE_NEW_VOUCHER;
             case "list" -> SHOW_VOUCHER_LIST;
+            case "black" -> SHOW_BLACK_LIST;
             default -> throw new InputMismatchException(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
         };
     }
