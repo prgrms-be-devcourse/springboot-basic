@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.domain;
+package org.prgrms.kdt.voucher.utils;
 
 public enum Option {
     EXIT("EXIT"), LIST("LIST"), CREATE("CREATE");

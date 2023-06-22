@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.domain;
+package org.prgrms.kdt.voucher.utils;
 
 public enum VoucherType {
     Fixed_AMOUNT_VOUCHER(1), PERCENT_DISCOUNT_VOUCHER(2);

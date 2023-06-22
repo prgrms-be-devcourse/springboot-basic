@@ -1,18 +1,19 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
-import org.prgrms.kdt.common.config.AppConfiguration;
+import org.prgrms.kdt.AppConfiguration;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class OrderTester {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         var applicationContext = new AnnotationConfigApplicationContext(AppConfiguration.class);
 

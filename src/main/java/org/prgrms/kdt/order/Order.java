@@ -1,4 +1,4 @@
-package org.prgrms.kdt;
+package org.prgrms.kdt.order;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 
