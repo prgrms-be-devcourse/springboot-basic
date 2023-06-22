@@ -1,4 +1,8 @@
 package org.devcourse.voucher.domain.voucher;
 
-public class Voucher {
+public interface Voucher {
+    int checkBalance(Money money);
+
+    long getId();
+
 }
