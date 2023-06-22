@@ -20,6 +20,11 @@ public class FixedAmountVoucher implements Voucher {
         return beforeAmount - fixedAmount;
     }
 
+    @Override
+    public UUID getUUID() {
+        return this.voucherId;
+    }
+
     private boolean isResultNegative(long beforeAmount) {
         return beforeAmount - fixedAmount < 0;
     }

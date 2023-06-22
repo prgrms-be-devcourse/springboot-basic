@@ -12,7 +12,7 @@ public class VoucherMemoryStorage implements VoucherStorage {
 
     @Override
     public Optional<Voucher> findByVoucherId(UUID voucherId) {
-        return Optional.empty();
+        return Optional.of(voucherLinkedMap.get(voucherId));
     }
 
     @Override
@@ -22,7 +22,7 @@ public class VoucherMemoryStorage implements VoucherStorage {
 
     @Override
     public Voucher save(Voucher voucher) {
-        voucherLinkedMap.put(UUID.randomUUID(), voucher);
+        voucherLinkedMap.put(voucher.getUUID(), voucher);
         return voucher;
     }
 }
