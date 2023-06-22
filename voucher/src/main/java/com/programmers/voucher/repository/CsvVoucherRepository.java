@@ -10,6 +10,7 @@ import java.io.*;
 import java.util.*;
 
 @Repository
+@Profile(value = "dev")
 public class CsvVoucherRepository implements VoucherRepository {
     private static final String SAMPLE_CSV_FILE_PATH = "/Users/tommy/Desktop/dev course/과제/SpringBootBasic/voucher/src/main/resources/sample.csv";
     File file = new File(SAMPLE_CSV_FILE_PATH);

@@ -1,12 +1,14 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.voucher.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Repository
+@Profile(value = "local")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final HashMap<String, Voucher> voucherList = new HashMap<>();
 
