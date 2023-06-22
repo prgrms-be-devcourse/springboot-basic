@@ -16,7 +16,7 @@ public class VoucherService {
     }
 
     public UUID createVoucher(VoucherCreateRequest request) {
-        VoucherType voucherType = VoucherType.getValue(request.getType());
+        VoucherType voucherType = request.getVoucherType();
 
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = voucherType.createVoucher(voucherId, request);
