@@ -1,16 +1,14 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.voucher.request.VoucherCreationRequest;
-
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher{
     private final UUID voucherId;
     private final long amount;
 
-    public PercentDiscountVoucher(UUID voucherId, VoucherCreationRequest voucherCreationRequest) {
+    public PercentDiscountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
-        this.amount = voucherCreationRequest.getAmount();
+        this.amount = amount;
     }
 
     @Override

@@ -15,6 +15,9 @@ class VoucherServiceTest {
     public static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
     public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
     public static final String WRONG_VOUCHER_TYPE = "wrongType";
+    public static final int  NEGATIVE_NUMBER = -1;
+    public static final int OVER_FIXED_AMOUNT = 1001;
+    public static final int OVER_PERCENT_AMOUNT = 101;
 
     VoucherRepository voucherRepository;
     VoucherService voucherService;
@@ -44,6 +47,36 @@ class VoucherServiceTest {
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
                 .isInstanceOf(VoucherException.class)
                 .hasMessage(VoucherErrorCode.NOT_SUPPORTED_TYPE.getErrorMessage());
+    }
+
+    @Test
+    void 셍성할_바우처_타입이_null_이면_예외_발생() {
+        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(null, PERCENT_DISCOUNT_AMOUNT))
+                .isInstanceOf(VoucherException.class)
+                .hasMessage(VoucherErrorCode.INVALID_VOUCHER_CREATION_REQUEST.getErrorMessage());
+    }
+
+    @Test
+    void 생성할_바우처_할인_양이_음수면_예외_발생() {
+        Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, NEGATIVE_NUMBER))
+                .isInstanceOf(VoucherException.class)
+                .hasMessage(VoucherErrorCode.INVALID_VOUCHER_CREATION_REQUEST.getErrorMessage());
+    }
+
+    @Test
+    void 생성할_FixedAmountVoucher_할인_양이_초과면_예외_발생() {
+        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, OVER_FIXED_AMOUNT);
+        Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
+                .isInstanceOf(VoucherException.class)
+                .hasMessage(VoucherErrorCode.EXCEED_MAXIMUM_DISCOUNT_AMOUNT.getErrorMessage());
+    }
+
+    @Test
+    void 생성할_PercentDiscountVoucher_할인_양이_초과면_예외_발생() {
+        VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, OVER_PERCENT_AMOUNT);
+        Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
+                .isInstanceOf(VoucherException.class)
+                .hasMessage(VoucherErrorCode.EXCEED_MAXIMUM_DISCOUNT_AMOUNT.getErrorMessage());
     }
 
     @Test

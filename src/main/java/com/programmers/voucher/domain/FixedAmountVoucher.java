@@ -1,16 +1,14 @@
 package com.programmers.voucher.domain;
 
-import com.programmers.voucher.request.VoucherCreationRequest;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
 
-    public FixedAmountVoucher(UUID voucherId, VoucherCreationRequest voucherCreationRequest) {
+    public FixedAmountVoucher(UUID voucherId, long amount) {
         this.voucherId = voucherId;
-        this.amount = voucherCreationRequest.getAmount();
+        this.amount = amount;
     }
 
     @Override
