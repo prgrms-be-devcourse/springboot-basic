@@ -19,7 +19,7 @@ public enum VoucherType {
     PERCENT("percent",
             PercentDiscountVoucher::new,
             (amount) -> amount >= 0 && amount <= 100,
-            "Percent discount must between 0 and 100");
+            "Percent discount must between 0 and 100.");
 
     private final String type;
     private final BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance;
@@ -40,7 +40,13 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처 타입입니다."));
+                .orElseThrow(() -> {
+                    StringBuilder sb = new StringBuilder("Voucher type is invalid.")
+                            .append(" Current input: ")
+                            .append(voucherType);
+
+                    return new IllegalArgumentException(sb.toString());
+                });
     }
 
     public Voucher createVoucher(UUID voucherId, VoucherCreateRequest request) {
@@ -50,7 +56,11 @@ public enum VoucherType {
     public void validateAmount(Integer amount) {
         boolean amountInRange = discountRange.test(amount);
         if (!amountInRange) {
-            throw new IllegalArgumentException(validAmountMessage);
+            StringBuilder sb = new StringBuilder(validAmountMessage)
+                    .append(" Current input: ")
+                    .append(amount);
+
+            throw new IllegalArgumentException(sb.toString());
         }
     }
 }
