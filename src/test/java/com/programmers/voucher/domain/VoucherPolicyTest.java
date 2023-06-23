@@ -2,6 +2,7 @@ package com.programmers.voucher.domain;
 
 
 import com.programmers.console.exception.VoucherCommandException;
+import com.programmers.console.util.VoucherPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

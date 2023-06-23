@@ -45,4 +45,12 @@ public class FixedAmountVoucher implements Voucher {
         return createdDate.plusDays(7);
     }
 
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher {" +
+                "voucherId = " + voucherId +
+                ", discountAmount = " + discountAmount +
+                ", expirationDate = " + expirationDate +
+                "}\n";
+    }
 }

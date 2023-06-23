@@ -1,4 +1,4 @@
-package com.programmers.domain;
+package com.programmers;
 
 import com.programmers.console.CommandLineApplication;
 import org.springframework.boot.SpringApplication;

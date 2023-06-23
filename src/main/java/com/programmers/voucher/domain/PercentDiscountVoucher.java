@@ -39,4 +39,12 @@ public class PercentDiscountVoucher implements Voucher {
         return createdDate.plusDays(7);
     }
 
+    @Override
+    public String toString() {
+        return "PercentDiscountVoucher {" +
+                "voucherId = " + voucherId +
+                ", discountPercent = " + discountPercent + "%" +
+                ", expirationDate = " + expirationDate +
+                "}\n";
+    }
 }

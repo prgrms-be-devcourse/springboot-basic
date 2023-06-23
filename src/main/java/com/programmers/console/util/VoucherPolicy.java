@@ -1,6 +1,9 @@
-package com.programmers.voucher.domain;
+package com.programmers.console.util;
 
 import com.programmers.console.exception.VoucherCommandException;
+import com.programmers.voucher.domain.FixedAmountVoucher;
+import com.programmers.voucher.domain.PercentDiscountVoucher;
+import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.util.TriFunction;
 
 import java.time.LocalDate;

@@ -28,5 +28,8 @@ public class DiscountPercent {
         return beforeDiscount * (percent / MAX_AMOUNT);
     }
 
-
+    @Override
+    public String toString() {
+        return String.valueOf(percent);
+    }
 }
