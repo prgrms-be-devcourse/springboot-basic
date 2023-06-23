@@ -1,13 +1,11 @@
 package org.devcourse.voucher.domain.voucher;
 
-public abstract class DiscountVoucher implements Voucher{
+import org.devcourse.voucher.domain.voucher.amount.VoucherAmount;
 
-    private final long id;
-    private final VoucherType type;
+public abstract class DiscountVoucher extends Voucher{
 
-    public DiscountVoucher(long id, VoucherType type) {
-        this.id = id;
-        this.type = setType(type);
+    protected DiscountVoucher(long id, VoucherType type, VoucherAmount amount) {
+        super(id, type, amount);
     }
 
     @Override
@@ -15,13 +13,6 @@ public abstract class DiscountVoucher implements Voucher{
         int remainMoneyAmount = discount(targetMoney);
 
         return postProcessMoney(remainMoneyAmount);
-    }
-
-    private VoucherType setType(VoucherType type) {
-        if (validateType(type)) {
-            return type;
-        }
-        throw new RuntimeException("일치하지 않은 바우처 타입입니다");
     }
 
     private Money postProcessMoney(int amount) {
@@ -32,6 +23,4 @@ public abstract class DiscountVoucher implements Voucher{
     }
 
     protected abstract int discount(Money originPrice);
-
-    protected abstract boolean validateType(VoucherType type);
 }

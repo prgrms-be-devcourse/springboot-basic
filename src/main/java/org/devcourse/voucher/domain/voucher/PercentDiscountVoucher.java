@@ -1,22 +1,18 @@
 package org.devcourse.voucher.domain.voucher;
 
+import org.devcourse.voucher.domain.voucher.amount.VoucherAmount;
+
 public class PercentDiscountVoucher extends DiscountVoucher{
 
-    private final int percent;
-
-    public PercentDiscountVoucher(long id, VoucherType type, int percent) {
-        super(id, type);
-        this.percent = percent;
+    protected PercentDiscountVoucher(long id, VoucherType type, int percent) {
+        super(id, type, VoucherAmount.of(type, percent));
     }
 
     @Override
     protected int discount(Money originPrice) {
-        return originPrice.amount() * (100 - percent) / 100;
-    }
+        int percent = amount.getAmount();
 
-    @Override
-    protected boolean validateType(VoucherType type) {
-        return type.equals(VoucherType.PERCENT);
+        return originPrice.amount() * (100 - percent) / 100;
     }
 
 }
