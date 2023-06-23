@@ -16,4 +16,8 @@ public class VoucherController {
     public void createVoucher(VoucherDto.Request request) {
         voucherService.createVoucher(request);
     }
+
+    public VoucherDto.Response getVoucherList() {
+        return voucherService.getVoucherList();
+    }
 }
