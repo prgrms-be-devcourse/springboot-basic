@@ -2,7 +2,7 @@ package com.dev.bootbasic.voucher.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher extends AbstractVoucher {
+public class FixedAmountVoucher extends Voucher {
 
     public static final int FIXED_MINIMUM_DISCOUNT_AMOUNT = 1_000;
     public static final int FIXED_MAXIMUM_DISCOUNT_AMOUNT = 100_000;

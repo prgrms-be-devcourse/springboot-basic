@@ -21,10 +21,10 @@ class FixedAmountVoucherTest {
     void validateDiscountAmountSuccessTest(int discountAmount) {
         UUID id = UUID.randomUUID();
 
-        AbstractVoucher voucher = FixedAmountVoucher.of(id, discountAmount);
+        Voucher voucher = FixedAmountVoucher.of(id, discountAmount);
 
         assertThat(voucher)
-                .extracting(AbstractVoucher::getId, AbstractVoucher::getDiscountAmount)
+                .extracting(Voucher::getId, Voucher::getDiscountAmount)
                 .containsExactly(id, discountAmount);
     }
 
