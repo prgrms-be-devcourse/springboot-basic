@@ -27,4 +27,12 @@ public class FixedAmountVoucher implements Voucher{
     public String fullInfoString() {
         return "VoucherID: " + voucherId + ", discount: " + amount + "$";
     }
+
+    @Override
+    public String toString() {
+        return "FixedAmountVoucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                '}';
+    }
 }
