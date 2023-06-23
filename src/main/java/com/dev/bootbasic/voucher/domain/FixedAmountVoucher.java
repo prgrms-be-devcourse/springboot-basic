@@ -26,7 +26,7 @@ public class FixedAmountVoucher extends AbstractVoucher {
 
     @Override
     public int discount(int productPrice) {
-        int discountedPrice = productPrice - discountAmount;
+        int discountedPrice = productPrice - getDiscountAmount();
 
         return Math.max(discountedPrice, MINIMUM_DISCOUNTED_PRICE);
     }
