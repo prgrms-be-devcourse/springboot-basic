@@ -7,12 +7,14 @@ import kr.co.springbootweeklymission.domain.voucher.exception.WrongVoucherPolicy
 import kr.co.springbootweeklymission.global.error.model.ResponseStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Voucher {
 

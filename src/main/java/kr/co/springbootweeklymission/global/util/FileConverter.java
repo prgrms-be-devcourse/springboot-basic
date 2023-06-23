@@ -9,9 +9,10 @@ import java.util.UUID;
 
 public class FileConverter<T> {
     private static final String SPACE = " ";
+    private static final String NEW_LINE = "\n";
 
     public static <T> String toVoucherString(VoucherResDTO.FILE file) {
-        return file.getVoucherId() + SPACE + file.getAmount() + SPACE + file.getVoucherPolicy();
+        return file.getVoucherId() + SPACE + file.getAmount() + SPACE + file.getVoucherPolicy() + NEW_LINE;
     }
 
     public static Voucher toVoucher(String file) {
