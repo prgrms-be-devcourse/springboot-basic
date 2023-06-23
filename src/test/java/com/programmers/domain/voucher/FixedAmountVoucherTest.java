@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,16 +18,17 @@ class FixedAmountVoucherTest {
     void voucherAvailableTest() {
         UUID id = UUID.randomUUID();
         long amount = 10;
+        LocalDate localDateTime = LocalDate.of(2023,6, 15);
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, amount);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, amount, localDateTime);
         assertTrue(fixedAmountVoucher.available());
     }
 
     @DisplayName("바우처 할인 테스트")
     @ParameterizedTest
     @CsvSource(value = {"100, 120", "50, 2", "0, 0", "3, 100", "100, 100", "100, 99"})
-    void test(long beforeDiscount, long amount) {
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
+    void discountTest(long beforeDiscount, long amount) {
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDate.now());
         assertEquals(0, fixedAmountVoucher.discount(beforeDiscount));
     }
 

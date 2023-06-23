@@ -1,5 +1,6 @@
 package com.programmers.domain.voucher;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 public interface Voucher {
@@ -9,7 +10,4 @@ public interface Voucher {
 
     boolean available();
 
-    Integer parsedDate();
-
-    Integer expirationDate();
 }

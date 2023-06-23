@@ -2,7 +2,7 @@ package com.programmers.domain.voucher;
 
 import com.programmers.exception.AmountValueException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
@@ -10,12 +10,13 @@ public class FixedAmountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final DiscountAmount discountAmount;
-    private final LocalDateTime createdDate = LocalDateTime.now();
-    private final Integer expirationDate;
+    private final LocalDate expirationDate;
+    private final LocalDate createdDate;
 
-    public FixedAmountVoucher(UUID voucherId, long discountAmount) {
+    public FixedAmountVoucher(UUID voucherId, long discountAmount, LocalDate localDate) {
         this.voucherId = voucherId;
         this.discountAmount = new DiscountAmount(discountAmount);
+        this.createdDate = localDate;
         this.expirationDate = expirationDate();
     }
 
@@ -34,19 +35,14 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public boolean available() {
-        if (parsedDate() > expirationDate) {
+        if (LocalDate.now().isAfter(expirationDate)) {
             return false;
         }
         return true;
     }
 
-    @Override
-    public Integer expirationDate() {
-        return Integer.parseInt(createdDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"))) + 7;
+    public LocalDate expirationDate() {
+        return createdDate.plusDays(7);
     }
 
-    @Override
-    public Integer parsedDate() {
-        return Integer.parseInt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")));
-    }
 }
