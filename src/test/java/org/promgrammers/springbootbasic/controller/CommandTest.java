@@ -41,7 +41,7 @@ class CommandTest {
     }
 
     @Test
-    @DisplayName("생성 성공 - 입력값 exit -> Command.LIST")
+    @DisplayName("생성 성공 - 입력값 list -> Command.LIST")
     void createCommandListTest() throws Exception {
 
         //given
@@ -54,9 +54,23 @@ class CommandTest {
         assertThat(createdCommand).isEqualTo(Command.LIST);
     }
 
+    @Test
+    @DisplayName("생성 성공 - 입력값 blackList -> Command.BLACKLIST")
+    void createCommandBlackListTest() throws Exception {
+
+        //given
+        String inputCommand = "blackList";
+
+        //when
+        Command createdCommand = assertDoesNotThrow(() -> Command.of(inputCommand));
+
+        //then
+        assertThat(createdCommand).isEqualTo(Command.BLACKLIST);
+    }
+
     @DisplayName("생성 실패 - 입력값이 커맨드 타입에 없는 값")
     @ParameterizedTest
-    @ValueSource(strings = {"exi","reate","listttt"})
+    @ValueSource(strings = {"exi", "reate", "listttt"})
     void createCommandFailTest(String input) throws Exception {
 
         assertThrows(IllegalArgumentException.class, () -> Command.of(input));
