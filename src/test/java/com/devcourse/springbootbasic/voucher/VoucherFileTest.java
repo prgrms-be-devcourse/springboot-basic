@@ -1,8 +1,8 @@
 package com.devcourse.springbootbasic.voucher;
 
+import com.devcourse.springbootbasic.engine.config.YamlProperties;
 import com.devcourse.springbootbasic.engine.model.VoucherType;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
-import com.devcourse.springbootbasic.engine.voucher.repository.FileVoucherRepository;
 import com.devcourse.springbootbasic.engine.voucher.service.VoucherService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
@@ -24,10 +23,10 @@ import java.util.stream.Stream;
 public class VoucherFileTest {
 
     @Autowired
-    private ConfigurableApplicationContext applicationContext;
+    private VoucherService voucherService;
 
     @Autowired
-    private VoucherService voucherService;
+    private YamlProperties yamlProperties;
 
     static Stream<Arguments> provideVoucher() {
         List<Voucher> list = List.of(
@@ -43,11 +42,7 @@ public class VoucherFileTest {
     @ParameterizedTest
     @MethodSource("provideVoucher")
     void insertVoucherToFileTest(Voucher input, String expect) throws IOException {
-        Path path = Path.of(
-                applicationContext.getResource("file:src/main/resources/voucher_record.txt")
-                        .getFile()
-                        .getPath()
-        );
+        Path path = Path.of(yamlProperties.getVoucherRecordPath());
         long prevLineCount = Files.lines(path)
                 .count();
         voucherService.createVoucher(input);

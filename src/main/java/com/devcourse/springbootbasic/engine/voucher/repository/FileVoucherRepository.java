@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.engine.voucher.repository;
 
+import com.devcourse.springbootbasic.engine.config.YamlProperties;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,14 @@ public class FileVoucherRepository implements VoucherRepository {
     @Autowired
     private ConfigurableApplicationContext applicationContext;
 
+    @Autowired
+    private YamlProperties yamlProperties;
+
     private File getFile() {
         try {
-            return applicationContext.getResource("file:src/main/resources/voucher_record.txt")
-                    .getFile();
+            return applicationContext.getResource(
+                    String.format("file:%s", yamlProperties.getVoucherRecordPath())
+                    ).getFile();
         } catch (IOException e) {
             throw new InvalidDataException(InvalidDataException.INVALID_FILE_ACCESS);
         }
@@ -58,8 +63,4 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void setVoucherMap(Map<UUID, Voucher> map) {}
-
-    public ConfigurableApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
 }

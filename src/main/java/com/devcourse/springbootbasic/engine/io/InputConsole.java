@@ -1,5 +1,6 @@
 package com.devcourse.springbootbasic.engine.io;
 
+import com.devcourse.springbootbasic.engine.config.YamlProperties;
 import com.devcourse.springbootbasic.engine.exception.InvalidDataException;
 import com.devcourse.springbootbasic.engine.model.ListMenu;
 import com.devcourse.springbootbasic.engine.model.Menu;
@@ -67,7 +68,9 @@ public class InputConsole {
     }
 
     private File getBlackCustomerFile() throws IOException {
-        return applicationContext.getResource("file:src/main/resources/customer_blacklist.csv")
+        var path = applicationContext.getBean(YamlProperties.class)
+                .getBlackCustomerPath();
+        return applicationContext.getResource(String.format("file:%s", path))
                 .getFile();
     }
 
