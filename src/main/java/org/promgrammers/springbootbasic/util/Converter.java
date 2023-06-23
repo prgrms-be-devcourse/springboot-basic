@@ -1,5 +1,7 @@
 package org.promgrammers.springbootbasic.util;
 
+import org.promgrammers.springbootbasic.domain.Customer;
+import org.promgrammers.springbootbasic.domain.CustomerType;
 import org.promgrammers.springbootbasic.domain.FixedAmountVoucher;
 import org.promgrammers.springbootbasic.domain.PercentDiscountVoucher;
 import org.promgrammers.springbootbasic.domain.Voucher;
@@ -40,6 +42,14 @@ public class Converter {
         }
     }
 
+    public static Customer parseCustomerFromLine(String line) {
+        String[] parts = line.split(DELIMITER);
+
+        UUID customerId = UUID.fromString(parts[0]);
+        CustomerType voucherType = CustomerType.valueOf(parts[1]);
+
+        return new Customer(customerId, voucherType);
+    }
 
     public static String voucherToLine(Voucher voucher) {
         StringBuilder sb = new StringBuilder();
