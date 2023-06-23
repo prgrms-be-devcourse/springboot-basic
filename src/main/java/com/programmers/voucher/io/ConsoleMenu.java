@@ -1,24 +1,23 @@
-package com.programmers.voucher.controller;
+package com.programmers.voucher.io;
 
+import com.programmers.voucher.controller.VoucherConsoleController;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
-import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
-import com.programmers.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
 @Component
-public class ConsoleClient implements VoucherController {
+public class ConsoleMenu {
     private final Console console;
-    private final VoucherService voucherService;
+    private final VoucherConsoleController consoleClient;
 
-    public ConsoleClient(Console console, VoucherService voucherService) {
+    public ConsoleMenu(Console console, VoucherConsoleController consoleClient) {
         this.console = console;
-        this.voucherService = voucherService;
+        this.consoleClient = consoleClient;
     }
 
     public void start() {
@@ -42,12 +41,12 @@ public class ConsoleClient implements VoucherController {
                 voucherType.validateAmount(amount);
 
                 VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(voucherType, amount);
-                UUID voucherId = createVoucher(voucherCreateRequest);
+                UUID voucherId = consoleClient.createVoucher(voucherCreateRequest);
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());
             }
             case LIST -> {
-                List<Voucher> vouchers = findVouchers();
+                List<Voucher> vouchers = consoleClient.findVouchers();
 
                 String vouchersForPrint = vouchers.stream()
                         .map(Voucher::fullInfoString)
@@ -67,16 +66,4 @@ public class ConsoleClient implements VoucherController {
 
         return true;
     }
-
-    @Override
-    public UUID createVoucher(VoucherCreateRequest request) {
-        return voucherService.createVoucher(request);
-    }
-
-    @Override
-    public List<Voucher> findVouchers() {
-        return voucherService.findVouchers();
-    }
-
-
 }
