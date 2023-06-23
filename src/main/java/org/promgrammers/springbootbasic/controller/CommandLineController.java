@@ -1,10 +1,10 @@
 package org.promgrammers.springbootbasic.controller;
 
-import org.promgrammers.springbootbasic.domain.VoucherType;
-import org.promgrammers.springbootbasic.dto.request.CreateVoucherRequest;
-import org.promgrammers.springbootbasic.service.CustomerService;
-import org.promgrammers.springbootbasic.service.VoucherService;
-import org.promgrammers.springbootbasic.view.Command;
+import org.promgrammers.springbootbasic.domain.customer.service.CustomerService;
+import org.promgrammers.springbootbasic.domain.voucher.dto.request.CreateVoucherRequest;
+import org.promgrammers.springbootbasic.domain.voucher.model.Command;
+import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
+import org.promgrammers.springbootbasic.domain.voucher.service.VoucherService;
 import org.promgrammers.springbootbasic.view.Console;
 import org.springframework.stereotype.Component;
 
