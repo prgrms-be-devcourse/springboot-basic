@@ -30,7 +30,7 @@ public enum VoucherMenu {
         if (VOUCHER_MENU_MAP.containsKey(userInput)) {
             return VOUCHER_MENU_MAP.get(userInput);
         }
-        throw new RuntimeException("해당 메뉴는 존재하지 않습니다.");
+        throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
     }
 
 }

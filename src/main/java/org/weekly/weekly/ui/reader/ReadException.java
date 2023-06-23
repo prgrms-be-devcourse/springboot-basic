@@ -1,16 +1,18 @@
 package org.weekly.weekly.ui.reader;
 
+import org.weekly.weekly.util.ExceptionMsg;
+
 public class ReadException {
 
     public static void isEmpty(String userInput) {
         if (userInput == null || userInput.isBlank()) {
-            throw new RuntimeException("사용자가 아무 값도 입력하지 않았습니다.");
+            throw new RuntimeException(ExceptionMsg.EMPTY.getMsg());
         }
     }
 
     public static void notInputFormat(String userInput) {
         if (containsIntOrBlank(userInput)) {
-            throw new RuntimeException("입력 형식에 맞지 않습니다.");
+            throw new RuntimeException(ExceptionMsg.NOT_INPUT_FORMAT.getMsg());
         }
     }
 
