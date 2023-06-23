@@ -1,7 +1,7 @@
 package com.programmers.voucher.service;
 
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.enums.VoucherType;
+import com.programmers.voucher.domain.VoucherType;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.request.VoucherCreationRequest;
 
