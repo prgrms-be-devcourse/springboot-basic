@@ -28,13 +28,17 @@ public class Processor implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         while (!isExit) {
-            try {
-                doService();
-            } catch (RuntimeException e) {
-                outputConsole.printMessage(e.getMessage());
-            }
+            executeServiceLoop();
         }
         outputConsole.printExit();
+    }
+
+    private void executeServiceLoop() {
+        try {
+            doService();
+        } catch (RuntimeException e) {
+            outputConsole.printMessage(e.getMessage());
+        }
     }
 
     private void doService() {
