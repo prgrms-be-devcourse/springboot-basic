@@ -22,4 +22,9 @@ public class PercentDiscountVoucher implements Voucher {
     public UUID getVoucherId() {
         return voucherId;
     }
+
+    @Override
+    public String fullInfoString() {
+        return "VoucherID: " + voucherId + ", discount: " + percent + "%";
+    }
 }

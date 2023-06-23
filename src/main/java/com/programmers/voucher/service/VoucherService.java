@@ -15,13 +15,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherCreateRequest request) {
-        VoucherType voucherType = VoucherType.getValue(request.getType());
+    public UUID createVoucher(VoucherCreateRequest request) {
+        VoucherType voucherType = request.getVoucherType();
 
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = voucherType.createVoucher(voucherId, request);
 
         voucherRepository.save(voucher);
+
+        return voucherId;
     }
 
     public List<Voucher> findVouchers() {
