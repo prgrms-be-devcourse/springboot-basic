@@ -30,7 +30,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> Objects.equals(voucherType.voucherType, type))
                 .findAny()
-                .orElseThrow(() -> new VoucherException(VoucherErrorCode.NOT_SUPPORTED_TYPE));
+                .orElseThrow(() -> new VoucherException(VoucherErrorCode.NOT_SUPPORTED_VOUCHER_TYPE));
     }
 
     public Voucher createVoucher(VoucherCreationRequest voucherCreationRequest) {
@@ -43,6 +43,6 @@ public enum VoucherType {
                 .filter(voucherType -> Objects.equals(voucherType.voucherType, voucherCreationRequest.getType())
                         && voucherType.maximumDiscountAmount > voucherCreationRequest.getAmount())
                 .findAny()
-                .orElseThrow(() -> new VoucherException(VoucherErrorCode.EXCEED_MAXIMUM_DISCOUNT_AMOUNT));
+                .orElseThrow(() -> new VoucherException(VoucherErrorCode.MAXIMUM_DISCOUNT_AMOUNT_EXCEEDS));
     }
 }
