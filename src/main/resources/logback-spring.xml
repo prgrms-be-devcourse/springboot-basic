@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+
+<configuration>
+    <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder"/>
+    <import class="ch.qos.logback.core.ConsoleAppender"/>
+
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/Application_${bySecond}.log</file>
+        <append>false</append>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SERVICE-FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/VoucherService_${bySecond}.log</file>
+        <append>false</append>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <root level="warn" additivity="false">
+        <appender-ref ref="FILE"/>
+    </root>
+
+    <logger name="com.programmers.voucher" level="info" additivity="false">
+        <appender-ref ref="SERVICE-FILE"/>
+    </logger>
+
+</configuration>
