@@ -3,8 +3,8 @@ package com.programmers.voucher.request;
 import java.util.Objects;
 
 public class VoucherCreationRequest {
-    private String type;
-    private long amount;
+    private final String type;
+    private final long amount;
 
     public VoucherCreationRequest(String type, long amount) {
         validateVoucherCreationRequest(type, amount);
