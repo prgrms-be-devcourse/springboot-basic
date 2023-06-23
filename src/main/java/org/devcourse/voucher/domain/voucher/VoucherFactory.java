@@ -8,7 +8,7 @@ public class VoucherFactory {
         };
     }
 
-    public static Voucher discountVoucher(long id, VoucherType type, int amount) {
+    private static Voucher discountVoucher(long id, VoucherType type, int amount) {
         return switch (type) {
             case PERCENT -> new PercentDiscountVoucher(id, type, amount);
             case FIX -> new FixedAmountVoucher(id, type, amount);
