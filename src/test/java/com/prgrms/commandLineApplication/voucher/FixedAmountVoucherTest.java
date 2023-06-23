@@ -16,7 +16,7 @@ class FixedAmountVoucherTest {
   @CsvSource(value = {"30000|70000", "5000|95000", "10000|90000"}, delimiter = '|')
   @DisplayName("FixedAmountVoucher 할인 계산 결과 일치 테스트")
   void fixedAmountVoucher_계산_성공(Long discountValue, Long result) {
-    fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discountValue);
+    fixedAmountVoucher = new FixedAmountVoucher(discountValue);
     assertThat(fixedAmountVoucher.discount(100000L)).isEqualTo(result);
   }
 
@@ -24,7 +24,7 @@ class FixedAmountVoucherTest {
   @CsvSource(value = {"30000|0, 50000|0, 10010|0"}, delimiter = '|')
   @DisplayName("FixedAmountVoucher 할인 계산 결과 불일치 테스트")
   void fixedAmountVoucher_계산_실패(Long discountValue, Long result) {
-    fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), discountValue);
+    fixedAmountVoucher = new FixedAmountVoucher(discountValue);
     assertThat(fixedAmountVoucher.discount(10000L)).isEqualTo(result);
   }
 }

@@ -16,7 +16,7 @@ class PercentDiscountVoucherTest {
   @CsvSource(value = {"20|80000", "30|70000", "50|50000"}, delimiter = '|')
   @DisplayName("percentDiscountVoucher 할인 계산 결과 일치 테스트")
   void percentDiscountVoucher_계산_성공(Long discountValue, Long result) {
-    percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+    percentDiscountVoucher = new PercentDiscountVoucher(discountValue);
     assertThat(percentDiscountVoucher.discount(100000L)).isEqualTo(result);
   }
 
@@ -24,7 +24,7 @@ class PercentDiscountVoucherTest {
   @CsvSource(value = {"101|0, 200|0, 220|0"}, delimiter = '|')
   @DisplayName("percentDiscountVoucher 할인 계산 결과 불일치 테스트")
   void percentDiscountVoucher_계산_실패(Long discountValue, Long result) {
-    percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+    percentDiscountVoucher = new PercentDiscountVoucher(discountValue);
     assertThat(percentDiscountVoucher.discount(100000L)).isEqualTo(result);
   }
 }
