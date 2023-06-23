@@ -11,8 +11,8 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, String name, Long condition, LocalDateTime expirationDate, int percent) {
-        super(voucherId, name, condition, expirationDate);
+    public PercentDiscountVoucher(UUID voucherId, String name, Long minimumPrice, LocalDateTime expirationDate, int percent) {
+        super(voucherId, name, minimumPrice, expirationDate);
         this.percent = percent;
     }
 

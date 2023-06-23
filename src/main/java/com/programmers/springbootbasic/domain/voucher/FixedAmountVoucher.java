@@ -11,8 +11,8 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID voucherId, String name, Long condition, LocalDateTime expirationDate, Long amount) {
-        super(voucherId, name, condition, expirationDate);
+    public FixedAmountVoucher(UUID voucherId, String name, Long minimumPrice, LocalDateTime expirationDate, Long amount) {
+        super(voucherId, name, minimumPrice, expirationDate);
         this.amount = amount;
     }
 
