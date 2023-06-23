@@ -1,8 +1,5 @@
 package com.programmers.voucher.request;
 
-import com.programmers.voucher.exception.VoucherErrorCode;
-import com.programmers.voucher.exception.VoucherException;
-
 import java.util.Objects;
 
 public class VoucherCreationRequest {
@@ -17,7 +14,7 @@ public class VoucherCreationRequest {
 
     private static void validateVoucherCreationRequest(String type, long amount) {
         if(Objects.isNull(type) || amount < 0) {
-            throw new VoucherException(VoucherErrorCode.INVALID_VOUCHER_CREATION_REQUEST);
+            throw new IllegalArgumentException("올바르지 않은 바우처 생성 요청입니다.");
         }
     }
 

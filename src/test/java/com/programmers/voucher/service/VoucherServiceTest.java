@@ -1,7 +1,5 @@
 package com.programmers.voucher.service;
 
-import com.programmers.voucher.exception.VoucherErrorCode;
-import com.programmers.voucher.exception.VoucherException;
 import com.programmers.voucher.repository.MemoryVoucherRepository;
 import com.programmers.voucher.repository.VoucherRepository;
 import com.programmers.voucher.request.VoucherCreationRequest;
@@ -15,7 +13,7 @@ class VoucherServiceTest {
     public static final String FIXED_AMOUNT_VOUCHER_TYPE = "fixed";
     public static final String PERCENT_DISCOUNT_VOUCHER_TYPE = "percent";
     public static final String WRONG_VOUCHER_TYPE = "wrongType";
-    public static final int  NEGATIVE_NUMBER = -1;
+    public static final int NEGATIVE_NUMBER = -1;
     public static final int OVER_FIXED_AMOUNT = 1001;
     public static final int OVER_PERCENT_AMOUNT = 101;
 
@@ -45,38 +43,38 @@ class VoucherServiceTest {
     void 잘못된_바우처_타입_입력시_예외_발생() {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(WRONG_VOUCHER_TYPE, PERCENT_DISCOUNT_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
-                .isInstanceOf(VoucherException.class)
-                .hasMessage(VoucherErrorCode.NOT_SUPPORTED_VOUCHER_TYPE.getErrorMessage());
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("지원하지 않는 바우처입니다.");
     }
 
     @Test
     void 셍성할_바우처_타입이_null_이면_예외_발생() {
         Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(null, PERCENT_DISCOUNT_AMOUNT))
-                .isInstanceOf(VoucherException.class)
-                .hasMessage(VoucherErrorCode.INVALID_VOUCHER_CREATION_REQUEST.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바르지 않은 바우처 생성 요청입니다.");
     }
 
     @Test
     void 생성할_바우처_할인_양이_음수면_예외_발생() {
         Assertions.assertThatThrownBy(() -> new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, NEGATIVE_NUMBER))
-                .isInstanceOf(VoucherException.class)
-                .hasMessage(VoucherErrorCode.INVALID_VOUCHER_CREATION_REQUEST.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("올바르지 않은 바우처 생성 요청입니다.");
     }
 
     @Test
     void 생성할_FixedAmountVoucher_할인_양이_초과면_예외_발생() {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(FIXED_AMOUNT_VOUCHER_TYPE, OVER_FIXED_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
-                .isInstanceOf(VoucherException.class)
-                .hasMessage(VoucherErrorCode.MAXIMUM_DISCOUNT_AMOUNT_EXCEEDS.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("바우처의 최대 할인 양을 초과하였습니다.");
     }
 
     @Test
     void 생성할_PercentDiscountVoucher_할인_양이_초과면_예외_발생() {
         VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(PERCENT_DISCOUNT_VOUCHER_TYPE, OVER_PERCENT_AMOUNT);
         Assertions.assertThatThrownBy(() -> voucherService.createVoucher(voucherCreationRequest))
-                .isInstanceOf(VoucherException.class)
-                .hasMessage(VoucherErrorCode.MAXIMUM_DISCOUNT_AMOUNT_EXCEEDS.getErrorMessage());
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("바우처의 최대 할인 양을 초과하였습니다.");
     }
 
     @Test

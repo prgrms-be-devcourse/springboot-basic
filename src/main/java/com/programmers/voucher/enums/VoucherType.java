@@ -3,8 +3,6 @@ package com.programmers.voucher.enums;
 import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
-import com.programmers.voucher.exception.VoucherErrorCode;
-import com.programmers.voucher.exception.VoucherException;
 import com.programmers.voucher.request.VoucherCreationRequest;
 
 import java.util.Arrays;
@@ -30,7 +28,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> Objects.equals(voucherType.voucherType, type))
                 .findAny()
-                .orElseThrow(() -> new VoucherException(VoucherErrorCode.NOT_SUPPORTED_VOUCHER_TYPE));
+                .orElseThrow(() -> new UnsupportedOperationException("지원하지 않는 바우처입니다."));
     }
 
     public Voucher createVoucher(VoucherCreationRequest voucherCreationRequest) {
@@ -43,6 +41,6 @@ public enum VoucherType {
                 .filter(voucherType -> Objects.equals(voucherType.voucherType, voucherCreationRequest.getType())
                         && voucherType.maximumDiscountAmount > voucherCreationRequest.getAmount())
                 .findAny()
-                .orElseThrow(() -> new VoucherException(VoucherErrorCode.MAXIMUM_DISCOUNT_AMOUNT_EXCEEDS));
+                .orElseThrow(() -> new IllegalArgumentException("바우처의 최대 할인 양을 초과하였습니다."));
     }
 }
