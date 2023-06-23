@@ -7,9 +7,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class MenuTypeTest {
+class CommandTest {
 
-    @DisplayName("MenuType 반환 테스트")
+    @DisplayName("유효하지 않은 커맨드 입력값 테스트")
     @ParameterizedTest
     @ValueSource(strings = {
             "create"
@@ -20,7 +20,7 @@ class MenuTypeTest {
             , "exit"
             , "abc"
     })
-    void 메뉴타입_반환_테스트(String command) {
+    void 유효하지_않은_커맨드_입력_테스트(String command) {
         assertThatThrownBy(() -> Command.findByCommand(command))
                 .isInstanceOf(RuntimeException.class);
     }
