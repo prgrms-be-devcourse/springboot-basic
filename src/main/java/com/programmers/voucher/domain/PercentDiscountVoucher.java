@@ -11,6 +11,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final DiscountPercent discountPercent;
     private final LocalDate createdDate;
     private final LocalDate expirationDate;
+    private final String TYPE = "PercentDiscountVoucher";
 
     public PercentDiscountVoucher(UUID voucherId, long percent, LocalDate localDate) {
         this.voucherId = voucherId;
@@ -20,8 +21,28 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
+    public String getType() {
+        return TYPE;
+    }
+
+    @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public Discount getDiscount() {
+        return discountPercent;
+    }
+
+    @Override
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
     @Override
@@ -44,12 +65,4 @@ public class PercentDiscountVoucher implements Voucher {
         return createdDate.plusDays(7);
     }
 
-    @Override
-    public String toString() {
-        return "PercentDiscountVoucher {" +
-                "voucherId = " + voucherId +
-                ", discountPercent = " + discountPercent + "%" +
-                ", expirationDate = " + expirationDate +
-                "}\n";
-    }
 }

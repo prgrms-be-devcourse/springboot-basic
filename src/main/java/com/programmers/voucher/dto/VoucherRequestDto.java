@@ -2,9 +2,9 @@ package com.programmers.voucher.dto;
 
 public class VoucherRequestDto {
     private String voucherType;
-    private Long discountAmount;
+    private long discountAmount;
 
-    public VoucherRequestDto(String voucherType, Long discountAmount) {
+    public VoucherRequestDto(String voucherType, long discountAmount) {
         this.voucherType = voucherType;
         this.discountAmount = discountAmount;
     }
@@ -13,16 +13,9 @@ public class VoucherRequestDto {
         return voucherType;
     }
 
-    public void setVoucherType(String voucherType) {
-        this.voucherType = voucherType;
-    }
-
-    public Long getDiscountAmount() {
+    public long getDiscountAmount() {
         return discountAmount;
     }
 
-    public void setDiscountAmount(Long discountAmount) {
-        this.discountAmount = discountAmount;
-    }
 }
 

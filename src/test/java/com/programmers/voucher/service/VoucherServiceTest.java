@@ -32,6 +32,6 @@ class VoucherServiceTest {
 
         VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucherType, discountAmount);
         Voucher voucher = voucherService.create(voucherRequestDto);
+        System.out.println(voucherService.findVouchers());
     }
-
 }

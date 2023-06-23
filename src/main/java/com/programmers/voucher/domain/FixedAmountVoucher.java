@@ -1,5 +1,6 @@
 package com.programmers.voucher.domain;
 
+import com.programmers.console.util.VoucherPolicy;
 import com.programmers.exception.AmountValueException;
 import com.programmers.exception.VoucherExpirationException;
 
@@ -12,6 +13,7 @@ public class FixedAmountVoucher implements Voucher {
     private final DiscountAmount discountAmount;
     private final LocalDate expirationDate;
     private final LocalDate createdDate;
+    private final String TYPE = "FixedAmountVoucher";
 
     public FixedAmountVoucher(UUID voucherId, long discountAmount, LocalDate localDate) {
         this.voucherId = voucherId;
@@ -20,9 +22,28 @@ public class FixedAmountVoucher implements Voucher {
         this.expirationDate = expirationDate();
     }
 
+    public String getType() {
+        return TYPE;
+    }
+
     @Override
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public Discount getDiscount() {
+        return discountAmount;
+    }
+
+    @Override
+    public LocalDate getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
     @Override
@@ -45,12 +66,4 @@ public class FixedAmountVoucher implements Voucher {
         return createdDate.plusDays(7);
     }
 
-    @Override
-    public String toString() {
-        return "FixedAmountVoucher {" +
-                "voucherId = " + voucherId +
-                ", discountAmount = " + discountAmount +
-                ", expirationDate = " + expirationDate +
-                "}\n";
-    }
 }

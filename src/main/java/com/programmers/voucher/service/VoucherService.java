@@ -3,6 +3,7 @@ package com.programmers.voucher.service;
 import com.programmers.console.util.VoucherPolicy;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import com.programmers.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class VoucherService {
     }
 
 
-    public List<Voucher> findVouchers() {
+    public List<VoucherResponseDto> findVouchers() {
         return voucherRepository.findAll();
     }
 

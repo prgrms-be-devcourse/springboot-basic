@@ -1,10 +1,13 @@
 package com.programmers.voucher.repository;
 
 import com.programmers.voucher.domain.Voucher;
+import com.programmers.voucher.dto.VoucherRequestDto;
+import com.programmers.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -18,9 +21,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<VoucherResponseDto> findAll() {
         if (!storage.isEmpty()){
-            return new ArrayList<>(storage.values());
+            return new ArrayList<>(storage.values()).stream().map(VoucherResponseDto::new)
+                    .collect(Collectors.toList());
         }
         return Collections.emptyList();
     }
