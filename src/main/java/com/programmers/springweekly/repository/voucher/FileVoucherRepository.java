@@ -1,8 +1,8 @@
-package com.programmers.springweekly.repository;
+package com.programmers.springweekly.repository.voucher;
 
-import com.programmers.springweekly.domain.FixedAmountVoucher;
-import com.programmers.springweekly.domain.PercentDiscountVoucher;
-import com.programmers.springweekly.domain.Voucher;
+import com.programmers.springweekly.domain.voucher.FixedAmountVoucher;
+import com.programmers.springweekly.domain.voucher.PercentDiscountVoucher;
+import com.programmers.springweekly.domain.voucher.Voucher;
 import com.programmers.springweekly.dto.ReadVoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

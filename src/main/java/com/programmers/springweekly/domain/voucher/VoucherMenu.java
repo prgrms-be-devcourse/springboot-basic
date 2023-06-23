@@ -1,4 +1,4 @@
-package com.programmers.springweekly.domain;
+package com.programmers.springweekly.domain.voucher;
 
 import java.util.Arrays;
 

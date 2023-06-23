@@ -1,7 +1,7 @@
 package com.programmers.springweekly.controller;
 
-import com.programmers.springweekly.domain.Voucher;
-import com.programmers.springweekly.domain.VoucherMenu;
+import com.programmers.springweekly.domain.voucher.Voucher;
+import com.programmers.springweekly.domain.voucher.VoucherMenu;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.util.Validator;
 import com.programmers.springweekly.view.Console;

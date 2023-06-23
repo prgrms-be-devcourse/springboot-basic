@@ -1,11 +1,10 @@
-package com.programmers.springweekly.repository;
+package com.programmers.springweekly.repository.voucher;
 
-import com.programmers.springweekly.domain.Voucher;
+import com.programmers.springweekly.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
