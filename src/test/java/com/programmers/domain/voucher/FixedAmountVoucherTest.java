@@ -24,7 +24,7 @@ class FixedAmountVoucherTest {
 
     @DisplayName("바우처 할인 테스트")
     @ParameterizedTest
-    @CsvSource(value = {"100, 120", "50, 2", "0, 0", "3, 100"})
+    @CsvSource(value = {"100, 120", "50, 2", "0, 0", "3, 100", "100, 100", "100, 99"})
     void test(long beforeDiscount, long amount) {
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
         assertEquals(0, fixedAmountVoucher.discount(beforeDiscount));

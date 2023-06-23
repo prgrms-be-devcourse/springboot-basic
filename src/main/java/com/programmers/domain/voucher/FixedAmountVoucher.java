@@ -1,5 +1,7 @@
 package com.programmers.domain.voucher;
 
+import com.programmers.exception.AmountValueException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -24,10 +26,10 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        if (beforeDiscount > discountAmount.getAmount()) {
+        if (discountAmount.discountable(beforeDiscount)) {
             return discountAmount.discount(beforeDiscount);
         }
-        return 0;
+        throw new AmountValueException();
     }
 
     @Override

@@ -14,10 +14,6 @@ public class DiscountAmount {
         this.amount = amount;
     }
 
-    public long getAmount() {
-        return amount;
-    }
-
     private void validateDiscountAmount(long amount) {
         if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
             throw new AmountValueException();
@@ -28,5 +24,10 @@ public class DiscountAmount {
         return beforeDiscount - amount;
     }
 
-
+    public boolean discountable(long beforeDiscount) {
+        if (beforeDiscount > amount) {
+            return true;
+        }
+        return false;
+    }
 }
