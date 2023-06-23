@@ -1,0 +1,6 @@
+13:50:56.718 [main] INFO  o.p.s.VoucherManagementApplication - Starting VoucherManagementApplication using Java 17.0.6 on ihongseobs-MacBook-Air.local with PID 16970 (/Users/hongxeob/Desktop/programmers/task/springboot-basic/out/production/classes started by hongxeob in /Users/hongxeob/Desktop/programmers/task/springboot-basic)
+13:50:56.719 [main] INFO  o.p.s.VoucherManagementApplication - No active profile set, falling back to 1 default profile: "default"
+13:50:56.974 [main] INFO  o.p.s.VoucherManagementApplication - Started VoucherManagementApplication in 0.406 seconds (JVM running for 0.751)
+13:51:00.904 [main] ERROR o.p.springbootbasic.view.Command - Invalid Command Select => asdfasdf
+13:51:06.413 [main] ERROR o.p.s.domain.VoucherType - Invalid Voucher Type => zxcvzxcv
+13:51:09.071 [main] ERROR o.p.s.service.VoucherService - Empty Voucher Repository

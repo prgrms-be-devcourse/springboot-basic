@@ -4,7 +4,10 @@ import org.promgrammers.springbootbasic.domain.Voucher;
 import org.promgrammers.springbootbasic.dto.request.CreateVoucherRequest;
 import org.promgrammers.springbootbasic.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.dto.response.VoucherResponse;
+import org.promgrammers.springbootbasic.exception.EmptyVoucherListException;
 import org.promgrammers.springbootbasic.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +18,7 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -30,11 +34,19 @@ public class VoucherService {
         return voucherRepository.findById(voucherId)
                 .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()))
                 .or(() -> {
+                    logger.error("Invalid ID {} ", voucherId);
                     throw new IllegalArgumentException("해당 아이디는 존재하지 않습니다. : " + voucherId);
                 });
     }
 
     public VoucherListResponse findAll() {
+        List<Voucher> voucherList = voucherRepository.findAll();
+
+        if (voucherList.isEmpty()) {
+            logger.error("Empty Voucher Repository");
+            throw new EmptyVoucherListException("저장된 바우처가 없습니다.");
+        }
+
         List<VoucherResponse> voucherResponseList = voucherRepository.findAll()
                 .stream()
                 .map(voucher -> new VoucherResponse(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()))
