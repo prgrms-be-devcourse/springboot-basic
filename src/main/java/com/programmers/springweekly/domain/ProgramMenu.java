@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 
 public enum ProgramMenu {
-    EXIT("exit"), CREATE("create"), LIST("list");
+    EXIT("exit"), CREATE("create"), LIST("list"), CUSTOMER_BLACKLIST("blacklist");
 
     private String menu;
 
