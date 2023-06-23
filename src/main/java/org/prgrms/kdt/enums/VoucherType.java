@@ -6,9 +6,9 @@ public enum VoucherType {
 	FixedAmountVoucher(1),
 	PercentDiscountVoucher(2);
 
+	private final static String UN_SUPPORTED_VOUCHER_MESSAGE = "잘 못된 입력 입니다.";
 	private int voucherIdx;
 
-	private final static String UN_SUPPORTED_VOUCHER_MESSAGE = "잘 못된 입력 입니다.";
 	VoucherType(int voucherIdx) {
 		this.voucherIdx = voucherIdx;
 	}

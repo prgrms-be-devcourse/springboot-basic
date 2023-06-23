@@ -2,11 +2,11 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 
+import org.prgrms.kdt.controller.service.VoucherService;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.controller.service.VoucherService;
-import org.prgrms.kdt.util.VoucherFactory;
 import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.util.VoucherFactory;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class MainController {
 			outputView.displayCommandGuideMessage();
 			command = inputView.getCommand();
 			executeCommand(command);
-		} while(command != Command.EXIT);
+		} while (command != Command.EXIT);
 	}
 
 	private void executeCommand(Command command) {

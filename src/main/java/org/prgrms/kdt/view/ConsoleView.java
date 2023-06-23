@@ -7,8 +7,8 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.Amount;
+import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,6 +18,27 @@ public class ConsoleView implements InputView, OutputView {
 
 	public ConsoleView() {
 		this.textIo = TextIoFactory.getTextIO();
+	}
+
+	private static void printCommandDescriptions() {
+		Command[] commands = Command.values();
+		for (Command command : commands) {
+			String commandDescription = MessageFormat.format(
+				"Type {0} {1}", command.name(), command.getDescription()
+			);
+
+			System.out.println(commandDescription);
+		}
+	}
+
+	private static void printVoucherIdxDescription() {
+		VoucherType[] voucherTypes = VoucherType.values();
+		for (VoucherType voucherType : voucherTypes) {
+			String voucherIdxDescription = MessageFormat.format(
+				"{0}: {1}", voucherType.name(), voucherType.getVoucherIdx()
+			);
+			System.out.println(voucherIdxDescription);
+		}
 	}
 
 	@Override
@@ -53,17 +74,6 @@ public class ConsoleView implements InputView, OutputView {
 		printCommandDescriptions();
 	}
 
-	private static void printCommandDescriptions() {
-		Command[] commands = Command.values();
-		for (Command command : commands) {
-			String commandDescription = MessageFormat.format(
-				"Type {0} {1}", command.name(), command.getDescription()
-			);
-
-			System.out.println(commandDescription);
-		}
-	}
-
 	@Override
 	public void displayExitMessage() {
 		System.out.println("종료 되었습니다.");
@@ -73,16 +83,6 @@ public class ConsoleView implements InputView, OutputView {
 	public void displayCreateVoucherMessage() {
 		printVoucherIdxDescription();
 		System.out.println("번호를 입력 해주세요: ");
-	}
-
-	private static void printVoucherIdxDescription() {
-		VoucherType[] voucherTypes = VoucherType.values();
-		for (VoucherType voucherType : voucherTypes) {
-			String voucherIdxDescription = MessageFormat.format(
-				"{0}: {1}", voucherType.name(), voucherType.getVoucherIdx()
-			);
-			System.out.println(voucherIdxDescription);
-		}
 	}
 
 	@Override

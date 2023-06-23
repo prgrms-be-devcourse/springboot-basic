@@ -20,12 +20,12 @@ public class VoucherEntity {
 		this.voucherType = voucherType;
 	}
 
-	public void setVoucherId(Long voucherId) {
-		this.voucherId = voucherId;
-	}
-
 	public Long getVoucherId() {
 		return voucherId;
+	}
+
+	public void setVoucherId(Long voucherId) {
+		this.voucherId = voucherId;
 	}
 
 	public Amount getAmount() {
