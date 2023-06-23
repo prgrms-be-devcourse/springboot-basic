@@ -6,6 +6,8 @@ public class InputView {
 
     private static Scanner SCANNER = new Scanner(System.in);
 
+    private InputView() {}
+
     public static Command inputCommand() {
         return Command.from(SCANNER.next());
     }
