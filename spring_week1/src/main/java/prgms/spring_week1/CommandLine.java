@@ -2,13 +2,11 @@ package prgms.spring_week1;
 
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.voucher.model.Voucher;
-import prgms.spring_week1.domain.voucher.model.impl.FixedAmountVoucher;
-import prgms.spring_week1.domain.voucher.model.impl.PercentDiscountVoucher;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.domain.voucher.repository.impl.MemoryVoucherRepository;
+import prgms.spring_week1.domain.voucher.service.VoucherService;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
-import prgms.spring_week1.Menu.Menu;
+import prgms.spring_week1.menu.Menu;
 
 import java.io.IOException;
 
@@ -17,12 +15,15 @@ public class CommandLine implements Runnable{
     private final Input input;
     private final Output output;
     private final VoucherRepository voucherRepository;
+    private final VoucherService voucherService;
 
-    public CommandLine(Input input, Output output,VoucherRepository voucherRepository) {
+    public CommandLine(Input input, Output output, VoucherRepository voucherRepository, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherRepository = voucherRepository;
+        this.voucherService = voucherService;
     }
+
 
     @Override
     public void run() {
@@ -35,7 +36,7 @@ public class CommandLine implements Runnable{
                 throw new RuntimeException(e);
             }
             switch (findMenuName(selectOption)) {
-                case EXIT -> System.out.println("exit");
+                case EXIT -> System.exit(0);
                 case CREATE -> {
                     try {
                         selectVoucherType();
@@ -44,28 +45,32 @@ public class CommandLine implements Runnable{
                     }
                 }
                 case LIST -> printAllVoucher();
-                default -> System.out.println("wrong");
+                default -> output.printWrongMenuMessage();
             }
         }
     }
 
     private Menu findMenuName(String inputText){
-        return Menu.findMenuType(inputText);
+        try {
+           Menu selectMenu = Menu.findMenuType(inputText);
+           return selectMenu;
+        }catch (IllegalArgumentException e){
+            return Menu.INVALID;
+        }
+
     }
 
     private void selectVoucherType() throws IOException {
         output.printTypeSelectMessage();
         String select = input.inputVoucherType();
 
-        switch(select){
-            case "Percent" -> voucherRepository.insert(new PercentDiscountVoucher());
-            case "Fixed" -> voucherRepository.insert(new FixedAmountVoucher());
-            default -> System.out.println("wrong");
-        }
+        Voucher voucher = voucherService.matchVoucherType(select);
+        output.printInsertVoucherInfo(voucher);
+
     }
 
     private void printAllVoucher(){
-        if(voucherRepository.findAll().isEmpty()){
+        if(!(voucherRepository.findAll().isEmpty())){
             output.printAllVoucher(voucherRepository.findAll().get());
         }
         else{

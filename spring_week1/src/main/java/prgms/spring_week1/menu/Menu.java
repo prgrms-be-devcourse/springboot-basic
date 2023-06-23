@@ -1,8 +1,9 @@
-package prgms.spring_week1.Menu;
+package prgms.spring_week1.menu;
 
 import java.util.stream.Stream;
 
 public enum Menu {
+    INVALID(""),
     EXIT("exit"),
     CREATE("create"),
     LIST("list");
@@ -13,7 +14,7 @@ public enum Menu {
         this.menuName = menuName;
     }
 
-    public static Menu findMenuType(String inputText){
+    public static Menu findMenuType(String inputText) throws IllegalArgumentException{
         return Stream.of(Menu.values())
                 .filter(menu -> menu.menuName.equalsIgnoreCase(inputText))
                 .findFirst()

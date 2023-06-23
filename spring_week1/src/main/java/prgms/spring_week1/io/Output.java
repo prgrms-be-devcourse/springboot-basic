@@ -9,8 +9,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface Output {
-    public void printMenuList();
-    public void printTypeSelectMessage();
-    public void printAllVoucher(List<Voucher> voucherList);
-    public void printEmptyListMessage();
+    void printMenuList();
+    void printTypeSelectMessage();
+    void printAllVoucher(List<Voucher> voucherList);
+    void printEmptyListMessage();
+    void printWrongMenuMessage();
+    void printInsertFixedVoucherMessage();
+    void printInsertPercentVoucherMessage();
+    void printInsertVoucherInfo(Voucher voucher);
 }
