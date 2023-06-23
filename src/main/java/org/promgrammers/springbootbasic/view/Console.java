@@ -1,8 +1,5 @@
 package org.promgrammers.springbootbasic.view;
 
-import org.promgrammers.springbootbasic.domain.VoucherType;
-import org.promgrammers.springbootbasic.dto.request.CreateVoucherRequest;
-
 public class Console {
 
     private final Input input;
@@ -27,20 +24,12 @@ public class Console {
         return input.read();
     }
 
-    public CreateVoucherRequest requestVoucherCreation() {
-        String inputVoucherType = askForVoucherType();
-        VoucherType voucherType = VoucherType.of(inputVoucherType);
-
-        long discountAmount = askForDiscountAmount();
-        return CreateVoucherRequest.of(voucherType, discountAmount);
-    }
-
-    private String askForVoucherType() {
+    public String askForVoucherType() {
         output.print("Voucher 타입을 'fixed', 'percent'중 골라주세요. : ");
         return input();
     }
 
-    private long askForDiscountAmount() {
+    public long askForDiscountAmount() {
         output.print("할인 정책에 맞는 할인 금액을 입력해 주세요. : ");
         String inputString = input();
         if (!inputString.matches(NUMBER_REGEX)) {
