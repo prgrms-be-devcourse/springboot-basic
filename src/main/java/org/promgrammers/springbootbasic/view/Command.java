@@ -9,11 +9,11 @@ public enum Command {
 
     EXIT("exit"),
     CREATE("create"),
-    LIST("list");
+    LIST("list"),
+    BLACKLIST("blacklist");
 
     private final String command;
     private static final Logger logger = LoggerFactory.getLogger(Command.class);
-
 
     Command(String command) {
         this.command = command;

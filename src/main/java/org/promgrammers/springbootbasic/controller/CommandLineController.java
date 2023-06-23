@@ -2,6 +2,7 @@ package org.promgrammers.springbootbasic.controller;
 
 import org.promgrammers.springbootbasic.domain.VoucherType;
 import org.promgrammers.springbootbasic.dto.request.CreateVoucherRequest;
+import org.promgrammers.springbootbasic.service.CustomerService;
 import org.promgrammers.springbootbasic.service.VoucherService;
 import org.promgrammers.springbootbasic.view.Command;
 import org.promgrammers.springbootbasic.view.Console;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandLineController {
 
+    private final CustomerService customerService;
     private final VoucherService voucherService;
     private final Console console;
 
@@ -17,10 +19,12 @@ public class CommandLineController {
             "=== Voucher Program ===",
             "Type 'exit' to exit the program.",
             "Type 'create' to create a new voucher.",
-            "Type 'list' to list all vouchers."
+            "Type 'list' to list all vouchers.",
+            "Type 'blackList' to show blackList Customer"
     };
 
-    public CommandLineController(VoucherService voucherService, Console console) {
+    public CommandLineController(CustomerService customerService, VoucherService voucherService, Console console) {
+        this.customerService = customerService;
         this.voucherService = voucherService;
         this.console = console;
     }
@@ -46,6 +50,7 @@ public class CommandLineController {
             }
             case LIST -> console.print(voucherService.findAll().toString());
             case EXIT -> CommandProgramStatus.stop();
+            case BLACKLIST -> console.print(customerService.findAll().toString());
         }
     }
 
