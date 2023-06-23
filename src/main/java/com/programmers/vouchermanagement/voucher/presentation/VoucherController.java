@@ -13,7 +13,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void createVoucher(VoucherDto.RequestDto request) {
+    public void createVoucher(VoucherDto.Request request) {
         voucherService.createVoucher(request);
     }
 }

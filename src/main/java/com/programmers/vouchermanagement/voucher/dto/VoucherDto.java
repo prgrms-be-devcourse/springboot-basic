@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.dto;
 
 public class VoucherDto {
 
-    public record RequestDto(String discountType, int discountAmount) {
+    public record Request(String discountType, int discountAmount) {
 
     }
 }

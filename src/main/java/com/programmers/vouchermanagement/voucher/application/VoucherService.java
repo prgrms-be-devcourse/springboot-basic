@@ -18,7 +18,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherDto.RequestDto request) {
+    public void createVoucher(VoucherDto.Request request) {
         String discountType = request.discountType();
         int discountAmount = request.discountAmount();
         Voucher voucher = matchVoucher(discountType, discountAmount);
