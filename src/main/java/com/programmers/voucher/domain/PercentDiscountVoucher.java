@@ -1,5 +1,7 @@
 package com.programmers.voucher.domain;
 
+import com.programmers.exception.AmountValueException;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -24,7 +26,10 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return discountPercent.discount(beforeDiscount);
+        if (available()) {
+            return discountPercent.discount(beforeDiscount);
+        }
+        throw new AmountValueException();
     }
 
     @Override
