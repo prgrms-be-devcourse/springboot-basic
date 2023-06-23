@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(
     basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.order", "org.prgrms.kdt.configuration"}
 )
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = "application-dev.yaml", factory = YamlPropertiesFactory.class)
 @EnableConfigurationProperties
 public class AppConfiguration {
 }

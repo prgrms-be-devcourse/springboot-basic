@@ -5,19 +5,20 @@ import org.prgrms.kdt.order.OrderProperties;
 import org.prgrms.kdt.order.OrderService;
 import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.channels.Channels;
-import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class OrderTester {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderTester.class);
+
     public static void main(String[] args) throws IOException {
         var applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
@@ -34,20 +35,21 @@ public class OrderTester {
 //        System.out.println(MessageFormat.format("supportVendors -> {0}", supportVendors));
 //        System.out.println(MessageFormat.format("description -> {0}", description));
         var orderProperties = applicationContext.getBean(OrderProperties.class);
-//        System.out.println(MessageFormat.format("version -> {0}", orderProperties.getVersion()));
-//        System.out.println(MessageFormat.format("minimumOrderAmount -> {0}", orderProperties.getMinimumOrderAmount()));
-//        System.out.println(MessageFormat.format("supportVendors -> {0}", orderProperties.getSupportVendors()));
-//        System.out.println(MessageFormat.format("description -> {0}", orderProperties.getDescription()));
+        logger.info("logger name => {}", logger.getName());
+        logger.info("version -> {}", orderProperties.getVersion());
+        logger.info("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+        logger.info("supportVendors -> {}", orderProperties.getSupportVendors());
+        logger.info("description -> {}", orderProperties.getDescription());
 
-        var resource = applicationContext.getResource("application.yaml");
-        var resource2 = applicationContext.getResource("file:test/sample.txt");
-        var resource3 = applicationContext.getResource("https://stackoverflow.com/");
-
-        System.out.println(MessageFormat.format("Resource -> {0}", resource3.getClass().getCanonicalName()));
-        var readableByteChannel = Channels.newChannel(resource3.getURL().openStream());
-        var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
-        var contents = bufferedReader.lines().collect(Collectors.joining("\n"));
-        System.out.println(contents);
+//        var resource = applicationContext.getResource("application.yaml");
+//        var resource2 = applicationContext.getResource("file:test/sample.txt");
+//        var resource3 = applicationContext.getResource("https://stackoverflow.com/");
+//
+//        System.out.println(MessageFormat.format("Resource -> {0}", resource3.getClass().getCanonicalName()));
+//        var readableByteChannel = Channels.newChannel(resource3.getURL().openStream());
+//        var bufferedReader = new BufferedReader(Channels.newReader(readableByteChannel, StandardCharsets.UTF_8));
+//        var contents = bufferedReader.lines().collect(Collectors.joining("\n"));
+//        System.out.println(contents);
 
         var customerId = UUID.randomUUID();
         var voucherRepository = applicationContext.getBean(VoucherRepository.class);
