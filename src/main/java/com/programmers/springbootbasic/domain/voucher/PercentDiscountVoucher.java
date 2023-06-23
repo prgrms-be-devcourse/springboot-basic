@@ -18,6 +18,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public Long discount(Long priceBeforeDiscount) {
-        return Math.round(priceBeforeDiscount * ((100 - percent) / 100d) / 10) * 10;
+        return Math.round((priceBeforeDiscount - (priceBeforeDiscount * percent / 100d)) / 10) * 10;
     }
 }
