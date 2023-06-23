@@ -1,6 +1,7 @@
 package com.devcourse.springbootbasic.engine.voucher.repository;
 
 import com.devcourse.springbootbasic.engine.voucher.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
+@Profile({"dev"})
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private Map<UUID, Voucher> voucherMap = new HashMap<>();

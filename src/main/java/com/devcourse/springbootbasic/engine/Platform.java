@@ -54,6 +54,7 @@ public class Platform {
             case CREATE -> {
                 Voucher voucher = createVoucherTask();
                 output.printVoucher(voucher);
+                output.printMessage(OutputConsole.CREATION_DONE);
                 yield false;
             }
             case LIST -> {

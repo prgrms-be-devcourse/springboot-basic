@@ -29,16 +29,16 @@ public class OutputConsole {
         printLine();
     }
 
-    public void printVoucher(Voucher voucher) {
-        printMessage("\n" + voucher.toString() + CREATION_DONE);
-    }
-
     public void endPlatform() {
         printMessage(END_GAME);
         printLine();
     }
 
-    public void printVouchers(List<Voucher> voucherList) {
+    public <T> void printVoucher(T t) {
+        printMessage(t.toString());
+    }
+
+    public <T> void printVouchers(List<T> voucherList) {
         printMessage(LIST_VOUCHERS);
         voucherList.forEach(this::printVoucher);
         printLine();

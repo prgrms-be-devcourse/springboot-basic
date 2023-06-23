@@ -25,7 +25,7 @@ public class FixedAmountVoucher implements Voucher {
     public String toString() {
         return voucherType.name() + " -> " +
                 "id:" + voucherId +
-                " discount" + voucherType.getTypeString() +
+                ", discount" + voucherType.getTypeString() +
                 ":" + discountAmount;
     }
 

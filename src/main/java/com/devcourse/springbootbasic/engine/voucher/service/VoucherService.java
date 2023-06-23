@@ -21,7 +21,7 @@ public class VoucherService {
         return voucherRepository.insert(voucher);
     }
 
-    public List<Voucher> getAllVouchers() {
+    public <T> List<T> getAllVouchers() {
         return voucherRepository.findAll();
     }
 }
