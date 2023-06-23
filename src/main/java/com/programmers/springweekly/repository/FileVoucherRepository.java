@@ -6,6 +6,7 @@ import com.programmers.springweekly.domain.Voucher;
 import com.programmers.springweekly.dto.ReadVoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final String FILE_PATH = "./file/voucherList.csv";
+    @Value("${file.path}")
+    private String FILE_PATH;
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
