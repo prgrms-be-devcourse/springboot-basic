@@ -4,6 +4,8 @@ import com.programmers.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.Voucher;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -19,7 +21,9 @@ public enum VoucherType {
     PERCENT("percent",
             PercentDiscountVoucher::new,
             (amount) -> amount >= 0 && amount <= 100,
-            "Percent discount must between 0 and 100");
+            "Percent discount must between 0 and 100.");
+
+    private static final Logger log = LoggerFactory.getLogger(VoucherType.class);
 
     private final String type;
     private final BiFunction<UUID, VoucherCreateRequest, Voucher> createInstance;
@@ -40,7 +44,14 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(t -> Objects.equals(t.type, voucherType))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 바우처 타입입니다."));
+                .orElseThrow(() -> {
+                    StringBuilder sb = new StringBuilder("Voucher type is invalid.")
+                            .append(" Current input: ")
+                            .append(voucherType);
+
+                    log.warn("Invalid voucher type: {}", sb);
+                    return new IllegalArgumentException(sb.toString());
+                });
     }
 
     public Voucher createVoucher(UUID voucherId, VoucherCreateRequest request) {
@@ -50,7 +61,12 @@ public enum VoucherType {
     public void validateAmount(Integer amount) {
         boolean amountInRange = discountRange.test(amount);
         if (!amountInRange) {
-            throw new IllegalArgumentException(validAmountMessage);
+            StringBuilder sb = new StringBuilder(validAmountMessage)
+                    .append(" Current input: ")
+                    .append(amount);
+
+            log.warn("Invalid voucher amount: {}", sb);
+            throw new IllegalArgumentException(sb.toString());
         }
     }
 }

@@ -6,6 +6,8 @@ import com.programmers.voucher.enumtype.ConsoleCommandType;
 import com.programmers.voucher.enumtype.VoucherType;
 import com.programmers.voucher.io.Console;
 import com.programmers.voucher.request.VoucherCreateRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -15,6 +17,8 @@ import java.util.UUID;
 
 @Component
 public class ConsoleMenu {
+    private final static Logger log = LoggerFactory.getLogger(ConsoleMenu.class);
+
     private final Console console;
     private final VoucherConsoleController consoleClient;
 
@@ -25,12 +29,15 @@ public class ConsoleMenu {
 
     @EventListener(ApplicationStartedEvent.class)
     public void start() {
+        log.info("Started Voucher Console Application.");
         console.printCommandSet();
 
         boolean keepRunningClient = true;
         while(keepRunningClient) {
             keepRunningClient = runAndProcessClient();
         }
+
+        log.info("Exit the Voucher Console Application.");
     }
 
     private boolean runAndProcessClient() {
@@ -38,6 +45,7 @@ public class ConsoleMenu {
         try {
             keepRunningClient = runClient();
         } catch (RuntimeException ex) {
+            log.warn("Invalid input occurred.", ex);
             console.print(ex.getMessage());
         }
         return keepRunningClient;
@@ -48,6 +56,7 @@ public class ConsoleMenu {
 
         switch (commandType) {
             case CREATE -> {
+                log.info("Create voucher.");
                 String rawVoucherType = console.input("1. [fixed | percent]");
                 VoucherType voucherType = VoucherType.getValue(rawVoucherType);
 
@@ -58,8 +67,10 @@ public class ConsoleMenu {
                 UUID voucherId = consoleClient.createVoucher(voucherCreateRequest);
 
                 console.print("Created new voucher. VoucherID: " + voucherId.toString());
+                log.info("End create voucher.");
             }
             case LIST -> {
+                log.info("Lists the vouchers.");
                 List<Voucher> vouchers = consoleClient.findVouchers();
 
                 String vouchersForPrint = vouchers.stream()
@@ -67,11 +78,14 @@ public class ConsoleMenu {
                         .reduce("", (a, b) -> a + "\n" + b);
 
                 console.print(vouchersForPrint);
+                log.info("End listing the vouchers.");
             }
             case HELP -> {
+                log.info("Prints the help commands.");
                 console.printCommandSet();
             }
             case EXIT -> {
+                log.info("Exit the console.");
                 console.exit();
 
                 return false;
