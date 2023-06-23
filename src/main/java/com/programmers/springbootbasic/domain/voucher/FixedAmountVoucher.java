@@ -18,7 +18,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public Long discount(Long priceBeforeDiscount) {
-        if (priceBeforeDiscount - amount <= 0) {
+        if (priceBeforeDiscount <= amount) {
             return 0L;
         }
         return priceBeforeDiscount - amount;
