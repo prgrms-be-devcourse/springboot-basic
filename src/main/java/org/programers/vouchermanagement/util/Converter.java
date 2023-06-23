@@ -14,6 +14,9 @@ public class Converter {
 
     private static String DELIMINATOR = " |,";
 
+    private Converter() {
+    }
+
     public static String toString(Voucher voucher) {
         return voucher.getId() + " " + voucher.getPolicy().toString();
     }

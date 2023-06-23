@@ -8,6 +8,9 @@ import org.programers.vouchermanagement.util.Converter;
 
 public class OutputView {
 
+    private OutputView() {
+    }
+
     public static void outputCommand() {
         System.out.println("명령어 리스트");
         for (Command value : Command.values()) {
