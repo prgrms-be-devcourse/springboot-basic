@@ -17,8 +17,8 @@ class VoucherServiceTest {
     public static final int OVER_FIXED_AMOUNT = 1001;
     public static final int OVER_PERCENT_AMOUNT = 101;
 
-    VoucherRepository voucherRepository;
-    VoucherService voucherService;
+    private VoucherRepository voucherRepository;
+    private VoucherService voucherService;
 
     @BeforeEach
     void 초기화() {

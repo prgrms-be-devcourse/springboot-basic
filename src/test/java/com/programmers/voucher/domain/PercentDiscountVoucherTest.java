@@ -12,7 +12,7 @@ class PercentDiscountVoucherTest {
     public static final int ORIGINAL_AMOUNT = 1000;
     public static final int FINAL_AMOUNT = 900;
 
-    Voucher voucher;
+    private Voucher voucher;
 
     @BeforeEach
     void 초기화() {
