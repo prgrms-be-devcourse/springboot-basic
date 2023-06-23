@@ -4,8 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 
-import java.util.InputMismatchException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -21,15 +19,15 @@ class CommandMenuTest {
 
         //when, then
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input1))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input2))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
         assertThatThrownBy(() -> CommandMenu.getCommandMenu(input3))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ExceptionMessageConstant.COMMAND_INPUT_EXCEPTION);
 
     }
@@ -41,15 +39,18 @@ class CommandMenuTest {
         String input1 = "create";
         String input2 = "list";
         String input3 = "exit";
+        String input4 = "black";
 
         //when
         CommandMenu command1= CommandMenu.getCommandMenu(input1);
         CommandMenu command2= CommandMenu.getCommandMenu(input2);
         CommandMenu command3= CommandMenu.getCommandMenu(input3);
+        CommandMenu command4= CommandMenu.getCommandMenu(input4);
 
         //then
         assertThat(command1).isEqualTo(CommandMenu.CREATE_NEW_VOUCHER);
         assertThat(command2).isEqualTo(CommandMenu.SHOW_VOUCHER_LIST);
         assertThat(command3).isEqualTo(CommandMenu.EXIT);
+        assertThat(command4).isEqualTo(CommandMenu.SHOW_BLACK_LIST);
     }
 }

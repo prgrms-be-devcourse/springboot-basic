@@ -42,7 +42,7 @@ public class Console {
         System.out.println();
         System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
-        System.out.print("Select 1 or 2: ");
+        System.out.print("Type 1 or 2: ");
     }
 
     public void printGetFixedVoucherAmount() {
@@ -62,7 +62,7 @@ public class Console {
         System.out.println("조회할 Voucher 리스트의 Type을 입력하세요.");
         System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
-        System.out.print("Select 1 or 2: ");
+        System.out.print("Type 1 or 2: ");
     }
 
     public void printVoucherList(Optional<Map<UUID, Voucher>> voucherList, VoucherType listVoucherType) {
@@ -72,8 +72,12 @@ public class Console {
         }
 
         switch (listVoucherType) {
-            case FIXED_AMOUNT_VOUCHER_TYPE -> System.out.println("=== Fixed Amount Voucher List ===");
-            case PERCENT_DISCOUNT_VOUCHER_TYPE -> System.out.println("=== Percent Discount Voucher List ===");
+            case FIXED_AMOUNT_VOUCHER_TYPE:
+                System.out.println("=== Fixed Amount Voucher List ===");
+                break;
+            case PERCENT_DISCOUNT_VOUCHER_TYPE:
+                System.out.println("=== Percent Discount Voucher List ===");
+                break;
         }
 
         voucherList.get().forEach((k, v) -> {

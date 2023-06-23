@@ -1,5 +1,6 @@
 package org.prgms.vouchermanagement.application;
 
+import org.prgms.vouchermanagement.constant.ExceptionMessageConstant;
 import org.prgms.vouchermanagement.io.Console;
 import org.prgms.vouchermanagement.service.VoucherService;
 import org.prgms.vouchermanagement.voucher.Voucher;
@@ -48,13 +49,22 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
                 currentCommand = CommandMenu.getCommandMenu(console.getCommand());
                 switch (currentCommand) {
-                    case EXIT -> { return; }
-                    case CREATE_NEW_VOUCHER -> selectNewVoucher();
-                    case SHOW_VOUCHER_LIST -> showVoucherList();
-                    case SHOW_BLACK_LIST -> showBlackList();
+                    case EXIT:
+                        return;
+                    case CREATE_NEW_VOUCHER:
+                        selectNewVoucher();
+                        break;
+                    case SHOW_VOUCHER_LIST:
+                        showVoucherList();
+                        break;
+                    case SHOW_BLACK_LIST:
+                        showBlackList();
+                        break;
                 }
             } catch (RuntimeException | IOException e) {
-                if (!(e instanceof InputMismatchException)) {
+                if (e instanceof IOException){
+                    logger.error("No csv file Error");
+                } else if (!(e instanceof InputMismatchException)) {
                     logger.error("Command Input Error");
                 }
                 System.out.println(e.getMessage());
@@ -102,7 +112,11 @@ public class CommandLineApplication implements CommandLineRunner, ApplicationCon
 
     private void showBlackList() throws IOException {
         Resource resource = applicationContext.getResource("customer_blacklist.csv");
-        console.printCustomerBlackList(resource.getFile().toPath().toString());
+        try {
+            console.printCustomerBlackList(resource.getFile().toPath().toString());
+        } catch (IOException e){
+            throw new IOException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
+        }
     }
 
 }
