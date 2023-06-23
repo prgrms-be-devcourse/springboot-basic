@@ -23,11 +23,6 @@ public abstract class Voucher {
         this.condition = condition;
         this.expirationDate = expirationDate;
     }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
     public String getName() {
         return name;
     }
