@@ -17,6 +17,7 @@ Type list to list all vouchers.
 ## 기능
 
 ### 입력
-- [ ] 입력 인터페이스 설정에 따라 입력하는 기능 추가
+- [x] 입력 인터페이스 설정에 따라 입력하는 기능 추가
   - `BufferedReader`, `Scanner`, `Console`
 - [ ] 매 입력마다 실행 구문 추가
+- [ ] `exit`, `create`, `list`입력에 대한 예외 추가
