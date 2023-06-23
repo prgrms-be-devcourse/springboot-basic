@@ -33,7 +33,7 @@ public class ConsoleMenu {
         console.printCommandSet();
 
         boolean keepRunningClient = true;
-        while(keepRunningClient) {
+        while (keepRunningClient) {
             keepRunningClient = runAndProcessClient();
         }
 

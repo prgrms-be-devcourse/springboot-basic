@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
-public class VoucherMemoryRepository implements VoucherRepository{
+public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new HashMap<>();
 
     @Override
