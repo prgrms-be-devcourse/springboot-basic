@@ -4,23 +4,29 @@ import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.service.voucher.VoucherService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 
-import java.util.Arrays;
+import java.io.Console;
 
+
+@Controller
 @RequiredArgsConstructor
 public class VoucherController {
 
     private final VoucherService voucherService;
+    private final Console console = System.console();
 
     public void createVoucher() {
+
         System.out.println("생성하고 싶은 바우처 타입을 숫자로 선택해주세요.");
+
         for (VoucherType vt: VoucherType.values()) {
             System.out.println(vt.getId() + ". " + vt.getName());
         }
-        int select = 1;
+        int select = Integer.parseInt(console.readLine());
         VoucherType type = VoucherType.matchType(select);
         System.out.println(type.getPromptMessage());
-        Long discount = 80L;
+        Long discount = Long.parseLong(console.readLine());
         Voucher voucher = voucherService.createVoucher(type, discount);
         if (voucher == null) {
             System.out.println("바우처 등록에 실패하였습니다.");
