@@ -13,26 +13,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class FixedAmountVoucherTest {
     
-    @DisplayName("바우처 유효기간 테스트")
-    @Test
-    void voucherAvailableTest() {
-        UUID id = UUID.randomUUID();
-        long amount = 10;
-        LocalDate localDateTime = LocalDate.of(2023,6, 15);
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(id, amount, localDateTime);
-        assertTrue(fixedAmountVoucher.available());
-    }
 
-    @DisplayName("바우처 할인 테스트")
+    @DisplayName("유효하지 않은 바우처 할인 테스트")
     @ParameterizedTest
-    @CsvSource(value = {"100, 120", "50, 2", "0, 0", "3, 100", "100, 100", "100, 99"})
-    void discountTest(long beforeDiscount, long amount) {
-        LocalDate localDate = LocalDate.of(2023,6, 15);
+    @CsvSource(value = {"100, 90", "50, 2", "5, 3", "126346, 100", "1235123511, 14353", "100, 99"})
+    void notAvailableVoucherDiscountTest(long beforeDiscount, long amount) {
+        LocalDate localDate = LocalDate.of(2023,6, 13);
 
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, LocalDate.now());
-        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), amount, localDate);
-        assertEquals(beforeDiscount - amount, fixedAmountVoucher2.discount(beforeDiscount));
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, localDate);
+        assertEquals(beforeDiscount - amount, fixedAmountVoucher.discount(beforeDiscount));
     }
+
+    @DisplayName("유요한 바우처 할인 테스트")
+    @ParameterizedTest
+    @CsvSource(value = {"100, 90", "50, 2", "5, 3", "126346, 100", "1235123511, 143532343", "100, 99"})
+    void availableVoucherDiscountTest(long beforeDiscount, long amount) {
+        LocalDate localDate = LocalDate.of(2023,6, 23);
+
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), amount, localDate);
+        assertEquals(beforeDiscount - amount, fixedAmountVoucher.discount(beforeDiscount));
+    }
+
 
 }

@@ -30,6 +30,6 @@ class PercentDiscountVoucherTest {
         LocalDate localDate = LocalDate.of(2023, 6, 20);
 
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), amount, localDate);
-        assertEquals(0, percentDiscountVoucher.discount(beforeDiscount));
+        assertEquals(50, percentDiscountVoucher.discount(beforeDiscount));
     }
 }
