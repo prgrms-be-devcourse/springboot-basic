@@ -4,8 +4,11 @@ plugins {
 	id 'io.spring.dependency-management' version '1.1.0'
 }
 
+apply plugin: 'java'
+
+
 group = 'com.dev'
-version = '0.0.1-SNAPSHOT'
+version = 'V1'
 
 java {
 	sourceCompatibility = '17'
@@ -21,6 +24,7 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
@@ -32,3 +36,16 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+jar {
+	enabled = false
+}
+
+bootJar {
+	manifest {
+		attributes 'Start-Class': 'com.dev.voucherproject.VoucherProjectApplication'
+	}
+}
+

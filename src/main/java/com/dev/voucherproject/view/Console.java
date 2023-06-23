@@ -1,6 +1,6 @@
 package com.dev.voucherproject.view;
 
-import com.dev.voucherproject.model.Menu;
+import com.dev.voucherproject.model.menu.Menu;
 import com.dev.voucherproject.model.voucher.VoucherDto;
 import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import org.beryx.textio.TextIO;

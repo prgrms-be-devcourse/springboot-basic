@@ -1,4 +1,4 @@
-package com.dev.voucherproject.model;
+package com.dev.voucherproject.model.menu;
 
 import java.util.Arrays;
 

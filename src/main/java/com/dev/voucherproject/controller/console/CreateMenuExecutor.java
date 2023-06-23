@@ -1,15 +1,15 @@
-package com.dev.voucherproject.controller.menus;
+package com.dev.voucherproject.controller.console;
 
-import com.dev.voucherproject.model.Menu;
+import com.dev.voucherproject.model.menu.Menu;
 import com.dev.voucherproject.model.voucher.*;
-import com.dev.voucherproject.service.VoucherService;
+import com.dev.voucherproject.model.voucher.VoucherDataAccessor;
 import com.dev.voucherproject.view.Console;
 
 import java.util.UUID;
 
 public class CreateMenuExecutor extends SelectMenuExecutor {
-    public CreateMenuExecutor(Menu menu, VoucherService voucherService, Console console) {
-        super(menu, voucherService, console);
+    public CreateMenuExecutor(Menu menu, VoucherDataAccessor voucherDataAccessor, Console console) {
+        super(menu, voucherDataAccessor, console);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class CreateMenuExecutor extends SelectMenuExecutor {
             voucherPolicy = console.inputVoucherPolicySelection();
 
             Voucher voucher = createVoucher(voucherPolicy);
-            voucherService.insert(voucher);
+            voucherDataAccessor.insert(voucher);
         }
     }
 
